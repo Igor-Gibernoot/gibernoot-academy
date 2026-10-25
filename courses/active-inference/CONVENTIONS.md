@@ -105,6 +105,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - ch06-design-example: two-feeder creature. States place (centre, cue, left, right) x food side = 8 (factorised 4+2=6; B 64 vs 20 per action). Outcomes nothing, cue L, cue R, taste, no taste. A cue .9, feeder .98; C=(.1,.25,.25,.35,.05); D centre, side 50/50; E flat; T=3, policies cue-left, cue-right, left-left, right-right. G=2.446/2.855, P(cue first)=.60 (.84 at gamma 4); after cue-left observed P=.85. Door widget: bars (mean-field) differ from exact ticks.
 - ch06-recipe-traps: cue-first trap uses P(cue first)=.60 and belief .5 -> .85 after the cue; no new conventions.
 - ch06-map: no new conventions; map layout col1 rows 1-8, col2 rows 5-7, col3 rows 6-8.
+- ch06-challenge A: thermostat room (y reading, u heater command, x air temperature; heater inside blanket makes u the heat flow). Watering robot 3 beds x 5 moisture: B joint 225 vs 34. Corridor 6 cells, A rows none/weak/strong (.8,.15,.05)/(.1,.8,.1)/(.05,.15,.8) per cell pair, D=(.4,.3,.15,.1,.03,.02), weak: P=.3125, post cell 3 .384; C=(.1,.2,.7), E=(.6,.4); G stay 1.427, right (.9 move) 1.024; pi right .692 (F cancels).
 
 ## Chapter 7
 

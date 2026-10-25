@@ -1,0 +1,246 @@
+id: ch06-challenge
+title: Level Challenge
+kind: challenge
+cards:
+  - type: text
+    id: intro
+    title: "Harder: the whole of Level 6 in five problems"
+    body: |
+      Five problems on **new systems** (not the door, the frog or the two feeders). They combine what this level taught: how to **design** a generative model. Every number can be checked by hand with a calculator, and every answer comes with the reason. No hints about which formula to use: you recall it. Logarithms are natural.
+
+      The recipe, in four lines:
+
+      - **System**: draw the Markov blanket. Sensory states $y$ go in, active states $u$ go out, internal states $\mu$ hold the model, and the loop is $x\to y\to\mu\to u\to x$.
+      - **Form**: discrete or continuous or hybrid; shallow or deep; with or without temporal depth (planning).
+      - **Variables**: states $s$, outcomes $o$, matrices $\mathbf A,\mathbf B,\mathbf C,\mathbf D,\mathbf E$ and the policy posterior $\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$.
+      - **Process**: the real world that generates the data, which may differ from the model.
+
+      1. Choose the blanket of a room with a thermostat.
+      2. Choose the form of a watering robot and count what it costs.
+      3. Set up and run a small model with six states.
+      4. Process against model.
+      5. Fixed against learned.
+
+  # ---------------------------------------------------------------- Problem 1
+  - type: mcq
+    id: p1-assign
+    tag: Problem 1 · Blanket of a thermostat
+    prompt: |
+      **Problem 1.** A thermostat keeps a room warm. It has a thermometer that gives a reading, and a switch that sets the power of a heater. The agent is the thermostat; the room's air temperature is outside it. Which assignment of Markov-blanket states is correct?
+    options:
+      - text: 'Sensory $y$ = the thermometer reading; active $u$ = the heater command; external $x$ = the room temperature; internal $\mu$ = the thermostat''s belief about the temperature.'
+        correct: true
+      - text: 'Sensory $y$ = the room temperature; active $u$ = the thermometer reading; internal $\mu$ = the heater.'
+        feedback: |
+          The room temperature is **external**: the thermostat never touches it directly, it only gets a reading through the thermometer. And the reading comes **in**, so it is sensory, not active.
+      - text: 'Sensory $y$ = the heater command; active $u$ = the thermometer reading.'
+        feedback: |
+          The two are swapped. Sensory states are what the world does **to** the agent (the reading); active states are what the agent does **to** the world (the command).
+      - text: 'There are no active states: a thermostat only measures.'
+        feedback: |
+          It also acts: the heater command changes the room, and that is what closes the loop. Without active states the thermostat could only watch the temperature, never regulate it.
+    explanation: |
+      The blanket $b=(u,y)$ separates inside from outside: the thermometer reading $y$ is how the room reaches the thermostat, the heater command $u$ is how the thermostat reaches the room, $\mu$ is what the thermostat believes inside, and $x$ (the air temperature) is hidden behind the blanket.
+
+  - type: order
+    id: p1-loop
+    tag: Problem 1 · Blanket of a thermostat
+    prompt: |
+      Put the loop of the thermostat and its room in order, starting from the external state $x$ (the room's air temperature).
+    steps:
+      - '$x\to y$: the room temperature sets the thermometer reading.'
+      - '$y\to\mu$: the reading updates the thermostat''s belief about the temperature.'
+      - '$\mu\to u$: the belief sets the heater command.'
+      - '$u\to x$: the heater changes the room temperature.'
+    explanation: |
+      The cycle is $x\to y\to\mu\to u\to x$. Internal states never act on the room directly (they act through $u$), and the room never reaches $\mu$ directly (it acts through $y$): that is what the blanket means.
+
+  - type: mcq
+    id: p1-tool
+    tag: Problem 1 · Blanket of a thermostat
+    prompt: |
+      The blanket is now redrawn to include the **heater** in the agent (the heater element is part of the thermostat). The room's air stays outside. What changes?
+    options:
+      - text: 'The heater power becomes an internal state, and the active states are now the heat flowing from the heater''s surface into the air. The loop is still $x\to y\to\mu\to u\to x$.'
+        correct: true
+      - text: 'Nothing changes: the active state is still the heater command.'
+        feedback: |
+          The command now lies **inside** the blanket, so it is internal. Active states are the ones on the boundary that act on the outside; with the heater included, that is the heat leaving its surface.
+      - text: 'The loop disappears, because the heater and the agent are now one object.'
+        feedback: |
+          The loop is a statement about the blanket, not about objects. Whatever the boundary, the inside only reaches the outside through $u$ and receives from it through $y$.
+      - text: 'The whole room becomes internal, since the heater touches all of the air.'
+        feedback: |
+          Touching is not enough. The air is not part of the agent and still has dynamics the thermostat does not control; it stays external.
+    explanation: |
+      Moving the blanket changes **which variables are $u$ and $y$**, never the structure. Including a tool (here the heater) moves the active states from the tool's command to the tool's effect on the world, and what was a command becomes internal.
+
+  - type: mcq
+    id: p1-model
+    tag: Problem 1 · Blanket of a thermostat
+    prompt: |
+      Which of these belongs to the thermostat's **generative model** (inside), rather than to the **process** (the real world, outside)?
+    options:
+      - text: 'The thermostat''s expectation that running the heater raises the temperature by about a degree per hour.'
+        correct: true
+      - text: 'The actual heat exchange between the room, the walls and the weather.'
+        feedback: |
+          That is the **process**: the real physics that produces the temperature and hence the reading. The thermostat may know nothing about the weather.
+      - text: 'The true temperature of the air at this moment.'
+        feedback: |
+          It is an external state $x$, a part of the process. The model holds a **belief** about it, $\mu$.
+    explanation: |
+      The model is what the agent assumes about how data arise and how its actions act; the process is what really produces them. They may agree, but nothing forces them to.
+
+  # ---------------------------------------------------------------- Problem 2
+  - type: mcq
+    id: p2-form
+    tag: Problem 2 · Form and cost
+    prompt: |
+      **Problem 2.** A watering robot decides, once per hour, which of 3 garden beds to water or skip. Its moisture sensor gives one of a few categories (dry, fine, wet), and it must plan several hours ahead to avoid overwatering. Which form fits best?
+    options:
+      - text: 'Discrete time and discrete states, one timescale (shallow), with temporal depth: policies are sequences of actions evaluated through $\mathbf G$.'
+        correct: true
+      - text: 'Continuous time with generalized coordinates, since moisture is a physical quantity.'
+        feedback: |
+          Tempting, since moisture is continuous in reality. But the robot decides once per hour among a few choices and receives categories: that is a discrete problem, and continuous time suits smooth, fast quantities such as a limb moving.
+      - text: 'A deep model with a fast continuous level and a slow discrete level.'
+        feedback: |
+          A hybrid needs a reason: a discrete choice that sets the targets of a continuous movement. Here there is only an hourly choice and no fast continuous signal to control.
+      - text: 'Discrete time without temporal depth: one step ahead is enough.'
+        feedback: |
+          Planning several hours ahead is exactly what temporal depth means. A one-step model would water now whenever the moisture is low and could not see overwatering coming.
+    explanation: |
+      The choice follows the system: discrete decisions and categorical data give a discrete POMDP; one timescale makes it shallow; planning over action sequences gives temporal depth.
+
+  - type: numeric
+    id: p2-joint
+    tag: Problem 2 · Form and cost
+    prompt: |
+      The robot's hidden states are its position (3 beds) and the soil moisture level (5 levels). Treated as **one joint state** with $3\times5$ values, how many entries has the transition matrix $\mathbf B$ of **one action**?
+    answer: 225
+    tolerance: 0.5
+    wrong:
+      - { value: 15, feedback: 'That is the number of joint states. $\mathbf B$ is a square matrix over them, with one entry for every (next state, current state) pair.' }
+      - { value: 34, feedback: 'That is the cost of the factorised version, $3^2+5^2$, which treats the two factors separately.' }
+    explanation: |
+      There are $15$ joint states, so $\mathbf B$ is $15\times15$:
+      $$15^2=225$$
+
+  - type: numeric
+    id: p2-fact
+    tag: Problem 2 · Form and cost
+    prompt: |
+      Instead the hidden states are split into two **factors**, position (3 values) and moisture (5 values), each with its own transition matrix. How many entries do the two matrices of **one action** have in total?
+    answer: 34
+    tolerance: 0.5
+    wrong:
+      - { value: 225, feedback: 'That is the joint $\mathbf B$, $(3\times5)^2$. With two factors you store a $3\times3$ and a $5\times5$ matrix.' }
+      - { value: 8, feedback: 'That is the number of states, $3+5$. A transition matrix over $n$ states has $n^2$ entries.' }
+    explanation: |
+      $$3^2+5^2=9+25=34$$
+      Against $225$ for the joint matrix, and the gap grows quickly with more factors.
+
+  - type: mcq
+    id: p2-assume
+    tag: Problem 2 · Form and cost
+    prompt: |
+      Splitting the hidden states into independent factors (position and moisture, each with its own $\mathbf B$) assumes that, given the action, each factor evolves by itself. Which fact would make this split wrong?
+    options:
+      - text: 'Watering changes the moisture of the bed where the robot stands, so the next moisture depends on the current position as well.'
+        correct: true
+      - text: 'Moisture has five levels while position has three.'
+        feedback: |
+          Different sizes are no obstacle: each factor simply has its own matrix.
+      - text: 'The robot has two actions, water and skip.'
+        feedback: |
+          Actions are handled by one set of matrices per action; the number of actions says nothing about whether the factors interact.
+      - text: 'The moisture sensor is noisy.'
+        feedback: |
+          Sensor noise lives in the likelihood $\mathbf A$, not in the transitions $\mathbf B$, and does not couple the factors.
+    explanation: |
+      The factorisation is a claim of **independent transitions**. When one factor's next value depends on another factor's current value, the factors interact and the cheap split no longer describes the world; a coupled (joint) matrix, or a different choice of states, is needed.
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: mcq
+    id: p3-setup
+    tag: Problem 3 · A model with six states
+    prompt: |
+      **Problem 3.** A creature walks along a corridor of 6 cells and smells one of 3 odours (none, weak, strong). It has 2 policies over $T=2$ time steps (so one transition): *right* and *stay*. Which sizes are correct for its model?
+    options:
+      - text: '$\mathbf A$ is $3\times6$; each $\mathbf B$ is $6\times6$; $\mathbf C$ has 3 entries (odours); $\mathbf D$ has 6; $\mathbf E$ has 2.'
+        correct: true
+      - text: '$\mathbf A$ is $6\times3$; $\mathbf C$ has 6 entries; $\mathbf E$ has 6.'
+        feedback: |
+          $\mathbf A$ maps states to outcomes: one row per outcome (3), one column per state (6). Preferences $\mathbf C$ are over outcomes, and the habit prior $\mathbf E$ is over policies.
+      - text: '$\mathbf A$ is $3\times6$; $\mathbf B$ is $3\times3$; $\mathbf D$ has 3.'
+        feedback: |
+          $\mathbf B$ and $\mathbf D$ live on the hidden states, of which there are 6, not on the 3 outcomes.
+    explanation: |
+      Outcomes (3) index the rows of $\mathbf A$ and the entries of $\mathbf C$. Hidden states (6) index the columns of $\mathbf A$, both sides of each $\mathbf B$, and $\mathbf D$. Policies (2) index $\mathbf E$.
+
+  - type: numeric
+    id: p3-post
+    tag: Problem 3 · A model with six states
+    prompt: |
+      The model, with cells $1,\dots,6$ and odours (none, weak, strong):
+      $$\mathbf D=(.4,\,.3,\,.15,\,.1,\,.03,\,.02)$$
+      The likelihood $\mathbf A$ gives, for cells $(1,2)$, odour probabilities $(.8,.15,.05)$; for cells $(3,4)$, $(.1,.8,.1)$; for cells $(5,6)$, $(.05,.15,.8)$. The creature smells a **weak** odour at step 1. What is the posterior probability that it is in cell 3? (3 decimals)
+    answer: 0.384
+    tolerance: 0.002
+    answerText: '0.384'
+    wrong:
+      - { value: 0.15, feedback: 'That is the prior $\mathbf D_3$. The observation must be used.' }
+      - { value: 0.8, feedback: 'That is the likelihood $P(\text{weak}\mid\text{cell }3)$. The posterior multiplies by the prior and divides by the evidence $P(\text{weak})$.' }
+    explanation: |
+      Evidence: $P(\text{weak})=.15(.4+.3)+.8(.15+.1)+.15(.03+.02)=.3125$. Then
+      $$\frac{.8\times.15}{.3125}=0.384$$
+      The full posterior is $(.192,\,.144,\,.384,\,.256,\,.0144,\,.0096)$.
+
+  - type: numeric
+    id: p3-gstay
+    tag: Problem 3 · A model with six states
+    prompt: |
+      Same creature, posterior at step 1 $\mathbf s_1=(.192,\,.144,\,.384,\,.256,\,.0144,\,.0096)$. Preferences over odours (none, weak, strong): $\mathbf C=(.1,\,.2,\,.7)$. The policy *stay* has $\mathbf B=\mathbf I$. The entropy of the odour distribution of a cell is $H=0.613$ for cells $1,2,5,6$ and $0.639$ for cells $3,4$. What is the expected free energy $\mathbf G$ of *stay* at step 2? (3 decimals)
+    answer: 1.427
+    tolerance: 0.01
+    wrong:
+      - { value: 0.797, feedback: 'That is only the risk term. Add the ambiguity, the expected entropy of the odours under the predicted state.' }
+      - { value: 0.63, feedback: 'That is only the ambiguity (about $0.630$). Add the risk, the divergence of the predicted odours from the preferences $\mathbf C$.' }
+    explanation: |
+      Predicted state: $\mathbf s_2=\mathbf B\mathbf s_1=\mathbf s_1$. Predicted odours $\mathbf o_2=\mathbf A\mathbf s_2=(.334,\,.566,\,.100)$. Then
+      $$\begin{aligned}\text{risk}&=\sum_i o_i\ln\tfrac{o_i}{C_i}=0.797\\\text{ambiguity}&=\mathbf H\cdot\mathbf s_2=0.630\end{aligned}$$
+      and $\mathbf G=0.797+0.630=1.427$.
+
+  - type: numeric
+    id: p3-gright
+    tag: Problem 3 · A model with six states
+    prompt: |
+      The policy *right* moves the creature one cell to the right with probability $.9$ and leaves it where it is with probability $.1$; cell 6 stays in cell 6. From the same $\mathbf s_1=(.192,\,.144,\,.384,\,.256,\,.0144,\,.0096)$, the same $\mathbf C=(.1,\,.2,\,.7)$ and the same entropies ($0.613$ for cells $1,2,5,6$; $0.639$ for cells $3,4$), what is the expected free energy $\mathbf G$ of *right* at step 2? (3 decimals)
+    answer: 1.024
+    tolerance: 0.01
+    wrong:
+      - { value: 1.427, feedback: 'That is the value for *stay*. Here the predicted state $\mathbf B\mathbf s_1$ has moved to the right.' }
+      - { value: 0.397, feedback: 'That is only the risk. Add the ambiguity $\mathbf H\cdot\mathbf s_2$.' }
+    explanation: |
+      $\mathbf s_2=\mathbf B\mathbf s_1=(.0192,\,.1872,\,.168,\,.3712,\,.2318,\,.0226)$ and $\mathbf o_2=(.2318,\,.5005,\,.2678)$. Then
+      $$\mathbf G=\underbrace{0.397}_{\text{risk}}+\underbrace{0.627}_{\text{ambiguity}}=1.024$$
+      *Right* is lower than *stay* ($1.427$): it moves toward the cells that smell strong, the preferred odour.
+
+  - type: numeric
+    id: p3-pi
+    tag: Problem 3 · A model with six states
+    prompt: |
+      Take $\mathbf G=(1.024,\,1.427)$ for (*right*, *stay*), the habit prior $\mathbf E=(.6,\,.4)$, and $\mathbf F=-\ln P(\text{weak})=-\ln .3125=1.163$ for both policies (the observation at step 1 does not depend on the policy). With $\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$, what is the probability of *right*? (3 decimals)
+    answer: 0.692
+    tolerance: 0.002
+    answerText: '0.692'
+    wrong:
+      - { value: 0.599, feedback: 'That is $\sigma(-\mathbf G)$, without the habit: $\ln\mathbf E$ favours *right* ($.6$ against $.4$).' }
+      - { value: 0.5, feedback: 'That would need equal arguments. Here $\mathbf G$ and $\mathbf E$ both favour *right*.' }
+    explanation: |
+      $\mathbf F$ is the same for both policies, so it cancels in the softmax. The difference of the arguments is
+      $$\begin{aligned}&\ln\tfrac{.6}{.4}-(1.024-1.427)\\&=0.405+0.403=0.808\end{aligned}$$
+      and
+      $$\pi_{\text{right}}=\frac{1}{1+e^{-0.808}}=0.692$$
+      The habit and the expected free energy each contribute about half of the preference.
