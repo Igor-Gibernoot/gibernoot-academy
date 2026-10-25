@@ -1,0 +1,301 @@
+id: ch03-blanket-free-energy
+title: "Guided Problem: From Steady State to Free Energy"
+kind: guided
+cards:
+  - type: text
+    id: intro
+    title: "The problem"
+    body: |
+      You have met two claims: a creature that persists must keep its surprise low, and free energy is a bound on surprise. Here we **derive** the first from physics, then see where free energy enters.
+
+      The plan, in five steps: (1) write the dynamics of a system with random kicks, (2) write the equation for how its **density** changes, (3) demand a **steady state**, (4) solve for the average flow, (5) read the result.
+
+      Two parts are only **stated**, not proved here: the Fokker-Planck equation (step 2) and the final link from this result to free energy. Everything else you will derive.
+
+      **Setup.** The state is a vector $x$ (think $x=(y_1,y_2)$). Its motion is
+      $$\dot{x}=f(x)+\omega$$
+      where $\dot x$ is the rate of change of $x$, $f(x)$ is the **average flow** (the deterministic push at each $x$) and $\omega$ is a **random kick** with mean zero, normally distributed, with a covariance (spread) set by a positive matrix $\Gamma$. Here the kicks have covariance $2\Gamma$. Other texts parametrise $\Gamma$ differently; what matters is only that a bigger $\Gamma$ means bigger kicks.
+
+  - type: mcq
+    id: most-likely
+    prompt: |
+      A system obeys $\dot{x}=f(x)+\omega$, where $\omega$ is normally distributed with mean zero. If you know the state $x$ right now, what is the most likely value of its rate of change $\dot x$?
+    options:
+      - text: '$f(x)$.'
+        correct: true
+      - text: '$0$, because kicks of mean zero cancel.'
+        feedback: |
+          Mean zero means the kick has no preferred direction, so it does not move the **most likely** velocity. But the flow $f(x)$ is still there: the kick is added to it, so the centre of the distribution of velocities is $f(x)$, not $0$.
+      - text: '$f(x)+\omega$, since that is the formula.'
+        feedback: |
+          $\omega$ is random: each time you look it takes a different value. The most likely value of the sum is $f(x)$ plus the most likely value of $\omega$, which is its mean, $0$.
+    explanation: |
+      In a stochastic system, knowing $x$ gives not one velocity but a **distribution** of velocities, centred on $f(x)$ with spread set by $\Gamma$. In a deterministic system ($\omega=0$) it would be a single value.
+
+  - type: text
+    id: step1
+    title: "Step 1: discretise the dynamics"
+    body: |
+      What does "$\dot x=f(x)+\omega$" mean when $\omega$ is random? The safe reading is a limit: advance time in small steps of length $\Delta\tau$ and let $\Delta\tau\to 0$. In one step the state changes by $\Delta x$, made of the drift plus a random part.
+
+  - type: build
+    id: build-disc
+    prompt: |
+      Build the change of state in one time step $\Delta\tau$: the flow acts for the duration $\Delta\tau$, and a random kick is added whose size scales as $(\Delta\tau)^{1/2}$.
+    prefix: '\Delta x ='
+    tiles: ['f(x)\,\Delta\tau', '+', '\omega\,(\Delta\tau)^{1/2}', '\omega\,\Delta\tau', 'f(x)\,(\Delta\tau)^{1/2}']
+    answers:
+      - ['f(x)\,\Delta\tau', '+', '\omega\,(\Delta\tau)^{1/2}']
+    wrong:
+      - answer: ['f(x)\,\Delta\tau', '+', '\omega\,\Delta\tau']
+        feedback: |
+          Drift is flow times time, correct. But a kick scaled by $\Delta\tau$ would vanish too quickly as $\Delta\tau\to0$: after many tiny steps the random part would add up to nothing, and noise would disappear from the limit. The kick scales as $(\Delta\tau)^{1/2}$.
+    hint: 'Drift = velocity times time. The random part keeps a fixed $\omega$ but a square-root factor.'
+    explanation: |
+      $$\Delta x=f(x)\,\Delta\tau+\omega\,(\Delta\tau)^{1/2}$$
+      Letting $\Delta\tau\to0$ gives back $\dot x=f(x)+\omega$.
+
+  - type: mcq
+    id: why-sqrt
+    prompt: |
+      Why does the random part carry $(\Delta\tau)^{1/2}$ and not $\Delta\tau$? Independent kicks add up, and the variance of a sum of independent kicks is the sum of their variances.
+    options:
+      - text: 'Over a total time $T$ made of $T/\Delta\tau$ steps, the total kick variance should grow in proportion to $T$, whatever the step size. That needs each kick to have variance $\propto\Delta\tau$, i.e. size $\propto(\Delta\tau)^{1/2}$.'
+        correct: true
+      - text: 'Because the square root makes the kicks smaller than the drift, so the noise is only a small correction.'
+        feedback: |
+          The noise is not small: over time it spreads the state as much as it can. The square root is what keeps it **equally important** at every step size; with $\Delta\tau$ instead it would be lost in the limit.
+      - text: 'Because the kicks must cancel each other over a long time.'
+        feedback: |
+          Independent kicks do not cancel: their variances add, so the spread of the path grows. This is the "drunken walk" of the first hook.
+    explanation: |
+      $T/\Delta\tau$ independent kicks of variance $v$ give total variance $(T/\Delta\tau)\,v$. For this to be proportional to $T$ for every $\Delta\tau$ we need $v\propto\Delta\tau$.
+
+  - type: numeric
+    id: kick-variance
+    prompt: |
+      A one-dimensional system has $\Gamma=0.5$, so the kick $\omega$ has variance $2\Gamma=1$. In a time step $\Delta\tau=0.1$, what is the **variance** of the random part $\omega(\Delta\tau)^{1/2}$ of $\Delta x$?
+    answer: 0.1
+    tolerance: 0.001
+    wrong:
+      - { value: 0.316, feedback: 'That is the standard deviation $\sqrt{0.1}$. The question asks for the variance: $(\Delta\tau)^{1/2}$ squares to $\Delta\tau$, so it multiplies the variance by $\Delta\tau$.' }
+      - { value: 1, feedback: 'That is the variance of $\omega$ alone. The factor $(\Delta\tau)^{1/2}$ multiplies the **variance** by $\Delta\tau=0.1$.' }
+    hint: 'Scaling a random number by $c$ scales its variance by $c^2$.'
+    explanation: |
+      $\operatorname{Var}\bigl[\omega(\Delta\tau)^{1/2}\bigr]=\Delta\tau\cdot 2\Gamma=0.1\times 1=0.1$. The drift in the same step, say for $f=-2$, is $f\,\Delta\tau=-0.2$, deterministic.
+
+  - type: text
+    id: step2
+    title: "Step 2: the density has an equation of its own (stated)"
+    body: |
+      Following one noisy path tells us little; what matters for a **persistent** system is where it spends its time, the density $p(x)$ at time $\tau$. This density changes smoothly, by a deterministic equation, the **Fokker-Planck equation**. We state it without derivation:
+      $$\partial_\tau p(x)=\nabla_x\cdot\bigl(\Gamma\nabla_x p(x)-f(x)\,p(x)\bigr)$$
+      Symbols: $\partial_\tau p$ is the rate of change of the density in time; $\nabla_x p$ is the **gradient** of the density (the vector pointing to where it rises fastest); and $\nabla_x\cdot$ is the **divergence** of a vector field: its net outflow per unit volume at each point. Write $J=f\,p-\Gamma\nabla_x p$ for the **current** of probability (how much probability crosses a surface per unit time). Then the equation reads $\partial_\tau p=-\nabla_x\cdot J$: the density at a point rises when more probability flows in than out.
+
+  - type: mcq
+    id: fp-terms
+    prompt: |
+      In the current $J=f\,p-\Gamma\nabla_x p$, one term comes from the flow and one from the random kicks. Which statement is right?
+    options:
+      - text: '$f\,p$ carries probability along the flow (drift), and $-\Gamma\nabla_x p$ makes probability flow **down** the gradient of the density: the kicks spread a crowd out.'
+        correct: true
+      - text: '$\Gamma\nabla_x p$ is the drift, and $f\,p$ is the spreading by kicks.'
+        feedback: |
+          Swapped. The flow $f$ pushes the state along, so $f\,p$ (density times velocity) is the drift current. The random kicks have no direction, but they spread out any bump of density: a current from high to low density, $-\Gamma\nabla_x p$.
+      - text: 'Both terms push probability to where it is already large.'
+        feedback: |
+          Spreading by kicks moves probability **away** from where it is concentrated: the term $-\Gamma\nabla_x p$ points down the density slope. Only the flow can concentrate probability.
+    explanation: |
+      Drift current: density times velocity, $f\,p$. Diffusion current: $-\Gamma\nabla_x p$, down the density slope. A steady state is a balance between the two.
+
+  - type: text
+    id: step3
+    title: "Step 3: demand a steady state"
+    body: |
+      A system that persists has the **same density at every time**. So set the left-hand side to zero and keep $\mathfrak{I}(x)=-\ln p(x)$, the surprise of the state, in view: we want to know what this says about $f$.
+
+  - type: order
+    id: order-steady
+    prompt: Put the argument in order, from the demand to the equation that $f$ must satisfy.
+    steps:
+      - 'A persistent system has a density that does not change in time: $\partial_\tau p(x)=0$.'
+      - 'The Fokker-Planck equation then says the divergence of the current vanishes: $\nabla_x\cdot(\Gamma\nabla_x p-f\,p)=0$.'
+      - 'Rewrite the density with the surprise: $p=e^{-\mathfrak{I}}$, so $\nabla_x p=-p\,\nabla_x\mathfrak{I}$.'
+      - 'Insert this in the current: $\Gamma\nabla_x p-f\,p=-\bigl(\Gamma\nabla_x\mathfrak{I}+f\bigr)p$, and look for the flows $f$ that make its divergence zero.'
+    hint: 'Start from the demand, then use the equation, then rewrite, then search.'
+    explanation: |
+      Each step is forced by the one before. The last one is the real work: we need all flows $f$ for which the current is divergence-free.
+
+  - type: build
+    id: build-grad
+    prompt: |
+      Since $p=e^{-\mathfrak{I}}$, the chain rule gives the gradient of $p$. Build it.
+    prefix: '\nabla_x p ='
+    tiles: ['-p', '\nabla_x\mathfrak{I}', '+p', '\mathfrak{I}', '\nabla_x p']
+    answers:
+      - ['-p', '\nabla_x\mathfrak{I}']
+    hint: 'The derivative of $e^{-u}$ is $-e^{-u}$ times the derivative of $u$.'
+    explanation: |
+      $\nabla_x e^{-\mathfrak{I}}=-e^{-\mathfrak{I}}\nabla_x\mathfrak{I}=-p\,\nabla_x\mathfrak{I}$. Equivalently, $\nabla_x\ln p=\nabla_x p/p=-\nabla_x\mathfrak{I}$: the gradient of the surprise points **downhill in probability**.
+
+  - type: text
+    id: step4
+    title: "Step 4: the simplest solution"
+    body: |
+      Try the simplest way to make the divergence vanish: make the current itself **zero**, $f\,p-\Gamma\nabla_x p=0$, a perfect balance between spreading and drift at every point. Using $\nabla_x p=-p\,\nabla_x\mathfrak{I}$ this reads $-\Gamma p\,\nabla_x\mathfrak{I}-f\,p=0$.
+
+  - type: mcq
+    id: solve-f
+    prompt: |
+      Dividing by $p$ in $-\Gamma p\,\nabla_x\mathfrak{I}-f\,p=0$, which flow balances the kicks at every point?
+    options:
+      - text: '$f(x)=-\Gamma\,\nabla_x\mathfrak{I}(x)$: down the surprise.'
+        correct: true
+      - text: '$f(x)=+\Gamma\,\nabla_x\mathfrak{I}(x)$: up the surprise.'
+        feedback: |
+          Check the sign: the equation says $f=-\Gamma\nabla_x\mathfrak{I}$. A flow **up** the surprise would push the state toward ever less probable places, adding to the spreading instead of opposing it.
+      - text: '$f(x)=-\Gamma\,\nabla_x p(x)$.'
+        feedback: |
+          Close: it also points down the density slope, but the gradient of $p$ is $-p\,\nabla_x\mathfrak{I}$, so this would carry an extra factor $p$ and the balance fails where the density is small. The correct flow uses the surprise, whose gradient has no factor $p$.
+    explanation: |
+      $$f(x)=-\Gamma\,\nabla_x\mathfrak{I}(x)$$
+      The flow descends the surprise, with strength $\Gamma$. This is exactly the "restoring" flow of the walkers you have already seen.
+
+  - type: numeric
+    id: gauss-check
+    prompt: |
+      One-dimensional check. The steady-state density is a bell curve with mean $0$ and variance $4$, so $\mathfrak{I}(x)=x^2/8+\text{constant}$. The kick matrix is $\Gamma=2$. Using $f=-\Gamma\,\mathfrak{I}'(x)$, what is the average flow $f$ at $x=6$?
+    answer: -3
+    tolerance: 0.001
+    wrong:
+      - { value: 3, feedback: 'Wrong sign: at $x=6$, to the right of the centre, the flow must push **back** toward the centre, so it is negative.' }
+      - { value: -1.5, feedback: 'You forgot the factor $\Gamma=2$: $\mathfrak{I}''(6)=6/4=1.5$, and $f=-\Gamma\cdot 1.5$.' }
+    hint: '$\mathfrak{I}'' (x)=x/4$.'
+    explanation: |
+      $\mathfrak{I}'(x)=x/4$, so $\mathfrak{I}'(6)=1.5$ and $f(6)=-2\times1.5=-3$. A restoring spring: the further from the centre, the stronger the pull back. Check the current: $\Gamma p'-f\,p=2(-1.5p)+3p=0$. ✓
+
+  - type: text
+    id: step5
+    title: "Step 5: flows that circulate"
+    body: |
+      The zero-current solution is not the only one. We only need the **divergence** of the current to vanish, and a current can flow round in closed loops (like water in a whirlpool) without any net inflow or outflow anywhere. Let a **circulation matrix** $\mathsf{Q}(x)$ be **antisymmetric**: $\mathsf{Q}^{\mathsf T}=-\mathsf{Q}$, for example in two dimensions $\mathsf{Q}=\begin{pmatrix}0&q\\-q&0\end{pmatrix}$. (This is not the approximate posterior $Q$ of free energy; only the letter is shared.) Choose the flow
+      $$f(x)=-(\Gamma-\mathsf{Q})\,\nabla_x\mathfrak{I}(x)$$
+      and the current becomes $\Gamma\nabla_x p-f\,p=\mathsf{Q}\,\nabla_x p$. Its divergence is $\nabla_x\cdot(\mathsf{Q}\nabla_x p)$, which is $0$ for a constant antisymmetric $\mathsf{Q}$ (in general it is the condition that $\mathsf{Q}$ must meet): the sum $\sum_{ij}\mathsf{Q}_{ij}\partial_i\partial_j p$ pairs each antisymmetric weight with a symmetric second derivative, and cancels.
+
+  - type: numeric
+    id: circ-flow
+    prompt: |
+      In two dimensions, take $\Gamma=1$ (the identity), $\mathsf{Q}=\begin{pmatrix}0&1\\-1&0\end{pmatrix}$, and suppose at some point $\nabla_x\mathfrak{I}=(1,\,2)$. The flow is $f=-(\Gamma-\mathsf{Q})\nabla_x\mathfrak{I}=-\Gamma\nabla_x\mathfrak{I}+\mathsf{Q}\nabla_x\mathfrak{I}$. What is the first component $f_1$?
+    answer: 1
+    tolerance: 0.001
+    wrong:
+      - { value: -1, feedback: 'That is the first component of $-\Gamma\nabla_x\mathfrak{I}$ alone. The circulation part $\mathsf{Q}\nabla_x\mathfrak{I}=(1\cdot2,\,-1\cdot1)=(2,-1)$ adds $+2$.' }
+      - { value: -3, feedback: 'The circulation term is $+\mathsf{Q}\nabla_x\mathfrak{I}$ (since $-(\Gamma-\mathsf{Q})=-\Gamma+\mathsf{Q}$): its first component is $+2$, not $-2$.' }
+    hint: '$\mathsf{Q}(1,2)^{\mathsf T}=(0\cdot1+1\cdot2,\;-1\cdot1+0\cdot2)$.'
+    explanation: |
+      $-\Gamma\nabla_x\mathfrak{I}=(-1,-2)$ and $\mathsf{Q}\nabla_x\mathfrak{I}=(2,-1)$, so $f=(1,-3)$ and $f_1=1$.
+
+  - type: numeric
+    id: circ-rate
+    prompt: |
+      Same point: $\nabla_x\mathfrak{I}=(1,2)$, flow $f=(1,-3)$. Along the average flow, the surprise changes at the rate $\nabla_x\mathfrak{I}\cdot f$ (chain rule). What is this rate?
+    answer: -5
+    tolerance: 0.001
+    wrong:
+      - { value: 0, feedback: 'The circulation part alone gives $0$, but the restoring part $-\Gamma\nabla_x\mathfrak{I}$ does not: it gives $-|\nabla_x\mathfrak{I}|^2=-5$.' }
+      - { value: 5, feedback: 'Sign: the flow goes **down** the surprise, so the rate is negative.' }
+    hint: 'Dot product: $(1)(1)+(2)(-3)$.'
+    explanation: |
+      $\nabla_x\mathfrak{I}\cdot f=1\cdot1+2\cdot(-3)=-5$. Split it: the circulation part contributes $\nabla_x\mathfrak{I}\cdot\mathsf{Q}\nabla_x\mathfrak{I}=1\cdot2+2\cdot(-1)=0$ (always $0$ for antisymmetric $\mathsf{Q}$), and the restoring part gives $-|\nabla_x\mathfrak{I}|^2=-5$.
+
+  - type: mcq
+    id: predict-circ
+    prompt: |
+      Two walkers receive the same random kicks and have the same steady-state density. Walker R has the flow $f=-\Gamma\nabla_x\mathfrak{I}$. Walker C has $f=-(\Gamma-\mathsf{Q})\nabla_x\mathfrak{I}$ with a large circulation $\mathsf{Q}$. Predict how the time-averaged surprise and the paths compare.
+    options:
+      - text: 'The same long-run average surprise (same density), but C visibly swirls around the contours of surprise while R heads straight back toward the centre.'
+        correct: true
+      - text: 'C has a higher average surprise, since its flow is no longer purely downhill.'
+        feedback: |
+          Both flows give the **same steady-state density**, so the same average surprise. The extra part moves the state along the contours, where surprise neither rises nor falls.
+      - text: 'C diverges: a circulation term cannot be balanced by anything.'
+        feedback: |
+          We checked that the current $\mathsf{Q}\nabla_x p$ has zero divergence, so the density stays put. C circulates but does not disperse.
+    explanation: |
+      Same $p$, different paths: a nonequilibrium steady state keeps its density while its states **keep moving round loops**. Now see it.
+
+  - type: widget
+    id: widget-circ
+    review: false
+    widget: steady-state-walk
+    config:
+      modes: [restoring, circulating]
+      mode: circulating
+      qCirc: 1.5
+      showStrength: false
+      labels:
+        x1: 'x_1'
+        x2: 'x_2'
+    body: |
+      The walker starts at the ring and feels the same noise in both modes. Press **Play**. In **Restoring + circulating** the flow is $-(\Gamma-\mathsf{Q})\nabla_x\mathfrak{I}$ (slider $q$ sets $\mathsf{Q}$); switch to **Restoring** ($\mathsf{Q}=0$) on the same noise. Watch the path, and the trace of surprise with its running average (black) and the entropy (dashed).
+
+  - type: mcq
+    id: seen-circ
+    prompt: |
+      In the walk with the circulation turned on, compared with the walk without it (same noise), what do you see?
+    options:
+      - text: 'The path winds around the contours, and the surprise still hovers around the same average and entropy line as without circulation.'
+        correct: true
+      - text: 'The surprise grows without bound.'
+        feedback: |
+          Only the no-drift case does that. With the restoring part $-\Gamma\nabla_x\mathfrak{I}$ present, deviations are always corrected.
+      - text: 'The path ignores the contours and cuts across them to the centre.'
+        feedback: |
+          That is the purely restoring walker. The circulation part $\mathsf{Q}\nabla_x\mathfrak{I}$ is perpendicular to $\nabla_x\mathfrak{I}$, so it moves the state **along** a contour.
+    explanation: |
+      The circulation changes **how** the system moves, not **where** it spends its time: that is why surprise averaged over time is the same. The restoring part is what keeps it from dispersing.
+
+  - type: text
+    id: reading
+    title: "Step 6: reading the result"
+    body: |
+      Every flow that keeps a steady-state density $p(x)$ has the form
+      $$f(x)=-(\Gamma-\mathsf{Q}(x))\,\nabla_x\mathfrak{I}(x)$$
+      with $\mathfrak{I}(x)=-\ln p(x)$.
+      Read it as: systems that maintain a steady state must, **on average, descend their own surprise** (the $\Gamma$ part), plus possible motion along the contours of surprise (the $\mathsf{Q}$ part), which neither raises nor lowers it. This is **self-evidencing**, now derived from the persistence of a density.
+
+      Apply it to a creature: its blanket states (sensory and active) have a steady-state density, so they, too, descend $\mathfrak{I}(y)=-\ln P(y)$ on average.
+
+  - type: mcq
+    id: why-F
+    prompt: |
+      A creature should descend $\mathfrak{I}(y)=-\ln P(y)$, the surprise of its sensations. Why does free energy $F$ enter the story rather than $\mathfrak{I}$ itself?
+    options:
+      - text: 'Surprise needs the evidence $P(y)=\sum_x P(y,x)$, a sum over all external states the creature cannot access. $F$ upper-bounds $\mathfrak{I}$ and uses only a belief $Q(x)$ and the model: the gap is $D_{\mathrm{KL}}[Q(x)\,\|\,P(x\mid y)]\ge0$.'
+        correct: true
+      - text: 'Because $F$ is always exactly equal to the surprise.'
+        feedback: |
+          Only when $Q(x)$ equals the exact posterior is the gap zero. In general $F>\mathfrak{I}$, which is why internal states have a job to do: shrink the gap.
+      - text: 'Because $F$ is lower than the surprise, so it is easier to reach.'
+        feedback: |
+          $F$ is an **upper** bound: $F\ge\mathfrak{I}$. Pushing $F$ down therefore also pushes the surprise down, which is why a bound is useful.
+    explanation: |
+      $$F-\mathfrak{I}(y)=D_{\mathrm{KL}}\bigl[Q(x)\,\|\,P(x\mid y)\bigr]\ge0$$
+      Here $x$ are the external states, $Q$ the approximate posterior encoded by internal states, and $P(x\mid y)$ the exact one. Stated, not derived here: **internal states move to shrink the gap, and active states to lower the surprise**, which together descend $F$.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Setup.** A system with state $x$ (a vector) moves by an average flow $f(x)$ plus random kicks $\omega$ of mean zero. Its density $p(x)$ obeys the Fokker-Planck equation, and the steady state is where $p$ no longer changes:
+        $$\partial_\tau p(x)=\nabla_x\cdot\bigl(\Gamma\nabla_x p(x)-f(x)\,p(x)\bigr)=0$$
+        Here $\Gamma$ is a positive matrix (the size of the kicks, noise covariance $2\Gamma$) and $\nabla_x\cdot$ is the divergence.
+      - **Result.** With the surprise $\mathfrak{I}(x)=-\ln p(x)$ and a circulation matrix $\mathsf{Q}(x)$ (antisymmetric, so that $\nabla_x\cdot(\mathsf{Q}\nabla_x p)=0$; not the approximate posterior), every steady-state flow has the form
+        $$f(x)=-(\Gamma-\mathsf{Q}(x))\,\nabla_x\mathfrak{I}(x)$$
+        The part $-\Gamma\nabla_x\mathfrak{I}$ goes down the surprise; the part $\mathsf{Q}\nabla_x\mathfrak{I}$ runs along the contours of $\mathfrak{I}$ and changes nothing in surprise.
+      - **Meaning.** Systems that persist (keep a steady-state density) must, on average, descend their own surprise: this is self-evidencing, derived here from physics alone.
+      - **Free energy.** A creature cannot evaluate $\mathfrak{I}(y)=-\ln P(y)$ itself, but free energy bounds it from above, and the gap is a divergence that the internal states can shrink:
+        $$F-\mathfrak{I}(y)=D_{\mathrm{KL}}\bigl[Q(x)\,\|\,P(x\mid y)\bigr]\ge 0$$
+        Internal states reduce the gap, active states reduce the surprise: descending $F$ is how a creature descends surprise.
+
+      **Next:** a creature does not only react: it has a model of how its own **policies** (sequences of actions) will play out. Next we see what a policy and a trajectory are, and why the model must include them.
