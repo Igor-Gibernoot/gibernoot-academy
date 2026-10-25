@@ -1,0 +1,309 @@
+id: ch04-motor-reflexes
+title: "Predictive Coding with Motor Reflexes"
+kind: concept
+own: |
+  - **Action fulfils a prediction.** Setting: a continuous-time model with data $y$ (what the senses deliver, for instance the arm's sensed angle), belief mode $\tilde\mu$ (the vector of beliefs about a hidden state and its derivatives), precision $\tilde\Pi_y$ (trust in the senses) and sensory prediction error $\tilde\epsilon_y=\tilde y-\tilde g(\tilde\mu)$. The creature also has an **action** $u$ (a signal sent to the muscles) that changes the data, $\tilde y=\tilde y(u)$. Of all the terms of $F$ only the sensory error depends directly on $u$, so
+    {{ $$\dot u=-\nabla_uF=-\nabla_u\tilde y(u)\cdot\tilde\Pi_y\,\tilde\epsilon_y$$ }}
+    This is a **reflex arc**: a loop in which a sensory error directly drives the muscle until the sensed data match the predicted data. Perception moves $\tilde\mu$ toward the data; action moves the data toward $\tilde\mu$.
+  - **Active inference = predictive coding plus reflex arcs.** With the arm angle $y=y_0+u$ (so $\nabla_uy=1$), the prior mean $\eta$ as the descending prediction of the arm, and sensory and prior precisions $\Pi_y,\Pi_v$: once the belief has settled at $\mu=\dfrac{\Pi_y y+\Pi_v\eta}{\Pi_y+\Pi_v}$, the arm starts moving at
+    {{ $$\dot u=\Pi_y\,(\mu-y)=\frac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}\,(\eta-y)$$ }}
+    A large $\Pi_y$ gives a strong reflex but a belief that hugs the arm; a small $\Pi_y$ lets the belief follow the prediction but gives a weak reflex.
+  - **Hierarchy: causes are the data of the level above.** Number the levels $i$ (a label, not a power), $i+1$ being the slower level above. The hidden cause of level $i$ is predicted by level $i+1$, so with the mapping $g^{(i+1)}$ of the level above,
+    {{ $$\tilde{\mathcal E}_v^{(i)}=\tilde\mu_v^{(i)}-g^{(i+1)}\big(\tilde\mu_x^{(i+1)},\tilde\mu_v^{(i+1)}\big)$$ }}
+    where $\tilde{\mathcal E}$ is the hierarchical prediction error, and at the bottom $\tilde{\mathcal E}_v^{(0)}=\tilde\epsilon_y$ (the data). Higher levels send **predictions down**; lower levels return **prediction errors up**. A hidden cause can be treated as constant by the level below because the level above is slower.
+  - **Movement is a sequence of predictions.** The goal of a movement is not a cost to minimise but a prior (the descending prediction $\eta$). A complex movement is a succession of such predictions, each fulfilled by reflex arcs at the lowest level.
+cards:
+  - type: mcq
+    id: hook
+    title: "Lifting an arm"
+    prompt: |
+      Before any theory, guess. Your arm hangs at your side and you decide to raise it. For a moment the arm is **not** where you "want" it. Which description of how the movement is produced do you find most plausible?
+    options:
+      - text: 'The brain first computes the sequence of muscle forces that will lift the arm, then sends them as explicit commands.'
+        feedback: |
+          This is the classical picture (an inverse model plus a controller), and it is natural. But it needs a separate machinery: it must work out forces for a body it does not directly see. The picture we build is simpler.
+      - text: 'The brain predicts what the arm should feel like (its angle, its stretch), and the muscles act to remove the mismatch between that prediction and what the arm really feels.'
+        correct: true
+      - text: 'The arm moves by itself, and the brain only watches and updates its belief about where the arm is.'
+        feedback: |
+          That is perception alone: a belief that follows the data. It never moves the arm. Something must also change the data.
+    explanation: |
+      A prediction of the arm's sensed position, plus a loop that removes the difference between it and the sensed position. The loop is a *reflex arc*, and the whole idea is that the same prediction-error machinery that explains perception also explains movement. This lesson shows how.
+
+  - type: text
+    id: two-routes
+    title: "Two ways to remove a prediction error"
+    body: |
+      Recall the continuous-time model. Data $y$ are predicted by a belief with mode $\mu$ through a mapping $g$, and the free energy is, up to constants, a sum of precision-weighted squared prediction errors:
+      $$F=\tfrac12\,\Pi_y\,\epsilon_y^2+\tfrac12\,\Pi_v\,\epsilon_v^2,\qquad \epsilon_y=y-g(\mu)$$
+      Here $\epsilon_v=\mu-\eta$ compares the belief with its prior, and the **precision** $\Pi$ is the inverse variance (how much that source is trusted). In the last lesson the only thing that could shrink $F$ was the belief: $\dot\mu=-\nabla_\mu F$ moves $\mu$ toward the data. That is **perception**.
+
+      But the sensory error $\epsilon_y=y-g(\mu)$ has two ingredients, the belief $\mu$ **and the data $y$**. If the creature can change $y$, it has a second route. It can do so with an **action** $u$: a signal to the muscles that changes what the senses deliver, $y=y(u)$. (This is the active state $u$ of the Markov blanket, the loop $x\to y\to\mu\to u\to x$ seen earlier.) Perception makes beliefs fit the data; **action makes the data fit the beliefs**.
+
+      Both minimise the same $F$. Writing the data as $y(u)$ to show the dependence on action:
+      $$\begin{aligned}F(\mu,u)={}&\tfrac12\,\Pi_y\,\big(y(u)-g(\mu)\big)^2\\&+\tfrac12\,\Pi_v\,(\mu-\eta)^2\end{aligned}$$
+
+  - type: mcq
+    id: which-terms
+    prompt: |
+      A continuous-time model has $F=\tfrac12\Pi_y\epsilon_y^2+\tfrac12\Pi_x\epsilon_x^2+\tfrac12\Pi_v\epsilon_v^2$, where $\epsilon_y=y-g(\mu)$ compares data with the prediction, $\epsilon_x$ compares the belief about the state's rate of change with the dynamics, and $\epsilon_v=\mu_v-\eta$ compares the belief about the cause with its prior. An action $u$ changes the data $y$ through the muscles, but does not directly change any belief $\mu$ or the prior $\eta$. Which terms of $F$ **depend directly on $u$**?
+    options:
+      - text: 'Only the sensory term $\tfrac12\Pi_y\epsilon_y^2$.'
+        correct: true
+      - text: 'All three: action changes the world, so every error changes.'
+        feedback: |
+          Action changes the world, but the other two errors are built only from beliefs, the dynamics and the prior, none of which contains $y$. They change only after perception has updated the beliefs.
+      - text: 'Only the prior term $\tfrac12\Pi_v\epsilon_v^2$, because the goal of the action is stored in the prior.'
+        feedback: |
+          The prior encodes the goal, but it does not contain $y$, so a muscle contraction cannot change it directly. The prior is the fixed target; the data are what move.
+    explanation: |
+      Only $\epsilon_y$ contains the data $y(u)$. So $\nabla_uF$ involves the lowest-level (sensory) prediction error only, and nothing else. This is why a single, simple loop at the bottom of the hierarchy is enough to make a creature act.
+
+  - type: build
+    id: build-action
+    prompt: |
+      Action follows the same recipe as perception: slide downhill on $F$. With $\tilde y(u)$ the data as a function of the action, $\tilde\Pi_y$ the sensory precision and $\tilde\epsilon_y$ the sensory prediction error (tildes: vectors of the data and their derivatives, as before), build the rate of change of the action, $\dot u=-\nabla_uF$.
+    prefix: '\dot u ='
+    tiles: ['-', '\nabla_u\tilde y(u)', '\tilde\Pi_y', '\tilde\epsilon_y', '\tilde\Pi_x', '\tilde\epsilon_x', '+']
+    answers:
+      - ['-', '\nabla_u\tilde y(u)', '\tilde\Pi_y', '\tilde\epsilon_y']
+    wrong:
+      - answer: ['\nabla_u\tilde y(u)', '\tilde\Pi_y', '\tilde\epsilon_y']
+        feedback: |
+          The sign is missing: that would climb $F$. Action must descend, $\dot u=-\nabla_uF$, so it pushes the data toward the prediction.
+      - answer: ['-', '\nabla_u\tilde y(u)', '\tilde\Pi_x', '\tilde\epsilon_x']
+        feedback: |
+          $\tilde\epsilon_x$ compares beliefs with the dynamics and does not contain the data, so action cannot change it directly. Only the sensory error does.
+    hint: |
+      By the chain rule $\nabla_uF=\nabla_u\tilde y\cdot\tilde\Pi_y\tilde\epsilon_y$, since $\partial_\epsilon\big(\tfrac12\Pi\epsilon^2\big)=\Pi\epsilon$ and $\partial_u\epsilon_y=\partial_uy$.
+    explanation: |
+      $$\dot u=-\nabla_uF=-\nabla_u\tilde y(u)\cdot\tilde\Pi_y\,\tilde\epsilon_y$$
+      The action responds to the sensory error: $\nabla_u\tilde y$ says how the data change with the muscle signal, $\tilde\Pi_y$ how much the error matters, and $\tilde\epsilon_y$ how big it is. When the sensory error is zero, the action stops.
+
+  - type: numeric
+    id: reflex-numbers
+    prompt: |
+      A muscle signal $u$ changes the sensed angle with $\nabla_uy=1$. The sensory precision is $\Pi_y=2$ and the sensory prediction error is $\epsilon_y=y-g(\mu)=0.5$ (the sensed angle is **above** what the belief predicts). Using $\dot u=-\nabla_uy\,\Pi_y\,\epsilon_y$, what is $\dot u$?
+    answer: -1
+    answerText: '-1'
+    wrong:
+      - { value: 1, feedback: 'The sign is wrong. A positive error means the data are above the prediction, so action must push the data **down**, giving a negative $\dot u$.' }
+      - { value: -0.5, feedback: 'That drops the precision. The error is weighted by $\Pi_y=2$ before it drives the muscle.' }
+    hint: |
+      $-\,1\times2\times0.5$.
+    explanation: |
+      $\dot u=-1\cdot2\cdot0.5=-1$. The data sit above the prediction, so the muscle signal decreases, which lowers the sensed angle. A larger precision would make the same error drive the muscle harder.
+
+  - type: text
+    id: reflex-arc
+    title: "A reflex arc with a descending prediction"
+    body: |
+      A **reflex arc** is the simplest control loop in the nervous system: **sensory afferents** (nerve fibres that carry signals *to* the spinal cord or brain stem) connect to **motor neurons** (neurons that drive the muscles), and the motor neuron's output depends on a difference. Here the sensory input is **proprioception**: the sense of the body's own position and stretch.
+
+      The recipe above is exactly that loop. The motor neuron receives two inputs, the sensed signal $y$ and a **descending prediction** $g(\mu)$ of that same signal coming from the cortex, and its output is driven by their difference (the sensory prediction error, weighted by $\Pi_y$). The muscle moves until the difference vanishes. So the descending signal is **not a command** but a prediction of what the senses should report, and the reflex makes the prediction come true.
+
+      In this view, active inference is **predictive coding plus reflex arcs at the lowest level**. This is also why it dispenses with a cost function: the goal is carried by the prior (the prediction) itself, not by a separate value to optimise.
+
+  - type: widget
+    id: arm-reflex
+    review: false
+    widget: predictive-coding
+    config:
+      mode: action
+      modes: [action]
+      g: { kind: gain, gain: 1 }
+      y0: 0
+      eta: 1
+      Pi: { y: 4, v: 1 }
+      dydu: 1
+    body: |
+      An arm hangs at the angle $y=0$ (thick arm). The gold dashed arm is the descending prediction $\eta=1$ (where the arm is expected to be); the green dotted arm is the belief about the arm. Without the reflex the arm cannot move.
+
+      Press *Descend* first and watch only the belief move. Then press *Reset*, *Enable reflex* and *Descend*, and watch the thick arm go to the prediction. Then drag the precision sliders and repeat.
+
+  - type: mcq
+    id: reflex-off
+    prompt: |
+      A one-level model has an arm at angle $y=0$, a descending prediction (prior mean) $\eta=1$, a mapping $g(\mu)=\mu$, sensory precision $\Pi_y=4$ and prior precision $\Pi_v=1$. The reflex is **switched off**: only perception acts, $\dot\mu=-\nabla_\mu F$. Where do the belief $\mu$ and the arm $y$ end up?
+    options:
+      - text: 'The arm stays at $0$; the belief settles at $\mu=0.2$, close to the arm because the senses are more precise than the prior.'
+        correct: true
+      - text: 'The arm moves to $1$ and the belief to $1$: the prediction is carried out.'
+        feedback: |
+          Nothing moves the arm without the reflex: perception only changes beliefs. The data $y$ are untouched.
+      - text: 'The belief goes to the prediction $\eta=1$ and ignores the arm.'
+        feedback: |
+          Only if the prior were infinitely precise. Here $\Pi_y=4>\Pi_v=1$, so the belief is pulled four times harder toward the data.
+    explanation: |
+      Perception alone gives the compromise $\mu^*=\dfrac{\Pi_yy+\Pi_v\eta}{\Pi_y+\Pi_v}=\dfrac{0+1}{5}=0.2$. The sensory error stays at $\epsilon_y=0-0.2=-0.2$ forever: the creature "believes" the arm is nearly where it is, and is just mildly surprised about the prior. Only the reflex can resolve the conflict in favour of the prediction.
+
+  - type: numeric
+    id: reflex-rate
+    prompt: |
+      Same setting: arm at $y=0$, prediction $\eta=1$, $g(\mu)=\mu$, $\nabla_uy=1$, $\Pi_y=4$, $\Pi_v=1$. The belief has already settled at its minimum $\mu=0.2$ and the reflex now switches on. At what rate $\dot u=-\nabla_uy\,\Pi_y\,\epsilon_y$ does the arm start to move?
+    answer: 0.8
+    answerText: '0.8'
+    wrong:
+      - { value: -0.8, feedback: 'The sign is wrong: here $\epsilon_y=y-\mu=-0.2$ is negative (the arm is **below** the belief), so $-\Pi_y\epsilon_y>0$ and the arm rises.' }
+      - { value: 4, feedback: 'That is $\Pi_y$ alone. The error is only $0.2$ (the belief has already moved toward the arm), not $1$.' }
+      - { value: 1, feedback: 'That would use the full distance to the prediction, $\eta-y=1$ with $\Pi_y=1$. What drives the reflex is the error between the arm and the **belief**, $0.2$, times the precision $4$.' }
+    hint: |
+      First $\epsilon_y=y-g(\mu)$, then multiply by $-\Pi_y$ (and by $\nabla_uy=1$).
+    explanation: |
+      $\epsilon_y=0-0.2=-0.2$ and $\dot u=-1\cdot4\cdot(-0.2)=0.8$. At the balance of the belief, $\Pi_y\epsilon_y=-\Pi_v\epsilon_v$ (with $\epsilon_v=\mu-\eta=-0.8$ this reads $-0.8=-0.8$), so the reflex drive equals the pull of the prior: $\dot u=\Pi_v(\eta-\mu)=0.8$.
+
+  - type: mcq
+    id: attenuation
+    prompt: |
+      Same arm at $y=0$, prediction $\eta=1$, $g(\mu)=\mu$, prior precision $\Pi_v=1$. Compare two sensory precisions: **A** $\Pi_y=0.25$ and **B** $\Pi_y=4$. In both cases the belief first settles, then the reflex starts. Which statement is correct?
+    options:
+      - text: 'In A the belief sits closer to the prediction ($\mu=0.8$), in B the arm starts faster ($0.8$ against $0.2$).'
+        correct: true
+      - text: 'In A the belief sits closer to the prediction and the arm also starts faster, because weak senses cannot hold the arm back.'
+        feedback: |
+          Weak senses let the belief follow the prediction ($\mu=0.8$), but the same low $\Pi_y$ weakens the reflex: the drive is $\Pi_y\,|\epsilon_y|=0.25\times0.8=0.2$, only a quarter of B.
+      - text: 'In B the belief sits closer to the prediction and the arm starts faster, because a precise sensor corrects the arm.'
+        feedback: |
+          A precise sensor keeps the belief close to the **arm** ($\mu=0.2$), not to the prediction. It does give a strong reflex ($0.8$), but only because the sensory error is weighted by a large $\Pi_y$.
+      - text: 'Neither differs: the precision of the senses does not matter for action.'
+        feedback: |
+          It matters twice: it sets where the belief settles, $\mu=\Pi_v\eta/(\Pi_y+\Pi_v)$, and the gain of the reflex.
+    explanation: |
+      $\mu=\dfrac{\Pi_v\eta}{\Pi_y+\Pi_v}$ gives $0.8$ for A and $0.2$ for B; the initial rate is $\Pi_y\,|y-\mu|$: $0.25\times0.8=0.2$ for A and $4\times0.2=0.8$ for B. In general the rate is $\dfrac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}(\eta-y)$, which never falls as $\Pi_y$ grows and saturates at $\Pi_v(\eta-y)$.
+
+      So lowering $\Pi_y$ (**attenuating sensory evidence**) does not speed the movement up; what it buys is a belief that follows the descending prediction instead of the stale sensation of the arm still at rest. The cost is a weaker reflex. This trade-off between believing the prediction and driving the muscles is why a creature that moves needs both a precise prediction (large $\Pi_v$) and enough sensory precision.
+
+  - type: text
+    id: hierarchy
+    title: "A hierarchy: causes become the data of the level above"
+    body: |
+      So far there was one level. A real creature has many. The trick is to treat a **hidden cause** $v$ as if it were itself *data* generated by a higher level. Number the levels by a superscript $(i)$ (a label, not a power); level $(i+1)$ is the one above level $(i)$.
+
+      Each level has its own hidden state $x^{(i)}$ and hidden cause $v^{(i)}$, and the higher level has **slower** dynamics: from level $i$'s point of view the cause $v^{(i)}$ looks constant. The cause at level $i$ is the **prediction** made by level $i+1$ through its mapping $g^{(i+1)}$. So the prediction error between a cause and the prediction coming from above is
+      $$\tilde{\mathcal E}_v^{(i)}=\tilde\mu_v^{(i)}-g^{(i+1)}\big(\tilde\mu_x^{(i+1)},\tilde\mu_v^{(i+1)}\big)$$
+      and, at the bottom, $\tilde{\mathcal E}_v^{(0)}=\tilde\epsilon_y$ is the usual sensory error (the calligraphic $\mathcal E$ only reminds us that this error compares a belief with a prediction from above). Beliefs descend this error plus the dynamics error $\tilde{\mathcal E}_x^{(i)}=D\tilde\mu_x^{(i)}-f^{(i)}(\tilde\mu_x^{(i)},\tilde\mu_v^{(i)})$ at their own level.
+
+      The picture is a loop of messages. Hidden **states** link time derivatives *inside* one level; hidden **causes** link *levels*. Higher levels send **descending predictions** to lower levels, which compute errors in those predictions and pass them **up** to update beliefs.
+
+  - type: mcq
+    id: messages
+    prompt: |
+      In a hierarchy of continuous-time models, level $i+1$ sits above level $i$ and is slower. Which message goes **down** from level $i+1$ to level $i$, and which goes **up**?
+    options:
+      - text: 'Down: a prediction $g^{(i+1)}(\tilde\mu^{(i+1)})$ of the cause of level $i$. Up: the prediction error $\tilde{\mathcal E}_v^{(i)}$ (the mismatch).'
+        correct: true
+      - text: 'Down: the prediction error. Up: the prediction.'
+        feedback: |
+          Reversed. Error cannot be computed above, because the data (what is being predicted) live below. The higher level predicts; the lower level compares and reports.
+      - text: 'Down and up: both send the raw sensory data $y$.'
+        feedback: |
+          Only the lowest level sees the data. Higher levels see only what the levels below pass up, namely errors.
+    explanation: |
+      Predictions travel down and errors travel up. At the very bottom the "prediction" is the descending proprioceptive prediction and the "error" is the sensory error $\tilde\epsilon_y$, which is the one the reflex arc reads.
+
+  - type: build
+    id: build-hier-error
+    prompt: |
+      Build the prediction error of the hidden **cause** at level $i$, comparing the belief $\tilde\mu_v^{(i)}$ with the prediction made by the level above. ($\tilde\mu^{(i+1)}$ stands for the pair $(\tilde\mu_x^{(i+1)},\tilde\mu_v^{(i+1)})$.)
+    prefix: '\tilde{\mathcal E}_v^{(i)} ='
+    tiles: ['\tilde\mu_v^{(i)}', '-', '+', 'g^{(i+1)}(\tilde\mu^{(i+1)})', 'g^{(i)}(\tilde\mu^{(i)})', '\tilde\mu_x^{(i)}']
+    answers:
+      - ['\tilde\mu_v^{(i)}', '-', 'g^{(i+1)}(\tilde\mu^{(i+1)})']
+    wrong:
+      - answer: ['\tilde\mu_v^{(i)}', '-', 'g^{(i)}(\tilde\mu^{(i)})']
+        feedback: |
+          $g^{(i)}$ is the mapping of level $i$: it predicts what level $i-1$ sees. The cause of level $i$ is predicted by the level **above**, through $g^{(i+1)}$.
+      - answer: ['g^{(i+1)}(\tilde\mu^{(i+1)})', '-', '\tilde\mu_v^{(i)}']
+        feedback: |
+          The sign convention is data minus prediction (as for $\tilde\epsilon_y=\tilde y-\tilde g$), and here the cause $\tilde\mu_v^{(i)}$ plays the role of the data.
+    hint: |
+      Same shape as $\epsilon_y=y-g(\mu)$: the quantity being predicted minus its prediction.
+    explanation: |
+      $\tilde{\mathcal E}_v^{(i)}=\tilde\mu_v^{(i)}-g^{(i+1)}(\tilde\mu_x^{(i+1)},\tilde\mu_v^{(i+1)})$. The cause at level $i$ is "data" for level $i+1$; and at the lowest level, the same formula with the real data gives the sensory error.
+
+  - type: widget
+    id: hierarchy-play
+    review: false
+    widget: predictive-coding
+    config:
+      mode: hierarchy
+      modes: [hierarchy]
+      g: { kind: gain, gain: 1 }
+      g2: { kind: gain, gain: 1 }
+      y: 3
+      eta: 0
+      Pi: { y: 1, x: 2, v: 4 }
+    body: |
+      Three rows: the data $y$ (here $3$), the middle belief $\mu_1$ (predicts the data), and the top belief $\mu_2$ (predicts the middle one and is itself pulled toward the prior $\eta=0$). Each red segment is one prediction error. Press *Descend*, then make one precision large and watch which error shrinks and which absorbs the disagreement.
+
+  - type: numeric
+    id: hierarchy-numbers
+    prompt: |
+      A chain of three identity predictions has errors $\epsilon_y=y-\mu_1$ (data against the middle belief), $\epsilon_x=\mu_1-\mu_2$ (middle against top), $\epsilon_v=\mu_2-\eta$ (top against its prior), with $y=3$, $\eta=0$ and precisions $\Pi_y=1$, $\Pi_x=2$, $\Pi_v=4$. At the minimum of $F=\tfrac12\sum\Pi\epsilon^2$, the three weighted errors $\Pi_y\epsilon_y=\Pi_x\epsilon_x=\Pi_v\epsilon_v$ are equal. What is $\epsilon_x$?
+    answer: 0.857
+    tolerance: 0.005
+    answerText: '6/7 ≈ 0.857'
+    wrong:
+      - { value: 1, feedback: 'That would split the disagreement $y-\eta=3$ equally among the three errors. Equal errors are right only when the precisions are equal.' }
+      - { value: 1.714, feedback: 'That is the sensory error $\epsilon_y$, the one with the lowest precision. The middle error is half of it, because its precision is twice as large.' }
+    hint: |
+      The errors add up to $y-\eta=3$. Call the common weighted error $c$: then $\epsilon_y=c/1$, $\epsilon_x=c/2$, $\epsilon_v=c/4$.
+    explanation: |
+      $c\,(1+\tfrac12+\tfrac14)=3$ gives $c=12/7=1.714$, so $\epsilon_y=1.714$, $\epsilon_x=0.857$, $\epsilon_v=0.429$. Each error is inversely proportional to its precision: the disagreement is absorbed mostly where trust is lowest. Free energy $F=\tfrac12(1\cdot1.714^2+2\cdot0.857^2+4\cdot0.429^2)=2.571$.
+
+  - type: mcq
+    id: slow-causes
+    prompt: |
+      Level $i$ models the position of a limb ($x$ changes every few hundred milliseconds). Its hidden cause $v$ is the target the limb is heading for, provided by level $i+1$. Why can level $i$ treat $v$ as if it **did not change** while it works?
+    options:
+      - text: 'Because level $i+1$ has slower dynamics: the target changes on a longer time scale than the limb, so over the timescale of level $i$ it is practically constant.'
+        correct: true
+      - text: 'Because $v$ is known exactly: its precision is infinite.'
+        feedback: |
+          A cause may be very uncertain and still slowly varying. Constant-in-time and certain are different properties: the first is about the rate of change, the second about precision.
+      - text: 'Because there is no noise in the cause.'
+        feedback: |
+          Noise is about unexplained fluctuations, not about the speed of the underlying process. A slow cause can be noisy and a fast one can be noise-free.
+    explanation: |
+      Time-scale separation. Level $i$ describes fast things (the limb moves), level $i+1$ slower things (which target is being reached), and so on. This is what lets a modest stack of levels build up from fast reflexes at the bottom to slowly changing goals at the top.
+
+  - type: order
+    id: reach-sequence
+    prompt: |
+      Put in order what happens when you reach for a cup, according to this model.
+    steps:
+      - 'A higher level sends down a prediction: the hand is at the cup.'
+      - 'At the lowest level a proprioceptive prediction error appears: the sensed arm is not where it is predicted to be.'
+      - 'The reflex arc turns that error, weighted by its precision, into a muscle signal $\dot u=-\nabla_u\tilde y\cdot\tilde\Pi_y\tilde\epsilon_y$.'
+      - 'The arm moves, the sensed data change and the error shrinks.'
+      - 'The prediction is fulfilled, the error vanishes, and the next prediction in the sequence takes over (for instance the grasp).'
+    hint: |
+      Start with the descending prediction and end with the prediction fulfilled.
+    explanation: |
+      A movement is a **sequence of predictions**, each fulfilled by reflex arcs at the lowest level before the next takes over. Richer sequences of goals are produced by the levels above; later in the course a discrete-time model on top will choose which prediction comes next. Notice what is absent: no inverse model, no cost function, only predictions and the error between predictions and sensation.
+
+  - type: mcq
+    id: misconceptions
+    multiple: true
+    prompt: |
+      Select **all** the statements that are correct in this model of movement.
+    options:
+      - text: 'The descending signal from the cortex is a prediction of the sensory (proprioceptive) consequences of the movement, not an explicit force command.'
+        correct: true
+      - text: 'Prediction errors can be reduced by acting on the world (changing the data), not only by updating beliefs.'
+        correct: true
+      - text: 'The goal of a movement lives in the prior (the descending prediction) rather than in a separate cost function.'
+        correct: true
+      - text: 'The motor cortex computes the muscle forces, and the reflex arc only adds small corrections.'
+        feedback: |
+          This is the classical picture. Here the cortex supplies a prediction and the reflex arc does the work of fulfilling it; no force is computed anywhere.
+      - text: 'Prediction errors are minimised only by updating beliefs; the world cannot be changed by the model.'
+        feedback: |
+          Only perception has that property. Action, $\dot u=-\nabla_uF$, changes the data so that the same errors shrink.
+    explanation: |
+      Three correct statements, in one line each: descending signals are predictions; errors can be removed by action as well as by perception; goals are priors. The two false ones are the reverse of the first two.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** we have now seen the continuous-time model derive its message passing from a gradient descent. The next lesson goes back to the discrete-time model and shows a second route to its update equations, the mean-field variational Bayes, in a guided problem.
