@@ -10,9 +10,7 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
 - **State:** the whole trail is built: Levels 1-10 (every concept, guided, intuition, traps,
   map, review and challenge node in `course.yaml`), `exam-partial` (after Level 5) and
   `exam-final` (after Level 10). No planned nodes left.
-- **Next units (optional, pick one per session):** Chapter 10 intuition lesson(s) (`kind:
-  intuition`, e.g. Lorentz boosts and proper time, Einstein equations and trace reversal);
-  revisions from Igor's feedback.
+- **Next units (optional, pick one per session):** revisions from Igor's feedback; another intuition lesson only where a formula family gets mixed up (candidates: Einstein equations and trace reversal, Levi-Civita vs other connections). Built so far: `ch10-intuition-christoffel` (before Schwarzschild), `ch10-intuition-lorentz` (after `ch10-lorentz`).
 - **Conventions:** `CONVENTIONS.md`, one section per chapter (notation, running examples,
   key numbers already used). Before building or editing a lesson of Chapter N, read that
   section only (`grep -n '^## ' CONVENTIONS.md`). The rules that apply everywhere are in its
@@ -28,6 +26,11 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
   2026-10-24 say `content/…`, `docs/STATUS.md`, `js/widgets.js`: read as the new paths.
 
 ## Log
+
+### 2026-10-25 — Level 10 intuition lessons
+
+`ch10-intuition-christoffel` (20 cards: constant metric ⇒ Γ=0, plus-plus-minus lowered Γ, raise with g⁻¹, symmetry and compatibility checks, scaling test, diagonal families, contracted sum, four numeric cards) and `ch10-intuition-lorentz` (16 cards: frames use Λ and components Λ⁻¹, build of the Lorentz condition, which matrices pass, boost checks, rapidity, 0.6⊕0.6⊕0.6 = 63/65, time dilation; widget `observer-frame` reused). Verified: Γ formulas against `ch07-levi-civita` and `ch10-schwarzschild`, Lorentz entries against `ch10-lorentz` (no new source reading).
+Conventions fixed here: lowered symbol $\Gamma_{mij}$ (output first); rapidity $\varphi$; components in the moving frame written $\tilde X^a$.
 
 ### 2026-10-24 — refactor into Gibernoot Academy
 

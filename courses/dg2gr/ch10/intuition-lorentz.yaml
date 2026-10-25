@@ -1,0 +1,276 @@
+id: ch10-intuition-lorentz
+title: "Intuition: Frames, Components and Boosts"
+kind: intuition
+own: |
+  - **Setting**: two observers meet at an event $p$ of a spacetime with metric $g$ of signature $(+,-,-,-)$; their frames $e=(e_0,\dots,e_3)$ and $\tilde e$ are bases of $T_p\mathcal{M}$ with $g(e_a,e_b)=\eta_{ab}$ and $g(\tilde e_a,\tilde e_b)=\eta_{ab}$, where $\eta=\mathrm{diag}(1,-1,-1,-1)$; $a,b,m,n\in\{0,1,2,3\}$ (raised indices are labels, not powers).
+  - **The frame dictionary**: column $a$ of $\Lambda$ holds the components of $\tilde e_a$ in the frame $e$, and a vector $\mathcal{X}$ has components $X^b$ in $e$ and $\tilde X^a$ in $\tilde e$:
+    {{ $$\tilde e_a = \Lambda^b_a\,e_b$$ }}
+    The basis uses $\Lambda$, so the components use the **inverse** (the same lower-follows, upper-goes-against rule as for any change of basis):
+    {{ $$X^b = \Lambda^b_a\,\tilde X^a,\qquad \tilde X = \Lambda^{-1}X$$ }}
+  - **Lorentz condition**, from $g(\tilde e_a,\tilde e_b)=\eta_{ab}$ and bilinearity:
+    {{ $$\eta_{ab}=\Lambda^m_a\Lambda^n_b\,\eta_{mn}$$ }}
+    Quick test: column $0$ has $(\Lambda^0_0)^2-\sum_\alpha(\Lambda^\alpha_0)^2=1$ (so $\Lambda^0_0\ge1$ for future-directed time axes), column $\alpha$ has $-1$, and distinct columns are $\eta$-orthogonal.
+  - **Boost in 1+1** (units $c=1$): the observer moving at speed $u\in(-1,1)$ relative to the other has $\gamma_u := 1/\sqrt{1-u^2}$,
+    {{ $$\Lambda = \gamma_u\begin{pmatrix}1&u\\u&1\end{pmatrix},\qquad u=\frac{\Lambda^1_0}{\Lambda^0_0}$$ }}
+    and a vector measured by the moving observer has $\tilde X^0=\gamma_u(X^0-uX^1)$, $\tilde X^1=\gamma_u(X^1-uX^0)$ (minus signs: the inverse boost, $u\to-u$). One tick of the moving clock lasts $\gamma_u$ of the other observer's time.
+  - **Rapidity**: writing $\gamma_u=\cosh\varphi$, $\gamma_uu=\sinh\varphi$, i.e. $u=\tanh\varphi$,
+    {{ $$\Lambda(\varphi_1)\Lambda(\varphi_2)=\Lambda(\varphi_1+\varphi_2)$$ }}
+    so rapidities add, speeds combine as $u=\dfrac{u_1+u_2}{1+u_1u_2}$ and never reach $1$ (for $u=0.6$: $\varphi=\ln2$).
+  - **Frames, not coordinates**: $\Lambda$ relates two frames at the one event $p$; in a curved spacetime it is not a change of coordinates.
+
+cards:
+  - type: text
+    id: hook
+    title: Three mix-ups with boosts
+    body: |
+      Two observers, H and T, meet at an event $p$ in a spacetime with signature $(+,-,-,-)$. Each carries a frame, a basis of the vectors at $p$ with $g(e_a,e_b)=\eta_{ab}$, $\eta=\mathrm{diag}(1,-1,-1,-1)$ ($\tilde e_a$ for T). The matrix $\Lambda$ relating them (a Lorentz transformation) is where the same three things go wrong again and again:
+
+      1. **Which matrix?** $\Lambda$ or its inverse: is it the dictionary of the **frames**, or of the **components** of a vector?
+      2. **Which condition?** A quick test that a matrix is a Lorentz matrix, and what a boost's entries must satisfy.
+      3. **Which composition?** Two boosts: why do speeds not add, and what does?
+
+      This lesson derives nothing. It gives you an anchor for the first, checks for the second and one quantity that behaves for the third. We work in 1+1 dimensions when we need numbers, with $c=1$ (speeds are fractions of the speed of light); a raised index is a label, not a power.
+
+  - type: mcq
+    id: predict-components
+    title: Before any theory, predict
+    prompt: |
+      In 1+1 dimensions, H's frame is $(e_0,e_1)$ and T moves at speed $u=0.6$ in the positive $e_1$ direction relative to H. A vector $\mathcal{X}$ is exactly H's time axis, $\mathcal{X}=e_0$, components $(1,0)$ in H's frame. T measures it in **her** frame $(\tilde e_0,\tilde e_1)$. Her time axis is stretched relative to H's by $\gamma_u=1/\sqrt{1-u^2}=1.25$. Which components does T find for $\mathcal{X}$?
+    options:
+      - text: '$(1.25,\ -0.75)$'
+        correct: true
+      - text: '$(1.25,\ +0.75)$'
+        feedback: |
+          Think of the picture: T moves **away** from H in the positive direction, so H's time axis looks to T like something that moves in the **negative** direction. The sign flips.
+      - text: '$(1,\ -0.6)$'
+        feedback: |
+          This is the Galilean answer (H moves at $-0.6$ in T's frame), without the factor $\gamma_u$. The frame is Lorentz-orthonormal: $g(\mathcal{X},\mathcal{X})=1$ must hold in T's frame, and $1-0.36\neq1$.
+      - text: '$(0.8,\ -0.6)$'
+        feedback: |
+          The signs are right, but the factor is $\gamma_u=1.25$ **multiplying**, not $1/\gamma_u=0.8$. The result must still have $g(\mathcal{X},\mathcal{X})=1$: $0.64-0.36=0.28$ fails.
+    explanation: |
+      $$\begin{aligned}g(\mathcal{X},\mathcal{X}) &= 1.25^2-0.75^2\\ &= 1.5625-0.5625 = 1,\end{aligned}$$
+      as it must be, since the length does not depend on the frame. The sign of $0.75$ is what the next cards are about.
+
+  - type: widget
+    id: frames-widget
+    title: Check it on the picture
+    widget: observer-frame
+    config:
+      u: 0.6
+      X: [0, 1]
+      compare: true
+      presets:
+        - { label: 'T at 0.6', u: 0.6, X: [0, 1], compare: true }
+        - { label: 'T at -0.6', u: -0.6, X: [0, 1], compare: true }
+        - { label: 'T at 0.8', u: 0.8, X: [0, 1], compare: true }
+    body: |
+      Purple: T's frame, moving at speed $u$ (slider) relative to H, whose frame is the faint one. The blue vector $\mathcal{X}$ starts as H's time axis. Read the **measured components** $X^0, X^1$ (in T's frame) and compare with your prediction at $u=0.6$, then set $u=-0.6$ and $u=0.8$.
+
+  - type: text
+    id: two-matrices
+    title: Frames use Λ, components use Λ⁻¹
+    body: |
+      Let $\tilde e_a = \Lambda^b_a\,e_b$ (column $a$ of $\Lambda$ = components of $\tilde e_a$ in the frame $e$). A vector $\mathcal{X}$ is the same object in either frame:
+      $$\mathcal{X}=X^b\,e_b=\tilde X^a\,\tilde e_a=\tilde X^a\,\Lambda^b_a\,e_b .$$
+      Comparing the coefficient of each $e_b$:
+      $$X^b=\Lambda^b_a\,\tilde X^a \quad\Longleftrightarrow\quad \tilde X=\Lambda^{-1}X .$$
+      The **basis** vectors transform with $\Lambda$ and the **components** with $\Lambda^{-1}$: the lower index follows the basis, the upper index goes against it. It is the same rule as for any change of basis. For a 1+1 boost, $\Lambda^{-1}$ is the same matrix with $u\to-u$.
+
+  - type: build
+    id: build-components
+    prompt: 'Build the old components $X^b$ (in frame $e$) from the new components $\tilde X^a$ (in frame $\tilde e$), where $\tilde e_a=\Lambda^b_a\,e_b$.'
+    prefix: 'X^b ='
+    tiles: ['\Lambda^b_a', '(\Lambda^{-1})^b_a', '\tilde X^a', '\tilde X^b']
+    answers:
+      - ['\Lambda^b_a', '\tilde X^a']
+      - ['\tilde X^a', '\Lambda^b_a']
+    wrong:
+      - answer: ['(\Lambda^{-1})^b_a', '\tilde X^a']
+        feedback: |
+          The inverse takes the old components to the new ones, $\tilde X=\Lambda^{-1}X$. Going the other way, from new to old, uses $\Lambda$ itself: the expansion $\tilde X^a\tilde e_a=\tilde X^a\Lambda^b_a e_b$ shows it.
+      - answer: ['\Lambda^b_a', '\tilde X^b']
+        feedback: |
+          The index $b$ would then appear three times. In a sum the repeated index must appear exactly once up and once down, and the free index $b$ stays on the left.
+    hint: 'Expand $\tilde X^a\tilde e_a$ and read off the coefficient of $e_b$.'
+    explanation: |
+      $$X^b=\Lambda^b_a\,\tilde X^a,\qquad\text{so}\qquad \tilde X=\Lambda^{-1}X.$$
+
+  - type: numeric
+    id: components-number
+    title: Components in the moving frame
+    prompt: |
+      In 1+1 dimensions T moves at speed $u=0.6$ relative to H, in the positive direction of H's $e_1$ axis, so the dictionary is $\Lambda=1.25\begin{pmatrix}1&0.6\\0.6&1\end{pmatrix}$. A vector has components $X^0=3$, $X^1=1$ in H's frame. Find its second component $\tilde X^1$ in T's frame.
+    answer: -1
+    wrong:
+      - { value: 3.5, feedback: 'You applied $\Lambda$ to the components, $1.25(1+0.6\cdot3)$. Components go the other way: with $\Lambda^{-1}$, which flips the sign of $u$.' }
+      - { value: -0.8, feedback: 'The factor $\gamma_u=1.25$ is missing; the result must have $g(\mathcal{X},\mathcal{X})=(\tilde X^0)^2-(\tilde X^1)^2$ equal to $9-1=8$.' }
+      - { value: 1.25, feedback: 'This is $\gamma_u$ alone; you still have to compute $X^1-uX^0$ inside the bracket.' }
+    hint: 'Use the inverse boost (speed $-0.6$) on the column $(3,1)$.'
+    explanation: |
+      $$\begin{aligned}\tilde X^0 &= 1.25\,(3-0.6\cdot1)=3,\\ \tilde X^1 &= 1.25\,(1-0.6\cdot3)=-1.\end{aligned}$$
+      Check: $g(\mathcal{X},\mathcal{X})=3^2-1^2=8$ in both frames.
+
+  - type: build
+    id: build-condition
+    prompt: 'Both frames are Lorentz-orthonormal: $g(e_a,e_b)=\eta_{ab}$ and $g(\tilde e_a,\tilde e_b)=\eta_{ab}$. Using $\tilde e_a=\Lambda^m_a e_m$ and bilinearity of $g$, build the condition on $\Lambda$.'
+    prefix: '\eta_{ab} ='
+    tiles: ['\Lambda^m_a', '\Lambda^n_b', '\eta_{mn}', '\eta^{mn}']
+    answers:
+      - ['\Lambda^m_a', '\Lambda^n_b', '\eta_{mn}']
+      - ['\Lambda^m_a', '\eta_{mn}', '\Lambda^n_b']
+      - ['\Lambda^n_b', '\Lambda^m_a', '\eta_{mn}']
+      - ['\Lambda^n_b', '\eta_{mn}', '\Lambda^m_a']
+      - ['\eta_{mn}', '\Lambda^m_a', '\Lambda^n_b']
+      - ['\eta_{mn}', '\Lambda^n_b', '\Lambda^m_a']
+    wrong:
+      - answer: ['\Lambda^m_a', '\Lambda^n_b', '\eta^{mn}']
+        feedback: |
+          Here $m,n$ are both upper on $\Lambda$ and both upper on $\eta^{mn}$: four upper indices summed. The metric must carry **lower** indices $\eta_{mn}=g(e_m,e_n)$ to pair with the upper indices of the $\Lambda$s.
+    hint: '$g(\tilde e_a,\tilde e_b)=\Lambda^m_a\Lambda^n_b\,g(e_m,e_n)$.'
+    explanation: |
+      $$\eta_{ab}=\Lambda^m_a\Lambda^n_b\,\eta_{mn}.$$
+      In matrix form $\Lambda^T\eta\Lambda=\eta$.
+
+  - type: mcq
+    id: lorentz-matrices
+    title: Which matrices pass the test?
+    prompt: |
+      Let $\eta=\mathrm{diag}(1,-1)$ in 1+1 dimensions. Which of these matrices satisfy $\Lambda^T\eta\Lambda=\eta$? Select all.
+    multiple: true
+    options:
+      - text: '$\begin{pmatrix}1.25&0.75\\0.75&1.25\end{pmatrix}$'
+        correct: true
+      - text: '$\begin{pmatrix}1&0\\0&-1\end{pmatrix}$'
+        correct: true
+        feedback: A reflection of space. It passes (column norms $+1$ and $-1$, columns orthogonal); it has determinant $-1$, so it is not a boost but is in the Lorentz group.
+      - text: '$\begin{pmatrix}-1&0\\0&1\end{pmatrix}$'
+        correct: true
+        feedback: Time reversal. It passes the condition, but $\Lambda^0_0=-1<0$ sends the future to the past, so it is not orthochronous.
+      - text: '$\begin{pmatrix}0.8&0.6\\-0.6&0.8\end{pmatrix}$'
+        feedback: |
+          A Euclidean rotation. Column $0$ has $\eta$-norm $0.64-0.36=0.28\neq1$. In Minkowski geometry the time and space parts enter with **opposite** signs.
+      - text: '$\begin{pmatrix}1.25&0.75\\0.75&-1.25\end{pmatrix}$'
+        feedback: |
+          Each column passes ($1.5625-0.5625=1$ and $0.5625-1.5625=-1$), but the columns are not $\eta$-orthogonal: $1.25\cdot0.75-0.75\cdot(-1.25)=1.875\neq0$.
+    explanation: |
+      Test the columns: column $0$ has $\eta$-norm $+1$, column $1$ has $-1$, and the two are $\eta$-orthogonal. Three of the matrices pass.
+
+  - type: text
+    id: boost-family
+    title: The boost, and its checks
+    body: |
+      The Lorentz matrices in 1+1 dimensions with $\Lambda^0_0>0$ and determinant $+1$ are the **boosts**:
+      $$\Lambda=\gamma_u\begin{pmatrix}1&u\\u&1\end{pmatrix}$$
+      $$\gamma_u=\frac{1}{\sqrt{1-u^2}},\quad |u|<1 .$$
+      Column $0$ is the time axis of the moving observer written in the other frame: $\tilde e_0=\gamma_u\,(e_0+u\,e_1)$, so $u=\Lambda^1_0/\Lambda^0_0$ is its speed.
+
+      | check | what it must give |
+      |---|---|
+      | column $0$ norm | $\gamma_u^2-\gamma_u^2u^2=1$ |
+      | $u\to0$ | the identity matrix |
+      | $u\to\pm1$ | $\gamma_u\to\infty$ (no observer moves at $c$) |
+      | $\Lambda^0_0=\gamma_u$ | always $\ge1$ |
+      | inverse | $\Lambda(u)^{-1}=\Lambda(-u)$ |
+
+      For small speeds $\gamma_u\approx1+u^2/2$: the Galilean limit.
+
+  - type: numeric
+    id: speed-from-gamma
+    title: A speed from one entry
+    prompt: |
+      Two observers meet at an event. The dictionary $\Lambda$ from the frame of H to the frame of T is a boost along H's $e_1$ axis with $\Lambda^1_0>0$, and its entry $\Lambda^0_0=\tfrac53$. Find T's speed $u$ relative to H.
+    answer: 0.8
+    wrong:
+      - { value: 0.6, feedback: 'That is $1/\gamma_u=\sqrt{1-u^2}$, the reciprocal of the entry: it is the slowing factor, not the speed. The speed is the ratio of the entries in the first column.' }
+      - { value: 1.3333, feedback: 'That is $\Lambda^1_0=\gamma_uu$, the numerator. The speed is $\Lambda^1_0/\Lambda^0_0$.' }
+      - { value: 0.4, feedback: 'Use the unit norm of the first column, $(\Lambda^0_0)^2-(\Lambda^1_0)^2=1$, to find $\Lambda^1_0$ first.' }
+    hint: 'First column $(\tfrac53,\ \Lambda^1_0)$ has unit norm; then divide.'
+    explanation: |
+      $$\begin{aligned}(\Lambda^1_0)^2 &= \tfrac{25}{9}-1=\tfrac{16}{9},\quad \Lambda^1_0=\tfrac43,\\ u &= \frac{4/3}{5/3}=0.8 .\end{aligned}$$
+
+  - type: text
+    id: rapidity
+    title: What adds is the rapidity
+    body: |
+      The entries of a boost satisfy $\gamma_u^2-(\gamma_uu)^2=1$, exactly the identity $\cosh^2\varphi-\sinh^2\varphi=1$. So write
+      $$\begin{aligned}\gamma_u &=\cosh\varphi,\\ \gamma_uu &=\sinh\varphi,\\ u &=\tanh\varphi ,\end{aligned}$$
+      where $\varphi$ is the **rapidity** of the boost. Then
+      $$\Lambda(\varphi)=\begin{pmatrix}\cosh\varphi&\sinh\varphi\\ \sinh\varphi&\cosh\varphi\end{pmatrix}$$
+      $$\Lambda(\varphi_1)\,\Lambda(\varphi_2)=\Lambda(\varphi_1+\varphi_2)$$
+      by the addition formulas of $\cosh$ and $\sinh$. Consecutive boosts in the same direction add **rapidities**; the speeds combine as
+      $$u=\tanh(\varphi_1+\varphi_2)=\frac{u_1+u_2}{1+u_1u_2}.$$
+      Two checks: for small speeds the denominator is $\approx1$ (Galilean addition), and if $u_1=1$ the result is $1$ for every $u_2$. Example: $u=0.6$ has $\cosh\varphi=1.25$, $\sinh\varphi=0.75$, so $e^\varphi=2$ and $\varphi=\ln2$.
+
+  - type: mcq
+    id: add-halves
+    title: Two boosts of one half
+    prompt: |
+      Observer A moves at speed $0.5$ relative to H, and observer B moves at speed $0.5$ relative to A, in the same direction. What is B's speed relative to H?
+    options:
+      - text: '$0.8$'
+        correct: true
+      - text: '$1$'
+        feedback: |
+          That is the naive sum $0.5+0.5$. It would make B move at the speed of light, which no massive observer can; the speeds combine through the denominator $1+u_1u_2$.
+      - text: '$\tfrac23$'
+        feedback: |
+          This is $\dfrac{u_1+u_2}{1+u_1}=\dfrac{1}{1.5}$. The denominator is $1+u_1u_2=1.25$, with the **product** of the two speeds.
+      - text: '$0.9$'
+        feedback: |
+          Too large. Check with rapidities: $\mathrm{artanh}\,0.5\approx0.549$, twice is $1.099$, and $\tanh(1.099)=0.8$.
+    explanation: |
+      $$u=\frac{0.5+0.5}{1+0.25}=0.8 .$$
+
+  - type: numeric
+    id: three-boosts
+    title: Three boosts in a row
+    prompt: |
+      Observer $A_1$ moves at $0.6$ relative to H, observer $A_2$ moves at $0.6$ relative to $A_1$, and $A_3$ moves at $0.6$ relative to $A_2$ (all in the same direction). Find the speed of $A_3$ relative to H.
+    answer: 0.9692
+    tolerance: 0.001
+    answerText: '$63/65$'
+    wrong:
+      - { value: 1.8, feedback: 'The speeds were added: $0.6\cdot3$, which exceeds $1$.' }
+      - { value: 0.9459, feedback: 'That is $\tfrac{35}{37}$, one combination of $0.6$ with $0.8$. Two boosts of $0.6$ give $\tfrac{15}{17}$; the third must be combined with that.' }
+      - { value: 0.9, feedback: 'No simple average works. Add rapidities ($0.6\Leftrightarrow\ln2$), or combine two at a time.' }
+    hint: 'Each $0.6$ boost has rapidity $\ln2$ ($e^\varphi=2$); add three rapidities and convert back with $u=\tanh\varphi$.'
+    explanation: |
+      $$\begin{aligned}\varphi &= 3\ln2=\ln8,\\ u &= \tanh\varphi=\frac{8-\tfrac18}{8+\tfrac18}=\frac{63}{65}\approx0.9692 .\end{aligned}$$
+      Check by pairs: $0.6\oplus0.6=\tfrac{15}{17}$, and $\tfrac{15}{17}\oplus0.6=\dfrac{\tfrac{15}{17}+\tfrac35}{1+\tfrac{9}{17}}=\dfrac{126/85}{26/17}=\dfrac{63}{65}$.
+
+  - type: numeric
+    id: time-dilation
+    title: How long is the tick?
+    prompt: |
+      T moves at speed $0.8$ relative to H. Her clock advances by $6$ units (her own time between two events on her worldline). How much does H's clock advance between the same two events?
+    answer: 10
+    wrong:
+      - { value: 3.6, feedback: 'You divided by $\gamma_u=\tfrac53$. Moving clocks run **slow**, so the other observer measures **more** time between the two events than the moving clock shows.' }
+      - { value: 4.8, feedback: 'You multiplied by the speed $0.8$, but the factor is $\gamma_u$, which depends on $u$ through $1/\sqrt{1-u^2}$.' }
+      - { value: 7.5, feedback: 'That uses $\gamma=1.25$ (the factor for $u=0.6$). For $u=0.8$, $\gamma_u=\tfrac53$.' }
+    hint: 'One tick of T is the vector $\tilde e_0=\gamma_u(e_0+u\,e_1)$; read its $e_0$-component.'
+    explanation: |
+      $$\gamma_u=\frac{1}{\sqrt{1-0.64}}=\frac53,\qquad \Delta t_H=\tfrac53\cdot6=10 .$$
+
+  - type: mcq
+    id: frames-not-coordinates
+    title: Where does Λ act?
+    prompt: |
+      In a curved spacetime, two observers pass through the same event $p$ and their frames are related by a boost matrix $\Lambda(u)$. What does $\Lambda$ relate?
+    options:
+      - text: 'The two frames, as bases of the vectors at $p$ (and so the components of one vector at $p$)'
+        correct: true
+      - text: 'The coordinates $x^i$ of all events in a neighbourhood of $p$ in the two observers'' charts'
+        feedback: |
+          A coordinate change by a Lorentz matrix needs $g_{ij}=\eta_{ij}$ on a whole region, which forces the Riemann tensor to vanish. In a curved spacetime, charts are related by general transition maps; $\Lambda$ only acts on the vectors at the single event $p$.
+      - text: 'Nothing: boosts exist only in flat spacetime'
+        feedback: |
+          At each event the vectors form a vector space with a Lorentzian metric, and frames and boosts exist there whatever the curvature.
+    explanation: |
+      $\Lambda$ is a statement about one tangent space. Curvature only forbids using it as a chart-change over a region.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the spacetime is equipped with observers and their frames, but its metric is still just given. Which metrics are physically allowed? The next lesson derives the Einstein equations from an action principle.

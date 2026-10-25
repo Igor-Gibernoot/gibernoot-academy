@@ -1,0 +1,354 @@
+id: ch10-intuition-christoffel
+title: "Intuition: Christoffel Symbols from the Metric"
+kind: intuition
+own: |
+  - **Setting**: in a chart with coordinates $x^i$, the metric has components $g_{ij}$ and inverse $(g^{-1})^{ij}$; $\partial_i := \partial/\partial x^i$ acts on these component functions; repeated indices are summed; $\Gamma^k_{ij}$ are the Christoffel symbols of the Levi-Civita connection (the unique connection with $\nabla g = 0$ and no torsion).
+  - **Lower first, then raise**: the lowered symbol has the derivative of $g$ along each input index (plus signs) and along the output index $m$ (minus sign),
+    {{ $$\Gamma_{mij} := \tfrac12\big(\partial_ig_{mj}+\partial_jg_{mi}-\partial_mg_{ij}\big)$$ }}
+    and the output index is then raised with the inverse metric:
+    {{ $$\Gamma^k_{ij} = (g^{-1})^{km}\,\Gamma_{mij}$$ }}
+  - **Checks**: $\Gamma^k_{ij}=\Gamma^k_{ji}$; a chart with constant $g_{ij}$ has $\Gamma=0$; under a constant rescaling $g\to\lambda^2g$ the lowered symbol grows by $\lambda^2$ while $\Gamma^k_{ij}$ is unchanged, so geodesics do not change.
+  - **Diagonal metric** ($g_{ij}=0$ for $i\neq j$, no sum over $k$ and $i$ below; $k\neq i$ in the second line), only two families survive:
+    {{ $$\Gamma^k_{ki} = \tfrac12\,\partial_i\ln|g_{kk}|$$ }}
+    {{ $$\Gamma^k_{ii} = -\tfrac12\,\frac{\partial_kg_{ii}}{g_{kk}}$$ }}
+    and $\Gamma^k_{ij}=0$ when $k,i,j$ are all different. On the unit sphere with chart $(\theta,\varphi)$ and $g=\mathrm{diag}(1,\sin^2\theta)$: $\Gamma^1_{22}=-\sin\theta\cos\theta$ and $\Gamma^2_{12}=\cot\theta$.
+  - **Contracted**: summing the output against one lower index gives the density,
+    {{ $$\Gamma^m_{im} = \partial_i\ln\sqrt{|\det g|}$$ }}
+
+cards:
+  - type: text
+    id: hook
+    title: Three ways to get a Christoffel symbol wrong
+    body: |
+      A metric $g$ comes with its own connection, the Levi-Civita connection. In a chart its coefficients are the **Christoffel symbols** $\Gamma^k_{ij}$, computed from the components $g_{ij}$ of the metric and their first derivatives. Three things go wrong again and again when you use the formula:
+
+      1. **Which term has the minus sign**, and which derivative goes with which index.
+      2. **Raising**: forgetting to raise the output index, or raising with $g$ instead of $g^{-1}$.
+      3. **Shortcuts**: what survives when $g$ is diagonal, what happens when $g$ is rescaled, and a handy sum over one index.
+
+      This lesson derives nothing. It gives you a pattern for the signs, checks that catch an error in seconds, and a few numbers to try. Notation: $\partial_i := \partial/\partial x^i$ is the derivative of a component function in the chart (the index $i$ is a label, not a power), and repeated indices are summed.
+
+  - type: mcq
+    id: constant-metric
+    title: A metric that does not change
+    prompt: |
+      In a chart the metric components $g_{ij}$ are **constants**, the same at every point (they need not be the identity: for instance $\mathrm{diag}(1,-1)$, or $\begin{pmatrix}2&1\\1&2\end{pmatrix}$). The Christoffel symbols are computed from $g_{ij}$, $(g^{-1})^{ij}$ and first derivatives of $g_{ij}$. What are the $\Gamma^k_{ij}$?
+    options:
+      - text: 'All zero'
+        correct: true
+      - text: 'Zero only when the constants are those of the identity matrix (Euclidean)'
+        feedback: |
+          Nothing in the formula needs $g$ to be Euclidean. Every term has a **derivative** of some $g_{ab}$, and a constant has zero derivative; the inverse metric only multiplies.
+      - text: 'Not zero: the inverse metric $g^{-1}$ enters and it does not vanish'
+        feedback: |
+          $g^{-1}$ does not vanish, but it multiplies a sum of derivatives of $g$, and each of those is $0$. A product with a factor $0$ is $0$.
+      - text: 'Zero only when $g$ is diagonal'
+        feedback: |
+          Off-diagonal constants are constants too: $\partial_k g_{12} = 0$. Diagonality is irrelevant here.
+    explanation: |
+      Every term of the formula contains a derivative of a metric component. Constant components give $\Gamma^k_{ij}=0$, whether the metric is Euclidean, Minkowski or any constant matrix (this is why the Minkowski chart has no Christoffel symbols).
+
+  - type: text
+    id: pattern
+    title: The pattern for the signs
+    body: |
+      Write the **lowered** symbol first, with three lower indices $m,i,j$. The index $m$ is the one that will become the output:
+      $$\Gamma_{mij} = \tfrac12\big(\partial_ig_{mj}+\partial_jg_{mi}-\partial_mg_{ij}\big).$$
+      Read it in two groups:
+
+      - **Two plus terms.** Differentiate along one **input** ($i$, then $j$); $g$ keeps the other input and the output $m$.
+      - **One minus term.** Differentiate along the **output** $m$; $g$ keeps the two inputs $i,j$.
+
+      Then raise the output index with the **inverse** metric, summing over $m$:
+      $$\Gamma^k_{ij} = (g^{-1})^{km}\,\Gamma_{mij}.$$
+      In the polar chart of the plane, $g=\mathrm{diag}(1,r^2)$, the only non-zero lowered symbol with output $1$ is $\Gamma_{122}$. It carries the minus term, $-\tfrac12\partial_rg_{\theta\theta}=-r$, and that is why $\Gamma^1_{22}=-r$ is negative.
+
+  - type: mcq
+    id: pick-lowered
+    prompt: |
+      Which expression is the lowered Christoffel symbol $\Gamma_{mij}$ of the Levi-Civita connection?
+    options:
+      - text: '$\tfrac12\big(\partial_ig_{mj}+\partial_jg_{mi}-\partial_mg_{ij}\big)$'
+        correct: true
+      - text: '$\tfrac12\big(\partial_ig_{mj}+\partial_jg_{mi}+\partial_mg_{ij}\big)$'
+        feedback: |
+          With all plus signs the polar plane gives $\Gamma_{122}=+r$ and hence $\Gamma^1_{22}=+r$, but the known value is $-r$. The derivative along the output index must be subtracted.
+      - text: '$\tfrac12\big(\partial_mg_{ij}+\partial_jg_{mi}-\partial_ig_{mj}\big)$'
+        feedback: |
+          The minus sign is on an **input** derivative here, so swapping $i\leftrightarrow j$ changes the expression. Christoffel symbols of the Levi-Civita connection are symmetric in the two inputs, $\Gamma_{mij}=\Gamma_{mji}$.
+      - text: '$\partial_ig_{mj}+\partial_jg_{mi}-\partial_mg_{ij}$'
+        feedback: |
+          The factor $\tfrac12$ is missing. It is needed for $\Gamma_{jik}+\Gamma_{ijk}=\partial_kg_{ij}$ (compatibility with the metric), which you will check below.
+    explanation: |
+      Plus, plus, minus: the minus term differentiates along the output index $m$.
+
+  - type: build
+    id: build-lowered
+    prompt: 'Build the lowered Christoffel symbol (the output index is $m$, the inputs are $i$ and $j$).'
+    prefix: '\Gamma_{mij} = \tfrac12\big('
+    suffix: '\big)'
+    tiles:
+      - '\partial_i g_{mj}'
+      - '\partial_j g_{mi}'
+      - '-\partial_m g_{ij}'
+      - '+\partial_m g_{ij}'
+      - '\partial_m g_{mj}'
+    answers:
+      - ['\partial_i g_{mj}', '\partial_j g_{mi}', '-\partial_m g_{ij}']
+      - ['\partial_j g_{mi}', '\partial_i g_{mj}', '-\partial_m g_{ij}']
+      - ['\partial_i g_{mj}', '-\partial_m g_{ij}', '\partial_j g_{mi}']
+      - ['\partial_j g_{mi}', '-\partial_m g_{ij}', '\partial_i g_{mj}']
+      - ['-\partial_m g_{ij}', '\partial_i g_{mj}', '\partial_j g_{mi}']
+      - ['-\partial_m g_{ij}', '\partial_j g_{mi}', '\partial_i g_{mj}']
+    wrong:
+      - answer: ['\partial_i g_{mj}', '\partial_j g_{mi}', '+\partial_m g_{ij}']
+        feedback: |
+          The derivative along the output index must be **subtracted**. With a plus the polar plane gets $\Gamma^1_{22}=+r$ instead of $-r$.
+    hint: 'Two derivatives along the inputs (one each), with $g$ holding the other input and $m$; one derivative along $m$, with a minus.'
+    explanation: |
+      $$\Gamma_{mij} = \tfrac12\big(\partial_ig_{mj}+\partial_jg_{mi}-\partial_mg_{ij}\big).$$
+
+  - type: numeric
+    id: lowered-number
+    prompt: |
+      In a 2-dimensional chart the metric components are
+      $$g_{ij} = \begin{pmatrix}2&x^1\\x^1&2\end{pmatrix},$$
+      where $x^1$ is the first coordinate (the entries $g_{12}=g_{21}$ equal that coordinate). Find the lowered symbol $\Gamma_{211}$, output index $2$ and both inputs $1$.
+    answer: 1
+    wrong:
+      - { value: 2, feedback: 'You forgot the factor $\tfrac12$.' }
+      - { value: 0.5, feedback: 'Only one plus term was counted. With $i=j=1$ **both** plus terms equal $\partial_1g_{21}=1$.' }
+      - { value: 0, feedback: 'The minus term is $\partial_2g_{11}=0$, but the two plus terms $\partial_1g_{21}$ do not vanish: $g_{12}$ depends on $x^1$.' }
+    hint: 'Three terms: $\partial_1g_{21}$, $\partial_1g_{21}$ and $-\partial_2g_{11}$.'
+    explanation: |
+      $$\begin{aligned}\Gamma_{211} &= \tfrac12\big(\partial_1g_{21}+\partial_1g_{21}-\partial_2g_{11}\big)\\ &= \tfrac12(1+1-0) = 1.\end{aligned}$$
+      The other lowered symbols vanish at every point of this chart: this is the only non-zero one.
+
+  - type: build
+    id: build-raise
+    prompt: 'Build the Christoffel symbol with the output index up, from the lowered symbol $\Gamma_{mij}$.'
+    prefix: '\Gamma^k_{ij} ='
+    tiles: ['(g^{-1})^{km}', '\Gamma_{mij}', 'g_{km}', '\Gamma_{kij}']
+    answers:
+      - ['(g^{-1})^{km}', '\Gamma_{mij}']
+      - ['\Gamma_{mij}', '(g^{-1})^{km}']
+    wrong:
+      - answer: ['g_{km}', '\Gamma_{mij}']
+        feedback: |
+          Two lower indices $m$ are summed, and the result has $k$ **lower**: that would lower the index, not raise it. The output index goes up with the inverse metric, whose slots are both upper.
+    hint: 'The summed index $m$ must appear once up and once down; the free index $k$ must end up upper.'
+    explanation: |
+      $$\Gamma^k_{ij} = (g^{-1})^{km}\,\Gamma_{mij}.$$
+      The inverse is the **matrix** inverse of $g$, not the entries' reciprocals.
+
+  - type: text
+    id: checks
+    title: Two checks that always work
+    body: |
+      **Symmetry.** Swapping $i\leftrightarrow j$ in $\tfrac12(\partial_ig_{mj}+\partial_jg_{mi}-\partial_mg_{ij})$ exchanges the two plus terms and leaves the minus term alone, so $\Gamma_{mij}=\Gamma_{mji}$ and $\Gamma^k_{ij}=\Gamma^k_{ji}$.
+
+      **Compatibility with the metric.** Add the lowered symbols with the first two indices swapped:
+      $$\begin{aligned}\Gamma_{jik}+\Gamma_{ijk} &= \tfrac12\big(\partial_kg_{ji}+\partial_ig_{jk}-\partial_jg_{ik}\big)\\ &\quad+\tfrac12\big(\partial_kg_{ij}+\partial_jg_{ik}-\partial_ig_{jk}\big)\\ &= \partial_kg_{ij}.\end{aligned}$$
+      The two remaining pairs cancel. The identity $\partial_kg_{ij}=\Gamma_{jik}+\Gamma_{ijk}$ says that the connection does not change lengths and angles. The first two indices of $\Gamma_{mij}$ do **not** commute otherwise: for the metric of the previous numbers, $\Gamma_{211}=1$ but $\Gamma_{121}=0$.
+
+  - type: mcq
+    id: which-hold
+    prompt: |
+      Let $\Gamma_{mij}$ be the lowered Levi-Civita symbols of some metric in a chart. Which statements hold in **every** chart and metric? Select all.
+    multiple: true
+    options:
+      - text: '$\Gamma_{mij}=\Gamma_{mji}$ (symmetric in the two inputs)'
+        correct: true
+      - text: '$\partial_kg_{ij}=\Gamma_{jik}+\Gamma_{ijk}$'
+        correct: true
+      - text: '$\Gamma_{mij}=\Gamma_{imj}$ (the output and an input can be swapped)'
+        feedback: |
+          For $g_{ij}=\begin{pmatrix}2&x^1\\x^1&2\end{pmatrix}$ we found $\Gamma_{211}=1$, while $\Gamma_{121}=\tfrac12(\partial_2g_{11}+\partial_1g_{12}-\partial_1g_{21})=0$. The output index plays a different role from the inputs.
+      - text: 'The $\Gamma^k_{ij}$ are the components of a $(1,2)$-tensor'
+        feedback: |
+          They change chart with an extra second-derivative term (Level 6). Only the difference of two connections would be a tensor.
+    explanation: |
+      Symmetry and compatibility follow from the formula. The output index is special, and Christoffel symbols are not tensor components.
+
+  - type: text
+    id: scaling
+    title: The scaling test
+    body: |
+      Multiply the metric by a **constant** $\lambda^2>0$ (every length gets multiplied by $\lambda$). The components $g_{ij}$ and their derivatives scale by $\lambda^2$, while $(g^{-1})^{ij}$ scales by $\lambda^{-2}$:
+
+      | quantity | factor |
+      |---|---|
+      | $\Gamma_{mij}$ (lowered) | $\lambda^2$ |
+      | $\Gamma^k_{ij}$ (raised) | $1$ |
+
+      The two factors cancel in $\Gamma^k_{ij}=(g^{-1})^{km}\Gamma_{mij}$. A formula for $\Gamma^k_{ij}$ whose value changes when $g$ is multiplied by a constant is wrong. This also explains why a constant rescaling of the metric leaves geodesics alone: their equation contains only $\Gamma^k_{ij}$. (A **position-dependent** factor does change $\Gamma$.)
+
+  - type: mcq
+    id: scaling-predict
+    title: What survives a rescaling?
+    prompt: |
+      In a chart, the metric is replaced by $9g$ (a constant factor: all lengths triple). Select every quantity that stays **exactly the same**.
+    multiple: true
+    options:
+      - text: 'the Christoffel symbols $\Gamma^k_{ij}$'
+        correct: true
+      - text: 'the curves that solve the geodesic equation'
+        correct: true
+      - text: 'the lowered symbols $\Gamma_{mij}$'
+        feedback: |
+          They are built from derivatives of $g_{ij}$ with no $g^{-1}$ to compensate: they get multiplied by $9$ (for the earlier example $\Gamma_{211}=1$ becomes $9$).
+      - text: 'the inverse metric components $(g^{-1})^{ij}$'
+        feedback: |
+          The inverse of $9g$ is $\tfrac19g^{-1}$: smaller, not equal.
+    explanation: |
+      $\Gamma^k_{ij}$ gets a factor $9\cdot\tfrac19=1$, and the geodesic equation only contains $\Gamma^k_{ij}$.
+
+  - type: text
+    id: diagonal
+    title: When the metric is diagonal
+    body: |
+      If $g_{ij}=0$ for $i\neq j$, then $(g^{-1})^{kk}=1/g_{kk}$ and the sum over $m$ in the raised symbol keeps only $m=k$. Going through the three terms (no sum over repeated $k$, $i$):
+
+      | symbol | value |
+      |---|---|
+      | $\Gamma^k_{ki}$ (repeated index is the output) | $\tfrac12\,\partial_i\ln\lvert g_{kk}\rvert$ |
+      | $\Gamma^k_{ii}$, with $k\neq i$ | $-\tfrac12\,\partial_kg_{ii}/g_{kk}$ |
+      | $\Gamma^k_{ij}$, $k,i,j$ all different | $0$ |
+
+      The first line also covers $\Gamma^k_{kk}=\tfrac12\partial_k\ln|g_{kk}|$. Memory aid: the **log derivative** appears when the output index is repeated in the inputs (then $g_{kk}$ both differentiated and divided); the **minus** appears when two equal inputs $i,i$ meet a different output $k$ (the derivative goes along $k$ and hits $g_{ii}$).
+
+      Check on the polar plane, $g=\mathrm{diag}(1,r^2)$: $\Gamma^2_{12}=\tfrac12\partial_r\ln r^2=\tfrac1r$ and $\Gamma^1_{22}=-\tfrac12\,\partial_r(r^2)/1=-r$. The two families again, as in Level 6.
+
+  - type: mcq
+    id: sphere-which
+    title: Which can be non-zero?
+    prompt: |
+      The unit sphere has the chart $(x^1,x^2)=(\theta,\varphi)$ (polar angle and azimuth) with the diagonal metric $g=\mathrm{diag}(1,\sin^2\theta)$. Which of these Christoffel symbols can be non-zero? Select all.
+    multiple: true
+    options:
+      - text: '$\Gamma^1_{22}$'
+        correct: true
+      - text: '$\Gamma^2_{12}$'
+        correct: true
+      - text: '$\Gamma^1_{11}$'
+        feedback: |
+          This is $\tfrac12\partial_\theta\ln g_{\theta\theta}$, and $g_{\theta\theta}=1$ is constant.
+      - text: '$\Gamma^2_{11}$'
+        feedback: |
+          This would be $-\tfrac12\,\partial_\varphi g_{\theta\theta}/g_{\varphi\varphi}$, and nothing depends on $\varphi$.
+      - text: '$\Gamma^1_{12}$'
+        feedback: |
+          Output $1$ is repeated among the inputs $1,2$, so this is the log-derivative family: $\tfrac12\partial_\varphi\ln g_{\theta\theta}=0$, since $g_{\theta\theta}=1$.
+      - text: '$\Gamma^2_{22}$'
+        feedback: |
+          This is $\tfrac12\partial_\varphi\ln g_{\varphi\varphi}$, and $g_{\varphi\varphi}=\sin^2\theta$ does not depend on $\varphi$.
+    explanation: |
+      Only derivatives in the $\theta$ direction are non-zero. $\Gamma^1_{22}=-\sin\theta\cos\theta$ (minus family, output $\theta$) and $\Gamma^2_{12}=\Gamma^2_{21}=\cot\theta$ (log-derivative family, output $\varphi$).
+
+  - type: build
+    id: build-diag-minus
+    prompt: |
+      For a diagonal metric and **different** indices $k\neq i$, build the Christoffel symbol with the repeated lower index $i$ and output $k$ (no sum).
+    prefix: '\Gamma^k_{ii} ='
+    tiles:
+      - '-\tfrac12'
+      - '\tfrac12'
+      - '\dfrac{\partial_k g_{ii}}{g_{kk}}'
+      - '\dfrac{\partial_i g_{kk}}{g_{kk}}'
+    answers:
+      - ['-\tfrac12', '\dfrac{\partial_k g_{ii}}{g_{kk}}']
+      - ['\dfrac{\partial_k g_{ii}}{g_{kk}}', '-\tfrac12']
+    wrong:
+      - answer: ['-\tfrac12', '\dfrac{\partial_i g_{kk}}{g_{kk}}']
+        feedback: |
+          The derivative is taken **along the output** $k$ (the minus term is $-\tfrac12\partial_kg_{ii}$) and it acts on the metric component of the repeated inputs, $g_{ii}$. The version with $\partial_ig_{kk}$ belongs to the other family, $\Gamma^k_{ki}$.
+      - answer: ['\tfrac12', '\dfrac{\partial_k g_{ii}}{g_{kk}}']
+        feedback: |
+          The sign is wrong: this derivative comes from the **minus** term of the lowered formula.
+    hint: 'Only the term $-\partial_kg_{ii}$ of $\Gamma_{kii}$ survives; then divide by $g_{kk}$ (raising with a diagonal metric).'
+    explanation: |
+      $$\Gamma^k_{ii} = \tfrac12\,\frac{1}{g_{kk}}\big(2\,\partial_ig_{ki}-\partial_kg_{ii}\big) = -\tfrac12\,\frac{\partial_kg_{ii}}{g_{kk}}$$
+      since $g_{ki}=0$ for $k\neq i$.
+
+  - type: text
+    id: contracted
+    title: A sum worth remembering
+    body: |
+      Summing the output index against one input gives the logarithmic derivative of the volume density:
+      $$\Gamma^m_{im} = \partial_i\ln\sqrt{|\det g|}.$$
+      Checks. Polar plane: $\sqrt{\det g}=r$, so $\Gamma^m_{1m}=\Gamma^1_{11}+\Gamma^2_{12}=0+\tfrac1r=\partial_r\ln r$. Unit sphere: $\sqrt{\det g}=\sin\theta$, so $\Gamma^m_{1m}=\Gamma^1_{11}+\Gamma^2_{12}=\cot\theta=\partial_\theta\ln\sin\theta$. Whenever $\det g$ does not depend on $x^i$, this sum is zero.
+
+      From here on, apply what you recall: the cards give the metric and ask for numbers, with no formula in the prompt.
+
+  - type: numeric
+    id: sphere-number
+    title: On the sphere
+    prompt: |
+      On the unit sphere use the chart $(x^1,x^2)=(\theta,\varphi)$ with $g=\mathrm{diag}(1,\sin^2\theta)$. Find $\Gamma^1_{22}$ at $\theta=\pi/4$.
+    answer: -0.5
+    answerText: '$-\tfrac12$'
+    wrong:
+      - { value: 0.5, feedback: 'The sign is wrong. $\Gamma^1_{22}$ has the minus sign (two equal inputs $2,2$, different output $1$): it is negative, as $\Gamma^1_{22}=-r$ is in the polar plane.' }
+      - { value: -1, feedback: 'The factor $\tfrac12$ is missing: $\partial_\theta\sin^2\theta=2\sin\theta\cos\theta=1$ at $\pi/4$, and the symbol is minus **half** of it divided by $g_{\theta\theta}=1$.' }
+      - { value: 1, feedback: 'That is $\Gamma^2_{12}=\cot\theta$, the other family (repeated index is the output). Here the output is $1$ and the inputs are $2,2$.' }
+    hint: 'The output ($1$) differs from the two equal inputs ($2,2$): which family is that, and which metric component is differentiated?'
+    explanation: |
+      $$\begin{aligned}\Gamma^1_{22} &= -\tfrac12\,\partial_\theta g_{\varphi\varphi}/g_{\theta\theta}\\ &= -\sin\theta\cos\theta = -\tfrac12 .\end{aligned}$$
+
+  - type: numeric
+    id: halfplane-number
+    title: The half-plane
+    prompt: |
+      A chart $(x^1,x^2)$ with $x^2>0$ has the metric components
+      $$g_{ij} = \frac{\delta_{ij}}{(x^2)^2},$$
+      that is, $g_{11}=g_{22}=1/(x^2)^2$ (here $x^2$ is the second coordinate, squared in the denominator) and $g_{12}=0$. Find $\Gamma^2_{11}$ at the point $x^2=2$.
+    answer: 0.5
+    answerText: '$\tfrac12$'
+    wrong:
+      - { value: -0.5, feedback: 'That is the value of $\Gamma^2_{22}$ or $\Gamma^1_{12}$ ($-1/x^2$), the log-derivative family. For $\Gamma^2_{11}$ (two equal inputs $1,1$, output $2$) the minus sign of the formula multiplies $\partial_2g_{11}=-2/(x^2)^3$, which is itself negative, so the result is positive.' }
+      - { value: 2, feedback: 'You inverted the wrong power: dividing by $g_{22}$ multiplies by $(x^2)^2=4$ and $\partial_2g_{11}=-2/(x^2)^3=-\tfrac14$, so the product is $-\tfrac12\cdot4\cdot(-\tfrac14)=\tfrac12$, not $2$.' }
+      - { value: 0.25, feedback: 'The power of $x^2$ is off by one: $\Gamma^2_{11}=1/x^2$, not $1/(x^2)^2$.' }
+    hint: 'Equal inputs $1,1$ and different output $2$: the derivative is along $2$ of $g_{11}$, divided by $g_{22}$.'
+    explanation: |
+      $$\begin{aligned}\Gamma^2_{11} &= -\tfrac12\,\frac{\partial_2g_{11}}{g_{22}}\\ &= -\tfrac12\,\big(-2/(x^2)^3\big)\,(x^2)^2 = \frac{1}{x^2} = \tfrac12 .\end{aligned}$$
+
+  - type: numeric
+    id: contracted-number
+    title: Flat space in spherical coordinates
+    prompt: |
+      Flat 3-dimensional space in spherical coordinates $(x^1,x^2,x^3)=(r,\theta,\varphi)$ has
+      $$g=\mathrm{diag}(1,\ r^2,\ r^2\sin^2\theta).$$
+      Find the sum $\Gamma^m_{1m}=\Gamma^1_{11}+\Gamma^2_{12}+\Gamma^3_{13}$ at $r=4$.
+    answer: 0.5
+    answerText: '$\tfrac12$'
+    wrong:
+      - { value: 0.25, feedback: 'You counted only one of the two angular terms. Both $\Gamma^2_{12}$ and $\Gamma^3_{13}$ equal $1/r$.' }
+      - { value: 0.125, feedback: 'That is $2/r^2$: the log derivative of $r^2$ is $2/r$, not $2/r^2$.' }
+      - { value: 0, feedback: '$\Gamma^1_{11}=0$ (the metric component $g_{rr}=1$ is constant), but the two other terms are not zero: $g_{\theta\theta}$ and $g_{\varphi\varphi}$ grow with $r$.' }
+    hint: 'Each term is a log derivative with respect to $r$ of a diagonal metric component, or use the volume density.'
+    explanation: |
+      $$\Gamma^1_{11}=0,\quad \Gamma^2_{12}=\Gamma^3_{13}=\tfrac1r,$$
+      so the sum is $\tfrac2r=\tfrac12$ at $r=4$. Check with the density: $\sqrt{\det g}=r^2\sin\theta$ and $\partial_r\ln r^2=\tfrac2r$.
+
+  - type: numeric
+    id: offdiag-number
+    title: A metric that is not diagonal
+    prompt: |
+      In a 2-dimensional chart the metric components are
+      $$g_{ij} = \begin{pmatrix}2&x^1\\x^1&2\end{pmatrix},$$
+      with $g_{12}=g_{21}=x^1$ the first coordinate. Find $\Gamma^1_{11}$ at the point $x^1=1$.
+    answer: -0.3333
+    tolerance: 0.001
+    answerText: '$-\tfrac13$'
+    wrong:
+      - { value: 1, feedback: 'That is the **lowered** symbol $\Gamma_{211}$. The output index still has to be raised with the inverse metric.' }
+      - { value: 0.6667, feedback: 'That is $\Gamma^2_{11}$, from the wrong row of the inverse metric. For $\Gamma^1_{11}$ the output is $1$: use $(g^{-1})^{1m}$.' }
+    hint: 'The only non-zero lowered symbol is $\Gamma_{211}$; the output $1$ picks the entry $(g^{-1})^{12}$.'
+    explanation: |
+      At $x^1=1$: $\det g=4-1=3$ and $(g^{-1})^{12}=-\tfrac13$. Only $\Gamma_{211}=1$ is non-zero, so
+      $$\begin{aligned}\Gamma^1_{11} &= (g^{-1})^{12}\,\Gamma_{211}=-\tfrac13,\\ \Gamma^2_{11} &= (g^{-1})^{22}\,\Gamma_{211}=\tfrac23 .\end{aligned}$$
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a guided problem checks the Schwarzschild metric. Its metric is diagonal, so the Christoffel symbols come one by one from the two families above.
