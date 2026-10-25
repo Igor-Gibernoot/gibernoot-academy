@@ -7,7 +7,9 @@ own: |
     $$37-30=7\,{}^\circ\text{C}.$$
     Changing the belief to "I am cold" makes the error vanish on paper but leaves the body outside its safe range; {{ acting (for example heating) }} moves the body itself toward the expectation, and that is what keeps the creature alive.
   - **A goal is a prior prediction.** A preference or goal (here "I will sense about $37\,{}^\circ\text{C}$") is held as a prediction about future sensations, like a *set-point* in a thermostat: {{ action is whatever reduces the prediction error between that prediction and the current sensation }}.
-  - **Planning chooses a policy.** A **policy** is a sequence of actions. Each candidate policy is scored by its **expected free energy** (a score computed from the sensations the policy is *predicted* to bring), which has two parts: how well the predicted sensations fit the goals (**exploiting**), and how much the policy is expected to {{ resolve uncertainty (exploring) }}.
+  - **Planning chooses a policy.** A **policy** is a sequence of actions. Each candidate policy is scored by its **expected free energy** (a score computed from the sensations the policy is *predicted* to bring), which is something to **minimise** (lower is better). It is a **mismatch** with the goals (how far the predicted sensations are from the preferred ones; exploiting) **minus** the {{ information gained }} (how much uncertainty the policy is expected to resolve; exploring). Writing $G$ for the expected free energy of a policy:
+    $$\begin{aligned}G &= \text{mismatch}\\ &\quad-\text{information gained}\end{aligned}$$
+    Lower is better.
   - **Not only stimulus and response.** A fixed reflex ("when cold, shiver") is {{ one special, habitual kind of policy }}; the general picture is goal-directed. And seeking informative sensations (looking, sampling) is not opposed to pursuing goals: one score balances both.
 cards:
   - type: text
@@ -123,9 +125,9 @@ cards:
     body: |
       One step is not a plan. To warm up you may put on a coat, walk to the sunny side, then light a fire. A **policy** is a **sequence of actions** like that, chosen in advance.
 
-      How does the creature pick among many possible policies? It asks of each one: "if I did this, what would I *predict* to sense, and how well would those predicted sensations fit my goals?" The policies whose predicted sensations best fit the goals (warm, in the safe range) win.
+      How does the creature pick among many possible policies? It asks of each one: "if I did this, what would I *predict* to sense, and how far would those predicted sensations be from my goals?" The policies whose predicted sensations stay closest to the goals (warm, in the safe range) win.
 
-      Two things to notice. First, the choice looks at **future** sensations, which are only predicted. Second, the score used for this has a name that you will meet again: the **expected free energy** of a policy. The word "expected" says it is built from predicted, not yet real, sensations. We only need its two jobs for now, and the last cards say what they are.
+      Two things to notice. First, the choice looks at **future** sensations, which are only predicted. Second, the score used for this has a name that you will meet again: the **expected free energy** of a policy. The word "expected" says it is built from predicted, not yet real, sensations. It is a quantity to **minimise**: the lower it is, the better the policy. We only need its two parts for now, and the next cards say what they are.
 
   - type: mcq
     id: trap-sr
@@ -152,7 +154,14 @@ cards:
 
       These actions are chosen because the sensations they bring are **informative**: they resolve uncertainty about the hidden causes from the previous lesson. Informative sensations are called **salient**. Active inference says that perceiving and learning are *active* in this sense: a creature seeks out salient observations instead of waiting for them.
 
-      So the score of a policy has two parts. One asks "how well do the predicted sensations fit my goals?" (**exploiting** what I know). The other asks "how much uncertainty would this resolve?" (**exploring** what I do not).
+      So the score of a policy, its **expected free energy**, has two parts, and **lower is better**:
+
+      - The **mismatch**: how far the predicted sensations are from the preferred ones (**exploiting** what I know). Lower is better.
+      - The **information gained**: how much uncertainty the policy is expected to resolve (**exploring** what I do not). Higher is better, which is why it is **subtracted**.
+
+      $$\begin{aligned}\text{expected free energy} &= \text{mismatch}\\ &\quad-\text{information gained}\end{aligned}$$
+
+      A policy with a big mismatch can still win if it teaches the creature enough.
 
   - type: mcq
     id: trap-explore
@@ -167,9 +176,9 @@ cards:
           Sometimes a probe costs time, but it often pays back: a creature that knows where the warm spot is reaches its goal faster. A single score that includes both terms weighs this cost and benefit in one go.
       - text: Creatures should always explore and never pursue goals.
         feedback: |
-          Pure exploration never fulfils any preference, so the creature would never leave the cold. The score includes how well the predicted sensations fit the goals.
+          Pure exploration never fulfils any preference, so the creature would never leave the cold. The score includes the mismatch with the goals, so a policy that leaves the creature cold is penalised.
     explanation: |
-      Many frameworks treat exploration versus exploitation as a trade-off that needs a separate mechanism. Here, the expected free energy of each policy contains both parts, so selecting the policy with the best score automatically balances exploring and exploiting. Chapters 2 and 3 show how.
+      Many frameworks treat exploration versus exploitation as a trade-off that needs a separate mechanism. Here, the expected free energy of each policy contains both parts, so selecting the policy with the lowest expected free energy automatically balances exploring and exploiting. Chapters 2 and 3 show how.
 
   - type: text
     id: summary

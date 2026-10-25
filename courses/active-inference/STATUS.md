@@ -8,7 +8,7 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
 ## Current (2026-10-24)
 
 - **State:** Level 1 fully built: `ch01-persist` (15, homeostat card 4), `ch01-guessing` (11), `ch01-acting` (11), `ch01-map`, `ch01-challenge`. Source 1.1-1.3 verified; 1.4.1 prose only.
-- **Next unit:** remaining fix: sign-flip rebuild of the policy score in the Level 1 challenge; then Level 2.
+- **Next unit:** `ch02-perception-inference` (Level 2). Level 1 sign of G is already the book's (mismatch minus information gained, lower is better); see CONVENTIONS Chapter 1.
 - **Conventions:** `CONVENTIONS.md`, one section per chapter.
 - **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
 
@@ -26,3 +26,6 @@ Conventions fixed here: none yet.
 - 2026-10-24 ch01-map: 10 boxes (loop, surprise, prior, evidence, prediction error, belief, action lever, perception lever, policy, exploring/exploiting), 2 decoys each (incl. stimulus-response, belief = evidence only, explore-or-exploit switch). "Generative model" was never glossed in the three lessons, so its box became separate prior and evidence boxes; the term is left for Level 2. Display math in map cards needs blank lines around `$$` and `aligned` for the error formula (phone width). Conventions fixed here: map box set above; generative model not used in Level 1.
 - 2026-10-24 ch01-challenge p1-3: fish/warm water (error -8, order loop), splash in the dark (42%, flatten reverses to 53%), cold creature policy scores (7 vs 6, then 6 vs 4). Summary is a plain text card (own: is not allowed in challenges). Conventions fixed here: see Chapter 1.
 - 2026-10-24 widget `homeostat` extended (unit: persist demo): new options `showBelief: false` (hides expectation marker, readout, mismatch bar, slider; `expect` is a hidden set-point) and `levers: [...]` (buttons and order; unlabelled wait = "Wait"). Defaults unchanged. Tested with a throwaway preset (shots viewed at phone width), documented in LESSON_FORMAT. Conventions fixed here: none.
+
+### 2026-10-24 sign fix
+Expected free energy in Level 1 (acting, map, challenge p3/p5 and summary) rebuilt as G = mismatch - information gained, lower is better (was sign-flipped, bigger better). New numbers: p3 (mismatch, info) rock (2,0), look (4,3), stay (7,0) -> scores 2/1/7, answer 1; day two look (4,0) -> 4, rock wins; p5 flee (3,0), look closer (5,3) -> 3/2, answer 2; sharp belief: look closer ~5 > 3. Source prose checked (sources/VERIFIED.md), no formula used. Conventions fixed here: sign of G; words mismatch / information gained.

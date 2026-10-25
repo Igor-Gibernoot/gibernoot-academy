@@ -12,7 +12,7 @@ cards:
 
       - A creature keeps its sensations inside the range that keeps it alive. When what it **expects** to sense differs from what it **senses**, the gap is a **prediction error**, and it has two levers: *change its mind* (perceive) or *change the world* (act).
       - Perceiving is guessing the **hidden cause** (a thing you cannot observe, only infer) behind your sensations, mixing the **prior** (what you expected beforehand) with the **evidence** (how well each cause explains the sensation).
-      - Acting is choosing a **policy** (a sequence of actions), scored on how well its predicted sensations fit your goals and on how much uncertainty it is expected to resolve.
+      - Acting is choosing a **policy** (a sequence of actions), scored (lower is better) by the mismatch between its predicted sensations and your goals, minus how much uncertainty it is expected to resolve.
 
       1. A fish in water that is too warm: error and the two levers.
       2. A splash in a pond: three possible causes, and a reversal.
@@ -167,48 +167,50 @@ cards:
     tag: Problem 3 · Go, or look first?
     title: "A cold creature with two plans"
     body: |
-      A creature is cold and wants to warm up. It knows one sunny rock, but it is **not sure** the rock is still warm, and it has never explored the far side of the clearing, where there might be a better spot. It compares three **policies** (sequences of actions). Each gets two numbers, bigger is better:
+      A creature is cold and wants to warm up. It knows one sunny rock, but it is **not sure** the rock is still warm, and it has never explored the far side of the clearing, where there might be a better spot. It compares three **policies** (sequences of actions). Each gets two numbers:
 
-      - **Fit to goals**: how well the sensations it is predicted to bring match "warm".
-      - **Uncertainty resolved**: how much the policy is expected to teach it about what it does not yet know (looking is informative).
+      - **Mismatch**: how far the sensations it is predicted to bring are from "warm". Lower is better.
+      - **Information gained**: how much the policy is expected to teach it about what it does not yet know (looking is informative). Higher is better.
 
-      | Policy | Fit to goals | Uncertainty resolved |
+      The score of a policy is its **expected free energy**, and lower is better:
+      $$\text{score} = \text{mismatch} - \text{information gained}$$
+
+      | Policy | Mismatch | Information gained |
       |---|---|---|
-      | Walk straight to the known rock | $6$ | $0$ |
+      | Walk straight to the known rock | $2$ | $0$ |
       | Look around the clearing first, then decide | $4$ | $3$ |
-      | Stay put | $1$ | $0$ |
-
-      The score of a policy is the sum of its two numbers. (In the course this score is the *expected free energy* of the policy, where lower is better; here the sign is flipped so that bigger is better.)
+      | Stay put | $7$ | $0$ |
 
   - type: numeric
     id: p3-best
     tag: Problem 3 · Go, or look first?
     prompt: |
-      Three policies have (fit to goals, uncertainty resolved) of $(6,0)$ for going straight to the rock, $(4,3)$ for looking around first, and $(1,0)$ for staying put. The score is the sum of the two numbers and bigger is better. What is the score of the best policy?
-    answer: 7
+      Three policies have (mismatch, information gained) of $(2,0)$ for going straight to the rock, $(4,3)$ for looking around first, and $(7,0)$ for staying put. The score is the mismatch minus the information gained, and lower is better. What is the score of the best policy?
+    answer: 1
     wrong:
-      - { value: 6, feedback: 'That is the best on goals alone (the rock). Looking around has a lower fit ($4$) but resolves uncertainty ($3$), and the score counts both.' }
-      - { value: 3, feedback: 'You took only the uncertainty part. The score adds the fit to goals as well: $4+3$.' }
-    hint: Add the two numbers of each policy, then pick the biggest sum.
+      - { value: 2, feedback: 'That is the rock, the best on mismatch alone. Looking around has a bigger mismatch ($4$) but gains information ($3$), which is subtracted.' }
+      - { value: 7, feedback: 'You added the information gained ($4+3$). It must be subtracted: gaining information lowers the score. ($7$ is also the mismatch of staying put.)' }
+      - { value: 4, feedback: 'That is the mismatch of looking around, without subtracting the information gained ($3$).' }
+    hint: Subtract the information gained from the mismatch for each policy, then pick the smallest result.
     explanation: |
-      Rock: $6+0=6$. Looking around: $4+3=7$. Staying put: $1+0=1$. Looking around wins narrowly: giving up a little warmth ($4$ instead of $6$) pays for itself in what it teaches.
+      Rock: $2-0=2$. Looking around: $4-3=1$. Staying put: $7-0=7$. Looking around has the lowest score, so it wins narrowly: accepting a bigger mismatch ($4$ instead of $2$) pays for itself in what it teaches.
 
   - type: mcq
     id: p3-learned
     tag: Problem 3 · Go, or look first?
     prompt: |
-      Next day, the creature has explored everything and knows the clearing. Looking around now reveals nothing new: (fit, uncertainty resolved) becomes $(4,0)$, while the rock stays at $(6,0)$. Which policy wins now?
+      Next day, the creature has explored everything and knows the clearing. Looking around now reveals nothing new: (mismatch, information gained) becomes $(4,0)$, while the rock stays at $(2,0)$. Which policy wins now (lower score is better)?
     options:
-      - text: Walk straight to the rock, with $6$ against $4$.
+      - text: Walk straight to the rock, with score $2$ against $4$.
         correct: true
       - text: Look around first, because looking is always worth doing.
         feedback: |
-          Looking is worth only what it teaches. With nothing left to learn, its second number is $0$ and it only costs warmth ($4$ against $6$).
+          Looking is worth only what it teaches. With nothing left to learn, its information gained is $0$ and it only has the bigger mismatch ($4$ against $2$).
       - text: Both tie, because the creature is now certain.
         feedback: |
-          They tie only in the second part ($0$ and $0$). The first part still differs, $6$ against $4$, so the rock wins.
+          They tie only in the information gained ($0$ and $0$). The mismatch still differs, $2$ against $4$, so the rock has the lower score and wins.
     explanation: |
-      The same scoring rule now gives the opposite answer, because the uncertainty has been used up. No change of rule was needed, only a change in what there is left to learn.
+      The same scoring rule now gives the opposite answer, because the uncertainty has been used up (the rock scores $2$, looking around $4-0=4$). No change of rule was needed, only a change in what there is left to learn.
 
   - type: mcq
     id: p3-no-switch
@@ -220,7 +222,7 @@ cards:
         correct: true
       - text: There must be a hidden switch that turns off the exploring part on the second day.
         feedback: |
-          Nothing was turned off. The second part of the score simply became $0$ because there was nothing left to learn; the rule itself never changed.
+          Nothing was turned off. The information gained simply became $0$ because there was nothing left to learn; the rule itself never changed.
       - text: The creature should always explore first and only then exploit, in two separate stages.
         feedback: |
           That is a fixed schedule, and it would waste time looking when nothing is unknown (day two). The single score decides case by case.
@@ -348,44 +350,45 @@ cards:
     tag: Problem 5 · A rustle in the bushes
     title: "Two plans"
     body: |
-      With that spread of belief, the creature compares two **policies**. Each gets two numbers, bigger is better, and the score is their sum (the sign-flipped expected free energy, as before):
+      With that spread of belief, the creature compares two **policies**. Each gets two numbers, and the score is the expected free energy, mismatch minus information gained, lower is better (as before):
 
-      | Policy | Fit to goals | Uncertainty resolved |
+      | Policy | Mismatch | Information gained |
       |---|---|---|
-      | Flee at once | $5$ | $0$ |
-      | Look closer first | $3$ | $3$ |
+      | Flee at once | $3$ | $0$ |
+      | Look closer first | $5$ | $3$ |
 
-      Fleeing fits the goal "stay safe" well whatever the cause. Looking closer risks a little, but it would tell the creature which cause it is.
+      Fleeing has a small mismatch with the goal "stay safe" whatever the cause. Looking closer risks a little, but it would tell the creature which cause it is.
 
   - type: numeric
     id: p5-policy
     tag: Problem 5 · A rustle in the bushes
     prompt: |
-      Flee has (fit to goals, uncertainty resolved) of $(5,0)$ and look closer has $(3,3)$. Score each as the sum of its two numbers. What is the score of the better policy?
-    answer: 6
+      Flee has (mismatch, information gained) of $(3,0)$ and look closer has $(5,3)$. Score each as mismatch minus information gained (lower is better). What is the score of the better policy?
+    answer: 2
     wrong:
-      - { value: 5, feedback: 'That is fleeing, which wins on goals alone. Looking closer has a lower fit ($3$) but resolves uncertainty ($3$), and the score counts both.' }
-      - { value: 3, feedback: 'You took only one part of looking closer. Add both: $3+3$.' }
-    hint: Add the two numbers for each policy, then compare the sums.
+      - { value: 3, feedback: 'That is fleeing, which wins on mismatch alone. Looking closer has a bigger mismatch ($5$) but gains information ($3$), which is subtracted.' }
+      - { value: 8, feedback: 'You added the information gained ($5+3$). It must be subtracted.' }
+      - { value: 5, feedback: 'That is the mismatch of looking closer, without subtracting the information gained ($3$).' }
+    hint: Subtract the information gained from the mismatch for each policy, then compare.
     explanation: |
-      Flee: $5+0=5$. Look closer: $3+3=6$. Looking closer wins, because the creature's belief is spread out ($31\%$, $31\%$, $38\%$), so there is a lot to learn.
+      Flee: $3-0=3$. Look closer: $5-3=2$. Looking closer has the lower score and wins, because the creature's belief is spread out ($31\%$, $31\%$, $38\%$), so there is a lot to learn.
 
   - type: mcq
     id: p5-sharp
     tag: Problem 5 · A rustle in the bushes
     prompt: |
-      Now the creature's senses become **sharp**: the evidence for the three causes becomes $0.05$, $0.05$, $0.9$ (priors unchanged), so the belief in the fox rises to about $82\%$. The fit-to-goals numbers stay $5$ and $3$. What changes in the choice between the policies?
+      Now the creature's senses become **sharp**: the evidence for the three causes becomes $0.05$, $0.05$, $0.9$ (priors unchanged), so the belief in the fox rises to about $82\%$. The mismatch numbers stay $3$ and $5$. What changes in the choice between the policies?
     options:
-      - text: Little is left to learn, so looking closer resolves almost nothing and its score falls below fleeing ($5$); the creature flees.
+      - text: Little is left to learn, so looking closer gains almost no information, so its score rises toward its mismatch ($5$), above fleeing ($3$); the creature flees.
         correct: true
       - text: Nothing changes, since the scores of policies do not depend on how certain the creature is.
         feedback: |
-          They do. The second part, uncertainty resolved, is exactly about what the creature still does not know. When the belief is sharp, that part shrinks.
+          They do. The information gained is exactly about what the creature still does not know. When the belief is sharp, that part shrinks and the score of looking closer goes up.
       - text: Looking closer wins by even more, because sharp senses make looking more informative.
         feedback: |
           Sharp senses make *the rustle itself* informative, so there is less left for a closer look to add. Looking pays off when the belief is spread out, not when it is already concentrated.
     explanation: |
-      Products: cat $0.5\times0.05=0.025$, dog $0.3\times0.05=0.015$, fox $0.2\times0.9=0.18$, summing to $0.22$, so the fox gets $0.18/0.22\approx 82\%$. With one cause nearly settled, a closer look would teach little: uncertainty resolved falls toward $0$ and looking closer drops to about $3$, below fleeing at $5$. Perception and action are one loop: what you believe changes which action is worth taking.
+      Products: cat $0.5\times0.05=0.025$, dog $0.3\times0.05=0.015$, fox $0.2\times0.9=0.18$, summing to $0.22$, so the fox gets $0.18/0.22\approx 82\%$. With one cause nearly settled, a closer look would teach little: the information gained falls toward $0$ and the score of looking closer rises to about $5-0=5$, above fleeing at $3$. Perception and action are one loop: what you believe changes which action is worth taking.
 
   - type: text
     id: summary
@@ -397,12 +400,12 @@ cards:
       - **A belief is prior times evidence, rescaled.** With hidden causes (things you cannot observe, only infer from their effects on your senses), the **prior** is what you expected beforehand and the **evidence** is how well each cause explains the sensation. Each cause's share of belief follows
         $$\text{belief} \;\propto\; \text{prior} \times \text{evidence},$$
         then the shares are rescaled to add up to $100\%$. For priors $0.6, 0.3, 0.1$ and evidence $0.2, 0.5, 0.9$ the products are $0.12, 0.15, 0.09$ and the beliefs $33\%, 42\%, 25\%$. Neither the prior alone nor the evidence alone decides the belief: flatten the evidence to $0.4, 0.5, 0.6$ (noisy senses) and the first cause wins with $53\%$.
-      - **A policy is scored on two parts that simply add.** A **policy** is a sequence of actions. Its score (the expected free energy, here written with the sign flipped so that bigger is better) adds
-        $$\begin{aligned}\text{score} &= \text{fit to goals}\\ &\quad+\text{uncertainty resolved}\end{aligned}$$
-        Looking around wins while there is still something to learn; once the surroundings are known, the second part is $0$ and the policy that heads for the goal wins, with no separate exploration switch.
+      - **A policy is scored on two parts that simply add.** A **policy** is a sequence of actions. Its score, the **expected free energy** (lower is better), is
+        $$\begin{aligned}\text{score} &= \text{mismatch}\\ &\quad-\text{information gained}\end{aligned}$$
+        where the mismatch is how far the predicted sensations are from the preferred ones. With (mismatch, information gained) of $(2,0)$ for going straight to a known rock and $(4,3)$ for looking around first, the scores are $2$ and $4-3=1$: looking wins while there is something to learn. Once the surroundings are known, looking is $(4,0)$, scores $4$, and the rock wins, with no separate exploration switch.
       - **Surprise is distance outside the safe range, not the size of the error.** For a creature safe between $36$ and $38\,{}^\circ\text{C}$ that expects $37\,{}^\circ\text{C}$, surprise grows with the distance outside the band:
         $$\begin{aligned}\text{distance} &= \max(36-s,\,0,\,s-38)\\ s &= \text{sensed value}\end{aligned}$$
         Sensing $37, 35, 41, 28$ gives errors $0, 2, -4, 9$ but distances $0, 1, 3, 8$, so the order from least to most surprising is $37, 35, 41, 28$. A big error inside a wide band is harmless, and a creature at low surprise still has to keep acting against drift.
-      - **Belief and action are one loop.** For a rustle with priors $0.5, 0.3, 0.2$ and evidence $0.3, 0.5, 0.9$ the beliefs are $31\%, 31\%, 38\%$ (products $0.15, 0.15, 0.18$). While the belief is spread out, looking closer ($3+3=6$) beats fleeing ($5+0=5$); when the senses are sharp and the belief concentrates ($82\%$), little is left to learn and fleeing wins.
+      - **Belief and action are one loop.** For a rustle with priors $0.5, 0.3, 0.2$ and evidence $0.3, 0.5, 0.9$ the beliefs are $31\%, 31\%, 38\%$ (products $0.15, 0.15, 0.18$). While the belief is spread out, looking closer ($5-3=2$) beats fleeing ($3-0=3$); when the senses are sharp and the belief concentrates ($82\%$), little is left to learn, looking closer scores about $5$, and fleeing wins.
 
       **Next:** the Level 1 review replays these ideas as spaced questions. Then Level 2 asks the question this tour left open: what must a creature carry inside it to predict its sensations at all, and how does it turn that into a single quantity, free energy, to minimise?
