@@ -19,7 +19,7 @@ cards:
       2. A steady state: entropy before and after a restoring flow, and the flow itself.
       3. Perceiving or acting: what each does to $F$, with numbers.
       4. A flow that keeps a distribution still: checking a steady state.
-      5. Policies as beliefs: scoring with $G$ and the softmax.
+      5. Policies as beliefs: the softmax of $-G$, the precision $\gamma$, and why preferring makes a policy likely.
 
   # ---------------------------------------------------------------- Problem 1
   - type: text
@@ -289,3 +289,207 @@ cards:
         - { label: "Act and perceive", q: exact, likelihood: [0.9, 0.1] }
     body: |
       Check your numbers. **Perceive** moves $Q$ to the exact posterior of the low reading; **Act only** changes the reading to high glucose but leaves $Q$; **Act and perceive** does both. Watch the three bars: the free energy $F$, the surprise (the floor) and the gap.
+
+  # ---------------------------------------------------------------- Problem 4
+  - type: text
+    id: p4-setup
+    tag: Problem 4 · A flow that keeps a distribution still
+    title: "Is this flow really a steady state?"
+    body: |
+      A one-dimensional state $x$ is pushed by a flow $f(x)$ and shaken by random kicks of strength set by a diffusion constant $\Gamma>0$. Its probability density $p(x,\tau)$ at time $\tau$ obeys the **Fokker-Planck equation**
+      $$\partial_\tau p=\partial_x\big(\Gamma\,\partial_x p-f\,p\big).$$
+      The bracket is a **current**: diffusion spreads probability out, the flow carries it along. The density is **still** when the current vanishes.
+
+      The creature wants to stay at $x=0$, with a Gaussian steady state $p=N(0,\sigma^2)$ of variance $\sigma^2=0.5$, so its surprise is $\mathfrak{I}(x)=-\ln p(x)=\dfrac{x^2}{2\sigma^2}+\text{const}$. Take $\Gamma=3$ and the flow $f=-\Gamma\,\partial_x\mathfrak{I}$.
+
+  - type: numeric
+    id: p4-flow
+    tag: Problem 4 · A flow that keeps a distribution still
+    prompt: |
+      A state $x$ has steady state $p=N(0,\sigma^2)$ with $\sigma^2=0.5$, surprise $\mathfrak{I}(x)=-\ln p(x)$, and diffusion $\Gamma=3$. The flow is $f=-\Gamma\,\partial_x\mathfrak{I}$. What is $f$ at $x=1.5$?
+    answer: -9
+    tolerance: 0.05
+    answerText: '-9'
+    wrong:
+      - { value: -4.5, tolerance: 0.05, feedback: 'You used $\partial_x\mathfrak{I}=x$, as if $\sigma^2=1$. For a Gaussian $\mathfrak{I}=x^2/(2\sigma^2)+\text{const}$, so $\partial_x\mathfrak{I}=x/\sigma^2$.' }
+      - { value: 9, tolerance: 0.05, feedback: 'Right size, wrong sign. The flow **descends** the surprise (minus sign), so at $x>0$ it points back towards $0$.' }
+      - { value: -3, tolerance: 0.05, feedback: 'That is $-\partial_x\mathfrak{I}$ without the factor $\Gamma=3$.' }
+    hint: Differentiate the surprise of a Gaussian first, then multiply by $-\Gamma$.
+    explanation: |
+      $$\begin{aligned}\partial_x\mathfrak{I}&=\frac{x}{\sigma^2}=\frac{1.5}{0.5}=3,\\ f&=-\Gamma\,\partial_x\mathfrak{I}=-3\times3=-9.\end{aligned}$$
+      So $f=-6x$ everywhere: a restoring flow towards $0$, stronger where the surprise rises faster.
+
+  - type: numeric
+    id: p4-current
+    tag: Problem 4 · A flow that keeps a distribution still
+    prompt: |
+      Same state: steady-state candidate $p=N(0,0.5)$, so $p(1.5)=e^{-2.25}/\sqrt{\pi}=0.05946$ and $\partial_x p=-\dfrac{x}{\sigma^2}\,p$. Diffusion is $\Gamma=3$. A **weaker** flow $f=-3x$ is tried instead. What is the current $\Gamma\,\partial_x p-f\,p$ at $x=1.5$?
+    answer: -0.268
+    tolerance: 0.004
+    answerText: '-0.268'
+    wrong:
+      - { value: 0, tolerance: 0.004, feedback: 'The current vanishes only for the flow $f=-\Gamma x/\sigma^2=-6x$. The flow $-3x$ is half as strong, so diffusion wins.' }
+      - { value: -0.535, tolerance: 0.004, feedback: 'That is the diffusion term $\Gamma\,\partial_x p$ alone. You must subtract $f\,p$.' }
+      - { value: -0.803, tolerance: 0.004, feedback: 'You subtracted $f\,p$ with the wrong sign, adding to the diffusion term instead of cancelling part of it. Here $f=-4.5<0$, so $-f\,p=+0.268$.' }
+    hint: 'First $\Gamma\,\partial_x p=3\times(-3)\times0.05946$, then $f(1.5)\,p$.'
+    explanation: |
+      $$\begin{aligned}\Gamma\,\partial_x p&=3\times(-3)\times0.05946=-0.535,\\ f\,p&=(-4.5)(0.05946)=-0.268,\\ \Gamma\,\partial_x p-f\,p&=-0.535+0.268=-0.268.\end{aligned}$$
+      The current is not zero: diffusion pushes probability outwards faster than the flow brings it back, so $N(0,0.5)$ would spread. With $f=-6x$ instead, $f\,p=-9\times0.05946=-0.535$ and the current is exactly $0$.
+
+  - type: mcq
+    id: p4-which
+    tag: Problem 4 · A flow that keeps a distribution still
+    prompt: |
+      For $p=N(0,0.5)$ and $\Gamma=3$, which flow makes the current $\Gamma\,\partial_x p-f\,p$ vanish for **every** $x$, so that $p$ is a steady state?
+    options:
+      - text: '$f=-6x$.'
+        correct: true
+      - text: '$f=-3x$.'
+        feedback: |
+          Too weak: the current at $x=1.5$ is $-0.268$ (diffusion beats the flow), so the density spreads. It would be right for $\sigma^2=1$.
+      - text: '$f=+6x$.'
+        feedback: |
+          The right size with the wrong sign: this flow pushes away from $0$ and adds to the diffusion instead of cancelling it.
+      - text: '$f=-12x$.'
+        feedback: |
+          Too strong: it squeezes the density, and the current at $x=1.5$ is $+0.535$. The balance needs $f\,p$ to cancel $\Gamma\,\partial_x p$ exactly, not to beat it.
+    explanation: |
+      Since $\partial_x p=-(x/\sigma^2)\,p$, the current is $\big(-\Gamma x/\sigma^2-f\big)p$, which vanishes for all $x$ exactly when $f=-\Gamma x/\sigma^2=-\Gamma\,\partial_x\mathfrak{I}$. With $\Gamma=3$ and $\sigma^2=0.5$ this is $-6x$: the flow is the diffusion times the slope of the surprise, with a minus sign.
+
+  - type: mcq
+    id: p4-circ
+    tag: Problem 4 · A flow that keeps a distribution still
+    prompt: |
+      In two dimensions, the flow $f=-(\Gamma-\mathsf{Q})\nabla\mathfrak{I}$ adds to $-\Gamma\nabla\mathfrak{I}$ a term with an antisymmetric matrix $\mathsf{Q}$. Compared with the flow $-\Gamma\nabla\mathfrak{I}$ alone, what does this extra term change?
+    options:
+      - text: 'The steady state is the same, $p=e^{-\mathfrak{I}}$; only the path to it changes (the creature also circulates along lines of equal surprise).'
+        correct: true
+      - text: 'The steady state changes: circulation adds a second peak away from the minimum of $\mathfrak{I}$.'
+        feedback: |
+          The extra term $\mathsf{Q}\nabla\mathfrak{I}$ has zero divergence against $p$ (by antisymmetry), so it adds no current that the balance has to cancel. The steady state is still $e^{-\mathfrak{I}}$.
+      - text: 'The extra term makes the creature climb the surprise, so it leaves the steady state.'
+        feedback: |
+          The extra term is **perpendicular** to $\nabla\mathfrak{I}$ ($\nabla\mathfrak{I}\cdot\mathsf{Q}\nabla\mathfrak{I}=0$ for antisymmetric $\mathsf{Q}$), so it neither raises nor lowers the surprise; only $\Gamma$ descends it.
+    explanation: |
+      Because $\mathsf{Q}^{\top}=-\mathsf{Q}$, the vector $\mathsf{Q}\nabla\mathfrak{I}$ is perpendicular to $\nabla\mathfrak{I}$: it moves along level sets of the surprise. This adds the **same** steady state with a different route, a swirl around the minimum.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: text
+    id: p5-setup
+    tag: Problem 5 · Policies as beliefs
+    title: "A heron chooses where to fish"
+    body: |
+      A heron prefers to see a bite: preferences $(0.8,\,0.2)$ for the outcomes (bite, no bite). The hidden state is fish or no fish, and a bite has likelihood $0.9$ if fish and $0.1$ if not. It compares three **policies** $\pi$: *river* (expects fish with probability $0.9$), *pond* ($0.5$), *ditch* ($0.1$). Each policy is scored by its expected free energy $G$ (minimised): the widget gives $G=0.326,\ 0.548,\ 1.214$ nats for river, pond, ditch.
+
+  - type: widget
+    id: p5-widget
+    review: false
+    widget: policy-scorer
+    config:
+      outcomes: ["bite", "no bite"]
+      C: [0.8, 0.2]
+      states: ["fish", "no fish"]
+      likelihood: [[0.9, 0.1], [0.1, 0.9]]
+      editable: false
+      showPragmatic: false
+      showEpistemic: false
+      showGamma: true
+      policies:
+        - { name: "river", qx: [0.9, 0.1] }
+        - { name: "pond", qx: [0.5, 0.5] }
+        - { name: "ditch", qx: [0.1, 0.9] }
+      presets:
+        - { label: "Three spots", policies: [{ qx: [0.9, 0.1] }, { qx: [0.5, 0.5] }, { qx: [0.1, 0.9] }] }
+    body: |
+      The heron's three policies and their scores. Look at the bars $P(\pi)$ and try the precision $\gamma$ slider, then answer the next cards by calculation.
+
+  - type: numeric
+    id: p5-soft
+    tag: Problem 5 · Policies as beliefs
+    prompt: |
+      Three policies have expected free energies $G=0.326,\ 0.548,\ 1.214$ nats. The prior over policies is $P(\pi)=\sigma(-G(\pi))$, with precision $\gamma=1$. What is the probability of the first policy (lowest $G$)?
+    answer: 0.452
+    tolerance: 0.004
+    answerText: '0.452'
+    wrong:
+      - { value: 0.722, tolerance: 0.004, feedback: 'That is $e^{-0.326}$, the numerator without the normalisation. Divide by the sum over **all three** policies.' }
+      - { value: 0.333, tolerance: 0.004, feedback: 'Uniform would hold only if the $G$ were equal (or $\gamma=0$). A lower $G$ gets more weight.' }
+    hint: 'Softmax: exponentiate each $-G$, then divide by the total.'
+    explanation: |
+      $$\begin{aligned}e^{-0.326}&=0.722,\\ e^{-0.548}&=0.578,\\ e^{-1.214}&=0.297,\\ \text{sum}&=1.597,\\ P(\text{river})&=0.722/1.597=0.452.\end{aligned}$$
+      The other two get $0.362$ and $0.186$.
+
+  - type: numeric
+    id: p5-gamma
+    tag: Problem 5 · Policies as beliefs
+    prompt: |
+      With the same $G=0.326,\ 0.548,\ 1.214$, the heron uses a higher precision, $P(\pi)=\sigma(-\gamma G(\pi))$ with $\gamma=3$. What is the probability of the lowest-$G$ policy now?
+    answer: 0.631
+    tolerance: 0.004
+    answerText: '0.631'
+    wrong:
+      - { value: 0.452, tolerance: 0.004, feedback: 'That is the value for $\gamma=1$. The exponents are now $-3G$, not $-G$.' }
+      - { value: 0.376, tolerance: 0.004, feedback: 'That is $e^{-3\times0.326}$, the numerator. Divide by the sum of the three exponentials.' }
+    hint: 'Use the exponents $-3\times0.326,\ -3\times0.548,\ -3\times1.214$.'
+    explanation: |
+      $$\begin{aligned}e^{-0.978}&=0.376,\\ e^{-1.644}&=0.193,\\ e^{-3.642}&=0.026,\\ \text{sum}&=0.595,\\ P&=0.376/0.595=0.631.\end{aligned}$$
+      Sharper than $0.452$: the ranking is the same, but the lowest $G$ now wins more clearly (the others get $0.325$ and $0.044$).
+
+  - type: mcq
+    id: p5-limits
+    tag: Problem 5 · Policies as beliefs
+    prompt: |
+      In $P(\pi)=\sigma(-\gamma G(\pi))$ with fixed $G$ values that are all different, what happens at the two extremes of the precision?
+    options:
+      - text: 'At $\gamma\to0$ all policies are equally probable; at $\gamma\to\infty$ all the probability goes to the policy with the lowest $G$.'
+        correct: true
+      - text: 'At $\gamma\to0$ all the probability goes to the lowest $G$; at $\gamma\to\infty$ the choice is uniform.'
+        feedback: |
+          Reversed. At $\gamma=0$ every exponent $-\gamma G$ is $0$, so every policy weighs $1$ and the choice is uniform.
+      - text: 'At $\gamma\to\infty$ every probability goes to $0$, because $e^{-\gamma G}\to0$.'
+        feedback: |
+          Each exponential vanishes, but at different speeds: the ratio of two is $e^{\gamma(G'-G)}$, which grows without limit, so after normalising the lowest $G$ takes everything.
+    explanation: |
+      At $\gamma=0$ the exponents vanish and $P=1/3$ each. The ratio of two policies is $e^{\gamma(G(\pi')-G(\pi))}$, so as $\gamma$ grows the lowest $G$ dominates. Here at $\gamma=10$ the probabilities are about $0.90,\ 0.10,\ 0.0001$. The precision sets the sharpness, never the ranking.
+
+  - type: mcq
+    id: p5-why
+    tag: Problem 5 · Policies as beliefs
+    prompt: |
+      The heron has no table of "values". It only holds the **prior belief** that it will see a bite with probability $0.8$. Why does the policy with the lowest $G$ end up the most probable?
+    options:
+      - text: 'Because $G$ measures how far the outcomes a policy is expected to bring are from the outcomes it believes it will get (its preferences), and a policy probability is a belief: it believes it will do what brings those outcomes. Acting that way gathers evidence for its own model: **self-evidencing**.'
+        correct: true
+      - text: 'Because a separate reward function is added to $G$ and the policy with the largest reward is picked.'
+        feedback: |
+          There is no separate reward: the preference is part of the model as a prior, and it already sits inside $G$ (in the risk term).
+      - text: 'Because the heron picks a policy at random and $G$ only measures how sure it is of the pick.'
+        feedback: |
+          The pick is not uniform: $P(\pi)=\sigma(-G)$ weights each policy by its $G$, so low-$G$ policies are likelier. Only $\gamma=0$ would be random.
+    explanation: |
+      Preferences are a prior over outcomes, so a policy expected to lead to preferred outcomes has a low risk and a low $G$, and $P(\pi)=\sigma(-G)$ makes it likely. Believing "I will see a bite" and acting so that the bite becomes likely is the same thing seen from belief and from action: the creature samples the data that are evidence for its model.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      - **A Markov blanket separates inside from outside.** A creature has external states $x$, internal states $\mu$, sensory states $y$ and active states $u$, and the blanket is $b=(u,y)$. Given the blanket the inside and the outside are independent:
+        $$p(\mu,x\mid b)=p(\mu\mid b)\,p(x\mid b)$$
+        In a small table this means the joint of $\mu$ and $x$ factorises for each value of $b$, yet without conditioning on $b$ they are correlated; a leak between $\mu$ and $x$ would break the factorisation.
+      - **A creature that persists keeps a low-entropy steady state.** With surprise $\mathfrak{I}(y)=-\ln p(y)$ of a sensation $y$, its entropy is the average surprise
+        $$H[p]=\mathbb{E}_p[\mathfrak{I}(y)],$$
+        and the flow of the state $x$ that keeps a distribution $p(x)$ still, with diffusion matrix $\Gamma$ (symmetric, positive) and an antisymmetric circulation matrix $\mathsf{Q}$ (so $\mathsf{Q}^{\top}=-\mathsf{Q}$, never the approximate posterior $Q$), is
+        $$f=-(\Gamma-\mathsf{Q})\nabla\mathfrak{I}$$
+        The $\Gamma$ part descends the surprise $\mathfrak{I}(x)=-\ln p(x)$; the $\mathsf{Q}$ part circulates along its level sets, changing the path but not the steady state. Check: for $p=N(0,\sigma^2)$ the Fokker-Planck current $\Gamma\nabla p-fp$ vanishes exactly when $f=-\Gamma x/\sigma^2$.
+      - **Free energy is a bound, and its two moves are perception and action.** With a guess $Q(x)$ of the hidden state $x$ and the sensation $y$ (minimised),
+        $$\mathfrak{I}(y)\le F=\mathfrak{I}(y)+D_{\mathrm{KL}}[Q(x)\,\|\,P(x\mid y)]$$
+        Perception moves $Q$ and shrinks the divergence; action changes $y$ itself and lowers the surprise floor.
+      - **Policies are beliefs, scored by $G$.** For policies $\pi$ with expected free energy $G(\pi)$ (minimised) and precision $\gamma$ (default $1$),
+        $$P(\pi)=\sigma(-\gamma G(\pi))=\frac{e^{-\gamma G(\pi)}}{\sum_{\pi'}e^{-\gamma G(\pi')}}$$
+        The lowest $G$ is most probable; $\gamma\to0$ gives a uniform choice and $\gamma\to\infty$ puts all weight on the minimum of $G$. Preferences are a prior belief, so the creature believes it will get what it prefers: **self-evidencing**.
+
+  - type: text
+    id: closing
+    title: What comes next
+    body: |
+      You now have the whole frame of the chapter: a blanket, a steady state, free energy as a bound, and policies as beliefs. What is still missing is the **generative model** itself, the concrete recipe for how hidden states cause observations and how they change in time. The next topic builds it for active inference: the prior, the likelihood and the transitions that make $F$ and $G$ computable.

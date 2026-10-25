@@ -65,6 +65,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - ch03-blanket-traps: fish out of water $P=0.001\to6.9$ nats; shelter $2\cdot3+8\cdot0.2=7.6$ vs staying 10; $G=1,2\to0.731$; blanket $(u,y)$ = interface, neither external nor internal.
 - ch03-map: 11 boxes (ids blanket, steady, selfev, flow, bound, least, percact, depth, policy, school); flow box $f=-(\Gamma-\mathsf{Q})\nabla_x\mathfrak{I}$.
 - ch03-challenge (A): toy blanket b fair coin, p(mu=1|b)=0.3/0.8, p(x=1|b)=0.6/0.2 (cov -0.05); leak table 0.5,0.1,0.1,0.3 gives 75%; p=N(0,4), Gamma=2, f(6)=-3; Gamma=1, grad I=(2,1), Q=[[0,3],[-3,0]] gives f=(1,-7), rate -5; glucose: gap 0.080, act-only F=1.427, action share 1.046, posterior after eating (0.973,0.027).
+- ch03-challenge (B): P4 sigma^2=0.5, Gamma=3, f=-6x, p(1.5)=0.05946, current -0.268 for f=-3x, 0 for f=-6x; P5 heron C=(0.8,0.2), G=0.326,0.548,1.214, P(gamma=1)=0.452,0.362,0.186, gamma=3 gives 0.631.
 
 ## Chapter 4
 
