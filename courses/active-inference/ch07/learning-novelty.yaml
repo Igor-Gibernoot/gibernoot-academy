@@ -1,0 +1,321 @@
+id: ch07-learning-novelty
+title: "Learning and Novelty: Counting Your Way to a Better Model"
+kind: concept
+own: |
+  - **Learning is inference about parameters, on a slower timescale.** Setup: a discrete model with hidden states $s$, outcomes $o$, policies $\pi$, and a likelihood matrix $\mathbf A$ (entry $A_{ij}=P(o=i\mid s=j)$: row $i$ an outcome, column $j$ a state). Give the parameters $\theta=(A,B,C,D,E)$ their own prior $P(\theta)$ and posterior $Q(\theta)$. Free energy then gains one KL term for the parameters (and one for the policies):
+    {{ $$\begin{aligned}F=&\ \mathbb E_{Q(\pi,\theta)}\big[F(\pi,\theta)\big]\\&+D_{KL}\big[Q(\theta)\,\|\,P(\theta)\big]\\&+D_{KL}\big[Q(\pi)\,\|\,P(\pi)\big]\end{aligned}$$ }}
+    States change within a trial; parameters change over many trials.
+  - **Dirichlet beliefs are counts.** The Dirichlet distribution is conjugate to the categorical one (prior and posterior have the same form). Write $\mathbf a$ for the matrix of counts of $\mathbf A$ ($a_{ij}$: how often outcome $i$ was seen with state $j$) and $a_{0j}=\sum_k a_{kj}$ for the total of column $j$. After outcome $o_\tau$ (a one-hot vector) with belief $\mathbf s_\tau$ about the state, learning is activity-dependent plasticity:
+    {{ $$\mathbf a\leftarrow\mathbf a+\sum_\tau o_\tau\otimes\mathbf s_\tau$$ }}
+    and the beliefs about $\mathbf A$ are
+    {{ $$\begin{aligned}\mathbb E_Q[A_{ij}]&\approx\frac{a_{ij}}{a_{0j}}\\\mathbb E_Q[\ln A_{ij}]&=\psi(a_{ij})-\psi(a_{0j})\end{aligned}$$ }}
+    where $\psi$ is the digamma function. Example: counts all $1$, outcome $o_1$ seen with belief $\mathbf s=(0.9,0.1)$ gives $\mathbb E[A_{11}]=1.9/2.9=0.655$.
+  - **Novelty is the information gain about the parameters.** Seeing outcome $i$ in state $j$ adds $1$ to $a_{ij}$; the resulting change of belief is
+    {{ $$\begin{aligned}W_{ij}&=D_{KL}\big[\mathrm{Dir}(\mathbf a_{\cdot j}+e_i)\,\|\,\mathrm{Dir}(\mathbf a_{\cdot j})\big]\\&=\ln\frac{a_{0j}}{a_{ij}}+\psi(a_{ij}+1)-\psi(a_{0j}+1)\\&\approx\frac1{2a_{ij}}-\frac1{2a_{0j}}\end{aligned}$$ }}
+    where $e_i$ is the one-hot vector of outcome $i$. Large counts mean little novelty: a coin flipped 100 times is far less novel than one flipped 5 times.
+  - **Salience is to inference what novelty is to learning.** With beliefs about parameters, the expected free energy of a policy $\pi$ (outcomes $\tilde o$, states $\tilde s$ over time) gains the parameter information gain:
+    {{ $$\begin{aligned}G(\pi)=&-\underbrace{\mathbb E\,D_{KL}\big[Q(\tilde s\mid\pi,\tilde o)\,\|\,Q(\tilde s\mid\pi)\big]}_{\text{salience}}\\&-\underbrace{\mathbb E\,D_{KL}\big[Q(\theta\mid\tilde o,\tilde s)\,\|\,Q(\theta)\big]}_{\text{novelty}}\\&-\underbrace{\mathbb E_{Q(\tilde o\mid\pi)}\big[\ln P(\tilde o\mid C)\big]}_{\text{pragmatic value}}\end{aligned}$$ }}
+    Without preferences, novelty dominates and the creature keeps going where its counts are small: it does not revisit well-known places (inhibition of return).
+  - **Structure learning** (Bayesian model reduction): ask whether removing parameters would lower the free energy, using only the posterior of the full model. It can run offline, as in sleep.
+cards:
+  - type: text
+    id: hook
+    title: "Two coins"
+    body: |
+      So far the model itself was fixed: the likelihood $\mathbf A$, the transitions $\mathbf B$ and the rest were given. A real creature must **learn** them from experience. This lesson asks how, and which experiences are worth having.
+
+      Here is the question, before any maths. You have two coins and **no idea whether either is fair**. The first, coin A, has been flipped only $5$ times in the past. The second, coin B, has been flipped $100$ times. Your goal is only to *learn* about a coin, not to win anything. You may flip one coin once.
+
+  - type: mcq
+    id: guess
+    prompt: |
+      Two coins, both of unknown fairness. Coin A was flipped $5$ times so far, coin B $100$ times. You may flip one of them once, only to learn as much as possible about its fairness. Which flip is expected to change your beliefs more?
+    options:
+      - text: 'The flip of coin A (only $5$ past flips): one more flip is a large share of what you know about it.'
+        correct: true
+      - text: 'The flip of coin B ($100$ past flips): it has the most data behind it, so it is the most informative.'
+        feedback: |
+          Tempting: more data sounds like more information. But the *past* data of coin B already fixed your belief about it. One extra flip among $100$ barely moves it, so there is little left to learn from that flip.
+      - text: 'Neither: a single flip of any coin teaches the same, one bit of heads or tails.'
+        feedback: |
+          A flip always has one outcome, but what matters is how much that outcome **changes your belief about the coin**. That depends on how firm the belief already is.
+    explanation: |
+      The change of belief is large when the belief is soft (few past flips) and small when it is firm (many). The rest of the lesson makes this exact.
+
+  - type: widget
+    id: two-coins-widget
+    review: false
+    widget: dirichlet-counts
+    config:
+      outcomes: [heads, tails]
+      columns:
+        - { name: "coin A (5 flips)", a: [3, 4], truth: [0.5, 0.5] }
+        - { name: "coin B (100 flips)", a: [53, 49], truth: [0.5, 0.5] }
+      sample: true
+      options:
+        - { name: flip coin A, s: [1, 0] }
+        - { name: flip coin B, s: [0, 1] }
+    body: |
+      Each coin is described by **counts**: how many heads and tails have been seen (here $3$ and $4$ for coin A, $53$ and $49$ for coin B, each count starting from one imaginary flip of each side). The bars show the believed chance of each side. The **novelty** of an outcome is how much the belief about the coin would change if that outcome occurred; the bottom bars give the expected novelty of each flip. Compare the two coins, then flip a few times.
+
+  - type: mcq
+    id: why-counts
+    prompt: |
+      A coin has counts $(3,4)$ for (heads, tails). Another has $(53,49)$. One more head is observed on each. Why does the first belief move much more?
+    options:
+      - text: 'The believed chance of heads is $a/(a+b)$ for counts $a$ (heads) and $b$ (tails); one extra count shifts the small-total fraction a lot and the large-total fraction hardly at all.'
+        correct: true
+      - text: 'The first coin is less fair, so a head is more surprising on it.'
+        feedback: |
+          Both coins are close to fair ($3/7=0.43$ and $53/102=0.52$ for heads). The difference is the **size of the counts**, not the fairness.
+      - text: 'The first coin has fewer outcomes, so each one carries more weight.'
+        feedback: |
+          Both have two outcomes. What differs is the total number of past flips: $7$ against $102$ in the counts.
+    explanation: |
+      After one more head, coin A goes from $3/7=0.429$ to $4/8=0.500$ (a move of $0.071$), coin B from $53/102=0.520$ to $54/103=0.524$ (a move of $0.005$). The move scales like one over the total count.
+
+  - type: text
+    id: learning-is-inference
+    title: "Learning is inference about parameters"
+    body: |
+      Perception inverts a generative model to infer **hidden states** from outcomes. Learning does the same for the model's **parameters** $\theta=(A,B,C,D,E)$: the likelihood matrix, the transitions, the preferences, the initial prior and the habit prior. We give them prior beliefs $P(\theta)$ and look for posteriors $Q(\theta)$, passing from prior to posterior in the same Bayesian way.
+
+      The two differ in **timescale**. States change within a trial; parameters (what each state usually looks like, how things usually move) should change only over many trials, and may only be updated once the states have been inferred.
+
+      Free energy simply gains terms for the new unknowns. With $F(\pi,\theta)$ the free energy of policy $\pi$ for given parameters and $D_{KL}$ the KL divergence ($\ge0$, zero only when the two distributions agree):
+
+      $$\begin{aligned}F=&\ \mathbb E_{Q(\pi,\theta)}\big[F(\pi,\theta)\big]\\&+D_{KL}\big[Q(\theta)\,\|\,P(\theta)\big]\\&+D_{KL}\big[Q(\pi)\,\|\,P(\pi)\big]\end{aligned}$$
+
+  - type: mcq
+    id: kl-theta
+    prompt: |
+      A creature's free energy is $F=\mathbb E_{Q(\pi,\theta)}[F(\pi,\theta)]+D_{KL}[Q(\theta)\|P(\theta)]+D_{KL}[Q(\pi)\|P(\pi)]$, where $\theta$ are the model parameters, $Q(\theta)$ the beliefs about them after the data and $P(\theta)$ the beliefs before. What does the term $D_{KL}[Q(\theta)\|P(\theta)]$ do when $F$ is minimised?
+    options:
+      - text: 'It penalises moving the beliefs about the parameters away from their prior: the data must pay for any change of mind (a complexity cost, as for states).'
+        correct: true
+      - text: 'It rewards moving the beliefs about the parameters as far as possible from the prior, to learn quickly.'
+        feedback: |
+          A KL divergence is $\ge0$ and $F$ is *minimised*, so the term is a cost. The accuracy term $\mathbb E[F(\pi,\theta)]$ pays for the move; the KL term charges for it.
+      - text: 'It makes the parameters equal to the observations.'
+        feedback: |
+          Nothing forces equality with single observations. The balance of the two terms gives a posterior between the prior and the data.
+    explanation: |
+      Exactly as for states, free energy trades **accuracy** against **complexity** (the KL from prior to posterior). For parameters, this is what makes learning gradual: one odd observation does not overwrite a firm prior.
+
+  - type: text
+    id: dirichlet
+    title: "Counts: the Dirichlet distribution"
+    body: |
+      Which prior is convenient for the parameters of a **categorical** distribution (a distribution over a few outcomes, like $A_{\cdot j}$, the column of outcome probabilities for state $j$)? One that is **conjugate** to it: when Bayes' rule multiplies this prior by a categorical likelihood, the posterior is the same kind of distribution. For categorical distributions this is the **Dirichlet distribution** $\mathrm{Dir}(\mathbf a)$, described by positive numbers $a_{ij}$ called **concentration parameters**, which we read as **counts** (or pseudo-counts, if the prior is "as if" something had been seen).
+
+      Notation: $a_{ij}$ is the count of outcome $i$ seen in state $j$ (row $i$, column $j$ of $\mathbf A$), and $a_{0j}=\sum_k a_{kj}$ is the total count of column $j$. Then the believed probability of each outcome is its share of the counts,
+
+      $$\mathbb E_Q[A_{ij}]\approx\frac{a_{ij}}{a_{0j}}$$
+
+      (it is exact for the mean of a Dirichlet distribution). The **update** after seeing outcome $o_\tau$ (a one-hot vector: $1$ on the outcome seen, $0$ elsewhere) with belief $\mathbf s_\tau$ about the state is the outer product $o_\tau\otimes\mathbf s_\tau$ (a matrix with entries $o_i s_j$) added to the counts:
+
+      $$\mathbf a\leftarrow\mathbf a+\sum_\tau o_\tau\otimes\mathbf s_\tau$$
+
+      It is **activity-dependent plasticity**: the connection between an outcome and a state strengthens when they are active together.
+
+  - type: mcq
+    id: conjugate
+    prompt: |
+      A model has a categorical likelihood for the outcomes (a column of $\mathbf A$). We want a prior over its probabilities such that, after Bayes' rule with the observed outcomes, the posterior is again the same kind of distribution (so that learning is just a change of numbers). Which prior is the right choice?
+    options:
+      - text: 'A Dirichlet distribution: it is the conjugate prior of the categorical distribution, and its parameters are counts that simply increase.'
+        correct: true
+      - text: 'A Gaussian distribution: it is the most common and the posterior stays Gaussian.'
+        feedback: |
+          A Gaussian is conjugate to a Gaussian likelihood, not to a categorical one. Moreover a Gaussian puts weight on negative numbers and on sums different from $1$, which are not probabilities.
+      - text: 'A categorical distribution itself, with one probability per outcome.'
+        feedback: |
+          We need a distribution *over probability vectors*, not a probability vector. A categorical distribution gives probabilities to outcomes; a Dirichlet gives probabilities to categorical distributions.
+    explanation: |
+      "Conjugate" means that the prior and posterior share a form, so the posterior is found by updating a few parameters: here, adding counts.
+
+  - type: widget
+    id: coin-widget
+    review: false
+    widget: dirichlet-counts
+    config:
+      outcomes: [heads, tails]
+      columns:
+        - { name: coin, a: [1, 1], truth: [0.7, 0.3] }
+      editable: true
+      observe: true
+      sample: true
+      options:
+        - { name: flip the coin, s: [1] }
+      labels: { sample: "Flip the {name}" }
+    body: |
+      One coin, counts $(1,1)$: a flat prior ("as if" one head and one tail had been seen). **Flip** it several times (it favours heads) and watch the counts, the believed probabilities $a_{ij}/a_{0j}$ and the novelty of each side fall as the total grows. Use $+1/-1$ to set counts by hand.
+
+  - type: numeric
+    id: soft-update
+    prompt: |
+      A likelihood matrix $\mathbf A$ has two outcomes (rows) and two states (columns). The counts start all equal to $1$. Outcome $1$ is observed, $o=(1,0)$, while the belief about the state is $\mathbf s=(0.9,0.1)$ (state $1$ is probably the cause). The update is $\mathbf a\leftarrow\mathbf a+o\otimes\mathbf s$, and the believed probability of outcome $i$ in state $j$ is $a_{ij}/a_{0j}$ with $a_{0j}$ the sum of column $j$. What is the new believed $A_{11}$ (outcome $1$ given state $1$)?
+    answer: 0.655
+    tolerance: 0.002
+    answerText: '1.9/2.9 ≈ 0.655'
+    wrong:
+      - { value: 0.667, feedback: 'That is $2/3$: it adds a whole count $1$ instead of the belief weight $0.9$. The count grows by the *belief* $s_1=0.9$.' }
+      - { value: 0.5, feedback: 'That is the old value $1/2$, before the update.' }
+    hint: 'Column $1$ gains $o_i\,s_1$ in each row $i$: how much in row $1$ and in row $2$? Then divide by the new column sum.'
+    explanation: |
+      Row $1$ of column $1$ gains $1\cdot0.9$ and row $2$ gains $0\cdot0.9=0$, so column $1$ becomes $(1.9,\,1)$ with sum $a_{01}=2.9$, and $A_{11}=1.9/2.9=0.655$. Column $2$ gains $(0.1,0)$ and becomes $(1.1,1)$: the weak belief in state $2$ teaches it a little too.
+
+  - type: numeric
+    id: old-data
+    prompt: |
+      A coin has been flipped $100$ times with $50$ heads and $50$ tails, so its counts are $(50,50)$ (heads, tails). It is then flipped $5$ more times and gives $5$ heads. A new, unused coin starts from counts $(1,1)$ and gives the same $5$ heads. What is the believed probability of heads, $a_{\text{heads}}/a_0$, for the **old** coin after the $5$ heads?
+    answer: 0.524
+    tolerance: 0.002
+    answerText: '55/105 ≈ 0.524'
+    wrong:
+      - { value: 0.857, feedback: 'That is the *new* coin: $6/7$. The old coin has $100$ flips behind it, so $5$ heads barely move it.' }
+      - { value: 1, feedback: 'Counts never make a probability exactly $1$: tails keep their $50$ counts.' }
+    hint: 'Add $5$ to the heads count, then divide by the new total.'
+    explanation: |
+      Old coin: $(55,50)$, total $105$, so $55/105=0.524$. New coin: $(6,1)$, total $7$, so $6/7=0.857$. The same five heads are a small nudge for a coin with a long history and a landslide for a new one: the counts already stored decide how much one observation matters.
+
+  - type: mcq
+    id: expected-log
+    prompt: |
+      Free energy needs the **expected log** of the likelihood probabilities, $\mathbb E_Q[\ln A_{ij}]$, under a Dirichlet belief with counts $a_{ij}$ and column total $a_{0j}$. Here $\psi$ is the digamma function (derivative of the log of the gamma function). Which statement is right?
+    options:
+      - text: '$\mathbb E_Q[\ln A_{ij}]=\psi(a_{ij})-\psi(a_{0j})$: a difference of digamma functions, close to but not equal to $\ln(a_{ij}/a_{0j})$.'
+        correct: true
+      - text: '$\mathbb E_Q[\ln A_{ij}]=\ln(a_{ij}/a_{0j})$ exactly: the expectation can be moved inside the log.'
+        feedback: |
+          The log is not linear, so $\mathbb E[\ln A]\ne\ln\mathbb E[A]$ (by Jensen, $\mathbb E[\ln A]$ is smaller). For counts $(3,4)$: $\mathbb E[\ln A_{11}]=\psi(3)-\psi(7)=-0.950$, but $\ln(3/7)=-0.847$.
+      - text: '$\mathbb E_Q[\ln A_{ij}]=\ln a_{ij}-\ln a_{0j}+1$: the expectation adds a constant.'
+        feedback: |
+          No constant is added. The correction is the difference between $\psi(a)$ and $\ln a$, which is about $-1/(2a)$ and vanishes for large counts.
+    explanation: |
+      Because $\psi(x)\approx\ln x-1/(2x)$, the two expressions agree for large counts (for $(53,49)$: $-0.659$ against $-0.655$) and differ for small ones. Small counts mean wider uncertainty, which the expected log registers.
+
+  - type: text
+    id: novelty
+    title: "Novelty: how much will this outcome teach about $\\mathbf A$?"
+    body: |
+      Learning is itself worth planning for. If outcome $i$ is observed in state $j$, the count $a_{ij}$ grows by $1$. The change of belief this causes, a KL divergence between two Dirichlet distributions (the new belief against the old), is the **novelty** of that pair:
+
+      $$\begin{aligned}W_{ij}&=D_{KL}\big[\mathrm{Dir}(\mathbf a_{\cdot j}+e_i)\,\|\,\mathrm{Dir}(\mathbf a_{\cdot j})\big]\\&=\ln\frac{a_{0j}}{a_{ij}}+\psi(a_{ij}+1)-\psi(a_{0j}+1)\end{aligned}$$
+
+      where $\mathbf a_{\cdot j}$ is column $j$ of the counts and $e_i$ the one-hot vector of outcome $i$. Using $\psi(x)\approx\ln x-1/(2x)$ it simplifies to
+
+      $$W_{ij}\approx\frac1{2a_{ij}}-\frac1{2a_{0j}}$$
+
+      Novelty is **large for small counts** and falls toward $0$ as counts grow. For coin A (counts $(3,4)$, outcome heads) the exact value is $0.088$; for coin B (counts $(53,49)$) it is $0.0045$.
+
+  - type: numeric
+    id: novelty-approx
+    prompt: |
+      A coin has counts $(a_{\text{heads}},a_{\text{tails}})=(3,4)$, so $a_0=7$. Use the approximation $W\approx\frac1{2a_{ij}}-\frac1{2a_{0j}}$ for the novelty of observing **heads** ($a_{ij}=3$). Compare with the same coin after $100$ flips, counts $(53,49)$, $a_0=102$, observing heads ($a_{ij}=53$). What is the approximate novelty of heads for the $100$-flip coin?
+    answer: 0.0045
+    tolerance: 0.0003
+    answerText: '1/106 - 1/204 ≈ 0.0045'
+    wrong:
+      - { value: 0.095, feedback: 'That is the value for the $5$-flip coin, $1/6-1/14=0.095$.' }
+      - { value: 0.0094, feedback: 'You forgot the subtraction of $1/(2a_{0j})=1/204$.' }
+    hint: 'Compute $1/(2\cdot53)$ and $1/(2\cdot102)$ separately, then subtract.'
+    explanation: |
+      $1/106-1/204=0.00943-0.00490=0.0045$ (exact $0.00451$). The $5$-flip coin gives $1/6-1/14=0.095$ (exact $0.088$): about $20$ times more novelty for the same outcome. The approximation is crude for tiny counts and excellent for large ones.
+
+  - type: text
+    id: eq-7-11
+    title: "Novelty in the expected free energy"
+    body: |
+      With beliefs about parameters, the expected free energy of a policy gains an extra term, the **parameter information gain**, written here with $\tilde o,\tilde s$ for outcomes and states over the whole trajectory:
+
+      $$\begin{aligned}G(\pi)&=\underbrace{D_{KL}\big[Q(\tilde o\mid\pi)\,\|\,P(\tilde o\mid C)\big]}_{\text{risk}}\\&\quad+\underbrace{\mathbb E_{Q(\tilde s\mid\pi)}\big[H[P(\tilde o\mid\tilde s)]\big]}_{\text{ambiguity}}\\&\quad+\underbrace{\mathbb E\big[\ln Q(\theta)-\ln P(\theta\mid\tilde o,\tilde s)\big]}_{\text{parameter information gain}}\end{aligned}$$
+
+      Rearranged, the three pieces we met become **salience**, **novelty** and **pragmatic value**:
+
+      $$\begin{aligned}G(\pi)=&-\underbrace{\mathbb E\,D_{KL}\big[Q(\tilde s\mid\pi,\tilde o)\,\|\,Q(\tilde s\mid\pi)\big]}_{\text{salience}}\\&-\underbrace{\mathbb E\,D_{KL}\big[Q(\theta\mid\tilde o,\tilde s)\,\|\,Q(\theta)\big]}_{\text{novelty}}\\&-\underbrace{\mathbb E_{Q(\tilde o\mid\pi)}\big[\ln P(\tilde o\mid C)\big]}_{\text{pragmatic value}}\end{aligned}$$
+
+      Salience was already there (the expected information gain about **states**); pragmatic value is the preferences. The new term is novelty, the expected information gain about **parameters**. All three enter with a minus sign, since a lower $G$ is a better policy. Both salience and novelty measure the change of belief you expect from an experiment: **the more the beliefs change, the better the experiment**.
+
+  - type: mcq
+    id: salience-novelty
+    prompt: |
+      In the expected free energy $G=-\text{salience}-\text{novelty}-\text{pragmatic value}$, what does each term measure?
+    options:
+      - text: 'Salience: expected information gain about the hidden **states** (perception). Novelty: expected information gain about the **parameters** of the model (learning). Pragmatic value: how well the outcomes match the preferences.'
+        correct: true
+      - text: 'Salience: gain about the parameters. Novelty: gain about the states. Pragmatic value: how well the outcomes match the preferences.'
+        feedback: |
+          Swapped. Salience is the old, state-based term (the KL from the belief about states before the outcome to the belief after it); novelty is the new, parameter-based one.
+      - text: 'Salience and novelty both measure the match with preferences; pragmatic value measures information gain.'
+        feedback: |
+          Preferences enter only through the pragmatic term $\ln P(\tilde o\mid C)$. Salience and novelty are the two kinds of information gain: about states and about parameters.
+    explanation: |
+      "Salience is to inference what novelty is to learning": both are expected changes of belief, one in the fast variables (states) and one in the slow ones (parameters).
+
+  - type: widget
+    id: tiles-widget
+    review: false
+    widget: dirichlet-counts
+    config:
+      outcomes: [black, white]
+      columns:
+        - { name: "tile 1", a: [1, 1], truth: [0.9, 0.1] }
+        - { name: "tile 2", a: [1, 1], truth: [0.1, 0.9] }
+        - { name: "tile 3", a: [1, 1], truth: [0.5, 0.5] }
+        - { name: "tile 4", a: [1, 1], truth: [0.8, 0.2] }
+      visitNext: true
+      options:
+        - { name: go to tile 1, s: [1, 0, 0, 0] }
+        - { name: go to tile 2, s: [0, 1, 0, 0] }
+        - { name: go to tile 3, s: [0, 0, 1, 0] }
+        - { name: go to tile 4, s: [0, 0, 0, 1] }
+    body: |
+      A myopic creature sees only the colour of the tile it stands on; each tile is a column of $\mathbf A$ (what colour I would see if I went there). It has **no preferences**, so it picks the tile of largest expected novelty (starred). Press the visit button repeatedly and watch the counts and the stars. The creature never decides where to look by liking a colour.
+
+  - type: mcq
+    id: inhibition
+    prompt: |
+      A creature with no preferences stands on a floor of tiles. The counts $(a_{\text{black}},a_{\text{white}})$ for what it would see on each tile are: tile 1 $(6,5)$ (visited several times), tiles 2, 3 and 4 each $(1,1)$ (never visited). It picks the next tile by the largest expected novelty. Where does it go, and why?
+    options:
+      - text: 'To one of tiles 2, 3 or 4: their counts are small, so a visit changes beliefs more (expected novelty about $0.19$ for $(1,1)$ against $0.043$ for $(6,5)$). Known tiles are not revisited.'
+        correct: true
+      - text: 'Back to tile 1: it has the most data, so it is the safest place to look.'
+        feedback: |
+          Safety is a *preference*, and there are none. With no preferences only the expected information gain counts, and a tile already seen $10$ times has little left to teach.
+      - text: 'It chooses at random: without preferences all tiles are equivalent.'
+        feedback: |
+          The tiles are not equivalent: they differ in how well known they are, and the novelty term measures exactly that.
+    explanation: |
+      Expected novelty of a column is $\sum_i (a_{ij}/a_{0j})W_{ij}$: for $(1,1)$ it is $0.193$ exactly, for $(6,5)$ it is $0.043$ (the approximation gives $0.25$ and $0.045$). **Inhibition of return**, the tendency not to go back to places just inspected, is not added by hand: it comes out of minimising $G$ with novelty.
+
+  - type: text
+    id: structure
+    title: "Beyond parameters: learning the structure"
+    body: |
+      Learning parameters keeps the model's **structure** fixed (which states, which outcomes, which connections). A further step asks whether the structure itself should be larger or smaller: would the free energy be lower if some elements of, say, a likelihood matrix were removed? That is a question of **model comparison**.
+
+      Fitting every candidate model separately would be costly. **Bayesian model reduction** avoids it: from the posterior of the **single full model**, it gives the free energy and the posterior of any reduced model (one with different priors on the parameters, for example prior counts set to zero for some entries) *without refitting*. It needs only the posterior counts and the two sets of priors.
+
+      Because it needs no new data, it can run **offline**. This has been proposed as a model of **sleep** and of resting activity: no new observations arrive, yet the model is simplified and refined.
+
+  - type: mcq
+    id: model-reduction
+    prompt: |
+      A creature fitted one rich model to its data, with many connections between states and outcomes. Later, with **no new data**, it asks which connections it could drop. Bayesian model reduction answers by:
+    options:
+      - text: 'Computing, from the posterior of the single full model, the free energy of reduced models with some connections removed, without fitting each reduced model from scratch; it can therefore run offline (as proposed for sleep).'
+        correct: true
+      - text: 'Collecting new data for every possible reduced model and refitting each one.'
+        feedback: |
+          That is exactly the expensive route the method avoids: a single full model is inverted and the reduced ones are scored from its posterior.
+      - text: 'Always removing the connections with the smallest counts, since they carry least information.'
+        feedback: |
+          Small counts are a hint, not the rule. What decides is whether the free energy of the reduced model is lower (a better balance of accuracy and complexity), which the method computes.
+    explanation: |
+      The point is efficiency and offline use: one inversion, many comparisons. This is why it is a natural tool for the "sleep" metaphor, where beliefs are tidied without fresh observations.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** what if the world has structure on **several timescales**, like letters, words and sentences? Next we stack models so that a higher level supplies the context for a lower one: hierarchical, or deep, inference.
