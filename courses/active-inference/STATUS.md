@@ -7,12 +7,13 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
 
 ## Current (2026-10-24)
 
-- **State:** Level 1 fully built. Level 2: `ch02-perception-inference` built (16 cards, belief-mixer relabelled). Source 2.2 (box 2.1, Eq. 2.1) verified; Eq. 2.2-2.4 and Table 2.1 not yet.
-- **Next unit:** `ch02-approximate-inference` (why exact Bayes is too costly; approximate posterior $Q$). Then `ch02-action-inference` (homeostat), WIDGET `free-energy-bound`, `ch02-free-energy`, `ch02-free-energy-bound`, `ch02-free-energy-traps`, `ch02-expected-free-energy`, WIDGET `policy-scorer`, `ch02-efe-parts`, `ch02-efe-decomposition`, `ch02-intuition-free-energy`, `ch02-map`, `ch02-challenge` (two sessions).
+- **State:** Level 1 fully built. Level 2: `ch02-perception-inference` (16 cards) and `ch02-approximate-inference` (16 cards) built. Source 2.2 (box 2.1, Eq. 2.1) and 2.3 / Fig. 2.2 verified; Eq. 2.2-2.4 and Table 2.1 not yet.
+- **Next unit:** `ch02-action-inference` (action as inference, homeostat widget exists). Then WIDGET `free-energy-bound`, `ch02-free-energy`, `ch02-free-energy-bound`, `ch02-free-energy-traps`, `ch02-expected-free-energy`, WIDGET `policy-scorer`, `ch02-efe-parts`, `ch02-efe-decomposition`, `ch02-intuition-free-energy`, `ch02-map`, `ch02-challenge` (two sessions).
 - **Notation:** Level 2 uses $x$ (hidden state), $y$ (observation) as in section 2.2; "likelihood" = $P(y\mid x)$, "evidence" = $P(y)$. Precision $\gamma$ not yet PDF-verified. See CONVENTIONS Chapter 2.
 - **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
 
 ## Log
+- 2026-10-24 ch02-approximate-inference (concept, 16 cards, no widget): counting hook 2^200, numerics 1024 / 243 / 15, add-one-cause mcq, Q as product of separate Q_i, traps (Q is not P(x|y); not random), rain/sprinkler lost correlations (0.25 vs 0), generative process vs model (Fig. 2.2). Deviations: hook uses on/off causes (10 x 20 moments = 200) instead of K causes per step; Fig. 2.2 prose swaps x and x* vs figure, lesson follows figure. Conventions fixed here: x* (world) vs x (model); K^n counts; rain/sprinkler numbers; mean field only named as the idea.
 - 2026-10-24 ch02-perception-inference (concept, 16 cards): hook on what is multiplied, belief-mixer relabelled (toggle off), names prior/likelihood/posterior, generative model, product rule, order+build derivation of Bayes, normaliser = evidence, numeric 0.36 and 42%/25%, two traps. Deviation decided: book's x/y instead of plan's s/o. Conventions fixed here: x, y notation; likelihood vs evidence words; garden numbers.
 - 2026-10-24 ch01-persist fix: homeostat reduced-mode card after the guess card (guess first, widget tests it; 15 cards); room now cold (22 C) in hook and guess; widget drift 0.04 (0.08 left 'Keep acting' at ~35.6, outside the band); headless: 'Do nothing' ends outside, 'Keep acting' inside (~36.3); roadmap table uses level/lesson titles; ASCII loop diagram fine at phone width. No new source formulas. Conventions fixed here: persist demo room 22, drift 0.04, actRate 0.8.
 

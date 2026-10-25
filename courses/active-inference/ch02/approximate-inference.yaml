@@ -1,0 +1,221 @@
+id: ch02-approximate-inference
+title: Optimal Inference Is Too Expensive
+kind: concept
+own: |
+  - **Exact Bayes needs a huge sum.** Setup: an organism receives an **observation** $y$ and holds a model with a **prior** $P(x)$ over a **hidden state** $x$ and a **likelihood** $P(y\mid x)$. Its **posterior** is $P(x\mid y)=P(x)P(y\mid x)/P(y)$, and the **evidence** $P(y)$ adds the joint probability over every hidden state:
+    $$P(y)=\sum_x P(x)\,P(y\mid x)$$
+    If $x$ is made of $n$ separate causes with $K$ values each, the sum has {{ $K^n$ terms }}, which grows exponentially: $3^5=243$, $2^{200}\approx10^{60}$. Brains have limited time and energy, so exact inference is **intractable**.
+  - **An approximate posterior** $Q(x)$ is a belief about the hidden state $x$ that the organism **chooses from a family that is cheap to hold**, for instance one separate belief $Q_i$ per cause:
+    {{ $$Q(x)=Q_1(x_1)\,Q_2(x_2)\cdots Q_n(x_n)$$ }}
+    This needs about $nK$ numbers instead of $K^n$. It is a design choice, not a measurement.
+  - **Two traps.** $Q(x)$ is {{ not the true posterior $P(x\mid y)$ }}: it is the best belief the family allows, so it may differ from it. And approximate does not mean random: $Q$ is still {{ chosen by a rule, to stay as close to $P(x\mid y)$ as the family permits }}.
+  - **What must be given up:** when $Q$ is a product of separate beliefs it cannot express **correlations between causes**. Example: two causes, "rain" and "sprinkler", $y$ = "the grass is wet". If the exact posterior says "exactly one of them did it, 50/50", then $Q$ (rain $0.5$, sprinkler $0.5$) wrongly gives $0.25$ to "both".
+  - **Model versus world.** The **generative process** is the true way the world produces the observation $y$ from a hidden state $x^*$; the **generative model** is the organism's own guess at it, with hidden states $x$ that need not match the world's. Inference is *subjective*: optimal for the model, not guaranteed to match reality.
+cards:
+  - type: text
+    id: hook
+    title: "Can a brain add that many things?"
+    body: |
+      So far you have the exact recipe for perceiving: write down every possible cause, weigh each by prior times likelihood, add up, divide. For one cat, dog or fox it takes three lines.
+
+      But a real brain tracks much more than a rustle. Suppose it keeps track of **10 hidden causes** (each simply *on* or *off*) at each of **20 moments** in time. Before we ask what the recipe costs, we need to count how many different *situations* the world could be in.
+
+  - type: mcq
+    id: count-situations
+    prompt: |
+      A model has $200$ hidden causes ($10$ causes at each of $20$ moments), and each cause is either on or off. How many different complete situations (one on/off value for every cause) are there?
+    hint: |
+      With one cause there are $2$ situations. Add a second: each of those $2$ can be paired with on or off.
+    options:
+      - text: '$2^{200}$, about $10^{60}$'
+        correct: true
+      - text: '$2\times 200 = 400$'
+        feedback: |
+          That counts the values once each, as if the causes took turns. A situation fixes **all** causes at once, so the choices multiply, not add.
+      - text: '$200^2 = 40\,000$'
+        feedback: |
+          Squaring would be right for two variables that each take $200$ values. Here there are $200$ variables that each take $2$ values, which is the other way round.
+      - text: '$2^{20}\approx 10^6$'
+        feedback: |
+          That is the number of situations for $20$ causes. There are $200$ of them, and each extra cause doubles the count again.
+    explanation: |
+      Each cause doubles the count: $1$ cause gives $2$ situations, $2$ causes give $4$, $3$ give $8$. For $200$ causes, $2\times2\times\dots\times2 = 2^{200}$. Since $2^{10}=1024\approx10^3$, we get $2^{200}=(2^{10})^{20}\approx(10^3)^{20}=10^{60}$.
+
+  - type: text
+    id: recall
+    title: "Recall: the sum in the evidence"
+    body: |
+      Recall from Bayes' rule: for an **observation** $y$ (what the senses deliver) and a **hidden state** $x$ (the cause we cannot see), the posterior is
+      $$P(x\mid y)=\frac{P(x)\,P(y\mid x)}{P(y)}.$$
+      The denominator, the **evidence** (probability of the observation now), is found by adding the joint probability over every hidden state:
+      $$P(y)=\sum_x P(x)\,P(y\mid x).$$
+      In the garden there were three terms in this sum, one per animal. When $x$ is a complete situation of many causes, **one term per complete situation** is needed.
+
+  - type: numeric
+    id: terms-ten
+    prompt: |
+      A model has $10$ hidden causes, each on or off, and a likelihood $P(y\mid x)$ for every situation $x$. How many terms does the sum $P(y)=\sum_x P(x)\,P(y\mid x)$ have?
+    answer: 1024
+    answerText: '1024'
+    hint: |
+      The sum has one term for each complete situation. Each cause doubles the number of situations.
+    explanation: |
+      One term per complete situation: $2^{10}=1024$. For $10$ causes this is still easy for a computer, but the next question shows how fast it grows.
+
+  - type: numeric
+    id: terms-243
+    prompt: |
+      A model has $n=5$ hidden causes. Each cause can take $K=3$ values (say low, medium, high). How many terms does the sum for $P(y)$ have?
+    answer: 243
+    hint: |
+      Same counting as with on and off, but each cause now multiplies the count by $3$.
+    wrong:
+      - { value: 15, feedback: 'That is $5\times3$, the number of values written once each. A term fixes a value for **all five** causes together, so the counts multiply.' }
+      - { value: 125, feedback: 'That is $5^3$: five values for each of three causes. The roles are reversed: here there are $5$ causes with $3$ values each, which is $3^5$.' }
+    explanation: |
+      Each of the $5$ causes picks one of $3$ values, independently of the others: $3\times3\times3\times3\times3=3^5=243$. In general, $n$ causes with $K$ values each give
+      $$K^n$$
+      terms. Doubling the number of causes does not double the work, it squares it.
+
+  - type: mcq
+    id: add-one-cause
+    prompt: |
+      A model with $n$ causes of $K=3$ values each has just been made richer by adding **one more cause** (also $K=3$ values). By what factor does the number of terms in the evidence sum grow?
+    options:
+      - text: 'It is multiplied by $3$.'
+        correct: true
+      - text: 'It grows by $3$ (three more terms).'
+        feedback: |
+          Adding $3$ terms would be right if the new cause had its own separate sum. But every old situation can be paired with each of the $3$ new values, so every old term becomes three terms.
+      - text: 'It grows by one term.'
+        feedback: |
+          One new cause does not add a single situation; it splits every existing situation into as many as the new cause has values.
+    explanation: |
+      $K^{n+1}=K\cdot K^{n}$. Every extra cause multiplies the cost, so the cost explodes for any model rich enough to describe a real world. This is why we say the exact sum is **intractable**: it exists in principle, but takes more time and energy than any brain has.
+
+  - type: text
+    id: q-intro
+    title: "A belief we choose"
+    body: |
+      If the exact posterior is out of reach, the organism must settle for a belief it *can* compute and store. We name it **$Q(x)$**, the **approximate posterior** (the book's symbol): a belief about the hidden state $x$, chosen from a **family** of beliefs that is cheap to hold.
+
+      The simplest family keeps **one separate belief for each cause**, $Q_1(x_1), Q_2(x_2),\dots,Q_n(x_n)$, and multiplies them:
+      $$Q(x)=Q_1(x_1)\,Q_2(x_2)\cdots Q_n(x_n).$$
+      Here $x_i$ is the value of the $i$-th cause. The small number $i$ is a label, not a power.
+
+  - type: numeric
+    id: numbers-stored
+    prompt: |
+      Keep one separate belief $Q_i(x_i)$ for each of $n=5$ causes with $K=3$ values each. Counting one stored number for every value of every cause, how many numbers must be stored?
+    answer: 15
+    hint: |
+      Each cause needs its own list of $K$ numbers. Compare with the $243$ terms of the exact sum.
+    explanation: |
+      $5$ lists of $3$ numbers: $nK=5\times3=15$. A belief over complete situations would need one number per situation, $K^n=243$. The cheap family grows only as $nK$, so $200$ causes with $2$ values need $400$ numbers instead of $2^{200}$.
+
+  - type: mcq
+    id: trap-q-is-p
+    prompt: |
+      An organism holds an approximate posterior $Q(x)$ and has the true posterior $P(x\mid y)$ from Bayes' rule. Which statement is right?
+    options:
+      - text: '$Q(x)$ is the best belief available in a cheap family; it may differ from the true posterior $P(x\mid y)$.'
+        correct: true
+      - text: '$Q(x)$ is just another name for $P(x\mid y)$.'
+        feedback: |
+          Tempting, because both are "the belief about $x$ after seeing $y$". But $P(x\mid y)$ is what Bayes' rule gives exactly, while $Q(x)$ is what the organism actually holds, restricted to a family it can afford. They agree only if the family happens to contain the true posterior.
+      - text: '$Q(x)$ is the prior, because it is cheap to hold.'
+        feedback: |
+          The prior $P(x)$ is the belief **before** the observation. $Q(x)$ is a belief **after** it; it is meant to track the posterior, only approximately.
+    explanation: |
+      Two different objects: $P(x\mid y)$ is a mathematical result of the generative model, $Q(x)$ is the organism's working belief. Their difference is exactly what makes the approximation an approximation.
+
+  - type: mcq
+    id: trap-not-random
+    prompt: |
+      A student says: "An approximate posterior is a rough guess, so it is essentially random." What is wrong with this?
+    options:
+      - text: 'It is not random: $Q$ is chosen by a rule, to be as close to the true posterior as its family allows (we will score closeness soon).'
+        correct: true
+      - text: 'Nothing: approximate means the organism has no information about the cause.'
+        feedback: |
+          $Q$ is built from the observation $y$ and the model, so it carries a lot of information. Approximate means a *limited* belief, not an uninformed one.
+      - text: 'It is random, but only because the world is random.'
+        feedback: |
+          The world may be noisy, but that is what the likelihood already describes. The approximation is an extra restriction, and it is applied systematically, so the same data give the same $Q$.
+    explanation: |
+      Approximation is a deliberate trade: a belief of limited form, placed as well as it can be. Whether a particular $Q$ is good is not luck; we will soon need a number that scores it.
+
+  - type: text
+    id: correlations
+    title: "What a product of beliefs cannot say"
+    body: |
+      A belief that is a product of separate beliefs treats the causes as **independent**: knowing one tells you nothing about the other. Reality is often not like that.
+
+      Example. Two causes, **rain** and **sprinkler**, each on or off. You observe $y$ = "the grass is wet". Suppose the exact posterior says: either rain or sprinkler did it, not both and not neither, each with probability $0.5$:
+
+      | rain | sprinkler | $P(x\mid y)$ |
+      |---|---|---|
+      | on | off | $0.5$ |
+      | off | on | $0.5$ |
+      | on | on | $0$ |
+      | off | off | $0$ |
+
+      The two causes are **correlated**: if you learn it rained, the sprinkler becomes unlikely.
+
+  - type: numeric
+    id: both-q
+    prompt: |
+      Rain and sprinkler each have probability $0.5$ of being on in the exact posterior, which gives probability $0$ to "both on". An approximate posterior keeps one separate belief per cause, $Q(x)=Q_1(\text{rain})\,Q_2(\text{sprinkler})$, with $Q_1(\text{on})=0.5$ and $Q_2(\text{on})=0.5$. What probability does $Q$ give to "both on"?
+    answer: 0.25
+    hint: |
+      For a product of separate beliefs, the probability of both is the product of the two probabilities.
+    explanation: |
+      $Q(\text{both on})=0.5\times0.5=0.25$, while the exact posterior says $0$. Each separate belief is right about its own cause (each cause really is on half of the time), but the product cannot remember that the two causes are **linked**.
+
+  - type: mcq
+    id: what-given-up
+    prompt: |
+      A product of separate beliefs $Q_1(x_1)\cdots Q_n(x_n)$ is cheap to store. What must it give up?
+    options:
+      - text: 'Correlations between causes: it cannot say that learning one cause changes how likely another is.'
+        correct: true
+      - text: 'The ability to say how likely each single cause is.'
+        feedback: |
+          That it can still do: each $Q_i$ is a full belief about cause $i$. What a list of separate beliefs cannot store is how the causes relate to each other.
+      - text: 'The use of the observation $y$.'
+        feedback: |
+          The observation can still shape every $Q_i$. The restriction is on the **shape** of the belief, not on what it is allowed to learn from.
+      - text: 'Nothing: separate beliefs give exactly the same answer as the true posterior.'
+        feedback: |
+          Only if the causes really are independent after seeing $y$. In the rain and sprinkler example they are not, and the product wrongly gives $0.25$ to "both on".
+    explanation: |
+      The price of cheapness is **lost correlations**. It is worth paying when the correlations are weak or unimportant for what the organism must do; the next steps ask how to choose the best $Q$ within the family.
+
+  - type: text
+    id: process-model
+    title: "The model is not the world"
+    body: |
+      One more reason inference is only approximate. The world has its own causal structure, the **generative process**: a true hidden state $x^*$ that produces the observation $y$ the organism senses. The organism cannot see it. It uses its own guess, the **generative model**, with its own hidden states $x$, and infers them from $y$ by Bayes' rule.
+
+      The two sets of hidden states need not match: the world's might have $2$ dimensions while the organism's model has $5$, or one may be continuous and the other categorical. So even a perfect Bayesian calculation is **optimal for the model**, not guaranteed to match reality.
+
+  - type: mcq
+    id: model-vs-process
+    prompt: |
+      An organism infers the posterior over the hidden states $x$ of its generative model with no approximation at all. Does its belief necessarily match the true state $x^*$ of the world's generative process?
+    options:
+      - text: 'No: it is optimal for the organism''s model, which may differ from the process that really produced the observation.'
+        correct: true
+      - text: 'Yes: exact Bayes always recovers the true state of the world.'
+        feedback: |
+          Exact Bayes is optimal relative to the model it is given. If the model has wrong hidden states or wrong likelihoods (as in an illusion), exact inference reaches a confident but wrong belief.
+      - text: 'Yes, but only if the observation is noise-free.'
+        feedback: |
+          Noise is not the issue. The hidden states of the model and of the world may not even live in the same space, so there may be nothing in the model that equals $x^*$.
+    explanation: |
+      Two sources of imperfection stay separate: **approximation** (a cheap $Q$ instead of $P(x\mid y)$, this lesson) and **model mismatch** (the model is not the process). Illusions are an example of the second: a simple model that explains the stimulus better than the engineered truth.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** $Q$ is chosen to be as close as possible to the true posterior. To do that we need a **number that scores how good a $Q$ is**, and one that can be computed even though $P(x\mid y)$ cannot. That number is the free energy.
