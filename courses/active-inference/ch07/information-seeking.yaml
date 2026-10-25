@@ -1,0 +1,295 @@
+id: ch07-information-seeking
+title: "Information Seeking: Why Curiosity Falls Out of the Maths"
+kind: concept
+own: |
+  - **Epistemic value is the information an action is expected to give.** Setup: a creature with hidden states $\tilde s$ (what is there), outcomes $\tilde o$ (what it would sense), a likelihood $P(\tilde o\mid\tilde s)$, and a predicted belief $Q(\tilde s\mid\pi)$ and predicted outcomes $Q(\tilde o\mid\pi)$ if it follows the policy $\pi$ (a plan). With $H$ the entropy (uncertainty in nats), the epistemic value $\mathcal I(\pi)$ is the **posterior predictive entropy** (the total uncertainty about what I would sense) minus the **expected ambiguity** (the part that stays even if I knew the state):
+    {{ $$\mathcal I(\pi)=H[Q(\tilde o\mid\pi)]-\mathbb E_{Q(\tilde s\mid\pi)}H[P(\tilde o\mid\tilde s)]$$ }}
+    Look where there is a lot to find out, **and** where it can be found out: not at a random-number generator (maximum entropy, zero gain), not at a dim, ambiguous square (the streetlight effect), not at what is already certain.
+  - **Three equal forms.** The same quantity is a mutual information between states and outcomes, and the expected size of the belief update:
+    {{ $$\mathcal I(\pi)=\mathbb E_{Q(\tilde o\mid\pi)}D_{KL}\big[Q(\tilde s\mid\pi,\tilde o)\,\big\|\,Q(\tilde s\mid\pi)\big]$$ }}
+    where $Q(\tilde s\mid\pi,\tilde o)=P(\tilde o\mid\tilde s)Q(\tilde s\mid\pi)/Q(\tilde o\mid\pi)$ is the belief after seeing $\tilde o$ (Bayes' rule). It is $0$ when $P(\tilde o\mid\tilde s)$ is the same for every state (outcomes tell nothing), and largest when each state gives its own outcome. Fast-changing things have a broad predicted belief, so they have more to resolve and are checked more often.
+  - **With no preferences, $G$ is pure curiosity.** If $P(\tilde o\mid C)$ is uniform over $K$ outcomes, the pragmatic term is the constant $\ln K$ and
+    {{ $$G(\pi)=-\mathcal I(\pi)+\ln K$$ }}
+    so minimising $G$ maximises the information gain.
+  - **Precision as a gain.** A distribution over $s$ with prior $\mathbf D$ can be made more or less sure with an inverse temperature $\omega$:
+    {{ $$P(s\mid\omega)=\mathrm{Cat}\big(\sigma(\omega\ln\mathbf D)\big)$$ }}
+    where $\mathrm{Cat}$ is a categorical distribution and $\sigma$ the softmax. $\omega$ multiplies the log prior (a gain control): $\omega=0$ is uniform, $\omega=1$ is $\mathbf D$ itself, larger $\omega$ is sharper. For $\mathbf D=(0.6,0.3,0.1)$, $\omega=2$ gives $(0.783,0.196,0.022)$.
+cards:
+  - type: text
+    id: hook
+    title: "The lost keys"
+    body: |
+      A late-night puzzle. You have lost your keys somewhere along a dark street. There is one **streetlight**, and under it everything is perfectly visible. Elsewhere it is so dim that a glance would hardly tell you whether the keys are there or not.
+
+      You do not know where the keys are: they are about as likely to be under the light as in any dim spot. You can glance at one spot at a time. Do not use any maths yet: **where would you look first?**
+
+  - type: mcq
+    id: guess-streetlight
+    prompt: |
+      The keys are equally likely to be anywhere. A glance under the streetlight gives a clear answer (keys here or not). A glance at a dim spot gives a murky answer. Where do people actually look first, and what is the sensible reason?
+    options:
+      - text: 'Under the light: a glance there gives a trustworthy answer, so it resolves the most uncertainty per glance, even though the keys are no likelier to be there.'
+        correct: true
+      - text: 'In the dark: that is where the keys most probably are, since the light would already have shown them.'
+        feedback: |
+          The keys are assumed equally likely everywhere, so there is no reason to prefer the dark. The sensible reason to pick a place is how much a glance there will *teach* you, not how likely the keys are to be there.
+      - text: 'Anywhere: with no preference between places, every glance is as good as any other.'
+        feedback: |
+          Equal prior chances do not make glances equally useful. A glance at a spot where you cannot tell keys from shadow leaves you as uncertain as before, a glance under the light does not.
+    explanation: |
+      This is the **streetlight effect**: the sensible place to look is not where the keys are likeliest, but where a look is most *informative*. The rest of this lesson turns "most informative" into a number, the **epistemic value** of an action, and shows it is already hidden inside the expected free energy $G$ of the last lesson.
+
+  - type: text
+    id: two-uncertainties
+    title: "Two kinds of uncertainty"
+    body: |
+      Think of each glance as a small experiment (for example an eye movement, a *saccade*). The creature has a model with **hidden states** $\tilde s$ (what is out there, e.g. the colour of a square) and **outcomes** $\tilde o$ (what it would sense). The tilde marks the whole future sequence; here one step is enough. If it follows a plan (a **policy**) $\pi$, it predicts the outcomes $Q(\tilde o\mid\pi)$.
+
+      Two different uncertainties are in play. Recall that the **entropy** $H[p]=-\sum_k p_k\ln p_k$ measures how spread out a distribution is: $0$ if one outcome is certain, $\ln K$ if $K$ outcomes are equally likely.
+
+      - **Posterior predictive entropy** $H[Q(\tilde o\mid\pi)]$: how uncertain I am about **what I would sense** if I took this look. This is the *total* uncertainty.
+      - **Expected ambiguity** $\mathbb E_{Q(\tilde s\mid\pi)}H[P(\tilde o\mid\tilde s)]$: *even if I knew the hidden state*, how uncertain would the sensation still be? It is large for a dim, noisy view, and zero when each state always gives the same outcome.
+
+  - type: mcq
+    id: random-generator
+    prompt: |
+      A machine prints a new random digit every second, each digit equally likely, unrelated to anything else. You are asked: *should you spend a look at the machine to learn about the process behind it?* What is true of the **two** uncertainties for the next digit?
+    options:
+      - text: 'The predictive entropy is as high as it can be ($\ln 10$), but the ambiguity is just as high, so nothing can be resolved: looking is worthless.'
+        correct: true
+      - text: 'The predictive entropy is high, so there is a lot to learn: looking is very valuable.'
+        feedback: |
+          High predictive entropy only says the *next digit* is unpredictable. But the digit tells nothing about the process: even knowing the state exactly, the digit stays random. Uncertainty that cannot be resolved is not worth a look.
+      - text: 'The predictive entropy is zero, because the digits are generated by a known machine.'
+        feedback: |
+          A known machine that picks digits at random still leaves each digit uncertain: the entropy of ten equally likely digits is $\ln 10\approx2.30$ nats, not zero.
+      - text: 'The ambiguity is zero, because randomness is not ambiguity.'
+        feedback: |
+          Ambiguity is exactly the uncertainty left about the outcome once the state is known. For a random digit that is the full $\ln 10$.
+    explanation: |
+      A classic example: we are always uncertain about the next number of a random sequence, but looking at it never resolves our uncertainty about the process. The **useful** uncertainty is the part that *can* be resolved: total uncertainty minus the part that stays.
+
+  - type: text
+    id: eq-epistemic
+    title: "Epistemic value"
+    body: |
+      So the value of a look is the uncertainty that can be resolved, the difference of the two:
+
+      $$\mathcal I(\pi)=H[Q(\tilde o\mid\pi)]-\mathbb E_{Q(\tilde s\mid\pi)}H[P(\tilde o\mid\tilde s)]$$
+
+      $\mathcal I(\pi)$ is the **epistemic value** of the policy $\pi$ (in nats, never negative). It is the quantity inside the expected free energy of the last lesson: there,
+
+      $$G(\pi)=-\mathcal I(\pi)-\mathbb E_{Q(\tilde o\mid\pi)}\ln P(\tilde o\mid C)$$
+
+      the first term rewards information, the second (the pragmatic value) rewards preferred outcomes. Statisticians use this very expression to score experiments by the information they give (Lindley, 1956). **Choosing a look = choosing the best experiment.**
+
+  - type: numeric
+    id: qo-number
+    prompt: |
+      A square is in one of two hidden states, $s_1$ or $s_2$, and the creature believes $Q(s_1)=0.7$, $Q(s_2)=0.3$. A look shows one of two outcomes, $o_1$ or $o_2$. In state $s_1$ it shows $o_1$ with probability $0.9$ (and $o_2$ with $0.1$); in state $s_2$ it shows $o_1$ with probability $0.2$ (and $o_2$ with $0.8$). What is the predicted probability $Q(o_1)$?
+    answer: 0.69
+    tolerance: 0.005
+    wrong:
+      - { value: 0.55, feedback: 'That is the plain average of $0.9$ and $0.2$. The states are not equally believed: weight each by its belief, $0.7\cdot0.9+0.3\cdot0.2$.' }
+    hint: |
+      $Q(o_1)=\sum_s P(o_1\mid s)\,Q(s)$.
+    explanation: |
+      $Q(o_1)=0.7\cdot0.9+0.3\cdot0.2=0.63+0.06=0.69$, so $Q(o_2)=0.31$.
+
+  - type: numeric
+    id: gain-number
+    prompt: |
+      Same square and look: $Q(s_1)=0.7$, $Q(s_2)=0.3$; $s_1$ shows $(o_1,o_2)$ with probabilities $(0.9,0.1)$, $s_2$ with $(0.2,0.8)$; so $Q(o_1)=0.69$, $Q(o_2)=0.31$. Compute the epistemic value $\mathcal I=H[Q(o)]-\mathbb E_{Q(s)}H[P(o\mid s)]$ in nats (natural logarithms).
+    answer: 0.2414
+    tolerance: 0.005
+    wrong:
+      - { value: 0.6191, feedback: 'That is only the predictive entropy $H[Q(o)]$, the total uncertainty. Subtract the expected ambiguity.' }
+      - { value: 0.3777, feedback: 'That is only the expected ambiguity, the uncertainty that cannot be resolved. The epistemic value is the predictive entropy *minus* it.' }
+    hint: |
+      $H[Q(o)]=-0.69\ln0.69-0.31\ln0.31$. Ambiguity: $0.7\,H(0.9,0.1)+0.3\,H(0.2,0.8)$ with $H(0.9,0.1)=0.3251$ and $H(0.2,0.8)=0.5004$.
+    explanation: |
+      $H[Q(o)]=-0.69\ln0.69-0.31\ln0.31=0.2560+0.3631=0.6191$. Ambiguity $=0.7\cdot0.3251+0.3\cdot0.5004=0.2276+0.1501=0.3777$. Epistemic value $=0.6191-0.3777=0.2414$ nats.
+
+  - type: widget
+    id: streetlight-widget
+    review: false
+    widget: policy-scorer
+    config:
+      states: ['square is red', 'square is green']
+      outcomes: ['see red', 'see green']
+      likelihood: [[0.95, 0.05], [0.05, 0.95]]
+      C: [0.5, 0.5]
+      showRisk: false
+      showProb: false
+      showGamma: false
+      policies:
+        - { name: 'look at the lit square', qx: [0.5, 0.5] }
+        - { name: 'look at the dim square', qx: [0.5, 0.5], likelihood: [[0.6, 0.4], [0.4, 0.6]] }
+        - { name: 'look at the flickering square', qx: [0.5, 0.5], likelihood: [[0.5, 0.5], [0.5, 0.5]] }
+    body: |
+      Three looks, all with the **same** belief about the colour: red or green, 50 / 50. They differ only in the likelihood: the **lit** square shows the true colour $95\%$ of the time, the **dim** one $60\%$, the **flickering** one shows red or green at random whatever the colour. The creature has no preference (flat $C$: red and green equally welcome).
+
+      The widget writes the states as $x$ and the outcomes as $y$ (the continuous-time letters); read them as $s$ and $o$. Compare the **ambiguity** and the **information gain** of the three, and the size of $G$.
+
+  - type: mcq
+    id: dim-ignored
+    prompt: |
+      In the widget, the lit, dim and flickering squares all have the *same* predicted outcomes $Q(o)=(0.5,0.5)$, hence the same predictive entropy $\ln2=0.693$. Yet the dim square has an information gain of only $0.02$ nats and the lit one $0.49$. Why?
+    options:
+      - text: 'The dim square has a much larger ambiguity ($0.67$ against $0.20$): almost all of its uncertainty stays even if the colour were known.'
+        correct: true
+      - text: 'The dim square has a smaller predictive entropy, so there is less to learn.'
+        feedback: |
+          The predictive entropy is the same for all three: with a 50 / 50 belief about the colour and a symmetric likelihood, red and green are each predicted half the time. The difference is elsewhere.
+      - text: 'The belief about the colour is sharper for the lit square.'
+        feedback: |
+          The beliefs were set equal (50 / 50) for all three. Only the likelihood, how reliably the state shows up in the outcome, differs.
+    explanation: |
+      Lit: $0.693-0.198=0.495$. Dim: $0.693-0.673=0.020$. Flickering: $0.693-0.693=0$. When the view is blurry, the colour barely changes what I see, so seeing it barely changes what I believe. This is the **streetlight effect**: a square specified with a more ambiguous likelihood is *ignored* in the simulated eye movements, because it offers no resolvable uncertainty.
+
+  - type: text
+    id: three-forms
+    title: "The same number in three ways"
+    body: |
+      The difference form is the easiest to compute. Two equivalent forms say what it *means*:
+
+      $$\mathcal I(\pi)=D_{KL}\big[\,J\,\big\|\,M\,\big]$$
+
+      where $J=P(\tilde o\mid\tilde s)Q(\tilde s\mid\pi)$ is the predicted **joint** distribution of states and outcomes and $M=Q(\tilde o\mid\pi)Q(\tilde s\mid\pi)$ is the product of its two marginals.
+
+      and, equally,
+
+      $$\mathcal I(\pi)=\mathbb E_{Q(\tilde o\mid\pi)}D_{KL}\big[Q(\tilde s\mid\pi,\tilde o)\,\big\|\,Q(\tilde s\mid\pi)\big]$$
+
+      $D_{KL}[p\,\|\,q]=\sum p\ln(p/q)$ is the **KL divergence**, a non-negative measure of how far $p$ is from $q$ ($0$ only when they are equal).
+
+      - **Mutual information** (first form): how far the true joint distribution of states and outcomes is from "states and outcomes unrelated" (the product of marginals).
+      - **Information gain, salience, Bayesian surprise** (second form): the KL between the belief *after* seeing $\tilde o$, $Q(\tilde s\mid\pi,\tilde o)=P(\tilde o\mid\tilde s)Q(\tilde s\mid\pi)/Q(\tilde o\mid\pi)$ (Bayes' rule), and the belief *before*, averaged over the outcomes I expect. It is **how far I expect my belief to move**.
+
+  - type: mcq
+    id: three-forms-check
+    multiple: true
+    prompt: |
+      Which of the following equal the epistemic value $\mathcal I(\pi)$? Select all that apply.
+    options:
+      - text: 'The mutual information between the states and the outcomes under the predicted joint distribution.'
+        correct: true
+      - text: 'The expected KL divergence from the belief about states before seeing $\tilde o$ to the belief after, averaged over the predicted outcomes.'
+        correct: true
+      - text: '$H[Q(\tilde o\mid\pi)]-\mathbb E_{Q(\tilde s\mid\pi)}H[P(\tilde o\mid\tilde s)]$.'
+        correct: true
+      - text: '$H[Q(\tilde o\mid\pi)]+\mathbb E_{Q(\tilde s\mid\pi)}H[P(\tilde o\mid\tilde s)]$.'
+        feedback: |
+          A sum would *reward* ambiguity: a pure noise source would score highest. The ambiguity must be subtracted.
+      - text: 'The KL divergence of the belief after seeing one particular outcome, for the outcome that happened to occur.'
+        feedback: |
+          That is the surprise of one realised outcome, not the *expected* one. The epistemic value is decided before looking, so it averages over the outcomes the creature predicts.
+    explanation: |
+      Three readings of one number: the total minus the unresolvable uncertainty; the dependence between states and outcomes; how far I expect my belief to move. A look is valuable if it is likely to change my mind.
+
+  - type: mcq
+    id: extremes
+    prompt: |
+      Two squares share the same 50 / 50 belief about their colour. Square P shows red exactly when it is red and green exactly when it is green. Square Q shows red or green with equal chance whatever its colour. What are their epistemic values?
+    options:
+      - text: 'P: the maximum possible here, $\ln2=0.693$ (the look reveals the colour completely). Q: $0$ (the outcome says nothing about the colour).'
+        correct: true
+      - text: 'P: $0$, because there is nothing left to be uncertain about once the colour is seen. Q: $\ln2$.'
+        feedback: |
+          Reversed. P has ambiguity $0$ and predictive entropy $\ln2$, so $\mathcal I=\ln2-0$. Q has predictive entropy $\ln2$ and ambiguity $\ln2$, so $\mathcal I=0$.
+      - text: 'Both $\ln2$, since both have the same predictive entropy.'
+        feedback: |
+          The predictive entropy is only the total uncertainty. Q's is all unresolvable ambiguity. Subtract it.
+    explanation: |
+      P: $\ln2-0=0.693$ nats, the whole $50/50$ doubt is removed. Q: $\ln2-\ln2=0$. In general, if the likelihood is the same for every state, the gain is $0$; if every state gives its own outcome, the gain is the entropy of the belief about the states: you learn all that you did not know.
+
+  - type: widget
+    id: speed-widget
+    review: false
+    widget: policy-scorer
+    config:
+      states: ['square is red', 'square is green']
+      outcomes: ['see red', 'see green']
+      likelihood: [[0.95, 0.05], [0.05, 0.95]]
+      C: [0.5, 0.5]
+      showRisk: false
+      showProb: false
+      showGamma: false
+      policies:
+        - { name: 'look at the slow square', qx: [0.97, 0.03] }
+        - { name: 'look at the fast square', qx: [0.6, 0.4] }
+    body: |
+      Two squares, both seen as **red** a moment ago, both viewed under the same good light (the likelihood is $95\%$ reliable). The **slow** square keeps its colour with probability $0.97$ per step, the **fast** one with probability $0.6$. So when the creature considers looking again, its predicted belief about the colour is $(0.97,0.03)$ for the slow square and $(0.6,0.4)$ for the fast one.
+
+      Compare the **ambiguity** of the two (it is the same) and the **information gain**.
+
+  - type: mcq
+    id: fast-things
+    prompt: |
+      In the widget, the slow and fast squares have the same ambiguity ($0.20$), but the gain is $0.07$ nats for the slow square and $0.48$ for the fast one. What is the intuition?
+    options:
+      - text: 'The fast square may have changed while I looked elsewhere, so my predicted belief is broad and a look has much to resolve; for the slow square I am already nearly sure, so a look tells me little.'
+        correct: true
+      - text: 'The fast square is better lit, so its view is clearer.'
+        feedback: |
+          Both are viewed under the same light (the same likelihood, the same ambiguity). The difference is in the *transitions*: how predictable the square is over time.
+      - text: 'The slow square has more preferred outcomes.'
+        feedback: |
+          No preferences are used here (flat $C$). The gain is a property of beliefs and likelihood only.
+    explanation: |
+      Slow: $H[Q(o)]=0.271$, gain $=0.271-0.198=0.073$. Fast: $0.677-0.198=0.478$. Uncertainty about the next state accumulates quickly for something that changes fast, so $H[Q(\tilde o\mid\pi)]$ is high with no change in the ambiguity. Intuitively, if something has very predictable dynamics I do not need to look at it often; if it may have changed while I looked elsewhere, it is worth checking.
+
+  - type: numeric
+    id: g-uniform
+    prompt: |
+      Look at the **fast** square of the widget: the gain is $\mathcal I=0.4783$ nats. The creature has *no preferences*: $P(o\mid C)$ is uniform over the two outcomes $(0.5,0.5)$. Its expected free energy is $G=-\mathcal I-\mathbb E_{Q(o)}\ln P(o\mid C)$. What is $G$ (nats)?
+    answer: 0.2148
+    tolerance: 0.003
+    wrong:
+      - { value: -0.4783, feedback: 'You dropped the pragmatic term. With uniform preferences it is not zero but a constant: $-\mathbb E\ln P(o\mid C)=-\ln0.5$.' }
+    hint: |
+      $\ln P(o\mid C)=\ln0.5$ for both outcomes, whatever $Q(o)$ is.
+    explanation: |
+      $-\mathbb E_{Q(o)}\ln P(o\mid C)=-\ln0.5=\ln2=0.6931$, so $G=-0.4783+0.6931=0.2148$. With uniform preferences the pragmatic term is the same for every policy, so $G=-\mathcal I+\ln K$ ($K=2$ outcomes): **minimising $G$ is maximising the information gain**. This is why, in the simulated eye movements with uniform preferences, every saccade is chosen purely for its epistemic value.
+
+  - type: text
+    id: precision
+    title: "Precision as a gain"
+    body: |
+      How sure the creature is about a distribution can be set by a number. **Precision** is the inverse of the variance and measures confidence; for a discrete distribution, confidence is the opposite of entropy. A simple way to dial it is a **Gibbs form** with an **inverse temperature** $\omega$ (a precision):
+
+      $$P(s\mid\omega)=\mathrm{Cat}\big(\sigma(\omega\ln\mathbf D)\big)$$
+
+      where $\mathbf D$ is a prior over the states, $\ln\mathbf D$ its logarithm, $\sigma$ the softmax (exponentiate, then normalise) and $\mathrm{Cat}$ a categorical distribution. Because $\omega$ **multiplies** the log prior, it acts as a **gain control**: it amplifies the signal rather than adding to it. The same trick can be applied to any distribution of the model, and $\omega$ itself can be inferred by free energy minimisation.
+
+  - type: numeric
+    id: omega-number
+    prompt: |
+      A prior over three states is $\mathbf D=(0.6,0.3,0.1)$. With the Gibbs form $\sigma(\omega\ln\mathbf D)$ and $\omega=2$, what is the probability of the first state?
+    answer: 0.7826
+    tolerance: 0.003
+    hint: |
+      $\sigma(\omega\ln\mathbf D)_i=D_i^{\omega}/\sum_jD_j^{\omega}$.
+    explanation: |
+      $e^{2\ln D_i}=D_i^2=(0.36,0.09,0.01)$, sum $0.46$, so the first state gets $0.36/0.46=0.7826$ (the full result is $(0.783,0.196,0.022)$).
+
+  - type: mcq
+    id: omega-limits
+    prompt: |
+      For $\mathbf D=(0.6,0.3,0.1)$ the entropy of $\sigma(\omega\ln\mathbf D)$ is $1.099$ nats at $\omega=0$, $0.898$ at $\omega=1$ and $0.594$ at $\omega=2$. What happens at the two extremes, $\omega=0$ and a very large $\omega$?
+    options:
+      - text: '$\omega=0$: uniform distribution (maximum entropy, no information from $\mathbf D$). Very large $\omega$: all the probability on the largest entry of $\mathbf D$.'
+        correct: true
+      - text: '$\omega=0$: all the probability on the largest entry. Very large $\omega$: uniform distribution.'
+        feedback: |
+          Reversed. At $\omega=0$, $\omega\ln\mathbf D=0$ for every entry and the softmax of equal numbers is uniform. A larger $\omega$ stretches the differences between log probabilities, so the largest entry wins.
+      - text: '$\omega=0$ gives $\mathbf D$ itself.'
+        feedback: |
+          $\omega=1$ gives $\mathbf D$ itself, since $\sigma(\ln\mathbf D)=\mathbf D$. At $\omega=0$ the prior is erased.
+    explanation: |
+      $\omega=0$: $D_i^0=1$, uniform. $\omega=1$: back to $\mathbf D$. $\omega\to\infty$: only the largest entry survives. Increasing precision means increasing confidence, and it is the same knob that, in simulated eye movements, specifies how precisely a stimulus is predicted. Later lessons come back to precisions as neuromodulation.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** we now have the pieces of $G$ one at a time: an epistemic term (this lesson) and a pragmatic one (the last). In the next lesson we **derive** $G$ from the free energy, as a guided problem, and see why these two terms appear and why they need no weighting.
