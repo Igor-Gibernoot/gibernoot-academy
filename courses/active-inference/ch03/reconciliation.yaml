@@ -1,0 +1,229 @@
+id: ch03-reconciliation
+title: "Enactive, Cybernetic and Predictive Views"
+kind: concept
+own: |
+  - **Enactive view: a living thing keeps itself going.** A creature with external states $x$, internal states $\mu$, sensory states $y$ and active states $u$ has a **Markov blanket** $b=(u,y)$: it separates inside from outside while allowing two-way exchange, formally
+    {{ $$\mu \perp x \mid b$$ }}
+    This is the formal version of self-organisation and of "protecting the integrity" of the organism.
+  - **Cybernetic view: behaviour is goal-directed.** A mechanism keeps testing whether a goal is met and corrects. Here what is minimised is a quantity the creature can compute, the variational free energy $F$ (with $Q(x)$ the approximate posterior over hidden states $x$, $y$ the sensation, $P(y)$ the model evidence and surprise $\mathfrak I(y)=-\ln P(y)$):
+    {{ $$\begin{aligned}\mathfrak I(y)&\le F\\F&=D_{\mathrm{KL}}[Q(x)\,\|\,P(x\mid y)]\\&\quad-\ln P(y)\end{aligned}$$ }}
+    Under suitable conditions $F$ is a **prediction error**, the difference between what is expected and what is sensed; both perception and action reduce it.
+  - **Predictive view: control is model-based.** The creature uses a generative model to predict, and to score its policies $\pi$ (plans) by expected free energy $G$, minimised:
+    {{ $$P(\pi)=\sigma(-G(\pi))$$ }}
+    This agrees with the **good regulator** idea: a controller must be (or contain) a model of what it controls.
+  - **Ideomotor view: action starts from a belief.** Action is triggered by a predicted consequence, not by a stimulus; to let that belief act, the creature must {{ temporarily attenuate sensory evidence }} that would otherwise contradict it.
+cards:
+  - type: mcq
+    id: hook
+    title: "Three schools, one fight?"
+    multiple: true
+    prompt: |
+      Three older schools of thought explain minds and living things:
+
+      - **Enactive**: a living thing is a *self-organising* system that keeps its own boundary and exchanges with its surroundings. It tends to avoid talk of internal "representations" and of "control".
+      - **Cybernetic**: behaviour is *goal-directed* (**teleological**): a mechanism steers towards a goal.
+      - **Predictive** (model-based): the brain carries an inner *model* of the world and uses it to control behaviour.
+
+      Guess: which pairs would researchers have seen as being **at odds**? Select all that apply.
+    options:
+      - text: 'Enactive and predictive: the first plays down representation and control, the second is built on them.'
+        correct: true
+      - text: 'Self-organisation and goal-direction (the enactive and the cybernetic schools): in biology, an organism that organises itself seems not to need a goal.'
+        correct: true
+      - text: 'Cybernetic and predictive: both are about controlling behaviour, and control can use a model.'
+        feedback: |
+          These two fit together naturally: a controller can predict the effect of its actions with a model. They were not the awkward pair.
+    explanation: |
+      The tensions were real: **self-organisation versus teleology**, and **no-representation versus control**. Active Inference claims to hold all three views together, using one idea: minimising free energy. We now take the three schools one at a time.
+
+  - type: text
+    id: enactive
+    title: "Enactive: staying within bounds"
+    body: |
+      **Enactive** theories say a living organism is **autopoietic** ("self-producing"): it keeps making and remaking itself, and so stays within acceptable bounds instead of dispersing into its surroundings.
+
+      You already know the formal version. To resist dispersion, the creature needs a **Markov blanket** (sensory states $y$ and active states $u$ together, $b=(u,y)$) that makes inside and outside conditionally independent:
+
+      $$\mu \perp x \mid b$$
+
+      Here $x$ are the external states and $\mu$ the internal ones. The blanket allows **reciprocal exchange** (the creature senses and acts on the world) and at the same time **separates** the inside from outside dynamics, in a sense protecting the creature's integrity.
+
+  - type: mcq
+    id: enactive-q
+    prompt: |
+      An enactive thinker says: "a cell needs a boundary that is a gate, not a wall." In the language of a Markov blanket, which statement is the best match?
+    options:
+      - text: 'Sensory and active states let the inside and outside influence each other, yet given them the inside carries no further direct dependence on the outside.'
+        correct: true
+      - text: 'There is no influence at all between inside and outside.'
+        feedback: |
+          That would be a wall. If nothing passed, the creature could neither sense nor act. The blanket separates in a statistical sense (conditional independence given $b$), while the exchange through $y$ and $u$ continues.
+      - text: 'The inside states are identical to the outside states.'
+        feedback: |
+          Then there would be no separation and no creature to speak of. The blanket is exactly what lets $\mu$ and $x$ differ.
+    explanation: |
+      A gate: exchange passes through $y$ and $u$, and given those, $\mu$ and $x$ are conditionally independent. That is the formal form of "reciprocal exchange that protects integrity".
+
+  - type: text
+    id: cybernetic
+    title: "Cybernetic: a goal that is tested and corrected"
+    body: |
+      **Cybernetic** theories describe behaviour as purposive, or **teleological** ("telos" means goal in Greek): a mechanism **continuously tests whether a goal is reached** and, if not, **steers corrective actions**. A thermostat does this with a set temperature.
+
+      Active Inference agents also minimise the **discrepancy between preferred and sensed states**, but they do it with *both* perception and action, and the minimised object is made precise. It is the **variational free energy** $F$, a statistical quantity the creature can compute from its own model and data, where $\mathfrak I(y)=-\ln P(y)$ is the surprise:
+
+      $$\mathfrak I(y)\le F$$
+
+      Under suitable conditions $F$ boils down to a **prediction error**: the difference between what is expected and what is sensed.
+
+  - type: mcq
+    id: cybernetic-q
+    prompt: |
+      A thermostat is set to $20\,{}^\circ\text{C}$ and senses $17\,{}^\circ\text{C}$, so it turns the heating on. It only ever changes the world. Compared with this, what does an Active Inference creature add? Select the best answer.
+    options:
+      - text: 'The quantity it reduces is a measurable statistic of its own beliefs and data ($F$, a prediction error under conditions), and it can reduce it by changing its beliefs (perception) or the world (action).'
+        correct: true
+      - text: 'It stops caring about goals, since only prediction errors matter.'
+        feedback: |
+          The goals are still there, as preferred states written into the model as prior beliefs. A prediction error against a preferred state is how a goal shows up.
+      - text: 'It minimises the surprise directly by evaluating $-\ln P(y)$ at each step.'
+        feedback: |
+          Surprise needs the model evidence $P(y)$, which needs a sum over all hidden states and is usually out of reach. $F$ is the quantity it can compute, and it sits above the surprise: $\mathfrak I(y)\le F$.
+    explanation: |
+      The cybernetic idea (test the goal, correct the error) survives, but now the "error" has a precise statistical meaning, and perception is a way of reducing it too, not only action.
+
+  - type: text
+    id: prospective
+    title: "Predictive: control that looks ahead"
+    body: |
+      The third school says control is **prospective**: it rests on a **model of the environment**, possibly physically implemented in the brain. A creature that holds a model can predict what would happen, **including what would happen if it did something else** (counterfactual alternatives).
+
+      Active Inference assumes just that: a **generative model** builds predictions that guide perception and action, and scores future possibilities, the policies $\pi$, through expected free energy $G$:
+
+      $$P(\pi)=\sigma(-G(\pi))$$
+
+      This fits a classic result, the **good regulator theorem**: any controller that regulates a system well must have, or be, **a good model of that system**. Active Inference makes the model explicit and the control a form of (approximate) Bayesian inference.
+
+  - type: mcq
+    id: regulator
+    prompt: |
+      A room's temperature is pushed around by sunlight, doors opening and people. Which thermostat design is closer to the good regulator idea?
+    options:
+      - text: 'One that holds an internal estimate of what is pushing the room (a model of the room) and acts on that estimate.'
+        correct: true
+      - text: 'One with no internal state at all, reacting to the latest reading only.'
+        feedback: |
+          Such a device can work in a simple room, but the theorem is about regulating well in the face of what drives the system. It says the regulator ends up carrying a model, even if only a tiny one.
+      - text: 'One that is as large and complicated as possible, regardless of the room.'
+        feedback: |
+          Size is not the point. The model must match the structure of the controlled system, not be big for its own sake.
+    explanation: |
+      The regulator embodies a model of what it regulates. This is why the generative model, not a bare rule, is the core object of Active Inference.
+
+  - type: text
+    id: ideomotor
+    title: "Ideomotor: action starts from an imagined consequence"
+    body: |
+      Closely related is **ideomotor theory**: action starts with an imaginative process, a **predictive representation of the consequence** of the action, and *that* triggers the movement, not a stimulus as in classic **stimulus-response** theory.
+
+      Active Inference casts this in inference: an action stems from a **belief about the future** (for example "my hand will be on the cup").
+
+      Think about it for a moment. At the instant you form that belief, your senses still say the hand is on the table.
+
+  - type: mcq
+    id: attenuation
+    prompt: |
+      A belief "my hand will be on the cup" is meant to trigger a reach, while the senses still say "my hand is on the table". What follows for the senses, in order for the belief to trigger action? Guess.
+    options:
+      - text: 'The sensory evidence must be temporarily attenuated (turned down), otherwise it would falsify the belief.'
+        correct: true
+      - text: 'The senses must be amplified so the mismatch is as large as possible.'
+        feedback: |
+          Tempting, since a mismatch drives action. But full-strength evidence says "no, the hand is on the table" and would simply revise the belief, so no reach would occur.
+      - text: 'Nothing: sensation and belief do not interact.'
+        feedback: |
+          They do: in Active Inference beliefs are updated by sensory evidence. That is exactly the difficulty here.
+    explanation: |
+      If sensation had full weight, perception would correct the belief ("the hand is on the table after all") and nothing would move. Turning the evidence down, briefly, lets the belief stand and the movement bring the senses into line with it.
+
+  - type: order
+    id: reach
+    prompt: |
+      Put the ideomotor story of a reach, in Active Inference terms, in order.
+    steps:
+      - 'A belief forms about a future consequence: the hand will be on the cup.'
+      - 'The sensory evidence that the hand is still on the table is temporarily attenuated.'
+      - 'The belief is not overturned, so action is triggered to make it true.'
+      - 'The hand arrives on the cup, and the senses now agree with the belief.'
+    hint: |
+      The belief comes first, and the movement ends when what is sensed matches what was believed.
+    explanation: |
+      Belief first (not a stimulus), then attenuation so that the belief can stand, then action, then agreement between what is sensed and what was believed.
+
+  - type: mcq
+    id: match-enactive
+    prompt: |
+      Match the older claim to the Active Inference ingredient. Claim: "a living thing resists dispersion by self-organising a boundary with its environment." Ingredient:
+    options:
+      - text: 'The Markov blanket, with reciprocal exchange between inside and outside.'
+        correct: true
+      - text: 'The good regulator theorem.'
+        feedback: |
+          That one is about control needing a model, and belongs to the predictive school.
+      - text: 'Attenuation of sensory evidence.'
+        feedback: |
+          That one belongs to the ideomotor idea (action starting from a belief), not to the boundary of the organism.
+    explanation: |
+      Self-organisation of a boundary is what the blanket formalises.
+
+  - type: mcq
+    id: match-cyber
+    prompt: |
+      Match the older claim to the Active Inference ingredient. Claim: "behaviour is purposive: a mechanism tests whether the goal is reached and corrects the discrepancy." Ingredient:
+    options:
+      - text: 'Variational free energy $F$, which under conditions is a prediction error between preferred or expected and sensed states.'
+        correct: true
+      - text: 'The conditional independence $\mu\perp x\mid b$.'
+        feedback: |
+          That is the boundary of the creature (the enactive claim), not the testing and correcting of a goal.
+      - text: 'The expected free energy of a past policy.'
+        feedback: |
+          Expected free energy scores *future* policies. The test-and-correct loop is about the discrepancy now, which $F$ measures.
+    explanation: |
+      The cybernetic goal becomes a preferred state in the model, and the discrepancy from it is measured by $F$.
+
+  - type: mcq
+    id: match-pred
+    prompt: |
+      Match the older claim to the Active Inference ingredient. Claim: "an action is triggered by a predicted consequence, not by a stimulus." Ingredient:
+    options:
+      - text: 'Action as inference: a belief about the future (a generative model with policies $\pi$) that the creature makes true.'
+        correct: true
+      - text: 'A table that stores a value for each stimulus.'
+        feedback: |
+          That is closer to stimulus-response: a stimulus looks up a response. The ideomotor claim is the opposite, a belief about a consequence drives the action.
+      - text: 'The Markov blanket alone, with no model inside.'
+        feedback: |
+          The blanket gives the boundary, but nothing in it predicts anything. The prediction comes from the generative model inside.
+    explanation: |
+      The generative model supplies the predicted consequence, and acting is the way of making the belief true.
+
+  - type: order
+    id: arc
+    title: "The arc of the chapter"
+    prompt: |
+      Order the argument of the chapter from the start, using the logic you built.
+    steps:
+      - 'A living creature has a Markov blanket separating it from its surroundings.'
+      - 'To persist, it must keep visiting its characteristic states, so it must keep its sensory surprise low.'
+      - 'Surprise cannot be computed directly, so the creature minimises the variational free energy $F$, an upper bound on it.'
+      - 'Adding a model of futures with policies, it selects them by expected free energy: $P(\pi)=\sigma(-G(\pi))$.'
+    hint: |
+      Boundary first, then why it matters (surprise), then the tractable quantity, then the extension to planning.
+    explanation: |
+      Blanket, persistence, surprise, then $F$ as its bound, then policies with $G$. The three older schools each live on one rung of this ladder: the enactive on the first two, the cybernetic on the third, the predictive and ideomotor on the last.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the generative models themselves. Two families are used throughout: models for discrete choices and sequences, and models for smooth, continuous-time signals (predictive coding).
