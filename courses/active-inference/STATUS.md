@@ -2,9 +2,9 @@
 
 Session start: read only **Current** (`sed -n '/^## Current (2026-10-24)
 
-- **State:** Level 1 fully built. Level 2: `ch02-perception-inference` built (16 cards). Source 2.2 (box 2.1, Eq. 2.1) verified; Eq. 2.2-2.4 and Table 2.1 not yet.
-- **Next unit:** `ch02-approximate-inference` (why exact Bayes is too costly; approximate posterior $Q$). Then `ch02-action-inference`, widget `free-energy-bound`, `ch02-free-energy`, ...
-- **Notation:** Level 2 uses $x$ (hidden state), $y$ (observation) as in section 2.2; "evidence" now means $P(y)$. See CONVENTIONS Chapter 2.
+- **State:** Level 1 fully built. Level 2: `ch02-perception-inference` built (16 cards, belief-mixer relabelled). Source 2.2 (box 2.1, Eq. 2.1) verified; Eq. 2.2-2.4 and Table 2.1 not yet.
+- **Next unit:** `ch02-approximate-inference` (why exact Bayes is too costly; approximate posterior $Q$). Then `ch02-action-inference` (homeostat), WIDGET `free-energy-bound`, `ch02-free-energy`, `ch02-free-energy-bound`, `ch02-free-energy-traps`, `ch02-expected-free-energy`, WIDGET `policy-scorer`, `ch02-efe-parts`, `ch02-efe-decomposition`, `ch02-intuition-free-energy`, `ch02-map`, `ch02-challenge` (two sessions).
+- **Notation:** Level 2 uses $x$ (hidden state), $y$ (observation) as in section 2.2; "likelihood" = $P(y\mid x)$, "evidence" = $P(y)$. Precision $\gamma$ not yet PDF-verified. See CONVENTIONS Chapter 2.
 - **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
 
 ## Log/p' courses/active-inference/STATUS.md`).
