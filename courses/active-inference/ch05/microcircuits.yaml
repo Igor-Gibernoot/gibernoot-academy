@@ -1,0 +1,416 @@
+id: ch05-microcircuits
+title: "Microcircuits and Messages"
+kind: concept
+own: |
+  - **Two kinds of unit.** Setting: a hierarchical continuous model with levels labelled $(i)$ ($i+1$ is the slower level above), hidden causes $v$, belief modes $\mu$ (in generalized coordinates, written with a tilde, $D$ the operator that shifts derivatives) and $g^{(i+1)}$ the prediction that level $i+1$ sends down. The update of beliefs is made of **errors** and **expectations**:
+    {{ $$\epsilon_v^{(i)}=\mu_v^{(i)}-g^{(i+1)}(\cdot)$$ }}
+    {{ $$\dot{\tilde\mu}-D\tilde\mu=-\nabla_{\tilde\mu}F$$ }}
+    Error units hold $\epsilon$ (an expectation minus a prediction, so the prediction arrives with an inhibitory synapse); expectation units hold $\mu$ and are driven by precision-weighted errors. **Ascending messages are prediction errors, descending messages are predictions.**
+  - **One proposed mapping on a cortical column** (six layers numbered from the surface, I to VI): the ascending error enters the spiny stellate cells of layer IV, the error leaves the superficial pyramidal cells of layer III for the area above, expectations live in the superficial (layer II) and deep (layers V and VI) pyramidal cells, and the deep pyramidal cells send the descending predictions (layer V also projects below the cortex). It is a hypothesis, not established anatomy.
+  - **Discrete model, same architecture.** For a model with states $\mathbf s$, outcomes $\mathbf o$ and policies $\pi$, expectations $\mathbf s_\pi$ (given a policy) sit in the pyramidal cells, errors $\boldsymbol\varepsilon$ in layer IV, and what travels between areas is a **mixture of expectations**, not an error:
+    {{ $$\mathbf s=\sum_\pi \pi\;\mathbf s_\pi$$ }}
+    where the weight $\pi$ is the posterior probability of the policy $\pi$ (computed subcortically).
+  - **Frequencies.** A nonlinear prediction $g$ raises the frequency of a signal, for instance
+    {{ $$\sin^2\theta=\tfrac12\,(1-\cos2\theta)$$ }}
+    doubles it, so ascending errors are predicted to be faster (gamma band) than descending predictions (alpha and beta bands): an empirical prediction, consistent with measured spectra, not a theorem.
+  - **One arrow is not one synapse.** A descending inhibition onto layer III can be disynaptic: excite an inhibitory interneuron in layer IV, which inhibits layer III.
+cards:
+  - type: text
+    id: hook
+    title: "From equations to cells"
+    body: |
+      The last level ended with update equations: beliefs $\mu$ slide downhill on the free energy, $\dot\mu=-\nabla_\mu F$, driven by precision-weighted prediction errors. A physicist who opens a skull finds something different: sheets of cells in **six layers**, wired in a stereotyped pattern that repeats over most of the cortex.
+
+      Before any anatomy, guess: **if the brain really computed these updates, which kinds of cell populations would have to exist, and who would talk to whom?** The next cards let you predict the answer from the equations alone, then compare with the wiring of the cortex.
+
+      A warning that holds for the whole level. What follows is a **process theory**: a proposed physical implementation of the equations, chosen because it fits current evidence. It is a hypothesis that can be tested and may be wrong in its details, not an established fact about the brain. We write "could be mapped to" on purpose.
+
+  - type: mcq
+    id: guess-wiring
+    prompt: |
+      A toy model with two groups of units (later we will say which cells they are). An *expectation unit* holds the belief $\mu$ about a hidden cause. Data $y$ arrive from the senses. A prediction $g(\mu)$ of the data can be computed from $\mu$. A second group, the *error unit*, must hold the prediction error $\epsilon_y=y-g(\mu)$. Which wiring makes the error unit compute $\epsilon_y$?
+    options:
+      - text: 'The error unit receives the data $y$ with a positive (excitatory) connection and the prediction $g(\mu)$ with a negative (inhibitory) connection; its output goes back to the expectation unit.'
+        correct: true
+      - text: 'The error unit receives the data $y$ and the belief $\mu$ itself, both with positive connections, and adds them.'
+        feedback: |
+          Adding would give a quantity that grows with both. A *difference* needs one term with a minus sign, and it is the predicted data $g(\mu)$ that must be compared with the data, not the belief $\mu$ (they live on different scales: the belief is about the cause, the data about the sensation).
+      - text: 'There is no error unit: the expectation unit receives $y$ and shifts toward it by itself.'
+        feedback: |
+          That is a model with a belief and no explicit error: the belief would be updated without ever representing how wrong it is. The free energy gradient is built from the errors, so units that hold them are the natural way to compute it, and they also tell the next level up what was not predicted.
+    explanation: |
+      An error is a difference, so the unit that holds it needs one excitatory input (the data) and one inhibitory input (the prediction). Its output is sent back to the expectation unit to correct it. These two kinds of unit, **error units** and **expectation units**, are what the equations demand.
+
+  - type: text
+    id: recall
+    title: "Recall: the update as units"
+    body: |
+      Recall the continuous-time model of the last level. Data $y$, a belief mode $\mu$, a mapping $g$ from the belief to predicted data, and the prediction error $\epsilon_y=y-g(\mu)$. The belief obeys $\dot\mu=-\nabla_\mu F$ with $F$ a sum of precision-weighted squared errors ($\Pi$ is a precision, the inverse variance: how much a source is trusted).
+
+      Read as a circuit this says: some units hold **errors** $\epsilon$, others hold **expectations** $\mu$, and the arrows are the terms of the update. Three words we need from neuroscience, in one plain sentence each:
+      - a **population** is a group of neurons of one type doing the same job, so one circle in a diagram stands for many cells;
+      - a **synapse** is the contact through which one neuron influences another;
+      - a synapse is **excitatory** if the sending cell pushes the receiving cell to fire more (an arrow ending in an arrowhead) and **inhibitory** if it pushes it to fire less (an arrow ending in a round end). An error such as $y-g(\mu)$ contains a minus sign, so one of its inputs must be inhibitory.
+
+  - type: build
+    id: build-mudot
+    prompt: |
+      One level of the model has free energy $F=\tfrac12\Pi_y\epsilon_y^2+\tfrac12\Pi_v\epsilon_v^2$, with $\epsilon_y=y-g(\mu)$ and $\epsilon_v=\mu-\eta$. Build the belief update $\dot\mu=-\nabla_\mu F$ as the weighted errors that drive the expectation unit.
+    prefix: '\dot\mu ='
+    tiles: ['\Pi_y', '\epsilon_y', '\tfrac{\partial g}{\partial\mu}', '-', '\Pi_v', '\epsilon_v', '+']
+    answers:
+      - ['\Pi_y', '\epsilon_y', '\tfrac{\partial g}{\partial\mu}', '-', '\Pi_v', '\epsilon_v']
+      - ['\tfrac{\partial g}{\partial\mu}', '\Pi_y', '\epsilon_y', '-', '\Pi_v', '\epsilon_v']
+      - ['\Pi_y', '\tfrac{\partial g}{\partial\mu}', '\epsilon_y', '-', '\Pi_v', '\epsilon_v']
+    wrong:
+      - answer: ['\Pi_y', '\epsilon_y', '\tfrac{\partial g}{\partial\mu}', '+', '\Pi_v', '\epsilon_v']
+        feedback: |
+          The prior error enters with a minus sign: $-\partial_\mu\big(\tfrac12\Pi_v(\mu-\eta)^2\big)=-\Pi_v\epsilon_v$. It pulls $\mu$ back toward the prior $\eta$ and opposes the sensory term.
+      - answer: ['\Pi_y', '\epsilon_y', '-', '\Pi_v', '\epsilon_v']
+        feedback: |
+          The sensory error depends on $\mu$ through the prediction $g(\mu)$, so the chain rule brings a factor $\partial g/\partial\mu$: the error is mapped back onto the belief.
+    hint: |
+      $-\partial_\mu\big(\tfrac12\Pi_y(y-g)^2\big)=+\Pi_y\epsilon_y\,\partial_\mu g$ (the inner derivative of $y-g$ is $-\partial_\mu g$), and the prior term gives $-\Pi_v\epsilon_v$.
+    explanation: |
+      $$\dot\mu=\Pi_y\,\epsilon_y\,\frac{\partial g}{\partial\mu}-\Pi_v\,\epsilon_v$$
+      Weighted errors in, expectation out: each term is an error multiplied by its precision. That is the whole reason to expect two populations: errors $\epsilon$ and expectations $\mu$.
+
+  - type: text
+    id: primer
+    title: "A six-layer primer"
+    body: |
+      The **cerebral cortex** is the folded sheet on the outside of the brain. Its cells are arranged in **six layers** (laminae), numbered **I to VI from the surface down**: layer I is closest to the brain's surface (superficial), layer VI is closest to the white matter below (deep). Different layers contain different cell types, and the wiring between them follows a pattern that repeats over many cortical regions: a **cortical column** is one such repeating unit.
+
+      Four populations matter for us.
+
+      | Name | Cells (plain words) | Layers |
+      |---|---|---|
+      | SP | superficial pyramidal cells (long cells shaped like a pyramid, which send signals far) | II and III |
+      | SS | spiny stellate cells (small star-shaped cells that receive incoming signals) | IV |
+      | DP | deep pyramidal cells | V and VI |
+      | II | inhibitory interneurons (local cells that only inhibit their neighbours) | II to IV |
+
+      Regions are arranged in a **hierarchy**: those closest to the sensory input are low, and each step away (for instance from primary to secondary visual cortex) goes up. A signal travelling up is **ascending**, a signal travelling down is **descending**. In the diagram a round end means inhibition and an arrowhead means excitation.
+
+  - type: widget
+    id: column-widget
+    review: false
+    widget: microcircuit
+    config:
+      box: [440, 400]
+      showLabels: false
+      showFreq: false
+      showLegend: true
+      bands:
+        - { label: 'I', y0: 0, y1: 40 }
+        - { label: 'II', y0: 40, y1: 100 }
+        - { label: 'III', y0: 100, y1: 160 }
+        - { label: 'IV', y0: 160, y1: 220 }
+        - { label: 'V', y0: 220, y1: 280 }
+        - { label: 'VI', y0: 280, y1: 340 }
+        - { label: 'outside', y0: 340, y1: 400 }
+      nodes:
+        - { id: hi, label: '\text{H}', name: 'higher cortical regions', pos: [400, 20], cls: input, populations: 'other cortical areas', info: 'The areas above in the hierarchy.' }
+        - { id: upc, label: '\text{H}', name: 'higher regions (target of the ascending output)', pos: [60, 20], cls: output, populations: 'other cortical areas', info: 'Receives the ascending output of this column.' }
+        - { id: lo, label: '\text{L}', name: 'lower regions and primary thalamus', pos: [60, 370], cls: input, populations: 'below in the hierarchy', info: 'Lower cortical areas, or the primary thalamus, which relays sensory signals to the cortex.' }
+        - { id: lo2, label: '\text{L}', name: 'lower regions (target of the descending output)', pos: [190, 370], cls: output, populations: 'below in the hierarchy', info: 'Receives the descending output of this column.' }
+        - { id: sub, label: '\text{S}', name: 'basal ganglia, secondary thalamus, spinal motor neurons', pos: [380, 250], cls: output, populations: 'below the cortex', info: 'Structures below the cortex; the next lessons visit them.' }
+        - { id: sp2, label: '\text{SP}', name: 'superficial pyramidal', pos: [190, 70], cls: expectation, populations: 'layer II', info: 'Pyramidal cells of layer II.' }
+        - { id: sp3, label: '\text{SP}', name: 'superficial pyramidal', pos: [190, 130], cls: expectation, populations: 'layer III', info: 'Pyramidal cells of layer III; the source of the ascending output.' }
+        - { id: ss, label: '\text{SS}', name: 'spiny stellate', pos: [190, 190], cls: expectation, populations: 'layer IV', info: 'The input layer: ascending connections land here.' }
+        - { id: dp5, label: '\text{DP}', name: 'deep pyramidal', pos: [190, 250], cls: expectation, populations: 'layer V', info: 'Large pyramidal cells; they project below the cortex.' }
+        - { id: dp6, label: '\text{DP}', name: 'deep pyramidal', pos: [290, 310], cls: expectation, populations: 'layer VI', info: 'Source of descending connections to lower areas.' }
+        - { id: i2, label: '\text{II}', name: 'inhibitory interneurons', pos: [310, 70], cls: inhibitory, populations: 'layer II', info: 'Local inhibitory cells.' }
+        - { id: i3, label: '\text{II}', name: 'inhibitory interneurons', pos: [310, 130], cls: inhibitory, populations: 'layer III', info: 'Local inhibitory cells.' }
+        - { id: i4, label: '\text{II}', name: 'inhibitory interneurons', pos: [310, 190], cls: inhibitory, populations: 'layer IV', info: 'Local inhibitory cells; they receive descending input.' }
+      edges:
+        - { id: c-lo-ss, from: lo, to: ss, sign: '+', message: { kind: error }, direction: ascending, note: 'Ascending input lands on the spiny stellate cells.' }
+        - { id: c-sp3-up, from: sp3, to: upc, sign: '+', message: { kind: error }, direction: ascending, note: 'Ascending output leaves from the superficial pyramidal cells of layer III.' }
+        - { id: c-hi-sp2, from: hi, to: sp2, sign: '+', message: { kind: prediction }, direction: descending, note: 'Descending input reaches the superficial layers.' }
+        - { id: c-hi-i4, from: hi, to: i4, sign: '+', message: { kind: prediction }, direction: descending, note: 'Descending input also excites inhibitory interneurons of layer IV.' }
+        - { id: c-sp2-sp3, from: sp2, to: sp3, sign: '+', message: { kind: expectation }, direction: intrinsic }
+        - { id: c-sp2-dp6, from: sp2, to: dp6, sign: '+', message: { kind: expectation }, direction: intrinsic }
+        - { id: c-sp2-i2, from: sp2, to: i2, sign: '+', message: { kind: expectation }, direction: intrinsic }
+        - { id: c-i2-sp2, from: i2, to: sp2, sign: '-', message: { kind: expectation }, direction: intrinsic }
+        - { id: c-sp3-i3, from: sp3, to: i3, sign: '+', message: { kind: expectation }, direction: intrinsic }
+        - { id: c-i3-sp3, from: i3, to: sp3, sign: '-', message: { kind: expectation }, direction: intrinsic }
+        - { id: c-ss-i4, from: ss, to: i4, sign: '+', message: { kind: expectation }, direction: intrinsic }
+        - { id: c-i4-ss, from: i4, to: ss, sign: '-', message: { kind: expectation }, direction: intrinsic }
+        - { id: c-dp6-lo2, from: dp6, to: lo2, sign: '+', message: { kind: prediction }, direction: descending, note: 'Descending output leaves from the deep pyramidal cells.' }
+        - { id: c-dp5-sub, from: dp5, to: sub, sign: '+', message: { kind: prediction }, direction: 'to subcortical targets', note: 'Layer V cells project below the cortex.' }
+    body: |
+      A simplified cortical column (the real wiring has more synapses). **Click each population** and read what it receives (blue lines) and sends (orange lines); click a line to see whether its synapse is excitatory or inhibitory. Find: where ascending input lands, where the ascending output starts, which cells send descending output, and which synapses are inhibitory (round ends). No message formulas yet: this is anatomy only.
+
+  - type: mcq
+    id: ascending-lands
+    prompt: |
+      In the cortical hierarchy, a lower area (or the primary thalamus) sends an **ascending** connection to a column in the area above. On which population of that column does it mainly land?
+    options:
+      - text: 'The spiny stellate cells of layer IV.'
+        correct: true
+      - text: 'The deep pyramidal cells of layers V and VI.'
+        feedback: |
+          Tempting because deep cells are the ones that connect to the outside world below the cortex. But the deep pyramidal cells are mostly senders (their outputs go down); the receiving population for ascending signals is the small star-shaped layer IV cells.
+      - text: 'The superficial pyramidal cells of layer II.'
+        feedback: |
+          Superficial pyramidal cells are where the ascending *output* starts, and where descending input arrives. The ascending *input* lands one layer down, on layer IV.
+    explanation: |
+      Ascending projections target the spiny stellate cells of layer IV (the "input layer"). The reason for that is the point of the next cards: layer IV is where the error carried by an ascending message is received.
+
+  - type: mcq
+    id: descending-origins
+    multiple: true
+    prompt: |
+      Select **all** the statements about **descending** connections (from an area higher in the hierarchy to a lower one) that agree with the schematic column.
+    options:
+      - text: 'They originate in deep pyramidal cells.'
+        correct: true
+      - text: 'They arrive in both superficial and deep layers of the lower area, not in layer IV alone.'
+        correct: true
+      - text: 'They originate in the superficial pyramidal cells of layer III.'
+        feedback: |
+          Layer III cells are the source of the *ascending* output. Mixing the two is the easiest slip: the superficial cells send up, the deep cells send down.
+      - text: 'They land mainly on the spiny stellate cells of layer IV.'
+        feedback: |
+          That is the target of ascending input. The descending input avoids the input layer and goes to the superficial layers (plus inhibitory interneurons of layer IV).
+    explanation: |
+      The column is **asymmetric**: ascending messages enter layer IV and leave from superficial pyramidal cells, descending messages leave from deep pyramidal cells and enter superficial layers. This asymmetry is what lets the cortex be drawn as a hierarchy, and it is exactly the asymmetry of predictive coding.
+
+  - type: text
+    id: mapping
+    title: "One proposed mapping"
+    body: |
+      Now put the equations onto the column. In predictive coding, a level receives the error from below, updates its expectation, and sends up an error and a prediction down. Hence one possible assignment. The labels follow the figure's convention, with superscript $(i)$ naming the level (a label, not a power) and $i+1$ the level above:
+
+      - the **ascending error** $\epsilon_v^{(i)}$ arrives at the spiny stellate cells of layer IV;
+      - the **same kind of error for the next level**, $\epsilon_v^{(i+1)}$, leaves the superficial pyramidal cells of layer III;
+      - the **descending prediction** $g^{(i+1)}$ from above arrives, with an inhibitory synapse, where that error is computed (an error is an expectation minus a prediction);
+      - the **prediction for the level below**, $g^{(i)}$, leaves the deep pyramidal cells;
+      - **expectations** $\mu$ live in the superficial (layer II) and deep pyramidal cells, inside the column.
+
+      Recall the error rule: each error is an expectation minus a prediction coming from the level above,
+      $$\epsilon_v^{(i)}=\mu_v^{(i)}-g^{(i+1)}(\cdot)$$
+      Two cautions. The superscripts in the figure of this mapping are shifted by one compared with this formula, so read them as "error entering from below" and "error leaving upward". And the real diagram also has the hidden-state units $\mu_x,\epsilon_x$; we keep only the hidden causes $v$ that link the levels.
+
+  - type: widget
+    id: pc-widget
+    review: false
+    widget: microcircuit
+    config:
+      box: [440, 400]
+      hideNames: true
+      showFreq: false
+      bands:
+        - { label: 'I', y0: 0, y1: 40 }
+        - { label: 'II', y0: 40, y1: 100 }
+        - { label: 'III', y0: 100, y1: 160 }
+        - { label: 'IV', y0: 160, y1: 220 }
+        - { label: 'V', y0: 220, y1: 280 }
+        - { label: 'VI', y0: 280, y1: 340 }
+        - { label: 'outside', y0: 340, y1: 400 }
+      nodes:
+        - { id: inb, label: '\epsilon^{(i)}', name: 'ascending error from below', pos: [60, 370], cls: input, tag: A }
+        - { id: ss, label: '\epsilon^{(i)}', name: 'spiny stellate (layer IV)', pos: [110, 190], cls: error, tag: B }
+        - { id: mu2, label: '\mu^{(i)}', name: 'superficial pyramidal (layer II)', pos: [250, 70], cls: expectation, tag: C }
+        - { id: sp3, label: '\epsilon^{(i+1)}', name: 'superficial pyramidal (layer III)', pos: [110, 130], cls: error, tag: D }
+        - { id: mu6, label: '\mu^{(i)}', name: 'deep pyramidal (layer VI)', pos: [250, 310], cls: expectation, tag: E }
+        - { id: gin, label: 'g^{(i+1)}', name: 'prediction from above', pos: [170, 20], cls: input, tag: F }
+        - { id: up, label: '\epsilon^{(i+1)}', name: 'error to the area above', pos: [60, 20], cls: output, tag: G }
+        - { id: down, label: 'g^{(i)}', name: 'prediction to the area below', pos: [250, 370], cls: output, tag: H }
+      edges:
+        - { id: p-in, from: inb, to: ss, sign: '+', message: { label: '\epsilon^{(i)}', kind: error }, direction: ascending }
+        - { id: p-ss, from: ss, to: mu2, sign: '+', message: { label: '\Pi\,\epsilon^{(i)}', kind: error }, direction: intrinsic }
+        - { id: p-d, from: mu2, to: mu6, sign: '+', message: { label: '\mu^{(i)}', kind: expectation }, direction: intrinsic }
+        - { id: p-down, from: mu6, to: down, sign: '+', message: { label: 'g^{(i)}', kind: prediction }, direction: descending }
+        - { id: p-mu, from: mu2, to: sp3, sign: '+', message: { label: '\mu', kind: expectation }, direction: intrinsic }
+        - { id: p-g, from: gin, to: sp3, sign: '-', message: { label: 'g^{(i+1)}', kind: prediction }, direction: descending }
+        - { id: p-up, from: sp3, to: up, sign: '+', message: { label: '\epsilon^{(i+1)}', kind: error }, direction: ascending }
+      sequence: [p-in, p-ss, p-d, p-down, p-mu, p-g, p-up]
+    body: |
+      One cycle of the predictive coding circuit, with the names hidden: each population is a letter, but the layers are shown. Press **Play messages** and follow the dots, then click a letter to see what it receives and sends. Watch the order: an error comes in from below, a prediction goes out below, and a new error goes up.
+
+  - type: mcq
+    id: which-mu
+    prompt: |
+      In the proposed mapping of predictive coding onto the cortical column, **which cells hold the expectation $\mu$** (the belief about the hidden cause)?
+    options:
+      - text: 'Pyramidal cells in the superficial layer II and in the deep layers (V and VI); not the input cells.'
+        correct: true
+      - text: 'The spiny stellate cells of layer IV.'
+        feedback: |
+          Layer IV is where the ascending *error* is received, so it holds $\epsilon$. An expectation unit is what that error updates.
+      - text: 'The superficial pyramidal cells of layer III, whose output goes to the next area.'
+        feedback: |
+          What leaves layer III toward the area above is the error $\epsilon^{(i+1)}$ (expectation minus the descending prediction). The expectation $\mu$ itself stays inside the column and feeds that error.
+    explanation: |
+      The mapping puts errors where signals cross a boundary (input at layer IV, output at layer III) and expectations in the cells that persist inside the column (layer II and deep layers), whose dynamics is $\dot{\tilde\mu}-D\tilde\mu=-\nabla F$. Expectations are the slow state; errors are the signals that move between areas.
+
+  - type: order
+    id: one-cycle
+    prompt: Put one cycle of the belief update, in cell terms, in order.
+    steps:
+      - 'An ascending error from the area below arrives at the spiny stellate cells of layer IV.'
+      - 'The error, weighted by its precision, drives the expectation units, which change $\mu$ by gradient descent.'
+      - 'The deep pyramidal cells send the updated prediction down to the area below.'
+      - 'In layer III the expectation is compared with the prediction coming from above (an excitatory input against an inhibitory one).'
+      - 'The resulting error leaves the superficial pyramidal cells upward, as the input of the next area.'
+    hint: |
+      The cycle starts where data enter (layer IV) and ends where the new error leaves (layer III).
+    explanation: |
+      Error in, expectation update, prediction out below, error computed against the prediction from above, error out above. Each area repeats the same cycle with its neighbours, so the whole hierarchy performs the gradient descent on $F$ that the equations describe.
+
+  - type: numeric
+    id: chain-errors
+    prompt: |
+      A chain of three identity predictions, with errors $\epsilon_y=y-\mu_1$ (data against the middle belief), $\epsilon_x=\mu_1-\mu_2$ (middle against top) and $\epsilon_v=\mu_2-\eta$ (top against its prior), where $y=3$, $\eta=0$ and the precisions are $\Pi_y=1$, $\Pi_x=2$, $\Pi_v=4$. At the minimum of $F=\tfrac12\sum\Pi\epsilon^2$ the three weighted errors $\Pi_y\epsilon_y,\ \Pi_x\epsilon_x,\ \Pi_v\epsilon_v$ are equal, and the errors add up to $y-\eta$. What is the error $\epsilon_v$ that the top level's error unit holds?
+    answer: 0.429
+    tolerance: 0.005
+    answerText: '3/7 ≈ 0.429'
+    wrong:
+      - { value: 1, feedback: 'That splits $y-\eta=3$ in three equal parts. Equal errors would need equal precisions; here the error is inversely proportional to its precision.' }
+      - { value: 1.714, feedback: 'That is the sensory error $\epsilon_y$, which has the lowest precision and so absorbs most of the disagreement. The top error is the smallest one.' }
+    hint: |
+      Call the common weighted error $c$, so $\epsilon_y=c$, $\epsilon_x=c/2$, $\epsilon_v=c/4$, and add them to get $3$.
+    explanation: |
+      $c\,(1+\tfrac12+\tfrac14)=3$ gives $c=12/7=1.714$, so $\epsilon_y=1.714$, $\epsilon_x=0.857$, $\epsilon_v=0.429$. The error units at the top of the chain have the highest precision and the smallest activity: most of the surprise is absorbed where the model trusts itself least.
+
+  - type: text
+    id: frequencies
+    title: "Why ascending and descending may differ in speed"
+    body: |
+      The asymmetry between ascending errors and descending predictions suggests a testable prediction. Computing a prediction means applying a **nonlinear** function $g$ to an expectation, and nonlinear functions tend to **raise the frequency** of a signal. The simplest example is squaring a sine wave:
+      $$\sin^2\theta=\tfrac12\,(1-\cos2\theta)$$
+      The right side oscillates with angle $2\theta$, so it has **twice the frequency** of $\sin\theta$ (plus a constant). Prediction errors are computed from expectations through such nonlinear predictions, so the claim is that signals ascending the hierarchy (errors) should show up at **higher** frequencies than signals descending (predictions, which come from expectations more directly).
+
+  - type: numeric
+    id: doubling
+    prompt: |
+      An expectation oscillates as $\mu(t)=\sin(2\pi\cdot10\,t)$ with $t$ in seconds (10 oscillations per second, that is $10\,$Hz). A nonlinear prediction squares it, $g=\mu^2$. Using $\sin^2\theta=\tfrac12(1-\cos2\theta)$, at what frequency, in Hz, does the oscillating part of $g$ run?
+    answer: 20
+    answerText: '20'
+    wrong:
+      - { value: 10, feedback: 'The constant $\tfrac12$ does not oscillate, and the cosine has angle $2\theta=2\pi\cdot20\,t$: the oscillating part is faster than the input, not equal to it.' }
+      - { value: 100, feedback: 'Squaring doubles the frequency (angle $\theta\to2\theta$); it does not square the 10.' }
+    hint: |
+      Write $\theta=2\pi\cdot10\,t$ and look at the argument of the cosine.
+    explanation: |
+      $\sin^2(2\pi\cdot10t)=\tfrac12-\tfrac12\cos(2\pi\cdot20t)$: oscillation at $20\,$Hz. A single squaring doubles the frequency, which is the kind of effect the claim relies on.
+
+  - type: mcq
+    id: gamma-alpha
+    prompt: |
+      Predictive coding assigns ascending messages to error units and descending messages to expectation units, and the nonlinearity argument says errors should be faster. Which statement describes the proposal and its status correctly?
+    options:
+      - text: 'Ascending messages (errors) should be seen at higher frequencies, in the gamma band (fast, roughly 30 to 100 Hz), and descending messages (predictions) at lower ones, in the alpha and beta bands (roughly 8 to 30 Hz). This matches measured asymmetries but is an empirical prediction, not a theorem.'
+        correct: true
+      - text: 'Descending messages are faster, because predictions are the more complex signal; this is proved by the equations.'
+        feedback: |
+          Inverted, and the equations prove no frequency at all. They say which messages exist; the frequency claim comes from the extra assumption that the nonlinearity of $g$ raises frequencies, and it must be tested on recordings.
+      - text: 'Both directions use the same frequency; the theory predicts no asymmetry.'
+        feedback: |
+          The asymmetry of the *messages* is built into the theory, and the nonlinearity argument turns it into a frequency prediction. (Whether real recordings obey it is a separate, empirical question; reported spectra show the asymmetry.)
+    explanation: |
+      Ascending: gamma. Descending: alpha and beta. It is a prediction of the process theory that is consistent with measured spectra, which is how a theory like this earns credit, and how it could be refuted.
+
+  - type: widget
+    id: pomdp-widget
+    review: false
+    widget: microcircuit
+    config:
+      box: [440, 400]
+      showFreq: false
+      bands:
+        - { label: 'I', y0: 0, y1: 40 }
+        - { label: 'II', y0: 40, y1: 100 }
+        - { label: 'III', y0: 100, y1: 160 }
+        - { label: 'IV', y0: 160, y1: 220 }
+        - { label: 'V', y0: 220, y1: 280 }
+        - { label: 'VI', y0: 280, y1: 340 }
+        - { label: 'outside', y0: 340, y1: 400 }
+      presets:
+        - label: 'continuous (predictive coding)'
+          nodes:
+            - { id: inb, label: '\epsilon^{(i)}', name: 'ascending error from below', pos: [60, 370], cls: input }
+            - { id: ss, label: '\epsilon^{(i)}', name: 'spiny stellate (layer IV)', pos: [110, 190], cls: error }
+            - { id: mu2, label: '\mu^{(i)}', name: 'superficial pyramidal (layer II)', pos: [250, 70], cls: expectation }
+            - { id: sp3, label: '\epsilon^{(i+1)}', name: 'superficial pyramidal (layer III)', pos: [110, 130], cls: error }
+            - { id: mu6, label: '\mu^{(i)}', name: 'deep pyramidal (layer VI)', pos: [250, 310], cls: expectation }
+            - { id: gin, label: 'g^{(i+1)}', name: 'prediction from above', pos: [170, 20], cls: input }
+            - { id: up, label: '\epsilon^{(i+1)}', name: 'error to the area above', pos: [60, 20], cls: output }
+            - { id: down, label: 'g^{(i)}', name: 'prediction to the area below', pos: [250, 370], cls: output }
+          edges:
+            - { id: p-in, from: inb, to: ss, sign: '+', message: { label: '\epsilon^{(i)}', kind: error }, direction: ascending }
+            - { id: p-ss, from: ss, to: mu2, sign: '+', message: { label: '\Pi\,\epsilon^{(i)}', kind: error }, direction: intrinsic }
+            - { id: p-d, from: mu2, to: mu6, sign: '+', message: { label: '\mu^{(i)}', kind: expectation }, direction: intrinsic }
+            - { id: p-down, from: mu6, to: down, sign: '+', message: { label: 'g^{(i)}', kind: prediction }, direction: descending }
+            - { id: p-mu, from: mu2, to: sp3, sign: '+', message: { label: '\mu', kind: expectation }, direction: intrinsic }
+            - { id: p-g, from: gin, to: sp3, sign: '-', message: { label: 'g^{(i+1)}', kind: prediction }, direction: descending }
+            - { id: p-up, from: sp3, to: up, sign: '+', message: { label: '\epsilon^{(i+1)}', kind: error }, direction: ascending }
+          sequence: [p-in, p-ss, p-d, p-down, p-mu, p-g, p-up]
+        - label: 'discrete (POMDP)'
+          nodes:
+            - { id: blw, label: 'A\mathbf s', name: 'ascending signal from below', pos: [60, 370], cls: input }
+            - { id: abv, label: 'A\mathbf s', name: 'descending signal from above', pos: [330, 20], cls: input }
+            - { id: up, label: '\mathbf s^{(i)}', name: 'mixture sent to the area above', pos: [60, 20], cls: output }
+            - { id: down, label: '\mathbf s^{(i)}', name: 'mixture sent to the area below', pos: [190, 370], cls: output }
+            - { id: gout, label: 'G_\pi', name: 'to subcortical structures', pos: [380, 370], cls: output }
+            - { id: sp2, label: '\mathbf s_\pi', name: 'superficial pyramidal (layer II)', pos: [250, 70], cls: expectation }
+            - { id: s3, label: '\mathbf s', name: 'superficial pyramidal (layer III)', pos: [110, 130], cls: expectation }
+            - { id: er, label: '\boldsymbol\varepsilon_\pi', name: 'error units (layer IV)', pos: [90, 190], cls: error }
+            - { id: o5, label: '\mathbf o_\pi', name: 'deep pyramidal (layer V)', pos: [220, 250], cls: expectation }
+            - { id: vs5, label: '\varsigma_\pi', name: 'deep pyramidal (layer V)', pos: [320, 250], cls: expectation }
+            - { id: s6, label: '\mathbf s', name: 'deep pyramidal (layer VI)', pos: [190, 310], cls: expectation }
+          edges:
+            - { id: d-blw, from: blw, to: er, sign: '+', message: { label: 'A\cdot\mathbf s^{(i-1)}', kind: expectation }, direction: ascending }
+            - { id: d-er, from: er, to: sp2, sign: '+', message: { label: '\boldsymbol\varepsilon_\pi', kind: error }, direction: intrinsic }
+            - { id: d-abv, from: abv, to: sp2, sign: '+', message: { label: 'A^{(i+1)}\mathbf s^{(i+1)}', kind: expectation }, direction: descending }
+            - { id: d-sp2er, from: sp2, to: er, sign: '-', message: { label: '\mathbf s_\pi', kind: expectation }, direction: intrinsic }
+            - { id: d-sp2s3, from: sp2, to: s3, sign: '+', message: { label: '\mathbf s_\pi', kind: expectation }, direction: intrinsic }
+            - { id: d-up, from: s3, to: up, sign: '+', message: { label: '\mathbf s', kind: expectation }, direction: ascending }
+            - { id: d-s3s6, from: s3, to: s6, sign: '+', message: { label: '\mathbf s', kind: expectation }, direction: intrinsic }
+            - { id: d-down, from: s6, to: down, sign: '+', message: { label: '\mathbf s', kind: expectation }, direction: descending }
+            - { id: d-o, from: sp2, to: o5, sign: '+', message: { label: '\mathbf s_\pi', kind: expectation }, direction: intrinsic }
+            - { id: d-vs, from: sp2, to: vs5, sign: '+', message: { label: '\mathbf s_\pi', kind: expectation }, direction: intrinsic }
+            - { id: d-og, from: o5, to: gout, sign: '+', message: { label: 'G_\pi', kind: policy }, direction: 'to subcortical' }
+            - { id: d-vg, from: vs5, to: gout, sign: '+', message: { label: 'G_\pi', kind: policy }, direction: 'to subcortical' }
+          sequence: [d-blw, d-er, d-abv, d-sp2er, d-sp2s3, d-up, d-s3s6, d-down, d-o, d-vs, d-og, d-vg]
+    body: |
+      Two circuits on the same six layers, chosen by the buttons. The first is predictive coding (continuous model). The second is the proposed circuit for the **discrete** model of the last level, with expectations $\mathbf s$ about states, $\mathbf s_\pi$ the expectations given a policy $\pi$, outcomes $\mathbf o$, the matrix $A$ and an error $\boldsymbol\varepsilon$. Press **Play messages** in each and compare the layers and the messages. The second diagram is simplified. Watch the shape, not the symbols: what leaves layer III upward in each?
+
+  - type: mcq
+    id: discrete-ascend
+    prompt: |
+      In the proposed circuit for the **discrete** (POMDP) model, error units $\boldsymbol\varepsilon$ sit in layer IV, the ascending signal from below lands there, and expectations $\mathbf s$ about hidden states sit in the pyramidal cells. What travels **between** areas?
+    options:
+      - text: 'Mixtures of expectations (the expectation $\mathbf s$ averaged over policies), not prediction errors.'
+        correct: true
+      - text: 'Prediction errors, exactly as in the continuous predictive coding circuit.'
+        feedback: |
+          Tempting, because the two circuits look alike and both update expectations by descending $F$. But here the errors stay local (layer IV); what is passed up and down is a mixture of expectations. Using a difference-of-beliefs message for the continuous model and an expectation message for the discrete one is a real difference between the two proposals.
+      - text: 'The free energy $F$ itself, as a single number.'
+        feedback: |
+          $F$ is never a message in this scheme. Cells pass the gradient-relevant quantities (expectations or errors), not the scalar that is being minimised.
+    explanation: |
+      The overall structure survives (minimise an error, that is, a free energy gradient, by updating expectations), but the messages between regions are expectations. Averaging over policies requires the posterior beliefs about policies $\pi$, which could be computed subcortically, as the next lesson explores:
+      $$\mathbf s=\sum_\pi \pi\;\mathbf s_\pi$$
+
+  - type: mcq
+    id: one-arrow
+    prompt: |
+      The message-passing diagram for predictive coding has the descending prediction **inhibiting layer III**. In the anatomical column the descending input arrives at layer II and at *excitatory* synapses on the interneurons of layer IV, not as an inhibitory synapse on layer III. How can the two diagrams be reconciled?
+    options:
+      - text: 'An arrow in a message-passing diagram need not be a single synapse: the descending input can excite an inhibitory interneuron in layer IV, which inhibits layer III (a disynaptic pathway).'
+        correct: true
+      - text: 'They cannot be reconciled, so the predictive coding mapping is refuted.'
+        feedback: |
+          That would follow only if every arrow were one synapse. An arrow stands for a *message* and a message can be relayed through intermediate cells. The mismatch is a prompt to look at disynaptic routes, not a refutation.
+      - text: 'The descending input must secretly be inhibitory at its source, so the signs match.'
+        feedback: |
+          Long-range descending connections between areas are excitatory in the column. The inhibitory sign is obtained at the second synapse, onto layer III, from a local interneuron.
+    explanation: |
+      Message passing says what is computed (a subtraction of the prediction), not how many synapses carry it. An excitatory projection onto layer IV inhibitory interneurons, followed by their inhibition of layer III, gives the net inhibitory effect the algorithm needs.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** layer V sends a prediction out of the cortex entirely, to the spinal cord. If a prediction can drive the muscles, what is a motor command?

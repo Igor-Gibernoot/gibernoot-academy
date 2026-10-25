@@ -89,7 +89,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 ## Chapter 5
 
-- (none yet)
+- ch05-microcircuits: layers I-VI from the surface; SP (II, III), SS (IV), DP (V, VI), II interneurons; round end = inhibition. Mapping: eps^(i) enters SS (IV), eps^(i+1) leaves SP (III), g^(i+1) enters with inhibition onto the III error unit, g^(i) leaves DP; mu in II and deep layers. Figure superscripts are shifted by one vs Eq. 4.21: say "entering from below / leaving upward". Discrete circuit: s_pi in II, s in III, eps_pi in IV, o_pi and varsigma_pi in V, G_pi out of V; between areas mixtures s=sum_pi pi s_pi. Frequency: sin^2 doubles (10 to 20 Hz); gamma ~30-100 Hz, alpha/beta ~8-30 Hz (textbook values, an empirical claim). Chain y=3, Pi=(1,2,4): eps_v=3/7=.429. Widget box [440,400], bands I-VI plus 'outside'; avoid straight edges crossing nodes (place by hand).
 
 ## Chapter 6
 
