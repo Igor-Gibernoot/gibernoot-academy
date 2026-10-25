@@ -1,0 +1,305 @@
+id: ch07-discrete-traps
+title: Discrete-Time Traps
+kind: traps
+
+cards:
+  - type: text
+    id: intro
+    title: Trap round
+    body: |
+      Fast round: each question hides a tempting mistake about **discrete-time active inference**. Answer quickly, then read the feedback, especially when you were right for a shaky reason.
+
+      Recall the cast. A **policy** $\pi$ is a sequence of actions. The **variational free energy** $\mathbf F$ scores each policy against the outcomes already seen; the **expected free energy** $\mathbf G$ scores it against the outcomes still to come. The **habit prior** $\mathbf E$ is a prior over policies, and the policy probabilities are
+      $$\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G),$$
+      where $\sigma$ is the softmax. A **precision** is a gain: $\gamma$ multiplies $\mathbf G$, so the score becomes $\ln\mathbf E-\mathbf F-\gamma\mathbf G$ (with $\gamma=1$ it is the rule above). **Dirichlet counts** $\mathbf a$ are the pseudo-observations behind a learned likelihood.
+
+  - type: numeric
+    id: forget-F
+    title: Is G enough?
+    prompt: |
+      Two policies. Their free energies on the data seen so far are $\mathbf F=(0.5,\,1.5)$ and their expected free energies are $\mathbf G=(1,\,0.8)$. A student says "to choose, I only need the expected free energy: $\pi=\sigma(-\mathbf G)$". Use the full rule $\pi=\sigma(-\mathbf F-\mathbf G)$ (flat $\mathbf E$). What is the probability of **policy 1**?
+    answer: 0.690
+    tolerance: 0.002
+    answerText: '0.690'
+    wrong:
+      - { value: 0.450, tolerance: 0.002, feedback: "That is $\\sigma(-\\mathbf G)$ alone, the student's rule. It **flips the winner**: it prefers policy 2 because $0.8<1$, ignoring that the data already speak against policy 2." }
+      - { value: 0.310, tolerance: 0.002, feedback: "That is the probability of policy 2. Policy 1 has the smaller total $\\mathbf F+\\mathbf G=1.5$ against $2.3$, so it is the likelier one." }
+      - { value: 0.5, tolerance: 0.002, feedback: "The two policies have different totals, $1.5$ and $2.3$, so the softmax cannot be uniform." }
+    hint: |
+      Add $\mathbf F$ and $\mathbf G$ policy by policy, change the sign, and take the softmax: $e^{-1.5}/(e^{-1.5}+e^{-2.3})$.
+    explanation: |
+      Totals: $\mathbf F+\mathbf G=(1.5,\,2.3)$, so $\pi_1=1/(1+e^{-0.8})\approx0.690$. Dropping $\mathbf F$ gives $\sigma(-\mathbf G)=(0.450,\,0.550)$, which prefers the other policy. $\mathbf F$ is the evidence the policy has already earned (how well it explained what happened); $\mathbf G$ is what it promises for the future. The rule uses both.
+
+  - type: mcq
+    id: past-future
+    title: Which one looks backwards?
+    prompt: |
+      A student says "$\mathbf F$ and $\mathbf G$ are the same kind of score, only computed at different moments, so they can be swapped". Which statement is right?
+    options:
+      - text: '$\mathbf F$ is computed from the outcomes that **have occurred** (it is the fit of the policy to the data: perception). $\mathbf G$ is computed from outcomes **predicted** under the policy (it is a prediction of free energy to come: planning). They answer different questions.'
+        correct: true
+      - text: 'Both are computed from the observed outcomes; $\mathbf G$ just has an extra term for the preferences $\mathbf C$.'
+        feedback: |
+          $\mathbf G$ cannot use outcomes that have not happened yet. It takes the expectation over the outcomes the model predicts under each policy, which is why it contains preferences and information gain as quantities about the future.
+      - text: '$\mathbf G$ is the free energy after the data arrive, so it is just $\mathbf F$ evaluated one step later.'
+        feedback: |
+          A later $\mathbf F$ would be a score of the policy on later data. $\mathbf G$ averages over data **before** they arrive, under the model, so it can rank policies that have not been tried.
+    explanation: |
+      Think of $\mathbf F$ as "how well did this plan explain what I saw?" and $\mathbf G$ as "how good do I expect the outcomes of this plan to be?". Swapping them would make the agent ignore either its evidence or its goals.
+
+  - type: mcq
+    id: min-or-max
+    title: Large G or small G?
+    prompt: |
+      For the door problem (push or wait), with flat preferences, the expected free energies were $\mathbf G_{\text{push}}=0.574$ and $\mathbf G_{\text{wait}}=0.576$. A student says "$\mathbf G$ is a value to maximise, so waiting is the better plan". Which statement is right?
+    options:
+      - text: '$\mathbf G$ is a free energy, to be **minimised**: the rule $\sigma(-\mathbf G)$ gives the smaller one the larger probability. Here push is only barely ahead: $\pi=(0.5005,\,0.4995)$, practically a toss-up.'
+        correct: true
+      - text: 'Maximised: $\sigma(-\mathbf G)$ gives more probability to the larger value, so waiting wins.'
+        feedback: |
+          The minus sign is the point. $-\mathbf G$ is the score, and the softmax of the score favours the largest $-\mathbf G$, that is the smallest $\mathbf G$.
+      - text: 'Minimised, and since push has the smaller $\mathbf G$ the agent will push with certainty.'
+        feedback: |
+          The direction is right, but a softmax does not turn a difference of $0.002$ into certainty: $1/(1+e^{-0.002})\approx0.5005$. Certainty needs a large gap or a large precision.
+    explanation: |
+      Like every free energy in this course, $\mathbf G$ is smaller for better policies. A tiny difference in $\mathbf G$ means no real preference between the plans.
+
+  - type: mcq
+    id: gamma-zero
+    title: What does zero precision do?
+    prompt: |
+      Two policies with $\mathbf G=(1,\,0.8)$, flat $\mathbf E$ and $\mathbf F$, and the policy precision $\gamma$ multiplying $\mathbf G$: $\pi=\sigma(-\gamma\mathbf G)$. A student says "$\gamma=0$ means no precision, so $\mathbf G$ is used raw, as it is". What really happens at $\gamma=0$?
+    options:
+      - text: 'The score $-\gamma\mathbf G$ is zero for every policy, so $\pi=(0.5,\,0.5)$: the prior over policies is **uniform**, however different the $\mathbf G$ values are. $\gamma$ is a gain on $\mathbf G$.'
+        correct: true
+      - text: '$\mathbf G$ is used as it is, which is the case $\gamma=1$.'
+        feedback: |
+          Raw $\mathbf G$ corresponds to $\gamma=1$, which gives $(0.450,\,0.550)$. At $\gamma=0$ the gain is switched off, not neutral.
+      - text: 'The policy with the smallest $\mathbf G$ gets probability one: low precision means a sharp choice.'
+        feedback: |
+          Reversed. **High** $\gamma$ sharpens the choice; low $\gamma$ flattens it. The inverse of a precision is a temperature: $\gamma\to\infty$ is a winner-take-all, $\gamma=0$ is a coin toss.
+    explanation: |
+      Precision is the confidence in $\mathbf G$ as a guide. With no confidence the agent does not let $\mathbf G$ steer at all.
+
+  - type: numeric
+    id: gamma-three
+    title: Turning the gain up
+    prompt: |
+      Same two policies, $\mathbf G=(1,\,0.8)$, flat $\mathbf E$ and $\mathbf F$, $\pi=\sigma(-\gamma\mathbf G)$. At $\gamma=0$ the probability of the better policy (policy 2) is $0.5$, at $\gamma=1$ it is $0.550$ and at $\gamma=4$ it is $0.690$. A student guesses "$\gamma=3$ is about $0.62$, halfway to a certain choice". What is the probability of the better policy at $\gamma=3$?
+    answer: 0.646
+    tolerance: 0.002
+    answerText: '0.646'
+    wrong:
+      - { value: 0.600, tolerance: 0.003, feedback: "That is $\\gamma=2$ ($0.599$). The gain $\\gamma=3$ multiplies the gap $0.2$ to $0.6$." }
+      - { value: 0.690, tolerance: 0.002, feedback: "That is $\\gamma=4$." }
+      - { value: 0.75, tolerance: 0.002, feedback: "Nothing in the formula makes the probability grow linearly in $\\gamma$; it follows $1/(1+e^{-0.2\\gamma})$ and saturates slowly." }
+    hint: |
+      With two policies, the probability of the better one is $1/(1+e^{-\gamma\,\Delta\mathbf G})$, where $\Delta\mathbf G$ is the gap between the two $\mathbf G$ values.
+    explanation: |
+      The gap is $1-0.8=0.2$, so the log-odds are $0.2\gamma$. At $\gamma=3$: $1/(1+e^{-0.6})\approx0.646$. A modest gap needs a large gain to produce a confident choice.
+
+  - type: numeric
+    id: omega-gibbs
+    title: Precision as an exponent
+    prompt: |
+      Precision on a **prior** works the same way. A prior over three states is $\mathbf D=(0.6,\,0.3,\,0.1)$, and a transition precision $\omega$ gives the sharpened prior $\sigma(\omega\ln\mathbf D)$. A student says "$\omega=2$ doubles the prior probabilities, so the first state gets $2\times0.6$ and the rest rescale". What is the probability of the first state at $\omega=2$?
+    answer: 0.783
+    tolerance: 0.002
+    answerText: '0.783'
+    wrong:
+      - { value: 0.6, tolerance: 0.002, feedback: "That is $\\omega=1$: $\\sigma(\\ln\\mathbf D)=\\mathbf D$. Here $\\omega=2$." }
+      - { value: 0.333, tolerance: 0.002, feedback: "That is $\\omega=0$, where the prior is switched off and becomes uniform." }
+      - { value: 0.36, tolerance: 0.002, feedback: "That is $0.6^2$ without renormalising. A softmax divides by the sum $0.36+0.09+0.01=0.46$." }
+    hint: |
+      $\sigma(\omega\ln\mathbf D)\propto\mathbf D^{\omega}$: raise each entry to the power $\omega$, then normalise.
+    explanation: |
+      $\mathbf D^2=(0.36,\,0.09,\,0.01)$, sum $0.46$, so the first state gets $0.36/0.46\approx0.783$. The precision multiplies the **log** of the prior, not the prior: $\omega=0$ gives the uniform distribution (entropy $1.099$), $\omega=1$ the prior itself ($0.898$), $\omega=2$ a sharper one ($0.594$).
+
+  - type: mcq
+    id: random-generator
+    title: Is a noisy lamp informative?
+    prompt: |
+      An agent can look at a lamp that shows red or green at random, regardless of the hidden state. Looking has a large predictive entropy: $H[Q(o)]=\ln2=0.693$. A student says "it is surprising each time, so it has a large epistemic value". Which statement is right?
+    options:
+      - text: 'The epistemic value is $\mathcal I=H[Q(o)]-\mathbb E_{Q(s)}H[P(o\mid s)]$. For this lamp the ambiguity is also $\ln2$, so $\mathcal I=0$: its outcomes are unpredictable, but they say nothing about the state.'
+        correct: true
+      - text: 'The epistemic value is the predictive entropy $H[Q(o)]$, so it is $0.693$, the largest possible for two outcomes.'
+        feedback: |
+          That forgets the subtraction. A random-number generator has the largest predictive entropy there is, and it tells you nothing. The entropy counts how unpredictable the outcome is, not how much of that unpredictability depends on the hidden state.
+      - text: 'It is negative, because a random lamp can only add confusion.'
+        feedback: |
+          Information gain is never negative; an uninformative source gives exactly zero, and the agent expects to be no wiser after looking.
+    explanation: |
+      Unpredictable is not the same as informative. Information gain is the part of the outcome entropy that **depends on the state**: total entropy minus the entropy that remains once the state is known (the ambiguity).
+
+  - type: numeric
+    id: gain-lamp
+    title: A lamp that does depend on the state
+    prompt: |
+      Now a lamp that is mostly right: in state 1 it shows red with probability $0.8$ and green with $0.2$; in state 2 it shows red with probability $0.2$ and green with $0.8$. The belief over the states is $(0.5,\,0.5)$, so $H[Q(o)]=\ln2=0.693$. A student says "the information gain is the predictive entropy, $0.693$". What is the information gain $\mathcal I=H[Q(o)]-\mathbb E_{Q(s)}H[P(o\mid s)]$, in nats?
+    answer: 0.193
+    tolerance: 0.002
+    answerText: '0.193'
+    wrong:
+      - { value: 0.693, tolerance: 0.002, feedback: "That is $H[Q(o)]$ alone, with no ambiguity subtracted." }
+      - { value: 0.500, tolerance: 0.002, feedback: "That is the ambiguity $H(0.8,0.2)$, the part to subtract, not the gain." }
+      - { value: 0, tolerance: 0.002, feedback: "The lamp does depend on the state, so some of its entropy is informative." }
+    hint: |
+      The ambiguity is the entropy of one row, $-0.8\ln0.8-0.2\ln0.2$, the same in both states.
+    explanation: |
+      $-0.8\ln0.8-0.2\ln0.2=0.500$, so $\mathcal I=0.693-0.500=0.193$. Between the useless lamp ($0$) and a perfectly reliable one ($0.693$), this lamp's value sits where its reliability does.
+
+  - type: numeric
+    id: habit-number
+    title: Adding a habit
+    prompt: |
+      Same two policies, $\mathbf F=(0.5,\,1.5)$ and $\mathbf G=(1,\,0.8)$, but now the agent has a **habit** prior $\mathbf E=(0.7,\,0.3)$, used in $\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$. A student says "a habit just gets added to the policy probability: $0.690+0.7$, then normalise" . What is the probability of policy 1?
+    answer: 0.839
+    tolerance: 0.002
+    answerText: '0.839'
+    wrong:
+      - { value: 0.690, tolerance: 0.002, feedback: "That is the value without the habit. The habit raises policy 1, which it favours." }
+      - { value: 0.7, tolerance: 0.002, feedback: "That is the habit $\\mathbf E$ alone, which ignores the evidence $\\mathbf F$ and the expectation $\\mathbf G$." }
+      - { value: 0.5, tolerance: 0.002, feedback: "The scores are $\\ln0.7-1.5=-1.857$ and $\\ln0.3-2.3=-3.504$, which are different." }
+    hint: |
+      Scores: $\ln0.7-0.5-1$ and $\ln0.3-1.5-0.8$. Take the softmax of the two.
+    explanation: |
+      The scores are $-1.857$ and $-3.504$, and $1/(1+e^{-1.647})\approx0.839$. The habit enters as a **log prior** in the same sum, so its effect multiplies the odds: the odds $0.690/0.310=2.23$ become $2.23\times0.7/0.3=5.2$.
+
+  - type: mcq
+    id: habit-g
+    title: Does a habit change G?
+    prompt: |
+      An agent acquires a strong habit $\mathbf E$ for one policy. A student says "the habit makes that policy look cheaper, so its $\mathbf G$ goes down". Which statement is right?
+    options:
+      - text: '$\mathbf G$ does not change. $\mathbf E$ is a **prior** over policies that adds $\ln\mathbf E$ to the score; the expected free energy still depends only on the model of outcomes and the preferences $\mathbf C$. The habit and $\mathbf G$ can disagree.'
+        correct: true
+      - text: '$\mathbf G$ goes down by $\ln\mathbf E$, since a habit is a kind of preference.'
+        feedback: |
+          Preferences over outcomes are $\mathbf C$, and they are inside $\mathbf G$. A habit is a preference over **policies themselves**, independent of what they cause, and it is not included in $\mathbf G$.
+      - text: 'The habit replaces $\mathbf G$ when it is strong enough, so $\mathbf G$ is not computed any more.'
+        feedback: |
+          Both always enter the sum. A strong habit only makes $\ln\mathbf E$ dominate it. If the context changes, $\mathbf G$ can still pull the agent away from the habit.
+    explanation: |
+      Keeping $\mathbf E$ separate lets the agent distinguish "I always do this" from "this will turn out well". In the sum $\ln\mathbf E-\mathbf F-\mathbf G$, each term is its own source of evidence for a policy.
+
+  - type: numeric
+    id: counts-update
+    title: One more observation
+    prompt: |
+      A coin's two outcomes (heads, tails) have Dirichlet counts $\mathbf a=(3,\,4)$, so the learned probability of heads is $3/7=0.429$. The agent sees one heads for certain, and updates $\mathbf a\leftarrow\mathbf a+\mathbf o\otimes\mathbf s$. A student says "the counts are probabilities, so heads becomes $4/7$". What is the new learned probability of heads?
+    answer: 0.5
+    tolerance: 0.002
+    answerText: '0.5'
+    wrong:
+      - { value: 0.571, tolerance: 0.002, feedback: "That is $4/7$: the numerator rose but the total did not. The counts become $(4,4)$, with total $8$." }
+      - { value: 0.429, tolerance: 0.002, feedback: "That is the value before the update; the counts changed." }
+      - { value: 1, tolerance: 0.002, feedback: "One observation does not make heads certain: the new counts $(4,4)$ still carry the old data." }
+    hint: |
+      The new counts are $(4,4)$; the probability is a count divided by the column total.
+    explanation: |
+      $4/(4+4)=0.5$. Counts are not probabilities: probabilities are their **ratios**, so each observation moves them by about $1/\text{total}$.
+
+  - type: mcq
+    id: big-counts
+    title: Big counts, quick learning?
+    prompt: |
+      Coin A has counts $(3,4)$ and coin B has counts $(53,49)$. Learning one more flip makes the likelihood move far more for A than for B (to $0.5$ from $0.429$, against $0.524$ from $0.520$). The expected novelty of the next observation is $0.066$ for A and $0.0049$ for B. A student says "B has the larger counts, so it has learned quickly, and exploring it is worth more". Which statement is right?
+    options:
+      - text: 'Large counts mean the likelihood is already well determined, so one more observation changes little: **little novelty**, little pull to explore. Novelty is the expected information about the parameters, and it falls as the counts grow (about $1/(2a_{ij})-1/(2a_{0j})$).'
+        correct: true
+      - text: 'Large counts mean a big update, so B has more to learn.'
+        feedback: |
+          The update adds one count, whatever the counts are. Relative to a total of $102$ that is tiny. A small total, as in A, is where one count matters.
+      - text: 'Novelty depends on the true coin and not on the counts.'
+        feedback: |
+          The agent does not know the true coin. It computes novelty from its own counts: the uncertainty it has about the parameters.
+    explanation: |
+      The counts record **how much has been seen**, not how fast things were learned. A fresh model (counts near $1$) has the most novelty, and the novelty term in $\mathbf G$ pulls the agent toward what it has not yet explored.
+
+  - type: mcq
+    id: novelty-salience
+    title: Novelty or salience?
+    prompt: |
+      A student says "novelty and salience are two names for the same term in $\mathbf G$, the part that rewards looking at new things". Which statement is right?
+    options:
+      - text: 'They differ in what is uncertain. **Salience** is information about the hidden **states**, the epistemic value of the previous lessons. **Novelty** is information about the **parameters** of the model (the counts of $\mathbf A$). A well-known, reliable lamp can be very salient with almost no novelty.'
+        correct: true
+      - text: 'Salience is for the future and novelty for the past: both are about the states.'
+        feedback: |
+          Both are terms of $\mathbf G$, so both are about the future. They differ in the object: states for salience, parameters for novelty.
+      - text: 'Novelty is the salience of the previous trial.'
+        feedback: |
+          Novelty does not carry over a past quantity. It is the expected information gain about the counts, computed before the observation.
+    explanation: |
+      In $\mathbf G=-\text{salience}-\text{novelty}-\text{pragmatic value}$, each term has its own question: which state am I in, how does the world work, and how much of what I want do I get. A reliable lamp, with counts such as $(53,49)$, has a negligible novelty and may still tell you the state.
+
+  - type: mcq
+    id: backward-term
+    title: Does the past decide alone?
+    prompt: |
+      In a hidden Markov model (a sequence of states, with the transitions $\mathbf B$) a note heard at step 3 is ambiguous. A student says "my belief about step 3 uses only what came before, because the future has not happened". After the full melody was heard, the belief that step 3 was note 3 went from $0.904$ (filtered, data so far) to $0.997$ (retrospective, all data). What explains this?
+    options:
+      - text: 'State inference also uses the **later** states and outcomes: a message from step 4 (through $\mathbf B^{\mathsf T}$) says which step-3 states could have led to what was heard next. The belief about the past is revised with later data.'
+        correct: true
+      - text: 'The data at step 3 were heard twice, so the belief doubled up.'
+        feedback: |
+          Each outcome enters once, in the likelihood term. The change comes from the other neighbours of the state in the chain, the ones at steps 2 and 4.
+      - text: 'The retrospective belief is a guess made without any data.'
+        feedback: |
+          It uses **all** the data, which is why it is the sharpest one.
+    explanation: |
+      In the update $\dot{\mathbf v}_\tau=\ln\mathbf A\cdot o_\tau+\ln(\mathbf B\mathbf s_{\tau-1})+\ln(\mathbf B^\dagger\mathbf s_{\tau+1})-\ln\mathbf s_\tau$, the second term sends information forward from the past and the third sends it backward from the future. A policy-level belief about the future is therefore not needed to change a belief about the past; the observed future already does it.
+
+  - type: mcq
+    id: higher-level-data
+    title: Does the top see the data?
+    prompt: |
+      In the reading model the lower level infers a word from its fast outcomes, and a higher level holds the sentence. A student says "the higher level also receives the raw visual data, which is why it can infer the sentence". Which statement is right?
+    options:
+      - text: 'No. The higher level sees **no data of its own**: its evidence is the posterior over words that the lower level passes up. In return it sends down an empirical prior $\mathbf D^{(1)}$ for the next lower POMDP.'
+        correct: true
+      - text: 'Yes: every level is attached to the senses, with the higher ones using slower samples.'
+        feedback: |
+          Only the lowest level generates the outcomes that are observed. Levels above generate **states** for the one below, not observations.
+      - text: 'The higher level only receives data when the lower level is uncertain.'
+        feedback: |
+          The upward message is not a request for help: it is the lower level's posterior, at every slow step, used as the likelihood.
+    explanation: |
+      Evidence climbs and priors descend. In the six-sentence example, after the first word is flee the posterior over the two flee sentences is $(\tfrac12,\tfrac12)$, and the prior for the next word then puts the word wait at probability $1$.
+
+  - type: numeric
+    id: confidence-steps
+    title: Does confidence always grow?
+    prompt: |
+      Six equally likely four-word sentences are used. Two of them start with *flee wait feed*: sentence 1 ends with *wait* and the other ends with *flee*. A student says "each new word makes the higher level more confident about sentence 1". After the three words flee, wait, feed (all heard clearly), what is the probability of sentence 1?
+    answer: 0.5
+    tolerance: 0.002
+    answerText: '0.5'
+    wrong:
+      - { value: 1, tolerance: 0.002, feedback: "Sentence 2 begins with the same three words, so it has not been excluded." }
+      - { value: 0.167, tolerance: 0.002, feedback: "That is the prior of one sentence among six. The first word flee already ruled out the four sentences that start with wait." }
+      - { value: 0.75, tolerance: 0.002, feedback: "The three words are shared by both sentences; they carry no evidence to prefer one of them." }
+    hint: |
+      Count the sentences still compatible with the three words. The two compatible ones are equally likely.
+    explanation: |
+      The prior of $1/6$ for each sentence went to $\tfrac12$ after the first word, and the second and third words, which both sentences share, change nothing: $Q=\tfrac12$ at every step until the fourth word. Confidence rises only when a word **discriminates** between candidates, not with every word that arrives.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      Corrections (setup: policies $\pi$; free energy $\mathbf F$ of the data seen; expected free energy $\mathbf G$ of the outcomes to come; habit prior $\mathbf E$; precisions $\gamma$ on $\mathbf G$ and $\omega$ on a prior; Dirichlet counts $\mathbf a$ behind $\mathbf A$; a two-level model with a higher level that has no data of its own):
+
+      - $\mathbf F$ looks back, $\mathbf G$ looks ahead, and the rule uses both. With $\mathbf F=(0.5,1.5)$ and $\mathbf G=(1,0.8)$:
+        $$\begin{aligned}\pi&=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)\\\pi_1&=0.690\\\sigma(-\mathbf G)&=(0.450,0.550)\end{aligned}$$
+        $\mathbf G$ is **minimised**; a gap of $0.002$ (door: $0.574$ and $0.576$) is a toss-up.
+      - A habit is a log prior, not a change of $\mathbf G$: with $\mathbf E=(0.7,0.3)$ policy 1 rises from $0.690$ to $0.839$.
+      - Precision is a gain. For $\gamma$ on $\mathbf G$, $\pi=\sigma(-\gamma\mathbf G)$ is uniform at $\gamma=0$; the better policy gets $0.5,\,0.550,\,0.646,\,0.690$ at $\gamma=0,1,3,4$. On a prior it multiplies the log, $\sigma(\omega\ln\mathbf D)\propto\mathbf D^\omega$: $\omega=2$ turns $(0.6,0.3,0.1)$ into $(0.783,0.196,0.022)$.
+      - Epistemic value is information gain, not entropy:
+        $$\mathcal I=H[Q(o)]-\mathbb E_{Q(s)}H[P(o\mid s)].$$
+        A random lamp has $\mathcal I=0$; the $(0.8,0.2)$ lamp has $0.693-0.500=0.193$.
+      - Counts are not probabilities and large counts do not mean "fast learning": $\mathbf a=(3,4)\to(4,4)$ gives $0.5$, and novelty $W\approx 1/(2a_{ij})-1/(2a_{0j})$ is $0.066$ for $(3,4)$ and $0.0049$ for $(53,49)$. Novelty is about parameters, salience about states.
+      - Inference about a state uses past **and** future neighbours: filtered $0.904$, retrospective $0.997$. In a hierarchy, evidence climbs and priors descend: the higher level has no data, and its confidence stays at $\tfrac12$ until a word separates the sentences.
+
+      **Next:** a round of quick recall for the discrete-time equations: mnemonics, limit checks, and building each update from its pieces, with no formula given to you.
