@@ -1,0 +1,367 @@
+id: ch03-markov-blankets
+title: Markov Blankets
+kind: concept
+own: |
+  - **Setup.** A creature and its environment are described by four sets of states: **external** states $x$ (the world outside), **internal** states $\mu$ (the creature's inside, for example its brain), and two sets that sit between them, **sensory** states $y$ and **active** states $u$. Together they form the **blanket** $b=(u,y)$.
+  - **Definition.** A set $b$ is a blanket between $\mu$ and $x$ when, once $b$ is known, the outside adds nothing about the inside:
+    {{ $$\mu\perp x\mid b\;\Leftrightarrow\;p(\mu,x\mid b)=p(\mu\mid b)\,p(x\mid b)$$ }}
+    In a graph of dependences, the blanket of a variable is its parents, its children and the other parents of its children.
+  - **Dynamic version.** Each set $z\in\{x,y,u,\mu\}$ has a rate of change $\dot z=f_z(\cdot)+\omega_z$ (a deterministic flow $f_z$ plus random fluctuations $\omega_z$), and the flows leave out the opposite side. The internal flow never contains $x$:
+    {{ $$\dot\mu=f_\mu(\mu,u,y)+\omega_\mu$$ }}
+    and the external flow never contains $\mu$, $\dot x=f_x(x,u,y)+\omega_x$. The environment acts on the inside only through $y$; the inside acts on the environment only through $u$.
+  - **Synchrony.** Given $b$, the inside and the outside fluctuate independently, but both are tied to the same $b$, so the average internal state identifies a distribution over external states:
+    $$\bar\mu=\mathbb{E}_{p(\mu\mid b)}[\mu]\;\longmapsto\;p(x\mid\bar\mu)$$
+    This is why internal states look like they represent (model) external states.
+  - **Surprise lives on the blanket.** Surprise is defined for sensory states, and the internal and active dynamics are the means of lowering it:
+    {{ $$\mathfrak{I}(y)=-\ln P(y)$$ }}
+cards:
+  - type: text
+    id: hook
+    title: "What is a thing?"
+    body: |
+      To survive, a fish must stay in a small corner of all the states the universe could be in: it has to stay **in water**. A human must keep body temperature and heart rate in a narrow range, or become something else (a corpse). Staying inside such a **comfort zone** is what it means to remain *that* thing.
+
+      The next lessons build the theory on one idea: a creature persists by **keeping itself surprised as little as possible**. But before surprise can even be defined, something more basic is needed. To be surprised there must be **something that is surprised** and **something it is surprised about**: an inside and an outside that can be told apart.
+
+      Guess first.
+
+  - type: mcq
+    id: hook-guess
+    prompt: |
+      A drop of ink dissolves into a glass of water. Within a minute there is no "ink drop" left to distinguish from the water. What property must a creature have, that the ink drop lacks, to stay a separate thing from its surroundings?
+    options:
+      - text: 'Some set of variables that stands between inside and outside, so that everything the world does to the inside has to pass through it.'
+        correct: true
+      - text: 'It must be completely cut off from the environment, with no interaction at all.'
+        feedback: |
+          Tempting: separate things sound isolated. But a creature with no contact could never sense food or move. It needs contact, and the contact must be **mediated**: all influence goes through a channel.
+      - text: 'It must be much larger than its environment.'
+        feedback: |
+          Size does not matter: a cell stays a cell. What matters is the structure of who influences whom, not how big the parts are.
+    explanation: |
+      Separation without isolation: the inside and the outside interact only **through** some intermediate states. Making this precise is the job of the **Markov blanket**.
+
+  - type: text
+    id: recall
+    title: "Recall: conditional independence"
+    body: |
+      We need one statistical idea. Two variables are **conditionally independent given** a third if, once you know the third, learning one of them tells you nothing new about the other.
+
+      A **Markov chain** is the standard example: the past causes the present, and the present causes the future. The past reaches the future only *through* the present.
+
+  - type: mcq
+    id: chain-recall
+    prompt: |
+      In a chain "past $\to$ present $\to$ future", you already know the present. Does finding out the past change what you expect about the future?
+    options:
+      - text: 'No: the past only influences the future via the present, which you already know.'
+        correct: true
+      - text: 'Yes: the past is a cause of the future, so it always carries extra information.'
+        feedback: |
+          It is a cause, but only an **indirect** one. Once the present is fixed, every route from past to future has been used up. Without knowing the present, the past would indeed be informative.
+      - text: 'Yes, but only a little.'
+        feedback: |
+          Not even a little: given the present the dependence is exactly zero. "Given" is what turns the dependence off.
+    explanation: |
+      Knowing the present **screens off** the past from the future. A Markov blanket is the same idea, for an inside and an outside.
+
+  - type: text
+    id: def
+    title: "The definition"
+    body: |
+      Let $\mu$ be one set of variables (we will call it the **internal** states), $x$ another (the **external** states), and $b$ a third set. We call $b$ a **blanket** between them when
+      $$\mu\perp x\mid b\;\Leftrightarrow\;p(\mu,x\mid b)=p(\mu\mid b)\,p(x\mid b).$$
+      The symbol $\perp$ means "independent of", and the bar $\mid b$ means "given that $b$ is known". The two sides say the same thing in two ways: given $b$, the joint distribution of $\mu$ and $x$ **factorises** into a product, so knowing $x$ gives no additional information about $\mu$.
+
+  - type: numeric
+    id: factorise
+    prompt: |
+      Take a particular value of $b$. Given it, the inside is $\mu=1$ with probability $0.3$, and the outside is $x=1$ with probability $0.8$. If $b$ is a blanket, then $\mu$ and $x$ are conditionally independent given $b$. What is $p(\mu=1,\,x=1\mid b)$?
+    answer: 0.24
+    tolerance: 0.001
+    answerText: '0.24'
+    wrong:
+      - { value: 1.1, tolerance: 0.001, feedback: "That adds the two probabilities. Independence multiplies them: $p(\\mu,x\\mid b)=p(\\mu\\mid b)\\,p(x\\mid b)$." }
+      - { value: 0.3, tolerance: 0.001, feedback: "$0.3$ is only $p(\\mu=1\\mid b)$. The joint also needs the factor for $x$." }
+    hint: |
+      Use the right-hand side of the definition: a product of the two conditional probabilities.
+    explanation: |
+      $0.3\times0.8=0.24$. The other three cells are $0.3\times0.2=0.06$, $0.7\times0.8=0.56$ and $0.7\times0.2=0.14$, and all four sum to $1$. If $b$ were **not** a blanket, the joint could not be written as such a product.
+
+  - type: text
+    id: rule
+    title: "Finding a blanket in a graph"
+    body: |
+      Often we know **who depends on whom**, drawn as arrows from a cause to its effect. For a given variable:
+
+      - its **parents** are the variables it depends on (arrows into it);
+      - its **children** are the variables that depend on it (arrows out of it);
+      - and sometimes the **other parents of its children** also belong to the blanket.
+
+      The picture shows four sets of states in a loop: the world $x$ (external), the sensory states $y$, the internal states $\mu$ and the active states $u$. Click **Condition on the blanket** and read the verdict.
+
+  - type: widget
+    id: widget-loop
+    review: false
+    widget: blanket-graph
+    config:
+      nodes:
+        - { id: x, label: 'x', role: external, hue: 140, pos: [52, 115] }
+        - { id: y, label: 'y', role: sensory, hue: 48, pos: [170, 46] }
+        - { id: a, label: 'u', role: active, hue: 350, pos: [170, 184] }
+        - { id: mu, label: '\mu', role: internal, hue: 188, pos: [348, 115] }
+      edges:
+        - { from: x, to: y, on: true }
+        - { from: y, to: mu, on: true }
+        - { from: mu, to: a, on: true }
+        - { from: a, to: x, on: true }
+    body: |
+      Arrows run from cause to effect. Before conditioning, find the path that links $x$ and $\mu$. Then condition on $y$ and $u$.
+
+  - type: mcq
+    id: find-blanket
+    prompt: |
+      In a loop of influences $x\to y\to\mu\to u\to x$ (arrows run from cause to effect), what is the blanket of the internal states $\mu$: its parents, its children, and the other parents of its children?
+    options:
+      - text: '$\{y,\,u\}$: the parent $y$ (it feeds $\mu$) and the child $u$ (it depends on $\mu$).'
+        correct: true
+      - text: '$\{x\}$: the environment, because it is what the inside must be shielded from.'
+        feedback: |
+          Tempting, but $x$ is the thing being separated, not the separator. $x$ does not point directly into $\mu$ and $\mu$ does not point into $x$; the arrows go through $y$ and $u$.
+      - text: '$\{x,\,y,\,u\}$: everything else.'
+        feedback: |
+          A blanket is the **smallest** screening set: parents, children and co-parents. $x$ is not one of them, since no arrow joins $x$ and $\mu$ directly.
+    explanation: |
+      The parent of $\mu$ is $y$, its child is $u$, and the only parent of $u$ is $\mu$ itself. So the blanket is $\{y,u\}$, written $b=(u,y)$. The same set also screens $x$ from $\mu$ on the other side, so it is the blanket of the whole inside.
+
+  - type: text
+    id: split
+    title: "Sensory and active states"
+    body: |
+      The blanket splits in two:
+
+      - **sensory states** $y$: the states through which the **external** states reach the inside (observations);
+      - **active states** $u$: the states through which the **internal** states reach the outside (actions).
+
+      This is the old **action-perception cycle**: the creature and its world interact *only* through observations and actions. External states cannot directly change internal states, but they change the sensory states, which do. Internal states cannot directly change external states, but they change the active states, which do.
+
+  - type: order
+    id: cycle
+    prompt: |
+      Put one turn of the action-perception cycle in order, starting from a change in the world (external states $x$).
+    steps:
+      - 'The external states $x$ change (say, the room gets colder).'
+      - 'The sensory states $y$ change (the skin senses the cold).'
+      - 'The internal states $\mu$ change (the brain updates).'
+      - 'The active states $u$ change (the creature shivers or puts on a coat).'
+      - 'The external states $x$ change again (the room around the creature warms).'
+    hint: |
+      The world reaches the inside through the senses, and the inside reaches the world through action.
+    explanation: |
+      $x\to y\to\mu\to u\to x$: no step skips the blanket.
+
+  - type: mcq
+    id: leak-predict
+    prompt: |
+      Suppose that, besides the loop $x\to y\to\mu\to u\to x$, the external states also acted **directly** on the internal states: a new arrow $x\to\mu$ that does not go through $y$. If we know $y$ and $u$, are $\mu$ and $x$ still independent?
+    options:
+      - text: 'No: the direct arrow is a path that knowing $y$ and $u$ does not block.'
+        correct: true
+      - text: 'Yes: knowing the blanket always makes inside and outside independent.'
+        feedback: |
+          Only if the blanket really **contains every route** between them. Independence is a property of the arrows, not of the word "blanket". A route that skips $y$ and $u$ breaks it.
+      - text: 'Yes, because the arrow $x\to\mu$ is only one arrow among many.'
+        feedback: |
+          Counting arrows does not help: one open route is enough to keep two variables dependent.
+    explanation: |
+      Test it in the picture.
+
+  - type: widget
+    id: widget-leak
+    review: false
+    widget: blanket-graph
+    config:
+      editable: true
+      conditioned: true
+      nodes:
+        - { id: x, label: 'x', role: external, hue: 140, pos: [52, 115] }
+        - { id: y, label: 'y', role: sensory, hue: 48, pos: [170, 46] }
+        - { id: a, label: 'u', role: active, hue: 350, pos: [170, 184] }
+        - { id: mu, label: '\mu', role: internal, hue: 188, pos: [348, 115] }
+      edges:
+        - { from: x, to: y, on: true }
+        - { from: y, to: mu, on: true }
+        - { from: mu, to: a, on: true }
+        - { from: a, to: x, on: true }
+        - { from: x, to: mu, on: false, editable: true }
+        - { from: mu, to: x, on: false, editable: true }
+      presets:
+        - { label: 'Blanket', edges: ['x>y', 'y>mu', 'mu>a', 'a>x'], conditioned: true }
+        - { label: 'Leaky', edges: ['x>y', 'y>mu', 'mu>a', 'a>x', 'x>mu'], conditioned: true }
+    body: |
+      Switch the arrow $x\to\mu$ on and off (click it or its chip) while conditioning on $y$ and $u$, and read the verdict.
+
+  - type: mcq
+    id: trap-influence
+    prompt: |
+      A student says: "If $y$ and $u$ form a Markov blanket, the internal states $\mu$ can never be influenced by the environment." Is that right?
+    options:
+      - text: 'No: the environment influences $\mu$ all the time, but only **indirectly**, by changing $y$ first.'
+        correct: true
+      - text: 'Yes: that is exactly what a blanket enforces.'
+        feedback: |
+          A blanket forbids **direct** influence, not influence. Without sensory states the creature could never learn what the weather is. The influence is mediated.
+      - text: 'Yes, but only for the sensory states, not the active ones.'
+        feedback: |
+          Both halves of the blanket mediate: $y$ carries the world's influence in, $u$ carries the creature's influence out.
+    explanation: |
+      "Separation" means conditional independence given the blanket, not "no influence". What fails is **direct** influence across the blanket.
+
+  - type: text
+    id: dynamics
+    title: "A dynamic blanket"
+    body: |
+      So far this was static. The creature and the world change in time, so each set $z$ is given a **rate of change** $\dot z$ (the dot is a time derivative: how fast $z$ moves). It has two parts: a deterministic **flow** $f_z$ (the average rate of change) and random **fluctuations** $\omega_z$ (noise). With one such equation per set,
+      $$\dot\mu=f_\mu(\mu,u,y)+\omega_\mu .$$
+      The dependences are the arrows of the picture: an arrow from one set to another means the second flow **depends on** the first (technically, a nonzero entry of the flow's **Jacobian**, the table of how each flow responds to each variable). The blanket constraint becomes dynamical: the flows do not depend on states on the opposite side. (Other fields write sensory $s$, external $\eta$ and active $a$; here we keep $y$, $x$, $u$.)
+
+  - type: mcq
+    id: flow-missing
+    prompt: |
+      The flow of the internal states is $\dot\mu=f_\mu(\mu,u,y)+\omega_\mu$. Which variable is **missing** from its arguments, and why?
+    options:
+      - text: 'The external states $x$: the inside is only allowed to feel the world through the sensory states $y$.'
+        correct: true
+      - text: 'The sensory states $y$: the inside should not depend on what it observes.'
+        feedback: |
+          Reversed: the whole point of observing is that $y$ **does** drive the inside. $y$ appears.
+      - text: 'The noise $\omega_\mu$: it is random, so it cannot appear.'
+        feedback: |
+          The noise is the second term of the equation. Missing is a **state variable** that would give a direct line from the world to the inside.
+    explanation: |
+      $x$ is absent from the internal flow, and symmetrically $\mu$ is absent from the external flow $\dot x=f_x(x,u,y)+\omega_x$. The blanket states $u$ and $y$ appear in both.
+
+  - type: text
+    id: sync-hook
+    title: "Two pendulums on a beam"
+    body: |
+      The inside and the outside never touch, yet there is a precise sense in which the inside comes to **track** the outside. An old observation (Huygens, 1673): hang two pendulums on the same wooden beam. They do not touch each other, only the beam, but after a while they swing in step.
+
+      Our blanket plays the role of the beam: $\mu$ and $x$ both depend on $b$, and on nothing else in common.
+
+  - type: mcq
+    id: sync-guess
+    prompt: |
+      Given the blanket value $b$, the internal state $\mu$ and the external state $x$ are drawn **independently**: each fluctuates around an average that depends on $b$. Now we pool samples over many values of $b$ and plot $\mu$ against $x$. What do we expect to see?
+    options:
+      - text: 'A tilted cloud: when $b$ pushes $x$ up it also pushes $\mu$ up (or down), so $\mu$ and $x$ become correlated overall.'
+        correct: true
+      - text: 'A round cloud with no pattern, since $\mu$ and $x$ are independent given $b$.'
+        feedback: |
+          They are independent **given a fixed $b$**. When $b$ is allowed to vary, it moves both averages together, and the pooled cloud is tilted. Fixing $b$ removes the tilt.
+      - text: 'A single point, because $b$ determines both exactly.'
+        feedback: |
+          Each set still fluctuates on its own around its average. $b$ fixes the averages, not the values.
+    explanation: |
+      Averages follow $b$; fluctuations are independent. We will see both in the picture.
+
+  - type: widget
+    id: widget-sync
+    review: false
+    widget: blanket-sync
+    config:
+      noiseX: 0.5
+      noiseMu: 0.5
+      seed: 3
+      presets:
+        - { label: 'Same direction' }
+        - { label: 'Inverse', sign: -1 }
+        - { label: 'Noisy', noiseX: 1.2, noiseMu: 1.2 }
+    body: |
+      Each dot is one draw of $(x,\mu)$ for a random $b$. Press **Condition on b** and move the slider for $b$: the cloud at one fixed $b$ has no tilt. Then move the second slider (a chosen average internal value $\bar\mu$) and watch the curve over $x$: the distribution of external states that $\bar\mu$ points to. Try **Inverse** and **Noisy**.
+
+  - type: mcq
+    id: sync-inverse
+    prompt: |
+      In a blanket where the average external state rises with $b$ and the average internal state **falls** with $b$ (an inverse synchrony), you observe a large positive average internal state $\bar\mu$. What does it say about the external state $x$?
+    options:
+      - text: 'It points to a **low** (negative) value of $x$, with some spread around it.'
+        correct: true
+      - text: 'It points to a **high** value of $x$.'
+        feedback: |
+          That would be the same-direction case. Here a high $\mu$ means a low $b$, and a low $b$ means a low $x$.
+      - text: 'It says nothing about $x$, since $\mu$ and $x$ are independent given $b$.'
+        feedback: |
+          Independent **given $b$**, but $b$ is unknown to the reader; the average $\bar\mu$ tells us about $b$, and $b$ tells us about $x$. That chain is the synchrony.
+    explanation: |
+      A synchrony can run either way, **same** or **inverse**. What matters is that the average of $\mu$ identifies a distribution over $x$.
+
+  - type: numeric
+    id: sync-number
+    prompt: |
+      A toy blanket: $b$ has mean $0$ and variance $1$; given $b$, $x=b+\text{noise}$ and $\mu=b+\text{noise}$, with independent noises of standard deviation $0.5$ each (variance $0.25$). Then $\operatorname{Var}(\mu)=1.25$ and $\operatorname{Cov}(x,\mu)=1$, and for such Gaussian variables $\mathbb{E}[x\mid\mu]=\frac{\operatorname{Cov}(x,\mu)}{\operatorname{Var}(\mu)}\,\mu$. If the internal state is $\bar\mu=1.5$, what is the expected external state?
+    answer: 1.2
+    tolerance: 0.005
+    answerText: '1.2'
+    wrong:
+      - { value: 1.5, tolerance: 0.005, feedback: "That assumes $\\mu$ copies $x$. Both are noisy readings of $b$, so the best guess of $x$ is pulled back towards the mean $0$ (a ratio $1/1.25=0.8$)." }
+      - { value: 1.0, tolerance: 0.005, feedback: "$1$ is the covariance. Divide it by $\\operatorname{Var}(\\mu)=1.25$ to get the slope, then multiply by $\\bar\\mu$." }
+    hint: |
+      Slope $=1/1.25=0.8$; multiply by $\bar\mu=1.5$.
+    explanation: |
+      $0.8\times1.5=1.2$. The inside is not a perfect copy of the outside (that would be $1.5$): both are noisy shadows of $b$, so the implied belief is shrunk towards the middle and has a spread (here a variance $1.25-1/1.25=0.45$).
+
+  - type: mcq
+    id: model-claim
+    prompt: |
+      The synchrony gives internal states "the appearance of modelling external states": $\bar\mu$ picks out a distribution over $x$, much like an approximate posterior $Q(x)$ from the free-energy story. Which statement is a fair reading?
+    options:
+      - text: 'Mathematically, the average internal state is associated with a belief-like distribution over $x$. This is a statement about the **statistics** of the blanket, not that the brain consciously knows $x$.'
+        correct: true
+      - text: 'The brain computes the true external state $x$ exactly and stores it in $\mu$.'
+        feedback: |
+          The association is only **on average**, with a spread. The inside holds a distribution, not the true value, and nothing says it computes anything consciously.
+      - text: 'Internal states are an exact copy of the external states.'
+        feedback: |
+          With noise, or an inverse relation, $\mu$ is not a copy at all; it is **associated** with $x$ in the Bayesian sense of a distribution around a mean.
+    explanation: |
+      The inside **appears to** represent the outside. This is what links the blanket to the earlier picture of inference: internal states parametrise a belief $Q(x)$ about external states.
+
+  - type: mcq
+    id: nesting
+    multiple: true
+    prompt: |
+      Which of these can be described as a Markov blanket, with an inside and an outside, possibly **nested** in one another?
+    options:
+      - text: 'A brain inside an organism.'
+        correct: true
+      - text: 'A whole organism in its environment.'
+        correct: true
+      - text: 'A pair of interacting people (a dyad), or a community.'
+        correct: true
+      - text: 'Only a single neuron, and nothing larger.'
+        feedback: |
+          Nothing restricts the scale. The blanket is a statistical structure that can be drawn around a brain, an organism, a dyad or a community.
+    explanation: |
+      The same structure repeats at many scales: brains inside organisms inside dyads inside communities, each with its own blanket.
+
+  - type: mcq
+    id: surprise-blanket
+    prompt: |
+      Surprise of the sensory states is $\mathfrak{I}(y)=-\ln P(y)$. In the blanket picture, which of the following are the **means** by which the creature can lower it?
+    multiple: true
+    options:
+      - text: 'The dynamics of the internal states $\mu$ (updating beliefs).'
+        correct: true
+      - text: 'The dynamics of the active states $u$ (acting on the world).'
+        correct: true
+      - text: 'The dynamics of the external states $x$.'
+        feedback: |
+          The creature does not control the world directly. It can only affect it through $u$.
+    explanation: |
+      Surprise is defined for the **sensory** states; the internal and active dynamics are what the creature has to lower it. That is the next lesson's question: why must $y$ stay in a narrow range?
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** why a persisting system must keep its sensory states in a narrow range, and how that makes it behave as if it were gathering evidence for a model of itself (self-evidencing).
