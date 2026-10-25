@@ -11,7 +11,7 @@ own: |
     where $H$ is entropy: the first line is the ambiguity, the first two together the negative epistemic value, the third the negative pragmatic value. Epistemic value (information to gain) is large at the cue before the context is known ($\ln 2\approx0.693$) and $0$ once it is known; pragmatic value is large where the food outcome is probable. No weighting of the two is needed.
   - **The posterior over policies** combines the evidence for each plan so far ($\mathbf F$, from the past data), the expected cost of its future ($\mathbf G$) and a habit prior $\mathbf E$ (a fixed bias over policies, flat if absent):
     {{ $$\boldsymbol\pi=\sigma\big(\ln\mathbf E-\mathbf F-\mathbf G\big)$$ }}
-    With flat $\mathbf E$ this is $\boldsymbol\pi=\sigma(-\mathbf G-\mathbf F)$. Example with two policies: $\mathbf F=(0.5,1.5)$ and $\mathbf G=(1,0.8)$ give $\pi_1=e^{-1.5}/(e^{-1.5}+e^{-2.3})=0.690$; adding the habit $\mathbf E=(0.7,0.3)$ raises it to $0.839$.
+    With flat $\mathbf E$ this is $\boldsymbol\pi=\sigma(-\mathbf G-\mathbf F)$. (Earlier levels wrote the prior over policies as $\sigma(-\gamma\mathbf G)$, with a precision $\gamma\ge0$, a gain on $\mathbf G$; the rule here is the case $\gamma=1$, and in general $\mathbf G$ is replaced by $\gamma\mathbf G$.) Example with two policies: $\mathbf F=(0.5,1.5)$ and $\mathbf G=(1,0.8)$ give $\pi_1=e^{-1.5}/(e^{-1.5}+e^{-2.3})=0.690$; adding the habit $\mathbf E=(0.7,0.3)$ raises it to $0.839$.
 cards:
   - type: text
     id: hook
@@ -70,7 +70,7 @@ cards:
         feedback: |
           A plan makes predictions about every step, including those already observed. The creature compares what the plan predicted with what it saw. That is exactly a model comparison.
     explanation: |
-      $F_\pi\ge-\ln P(o\mid\pi)$, with equality when the beliefs are exact. The probability of a plan rises when the data it predicted come true, which is Bayes' rule with plans as hypotheses. The difference $3.2-0.7=2.5$ nats is a factor $e^{2.5}\approx12$ in the odds of the evidence alone.
+      $F_\pi\approx-\ln P(o\mid\pi)$ (an approximation, not a bound; it is exact when the beliefs are exact). The probability of a plan rises when the data it predicted come true, which is Bayes' rule with plans as hypotheses. The difference $3.2-0.7=2.5$ nats is a factor $e^{2.5}\approx12$ in the odds of the evidence alone.
 
   - type: widget
     id: tmaze-generate
@@ -302,7 +302,7 @@ cards:
     hint: 'A softmax of log weights: prior habit $\ln\mathbf E$ counts positively; both free energies are costs.'
     explanation: |
       $$\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$$
-      Equivalent form: $\pi_i\propto E_i\,e^{-F_i}\,e^{-G_i}$. Without a habit, $\mathbf E$ is flat and drops out of the softmax (a constant added to all entries changes nothing), leaving $\sigma(-\mathbf G-\mathbf F)$. The vector $\mathbf E$ enters only as a prior; the data and the future decide the rest.
+      Equivalent form: $\pi_i\propto E_i\,e^{-F_i}\,e^{-G_i}$. Without a habit, $\mathbf E$ is flat and drops out of the softmax (a constant added to all entries changes nothing), leaving $\sigma(-\mathbf G-\mathbf F)$. The rule has $\gamma=1$: with a precision $\gamma\ge0$ on $\mathbf G$ (the gain that earlier levels wrote as $\sigma(-\gamma\mathbf G)$) the score is $\ln\mathbf E-\mathbf F-\gamma\mathbf G$; $\gamma=0$ switches $\mathbf G$ off, large $\gamma$ makes the smallest $\mathbf G$ win. The vector $\mathbf E$ enters only as a prior; the data and the future decide the rest.
 
   - type: numeric
     id: pi-flat

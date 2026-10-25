@@ -1398,7 +1398,7 @@ replace the whole model). `el.dataset`: `mode`, `policy`, `iter`, `F`, `s`, `exa
 (per policy), `path`, `outs` (last sample).
 Presets used by the lessons: **door** (states closed/open; outcomes looks closed/looks open, sensor 0.8; actions push, wait; $\mathbf D=(0.9,0.1)$; $\mathbf C$ prefers
 "looks open"; $T=3$, four policies) and **tmaze** (6 states = location cue/left arm/right arm $\times$ reward side; outcomes cue
-says left/right, reward, no reward; actions cue, left, right; start at the cue, $T=3$, policies cue-left, cue-right, left-left, right-right).
+says left/right, reward, no reward; actions cue, left, right; start at the cue, $T=3$, policies cue-left, cue-right, left-left, right-right). The Level 7 lesson `decision-planning` does not use this 6-state preset: it writes its own 8-state T-maze (4 places middle/cue/left/right $\times$ 2 contexts) in the lesson's widget config.
 Example: `{mode: infer, obs: [0, 1, 1], showA: false, showB: false, showD: false, states: [closed, open], outcomes: [looks closed, looks open],
 A: [[.8, .2], [.2, .8]], B: {push: [[.2, .05], [.8, .95]], wait: [[.9, .1], [.1, .9]]}, D: [.9, .1], C: [.2, .8]}`.
 
