@@ -1,0 +1,213 @@
+id: ch05-challenge
+title: Level Challenge
+kind: challenge
+cards:
+  - type: text
+    id: intro
+    title: "Harder: the whole of Level 5 in five problems"
+    body: |
+      Five problems that **combine** what this level taught, in two sittings (problems 1 to 3 now, 4 and 5 in the next part). Every number can be checked by hand (a calculator with $\exp$ helps), and every answer comes with the reason. No hints about which formula to use: you recall it. Logarithms are natural.
+
+      The toolkit, in five lines:
+
+      - **Precision is a gain**: a distribution $\mathcal N(m,\Pi^{-1})$ has mean $m$ and precision $\Pi$ (inverse variance), and $\Pi$ multiplies the prediction error it weighs. Neuromodulators could be mapped to such gains.
+      - **Reflex arc**: a descending prediction is compared with the proprioceptive data in the spinal cord, and the error drives the muscles.
+      - **Basal ganglia** (a set of subcortical nuclei): the policy posterior $\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\boldsymbol\gamma\mathbf G)$ could be computed by a loop through the striatum and the pallidum.
+      - **Hierarchies**: a discrete level sends each state's prediction down to a continuous level, and sends averaged beliefs between areas.
+      - **Learning** is slow, a change of what a signal means; **gain** is fast.
+
+      1. Precision as a gain, and sensory attenuation.
+      2. The policy posterior and the two basal ganglia pathways.
+      3. A discrete level over a continuous one, and the mixture of beliefs.
+      4. and 5. next part.
+
+  # ---------------------------------------------------------------- Problem 1
+  - type: numeric
+    id: p1-mu
+    tag: Problem 1 · Gain and attenuation
+    prompt: |
+      **Problem 1.** One level with identity mapping has data $y=2$ with sensory precision $\Pi_y$, and a prior mean $\eta=0$ with precision $\Pi_v=1$. With $\Pi_y=4$ the belief that minimises the free energy is $\mu^*=1.6$. The sensory precision is now turned down to $\Pi_y=1$, the data staying $y=2$. What is the new $\mu^*$?
+    answer: 1
+    tolerance: 0.005
+    wrong:
+      - { value: 1.6, feedback: 'That is the belief for $\Pi_y=4$, the value given. The compromise $\dfrac{\Pi_y y+\Pi_v\eta}{\Pi_y+\Pi_v}$ must be recomputed with the new weights.' }
+      - { value: 0.4, feedback: 'That would give the larger weight to the prior. With equal precisions the two sources count equally.' }
+    explanation: |
+      The belief is the precision-weighted compromise:
+      $$\mu^*=\frac{1\cdot2+1\cdot0}{1+1}=1$$
+      The same data now move the belief by $1$ instead of $1.6$: a gain turned down, nothing changed in the stimulus.
+
+  - type: numeric
+    id: p1-rates
+    tag: Problem 1 · Gain and attenuation
+    prompt: |
+      Now an arm. Its angle is $y=0$ and the descending prediction (prior mean) is $\eta=1$, with $g(\mu)=\mu$, $\partial y/\partial u=1$ and prior precision $\Pi_v=1$. Perception has settled: $\mu$ minimises $F=\tfrac12\Pi_y(y-\mu)^2+\tfrac12\Pi_v(\mu-\eta)^2$ at $y=0$, and the reflex rate is $\dot u=-\Pi_y\,\epsilon_y$ with $\epsilon_y=y-\mu$. Compare the sensory precisions $\Pi_y=1$ (attenuated) and $\Pi_y=4$ (full). What is the ratio of rates
+      $$\frac{\dot u\,(\Pi_y=1)}{\dot u\,(\Pi_y=4)}\ ?$$
+    answer: 0.625
+    tolerance: 0.005
+    answerText: '0.625'
+    wrong:
+      - { value: 1.6, feedback: 'That is the inverse ratio. The attenuated reflex is the slower one, not the faster one: its rate is the numerator.' }
+      - { value: 0.25, feedback: 'That is the ratio of the precisions $1/4$. The rate is the precision **times** the error, and the error is larger when the precision is small, so the rate falls less than the precision does.' }
+    explanation: |
+      Beliefs first, then rates:
+      $$\Pi_y=4:\quad\mu=\tfrac{1}{5}=0.2,\quad\dot u=4\cdot0.2=0.8$$
+      $$\Pi_y=1:\quad\mu=\tfrac{1}{2}=0.5,\quad\dot u=1\cdot0.5=0.5$$
+      Both match $\dfrac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}(\eta-y)=0.8$ and $0.5$. The ratio is $0.5/0.8=0.625$.
+
+  - type: mcq
+    id: p1-why
+    tag: Problem 1 · Gain and attenuation
+    prompt: |
+      In the arm model ($y=0$, $\eta=1$, $\Pi_v=1$), turning the sensory precision from $\Pi_y=4$ to $\Pi_y=1$ changes the settled belief from $\mu=0.2$ to $\mu=0.5$ and the reflex rate from $0.8$ to $0.5$. Which statement is correct?
+    options:
+      - text: 'The belief "the arm is going to the target" survives better ($0.5$ against $0.2$), which is what lets a movement be started from rest; but the arm accelerates **less**, never more.'
+        correct: true
+      - text: 'Attenuation speeds up the reflex: the belief is closer to the target $\eta=1$, so the reflex has less to correct.'
+        feedback: |
+          Tempting, since the belief is closer to $\eta$. But the reflex is driven by the precision-weighted error between belief and data, $\Pi_y\epsilon_y$, and the weight falls: $0.5<0.8$. Lowering sensory precision does not speed the movement up.
+      - text: 'Attenuation changes the belief only; the rate is the same, since the target and the arm angle are the same.'
+        feedback: |
+          The rate depends on $\Pi_y$ twice, through the weight and through the belief: $\dfrac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}(\eta-y)$ is $0.8$ and $0.5$ here.
+    explanation: |
+      The rate $\dfrac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}(\eta-y)$ rises with $\Pi_y$, so attenuating cannot speed the arm up. What it does is keep the data from overwriting the belief "I am moving" while the arm is still at rest. That is why failing to attenuate could be linked to difficulty in initiating movements.
+
+  - type: text
+    id: p1-close
+    tag: Problem 1 · Gain and attenuation
+    title: "Problem 1: what it used"
+    body: |
+      - **Precision is a gain**: the belief is the compromise $\mu^*=\dfrac{\Pi_y y+\Pi_v\eta}{\Pi_y+\Pi_v}$, and a lower $\Pi_y$ gives the data less pull ($1.6\to1$).
+      - **Reflex arc**: the error between prediction and data drives the muscles, at the rate $\dfrac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}(\eta-y)$.
+      - **Attenuation** protects the belief that starts a movement ($0.2\to0.5$), and does **not** raise the rate ($0.8\to0.5$).
+
+  # ---------------------------------------------------------------- Problem 2
+  - type: numeric
+    id: p2-sig
+    tag: Problem 2 · Policy posterior
+    prompt: |
+      **Problem 2.** Two policies have expected free energies $\mathbf G=(1,\,0.8)$, variational free energies $\mathbf F=(0.5,\,1.5)$ and habit prior $\mathbf E=(0.7,\,0.3)$. Suppose only the goal-directed drive is present: $\boldsymbol\pi=\sigma(-\mathbf G)$, where $\sigma$ is the softmax. What is the probability $\pi_1$ of policy 1? (3 decimals)
+    answer: 0.45
+    tolerance: 0.002
+    answerText: '0.450'
+    wrong:
+      - { value: 0.55, feedback: 'That is $\pi_2$. Policy 2 has the lower $\mathbf G$, so it is the favoured one when only $\mathbf G$ counts.' }
+      - { value: 0.5, feedback: 'That is the value for $\gamma=0$ or for equal $\mathbf G$. Here $\mathbf G_1-\mathbf G_2=0.2$ tilts the choice a little.' }
+    explanation: |
+      $$\pi_1=\frac{e^{-1}}{e^{-1}+e^{-0.8}}=\frac{1}{1+e^{0.2}}=0.450$$
+
+  - type: numeric
+    id: p2-full
+    tag: Problem 2 · Policy posterior
+    prompt: |
+      The same two policies: $\mathbf G=(1,\,0.8)$, $\mathbf F=(0.5,\,1.5)$, $\mathbf E=(0.7,\,0.3)$. Now every term is present, $\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$. What is $\pi_1$? (3 decimals)
+    answer: 0.839
+    tolerance: 0.002
+    wrong:
+      - { value: 0.69, feedback: 'That is $\sigma(-\mathbf F-\mathbf G)$, without the habit. The prior $\mathbf E$ enters as $+\ln\mathbf E$ and favours policy 1.' }
+      - { value: 0.45, feedback: 'That is the goal-directed drive $\sigma(-\mathbf G)$ alone, which ignores both $\mathbf F$ (what the data already say) and the habit.' }
+    explanation: |
+      Only the difference of the two arguments matters:
+      $$\begin{aligned}a_1-a_2&=\ln\tfrac{0.7}{0.3}+(-0.5+1.5)\\&\quad+(-1+0.8)=0.847+1-0.2\end{aligned}$$
+      which is $1.647$, so
+      $$\pi_1=\frac{1}{1+e^{-1.647}}=0.839$$
+      Each term pushes toward policy 1 or 2: $\ln\mathbf E$ and $\mathbf F$ toward policy 1 ($+0.847$, $+1$), $\mathbf G$ toward policy 2 ($-0.2$).
+
+  - type: numeric
+    id: p2-gamma
+    tag: Problem 2 · Policy posterior
+    prompt: |
+      Keep only the goal-directed drive, but with a precision on it: $\boldsymbol\pi=\sigma(-\gamma\mathbf G)$ with $\mathbf G=(1,\,0.8)$ and $\gamma=4$. What is the probability $\pi_2$ of **policy 2**? (3 decimals)
+    answer: 0.69
+    tolerance: 0.002
+    answerText: '0.690'
+    wrong:
+      - { value: 0.31, feedback: 'That is $\pi_1$. Policy 2 has the lower $\mathbf G$, so it takes the larger share when $\gamma>0$.' }
+      - { value: 0.55, feedback: 'That is $\pi_2$ for $\gamma=1$. Here $\gamma=4$ multiplies the difference $0.2$ before the softmax.' }
+    explanation: |
+      $$\pi_2=\frac{1}{1+e^{-4\cdot0.2}}=\frac{1}{1+e^{-0.8}}=0.690$$
+      Compare $\gamma=0$ ($0.5$), $\gamma=1$ ($0.55$), $\gamma=4$ ($0.69$): a larger $\gamma$ sharpens the choice. The number $0.690$ also appeared above for $\pi_1$ in $\sigma(-\mathbf F-\mathbf G)$, but it is a coincidence of arithmetic: there it is policy 1, helped by $\mathbf F$; here it is policy 2, helped by a bigger $\gamma$. Since $\gamma$ is the gain on $\mathbf G$, it is the quantity that dopamine could be mapped to.
+
+  - type: mcq
+    id: p2-paths
+    tag: Problem 2 · Policy posterior
+    prompt: |
+      In the circuit proposed for $\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\gamma\mathbf G)$, the direct pathway through the striatum has **one inhibitory synapse** before the output nucleus, and the indirect pathway has **three synapses in a row: inhibitory, inhibitory, excitatory**. What net signs do the two pathways have, and what does each carry?
+    options:
+      - text: 'Direct: net $-$, matching the term $-\gamma\mathbf G$. Indirect: $(-)(-)(+)=+$, matching the term $+\ln\mathbf E$.'
+        correct: true
+      - text: 'Direct: net $+$ and carries $\ln\mathbf E$; indirect: net $-$ and carries $-\mathbf G$.'
+        feedback: |
+          The signs are swapped. One inhibitory synapse gives net $-$, so the direct pathway matches $-\gamma\mathbf G$; it is the three-synapse chain that has net $+$ and matches $\ln\mathbf E$.
+      - text: 'Both are net $-$: the two inhibitions in the indirect chain cancel with nothing left but the last excitatory synapse, which is also inhibitory in effect.'
+        feedback: |
+          Signs multiply along a chain: $(-)(-)(+)=+$. Two inhibitions in a row act as a disinhibition, and the final excitatory synapse keeps the sign positive.
+    explanation: |
+      Along a chain the signs multiply. The direct pathway is a single inhibitory synapse, $-$, like $-\gamma\mathbf G$; the indirect pathway is $(-)(-)(+)=+$, like $+\ln\mathbf E$. This is a proposal about which term might travel where, not a settled fact.
+
+  - type: text
+    id: p2-close
+    tag: Problem 2 · Policy posterior
+    title: "Problem 2: what it used"
+    body: |
+      - **Policy posterior**: $\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\gamma\mathbf G)$, each term pushing the log-odds: $0.450\to0.839$ for policy 1 once $\mathbf F$ and $\mathbf E$ join $\mathbf G$.
+      - **Precision over policies** $\gamma$ is a gain on $\mathbf G$ ($0.5,\ 0.55,\ 0.69$ for $\gamma=0,1,4$), the role that dopamine could be mapped to.
+      - **Pathways**: direct $=-$ (carries $-\gamma\mathbf G$), indirect $(-)(-)(+)=+$ (carries $+\ln\mathbf E$).
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: numeric
+    id: p3-Q
+    tag: Problem 3 · Discrete over continuous
+    prompt: |
+      **Problem 3.** A discrete level has two states, **left** and **right**, with equal priors. Each predicts a prior mean for a continuous cause: $\eta_{\text{left}}=-1$ and $\eta_{\text{right}}=+1$. The continuous data are $y=0.5$ with precision $\Pi_y=2$. For a state $s$ the free energy is $F_s=\tfrac12\Pi_y(y-\eta_s)^2$ and the posterior is $Q=\sigma(-F)$. What is $Q(\text{right})$? (3 decimals)
+    answer: 0.881
+    tolerance: 0.002
+    wrong:
+      - { value: 0.5, feedback: 'That is the prior. The data fit right much better, so the posterior must favour it.' }
+      - { value: 0.119, feedback: 'That is $Q(\text{left})$. The state whose prediction is close to $y=0.5$ gets the larger share.' }
+      - { value: 0.9, feedback: 'That comes from a linear normalisation of the $F$ values. The posterior is a softmax of $-F$, with exponentials.' }
+    explanation: |
+      $$F_{\text{left}}=\tfrac12\cdot2\cdot(0.5+1)^2=2.25$$
+      $$F_{\text{right}}=\tfrac12\cdot2\cdot(0.5-1)^2=0.25$$
+      Only the difference $2$ matters:
+      $$Q(\text{right})=\frac{1}{1+e^{-2}}=0.881$$
+
+  - type: numeric
+    id: p3-mix
+    tag: Problem 3 · Discrete over continuous
+    prompt: |
+      Another discrete level has two policies with probabilities $\pi=(0.69,\,0.31)$. Under policy 1 the beliefs about two hidden states are $\mathbf s_{\pi_1}=(0.8,\,0.2)$, under policy 2 they are $\mathbf s_{\pi_2}=(0.3,\,0.7)$. This level sends to other areas the average $\mathbf s=\sum_\pi\pi\,\mathbf s_\pi$. What is the first component $\mathbf s_1$? (3 decimals)
+    answer: 0.645
+    tolerance: 0.001
+    wrong:
+      - { value: 0.55, feedback: 'That is the plain mean $(0.8+0.3)/2$, which gives the two policies equal weight. The weights are $0.69$ and $0.31$.' }
+      - { value: 0.8, feedback: 'That keeps only the most probable policy. The average still gives policy 2 its weight $0.31$.' }
+    explanation: |
+      $$\begin{aligned}\mathbf s_1&=0.69\cdot0.8+0.31\cdot0.3\\&=0.552+0.093=0.645\end{aligned}$$
+      and $\mathbf s_2=0.69\cdot0.2+0.31\cdot0.7=0.355$; the two add to $1$, as a belief must.
+
+  - type: mcq
+    id: p3-travel
+    tag: Problem 3 · Discrete over continuous
+    prompt: |
+      A discrete level (states and policies) sits above a continuous level (a reflex arc). Which is the right account of what travels between them and between discrete areas?
+    options:
+      - text: 'Down: the prediction of the continuous cause that goes with a state (its prior mean $\eta_s$). Between discrete areas: the policy-averaged belief $\mathbf s=\sum_\pi\pi\,\mathbf s_\pi$, not one policy''s belief.'
+        correct: true
+      - text: 'Down: a motor command that sets the muscle length. Between discrete areas: the belief of the single most probable policy.'
+        feedback: |
+          Nothing is commanded from above: the prediction $\eta_s$ ends on an error unit, and the arm moves because the reflex arc fulfils it. And the message between areas keeps every policy, weighted by its probability, so the winner does not erase the others.
+      - text: 'Down: the prediction error $y-\eta_s$. Between discrete areas: the sum $\sum_\pi\mathbf s_\pi$ of the policy beliefs without weights.'
+        feedback: |
+          The error is formed in the continuous level, where prediction and data meet; what descends is the prediction. The unweighted sum is not even a belief (it adds to $2$): the weights $\pi$ normalise it.
+    explanation: |
+      A state is an alternative prediction for the continuous level, which then reduces its errors by changing its belief and by acting. In the other direction, the discrete areas exchange beliefs averaged over policies, $\mathbf s=\sum_\pi\pi\,\mathbf s_\pi$. The weights here, $(0.69,0.31)$, come from a policy posterior like that of Problem 2.
+
+  - type: text
+    id: p3-close
+    tag: Problem 3 · Discrete over continuous
+    title: "Problem 3: what it used"
+    body: |
+      - **A state predicts**: each discrete state supplies a prior mean $\eta_s$ for the continuous cause, and the data choose among states by $Q=\sigma(-F)$ ($F_{\text{left}}=2.25$, $F_{\text{right}}=0.25$, $Q(\text{right})=0.881$).
+      - **Mixtures between areas**: the message is $\mathbf s=\sum_\pi\pi\,\mathbf s_\pi$ ($0.645$ and $0.355$ here).
+      - The next part brings together microcircuit messages, the motor loop and the basal ganglia, neuromodulation and learning, and a hierarchy.
