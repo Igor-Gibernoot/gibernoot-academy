@@ -1,0 +1,278 @@
+id: ch08-synchrony
+title: "Generalized Synchrony"
+kind: concept
+own: |
+  - **Inference is synchronization.** An agent infers by making its internal states (the beliefs $\mu$) follow the external states $x$ that cause its data. If the "external thing" is another creature with a similar generative model, the beliefs of one come to resemble the states of the other: a primitive **theory of mind**.
+  - **The birdsong model** is hierarchical, with a Lorenz system at each level. Recall the Lorenz rule for a state $x=(x_1,x_2,x_3)$ with constants $\sigma$, $\rho$ (the Rayleigh number), $\beta$:
+    {{ $$\begin{aligned}\dot x_1&=\sigma(x_2-x_1)\\\dot x_2&=x_1(\rho-x_3)-x_2\\\dot x_3&=x_1x_2-\beta x_3\end{aligned}$$ }}
+    The **slow** Lorenz system at level 2 (rates scaled by $1/128$) sends one of its components down to set the Rayleigh number $\rho$ of the **fast** Lorenz system at level 1 (rates scaled by $1/16$); level 1 generates the sonogram (the picture of the sound's frequencies in time) the bird hears.
+  - **Action resolves prediction error.** Action acts on the larynx, so it changes the sonogram. If a bird hears the song it predicts, there is no error and no need to sing; if it predicts a song it does not hear, it sings. Singing needs the precision of predictions about its own sounds to be lowered (**sensory attenuation**), so a bird cannot sing and listen closely at once: two birds **alternate**, the conversation.
+  - **Synchronization manifold.** Plot the belief $x$ of one bird against the belief $y$ of the other. In **identical synchronization** the joint trajectory stays on the line
+    {{ $$y=x$$ }}
+    In **generalized synchronization** it stays on a lower-dimensional set that may be curved, a graph
+    {{ $$y=T(x)$$ }}
+    for a fixed map $T$ (a 1-dimensional curve inside the 2-dimensional $(x,y)$ plane, like the 2-dimensional surface of the Earth inside 3-dimensional space). Without synchrony the joint trajectory fills the whole plane. Learning the parameters of each other's generative models (the continuous-time learning rule of the dynamical systems lesson) moves the pair from the plane onto the manifold.
+  - **Not copying.** Synchrony means the two bodies' *beliefs about the song's state* are tied by a fixed relation $T$; it does not mean both do the same thing at the same time (one is silent while the other sings).
+cards:
+  - type: text
+    id: hook
+    title: "Two singers in the dark"
+    body: |
+      Two birds sit in the dark, too far apart to see each other. One of them sings a long phrase of a song, then stops in the middle. A moment later the other bird **continues the same song from exactly that note**, then stops, and the first resumes.
+
+      No leader, no score, no clock between them. Each bird has only what it **hears** and a model in its head of what song it is in. How can two brains end up at the same place in the song?
+
+      The answer is the topic of this lesson: *synchronization*. Time to guess.
+
+  - type: mcq
+    id: guess-continue
+    prompt: |
+      Bird B hears bird A sing the first half of a song and then fall silent. B starts singing and picks up at the right note. Which story is the most plausible, if birds have no shared clock and no score?
+    options:
+      - text: 'B has a model of how songs unfold. From what it heard it infers where in the song the singer was, and it predicts (and then produces) the next notes.'
+        correct: true
+      - text: 'B memorised every note of A''s next phrase, and plays it back like a recording whenever A stops.'
+        feedback: |
+          A recording would work for a fixed phrase but not for a song that never repeats exactly. It would also not tell B *where* to restart if A stopped at a random note. What B needs is a rule that can be run forward from an inferred state.
+      - text: 'A and B each sing on their own and happen to be in the same place by chance.'
+        feedback: |
+          By chance they would be in the same place almost never. The match is the result of each bird updating its beliefs from what it hears.
+    explanation: |
+      B infers a hidden state (where A is in the song) from sound, and its generative model, run forward, supplies the continuation. That is perception plus prediction, and it needs no communication channel other than the sound.
+
+  - type: text
+    id: inference-sync
+    title: "Inference as synchronization"
+    body: |
+      Throughout this course, **inference** means: an agent adjusts its internal states (its beliefs $\mu$) until they track the external states $x$ that generate its data $y$. Seen from outside, the agent's internal state **synchronizes** with something out there in the world.
+
+      Now let what is out there be another creature whose generative model is similar. Then the internal states of one should come to resemble the internal states of the other: each infers what is going on "in the other's head". This is a primitive kind of **theory of mind** (the ability to represent the mental states of another agent). The birdsong simulations study exactly this.
+
+  - type: text
+    id: birdsong-model
+    title: "A hierarchical model of birdsong"
+    body: |
+      The generative model of one simulated bird has two levels, each a **Lorenz system**. Recall its rule for a state $x=(x_1,x_2,x_3)$ with constants $\sigma$ (Prandtl number), $\rho$ (Rayleigh number) and $\beta$:
+
+      $$\begin{aligned}\dot x_1&=\sigma(x_2-x_1)\\\dot x_2&=x_1(\rho-x_3)-x_2\\\dot x_3&=x_1x_2-\beta x_3\end{aligned}$$
+
+      It is chaotic for $\rho=28$: it orbits one part of space for a while, then switches to another orbit and never repeats. This wandering (*itinerancy*) makes it a good model of a song that moves from phrase to phrase.
+
+      - **Level 2** is a *slow* Lorenz system: its rule is multiplied by $1/128$. One of its components, $x_1$, is sent down.
+      - **Level 1** is a *fast* Lorenz system: its rule is multiplied by $1/16$. The component sent down from level 2 sets its Rayleigh number $\rho$.
+      - Level 1 generates the **sonogram**, a picture of which sound frequencies are present at each moment, which is the data the bird hears.
+
+      So the slow level decides *which kind of fast wandering* happens, like a slow melody that selects the style of the fast notes.
+
+  - type: mcq
+    id: which-level
+    prompt: |
+      In the two-level birdsong model, level 2 is a Lorenz system running about eight times slower than level 1 (rates multiplied by $1/128$ against $1/16$), and one of its components sets the Rayleigh number $\rho$ of level 1. What does that make level 2, in terms of the song?
+    options:
+      - text: 'A slowly changing cause that sets the "regime" of the fast notes, like a phrase or section that shapes the notes inside it.'
+        correct: true
+      - text: 'A copy of level 1 that merely runs slower and has no effect on it.'
+        feedback: |
+          It does have an effect: its output enters level 1 as the parameter $\rho$. Changing $\rho$ changes the whole behaviour of the fast system (rest, a fixed point, chaos), so the slow level steers it.
+      - text: 'The sensory data: the sonogram the bird hears.'
+        feedback: |
+          The sonogram is produced from level 1 (the lower level maps to sensory data). Level 2 is hidden: it is never heard directly, only inferred through its influence on level 1.
+    explanation: |
+      Hierarchies in continuous time work through timescales: slow hidden states act as *parameters* of faster ones. The recall of the discrete case is the same: the higher level tells the lower one what to expect.
+
+  - type: text
+    id: action-sing
+    title: "Singing is acting"
+    body: |
+      As in the movement lesson, the model sits inside the agent and the generative *process* also contains **action**. A limb moves to make proprioceptive data match a prediction; here, action acts on the **larynx**, so the bird can change the sonogram it hears.
+
+      The rule is unchanged: action is generated to **resolve prediction error**. Two cases:
+
+      - the bird predicts a song and hears it: no error, so no need to sing;
+      - the bird predicts a song and does *not* hear it: error, so it starts singing until what it hears matches what it predicts.
+
+  - type: mcq
+    id: turn-taking
+    prompt: |
+      Two birds with the same song model are in the dark. Bird A sings. What does bird B, who is predicting the song, do, and why?
+    options:
+      - text: 'B stays silent: what it hears matches what it predicts, so there is no prediction error to resolve by singing.'
+        correct: true
+      - text: 'B sings the same notes at the same time, to match what it hears.'
+        feedback: |
+          Matching what it hears is already achieved by *listening*: A is producing the song. Singing would not reduce any error.
+      - text: 'B sings a different song to test A.'
+        feedback: |
+          B has no reason to deviate: its model predicts the song A is singing. Action serves to fulfil predictions, not to explore random ones (here, the song is the only thing predicted).
+    explanation: |
+      While A sings, B hears its own prediction come true. When A stops, the predicted notes are no longer heard: error appears, and B sings to remove it. A's silence then makes A's prediction fail in turn, and A takes over later. This is the root of **turn-taking**.
+
+  - type: text
+    id: attenuation
+    title: "Why not sing the whole song?"
+    body: |
+      Why does the silent bird not simply sing the song through? Because acting on the world requires a reduction in the precision of the predictions about the *consequences* of that action (**sensory attenuation**, as in saccadic eye movements). Roughly: to move the larynx, the bird must be less sure about what it hears, otherwise the prediction error from its own voice would hold it back.
+
+      Just as the eye alternates between looking (attending to the data) and saccading (attenuation during the movement), the bird alternates between **listening** and **singing**. With two agents this alternation becomes **a conversation**: one listens while the other sings, then they swap.
+
+  - type: widget
+    id: lab-identical
+    widget: coupled-agents
+    config:
+      system: lorenz
+      kappa: 0
+      turn: 8
+      comp: 0
+      show: { kappa: true }
+      presets:
+        - { label: 'independent', kappa: 0, turn: 8 }
+        - { label: 'listening well (kappa = 4)', kappa: 4, turn: 8 }
+    body: |
+      Two birds, each with a Lorenz model with the same parameters. The speaker follows its own model; the listener corrects its state towards what it hears, with strength $\kappa$ (how well it has learned the other: $\kappa=0$ means not at all). Every $8$ time units they swap roles. Press *Play* with $\kappa=0$ and look at the scatter of one bird's component against the other's. Then raise $\kappa$ to $4$ and watch the points and the readout of the mismatch.
+
+  - type: mcq
+    id: after-widget
+    prompt: |
+      Two birds with identical Lorenz models alternate as speaker and listener. As the listening strength $\kappa$ goes from $0$ to well above $1$, what happens to the scatter of a component of bird 1 against the same component of bird 2, and to the mismatch between them?
+    options:
+      - text: 'The scatter, a cloud filling the plane at $\kappa=0$, collapses onto the line $y=x$, and the mismatch tends to zero.'
+        correct: true
+      - text: 'The scatter stays a cloud, but each bird sings louder.'
+        feedback: |
+          Loudness is not modelled here. The listening strength changes how each bird's *state* is corrected, and that is what collapses the cloud.
+      - text: 'The scatter becomes a point at the origin: both birds stop.'
+        feedback: |
+          Both birds keep singing chaotic songs; what changes is that the two songs coincide. The points slide along the line $y=x$ and cover it.
+    hint: With identical models, perfect agreement means "bird 2's value equals bird 1's value".
+    explanation: |
+      At $\kappa=0$ chaos makes two copies lose track of each other within a few time units, so the scatter fills a cloud. With enough coupling the listener's state is dragged onto the speaker's: the pair sits on $y=x$ although each state is still chaotic. At the hand-over there is no jump, because the new singer starts exactly where the old one stopped. (In the widget, the threshold is near $\kappa=1$.)
+    review: false
+
+  - type: text
+    id: manifold
+    title: "The synchronization manifold"
+    body: |
+      To see what "the two agree" means as a picture, plot **one bird's value $x$ against the other's value $y$**. Each moment is a point in the $(x,y)$ plane: a 2-dimensional space of possible joint behaviour. Three cases:
+
+      - no synchrony: the points fill a 2-dimensional region;
+      - **identical synchronization** (of chaos): they stay on the line
+      $$y=x$$
+      with small fluctuations around it meaning imperfect synchrony;
+      - **generalized synchronization**: they stay on a *curve* $y=T(x)$ for some fixed map $T$: the joint behaviour occupies a lower, 1-dimensional space, but that space (the **synchronization manifold**) may be curved or have another shape.
+
+      An analogy: we live on the surface of the Earth, which is a 2-dimensional space, even though the surface is curved into a 3-dimensional sphere. A synchronization manifold is a low-dimensional surface inside the high-dimensional space of joint behaviour.
+
+  - type: mcq
+    id: dimension
+    prompt: |
+      Each of two birds has one belief variable, $x$ for the first and $y$ for the second, so their joint behaviour lives in the $(x,y)$ plane, a 2-dimensional space. After they synchronize perfectly, the points lie on a curve $y=T(x)$. What is the dimension of the set they occupy, and of the ambient space?
+    options:
+      - text: 'The curve is 1-dimensional, inside the 2-dimensional plane.'
+        correct: true
+      - text: 'Both are 2-dimensional: a curve in a plane is still a plane.'
+        feedback: |
+          A curve has one degree of freedom: once $x$ is known, $y=T(x)$ is fixed. That is why synchrony *reduces* dimension: the second bird adds no new freedom.
+      - text: 'The curve is 2-dimensional inside a 3-dimensional space.'
+        feedback: |
+          That describes the surface of a sphere (the Earth analogy), not this plane. Here there are two variables, so the ambient space has dimension 2.
+    explanation: |
+      Free joint behaviour would need two numbers $(x,y)$. On the synchronization manifold one number is enough, because the other follows from it. The drop in dimension *is* the signature of one agent having inferred the other. The Earth analogy: a 2-dimensional surface (latitude, longitude) curved inside 3-dimensional space.
+
+  - type: widget
+    id: lab-generalized
+    widget: coupled-agents
+    config:
+      system: lorenz
+      kappa: 4
+      turn: 8
+      comp: 0
+      transform: { scale: [1.5, 1.5, 1], cubic: [0.01, 0.01, 0] }
+      show: { kappa: true }
+      presets:
+        - { label: 'identical models', kappa: 4, turn: 8 }
+        - { label: 'generalized (different models)', kappa: 4, turn: 8, transform: { scale: [1.5, 1.5, 1], cubic: [0.01, 0.01, 0] } }
+        - { label: 'not listening', kappa: 0, turn: 8, transform: { scale: [1.5, 1.5, 1], cubic: [0.01, 0.01, 0] } }
+    body: |
+      Now bird 2's model is bird 1's seen through a fixed map $T$ (each component of bird 2 is $y=1.5\,x+0.01\,x^3$, where $x$ is the same component of bird 1: a different "key" for the same song). The dashed curve is $y=T(x)$. Press *Play* with $\kappa=4$: the points lie on a **curve**, not on the line $y=x$. Then compare with *not listening* ($\kappa=0$).
+
+  - type: numeric
+    id: transform-value
+    prompt: |
+      Two birds are generalized-synchronized on the manifold $y=T(x)$ with $T(x)=1.5\,x+0.01\,x^{3}$. At some moment the first bird's component is $x=10$. What is the second bird's component $y$?
+    answer: 25
+    tolerance: 0.01
+    wrong:
+      - { value: 10, feedback: 'That would be identical synchronization, $y=x$. Here $T$ differs from the identity.' }
+      - { value: 15, feedback: 'You used only the linear term $1.5x=15$. The cubic term adds $0.01\cdot10^3=10$.' }
+    hint: Evaluate $1.5\cdot10+0.01\cdot10^3$.
+    explanation: |
+      $y=1.5\cdot10+0.01\cdot1000=15+10=25$. The relation is fixed and one-to-one on this range, so knowing $x$ tells you $y$ exactly. An observer who knows $T$ can read bird 1's state from bird 2's, and vice versa.
+
+  - type: text
+    id: before-after
+    title: "Before and after learning each other"
+    body: |
+      The birdsong simulations show the same picture for real model-based birds. Plot the beliefs that each bird holds about the **level-2 (slow) hidden states**, one bird's against the other's.
+
+      - **Before** the birds have optimized their generative models in relation to each other: the trajectory wanders around the line $y=x$ with large fluctuations. They are only imperfectly synchronized.
+      - **After** exposure to one another, learning the *parameters* of each other's generative models (the continuous-time learning rule of the dynamical systems lesson: accumulate evidence on the parameters while the song is heard), the joint trajectory is confined to an (almost) 1-dimensional subspace: **near-perfect synchronization**.
+
+      In the widget, $\kappa$ stood for this learning: a larger $\kappa$ means a better model of the other.
+
+  - type: mcq
+    id: learning-meaning
+    prompt: |
+      Two birds start with slightly different generative models of the song, and their level-2 beliefs are scattered widely in the $(x,y)$ plane. After they learn each other's model parameters from the song they hear, the points sit near a line. What is the best summary?
+    options:
+      - text: 'Each bird now has a model good enough to infer what is going on in the other''s head; they share the same narrative of the song ("the same hymn sheet").'
+        correct: true
+      - text: 'The birds have copied each other''s muscle movements.'
+        feedback: |
+          The plot shows beliefs about hidden states of the song, not muscle commands. The synchrony is in what they *infer*, not in what they do with the larynx.
+      - text: 'The birds have each become noise-free: the song no longer has any chaos.'
+        feedback: |
+          The chaos stays; only the relation between the two birds changes. Synchronized chaotic systems are still chaotic, they are just chaotic together.
+    explanation: |
+      Learning the other's parameters tightens the coupling between beliefs. The remaining mismatch is the part of the other's state not yet inferred.
+
+  - type: text
+    id: theory-of-mind
+    title: "A primitive theory of mind"
+    body: |
+      If your internal state is tied to mine by a fixed relation, then by looking at yours I can infer mine, and the reverse. **Generalized synchrony** between internal and external states is exactly the claim that a creature is engaged in inference about its world. In **social behaviour** the external states are another mind, and the same machinery gives a first form of theory of mind.
+
+      This also gives a way to think about disorders of communication: a failure of generalized synchrony between agents has been associated with neuropsychiatric syndromes such as autism. The same ideas apply to **discrete** models of language between several agents, not only to continuous song.
+
+  - type: mcq
+    id: trap-copy
+    prompt: |
+      Two birds are perfectly synchronized in the sense of this lesson: their beliefs about the song lie on the manifold $y=T(x)$. A student concludes: "so they must be singing at the same time, doing the same movement." Why is that wrong?
+    options:
+      - text: 'Synchrony ties the *beliefs about the song''s state*; in turn-taking one bird is silent while the other sings, and with $T\ne\text{id}$ even the values differ.'
+        correct: true
+      - text: 'It is correct: synchronization means the two bodies move identically at all times.'
+        feedback: |
+          Identical motion is a much stronger statement. Here the speaker acts and the listener does not (that is the turn-taking), yet their *inferred states* stay on the manifold.
+      - text: 'It is wrong only because the birds are in the dark.'
+        feedback: |
+          Light plays no role. The two birds could see each other and still be synchronized in beliefs while one sings and the other listens.
+    explanation: |
+      Generalized synchronization is a relation between internal states (or between internal and external states), not copying of behaviour. It is what lets the listener continue *the same song* from the right place when the speaker stops.
+
+  - type: order
+    id: conversation
+    prompt: |
+      Put one hand-over of the conversation between two birds with the same song model in order, from the start.
+    steps:
+      - 'Bird A sings; bird B hears it, matches its prediction, and stays silent.'
+      - 'Bird A stops; the predicted notes are no longer heard by B, so B has a prediction error.'
+      - 'B sings, changing the sound until it matches its prediction (it continues the same song from the right place).'
+      - 'A, now hearing the song it predicts, listens: the roles have swapped.'
+    hint: Action is generated to resolve prediction error, so it follows a mismatch.
+    explanation: |
+      Listening and singing alternate because action needs attenuated sensory precision and because action only responds to error. Synchronized beliefs make the hand-over seamless.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the continuous models so far move smoothly, but decisions are discrete: which of four targets to look at, which word to say. The next lesson connects a **discrete** layer that chooses to a **continuous** layer that moves, a hybrid model.
