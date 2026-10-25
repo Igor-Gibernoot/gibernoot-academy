@@ -1,0 +1,324 @@
+id: ch03-models-policies
+title: "Models, Policies and Trajectories"
+kind: concept
+own: |
+  - **Preference is a belief.** Reinforcement learning stores a **value** for each state, learned by trial and error. Active Inference has no value table: a preference is a prior belief about what the creature will encounter. Policies $\pi$ (alternative plans over which it has control) get the prior, with expected free energy $G$ (minimised, never negated):
+    {{ $$P(\pi)=\sigma(-G(\pi))$$ }}
+    The policy with the **lowest** $G$ is the **most probable**, and acting on the most probable policy realises the preferences.
+  - **Three reasons for the move.** Behaviour then follows from beliefs, so (1) purposive behaviour comes for free: the preferred course of action is the one consistent with the prior that preferences get realised; (2) {{ degree of belief and uncertainty }} are built in; (3) optimal behaviour obeys the physicist's principle of least Action.
+  - **The Hamilton analogy has three levels.** (i) A quantity to derive the dynamics from, as Lagrange and Hamilton did for Newton's laws: free energy. (ii) Energy is a negative log probability, so the Hamiltonian is {{ the surprise $\mathfrak{I}(y)=-\ln P(y)$ }}. (iii) Both optimise a function (a path, a belief) against a functional (Action, free energy): the calculus of variations, which gives the Euler-Lagrange equations in physics and variational inference here.
+  - **A model fixes the behaviour.** A generative model of $y$ (what the creature senses) with hidden states $x$ says what the creature finds surprising, hence how it behaves. Shallow models infer at one timescale; hierarchical models let slow upper levels (the sentence) contextualise fast lower levels (the word).
+  - **Temporal depth makes agency.** A creature that only minimises variational free energy $F$ reacts to {{ the sensed present }}. A model with a future and with the consequences of actions lets it also minimise $G$ and {{ select among alternative futures }}.
+  - **Two entropies in $G$.** Minimising $F$ wants a **high** entropy of present beliefs (keep options open). Minimising $G$ wants a **low** ambiguity, the expected conditional entropy of outcomes given states:
+    {{ $$\text{ambiguity}=\mathbb{E}_{Q(\tilde{x}\mid\pi)}\,H\bigl[P(\tilde{y}\mid\tilde{x})\bigr]$$ }}
+    which drives epistemic, curious behaviour.
+cards:
+  - type: mcq
+    id: hook
+    title: "Where does a preference live?"
+    prompt: |
+      A robot wanders a grid and likes the charging station. In **reinforcement learning** (the standard way to build such a robot) the designer or learner stores a **table with one number per square**, its *value*, and the robot walks towards high values. An Active Inference robot has **no such table**; it only has a generative model: beliefs about what it will sense and where it will be.
+
+      Guess: where could "I prefer the charging station" be written in such a robot?
+    options:
+      - text: 'In its beliefs: it expects (a prior) that it will find itself at the charging station.'
+        correct: true
+      - text: 'In a separate reward signal, kept outside the model.'
+        feedback: |
+          That is the reinforcement-learning answer (value or reward kept apart from belief). The point of this lesson is precisely that Active Inference does not need that second ingredient.
+      - text: 'Nowhere: without a value table the robot cannot prefer anything.'
+        feedback: |
+          Preferences can be stored in other ways than a table of values. Guess what else an agent has: a model that assigns probabilities to what it will encounter.
+    explanation: |
+      Guessing is fine here: the answer is the move that defines the theory. **Preferring = expecting.** The robot believes (a prior) that it will end up at the charging station, and its way of making that belief true is to go there.
+
+  - type: text
+    id: value
+    title: "The usual route: a value for every state"
+    body: |
+      In **optimal control**, **reinforcement learning** and economics, behaviour is optimised through a **value function** of states (Bellman's equation): every state, or state-action pair, gets a number saying *how good it is to be there*.
+
+      The numbers are usually learned by **trial and error**: count how often, and after how long, reward arrives when you start from that state. Behaviour then means walking to high-valued states, which capitalises on learning history.
+
+      Active Inference proposes something stranger. Beliefs and values are kept apart in reinforcement learning (and in plain Bayesian statistics, a belief says nothing about what is *good*). Here they are **one thing**: the agent is given an implicit prior belief that it will realise its preferences, using expected free energy $G$. Let us see it at work.
+
+  - type: widget
+    id: scorer
+    widget: policy-scorer
+    config:
+      outcomes: ["jumps", "still"]
+      C: [0.8, 0.2]
+      states: ["frog", "apple"]
+      likelihood: [[0.9, 0.1], [0.1, 0.9]]
+      editable: true
+      showPragmatic: false
+      showEpistemic: false
+      showGamma: false
+      policies:
+        - { name: "pond", qx: [0.8, 0.2] }
+        - { name: "orchard", qx: [0.1, 0.9] }
+      presets:
+        - { label: "Pond and orchard", policies: [{ qx: [0.8, 0.2] }, { qx: [0.1, 0.9] }] }
+        - { label: "Both like the pond", policies: [{ qx: [0.8, 0.2] }, { qx: [0.8, 0.2] }] }
+    body: |
+      The creature prefers to see a **jump** (preferences $0.8$ for "jumps", $0.2$ for "still"). Two policies: go to the **pond**, where a frog ($80\%$) or an apple ($20\%$) is expected, or to the **orchard**, where an apple is likelier ($90\%$). The widget scores each by its expected free energy $G$, and turns the scores into probabilities $P(\pi)=\sigma(-G)$.
+
+      Drag the orchard slider towards the frog and watch $G$ and the probability bars. Then press **Both like the pond**.
+
+  - type: numeric
+    id: softmax
+    prompt: |
+      Two policies have expected free energies $G(\text{pond})=0.336$ and $G(\text{orchard})=1.214$ nats. The prior over policies is $P(\pi)=\sigma(-G(\pi))$, the softmax $\dfrac{e^{-G(\pi)}}{\sum_{\pi'}e^{-G(\pi')}}$. What is $P(\text{orchard})$?
+    answer: 0.294
+    tolerance: 0.003
+    wrong:
+      - value: 0.706
+        feedback: |
+          That is $P(\text{pond})$, the most probable policy, the one with the **lower** $G$. You have the right computation but for the wrong policy.
+      - value: 0.77
+        feedback: |
+          That would come from $\sigma(+G)$, which makes the **higher** $G$ more probable. The sign is $-G$: $G$ is minimised, so a lower $G$ means a higher probability.
+    hint: 'Divide $e^{-1.214}$ by $e^{-0.336}+e^{-1.214}$, or compute $1/(1+e^{1.214-0.336})$.'
+    explanation: |
+      $$\begin{aligned}P(\text{orchard})&=\frac{1}{1+e^{0.878}}\\&=\frac{1}{3.406}\approx0.294.\end{aligned}$$
+      So $P(\text{pond})\approx0.706$. The preference ("see a jump") never appeared as a value: it sits inside $G$, and $G$ shapes the **prior belief** about which policy the creature will follow. The most probable policy is the one that realises the preference.
+
+  - type: mcq
+    id: purposive
+    prompt: |
+      Why does an agent that is only **given** a prior preference (it believes it will encounter jumps, say) end up **acting** to realise it?
+    options:
+      - text: 'Because acting to fulfil its own expectations is the only course of action consistent with its prior belief that it will fulfil them.'
+        correct: true
+      - text: 'Because a separate controller reads the preference and issues commands.'
+        feedback: |
+          There is no extra controller in this scheme. The same inference (a prior over policies via $G$) both holds the preference and selects the behaviour.
+      - text: 'Because the preference raises the value of the states it names, and the agent climbs the value.'
+        feedback: |
+          That describes a value function, the very ingredient being replaced. Here nothing is climbed: the most probable policy is simply the one that makes the expected outcomes match the preferred ones.
+    explanation: |
+      This is the first advantage: **purposive (teleological) behaviour comes for free**, as in cybernetics. A bonus: the preferred course of action, the policy, can be **measured** directly in an experiment, whereas a value function or a prior belief has to be inferred from behaviour, a more indirect (even circular) measure.
+
+  - type: mcq
+    id: separate
+    prompt: |
+      A student says: "A belief says how *probable* something is; a value says how *good* it is. They are different kinds of thing, so the preference cannot be a belief." Which reply matches Active Inference?
+    options:
+      - text: 'In the generative model a preferred outcome is an outcome the creature expects to encounter. Being "good" is being "what I will find myself with", so a prior over outcomes and policies does the work of a value.'
+        correct: true
+      - text: 'The student is right, so Active Inference adds a value function on top of the beliefs.'
+        feedback: |
+          Tempting if you come from reinforcement learning, where both exist. Active Inference removes the second one: the preference is folded into the prior through $G$.
+      - text: 'Beliefs and values are separate, but the agent may ignore the values.'
+        feedback: |
+          The agent does not ignore its preferences. They are exactly what makes some policies more probable than others; they are just stored as beliefs.
+    explanation: |
+      A strange move for someone trained in reinforcement learning (value and belief separate) or in Bayesian statistics (a belief carries no value), and a powerful one. The next card collects the three reasons.
+
+  - type: mcq
+    id: reasons
+    multiple: true
+    prompt: |
+      Casting behaviour as a function of **beliefs**, not of values, brings three advantages. Select **all** that apply.
+    options:
+      - text: 'Purposive behaviour follows automatically from a prior preference.'
+        correct: true
+      - text: 'Degree of belief and uncertainty are built in (a distribution, not a single number per state).'
+        correct: true
+      - text: 'Optimal behaviour follows a principle of least Action, as in physics.'
+        correct: true
+      - text: 'The agent no longer needs a generative model.'
+        feedback: |
+          The opposite: everything here is built **on** the generative model. The preference is a prior inside it.
+      - text: 'The agent never has to learn anything by trial and error.'
+        feedback: |
+          Not claimed. What changes is what is learned and how it is stored (as beliefs), not whether learning exists.
+    explanation: |
+      (1) Purposive behaviour for free. (2) Degree of belief and uncertainty, which are not directly available in the Bellman formulation; this also gives more flexibility for sequences and itinerant (wandering) behaviours. (3) Optimal behaviour follows the physicist's **Hamiltonian principle of least Action**: the most likely course of action minimises free energy, and the creature follows a path of least resistance to a steady state, as in the random walkers seen earlier. This third reason is why the next cards unpack the analogy.
+
+  - type: text
+    id: analogy
+    title: "The Hamilton analogy, level one"
+    body: |
+      Newton described mechanics with **differential equations**: acceleration proportional to force. Lagrange and Hamilton offered a complementary view: look at a **quantity** (the Lagrangian, the Hamiltonian, the energy) from which the same dynamics can be *derived*. Different Hamiltonians give different physics.
+
+      **Level one of the analogy.** Active Inference does the same for brains and behaviour: instead of writing down a list of differential equations for neurons and movements, it specifies **one quantity, the free energy**, and the dynamics follow from it. Different generative models give different free energies, hence different neuronal and behavioural dynamics.
+
+      Two more levels. Next, the second: how does a Hamiltonian relate to probability?
+
+  - type: build
+    id: energy
+    prompt: |
+      **Level two.** In this course, an *energy* is always a negative log probability: a measure of how improbable a configuration is, so that systems drift to states of low energy (high probability). The Hamiltonian, the conserved energy of the system, then corresponds to the **surprise** of sensory states. Build the surprise of a sensation $y$.
+    prefix: '\mathfrak{I}(y) ='
+    tiles:
+      - '-\ln P(y)'
+      - '\ln P(y)'
+      - 'P(y)'
+      - '-P(y)'
+    answers:
+      - ['-\ln P(y)']
+    wrong:
+      - answer: ['\ln P(y)']
+        feedback: |
+          That is the **log evidence**, which is $\le 0$. Surprise is its negative, large for improbable $y$ and $0$ for $y$ certain.
+      - answer: ['P(y)']
+        feedback: |
+          The probability itself is high for unsurprising $y$, the opposite of surprise. Surprise is $-\ln P(y)$.
+    hint: 'Improbable sensations must be the surprising ones, and a certain one has surprise $0$.'
+    explanation: |
+      $$\mathfrak{I}(y)=-\ln P(y).$$
+      Energy low means probability high. Since dissipative systems with a Markov blanket move towards low energy, high probability states, the Hamiltonian can be identified with surprise: Active Inference **is** Hamiltonian physics applied to systems that have a Markov blanket. (Conserving energy and conserving probability become equivalent statements.)
+
+  - type: mcq
+    id: functionals
+    prompt: |
+      **Level three.** In mechanics, the path of a particle makes the **Action** (the integral of a Lagrangian along the whole path) as small as possible. The path is a *function of time*; the Action takes the whole path and returns one number, so it is a **functional**. Which is the matching pair in Active Inference?
+    options:
+      - text: 'The function being optimised is a belief $Q$ (a function of hidden states); the functional it minimises is the free energy $F$.'
+        correct: true
+      - text: 'The function being optimised is the free energy; the functional is the belief.'
+        feedback: |
+          Reversed. The thing you adjust is the belief $Q$ (a function), and free energy is the functional that scores it, returning one number for the whole belief.
+      - text: 'There is no match: free energy is minimised over a single number, not a function.'
+        feedback: |
+          $F[Q,y]$ is evaluated on a whole distribution $Q$, which is why it is written with square brackets, as a functional. Minimising over $Q$ is variational inference.
+    explanation: |
+      In both cases a **function** (a path, a belief) is optimised against a **functional** (Action, free energy). This puts both in the **calculus of variations**, the branch of mathematics that finds extrema of functionals. In physics it gives the **Euler-Lagrange equations**; in Active Inference it gives **variational inference** procedures.
+
+  - type: mcq
+    id: models-behaviour
+    prompt: |
+      Two creatures have the same body and the same sensors, but different **generative models**: one expects the world to be warm, the other expects it to be cold. What will differ?
+    options:
+      - text: 'Their behaviour: each model says what the creature would find surprising, and the creature acts to avoid exactly that.'
+        correct: true
+      - text: 'Nothing: behaviour depends only on the body, not on the model.'
+        feedback: |
+          In this theory the behaviour is read off the steady state, which is a generative model of the creature's sensations. Change the model, change what counts as surprising, and so change the behaviour.
+      - text: 'Only what they perceive, not what they do.'
+        feedback: |
+          Perception and action both minimise surprise under the **same** model, so a change of model changes both.
+    explanation: |
+      A system at steady state behaves as if its steady-state distribution were a generative model of its sensations. So **specifying a model** specifies behaviour, and richer models correspond to creatures of different complexity (adaptive, cognitive). The random walkers earlier had very simple models, a minimal sort of cognition.
+
+  - type: order
+    id: hierarchy
+    prompt: |
+      Simple models are **shallow**: they infer at a single timescale. A **hierarchical** (deep) model has levels in which slow things at higher levels contextualise fast things at lower levels. A reader is reading a page. Put what its model represents in order, from the **highest (slowest changing)** level to the **lowest (fastest changing)**.
+    steps:
+      - 'The sentence I am reading'
+      - 'The word I am reading'
+      - 'The letter I am looking at'
+    hint: 'What stays the same for longest while you read?'
+    explanation: |
+      The sentence changes only every few seconds and tells you what a word is likely to be; the word changes faster and constrains the letter. This is the book's example (sentence above word); the letter is our extension of it.
+
+  - type: mcq
+    id: depth
+    prompt: |
+      A creature with a model of the present (and a hierarchy) can only react to what it senses. What must its model include in order to **choose among alternative futures**?
+    options:
+      - text: 'Temporal depth: an explicit representation of the future and of the consequences of its actions, so that it can entertain counterfactual trajectories.'
+        correct: true
+      - text: 'Only more levels in the hierarchy.'
+        feedback: |
+          Levels give several **timescales**, but a hierarchy of purely present-tense levels still has no future and no consequences of actions. Depth in time and depth in the hierarchy are different things.
+      - text: 'Only a stronger preference for the goal.'
+        feedback: |
+          A stronger preference changes what is wanted, not whether the model can represent futures at all. Without a future in the model there is nothing to choose among.
+    explanation: |
+      Alternative futures pertaining to things **over which we have control** are called **policies** or **plans**. Entertaining them (counterfactually: "what would happen if I went to the orchard?") requires a model with temporal depth. Then one adds the prior seen above: the policies with the lowest expected free energy are the most plausible, which describes a system with a Markov blanket at steady state that "corresponds well to systems like us".
+
+  - type: mcq
+    id: continuum
+    prompt: |
+      A thermostat-like creature acts so as to **minimise variational free energy $F$ only**; its model has no future. Which statement fits it?
+    options:
+      - text: 'It is a self-evidencing agent: it gathers evidence for its model and self-regulates, but it "lives in the present" and cannot plan.'
+        correct: true
+      - text: 'It plans several steps ahead, since $F$ already contains the future.'
+        feedback: |
+          $F$ scores beliefs about the **present** sensation $y$. The future enters only through $G$, the expected free energy of policies.
+      - text: 'It cannot survive, since only planners achieve set-points.'
+        feedback: |
+          Such creatures achieve homeostatic set-points and can have very high fitness (viruses are an example). They are limited, not doomed.
+    explanation: |
+      The line drawn between simple and complex creatures is: those that minimise **variational** free energy only, and those that **also** minimise **expected** free energy. The former may even have hierarchical models, but lack temporal depth; their "planning" is implicit (for instance, supplied by evolution).
+
+  - type: mcq
+    id: planning
+    multiple: true
+    prompt: |
+      A creature has a model with temporal depth and minimises both $F$ and $G$. Select **all** that are true.
+    options:
+      - text: 'It can select among alternative futures, not only decide how to deal with the sensed present.'
+        correct: true
+      - text: 'It carries the implicit prior that it is a free-energy-minimising agent that will also minimise free energy in the future.'
+        correct: true
+      - text: 'It forms beliefs about how it should behave and which trajectories it will pursue.'
+        correct: true
+      - text: 'It gives up minimising $F$ about the present, which is replaced by $G$.'
+        feedback: |
+          Both remain. Variational free energy still handles the present (perception and acting on the sensed state), and $G$ is added for the future.
+      - text: 'It picks the policy with the **highest** $G$.'
+        feedback: |
+          $G$ is minimised: $P(\pi)=\sigma(-G)$ makes the lowest-$G$ policy the most probable.
+    explanation: |
+      Minimising $G$ amounts to a prior that one is a free-energy-minimising agent in the future. The temporal depth of the model becomes a **psychological** depth: at least a primitive form of agency. Where living creatures sit along this continuum is an empirical question.
+
+  - type: mcq
+    id: entropies
+    prompt: |
+      Two entropies appear with opposite imperatives. Which pairing is correct?
+    options:
+      - text: 'Minimising $F$ favours a **high** entropy of the present belief $Q$ ("keep options open"); minimising $G$ favours a **low** ambiguity, the conditional entropy of outcomes given states, of the future.'
+        correct: true
+      - text: 'Minimising $F$ favours a low entropy of the belief; minimising $G$ favours a high ambiguity.'
+        feedback: |
+          Reversed on both. In $F=\mathbb{E}_Q[-\ln P(y,x)]-H[Q]$ the belief entropy enters with a minus sign, so a **high** $H[Q]$ lowers $F$; and in $G=\text{ambiguity}+\text{risk}$ the ambiguity adds, so low ambiguity lowers $G$.
+      - text: 'Both $F$ and $G$ favour low entropy of everything, to maximise order.'
+        feedback: |
+          The order concerns the creature's sensory states. The entropy that $F$ rewards is that of its **beliefs**, and the one $G$ penalises is the ambiguity of the **likelihood**, a different object.
+    explanation: |
+      $$G(\pi)=\text{ambiguity}+\text{risk}.$$
+      In the chapter's wording, $G$ contains two entropies with opposite signs: the posterior predictive entropy (how uncertain I am about the outcomes of a choice), which is *maximised* in the information-gain form, and the ambiguity, which is *minimised*. Selecting low-ambiguity futures gives epistemic, curious, information-foraging behaviour, which resolves uncertainty and improves the model, minimising surprise in the long run.
+
+  - type: numeric
+    id: ambiguity
+    prompt: |
+      In the pond and orchard example, each hidden state (frog or apple) produces its outcomes with probabilities $(0.9,\,0.1)$ for the matching outcome and the other. The **ambiguity** of a policy is the expected entropy of the outcomes given the state, $\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]$, with $H[p]=-\sum_k p_k\ln p_k$. Whatever the belief about the state, what is the ambiguity of this policy, in nats?
+    answer: 0.325
+    tolerance: 0.003
+    wrong:
+      - value: 0.693
+        feedback: |
+          That is $\ln 2$, the entropy of outcomes with probabilities $(0.5,\,0.5)$, a maximally ambiguous likelihood. Here the outcomes are $(0.9,\,0.1)$, much more informative about the state.
+      - value: 0
+        feedback: |
+          Zero ambiguity needs outcomes that are certain given the state, i.e. $(1,\,0)$. With $(0.9,\,0.1)$ there is still some spread.
+    hint: 'Both states give the same entropy, $-0.9\ln0.9-0.1\ln0.1$, so the average over $Q$ does not matter.'
+    explanation: |
+      $$\begin{aligned}H[(0.9,0.1)]&=-0.9\ln0.9\\&\quad-0.1\ln0.1\\&\approx0.095+0.230\\&=0.325.\end{aligned}$$
+      Averaging $0.325$ over any belief still gives $0.325$. A blurrier likelihood would raise this number, and a policy that looks where outcomes tell the state apart would be preferred: that is the pull towards curious, epistemic behaviour.
+
+  - type: mcq
+    id: wine
+    prompt: |
+      People work for years to produce and buy good wine to satisfy thirst, and build cities and laws to make their surroundings more predictable. Each costs a short-term increase of surprise (building something new, changing the social order). How does this fit surprise minimisation?
+    options:
+      - text: 'We accept a short-term increase of surprise to secure its long-term decrease. Minimising surprise does not mean a rigid repertoire: it promotes open-ended, exploratory, novelty-seeking behaviour (allostasis).'
+        correct: true
+      - text: 'It does not fit: it shows that humans maximise surprise.'
+        feedback: |
+          Surprise is still minimised, over the long run. Taking a step that is surprising now (building, exploring) is a way to make the future less surprising.
+      - text: 'It fits only because humans ignore homeostasis.'
+        feedback: |
+          The opposite: producing wine serves the original homeostatic need (thirst) by a novel, indirect route. This flexible route is called **allostasis**.
+    explanation: |
+      Homeostasis alone would be a rigid set of responses. In advanced creatures the same imperative produces open-ended repertoires, and we also pursue order and controllability for its own sake, by carving out more predictable niches. Epistemic imperatives and surprise minimisation are therefore not at odds.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** we place Active Inference next to three older families of theory (enactive, cybernetic, predictive) and see how it reconciles them.
