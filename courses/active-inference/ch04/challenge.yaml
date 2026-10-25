@@ -283,3 +283,197 @@ cards:
       The Laplace approximation needs a **peak** of $\ln p$ with curvature below it. For $y=0$ the true posterior is the exponential density $2e^{-2x}$ on $x>0$: highest at the boundary with a nonzero slope, a long right tail, and no quadratic structure at all. The method fails because the posterior is **far from Gaussian** (skewed, bounded). The usual repairs are to change variables so that the unknown lives on the whole line (here $w=\ln x$, which makes the posterior a smooth bump), or to use a richer family for $Q$ (mixtures, several modes).
 
       Moral of the problem: the Laplace free energy is a bound, and it is only as tight as the posterior is Gaussian. A large gap, or no mode, is the signal that the Gaussian assumption is wrong.
+
+  # ---------------------------------------------------------------- Problem 4
+  - type: widget
+    id: p4-widget
+    review: false
+    widget: predictive-coding
+    config:
+      mode: static
+      modes: [static]
+      g: { kind: gain, gain: 1 }
+      y: 5
+      eta: 0
+      Pi: { y: 2, v: 3 }
+      range: [-1, 6]
+      show: { closed: false }
+    body: |
+      **Problem 4 · Predictive coding and action.** A creature believes a hidden cause $\mu$ (prior mean $\eta=0$, prior precision $\Pi_v=3$) produces data $y=5$ through $g(\mu)=\mu$, with sensory precision $\Pi_y=2$. Two prediction errors pull on $\mu$: $\epsilon_y=y-\mu$ (against the data) and $\epsilon_v=\mu-\eta$ (against the prior). Press *Descend*, then drag the two precision sliders and watch where the belief settles.
+
+  - type: numeric
+    id: p4-mu
+    tag: Problem 4 · Predictive coding and action
+    prompt: |
+      A hidden cause $\mu$ predicts data through $g(\mu)=\mu$. The data are $y=5$, the prior mean is $\eta=0$, the sensory precision is $\Pi_y=2$ and the prior precision is $\Pi_v=3$. The free energy is $F=\tfrac12(\Pi_y\epsilon_y^2+\Pi_v\epsilon_v^2)$ with $\epsilon_y=y-\mu$, $\epsilon_v=\mu-\eta$. Where does the belief $\mu$ settle (one decimal)?
+    answer: 2.0
+    tolerance: 0.02
+    answerText: '2.0'
+    wrong:
+      - { value: 2.5, feedback: 'That is the plain average of $y$ and $\eta$. It would be right only for equal precisions; here the prior is more precise ($3$ against $2$), so $\mu$ sits closer to $\eta$.' }
+      - { value: 3, feedback: 'That is the pull to the data, $\Pi_y/(\Pi_y+\Pi_v)=0.4$ of the way, taken the wrong way round: the prior has the **larger** precision, so it wins the larger share.' }
+    hint: 'At the minimum the weighted errors balance: $\Pi_y\epsilon_y=\Pi_v\epsilon_v$, that is $2(5-\mu)=3\mu$.'
+    explanation: |
+      Setting $\partial_\mu F=0$:
+      $$\begin{aligned}-\Pi_y(y-\mu)+\Pi_v(\mu-\eta)&=0,\\ \mu&=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}\\ &=\frac{10}{5}=2.\end{aligned}$$
+      The errors are $\epsilon_y=3$ and $\epsilon_v=2$; weighted, $2\cdot3=3\cdot2=6$. The belief moves from the prior toward the data by the fraction $\Pi_y/(\Pi_y+\Pi_v)=0.4$ of the gap $y-\eta=5$.
+
+  - type: numeric
+    id: p4-change
+    tag: Problem 4 · Predictive coding and action
+    prompt: |
+      Same model: data $y=5$, prior mean $\eta=0$, $g(\mu)=\mu$, prior precision $\Pi_v=3$. The sensory precision is now **raised** from $\Pi_y=2$ to $\Pi_y=7$ (a sharper sense). Where does the belief $\mu$ settle (one decimal)?
+    answer: 3.5
+    tolerance: 0.02
+    answerText: '3.5'
+    wrong:
+      - { value: 2, feedback: 'That is the old value for $\Pi_y=2$. A larger $\Pi_y$ gives the data more weight, so $\mu$ moves toward $y=5$.' }
+      - { value: 5, feedback: 'That would be $\Pi_y\to\infty$, a sense that is perfect. With a finite $\Pi_y$ the prior still pulls with weight $\Pi_v=3$.' }
+    hint: 'The same balance $\Pi_y(y-\mu)=\Pi_v(\mu-\eta)$ with the new $\Pi_y$.'
+    explanation: |
+      $$\mu=\frac{7\cdot5+3\cdot0}{7+3}=3.5.$$
+      The data now take $70\%$ of the gap. In the other direction, $\Pi_y\to0$ would give $\mu\to\eta=0$: a sense with no precision is ignored and the creature believes only its prior.
+
+  - type: numeric
+    id: p4-udot
+    tag: Problem 4 · Predictive coding and action
+    prompt: |
+      An arm hangs at angle $y=0$. The brain predicts (prior mean) $\eta=4$, with prior precision $\Pi_v=2$ and sensory precision $\Pi_y=6$; the belief about the angle is $\mu$ with $g(\mu)=\mu$. The belief has settled at its minimum $\mu=1$, so $\epsilon_y=y-\mu=-1$. The muscle signal $u$ changes the angle with $\partial y/\partial u=0.5$. The reflex is $\dot u=-\frac{\partial y}{\partial u}\,\Pi_y\,\epsilon_y$. What is $\dot u$ (one decimal)?
+    answer: 3.0
+    tolerance: 0.02
+    answerText: '3.0'
+    wrong:
+      - { value: -3, feedback: 'The sign is reversed. The error $\epsilon_y=-1$ is negative (the arm is below the belief), and the minus in the rule makes $\dot u$ positive: the arm is pushed **up**, toward the prediction $\eta=4$.' }
+      - { value: 6, feedback: 'You left out the factor $\partial y/\partial u=0.5$: a unit change of $u$ moves the arm only half a unit, and the reflex follows the gradient of $F$ with respect to $u$.' }
+    hint: 'Multiply the three factors: $-0.5\times6\times(-1)$.'
+    explanation: |
+      $$\dot u=-0.5\cdot6\cdot(-1)=3.$$
+      Check the belief: $\mu=\dfrac{6\cdot0+2\cdot4}{6+2}=1$. With $\Pi_y=6$ the belief hugs the arm and the error is only $-1$, yet the reflex is strong because the error is multiplied by the large precision $\Pi_y$: **the reflex reads the precision-weighted error** $\Pi_y\epsilon_y=-6$. At the minimum, $\dot u=\frac{\partial y}{\partial u}\frac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}(\eta-y)=0.5\cdot1.5\cdot4=3$.
+
+  - type: mcq
+    id: p4-zero
+    tag: Problem 4 · Predictive coding and action
+    prompt: |
+      The arm above ($y=0$, prediction $\eta=4$, $\Pi_v=2$, $\partial y/\partial u=0.5$) has its sensory precision $\Pi_y$ lowered toward $0$ (an anaesthetised arm), the belief $\mu$ always at its minimum. What happens to the reflex $\dot u$ at the minimum?
+    options:
+      - text: 'It tends to $0$: $\mu\to\eta$, the sensory error stays large ($\epsilon_y\to-4$) but its weight $\Pi_y\to0$, so $\Pi_y\epsilon_y\to0$ and the arm does not move. A smaller $\Pi_y$ is not faster: the rate rises with $\Pi_y$ and saturates at $\partial y/\partial u\,\Pi_v(\eta-y)=4$.'
+        correct: true
+      - text: 'It grows without limit: a smaller $\Pi_y$ lets the prediction through, so the arm races to $\eta=4$.'
+        feedback: |
+          Lowering $\Pi_y$ does let the belief reach the prediction ($\mu\to\eta$), but the reflex needs a **weighted** sensory error to act on. With weight near $0$ the product is near $0$. The belief is free; the arm has no signal to move.
+      - text: 'It stays at $3$, since it depends only on $\partial y/\partial u$ and the error.'
+        feedback: |
+          The reflex multiplies the error by $\Pi_y$, and the error itself depends on $\Pi_y$ through $\mu$. Both change: $\dot u=0.5\,\Pi_y\cdot2/(\Pi_y+2)\cdot4$ is $3$ only at $\Pi_y=6$.
+    explanation: |
+      At the belief minimum, with $\partial y/\partial u=k$,
+      $$\dot u=k\,\frac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}\,(\eta-y).$$
+      For the arm, $\dot u=4\Pi_y/(\Pi_y+2)$: $\Pi_y=6$ gives $3$, $\Pi_y=0.5$ gives $0.8$, $\Pi_y\to0$ gives $0$, and $\Pi_y\to\infty$ gives $4$. So lowering $\Pi_y$ **never** speeds the movement up: the prediction can only be fulfilled by a body whose sensors are trusted enough to report the error. 
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: widget
+    id: p5-widget
+    review: false
+    widget: mean-field-vb
+    config:
+      joint: [[0.16, 0.04], [0.06, 0.14]]
+      q1: [0.6, 0.4]
+      q2: [0.3, 0.7]
+      showMessages: false
+      names: [['a', 'b'], ['c', 'd']]
+      presets:
+        - { label: 'our table', joint: [[0.16, 0.04], [0.06, 0.14]] }
+    body: |
+      **Problem 5 · Mean field.** Two hidden variables $x_1\in\{a,b\}$ (rows) and $x_2\in\{c,d\}$ (columns) produce the observed data $y$ with the joint $p(y,x_1,x_2)$ shown. The approximate belief is a product $q_1(x_1)\,q_2(x_2)$. Do not press the update buttons yet. Look at the exact posterior (middle): is it a product? Then try to get the gap $D_{KL}[q\parallel p(x\mid y)]$ as low as you can with the sliders alone.
+
+  - type: numeric
+    id: p5-q1
+    tag: Problem 5 · Mean field
+    prompt: |
+      Two hidden variables $x_1,x_2\in\{1,2\}$ and data $y$ have the joint $p(y,x_1,x_2)$, rows $x_1$, columns $x_2$:
+      $$\begin{pmatrix}0.16&0.04\\0.06&0.14\end{pmatrix}$$
+      The mean-field belief $q_2=(0.3,\,0.7)$ is held fixed. Update $q_1$ by $\ln q_1(x_1)=\mathbb E_{q_2}[\ln p(y,x_1,x_2)]+\text{const}$. What is the new $q_1(x_1=1)$ (three decimals)?
+    answer: 0.358
+    tolerance: 0.003
+    answerText: '0.358'
+    wrong:
+      - { value: 0.5, feedback: 'That is the **marginal** of the posterior, $p(x_1=1\mid y)$. The update uses the average of the **log** joint under $q_2$, not the plain sum over $x_2$, and it depends on the current $q_2$.' }
+      - { value: 0.8, feedback: 'That is the share $0.16/(0.16+0.04)$ of the row $x_1=1$, reading only the row. The update compares the two **rows** $x_1=1$ and $x_1=2$, each weighted by $q_2$.' }
+    hint: 'Row $x_1=1$: $0.3\ln0.16+0.7\ln0.04=-2.803$. Row $x_1=2$: $0.3\ln0.06+0.7\ln0.14=-2.220$. Then exponentiate and normalise.'
+    explanation: |
+      The expectation under $q_2$ of $\ln p$ in each row:
+      $$\begin{aligned}x_1=1:&\ 0.3\ln0.16+0.7\ln0.04=-2.803,\\ x_1=2:&\ 0.3\ln0.06+0.7\ln0.14=-2.220.\end{aligned}$$
+      Normalising the exponentials, $q_1(1)=\dfrac{1}{1+e^{0.583}}=0.358$, so $q_1=(0.358,\,0.642)$. It is the geometric average of the row entries (weights $q_2$), not the arithmetic one. This is the value of $q_1$ that minimises $F$ for the given $q_2$.
+
+  - type: numeric
+    id: p5-q2
+    tag: Problem 5 · Mean field
+    prompt: |
+      Same joint, rows $x_1$, columns $x_2$:
+      $$\begin{pmatrix}0.16&0.04\\0.06&0.14\end{pmatrix}$$
+      After the update, $q_1=(0.358,\,0.642)$. Now update $q_2$ by $\ln q_2(x_2)=\mathbb E_{q_1}[\ln p(y,x_1,x_2)]+\text{const}$. What is the new $q_2(x_2=1)$ (three decimals)?
+    answer: 0.488
+    tolerance: 0.003
+    answerText: '0.488'
+    wrong:
+      - { value: 0.55, feedback: 'That is the exact marginal $p(x_2=1\mid y)$. The update averages $\ln p$ under the current $q_1$, which is not the posterior marginal.' }
+    hint: 'Column $x_2=1$: $0.358\ln0.16+0.642\ln0.06$. Column $x_2=2$: $0.358\ln0.04+0.642\ln0.14$.'
+    explanation: |
+      Averages of $\ln p$ under $q_1$:
+      $$\begin{aligned}x_2=1:&\ 0.358\ln0.16\\ &\ +0.642\ln0.06=-2.463,\\ x_2=2:&\ 0.358\ln0.04\\ &\ +0.642\ln0.14=-2.411.\end{aligned}$$
+      So $q_2(1)=1/(1+e^{0.052})=0.488$ and $q_2=(0.488,\,0.512)$. One sweep (both updates) has moved $q_2$ from $(0.3,0.7)$ to almost even odds.
+
+  - type: numeric
+    id: p5-gap
+    tag: Problem 5 · Mean field
+    prompt: |
+      Same joint $\begin{pmatrix}0.16&0.04\\0.06&0.14\end{pmatrix}$ (so $p(y)=0.40$ and $-\ln p(y)=0.916$). The free energy is $F=\sum q\,(\ln q-\ln p(y,x))$, and the gap is $D_{KL}=F+\ln p(y)$. The start $q_1=(0.6,0.4)$, $q_2=(0.3,0.7)$ has $F=1.286$, a gap $0.370$. After one sweep, $q_1=(0.358,0.642)$ and $q_2=(0.488,0.512)$ have $F=1.093$. What is the gap now (three decimals)?
+    answer: 0.176
+    tolerance: 0.003
+    answerText: '0.176'
+    wrong:
+      - { value: 1.093, tolerance: 0.003, feedback: 'That is $F$ itself. The gap is what is **above** the surprise: $F-(-\ln p(y))=F+\ln p(y)$.' }
+    hint: '$-\ln p(y)=-\ln0.4=0.916$, and the gap is $F$ minus this.'
+    explanation: |
+      $$\text{gap}=1.093-0.916=0.176.$$
+      The gap fell from $0.370$ to $0.176$ in one sweep: $F$ never rises, because each update is the best possible for its factor. Further sweeps end near $q_1=(0.505,0.495)$, $q_2=(0.570,0.430)$ with gap $0.146$.
+
+  - type: mcq
+    id: p5-floor
+    tag: Problem 5 · Mean field
+    prompt: |
+      Alternating the updates of $q_1$ and $q_2$ for the joint $\begin{pmatrix}0.16&0.04\\0.06&0.14\end{pmatrix}$ settles at a gap of about $0.146$ nats, not $0$. Why, and how does this relate to message passing?
+    options:
+      - text: 'The exact posterior $\begin{pmatrix}0.4&0.1\\0.15&0.35\end{pmatrix}$ is **not a product** (the likelier column flips with the row), so no $q_1q_2$ reaches it; $0.146$ is the smallest gap of any product. Each update is a message: the new $q_1$ is built from the other factor''s belief $q_2$ averaged into the joint, and back.'
+        correct: true
+      - text: 'The updates stop too early; with more sweeps the gap would reach $0$, because each update moves $F$ closer to $-\ln p(y)$.'
+        feedback: |
+          Each update does lower $F$, but only within the family of products. The best member of the family is $0.146$ away, so no number of sweeps gets lower.
+      - text: 'Because the update uses $\ln p$ and not $p$; with the plain sum the gap would reach $0$.'
+        feedback: |
+          The log average is exactly what minimises $F$ for one factor. Using the plain sum would give a worse belief, not a better one.
+    explanation: |
+      The posterior has rows $(0.4,0.1)$ and $(0.15,0.35)$: the ratio of the two columns is $4{:}1$ in one row and $3{:}7$ in the other, so it cannot equal $q_2(1):q_2(2)$ in both. The best product leaves a positive floor, here $0.146$ nats.
+
+      In **message-passing** language, each factor $q_i$ is a node of a graph: its update is the local log-joint plus the messages from its neighbours, which are the expectations of $\ln p$ under the neighbours' beliefs. Updating the nodes in turn until nothing changes is mean-field message passing, and a loop between the nodes (the correlation) is what the approximation cannot represent.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      - **Free energy is a bound.** For a guess $Q(x)$ over a hidden cause $x$ and data $y$ (minimised),
+        $$\begin{aligned}F&=\sum_x Q(x)\,[\ln Q(x)-\ln P(x,y)]\\ &=-\ln P(y)+D_{KL}[Q(x)\parallel P(x\mid y)]\end{aligned}$$
+        so its lowest value is the surprise $-\ln P(y)$, reached by the exact posterior. In a discrete model with policy $\pi$, expected free energy $\mathbf G$ and free energy $\mathbf F$, the policy belief is
+        $$\pi=\sigma(-\mathbf G-\mathbf F)$$
+      - **Laplace** puts a Gaussian on the mode of a posterior over a variable $x$ with joint density $p(y,x)$: with the mean $\mu$ where $\partial_x\ln p=0$ and the covariance $\Sigma$,
+        $$\begin{aligned}q&=\mathcal N(\mu,\Sigma),\\ \Sigma^{-1}&=-\partial_x^2\ln p(y,x)\big|_{x=\mu}\end{aligned}$$
+        It is only as tight as the posterior is Gaussian: a skewed posterior leaves a gap, and with no interior mode the recipe fails.
+      - **Predictive coding** weighs errors by precisions. A hidden cause $\mu$ predicts data $y$ through $g(\mu)=\mu$, with prior mean $\eta$, sensory precision $\Pi_y$ and prior precision $\Pi_v$ (distributions $\mathcal N(m,\Pi^{-1})$). The errors are $\epsilon_y=y-\mu$ and $\epsilon_v=\mu-\eta$, and at the minimum of $F=\tfrac12(\Pi_y\epsilon_y^2+\Pi_v\epsilon_v^2)$
+        $$\mu=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$$
+      - **Action** moves the data to meet the prediction. If an arm angle $y$ depends on the muscle signal $u$, the reflex is
+        $$\dot u=-\frac{\partial y}{\partial u}\,\Pi_y\,\epsilon_y\;\to\;\frac{\partial y}{\partial u}\,\frac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}\,(\eta-y)$$
+        at the belief minimum. It vanishes when $\Pi_y\to0$ (the senses carry no weight) and never exceeds $\frac{\partial y}{\partial u}\Pi_v(\eta-y)$ however large $\Pi_y$ is.
+      - **Mean field** approximates a joint over two hidden variables $x_1,x_2$ by a product $Q=q_1(x_1)q_2(x_2)$ and updates one factor at a time from the other's average:
+        $$\ln q_1(x_1)=\mathbb E_{q_2}[\ln p(y,x_1,x_2)]+\text{const}$$
+        Each update lowers $F$, which settles at a floor above $-\ln p(y)$ whenever the exact posterior is correlated (not a product).
+
+      **Next:** every method of this chapter (the free-energy bound, the discrete and Laplace models, predictive coding, mean field) updates beliefs by passing numbers between the parts of a model. The next topic makes this explicit as **message passing on a factor graph**, and asks how a brain made of neurons could carry such messages: which neural populations would hold the beliefs, and which would carry the prediction errors.
