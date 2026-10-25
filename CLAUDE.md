@@ -241,7 +241,7 @@ Lessons are built across many short sessions. Igor starts each with
   - Keep `STATUS.md` and `CONVENTIONS.md` short: Current under ~40 lines,
     "Verified" as compact page lists (no prose), a convention is one or two
     lines. When a file grows, compress it in the same session.
-  - Agents run at the same model and effort as the session (`/effort`).
+  - Agents run at the same model as the session and at `effort: medium` (Igor's standing choice).
 - **End of every session:** validate, run shots, update the course's
   `STATUS.md` (Current block, plus a Log entry of a few lines ending with
   "Conventions fixed here: …", copied into the chapter's section of

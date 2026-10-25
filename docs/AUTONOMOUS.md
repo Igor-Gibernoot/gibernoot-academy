@@ -10,6 +10,7 @@ context stays small. Igor reviews the level on the live site at the end.
   `opus`) and **the same effort level** the session uses (Igor sets it with
   `/effort`; pass it as `effort` on every spawn; if you cannot tell which it
   is, ask Igor once before starting); never pick another model or effort.
+  **Igor's standing choice: `effort: medium` on every spawn** (no need to ask).
 - For each unit, in `course.yaml` order and **strictly sequentially** (never
   in parallel), spawn one fresh agent whose prompt is the
   ready-to-paste unit prompt plus: "You are running autonomously: follow
