@@ -7,7 +7,9 @@ context stays small. Igor reviews the level on the live site at the end.
 
 - **Agent model = the session's own model and effort.** Pass `model` matching
   the model this session runs on (Sonnet session → `sonnet`, Opus session →
-  `opus`) and leave `effort` unset so it inherits; never pick another model.
+  `opus`) and **the same effort level** the session uses (Igor sets it with
+  `/effort`; pass it as `effort` on every spawn; if you cannot tell which it
+  is, ask Igor once before starting); never pick another model or effort.
 - For each unit, in `course.yaml` order and **strictly sequentially** (never
   in parallel), spawn one fresh agent whose prompt is the
   ready-to-paste unit prompt plus: "You are running autonomously: follow
@@ -69,6 +71,13 @@ context stays small. Igor reviews the level on the live site at the end.
   7. `node tools/validate.mjs` and shots stay clean after the fixes.
   The agent fixes each problem itself (small `Edit`s), then reports a list
   of what it found and fixed, plus anything it could not decide.
-- **Stop at the end of each level** (after the audit) and give Igor a
+- **Efficiency rules** (CLAUDE.md "Building sessions" → "Token efficiency")
+  bind every agent; the coordinator need not repeat them in unit prompts.
+  When Igor asks for several levels ("until the end of Chapter 4"), run a
+  **light audit** (checklist items 2, 4, 5 and 7 plus a terminology grep
+  across the earlier levels) after each level except the last, and the full
+  audit after the last one.
+- **Stop at the end of each level** (after the audit), unless Igor named a
+  later end point, and give Igor a
   summary of the units, any doubts, and the prompt to continue with the
   next level, so he can review the level on the live site first.

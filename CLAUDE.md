@@ -228,6 +228,20 @@ Lessons are built across many short sessions. Igor starts each with
   before) or a card is flagged. `--all` only when hunting a layout bug.
   Setup once: `npm install --prefix tools`. By hand:
   `python3 -m http.server 8000`, `#/<id>/lesson/<lessonId>/<n>` (1-based).
+- **Token efficiency (rules for every session and agent):**
+  - Run `widget-smoke` only when a widget was added or changed; run `shots`
+    only on the lesson just built (never `--all` without a layout bug).
+  - Source verification is mandatory but **scoped**: read and check only the
+    source range of the lesson's own formulas and symbols. Write the pages
+    checked in the `STATUS.md` "Verified" line, and do **not** re-verify an
+    item already listed there.
+  - **Traps and intuition lessons are lighter**: reuse the formulas and
+    pages already verified for their concept lessons; read the source only
+    for a formula or figure not yet in "Verified".
+  - Keep `STATUS.md` and `CONVENTIONS.md` short: Current under ~40 lines,
+    "Verified" as compact page lists (no prose), a convention is one or two
+    lines. When a file grows, compress it in the same session.
+  - Agents run at the same model and effort as the session (`/effort`).
 - **End of every session:** validate, run shots, update the course's
   `STATUS.md` (Current block, plus a Log entry of a few lines ending with
   "Conventions fixed here: …", copied into the chapter's section of
