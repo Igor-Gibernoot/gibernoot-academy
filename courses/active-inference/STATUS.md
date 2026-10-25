@@ -1,37 +1,6 @@
 # Status
 
-Session start: read only **Current** (`sed -n '/^## Current/,/^## Log
-
-- 2026-10-25 widget mean-field-vb (W5): two discrete latents (K<=4), joint table or marg1/marg2/rho/py, exact posterior and q1 q2 grids, sliders, Update q1/q2, Sweep, Reset, message terms, F trace with -ln p(y) and best-product floor. Script-checked: F never rises over updates (rho in 0, .5, .9, -.8; K 2x2, 3x4, 4x2), one sweep exact for independent, correlated gap = best product gap > 0, F = KL + surprise. Smoke and validate clean.
-  Conventions fixed here: widget grids rows x1, columns x2; rho form J=py a_i b_j (1+rho u_i v_j)/Z (u,v positions in [-1,1]); uniform q on a symmetric correlated 2x2 is a saddle fixed point (give lessons an asymmetric q1, q2 start, e.g. q1=(.6,.4), q2=(.3,.7)); 2x2 rho=.9 uniform marginals py=.2: best product gap .620 nats.
-
-### 2026-10-25 ch04-motor-reflexes (19 cards)
-Action u-dot = -grad_u y . Pi_y eps_y (reflex arc), hierarchy errors E_v^(i), time-scale separation, reach order card; widget `predictive-coding` action and hierarchy. Checked numerically: the plan's claim 'attenuation needed to move fast' is false in the one-level toy (rate Pi_y Pi_v/(Pi_y+Pi_v)(eta-y) never falls with Pi_y); lesson says attenuation buys a belief that follows the prediction, at the cost of a weaker reflex.
-Conventions fixed here: arm toy y=0, eta=1, Pi_v=1, Pi_y 4 -> belief 0.2, rate 0.8; Pi_y 0.25 -> 0.8, 0.2; chain (1,2,4), y=3 -> errors 1.714, .857, .429.
-
-- 2026-10-25 ch04-predictive-coding (concept, 20 cards): one-level precision-weighted compromise, hidden cause v vs state x, hierarchy chain, generalized coordinates and D, F as three errors, descent mu-dot - D mu = -grad F. Eq. 4.15-4.18 verified (pp. 78-79), no Markdown fixes (Eq. 4.17 is printed (4.1)). Conventions fixed here: N(m, Pi^-1) with Pi precision (book writes N(., Pi)); mode mu, prior mean eta; widget predictive-coding hierarchy errors eps_y, eps_x, eps_v.
-
-### 2026-10-25 widget predictive-coding (W4)
-Built `js/widgets/predictive-coding.js` (css `pc-`), registered, documented in LESSON_FORMAT. Modes static, hierarchy, dynamic (generalized coordinates, orders kept 1-3), action (arm, reflex). Checked by script: gradients vs finite differences, closed-form compromise = descent = Newton, K=1/2/3 lag 0.23/0.10/0.09; widget-smoke 150 mounts clean; phone and desktop screenshots of every mode. Throwaway lesson removed.
-Conventions fixed here: $\epsilon_x=D\tilde\mu-(f_x\tilde\mu+f_v\tilde v)$ with $\tilde v=(v,0,0)$; hierarchy errors $\epsilon_y,\epsilon_x=\mu_1-g_2(\mu_2),\epsilon_v$; $\dot u=-\text{dydu}\,\Pi_y\epsilon_y$; the descending prediction is the prior mean $\eta$; precisions as log sliders $\Pi_y,\Pi_x,\Pi_v$./p' courses/active-inference/STATUS.md`).
-Session end: update Current in place (keep it under ~40 lines: replace, don't append) and add a
-3-line Log entry at the top of the Log, ending "Conventions fixed here: ...". Copy those conventions
-into the chapter's section of `CONVENTIONS.md`, not into Current.
-
-## Current/,/^## Log
-
-- 2026-10-25 widget mean-field-vb (W5): two discrete latents (K<=4), joint table or marg1/marg2/rho/py, exact posterior and q1 q2 grids, sliders, Update q1/q2, Sweep, Reset, message terms, F trace with -ln p(y) and best-product floor. Script-checked: F never rises over updates (rho in 0, .5, .9, -.8; K 2x2, 3x4, 4x2), one sweep exact for independent, correlated gap = best product gap > 0, F = KL + surprise. Smoke and validate clean.
-  Conventions fixed here: widget grids rows x1, columns x2; rho form J=py a_i b_j (1+rho u_i v_j)/Z (u,v positions in [-1,1]); uniform q on a symmetric correlated 2x2 is a saddle fixed point (give lessons an asymmetric q1, q2 start, e.g. q1=(.6,.4), q2=(.3,.7)); 2x2 rho=.9 uniform marginals py=.2: best product gap .620 nats.
-
-### 2026-10-25 ch04-motor-reflexes (19 cards)
-Action u-dot = -grad_u y . Pi_y eps_y (reflex arc), hierarchy errors E_v^(i), time-scale separation, reach order card; widget `predictive-coding` action and hierarchy. Checked numerically: the plan's claim 'attenuation needed to move fast' is false in the one-level toy (rate Pi_y Pi_v/(Pi_y+Pi_v)(eta-y) never falls with Pi_y); lesson says attenuation buys a belief that follows the prediction, at the cost of a weaker reflex.
-Conventions fixed here: arm toy y=0, eta=1, Pi_v=1, Pi_y 4 -> belief 0.2, rate 0.8; Pi_y 0.25 -> 0.8, 0.2; chain (1,2,4), y=3 -> errors 1.714, .857, .429.
-
-- 2026-10-25 ch04-predictive-coding (concept, 20 cards): one-level precision-weighted compromise, hidden cause v vs state x, hierarchy chain, generalized coordinates and D, F as three errors, descent mu-dot - D mu = -grad F. Eq. 4.15-4.18 verified (pp. 78-79), no Markdown fixes (Eq. 4.17 is printed (4.1)). Conventions fixed here: N(m, Pi^-1) with Pi precision (book writes N(., Pi)); mode mu, prior mean eta; widget predictive-coding hierarchy errors eps_y, eps_x, eps_v.
-
-### 2026-10-25 widget predictive-coding (W4)
-Built `js/widgets/predictive-coding.js` (css `pc-`), registered, documented in LESSON_FORMAT. Modes static, hierarchy, dynamic (generalized coordinates, orders kept 1-3), action (arm, reflex). Checked by script: gradients vs finite differences, closed-form compromise = descent = Newton, K=1/2/3 lag 0.23/0.10/0.09; widget-smoke 150 mounts clean; phone and desktop screenshots of every mode. Throwaway lesson removed.
-Conventions fixed here: $\epsilon_x=D\tilde\mu-(f_x\tilde\mu+f_v\tilde v)$ with $\tilde v=(v,0,0)$; hierarchy errors $\epsilon_y,\epsilon_x=\mu_1-g_2(\mu_2),\epsilon_v$; $\dot u=-\text{dydu}\,\Pi_y\epsilon_y$; the descending prediction is the prior mean $\eta$; precisions as log sliders $\Pi_y,\Pi_x,\Pi_v$./p' courses/active-inference/STATUS.md`).
+Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/p'`), never the Log.
 Session end: update Current in place (keep it under ~40 lines: replace, don't append) and add a
 3-line Log entry at the top of the Log, ending "Conventions fixed here: ...". Copy those conventions
 into the chapter's section of `CONVENTIONS.md`, not into Current.
@@ -51,6 +20,18 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
 - 2026-10-25 `ch04-mean-field` (guided, 20 cards): derivation of the mean-field update by Lagrange multiplier and by KL to the tilted softmax, numeric 2x2, locality chain, Gaussian overconfidence, limits. Verified A.41-A.45 (PDF pp. 248-249); fixed Markdown A.42 `E_{q\i}`.
   Conventions fixed here: joint table .12/.03/.02/.08 (p(y)=.25), q1=(.6,.4) from q2 uniform, q2(1)=.569; mean-field fixed point (.67,.33),(.62,.38), gap .206; Gaussian cov .9 gives factor variance .19.
 
+- 2026-10-25 widget mean-field-vb (W5): two discrete latents (K<=4), joint table or marg1/marg2/rho/py, exact posterior and q1 q2 grids, sliders, Update q1/q2, Sweep, Reset, message terms, F trace with -ln p(y) and best-product floor. Script-checked: F never rises over updates (rho in 0, .5, .9, -.8; K 2x2, 3x4, 4x2), one sweep exact for independent, correlated gap = best product gap > 0, F = KL + surprise. Smoke and validate clean.
+  Conventions fixed here: widget grids rows x1, columns x2; rho form J=py a_i b_j (1+rho u_i v_j)/Z (u,v positions in [-1,1]); uniform q on a symmetric correlated 2x2 is a saddle fixed point (give lessons an asymmetric q1, q2 start, e.g. q1=(.6,.4), q2=(.3,.7)); 2x2 rho=.9 uniform marginals py=.2: best product gap .620 nats.
+
+### 2026-10-25 ch04-motor-reflexes (19 cards)
+Action u-dot = -grad_u y . Pi_y eps_y (reflex arc), hierarchy errors E_v^(i), time-scale separation, reach order card; widget `predictive-coding` action and hierarchy. Checked numerically: the plan's claim 'attenuation needed to move fast' is false in the one-level toy (rate Pi_y Pi_v/(Pi_y+Pi_v)(eta-y) never falls with Pi_y); lesson says attenuation buys a belief that follows the prediction, at the cost of a weaker reflex.
+Conventions fixed here: arm toy y=0, eta=1, Pi_v=1, Pi_y 4 -> belief 0.2, rate 0.8; Pi_y 0.25 -> 0.8, 0.2; chain (1,2,4), y=3 -> errors 1.714, .857, .429.
+
+- 2026-10-25 ch04-predictive-coding (concept, 20 cards): one-level precision-weighted compromise, hidden cause v vs state x, hierarchy chain, generalized coordinates and D, F as three errors, descent mu-dot - D mu = -grad F. Eq. 4.15-4.18 verified (pp. 78-79), no Markdown fixes (Eq. 4.17 is printed (4.1)). Conventions fixed here: N(m, Pi^-1) with Pi precision (book writes N(., Pi)); mode mu, prior mean eta; widget predictive-coding hierarchy errors eps_y, eps_x, eps_v.
+
+### 2026-10-25 widget predictive-coding (W4)
+Built `js/widgets/predictive-coding.js` (css `pc-`), registered, documented in LESSON_FORMAT. Modes static, hierarchy, dynamic (generalized coordinates, orders kept 1-3), action (arm, reflex). Checked by script: gradients vs finite differences, closed-form compromise = descent = Newton, K=1/2/3 lag 0.23/0.10/0.09; widget-smoke 150 mounts clean; phone and desktop screenshots of every mode. Throwaway lesson removed.
+Conventions fixed here: $\epsilon_x=D\tilde\mu-(f_x\tilde\mu+f_v\tilde v)$ with $\tilde v=(v,0,0)$; hierarchy errors $\epsilon_y,\epsilon_x=\mu_1-g_2(\mu_2),\epsilon_v$; $\dot u=-\text{dydu}\,\Pi_y\epsilon_y$; the descending prediction is the prior mean $\eta$; precisions as log sliders $\Pi_y,\Pi_x,\Pi_v$./p' courses/active-inference/STATUS.md`).
 
 - 2026-10-25 ch04-laplace (guided, 20 cards): Poisson-rate example (prior e^-x, y=3, ln p(y,x)=3 ln x - 2x - ln 3!), Taylor, Laplace Gaussian, Laplace F, optimal width, failure cases, link to precision-weighted errors. Widget gaussian-fit three times. Source PDF inconsistent on Sigma (see VERIFIED).
 - Conventions fixed here: q=N(mu,Sigma) with Sigma the covariance and Sigma^-1 the precision; Laplace F = -1/2 ln(2 pi e Sigma) - ln p(y,mu) - 1/2 Sigma d^2 ln p; numbers mode 1.5, precision 4/3, F 2.80 vs ln 16 = 2.77, true mean 2.
