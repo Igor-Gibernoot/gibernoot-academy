@@ -1265,3 +1265,9 @@ state, then plays the script one step per 0.7 s). Example: `{label: "Update beli
 room: 20, script: [belief x6]}` (belief falls to the cold value, the body stays out of the band);
 `{label: "Act", ..., script: [act x6]}` (body climbs into the band; with these numbers act alone wins the race
 against the drift).
+Reduced mode (no belief idea yet): `showBelief: false` hides the expectation marker, its legend key and
+readout, the mismatch bar and the slider; the start `expect` stays as a hidden set-point that **act** pulls the
+body toward (use the middle of the band). `levers: ['wait','act']` picks the buttons and their order (default
+belief, act, plus wait if it has a label; `wait` without a label is called "Wait"). Defaults leave old presets
+unchanged. Example (drift out, then hold): `{showBelief: false, levers: ['wait','act'], band: [36,38], expect: 37,
+body: 37, room: 20, presets: [{label: "Do nothing", script: [wait x8]}, {label: "Keep acting", script: [act x8]}]}`.

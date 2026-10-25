@@ -2,8 +2,9 @@
 
 Session start: read only **Current** (`sed -n '/^## Current (2026-10-24)
 
-- **State:** Level 1 done (persist 14, guessing 11, acting 11, map, review auto, challenge 25 cards). Source 1.1-1.3 verified; 1.4.1 prose only.
-- **Next unit:** Level 2 (`ch02`), first lesson in `course.yaml` order; Level 1 'generative model' deferred to it.
+- **State:** Level 1 fully built: `ch01-persist` (14), `ch01-guessing` (11), `ch01-acting` (11), `ch01-map`, `ch01-challenge` (commit e09e2c8). Widget `homeostat` now has a reduced mode for persist.
+- **Next unit:** fixes: (1) add the early drift/hold card to `ch01-persist` right after the hook, using the homeostat reduced mode (config below); (2) challenge fixes.
+- **Persist card config:** `showBelief: false`, `levers: [wait, act]`, `band: [36,38]`, `expect: 37` (hidden set-point), `body: 37`, `room: 22`, `drift: 0.08`, labels `wait`/`act`; presets "Do nothing" (wait x6-8) and "Keep acting" (act x6-8). No belief lever, expectation or mismatch is shown.
 - **Conventions:** `CONVENTIONS.md`, one section per chapter.
 - **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
 
@@ -31,3 +32,4 @@ Conventions fixed here: none yet.
 - 2026-10-24 ch01-acting: 11 cards. Hook cold creature, homeostat (presets Update belief only / Act), prediction error, set-point, one-step numeric (gap 1.8 after heater 80% + room 5%), policy, S-R trap, curiosity, explore/exploit trap. Source 1.4.1 goal/planning bullets (prose). Conventions fixed here: act settles near 36.4 C, belief-only drifts to ~29.5; prediction error = expected - sensed (words); expected free energy named, not formalised.
 - 2026-10-24 ch01-map: 10 boxes (loop, surprise, prior, evidence, prediction error, belief, action lever, perception lever, policy, exploring/exploiting), 2 decoys each (incl. stimulus-response, belief = evidence only, explore-or-exploit switch). "Generative model" was never glossed in the three lessons, so its box became separate prior and evidence boxes; the term is left for Level 2. Display math in map cards needs blank lines around `$$` and `aligned` for the error formula (phone width). Conventions fixed here: map box set above; generative model not used in Level 1.
 - 2026-10-24 ch01-challenge p1-3: fish/warm water (error -8, order loop), splash in the dark (42%, flatten reverses to 53%), cold creature policy scores (7 vs 6, then 6 vs 4). Summary is a plain text card (own: is not allowed in challenges). Conventions fixed here: see Chapter 1.
+- 2026-10-24 widget `homeostat` extended (unit: persist demo): new options `showBelief: false` (hides expectation marker, readout, mismatch bar, slider; `expect` is a hidden set-point) and `levers: [...]` (buttons and order; unlabelled wait = "Wait"). Defaults unchanged. Tested with a throwaway preset (shots viewed at phone width), documented in LESSON_FORMAT. Conventions fixed here: none.
