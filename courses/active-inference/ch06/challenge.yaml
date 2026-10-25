@@ -244,3 +244,199 @@ cards:
       and
       $$\pi_{\text{right}}=\frac{1}{1+e^{-0.808}}=0.692$$
       The habit and the expected free energy each contribute about half of the preference.
+
+  # ---------------------------------------------------------------- Problem 4
+  - type: mcq
+    id: p4-split
+    tag: Problem 4 · Process against model
+    prompt: |
+      **Problem 4.** A drone hovers and measures its sideways drift speed $y$ (m/s) with a sensor. Inside, its generative model says: "the drift $v$ is zero, give or take a little", a Gaussian prior $\mathcal N(\eta,\Pi_v^{-1})$ with mean $\eta=0$ and precision $\Pi_v$. Outside, a steady wind really pushes the drone sideways at $3$ m/s. Which statement separates **model** from **process** correctly?
+    options:
+      - text: 'The model is the drone''s belief "no drift" (prior mean $\eta=0$); the process is the real world with the wind, which produces the readings $y$. The two differ, and the drone only ever sees $y$.'
+        correct: true
+      - text: 'The wind is part of the model, because it affects the drone.'
+        feedback: |
+          The model is what the agent **assumes**, and this agent assumes no wind. The wind belongs to the process, the real mechanism that generates the data, whether or not the agent represents it.
+      - text: 'The process is the drone''s prior $\mathcal N(0,\Pi_v^{-1})$, since it is what generates its predictions.'
+        feedback: |
+          Predictions come from the model. The process is outside the blanket: the physics of wind, drone and sensor that really produces $y$.
+      - text: 'Model and process must be the same, otherwise the drone cannot infer anything.'
+        feedback: |
+          They are often different: inference runs on the model, the data come from the process. A mismatch does not stop inference; it biases the result, which is exactly what the next questions measure.
+    explanation: |
+      The generative model sits inside the agent; the process sits outside and generates the observations. Here the process has a $3$ m/s drift and the model believes $0$ with precision $\Pi_v$.
+
+  - type: numeric
+    id: p4-mu
+    tag: Problem 4 · Process against model
+    prompt: |
+      The sensor reads $y=3$ m/s with precision $\Pi_y=4$. The drone's prior on the drift is $\mathcal N(\eta,\Pi_v^{-1})$ with $\eta=0$ and $\Pi_v=2$. Its best estimate $\mu$ of the drift minimises the sum of the two precision-weighted squared errors $\tfrac12\Pi_y(y-\mu)^2+\tfrac12\Pi_v(\mu-\eta)^2$. What is $\mu$ (m/s)?
+    answer: 2
+    tolerance: 0.01
+    answerText: '2'
+    hint: 'Set the derivative with respect to $\mu$ to zero: the two precision-weighted errors balance.'
+    wrong:
+      - { value: 3, feedback: 'That is the data alone, as if the prior had zero precision. The drone also trusts its "no drift" prior with precision $\Pi_v=2$.' }
+      - { value: 0, feedback: 'That is the prior alone. The data have precision $\Pi_y=4$, larger than $\Pi_v=2$, so they pull harder.' }
+      - { value: 1.5, feedback: 'That is the plain average of $y$ and $\eta$. The compromise weights each by its precision.' }
+    explanation: |
+      The balance $\Pi_y(y-\mu)=\Pi_v(\mu-\eta)$ gives
+      $$\mu=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}=\frac{4\cdot3+2\cdot0}{4+2}=2$$
+      Check: $\Pi_y(y-\mu)=4\cdot1=4$ and $\Pi_v(\mu-\eta)=2\cdot2=4$. The drone believes the drift is $2$ m/s, not $3$, and a prediction error $y-\mu=1$ remains.
+
+  - type: numeric
+    id: p4-tight
+    tag: Problem 4 · Process against model
+    prompt: |
+      Same drone: $y=3$, $\Pi_y=4$, prior mean $\eta=0$. An engineer tries to make it "more sure of itself" by **tightening** the prior to $\Pi_v=8$. What is the new estimate $\mu$ (m/s)?
+    answer: 1
+    tolerance: 0.01
+    answerText: '1'
+    wrong:
+      - { value: 2, feedback: 'That is the estimate for $\Pi_v=2$. The weights have changed.' }
+      - { value: 3, feedback: 'A tighter prior pulls toward $\eta=0$, not toward the data.' }
+    explanation: |
+      $$\mu=\frac{4\cdot3+8\cdot0}{4+8}=1$$
+      A tighter wrong prior makes the estimate **worse**: it is now $2$ m/s from the real drift $3$ m/s, against $1$ m/s before. Precision does not repair a prior centred on the wrong value.
+
+  - type: mcq
+    id: p4-fix
+    tag: Problem 4 · Process against model
+    prompt: |
+      The wind drifts the drone at $3$ m/s. **Drone A** has a drift variable $v$ in its model, with prior $\mathcal N(0,\Pi_v^{-1})$, $\Pi_v=2$ (a wrong **prior**). **Drone B** has no drift variable at all: its model only describes the drone's position error, with no way to say "a steady push exists" (a wrong **model**). Sensor precision $\Pi_y=4$, reading $y=3$. Which statement is right?
+    options:
+      - text: 'For A, weakening the prior to $\Pi_v=0.5$ moves the estimate to $\mu=2.67$, closer to $3$; B needs its model form changed, since no precision setting can represent a variable it does not have.'
+        correct: true
+      - text: 'For A, tightening the prior to $\Pi_v=8$ moves the estimate closer to $3$.'
+        feedback: |
+          Tightening gives $\mu=1$ (prior mean $0$ weighs more). Only weakening, or moving the prior mean, brings $\mu$ toward $3$.
+      - text: 'Both drones have a wrong model, so both need a new form.'
+        feedback: |
+          A has the right form (a drift variable) and only a wrong value for it, which is a wrong prior: a parameter fix. B lacks the variable, which is a wrong model.
+      - text: 'Acting repairs both: if the drone thrusts against the wind, its model becomes correct.'
+        feedback: |
+          Acting changes the data, not the model. Thrusting against the drift can bring $y$ to the preferred value $0$ and the drone hovers, but the model still says "no wind" and the push stays unexplained; the persistent error (the wind the model cannot account for) is hidden, not removed.
+    explanation: |
+      For A, with $\Pi_v=0.5$:
+      $$\mu=\frac{4\cdot3+0.5\cdot0}{4+0.5}=2.67$$
+      A wrong prior is a value to fix (weaker precision, or a better prior mean). A wrong model is a missing structure. Action is a third route: it makes the data match the model's prediction ($y\to0$), which is useful for hovering but is not inference about the wind.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: numeric
+    id: p5-update
+    tag: Problem 5 · Fixed against learned
+    prompt: |
+      **Problem 5.** A weather station has two hidden states, *rain* and *dry*, and two readings, *wet* and *not wet*. Its likelihood $\mathbf A$ is learned from counts $\mathbf a$ (rows: readings; columns: states), starting with every count equal to $1$. It observes *wet*, $\mathbf o=(1,0)^\top$, and infers the state $\mathbf s=(.8,.2)^\top$ (rain, dry). It updates $\mathbf a\leftarrow\mathbf a+\mathbf o\otimes\mathbf s$, then normalises each column. What is the new $\mathbf A_{11}=P(\text{wet}\mid\text{rain})$? (3 decimals)
+    answer: 0.643
+    tolerance: 0.002
+    answerText: '0.643'
+    wrong:
+      - { value: 1.8, feedback: 'That is the count $\mathbf a_{11}$, not a probability. Normalise the column: divide by its sum.' }
+      - { value: 0.5, feedback: 'That is the value before learning (counts $1,1$). The update adds $\mathbf o\otimes\mathbf s$, so row *wet*, column *rain* gains $0.8$.' }
+      - { value: 0.8, feedback: 'That is the posterior $\mathbf s_1$ itself, not the likelihood. The column is $(1+0.8,\,1)$ normalised.' }
+    explanation: |
+      $\mathbf o\otimes\mathbf s$ has first row $(.8,.2)$ and second row $(0,0)$, so
+      $$\mathbf a=\begin{pmatrix}1.8&1.2\\1&1\end{pmatrix}$$
+      Column *rain*: $1.8/(1.8+1)=0.643$. Column *dry*: $1.2/2.2=0.545$. The columns are normalised separately; each is a distribution over readings.
+
+  - type: numeric
+    id: p5-strength
+    tag: Problem 5 · Fixed against learned
+    prompt: |
+      Same station, same observation *wet* and same posterior $\mathbf s=(.8,.2)$, but the counts start at $10$ instead of $1$ (every entry of $\mathbf a$ equals $10$): a **stronger** prior of flat shape. What is the new $\mathbf A_{11}=P(\text{wet}\mid\text{rain})$ after one update and column normalisation? (3 decimals)
+    answer: 0.519
+    tolerance: 0.002
+    answerText: '0.519'
+    wrong:
+      - { value: 0.643, feedback: 'That is the result for counts starting at $1$. With counts of $10$ the same $0.8$ added is a smaller share of the total.' }
+      - { value: 0.5, feedback: 'The update still moves $\mathbf A_{11}$ a little: $10.8$ out of $20.8$.' }
+    explanation: |
+      $$\mathbf A_{11}=\frac{10+0.8}{(10+0.8)+10}=\frac{10.8}{20.8}=0.519$$
+      The total of the column is the **prior strength**; the new evidence is a fixed amount ($0.8$ here). The larger the starting counts, the less one observation moves $\mathbf A$.
+
+  - type: mcq
+    id: p5-prior
+    tag: Problem 5 · Fixed against learned
+    prompt: |
+      The sensor's datasheet says that when it rains the sensor reads *wet* about $80\%$ of the time, with a little uncertainty. Which prior counts for the *rain* column of $\mathbf a$ (readings *wet*, *not wet*) express this best?
+    options:
+      - text: '$(8,\,2)$: the right proportions with a total of $10$, so the first observations refine the datasheet without overwriting it.'
+        correct: true
+      - text: '$(1,\,1)$: flat counts, since learning should start with no assumptions.'
+        feedback: |
+          Flat counts throw away what is known, and a single observation moves them a lot (from $0.5$ to $0.643$ above). They suit a sensor about which nothing is known.
+      - text: '$(800,\,200)$: the right proportions with a very large total.'
+        feedback: |
+          The proportions are right but the strength is huge: thousands of observations would be needed to change it, so it is practically fixed. That is fine only if the datasheet is certain.
+      - text: '$(0,\,0)$: zero counts, so only data count.'
+        feedback: |
+          A zero column cannot be normalised (division by $0$) and a count of exactly $0$ makes a reading impossible forever. Counts start above $0$.
+    explanation: |
+      Counts $(8,2)$ give $0.8$ for *wet* with strength $10$. After one observation of *wet* with posterior $(.8,.2)$:
+      $$\frac{8+0.8}{8+0.8+2}=0.815$$
+      The prior shape says what we believe; the total says how firmly.
+
+  - type: numeric
+    id: p5-slow
+    tag: Problem 5 · Fixed against learned
+    prompt: |
+      Counts start with every entry equal to $10$. Each time, the station is certain it is raining ($\mathbf s=(1,0)$) and reads *wet* ($\mathbf o=(1,0)$), so $\mathbf a_{11}$ gains $1$ per observation and the rest of the *rain* column is unchanged. How many observations $n$ are needed before $\mathbf A_{11}=P(\text{wet}\mid\text{rain})$ reaches $0.9$?
+    answer: 80
+    tolerance: 0.5
+    answerText: '80'
+    wrong:
+      - { value: 8, feedback: 'That is the number for counts starting at $1$. With counts of $10$ the prior is ten times stronger.' }
+    explanation: |
+      After $n$ observations $\mathbf A_{11}=\dfrac{10+n}{20+n}$. Setting it to $0.9$:
+      $$10+n=0.9\,(20+n)$$
+      so $n=80$. Check: $90/100=0.9$. Learning an entry of $\mathbf A$ is **slow**, and slower the stronger the prior.
+
+  - type: mcq
+    id: p5-fix
+    tag: Problem 5 · Fixed against learned
+    prompt: |
+      A designer builds a generative model for a greenhouse robot. Which choice is the best use of learning?
+    options:
+      - text: 'Fix the parts known well (the model form, the calibrated $\mathbf A$ of a trusted sensor, the preferences $\mathbf C$) and learn only a quantity that is unknown, such as the leak rate in one transition matrix $\mathbf B$, with informative prior counts.'
+        correct: true
+      - text: 'Learn everything from flat counts, including the form: the robot will discover its states and matrices alone.'
+        feedback: |
+          Counts only fill in the entries of matrices whose **shape** is given. The set of states, outcomes and policies (the model form) must be chosen before any learning, and learning every entry from flat counts is slow (about 80 observations to reach 0.9 from counts of 10).
+      - text: 'Learn the preferences $\mathbf C$ as well, so the robot wants whatever it observes most often.'
+        feedback: |
+          Preferences define what the designer wants. Learning them from experience would make the robot prefer what is common, not what is good.
+      - text: 'Fix everything, including quantities never measured, so there are no free parameters.'
+        feedback: |
+          A fixed wrong value stays wrong (a wrong prior with infinite strength). Fixing is right only for what is known; an unknown quantity should be learned from data.
+    explanation: |
+      The order is: choose the form (states, outcomes, policies), then set what is known as fixed, then learn what is unknown with a prior whose shape and strength reflect what you know. Learning cannot add a state the form does not have.
+
+  # ---------------------------------------------------------------- Summary
+  - type: text
+    id: summary
+    title: Level 6 in one card
+    body: |
+      **Setup.** An agent has a Markov blanket: sensory states $y$ come in, active states $u$ go out, internal states $\mu$ hold its model, and external states $x$ are hidden. The loop is
+      $$x\to y\to\mu\to u\to x$$
+      The **model** is inside the agent. The **process** is the real world that generates $y$; the two can differ.
+
+      **Form choices.** Discrete, continuous or hybrid; shallow or deep (several timescales); with or without temporal depth (planning).
+
+      **Counting states.** Joint states multiply, factorised states add. For 3 objects at 4 locations, $\mathbf B$ has $12^2=144$ entries per action jointly and $3^2+4^2=25$ factorised.
+
+      **Sizes.** $\mathbf A$: outcomes $\times$ states. $\mathbf B$: states $\times$ states, one per action. $\mathbf C$: one preference per outcome. $\mathbf D$: one prior per state. $\mathbf E$: one habit per policy.
+
+      **Policies.**
+      $$\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$$
+      $$\mathbf G=\text{risk}+\text{ambiguity}$$
+      With a flat $\mathbf E$ this is $\sigma(-\mathbf F-\mathbf G)$.
+
+      **Learning.** Counts start above $0$, often at $1$. One update is
+      $$\mathbf a\leftarrow\mathbf a+\mathbf o\otimes\mathbf s$$
+      and each column of $\mathbf a$ is normalised to give $\mathbf A$. The total of a column is the prior strength: larger means slower learning. Choose the form first, fix what is known, learn the rest.
+
+      **Mismatch.** A Gaussian prior $\mathcal N(\eta,\Pi_v^{-1})$ and data $y$ with precision $\Pi_y$ give
+      $$\mu=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$$
+      A tighter wrong prior is worse; a wrong prior is a value to fix, a wrong model is a missing structure.
+
+      **Next:** perceptual processing in discrete models: how an agent infers hidden states from observations.

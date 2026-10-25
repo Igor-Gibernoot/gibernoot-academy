@@ -106,6 +106,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - ch06-recipe-traps: cue-first trap uses P(cue first)=.60 and belief .5 -> .85 after the cue; no new conventions.
 - ch06-map: no new conventions; map layout col1 rows 1-8, col2 rows 5-7, col3 rows 6-8.
 - ch06-challenge A: thermostat room (y reading, u heater command, x air temperature; heater inside blanket makes u the heat flow). Watering robot 3 beds x 5 moisture: B joint 225 vs 34. Corridor 6 cells, A rows none/weak/strong (.8,.15,.05)/(.1,.8,.1)/(.05,.15,.8) per cell pair, D=(.4,.3,.15,.1,.03,.02), weak: P=.3125, post cell 3 .384; C=(.1,.2,.7), E=(.6,.4); G stay 1.427, right (.9 move) 1.024; pi right .692 (F cancels).
+- ch06-challenge B: drone drift, prior eta=0, y=3, Pi_y=4: Pi_v=2 gives mu=2 (errors 1 and 2 balance), Pi_v=8 gives 1, Pi_v=.5 gives 2.67; mu=(Pi_y y+Pi_v eta)/(Pi_y+Pi_v). Weather station counts a=ones, o=(1,0), s=(.8,.2): A11=1.8/2.8=.643 (A12 .545); counts 10: .519; prior (8,2): .815; strength 10 needs 80 observations for .9 (flat ones: 8). Final summary: plain text, 'Level 6 in one card'.
 
 ## Chapter 7
 
