@@ -118,6 +118,8 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 - ch07-information-seeking: epistemic value $\mathcal I(\pi)=H[Q(\tilde o|\pi)]-\mathbb E_{Q(\tilde s|\pi)}H[P(\tilde o|\tilde s)]$ (calligraphic I; fraktur $\mathfrak I$ stays surprise), $G=-\mathcal I-\mathbb E\ln P(\tilde o|C)$. Squares (policy-scorer states mode, states red/green, flat C): lit likelihood .95/.05, dim .6/.4, flicker .5/.5, belief .5/.5: gain .495/.020/0 (ambiguity .198/.673/.693); slow (.97,.03) gain .073, fast (.6,.4) gain .478; flat C: $G=\ln2-\mathcal I$ (fast .2148). Example A rows=states (.9,.1),(.2,.8), Q(s)=(.7,.3): Q(o1)=.69, gain .2414. Gibbs $\sigma(\omega\ln\mathbf D)$, D=(.6,.3,.1), omega 0/1/2 entropy 1.099/.898/.594, omega 2 gives (.783,.196,.022).
 
+- ch07-efe-derivation: preferences on states $P(s_\tau|C)$ (B.21-B.26: alpha=1 named assumption) vs on outcomes $\mathbf C=P(o|C)$; ambiguity $\mathbf H\cdot\mathbf s$, $\mathbf H=-\operatorname{diag}(\mathbf A^{\mathsf T}\ln\mathbf A)$; ambiguity+risk on states $\ge G$ (gap $\mathbb E_{Q(o)}D_{KL}[Q(s|o)\|P(s|o,C)]$). Example A=(.9,.2;.1,.8), Q(s)=(.7,.3), P(s|C)=(.3,.7), P(o|C)=(.41,.59): .717 >= .537, gap .179, ambiguity .378, risk on states .339, on outcomes .160. Door flat C: G push .574, wait .576.
+
 ## Chapter 8
 
 - (none yet)

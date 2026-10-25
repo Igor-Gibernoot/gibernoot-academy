@@ -1,0 +1,351 @@
+id: ch07-efe-derivation
+title: "Guided Problem: The Expected Free Energy of a Policy"
+kind: guided
+cards:
+  - type: text
+    id: hook
+    title: "Why does G split into ambiguity and risk?"
+    body: |
+      So far the expected free energy $G$ of a policy $\pi$ was handed to us: epistemic value (information to gain) plus pragmatic value (preferred outcomes). It is the quantity that scores the **future** of a plan, and the policy posterior is $\boldsymbol\pi=\sigma(-\mathbf F-\mathbf G)$.
+
+      Here we ask *why* this quantity, and not another, should define the prior over policies. The answer comes in two moves:
+
+      1. Ask for a creature that, at some future step, ends up where it **prefers** to be. Solving for the policy distribution that achieves this gives a score made of two terms, **ambiguity** plus **risk**.
+      2. Rewrite that score, line by line, to get the form $G$ used in practice, and see exactly how the two relate.
+
+      Notation as before: $s$ hidden state, $o$ outcome, $\pi$ policy, $Q$ the creature's beliefs, $P$ its model, $\mathbf A$ the likelihood matrix (rows = outcomes, columns = states), $\mathbf C$ the preferences (a probability vector over outcomes, written $P(o\mid C)$), $H[\cdot]$ entropy, $D_{KL}[\cdot\,\|\,\cdot]$ the KL divergence ($\ge0$, zero only when the two distributions agree). The first guess comes before any maths.
+
+  - type: mcq
+    id: guess
+    prompt: |
+      A creature compares two plans. Plan A leads to states it likes, but there its senses are blurry (the same state can give very different outcomes). Plan B leads to states it dislikes, but there its senses are crisp. A good score for plans should penalise:
+    options:
+      - text: 'Both things: ending in states that are far from what it prefers, **and** ending in states where outcomes are an unreliable guide to the state.'
+        correct: true
+      - text: 'Only the distance from preferred states: crisp senses are irrelevant to a plan.'
+        feedback: |
+          Tempting, since preferences define success. But a creature that cannot tell where it is cannot know whether it succeeded; blurry senses make a plan *uninformative about its own result*. The score should punish that too.
+      - text: 'Only the blur of the senses: preferences do not enter the plan score.'
+        feedback: |
+          Then the creature would be indifferent to food and shock, as long as it saw them clearly. Preferences must enter.
+    explanation: |
+      Two penalties: **risk** (how far the predicted states are from the preferred ones) and **ambiguity** (how noisy the outcome is for a given state). The derivation shows these are not put in by hand: they fall out of one requirement.
+
+  - type: text
+    id: stipulate
+    title: "The requirement: fulfil your preferences"
+    body: |
+      **A warning first.** The reasoning below is the book's summary of *current thinking* about why $G$ is the right quantity. It is an active research question, not a settled theorem, so read each step as "if we ask for this, then we get that".
+
+      The requirement: at some future step $\tau$, the creature's predicted state distribution, averaged over the policies it might follow, equals its **preferred distribution over states**, $P(s_\tau\mid C)$:
+
+      $$Q(s_\tau)=\mathbb E_{Q(\pi)}\big[Q(s_\tau\mid\pi)\big]=P(s_\tau\mid C)$$
+
+      The unknown is $Q(\pi)$, the distribution over policies. Write $Q(\pi,s_\tau)=Q(\pi\mid s_\tau)\,Q(s_\tau)$. The requirement says $Q(s_\tau)$ equals $P(s_\tau\mid C)$, so the two joint distributions $Q(\pi\mid s_\tau)Q(s_\tau)$ and $Q(\pi\mid s_\tau)P(s_\tau\mid C)$ coincide: the KL divergence between them is zero. Taking the expectation of the log of the first joint then gives the same as for the second:
+
+      $$\begin{aligned}\mathbb E_{Q(\pi,s_\tau)}\big[\ln Q(\pi,s_\tau)\big]=\ &\mathbb E_{Q(\pi,s_\tau)}\big[\ln Q(\pi\mid s_\tau)\\&\quad+\ln P(s_\tau\mid C)\big]\end{aligned}$$
+
+      To read off $Q(\pi)$ we must isolate it on the left.
+
+  - type: mcq
+    id: isolate
+    prompt: |
+      We have $\mathbb E_{Q(\pi,s_\tau)}[\ln Q(\pi,s_\tau)]=\mathbb E_{Q(\pi,s_\tau)}[\ln Q(\pi\mid s_\tau)+\ln P(s_\tau\mid C)]$. Using the other factorisation, $Q(\pi,s_\tau)=Q(\pi)\,Q(s_\tau\mid\pi)$, which result isolates the policy term?
+    options:
+      - text: '$\mathbb E_{Q(\pi)}[\ln Q(\pi)]=\mathbb E_{Q(\pi,s_\tau)}\big[\ln Q(\pi\mid s_\tau)+\ln P(s_\tau\mid C)-\ln Q(s_\tau\mid\pi)\big]$'
+        correct: true
+      - text: '$\mathbb E_{Q(\pi)}[\ln Q(\pi)]=\mathbb E_{Q(\pi,s_\tau)}\big[\ln Q(\pi\mid s_\tau)+\ln P(s_\tau\mid C)+\ln Q(s_\tau\mid\pi)\big]$'
+        feedback: |
+          Sign slip. From $\ln Q(\pi,s_\tau)=\ln Q(\pi)+\ln Q(s_\tau\mid\pi)$, the term $\ln Q(s_\tau\mid\pi)$ must be *subtracted* from both sides to leave $\ln Q(\pi)$ alone.
+      - text: '$\mathbb E_{Q(\pi)}[\ln Q(\pi)]=\mathbb E_{Q(\pi,s_\tau)}\big[\ln P(s_\tau\mid C)\big]$'
+        feedback: |
+          That drops $\ln Q(\pi\mid s_\tau)$ and $\ln Q(s_\tau\mid\pi)$ without reason. The preference term alone cannot be the whole story: the creature also needs to say how its beliefs depend on its policy.
+    explanation: |
+      Write $\ln Q(\pi,s_\tau)=\ln Q(\pi)+\ln Q(s_\tau\mid\pi)$ on the left of the requirement and move $\ln Q(s_\tau\mid\pi)$ to the right with a minus sign. The left term does not depend on $s_\tau$, so its expectation over $Q(\pi,s_\tau)$ is the expectation over $Q(\pi)$.
+
+  - type: text
+    id: alpha
+    title: "One named assumption, then the result"
+    body: |
+      The first term on the right, $\mathbb E[\ln Q(\pi\mid s_\tau)]$, is minus an entropy: $-\mathbb E_{Q(s_\tau)}H[Q(\pi\mid s_\tau)]$, the **spread of behaviour** in a given state. To turn it into something we know how to compute, introduce the ratio
+
+      $$\alpha=\frac{\mathbb E_{Q(s_\tau)}\big[H[Q(\pi\mid s_\tau)]\big]}{\mathbb E_{Q(s_\tau,\pi)}\big[H[P(o_\tau\mid s_\tau)]\big]}$$
+
+      the spread of behaviour in a state divided by the spread of **outcomes** in a state. **Assumption (named, not proved): $\alpha=1$.** The two spreads are equal, a "balanced and symmetrical exchange" with the world. Then the first term is minus the expected outcome entropy, and
+
+      $$\begin{aligned}\mathbb E_{Q(\pi)}\big[\ln Q(\pi)\big]=&-\mathbb E_{Q(s_\tau,\pi)}\big[H[P(o_\tau\mid s_\tau)]\big]\\&-\mathbb E_{Q(\pi)}\Big[D_{KL}\big[Q(s_\tau\mid\pi)\\&\qquad\|\,P(s_\tau\mid C)\big]\Big]\end{aligned}$$
+
+      (the last two terms $\mathbb E[\ln P(s_\tau\mid C)-\ln Q(s_\tau\mid\pi)]$ are exactly minus a KL divergence). This is satisfied by choosing
+
+      $$\begin{aligned}\ln Q(\pi)=&-\underbrace{\mathbb E_{Q(s_\tau\mid\pi)}\big[H[P(o_\tau\mid s_\tau)]\big]}_{\text{expected ambiguity}}\\&-\underbrace{D_{KL}\big[Q(s_\tau\mid\pi)\,\|\,P(s_\tau\mid C)\big]}_{\text{risk}}\end{aligned}$$
+
+      **Ambiguity** is how noisy the outcome is, on average, in the states the plan visits. **Risk** is how far the states the plan visits are from the preferred ones. The more of either, the less probable the policy.
+
+  - type: mcq
+    id: alpha-meaning
+    prompt: |
+      The ratio $\alpha$ is the spread of behaviour in a state divided by the spread of outcomes in that state. What would a creature with $\alpha$ **very large** look like?
+    options:
+      - text: 'One whose behaviour bears little relation to the state of its world, even though the world gives it precise sensory data: many different policies are plausible in each state.'
+        correct: true
+      - text: 'One that always behaves the same way once it knows the state, but receives imprecise data.'
+        feedback: |
+          That is the opposite extreme, $\alpha$ very *small*: a narrow spread of behaviour in each state (numerator small) against a wide spread of outcomes (denominator large).
+      - text: 'One with no preferences, so that $P(s_\tau\mid C)$ is flat.'
+        feedback: |
+          $\alpha$ compares two entropies of the creature and its world; it contains no preference $C$. Preferences enter elsewhere, in the risk term.
+    explanation: |
+      $\alpha=1$ is the middle case, a "relatively balanced" exchange. It is a modelling choice, which is why the lesson names it as an assumption.
+
+  - type: mcq
+    id: compare-plans
+    prompt: |
+      Two plans have, for the same step, expected ambiguity and risk (in nats):
+
+      | Plan | Ambiguity | Risk |
+      |---|---|---|
+      | A | 0.38 | 0.34 |
+      | B | 0.20 | 0.60 |
+
+      With $\ln Q(\pi)=-\text{ambiguity}-\text{risk}$, which plan is more probable?
+    options:
+      - text: 'A: its sum $0.72$ is lower than B''s $0.80$, even though B has the clearer senses.'
+        correct: true
+      - text: 'B: its ambiguity is lower, and clear senses are what matters.'
+        feedback: |
+          Only the **sum** counts. B''s small ambiguity is outweighed by its large risk ($0.20+0.60=0.80$ against $0.38+0.34=0.72$).
+      - text: 'They are equally probable, since ambiguity and risk are different kinds of cost and cannot be added.'
+        feedback: |
+          Both are measured in nats and both are terms of the same log-probability, so they add. This is what makes exploration and exploitation commensurable.
+    explanation: |
+      $\ln Q(\pi)$ is minus (ambiguity + risk), so the plan with the **smaller** sum gets the **larger** probability.
+
+  - type: text
+    id: outcomes
+    title: "From preferences on states to preferences on outcomes"
+    body: |
+      The score above uses preferences about **states**, $P(s_\tau\mid C)$. In practice we specify preferences about **outcomes**, the vector $\mathbf C=P(o_\tau\mid C)$ (food is welcome, shock is not). The expected free energy used throughout is defined with that vector:
+
+      $$\begin{aligned}G(\pi)=&\ \mathbb E_{Q(s_\tau\mid\pi)}\big[H[P(o_\tau\mid s_\tau)]\big]\\&+D_{KL}\big[Q(o_\tau\mid\pi)\,\|\,P(o_\tau\mid C)\big]\end{aligned}$$
+
+      the same ambiguity, with the risk now a divergence between **predicted outcomes** and **preferred outcomes**. The two scores are connected by a short chain of equalities ending in an inequality. We build it line by line. To keep the lines short, drop the index $\tau$.
+
+      Write the starting line as ambiguity plus risk on states, $\ \mathbb E_{Q(s\mid\pi)}H[P(o\mid s)]+D_{KL}[Q(s\mid\pi)\,\|\,P(s\mid C)]$. The outcome model $P(o\mid s)$ is the same likelihood in both worlds, the creature's and its preferred one.
+
+  - type: mcq
+    id: add-subtract
+    prompt: |
+      The first move adds and subtracts the same term, so that nothing changes. In the sum $\mathbb E_{Q(s\mid\pi)}H[P(o\mid s)]+D_{KL}[Q(s\mid\pi)\,\|\,P(s\mid C)]$, which term is added and then subtracted? (Recall $H[P(o\mid s)]=-\mathbb E_{P(o\mid s)}\ln P(o\mid s)$.)
+    options:
+      - text: '$\mathbb E_{Q(s\mid\pi)P(o\mid s)}\big[\ln P(o\mid s)\big]$, an average of the log-likelihood over states and the outcomes they produce.'
+        correct: true
+      - text: '$\mathbb E_{Q(s\mid\pi)}\big[\ln P(s\mid C)\big]$, the log of the preferred states.'
+        feedback: |
+          That term is already inside the KL divergence. Adding and subtracting it would not reveal anything new. The useful term is the one that lets us put the *outcome* into the divergence.
+      - text: '$\mathbb E_{Q(o\mid\pi)}\big[\ln P(o\mid C)\big]$, the log of the preferred outcomes.'
+        feedback: |
+          That term belongs to the *final* form of $G$, but it cannot be inserted here as a zero: the preferred outcomes are not yet in the picture. We first need the log-likelihood to build the outcome into both joint distributions.
+    explanation: |
+      The added term is $+\mathbb E_{Q(s\mid\pi)P(o\mid s)}[\ln P(o\mid s)]$ and the subtracted one is the same with a minus sign: together they are $0$. The ambiguity is $-\mathbb E[\ln P(o\mid s)]$ with the same average, so it stays untouched.
+
+  - type: mcq
+    id: joint-kl
+    prompt: |
+      After the move, the line contains $\mathbb E[\ln Q(s\mid\pi)]+\mathbb E[\ln P(o\mid s)]-\mathbb E[\ln P(s\mid C)]-\mathbb E[\ln P(o\mid s)]$, all averaged over $Q(s\mid\pi)P(o\mid s)$ (the creature's joint over states and outcomes). Regrouping the first two terms and the last two, which divergence appears?
+    options:
+      - text: '$D_{KL}\big[Q(o,s\mid\pi)\,\|\,P(o,s\mid C)\big]$, with $Q(o,s\mid\pi)=Q(s\mid\pi)P(o\mid s)$ and $P(o,s\mid C)=P(s\mid C)P(o\mid s)$.'
+        correct: true
+      - text: '$D_{KL}\big[P(o,s\mid C)\,\|\,Q(o,s\mid\pi)\big]$.'
+        feedback: |
+          The reverse direction. A KL divergence $D_{KL}[Q\,\|\,P]=\mathbb E_Q[\ln Q-\ln P]$ is averaged under its **first** argument. Here the average is under the creature's own joint, so $Q$ goes first.
+      - text: '$D_{KL}\big[Q(s\mid\pi)\,\|\,P(o\mid C)\big]$.'
+        feedback: |
+          Mixing a distribution over states with one over outcomes is a type error: the two arguments of a KL divergence live on the same set of variables.
+    explanation: |
+      $\ln Q(s\mid\pi)+\ln P(o\mid s)=\ln Q(o,s\mid\pi)$ and $\ln P(s\mid C)+\ln P(o\mid s)=\ln P(o,s\mid C)$. So we have turned a divergence on states into a divergence on (outcome, state) pairs. Since the likelihood is the same in both, it cancels inside the log ratio and the value is unchanged: that is why adding a zero was legal.
+
+  - type: order
+    id: chain
+    prompt: |
+      Put the chain from "ambiguity plus risk on states" to the expected free energy $G$ in order.
+    steps:
+      - 'Start from $\mathbb E_{Q(s\mid\pi)}H[P(o\mid s)]+D_{KL}[Q(s\mid\pi)\,\|\,P(s\mid C)]$.'
+      - 'Add and subtract $\mathbb E_{Q(s\mid\pi)P(o\mid s)}\ln P(o\mid s)$ (a total of zero).'
+      - 'Regroup the two terms into one divergence of joints, $D_{KL}[Q(o,s\mid\pi)\,\|\,P(o,s\mid C)]$.'
+      - 'Split that divergence with the chain rule: $D_{KL}[Q(o\mid\pi)\,\|\,P(o\mid C)]+\mathbb E_{Q(o\mid\pi)}D_{KL}[Q(s\mid o,\pi)\,\|\,P(s\mid o,C)]$.'
+      - 'Drop the second term, a nonnegative divergence: what is left is $G(\pi)$, so the line above is at least $G(\pi)$.'
+    hint: |
+      The order of thought: first turn states into joints with a zero, then split the joint by the chain rule for divergences, then drop what is nonnegative.
+    explanation: |
+      The **chain rule** for KL divergences: the divergence of joint distributions is the divergence of the first variable's marginals plus the average divergence of the conditionals of the second. Here the first variable is the outcome, so the second term is the expected divergence between the creature's posterior over states given an outcome and the posterior that the preferences would give.
+
+  - type: mcq
+    id: direction
+    prompt: |
+      The chain ends with $\ \mathbb E_{Q(s\mid\pi)}H[P(o\mid s)]+D_{KL}[Q(s\mid\pi)\,\|\,P(s\mid C)]\ \ge\ G(\pi)$. Which statement follows, and when is it an equality?
+    options:
+      - text: 'Ambiguity plus risk on states is an **upper bound** on $G(\pi)$; equality holds when the dropped term vanishes, i.e. when the creature''s posterior over states given each outcome equals the preferred one.'
+        correct: true
+      - text: '$G(\pi)$ is an upper bound on ambiguity plus risk on states.'
+        feedback: |
+          Reversed. We *removed* a nonnegative term from the line above, so what remains ($G$) is the smaller one.
+      - text: 'The two are always equal, since all steps are equalities.'
+        feedback: |
+          Every step but the last is an equality, but the last drops a divergence that is positive in general, so the final relation is a strict inequality unless that divergence is zero.
+    explanation: |
+      The inequality in the last line comes from omitting the nonnegative expected divergence of the previous line, and that is the only claim the derivation makes: ambiguity plus risk (on states) bounds $G$ from above. Do not confuse this with the free energy $F_\pi$ of state inference, an approximation of a negative log evidence: here the bound relates two scores of the *future* of a policy.
+
+  - type: text
+    id: example-setup
+    title: "A numeric check, three ways"
+    body: |
+      A tiny model to compute everything. Two hidden states and two outcomes, likelihood matrix (rows = outcomes, columns = states):
+
+      $$\mathbf A=\begin{pmatrix}0.9&0.2\\0.1&0.8\end{pmatrix}$$
+
+      A policy predicts the states $Q(s\mid\pi)=(0.7,\,0.3)$. The creature prefers the states $P(s\mid C)=(0.3,\,0.7)$, which through $\mathbf A$ means preferred outcomes $P(o\mid C)=\mathbf A\,P(s\mid C)=(0.41,\,0.59)$. The predicted outcomes are $Q(o\mid\pi)=\mathbf A\,Q(s\mid\pi)=(0.69,\,0.31)$. Entropies of the columns of $\mathbf A$ (the ambiguity of each state): $(0.325,\,0.500)$ nats. So the expected ambiguity is $0.7\cdot0.325+0.3\cdot0.500=0.378$.
+
+  - type: numeric
+    id: sum-states
+    prompt: |
+      Using the example above (ambiguity $0.378$, $Q(s\mid\pi)=(0.7,0.3)$, $P(s\mid C)=(0.3,0.7)$), compute ambiguity plus risk on **states**, with risk $=D_{KL}[Q(s\mid\pi)\,\|\,P(s\mid C)]$ in nats.
+    answer: 0.717
+    tolerance: 0.003
+    hint: |
+      $D_{KL}=0.7\ln\frac{0.7}{0.3}+0.3\ln\frac{0.3}{0.7}$.
+    explanation: |
+      $0.7\ln(7/3)=0.593$ and $0.3\ln(3/7)=-0.254$, so the risk is $0.339$ and the sum is $0.378+0.339=0.717$.
+
+  - type: numeric
+    id: g-outcomes
+    prompt: |
+      Same example. Compute $G(\pi)=\mathbb E_{Q(s\mid\pi)}H[P(o\mid s)]+D_{KL}[Q(o\mid\pi)\,\|\,P(o\mid C)]$ with $Q(o\mid\pi)=(0.69,0.31)$, $P(o\mid C)=(0.41,0.59)$ and ambiguity $0.378$.
+    answer: 0.537
+    tolerance: 0.003
+    hint: |
+      The risk is now $0.69\ln\frac{0.69}{0.41}+0.31\ln\frac{0.31}{0.59}$.
+    explanation: |
+      $0.69\ln(1.683)=0.359$ and $0.31\ln(0.525)=-0.200$, so the risk on outcomes is $0.160$ and $G=0.378+0.160=0.537$. The risk on outcomes ($0.160$) is smaller than the risk on states ($0.339$): the likelihood blurs states into outcomes, so predictions and preferences are closer in outcome space. The same $G$ comes out of the information-gain form: $-\mathcal I-\mathbb E_{Q(o\mid\pi)}\ln P(o\mid C)=-0.241+0.779=0.537$, where $\mathcal I=H[Q(o\mid\pi)]-\text{ambiguity}=0.619-0.378$.
+
+  - type: numeric
+    id: dropped-kl
+    prompt: |
+      The chain says (ambiguity + risk on states) $=G(\pi)+\mathbb E_{Q(o\mid\pi)}D_{KL}[Q(s\mid o,\pi)\,\|\,P(s\mid o,C)]$. With the two values just computed, $0.717$ and $0.537$, how large is the dropped expected divergence, in nats?
+    answer: 0.179
+    tolerance: 0.003
+    hint: |
+      By the chain, the gap between the two lines is exactly this term.
+    explanation: |
+      $0.717-0.537=0.179$ (direct computation: compare, for each outcome, the posterior over states under $Q$ with the one under the preferences, and average the divergences with weights $Q(o)$: $0.179$). It is positive, as it must be: the bound is strict here because the creature's posterior over states differs from the preferred one.
+
+  - type: text
+    id: vector-form
+    title: "The computational form"
+    body: |
+      To compute $G$ in a simulation we want matrices and vectors. With $Q(o_\tau\mid\pi)=\mathrm{Cat}(\mathbf o_{\pi\tau})$ and the likelihood, the predicted outcome vector is
+
+      $$\mathbf o_{\pi\tau}=\mathbf A\,\mathbf s_{\pi\tau}$$
+
+      and the pragmatic term is a dot product, $\mathbb E_{Q(o_\tau\mid\pi)}[\ln P(o_\tau\mid C)]=\mathbf o_{\pi\tau}\cdot\ln\mathbf C_\tau$. The ambiguity is collected in a vector $\mathbf H$ with one entry per state, its component $j$ being the entropy of column $j$ of $\mathbf A$:
+
+      $$\begin{aligned}\mathbf H&=-\operatorname{diag}\big(\mathbf A^{\mathsf T}\ln\mathbf A\big)\\H_j&=-\sum_iA_{ij}\ln A_{ij}\end{aligned}$$
+
+      (with rows = outcomes the transpose is needed; the source writes the product without it). So $\mathbb E_{Q(s\mid\pi)}H[P(o\mid s)]=\mathbf H\cdot\mathbf s_{\pi\tau}$ and, ambiguity plus risk on outcomes, summed over the steps of the policy,
+
+      $$\begin{aligned}\mathbf G_\pi&=\sum_\tau\mathbf G_{\pi\tau}\\\mathbf G_{\pi\tau}&=\mathbf H\cdot\mathbf s_{\pi\tau}\\&\quad+\mathbf o_{\pi\tau}\cdot\big(\ln\mathbf o_{\pi\tau}-\ln\mathbf C_\tau\big)\end{aligned}$$
+
+  - type: build
+    id: build-g
+    prompt: |
+      Build the one-step expected free energy of a policy: the ambiguity $\mathbf H\cdot\mathbf s_{\pi\tau}$ (entropy of the outcome in each state, averaged over predicted states) **plus** the risk, the divergence of predicted outcomes $\mathbf o_{\pi\tau}$ from preferred outcomes $\mathbf C_\tau$ as a dot product.
+    prefix: 'G_{\pi\tau}='
+    tiles: ['\mathbf H\cdot\mathbf s_{\pi\tau}', '+\,\mathbf o_{\pi\tau}\cdot', '\big(\ln\mathbf o_{\pi\tau}-\ln\mathbf C_\tau\big)', '\big(\ln\mathbf C_\tau-\ln\mathbf o_{\pi\tau}\big)', '-\,\mathbf o_{\pi\tau}\cdot']
+    answers:
+      - ['\mathbf H\cdot\mathbf s_{\pi\tau}', '+\,\mathbf o_{\pi\tau}\cdot', '\big(\ln\mathbf o_{\pi\tau}-\ln\mathbf C_\tau\big)']
+    wrong:
+      - answer: ['\mathbf H\cdot\mathbf s_{\pi\tau}', '+\,\mathbf o_{\pi\tau}\cdot', '\big(\ln\mathbf C_\tau-\ln\mathbf o_{\pi\tau}\big)']
+        feedback: |
+          Sign of the risk reversed: $\mathbf o\cdot(\ln\mathbf C-\ln\mathbf o)=-D_{KL}[\mathbf o\,\|\,\mathbf C]\le0$ would **reward** distance from the preferences. The divergence is $\mathbf o\cdot(\ln\mathbf o-\ln\mathbf C)$.
+      - answer: ['\mathbf H\cdot\mathbf s_{\pi\tau}', '-\,\mathbf o_{\pi\tau}\cdot', '\big(\ln\mathbf o_{\pi\tau}-\ln\mathbf C_\tau\big)']
+        feedback: |
+          Risk is a cost, so it adds to $G$ (a quantity to be minimised). Subtracting it would make large risk look good.
+    hint: |
+      $G$ is ambiguity **plus** a KL divergence $D_{KL}[\mathbf o\,\|\,\mathbf C]=\mathbf o\cdot(\ln\mathbf o-\ln\mathbf C)$.
+    explanation: |
+      The pieces: $\mathbf H\cdot\mathbf s_{\pi\tau}$ (ambiguity) and $\mathbf o_{\pi\tau}\cdot(\ln\mathbf o_{\pi\tau}-\ln\mathbf C_\tau)$ (risk, a KL divergence written as a dot product). The first uses the model's likelihood only; the second uses the predicted outcomes and the preferences.
+
+  - type: numeric
+    id: door-push
+    prompt: |
+      The door: states (closed, open), outcomes (looks closed, looks open), $\mathbf A=\begin{pmatrix}0.8&0.2\\0.2&0.8\end{pmatrix}$, preferences $\mathbf C=(0.2,0.8)$ (the creature prefers to see the door open). Both columns of $\mathbf A$ have entropy $H=0.500$ nats. Starting from the prior $\mathbf D=(0.9,0.1)$, the action **push** gives, one step later, the belief $\mathbf s=(0.185,0.815)$ and predicted outcomes $\mathbf o=\mathbf A\mathbf s=(0.311,0.689)$. Compute $\mathbf G=\mathbf H\cdot\mathbf s+\mathbf o\cdot(\ln\mathbf o-\ln\mathbf C)$.
+    answer: 0.535
+    tolerance: 0.003
+    hint: |
+      $\mathbf H\cdot\mathbf s=0.500$ (both entries equal). The risk is $0.311\ln\frac{0.311}{0.2}+0.689\ln\frac{0.689}{0.8}$.
+    explanation: |
+      $0.311\ln(1.555)=0.138$ and $0.689\ln(0.861)=-0.103$, so the risk is $0.034$ and $\mathbf G=0.500+0.034=0.535$.
+
+  - type: numeric
+    id: door-wait
+    prompt: |
+      Same door, but the action is **wait**, which keeps the door as it is (the transition matrix is $\begin{pmatrix}0.9&0.1\\0.1&0.9\end{pmatrix}$). From $\mathbf D=(0.9,0.1)$ it gives $\mathbf s=(0.82,0.18)$ and $\mathbf o=(0.692,0.308)$. With the same $\mathbf H=(0.500,0.500)$ and $\mathbf C=(0.2,0.8)$, compute $\mathbf G$.
+    answer: 1.065
+    tolerance: 0.004
+    hint: |
+      Ambiguity is again $0.500$; the risk is $0.692\ln\frac{0.692}{0.2}+0.308\ln\frac{0.308}{0.8}$.
+    explanation: |
+      $0.692\ln(3.46)=0.860$ and $0.308\ln(0.385)=-0.294$, so the risk is $0.565$ and $\mathbf G=0.500+0.565=1.065$. Push (0.535) beats wait (1.065) entirely through **risk**: the ambiguity is the same in both states of this door, so the preference makes the whole difference.
+
+  - type: widget
+    id: flat-c
+    review: false
+    widget: policy-scorer
+    config:
+      states: ['closed', 'open']
+      outcomes: ['looks closed', 'looks open']
+      likelihood: [[0.8, 0.2], [0.2, 0.8]]
+      C: [0.5, 0.5]
+      showProb: false
+      showGamma: false
+      policies:
+        - { name: 'push', qx: [0.185, 0.815] }
+        - { name: 'wait', qx: [0.82, 0.18] }
+    body: |
+      The same door and the same two policies, but now the creature has **no preference**: $\mathbf C=(0.5,0.5)$, flat. The widget writes the states as $x$ and the outcomes as $y$ (the continuous-time letters); read them as $s$ and $o$. Compare the $G$ of push and wait with the values $0.535$ and $1.065$ of the preferred case.
+
+  - type: mcq
+    id: flat-c-q
+    prompt: |
+      Door with flat preferences $\mathbf C=(0.5,0.5)$: push gives predicted outcomes $(0.311,0.689)$ and wait $(0.692,0.308)$, both with ambiguity $0.500$. The widget shows $G\approx0.574$ for push and $0.576$ for wait. What does the risk term reduce to, and why are the two $G$ almost equal?
+    options:
+      - text: 'With flat $\mathbf C$ the risk is $D_{KL}[\mathbf o\,\|\,\mathbf C]=\ln2-H[\mathbf o]$, so $G=\ln2-\mathcal I$ with $\mathcal I$ the information gain; the two policies gain almost the same ($0.119$ and $0.117$), and nothing else distinguishes them.'
+        correct: true
+      - text: 'Flat preferences make $G$ equal to the ambiguity, $0.500$ for both.'
+        feedback: |
+          The risk does not vanish: the KL divergence from a uniform vector is $\ln2-H[\mathbf o]$, which is zero only if the predicted outcomes are themselves 50 / 50. Here they are not ($0.689$ vs $0.311$).
+      - text: 'Flat preferences mean $G$ is undefined, since there is nothing to prefer.'
+        feedback: |
+          $G$ is well defined: a flat $\mathbf C$ is a legitimate vector. What changes is that only the **epistemic** part is left to rank the policies.
+    explanation: |
+      $D_{KL}[\mathbf o\,\|\,(\tfrac12,\tfrac12)]=\sum o_i\ln(2o_i)=\ln2-H[\mathbf o]$. Then $G=\text{ambiguity}+\ln2-H[\mathbf o]=\ln2-\mathcal I$ with $\mathcal I=H[\mathbf o]-\text{ambiguity}$. A creature with no preferences is a pure information seeker. Push: $0.693-0.119=0.574$; wait: $0.693-0.117=0.576$. In this door the data are equally informative for both plans, so with the preferences removed the gap of $0.53$ nats disappears.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Where ambiguity plus risk comes from.** Take a creature with beliefs $Q$, a model $P$, policies $\pi$, states $s_\tau$ and outcomes $o_\tau$ at a future step $\tau$. Ask that its predicted state distribution, averaged over policies, equals its preferred one, $Q(s_\tau)=P(s_\tau\mid C)$, and assume $\alpha=1$ (equal spread of behaviour and of outcomes in a state: a named assumption, in the "current thinking" spirit). Then $Q(\pi)$ is chosen to satisfy
+        $$\begin{aligned}\ln Q(\pi)=&-\underbrace{\mathbb E_{Q(s_\tau\mid\pi)}H[P(o_\tau\mid s_\tau)]}_{\text{ambiguity}}\\&-\underbrace{D_{KL}\big[Q(s_\tau\mid\pi)\,\|\,P(s_\tau\mid C)\big]}_{\text{risk}}\end{aligned}$$
+        so a policy is more probable the less ambiguous and the less risky it is.
+      - **The expected free energy, and its relation to that score.** With preferences on outcomes, $P(o_\tau\mid C)=\mathbf C$:
+        $$\begin{aligned}G(\pi)=&\ \mathbb E_{Q(s_\tau\mid\pi)}H[P(o_\tau\mid s_\tau)]\\&+D_{KL}\big[Q(o_\tau\mid\pi)\,\|\,P(o_\tau\mid C)\big]\end{aligned}$$
+        and, adding and subtracting $\mathbb E\ln P(o\mid s)$, merging into a divergence of joints and using the chain rule for divergences,
+        $$\begin{aligned}&\text{ambiguity}+D_{KL}\big[Q(s_\tau\mid\pi)\,\|\,P(s_\tau\mid C)\big]\\&\quad\ge\ G(\pi)\end{aligned}$$
+        with the gap equal to $\mathbb E_{Q(o_\tau\mid\pi)}D_{KL}[Q(s_\tau\mid o_\tau,\pi)\,\|\,P(s_\tau\mid o_\tau,C)]\ge0$. Example: $\mathbf A=\begin{pmatrix}.9&.2\\.1&.8\end{pmatrix}$, $Q(s)=(.7,.3)$, $P(s\mid C)=(.3,.7)$ gives $.717\ge.537$, gap $.179$.
+      - **Three equal forms of $G$:** ambiguity plus risk, and epistemic plus pragmatic value,
+        $$\begin{aligned}G=&\underbrace{\mathbb E_{Q(s\mid\pi)}H[P(o\mid s)]-H[Q(o\mid\pi)]}_{-\mathcal I(\pi)\ \text{(minus salience)}}\\&\underbrace{-\,\mathbb E_{Q(o\mid\pi)}\ln P(o\mid C)}_{-\text{pragmatic value}}\end{aligned}$$
+        where $\mathcal I(\pi)$ is the epistemic value (information gain about states).
+      - **Vector form.** For each step $\tau$ of a policy, $\mathbf o_{\pi\tau}=\mathbf A\mathbf s_{\pi\tau}$, $\mathbf H=-\operatorname{diag}(\mathbf A^{\mathsf T}\ln\mathbf A)$ (the entropy of each column of $\mathbf A$), and
+        $$\begin{aligned}\mathbf G_{\pi\tau}&=\mathbf H\cdot\mathbf s_{\pi\tau}\\&\quad+\mathbf o_{\pi\tau}\cdot\big(\ln\mathbf o_{\pi\tau}-\ln\mathbf C_\tau\big)\\\mathbf G_\pi&=\sum_\tau\mathbf G_{\pi\tau}\end{aligned}$$
+        Door ($\mathbf A=\begin{pmatrix}.8&.2\\.2&.8\end{pmatrix}$, $\mathbf C=(.2,.8)$, $\mathbf D=(.9,.1)$): one step after push $\mathbf G=.535$, after wait $\mathbf G=1.065$; with flat $\mathbf C$, $G=\ln2-\mathcal I$.
+
+      **Next:** so far the likelihood $\mathbf A$ was fixed. If the creature also **learns** $\mathbf A$ from experience, a third term joins ambiguity and risk in $G$: **novelty**, the information to gain about the model itself. That is the next lesson.
