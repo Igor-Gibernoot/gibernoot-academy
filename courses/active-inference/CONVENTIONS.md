@@ -80,6 +80,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - ch04-predictive-coding: $x$ hidden state, $v$ hidden cause, $y$ data, $\omega$ fluctuations, $\Pi$ precision with $\mathcal N(m,\Pi^{-1})$ (the source writes $\mathcal N(m,\Pi)$), prior mean $\eta$, mode $\mu$; $D$ ones above diagonal. Numbers: $y=2$, $\eta=0$, $\Pi=(4,1)$ gives 1.6; $a=2,y=3,\Pi_y=2,\eta=1,\Pi_v=1$ gives $13/9$; chain of three equal precisions gives errors 2/3 each; $F=1.9$ for errors (.5,-1,.4) precisions (4,2,5). Eq. 4.20 taught here; next lesson takes action and hierarchy.
 - ch04-motor-reflexes: action $\dot u=-\nabla_u\tilde y(u)\cdot\tilde\Pi_y\tilde\epsilon_y$; hierarchy level label $(i)$, $i+1$ above; hierarchical error $\tilde{\mathcal E}_v^{(i)}=\tilde\mu_v^{(i)}-g^{(i+1)}(\cdot)$, $\tilde{\mathcal E}_v^{(0)}=\tilde\epsilon_y$. Arm toy $y=0,\eta=1,\Pi_v=1$: $\Pi_y=4$ gives $\mu=0.2$, $\dot u=0.8$; $\Pi_y=0.25$ gives $0.8$, $0.2$. Chain $(\Pi_y,\Pi_x,\Pi_v)=(1,2,4)$, $y=3$: errors $1.714,0.857,0.429$. Attenuation: rate $\Pi_y\Pi_v/(\Pi_y+\Pi_v)(\eta-y)$ never falls with $\Pi_y$.
 
+- Widget `mean-field-vb`: grids rows x1, columns x2; rho form J=py a_i b_j (1+rho u_i v_j)/Z; uniform q on a symmetric correlated 2x2 is a saddle (start asymmetric, q1=(.6,.4), q2=(.3,.7)); 2x2 rho=.9, py=.2: best product gap .620 nats.
 ## Chapter 5
 
 - (none yet)

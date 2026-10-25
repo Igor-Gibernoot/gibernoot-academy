@@ -32,6 +32,7 @@ import { blanketGraph } from './blanket-graph.js';
 import { blanketSync } from './blanket-sync.js';
 import { factorGraph } from './factor-graph.js';
 import { pomdpLab } from './pomdp-lab.js';
+import { meanFieldVb } from './mean-field-vb.js';
 import { steadyStateWalk } from './steady-state-walk.js';
 import { gaussianFit } from './gaussian-fit.js';
 import { predictiveCoding } from './predictive-coding.js';
@@ -63,6 +64,7 @@ const WIDGETS = {
   'blanket-sync': blanketSync,
   'factor-graph': factorGraph,
   'pomdp-lab': pomdpLab,
+  'mean-field-vb': meanFieldVb,
   'steady-state-walk': steadyStateWalk,
   'gaussian-fit': gaussianFit,
   'predictive-coding': predictiveCoding,
