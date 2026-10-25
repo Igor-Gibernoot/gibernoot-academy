@@ -1,6 +1,13 @@
 # Status
 
-Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/p' courses/active-inference/STATUS.md`).
+Session start: read only **Current** (`sed -n '/^## Current (2026-10-24)
+
+- **State:** Level 1 fully built. Level 2: `ch02-perception-inference` built (16 cards). Source 2.2 (box 2.1, Eq. 2.1) verified; Eq. 2.2-2.4 and Table 2.1 not yet.
+- **Next unit:** `ch02-approximate-inference` (why exact Bayes is too costly; approximate posterior $Q$). Then `ch02-action-inference`, widget `free-energy-bound`, `ch02-free-energy`, ...
+- **Notation:** Level 2 uses $x$ (hidden state), $y$ (observation) as in section 2.2; "evidence" now means $P(y)$. See CONVENTIONS Chapter 2.
+- **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
+
+## Log/p' courses/active-inference/STATUS.md`).
 Session end: update Current in place (keep it under ~40 lines: replace, don't append) and add a
 3-line Log entry at the top of the Log, ending "Conventions fixed here: ..."; copy those conventions
 into the chapter's section of `CONVENTIONS.md`, not into Current.
@@ -29,3 +36,4 @@ Conventions fixed here: none yet.
 
 ### 2026-10-24 sign fix
 Expected free energy in Level 1 (acting, map, challenge p3/p5 and summary) rebuilt as G = mismatch - information gained, lower is better (was sign-flipped, bigger better). New numbers: p3 (mismatch, info) rock (2,0), look (4,3), stay (7,0) -> scores 2/1/7, answer 1; day two look (4,0) -> 4, rock wins; p5 flee (3,0), look closer (5,3) -> 3/2, answer 2; sharp belief: look closer ~5 > 3. Source prose checked (sources/VERIFIED.md), no formula used. Conventions fixed here: sign of G; words mismatch / information gained.
+- 2026-10-24 ch02-perception-inference (concept, 16 cards): hook on what is multiplied, belief-mixer relabelled (toggle off), names prior/likelihood/posterior, generative model, product rule, order+build derivation of Bayes, normaliser = evidence, numeric 0.36 and 42%/25%, two traps. Deviation decided: book's x/y instead of plan's s/o. Conventions fixed here: x, y notation; likelihood vs evidence words; garden numbers.

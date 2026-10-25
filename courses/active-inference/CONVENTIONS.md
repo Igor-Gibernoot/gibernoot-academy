@@ -27,7 +27,9 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 ## Chapter 2
 
-- (none yet)
+- **Notation in Level 2 follows section 2.2: hidden state $x$, observation $y$** (not $s$, $o$); $P(x)$ prior, $P(y\mid x)$ likelihood, $P(x\mid y)$ posterior, joint $P(y,x)$. Later discrete-model lessons (Chapters 4, 7) use $s$, $o$: say so when they come (a renaming, same objects).
+- Word change: from here "likelihood" = $P(y\mid x)$; "evidence" = $P(y)$ (model evidence, the normaliser), NOT Level 1's toy "evidence".
+- ch02-perception-inference: garden: priors cat/dog/fox 0.6/0.3/0.1, rustle likelihoods 0.2/0.5/0.9, joints 0.12/0.15/0.09, $P(y)=0.36$, posterior 33/42/25%. Widget preset uses other numbers (0.4/0.4/0.2 start; 0.7/0.25/0.05 and 0.2/0.2/0.6 priors with likelihood 0.3/0.4/0.9).
 
 ## Chapter 3
 

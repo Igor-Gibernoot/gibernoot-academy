@@ -1,0 +1,298 @@
+id: ch02-perception-inference
+title: Perception as Inference
+kind: concept
+own: |
+  - **A generative model is a prior plus a likelihood.** Setup: an organism cannot observe the **hidden state** $x$ of the world (the cause: cat, dog or fox) and only receives an **observation** $y$ (the effect: a rustle). Its **prior** $P(x)$ is {{ its belief about the hidden state before any observation }}; its **likelihood** $P(y\mid x)$ is {{ the probability of each possible observation if the hidden state were $x$ }}. Together they give the **joint probability**, the generative model:
+    $$P(y,x)=P(x)\,P(y\mid x)$$
+  - **Bayes' rule** turns the generative model and an observation $y$ into the **posterior** $P(x\mid y)$, the belief about $x$ after observing $y$. It follows from writing the joint probability in both orders (the product rule), $P(x)P(y\mid x)=P(y)P(x\mid y)$, and dividing by $P(y)$:
+    {{ $$P(x\mid y)=\frac{P(x)\,P(y\mid x)}{P(y)}$$ }}
+  - **The denominator is the model evidence.** $P(y)$ is the marginal probability of the observation, found by adding the joint probability over every hidden state $x$:
+    $$P(y)=\sum_x P(x)\,P(y\mid x)$$
+    It rescales the products so that the posterior adds up to $1$ over $x$.
+  - **Two look-alikes to avoid.** The likelihood $P(y\mid x)$ adds to $1$ over observations $y$ for each fixed $x$, not over causes $x$. And the posterior is not the likelihood: it also weighs in the prior, so {{ the cause that best explains the observation need not be the most probable one }}.
+  - **Example** (garden): priors cat, dog, fox $=0.6, 0.3, 0.1$; chance of a rustle $=0.2, 0.5, 0.9$. Then $P(y=\text{rustle})=0.36$ and the posterior is $33\%, 42\%, 25\%$.
+cards:
+  - type: text
+    id: hook
+    title: "What exactly gets multiplied?"
+    body: |
+      You are in the garden again, and something goes *rustle* in the bushes: a cat, a dog or a fox?
+
+      Earlier you learned a recipe: **belief is proportional to prior times evidence**. You weighed each animal by how much you expected it and how well it explains the sound, multiplied, then rescaled.
+
+      But a recipe is not an explanation. **Which** probabilities are being multiplied, exactly? Why multiplication and not addition? And what is being divided by when we rescale?
+
+      This lesson turns the recipe into a rule you can derive, and gives its parts their proper names. Play with the toy first.
+
+  - type: widget
+    id: mixer
+    widget: belief-mixer
+    config:
+      causes:
+        - { name: Cat, prior: 0.4, evidence: 0.5 }
+        - { name: Dog, prior: 0.4, evidence: 0.5 }
+        - { name: Fox, prior: 0.2, evidence: 0.5 }
+      sharp: true
+      toggle: false
+      labels:
+        prior: "Before the rustle: how likely each animal seemed"
+        evidence: "If it were this animal: how likely is a rustle like this one"
+        belief: "After the rustle: how likely each animal is"
+        reset: "Reset"
+      presets:
+        - { label: "Foxes are rare, but the rustle suits a fox", prior: [0.7, 0.25, 0.05], evidence: [0.3, 0.4, 0.9] }
+        - { label: "Foxes are common here", prior: [0.2, 0.2, 0.6], evidence: [0.3, 0.4, 0.9] }
+    body: |
+      The top sliders set **how likely each animal seemed before the rustle**. The middle sliders set **how likely a rustle like this one is, if the animal were that one** (a cat rustles lightly, a fox heavily). The bars are what you end up believing.
+
+      Try it: (1) raise the top slider of one animal; (2) raise the middle slider of one animal; (3) set all three middle sliders equal and move the top ones; (4) press the two presets and compare.
+
+  - type: mcq
+    id: flat-likelihood
+    prompt: |
+      A rustle could come from a cat, a dog or a fox. You are told that **all three animals are equally likely to make exactly this rustle**. Before the rustle you thought the cat was most likely. After the rustle, what should you believe?
+    options:
+      - text: 'Exactly what you believed before: a rustle that every animal makes equally often tells you nothing about which one it was.'
+        correct: true
+      - text: The cat is now certain, because it was the most likely.
+        feedback: |
+          An observation that every cause produces equally often cannot favour any of them, so it cannot sharpen your belief towards the cat either. Beliefs only move when some cause explains the observation better than another.
+      - text: All three animals become equally likely, since they all explain the rustle equally well.
+        feedback: |
+          Tempting, but equal explanation does not erase what you knew before. Equal explanations leave the earlier differences in place; they do not flatten them.
+    explanation: |
+      The observation helps you tell causes apart only through differences in how well they explain it. With equal explanations the update multiplies every cause by the same number, and rescaling removes that number again, so the belief stays as it was.
+
+  - type: text
+    id: names
+    title: "Three names for three beliefs"
+    body: |
+      From now on we use the standard names, and we put symbols on them. Let
+
+      - $x$ be the **hidden state** of the world (the animal in the bushes), a quantity you cannot observe directly;
+      - $y$ be the **observation** (the rustle you actually receive).
+
+      Then:
+
+      - the **prior** $P(x)$ is your belief about the hidden state *before* the observation: how likely each animal seemed;
+      - the **likelihood** $P(y\mid x)$ is the probability of the observation $y$ *if* the hidden state were $x$ (read the bar as "given"). Earlier we called this the *evidence*; **that word now changes meaning**, as the next cards show, so use "likelihood" for $P(y\mid x)$ from here on;
+      - the **posterior** $P(x\mid y)$ is your belief about the hidden state *after* receiving $y$.
+
+      So the earlier recipe said: posterior $\propto$ prior $\times$ likelihood.
+
+  - type: mcq
+    id: which-is-likelihood
+    prompt: |
+      Here are three facts about the garden. Let $x$ be the animal in the bushes and $y$ = "a rustle is heard". Which one is the **likelihood** $P(y=\text{rustle}\mid x=\text{fox})$?
+    options:
+      - text: 'If it is a fox, there is a $90\%$ chance it makes a rustle like this one.'
+        correct: true
+      - text: 'Foxes are rare here: before hearing anything, only $10\%$ of the time is it a fox.'
+        feedback: |
+          This is the prior $P(x=\text{fox})$: a statement about the animal before any observation, with no observation in it.
+      - text: 'Having heard the rustle, you are now $25\%$ sure it is a fox.'
+        feedback: |
+          This is the posterior $P(x=\text{fox}\mid y=\text{rustle})$: a belief about the animal after hearing the rustle. The likelihood runs the other way, from animal to sound.
+    explanation: |
+      The likelihood goes **from cause to effect**: given the state, how probable is this observation. The prior is about the cause alone. The posterior goes from effect back to cause, and it is the thing we want to compute.
+
+  - type: text
+    id: generative
+    title: "The generative model"
+    body: |
+      The prior and the likelihood together make up the organism's **generative model**: a recipe that *generates* observations. First the world picks a hidden state $x$ with probability $P(x)$; then, given $x$, it produces an observation $y$ with probability $P(y\mid x)$.
+
+      Chaining the two choices gives the probability of the pair "state $x$ **and** observation $y$", the **joint probability**. It is the **product rule** of probability: the probability of two things is the probability of the first times the probability of the second given the first:
+
+      $$P(y,x)=P(x)\,P(y\mid x)$$
+
+      A generative model is what makes perception possible at all: to guess the cause of an effect, you need a model of how causes produce effects.
+
+  - type: numeric
+    id: joint
+    prompt: |
+      A garden model: before the rustle, the prior probability of a cat is $P(x=\text{cat})=0.6$; if it is a cat, the probability of a rustle like this one is $P(y=\text{rustle}\mid x=\text{cat})=0.2$.
+
+      What is the joint probability $P(y=\text{rustle},\,x=\text{cat})$ that it is a cat **and** it makes this rustle?
+    answer: 0.12
+    tolerance: 0.001
+    answerText: '0.12'
+    wrong:
+      - value: 0.8
+        feedback: |
+          That is $0.6+0.2$. Probabilities of "this and then that" are multiplied, not added. A cat that rustles requires both things to happen.
+      - value: 0.2
+        feedback: |
+          That is the likelihood alone. It is the probability of a rustle if it is a cat, but the cat itself was only $60\%$ likely to be there.
+    hint: |
+      Use the product rule: prior times likelihood.
+    explanation: |
+      $P(y,x)=P(x)\,P(y\mid x)=0.6\times0.2=0.12$. Out of $100$ evenings, $12$ have a cat that rustles like this: a cat appears $60$ times, and $20\%$ of those evenings the cat rustles this way. Multiplication is not a trick: it counts the evenings in which **both** things happen.
+
+  - type: order
+    id: derive-bayes
+    prompt: |
+      Derive Bayes' rule from the product rule. Put the steps in order.
+    steps:
+      - 'Write the joint probability of $x$ and $y$ with the state first: $P(y,x)=P(x)\,P(y\mid x)$.'
+      - 'The same joint probability can be written with the observation first: $P(y,x)=P(y)\,P(x\mid y)$.'
+      - 'Both are the same quantity, so equate them: $P(x)\,P(y\mid x)=P(y)\,P(x\mid y)$.'
+      - 'Divide both sides by $P(y)$ and read off the posterior $P(x\mid y)$.'
+    hint: |
+      Start from the joint probability written one way, then write it the other way, then equate.
+    explanation: |
+      The joint probability of two things does not depend on which one we mention first, but the product rule can unfold it in either order. Setting the two unfoldings equal and dividing by $P(y)$ (assumed not zero) isolates the posterior. So Bayes' rule is nothing but the product rule written twice.
+
+  - type: build
+    id: bayes-build
+    prompt: |
+      Complete the equation we get by equating the two unfoldings of the joint probability.
+    prefix: 'P(y)\,P(x\mid y)\;='
+    tiles: ['P(x)', 'P(y\mid x)', 'P(x\mid y)', 'P(y)']
+    answers:
+      - ['P(x)', 'P(y\mid x)']
+      - ['P(y\mid x)', 'P(x)']
+    wrong:
+      - answer: ['P(x)', 'P(y)']
+        feedback: |
+          The likelihood is missing: the other unfolding of the joint probability is the prior times the probability of $y$ **given** $x$, not the prior times the probability of $y$.
+    hint: |
+      The other way to unfold the joint probability starts with the state.
+    explanation: |
+      The joint probability is $P(x)\,P(y\mid x)$ with the state first, and $P(y)\,P(x\mid y)$ with the observation first. Dividing the equation by $P(y)$ gives
+
+      $$P(x\mid y)=\frac{P(x)\,P(y\mid x)}{P(y)}$$
+
+      This is **Bayes' rule**: posterior $=$ prior $\times$ likelihood, divided by $P(y)$.
+
+  - type: text
+    id: normaliser
+    title: "The normaliser is the evidence"
+    body: |
+      Bayes' rule has a numerator, prior times likelihood, and a denominator $P(y)$. What is it? It is the probability of the observation **whatever** the hidden state: add the joint probability over every possible state (this is called **marginalising** over $x$, and $\sum_x$ means "add over all values of $x$"):
+
+      $$P(y)=\sum_x P(x)\,P(y\mid x)$$
+
+      So $P(y)$ is exactly what makes the posterior add up to $1$: the rescaling step of the earlier recipe.
+
+      This number has its own name: the **evidence** (or *model evidence*) for the generative model, the probability the model gave to what was actually observed. **This is not the old toy word.** Earlier, "evidence" meant the likelihood of each cause; now it is the single number $P(y)$ for the whole model. A model with high evidence predicted what happened well.
+
+  - type: numeric
+    id: marginal
+    prompt: |
+      Garden model: the prior probabilities are cat $0.6$, dog $0.3$, fox $0.1$. The probabilities of a rustle like this one, if it is each animal, are cat $0.2$, dog $0.5$, fox $0.9$.
+
+      What is the evidence $P(y=\text{rustle})$, the probability of hearing this rustle at all?
+    answer: 0.36
+    tolerance: 0.002
+    answerText: '0.36'
+    wrong:
+      - value: 1.6
+        feedback: |
+          That adds the three likelihoods ($0.2+0.5+0.9$), forgetting how likely each animal is. Each term must be weighted by its prior.
+      - value: 0.5333
+        feedback: |
+          That is the plain average of the three likelihoods. The animals are not equally likely: weight each likelihood by its prior.
+    hint: |
+      Add the joint probability (prior times likelihood) over the three animals.
+    explanation: |
+      The three joint probabilities are
+
+      $$\begin{aligned}
+      \text{cat: } 0.6\times0.2 &= 0.12\\
+      \text{dog: } 0.3\times0.5 &= 0.15\\
+      \text{fox: } 0.1\times0.9 &= 0.09
+      \end{aligned}$$
+
+      Their sum is $P(y)=0.12+0.15+0.09=0.36$: this rustle is heard on $36$ evenings out of $100$.
+
+  - type: numeric
+    id: posterior-dog
+    prompt: |
+      Same garden: priors cat $0.6$, dog $0.3$, fox $0.1$; probabilities of this rustle, if it is each animal, cat $0.2$, dog $0.5$, fox $0.9$. The evidence is $P(y=\text{rustle})=0.36$.
+
+      Use Bayes' rule: what percentage is the posterior $P(x=\text{dog}\mid y=\text{rustle})$? (Enter a number between 0 and 100.)
+    answer: 42
+    tolerance: 0.6
+    answerText: '42'
+    wrong:
+      - value: 30
+        feedback: |
+          That is the prior of the dog. After the rustle the belief must change, because the dog explains the rustle better than the average animal does.
+      - value: 50
+        feedback: |
+          That is the likelihood of the dog alone. The posterior also depends on the prior and on how well the other animals explain the rustle.
+      - value: 15
+        feedback: |
+          $0.3\times0.5=0.15$ is the numerator, the joint probability. It still has to be divided by $P(y)=0.36$ to become a posterior.
+    hint: |
+      Numerator: prior times likelihood for the dog. Denominator: the evidence.
+    explanation: |
+      $$P(x=\text{dog}\mid y)=\frac{0.3\times0.5}{0.36}=\frac{0.15}{0.36}\approx 0.42$$
+
+      so about $42\%$. The dog's share rose from $30\%$ to $42\%$ because it explains the rustle better than the average animal ($0.5$ against $0.36$).
+
+  - type: numeric
+    id: posterior-fox
+    prompt: |
+      Same garden: priors cat $0.6$, dog $0.3$, fox $0.1$; probabilities of this rustle, if it is each animal, cat $0.2$, dog $0.5$, fox $0.9$; evidence $P(y=\text{rustle})=0.36$.
+
+      What percentage is the posterior $P(x=\text{fox}\mid y=\text{rustle})$? (Enter a number between 0 and 100.)
+    answer: 25
+    tolerance: 0.4
+    answerText: '25'
+    wrong:
+      - value: 10
+        feedback: |
+          That is the prior of the fox. The rustle suits a fox very well, so the belief in the fox must go up from its prior.
+      - value: 90
+        feedback: |
+          That is the likelihood of the fox. It says how likely a fox is to make this sound, not how likely a fox is to be there after hearing it.
+      - value: 9
+        feedback: |
+          $0.1\times0.9=0.09$ is the joint probability, the numerator. Divide by $P(y)=0.36$.
+    hint: |
+      Numerator $0.1\times0.9$, denominator $0.36$.
+    explanation: |
+      $$P(x=\text{fox}\mid y)=\frac{0.1\times0.9}{0.36}=\frac{0.09}{0.36}=0.25$$
+
+      The three posteriors are $\tfrac{0.12}{0.36},\tfrac{0.15}{0.36},\tfrac{0.09}{0.36}\approx 33\%,\,42\%,\,25\%$, and they add up to $100\%$, as they must. The fox rose from $10\%$ to $25\%$ but is still not the most probable cause.
+
+  - type: mcq
+    id: trap-likelihood
+    tag: Trap
+    prompt: |
+      In the garden model the probabilities of a rustle like this one, if it is each animal, are cat $0.2$, dog $0.5$, fox $0.9$. A student says: "These three numbers add to $1.6$, but probabilities over the possible causes must add to $1$, so the model is broken." What is the right reply?
+    options:
+      - text: Nothing is broken. A likelihood $P(y\mid x)$ adds to $1$ over the possible observations $y$ for each fixed cause $x$, not over the causes.
+        correct: true
+      - text: The model is broken; the three likelihoods must be rescaled to add to $1$.
+        feedback: |
+          Rescaling them would change the model. Each number answers a separate question: "if it is this animal, how likely is this rustle". The three animals are three different worlds, so there is no reason for the answers to add to $1$.
+      - text: The numbers are fine only because the prior has a hidden factor that fixes the total.
+        feedback: |
+          The prior has no such role. The prior adds to $1$ over causes by itself. The likelihood is a different object: its normalisation is over observations, for each cause.
+    explanation: |
+      For the fox, the likelihoods of all possible observations (this rustle, a different rustle, silence, ...) add to $1$. The same holds for the cat and for the dog, separately. But the likelihood of *one* observation, compared across *different* causes, is not a probability distribution over causes, and it can add to more or less than $1$. Turning it into a distribution over causes is exactly the job of the prior and the division by $P(y)$.
+
+  - type: mcq
+    id: trap-posterior
+    tag: Trap
+    prompt: |
+      Garden model: priors cat $0.6$, dog $0.3$, fox $0.1$; probabilities of this rustle, if it is each animal, cat $0.2$, dog $0.5$, fox $0.9$. A friend says: "The rustle fits a fox best ($0.9$), so after hearing it the fox must be the most probable animal." What is wrong?
+    options:
+      - text: The posterior weighs the likelihood by the prior. Foxes were rare to begin with, so the dog ($42\%$) ends up most probable even though the fox explains the rustle best.
+        correct: true
+      - text: Nothing is wrong; the animal with the highest likelihood always has the highest posterior.
+        feedback: |
+          That would be true only if the prior were flat. Here the prior is far from flat: a fox is a rare visitor, and Bayes' rule multiplies the likelihood by that prior before comparing.
+      - text: The posterior is just the prior, so the cat ($60\%$) is still the most probable animal.
+        feedback: |
+          If the posterior were always the prior, observing would teach nothing. The cat does drop, from $60\%$ to $33\%$, because it explains the rustle poorly. The posterior combines the prior with the likelihood: it is neither alone.
+    explanation: |
+      The likelihood ranks the animals by how well they explain the rustle; the prior ranks them by how much you expected them. The posterior $P(x\mid y)\propto P(x)\,P(y\mid x)$ ranks them by the product. Fox: $0.09$, dog: $0.15$, cat: $0.12$. Rare-but-fitting loses to common-and-fitting-fairly-well. This is why a strong prior can keep perception stable, and why a weak prior lets the data decide.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the rule is exact, but the sum in $P(y)$ runs over **every** hidden state. With a handful of animals that is easy; for a brain facing a rich world it is far too costly. The next lesson asks what an organism can do instead.
