@@ -1,6 +1,16 @@
 # Status
 
-Session start: read only **Current** (`sed -n '/^## Current/,/^## Log
+Session start: read only **Current** (`sed -n '/^## Current (2026-10-25)
+
+- **State:** Levels 1, 2 and 3 fully built (lessons, intuition where planned, traps, map, challenge). Level 3 audited (2026-10-25: no forward "Level N" refs, `\mathsf{Q}` glossed as circulation matrix distinct from the posterior $Q$, no source labels in cards).
+- **Next unit:** Level 4, first unit `ch04-bayes-to-fe` (see `course.yaml`, ch04).
+- **Level 3 lessons:** `ch03-markov-blankets` (25 cards; `blanket-graph` x2, `blanket-sync`), `ch03-self-evidencing` (15), `ch03-least-action` (24; `steady-state-walk` x2), `ch03-inference-dynamics` (16; `free-energy-bound` x2), `ch03-blanket-free-energy` (guided, 23; `steady-state-walk`), `ch03-models-policies` (19; `policy-scorer`), `ch03-reconciliation` (15), `ch03-blanket-traps` (13), `ch03-map` (11 boxes), `ch03-challenge` (29).
+- **Widgets built:** Level 2: `free-energy-bound`, `policy-scorer`. Level 3: `blanket-graph`, `blanket-sync`, `steady-state-walk` (all in LESSON_FORMAT).
+- **Verified (source pages):** Ch. 2: 2.2 (Eq. 2.1-2.2), 2.3 / Fig. 2.2, 2.4-2.5 / Fig. 2.3, 2.6 (Eq. 2.5, Figs. 2.4-2.5), 2.7 (PDF pp. 42-43), 2.8 (Eq. 2.6, Fig. 2.6, pp. 44-48), Eq. 2.3-2.4, Eq. 4.2 / Fig. 4.1 (pp. 64-65), Eq. 4.7 (p. 83), B.13 (p. 259). Ch. 3: 3.2, Box 3.1, Figs 3.1-3.2 (pp. 54-56); 3.3.1, Eq. 3.1, Fig. 3.3 (pp. 58-59); 3.4 (pp. 60-62); A.46-A.50 (pp. 250-251); 3.3, 3.5-3.8, Box 3.3 prose (Markdown only).
+- **Notation:** $x$ hidden state, $y$ observation, $u$ active states/action, $\mu$ internal, blanket $b=(u,y)$; likelihood $P(y\mid x)$, evidence $P(y)$, surprise $\mathfrak{I}(y)=-\ln P(y)$; circulation matrix $\mathsf{Q}$ vs posterior $Q$. See CONVENTIONS.
+- **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
+
+## Log
 
 - 2026-10-25 `ch03-map`: 11 boxes (not 14: merged entropy and Fokker-Planck into the flow box, no book concept map exists for Ch. 3), 3 columns, left physics / right statistics meeting at temporal depth. Added the missing `file: ch03/map.yaml` to course.yaml. Decoys: value table, reward, equilibrium, stimulus-response, flipped signs. No new source. Conventions fixed here: map box ids blanket, steady, selfev, flow, bound, least, percact, depth, policy, school; circulation matrix written $\mathsf{Q}$; the flow box states $f=-(\Gamma-\mathsf{Q})\nabla_x\mathfrak{I}$.
 
