@@ -39,6 +39,7 @@ import { predictiveCoding } from './predictive-coding.js';
 import { microcircuit } from './microcircuit.js';
 import { dirichletCounts } from './dirichlet-counts.js';
 import { deepLevels } from './deep-levels.js';
+import { attractorLab } from './attractor-lab.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -74,6 +75,7 @@ const WIDGETS = {
   microcircuit,
   'dirichlet-counts': dirichletCounts,
   'deep-levels': deepLevels,
+  'attractor-lab': attractorLab,
 };
 
 export function mountWidget(name, el, config) {
