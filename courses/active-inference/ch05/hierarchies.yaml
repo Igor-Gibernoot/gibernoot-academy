@@ -1,0 +1,322 @@
+id: ch05-hierarchies
+title: "Continuous and Discrete Hierarchies"
+kind: concept
+own: |
+  - **The lowest level is continuous, higher levels tend to be categorical.** Receptors and muscles speak in continuous numbers (a luminance, a muscle length $y$); recognising an object or choosing a movement is a choice among a few categories. So the two circuits of this level could coexist: a discrete model (states $\mathbf s$, outcomes $\mathbf o$, policies $\pi$) sits on top of a continuous one (hidden states $x$, causes $v$, data $y$, prediction errors $\epsilon$).
+  - **A discrete state predicts a continuous prior mean.** Each categorical state is associated with an alternative prediction of the continuous variables: it supplies the prior mean $\eta$ of the cause, and the error $\epsilon_v=\mu_v-\eta$ at the top of the continuous level measures the disagreement. With precision $\Pi_y$ on the data, the continuous level gives each state $s$ the free energy
+    {{ $$F_s=\tfrac12\,\Pi_y\,(y-\eta_s)^2$$ }}
+    and (equal priors) the posterior over the states is $Q(s)=\sigma(-F)_s$. A decision does not set the muscle: it sets a prior that the continuous level then fulfils by action.
+  - **The message back is a likelihood.** The continuous level does not send raw data up. From its posterior expectations $\tilde\mu$ and variances it computes the likelihood of its trajectory under each discrete outcome $\mathbf o$, which is combined with the prior from the policies. The discrete level only ever sees these categories.
+  - **Two loops, habits and goals, and model averaging.** In a discrete level with policies $\pi$ (plans), each policy $\pi$ has its own state beliefs $\mathbf s_\pi$. The beliefs passed to the other areas are their average weighted by the policy probabilities (Bayesian model averaging):
+    {{ $$\mathbf s=\sum_\pi \pi\;\mathbf s_\pi$$ }}
+    The policy probabilities combine the habit prior $\mathbf E$ (input from higher levels) with the expected free energy $\mathbf G$ (context-sensitive, goal-directed): {{ $$\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$$ }}
+  - **A process theory, not anatomy.** Every mapping of this level is a hypothesis that makes testable predictions (evoked responses, effective connectivity, neuroimaging); amygdala, pulvinar, cerebellum and hippocampus are open questions, not results.
+cards:
+  - type: text
+    id: hook
+    title: "Where does the hierarchy touch the world?"
+    body: |
+      Your eye reports **continuous** numbers (how bright, how much contrast) and your muscles are told **continuous** numbers (how long to be, how hard to pull). But a decision such as "reach for the left cup or the right cup?" is **discrete**: one choice among a few.
+
+      So a brain that both decides and moves has to join the two kinds of quantity. Before any theory, guess: **which kind of variable sits at the bottom of the hierarchy** (next to receptors and effectors), and how can a discrete choice end up moving a continuous arm?
+
+      As in the whole level, this is a **process theory**: what follows **could be mapped to** the brain, as a hypothesis with consequences that can be tested.
+
+  - type: mcq
+    id: guess-bottom
+    prompt: |
+      A hierarchy of beliefs has, at its lowest level, the quantities that touch the world: light on the retina, stretch of a muscle. Which kind of variable should the **lowest** level hold?
+    options:
+      - text: 'Continuous variables: the interface with receptors and effectors (luminance, muscle length) is continuous. Categories appear higher up.'
+        correct: true
+      - text: 'Discrete variables: the brain works with categories, so even the retina and the muscles are driven by labels.'
+        feedback: |
+          Tempting, because decisions and recognition feel categorical. But a receptor responds to a continuous quantity (how much light) and a muscle must be told a continuous quantity (how long to be). A label cannot be that number, so the bottom of the hierarchy has to be continuous.
+      - text: 'It depends on the creature: some brains have a discrete bottom level.'
+        feedback: |
+          Whatever the creature, the world meets the body through physical quantities that vary continuously (light, pressure, muscle length). The categorical beliefs are built on top of them, not underneath.
+    explanation: |
+      The interface with the world is in the continuous domain, so the lowest level of any hierarchy in the brain must be continuous. The further we go from the receptors, the more we find **discretised** representations: categories such as "this object" or "this person".
+
+  - type: text
+    id: recall
+    title: "Recall: the two circuits"
+    body: |
+      This level has built two message-passing circuits, one per kind of model.
+
+      **Continuous (predictive coding).** Hidden causes $v$ have an expectation $\mu_v$; the prediction $g(\mu)$ is compared with what arrives, giving a **prediction error** $\epsilon$ (a mismatch), weighted by its **precision** $\Pi$ (inverse variance). The cause has a prior mean $\eta$, so there is an error $\epsilon_v=\mu_v-\eta$ at the top. Beliefs descend $F=\tfrac12\sum\Pi\,\epsilon^2$.
+
+      **Discrete (POMDP, a model with hidden states and outcomes).** Hidden states $\mathbf s$ (categories), outcomes $\mathbf o$, and **policies** $\pi$ (plans), each with its own state beliefs $\mathbf s_\pi$, a posterior $\pi=\sigma(-\mathbf G-\mathbf F)$ over policies, and between areas the mixture $\mathbf s=\sum_\pi\pi\,\mathbf s_\pi$.
+
+      The question of this lesson is how the two are **stacked**: what does each one hand to the other?
+
+  - type: mcq
+    id: receptive-fields
+    prompt: |
+      A **receptive field** is the region of the world (a patch of the visual field, a range of orientations) to which a sensory neuron responds. Some neurons are *selective* for a specific stimulus; others vary *in proportion to the intensity* of a stimulus. How could neurons of the first kind fit a theory in which higher levels hold categories?
+    options:
+      - text: 'A neuron selective for one regime of a stimulus space could represent the probability that the world is in that regime: the space is tiled by receptive fields, i.e. cut into many little categories.'
+        correct: true
+      - text: 'Selective neurons are noise; only the intensity-proportional neurons carry information.'
+        feedback: |
+          Both kinds are meaningful in the picture: intensity-proportional neurons suit the continuous level (they track a number), and selective neurons suit the categorical level (they say which regime).
+      - text: 'A selective neuron computes a continuous prediction error, since every neuron does.'
+        feedback: |
+          Errors are one class of population in the continuous circuit. A neuron that fires only for one stimulus is better read as a vote for a category than as a mismatch signal.
+    explanation: |
+      The existence of classical receptive fields could be interpreted as a probabilistic representation that the world is in some particular regime of a perceptual state-space, a space that is **tiled** by receptive fields and so partitioned into lots of little categories. This is a proposed reading, not a proven fact.
+
+  - type: widget
+    id: hybrid-widget
+    review: false
+    widget: microcircuit
+    config:
+      box: [440, 400]
+      showFreq: false
+      bands:
+        - { label: 'discrete: cortex', y0: 0, y1: 90 }
+        - { label: 'discrete: basal ganglia', y0: 90, y1: 165 }
+        - { label: 'interface', y0: 165, y1: 235 }
+        - { label: 'continuous: cortex', y0: 235, y1: 315 }
+        - { label: 'continuous: spinal cord', y0: 315, y1: 400 }
+      nodes:
+        - { id: s2, label: '\tilde{\mathbf s}^{(2)}', name: 'discrete state beliefs', pos: [250, 45], cls: expectation, populations: 'cortex of the discrete level', info: 'Beliefs about the categorical hidden states, averaged over policies.' }
+        - { id: pi, label: '\boldsymbol\pi^{(2)}', name: 'policy beliefs', pos: [110, 128], cls: output, populations: 'output nucleus of the basal ganglia', info: 'Probability of each policy.' }
+        - { id: ee, label: '\mathbf E^{(2)}', name: 'habit prior', pos: [45, 128], cls: input, populations: 'indirect pathway', info: 'Prior over policies from habit, driven by higher levels.' }
+        - { id: gg, label: '\mathbf G^{(2)}', name: 'expected free energy', pos: [175, 128], cls: error, populations: 'striatum, direct pathway', info: 'Goal-directed, context-sensitive evaluation of each policy.' }
+        - { id: oo, label: '\tilde{\mathbf o}^{(2)}', name: 'discrete outcome (the interface)', pos: [250, 200], cls: output, populations: 'between the two levels', info: 'The categorical outcome of the discrete level, at once a prediction for the continuous level and the place where the continuous level reports back.' }
+        - { id: ev, label: '\tilde\epsilon_v^{(1)}', name: 'error on the cause', pos: [130, 275], cls: error, populations: 'cortex of the continuous level', info: 'Mismatch between the belief about the cause and the prediction from the discrete level.' }
+        - { id: mu, label: '\tilde\mu_v^{(1)}', name: 'expectation of the cause', pos: [250, 275], cls: expectation, populations: 'cortex of the continuous level', info: 'Holds the belief about the continuous cause (a trajectory).' }
+        - { id: ey, label: '\tilde\epsilon_y', name: 'proprioceptive error cells', pos: [250, 360], cls: error, populations: 'spinal cord', info: 'Data minus the descending prediction.' }
+        - { id: yy, label: 'y', name: 'sensed position', pos: [360, 360], cls: input, populations: 'dorsal horn', info: 'Continuous data from the body.' }
+        - { id: uu, label: 'u', name: 'action (motor neuron)', pos: [140, 360], cls: output, populations: 'ventral horn', info: 'Moves the limb so that the data match the prediction.' }
+      edges:
+        - { id: e-s2g, from: s2, to: gg, sign: '+', message: { label: '\mathbf o_\pi', kind: expectation }, direction: descending, note: 'Simplified: the full basal ganglia circuit was in an earlier lesson.' }
+        - { id: e-gpi, from: gg, to: pi, sign: '-', message: { label: '\mathbf G', kind: policy }, direction: intrinsic }
+        - { id: e-epi, from: ee, to: pi, sign: '+', message: { label: '\ln\mathbf E', kind: policy }, direction: intrinsic }
+        - { id: e-pis, from: pi, to: s2, sign: '+', message: { label: '\pi', kind: policy }, direction: ascending, note: 'The policy probabilities weight the state beliefs: Bayesian model averaging.' }
+        - { id: e-s2o, from: s2, to: oo, sign: '+', message: { label: '\mathbf s', kind: expectation }, direction: descending }
+        - { id: e-oev, from: oo, to: ev, sign: '-', message: { label: '\eta', kind: prediction }, direction: descending, note: 'Each categorical state is associated with an alternative prediction of the continuous cause: its prior mean.' }
+        - { id: e-evmu, from: ev, to: mu, sign: '+', message: { label: '\Pi_v\epsilon_v', kind: error }, direction: intrinsic }
+        - { id: e-mu-ey, from: mu, to: ey, sign: '-', message: { label: '\tilde g', kind: prediction }, direction: descending }
+        - { id: e-y-ey, from: yy, to: ey, sign: '+', message: { label: 'y', kind: error }, direction: ascending }
+        - { id: e-ey-u, from: ey, to: uu, sign: '+', message: { label: '\Pi_y\tilde\epsilon_y', kind: error }, direction: descending }
+        - { id: e-mu-o, from: mu, to: oo, sign: '+', message: { label: '\text{likelihood}', kind: expectation }, direction: ascending, note: 'Computed from the posterior expectations and variances of the continuous level: the likelihood of its trajectory under each discrete outcome.' }
+      sequence: [e-epi, e-gpi, e-pis, e-s2o, e-oev, e-evmu, e-mu-ey, e-ey-u, e-y-ey, e-mu-o]
+      presets:
+        - { label: 'both levels' }
+        - label: 'discrete level only'
+          nodes:
+            - { id: s2, label: '\tilde{\mathbf s}^{(2)}', name: 'discrete state beliefs', pos: [250, 45], cls: expectation, populations: 'cortex of the discrete level', info: 'Beliefs about the categorical hidden states, averaged over policies.' }
+            - { id: pi, label: '\boldsymbol\pi^{(2)}', name: 'policy beliefs', pos: [110, 128], cls: output, populations: 'output nucleus of the basal ganglia', info: 'Probability of each policy.' }
+            - { id: ee, label: '\mathbf E^{(2)}', name: 'habit prior', pos: [45, 128], cls: input, populations: 'indirect pathway', info: 'Prior over policies from habit, driven by higher levels.' }
+            - { id: gg, label: '\mathbf G^{(2)}', name: 'expected free energy', pos: [175, 128], cls: error, populations: 'striatum, direct pathway', info: 'Goal-directed, context-sensitive evaluation of each policy.' }
+            - { id: oo, label: '\tilde{\mathbf o}^{(2)}', name: 'discrete outcome', pos: [250, 200], cls: output, populations: 'its output', info: 'The categorical outcome handed to the level below.' }
+          edges:
+            - { id: e-s2g, from: s2, to: gg, sign: '+', message: { label: '\mathbf o_\pi', kind: expectation }, direction: descending }
+            - { id: e-gpi, from: gg, to: pi, sign: '-', message: { label: '\mathbf G', kind: policy }, direction: intrinsic }
+            - { id: e-epi, from: ee, to: pi, sign: '+', message: { label: '\ln\mathbf E', kind: policy }, direction: intrinsic }
+            - { id: e-pis, from: pi, to: s2, sign: '+', message: { label: '\pi', kind: policy }, direction: ascending }
+            - { id: e-s2o, from: s2, to: oo, sign: '+', message: { label: '\mathbf s', kind: expectation }, direction: descending }
+          sequence: [e-epi, e-gpi, e-pis, e-s2o]
+        - label: 'continuous level only'
+          nodes:
+            - { id: oo, label: '\tilde{\mathbf o}^{(2)}', name: 'prediction from the discrete level', pos: [250, 200], cls: input, populations: 'from above', info: 'The categorical outcome arriving from the discrete level.' }
+            - { id: ev, label: '\tilde\epsilon_v^{(1)}', name: 'error on the cause', pos: [130, 275], cls: error, populations: 'cortex of the continuous level', info: 'Mismatch between the belief about the cause and the prediction from the discrete level.' }
+            - { id: mu, label: '\tilde\mu_v^{(1)}', name: 'expectation of the cause', pos: [250, 275], cls: expectation, populations: 'cortex of the continuous level', info: 'Holds the belief about the continuous cause (a trajectory).' }
+            - { id: ey, label: '\tilde\epsilon_y', name: 'proprioceptive error cells', pos: [250, 360], cls: error, populations: 'spinal cord', info: 'Data minus the descending prediction.' }
+            - { id: yy, label: 'y', name: 'sensed position', pos: [360, 360], cls: input, populations: 'dorsal horn', info: 'Continuous data from the body.' }
+            - { id: uu, label: 'u', name: 'action (motor neuron)', pos: [140, 360], cls: output, populations: 'ventral horn', info: 'Moves the limb so that the data match the prediction.' }
+          edges:
+            - { id: e-oev, from: oo, to: ev, sign: '-', message: { label: '\eta', kind: prediction }, direction: descending }
+            - { id: e-evmu, from: ev, to: mu, sign: '+', message: { label: '\Pi_v\epsilon_v', kind: error }, direction: intrinsic }
+            - { id: e-mu-ey, from: mu, to: ey, sign: '-', message: { label: '\tilde g', kind: prediction }, direction: descending }
+            - { id: e-y-ey, from: yy, to: ey, sign: '+', message: { label: 'y', kind: error }, direction: ascending }
+            - { id: e-ey-u, from: ey, to: uu, sign: '+', message: { label: '\Pi_y\tilde\epsilon_y', kind: error }, direction: descending }
+          sequence: [e-oev, e-evmu, e-mu-ey, e-ey-u, e-y-ey]
+    body: |
+      The two circuits stacked. Top: a discrete level with its basal ganglia loops (habit prior $\mathbf E$, expected free energy $\mathbf G$, policy beliefs $\pi$). Middle: the **interface**, a categorical outcome $\tilde{\mathbf o}^{(2)}$. Bottom: a continuous predictive-coding level and the spinal reflex loop of the previous lesson. Use the buttons to see each level alone. Press **Play messages**, then click the interface node and read what it **receives** (blue) and **sends** (orange).
+
+      Watch the interface: one message goes down into the continuous level, and a different kind of message comes back up.
+
+  - type: mcq
+    id: state-predicts
+    prompt: |
+      In the stacked circuit a **categorical state** of the discrete level (for example "reach left") sends a message down to the continuous level. What does that message do?
+    options:
+      - text: 'It is an alternative **prediction** of the continuous variables: the prior mean $\eta$ of the cause. The continuous level then makes its errors small, by changing its belief and by acting.'
+        correct: true
+      - text: 'It sets the muscle length directly: the state is the motor command.'
+        feedback: |
+          Tempting, because a decision "should" produce movement. But the message ends on an error unit that compares it with the belief $\mu_v$ (and, further down, with the sensed position). Nothing is commanded: the arm moves because the reflex arc fulfils the prediction.
+      - text: 'It is a prediction error that the discrete level wants the continuous level to explain away.'
+        feedback: |
+          The error unit lives in the continuous level, where the prediction is compared with the belief. What descends from the discrete level is the *prediction* itself, the thing that error is measured against.
+    explanation: |
+      Each categorical state is associated with an alternative prediction of continuous variables, and contributes to a prediction error $\epsilon_v=\mu_v-\eta$. Choosing "left" means adopting the prior mean $\eta_{\text{left}}$; the continuous level then reduces the error, and the movement follows (the reflex loop of the motor lesson).
+
+  - type: numeric
+    id: left-right
+    prompt: |
+      A discrete level has two states, **left** and **right**, with equal prior probability $(0.5,0.5)$. Each predicts a prior mean for the continuous cause: $\eta_{\text{left}}=-1$ and $\eta_{\text{right}}=+1$. The continuous data are $y=0.5$ with precision $\Pi_y=2$ (identity mapping). For a state $s$ the free energy is the precision-weighted error of the continuous level when it adopts that state's prediction,
+      $$F_s=\tfrac12\,\Pi_y\,(y-\eta_s)^2,$$
+      the other terms being equal for both states. The posterior over the states is $Q(s)=\sigma(-F)_s$ (a softmax). What is $Q(\text{right})$?
+    answer: 0.881
+    tolerance: 0.002
+    answerText: '0.881'
+    wrong:
+      - { value: 0.5, feedback: 'That is the prior. The data have not been used: right fits $y=0.5$ much better than left, so the posterior must favour it.' }
+      - { value: 0.9, feedback: 'That comes from normalising the free energies linearly, $1-F_{\text{right}}/(F_{\text{left}}+F_{\text{right}})$. The posterior is the softmax of $-F$, with exponentials, not a ratio of the $F$ values themselves.' }
+      - { value: 0.119, feedback: 'That is $Q(\text{left})$. The state that fits the data (right, $\eta=+1$, close to $y=0.5$) gets the larger share.' }
+    hint: 'Compute $F_{\text{left}}$ and $F_{\text{right}}$ first; then $Q(\text{right})=\dfrac{e^{-F_{\text{right}}}}{e^{-F_{\text{left}}}+e^{-F_{\text{right}}}}$.'
+    explanation: |
+      $$F_{\text{left}}=\tfrac12\cdot2\cdot(0.5+1)^2=2.25$$
+      $$F_{\text{right}}=\tfrac12\cdot2\cdot(0.5-1)^2=0.25$$
+      Only the difference $F_{\text{left}}-F_{\text{right}}=2$ matters in the softmax:
+      $$Q(\text{right})=\frac{1}{1+e^{-2}}\approx0.881$$
+      With unequal priors $\mathbf D$, a term $\ln\mathbf D$ would be added before the softmax. This is a toy: it shows how the continuous errors decide among categories.
+
+  - type: mcq
+    id: report-back
+    prompt: |
+      In the stacked circuit the continuous level has been following a trajectory (a hand moving) with posterior expectations $\tilde\mu$ and variances. What does it send **back up** to the discrete level?
+    options:
+      - text: 'The **likelihood** of its trajectory under each categorical outcome $\mathbf o$, computed from $\tilde\mu$ and the variances; the discrete level combines it with its prior from the policies.'
+        correct: true
+      - text: 'The raw data $y$, so that the discrete level can do its own inference on the numbers.'
+        feedback: |
+          Tempting, since the data are the evidence. But the discrete level has no variable for a continuous number: all it can use is a statement about its own categories. The continuous level digests $y$ into $\tilde\mu$ first, so the discrete level never sees the raw data.
+      - text: 'A prediction error for each policy, to be minimised by choosing a different policy.'
+        feedback: |
+          Policies belong to the discrete level and are scored there by $\mathbf G$ and $\mathbf F$. What returns is evidence about the *outcome* $\mathbf o$, which then enters the discrete update as an ordinary observation.
+    explanation: |
+      The message in the opposite direction computes the posterior probability of the categorical outcome $\mathbf o$, which depends on priors from the policy-dependent outcome $\mathbf o_\pi$, beliefs about the policy $\pi$, and the likelihood of the continuous trajectory. So the discrete level receives, as an observation, how well each category explains the continuous level.
+
+  - type: widget
+    id: hier-widget
+    review: false
+    widget: predictive-coding
+    config:
+      mode: hierarchy
+      modes: [hierarchy]
+      g: { kind: gain, gain: 1 }
+      g2: { kind: gain, gain: 1 }
+      y: 1
+      eta: -1
+      Pi: { y: 1, x: 1, v: 1 }
+      presets:
+        - { label: 'decision "left" ($\eta=-1$)', eta: -1 }
+        - { label: 'decision "right" ($\eta=+1$)', eta: 1 }
+    body: |
+      A chain of three levels. The top prior mean $\eta$ is what the discrete choice supplies: **left** is $\eta=-1$, **right** is $\eta=+1$. The data are $y=1$ (the limb is at $+1$) and all precisions are $1$. **Press Descend**, and read the three errors $\epsilon_y,\ \epsilon_x,\ \epsilon_v$.
+
+      Switch between the two decisions. Watch: where does the disagreement between the decision and the data end up?
+
+  - type: mcq
+    id: spread
+    prompt: |
+      A three-level chain has errors $\epsilon_y=y-\mu_1$, $\epsilon_x=\mu_1-\mu_2$, $\epsilon_v=\mu_2-\eta$ with all precisions equal, and identity predictions. The decision sets $\eta=-1$ while the data are $y=+1$. At the minimum of $F$, how is the disagreement $y-\eta=2$ shared?
+    options:
+      - text: 'Equally: each of the three errors is $2/3$.'
+        correct: true
+      - text: 'All of it stays in the sensory error: $\epsilon_y=2$, the others are $0$.'
+        feedback: |
+          That would make the beliefs $\mu_1,\mu_2$ follow the decision completely and ignore the data. With equal precisions neither end wins, so the mismatch is spread along the chain, not parked at one end.
+      - text: 'It vanishes: all three errors are $0$.'
+        feedback: |
+          Errors can only vanish if data and prior agree. Here they differ by $2$, and the three errors must add up to $y-\eta=2$ whatever the beliefs are.
+    explanation: |
+      The errors add up to $y-\eta=2$, and at the minimum the weighted errors $\Pi\epsilon$ are equal. With equal precisions all three are $2/3$. A decision that contradicts the data is therefore felt at every level; with unequal precisions the error is smaller where the precision is higher.
+
+  - type: text
+    id: compositions
+    title: "Movements as compositions"
+    body: |
+      Now the policy loop of the basal ganglia can be read together with the continuous level. The basal ganglia select between **alternative movements**, a discrete choice. Each choice is associated with the continuous dynamics that the hypothesis entails (reach left: the hand follows one trajectory; reach right: another).
+
+      So a movement is a **composition of discrete trajectories into purposeful action**. Where the lowest level deals with the requisite changes in muscle length, the descending input is based on decisions about **which movement** to make. From the viewpoint of a generative model, this means associating alternative discrete hypotheses about the world with the continuous dynamics they entail.
+
+      One more consequence, a common proposal rather than something derived here. The hidden causes at the top of the chain, such as "which cup", change **slowly** compared with the data they explain (the hand's position changes every instant). A level predicts the level below, so the higher it sits, the slower the thing it represents. The later chapter on hierarchical models comes back to how to build this.
+
+  - type: mcq
+    id: slow-higher
+    prompt: |
+      Suppose recordings show slower dynamics in regions higher up a cortical hierarchy. Within this picture, which reading is natural?
+    options:
+      - text: 'Higher levels hold beliefs about causes that change slowly (a category, a goal), and they only supply the prior mean for faster quantities below. Slow causes give slow dynamics.'
+        correct: true
+      - text: 'Higher regions are made of slower neurons, and that is why their beliefs are slow.'
+        feedback: |
+          It could be part of the story, but it is not what the model says. In the model the slowness comes from *what is represented*: the same circuit with a fast cause would be fast. A cell property is a possible implementation, not the explanation.
+      - text: 'Higher levels are slow because they must wait for the lower levels to finish before computing anything.'
+        feedback: |
+          Updates in the chain run concurrently: every error unit uses the current messages of its neighbours. The slowness of a level reflects the timescale of its hidden cause, not a queue.
+    explanation: |
+      The categories at the top change slowly, and the continuous level below tracks the quickly changing details under that slowly changing prior. This is a hypothesis in the spirit of the process theory: it is consistent with, and could be tested against, the timescales measured across cortex.
+
+  - type: mcq
+    id: loops
+    prompt: |
+      A discrete level has two loops through the cortex and the basal ganglia. Policy probabilities are $\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$, where $\mathbf F$ is the variational free energy of the policy, $\mathbf G$ its expected free energy and $\mathbf E$ a prior over policies. Which description of the two loops is right?
+    options:
+      - text: 'The **habit** loop uses the prior $\mathbf E$, which is based on input from higher levels. The **goal-directed** loop uses $\mathbf G$, giving more context-sensitive (explorative and exploitative) behaviour.'
+        correct: true
+      - text: 'The habit loop minimises $\mathbf G$; the goal-directed loop uses the prior $\mathbf E$.'
+        feedback: |
+          Reversed. $\mathbf E$ is a prior over policies that does not look ahead; $\mathbf G$ is the expected free energy of the future, so it is what makes behaviour sensitive to the current context and goals.
+      - text: 'There is one loop; $\mathbf E$ and $\mathbf G$ are two names for the same quantity.'
+        feedback: |
+          They enter $\pi$ separately: $\ln\mathbf E$ is the habit prior, $-\mathbf G$ the evaluation of the expected future. One can dominate the other, which is how habits and deliberate choice differ.
+    explanation: |
+      The state beliefs passed to the other areas are an average of the policy-specific ones, weighted by the posterior over policies, $\mathbf s=\sum_\pi\pi\,\mathbf s_\pi$. This is the **Bayesian model averaging** under policies: each policy is a model of the future and its belief counts as much as the policy is probable. It is not an extra module; it is the weighting by $\pi$. The projection from the basal ganglia to the cortex may be relayed by intermediate structures such as the thalamus.
+
+  - type: numeric
+    id: bma
+    prompt: |
+      A discrete level has two policies with probabilities $\pi=(0.69,\,0.31)$. Under policy 1 the beliefs about two hidden states are $\mathbf s_{\pi_1}=(0.8,\,0.2)$; under policy 2 they are $\mathbf s_{\pi_2}=(0.3,\,0.7)$. Using the average $\mathbf s=\sum_\pi\pi\,\mathbf s_\pi$, what is the first component of $\mathbf s$, the averaged belief in state 1?
+    answer: 0.645
+    tolerance: 0.001
+    answerText: '0.645'
+    wrong:
+      - { value: 0.55, feedback: 'That is the plain mean $(0.8+0.3)/2$: it gives the two policies equal weight. The weights are the policy probabilities $0.69$ and $0.31$.' }
+      - { value: 0.8, feedback: 'That takes the most probable policy alone. The average still gives policy 2 its weight $0.31$.' }
+    hint: 'Multiply each policy''s belief in state 1 by that policy''s probability and add.'
+    explanation: |
+      $$\begin{aligned}\mathbf s_1&=0.69\cdot0.8+0.31\cdot0.3\\&=0.552+0.093=0.645\end{aligned}$$
+      Likewise $\mathbf s_2=0.69\cdot0.2+0.31\cdot0.7=0.138+0.217=0.355$. The two add to $1$, as a belief must. (The probabilities $0.69$ and $0.31$ are those of a policy choice with $\mathbf F=(0.5,1.5)$, $\mathbf G=(1,0.8)$ from the previous lessons.)
+
+  - type: mcq
+    id: speculation
+    prompt: |
+      The chapter closes by noting how much of the brain it left out. Which of these are posed as **open questions** (speculation), not as results? Select all that apply.
+    multiple: true
+    options:
+      - text: 'Parts of the amygdala look like basal ganglia nuclei: could it evaluate a class of policies (autonomic ones), as the basal ganglia do for movements?'
+        correct: true
+      - text: 'Might other structures, such as the pulvinar (a thalamic nucleus), play a similar role for other, for example mental, classes of policy?'
+        correct: true
+      - text: 'Are the cerebellum and the hippocampal formation, with their different stereotyped circuits, rearrangements of the same message passing, or do they deal with other aspects of a generative model?'
+        correct: true
+      - text: 'The lowest level of any hierarchy must be continuous, since the interface with receptors and effectors is continuous.'
+        feedback: |
+          This one is an argument from the nature of the interface, not an open question: receptors and muscles deal in continuous physical quantities. It is the "implication" of the continuous interface, not speculation about unmapped structures.
+    explanation: |
+      The chapter raises the amygdala, pulvinar, cerebellum and hippocampus questions "not to offer any answers" but to mark directions of future research. Treat them as open. The continuous-bottom statement is the only one that follows from an argument about the interface.
+
+  - type: text
+    id: predictions
+    title: "What the mapping buys: predictions"
+    body: |
+      What is gained by relating message passing to neuronal communication? **Empirical predictions** based on the generative model the brain is hypothesised to invert.
+
+      - An **evoked response** (the change in electrical potential measured at the scalp when a stimulus is presented) should have a time course that depends on the amount of belief updating the stimulus induces.
+      - **Computational neuroimaging** can associate simulated inferences with brain regions showing similar temporal dynamics.
+      - Learning a likelihood should change **extrinsic** connections (those entering and leaving a column), learning transitions should change **intrinsic** ones; methods such as dynamic causal modelling, which estimate effective connectivity from neuroimaging data, can test this.
+      - Understanding pathology: functional deficits in neurological and psychiatric disorders can be expressed in terms of the biology of the circuit.
+
+      This is the role of a process theory: to turn abstract theorising into specific, testable, and therefore falsifiable, hypotheses.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the mapping between equations and brain is seductive, and it is easy to read too much into it. Next comes a fast round of traps on exactly that: which sentences does the theory license, and which only sound as if it does?
