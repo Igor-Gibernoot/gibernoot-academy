@@ -1247,3 +1247,21 @@ value actually used after the noisy flattening), `labels: {prior, evidence, beli
 (section titles and button texts), `presets: [{label, prior: [..], evidence: [..], sharp}]` (any field may be
 omitted to keep the current value). Example "strong prior beats weak evidence":
 `{label: "Strong prior, weak evidence", prior: [0.9, 0.1, 0.1], evidence: [0.4, 0.5, 0.5], sharp: false}`.
+
+#### `homeostat`
+A creature keeps a body value (default temperature) inside a safe band (`js/widgets/homeostat.js`, plain HTML,
+no library; all wording from the config). A scale shows the safe band (green), the body value (blue), the
+creature's expectation (orange) and the room value (purple, the body drifts toward it). Readouts: sensed value,
+expectation, room, a **mismatch bar** (|expectation - sensed|) and an **in/out of the safe band** flag. A slider
+sets the expectation. Levers (each press is one time step, after which the body drifts toward the room):
+**belief** moves the expectation a fraction `beliefRate` toward the sensed value (changing its mind), **act**
+moves the body a fraction `actRate` toward the expectation (changing the world), optional **wait** only lets time
+pass. Moving the slider cancels a running preset.
+Config: `range: [0,50]`, `band: [35,39]`, `room`, `body`, `expect` (start values), `drift` (0.08), `beliefRate`,
+`actRate` (0.8), `unit`, `step`, `decimals`, `bandLabel` (legend text of the green zone),
+`labels: {body, sensed, expect, room, mismatch, slider, inBand, outBand, belief, act, wait, reset, steps}` (`wait`
+empty = no wait button), `presets: [{label, body, expect, room, script: ['belief'|'act'|'wait', ...]}]` (sets the
+state, then plays the script one step per 0.7 s). Example: `{label: "Update belief only", body: 30, expect: 37,
+room: 20, script: [belief x6]}` (belief falls to the cold value, the body stays out of the band);
+`{label: "Act", ..., script: [act x6]}` (body climbs into the band; with these numbers act alone wins the race
+against the drift).
