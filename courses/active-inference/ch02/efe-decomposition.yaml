@@ -1,0 +1,301 @@
+id: ch02-efe-decomposition
+title: "Guided Problem: Splitting the Expected Free Energy"
+kind: guided
+cards:
+  - type: text
+    id: problem
+    title: "The problem"
+    body: |
+      A creature compares policies $\pi$. For each it predicts hidden states $\tilde{x}$ (what is out there) and outcomes $\tilde{y}$ (what it will observe). Its beliefs about states are $Q(\tilde{x}\mid\pi)$, its likelihood is $P(\tilde{y}\mid\tilde{x})$, and together
+      $$Q(\tilde{x},\tilde{y}\mid\pi)=Q(\tilde{x}\mid\pi)\,P(\tilde{y}\mid\tilde{x}).$$
+      The preferences $C$ define $P(\tilde{y}\mid C)$: how probable each outcome is for a creature like this one. The expected free energy of a policy (minimised) is given in two forms:
+      $$\begin{aligned}G(\pi)=\;&-\,\mathbb{E}_{Q(\tilde{x},\tilde{y}\mid\pi)}\\&\quad D_{KL}[Q(\tilde{x}\mid\tilde{y},\pi)\,\|\,Q(\tilde{x}\mid\pi)]\\&-\,\mathbb{E}_{Q(\tilde{y}\mid\pi)}\ln P(\tilde{y}\mid C)\\=\;&\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]\\&+D_{KL}[Q(\tilde{y}\mid\pi)\,\|\,P(\tilde{y}\mid C)].\end{aligned}$$
+      The first line is $-$(information gain) $-$ (pragmatic value). The second is ambiguity plus risk, where $H[\cdot]$ is the entropy $-\sum p\ln p$ and $D_{KL}$ the KL divergence.
+
+      > **Show** that the two lines are the same number for every policy, then check it on a pond and an orchard.
+
+      Nothing is assumed beyond the product rule and the definition of a conditional: $Q(\tilde{x}\mid\tilde{y},\pi)\,Q(\tilde{y}\mid\pi)=Q(\tilde{x},\tilde{y}\mid\pi)$, where $Q(\tilde{y}\mid\pi)=\sum_{\tilde{x}}Q(\tilde{x}\mid\pi)P(\tilde{y}\mid\tilde{x})$ is the predicted outcome distribution.
+
+  - type: order
+    id: plan
+    prompt: |
+      Here is the plan of the proof, scrambled. Put the four moves in the order we will use them to turn the first line of $G$ into the second.
+    steps:
+      - 'Write the KL inside the information gain as a difference of logs: $\ln Q(\tilde{x}\mid\tilde{y},\pi)-\ln Q(\tilde{x}\mid\pi)$.'
+      - 'Use the product rule to replace that difference by $\ln P(\tilde{y}\mid\tilde{x})-\ln Q(\tilde{y}\mid\pi)$, which contains no belief about states given outcomes.'
+      - 'Average the two logs: the first gives minus the ambiguity, the second the entropy of the predicted outcomes.'
+      - 'Merge the leftover $\mathbb{E}\ln Q(\tilde{y}\mid\pi)$ with the pragmatic value into one KL divergence: the risk.'
+    hint: |
+      You cannot use the product rule before the difference of logs exists, and you cannot average before the rewriting. The last move uses what is left over.
+    explanation: |
+      Difference of logs, product rule, average, regroup. The key move is the second: the information gain is naturally written with the hard-to-compute posterior $Q(\tilde{x}\mid\tilde{y},\pi)$, and the product rule trades it for the likelihood and the predicted outcomes, which the creature already has.
+
+  - type: build
+    id: step-product-rule
+    prompt: |
+      **Step 1.** For a pair $(\tilde{x},\tilde{y})$ the product rule says $Q(\tilde{x}\mid\tilde{y},\pi)\,Q(\tilde{y}\mid\pi)=Q(\tilde{x}\mid\pi)\,P(\tilde{y}\mid\tilde{x})$. Take logs and rearrange to complete the log-ratio inside the information gain:
+    prefix: '\ln Q(\tilde{x}\mid\tilde{y},\pi)-\ln Q(\tilde{x}\mid\pi)='
+    tiles: ['\ln P(\tilde{y}\mid\tilde{x})', '-\ln Q(\tilde{y}\mid\pi)', '+\ln Q(\tilde{y}\mid\pi)', '-\ln P(\tilde{y}\mid\tilde{x})', '-\ln P(\tilde{y}\mid C)']
+    answers:
+      - ['\ln P(\tilde{y}\mid\tilde{x})', '-\ln Q(\tilde{y}\mid\pi)']
+      - ['-\ln Q(\tilde{y}\mid\pi)', '\ln P(\tilde{y}\mid\tilde{x})']
+    wrong:
+      - answer: ['\ln P(\tilde{y}\mid\tilde{x})', '+\ln Q(\tilde{y}\mid\pi)']
+        feedback: |
+          The sign of the second term is flipped. The log of the rule is $\ln Q(\tilde{x}\mid\tilde{y},\pi)+\ln Q(\tilde{y}\mid\pi)=\ln Q(\tilde{x}\mid\pi)+\ln P(\tilde{y}\mid\tilde{x})$, and $\ln Q(\tilde{y}\mid\pi)$ must cross to the right side, where it changes sign.
+      - answer: ['-\ln P(\tilde{y}\mid\tilde{x})', '+\ln Q(\tilde{y}\mid\pi)']
+        feedback: |
+          That is minus the right answer: you subtracted in the wrong direction. Check on a case where observing $\tilde{y}$ is informative: the posterior is sharper than the prior, so the left side is positive on average.
+    hint: |
+      Log of a product is a sum. Move $\ln Q(\tilde{y}\mid\pi)$ and $\ln Q(\tilde{x}\mid\pi)$ so that the left side is exactly the log-ratio.
+    explanation: |
+      $\ln Q(\tilde{x}\mid\tilde{y},\pi)-\ln Q(\tilde{x}\mid\pi)=\ln P(\tilde{y}\mid\tilde{x})-\ln Q(\tilde{y}\mid\pi)$. Reading: how much the outcome shifts the belief about the state is the log of how likely the outcome was given that state, relative to how likely it was overall.
+
+  - type: text
+    id: average
+    title: "Step 2: average over the pairs"
+    body: |
+      Put Step 1 into the information gain and average under $Q(\tilde{x},\tilde{y}\mid\pi)$:
+      $$\begin{aligned}\text{information gain}=\;&\mathbb{E}_{Q(\tilde{x},\tilde{y}\mid\pi)}\big[\ln P(\tilde{y}\mid\tilde{x})\big]\\&-\mathbb{E}_{Q(\tilde{x},\tilde{y}\mid\pi)}\big[\ln Q(\tilde{y}\mid\pi)\big].\end{aligned}$$
+      The first average is over a joint, but $\ln P(\tilde{y}\mid\tilde{x})$ is just a function of the pair. For the second, $\ln Q(\tilde{y}\mid\pi)$ depends only on $\tilde{y}$, so averaging under the joint is the same as averaging under its marginal $Q(\tilde{y}\mid\pi)$.
+
+  - type: mcq
+    id: two-pieces
+    prompt: |
+      With the **ambiguity** defined as $\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]$ and $H[P(\tilde{y}\mid\tilde{x})]=-\sum_{\tilde{y}}P(\tilde{y}\mid\tilde{x})\ln P(\tilde{y}\mid\tilde{x})$, what are the two averages in
+      $$\begin{aligned}\text{information gain}=\;&\mathbb{E}_{Q}\big[\ln P(\tilde{y}\mid\tilde{x})\big]\\&-\mathbb{E}_{Q}\big[\ln Q(\tilde{y}\mid\pi)\big]\,?\end{aligned}$$
+    options:
+      - text: 'The first is $-$ambiguity; the second is $-\,\mathbb{E}\ln Q(\tilde{y}\mid\pi)=H[Q(\tilde{y}\mid\pi)]$, the entropy of the predicted outcomes. So the gain is $H[Q(\tilde{y}\mid\pi)]-\text{ambiguity}$.'
+        correct: true
+      - text: 'The first is $+$ambiguity, and the second is $H[Q(\tilde{y}\mid\pi)]$. So the gain is $H[Q(\tilde{y}\mid\pi)]+\text{ambiguity}$.'
+        feedback: |
+          The entropy has a minus sign built in: $H[P]=-\sum P\ln P$. The average of $\ln P(\tilde{y}\mid\tilde{x})$ is therefore the **negative** of the average entropy, that is $-$ambiguity. Sanity check: the gain cannot exceed the entropy of the outcomes, since you cannot learn more than the total uncertainty about them.
+      - text: 'The first is $-$ambiguity, and the second is $-H[Q(\tilde{y}\mid\pi)]$. So the gain is $-\text{ambiguity}-H[Q(\tilde{y}\mid\pi)]$.'
+        feedback: |
+          Then the gain would always be negative, but an information gain is never negative (it is an average of KL divergences). The second term is $-\mathbb{E}\ln Q$, and $-\mathbb{E}\ln Q=+H$.
+      - text: 'The first is the pragmatic value and the second is the risk.'
+        feedback: |
+          Those two involve the preferences $C$, which has not appeared yet. Both averages here are built from the model alone: the likelihood and the predicted outcomes.
+    hint: |
+      Entropy is $-\mathbb{E}\ln(\cdot)$. So $\mathbb{E}\ln P(\tilde{y}\mid\tilde{x})$ and $\mathbb{E}\ln Q(\tilde{y}\mid\pi)$ are minus an entropy each.
+    explanation: |
+      $\mathbb{E}_{Q}[\ln P(\tilde{y}\mid\tilde{x})]=-\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]=-\text{ambiguity}$ and $-\mathbb{E}[\ln Q(\tilde{y}\mid\pi)]=H[Q(\tilde{y}\mid\pi)]$. Hence
+      $$\text{information gain}=H[Q(\tilde{y}\mid\pi)]-\text{ambiguity}.$$
+      Total uncertainty about the outcome, minus the part that remains even when the state is known.
+
+  - type: numeric
+    id: pond-gain
+    prompt: |
+      **Check.** A pond policy believes the state is frog with probability $0.8$ and apple with $0.2$. The likelihood is $P(\text{jumps}\mid\text{frog})=0.9$ and $P(\text{jumps}\mid\text{apple})=0.1$, so the predicted outcomes are $Q(\text{jumps}\mid\pi)=0.74$, $Q(\text{still}\mid\pi)=0.26$. Their entropy is $H[Q(\tilde{y}\mid\pi)]=0.573$ nats and the ambiguity is $0.325$ nats. Using the information gain $=H[Q(\tilde{y}\mid\pi)]-\text{ambiguity}$, what is it (in nats)?
+    answer: 0.248
+    tolerance: 0.004
+    answerText: '0.248'
+    wrong:
+      - { value: 0.898, tolerance: 0.004, feedback: "You added the ambiguity. It is subtracted: the gain is the uncertainty about the outcome that knowing the state would remove." }
+      - { value: -0.248, tolerance: 0.004, feedback: "An information gain is never negative. The entropy $0.573$ is the larger of the two numbers, so the difference is positive." }
+      - { value: 0.325, tolerance: 0.004, feedback: "That is the ambiguity, the part of the outcome uncertainty that is left when the state is known. The gain is what is **not** left." }
+    hint: |
+      $0.573-0.325$.
+    explanation: |
+      $0.573-0.325=0.248$ nats. About a third of the outcome uncertainty is resolved by knowing the state, so about a third is what an observation can teach. (The direct computation, averaging $D_{KL}[Q(\tilde{x}\mid\tilde{y},\pi)\,\|\,Q(\tilde{x}\mid\pi)]$ over the outcomes, also gives $0.248$.)
+
+  - type: mcq
+    id: regroup
+    prompt: |
+      **Step 3.** Now $G=-\text{gain}-\text{pragmatic value}$ with gain $=H[Q(\tilde{y}\mid\pi)]-\text{ambiguity}$, that is
+      $$\begin{aligned}G=\;&\text{ambiguity}+\mathbb{E}_{Q(\tilde{y}\mid\pi)}\big[\ln Q(\tilde{y}\mid\pi)\big]\\&-\mathbb{E}_{Q(\tilde{y}\mid\pi)}\big[\ln P(\tilde{y}\mid C)\big].\end{aligned}$$
+      The last two averages share the same weights $Q(\tilde{y}\mid\pi)$. Merged into one average, what is inside the brackets, and what is it called?
+    options:
+      - text: '$\mathbb{E}_{Q(\tilde{y}\mid\pi)}\big[\ln Q(\tilde{y}\mid\pi)-\ln P(\tilde{y}\mid C)\big]=D_{KL}[Q(\tilde{y}\mid\pi)\,\|\,P(\tilde{y}\mid C)]$, the **risk**.'
+        correct: true
+      - text: '$\mathbb{E}_{Q(\tilde{y}\mid\pi)}\big[\ln P(\tilde{y}\mid C)-\ln Q(\tilde{y}\mid\pi)\big]=D_{KL}[P(\tilde{y}\mid C)\,\|\,Q(\tilde{y}\mid\pi)]$, the risk.'
+        feedback: |
+          The difference of logs is the wrong way round, so this is minus the KL divergence from $Q$ to $P(\tilde{y}\mid C)$ (and a KL divergence with swapped arguments is a different number anyway). The second term of $G$ carries $+\ln Q$ and $-\ln P(\tilde{y}\mid C)$.
+      - text: '$\mathbb{E}_{Q(\tilde{y}\mid\pi)}\big[\ln Q(\tilde{y}\mid\pi)+\ln P(\tilde{y}\mid C)\big]$, the expected utility.'
+        feedback: |
+          The sign of $\ln P(\tilde{y}\mid C)$ is flipped: in $G$ the pragmatic value enters with a minus. With a plus the bracket is not a divergence and could not be zero for matched beliefs.
+      - text: '$H[Q(\tilde{y}\mid\pi)]-\ln P(\tilde{y}\mid C)$, the ambiguity.'
+        feedback: |
+          The ambiguity is already the first term of $G$, and it is built from the likelihood. This bracket involves only outcomes and preferences, and it is a divergence, not an entropy.
+    hint: |
+      A KL divergence is $\mathbb{E}_Q[\ln Q-\ln P]$ with the average under its first argument.
+    explanation: |
+      $$\begin{aligned}G=\;&\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]\\&+D_{KL}[Q(\tilde{y}\mid\pi)\,\|\,P(\tilde{y}\mid C)],\end{aligned}$$
+      the first term being the ambiguity and the second the risk.
+      The two forms are equal: $-\text{gain}-\text{pragmatic value}=\text{ambiguity}+\text{risk}$. Everything that mentioned the posterior $Q(\tilde{x}\mid\tilde{y},\pi)$ has been traded for the likelihood and the predicted outcomes.
+
+  - type: widget
+    id: widget-both-forms
+    review: false
+    widget: policy-scorer
+    config:
+      outcomes: ["jumps", "still"]
+      C: [0.8, 0.2]
+      states: ["frog", "apple"]
+      likelihood: [[0.9, 0.1], [0.1, 0.9]]
+      editable: false
+      policies:
+        - { name: "pond", qx: [0.8, 0.2] }
+        - { name: "orchard", qx: [0.1, 0.9] }
+    body: |
+      The pond ($80\%$ frog) and the orchard ($10\%$ frog) share the likelihood above, and the preferences are $P(\text{jumps}\mid C)=0.8$, $P(\text{still}\mid C)=0.2$. For each policy read the two forms of $G$: ambiguity plus risk, and minus the gain minus the pragmatic value. They agree. The orchard, for instance: ambiguity $0.325$ plus risk $0.889$, and $-0.146+1.360$, both $1.214$.
+
+      The bottom bar gives the probability of each policy, $\sigma(-\gamma G)$ with the precision $\gamma=1$.
+
+  - type: numeric
+    id: softmax-check
+    prompt: |
+      The pond has $G=0.336$ and the orchard $G=1.214$ (nats). With the precision $\gamma=1$, the probability of a policy is $P(\pi)=e^{-\gamma G(\pi)}\big/\sum_{\pi'}e^{-\gamma G(\pi')}$. What is $P(\text{pond})$?
+    answer: 0.706
+    tolerance: 0.004
+    answerText: '0.706'
+    wrong:
+      - { value: 0.294, tolerance: 0.004, feedback: "That is the orchard: $e^{-1.214}/(e^{-0.336}+e^{-1.214})$. The lower $G$ gets the higher probability." }
+      - { value: 0.5, tolerance: 0.004, feedback: "That would be equal scores. The scores differ by $0.878$ nats, and the softmax turns that difference into a ratio of $e^{0.878}\\approx2.41$." }
+      - { value: 0.777, tolerance: 0.004, feedback: "You divided by the sum of the $G$ values, or compared $G$ without exponentiating. The probability uses $e^{-G}$." }
+    hint: |
+      Only the difference matters: $P(\text{pond})=\dfrac{1}{1+e^{-(1.214-0.336)}}$.
+    explanation: |
+      $e^{-0.336}=0.715$ and $e^{-1.214}=0.297$, so $P(\text{pond})=0.715/(0.715+0.297)=0.706$ and $P(\text{orchard})=0.294$. The pond wins because its beliefs match the preferences: its risk is $0.011$ against $0.889$, while the ambiguity is the same for both.
+
+  - type: mcq
+    id: third-line
+    prompt: |
+      The book adds a third line to the same equation: with preferences $P(\tilde{x}\mid C)$ **defined on states**,
+      $$\begin{aligned}G(\pi)\le\;&\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]\\&+D_{KL}[Q(\tilde{x}\mid\pi)\,\|\,P(\tilde{x}\mid C)],\end{aligned}$$
+      the "risk (states)", and a fourth line $-\mathbb{E}_{Q(\tilde{x},\tilde{y}\mid\pi)}[\ln P(\tilde{y},\tilde{x}\mid C)]-H[Q(\tilde{x}\mid\pi)]$. Select **all** the true statements.
+    multiple: true
+    options:
+      - text: 'The outcome divergence of the second form is replaced by a divergence between beliefs about states and preferences about states.'
+        correct: true
+      - text: 'The last line has the shape "expected energy minus entropy", like the variational free energy $F$.'
+        correct: true
+      - text: 'The third line is an upper bound on $G$, not always an equality.'
+        correct: true
+      - text: 'It requires the state space to be known in advance, so that preferences can be attached to states; the common practice of defining preferences on outcomes avoids this.'
+        correct: true
+      - text: 'The third line equals the second line for every policy.'
+        feedback: |
+          The book writes $\le$, not $=$. The two risks coincide only in special cases (for example when the outcome tells the state exactly), and otherwise the state-based risk is the larger.
+      - text: 'The last line is "expected energy plus entropy".'
+        feedback: |
+          The sign of the entropy is minus: $-\mathbb{E}[\ln P(\tilde{y},\tilde{x}\mid C)]-H[Q(\tilde{x}\mid\pi)]$. This mirrors $F=\text{energy}-\text{entropy}$, where a broader $Q$ lowers the quantity.
+    hint: |
+      Read the symbol between the second and third line, and the sign in front of $H$ in the last line.
+    explanation: |
+      Passing states through the likelihood into outcomes cannot increase a divergence (the standard data-processing argument, when the outcome preferences come from the state preferences through the same likelihood), which is why the second line is at most the third. The last line is the free-energy-like version: a quantity "energy minus entropy" that is attractive for its analogy with $F$, at the price of needing preferences over states.
+
+  - type: widget
+    id: widget-special
+    review: false
+    widget: policy-scorer
+    config:
+      outcomes: ["jumps", "still"]
+      C: [0.5, 0.5]
+      states: ["frog", "apple"]
+      likelihood: [[0.9, 0.1], [0.1, 0.9]]
+      editable: false
+      showGamma: false
+      showProb: false
+      policies:
+        - { name: "look", qx: [0.5, 0.5] }
+        - { name: "blind", qx: [0.5, 0.5], likelihood: [[0.5, 0.5], [0.5, 0.5]] }
+    body: |
+      Now the creature has **no preferences**: $P(\tilde{y}\mid C)=(0.5,\,0.5)$ treats both outcomes alike. The "look" policy has a sharp likelihood ($0.9/0.1$ per state). The "blind" policy has the likelihood $0.5/0.5$ for both states: its outcome says nothing about the state. Both believe the state is $50\%$ frog.
+
+      Read the pragmatic value of each, then the information gain, then $G$.
+
+  - type: mcq
+    id: no-preferences
+    prompt: |
+      A creature has flat preferences $P(\tilde{y}\mid C)=(0.5,\,0.5)$, so every policy has the same pragmatic value, $\ln0.5=-0.693$ nats. In $G=-\text{information gain}-\text{pragmatic value}$, what decides between the policies?
+    options:
+      - text: 'Only the information gain: the pragmatic value is the same constant for all, so the policy with more expected learning has lower $G$. (This is the scheme called expected Bayesian surprise, intrinsic motivation or optimal Bayesian design.)'
+        correct: true
+      - text: 'Nothing: with no preferences all policies have the same $G$, and the creature picks at random.'
+        feedback: |
+          Flat preferences remove the pragmatic term from the comparison, not the epistemic one. Here the "look" policy has $G=0.325$ and the "blind" one $0.693$: a clear winner.
+      - text: 'The risk: the policy whose outcomes are most predictable wins.'
+        feedback: |
+          The risk with flat preferences is $\ln2-H[Q(\tilde{y}\mid\pi)]$, which is small for **unpredictable** outcomes, not predictable ones. And anyway it is not the whole story: the ambiguity also differs.
+      - text: 'The policy that is the most likely to yield an outcome the creature prefers.'
+        feedback: |
+          No outcome is preferred over another here, so there is nothing to aim for. Only the value of the observation as a source of information remains.
+    hint: |
+      Look at the two forms again: one has a term that is the same for all policies.
+    explanation: |
+      Removing prior preferences leaves $-G=\text{information gain}+\text{const}$: the creature acts to resolve uncertainty, and nothing else. This is the first lower panel of Figure 2.6 (the expected Bayesian surprise, also known as intrinsic motivation, optimal Bayesian design, the infomax principle). It can only handle the resolution of uncertainty.
+
+  - type: mcq
+    id: no-ambiguity
+    prompt: |
+      Now keep the preferences but remove the ambiguity (every state gives a definite outcome, $H[P(\tilde{y}\mid\tilde{x})]=0$). Which part of $G=\text{ambiguity}+\text{risk}$ is left, and what is the scheme called in control theory?
+    options:
+      - text: 'Only the risk $D_{KL}[Q(\tilde{y}\mid\pi)\,\|\,P(\tilde{y}\mid C)]$: **risk-sensitive control**, also called KL control. Policies are chosen so that predicted outcomes match the preferred distribution.'
+        correct: true
+      - text: 'Only the information gain: the scheme is called uncertainty sampling.'
+        feedback: |
+          With zero ambiguity the information gain equals the entropy of the predicted outcomes, but it is not what is left of the risk-plus-ambiguity form. $G$ still contains the preferences. Uncertainty sampling appears only when preferences are removed too.
+      - text: 'Only the pragmatic value $\mathbb{E}\ln P(\tilde{y}\mid C)$: Bayesian decision theory, or expected utility theory.'
+        feedback: |
+          That scheme keeps **only** the pragmatic term, dropping the epistemic one too (the third lower panel of Figure 2.6). Removing the ambiguity does not remove the entropy term: the information gain is still there, equal to $H[Q(\tilde{y}\mid\pi)]$, and merges with the pragmatic value into the risk.
+      - text: 'Nothing is left: $G=0$ whenever there is no ambiguity.'
+        feedback: |
+          A policy whose predicted outcomes differ from the preferences still has a positive risk, ambiguity or not.
+    hint: |
+      The second form of $G$ has two terms. Delete one.
+    explanation: |
+      Without ambiguity $G$ reduces to the risk: the scheme known as risk-sensitive control or KL control. In the other form, the information gain becomes $H[Q(\tilde{y}\mid\pi)]$ and the pragmatic value turns it into the KL divergence to the preferences. Keeping only the pragmatic value (dropping every epistemic term) is yet another scheme, expected utility theory.
+
+  - type: mcq
+    id: neither
+    prompt: |
+      Remove **both** the ambiguity and the preferences (flat $C$ over $n$ outcomes, definite outcomes given states). Then $G=\ln n-H[Q(\tilde{y}\mid\pi)]$. Which policy does the creature prefer?
+    options:
+      - text: 'The one whose predicted outcomes have the **largest entropy**: it keeps its options open (uncertainty sampling, maximum entropy).'
+        correct: true
+      - text: 'The one whose predicted outcomes have the smallest entropy, the most predictable.'
+        feedback: |
+          Check the sign: $G=\ln n-H[Q(\tilde{y}\mid\pi)]$ falls as the entropy rises, and lower $G$ is better. The creature that only wants to learn seeks outcomes it cannot yet predict.
+      - text: 'All policies equally, since there is nothing to prefer and nothing to learn.'
+        feedback: |
+          There is something to learn: with definite outcomes the information gain is the whole outcome entropy $H[Q(\tilde{y}\mid\pi)]$, and it differs between policies.
+      - text: 'The one whose outcomes are closest to a delta (a single certain outcome).'
+        feedback: |
+          That has zero entropy, hence the worst $G=\ln n$. Certainty about the outcome teaches nothing.
+    hint: |
+      Lower $G$ is better, and $G=\ln n-H$.
+    explanation: |
+      The only remaining imperative is to maximise the entropy of the predicted outcomes (or of the states in the third line of the equation), interpreted as uncertainty sampling, or keeping one's options open. Figure 2.6 shows the three schemes obtained by removing preferences, ambiguity, or everything except preferences, and the text adds this last case. All are pieces of the same $G$.
+
+  - type: numeric
+    id: trap-flat
+    prompt: |
+      **Trap.** "With no preferences there is no risk, so $G$ is just the ambiguity." A creature with flat preferences $P(\tilde{y}\mid C)=(0.5,\,0.5)$ has a policy that predicts outcomes $Q(\tilde{y}\mid\pi)=(0.9,\,0.1)$. What is its risk $D_{KL}[Q(\tilde{y}\mid\pi)\,\|\,P(\tilde{y}\mid C)]$, in nats?
+    answer: 0.368
+    tolerance: 0.004
+    answerText: '0.368'
+    wrong:
+      - { value: 0, feedback: "Flat preferences are still preferences: they say each outcome has probability $0.5$. A prediction of $(0.9, 0.1)$ differs from that, so the risk is positive. The risk is zero only when $Q(\\tilde{y}\\mid\\pi)=P(\\tilde{y}\\mid C)$, here $(0.5, 0.5)$." }
+      - { value: 0.325, tolerance: 0.004, feedback: "That is the entropy $H[(0.9,0.1)]$. The risk is $\\ln 2-H=0.693-0.325$." }
+      - { value: 0.693, tolerance: 0.004, feedback: "That is $\\ln2$, the entropy of the flat distribution. Subtract the entropy of the prediction, $0.325$." }
+    hint: |
+      $D_{KL}=0.9\ln\frac{0.9}{0.5}+0.1\ln\frac{0.1}{0.5}$, or $\ln2-H[(0.9,0.1)]$.
+    explanation: |
+      $0.9\ln1.8+0.1\ln0.2=0.529-0.161=0.368$ nats, which is also $\ln2-0.325$. A preference-free policy still has a $G$: the risk against flat preferences is $\ln n-H[Q]$, small only when predicted outcomes are spread out. Removing preferences does not remove the term; it changes which outcomes it favours.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Setup.** A creature compares policies $\pi$. It predicts hidden states $\tilde{x}$ and outcomes $\tilde{y}$ through $Q(\tilde{x}\mid\pi)$ and the likelihood $P(\tilde{y}\mid\tilde{x})$, so $Q(\tilde{x},\tilde{y}\mid\pi)=Q(\tilde{x}\mid\pi)P(\tilde{y}\mid\tilde{x})$ and $Q(\tilde{y}\mid\pi)$ is the predicted outcome distribution. Preferences $C$ define $P(\tilde{y}\mid C)$. $H[\cdot]=-\sum p\ln p$ is the entropy. The expected free energy $G$ is minimised, never negated.
+      - **The two forms are one number.** With $\ln Q(\tilde{x}\mid\tilde{y},\pi)-\ln Q(\tilde{x}\mid\pi)=\ln P(\tilde{y}\mid\tilde{x})-\ln Q(\tilde{y}\mid\pi)$ (product rule) the information gain becomes
+        $$\begin{aligned}\text{information gain}=\;&H[Q(\tilde{y}\mid\pi)]\\&-\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]\end{aligned}$$
+        and merging $\mathbb{E}\ln Q(\tilde{y}\mid\pi)$ with the pragmatic value $\mathbb{E}_{Q(\tilde{y}\mid\pi)}\ln P(\tilde{y}\mid C)$ gives
+        $$\begin{aligned}G(\pi)&=-\text{information gain}\\&\quad-\text{pragmatic value}\\&=\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]\\&\quad+D_{KL}[Q(\tilde{y}\mid\pi)\,\|\,P(\tilde{y}\mid C)].\end{aligned}$$
+        The first term of the last line is the ambiguity and the second the risk.
+      - **Third line.** With preferences on states, $G\le\text{ambiguity}+D_{KL}[Q(\tilde{x}\mid\pi)\,\|\,P(\tilde{x}\mid C)]$, which rearranges to expected energy minus entropy, $-\mathbb{E}\ln P(\tilde{y},\tilde{x}\mid C)-H[Q(\tilde{x}\mid\pi)]$; it needs the state space known in advance.
+      - **Pond and orchard** (frog or apple, $P(\text{jumps}\mid\text{frog})=0.9$, $P(\text{jumps}\mid\text{apple})=0.1$, preferences $(0.8,\,0.2)$ for jumps and still). Pond ($80\%$ frog): ambiguity $0.325$, risk $0.011$, $G=0.336=-0.248+0.584$. Orchard ($10\%$ frog): $0.325+0.889=1.214=-0.146+1.360$. With $\gamma=1$, $P(\pi)=\sigma(-\gamma G)$ gives $0.706$ against $0.294$.
+      - **Special cases.** No preferences: only the information gain decides (Bayesian surprise, intrinsic motivation). No ambiguity: $G=\text{risk}$ (risk-sensitive or KL control). Neither: $G=\ln n-H[Q(\tilde{y}\mid\pi)]$, maximum entropy (uncertainty sampling). Only the pragmatic value: expected utility theory. A flat $C$ still leaves a risk, $\ln n-H[Q(\tilde{y}\mid\pi)]$.
+
+      **Next:** an intuition lesson on the free-energy formulas of this level: recall of the main formulas, limit checks and small numeric cards, without being given the formula.
