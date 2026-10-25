@@ -73,6 +73,8 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 - ch04-generative-models: diagnosis test prevalence 2%, sensitivity 90%, false positive 9% (posterior 0.169; two positive tests 0.671; prevalence 10% gives 0.526). Two diseases prior 0.1 each, test positive 0.05/0.9/0.95 (neither/one/both): $P(x\mid+)=0.427$, given $z$ 0.105 (given no $z$ 0.667). Context $v$ 20%, $P(x\mid v)=0.3/0.01$: 0.811 / 0.092. Factor squares numbered 1,2,3 with legend in the body. VMP formula with parents $\rho(x)$, children $\kappa(x)$ (verified p. 76); generalized coordinates written $x,x',x''$.
 
+- ch04-pomdp: door model states (closed, open), outcomes (looks closed, looks open); A=[[.8,.2],[.2,.8]], push B=[[.2,.05],[.8,.95]], wait B=[[.9,.1],[.1,.9]], D=(.9,.1), C=(.2,.8). Numbers: s2 push (0.185,0.815), o2 (0.311,0.689); H=0.500 nats both states; risk step 2 wait 0.565, push 0.034; G step 2 push 0.535, wait 1.065; F(s=(.5,.5), looks open, step 1)=1.427, min 1.347=-ln 0.26, posterior (0.692,0.308). Book writes G=H.s+o.varsigma with varsigma=ln o-ln C (printed s in Markdown); H_j column entropy; F uses B_{pi,tau-1}s_{pi,tau-1}, first step ln D. Renaming card x->s, y->o done here; widget ticks differ slightly from the F fixed point (mean-field in time).
+
 ## Chapter 5
 
 - (none yet)
