@@ -1,0 +1,252 @@
+id: ch07-challenge
+title: Level Challenge
+kind: challenge
+cards:
+  - type: text
+    id: intro
+    title: "Harder: the whole of Level 7 in five problems"
+    body: |
+      Five problems on **new systems** (not the amateur musician, the T-maze, the door, the lamp, the coins or the six sentences). They combine what this level taught: how a discrete-time agent **infers states, chooses policies and learns**. Every number can be checked by hand with a calculator, and every answer comes with the reason. No hints about which formula to use: you recall it. Logarithms are natural.
+
+      The five problems:
+
+      1. Perception: a filtered belief against a retrospective one.
+      2. Planning: the policy posterior with a habit and a precision.
+      3. Epistemic value: ranking sensors by the expected free energy $\mathbf G$.
+      4. Learning: counts, novelty and how fast a model changes.
+      5. Two levels: reading a sentence from its words.
+
+      This first part has problems 1 to 3.
+
+  # ---------------------------------------------------------------- Problem 1
+  - type: numeric
+    id: p1-filter
+    tag: Problem 1 · A three-note jingle
+    prompt: |
+      **Problem 1.** A listener hears a jingle that uses 3 notes, and the note being played is the hidden state $s\in\{1,2,3\}$. The listener hears the right note with probability $0.8$ and each wrong note with probability $0.1$, so $\mathbf A$ has $0.8$ on the diagonal and $0.1$ elsewhere. The next note is $+1$ (cyclically, $3\to1$) with probability $0.7$, the same note with $0.2$ and $+2$ with $0.1$. The first note is known to be $1$ ($\mathbf D=(1,0,0)$). The listener hears **1, 3, 3**.
+
+      At step 2 the listener has heard 1, then 3. Use only the past and the present (a **filter**): what probability does the filtered belief give to note **3** at step 2?
+    answer: 0.471
+    tolerance: 0.01
+    wrong:
+      - { value: 0.1, feedback: 'That is the prior probability of note 3 at step 2, $\mathbf B\mathbf s_1=(0.2,0.7,0.1)$. It ignores that a 3 was heard.' }
+      - { value: 0.8, feedback: 'That is the likelihood of hearing 3 if the note is 3. A belief multiplies the likelihood by the prior and then normalises; it is not the likelihood alone.' }
+    explanation: |
+      After step 1 the belief is $\mathbf s_1=(1,0,0)$. The prediction for step 2 is $\mathbf B\mathbf s_1=(0.2,0.7,0.1)$. The look "3" has likelihood $(0.1,0.1,0.8)$ for notes $(1,2,3)$. Multiply and normalise:
+      $$\frac{(0.02,\,0.07,\,0.08)}{0.17}=(0.118,\,0.412,\,0.471)$$
+      The filter leans to note 3, but only slightly over note 2: the strong prior for note 2 and the strong look for note 3 nearly cancel.
+
+  - type: numeric
+    id: p1-beta
+    tag: Problem 1 · A three-note jingle
+    prompt: |
+      Same jingle. At step 3 the listener also hears a 3. For each possible note $j$ at step 2, the chance of hearing a 3 at step 3 is
+      $$\beta_j=\sum_i A_{3i}\,B_{ij}$$
+      where $B_{ij}$ is the probability of note $i$ next after note $j$, and $A_{3i}$ the probability of hearing 3 when the note is $i$. Compute $\beta_2$ for **note 2** at step 2.
+    answer: 0.59
+    tolerance: 0.01
+    wrong:
+      - { value: 0.7, feedback: 'That is only the transition $B_{32}$, the chance that the next note is 3. The listener does not see the note, only a noisy copy, so the sum also counts the other next notes with their wrong-note likelihood $0.1$.' }
+      - { value: 0.24, feedback: 'That is $\beta_3$, for note 3 at step 2. You need the column of note 2: next note 1 with $0.1$, 2 with $0.2$, 3 with $0.7$.' }
+    explanation: |
+      From note 2 the next note is 1, 2 or 3 with probabilities $0.1,\,0.2,\,0.7$, and hearing a 3 has likelihood $0.1,\,0.1,\,0.8$ for those:
+      $$\beta_2=0.1\cdot0.1+0.1\cdot0.2+0.8\cdot0.7=0.59$$
+      In the same way $\beta_1=0.17$ and $\beta_3=0.24$. The log of this quantity is the **message from the future**: the support that the later data lend to each current note. Note 2 gets much more than the other two.
+
+  - type: numeric
+    id: p1-retro
+    tag: Problem 1 · A three-note jingle
+    prompt: |
+      Now use all the data (**retrospective** belief at step 2): the filtered numerator $(0.02,\,0.07,\,0.08)$ multiplied by $\beta=(0.17,\,0.59,\,0.24)$ and normalised. What probability does the retrospective belief give to note **2** at step 2?
+    answer: 0.646
+    tolerance: 0.01
+    wrong:
+      - { value: 0.412, feedback: 'That is the filtered value. It was computed before hearing the second 3, so it cannot use it.' }
+      - { value: 0.59, feedback: 'That is $\beta_2$, only the future term. Multiply it by the filtered numerator before normalising, so past, present and future all count.' }
+    explanation: |
+      $$(0.02\cdot0.17,\ 0.07\cdot0.59,\ 0.08\cdot0.24)=(0.0034,\ 0.0413,\ 0.0192)$$
+      The total is $0.0639$, so the retrospective belief is $(0.053,\,0.646,\,0.300)$. The leader changed: the filter said note 3, the retrospective belief says note 2. The listener now reads the earlier 3 as a slip of the ear, because a real 2 followed by a 3 is a very common pair.
+
+  - type: order
+    id: p1-order
+    tag: Problem 1 · A three-note jingle
+    prompt: |
+      Put the steps of the retrospective update of the belief at step 2 in order, in log space.
+    steps:
+      - 'Take the prior message from the past, $\ln\mathbf B\mathbf s_1$.'
+      - 'Add the likelihood message, $\ln\mathbf A\cdot o_2$.'
+      - 'Add the future message, the log of what the later data say about each note.'
+      - 'Apply the softmax to the sum to get a belief that adds up to 1.'
+    explanation: |
+      Three messages come from three neighbours of the state: the past, the present observation and the future. Their sum, passed through the softmax $\sigma$, is the log posterior turned back into a probability. The filter is the same sum **without the third message**.
+
+  - type: mcq
+    id: p1-why
+    tag: Problem 1 · A three-note jingle
+    prompt: |
+      A listener hears a noisy three-note jingle. The belief about the note at step 2, computed before the third note, leaned to note 3. After hearing the third note it leaned to note 2. Why did the belief about step 2 change?
+    options:
+      - text: 'A later observation carries information about the earlier state through the transitions, and only the retrospective update includes that message.'
+        correct: true
+      - text: 'The likelihood matrix $\mathbf A$ changed after the third note.'
+        feedback: |
+          $\mathbf A$ and $\mathbf B$ were the same in both calculations. Only the data used changed: the filter had not yet seen the third note.
+      - text: 'The filter was wrong and the retrospective belief is the only correct one at every time.'
+        feedback: |
+          The filter is the correct belief **given what has been heard so far**. At the last step the two coincide, and a listener who must act now has only the filter.
+      - text: 'The third note is more reliable than the second one.'
+        feedback: |
+          Both notes are heard with the same likelihood. What differs is that the third note, through the transitions, also tells something about the second.
+    explanation: |
+      The future message is the log of how well each current note predicts the later data. A filter drops it because the future has not happened yet; a retrospective belief includes it because it has.
+
+  # ---------------------------------------------------------------- Problem 2
+  - type: numeric
+    id: p2-g1
+    tag: Problem 2 · Habit and precision
+    prompt: |
+      **Problem 2.** A robot has two policies. Their free energies given what it has seen are $\mathbf F=(0.5,\,1.5)$, their expected free energies are $\mathbf G=(1,\,0.8)$ and its habit prior is $\mathbf E=(0.7,\,0.3)$. Its policy posterior is
+      $$\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\gamma\,\mathbf G)$$
+      with precision $\gamma$. Compute $\pi_1$, the probability of the **first** policy, at $\gamma=1$.
+    answer: 0.839
+    tolerance: 0.005
+    wrong:
+      - { value: 0.69, feedback: 'That is the value for a **flat** habit, $\mathbf E=(0.5,0.5)$. Here $\ln\mathbf E$ adds $\ln0.7-\ln0.3=0.847$ in favour of the first policy.' }
+      - { value: 0.7, feedback: 'That is the habit prior alone. The posterior also uses $\mathbf F$ and $\mathbf G$.' }
+    explanation: |
+      Only the difference of the two scores matters. Score of policy 1 minus policy 2:
+      $$(\ln0.7-\ln0.3)-(0.5-1.5)-1\cdot(1-0.8)=0.847+1-0.2=1.647$$
+      and $\pi_1=1/(1+e^{-1.647})=0.839$.
+
+  - type: numeric
+    id: p2-g2
+    tag: Problem 2 · Habit and precision
+    prompt: |
+      Same robot, but the precision is now $\gamma=2$. Compute $\pi_1$.
+    answer: 0.81
+    tolerance: 0.005
+    wrong:
+      - { value: 0.839, feedback: 'That is $\gamma=1$. Doubling $\gamma$ doubles the weight of $\mathbf G$, whose difference is $0.2$ in favour of policy 2.' }
+      - { value: 0.646, feedback: 'That is the value with a flat habit at $\gamma=2$. The habit still counts here, with $0.847$ in favour of the first policy.' }
+    explanation: |
+      The score difference is $0.847+1-2\cdot0.2=1.447$, so $\pi_1=1/(1+e^{-1.447})=0.810$. A bigger $\gamma$ trusts $\mathbf G$ more, and $\mathbf G$ prefers policy 2, so $\pi_1$ falls a little.
+
+  - type: numeric
+    id: p2-flat
+    tag: Problem 2 · Habit and precision
+    prompt: |
+      Remove the habit (flat $\mathbf E=(0.5,0.5)$) and keep $\gamma=2$. Compute $\pi_1$.
+    answer: 0.646
+    tolerance: 0.005
+    wrong:
+      - { value: 0.81, feedback: 'That includes the habit $\mathbf E=(0.7,0.3)$. With a flat $\mathbf E$ the term $\ln\mathbf E$ is the same for both policies and drops out.' }
+      - { value: 0.5, feedback: 'The policies are not tied: $\mathbf F$ prefers the first by $1$ and $2\mathbf G$ prefers the second by $0.4$, a net $0.6$.' }
+    explanation: |
+      Score difference $1-2\cdot0.2=0.6$, so $\pi_1=1/(1+e^{-0.6})=0.646$. The habit moved it from $0.646$ to $0.810$: a habit is a prior over policies, and it shifts the log odds by $\ln(0.7/0.3)=0.847$.
+
+  - type: mcq
+    id: p2-limits
+    tag: Problem 2 · Habit and precision
+    prompt: |
+      For the same robot, what happens to $\boldsymbol\pi$ at the two extremes of the precision, $\gamma=0$ and very large $\gamma$?
+    options:
+      - text: 'At $\gamma=0$ the robot ignores $\mathbf G$ and uses only $\ln\mathbf E-\mathbf F$ (here $\pi_1=0.864$). For very large $\gamma$ it follows $\mathbf G$ alone and puts almost all its probability on the policy with the **smallest** $\mathbf G$, the second.'
+        correct: true
+      - text: 'At $\gamma=0$ the policies are equally likely, and for very large $\gamma$ the robot follows its habit.'
+        feedback: |
+          At $\gamma=0$ only the $\gamma\mathbf G$ term vanishes; $\ln\mathbf E$ and $\mathbf F$ remain. And a large $\gamma$ multiplies $\mathbf G$, not the habit.
+      - text: 'For very large $\gamma$ it puts almost all its probability on the policy with the **largest** $\mathbf G$.'
+        feedback: |
+          $\mathbf G$ enters with a minus sign: a policy with a bigger expected free energy is less likely, and the one with the smallest wins when $\gamma\to\infty$.
+      - text: 'Nothing changes: $\gamma$ only matters when $\mathbf E$ is flat.'
+        feedback: |
+          $\gamma$ scales $\mathbf G$ whatever the habit is. A flat $\mathbf E$ only removes the habit term.
+    explanation: |
+      At $\gamma=0$: $\sigma(\ln\mathbf E-\mathbf F)$ gives $\pi_1=1/(1+e^{-1.847})=0.864$. As $\gamma$ grows, the score difference $1.847-0.2\gamma$ becomes negative above $\gamma\approx9.2$ and tends to $-\infty$, so $\pi_2\to1$. A low precision means "do not trust my plans' expected value", a high precision means "act on it".
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: numeric
+    id: p3-entropy
+    tag: Problem 3 · Choosing a sensor
+    prompt: |
+      **Problem 3.** A drone must decide which sensor to use to tell whether a field is wet or dry. Sensor X gives one of two readings (1 or 2) with likelihood (rows = states wet, dry; columns = readings)
+      $$\mathbf A_X=\begin{pmatrix}0.9&0.1\\0.3&0.7\end{pmatrix}$$
+      The drone's belief is $Q(s)=(0.6,\,0.4)$ for (wet, dry). Compute the entropy $H[Q(o)]$ of the predicted reading, in nats.
+    answer: 0.641
+    tolerance: 0.005
+    wrong:
+      - { value: 0.673, feedback: 'That is the entropy of $Q(s)=(0.6,0.4)$, the belief about the state. You need the entropy of the predicted **reading** $Q(o)=\sum_sQ(s)P(o|s)$.' }
+      - { value: 0.439, feedback: 'That is the expected entropy of the likelihood rows (the ambiguity), which comes next. $H[Q(o)]$ is the entropy of the mixture itself.' }
+    explanation: |
+      $Q(o)=0.6\,(0.9,0.1)+0.4\,(0.3,0.7)=(0.66,\,0.34)$, so
+      $$H[Q(o)]=-0.66\ln0.66-0.34\ln0.34=0.641$$
+
+  - type: numeric
+    id: p3-ambiguity
+    tag: Problem 3 · Choosing a sensor
+    prompt: |
+      Same sensor and belief. Compute the **ambiguity** of the sensor: the expected entropy $\mathbb E_{Q(s)}H[P(o|s)]$ of the reading, given the state.
+    answer: 0.439
+    tolerance: 0.005
+    wrong:
+      - { value: 0.641, feedback: 'That is $H[Q(o)]$, the entropy of the mixed prediction. Ambiguity averages the entropy of each row separately, weighted by $Q(s)$.' }
+      - { value: 0.5, feedback: 'The two rows have different entropies, $0.325$ and $0.611$. Average them with weights $0.6$ and $0.4$, not equal ones.' }
+    explanation: |
+      Row entropies: $H(0.9,0.1)=0.325$ and $H(0.3,0.7)=0.611$. Weighted by $Q(s)$:
+      $$0.6\cdot0.325+0.4\cdot0.611=0.439$$
+
+  - type: numeric
+    id: p3-gain
+    tag: Problem 3 · Choosing a sensor
+    prompt: |
+      Now compute the epistemic value (information gain) $\mathcal I=H[Q(o)]-\mathbb E_{Q(s)}H[P(o|s)]$ of sensor X.
+    answer: 0.202
+    tolerance: 0.005
+    wrong:
+      - { value: 1.08, feedback: 'You added the two entropies. The gain is the entropy of the prediction **minus** the ambiguity: only the part of the uncertainty that the state explains counts.' }
+      - { value: 0.641, feedback: 'That is only the first term. Subtract the ambiguity, which is uncertainty about the reading that no knowledge of the state can remove.' }
+    explanation: |
+      $$\mathcal I=0.641-0.439=0.202\ \text{nats}$$
+      This is the expected reduction of uncertainty about the state, which equals the mutual information between $s$ and $o$.
+
+  - type: numeric
+    id: p3-G
+    tag: Problem 3 · Choosing a sensor
+    prompt: |
+      The drone has **flat preferences** over the two readings, $\mathbf C=(0.5,0.5)$. Its expected free energy is $G=-\mathcal I-\mathcal P$, where the pragmatic value is $\mathcal P=\mathbb E_{Q(o)}\ln P(o|C)$. Compute $G$ for sensor X.
+    answer: 0.492
+    tolerance: 0.005
+    wrong:
+      - { value: -0.202, feedback: 'You dropped the pragmatic term. With flat preferences $\mathcal P=\ln0.5=-0.693$ for every reading, and it still enters $G$ as $-\mathcal P=+0.693$.' }
+      - { value: 0.895, feedback: 'You added the gain instead of subtracting it. $G=-\mathcal I-\mathcal P$, and a bigger gain makes $G$ smaller (better).' }
+    explanation: |
+      $\mathcal P=\ln0.5=-0.693$ whatever the reading, so
+      $$G=-0.202+0.693=0.492$$
+      With flat $\mathbf C$ the pragmatic term is the same for all sensors and the choice is made by the information gain.
+
+  - type: mcq
+    id: p3-rank
+    tag: Problem 3 · Choosing a sensor
+    prompt: |
+      The drone can also use sensor Y, with rows $(0.8,0.2)$ and $(0.2,0.8)$ (gain $0.186$), or sensor Z, with both rows $(0.7,0.3)$ (gain $0$). Same belief $Q(s)=(0.6,0.4)$, flat $\mathbf C$. Y has $H[Q(o)]=0.686$, larger than X's $0.641$. Which sensor does the drone pick, and why?
+    options:
+      - text: 'X: it has the largest gain ($0.202$), hence the smallest $G$ ($0.492$, against $0.508$ for Y and $0.693$ for Z).'
+        correct: true
+      - text: 'Y: its predicted reading is the most uncertain, so it is the most informative.'
+        feedback: |
+          Uncertainty of the prediction is not information. Y has larger ambiguity ($0.500$) than X ($0.439$): part of its uncertainty is noise that knowing the state would not remove. The gain is $0.686-0.500=0.186$, below X's.
+      - text: 'Z: it is the safest, because its reading never surprises the drone.'
+        feedback: |
+          Both rows of Z are identical, so the reading says nothing about wet or dry: gain $0$ and $G=0.693$, the worst of the three.
+      - text: 'They are tied, because the preferences are flat.'
+        feedback: |
+          Flat preferences make the pragmatic term equal, not the whole $G$. The epistemic term still separates the sensors.
+    explanation: |
+      $G=-\mathcal I+0.693$, so the ranking by $G$ is the ranking by gain: X ($0.202$) $>$ Y ($0.186$) $>$ Z ($0$). The best sensor is the one whose reading depends most on the state, not the one with the most unpredictable reading.
+
+  # ---------------------------------------------------------------- Summary (temporary: part 2 replaces)
+  - type: text
+    id: summary
+    title: Level 7 in one card
+    body: |
+      Problems 4 and 5 and the full summary come in part 2.
