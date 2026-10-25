@@ -1,0 +1,442 @@
+id: ch04-pomdp
+title: "The Discrete-Time Model (POMDP)"
+kind: concept
+own: |
+  - **The setting.** A door is *closed* or *open* (hidden state $s_\tau$ at step $\tau=1,2,3$). A noisy sensor reports *looks closed* or *looks open* (outcome $o_\tau$). A **policy** $\pi$ is a sequence of actions (*push*, *wait*). Every factor is a categorical distribution, a table of probabilities, written $\mathrm{Cat}(\cdot)$. Each column of a matrix below is such a table.
+  - **Four tables define the model.** $\mathbf A$ is the likelihood (column $j$ = outcome probabilities when the state is $j$), $\mathbf D$ the prior over the first state, $\mathbf B_{\pi\tau}$ the transitions under policy $\pi$ (column $j$ = next-state probabilities when the state is $j$), and $\mathbf C_\tau$ the preferred outcomes (a prior over outcomes):
+    {{ $$\begin{gathered}P(o_\tau\mid s_\tau)=\mathrm{Cat}(\mathbf A)\\A_{ij}=P(o_\tau=i\mid s_\tau=j)\\P(s_1)=\mathrm{Cat}(\mathbf D)\\P(s_{\tau+1}\mid s_\tau,\pi)=\mathrm{Cat}(\mathbf B_{\pi\tau})\\P(o_\tau\mid C)=\mathrm{Cat}(\mathbf C_\tau)\end{gathered}$$ }}
+  - **Predicting forward** pushes beliefs through the tables, state first and outcome second. With $\mathbf s_{\pi\tau}$ the predicted state probabilities and $\mathbf o_{\pi\tau}$ the predicted outcome probabilities at step $\tau$ under policy $\pi$:
+    {{ $$\begin{gathered}\mathbf s_{\pi,\tau+1}=\mathbf B_{\pi\tau}\,\mathbf s_{\pi\tau}\\\mathbf o_{\pi\tau}=\mathbf A\,\mathbf s_{\pi\tau}\end{gathered}$$ }}
+    A whole trajectory $\tilde s=(s_1,\dots,s_T)$ has prior $P(\tilde s\mid\pi)=P(s_1)\prod_\tau P(s_{\tau+1}\mid s_\tau,\pi)$.
+  - **Policies are weighed by expected free energy**, with $\sigma$ the softmax (exponentiate and normalise), $\mathbf H$ the ambiguity of each state (the entropy of the column of $\mathbf A$ for that state) and $\ln$ taken entry by entry:
+    {{ $$\begin{gathered}\boldsymbol\pi_0=\sigma(-\mathbf G)\\\mathbf G_\pi=\mathbf H\cdot\mathbf s_{\pi\tau}+\mathbf o_{\pi\tau}\cdot\boldsymbol\varsigma_{\pi\tau}\\\boldsymbol\varsigma_{\pi\tau}=\ln\mathbf o_{\pi\tau}-\ln\mathbf C_\tau\end{gathered}$$ }}
+    The first term is the expected ambiguity, the second the risk, the divergence between predicted and preferred outcomes. Both are to be minimised.
+  - **Free energy of a policy** is a sum over steps. With $o_\tau$ the outcome actually seen and $\ln\mathbf A\cdot o_\tau$ the row of $\ln\mathbf A$ for that outcome:
+    {{ $$\begin{aligned}\mathbf F_{\pi\tau}=\mathbf s_{\pi\tau}\cdot\big(&\ln\mathbf s_{\pi\tau}-\ln\mathbf A\cdot o_\tau\\&-\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}\big)\end{aligned}$$ }}
+    It adds up because the beliefs are **mean-field in time**: {{ $Q(\tilde s\mid\pi)=\prod_\tau Q(s_\tau\mid\pi)$ }}, a product of one belief per step.
+cards:
+  - type: mcq
+    id: hook
+    title: "Pushing a sticky door"
+    prompt: |
+      Before any theory, guess. A door is **closed** with probability $0.9$ (and open with $0.1$). You push it once. A closed door opens $80\%$ of the time; an open door stays open $95\%$ of the time. Before looking at anything, how likely is the door to be open after the push?
+    options:
+      - text: 'About $10\%$.'
+        feedback: |
+          That is the chance it was open *before* the push. The push changes things: a closed door, which is the likely case, opens most of the time.
+      - text: 'About $50\%$.'
+        feedback: |
+          Pure indifference. We know a lot: the door is probably closed at first, and the push is probably effective. Both facts count.
+      - text: 'About $80\%$.'
+        correct: true
+      - text: 'About $95\%$.'
+        feedback: |
+          $95\%$ is only the chance an *already open* door stays open, and that case has probability $0.1$. Most of the time the door starts closed and must be opened by the push.
+    explanation: |
+      Two routes lead to "open" after the push: the door was closed ($0.9$) and opened ($0.8$), or it was open ($0.1$) and stayed so ($0.95$). Adding them gives $0.9\cdot0.8+0.1\cdot0.95=0.815$. This lesson builds the machinery behind that calculation, plus the sensor that lets an agent check it.
+
+  - type: text
+    id: bridge
+    title: "New letters: $x\\to s$ and $y\\to o$"
+    body: |
+      So far a hidden state was $x$ and an observation $y$. Now the model has **time**: a state at each step $\tau=1,2,\dots,T$, so we rename. The hidden state becomes $s_\tau$ and the observation becomes $o_\tau$ (an *outcome*). The letters also say that these variables take one of a **finite list** of values, they are *categorical*. The letters $x,y$ return in the continuous-time lessons.
+
+      A **categorical distribution** is just a list of probabilities that add up to $1$, one per possible value. We write $\mathrm{Cat}(\mathbf p)$ for the distribution whose list is the vector $\mathbf p$. A state we are sure of is a **one-hot** vector, for instance $(0,1)$ = "the door is open".
+
+      A **policy** $\pi$ is a sequence of actions (here *push* or *wait*, one per transition). A policy does not appear as a variable acting on the world; instead it chooses which transition table the world uses. A tilde, $\tilde s$, means the whole sequence $(s_1,\dots,s_T)$.
+
+  - type: widget
+    id: generate
+    review: false
+    widget: pomdp-lab
+    config:
+      mode: generate
+      modes: [generate]
+      showCurve: false
+      showPolicies: false
+      states: [closed, open]
+      outcomes: ['looks closed', 'looks open']
+      actions: [push, wait]
+      short: { states: [clo, open], outcomes: [looks clo, looks open] }
+      A: [[0.8, 0.2], [0.2, 0.8]]
+      B: { push: [[0.2, 0.05], [0.8, 0.95]], wait: [[0.9, 0.1], [0.1, 0.9]] }
+      D: [0.9, 0.1]
+      C: [0.2, 0.8]
+      T: 3
+      policies: [[push, push], [push, wait], [wait, push], [wait, wait]]
+      policy: 0
+      seed: 4
+    body: |
+      This is the door model. The three grids are its tables: $\mathbf A$ (sensor), $\mathbf B$ for each action (switch with the action buttons) and $\mathbf D$ (first state). Press *Sample a trajectory* a few times for the policy *push, push*: you see the **true** state path and the **outcomes** the sensor reports.
+
+      Try it: (1) sample about ten times and count how often an outcome disagrees with the true state; (2) switch the policy to *wait, wait* and compare the paths.
+
+  - type: mcq
+    id: sensor-flips
+    prompt: |
+      In the door model the sensor says the right thing $80\%$ of the time. Over many sampled steps, about how often does the reported outcome disagree with the true state?
+    options:
+      - text: 'Never: the outcome is the state.'
+        feedback: |
+          That would be a sensor with an identity table. A model with *hidden* states exists precisely because the data are a noisy view of the state, not the state itself.
+      - text: 'About one step in five.'
+        correct: true
+      - text: 'About four steps in five.'
+        feedback: |
+          $0.8$ is the chance of being *right*; the disagreement is the other column entry, $0.2$.
+      - text: 'It depends on the policy.'
+        feedback: |
+          The policy changes which states occur (through the transitions) but not how a state is read: that is the sensor table alone, the same under every policy.
+    explanation: |
+      Given any state, the outcome is drawn from that state's column of the sensor table, and the wrong outcome has weight $0.2$ in both columns. So about one step in five disagrees, whatever the policy.
+
+  - type: text
+    id: A
+    title: "The likelihood: matrix $\\mathbf A$"
+    body: |
+      The sensor is the **likelihood** $P(o_\tau\mid s_\tau)$. With finitely many states and outcomes it is a table, a matrix $\mathbf A$ with
+      $$A_{ij}=P(o_\tau=i\mid s_\tau=j).$$
+      Row $i$ is an outcome and column $j$ a state, so each **column** is a probability list (for the state $j$) and adds to $1$; the rows need not. In the door model $\mathbf A=\begin{pmatrix}0.8&0.2\\0.2&0.8\end{pmatrix}$, with states ordered (closed, open) and outcomes ordered (looks closed, looks open). We write
+      $$P(o_\tau\mid s_\tau)=\mathrm{Cat}(\mathbf A).$$
+      Here is the notation for Cat: "$\mathrm{Cat}(\mathbf A)$" means *the column picked by $s_\tau$ is the categorical distribution of $o_\tau$*.
+
+  - type: mcq
+    id: A-reading
+    prompt: |
+      A different sensor has
+      $$\mathbf A=\begin{pmatrix}0.9&0.3\\0.1&0.7\end{pmatrix},$$
+      with states ordered (closed, open) and outcomes ordered (looks closed, looks open). What is $P(o_\tau=\text{looks closed}\mid s_\tau=\text{open})$?
+    options:
+      - text: '$0.9$'
+        feedback: |
+          $0.9$ is entry $A_{11}$: looks closed *given closed*. We want the first outcome given the second state, $A_{12}$.
+      - text: '$0.3$'
+        correct: true
+      - text: '$0.1$'
+        feedback: |
+          $A_{21}=0.1$ is *looks open given closed*, the reverse mix-up of row and column.
+      - text: '$0.7$'
+        feedback: |
+          $0.7$ is *looks open given open*. The question asks about the outcome *looks closed*, which is row $1$.
+    explanation: |
+      $A_{ij}=P(o=i\mid s=j)$: row $i=1$ (looks closed), column $j=2$ (open): $A_{12}=0.3$. Check by columns: the open column is $(0.3,0.7)$ and adds to $1$.
+
+  - type: text
+    id: DB
+    title: "The prior and the transitions: $\\mathbf D$ and $\\mathbf B$"
+    body: |
+      The **prior over the first state** is a vector $\mathbf D$. The door starts closed with probability $0.9$: $\mathbf D=(0.9,0.1)$, written
+      $$P(s_1)=\mathrm{Cat}(\mathbf D).$$
+      The **transitions** say how a state turns into the next one, and they depend on the policy: $\mathbf B_{\pi\tau}$ is a matrix whose column $j$ is the distribution of the next state when the present state is $j$,
+      $$P(s_{\tau+1}\mid s_\tau,\pi)=\mathrm{Cat}(\mathbf B_{\pi\tau}).$$
+      For *push*, $\mathbf B=\begin{pmatrix}0.2&0.05\\0.8&0.95\end{pmatrix}$ (closed door: $80\%$ opens; open door: $95\%$ stays open). For *wait*, $\mathbf B=\begin{pmatrix}0.9&0.1\\0.1&0.9\end{pmatrix}$.
+
+      **Push a belief forward.** If $\mathbf s_{\pi\tau}$ is the vector of state probabilities at step $\tau$, then the vector at the next step is the matrix times the vector:
+      $$\mathbf s_{\pi,\tau+1}=\mathbf B_{\pi\tau}\,\mathbf s_{\pi\tau},\qquad\mathbf s_{\pi1}=\mathbf D.$$
+
+  - type: widget
+    id: predict
+    review: false
+    widget: pomdp-lab
+    config:
+      mode: generate
+      modes: [generate]
+      showCurve: false
+      showPolicies: false
+      showA: false
+      showB: false
+      showD: false
+      editable: false
+      states: [closed, open]
+      outcomes: ['looks closed', 'looks open']
+      actions: [push, wait]
+      short: { states: [clo, open], outcomes: [looks clo, looks open] }
+      A: [[0.8, 0.2], [0.2, 0.8]]
+      B: { push: [[0.2, 0.05], [0.8, 0.95]], wait: [[0.9, 0.1], [0.1, 0.9]] }
+      D: [0.9, 0.1]
+      C: [0.2, 0.8]
+      T: 3
+      policies: [[push, push], [push, wait], [wait, push], [wait, wait]]
+      policy: 0
+    body: |
+      Open *Predict*: for each step the bars show the predicted state probabilities $\mathbf s_{\pi\tau}$, the predicted outcome probabilities and the ambiguity. Compare *push, push* and *wait, wait*.
+
+      Try it: (1) read the open-door bar at step $2$ under *push, push*; (2) switch to *wait, wait* and watch the bars; (3) find the policy whose predicted outcome at the last step is closest to "looks open".
+
+  - type: numeric
+    id: push-forward
+    prompt: |
+      Door model: $\mathbf s_{\pi1}=\mathbf D=(0.9,0.1)$ (states ordered closed, open) and the *push* matrix $\mathbf B=\begin{pmatrix}0.2&0.05\\0.8&0.95\end{pmatrix}$. After one push, what is the probability that the door is **open**, the second entry of $\mathbf B\mathbf s_{\pi1}$? (This resolves the opening guess.)
+    answer: 0.815
+    tolerance: 0.002
+    wrong:
+      - value: 0.185
+        feedback: |
+          That is the first entry, the probability the door is **closed**. The question asks for the second.
+      - value: 0.95
+        feedback: |
+          $0.95$ is a single entry of $\mathbf B$. The product mixes both columns, weighted by the probabilities $0.9$ and $0.1$.
+    hint: |
+      Second row of $\mathbf B$ times $(0.9,0.1)$: $0.8\cdot0.9+0.95\cdot0.1$.
+    explanation: |
+      Row $2$ of $\mathbf B$ is $(0.8,0.95)$, so $0.8\cdot0.9+0.95\cdot0.1=0.72+0.095=0.815$. The first entry is $0.2\cdot0.9+0.05\cdot0.1=0.185$, and the two add to $1$. Each term counts one route: from closed (weight $0.9$) or from open (weight $0.1$).
+
+  - type: numeric
+    id: outcome-forward
+    prompt: |
+      After one push the predicted state is $\mathbf s_{\pi2}=(0.185,0.815)$ (closed, open). With the sensor $\mathbf A=\begin{pmatrix}0.8&0.2\\0.2&0.8\end{pmatrix}$, what is the predicted probability that the sensor **looks open**?
+    answer: 0.689
+    tolerance: 0.002
+    wrong:
+      - value: 0.311
+        feedback: |
+          $0.311$ is the predicted probability of *looks closed* (first row). The question asks for *looks open*.
+      - value: 0.815
+        feedback: |
+          That is the probability that the door **is** open. The sensor errs $20\%$ of the time, so the probability that it **looks** open is different (here lower).
+    hint: |
+      Row $2$ of $\mathbf A$ is $(0.2,0.8)$. Take its dot product with the state vector.
+    explanation: |
+      $\mathbf o_{\pi2}=\mathbf A\mathbf s_{\pi2}$. The *looks open* entry is $0.2\cdot0.185+0.8\cdot0.815=0.037+0.652=0.689$; the other entry is $0.311$. The same matrix-times-vector pattern appears twice: **states are pushed forward by $\mathbf B$, outcomes are read off by $\mathbf A$.** Two levels of blur: the door may not have opened, and the sensor may err.
+
+  - type: build
+    id: product
+    prompt: |
+      The probability of a whole sequence of states $\tilde s$ under a policy $\pi$ is the first-state prior times one transition per step. Build it.
+    prefix: 'P(\tilde s\mid\pi)='
+    tiles: ['P(s_1)', '\prod_{\tau}', 'P(s_{\tau+1}\mid s_\tau,\pi)', 'P(o_\tau\mid s_\tau)', 'P(\pi)']
+    answers:
+      - ['P(s_1)', '\prod_{\tau}', 'P(s_{\tau+1}\mid s_\tau,\pi)']
+    wrong:
+      - answer: ['P(s_1)', '\prod_{\tau}', 'P(o_\tau\mid s_\tau)']
+        feedback: |
+          $P(o_\tau\mid s_\tau)$ is the *likelihood*, the sensor. A prior over **states** uses only the first-state prior and the transitions; outcomes come in separately.
+    hint: |
+      Start with where the sequence begins, then one factor for each move to the next step.
+    explanation: |
+      The sequence starts with $P(s_1)=\mathrm{Cat}(\mathbf D)$ and each next state is drawn from $P(s_{\tau+1}\mid s_\tau,\pi)=\mathrm{Cat}(\mathbf B_{\pi\tau})$. The policy $\pi$ is only a condition: it selects which $\mathbf B$ is used. The tile $P(\pi)$ is a separate prior over policies, handled below.
+
+  - type: text
+    id: C
+    title: "Preferences: matrix $\\mathbf C$"
+    body: |
+      So far the model describes how the world behaves. An agent also needs to say what it expects, or prefers, to *see*. This is a prior belief about **outcomes** (not states):
+      $$P(o_\tau\mid C)=\mathrm{Cat}(\mathbf C_\tau).$$
+      The door-opener prefers "looks open" with probability $0.8$: $\mathbf C=(0.2,0.8)$. In active inference a preference is a prior belief, an expectation that the agent acts to fulfil. It is not a separate table of rewards. Here $C$ is written with a subscript $\tau$ because preferences may change with the step.
+
+  - type: mcq
+    id: C-meaning
+    prompt: |
+      In the door model $\mathbf C=(0.2,0.8)$, with outcomes ordered (looks closed, looks open). What does it say?
+    options:
+      - text: 'The door is open with probability $0.8$.'
+        feedback: |
+          That would be a belief about a **state**. $\mathbf C$ is over **outcomes**: what the sensor reads. It never states what the door is doing.
+      - text: 'The sensor reads "looks open" $80\%$ of the time.'
+        feedback: |
+          That is a fact about the world (a column of $\mathbf A$). $\mathbf C$ is about what the agent wants or expects: it need not match any fact.
+      - text: 'The agent prefers to see "looks open", with prior probability $0.8$ on that outcome.'
+        correct: true
+      - text: 'Looking open earns $0.8$ units of reward, looking closed $0.2$.'
+        feedback: |
+          Tempting, from reinforcement learning, but there is no value table here: $\mathbf C$ is a probability vector (it adds to $1$) and acts as a prior belief about outcomes.
+    explanation: |
+      $\mathbf C$ is a categorical prior over outcomes. Outcomes that the model finds *probable under $\mathbf C$* are the preferred ones. Policies are then judged by how far their predicted outcomes fall from $\mathbf C$.
+
+  - type: numeric
+    id: softmax
+    prompt: |
+      A policy prior assigns each policy a score $G$ (to be minimised) and uses $\boldsymbol\pi_0=\sigma(-\mathbf G)$, with the softmax $\sigma(\mathbf x)_i=e^{x_i}/\sum_j e^{x_j}$ (exponentiate, then normalise). Two policies have $G=1$ and $G=2$. What probability does the policy with $G=1$ get?
+    answer: 0.731
+    tolerance: 0.002
+    wrong:
+      - value: 0.269
+        feedback: |
+          That is the probability of the policy with $G=2$. The minus sign in $\sigma(-\mathbf G)$ favours the **smaller** $G$.
+      - value: 0.667
+        feedback: |
+          That would normalise $1/G$: $1/(1+0.5)$. The softmax exponentiates $-G$, so the weights are $e^{-1}$ and $e^{-2}$.
+    hint: |
+      Weights $e^{-1}$ and $e^{-2}$, then divide by their sum. Equivalent: $1/(1+e^{-1})$.
+    explanation: |
+      $e^{-1}=0.368$ and $e^{-2}=0.135$, so $0.368/0.503=0.731$. The softmax makes a probability from scores; the minus sign says that a policy expected to leave the agent with **less** free energy is **more** probable. $\mathbf G$ is the vector holding $G$ of every policy.
+
+  - type: text
+    id: G-matrix
+    title: "$G$ in matrix form"
+    body: |
+      The expected free energy $G$ you met earlier has a simple form for the discrete model. Under a policy $\pi$, at step $\tau$, the predicted states are $\mathbf s_{\pi\tau}$ and the predicted outcomes $\mathbf o_{\pi\tau}=\mathbf A\mathbf s_{\pi\tau}$.
+
+      - **Ambiguity** of a state: how noisy its sensor column is, the entropy of the column. With $\mathbf H$ the vector of these numbers, $H_j=-\sum_iA_{ij}\ln A_{ij}$, the expected ambiguity is the dot product $\mathbf H\cdot\mathbf s_{\pi\tau}$.
+      - **Risk**: how far the predicted outcomes are from the preferred ones, $\mathbf o_{\pi\tau}\cdot(\ln\mathbf o_{\pi\tau}-\ln\mathbf C_\tau)$, which is the divergence $D_{\mathrm{KL}}[\mathbf o_{\pi\tau}\,\|\,\mathbf C_\tau]$.
+
+      Together, per step,
+      $$\begin{gathered}\mathbf G_\pi=\mathbf H\cdot\mathbf s_{\pi\tau}+\mathbf o_{\pi\tau}\cdot\boldsymbol\varsigma_{\pi\tau}\\\boldsymbol\varsigma_{\pi\tau}=\ln\mathbf o_{\pi\tau}-\ln\mathbf C_\tau\end{gathered}$$
+      Here $\ln$ acts entry by entry, a dot is a sum of products, and $G$ of a policy adds the steps. This is the same ambiguity plus risk split of the earlier lesson, now with matrices.
+
+  - type: numeric
+    id: ambiguity
+    prompt: |
+      Door sensor $\mathbf A=\begin{pmatrix}0.8&0.2\\0.2&0.8\end{pmatrix}$. What is the ambiguity $H_j=-\sum_iA_{ij}\ln A_{ij}$ of the closed state (first column), in nats?
+    answer: 0.5
+    tolerance: 0.005
+    wrong:
+      - value: 0.693
+        feedback: |
+          $\ln2=0.693$ is the entropy of a column $(0.5,0.5)$, a useless sensor. This column is $(0.8,0.2)$, more informative, so its entropy is smaller.
+    hint: |
+      $-(0.8\ln0.8+0.2\ln0.2)$, with $\ln0.8=-0.223$ and $\ln0.2=-1.609$.
+    explanation: |
+      $-(0.8\cdot(-0.223)+0.2\cdot(-1.609))=0.179+0.322=0.500$ nats. The open state has the mirror column and the same value: this sensor is equally noisy in both states, so ambiguity cannot separate the policies here, risk will.
+
+  - type: numeric
+    id: risk
+    prompt: |
+      Under the policy *wait* the predicted outcomes at step $2$ are $\mathbf o=(0.692,0.308)$ (looks closed, looks open). The preferred outcomes are $\mathbf C=(0.2,0.8)$. What is the risk $\mathbf o\cdot(\ln\mathbf o-\ln\mathbf C)$ in nats?
+    answer: 0.565
+    tolerance: 0.006
+    wrong:
+      - value: 0.034
+        feedback: |
+          $0.034$ is the risk of the policy *push* at this step ($\mathbf o=(0.311,0.689)$, close to $\mathbf C$). Under *wait* the predicted outcomes are far from the preference.
+    hint: |
+      $0.692\ln(0.692/0.2)+0.308\ln(0.308/0.8)$: $\ln3.46=1.241$ and $\ln0.385=-0.955$.
+    explanation: |
+      $0.692\cdot1.241+0.308\cdot(-0.955)=0.859-0.294=0.565$. Waiting leaves the door closed, so the sensor is mostly predicted to say *closed* while $\mathbf C$ prefers *open*: a large divergence. Pushing gives $0.034$. With equal ambiguity ($0.500$), $G$ is about $0.535$ for *push* and $1.065$ for *wait* at this step, so $\sigma(-\mathbf G)$ favours pushing.
+
+  - type: mcq
+    id: G-sign
+    prompt: |
+      The earlier expected free energy contains an **information gain** term, $-\mathbb{E}\,D_{\mathrm{KL}}[Q(\tilde s\mid\tilde o,\pi)\,\|\,Q(\tilde s\mid\pi)]$, with the expectation over outcomes and states predicted by the policy. Compared with the divergence inside the variational free energy $F$, which also compares a posterior to a prior but with an expectation over **the current beliefs**, why does it appear with the sign reversed (a minus in $G$)?
+    options:
+      - text: 'Because $G$ is maximised, not minimised.'
+        feedback: |
+          Both $F$ and $G$ are minimised. The minus sign in front of the information gain is why *large information gain makes $G$ small*, and so makes the policy probable.
+      - text: 'Because the expectation is taken over outcomes that have **not** been observed yet, under the predictive distribution, which reverses the order of the two averages and the sign of the divergence.'
+        correct: true
+      - text: 'Because a KL divergence can be negative for predicted data.'
+        feedback: |
+          A KL divergence is never negative. The sign comes from the *order of expectations*, not from a negative divergence.
+      - text: 'It is a convention with no consequence.'
+        feedback: |
+          It has a large consequence: $F$ is lowest when data **agree** with beliefs, $G$ is lowest for policies expected to make beliefs **change a lot** (explore). Opposite signs, opposite jobs.
+    explanation: |
+      For $G$ the outcomes are *future*: we average over what the model expects to see. The expected log difference between the belief before and after seeing an outcome then equals *minus* the expected divergence of posterior from prior. Reading the minus sign: more expected belief change means lower $G$, so information-seeking policies get more probability. For $F$, with the outcome already in hand, the divergence adds to the cost with a plus.
+
+  - type: text
+    id: F-intro
+    title: "The free energy of a policy"
+    body: |
+      With $\mathbf A$, $\mathbf B$, $\mathbf D$ fixed, the **variational free energy** of the earlier lessons takes a matrix form. Let $o_\tau$ be the outcome actually seen at step $\tau$ (a one-hot vector) and $\mathbf s_{\pi\tau}$ the belief about the state at that step under policy $\pi$. Then
+      $$\begin{aligned}\mathbf F_{\pi\tau}=\mathbf s_{\pi\tau}\cdot\big(&\ln\mathbf s_{\pi\tau}-\ln\mathbf A\cdot o_\tau\\&-\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}\big)\end{aligned},$$
+      where $\ln\mathbf A\cdot o_\tau$ picks the row of $\ln\mathbf A$ for the seen outcome, and for the first step the last term is $\ln\mathbf D$. Free energy of a policy is the sum $\mathbf F_\pi=\sum_\tau\mathbf F_{\pi\tau}$. Three terms, each with its own name:
+
+      - $\mathbf s\cdot\ln\mathbf s$: minus the entropy of the belief (complexity: a sharp belief costs).
+      - $-\mathbf s\cdot\ln\mathbf A\cdot o_\tau$: how badly the belief explains the data (inaccuracy).
+      - $-\mathbf s\cdot\ln\mathbf B\mathbf s_{\tau-1}$: how badly the belief fits what the previous step predicted.
+
+  - type: numeric
+    id: F-number
+    prompt: |
+      First step of the door model: $\mathbf D=(0.9,0.1)$, $\mathbf A=\begin{pmatrix}0.8&0.2\\0.2&0.8\end{pmatrix}$, and the sensor shows **looks open**. A belief $\mathbf s=(0.5,0.5)$ (closed, open). What is $\mathbf F_{\pi1}=\mathbf s\cdot(\ln\mathbf s-\ln\mathbf A\cdot o_1-\ln\mathbf D)$ in nats? (For the first step the previous-step term is $\ln\mathbf D$.)
+    answer: 1.427
+    tolerance: 0.006
+    hint: |
+      The row of $\ln\mathbf A$ for *looks open* is $(\ln0.2,\ln0.8)=(-1.609,-0.223)$; $\ln\mathbf D=(-0.105,-2.303)$; $\ln\mathbf s=(-0.693,-0.693)$. Compute each entry of the bracket, then average with weights $0.5$.
+    explanation: |
+      Closed: $-0.693+1.609+0.105=1.021$. Open: $-0.693+0.223+2.303=1.833$. Average: $0.5\cdot1.021+0.5\cdot1.833=1.427$.
+
+  - type: mcq
+    id: F-min
+    prompt: |
+      Same door data (looks open at the first step). If we move the belief $\mathbf s$ to the value that gives the lowest free energy, $\mathbf F_{\pi1}$ becomes $1.347$ instead of $1.427$. What is that lowest value?
+    options:
+      - text: 'The surprise of the outcome, $-\ln P(o_1)=-\ln0.26$, reached when $\mathbf s$ is the exact posterior $(0.692,0.308)$.'
+        correct: true
+      - text: '$0$, reached when $\mathbf s$ is one-hot.'
+        feedback: |
+          A one-hot belief makes the entropy term vanish but the other terms stay positive (the data are noisy). The minimum is bounded below by the surprise of the data.
+      - text: '$-\ln0.8$, because the sensor is $80\%$ accurate.'
+        feedback: |
+          $0.8$ is the sensor accuracy, a likelihood. The evidence of the outcome also involves the prior: $P(\text{looks open})=0.2\cdot0.9+0.8\cdot0.1=0.26$.
+      - text: 'There is no lower value: $\mathbf F$ can be made arbitrarily small.'
+        feedback: |
+          $\mathbf F$ is a bound on surprise: $\mathbf F=D_{\mathrm{KL}}[Q\,\|\,P(s\mid o)]-\ln P(o)\ge-\ln P(o)$.
+    explanation: |
+      This is the free energy bound again. For one step, $\mathbf F=D_{\mathrm{KL}}[\mathbf s\,\|\,\text{posterior}]-\ln P(o)$ and the posterior is proportional to prior times likelihood: $(0.2\cdot0.9,\ 0.8\cdot0.1)/0.26=(0.692,0.308)$. At that belief the divergence is zero and $\mathbf F=-\ln0.26=1.347$.
+
+  - type: widget
+    id: infer
+    review: false
+    widget: pomdp-lab
+    config:
+      mode: infer
+      modes: [infer]
+      showA: false
+      showB: false
+      showD: false
+      showPolicies: false
+      obs: [0, 1, 1]
+      states: [closed, open]
+      outcomes: ['looks closed', 'looks open']
+      actions: [push, wait]
+      short: { states: [clo, open], outcomes: [looks clo, looks open] }
+      A: [[0.8, 0.2], [0.2, 0.8]]
+      B: { push: [[0.2, 0.05], [0.8, 0.95]], wait: [[0.9, 0.1], [0.1, 0.9]] }
+      D: [0.9, 0.1]
+      C: [0.2, 0.8]
+      T: 3
+      policies: [[push, push], [push, wait], [wait, push], [wait, wait]]
+      policy: 0
+    body: |
+      Outcomes seen: *looks closed*, then *looks open*, *looks open*. The bars are the beliefs $\mathbf s_{\pi\tau}$ for the policy *push, push*. Press *Play*: beliefs start flat and move so that $F_\pi$ (the curve) goes down. The thick ticks mark the exact posterior; the bars stop close to them but not exactly on them (explained in the next card).
+
+      Try it: (1) press *Play* and watch the curve; (2) change an outcome (for instance the first to *looks open*) and replay; (3) set one outcome to "$-$" (not observed) and see what that step does.
+
+  - type: mcq
+    id: mean-field
+    prompt: |
+      The free energy of a whole trajectory splits into a sum $\mathbf F_\pi=\sum_\tau\mathbf F_{\pi\tau}$ because the beliefs are assumed to factorise over time, $Q(\tilde s\mid\pi)=\prod_\tau Q(s_\tau\mid\pi)$ (a *mean-field* approximation). Why does a product give a **sum**, and what is thrown away?
+    options:
+      - text: 'The logarithm of a product is a sum of logarithms; what is thrown away is the correlation between beliefs at different steps.'
+        correct: true
+      - text: 'The logarithm of a sum is a product; what is thrown away is the data.'
+        feedback: |
+          The identity runs the other way: $\ln(ab)=\ln a+\ln b$. And all the data are kept: each $\mathbf F_{\pi\tau}$ uses its own outcome $o_\tau$.
+      - text: 'The factorisation means states are independent in the world.'
+        feedback: |
+          The *world* (the model $P$) is not independent: $\mathbf B$ links neighbouring steps, and the term $\ln\mathbf B\mathbf s_{\tau-1}$ in $\mathbf F$ uses exactly that. Only the **belief** $Q$ is a product.
+      - text: 'Nothing is thrown away: the product is exact.'
+        feedback: |
+          Only if the true posterior over the trajectory happens to factorise. When the same data affect two steps jointly, a product of one-step beliefs cannot represent their dependence, which is why the exact posterior (ticks in the widget) can differ from where the belief settles.
+    explanation: |
+      Since $\ln\prod_\tau Q(s_\tau\mid\pi)=\sum_\tau\ln Q(s_\tau\mid\pi)$, every term of $F$ splits by step. The price: the belief cannot say "if the door is open at step $2$ it is probably open at step $3$"; it keeps a separate bar per step. It is the simplest of many choices of belief family; the lesson on mean-field methods returns to this. With noisy dynamics the cost is small, as in the widget.
+
+  - type: mcq
+    id: traps
+    prompt: |
+      Select **all** the true statements about the discrete-time model.
+    multiple: true
+    options:
+      - text: 'Each column of $\mathbf A$ adds to $1$.'
+        correct: true
+      - text: 'Each column of $\mathbf B_{\pi\tau}$ adds to $1$.'
+        correct: true
+      - text: '$\mathbf C$ is a prior over outcomes and $\mathbf D$ a prior over the first state.'
+        correct: true
+      - text: '$\mathbf A$ says how states change in time.'
+        feedback: |
+          That is the job of $\mathbf B$. $\mathbf A$ links a state to the outcome seen at the *same* step.
+      - text: 'The policy $\pi$ is a hidden state that the world updates.'
+        feedback: |
+          A policy is a sequence of actions the agent considers. It enters the model by choosing which $\mathbf B$ applies, and it gets its own prior $\sigma(-\mathbf G)$.
+      - text: '$\mathbf G$ is computed from the outcomes already observed.'
+        feedback: |
+          That describes $\mathbf F$. $\mathbf G$ uses *predicted* outcomes $\mathbf A\mathbf s_{\pi\tau}$ under each policy, which is what lets it evaluate plans not yet carried out.
+    explanation: |
+      $\mathbf A$ (state to outcome), $\mathbf B$ (state to next state) and the priors $\mathbf C,\mathbf D$ are probability tables: columns of $\mathbf A$ and $\mathbf B$ add to $1$. Observed outcomes enter $\mathbf F$; predicted outcomes enter $\mathbf G$.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** with the model written down, the next lesson turns it into a working agent: beliefs about states are updated by gradient descent on $\mathbf F$, policies are weighed by $\mathbf F$ and $\mathbf G$ together, and the chosen policy drives behaviour.
