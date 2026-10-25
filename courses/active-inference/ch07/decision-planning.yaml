@@ -1,0 +1,351 @@
+id: ch07-decision-planning
+title: "Decision-Making and Planning: The Rat in the T-Maze"
+kind: concept
+own: |
+  - **A POMDP is an HMM whose transitions depend on a policy.** Take the hidden-Markov setup (hidden states $s_\tau$, outcomes $o_\tau$, likelihood $\mathbf A$ with rows = outcomes and columns = states, transitions $\mathbf B$ with rows = next state and columns = current state, initial prior $\mathbf D$) and add a variable $\pi$, a **policy** (a plan: one action per time step), that selects which transition matrix applies:
+    {{ $$P(s_{\tau+1}\mid s_\tau,\pi)=\mathrm{Cat}\big(\mathbf B_{\pi\tau}\big)$$ }}
+    A policy is an **explanatory variable** for a sequence of self-generated sensations: *evaluating a policy is comparing models*, the one with the least variational free energy $F_\pi$ (the negative log evidence of the data under that plan) explains the data best. Controllable factors (the rat's place) have $\mathbf B$ that depends on $\pi$; uncontrollable ones (the context) do not, e.g. $\mathbf B^{\text{context}}=\begin{pmatrix}1&0\\0&1\end{pmatrix}$ whatever $\pi$ is.
+  - **Preferences are a softmax of utilities.** In the T-maze (places middle, cue, left arm, right arm) the outcomes are middle, cue says left, cue says right, food, shock, and the vector of preferred outcomes is $\mathbf C=\sigma(\mathbf u)$ with $\mathbf u=(-1,0,0,6,-6)$ over (middle, cue left, cue right, food, shock): food is $e^{6}\approx403$ times more probable under $\mathbf C$ than a neutral outcome. $\mathbf C$ enters the model only through the prior over policies.
+  - **The expected free energy $G$ has two terms, so exploring and exploiting are one quantity.** For a policy $\pi$, with predicted states $Q(\tilde s\mid\pi)$ and predicted outcomes $Q(\tilde o\mid\pi)$ over the future steps:
+    {{ $$\begin{aligned}G(\pi)=\ &\mathbb E_{Q(\tilde s\mid\pi)}H[P(\tilde o\mid\tilde s)]\\&-H[Q(\tilde o\mid\pi)]\\&-\mathbb E_{Q(\tilde o\mid\pi)}\ln P(\tilde o\mid C)\end{aligned}$$ }}
+    where $H$ is entropy: the first line is the ambiguity, the first two together the negative epistemic value, the third the negative pragmatic value. Epistemic value (information to gain) is large at the cue before the context is known ($\ln 2\approx0.693$) and $0$ once it is known; pragmatic value is large where the food outcome is probable. No weighting of the two is needed.
+  - **The posterior over policies** combines the evidence for each plan so far ($\mathbf F$, from the past data), the expected cost of its future ($\mathbf G$) and a habit prior $\mathbf E$ (a fixed bias over policies, flat if absent):
+    {{ $$\boldsymbol\pi=\sigma\big(\ln\mathbf E-\mathbf F-\mathbf G\big)$$ }}
+    With flat $\mathbf E$ this is $\boldsymbol\pi=\sigma(-\mathbf G-\mathbf F)$. Example with two policies: $\mathbf F=(0.5,1.5)$ and $\mathbf G=(1,0.8)$ give $\pi_1=e^{-1.5}/(e^{-1.5}+e^{-2.3})=0.690$; adding the habit $\mathbf E=(0.7,0.3)$ raises it to $0.839$.
+cards:
+  - type: text
+    id: hook
+    title: "A creature that cannot choose"
+    body: |
+      In the last lesson the listener only *heard*: a hidden Markov model (HMM, a chain of hidden states, each depending only on the one before) explains a sequence of sounds, but nothing the listener does changes what comes next. That is a sessile creature.
+
+      Now picture a **rat in a T-maze**. It starts in the **middle** of the stem. The stem ends in a T with a **left arm** and a **right arm**. One arm holds **food**, the other gives an electric **shock**, and the rat does not know which is which (it is 50 / 50). But at one place in the maze there is a **cue**: a sign that shows on which side the food is.
+
+      Before any maths: what *extra ingredient* must the HMM get so that the creature can act?
+
+  - type: mcq
+    id: guess-ingredient
+    prompt: |
+      A creature sits in the middle of a T-maze. Left arm or right arm holds food and the other a shock, and a cue (a sign) shows which. We want a model in which the creature can *choose* where to go next. Which ingredient does the hidden Markov model need?
+    options:
+      - text: 'A plan variable that selects **which transition table** applies: the same hidden state leads to different next states depending on the plan.'
+        correct: true
+      - text: 'A sharper likelihood, so that the creature sees the arms more clearly.'
+        feedback: |
+          Sharper seeing helps perception, but the likelihood only says how states cause outcomes. Nothing in it lets the creature *move*; a perfect observer that cannot choose is still a sessile creature.
+      - text: 'A longer sequence of time steps.'
+        feedback: |
+          More steps give a longer story, but each transition is still dictated by the world. Without something that can change the transitions, the creature is only watching.
+      - text: 'A bigger initial prior over the starting place.'
+        feedback: |
+          The initial prior says where the story starts. Choosing is about what happens *next*, which is the job of the transitions.
+    explanation: |
+      In an HMM the transitions have no free parameter: the next state follows the same rule whatever the creature wants. If instead several rules are available (go to the cue, go to the left arm, ...) and a variable picks one, the creature has something to choose. That variable is the **policy**.
+
+  - type: text
+    id: pomdp
+    title: "From HMM to POMDP"
+    body: |
+      A **partially observable Markov decision process** (POMDP) is the HMM plus one new variable, a **policy** $\pi$: a *plan*, one action for each time step. The transitions now depend on it:
+
+      $$P(s_{\tau+1}\mid s_\tau,\pi)=\mathrm{Cat}\big(\mathbf B_{\pi\tau}\big)$$
+
+      $\mathrm{Cat}$ means a categorical distribution (a list of probabilities); $\mathbf B_{\pi\tau}$ is the transition table that the plan $\pi$ prescribes at step $\tau$. The likelihood $\mathbf A$ and the initial prior $\mathbf D$ are as before. Everything else is the HMM of the last lesson, which is the special case of a single policy.
+
+      This changes what it means to *choose*. A policy is simply an **explanatory variable** for a sequence of self-generated sensations: "the story in which I go to the cue and then to the left arm". Several stories compete, and the competition is the model comparison of the earlier lessons: each plan gets the variational free energy $F_\pi$, the negative log evidence of the data so far under that plan.
+
+      The hidden states can be split into **factors**: *where I am* (the rat's place) and *what the world is like* (the context, which arm holds the food). The place depends on the plan, the context does not.
+
+  - type: mcq
+    id: model-comparison
+    prompt: |
+      A creature has two plans, $\pi_1$ and $\pi_2$. Each plan is a model that predicts the sensations the creature will get. After the first observations, the variational free energy of $\pi_1$ is $F_{\pi_1}=0.7$ nats and that of $\pi_2$ is $F_{\pi_2}=3.2$ nats. Looking only at this evidence, which plan is better supported?
+    options:
+      - text: '$\pi_1$: lower $F_\pi$ means a higher evidence $P(o\mid\pi)$, since $F_\pi\approx-\ln P(o\mid\pi)$.'
+        correct: true
+      - text: '$\pi_2$: a larger $F_\pi$ means the plan explains more of the data.'
+        feedback: |
+          Tempting if you read $F$ as a score to maximise. But $F_\pi$ is minimised: it is the surprise of the data under the plan (plus a positive gap), so large $F_\pi$ means the data were *unlikely* if that plan was in force.
+      - text: 'Neither: a plan cannot be compared with data it has not generated yet.'
+        feedback: |
+          A plan makes predictions about every step, including those already observed. The creature compares what the plan predicted with what it saw. That is exactly a model comparison.
+    explanation: |
+      $F_\pi\ge-\ln P(o\mid\pi)$, with equality when the beliefs are exact. The probability of a plan rises when the data it predicted come true, which is Bayes' rule with plans as hypotheses. The difference $3.2-0.7=2.5$ nats is a factor $e^{2.5}\approx12$ in the odds of the evidence alone.
+
+  - type: widget
+    id: tmaze-generate
+    review: false
+    widget: pomdp-lab
+    config:
+      mode: generate
+      modes: [generate]
+      editable: false
+      showA: false
+      showB: false
+      showD: false
+      showAmbiguity: true
+      showPolicies: true
+      policy: 0
+      states: ['middle, reward right', 'cue, reward right', 'left arm, reward right', 'right arm, reward right', 'middle, reward left', 'cue, reward left', 'left arm, reward left', 'right arm, reward left']
+      short: { states: ['mid/R', 'cue/R', 'L/R', 'R/R', 'mid/L', 'cue/L', 'L/L', 'R/L'], outcomes: ['mid', 'cue L', 'cue R', 'food', 'shock'] }
+      outcomes: ['middle', 'cue says left', 'cue says right', 'food', 'shock']
+      actions: [center, cue, left, right]
+      A: [[1,0,0,0,1,0,0,0],[0,0,0,0,0,1,0,0],[0,1,0,0,0,0,0,0],[0,0,0.02,0.98,0,0,0.98,0.02],[0,0,0.98,0.02,0,0,0.02,0.98]]
+      B:
+        center: [[1,1,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0],[0,0,0,1,0,0,0,0],[0,0,0,0,1,1,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,1]]
+        cue: [[0,0,0,0,0,0,0,0],[1,1,0,0,0,0,0,0],[0,0,1,0,0,0,0,0],[0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,1,1,0,0],[0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,1]]
+        left: [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0],[0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,1,1,1,0],[0,0,0,0,0,0,0,1]]
+        right: [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0],[1,1,0,1,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,0],[0,0,0,0,1,1,0,1]]
+      D: [0.5,0,0,0,0.5,0,0,0]
+      C: [0.000906555, 0.00246427, 0.00246427, 0.994159, 6.10832e-06]
+      T: 3
+      policies: [[cue, left], [cue, right], [left, left], [right, right]]
+    body: |
+      The T-maze as a POMDP. The full model has **4 places** (middle, cue, left arm, right arm) times **2 contexts** (food on the right, food on the left) = **8 combined states**, written place/context, e.g. `L/R` = left arm with the food on the right. The lab shows one outcome list: middle, cue says left, cue says right, food, shock (the arms give food or shock with probability $0.98$ on the correct side; a cue is exact). Policies are four plans of two actions: **cue then left**, **cue then right**, **left, left** and **right, right**.
+
+      Choose a policy and press **Predict**: for each of the 3 time steps, the bars show where the rat is expected to be and which outcome it expects. The rat starts in the middle and does not know the context.
+
+  - type: mcq
+    id: predict-cue
+    prompt: |
+      A rat in a T-maze starts in the middle, with a 50 / 50 belief about whether the food is on the left or on the right. It follows the plan "go to the cue place, then go to an arm". What does it **predict to see** at the second step, when it arrives at the cue place?
+    options:
+      - text: 'The cue says *left* with probability $0.5$ and *right* with probability $0.5$: it will learn the context there, but cannot yet know it.'
+        correct: true
+      - text: 'Food, with probability $0.5$.'
+        feedback: |
+          Food is found in an *arm*, not at the cue place. At the cue place the only possible outcomes are the two cue signs.
+      - text: 'The cue says *right*, because the food is more likely there.'
+        feedback: |
+          The two contexts are equally probable at the start, so the rat has no reason to expect one sign more than the other.
+      - text: 'Nothing: a place without food gives no outcome.'
+        feedback: |
+          Every place gives an outcome. The cue place gives a sign, and a sign is exactly the information that is missing.
+    explanation: |
+      Prediction pushes the belief through the plan: the place becomes "cue" with certainty, the context stays at $(0.5,0.5)$ (it is not affected by the plan), and the likelihood then gives cue-left $0.5$ and cue-right $0.5$. The outcome at the cue place is *random for the rat* and *informative*: that is the seed of epistemic value.
+
+  - type: mcq
+    id: controllable
+    prompt: |
+      In the T-maze model, the rat's place has transition tables that depend on the chosen action (go to the middle, go to the cue, go to the left arm, go to the right arm), while the context has the transition table $\mathbf B^{\text{context}}_\pi$. Select **all** that are true.
+    multiple: true
+    options:
+      - text: '$\mathbf B^{\text{context}}_\pi=\begin{pmatrix}1&0\\0&1\end{pmatrix}$ for every policy: the context stays the same.'
+        correct: true
+      - text: 'The two arms are **absorbing**: once the rat enters one it stays, whatever action it picks afterwards.'
+        correct: true
+      - text: 'The rat can choose the context by choosing the policy.'
+        feedback: |
+          The context describes the world (where the food is). Only the rat's place is controllable. A plan can change what the rat learns about the context, never the context itself.
+      - text: 'The place transitions are the same for all policies; only the likelihood changes.'
+        feedback: |
+          It is the other way round. The place transitions are exactly what the policy selects; the likelihood $\mathbf A$ does not depend on the policy.
+    explanation: |
+      Hidden state factors split into those the creature controls (place) and those it does not (context). For the second kind the table is the same for every policy, here the identity, because the food does not move. The arms are absorbing so that entering an arm ends the story: a column of the table has a single $1$ on the same arm. This is what makes "go straight to an arm" a commitment, while "go to the cue" can still be followed by a change of mind.
+
+  - type: numeric
+    id: softmax-ratio
+    prompt: |
+      The preferences of the rat over the outcomes (middle, cue left, cue right, food, shock) are set as $\mathbf C=\sigma(\mathbf u)$ with utilities $\mathbf u=(-1,0,0,6,-6)$, where $\sigma$ is the softmax, $\sigma(\mathbf u)_i=e^{u_i}/\sum_j e^{u_j}$. By what factor is *food* more probable than a neutral outcome (a cue) under $\mathbf C$?
+    answer: 403.4
+    tolerance: 1
+    hint: 'The normalising sum cancels in a ratio: $\sigma(\mathbf u)_i/\sigma(\mathbf u)_j=e^{u_i-u_j}$.'
+    explanation: |
+      $$\frac{\mathbf C_{\text{food}}}{\mathbf C_{\text{cue}}}=e^{6-0}\approx403.4$$
+      The softmax keeps *differences of log probabilities* equal to differences of utilities. So $+6$ means "$e^6\approx403$ times more probable". This is a very strong belief that the creature will get food; it is not a reward the world pays out, it is what the rat *expects to see*. $\mathbf C$ does not appear in the generative model of states and outcomes, only in the prior over policies.
+
+  - type: text
+    id: g-decomp
+    title: "How a plan is scored in advance: G"
+    body: |
+      To rank plans *before* the outcomes arrive, the creature uses the **expected free energy** $G(\pi)$ of each plan. With $Q(\tilde s\mid\pi)$ the predicted hidden states and $Q(\tilde o\mid\pi)$ the predicted outcomes over the future steps ($\tilde{\ }$ means a whole sequence over time), $H[\cdot]$ the entropy, and $P(\tilde o\mid C)$ the preferred outcomes:
+
+      $$\begin{aligned}G(\pi)=\ &\mathbb E_{Q(\tilde s\mid\pi)}H[P(\tilde o\mid\tilde s)]\\&-H[Q(\tilde o\mid\pi)]\\&-\mathbb E_{Q(\tilde o\mid\pi)}\ln P(\tilde o\mid C)\end{aligned}$$
+
+      - the first term is the **ambiguity**: how blurry the likelihood is at the states the plan visits;
+      - the first two together are the **negative epistemic value** (information to be gained, the entropy of what is predicted minus the part that is just blur);
+      - the third is the **negative pragmatic value**: how much the predicted outcomes agree with the preferences $\mathbf C$.
+
+      $G$ is minimised, so each of epistemic and pragmatic value is something the creature wants more of.
+
+  - type: build
+    id: build-G
+    prompt: |
+      Let $\mathcal A(\pi)=\mathbb E_{Q(\tilde s\mid\pi)}H[P(\tilde o\mid\tilde s)]$ be the ambiguity, $\mathcal H(\pi)=H[Q(\tilde o\mid\pi)]$ the entropy of the predicted outcomes and $\mathcal U(\pi)=\mathbb E_{Q(\tilde o\mid\pi)}\ln P(\tilde o\mid C)$ the expected log preference. Build the expected free energy $G(\pi)$, with the signs for a quantity that is **minimised**.
+    prefix: 'G(\pi)='
+    tiles: ['\mathcal A', '-\mathcal H', '-\mathcal U', '+\mathcal H', '+\mathcal U']
+    answers:
+      - ['\mathcal A', '-\mathcal H', '-\mathcal U']
+      - ['\mathcal A', '-\mathcal U', '-\mathcal H']
+      - ['-\mathcal H', '\mathcal A', '-\mathcal U']
+      - ['-\mathcal H', '-\mathcal U', '\mathcal A']
+      - ['-\mathcal U', '\mathcal A', '-\mathcal H']
+      - ['-\mathcal U', '-\mathcal H', '\mathcal A']
+    wrong:
+      - answer: ['\mathcal A', '+\mathcal H', '-\mathcal U']
+        feedback: |
+          A wide predicted-outcome entropy $\mathcal H$ means there is something to learn, which is *good* for a minimised $G$, so it enters with a minus sign (as part of the epistemic value $\mathcal H-\mathcal A$).
+      - answer: ['\mathcal A', '-\mathcal H', '+\mathcal U']
+        feedback: |
+          $\mathcal U$ is the expected log probability of the outcomes under the preferences; the more preferred the outcomes, the larger $\mathcal U$ (less negative). A minimised $G$ must *decrease* with $\mathcal U$, so $-\mathcal U$.
+    hint: 'Epistemic value = $\mathcal H-\mathcal A$ and pragmatic value = $\mathcal U$ are both *wanted*; $G$ is their negative sum.'
+    explanation: |
+      $$G=-\underbrace{(\mathcal H-\mathcal A)}_{\text{epistemic value}}-\underbrace{\mathcal U}_{\text{pragmatic value}}$$
+      The ambiguity is subtracted inside the epistemic value because only the part of the outcome entropy that is *not* blur can be reduced by learning the state.
+
+  - type: numeric
+    id: epistemic-cue
+    prompt: |
+      At the cue place of the T-maze the sign is exact: each of the two contexts gives its own cue with probability $1$. Before the rat has seen anything it is $50\,/\,50$ about the context, so it predicts "cue left" with probability $0.5$ and "cue right" with probability $0.5$. What is the epistemic value of going to the cue, $H[Q(\tilde o\mid\pi)]-\mathbb E_{Q(\tilde s\mid\pi)}H[P(\tilde o\mid\tilde s)]$, in nats?
+    answer: 0.693
+    tolerance: 0.002
+    hint: 'The ambiguity is $0$ (each state gives one outcome with probability 1). The entropy of a 50/50 outcome is $\ln 2$.'
+    explanation: |
+      $$\begin{aligned}H[Q(\tilde o)]&=-2\cdot0.5\ln0.5=\ln2\approx0.693\\\mathbb E\,H[P(\tilde o\mid\tilde s)]&=0\end{aligned}$$
+      so the epistemic value is $\ln2$ nats: exactly the one bit of information (the context) that the cue reveals. After the cue has been read the context is known, the predicted outcome at the cue is certain, $H[Q(\tilde o)]=0$, and the epistemic value of going to the cue again is $0$. Information to gain is used up by gaining it.
+
+  - type: mcq
+    id: explore-exploit
+    prompt: |
+      A student says: "To model a rat that sometimes explores (visits the cue) and sometimes exploits (goes for the food) I need to choose a weight, something like $G=\text{(pragmatic part)}+\beta\cdot\text{(exploration bonus)}$, and tune $\beta$." In the expected free energy $G(\pi)$ above, what is the right reply?
+    options:
+      - text: 'No weight is needed: information gain and expected preference are two parts of the *same* function $G$, and the creature picks the plan that minimises it, so exploring happens when the information is worth more than the preferences lost.'
+        correct: true
+      - text: 'Yes: $G$ is only the pragmatic part, and the exploration bonus must be added by hand to avoid getting stuck.'
+        feedback: |
+          $G$ already contains the epistemic part ($H[Q(\tilde o\mid\pi)]-\mathbb E H[P(\tilde o\mid\tilde s)]$). Adding another bonus would count information twice.
+      - text: 'No weight is needed because exploring is chosen at random from time to time.'
+        feedback: |
+          Randomness would give exploration at the wrong moments (even after the context is known). Here exploration is purposeful: it happens exactly while the epistemic term is large, and stops when it is $0$.
+      - text: 'The rat explores while $\mathbf C$ is flat and exploits when $\mathbf C$ has large entries.'
+        feedback: |
+          Preferences $\mathbf C$ only enter the pragmatic term. Whether the rat explores depends on the epistemic term, i.e. on whether there is uncertainty that some plan would resolve.
+    explanation: |
+      The classical exploration-exploitation dilemma needs an arbitrary trade-off. Here both are in service of the same function: the uncertainty about the context makes the cue-first plans attractive at the start; once the context is known the information term is $0$ and the preferences alone decide. The rat does not *switch* between two modes; one quantity changes as beliefs change.
+
+  - type: widget
+    id: tmaze-infer
+    review: false
+    widget: pomdp-lab
+    config:
+      mode: infer
+      modes: [infer]
+      editable: false
+      showA: false
+      showB: false
+      showD: false
+      showAmbiguity: false
+      showExact: true
+      showCurve: true
+      showPolicies: true
+      obs: [0, 2, -1]
+      policy: 1
+      states: ['middle, reward right', 'cue, reward right', 'left arm, reward right', 'right arm, reward right', 'middle, reward left', 'cue, reward left', 'left arm, reward left', 'right arm, reward left']
+      short: { states: ['mid/R', 'cue/R', 'L/R', 'R/R', 'mid/L', 'cue/L', 'L/L', 'R/L'], outcomes: ['mid', 'cue L', 'cue R', 'food', 'shock'] }
+      outcomes: ['middle', 'cue says left', 'cue says right', 'food', 'shock']
+      actions: [center, cue, left, right]
+      A: [[1,0,0,0,1,0,0,0],[0,0,0,0,0,1,0,0],[0,1,0,0,0,0,0,0],[0,0,0.02,0.98,0,0,0.98,0.02],[0,0,0.98,0.02,0,0,0.02,0.98]]
+      B:
+        center: [[1,1,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0],[0,0,0,1,0,0,0,0],[0,0,0,0,1,1,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,1]]
+        cue: [[0,0,0,0,0,0,0,0],[1,1,0,0,0,0,0,0],[0,0,1,0,0,0,0,0],[0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,1,1,0,0],[0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,1]]
+        left: [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0],[0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,1,1,1,0],[0,0,0,0,0,0,0,1]]
+        right: [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0],[1,1,0,1,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,0],[0,0,0,0,1,1,0,1]]
+      D: [0.5,0,0,0,0.5,0,0,0]
+      C: [0.000906555, 0.00246427, 0.00246427, 0.994159, 6.10832e-06]
+      T: 3
+      policies: [[cue, left], [cue, right], [left, left], [right, right]]
+    body: |
+      The same maze, now seen from the rat's own point of view. The observations are set: **middle** at step 1, **cue says right** at step 2, and nothing yet at step 3. Select a policy, press **Play** and watch the beliefs. **Read the ticks**: the thick ticks are the exact posterior beliefs, the moving bars are a descent still in progress (a mean-field flow that treats the steps as independent, so it may end slightly off the ticks).
+
+      Under the table: for every policy, its $F_\pi$ (what the data so far say about it), its $G_\pi$ (the cost of its future) and the resulting probability $\sigma(-\mathbf G-\mathbf F)$.
+
+  - type: mcq
+    id: policy-dies
+    prompt: |
+      A rat starts in the middle of a T-maze with four plans: cue-then-left, cue-then-right, left-left, right-right. At the second step it **sees the cue sign "food on the right"**. A cue sign can only be seen at the cue place. After this observation, the plans left-left and right-right have a posterior probability of almost $0$. What is the reason?
+    options:
+      - text: 'Those plans predicted that at step 2 the rat would already be in an arm, where a cue sign cannot appear; the data are incompatible with them, so their free energy $F_\pi$ is huge.'
+        correct: true
+      - text: 'Their expected free energy $G_\pi$ is large, because arms are dangerous.'
+        feedback: |
+          Tempting, but $G$ is about the *future*, and left-left even has a lower $G$ than cue-then-left (about $6.5$ against $17.8$ nats in the lab). The posterior collapsed because of the *evidence* term: $F_\pi$ is about $46$ nats for these plans against $0.69$ for the cue plans.
+      - text: 'The rat has not yet decided, so all plans keep the same probability.'
+        feedback: |
+          Plans are hypotheses, and the data just refuted two of them. Beliefs about plans update with every observation.
+      - text: 'Plans that visit an arm twice are always forbidden.'
+        feedback: |
+          Nothing forbids them in the model. The transitions allow staying in an arm; it is only the data (the cue sign) that is incompatible with *being in an arm* at step 2.
+    explanation: |
+      This is model comparison at work: the posterior over policies contains the evidence $-F_\pi$ for each plan. A plan that gives the data probability $0$ has $F_\pi=\infty$ and drops out. The two cue-first plans survive with equal evidence ($F=\ln2\approx0.693$, the sign was a 50 / 50 event). Between them, $G$ decides: after "food on the right", going right is expected to give food (a small cost) while going left is expected to give a shock (a big cost), so cue-then-right wins by a huge margin.
+
+  - type: build
+    id: build-pi
+    prompt: |
+      A creature has a vector $\mathbf F$ with the free energy of each policy (from the data so far), a vector $\mathbf G$ with the expected free energy of each policy, and a **habit** vector $\mathbf E$ (a fixed prior preference over policies, from past repetition; flat if there is no habit). Build the posterior over policies.
+    prefix: '\boldsymbol\pi=\sigma\!\big('
+    suffix: '\big)'
+    tiles: ['\ln\mathbf E', '-\mathbf F', '-\mathbf G', '+\mathbf F', '+\mathbf G']
+    answers:
+      - ['\ln\mathbf E', '-\mathbf F', '-\mathbf G']
+      - ['\ln\mathbf E', '-\mathbf G', '-\mathbf F']
+      - ['-\mathbf F', '\ln\mathbf E', '-\mathbf G']
+      - ['-\mathbf F', '-\mathbf G', '\ln\mathbf E']
+      - ['-\mathbf G', '\ln\mathbf E', '-\mathbf F']
+      - ['-\mathbf G', '-\mathbf F', '\ln\mathbf E']
+    wrong:
+      - answer: ['\ln\mathbf E', '+\mathbf F', '-\mathbf G']
+        feedback: |
+          $\mathbf F$ is the surprise of the data under each plan: more surprise should make the plan *less* probable, so it enters with a minus sign.
+      - answer: ['\ln\mathbf E', '-\mathbf F', '+\mathbf G']
+        feedback: |
+          $\mathbf G$ is a cost (minimised): plans with larger $\mathbf G$ must be less probable, so $-\mathbf G$.
+    hint: 'A softmax of log weights: prior habit $\ln\mathbf E$ counts positively; both free energies are costs.'
+    explanation: |
+      $$\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$$
+      Equivalent form: $\pi_i\propto E_i\,e^{-F_i}\,e^{-G_i}$. Without a habit, $\mathbf E$ is flat and drops out of the softmax (a constant added to all entries changes nothing), leaving $\sigma(-\mathbf G-\mathbf F)$. The vector $\mathbf E$ enters only as a prior; the data and the future decide the rest.
+
+  - type: numeric
+    id: pi-flat
+    prompt: |
+      A creature has two plans with $\mathbf F=(0.5,\,1.5)$ nats from the data so far and expected free energies $\mathbf G=(1,\,0.8)$ nats. It has no habit (flat $\mathbf E$). What is the posterior probability of the **first** plan?
+    answer: 0.690
+    tolerance: 0.002
+    hint: 'Add the two costs of each plan, then take a softmax of the negatives: the sums are $1.5$ and $2.3$.'
+    explanation: |
+      $$\pi_1=\frac{e^{-1.5}}{e^{-1.5}+e^{-2.3}}=\frac{0.2231}{0.2231+0.1003}\approx0.690$$
+      The first plan has the *better evidence* ($F$ lower by $1$) and the *worse future* ($G$ higher by $0.2$): the past outweighs the future here.
+
+  - type: numeric
+    id: pi-habit
+    prompt: |
+      The same creature ($\mathbf F=(0.5,1.5)$, $\mathbf G=(1,0.8)$) now also has a habit $\mathbf E=(0.7,\,0.3)$ (probabilities, favouring the first plan). What is the posterior probability of the first plan, $\sigma(\ln\mathbf E-\mathbf F-\mathbf G)_1$?
+    answer: 0.839
+    tolerance: 0.002
+    hint: 'Equivalent: weights $E_i\,e^{-F_i-G_i}$, i.e. $0.7\cdot0.2231$ and $0.3\cdot0.1003$.'
+    explanation: |
+      $$\begin{aligned}\pi_1&=\frac{0.7\cdot0.2231}{0.7\cdot0.2231+0.3\cdot0.1003}\\&=\frac{0.1562}{0.1863}\approx0.839\end{aligned}$$
+      The habit multiplies the two weights by $0.7$ and $0.3$, pushing $\pi_1$ from $0.690$ to $0.839$. Without data and with $\mathbf G$ alone the creature would have been closer to $0.5$: a habit is a prior and data can overturn it.
+
+  - type: mcq
+    id: trap-F-G
+    prompt: |
+      A creature has two plans. Plan A has the lower expected free energy $G$, but plan B has the lower variational free energy $F$ (it explains the observations made so far better). The habit $\mathbf E$ is flat. Which statement is right?
+    options:
+      - text: 'The probabilities depend on the **sum**: plan A wins only if $G_A+F_A<G_B+F_B$.'
+        correct: true
+      - text: 'Plan A wins: the creature acts on the future, so only $G$ matters.'
+        feedback: |
+          $\mathbf F$ and $\mathbf G$ appear side by side in the softmax. Ignoring $\mathbf F$ would let the creature keep a plan the data have already refuted.
+      - text: 'Plan B wins: $F$ is computed from facts, $G$ only from predictions.'
+        feedback: |
+          Both matter. $F$ summarises how well the plan has explained the past; $G$ how well its future is expected to go. Neither takes over.
+      - text: 'They tie, because both are measured in nats.'
+        feedback: |
+          Same units do not mean same values. The softmax compares the totals, which differ.
+    explanation: |
+      $\mathbf F$ comes from **observed** outcomes (what has happened) and $\mathbf G$ from **predicted** outcomes (what would happen). The posterior $\sigma(-\mathbf G-\mathbf F)$ is a compromise: a plan the data have refuted cannot be rescued by a pleasant future, and a plan that is best so far can be dropped when its future is bad.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the update that *infers states* in the POMDP: beliefs flow downhill on the free energy, with messages from the likelihood, the past and the future, for each policy separately. Later we derive the epistemic value in full.
