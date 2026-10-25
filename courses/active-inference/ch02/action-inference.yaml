@@ -1,0 +1,225 @@
+id: ch02-action-inference
+title: Action as Inference
+kind: concept
+own: |
+  - **Surprise depends on the model and on the data.** Setup: an organism holds a generative model that assigns a probability $P(y)$ to each possible observation $y$ (what its senses deliver). The **surprise** of an observation is
+    {{ $$\mathfrak{I}(y)=-\ln P(y)$$ }}
+    measured in **nats**: rare observations (small $P(y)$) are very surprising. Change the model and $P(y)$ changes; change the observation and $P(y)$ changes too. Example: a model that expects $37\,{}^\circ\text{C}$ gives $P(\text{cold reading})=0.05$ and $P(\text{warm reading})=0.5$, so the surprise drops from $-\ln 0.05\approx 3.00$ to $-\ln 0.5\approx 0.69$ nats, a drop of $\ln 10\approx 2.30$ nats.
+  - **Two ways to remove a mismatch.** When the sensed value $y$ (body at $35\,{}^\circ\text{C}$) disagrees with the model's expectation ($37\,{}^\circ\text{C}$): {{ **perception** changes the beliefs to fit the data }}, or {{ **action** changes the world, hence the data, to fit the beliefs }}. Which one is used depends on confidence: a firmly held expectation that underwrites survival (core temperature) is acted on; an uncertain guess (apple or frog?) is revised.
+  - **The action-perception loop.** The world has a hidden state $x^*$ (the generative process), the organism's model has hidden states $x$, and $u$ is the **action**. One cycle:
+    $$\begin{gathered}y \to x \to u \to y\\\text{(world, model, world, world)}\end{gathered}$$
+    that is, the world sends $y$, the organism infers $x$, sends the action $u$, and the world sends a new $y$.
+    The action $u$ is chosen from the inference made under the model, yet it acts on the **world**, so it changes the data $y$ and leaves {{ the model itself unchanged }}.
+  - **One objective, not two.** Perception and action are not separate modules with separate goals (perception: be accurate; action: get reward). Both serve {{ a single objective }}: to make the observations less surprising under the model. Its exact form, the **variational free energy**, comes next.
+cards:
+  - type: text
+    id: hook
+    title: "A cold room"
+    body: |
+      You are a warm-blooded creature. You **expect** to sense about $37\,{}^\circ\text{C}$, and you are only healthy between $36$ and $38\,{}^\circ\text{C}$.
+
+      The room is cold ($28\,{}^\circ\text{C}$), and your senses report that your body is at $35\,{}^\circ\text{C}$. What you expect and what you sense do not match.
+
+      There are two different things you could do to remove the mismatch. Before any formula, find them, and see what each one does to your body.
+
+  - type: widget
+    id: homeostat
+    widget: homeostat
+    config:
+      range: [20, 42]
+      band: [36, 38]
+      room: 28
+      drift: 0.05
+      actRate: 0.8
+      body: 35
+      expect: 37
+      unit: '°C'
+      decimals: 1
+      bandLabel: "Safe body range (36 to 38 °C)"
+      labels:
+        body: "Your body"
+        sensed: "You sense"
+        expect: "You expect"
+        room: "Room"
+        mismatch: "Gap between expectation and sensation"
+        slider: "Your expectation"
+        inBand: "Body inside the safe range"
+        outBand: "Body outside the safe range"
+        belief: "Change your mind"
+        act: "Act (heat yourself)"
+        wait: ""
+        reset: "Reset"
+        steps: "Steps"
+      presets:
+        - { label: "Change your mind", body: 35, expect: 37, room: 28, script: [belief, belief, belief, belief, belief, belief] }
+        - { label: "Act", body: 35, expect: 37, room: 28, script: [act, act, act, act, act, act] }
+    body: |
+      Blue is your **body**, orange is what you **expect**, purple is the cold **room** (it keeps pulling your body toward it) and green is the safe range.
+
+      Try both levers, then **Reset**: (1) **Change your mind** several times and watch the gap, the orange marker and the body; (2) **Act** several times. Both shrink the gap. Do they do the same for you?
+
+  - type: text
+    id: recall-surprise
+    title: "Recall: surprise"
+    body: |
+      A model assigns a probability $P(y)$ to each possible **observation** $y$ (a reading of the senses). The **surprise** of an observation is
+      $$\mathfrak{I}(y)=-\ln P(y),$$
+      measured in **nats**. The less probable the observation is under the model, the larger its surprise: $P(y)=1$ gives $0$ nats, and small $P(y)$ gives a large number. Surprise is what Bayesian inference tries to keep low, and the lesson so far only changed the beliefs inside the model to do it. This lesson asks what else can be changed.
+
+  - type: mcq
+    id: stubborn
+    prompt: |
+      A creature holds, very firmly, the expectation "my body is about $37\,{}^\circ\text{C}$", which is the right value for its species. It senses $35\,{}^\circ\text{C}$ in a cold room, which is surprising under that expectation. Which response removes the surprise **and** keeps the creature healthy?
+    options:
+      - text: 'Warm itself (change the world so that it senses about $37\,{}^\circ\text{C}$).'
+        correct: true
+      - text: 'Revise the belief to "my body is about $35\,{}^\circ\text{C}$".'
+        feedback: |
+          Tempting, because the mismatch does vanish on paper. But now the model finds a cold body *unsurprising*, while the body is still outside its safe range and the room keeps cooling it. Fitting the belief to the data removes the alarm, not the cause.
+      - text: 'Wait: the mismatch will shrink by itself.'
+        feedback: |
+          In a cold room the body drifts further from the expectation, so the mismatch grows. Waiting only helps when the world is already moving toward the expectation.
+      - text: 'Both are equally good, since each makes the gap zero.'
+        feedback: |
+          The two routes both reduce the gap, but they are not equivalent for the creature. One changes the model to fit the data; the other changes the data to fit a model that is *right* for staying alive.
+    explanation: |
+      There are two directions of fit. **Changing the belief** makes the model fit the world; **acting** makes the world, and so the data, fit the model. When the expectation is held firmly because it underwrites survival, the second route is the useful one.
+
+  - type: mcq
+    id: why-act
+    prompt: |
+      Two cases. (a) You expect to see an apple, but something jumps: you conclude it is a frog. (b) You expect your core temperature to be about $37\,{}^\circ\text{C}$, but you sense a high temperature: you open a window. Why is the first resolved by changing the belief and the second by acting?
+    options:
+      - text: 'You hold the expectation about your temperature far more firmly, because your existence depends on it; the apple belief is held loosely.'
+        correct: true
+      - text: 'Vision has no way to act, and temperature has no way to be perceived.'
+        feedback: |
+          Both can do both: in the apple case she could also look toward an apple tree (an action), and in the temperature case the sensed value is perceived. What differs is how firmly the expectation is held.
+      - text: 'Perception and action are two unrelated systems, each assigned to its own kind of problem.'
+        feedback: |
+          They are two ways of resolving the *same* mismatch between expectation and data, and which one is used depends on the confidence in the expectation.
+      - text: 'Acting is always better than changing your mind.'
+        feedback: |
+          Not always. If the apple belief is a loose guess, revising it is cheap and correct; acting on the world is the better route only when the expectation is firm and worth fulfilling.
+    explanation: |
+      The choice depends on **confidence**: loose beliefs give way to data (perception), firm expectations pull the data toward them (action). Expectations about vital quantities, such as core temperature, are firm, which is why they behave like set-points and comfort zones.
+
+  - type: text
+    id: loop
+    title: "The action-perception loop"
+    body: |
+      To act, the organism needs a loop with its environment. Two sets of symbols keep apart what lives in the world and what lives in the head:
+
+      - the world's true hidden state is $x^*$ (the **generative process**);
+      - the organism's model has its own hidden states $x$ (the **generative model**);
+      - the observation $y$ is what the world sends to the senses;
+      - the **action** is written $u$.
+
+      One cycle:
+
+      1. The environment sends an observation $y$ to the organism.
+      2. The organism infers its most likely hidden states $x$ (by Bayes' rule, or an approximation to it).
+      3. From that inference it generates an action $u$ and sends it to the environment, trying to make the world less surprising.
+      4. The environment executes $u$ and sends a new observation $y$. A new cycle starts.
+
+      The steps are listed one after another only for teaching; in an animal they run together as continuous processes. Notice where $u$ acts: not on the model, but on the **world**.
+
+  - type: order
+    id: cycle
+    prompt: |
+      Put one action-perception cycle in order, starting from an observation arriving at the organism.
+    steps:
+      - 'The environment sends the organism an observation $y$.'
+      - 'The organism infers its most likely hidden states $x$ under its model.'
+      - 'The organism generates an action $u$ from that inference and sends it to the environment.'
+      - 'The environment executes $u$ and sends a new observation $y$.'
+    hint: |
+      The action is chosen *from* the inference, and the new observation is the *result* of the action.
+    explanation: |
+      Observation, inference, action, new observation. The arrow of action runs from the organism to the world, and the new observation closes the loop, so the next inference starts from data the action helped to produce.
+
+  - type: mcq
+    id: one-objective
+    prompt: |
+      A student writes: "Perception minimises prediction error to be accurate; action maximises reward. They are two separate jobs with two separate objectives." What does the Active Inference view say?
+    options:
+      - text: 'Perception and action cooperate to realise a single objective: making the observations less surprising under the model.'
+        correct: true
+      - text: 'It agrees: perception and action have different objectives, but they happen to alternate in a loop.'
+        feedback: |
+          That is the common view in cognitive science, and the one Active Inference rejects. The loop alternates, but there is only one function being optimised, by both.
+      - text: 'It removes perception entirely: only action is needed.'
+        feedback: |
+          Action is chosen from inferences about the hidden state, so it depends on perception. Both stay, with one shared objective.
+      - text: 'It removes action entirely: only beliefs ever change.'
+        feedback: |
+          That is the "Bayesian brain" without action. Active Inference adds that the data can be changed too, by acting.
+    explanation: |
+      One objective, two ways to serve it: change the beliefs (perception) or change the data (action). The next lesson names the objective: variational free energy. For now it is enough to read it as a measure of the mismatch between model and world.
+
+  - type: mcq
+    id: acting-not-model
+    prompt: |
+      After you walk to an apple tree and see an apple, which of these changed?
+    options:
+      - text: 'The data: your senses now deliver different observations. Your generative model and its expectations were not rewritten.'
+        correct: true
+      - text: 'The model: acting rewrites the generative model so that it fits the old observation.'
+        feedback: |
+          That is changing your mind, which is perception. Acting leaves the model as it is and changes what the world sends it.
+      - text: 'Nothing: acting only moves the body and has no effect on what is observed.'
+        feedback: |
+          The reason to act is exactly that it changes what you observe. Moving your gaze or your body produces different sensations.
+      - text: 'Both the model and the data change in the same way.'
+        feedback: |
+          In the pure form of the two routes, perception changes the model and action changes the data. Mixing them up hides why each one is useful.
+    explanation: |
+      Acting does not touch the model: it changes the world, and through it the data $y$. Surprise $-\ln P(y)$ can therefore fall because $y$ changed while $P$ stayed the same.
+
+  - type: mcq
+    id: both-model-data
+    prompt: |
+      A model **A** expects $37\,{}^\circ\text{C}$ and a model **B** expects $35\,{}^\circ\text{C}$. The probabilities each assigns to a reading are:
+
+      | Reading $y$ | $P_A(y)$ | $P_B(y)$ |
+      |---|---|---|
+      | $35\,{}^\circ\text{C}$ | $0.05$ | $0.4$ |
+      | $37\,{}^\circ\text{C}$ | $0.5$ | $0.1$ |
+
+      Which statement about the surprise $\mathfrak{I}(y)=-\ln P(y)$ is correct?
+    options:
+      - text: 'It depends on both: the same reading ($35\,{}^\circ\text{C}$) is more surprising under A than under B, and under A the reading $37\,{}^\circ\text{C}$ is less surprising than $35\,{}^\circ\text{C}$.'
+        correct: true
+      - text: 'It depends only on the model: the reading does not matter.'
+        feedback: |
+          Under model A, the readings $35$ and $37\,{}^\circ\text{C}$ get different probabilities ($0.05$ and $0.5$), so they have different surprise. The reading matters.
+      - text: 'It depends only on the reading: every model gives the same surprise for the same reading.'
+        feedback: |
+          The reading $35\,{}^\circ\text{C}$ has probability $0.05$ under A and $0.4$ under B, so its surprise differs. The model matters.
+      - text: 'It is always zero for the reading the creature actually senses.'
+        feedback: |
+          Surprise is $0$ only if the model gave that reading probability $1$. A sensed reading can be very improbable under the model, and that is the case here for A and $35\,{}^\circ\text{C}$.
+    explanation: |
+      $P(y)$ comes from the model, and $y$ is the data. So the surprise changes if we change the **model** (perception, learning) or the **data** (action): two handles on one number.
+
+  - type: numeric
+    id: surprise-drop
+    prompt: |
+      Model A (expecting $37\,{}^\circ\text{C}$) gives probability $0.05$ to a cold reading and $0.5$ to a warm reading. The creature senses the cold reading, then acts (warms itself) and senses the warm reading. By how many **nats** did the surprise $-\ln P(y)$ drop? Give a number.
+    answer: 2.30
+    tolerance: 0.02
+    answerText: '2.30 (that is ln 10)'
+    hint: |
+      Compute each surprise, then subtract. Useful values: $\ln 2\approx 0.693$, $\ln 10\approx 2.303$, and $\ln 20\approx 3.00$.
+    wrong:
+      - { value: 3.0, tolerance: 0.02, feedback: 'That is the surprise of the cold reading alone, $-\ln 0.05\approx3.00$. Subtract the surprise of the warm reading, $-\ln 0.5\approx0.69$.' }
+      - { value: 0.45, tolerance: 0.01, feedback: 'That is the difference of the probabilities, $0.5-0.05$. Surprise is the negative logarithm of the probability, so take $-\ln$ of each first.' }
+    explanation: |
+      Cold reading: $-\ln 0.05=\ln 20\approx3.00$ nats. Warm reading: $-\ln 0.5=\ln 2\approx0.69$ nats. The drop is
+      $$\ln 20-\ln 2=\ln 10\approx 2.30\ \text{nats}.$$
+      The model did not change; only the data did, because the creature acted.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the objective that perception and action share is only described loosely so far as "surprise" or "mismatch". Computing surprise exactly needs the evidence $P(y)$, which was too expensive. The next lesson introduces one quantity, the **variational free energy**, that can be computed with an approximate belief $Q$, and that both perception and action minimise.

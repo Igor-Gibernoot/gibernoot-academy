@@ -31,6 +31,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - Word change: from here "likelihood" = $P(y\mid x)$; "evidence" = $P(y)$ (model evidence, the normaliser), NOT Level 1's toy "evidence".
 - ch02-perception-inference: garden: priors cat/dog/fox 0.6/0.3/0.1, rustle likelihoods 0.2/0.5/0.9, joints 0.12/0.15/0.09, $P(y)=0.36$, posterior 33/42/25%. Widget preset uses other numbers (0.4/0.4/0.2 start; 0.7/0.25/0.05 and 0.2/0.2/0.6 priors with likelihood 0.3/0.4/0.9).
 - ch02-approximate-inference: counting hook $2^{200}\approx10^{60}$ (10 on/off causes x 20 moments), $K^n$ terms ($3^5=243$, $2^{10}=1024$), product family stores $nK=15$ numbers; rain/sprinkler exact posterior 0.5/0.5 on exactly-one, product $Q$ gives 0.25 to both. $x^*$ = world's state (process), $x$ = model's (as Fig. 2.2). $Q$ introduced as a product of separate $Q_i(x_i)$ (mean field named only as the idea).
+- ch02-action-inference: surprise $\mathfrak{I}(y)=-\ln P(y)$ nats; action $u$ (acts on the world $x^*$, not the model); toy model A: P(cold)=0.05, P(warm)=0.5 (drop $\ln10\approx2.30$); homeostat body 35, expect 37, room 28, drift 0.05.
 
 ## Chapter 3
 
