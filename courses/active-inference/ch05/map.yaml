@@ -1,0 +1,410 @@
+id: ch05-map
+title: "Content Map: Message Passing and Neurobiology"
+kind: map
+name: Level 5, message passing, cortical and subcortical circuits, neuromodulators, discrete over continuous
+
+intro: |
+  A **content map** shows how the ideas of a level fit together. Each box is one idea. An arrow goes from an idea to one that builds on it, and its label says how: read it as a sentence, for example "error and expectation units *could be mapped to* cortical layers".
+
+  This map starts from the two kinds of unit that belief updating needs: **error units** and **expectation units**. The **left column** is the continuous circuit (layers, frequencies, the reflex, attenuation, gain). The **right column** is the discrete circuit and the subcortical structures (mixtures, pathways, thalamus, policy precision $\gamma$). The **middle** collects the neuromodulators, learning and the way a discrete model sits on a continuous one. Every mapping to the brain is a *hypothesis* ("could be mapped to"), not established anatomy.
+
+  For each glowing box, pick the card that belongs there. The other cards look alike, but each hides a classic mistake, and every wrong pick comes with a reason. Tap a finished box at any time to reread its card.
+
+cols: 3
+nodes:
+  - id: units
+    title: Error and expectation units
+    row: 1
+    col: 2
+    body: |
+      In a hierarchy of levels $(i)$, belief updating has two kinds of unit. **Error units** hold a mismatch, an expectation minus a prediction; **expectation units** hold the belief $\tilde\mu$ and are driven by precision-weighted errors:
+
+      $$\begin{gathered}\epsilon_v^{(i)}=\mu_v^{(i)}-g^{(i+1)}(\cdot)\\\dot{\tilde\mu}-D\tilde\mu=-\nabla_{\tilde\mu}F\end{gathered}$$
+    decoys:
+      - body: |
+          In a hierarchy of levels $(i)$, belief updating has two kinds of unit. **Error units** hold a reward signal, how much better than expected the outcome was; **expectation units** hold the belief $\tilde\mu$ and are driven by precision-weighted errors:
+
+          $$\begin{gathered}\epsilon_v^{(i)}=\mu_v^{(i)}-g^{(i+1)}(\cdot)\\\dot{\tilde\mu}-D\tilde\mu=-\nabla_{\tilde\mu}F\end{gathered}$$
+        feedback: |
+          An error is a mismatch about **any** quantity the model predicts (a pixel, an arm angle, a hidden cause). Its sign says above or below the prediction. It has nothing to do with reward as such.
+      - body: |
+          In a hierarchy of levels $(i)$, belief updating has two kinds of unit. **Error units** hold a mismatch, an expectation minus a prediction; **expectation units** hold the belief $\tilde\mu$ and are driven by precision-weighted errors:
+
+          $$\begin{gathered}\epsilon_v^{(i)}=g^{(i+1)}(\cdot)\\\dot{\tilde\mu}-D\tilde\mu=+\nabla_{\tilde\mu}F\end{gathered}$$
+        feedback: |
+          The error is the expectation **minus** the prediction, so it needs both. And the belief goes down the gradient of $F$: with a plus sign the errors would grow instead of shrink.
+    explanation: |
+      Everything in the level is a proposal for which cells could carry these two quantities, and which messages travel between them.
+
+  - id: layers
+    title: Layers and messages
+    row: 2
+    col: 1
+    body: |
+      On a cortical column (layers I to VI from the surface) the errors and expectations could sit in different layers. **Ascending messages are prediction errors, descending messages are predictions.** The error enters the spiny stellate cells of layer IV and leaves the superficial pyramidal cells of layer III; expectations live in layer II and the deep layers, and the deep pyramidal cells send the predictions down.
+
+      An inhibitory arrow need not be one synapse: it can go through an interneuron.
+    decoys:
+      - body: |
+          On a cortical column (layers I to VI from the surface) the errors and expectations could sit in different layers. **Ascending messages are predictions, descending messages are prediction errors.** The prediction enters the spiny stellate cells of layer IV and leaves the superficial pyramidal cells of layer III; errors live in layer II and the deep layers, and the deep pyramidal cells send the errors down.
+
+          An inhibitory arrow need not be one synapse: it can go through an interneuron.
+        feedback: |
+          The direction is reversed. The level above holds the more abstract belief and sends it down as a prediction; the level below sends up what it could not explain, the error.
+      - body: |
+          On a cortical column (layers I to VI from the surface) the errors and expectations could sit in different layers. **Ascending messages are prediction errors, descending messages are predictions.** The error enters the spiny stellate cells of layer IV and leaves the superficial pyramidal cells of layer III; expectations live in layer II and the deep layers, and the deep pyramidal cells send the predictions down.
+
+          Every inhibitory arrow in the figure is a single direct synapse, and the mapping is established anatomy.
+        feedback: |
+          An arrow is a **message**, not a synapse; a descending inhibition can be disynaptic (an excitatory fibre onto an inhibitory interneuron). And the mapping is a hypothesis that makes testable predictions.
+    explanation: |
+      The hierarchy of the previous level becomes a stack of areas, each with the same six-layer wiring.
+
+  - id: freq
+    title: Fast errors, slow predictions
+    row: 2
+    col: 2
+    body: |
+      A nonlinear prediction $g$ raises the frequency of a signal. For instance
+
+      $$\sin^2\theta=\tfrac12\,(1-\cos2\theta)$$
+
+      doubles it. So ascending errors are predicted to be **faster** (gamma, about 30 to 100 Hz) than descending predictions (alpha and beta, about 8 to 30 Hz): an empirical prediction, consistent with measured spectra, not a theorem.
+    decoys:
+      - body: |
+          A nonlinear prediction $g$ raises the frequency of a signal. For instance
+
+          $$\sin^2\theta=\tfrac12\,(1-\cos2\theta)$$
+
+          doubles it. So ascending errors are predicted to be **slower** (alpha and beta) than descending predictions (gamma).
+        feedback: |
+          The nonlinearity sits in the prediction $g$, and what it distorts is the error built from it. The cosine of $2\theta$ has twice the frequency, so the errors are the faster signal.
+      - body: |
+          A nonlinear prediction $g$ raises the frequency of a signal. For instance
+
+          $$\sin^2\theta=\tfrac12\,(1-\cos2\theta)$$
+
+          doubles it. So ascending errors are **proven** to be faster than descending predictions, because the measured spectra confirm it.
+        feedback: |
+          Finding the pattern is consistent with the proposal but does not prove it: other theories can also place fast and slow rhythms in different directions. It is an empirical prediction that could fail.
+    explanation: |
+      The theory therefore ties a frequency to the direction of a message, a rare testable link between the equations and recordings.
+
+  - id: discrete
+    title: The discrete circuit
+    row: 2
+    col: 3
+    body: |
+      For a model with states $\mathbf s$, outcomes $\mathbf o$ and policies $\pi$, the architecture is the same, but what travels between areas is a **mixture of expectations**, not an error. With $\mathbf s_\pi$ the beliefs given a policy $\pi$ and $\pi$ also the posterior probability of that policy:
+
+      $$\mathbf s=\sum_\pi \pi\;\mathbf s_\pi$$
+    decoys:
+      - body: |
+          For a model with states $\mathbf s$, outcomes $\mathbf o$ and policies $\pi$, the architecture is the same, and what travels between areas is, as in the continuous case, a **prediction error**:
+
+          $$\boldsymbol\varepsilon=\mathbf s-\sum_\pi \pi\;\mathbf s_\pi$$
+        feedback: |
+          Errors stay inside the area (layer IV). What passes between areas is the expectation itself, averaged over policies. Not all message passing is error passing.
+      - body: |
+          For a model with states $\mathbf s$, outcomes $\mathbf o$ and policies $\pi$, the architecture is the same, but what travels between areas is a **mixture of expectations**, with the policies as a plain sum:
+
+          $$\mathbf s=\sum_\pi \mathbf s_\pi$$
+        feedback: |
+          Without the weights every policy would count equally, even an almost impossible one. The mixture weights each $\mathbf s_\pi$ by the posterior probability $\pi$ of its policy (Bayesian model averaging).
+    explanation: |
+      The weights $\pi$ are computed subcortically, which leads to the next box.
+
+  - id: reflex
+    title: Spinal reflex and action
+    row: 3
+    col: 1
+    body: |
+      Only the proprioceptive error depends directly on the muscle activity $u$ (the active state, which changes the data $\tilde y(u)$), so the reflex arc is
+
+      $$\dot u=-\nabla_u\tilde y(u)\cdot\tilde\Pi_y\,\tilde\epsilon_y$$
+
+      It could be mapped to Betz cells of layer V sending the prediction down, the error formed in the spinal cord, and the lower motor neurons carrying $u$.
+    decoys:
+      - body: |
+          Only the proprioceptive error depends directly on the muscle activity $u$ (the active state, which changes the data $\tilde y(u)$), so the reflex arc is
+
+          $$\dot u=-\nabla_{\tilde\mu}F$$
+
+          It could be mapped to Betz cells of layer V sending the prediction down, the error formed in the spinal cord, and the lower motor neurons carrying $u$.
+        feedback: |
+          Action descends the gradient with respect to $u$. The gradient with respect to the belief $\tilde\mu$ is the perception update and cannot move the muscles.
+      - body: |
+          Only the proprioceptive error depends directly on the muscle activity $u$ (the active state, which changes the data $\tilde y(u)$), so the reflex arc is
+
+          $$\dot u=-\nabla_u\tilde y(u)\cdot\tilde\Pi_y\,\tilde\epsilon_y$$
+
+          It could be mapped to layer IV of motor cortex receiving the proprioceptive error, as in sensory areas.
+        feedback: |
+          Layer IV is scarce in motor cortex: proprioceptive errors are resolved by the reflex in the spinal cord, not by updating beliefs in the cortex.
+    explanation: |
+      A motor command is a prediction (the arm will be there), and the reflex arc makes it true.
+
+  - id: atten
+    title: Sensory attenuation
+    row: 4
+    col: 1
+    body: |
+      In the one-level arm model (arm angle $y$, descending prediction $\eta$, prior precision $\Pi_v$, sensory precision $\Pi_y$), lowering $\Pi_y$ keeps the belief near $\eta$, so "I am moving" survives while the arm is still. It does **not** speed the reflex up:
+
+      $$\dot u=\frac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}\,(\eta-y)$$
+
+      never falls as $\Pi_y$ rises.
+    decoys:
+      - body: |
+          In the one-level arm model (arm angle $y$, descending prediction $\eta$, prior precision $\Pi_v$, sensory precision $\Pi_y$), lowering $\Pi_y$ keeps the belief near $\eta$, so "I am moving" survives while the arm is still. It also makes the reflex **faster**, because the rate is
+
+          $$\dot u=\frac{\Pi_v}{\Pi_y+\Pi_v}\,(\eta-y)$$
+        feedback: |
+          The rate $\frac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}$ is smaller, not larger, when $\Pi_y$ falls. Attenuation lets the movement start (the belief is not overruled by the still arm); it never makes the reflex quicker.
+      - body: |
+          In the one-level arm model (arm angle $y$, descending prediction $\eta$, prior precision $\Pi_v$, sensory precision $\Pi_y$), raising $\Pi_y$ keeps the belief near $\eta$, so "I am moving" survives while the arm is still. It does **not** speed the reflex up:
+
+          $$\dot u=\frac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}\,(\eta-y)$$
+        feedback: |
+          Raising $\Pi_y$ does the opposite: the belief is dragged to the data (the arm is still) and the movement never starts. It is the lowering of $\Pi_y$ that protects the prediction.
+    explanation: |
+      Saccadic suppression is an example. Failures to attenuate are hypothesised to contribute to passivity phenomena and catatonia.
+
+  - id: pathways
+    title: Direct and indirect pathways
+    row: 3
+    col: 3
+    body: |
+      The posterior over policies, with $\mathbf F$ the variational free energy, $\mathbf G$ the expected free energy and $\mathbf E$ the habit prior, could be mapped to the output nucleus of the basal ganglia. The direct pathway (one inhibition) carries $\mathbf G$ with net sign $-$; the indirect one, $(-)(-)(+)=+$, the habit prior:
+
+      $$\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$$
+    decoys:
+      - body: |
+          The posterior over policies could be mapped to the output nucleus of the basal ganglia. The direct pathway is the "go" signal that selects a policy and the indirect pathway is the "stop" signal that always vetoes it:
+
+          $$\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$$
+        feedback: |
+          "Go" and "stop" is a rough shorthand. In the proposal the two pathways are two **terms of the policy score**: $-\mathbf G$ (goal-directed) and $+\ln\mathbf E$ (habit), two drives on the same $\boldsymbol\pi$.
+      - body: |
+          The posterior over policies, with $\mathbf F$ the variational free energy, $\mathbf G$ the expected free energy and $\mathbf E$ the habit prior, could be mapped to the output nucleus of the basal ganglia. The direct pathway (one inhibition) carries $\mathbf G$ with net sign $-$; the indirect one, $(-)(-)(+)=+$, the habit prior:
+
+          $$\boldsymbol\pi=\sigma(\ln\mathbf E+\mathbf F+\mathbf G)$$
+        feedback: |
+          $\mathbf F$ and $\mathbf G$ are costs: a policy with a large cost must lose weight, so they enter with a minus sign, and only the habit prior enters with a plus.
+    explanation: |
+      The signs of the synapses reproduce the signs in the equation, which is the point of the mapping.
+
+  - id: thalamus
+    title: The thalamus
+    row: 4
+    col: 3
+    body: |
+      The thalamus is speculative in this picture. Primary nuclei could play the role of a lower cortical area, feeding layer IV like the data of an ascending message. Secondary nuclei (pulvinar, mediodorsal) **could** handle second-order statistics, the precision $\Pi=\Sigma^{-1}$ of the data (the inverse of their variance $\Sigma$).
+    decoys:
+      - body: |
+          The thalamus is established in this picture. Primary nuclei play the role of a lower cortical area, feeding layer IV. Secondary nuclei (pulvinar, mediodorsal) compute the precision $\Pi=\Sigma^{-1}$ of the data (the inverse of their variance $\Sigma$).
+        feedback: |
+          Nothing here is established: it is a hypothesis, with testable consequences. The pulvinar's role is an open question.
+      - body: |
+          The thalamus is speculative in this picture. Primary nuclei could play the role of a lower cortical area, feeding layer IV like the data of an ascending message. Secondary nuclei (pulvinar, mediodorsal) **could** handle second-order statistics, the covariance $\Sigma=\Pi^{-1}$ (the inverse of the precision $\Pi$) of the data.
+        feedback: |
+          The precision is the inverse of the covariance, so $\Pi=\Sigma^{-1}$. Swapping them reverses which data are trusted.
+    explanation: |
+      If it holds, the thalamus is more than a relay: it would supply the weights that scale the errors.
+
+  - id: gain
+    title: Precision as gain
+    row: 5
+    col: 1
+    body: |
+      One level, data $y$ with precision $\Pi_y$, prior mean $\eta$ with precision $\Pi_v$. The error travels with weight $\Pi\,\epsilon$, and the best belief is the precision-weighted compromise
+
+      $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$$
+
+      A larger $\Pi_y$ drags $\mu^*$ toward the data. Changing a precision is **fast**: it turns a signal up or down, without changing its meaning.
+    decoys:
+      - body: |
+          One level, data $y$ with precision $\Pi_y$, prior mean $\eta$ with precision $\Pi_v$. The error travels with weight $\Pi\,\epsilon$, and the best belief is the precision-weighted compromise
+
+          $$\mu^*=\frac{\Pi_y\,\eta+\Pi_v\,y}{\Pi_y+\Pi_v}$$
+
+          A larger $\Pi_y$ drags $\mu^*$ toward the data.
+        feedback: |
+          The weights are on the wrong terms: here a larger $\Pi_y$ would pull toward the prior. Each source is weighted by its own precision. Check: $\Pi_y\to\infty$ must give $\mu^*=y$.
+      - body: |
+          One level, data $y$ with precision $\Pi_y$, prior mean $\eta$ with precision $\Pi_v$. The error travels with weight $\Pi\,\epsilon$, and the best belief is the precision-weighted compromise
+
+          $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$$
+
+          Changing a precision is **slow** and rewrites how the signal is interpreted.
+        feedback: |
+          That describes learning. A precision only rescales a signal, quickly; the interpretation (the model itself) changes slowly, by learning.
+    explanation: |
+      With $y=2$, $\eta=0$ and $\Pi=(4,1)$ the belief is $1.6$; with $\Pi_y=1$ it is $1$: same stimulus, smaller response.
+
+  - id: gammabox
+    title: Policy precision
+    row: 5
+    col: 3
+    body: |
+      Each distribution has its own precision. For policies, the expected free energy $\mathbf G$ is scaled by a precision $\gamma>0$:
+
+      $$P(\pi)=\sigma(-\gamma\,\mathbf G)$$
+
+      A large $\gamma$ makes the policy with the lowest $\mathbf G$ nearly certain; $\gamma=0$ makes all policies equal.
+    decoys:
+      - body: |
+          Each distribution has its own precision. For policies, the expected free energy $\mathbf G$ is scaled by a precision $\gamma>0$:
+
+          $$P(\pi)=\sigma(\gamma\,\mathbf G)$$
+
+          A large $\gamma$ makes the policy with the lowest $\mathbf G$ nearly certain.
+        feedback: |
+          With $+\gamma\mathbf G$ the highest cost would win. The minus sign stays, and $\gamma$ only sharpens the choice.
+      - body: |
+          Each distribution has its own precision. For policies, the expected free energy $\mathbf G$ is scaled by a precision $\gamma>0$:
+
+          $$P(\pi)=\sigma(-\gamma\,\mathbf G)$$
+
+          A large $\gamma$ makes all policies equal; $\gamma=0$ makes the lowest $\mathbf G$ certain.
+        feedback: |
+          Reversed. At $\gamma=0$ the exponent vanishes and every policy has the same probability; as $\gamma$ grows the differences in $\mathbf G$ are amplified.
+    explanation: |
+      Example: $\mathbf G=(1,0.8)$ gives the second policy $0.550$ at $\gamma=1$ and $0.690$ at $\gamma=4$.
+
+  - id: neuromod
+    title: The neuromodulators
+    row: 6
+    col: 2
+    body: |
+      A neuromodulator is a chemical that rescales how strongly many neurons respond. Each could be mapped to the precision of one distribution (a hypothesis):
+
+      $$\begin{gathered}\zeta\ (\text{likelihood})\leftrightarrow\text{acetylcholine}\\\omega\ (\text{transitions})\leftrightarrow\text{noradrenaline}\\\gamma\ (\text{policies})\leftrightarrow\text{dopamine}\end{gathered}$$
+
+      Serotonin ($\chi$) is the least settled.
+    decoys:
+      - body: |
+          A neuromodulator is a chemical that rescales how strongly many neurons respond. Each could be mapped to the precision of one distribution (a hypothesis):
+
+          $$\begin{gathered}\zeta\ (\text{likelihood})\leftrightarrow\text{noradrenaline}\\\omega\ (\text{transitions})\leftrightarrow\text{acetylcholine}\\\gamma\ (\text{policies})\leftrightarrow\text{dopamine}\end{gathered}$$
+
+          Serotonin ($\chi$) is the least settled.
+        feedback: |
+          Acetylcholine and noradrenaline are swapped: acetylcholine could be mapped to the likelihood precision $\zeta$, noradrenaline to the transition precision $\omega$.
+      - body: |
+          A neuromodulator is a chemical that rescales how strongly many neurons respond. Each could be mapped to a quantity of the model:
+
+          $$\begin{gathered}\zeta\ (\text{likelihood})\leftrightarrow\text{acetylcholine}\\\omega\ (\text{transitions})\leftrightarrow\text{noradrenaline}\\-\mathbf G\ (\text{value})\leftrightarrow\text{dopamine}\end{gathered}$$
+
+          A dopamine burst is the reward itself.
+        feedback: |
+          Dopamine could be mapped to the **confidence** $\gamma$ that sharpens the choice between policies, not to $\mathbf G$ and not to reward as such.
+    explanation: |
+      Each modulator turns one precision up or down, which is why one chemical can change a whole circuit at once.
+
+  - id: learning
+    title: Gain versus learning
+    row: 7
+    col: 2
+    body: |
+      **Learning is slow and changes the interpretation.** The slowly varying parameters, such as the likelihood matrix $\mathbf A$, are beliefs too, and their substrate would be synaptic efficacy. With counts $\mathbf a$ of the shape of $\mathbf A$, after a one-hot outcome $\mathbf o$ and state belief $\mathbf s$:
+
+      $$\mathbf a\leftarrow\mathbf a+\mathbf o\otimes\mathbf s$$
+
+      and $\mathbf A$ is each column of $\mathbf a$ divided by its sum.
+    decoys:
+      - body: |
+          **Learning is fast and only rescales the signal.** The slowly varying parameters, such as the likelihood matrix $\mathbf A$, are beliefs too, and their substrate would be neuromodulators. With counts $\mathbf a$ of the shape of $\mathbf A$, after a one-hot outcome $\mathbf o$ and state belief $\mathbf s$:
+
+          $$\mathbf a\leftarrow\mathbf a+\mathbf o\otimes\mathbf s$$
+
+          and $\mathbf A$ is each column of $\mathbf a$ divided by its sum.
+        feedback: |
+          Mixed up with gain. Neuromodulators change precisions, fast; learning changes the model parameters, slowly, and its substrate would be synaptic efficacy.
+      - body: |
+          **Learning is slow and changes the interpretation.** The slowly varying parameters, such as the likelihood matrix $\mathbf A$, are beliefs too, and their substrate would be synaptic efficacy. With counts $\mathbf a$ of the shape of $\mathbf A$, after a one-hot outcome $\mathbf o$ and state belief $\mathbf s$:
+
+          $$\mathbf a\leftarrow\mathbf a+\mathbf s\otimes\mathbf s$$
+
+          and $\mathbf A$ is each column of $\mathbf a$ divided by its sum.
+        feedback: |
+          The rows of $\mathbf A$ are outcomes, so the count must be built from the outcome $\mathbf o$ and the state belief $\mathbf s$ ("cells that fire together wire together").
+    explanation: |
+      With $\mathbf a$ all ones, $\mathbf o=(1,0)$, $\mathbf s=(0.9,0.1)$, the first entry of $\mathbf A$ becomes $1.9/2.9=0.655$.
+
+  - id: hier
+    title: Discrete over continuous
+    row: 8
+    col: 2
+    body: |
+      The lowest level is continuous (muscle lengths, luminances); higher levels tend to be categorical. A discrete state $s$ supplies the prior mean $\eta_s$ of a continuous cause, and with data precision $\Pi_y$ it gets the free energy and posterior
+
+      $$\begin{gathered}F_s=\tfrac12\,\Pi_y\,(y-\eta_s)^2\\Q(s)=\sigma(-F)_s\end{gathered}$$
+
+      A decision sets a prior that the continuous level then fulfils by action.
+    decoys:
+      - body: |
+          The lowest level is continuous (muscle lengths, luminances); higher levels tend to be categorical. A discrete state $s$ supplies the prior mean $\eta_s$ of a continuous cause, and with data precision $\Pi_y$ it gets the free energy and posterior
+
+          $$\begin{gathered}F_s=\tfrac12\,\Pi_y\,(y-\eta_s)^2\\Q(s)=\sigma(F)_s\end{gathered}$$
+
+          A decision sets a prior that the continuous level then fulfils by action.
+        feedback: |
+          A state with a large $F_s$ explains the data badly and must lose weight, so the posterior is $\sigma(-F)$.
+      - body: |
+          The lowest level is continuous (muscle lengths, luminances); higher levels tend to be categorical. A discrete state $s$ supplies the prior mean $\eta_s$ of a continuous cause, and with data precision $\Pi_y$ it gets the free energy and posterior
+
+          $$\begin{gathered}F_s=\tfrac12\,\Pi_y\,(y-\eta_s)^2\\Q(s)=\sigma(-F)_s\end{gathered}$$
+
+          A decision sets the muscle directly, with no continuous level needed.
+        feedback: |
+          A decision sets a **prior**, the descending prediction, and the continuous level fulfils it by reflex arcs. The discrete level does not speak in muscle numbers.
+    explanation: |
+      Toy numbers: $y=0.5$, $\Pi_y=2$, $\eta=\mp1$ give $Q(\text{right})=0.881$.
+
+  - id: interface
+    title: The message back
+    row: 9
+    col: 2
+    body: |
+      The continuous level does not send raw data up. From its posterior expectations $\tilde\mu$ and variances it computes the likelihood of its trajectory under each discrete outcome. This interface $\tilde{\mathbf o}^{(2)}$ combines with the prior from the policies, so the discrete level only ever sees categories.
+    decoys:
+      - body: |
+          The continuous level sends the raw data $y$ up to the discrete level, which reads it as an outcome $\tilde{\mathbf o}^{(2)}$ and ignores the variances.
+        feedback: |
+          The discrete level only sees categories. The message is a likelihood over outcomes, built from the posterior expectations **and** variances of the continuous level.
+      - body: |
+          The continuous level computes a likelihood over outcomes $\tilde{\mathbf o}^{(2)}$ and sends it up; the discrete level discards its own prior and simply adopts it.
+        feedback: |
+          The likelihood is combined with the prior from the policies, not substituted for it. Posterior = prior times likelihood, as at every level.
+    explanation: |
+      Every mapping of this level is a process theory: a hypothesis with testable predictions, not a result.
+
+edges:
+  - { from: units, to: layers, label: could be mapped to }
+  - { from: layers, to: freq, label: predicts }
+  - { from: units, to: discrete, label: same architecture }
+  - { from: layers, to: reflex, label: motor version }
+  - { from: reflex, to: atten, label: gated by precision }
+  - { from: discrete, to: pathways, label: weights from }
+  - { from: pathways, to: thalamus, label: alongside }
+  - { from: thalamus, to: gammabox, label: precisions }
+  - { from: atten, to: gain, label: is a }
+  - { from: gammabox, to: neuromod, label: one of }
+  - { from: gain, to: neuromod, label: set by }
+  - { from: neuromod, to: learning, label: fast, unlike }
+  - { from: learning, to: hier, label: model above }
+  - { from: hier, to: interface, label: answered by }
+outroTitle: Level 5 in one picture
+outro: |
+  Belief updating needs **error units** (mismatches) and **expectation units** (beliefs), and in the proposal **ascending messages are errors, descending messages are predictions**:
+
+  $$\epsilon_v^{(i)}=\mu_v^{(i)}-g^{(i+1)}(\cdot),\qquad\dot{\tilde\mu}-D\tilde\mu=-\nabla_{\tilde\mu}F$$
+
+  **Left, continuous.** Layers carry the units; action is a reflex, $\dot u=-\nabla_u\tilde y(u)\cdot\tilde\Pi_y\,\tilde\epsilon_y$, and attenuating $\Pi_y$ never speeds it. **Right, discrete.** Areas exchange mixtures $\mathbf s=\sum_\pi\pi\,\mathbf s_\pi$, and the basal ganglia could compute
+
+  $$\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$$
+
+  **Middle.** Neuromodulators could set the precisions $\zeta,\omega,\gamma$: fast gain. Learning changes the model slowly. A discrete level sits on top of a continuous one through a prior mean $\eta_s$ going down and a likelihood $\tilde{\mathbf o}^{(2)}$ coming up.
+
+  Every mapping is a hypothesis ("could be mapped to"), not a result.
