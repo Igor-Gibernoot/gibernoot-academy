@@ -127,6 +127,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - ch07-map: epistemic value $\mathcal I$, pragmatic value $\mathcal P=\mathbb E\ln P(o|C)$, $G=-\mathcal I-\mathcal P=$ ambiguity + $D_{KL}[Q(o|\pi)\|P(o|C)]$; policy rule written $\sigma(\ln\mathbf E-\mathbf F-\gamma\mathbf G)$; $\omega$ = gain on $\ln\mathbf D$ (Gibbs). Factorised B: 12 pitch x 4 loudness, 160 vs 2304 entries.
 
 - ch07-challenge P1-P3: 3-note jingle (A diag .8/.1, B +1 .7, stay .2, +2 .1, heard 1,3,3): filtered note 3 .471, retrospective note 2 .646, beta (.17,.59,.24). pi (E=(.7,.3), F=(.5,1.5), G=(1,.8)): .839 / .810 at gamma 1 / 2. Sensor X rows (.9,.1),(.3,.7), Q=(.6,.4): H[Q(o)] .641, ambiguity .439, gain .202, G .492.
+- ch07-challenge P4-P5: coin A (3,4)->(4,4) heads .5 (from .429); coin B change .0047; expected novelty A .066, B .0049; tiles (6,5) .043 vs (1,1) .193; two-sentences D_2(no) .725, sentence 1 .983; six sentences after flee wait feed: wait .5.
 
 ## Chapter 8
 

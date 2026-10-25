@@ -64,7 +64,7 @@ cards:
       - { value: 0.412, feedback: 'That is the filtered value. It was computed before hearing the second 3, so it cannot use it.' }
       - { value: 0.59, feedback: 'That is $\beta_2$, only the future term. Multiply it by the filtered numerator before normalising, so past, present and future all count.' }
     explanation: |
-      $$(0.02\cdot0.17,\ 0.07\cdot0.59,\ 0.08\cdot0.24)=(0.0034,\ 0.0413,\ 0.0192)$$
+      $$\begin{aligned}&(0.02\cdot0.17,\ 0.07\cdot0.59,\ 0.08\cdot0.24)\\&\quad=(0.0034,\ 0.0413,\ 0.0192)\end{aligned}$$
       The total is $0.0639$, so the retrospective belief is $(0.053,\,0.646,\,0.300)$. The leader changed: the filter said note 3, the retrospective belief says note 2. The listener now reads the earlier 3 as a slip of the ear, because a real 2 followed by a 3 is a very common pair.
 
   - type: order
@@ -115,7 +115,7 @@ cards:
       - { value: 0.7, feedback: 'That is the habit prior alone. The posterior also uses $\mathbf F$ and $\mathbf G$.' }
     explanation: |
       Only the difference of the two scores matters. Score of policy 1 minus policy 2:
-      $$(\ln0.7-\ln0.3)-(0.5-1.5)-1\cdot(1-0.8)=0.847+1-0.2=1.647$$
+      $$\begin{aligned}&(\ln0.7-\ln0.3)-(0.5-1.5)-1\cdot(1-0.8)\\&\quad=0.847+1-0.2=1.647\end{aligned}$$
       and $\pi_1=1/(1+e^{-1.647})=0.839$.
 
   - type: numeric
@@ -179,7 +179,7 @@ cards:
       - { value: 0.439, feedback: 'That is the expected entropy of the likelihood rows (the ambiguity), which comes next. $H[Q(o)]$ is the entropy of the mixture itself.' }
     explanation: |
       $Q(o)=0.6\,(0.9,0.1)+0.4\,(0.3,0.7)=(0.66,\,0.34)$, so
-      $$H[Q(o)]=-0.66\ln0.66-0.34\ln0.34=0.641$$
+      $$\begin{aligned}H[Q(o)]&=-0.66\ln0.66-0.34\ln0.34\\&=0.641\end{aligned}$$
 
   - type: numeric
     id: p3-ambiguity
@@ -244,9 +244,176 @@ cards:
     explanation: |
       $G=-\mathcal I+0.693$, so the ranking by $G$ is the ranking by gain: X ($0.202$) $>$ Y ($0.186$) $>$ Z ($0$). The best sensor is the one whose reading depends most on the state, not the one with the most unpredictable reading.
 
-  # ---------------------------------------------------------------- Summary (temporary: part 2 replaces)
+  # ---------------------------------------------------------------- Problem 4
+  - type: numeric
+    id: p4-update
+    tag: Problem 4 · Learning and novelty
+    prompt: |
+      **Problem 4.** A coin has two outcomes, heads and tails, and its likelihood is learned from Dirichlet counts $\mathbf a$ (heads, tails). Coin A has counts $(3,4)$ after 5 flips, each count starting from one imaginary flip of each side. The agent flips it, is sure of the state (one coin, so $\mathbf s=1$) and sees **heads**. The update is $\mathbf a\leftarrow\mathbf a+\mathbf o\otimes\mathbf s$, and the likelihood of heads is the heads count divided by the column total. What is the believed probability of heads after the flip?
+    answer: 0.5
+    tolerance: 0.005
+    wrong:
+      - { value: 0.429, feedback: 'That is $3/7$, the belief **before** the flip. The count of heads becomes $4$ and the total $8$.' }
+      - { value: 0.75, feedback: 'You divided the new heads count by the old tails count, or added to one count only. The total of the column also grows: $4/(4+4)$.' }
+    explanation: |
+      The counts become $(4,4)$, so the believed likelihood of heads is $4/8=0.5$. It moved from $3/7=0.429$ by $+0.071$ after a single flip.
+
+  - type: numeric
+    id: p4-bigcoin
+    tag: Problem 4 · Learning and novelty
+    prompt: |
+      Coin B has counts $(53,49)$ after 100 flips (same convention). It is flipped once and shows **heads**, with the state known. By how much does the believed probability of heads change? Give the increase of $a_{\text{heads}}/a_0$.
+    answer: 0.0047
+    tolerance: 0.0005
+    wrong:
+      - { value: 0.071, feedback: 'That is the change for the coin with counts $(3,4)$. With $(53,49)$ the same flip is a small fraction of the evidence already stored.' }
+      - { value: 0.5243, feedback: 'That is the new probability $54/103$, not the change. Subtract the old one, $53/102=0.5196$.' }
+    explanation: |
+      $$\frac{54}{103}-\frac{53}{102}=0.5243-0.5196=0.0047$$
+      The same observation moves coin A fifteen times more than coin B.
+
+  - type: numeric
+    id: p4-novelty
+    tag: Problem 4 · Learning and novelty
+    prompt: |
+      The agent now chooses which coin to flip next, with no preferences. For a column of counts $\mathbf a$ the novelty of outcome $i$ is $W_i=D_{KL}[\mathrm{Dir}(\mathbf a+e_i)\,\|\,\mathrm{Dir}(\mathbf a)]$ (how much the belief about the coin would change if $i$ occurred). The expected novelty is $\sum_i (a_i/a_0)\,W_i$. For coin A (counts $(3,4)$) the novelties are $W_{\text{heads}}=0.088$ and $W_{\text{tails}}=0.050$. Compute the expected novelty of flipping coin A.
+    answer: 0.066
+    tolerance: 0.002
+    wrong:
+      - { value: 0.069, feedback: 'You averaged the two novelties with equal weights. Weight each by how likely the outcome is: $3/7$ for heads and $4/7$ for tails.' }
+      - { value: 0.0049, feedback: 'That is the expected novelty of coin B, counts $(53,49)$. Coin A has only 7 counts in total.' }
+    explanation: |
+      $$\tfrac37\cdot0.088+\tfrac47\cdot0.050=0.066$$
+      For coin B, with $W=(0.0045,0.0053)$ and weights $53/102$ and $49/102$, the expected novelty is $0.0049$. Coin A is about $13$ times more novel.
+
+  - type: mcq
+    id: p4-why
+    tag: Problem 4 · Learning and novelty
+    prompt: |
+      Coin A (counts $(3,4)$) and coin B (counts $(53,49)$) both look nearly fair. With $G=-\text{salience}-\text{novelty}-\text{pragmatic value}$ and flat preferences, an agent with one flip to spend must choose a coin. Which coin does it flip, and why does the other model learn more slowly?
+    options:
+      - text: 'Coin A: its novelty term is larger ($0.066$ against $0.0049$), so $G$ is smaller. The model with a small column total changes a lot per observation; the large total of B acts as a strong prior, so one more flip hardly moves it.'
+        correct: true
+      - text: 'Coin B: more flips mean more reliable information, so its novelty is larger.'
+        feedback: |
+          Reliability is the opposite of novelty. Novelty measures how much a **new** flip would change the belief, and a belief built on 100 flips changes very little.
+      - text: 'Neither: the two coins look equally fair, so a flip is equally informative.'
+        feedback: |
+          Both have nearly the same believed probability, but not the same confidence. Novelty depends on the counts, not only on their ratio.
+      - text: 'Coin A, because its salience is larger.'
+        feedback: |
+          Salience is information about **states**. With one coin the state is already known, so salience is $0$ for both. The difference comes from the novelty term, about parameters.
+    explanation: |
+      Novelty is large when the counts are small, because one extra count shifts the normalised likelihood a lot. A large total is a strong prior: learning is slow. With flat preferences, $G$ differs between the coins only through $-$novelty, so the agent flips coin A.
+
+  - type: mcq
+    id: p4-tiles
+    tag: Problem 4 · Learning and novelty
+    prompt: |
+      A creature without preferences stands on a floor of four tiles. For each tile, the counts (black, white) of what it would see are: tile 1 $(6,5)$, tiles 2, 3 and 4 each $(1,1)$ (never visited). It picks the next tile by the largest expected novelty. It is claimed that it will keep returning to tile 1 because it is the one it knows best. Is the claim right?
+    options:
+      - text: 'No: the expected novelty is $0.043$ for tile 1 and $0.193$ for each other tile, so it goes to a new tile. Not revisiting known places comes out of the novelty term, with no rule added by hand.'
+        correct: true
+      - text: 'Yes: a known tile is the safest, so its expected free energy is the smallest.'
+        feedback: |
+          Safety would be a preference, and this creature has none. Without preferences the only terms left are the information gains, and a well-known tile offers little of them.
+      - text: 'Yes: tile 1 has the larger total count $11$ and so the larger novelty.'
+        feedback: |
+          Novelty falls with the total count: a large total is a strong prior that one more observation hardly changes.
+      - text: 'It picks any tile at random, because the black and white counts of tiles 2 to 4 are equal.'
+        feedback: |
+          Equal counts do not make the tiles equal to tile 1. Tiles 2 to 4 are tied with each other (novelty $0.193$), and they all beat tile 1 ($0.043$).
+    explanation: |
+      Expected novelty of $(1,1)$ is $0.193$ and of $(6,5)$ is $0.043$. After a visit the counts of that tile grow and its novelty falls, so the creature moves on: **inhibition of return**.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: numeric
+    id: p5-pred
+    tag: Problem 5 · Two levels
+    prompt: |
+      **Problem 5.** A two-level model reads sentences made of words. The upper level holds a **sentence** that stays the same during the whole reading (the slow scale $\tau^{(2)}$); the lower level reads one **word** per step (the fast scale $\tau^{(1)}$, with three fast steps inside each word). There are two sentences: sentence 1 is *yes no no* and sentence 2 is *yes yes no*, with prior probabilities $3:1$ (that is $0.75$ and $0.25$). A sentence predicts its word at each step with probability $0.95$ and the other word with $0.05$. Before reading anything, what probability does the model give to the word **no** at step 2? This is the prior $D_2(\text{no})=\sum_kQ(k)P(\text{no}\mid k,2)$ of the lower level.
+    answer: 0.725
+    tolerance: 0.005
+    wrong:
+      - { value: 0.75, feedback: 'That is the prior of sentence 1 alone. Sentence 2 also contributes, because it predicts no at step 2 with probability $0.05$.' }
+      - { value: 0.5, feedback: 'The two words are not equally likely: sentence 1, which predicts *no* at step 2, is three times as probable as sentence 2.' }
+    explanation: |
+      $$D_2(\text{no})=0.75\cdot0.95+0.25\cdot0.05=0.725$$
+      Sentence 1 predicts *no* at step 2, sentence 2 predicts *yes*. The higher level supplies the empirical prior of the lower level.
+
+  - type: numeric
+    id: p5-post
+    tag: Problem 5 · Two levels
+    prompt: |
+      Same model. The model reads **yes** at step 1 and **no** at step 2. What probability does it now give to sentence 1 (*yes no no*)?
+    answer: 0.983
+    tolerance: 0.005
+    wrong:
+      - { value: 0.75, feedback: 'That is the prior. The word *yes* fits both sentences and changes nothing, but *no* at step 2 fits only sentence 1.' }
+      - { value: 0.95, feedback: 'That is the chance of one word under sentence 1. The posterior multiplies the prior $0.75$ by the likelihoods of **both** words and then normalises.' }
+    explanation: |
+      Sentence 1 gives $0.75\cdot0.95\cdot0.95=0.677$ and sentence 2 gives $0.25\cdot0.95\cdot0.05=0.0119$. Normalising:
+      $$Q(\text{sentence 1})=\frac{0.677}{0.677+0.0119}=0.983$$
+
+  - type: numeric
+    id: p5-six
+    tag: Problem 5 · Two levels
+    prompt: |
+      A noiseless reader knows six equally likely four-word sentences: flee wait feed wait / wait wait wait feed / wait flee wait feed / flee wait feed flee / wait wait wait flee / wait flee wait flee. It reads **flee, wait, feed** (steps 1 to 3). What probability does it give to the word **wait** at step 4?
+    answer: 0.5
+    tolerance: 0.005
+    wrong:
+      - { value: 1, feedback: 'Two sentences fit *flee wait feed*: the first ends with *wait* and the fourth with *flee*. They stay equally probable.' }
+      - { value: 0.333, feedback: 'That is the prior probability of *flee* as first word, before reading. After three words only the sentences that fit remain, two of them.' }
+    explanation: |
+      Only sentences 1 (flee wait feed wait) and 4 (flee wait feed flee) start with *flee wait feed*, each with posterior $0.5$. They predict *wait* and *flee* at step 4, so each word gets $0.5$. After the first word *flee* alone the posterior was already $0.5$ and $0.5$, and the next two words did not separate them.
+
+  - type: mcq
+    id: p5-scales
+    tag: Problem 5 · Two levels
+    prompt: |
+      In the two-level reading model, which statement about the timescales is right?
+    options:
+      - text: 'The sentence (upper level, $\tau^{(2)}$) changes slowly: one sentence lasts across all the words and the fast steps inside them. It acts as an empirical prior $\mathbf D$ for the words, and each word sends back evidence about the sentence.'
+        correct: true
+      - text: 'The sentence changes at every fast step, one per word.'
+        feedback: |
+          The words change fast; the sentence stays. If it changed with each word, it could not accumulate evidence over the words.
+      - text: 'The lower level sends the prior and the upper level sends the evidence.'
+        feedback: |
+          Reversed: the upper level provides the prior (through $D_t(w)$), and the lower level provides the evidence about the sentence.
+      - text: 'The two levels run on the same timescale, so the deep model is a shallow one in disguise.'
+        feedback: |
+          The slow upper level is exactly what a shallow model lacks: the sentence is remembered across words, and its posterior sharpens as words come.
+    explanation: |
+      Slow states at the top give a prior to fast states below, and the fast ones return evidence upward, so the posterior over the sentence sharpens with each word.
+
+  # ---------------------------------------------------------------- Summary
   - type: text
     id: summary
     title: Level 7 in one card
     body: |
-      Problems 4 and 5 and the full summary come in part 2.
+      **Perception.** A discrete model has observations $o_\tau$, hidden states $s_\tau$, likelihood $\mathbf A$ (outcomes $\times$ states), transitions $\mathbf B$ and initial prior $\mathbf D$. The belief about a state sums log messages from its neighbours, and a softmax $\sigma$ turns the sum into a probability:
+      $$\begin{aligned}\mathbf s_\tau=\sigma\big(&\ln\mathbf A\cdot o_\tau+\ln\mathbf B\mathbf s_{\tau-1}\\&+\text{future message}\big)\end{aligned}$$
+      A filter drops the future message, a retrospective belief keeps it, so later data can reverse the leader (Problem 1: $0.471$ for note 3 became $0.646$ for note 2).
+
+      **Planning.** Policies $\pi$ have free energy $\mathbf F$, expected free energy $\mathbf G$, a habit prior $\mathbf E$ and a precision $\gamma\ge0$:
+      $$\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\gamma\,\mathbf G)$$
+      $\gamma=0$ ignores $\mathbf G$, a large $\gamma$ picks the smallest $\mathbf G$, and a habit shifts the log odds by $\ln(E_1/E_2)$.
+
+      **Epistemic and pragmatic value.** With the belief $Q(s)$ about the state and the likelihood $P(o|s)$ of the reading $o$:
+      $$\mathcal I=H[Q(o)]-\mathbb E_{Q(s)}H[P(o|s)]$$
+      $$G=-\mathcal I-\mathcal P,\qquad \mathcal P=\mathbb E_{Q(o)}\ln P(o|C)$$
+      The best sensor has the largest gain, not the most uncertain reading.
+
+      **Learning.** Counts $\mathbf a$ of the likelihood update by $\mathbf a\leftarrow\mathbf a+\mathbf o\otimes\mathbf s$, and $A_{ij}=a_{ij}/a_{0j}$ with $a_{0j}$ the column total. The novelty of outcome $i$ in column $j$ is
+      $$\begin{aligned}W_{ij}&=D_{KL}\big[\mathrm{Dir}(\mathbf a_{\cdot j}+e_i)\,\|\,\mathrm{Dir}(\mathbf a_{\cdot j})\big]\\&\approx\frac1{2a_{ij}}-\frac1{2a_{0j}}\end{aligned}$$
+      and the full expected free energy is
+      $$G=-\text{salience}-\text{novelty}-\text{pragmatic value}$$
+      Small counts mean large novelty and fast learning ($0.066$ against $0.0049$); with no preferences novelty alone produces inhibition of return.
+
+      **Two levels.** A slow state $k$ (a sentence, scale $\tau^{(2)}$) gives the prior of the fast states (words, scale $\tau^{(1)}$):
+      $$D_t(w)=\sum_kQ(k)\,P(w\mid k,t)$$
+      and the words read update $Q(k)\propto P(k)\prod_tP(\text{word}_t\mid k,t)$. Problem 5: $D_2(\text{no})=0.725$, then $Q(\text{sentence 1})=0.983$ after *yes, no*.
+
+      **Next:** movement and control in continuous time and hybrid models.
