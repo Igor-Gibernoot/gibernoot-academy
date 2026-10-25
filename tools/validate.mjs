@@ -8,7 +8,7 @@
 // Usage: node tools/validate.mjs            all courses in courses/catalog.yaml
 //        node tools/validate.mjs <course>   one course (exit code 1 on any error)
 
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -68,6 +68,14 @@ for (const c of catalog.courses ?? []) {
 
 function checkCourse(course, dir) {
 const lessonIds = new Set();
+const registered = new Set();
+for (const level of course.levels ?? []) for (const m of level.lessons ?? []) if (m.file) registered.add(m.file);
+for (const d of readdirSync(dir, { withFileTypes: true })) {
+  if (!d.isDirectory() || !/^(ch\d+|exams)$/.test(d.name)) continue;
+  for (const f of readdirSync(join(dir, d.name))) {
+    if (f.endsWith('.yaml') && !registered.has(`${d.name}/${f}`)) err(`${d.name}/${f}`, 'lesson file is not registered: add `file:` to its node in course.yaml');
+  }
+}
 for (const level of course.levels ?? []) {
   const lw = `course.yaml level ${level.id}`;
   if (!level.id || !level.title || (level.number == null && !level.eyebrow)) err(lw, 'needs id, title and number (or eyebrow)');

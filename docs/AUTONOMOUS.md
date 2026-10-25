@@ -62,6 +62,7 @@ context stays small. Igor reviews the level on the live site at the end.
   3. **Planned widget cards**: every widget card in the unit prompts' plans
      exists in the lesson, or a widget unit was scheduled; no "no widget
      fits" without the widgets checked.
+  3b. **Registered files**: every new lesson's `course.yaml` node has `file:` (a node without it is invisible to `shots` and the app); `validate` errors on an unregistered lesson file. Unit prompts tell the agent to add `file:` when it creates the lesson.
   4. **STATUS.md**: the Current block names the right next unit and matches
      the last report; it stays under ~40 lines.
   5. **Self-contained summaries**: every `own:` bullet shows its math and

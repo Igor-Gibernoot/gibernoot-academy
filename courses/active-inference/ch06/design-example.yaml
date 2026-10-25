@@ -392,6 +392,9 @@ cards:
       **Behaviour.** For a policy $\pi$ (a sequence of moves) with beliefs $\mathbf s_{\pi\tau}$ at step $\tau$, predicted outcomes $\mathbf A\mathbf s_{\pi\tau}$ ($\mathbf A$ the likelihood table), preferences $\mathbf C$, and ambiguity $\mathbf H\cdot\mathbf s_{\pi\tau}$ ($\mathbf H$ lists the outcome uncertainty of each state), where $\mathrm{KL}[\cdot\|\cdot]$ is the divergence between two distributions (the risk):
       $$G_{\pi\tau}=\mathrm{KL}[\mathbf A\mathbf s_{\pi\tau}\,\|\,\mathbf C]+\mathbf H\cdot\mathbf s_{\pi\tau}$$
       $$P(\pi)=\sigma(-\mathbf G-\mathbf F)$$
-      with $\sigma$ the softmax over policies, $\mathbf F$ the variational free energy and $\mathbf G$ the expected free energy of each policy (the sum of $G_{\pi\tau}$ over the steps $\tau$). Putting a precision $\gamma$ on $\mathbf G$ (weight $\gamma\mathbf G$ instead of $\mathbf G$, with $\gamma=1$ above) sharpens the choice. Numbers: $G=2.446$ for *cue, left* and *cue, right*, $2.855$ for *left, left* and *right, right*, so the cue is visited first with probability $0.60$ ($0.84$ at $\gamma=4$). After "cue says left", the belief in left is $0.9$ and *cue, left* gets $0.85$.
+      with $\sigma$ the softmax over policies, $\mathbf F$ the variational free energy and $\mathbf G$ the expected free energy of each policy (the sum of $G_{\pi\tau}$ over the steps $\tau$). Putting a precision $\gamma$ on $\mathbf G$ (the positive number that scales it; $\gamma=1$ above) gives
+      $$P(\pi)=\sigma(-\mathbf F-\gamma\mathbf G)$$
+      $$P(\pi_i)=\frac{e^{-F_i-\gamma G_i}}{\sum_j e^{-F_j-\gamma G_j}}$$
+      With $\gamma=0$ every policy has the same probability, and a large $\gamma$ sharpens the choice towards the smallest $\mathbf G$. Numbers: $G=2.446$ for *cue, left* and *cue, right*, $2.855$ for *left, left* and *right, right*, so the cue is visited first with probability $0.60$ ($0.84$ at $\gamma=4$). After "cue says left", the belief in left is $0.9$ and *cue, left* gets $0.85$.
 
       **Next:** a round of traps on the recipe: the model must not copy the process, discrete is not temporal depth, learning is optional, and more.
