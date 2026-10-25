@@ -22,28 +22,11 @@ cards:
       5. The softmax over policies for three values of $\gamma$, and its limits.
 
   # ---------------------------------------------------------------- Problem 1
-  - type: text
-    id: p1-setup
-    tag: Problem 1 · A tap on the window
-    title: "Tap, tap"
-    body: |
-      At night you hear a tap on your window. Write $y=$ "a tap" for the observation and $x$ for the hidden cause, which can be **rain**, a **branch**, or a **bird**. Your generative model is
-
-      | Cause $x$ | Prior $P(x)$ | Likelihood $P(y\mid x)$ |
-      |---|---|---|
-      | Rain | $0.5$ | $0.2$ |
-      | Branch | $0.3$ | $0.6$ |
-      | Bird | $0.2$ | $0.5$ |
-
-      Here $P(y\mid x)$ is the probability of hearing a tap in the next moment if the cause is $x$. Recall: the **joint** is $P(y,x)=P(y\mid x)P(x)$, the **evidence** is $P(y)=\sum_x P(y,x)$, the **posterior** is $P(x\mid y)=P(y,x)/P(y)$, and the **surprise** is $-\ln P(y)$.
-
-      Taps are independent given the cause, and the cause stays the same from one tap to the next.
-
   - type: numeric
     id: p1-evidence
     tag: Problem 1 · A tap on the window
     prompt: |
-      Hidden cause $x\in\{\text{rain},\text{branch},\text{bird}\}$ with priors $P(x)=0.5,\,0.3,\,0.2$ produces a tap $y$ with likelihoods $P(y\mid x)=0.2,\,0.6,\,0.5$. What is the evidence $P(y)=\sum_x P(y\mid x)P(x)$?
+      Hidden cause $x\in\{\text{rain},\text{branch},\text{bird}\}$ with priors $P(x)=0.5,\,0.3,\,0.2$ produces a tap $y$ with likelihoods $P(y\mid x)=0.2,\,0.6,\,0.5$. Here $P(y\mid x)$ is the probability of hearing a tap in the next moment if the cause is $x$. What is the evidence $P(y)=\sum_x P(y\mid x)P(x)$?
     answer: 0.38
     tolerance: 0.002
     answerText: '0.38'
@@ -94,7 +77,7 @@ cards:
     id: p1-second
     tag: Problem 1 · A tap on the window
     prompt: |
-      After the first tap, the posterior over (rain, branch, bird) is $(0.263,\,0.474,\,0.263)$. It now acts as the prior for a second tap, which has the same likelihoods $(0.2,\,0.6,\,0.5)$. After the second tap, what is the posterior probability of the branch, in percent?
+      After the first tap, the posterior over (rain, branch, bird) is $(0.263,\,0.474,\,0.263)$. The cause stays the same from one tap to the next, and taps are independent given the cause, so this posterior now acts as the prior for a second tap, which has the same likelihoods $(0.2,\,0.6,\,0.5)$. After the second tap, what is the posterior probability of the branch, in percent?
     answer: 60.7
     tolerance: 0.4
     answerText: '60.7'
@@ -125,22 +108,11 @@ cards:
       The joint probability of two taps is $0.178$, and $-\ln0.178=1.726$. Multiplying probabilities is adding surprises, which is why the logarithm is the right scale.
 
   # ---------------------------------------------------------------- Problem 2
-  - type: text
-    id: p2-setup
-    tag: Problem 2 · Scoring guesses
-    title: "How good is a guess?"
-    body: |
-      Same model as before: causes (rain, branch, bird) with priors $0.5,\,0.3,\,0.2$, and a tap $y$ with likelihoods $0.2,\,0.6,\,0.5$. You found $P(y)=0.38$ and surprise $0.968$ nats.
-
-      Suppose you cannot compute the exact posterior, and instead score a guess $Q(x)$ with the **variational free energy** (minimised):
-      $$F[Q,y]=\sum_x Q(x)\big[\ln Q(x)-\ln P(y,x)\big].$$
-      Equivalently $F=\underbrace{D_{KL}[Q(x)\parallel P(x)]}_{\text{complexity}}-\underbrace{\mathbb{E}_Q\ln P(y\mid x)}_{\text{accuracy}}$, and $F=-\ln P(y)+D_{KL}[Q(x)\parallel P(x\mid y)]$. Terms with $Q(x)=0$ contribute $0$.
-
   - type: numeric
     id: p2-fprior
     tag: Problem 2 · Scoring guesses
     prompt: |
-      Hidden cause $x$ with prior $P(x)=0.5,\,0.3,\,0.2$ and likelihood of a tap $P(y\mid x)=0.2,\,0.6,\,0.5$. The guess is $Q(x)=P(x)$, no change from the prior. Using $F=D_{KL}[Q(x)\parallel P(x)]-\mathbb{E}_Q\ln P(y\mid x)$, what is $F$ in nats?
+      Hidden cause $x$ with prior $P(x)=0.5,\,0.3,\,0.2$ and likelihood of a tap $P(y\mid x)=0.2,\,0.6,\,0.5$. You score a guess $Q(x)$ of the posterior with the variational free energy (minimised), $F=D_{KL}[Q(x)\parallel P(x)]-\mathbb{E}_Q\ln P(y\mid x)$ (complexity minus accuracy; terms with $Q(x)=0$ contribute $0$). The guess is $Q(x)=P(x)$, no change from the prior. What is $F$ in nats?
     answer: 1.097
     tolerance: 0.004
     answerText: '1.097'
@@ -157,7 +129,7 @@ cards:
     id: p2-gap
     tag: Problem 2 · Scoring guesses
     prompt: |
-      A guess $Q(x)$ has free energy $F=1.097$ nats, and the observation has surprise $-\ln P(y)=0.968$ nats. Since $F=-\ln P(y)+D_{KL}[Q(x)\parallel P(x\mid y)]$, how large is the divergence of $Q$ from the exact posterior, in nats?
+      A guess $Q(x)$ of the posterior (variational free energy $F$, minimised) has $F=1.097$ nats, and the observation has surprise $-\ln P(y)=0.968$ nats. Since $F=-\ln P(y)+D_{KL}[Q(x)\parallel P(x\mid y)]$, how large is the divergence of $Q$ from the exact posterior, in nats?
     answer: 0.129
     tolerance: 0.003
     answerText: '0.129'
@@ -347,6 +319,128 @@ cards:
       $$\begin{aligned}P(\pi_1)&=\frac{0.578}{1.463}\\ &\approx0.395,\end{aligned}$$
       and the others get $0.341$ and $0.264$. The best policy is only mildly preferred at $\gamma=1$, because the three $G$ values are close. Raising $\gamma$ sharpens the choice; the last problem explores how.
 
+  # ---------------------------------------------------------------- Problem 4
+  - type: numeric
+    id: p4-fprior
+    tag: Problem 4 · Perception or action
+    prompt: |
+      A porch light is either on or off. The hidden state is $x\in\{\text{home},\text{away}\}$ (is someone home?) with prior $P(x)=(0.7,\,0.3)$, and the observation is $y\in\{\text{on},\text{off}\}$ with $P(\text{on}\mid\text{home})=0.9$ and $P(\text{on}\mid\text{away})=0.2$. You look and see the light **off**, so the likelihoods of what you saw are $P(\text{off}\mid x)=(0.1,\,0.8)$. Your guess is still the prior, $Q(x)=(0.7,\,0.3)$. With $F=D_{KL}[Q(x)\parallel P(x)]-\mathbb{E}_Q\ln P(y\mid x)$ (minimised), what is $F$ in nats?
+    answer: 1.679
+    tolerance: 0.004
+    answerText: '1.679'
+    wrong:
+      - { value: 1.171, tolerance: 0.004, feedback: 'That is the surprise $-\ln P(\text{off})$, the lowest $F$ can reach. A guess equal to the prior ignores the light, so it sits above the floor.' }
+      - { value: 0.557, tolerance: 0.004, feedback: 'You used the likelihoods of the light being **on**, $(0.9,\,0.2)$. The light you saw is off: use $(0.1,\,0.8)$.' }
+      - { value: -1.679, tolerance: 0.004, feedback: 'The sign is lost. The accuracy $\mathbb{E}_Q\ln P(y\mid x)=-1.679$ is negative and $F$ subtracts it, so $F=0-(-1.679)=+1.679$.' }
+    hint: 'For $Q=$ prior the complexity is $0$, so $F=-\sum_x Q(x)\ln P(\text{off}\mid x)$.'
+    explanation: |
+      The complexity is $D_{KL}[P\parallel P]=0$ and the accuracy is
+      $$\begin{aligned}\mathbb{E}_Q\ln P(y\mid x)&=0.7\ln0.1+0.3\ln0.8\\ &=-1.679,\end{aligned}$$
+      so $F=0-(-1.679)=1.679$ nats.
+
+      The floor is the surprise: $P(\text{off})=0.7(0.1)+0.3(0.8)=0.31$, so $-\ln0.31=1.171$. The gap $1.679-1.171=0.508$ nats is $D_{KL}[Q\parallel P(x\mid y)]$ for the exact posterior $(0.226,\,0.774)$. **Perception** closes it: moving $Q$ to that posterior brings $F$ down to $1.171$, the floor. Nothing about the porch changed; only the guess did.
+
+  - type: numeric
+    id: p4-action
+    tag: Problem 4 · Perception or action
+    prompt: |
+      Same porch model: prior $P(x)=(0.7,\,0.3)$ over (home, away), and $P(\text{on}\mid x)=(0.9,\,0.2)$. You have not updated your guess, $Q(x)=(0.7,\,0.3)$. Now someone walks over and **switches the light on**, so the observation is $y=\text{on}$. The world changed; your model and $Q$ did not. What is $F=D_{KL}[Q(x)\parallel P(x)]-\mathbb{E}_Q\ln P(y\mid x)$ now, in nats?
+    answer: 0.557
+    tolerance: 0.004
+    answerText: '0.557'
+    wrong:
+      - { value: 1.679, tolerance: 0.004, feedback: 'That was $F$ for the light **off**. The observation is now on, so the likelihoods are $(0.9,\,0.2)$ and the accuracy changes.' }
+      - { value: 0.371, tolerance: 0.004, feedback: 'That is the new surprise $-\ln P(\text{on})$, the floor. $F$ reaches it only after $Q$ also moves to the new posterior; with $Q$ still equal to the prior, $F$ is above it.' }
+      - { value: -0.557, tolerance: 0.004, feedback: 'The sign is lost: the accuracy is negative, and $F$ subtracts it.' }
+    hint: 'Complexity is $0$ again. $F=-\sum_x Q(x)\ln P(\text{on}\mid x)$.'
+    explanation: |
+      $$\begin{aligned}F&=0-\left(0.7\ln0.9+0.3\ln0.2\right)\\ &=0.557\ \text{nats}.\end{aligned}$$
+      $F$ fell from $1.679$ to $0.557$ with $Q$ **unchanged**: the observation moved. The floor moved too: $P(\text{on})=0.7(0.9)+0.3(0.2)=0.69$, so the surprise is $-\ln0.69=0.371$ (it was $1.171$ for the light off), with exact posterior $(0.913,\,0.087)$. The gap is now $0.557-0.371=0.186$, and perception could still close it.
+
+  - type: mcq
+    id: p4-levers
+    tag: Problem 4 · Perception or action
+    prompt: |
+      In the porch light, a creature lowers $F=\sum_x Q(x)[\ln Q(x)-\ln P(y,x)]$ either by perception or by action. Which description is right?
+    options:
+      - text: 'Perception changes $Q$, so $F$ falls toward a fixed floor $-\ln P(y)$; action changes $y$ in the world, which moves the floor itself (here from $1.171$ to $0.371$).'
+        correct: true
+      - text: 'Action changes $Q$ and perception changes $y$.'
+        feedback: |
+          Reversed. Perception is inference: it only updates the guess $Q$. Action acts on the world and changes what is observed, $y$ (the light goes from off to on).
+      - text: 'Both only change $Q$; the floor $-\ln P(y)$ depends on the model alone, so it never moves.'
+        feedback: |
+          The floor $-\ln P(y)$ depends on the model **and on which $y$ occurs**: $P(\text{off})=0.31$ but $P(\text{on})=0.69$. Action changes $y$, so it moves the floor, and a creature can lower $F$ below what any belief change could reach.
+      - text: 'Perception can push $F$ below the surprise if $Q$ is chosen well.'
+        feedback: |
+          No: $F=-\ln P(y)+D_{KL}[Q\parallel P(x\mid y)]\ge-\ln P(y)$. The best perception reaches the floor ($1.171$) and stops; to go lower, the observation itself must change, and that takes action.
+    explanation: |
+      $$\begin{aligned}F&=-\ln P(y)+D_{KL}[Q(x)\parallel P(x\mid y)]\end{aligned}$$
+      has two handles. Changing $Q$ shrinks the divergence (perception: $1.679\to1.171$). Changing $y$ changes the surprise term (action: floor $1.171\to0.371$, and $F$ at the old $Q$ from $1.679$ to $0.557$). Perception makes the model fit the world; action makes the world fit the model.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: numeric
+    id: p5-gamma2
+    tag: Problem 5 · How sharp a choice
+    prompt: |
+      A creature scores three policies with expected free energies (minimised) $G=0.548,\ 0.697,\ 0.950$ nats and chooses with precision $\gamma=2$. What is the probability of choosing the first policy?
+    answer: 0.4565
+    tolerance: 0.003
+    answerText: '0.457'
+    wrong:
+      - { value: 0.395, tolerance: 0.003, feedback: 'That is the result for $\gamma=1$. Here $\gamma=2$ multiplies every $G$ in the exponent.' }
+      - { value: 0.364, tolerance: 0.003, feedback: 'You divided by $\gamma$ (that is $\gamma=0.5$). Precision multiplies $G$: a higher $\gamma$ sharpens the choice.' }
+      - { value: 0.334, tolerance: 0.002, feedback: 'That is the numerator $e^{-2\times0.548}$, not yet divided by the sum of the three terms.' }
+    hint: 'The probabilities are a softmax over $-\gamma G$. The three exponents are $-1.096,\ -1.394,\ -1.900$.'
+    explanation: |
+      $$\begin{aligned}P(\pi)&=\frac{e^{-\gamma G(\pi)}}{\sum_{\pi'}e^{-\gamma G(\pi')}}\end{aligned}$$
+      The terms are $0.334,\ 0.248,\ 0.150$ with sum $0.732$, so $P=0.457,\ 0.339,\ 0.204$. Compare $\gamma=1$: $0.395,\ 0.341,\ 0.264$. The ratio of two probabilities is $P(\pi)/P(\pi')=e^{\gamma\,(G(\pi')-G(\pi))}$: for the first two policies $e^{0.149\gamma}$, which is $1.16$ at $\gamma=1$ and $1.35$ at $\gamma=2$. The gap in $G$ is fixed; $\gamma$ decides how much of it counts.
+
+  - type: widget
+    id: p5-widget
+    review: false
+    widget: policy-scorer
+    config:
+      outcomes: ["worm", "no worm"]
+      C: [0.8, 0.2]
+      states: ["rich", "poor"]
+      likelihood: [[0.9, 0.1], [0.1, 0.9]]
+      editable: false
+      gamma: 1
+      gammaMax: 10
+      policies:
+        - { name: "Lawn", qx: [0.5, 0.5] }
+        - { name: "Mud", qx: [0.8, 0.2], likelihood: [[0.7, 0.3], [0.3, 0.7]] }
+        - { name: "Bed", qx: [0.2, 0.8], likelihood: [[0.95, 0.05], [0.05, 0.95]] }
+      presets:
+        - { label: "γ = 0", gamma: 0 }
+        - { label: "γ = 1", gamma: 1 }
+        - { label: "γ = 10", gamma: 10 }
+    body: |
+      The robin's three policies again, now with the probabilities $P(\pi)=\sigma(-\gamma G)$ and a slider for the precision $\gamma$. Drag $\gamma$ from $0$ up to $10$ and watch the probabilities.
+
+      What happens at $\gamma=0$? Does the order of the policies ever change? How large must $\gamma$ be before the best policy is chosen almost every time?
+
+  - type: mcq
+    id: p5-limits
+    tag: Problem 5 · How sharp a choice
+    prompt: |
+      Policies have expected free energies $G=0.548,\ 0.697,\ 0.950$ and are chosen with $P(\pi)=\sigma(-\gamma G)$. Which statement is correct?
+    options:
+      - text: 'At $\gamma=0$ all policies are equally likely; as $\gamma$ grows the lowest-$G$ policy approaches probability $1$; and for every $\gamma>0$ the order of the probabilities is the order of $-G$.'
+        correct: true
+      - text: 'A large $\gamma$ can reorder the policies: for $\gamma=10$ the policy with the highest $G$ can overtake the others.'
+        feedback: |
+          $e^{-\gamma G}$ decreases with $G$ for every $\gamma>0$, so a lower $G$ always has a higher probability. $\gamma$ only stretches the differences: the ranking is fixed by $G$.
+      - text: 'As $\gamma\to\infty$ every exponential $e^{-\gamma G}$ goes to $0$, so the choice becomes uniform.'
+        feedback: |
+          They all vanish, but at different speeds: the ratio of the first two is $e^{0.149\gamma}$, which grows. At $\gamma=10$ the probabilities are already about $0.80,\ 0.18,\ 0.01$.
+      - text: 'A negative $\gamma$ changes nothing, because the softmax normalises the probabilities anyway.'
+        feedback: |
+          Normalising does not remove the sign. With $\gamma=-1$ the exponents flip and the probabilities are $0.274,\ 0.318,\ 0.409$: the **worst** policy is favoured. $\gamma$ is a positive precision.
+    explanation: |
+      At $\gamma=0$ the exponent vanishes and $P(\pi)=1/3$ each. At $\gamma=0.5$ it is $0.364,\ 0.338,\ 0.298$; at $1$, $0.395,\ 0.341,\ 0.264$; at $2$, $0.457,\ 0.339,\ 0.204$; at $10$, about $0.80,\ 0.18,\ 0.01$. The precision sets the **sharpness** (how decisively the lowest $G$ wins), never the **ranking**, which only $G$ decides.
+
   - type: text
     id: summary
     title: What you now own
@@ -360,3 +454,9 @@ cards:
       - **Policies are scored by $G$ and chosen by a softmax.** For a policy $\pi$ with predicted outcomes $Q(\tilde{y}\mid\pi)$, preferences $P(\tilde{y}\mid C)$ and likelihood $P(\tilde{y}\mid\tilde{x})$ (hidden state $\tilde{x}$, outcome $\tilde{y}$),
         $$\begin{aligned}G&=\text{ambiguity}+\text{risk}\\ &=-\text{gain}-\text{pragmatic value}\end{aligned}$$
         with $P(\pi)=\sigma(-\gamma G)$ for the precision $\gamma$. A robin with preferences $(0.8,\,0.2)$ for (worm, no worm) scores Lawn, Mud, Bed at $G=0.548,\,0.697,\,0.950$: the lowest risk (Mud) and the lowest ambiguity (Bed) each lose to the policy that balances both (Lawn), and at $\gamma=1$ the probabilities are $0.395,\,0.341,\,0.264$.
+      - **Perception moves $Q$, action moves $y$.** Porch light: hidden state $x\in\{\text{home},\text{away}\}$ with prior $P(x)=(0.7,\,0.3)$, observation $y\in\{\text{on},\text{off}\}$ with $P(\text{on}\mid x)=(0.9,\,0.2)$. For a guess $Q(x)$ the free energy (minimised) obeys
+        $$\begin{aligned}F&=\sum_x Q(x)\big[\ln Q(x)-\ln P(y,x)\big]\\ &=-\ln P(y)+D_{KL}[Q(x)\parallel P(x\mid y)].\end{aligned}$$
+        With the light **off** and $Q=$ prior, $F=1.679$; perception moves $Q$ to the posterior $(0.226,\,0.774)$ and $F$ falls to the surprise $1.171$. Action, switching the light **on**, changes $y$ itself: the floor drops to $-\ln P(\text{on})=0.371$, $F$ at the old $Q$ is $0.557$, and the new posterior is $(0.913,\,0.087)$. Perception shrinks the divergence; action changes the surprise.
+      - **The precision $\gamma$ sets how sharp the choice is, never the ranking.** For policies with expected free energies $G(\pi)$ (minimised),
+        $$\begin{aligned}P(\pi)&=\sigma(-\gamma G)=\frac{e^{-\gamma G(\pi)}}{\sum_{\pi'}e^{-\gamma G(\pi')}}\\ \frac{P(\pi)}{P(\pi')}&=e^{\gamma\,(G(\pi')-G(\pi))}.\end{aligned}$$
+        For the robin's $G=0.548,\,0.697,\,0.950$: $\gamma=0$ gives $\tfrac13$ each, $\gamma=1$ gives $0.395,\,0.341,\,0.264$, $\gamma=2$ gives $0.457,\,0.339,\,0.204$, and $\gamma=10$ gives about $0.80$ to the lowest $G$. Large $\gamma$ approaches choosing the minimum of $G$; $\gamma<0$ would favour the worst policy.
