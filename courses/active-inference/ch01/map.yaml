@@ -68,23 +68,23 @@ nodes:
     explanation: |
       Priors are what make guessing possible when the senses are ambiguous or noisy.
 
-  - id: evidence
-    title: Evidence
+  - id: likelihood
+    title: Likelihood
     row: 3
     col: 2
     body: |
-      The **evidence** says how well each possible cause would explain the sensation you actually got.
+      The **likelihood** says how well each possible cause would explain the sensation you actually got.
     decoys:
       - body: |
-          The **evidence** says how likely each possible cause was beforehand, whatever you sensed.
+          The **likelihood** says how likely each possible cause was beforehand, whatever you sensed.
         feedback: |
-          That is the prior. Evidence looks at the sensation you got and asks which causes would produce it.
+          That is the prior. Likelihood looks at the sensation you got and asks which causes would produce it.
       - body: |
-          The **evidence** is the cause itself: the sensation simply is the thing out there.
+          The **likelihood** is the cause itself: the sensation simply is the thing out there.
         feedback: |
-          Sensations are effects, not causes. A rustle is not the animal; several animals could make it, which is why evidence can only score the possible causes.
+          Sensations are effects, not causes. A rustle is not the animal; several animals could make it, which is why likelihood can only score the possible causes.
     explanation: |
-      Together with the prior, the evidence is the second ingredient of every guess.
+      Together with the prior, the likelihood is the second ingredient of every guess.
 
   - id: error
     title: Prediction error
@@ -118,18 +118,18 @@ nodes:
     body: |
       A **belief** is a spread of confidence over the possible hidden causes, found by mixing prior and evidence:
 
-      $$\text{belief} \;\propto\; \text{prior} \times \text{evidence}.$$
+      $$\text{belief} \;\propto\; \text{prior} \times \text{likelihood}.$$
     decoys:
       - body: |
-          A **belief** follows the evidence only, as a spread of confidence over the causes:
+          A **belief** follows the likelihood only, as a spread of confidence over the causes:
 
-          $$\text{belief} \;\propto\; \text{evidence}.$$
+          $$\text{belief} \;\propto\; \text{likelihood}.$$
         feedback: |
           This ignores what you expected. With noisy senses the prior decides, and two creatures hearing the same sound can rightly believe different things.
       - body: |
           A **belief** is a single verdict, the one most likely cause, found by adding prior and evidence:
 
-          $$\text{belief} = \text{prior} + \text{evidence}.$$
+          $$\text{belief} = \text{prior} + \text{likelihood}.$$
         feedback: |
           Two slips. A belief keeps the whole spread of confidence (69% cat, 31% dog). And the two ingredients combine by multiplying, then rescaling to add up to 100%.
     explanation: |
@@ -211,11 +211,11 @@ edges:
   - { from: loop, to: surprise, label: makes it matter }
   - { from: surprise, to: error, label: shows up as }
   - [prior, belief]
-  - [evidence, belief]
+  - [likelihood, belief]
   - { from: belief, to: perceive, label: update }
   - { from: error, to: act, label: reduce by }
   - { from: act, to: policy, label: over time }
   - { from: policy, to: explore, label: scored by }
 outroTitle: Level 1 in one picture
 outro: |
-  A creature persists by keeping **surprise** low. Inside, that appears as a **prediction error**, and there are two levers: **perceive** (mix prior and evidence into a belief, change your mind) or **act** (change the world to fulfil a goal held as a prior prediction). Planning scores whole **policies** by their expected free energy, which includes curiosity. Level 2 starts from perceiving as inference and derives free energy.
+  A creature persists by keeping **surprise** low. Inside, that appears as a **prediction error**, and there are two levers: **perceive** (mix prior and likelihood into a belief, change your mind) or **act** (change the world to fulfil a goal held as a prior prediction). Planning scores whole **policies** by their expected free energy, which includes curiosity. Level 2 starts from perceiving as inference and derives free energy.
