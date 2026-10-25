@@ -1,0 +1,326 @@
+id: ch08-generalized-filtering
+title: "Guided Problem: Generalized Filtering"
+kind: guided
+cards:
+  - type: text
+    id: hook
+    title: "How does a belief keep up with a moving world?"
+    body: |
+      So far a belief $\mu$ was a single number that slid down the free energy $F$ until the gradient vanished: $\dot\mu=-\nabla_\mu F$. That works when the thing we track holds still. Here we ask what must change when the hidden state **moves**, and we derive the full rule that a continuous-time active-inference agent runs. The problem, in four moves:
+
+      1. Write the free energy $F$ for a model that describes a state **and** its velocity, acceleration, and so on (generalized coordinates).
+      2. Take its gradient with respect to the belief.
+      3. Fix the one thing plain gradient descent gets wrong for a moving state.
+      4. Add **action**, which changes the data instead of the belief.
+
+      Notation. $x$ is a hidden state, $v$ a hidden cause that is not driven by an equation of motion (a "static prior"), $y$ the data, $u$ the action. $\mu$ is the agent's belief (the mean of its approximate posterior $q$). $\Pi$ is a precision (inverse variance). A tilde, as in $\tilde x$, means the state **together with its time derivatives**, $\tilde x=(x,x',x'',\dots)$ with $x'=\dot x$. Prime and dot both mean $d/dt$.
+
+  - type: mcq
+    id: guess
+    prompt: |
+      A hidden quantity grows at a constant speed, $x(t)=x_0+ct$. The agent's belief $\mu$ already equals $x$ exactly, at this instant. Free energy is at its minimum, so its gradient with respect to $\mu$ is zero. If the belief obeys plain gradient descent, $\dot\mu=-\nabla_\mu F$, what does $\mu$ do next?
+    options:
+      - text: 'It stays put, because the gradient is zero, so it falls behind the moving $x$ and the error grows again: it has to be dragged back down the slope all the time.'
+        correct: true
+      - text: 'It keeps up with $x$, because the minimum of $F$ moves with $x$ and the belief follows its minimum automatically.'
+        feedback: |
+          The minimum does move, but the rule says the belief changes **only** through the gradient, and at the minimum the gradient is zero. The belief then lags and is perpetually "catching up": a tracking error that never closes.
+      - text: 'It moves at speed $c$ because it knows the true $x$.'
+        feedback: |
+          The belief knows only what the update rule gives it. $\dot\mu=0$ at a zero gradient, whatever the world does.
+    explanation: |
+      Plain descent has a built-in lag: it can only rest at the minimum, never *travel* with it. The fix comes at the end of the derivation (a "moving frame"). First we need the free energy of a model that talks about velocities.
+
+  - type: text
+    id: laplace
+    title: "Step 1: the free energy under the Laplace approximation"
+    body: |
+      **Recall** the Laplace approximation: the approximate posterior is a Gaussian, $q(\tilde x)=\mathcal N$ centred on the belief $\tilde\mu$, with precision equal to the negative curvature of $\ln p(\tilde y,\tilde x)$ at that centre. With it, for data $\tilde y$ and a model $p$ over states in generalized coordinates,
+
+      $$F[q,\tilde y]\approx-\tfrac12\ln\big((2\pi)^k|\tilde\Sigma|\big)-\ln p(\tilde y,\tilde\mu)$$
+
+      where $k$ is the number of coordinates and $|\tilde\Sigma|$ a determinant. Everything here comes from the curvature, which is computed from $\tilde\mu$ itself, so it needs no separate optimisation.
+
+  - type: text
+    id: model
+    title: "Step 2: the model, and its generalized form"
+    body: |
+      The generative model has two hidden variables: a state $x$ that obeys an equation of motion, and a cause $v$ that obeys only a prior:
+
+      $$y=g(x,v)+w_y\qquad\dot x=f(x,v)+w_x$$
+
+      with Gaussian noise $w$. Taking derivatives of both sides in time gives a whole vector of equations, one per order. In generalized coordinates
+
+      $$\tilde y=\tilde g(\tilde x,\tilde v)+\tilde w_y\qquad D\tilde x=\tilde f(\tilde x,\tilde v)+\tilde w_x$$
+
+      where $\tilde y=(y,y',y'',\dots)$ and $\tilde g=\big(g,\ g'\!\cdot x',\ \dots\big)$ stacks $g$ with its time derivatives: by the chain rule, the second entry is $\frac{d}{dt}g(x)=\frac{\partial g}{\partial x}x'$. Likewise $\tilde f$ is $f$ and its time derivatives.
+
+      The matrix $D$ on the left of the second equation is the subject of the next card.
+
+  - type: numeric
+    id: g-tilde
+    prompt: |
+      The mapping is $g(x)=3x^2$ and, at some instant, $x=2$ and its velocity is $x'=0.5$. The second entry of $\tilde g$ is the time derivative of the prediction $y=g(x)$, namely $\frac{d}{dt}\,g(x)=\frac{\partial g}{\partial x}\,x'$. What is its value?
+    answer: 6
+    hint: '$\partial g/\partial x=6x$.'
+    wrong:
+      - { value: 12, feedback: 'That is $6x=12$: you gave $\partial g/\partial x$ and forgot to multiply by the velocity $x'' = 0.5$.' }
+      - { value: 3, feedback: 'That is $6x\,x''$ with $x=1$, or $x''\cdot 6$: check that $\partial g/\partial x=6x=12$ at $x=2$, then times $0.5$.' }
+    explanation: |
+      $\partial g/\partial x=6x=12$ at $x=2$, times $x'=0.5$ gives $6$. The first entry of $\tilde g$ predicts the data $y$, the second predicts the data's velocity $y'$. A moving state makes **predictions about how the data move**.
+
+  - type: text
+    id: dshift
+    title: "The shift operator $D$"
+    body: |
+      Stack the orders of a state as $\tilde\mu=(\mu,\mu',\mu'')$: position, velocity, acceleration. Differentiating the stack in time shifts every entry **up** by one place: the new first entry is the velocity, the new second is the acceleration. The highest order has no known derivative (we truncate), so a zero enters at the bottom. As a matrix, $D$ has ones just above the main diagonal and zeros elsewhere:
+
+      $$D\tilde\mu=\begin{pmatrix}0&1&0\\0&0&1\\0&0&0\end{pmatrix}\begin{pmatrix}\mu\\\mu'\\\mu''\end{pmatrix}=\begin{pmatrix}\mu'\\\mu''\\0\end{pmatrix}$$
+
+      So $D\tilde x$ in the model means "the velocity of each order of $\tilde x$": the equation $D\tilde x=\tilde f(\tilde x,\tilde v)+\tilde w_x$ says that the velocity of the state is whatever the dynamics $f$ say.
+
+  - type: text
+    id: errors
+    title: "Step 3: the prediction errors"
+    body: |
+      Substituting the Gaussian forms of the model (data given states, states given the cause, a prior $\tilde\eta$ over the cause) into $-\ln p$ gives three **prediction errors**, each a mismatch between what the belief says and what something else predicts. With $\tilde\mu_x,\tilde\mu_v$ the beliefs about $\tilde x,\tilde v$:
+
+      $$\begin{aligned}\tilde\epsilon_y&=\tilde y-\tilde g(\tilde\mu_x,\tilde\mu_v)\\\tilde\epsilon_x&=D\tilde\mu_x-\tilde f(\tilde\mu_x,\tilde\mu_v)\\\tilde\epsilon_v&=\tilde\mu_v-\tilde\eta\end{aligned}$$
+
+      Read them as: **data minus prediction**; **the velocity the belief has minus the velocity the dynamics prescribe**; **belief minus prior**.
+
+      **Running example for the rest of the lesson.** One hidden state with $y=x$, so $g(x)=x$, and linear dynamics $\dot x=f(x,v)=-x+v$ driven by a cause $v=1$ (known, prior fixed). Two orders are kept, $\tilde\mu=(\mu,\mu')$, so $D\tilde\mu=(\mu',0)$ and $\tilde f=\big(-\mu+v,\ -\mu'\big)$ (the second entry is the time derivative of the first; $v$ is constant). The data are $\tilde y=(1,\ 0.5)$ and the belief is $\tilde\mu=(0.6,\ 0.2)$.
+
+  - type: numeric
+    id: eps-x
+    prompt: |
+      Running example: $g(x)=x$, $f(x,v)=-x+v$ with $v=1$, belief $\tilde\mu=(0.6,\ 0.2)$, $D\tilde\mu=(\mu',0)$. What is the **first entry of the dynamics error** $\tilde\epsilon_x=D\tilde\mu-\tilde f$?
+    answer: -0.2
+    hint: 'First entry of $D\tilde\mu$ is $\mu''=0.2$; first entry of $\tilde f$ is $-\mu+v$.'
+    wrong:
+      - { value: 0.2, feedback: 'The sign is flipped: that is $\tilde f-D\tilde\mu$. The book''s error is $D\tilde\mu-\tilde f$ (the velocity the belief has, minus the velocity the dynamics prescribe).' }
+      - { value: -0.4, feedback: 'You dropped the $D\tilde\mu$ part ($\mu''=0.2$): $-0.4$ is $-\tilde f$ alone.' }
+      - { value: 0.6, feedback: 'That is $\mu$, not an error. The error compares the belief''s velocity $\mu''=0.2$ with the dynamics $-\mu+v=0.4$.' }
+    explanation: |
+      $\mu'=0.2$ and $f=-0.6+1=0.4$, so $\epsilon_x=0.2-0.4=-0.2$. The belief says "this state is growing at $0.2$", the dynamics say it should grow at $0.4$: a **mismatch of $-0.2$** in the velocity. (The second entry: $0-(-\mu')=0.2$.) Also $\tilde\epsilon_y=\tilde y-\tilde\mu=(0.4,\ 0.3)$.
+
+  - type: text
+    id: fe-form
+    title: "The free energy as a sum of weighted squares"
+    body: |
+      Dropping constants, the free energy of the model is
+
+      $$F=\tfrac12\,\tilde\epsilon_y\cdot\tilde\Pi_y\tilde\epsilon_y+\tfrac12\,\tilde\epsilon_x\cdot\tilde\Pi_x\tilde\epsilon_x+\tfrac12\,\tilde\epsilon_v\cdot\tilde\Pi_v\tilde\epsilon_v$$
+
+      Each term is $-\ln$ of one Gaussian factor: $-\ln p(\tilde y\mid\tilde\mu_x,\tilde\mu_v)$, $-\ln p(\tilde\mu_x\mid\tilde\mu_v)$ and $-\ln p(\tilde\mu_v)$. The precisions $\tilde\Pi$ are matrices over the orders; for now take them diagonal.
+
+      Continue the running example with $\tilde\Pi_y=\mathrm{diag}(4,\ 2)$ and $\tilde\Pi_x=\mathrm{diag}(1,\ 1)$. The cause $v$ is known, so $\tilde\epsilon_v=0$.
+
+  - type: numeric
+    id: fe-value
+    prompt: |
+      Running example: $\tilde\epsilon_y=(0.4,\ 0.3)$ with $\tilde\Pi_y=\mathrm{diag}(4,2)$, and $\tilde\epsilon_x=(-0.2,\ 0.2)$ with $\tilde\Pi_x=\mathrm{diag}(1,1)$; no prior term. Using $F=\tfrac12\sum\tilde\epsilon\cdot\tilde\Pi\tilde\epsilon$, what is $F$?
+    answer: 0.45
+    tolerance: 0.001
+    hint: 'Data part: $\tfrac12(4\cdot0.4^2+2\cdot0.3^2)$. Dynamics part: $\tfrac12(0.2^2+0.2^2)$.'
+    wrong:
+      - { value: 0.9, feedback: 'You forgot the factor $\tfrac12$ in front of each sum.' }
+      - { value: 0.41, feedback: 'That is the data part only. The dynamics errors also cost: add $\tfrac12(0.04+0.04)=0.04$.' }
+    explanation: |
+      Data part $\tfrac12(0.64+0.18)=0.41$; dynamics part $\tfrac12(0.04+0.04)=0.04$; total $0.45$. Both a wrong **position** and a wrong **velocity** cost free energy, weighted by their precisions.
+
+  - type: text
+    id: precision
+    title: "Generalized precision: how smooth is the noise?"
+    body: |
+      The precision matrices $\tilde\Pi$ over orders are not arbitrary. Noise that is **smooth** has fluctuations at neighbouring times strongly correlated, and that fixes how the orders of $\tilde w$ relate. Take a Gaussian autocorrelation of the fluctuations,
+
+      $$\rho(h)=e^{-\frac12\lambda h^2}$$
+
+      with $\lambda$ the **roughness**: large $\lambda$ means the correlation dies fast, so the noise is rough. Differentiating $\rho$ at $h=0$ gives $\rho(0)=1$, $\rho''(0)=-\lambda$ and $\rho''''(0)=3\lambda^2$. Collecting the covariances between orders, with unit noise variance $\Sigma=1$, the generalized precision is the inverse of
+
+      $$\begin{pmatrix}1&0&-\lambda\\0&\lambda&0\\-\lambda&0&3\lambda^2\end{pmatrix}$$
+
+      and, for orders (position, velocity, acceleration),
+
+      $$\tilde\Pi=\begin{pmatrix}\tfrac32&0&\tfrac1{2\lambda}\\0&\tfrac1\lambda&0\\\tfrac1{2\lambda}&0&\tfrac1{2\lambda^2}\end{pmatrix}$$
+
+      Note the middle entry: the velocity of a rough process has variance $\lambda$, so its precision is $1/\lambda$.
+
+  - type: numeric
+    id: pi-vel
+    prompt: |
+      Noise with unit variance and roughness $\lambda=2$. What is the precision of the **velocity** order (the middle diagonal entry of $\tilde\Pi$)?
+    answer: 0.5
+    hint: 'The variance of the velocity of the noise is $\lambda$; precision is its inverse.'
+    wrong:
+      - { value: 2, feedback: 'That is the **variance** $\lambda$ of the velocity, not its precision. Precision is the inverse.' }
+      - { value: 1, feedback: 'That would hold for $\lambda=1$. Here the velocity of the noise fluctuates twice as much as the position, so it is less certain.' }
+    explanation: |
+      $\tilde\Pi_{22}=1/\lambda=0.5$. Checking by inversion: the $2\times2$ block on orders (position, acceleration) inverts to $\tfrac1{2\lambda^2}\begin{pmatrix}3\lambda^2&\lambda\\\lambda&1\end{pmatrix}$, giving $\tfrac32,\ \tfrac1{2\lambda},\ \tfrac1{2\lambda^2}$.
+
+  - type: text
+    id: gradient
+    title: "Step 4: the gradient"
+    body: |
+      Differentiate $F$ with respect to the beliefs. Each error depends on $\tilde\mu$ through $\tilde g$, $\tilde f$, or $D\tilde\mu$, so by the chain rule, for $\tilde\mu_x$ (here $\nabla_{\tilde\mu_x}\tilde g$ is the matrix of derivatives of $\tilde g$ with respect to $\tilde\mu_x$):
+
+      $$\nabla_{\tilde\mu_x}F=-\nabla_{\tilde\mu_x}\tilde g\,\tilde\Pi_y\tilde\epsilon_y+D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x-\nabla_{\tilde\mu_x}\tilde f\,\tilde\Pi_x\tilde\epsilon_x$$
+
+      and for $\tilde\mu_v$
+
+      $$\nabla_{\tilde\mu_v}F=-\nabla_{\tilde\mu_v}\tilde g\,\tilde\Pi_y\tilde\epsilon_y-\nabla_{\tilde\mu_v}\tilde f\,\tilde\Pi_x\tilde\epsilon_x+\tilde\Pi_v\tilde\epsilon_v$$
+
+      The signs come from the inside of each error: $\tilde\epsilon_y$ carries $-\tilde g$, $\tilde\epsilon_x$ carries $+D\tilde\mu$ and $-\tilde f$, and $\tilde\epsilon_v$ carries $+\tilde\mu_v$. The book writes $D$ in the second term of the first line; differentiating $D\tilde\mu$ and multiplying from the left gives the **transpose** $D^{\mathsf T}$ (ones just *below* the diagonal), which is what we use.
+
+  - type: build
+    id: build-grad
+    prompt: |
+      A plain gradient descent would be $\dot{\tilde\mu}_x=-\nabla_{\tilde\mu_x}F$. Assemble the **right-hand side** of $\dot{\tilde\mu}_x-D\tilde\mu_x=-\nabla_{\tilde\mu_x}F$ by flipping the sign of each term of the gradient above, starting with the data term.
+    prefix: '\dot{\tilde\mu}_x-D\tilde\mu_x ='
+    tiles:
+      - '\nabla_{\tilde\mu_x}\tilde g\,\tilde\Pi_y\tilde\epsilon_y'
+      - '-\,D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x'
+      - '+\,\nabla_{\tilde\mu_x}\tilde f\,\tilde\Pi_x\tilde\epsilon_x'
+      - '-\,\nabla_{\tilde\mu_x}\tilde g\,\tilde\Pi_y\tilde\epsilon_y'
+      - '+\,D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x'
+      - '-\,\nabla_{\tilde\mu_x}\tilde f\,\tilde\Pi_x\tilde\epsilon_x'
+    answers:
+      - ['\nabla_{\tilde\mu_x}\tilde g\,\tilde\Pi_y\tilde\epsilon_y', '-\,D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x', '+\,\nabla_{\tilde\mu_x}\tilde f\,\tilde\Pi_x\tilde\epsilon_x']
+      - ['\nabla_{\tilde\mu_x}\tilde g\,\tilde\Pi_y\tilde\epsilon_y', '+\,\nabla_{\tilde\mu_x}\tilde f\,\tilde\Pi_x\tilde\epsilon_x', '-\,D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x']
+    hint: 'Start from $-\nabla_{\tilde\mu_x}F=+\nabla\tilde g\,\tilde\Pi_y\tilde\epsilon_y-D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x+\nabla\tilde f\,\tilde\Pi_x\tilde\epsilon_x$.'
+    explanation: |
+      Flip every sign of the gradient. Reading the result as a message-passing scheme: the data error $\tilde\epsilon_y$ pushes the belief toward the data, through $\nabla\tilde g$; the dynamics error $\tilde\epsilon_x$ pushes the belief to obey the equation of motion, through $\nabla\tilde f$ and $D^{\mathsf T}$. That is predictive coding: **prediction errors drive the update that resolves them**. The equation for $\tilde\mu_v$ is the same with $\tilde\Pi_v\tilde\epsilon_v$ added with a minus sign (pull toward the prior $\tilde\eta$).
+
+  - type: text
+    id: moving-frame
+    title: "Step 5: the moving frame"
+    body: |
+      Back to the opening puzzle. A descent $\dot{\tilde\mu}=-\nabla F$ comes to rest where $\nabla F=0$, so the belief would be **static** there. But in generalized coordinates the belief already contains velocities: the true motion of $\tilde\mu$ should be $D\tilde\mu$ (its own velocity entries, shifted up), whatever the gradient does. So the book **descends in a moving frame**:
+
+      $$\dot{\tilde\mu}-D\tilde\mu=-\nabla_{\tilde\mu}F$$
+
+      When the gradient vanishes, $\dot{\tilde\mu}=D\tilde\mu$: the belief continues to move with the velocity it carries. Away from the minimum, the gradient adds a correction on top of that motion.
+
+      Test it. In the widget the data are a sine wave and the belief is a three-order trajectory. Press **Play**, then compare **Orders kept 1** (belief with only a position, so $D\tilde\mu=0$ and the frame does not move: plain descent) with **3**.
+
+  - type: widget
+    id: dynamic-widget
+    widget: predictive-coding
+    review: false
+    config:
+      mode: dynamic
+      modes: [dynamic]
+      g: { kind: gain, gain: 1 }
+      f: { x: -1, v: 1 }
+      eta: 0
+      Pi: { y: 8, x: 1, v: 1 }
+      signal: { amp: 1, omega: 2, offset: 0 }
+      orders: 3
+      autoplay: true
+    body: |
+      Teal is the data $y(t)$, green the prediction $g(\mu)$ made by the belief, which runs $\dot{\tilde\mu}-D\tilde\mu=-\nabla F$. Press *Orders kept 1*, then *2*, then *3* and read the mean gap each time.
+
+  - type: mcq
+    id: orders-q
+    prompt: |
+      With **one** order kept ($\tilde\mu=\mu$ only, so $D\tilde\mu=0$) the belief follows the sine data with a visible lag. With three orders the lag shrinks. Why does the extra order help?
+    options:
+      - text: 'The belief now carries a velocity and an acceleration, so $D\tilde\mu\ne0$ moves the belief along with the data before any error builds up; the gradient only corrects what is left.'
+        correct: true
+      - text: 'More orders just make the free energy larger, so the gradient is steeper and the descent is faster.'
+        feedback: |
+          Not the point: the data are the same and so is the mismatch scale. What changes is that the belief itself carries a prediction of its own motion, which the moving frame uses.
+      - text: 'The extra orders are noise that averages out the data fluctuations.'
+        feedback: |
+          They are not noise: $\mu'$ and $\mu''$ are beliefs about the genuine velocity and acceleration of the data, estimated like the position.
+    explanation: |
+      With one order the belief rests where the gradient is zero, which is **behind** a moving target (the errors needed to keep pushing it are the lag). With more orders the term $D\tilde\mu$ supplies the motion for free, and the error only has to supply the small difference. This is why prediction in generalized coordinates **anticipates** the data.
+
+  - type: text
+    id: one-step
+    title: "One step of the update by hand"
+    body: |
+      Now run the rule once on the running example, exactly as written above.
+
+      Setup: $g(x)=x$, so $\nabla\tilde g=I$; $f=-x+v$ with $v$ known, so $\nabla_{\tilde\mu_x}\tilde f=-I$; $\tilde\Pi_y=\mathrm{diag}(4,2)$, $\tilde\Pi_x=I$; data $\tilde y=(1,\ 0.5)$; belief $\tilde\mu=(0.6,\ 0.2)$; $D^{\mathsf T}(a,b)=(0,a)$. We found $\tilde\epsilon_y=(0.4,\ 0.3)$ and $\tilde\epsilon_x=(-0.2,\ 0.2)$, so
+
+      $$\tilde\Pi_y\tilde\epsilon_y=(1.6,\ 0.6)\qquad\tilde\Pi_x\tilde\epsilon_x=(-0.2,\ 0.2)$$
+
+  - type: numeric
+    id: grad-1
+    prompt: |
+      With $\nabla\tilde g=I$, $\nabla_{\tilde\mu_x}\tilde f=-I$, $\tilde\Pi_y\tilde\epsilon_y=(1.6,\ 0.6)$, $\tilde\Pi_x\tilde\epsilon_x=(-0.2,\ 0.2)$ and $D^{\mathsf T}(a,b)=(0,a)$, what is the **first entry** of $\nabla_{\tilde\mu_x}F=-\nabla\tilde g\,\tilde\Pi_y\tilde\epsilon_y+D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x-\nabla\tilde f\,\tilde\Pi_x\tilde\epsilon_x$?
+    answer: -1.8
+    hint: 'First entries: $-1.6$ from the data term, $0$ from $D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x$, and $+(-0.2)$ from $-\nabla\tilde f=+I$.'
+    wrong:
+      - { value: -1.6, feedback: 'That is the data term alone. The dynamics error also pushes the belief: $-\nabla\tilde f\,\tilde\Pi_x\tilde\epsilon_x=+I\cdot(-0.2,0.2)$ adds $-0.2$ to the first entry.' }
+      - { value: 1.8, feedback: 'The sign is flipped: this is the **update** $-\nabla F$ (before adding the $D\tilde\mu$ term), not the gradient itself.' }
+    explanation: |
+      First entry: $-1.6+0-(-1)(-0.2)=-1.6-0.2=-1.8$. Second entry: $-0.6+(-0.2)+0.2=-0.6$ (the $D^{\mathsf T}$ term moves the first dynamics error down into the second slot). So $\nabla_{\tilde\mu_x}F=(-1.8,\ -0.6)$; a finite-difference check on $F$ gives the same.
+
+  - type: numeric
+    id: step-1
+    prompt: |
+      Gradient $\nabla_{\tilde\mu_x}F=(-1.8,\ -0.6)$, belief $\tilde\mu=(0.6,\ 0.2)$ so $D\tilde\mu=(0.2,\ 0)$. The update is $\dot{\tilde\mu}=D\tilde\mu-\nabla F$. Take one Euler step of size $0.1$: $\tilde\mu\to\tilde\mu+0.1\,\dot{\tilde\mu}$. What is the new **first entry** $\mu$?
+    answer: 0.8
+    tolerance: 0.001
+    hint: '$\dot\mu=0.2+1.8=2.0$.'
+    wrong:
+      - { value: 0.78, feedback: 'You used $\dot{\tilde\mu}=-\nabla F$ only, with no $D\tilde\mu$: $0.6+0.1\cdot1.8$. The moving frame adds the velocity $\mu''=0.2$ that the belief already carries.' }
+      - { value: 0.42, feedback: 'You moved **up** the gradient (uphill), $\dot\mu=D\tilde\mu+\nabla F$. The update descends: $-\nabla F$.' }
+    explanation: |
+      $\dot\mu=0.2+1.8=2.0$, so $\mu\to0.6+0.2=0.8$. For the second entry: $\dot\mu'=0+0.6=0.6$, so $\mu'\to0.26$. New belief $(0.8,\ 0.26)$, and $F$ drops from $0.45$ to $0.173$ (checked by script): one small step already shrinks the data errors to $(0.2,\ 0.24)$.
+
+  - type: text
+    id: action
+    title: "Step 6: action"
+    body: |
+      Perception changes the belief to fit the data. **Action** $u$ changes the data to fit the belief. In the model the data depend on $u$ only through the world (the generative *process*), not through $\tilde g$: so in $F$ the **only** thing that action can alter is the sensory input $\tilde y(u)$, which appears only in the first error $\tilde\epsilon_y$. All other terms of $F$ do not depend on $u$. Gradient descent on $F$ therefore gives
+
+      $$\dot u=-\nabla_u\tilde y(u)\cdot\tilde\Pi_y\tilde\epsilon_y$$
+
+      where $\nabla_u\tilde y$ is how the data change when the action changes. In words: **move so as to reduce the sensory prediction error**, weighted by its precision.
+
+  - type: numeric
+    id: action-num
+    prompt: |
+      An arm with sensed angle $y=2u+\text{const}$, so $\partial y/\partial u=2$. The sensory prediction error is $\epsilon_y=y-g(\mu)=0.4$ (the arm is **past** where the belief says it should be) with precision $\Pi_y=4$. Using $\dot u=-\frac{\partial y}{\partial u}\Pi_y\epsilon_y$ (zeroth order only), what is $\dot u$?
+    answer: -3.2
+    hint: '$-2\cdot4\cdot0.4$.'
+    wrong:
+      - { value: 3.2, feedback: 'The sign is wrong. A positive error means $y$ is too high; to lower it you must **decrease** $u$, so $\dot u<0$.' }
+      - { value: -0.8, feedback: 'You forgot the precision $\Pi_y=4$: $-2\cdot0.4=-0.8$. Precision multiplies the error.' }
+      - { value: -1.6, feedback: 'You forgot the factor $\partial y/\partial u=2$: $-4\cdot0.4$.' }
+    explanation: |
+      $\dot u=-2\cdot4\cdot0.4=-3.2$: the action moves against the error, faster for more precise senses and for a more effective motor. Note what action does **not** touch: it never rewrites the belief; it changes the world so that the world matches the belief's prediction.
+
+  - type: numeric
+    id: static-check
+    prompt: |
+      **Check against the static case.** One order, no motion ($D=0$), data $y=2$, mapping $g(\mu)=\mu$, prior mean $\eta=-1$, precisions $\Pi_y=4$ and $\Pi_v=1$. The update is $\dot\mu=\nabla g\,\Pi_y\epsilon_y-\Pi_v\epsilon_v$ with $\epsilon_y=y-\mu$, $\epsilon_v=\mu-\eta$. At which $\mu$ does the belief stop moving?
+    answer: 1.4
+    tolerance: 0.001
+    hint: 'Set $4(2-\mu)-(\mu+1)=0$.'
+    wrong:
+      - { value: 2, feedback: 'That would be the data alone. The prior $\eta=-1$ pulls with precision $1$ against the data''s $4$.' }
+      - { value: 0.5, feedback: 'That is the plain average of $2$ and $-1$. The precisions differ ($4$ vs $1$), so the compromise leans toward the data.' }
+    explanation: |
+      $4(2-\mu)=\mu+1\Rightarrow\mu=\tfrac{8-1}{5}=1.4$, the precision-weighted average $\frac{4\cdot2+1\cdot(-1)}{4+1}$: exactly the compromise of the one-level predictive-coding rule. With no motion, $D=0$ and the generalized rule **collapses** to it, so the new derivation is a strict extension.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Free energy in generalized coordinates.** For a state $x$ driven by $\dot x=f(x,v)+w$, a cause $v$ with prior mean $\eta$, and data $y=g(x,v)+w$, write $\tilde x=(x,x',x'',\dots)$ for the state with its time derivatives, $\tilde\mu_x,\tilde\mu_v$ for the beliefs, and $D$ for the shift matrix (ones above the diagonal, so $D\tilde\mu=(\mu',\mu'',\dots,0)$). Under the Laplace approximation only $-\ln p(\tilde y,\tilde\mu)$ depends on $\tilde\mu$, and
+        $$F=\tfrac12\tilde\epsilon_y\cdot\tilde\Pi_y\tilde\epsilon_y+\tfrac12\tilde\epsilon_x\cdot\tilde\Pi_x\tilde\epsilon_x+\tfrac12\tilde\epsilon_v\cdot\tilde\Pi_v\tilde\epsilon_v$$
+        with $\tilde\epsilon_y=\tilde y-\tilde g(\tilde\mu_x,\tilde\mu_v)$, $\tilde\epsilon_x=D\tilde\mu_x-\tilde f(\tilde\mu_x,\tilde\mu_v)$, $\tilde\epsilon_v=\tilde\mu_v-\tilde\eta$.
+      - **Generalized precision.** For smooth Gaussian noise with $\rho(h)=e^{-\lambda h^2/2}$ and unit variance, the precision over (position, velocity, acceleration) is the inverse of $\begin{pmatrix}1&0&-\lambda\\0&\lambda&0\\-\lambda&0&3\lambda^2\end{pmatrix}$; the velocity precision is $1/\lambda$.
+      - **The update, in a moving frame.** Gradient descent on $F$ that keeps moving with the velocity the belief carries:
+        $$\begin{aligned}\dot{\tilde\mu}_x-D\tilde\mu_x&=\nabla_{\tilde\mu_x}\tilde g\,\tilde\Pi_y\tilde\epsilon_y-D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x\\&\quad+\nabla_{\tilde\mu_x}\tilde f\,\tilde\Pi_x\tilde\epsilon_x\\\dot{\tilde\mu}_v-D\tilde\mu_v&=\nabla_{\tilde\mu_v}\tilde g\,\tilde\Pi_y\tilde\epsilon_y+\nabla_{\tilde\mu_v}\tilde f\,\tilde\Pi_x\tilde\epsilon_x\\&\quad-\tilde\Pi_v\tilde\epsilon_v\end{aligned}$$
+        At zero gradient $\dot{\tilde\mu}=D\tilde\mu$: the belief keeps moving, which removes the lag of plain descent. (Worked example: $\tilde\mu=(0.6,0.2)\to(0.8,0.26)$ in one step of $0.1$, $F$ from $0.45$ to $0.173$.)
+      - **Action.** Only the data $\tilde y(u)$ depend on the action $u$, so
+        $$\dot u=-\nabla_u\tilde y(u)\cdot\tilde\Pi_y\tilde\epsilon_y$$
+        move to cancel the sensory prediction error. With no motion ($D=0$) and one order, the update reduces to the one-level predictive-coding rule: $\mu^*=(\Pi_yy+\Pi_v\eta)/(\Pi_y+\Pi_v)$ for $g(x)=x$.
+
+      **Next:** a single agent infers a world that moves. What if the "world" it infers is **another agent** doing the same inference on it? That is generalized synchrony, the next lesson.
