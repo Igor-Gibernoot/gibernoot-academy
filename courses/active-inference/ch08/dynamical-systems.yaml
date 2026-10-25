@@ -1,0 +1,314 @@
+id: ch08-dynamical-systems
+title: "Dynamical Systems"
+kind: concept
+own: |
+  - **A dynamical system** is a rule $\dot x=f(x)$ for how a state vector $x$ changes in time ($\dot x$ = rate of change). Its long-run behaviour is an **attractor**: a point (fixed point), a closed loop traced forever (**limit cycle**), or a bounded wandering that never repeats (**chaos**). A generative model that contains such a rule predicts the *whole course* of $x(t)$, not one instant.
+  - **Lotka-Volterra dynamics produce sequences with no clock.** For $n$ populations $x$ (a vector), intrinsic growth rates $v$ (a vector) and an interaction matrix $\mathbf A$, where $A_{ij}$ is the effect of population $j$ on the growth of population $i$:
+    {{ $$f(x,v)=x\circ(v+\mathbf A x)$$ }}
+    The symbol $\circ$ multiplies two vectors entry by entry, so $\dot x_i=x_i\,(v_i+\sum_j A_{ij}x_j)$. With suitable negative entries the populations peak one after another ($p\to h\to c\to p\dots$): "which one is highest now" acts as a discrete state, and the number of peaks between two events is an implicit measure of the time between them.
+  - **Learning in continuous time** accumulates evidence over time. For parameters $\theta$ with prior $p(\theta)$, belief $\mu_\theta$ and free energy $F[y(t)\mid\mu_\theta]$ of the data $y(t)$:
+    {{ $$\begin{aligned}\dot\mu_\theta&=\partial_{\mu_\theta}\ln p(\mu_\theta)-\alpha\\\dot\alpha&=\partial_{\mu_\theta}F[y(t)\mid\mu_\theta]\end{aligned}$$ }}
+    so $\alpha$ is the running time integral of the free-energy gradients. Example: eyeblink conditioning, where the animal learns the number of peaks separating a tone from an air puff.
+  - **The Lorenz system** has a three-component state $x=(x_1,x_2,x_3)$ and constants $\sigma$ (Prandtl number), $\rho$ (Rayleigh number) and $\beta$:
+    {{ $$\begin{aligned}\dot x_1&=\sigma(x_2-x_1)\\\dot x_2&=x_1(\rho-x_3)-x_2\\\dot x_3&=x_1x_2-\beta x_3\end{aligned}$$ }}
+    It is deterministic, yet for $\rho=28$ ($\sigma=10$, $\beta=8/3$) a difference of $10^{-6}$ in the start grows until the two runs are unrelated (**chaos**). For $\rho<1$ it decays to the origin; for $1<\rho<24.7$ it settles on a fixed point. Its itinerant (wandering) behaviour makes it a demanding generative model, used for birdsong.
+cards:
+  - type: text
+    id: hook
+    title: "A sequence with no clock"
+    body: |
+      A song is a sequence: note A, then B, then C, then A again. A handwritten word is a sequence of strokes. A blink timed to a sound is a wait of a given length.
+
+      Our continuous-time models so far (generalized coordinates, the point attractor of the lesson on movement) describe *smooth change*: a limb sliding toward a target. Yet a creature needs models that produce **sequences** and **rhythms**. A discrete model gets them by counting time steps. A continuous model has no counter and no clock: only a rule $\dot x=f(x)$ for how its state changes. Where would a "next" come from?
+
+      Time to guess.
+
+  - type: mcq
+    id: guess-sequence
+    prompt: |
+      A model has three hidden quantities $x_1,x_2,x_3\ge 0$ (think of three groups of neurons) that evolve smoothly by a rule $\dot x=f(x)$. No clock, no step counter. What kind of rule could make the quantity that is *highest* run through $x_1$, then $x_2$, then $x_3$, then $x_1$ again, over and over?
+    options:
+      - text: 'Each quantity grows while it is small, and is pushed down by the others once it is large, in a ring: each one is suppressed by the previous peak, so the lead is handed on.'
+        correct: true
+      - text: 'A hidden timer variable $t$ that the rule reads, so each quantity switches on at a fixed time.'
+        feedback: |
+          That puts the clock back by hand, and a clock that never resets cannot repeat; we would also have to explain the timer. The point is that no timer is needed.
+      - text: 'It is impossible: smooth rules can only move a state toward one resting point.'
+        feedback: |
+          A point attractor is only the simplest case. Rules with feedback between components can loop forever. That is the whole subject of this lesson.
+    explanation: |
+      The sequence comes from **interactions between the components**: competition (or predation) in a ring. The same idea explains predator-prey cycles in ecology, where it was invented.
+
+  - type: text
+    id: gloss
+    title: "Dynamical systems, attractors, limit cycles"
+    body: |
+      A **dynamical system** is a state $x$ (a list of numbers) together with a rule that says how it changes,
+
+      $$\dot x=f(x)$$
+
+      where $\dot x$ is the rate of change of $x$. Start at some $x(0)$ and follow the rule: you trace a **trajectory** $x(t)$.
+
+      What the trajectory does in the long run is called the **attractor**. Three kinds will matter:
+
+      - a **fixed point**: the state comes to rest (recall the point attractor $f=v-x$ of the movement lesson);
+      - a **limit cycle**: the state travels around a closed loop again and again, a perfectly regular rhythm;
+      - **chaos**: the state wanders in a bounded region without ever repeating or settling.
+
+      A generative model whose hidden states follow such a rule predicts the data over a whole stretch of time, not only the next instant.
+
+  - type: text
+    id: lv-story
+    title: "Lotka-Volterra: peaks that follow peaks"
+    body: |
+      In ecology, when predators are few the prey multiply; this feeds the predators, whose numbers grow; the predators eat the prey down; and with less food the predators decline, which lets the prey recover. The prey population **peaks, then the predators', then the prey's again**. With more than two populations (say plants, herbivores, carnivores) we get a longer sequence of peaks.
+
+      The **generalized Lotka-Volterra** rule for the vector $x$ of population sizes is
+
+      $$f(x,v)=x\circ(v+\mathbf A x)$$
+
+      Three new symbols. The vector $v$ holds the intrinsic birth and death rates, one per population. The matrix $\mathbf A$ holds the interactions: $A_{ij}$ is the effect of population $j$ on the growth of population $i$ (positive helps $i$, negative hurts it). The symbol $\circ$ is the **elementwise product**: multiply two vectors entry by entry. Written out for population $i$,
+
+      $$\dot x_i=x_i\Big(v_i+\sum_j A_{ij}\,x_j\Big)$$
+
+      The bracket is the growth rate per individual, and the factor $x_i$ in front makes the change proportional to how many there are.
+
+  - type: numeric
+    id: lv-term
+    prompt: |
+      Three populations $x=(0.5,\,0.3,\,0.1)$ follow $\dot x_i=x_i\big(v_i+\sum_jA_{ij}x_j\big)$ with $v=(1,1,1)$. The second row of the interaction matrix is $A_{21}=-0.5$, $A_{22}=-1$, $A_{23}=-1.5$. What is $\dot x_2$?
+    answer: 0.09
+    tolerance: 0.001
+    wrong:
+      - { value: 0.3, feedback: 'That is the bracket $v_2+\sum_jA_{2j}x_j=1-0.25-0.3-0.15=0.3$, the growth rate per individual. Multiply by $x_2=0.3$ to get the change of the population.' }
+      - { value: 1.0, feedback: 'You dropped the interaction terms: $v_2x_2$ alone would be $0.3$, and the $\mathbf A$ terms reduce the bracket from $1$ to $0.3$ first.' }
+    hint: First the bracket $1+(-0.5)(0.5)+(-1)(0.3)+(-1.5)(0.1)$, then multiply by $x_2$.
+    explanation: |
+      The bracket is $1-0.25-0.30-0.15=0.30$. Then $\dot x_2=x_2\cdot 0.30=0.3\times0.3=0.09>0$: the second population is growing. Each negative $A_{2j}$ subtracts from the growth rate in proportion to how large population $j$ is; the diagonal entry $A_{22}=-1$ is crowding (a population limits itself).
+
+  - type: widget
+    id: lab-sequence
+    widget: flow-lab
+    config:
+      system: lotka-volterra
+      names: [p, h, c]
+      nameLong: [plants, herbivores, carnivores]
+      v: [1, 1, 1]
+      A: [[-1, -1.5, -0.5], [-0.5, -1, -1.5], [-1.5, -0.5, -1]]
+      x0: [0.5, 0.3, 0.1]
+      sliders:
+        - { label: 'a_{12}', A: [[0, 1], [1, 2], [2, 0]], min: -2, max: 0 }
+        - { label: 'a_{13}', A: [[0, 2], [1, 0], [2, 1]], min: -2, max: 0 }
+      presets:
+        - { label: 'three populations in a ring' }
+    body: |
+      Three populations $p$, $h$, $c$ with the matrix $\mathbf A$ above: each is hurt strongly by one other ($A_{12}=A_{23}=A_{31}=-1.5$) and weakly by a third ($A_{13}=A_{21}=A_{32}=-0.5$). Press *Play*. The coloured strip shows which population is the **highest** at each time; the text below reads out the sequence of peaks. (The sliders move $A_{12}$ and $A_{13}$ together with their two partners in the ring; use them after the next card.)
+
+  - type: order
+    id: lv-order
+    prompt: |
+      In a two-population predator-prey system, put the story in order, from the start. Begin with the moment when predators are few.
+    steps:
+      - 'With few predators, the prey population grows and becomes large.'
+      - 'The plentiful prey feed the predators, whose population grows.'
+      - 'The many predators eat the prey down, so the prey population falls.'
+      - 'With less food the predators decline, and the prey can recover: the cycle restarts.'
+    hint: Each population peaks because of the previous one, and falls because of the next one.
+    explanation: |
+      Each step is a feedback: a population grows when it has resources and shrinks when what hurts it is large. Put several such feedbacks in a ring and you get a *sequence* of peaks, not only one cycle of two.
+
+  - type: mcq
+    id: lv-slider
+    prompt: |
+      In the ring of three populations, $A_{12}+A_{13}=-2$ gives an exactly repeating cycle. Suppose you make both $A_{12}$ and $A_{13}$ less negative (their sum rises above $-2$): the species hurt each other less. What do you expect, and what did you see?
+    options:
+      - text: 'The cycle still goes $p\to h\to c$, but each turn takes longer (the peaks come further apart).'
+        correct: true
+      - text: 'The sequence order changes to $p\to c\to h$.'
+        feedback: |
+          The order is set by *who hurts whom*, i.e. by which entries of $\mathbf A$ are large. Weakening the hurts does not reverse the ring.
+      - text: 'Nothing changes, since only the diagonal entries of $\mathbf A$ matter.'
+        feedback: |
+          The off-diagonal entries are what pass the lead from one population to the next. Try the sliders: the period in the readout moves.
+    hint: Move the sliders in the widget above and read the period of the first species.
+    explanation: |
+      The interaction strengths set both the **order** of the peaks (the ring structure) and their **timing** (how long each takes). A creature that wants to change the length of an interval does not need a clock: it changes numbers in $\mathbf A$.
+
+  - type: text
+    id: eyeblink
+    title: "Timing a blink"
+    body: |
+      A classic experiment: **eyeblink conditioning**. An *unconditioned stimulus* (US, a puff of air at the eye) makes the animal blink. A *conditioned stimulus* (CS, an auditory tone) is played shortly before the puff, many times. Soon the animal blinks **after the tone and before the puff**, at the right moment.
+
+      A hierarchical active inference model does this with Lotka-Volterra dynamics at the top. The populations peak in sequence; the tone (CS) is predicted at one peak and the puff (US) at a later one. Once the puff is predicted, the corresponding blink is *enacted* by action, as in the movement lesson. The animal learns the **number of peaks** that separate the tone from the puff, an implicit estimate of the time interval.
+
+  - type: numeric
+    id: peaks-between
+    prompt: |
+      A Lotka-Volterra ring of three populations peaks in the order $p,h,c,p,h,c,\dots$. The tone (CS) is predicted at a peak of $h$, and the air puff (US) at the next peak of $h$. How many peaks happen **strictly between** the tone and the puff?
+    answer: 2
+    tolerance: 0.001
+    wrong:
+      - { value: 3, feedback: 'Three is the number of *steps* from the first $h$ to the next $h$ (one per population). The peaks strictly between are only $c$ and $p$.' }
+      - { value: 1, feedback: 'After $h$ come $c$ and then $p$ before $h$ returns: two peaks in between.' }
+    hint: Write the list $h,c,p,h$ and count the entries between the two $h$.
+    explanation: |
+      The list is $h\,(\text{CS}),\;c,\;p,\;h\,(\text{US})$, so $c$ and $p$ lie between: two peaks, three steps. If the puff were to come later, the animal would have to learn a larger number of peaks (or slower dynamics): learning the interval means learning a parameter of the model.
+
+  - type: text
+    id: box82
+    title: "Learning a parameter over time (Box 8.2)"
+    body: |
+      How does the animal learn that number? **Learning** is optimising beliefs about the *parameters* $\theta$ of the generative model (numbers that do not change in time). In continuous time this means accumulating evidence while the data stream in. Treat each tiny slice of time as an independent observation, so the log probability of the whole data record $\tilde y$ is a time integral:
+
+      $$\begin{aligned}\ln p(\tilde y,\theta)&=\ln p(\theta)+\int\ln p(y(t)\mid\theta)\,dt\\&\approx\ln p(\theta)-\int F[y(t)\mid\theta]\,dt\end{aligned}$$
+
+      Here $p(\theta)$ is the prior over the parameters and $F[y(t)\mid\theta]$ is the free energy of the data at time $t$ given $\theta$. Let $\mu_\theta$ be the current belief about $\theta$. Descending the free energy of the parameters gives
+
+      $$\dot\mu_\theta=\partial_{\mu_\theta}\ln p(\mu_\theta)-\alpha,\qquad\dot\alpha=\partial_{\mu_\theta}F[y(t)\mid\mu_\theta]$$
+
+      The new variable $\alpha$ **accumulates** the free-energy gradients: since $\dot\alpha$ is the current gradient, $\alpha$ is their running time integral. The first term pulls $\mu_\theta$ toward what the prior favours; $\alpha$ pushes against it with the accumulated evidence.
+
+  - type: build
+    id: build-learning
+    prompt: |
+      Let $\mu_\theta$ be the belief about a parameter, $p(\mu_\theta)$ its prior, and $\alpha$ the accumulated free-energy gradient (the running time integral of $\partial_{\mu_\theta}F$). Build the update of the belief.
+    prefix: '\dot\mu_\theta ='
+    tiles: ['\partial_{\mu_\theta}\ln p(\mu_\theta)', '\alpha', '\dot\alpha', '-', '+']
+    answers:
+      - ['\partial_{\mu_\theta}\ln p(\mu_\theta)', '-', '\alpha']
+    wrong:
+      - { answer: ['\partial_{\mu_\theta}\ln p(\mu_\theta)', '+', '\alpha'], feedback: 'The sign is reversed: $\alpha$ is the accumulated gradient of the free energy, and we descend it, so it enters with a minus.' }
+      - { answer: ['\partial_{\mu_\theta}\ln p(\mu_\theta)', '-', '\dot\alpha'], feedback: '$\dot\alpha$ is only the gradient *now*. Learning needs the evidence gathered over time, which is $\alpha$ (the time integral of $\dot\alpha$).' }
+    hint: The gradient of the log prior pulls toward the prior; the accumulated free-energy gradient pushes away from what the data disfavour.
+    explanation: |
+      $\dot\mu_\theta=\partial_{\mu_\theta}\ln p(\mu_\theta)-\alpha$. Perception (the continuous-time inference of the earlier lessons) works instantaneously with the current data; learning works with $\alpha$, the running total of the evidence. This is why learning is slower than inference.
+
+  - type: text
+    id: lorenz
+    title: "A second system: the Lorenz equations"
+    body: |
+      The second system used in active inference is the **Lorenz system**, first written to describe air convection in the atmosphere. Its state has three components, $x=(x_1,x_2,x_3)$, and three constants: $\sigma$ (the *Prandtl number*), $\rho$ (the *Rayleigh number*) and $\beta$. Each component's rate of change is
+
+      $$\begin{aligned}\dot x_1&=\sigma(x_2-x_1)\\\dot x_2&=x_1(\rho-x_3)-x_2\\\dot x_3&=x_1x_2-\beta x_3\end{aligned}$$
+
+      Notation warning: the subscripts $1,2,3$ are **labels of components** (the first, second, third), not powers. The product $x_1x_2$ in the last line multiplies the first and second components.
+
+      Depending on the constants the behaviour is very different: rest, a regular loop, or a trajectory that **wanders** (the book calls it *itinerant*) between regions. We use the standard values $\sigma=10$, $\beta=8/3$.
+
+  - type: numeric
+    id: lorenz-term
+    prompt: |
+      The Lorenz system has $\sigma=10$, $\rho=28$, $\beta=8/3$. At the state $x=(1,\,2,\,3)$, what is $\dot x_2=x_1(\rho-x_3)-x_2$?
+    answer: 23
+    tolerance: 0.001
+    wrong:
+      - { value: 25, feedback: 'That is $x_1(\rho-x_3)=1\cdot25$. The last term $-x_2=-2$ is still to be subtracted.' }
+      - { value: 10, feedback: 'That is $\dot x_1=\sigma(x_2-x_1)=10(2-1)$, the first equation. The second equation uses $\rho$ and $x_3$.' }
+    hint: Compute $\rho-x_3$ first, multiply by $x_1$, then subtract $x_2$.
+    explanation: |
+      $\rho-x_3=28-3=25$, times $x_1=1$ gives $25$, minus $x_2=2$ gives $23$. For comparison $\dot x_1=10(2-1)=10$ and $\dot x_3=x_1x_2-\beta x_3=2-8=-6$.
+
+  - type: widget
+    id: lab-chaos
+    widget: flow-lab
+    config:
+      system: lorenz
+      rho: 28
+      nudge: 0.000001
+      view: xz
+      presets:
+        - { label: 'rho = 28, copy nudged by 1e-6', system: lorenz, rho: 28, nudge: 0.000001, view: xz }
+        - { label: 'no nudge (one run)', system: lorenz, rho: 28, nudge: 0, view: xz }
+    body: |
+      Two copies of the **same** Lorenz system ($\rho=28$) start from points that differ by only $10^{-6}$ in one component. Press *Play*. The trail shows the state projected onto the $(x_1,x_3)$ plane, and the plot below shows $x_1(t)$ for both copies. Watch the readout "separation now" and the time at which the copies are first more than $1$ apart.
+    review: false
+
+  - type: mcq
+    id: chaos-meaning
+    prompt: |
+      Two copies of the Lorenz system with $\rho=28$ start $10^{-6}$ apart. They follow the same exact equations, with no noise added. After a while their trajectories look unrelated. What does this show?
+    options:
+      - text: 'The system is **deterministic but chaotic**: tiny differences in the start grow exponentially, so long-term prediction from imperfect knowledge fails, while the overall shape of the trajectory stays the same.'
+        correct: true
+      - text: 'The equations contain hidden random noise that kicks the copies apart.'
+        feedback: |
+          There is no noise in the equations; with the nudge set to 0 the run is perfectly repeatable. The divergence is produced by the dynamics themselves.
+      - text: 'The numerical simulation is unstable and the results are wrong.'
+        feedback: |
+          The solver is accurate; the divergence is a property of the equations. Both copies keep the same butterfly-shaped attractor, only their positions on it differ.
+    explanation: |
+      **Sensitive dependence on initial conditions** is the signature of chaos. For a generative model it matters twice: the model produces rich, non-repeating behaviour from a three-line rule, and an agent that wants to track it must keep correcting its beliefs with fresh data.
+
+  - type: widget
+    id: lab-rho
+    widget: flow-lab
+    config:
+      system: lorenz
+      rho: 10
+      nudge: 0
+      show: { rho: true, nudge: false }
+      presets:
+        - { label: 'rho = 10', system: lorenz, rho: 10, nudge: 0 }
+        - { label: 'rho = 28', system: lorenz, rho: 28, nudge: 0 }
+    body: |
+      Now one run only, with the slider for $\rho$ (the Rayleigh number). Start at $\rho=10$ and press *Play*: the state settles. Then slide $\rho$ below $1$ (it decays to the origin), then to $28$ (the butterfly). Which values of $\rho$ give rest, and which give wandering?
+    review: false
+
+  - type: numeric
+    id: lorenz-fixed
+    prompt: |
+      At a fixed point of the Lorenz system, all three rates vanish: $\dot x_1=\dot x_2=\dot x_3=0$. From $\dot x_1=0$ we get $x_1=x_2$ (for $\sigma\neq0$). Then $\dot x_2=0$ with $x_1\neq0$ gives $\rho-x_3-1=0$. For $\rho=10$, what is $x_3$ at that fixed point?
+    answer: 9
+    tolerance: 0.001
+    wrong:
+      - { value: 10, feedback: 'Do not forget the $-x_2/x_1=-1$: with $x_2=x_1$, the equation $x_1(\rho-x_3)-x_2=0$ becomes $\rho-x_3=1$.' }
+      - { value: 1, feedback: 'That is $\rho-x_3$, the value of the bracket. We want $x_3=\rho-1=9$.' }
+    hint: Divide $x_1(\rho-x_3)-x_2=0$ by $x_1$ using $x_2=x_1$.
+    explanation: |
+      $x_1(\rho-x_3)-x_1=0\Rightarrow x_3=\rho-1=9$. The third equation then gives $x_1^2=\beta x_3=\tfrac83\cdot9=24$, so $x_1=x_2=\pm\sqrt{24}\approx\pm4.9$: two resting points. Such points exist only for $\rho>1$ (otherwise $x_3<0$ would be needed); below $\rho=1$ only the origin is at rest. When $\rho$ is large enough ($\approx24.7$) both resting points lose their stability and the trajectory wanders between them forever.
+
+  - type: text
+    id: why-lorenz
+    title: "Why use Lorenz in a generative model?"
+    body: |
+      The itinerant behaviour makes the Lorenz system a **demanding test** for inference: an agent must keep predicting a trajectory that never repeats and never settles. It has been used in simulations of birdsong, and to study physical systems whose behaviour starts to look sentient. In the lesson on synchrony we build the birdsong model: a *slow* Lorenz system that sets the Rayleigh number $\rho$ of a *fast* one, so that a changing high-level state shapes the notes produced below.
+
+      So the Lotka-Volterra and Lorenz systems give two different kinds of rule for the same job: a continuous model that **generates its own dynamics**, with no input and no clock.
+
+  - type: mcq
+    id: three-jobs
+    prompt: |
+      Three tools can all represent "what happens over time". Which pairing of tool and job is right?
+    options:
+      - text: 'Generalized coordinates: the rate of change (and higher derivatives) of the *current* state. Lotka-Volterra: a *sequence* of discrete-like stages with no clock. A POMDP: a discrete-time sequence for planning, with explicit steps and policies.'
+        correct: true
+      - text: 'Generalized coordinates and Lotka-Volterra both represent sequences of events; the POMDP represents only a single instant.'
+        feedback: |
+          Generalized coordinates are a local description (Taylor coefficients) of how one state is moving now, not a sequence of stages. A POMDP represents sequences very explicitly, over time steps $\tau$.
+      - text: 'All three are the same thing, written differently.'
+        feedback: |
+          Each answers a different question. Rate-of-change terms are about the present motion of a variable; Lotka-Volterra and POMDPs are about ordering of stages, and the POMDP has been the standard choice for planning, since it handles policies and expected free energy.
+    explanation: |
+      The POMDP of the lessons on planning has largely taken over the job that Lotka-Volterra systems were once used for. They remain a plausible *continuous* mechanism that could underlie the discrete steps, and they show clearly that **sequences of stages** and **rates of change in generalized coordinates** are different things, each suited to its own problems.
+
+  - type: mcq
+    id: return-hook
+    prompt: |
+      Back to the hook: a continuous model with no clock produces "A, then B, then C, then A again". What makes the lead pass from one to the next?
+    options:
+      - text: 'Interactions in a ring (Lotka-Volterra, $\dot x=x\circ(v+\mathbf Ax)$): each state grows, then is suppressed by the next; "which state is highest now" plays the role of a discrete step.'
+        correct: true
+      - text: 'An internal timer counts seconds and switches the states.'
+        feedback: |
+          A timer is a clock. The model has none: its only ingredients are the rule $f$ and the current state.
+      - text: 'Random noise decides which state comes next.'
+        feedback: |
+          The sequence is deterministic: it comes from the numbers in $\mathbf A$ and $v$, and repeats in the same order. Noise would give an irregular order.
+    explanation: |
+      The puzzle is solved: sequencing and timing live in the *structure* of a dynamical rule. Changing a few numbers changes the order and the length of the intervals, and learning those numbers (Box 8.2) is how an animal learns to time a blink.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** so far the equations of motion were given. Next we derive, step by step, how a creature updates its beliefs about all these continuous quantities and their rates of change: *generalized filtering*.

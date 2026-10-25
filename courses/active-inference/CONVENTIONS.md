@@ -132,6 +132,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 ## Chapter 8
 
 - Model Eq. 8.1 (g,f,v, no u); process Eq. 8.2 (bold g,f, u). Point attractor g=x, f=v-x; action u=v-mu. Spring Eq. 8.5 (x1 position, x2 velocity, kappa/m); damping b is our extra (critical b=2sqrt(kappa/m)). Slowest approach rate min(1,Pi_y).
+- Lotka-Volterra Eq 8.6: f=x o (v+Ax), A_ij = effect of species j on growth of i (preset ring p,h,c; A12+A13=-2 exactly periodic). Box 8.2: mu_theta-dot = d ln p(mu_theta) - alpha, alpha-dot = dF (alpha = running integral). Lorenz Eq 8.7 sigma=10, beta=8/3, rho=28; fixed point x3=rho-1 for rho>1.
 
 ## Chapter 9
 
