@@ -135,6 +135,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - Lotka-Volterra Eq 8.6: f=x o (v+Ax), A_ij = effect of species j on growth of i (preset ring p,h,c; A12+A13=-2 exactly periodic). Box 8.2: mu_theta-dot = d ln p(mu_theta) - alpha, alpha-dot = dF (alpha = running integral). Lorenz Eq 8.7 sigma=10, beta=8/3, rho=28; fixed point x3=rho-1 for rho>1.
 
 - Generalized filtering (B.42-B.48): D shift matrix (ones above diagonal, last entry 0); gradient written with D^T (book prints D); eps_x = D mu - f; moving frame mu-dot - D mu = -grad F; roughness lambda: rho = exp(-lambda h^2/2), Pi~ = inverse of [[1,0,-lambda],[0,lambda,0],[-lambda,0,3 lambda^2]], velocity precision 1/lambda. Running example g=x, f=-x+v, v=1, Pi_y=diag(4,2), Pi_x=I, y~=(1,.5), mu~=(.6,.2).
+- Synchrony widget `coupled-agents`: kappa = inference coupling (0..6, Lorenz sync threshold about 1); generalized sync preset T = scale 1.5, cubic .01; Fig 8.5: level-2 slow Lorenz (1/128) sets rho of level-1 fast Lorenz (1/16, theta(v-8-x3)).
 
 ## Chapter 9
 
