@@ -112,7 +112,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 ## Chapter 7
 
-- (none yet)
+- ch07-perceptual-processing: amateur HMM, 4 notes, A diag .7 off .1, B next note .97 (others .01; last note back to first), D=(1,0,0,0), T=5, heard 1,2,2,4,1. Exact: filtered step 3 note 3 .904 / note 2 .075, retrospective .997; no-data predictions .97 and .9412; odds 97/.01 x .1/.7 = 13.9. Loose tune B .4/.2: filtered note 2 .653. Update written $\dot{\mathbf v}_\tau=\ln\mathbf A\cdot o_\tau+\ln(\mathbf B\mathbf s_{\tau-1})+\ln(\mathbf B^\dagger\mathbf s_{\tau+1})-\ln\mathbf s_\tau$ ($\mathbf B^\dagger\propto\mathbf B^{\mathsf T}$, exact gradient as in the widget). pomdp-lab presets `lab-hmm` (single action `play`, policies [[play x4]], showPolicies false, C flat): say "read the ticks". Factorised: 12 pitch x 4 loudness, 2304 vs 160 B entries.
 
 ## Chapter 8
 

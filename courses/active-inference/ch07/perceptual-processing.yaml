@@ -1,0 +1,322 @@
+id: ch07-perceptual-processing
+title: "Perceptual Processing: Listening to an Amateur"
+kind: concept
+own: |
+  - **A hidden Markov model (HMM) is a POMDP with no choices.** A sequence of hidden states $s_1,\dots,s_T$ (the notes the musician *intends*) produces outcomes $o_1,\dots,o_T$ (the notes we *hear*). Three tables fix it: the likelihood $\mathbf A$ (rows = outcomes, columns = states), the transitions $\mathbf B$ (rows = next state, columns = current state) and the initial prior $\mathbf D$:
+    {{ $$\begin{aligned}P(o_\tau\mid s_\tau)&=\mathrm{Cat}(\mathbf A)\\P(s_{\tau+1}\mid s_\tau)&=\mathrm{Cat}(\mathbf B)\\P(s_1)&=\mathrm{Cat}(\mathbf D)\end{aligned}$$ }}
+    In the running example there are 4 notes, $A_{ii}=0.7$ and $A_{ij}=0.1$ ($i\ne j$) for the amateur, $\mathbf B$ sends each note to the next with probability $0.97$, and $\mathbf D=(1,0,0,0)$.
+  - **Perception = descent on free energy.** With one belief vector $\mathbf s_\tau$ per time step (a mean-field factorisation over time) and the heard outcome $o_\tau$ written as a one-hot vector, beliefs follow $\mathbf s_\tau=\sigma(\mathbf v_\tau)$ with
+    {{ $$\begin{aligned}\dot{\mathbf v}_\tau=&\ln\mathbf A\cdot o_\tau+\ln(\mathbf B\mathbf s_{\tau-1})\\&+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})-\ln\mathbf s_\tau\end{aligned}$$ }}
+    where $\mathbf B^\dagger\propto\mathbf B^{\mathsf T}$ looks backwards (the term $\ln(\mathbf B\mathbf s_{\tau-1})$ is the message from the past, $\ln(\mathbf B^\dagger\mathbf s_{\tau+1})$ the message from the future, and $\ln\mathbf A\cdot o_\tau$ the message from the data). The right-hand side is $-\nabla_{\mathbf s_\tau}F$: a **prediction error**.
+  - **Surprise is explained, not obeyed.** If the heard note is improbable under the prior ($0.97$ for the next note, $0.01$ for any other) but the ear is fairly reliable ($0.7$ against $0.1$), the posterior odds of the expected note against the heard one are
+    {{ $$\frac{0.97}{0.01}\times\frac{0.1}{0.7}\approx 13.9,$$ }}
+    so the listener believes "a wrong note was played", while keeping some probability on the other story. Confidence dips at the surprise and recovers.
+  - **Past beliefs are revised by the future.** *Filtering* uses only data so far; the retrospective belief at step $\tau$ also uses later notes through $\mathbf B^\dagger$, and is sharper. For the sequence heard $1,2,2,4,1$ the belief that the third intended note was note 3 is $0.90$ when filtering and about $0.997$ afterwards. Factorising the states (pitch $\times$ loudness, what $\times$ where) replaces one big $\mathbf B$ by several small ones: $12\times4$ states give $48^2=2304$ entries, but two factors only $12^2+4^2=160$.
+cards:
+  - type: text
+    id: hook
+    title: "A wrong note, or a wrong belief?"
+    body: |
+      You are in the audience. The score has a short tune of four notes that repeats: **note 1, note 2, note 3, note 4, note 1, ...**. The player is an amateur: she usually plays the note she intends, but sometimes hits another one by mistake.
+
+      You hear the first two notes correctly. At the third step you hear **note 2 again**. Before any maths, guess how a sensible listener would explain it.
+
+  - type: mcq
+    id: guess-explanation
+    prompt: |
+      A tune goes 1, 2, 3, 4, 1, ... and a clumsy amateur plays it. After hearing notes 1 and 2 correctly, you hear **note 2 again** instead of note 3. What is the most sensible belief about what she *intended* at that step?
+    options:
+      - text: 'She intended note 3 and slipped, but there is a small chance that she really intended note 2 (the tune changed).'
+        correct: true
+      - text: 'She intended note 2: what we hear is what she meant.'
+        feedback: |
+          Tempting, because the ear gives direct evidence. But the ear is unreliable (the amateur slips) and the tune is highly predictable; trusting the ear completely ignores that.
+      - text: 'She certainly intended note 3: the tune cannot change, so the slip is certain.'
+        feedback: |
+          Almost right, but "certainly" is too strong. A tune can change, and a repeated note is also a plausible human mistake in the other direction. A good listener keeps a small probability on the alternative.
+      - text: 'There is no way to say anything: one odd note carries no information.'
+        feedback: |
+          It carries a lot: how likely such a note is under each story can be computed, and the stories can be compared. That comparison is exactly what inference is.
+    explanation: |
+      Two stories compete: *the hand slipped* (the heard note is a mistake of the ear's source) or *the music changed* (she really intended note 2). Each has a prior (how likely is the tune to change?) and a likelihood (how likely is this sound under that intention?). The chapter's first example makes this exact.
+
+  - type: text
+    id: hmm-model
+    title: "A model with no choices: the hidden Markov model"
+    body: |
+      So far the creature of this chapter only **listens**; it makes no choices. A model of this kind is a special case of the POMDP of the earlier lessons, with a single (trivial) action: a **hidden Markov model** (HMM, a chain of hidden states in which each state depends only on the one before it).
+
+      Name every ingredient (the notation of the POMDP, now with one policy):
+
+      - $s_\tau\in\{\text{note }1,\dots,\text{note }4\}$ is the note she **intends** at step $\tau$ (hidden state);
+      - $o_\tau$ is the note we **hear** (outcome);
+      - $\mathbf A$ (**likelihood**) gives the probability of each heard note (rows) for each intended note (columns);
+      - $\mathbf B$ (**transitions**) gives the probability of each next intended note (rows) for each current one (columns);
+      - $\mathbf D$ (**initial prior**) is our belief about $s_1$.
+
+      Every column of $\mathbf A$ and of $\mathbf B$ is a probability distribution: it sums to $1$. The widget below holds the numbers; read the grids first.
+
+  - type: widget
+    id: lab-hmm
+    review: false
+    widget: pomdp-lab
+    config:
+      mode: infer
+      modes: [infer]
+      editable: false
+      showA: true
+      showB: true
+      showD: true
+      showPolicies: false
+      showAmbiguity: false
+      showExact: true
+      showCurve: true
+      T: 5
+      states: ['note 1', 'note 2', 'note 3', 'note 4']
+      outcomes: ['note 1', 'note 2', 'note 3', 'note 4']
+      short: { states: ['n1', 'n2', 'n3', 'n4'], outcomes: ['n1', 'n2', 'n3', 'n4'] }
+      actions: [play]
+      A: [[.7,.1,.1,.1],[.1,.7,.1,.1],[.1,.1,.7,.1],[.1,.1,.1,.7]]
+      B:
+        play: [[.01,.01,.01,.97],[.97,.01,.01,.01],[.01,.97,.01,.01],[.01,.01,.97,.01]]
+      D: [1,0,0,0]
+      C: [.25,.25,.25,.25]
+      obs: [0, 1, 1, 3, 0]
+      policies: [[play, play, play, play]]
+      policy: 0
+      presets:
+        - label: 'Amateur (0.7 hits)'
+          states: ['note 1', 'note 2', 'note 3', 'note 4']
+          outcomes: ['note 1', 'note 2', 'note 3', 'note 4']
+          actions: [play]
+          A: [[.7,.1,.1,.1],[.1,.7,.1,.1],[.1,.1,.7,.1],[.1,.1,.1,.7]]
+          B:
+            play: [[.01,.01,.01,.97],[.97,.01,.01,.01],[.01,.97,.01,.01],[.01,.01,.97,.01]]
+          D: [1,0,0,0]
+          C: [.25,.25,.25,.25]
+          obs: [0, 1, 1, 3, 0]
+    body: |
+      The model of an amateur: $\mathbf A$ has $0.7$ on the diagonal, $\mathbf B$ sends each note to the next with $0.97$ (the last note goes back to the first), $\mathbf D=(1,0,0,0)$. The heard sequence is set to **1, 2, 2, 4, 1** (the third note is the surprise).
+
+      Press **Play** and watch the beliefs about each step. **Read the ticks**: the thick ticks are the exact posterior beliefs; the moving bars are the descent in progress (a mean-field flow: it treats the steps as independent and ends close to, but not exactly on, the ticks). Step 3 is the one to look at.
+
+  - type: mcq
+    id: read-A
+    prompt: |
+      In the likelihood $\mathbf A$ of the amateur, which statement is true?
+    options:
+      - text: 'Each **column** sums to $1$: given an intended note, the four possible heard notes have total probability $1$.'
+        correct: true
+      - text: 'Each **row** sums to $1$: given a heard note, the four possible intended notes have total probability $1$.'
+        feedback: |
+          That would be the *posterior* (intended note given heard note), which also needs the prior. Here every row has $0.7+0.1+0.1+0.1=1.0$ by coincidence of the symmetric table; in a general $\mathbf A$ the rows do not sum to $1$.
+      - text: 'The diagonal entries are the probabilities of the *next* note.'
+        feedback: |
+          The diagonal says "heard equals intended" ($0.7$). The next note is the business of $\mathbf B$.
+    explanation: |
+      Columns are conditioning: $A_{oj}=P(o\mid s=j)$, so each column is a distribution over outcomes. Likewise $\mathbf B$ has columns = current note, rows = next note; its column for note 1 is $(0.01,0.97,0.01,0.01)$: "after note 1 comes note 2 with probability $0.97$".
+
+  - type: numeric
+    id: forward-s2
+    prompt: |
+      Before hearing anything beyond the first note, the listener believes $\mathbf s_1=\mathbf D=(1,0,0,0)$. What is the predicted probability that the intended **second** note is note 2, i.e. the second entry of $\mathbf B\mathbf s_1$?
+    answer: 0.97
+    tolerance: 0.001
+    hint: '$\mathbf B\mathbf s_1$ is the first column of $\mathbf B$ (because $\mathbf s_1$ selects note 1).'
+    explanation: |
+      $$\mathbf B\mathbf s_1=\mathbf B\begin{pmatrix}1\\0\\0\\0\end{pmatrix}=\begin{pmatrix}0.01\\0.97\\0.01\\0.01\end{pmatrix}$$
+      A belief pushed through $\mathbf B$ is a **prediction**. This is the message from the past in the update equation below.
+
+  - type: numeric
+    id: forward-s3
+    prompt: |
+      Predict two steps ahead with no data at all: $\mathbf s_3^{\text{pred}}=\mathbf B\mathbf B\mathbf s_1$. What is the predicted probability that the third intended note is note 3?
+    answer: 0.9412
+    tolerance: 0.001
+    hint: 'Start from $\mathbf B\mathbf s_1=(0.01,0.97,0.01,0.01)$, then multiply it by row 3 of $\mathbf B$.'
+    explanation: |
+      Row 3 of $\mathbf B$ is $(0.01,0.97,0.01,0.01)$, so
+      $$\begin{aligned}&0.01\cdot0.01+0.97\cdot0.97\\&\;+0.01\cdot0.01+0.01\cdot0.01\\&=0.9412\end{aligned}$$
+      Uncertainty leaks a little each step: $0.97$ became $0.94$. The more steps we predict, the vaguer the forecast.
+
+  - type: numeric
+    id: odds-slip
+    prompt: |
+      At step 3 the listener is already sure that the previous note was note 2. So the prior for the third intended note is $0.97$ for note 3 and $0.01$ for note 2. The ear then reports **note 2**, whose likelihood is $0.1$ if she intended note 3 (a slip) and $0.7$ if she intended note 2. What are the posterior odds *note 3 : note 2*? (Odds = prior ratio $\times$ likelihood ratio.)
+    answer: 13.857
+    tolerance: 0.05
+    hint: '$\dfrac{0.97}{0.01}\times\dfrac{0.1}{0.7}$.'
+    explanation: |
+      $$\begin{aligned}\text{odds}&=\frac{0.97}{0.01}\times\frac{0.1}{0.7}\\&=97\times0.143\approx13.9\end{aligned}$$
+      A huge prior ratio ($97$) beats a modest likelihood ratio ($7$ the other way): "a slip" is the better explanation, but note 2 keeps about $1/15$ of the weight, which is why the belief is not $100\%$.
+
+  - type: text
+    id: two-routes
+    title: "Two ways to explain a surprise"
+    body: |
+      The surprise could be explained **two ways**: the intended note was really an improbable one (the tune changed: rare under $\mathbf B$), or the hand slipped (common under $\mathbf A$). Active inference does not choose one: it weighs both, and the weights are the belief. Here the slip wins about $14:1$, and the listener keeps the other story at a low probability. Reporting this uncertainty is a main feature of the Bayesian view.
+
+      How is the weighing *computed* by a brain-like process? By repeatedly adjusting each belief using three messages. Now the update itself.
+
+  - type: build
+    id: build-update
+    prompt: |
+      One belief vector $\mathbf s_\tau$ per step, $\mathbf s_\tau=\sigma(\mathbf v_\tau)$ ($\sigma$ = softmax). Build the update $\dot{\mathbf v}_\tau=-\nabla_{\mathbf s_\tau}F$ from: the message from the **data** $o_\tau$, the message from the **past** (predict forward from $\mathbf s_{\tau-1}$), the message from the **future** ($\mathbf B^\dagger\propto\mathbf B^{\mathsf T}$ looks backward from $\mathbf s_{\tau+1}$), and the self-term. Here $\ln\mathbf A\cdot o_\tau$ uses the one-hot vector $o_\tau$.
+    prefix: '\dot{\mathbf v}_\tau ='
+    tiles: ['+\ln\mathbf A\cdot o_\tau', '+\ln(\mathbf B\mathbf s_{\tau-1})', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '-\ln\mathbf s_\tau', '+\ln\mathbf s_\tau', '+\ln(\mathbf B\mathbf s_{\tau+1})']
+    answers:
+      - ['+\ln\mathbf A\cdot o_\tau', '+\ln(\mathbf B\mathbf s_{\tau-1})', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '-\ln\mathbf s_\tau']
+      - ['+\ln\mathbf A\cdot o_\tau', '+\ln(\mathbf B\mathbf s_{\tau-1})', '-\ln\mathbf s_\tau', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})']
+      - ['+\ln\mathbf A\cdot o_\tau', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '+\ln(\mathbf B\mathbf s_{\tau-1})', '-\ln\mathbf s_\tau']
+      - ['+\ln\mathbf A\cdot o_\tau', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '-\ln\mathbf s_\tau', '+\ln(\mathbf B\mathbf s_{\tau-1})']
+      - ['+\ln\mathbf A\cdot o_\tau', '-\ln\mathbf s_\tau', '+\ln(\mathbf B\mathbf s_{\tau-1})', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})']
+      - ['+\ln\mathbf A\cdot o_\tau', '-\ln\mathbf s_\tau', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '+\ln(\mathbf B\mathbf s_{\tau-1})']
+      - ['+\ln(\mathbf B\mathbf s_{\tau-1})', '+\ln\mathbf A\cdot o_\tau', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '-\ln\mathbf s_\tau']
+      - ['+\ln(\mathbf B\mathbf s_{\tau-1})', '+\ln\mathbf A\cdot o_\tau', '-\ln\mathbf s_\tau', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})']
+      - ['+\ln(\mathbf B\mathbf s_{\tau-1})', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '+\ln\mathbf A\cdot o_\tau', '-\ln\mathbf s_\tau']
+      - ['+\ln(\mathbf B\mathbf s_{\tau-1})', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '-\ln\mathbf s_\tau', '+\ln\mathbf A\cdot o_\tau']
+      - ['+\ln(\mathbf B\mathbf s_{\tau-1})', '-\ln\mathbf s_\tau', '+\ln\mathbf A\cdot o_\tau', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})']
+      - ['+\ln(\mathbf B\mathbf s_{\tau-1})', '-\ln\mathbf s_\tau', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '+\ln\mathbf A\cdot o_\tau']
+      - ['+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '+\ln\mathbf A\cdot o_\tau', '+\ln(\mathbf B\mathbf s_{\tau-1})', '-\ln\mathbf s_\tau']
+      - ['+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '+\ln\mathbf A\cdot o_\tau', '-\ln\mathbf s_\tau', '+\ln(\mathbf B\mathbf s_{\tau-1})']
+      - ['+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '+\ln(\mathbf B\mathbf s_{\tau-1})', '+\ln\mathbf A\cdot o_\tau', '-\ln\mathbf s_\tau']
+      - ['+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '+\ln(\mathbf B\mathbf s_{\tau-1})', '-\ln\mathbf s_\tau', '+\ln\mathbf A\cdot o_\tau']
+      - ['+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '-\ln\mathbf s_\tau', '+\ln\mathbf A\cdot o_\tau', '+\ln(\mathbf B\mathbf s_{\tau-1})']
+      - ['+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '-\ln\mathbf s_\tau', '+\ln(\mathbf B\mathbf s_{\tau-1})', '+\ln\mathbf A\cdot o_\tau']
+      - ['-\ln\mathbf s_\tau', '+\ln\mathbf A\cdot o_\tau', '+\ln(\mathbf B\mathbf s_{\tau-1})', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})']
+      - ['-\ln\mathbf s_\tau', '+\ln\mathbf A\cdot o_\tau', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '+\ln(\mathbf B\mathbf s_{\tau-1})']
+      - ['-\ln\mathbf s_\tau', '+\ln(\mathbf B\mathbf s_{\tau-1})', '+\ln\mathbf A\cdot o_\tau', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})']
+      - ['-\ln\mathbf s_\tau', '+\ln(\mathbf B\mathbf s_{\tau-1})', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '+\ln\mathbf A\cdot o_\tau']
+      - ['-\ln\mathbf s_\tau', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '+\ln\mathbf A\cdot o_\tau', '+\ln(\mathbf B\mathbf s_{\tau-1})']
+      - ['-\ln\mathbf s_\tau', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '+\ln(\mathbf B\mathbf s_{\tau-1})', '+\ln\mathbf A\cdot o_\tau']
+    wrong:
+      - answer: ['+\ln\mathbf A\cdot o_\tau', '+\ln(\mathbf B\mathbf s_{\tau-1})', '+\ln(\mathbf B\mathbf s_{\tau+1})', '-\ln\mathbf s_\tau']
+        feedback: |
+          The future message must run *backwards*: given $\mathbf s_{\tau+1}$, the likely $\mathbf s_\tau$ is found with $\mathbf B^\dagger\propto\mathbf B^{\mathsf T}$, not by pushing $\mathbf s_{\tau+1}$ forward again.
+      - answer: ['+\ln\mathbf A\cdot o_\tau', '+\ln(\mathbf B\mathbf s_{\tau-1})', '+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})', '+\ln\mathbf s_\tau']
+        feedback: |
+          With $+\ln\mathbf s_\tau$ the belief would be pushed *away* from itself and never settle. The term $-\ln\mathbf s_\tau$ makes the update vanish exactly when the log belief equals the sum of the three messages.
+    hint: 'At the fixed point $\dot{\mathbf v}=0$, so $\ln\mathbf s_\tau$ equals the sum of the three incoming messages.'
+    explanation: |
+      $$\begin{aligned}\dot{\mathbf v}_\tau=&\ln\mathbf A\cdot o_\tau+\ln(\mathbf B\mathbf s_{\tau-1})\\&+\ln(\mathbf B^{\dagger}\mathbf s_{\tau+1})-\ln\mathbf s_\tau\end{aligned}$$
+      Each term is local: the data now, the belief just before (through $\mathbf B$), the belief just after (through $\mathbf B^\dagger$). At step 1 the past message is $\ln\mathbf D$ and at the last step there is no future message. At rest $\ln\mathbf s_\tau=\ln\mathbf A\cdot o_\tau+\dots$: exactly Bayes' rule, in logs.
+
+  - type: mcq
+    id: error-meaning
+    prompt: |
+      The right-hand side $\dot{\mathbf v}_\tau=-\nabla_{\mathbf s_\tau}F$ is called a **prediction error**. When is it largest in the example, and what does it become at the end of each step's settling?
+    options:
+      - text: 'It spikes when a new note arrives that the current belief did not predict (most at the surprising third note), and falls to zero as the belief settles.'
+        correct: true
+      - text: 'It is largest for the expected notes, because those are the most probable ones.'
+        feedback: |
+          An expected note matches the belief, so the data message and the prediction already agree: little to correct.
+      - text: 'It never reaches zero: the belief is always chasing the data.'
+        feedback: |
+          Descent on $F$ stops at a minimum, where the gradient and hence the error vanishes. Fresh errors appear only because new data arrive.
+    explanation: |
+      The error is the mismatch between what the three messages say and what the belief currently says. It is the quantity that, in the neuronal reading of the earlier levels, is carried by error units: large when something unpredicted arrives, then silent. The plots of such errors over time look like a bursts-then-decay pattern at every note, tallest at the surprise.
+
+  - type: mcq
+    id: filter-vs-smooth
+    prompt: |
+      After the whole tune 1, 2, 2, 4, 1 has been heard, which belief about the **third** intended note being note 3 is higher, and why?
+    options:
+      - text: 'The retrospective one (after all notes): the later notes confirm that the tune went on to note 4, and note 4 follows note 3, which the backward message uses.'
+        correct: true
+      - text: 'The one at the moment of hearing it: later data cannot change what we believed then.'
+        feedback: |
+          The belief *at that moment* cannot change, but the belief *about that moment* can. Later data are evidence about the earlier hidden state, and the backward messages $\mathbf B^\dagger\mathbf s_{\tau+1}$ carry it.
+      - text: 'They are equal: the notes after step 3 are independent of the third intended note.'
+        feedback: |
+          They are not independent: $s_4$ depends on $s_3$ through $\mathbf B$, so a belief about $s_4$ informs $s_3$.
+    explanation: |
+      Filtering at step 3 gives note 3 about $0.90$ (the data so far); with the later notes the thick tick for step 3 rises to about $0.997$. Retrospective beliefs are always at least as sharp here as filtered ones.
+
+  - type: widget
+    id: lab-sloppy
+    review: false
+    widget: pomdp-lab
+    config:
+      mode: infer
+      modes: [infer]
+      editable: false
+      showA: true
+      showB: true
+      showD: true
+      showPolicies: false
+      showAmbiguity: false
+      showExact: true
+      showCurve: true
+      T: 5
+      states: ['note 1', 'note 2', 'note 3', 'note 4']
+      outcomes: ['note 1', 'note 2', 'note 3', 'note 4']
+      short: { states: ['n1', 'n2', 'n3', 'n4'], outcomes: ['n1', 'n2', 'n3', 'n4'] }
+      actions: [play]
+      A: [[.7,.1,.1,.1],[.1,.7,.1,.1],[.1,.1,.7,.1],[.1,.1,.1,.7]]
+      B:
+        play: [[.2,.2,.2,.4],[.4,.2,.2,.2],[.2,.4,.2,.2],[.2,.2,.4,.2]]
+      D: [1,0,0,0]
+      C: [.25,.25,.25,.25]
+      obs: [0, 1, 1, 3, 0]
+      policies: [[play, play, play, play]]
+      policy: 0
+    body: |
+      Same ear ($\mathbf A$ unchanged), same heard sequence, but a **loose tune**: now each note is followed by the next only with probability $0.4$ ($0.2$ for each other note). Press **Play** and read the thick ticks at step 3.
+
+  - type: mcq
+    id: loose-tune
+    prompt: |
+      The ear is the same, but the listener now believes the tune is loose: the next note is only $0.4$ likely and every other note $0.2$. For the same heard sequence, what happens to the belief at step 3 (filtering and ticks alike)?
+    options:
+      - text: 'Most of the weight moves to note 2: with a loose tune, "she played what she heard" is no longer a bad explanation.'
+        correct: true
+      - text: 'It stays on note 3: beliefs depend on the ear, not on the tune.'
+        feedback: |
+          The posterior always combines both: ear and tune. Weaken one and the other counts for more.
+      - text: 'It becomes uniform: nothing can be inferred without a strict tune.'
+        feedback: |
+          The ear still speaks ($0.7$ against $0.1$). With a loose tune the prior ratio is only $2:1$, not $97:1$, and the likelihood ratio decides.
+    explanation: |
+      The prior ratio for note 3 against note 2 falls from $0.97/0.01$ to $0.4/0.2=2$, and the likelihood ratio $0.1/0.7$ now wins: odds of order $0.3$ for note 3. The same machine "trusts" the ear when the tune is not predictive. How much a surprise is believed is a balance between prior and likelihood, as the precision lessons said.
+
+  - type: numeric
+    id: factorised-states
+    prompt: |
+      A richer model has notes with **12 pitches** and **4 loudness levels**. Listing every (pitch, loudness) pair gives $48$ states and a transition matrix of $48\times48=2304$ entries. If pitch and loudness evolve as two independent factors, each with its own $\mathbf B$, how many transition entries are there in total?
+    answer: 160
+    tolerance: 0.001
+    hint: '$12\times12$ for pitch plus $4\times4$ for loudness.'
+    explanation: |
+      $$12^2+4^2=144+16=160$$
+      against $48^2=2304$ for the joint table.
+      Factorising the state space (pitch and dynamics, or *what* and *where* in vision) keeps the model small. The later lessons use it to separate states a creature can change from states it cannot.
+
+  - type: mcq
+    id: traps
+    prompt: |
+      Which of these statements about the amateur example are **false**? Select all.
+    multiple: true
+    options:
+      - text: 'The belief about the third intended note equals the third heard note, since we heard it directly.'
+        correct: true
+        feedback: |
+          False: the heard note is evidence, not the state. The posterior favours note 3 although note 2 was heard.
+      - text: 'Confidence in the current note grows at every step.'
+        correct: true
+        feedback: |
+          False: at the surprising third step it dips (the filtered note-3 belief is $0.90$ against $0.9956$ for note 2 one step earlier).
+      - text: 'A surprising observation is ignored by the listener.'
+        correct: true
+        feedback: |
+          False: the surprise is explained: it enters the update and leaves an unresolved $\approx7\%$ on note 2 when filtering.
+      - text: 'A belief about a past step can change when later notes arrive.'
+        feedback: |
+          This one is true (it is not one of the false statements): later notes are evidence about earlier hidden states, through the backward messages.
+    explanation: |
+      The last statement is true (retrospective beliefs); the first three are the typical misreadings. Perception here is inference: heard notes are *data* about the hidden notes, weighed against what the tune predicts.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a listener who can also **choose** what to do: put the choices (the policies $\pi$) back in. Beliefs about states under each policy, scored by free energy and expected free energy, give decisions and plans.
