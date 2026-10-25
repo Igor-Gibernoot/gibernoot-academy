@@ -99,7 +99,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 ## Chapter 6
 
-- (none yet)
+- ch06-recipe: loop labels $x\to y\to\mu\to u\to x$ (blanket-graph preset as in the blanket lesson); recipe order: system, form, variables and priors, process; model = inside the agent, process = outside. Running example for the level: two feeders (cue, left/right, reward side unknown). Blanket scale examples: neuron (receptor occupancy / vesicle release), nervous system (photoreceptors / oculomotor muscles), calculator.
 
 ## Chapter 7
 

@@ -1,0 +1,265 @@
+id: ch06-recipe
+title: "The Recipe in Four Steps"
+kind: concept
+own: |
+  - **Top-down design.** The question is not "how do I imitate this system piece by piece?" but "what problem does it solve, i.e. which **generative model** (the agent's joint model of hidden states and observations) describes it?" Once the model is written down, behaviour, inference and neural dynamics follow by letting the internal and active states descend {{ the variational free energy $F$ of that model }}.
+  - **Four steps, in order:** {{ system, form of the model, variables and priors, process }}. (1) *Which system?* Draw the Markov blanket. (2) *What form of generative model?* Discrete or continuous time, shallow or deep, with or without temporal depth for planning. (3) *How to set it up?* Which variables and priors, what is fixed, what is learned. (4) *How to set up the generative process?* The world that actually produces the observations.
+  - **The Markov blanket splits the world in four sets.** Take external states $x$ (the world being modelled), internal states $\mu$ (the agent), and a blanket made of sensory states $y$ (the only way $x$ reaches $\mu$) and active states $u$ (the only way $\mu$ reaches $x$). The loop is
+    {{ $$x \to y \to \mu \to u \to x$$ }}
+    and the agent infers $x$ only vicariously, because internal and active states see nothing but $y$.
+  - **Where the blanket sits decides what is inferred.** Around one neuron: sensory states are receptor occupancies, active states are vesicle release, and the rest of the network is external. Around the nervous system: sensory states are photoreceptors (or interoceptive afferents), active states are muscles, and the body is external. Around the body, or including a tool such as a calculator, the internal states change accordingly. The same loop, drawn at another scale, is a different inference problem.
+  - **Model versus process.** The agent's *generative model* is what it believes about how observations are produced. The *generative process* is what really produces them. They sit on opposite sides of the blanket and may differ:
+    {{ the model lives inside the agent, the process is the external world that responds to its actions }}
+cards:
+  - type: text
+    id: hook
+    title: "One principle, many behaviours"
+    body: |
+      So far one principle has been behind everything: states, actions and beliefs all move so as to reduce **free energy** $F$ (a number that measures how badly a model fits what is observed, and which bounds surprise). Yet a creature that decides at a **door**, a rodent in a **maze** and a **frog** catching a fly behave very differently.
+
+      If the principle is the same, then **something we choose** must differ from one case to the next. This lesson is the first of a small chapter that lists those choices as a **recipe**: four questions, asked in order, that turn a puzzle about a system into a model one can simulate.
+
+      Before any theory, guess.
+
+  - type: mcq
+    id: guess-choices
+    prompt: |
+      You are told only: "an animal sits in front of two feeders and has to find food." Free-energy descent is available as a ready-made engine. Which of these must you **still decide** before you can simulate the animal?
+    multiple: true
+    options:
+      - text: 'What counts as the animal and what counts as the world, and what passes between them (what it senses, what it does).'
+        correct: true
+      - text: 'What kind of beliefs it holds (a few categories or continuous numbers, one layer or several, with or without plans).'
+        correct: true
+      - text: 'Which variables its model contains, and which numbers in it are fixed in advance and which are learned.'
+        correct: true
+      - text: 'What the world actually does when the animal acts, which may differ from what the animal believes.'
+        correct: true
+      - text: 'Which direction of descent minimises free energy, since the animal could also climb it.'
+        feedback: |
+          Nothing to choose here. Behaviour is *defined* as the descent of internal and active states on the free energy of the model; climbing it would mean making things more surprising on purpose.
+    explanation: |
+      The four correct options are the four steps of the recipe, in order: the system, the form of the model, its variables and priors, and the generative process. The descent itself is not a design choice.
+
+  - type: text
+    id: why-recipe
+    title: "Why a recipe? Design from the top"
+    body: |
+      Most approaches to modelling the brain try to **emulate it piece by piece**: copy a neuron, connect many, hope behaviour appears.
+
+      Active inference is a **normative** approach: it starts from what a system must do to keep existing and derives the rest. So the work is reversed ("top-down"):
+
+      1. Find the **generative model**, the model of the problem the system is solving.
+      2. Minimise free energy under it. **Behaviour, inference and neural dynamics are all derived**, with their predictions about brains and minds.
+
+      So the generative model is a *complete description* of the system of interest. Different choices of model give different predictions, both for behaviour and for the neurobiology: **the choice of model is itself a hypothesis**.
+
+      A flexible language has a price: with so many options it is easy to get lost. The recipe orders the options.
+
+  - type: order
+    id: order-steps
+    prompt: |
+      Put the four design questions in the order in which they are asked.
+    steps:
+      - 'Which system are we modelling (where is the boundary)?'
+      - 'What is the most appropriate form of the generative model (discrete or continuous, shallow or deep, with or without planning)?'
+      - 'How to set up the generative model (variables, priors, what is fixed, what is learned)?'
+      - 'How to set up the generative process (the world that produces the observations)?'
+    hint: |
+      You cannot choose the form of a model before you know what it is a model *of*, and you cannot write the world's side before you know where the agent ends.
+    explanation: |
+      System, form, variables and priors, process. Once these four are fixed, **nothing else is designed**: the behaviour is the descent of the active and internal states on the free energy of the model, and standard software gives the numbers.
+
+  - type: text
+    id: step1-recall
+    title: "Step 1: where does the system end?"
+    body: |
+      Recall the **Markov blanket**: a set of variables that separates what is **inside** a system from what is **outside**, so that, given the blanket, inside and outside are independent. It has two kinds of members:
+
+      - **sensory states** $y$: they carry the influence of the world on the system (what it senses);
+      - **active states** $u$: they carry the influence of the system on the world (what it does).
+
+      Call the world being modelled the **external states** $x$ and the system's own states the **internal states** $\mu$. Then the system affects the world only by acting, and the world affects the system only by being sensed.
+
+      Try the loop. The widget draws it; click **Condition on the blanket** and read the verdict.
+
+  - type: widget
+    id: loop-widget
+    review: false
+    widget: blanket-graph
+    config:
+      nodes:
+        - { id: x, label: 'x', role: external, hue: 140, pos: [52, 115] }
+        - { id: y, label: 'y', role: sensory, hue: 48, pos: [170, 46] }
+        - { id: a, label: 'u', role: active, hue: 350, pos: [170, 184] }
+        - { id: mu, label: '\mu', role: internal, hue: 188, pos: [348, 115] }
+      edges:
+        - { from: x, to: y, on: true }
+        - { from: y, to: mu, on: true }
+        - { from: mu, to: a, on: true }
+        - { from: a, to: x, on: true }
+    body: |
+      Follow the arrows: $x\to y\to\mu\to u\to x$. After conditioning on $(y,u)$, can any information still pass between $x$ and $\mu$?
+
+  - type: build
+    id: build-loop
+    prompt: |
+      Complete the action-perception loop: the world $x$ is sensed, the agent's internal states $\mu$ respond, the agent acts, and the action changes the world.
+    prefix: 'x \to'
+    suffix: '\to x'
+    tiles: ['y', '\mu', 'u', 'x']
+    answers:
+      - ['y', '\mu', 'u']
+    wrong:
+      - { answer: ['u', '\mu', 'y'], feedback: 'That is the loop run backwards. The world reaches the agent through sensory states $y$ first, and the agent reaches the world through active states $u$ last.' }
+      - { answer: ['\mu', 'y', 'u'], feedback: 'The agent''s internal states $\mu$ never touch the world directly: the world can only reach them through the sensory states $y$.' }
+    hint: |
+      Sensory states mediate the world's influence on the agent; active states mediate the agent's influence on the world.
+    explanation: |
+      $x\to y\to\mu\to u\to x$. The blanket $(y,u)$ sits in the middle of the loop: it is the only route between $x$ and $\mu$ in either direction. This is why the agent can only infer $x$ **vicariously**, through $y$.
+
+  - type: mcq
+    id: retina
+    prompt: |
+      A system is drawn around **the nervous system**. Its sensory states are the photoreceptors of the retina and its active states are the muscles that move the eyes. What are the **inferences** of its internal states about?
+    options:
+      - text: 'Things outside the nervous system: the scene in front of the eyes (and, through interoception, the rest of the body).'
+        correct: true
+      - text: 'Things inside the brain, such as the activity of other neurons.'
+        feedback: |
+          Tempting because the internal states *are* neurons. But every neuron inside the blanket is *internal*, so the system does not need to infer it; what it must infer are the external states, which here lie outside the nervous system.
+      - text: 'Only the states of the photoreceptors, since they are what it senses.'
+        feedback: |
+          Photoreceptor states are the sensory states: the *data*. Inference is about their **causes**, the external states that produce them.
+    explanation: |
+      Internal states infer the causes of their sensory states. With this blanket the external states are the world beyond the retina and the body, so that is what the brain's beliefs are about.
+
+  - type: mcq
+    id: neuron
+    prompt: |
+      Now draw the blanket around **a single neuron**. Its sensory states are the occupancies of its postsynaptic receptors (how many receptors are bound by neurotransmitter), and its active states are the rate at which vesicles carrying neurotransmitter fuse with its presynaptic membrane (release). Which of these is **external** to this system?
+    options:
+      - text: 'The rest of the neuronal network in which the neuron takes part, along with the world beyond it.'
+        correct: true
+      - text: 'Nothing: a neuron has no external states, only a membrane potential.'
+        feedback: |
+          The membrane potential and calcium concentration are its *internal* states. The neurons that send and receive its signals are not part of it, so they are external.
+      - text: 'The membrane potential and the calcium concentration.'
+        feedback: |
+          Those are the neuron''s **internal** states: they can be read as inferring the causes of the neuron''s sensory states (its inputs) under some implicit generative model.
+    explanation: |
+      Around one neuron, its neighbours are part of the environment. Its internal states (membrane potential, calcium concentration) can then be read as beliefs about the causes of its inputs, according to an implicit generative model.
+
+  - type: mcq
+    id: scale
+    prompt: |
+      The same neuron appears in two systems: (A) a blanket around the neuron, (B) a blanket around the whole nervous system. In which system do the neuron's internal states (membrane potential, calcium) appear to be **inferring something inside the brain**?
+    options:
+      - text: 'Only in (A). In (B) they are part of the internal states of a larger system, whose inferences are about things outside the nervous system.'
+        correct: true
+      - text: 'Only in (B), because a larger system makes more complicated inferences.'
+        feedback: |
+          Size does not matter: what matters is which variables are outside the blanket. In (B) the other neurons are inside it, so no inference about them is needed.
+      - text: 'In both: a neuron''s inference does not change when the blanket changes.'
+        feedback: |
+          It does. The same variables are *external* in (A) and *internal* in (B), and only external states are inferred. The blanket defines what is inferred, so the same cell supports different descriptions at different scales.
+    explanation: |
+      This is why **scale** matters: the internal states of a small system are part of the internal states of the larger one. Moving the blanket changes which variables are external, and with them what is being inferred.
+
+  - type: mcq
+    id: body
+    prompt: |
+      Keep the blanket around the nervous system. What is the **rest of the body** (heart, gut, skin) from the point of view of the internal states?
+    options:
+      - text: 'External: the brain infers its state from interoceptive sensory states (signals coming from inside the body), just as it infers the outer world from vision.'
+        correct: true
+      - text: 'Internal: it is inside the organism, so it is part of the agent.'
+        feedback: |
+          "Inside the organism" is not the criterion; "inside the blanket" is. With the blanket around the nervous system, the body is on the other side of it.
+      - text: 'Part of the blanket itself, as sensory and active states.'
+        feedback: |
+          Only the variables that *mediate* the exchange (e.g. receptor signals, motor commands) are in the blanket. The heart and gut themselves are what those signals are about.
+    explanation: |
+      Drawn around the nervous system, the blanket makes the rest of the body an external state, inferred from interoceptive signals. Drawn around the **entire organism**, it makes organs other than the brain look like they infer things about their environment: skin pushed by an external pressure can be framed as an inference about the pressure's source.
+
+  - type: mcq
+    id: calculator
+    prompt: |
+      You use a calculator to settle a sum, and the "extended cognition" view says the calculator is **part of your internal states**. What does that do to the blanket?
+    options:
+      - text: 'The blanket is drawn around you and the calculator together: its keys and screen are now where your active and sensory states are.'
+        correct: true
+      - text: 'Nothing: tools are always external; the blanket is always the skin.'
+        feedback: |
+          The skin is one possible choice, not a rule. There are many ways to place a boundary, and which one is useful depends on the question being asked.
+      - text: 'The calculator becomes a sensory state of yours.'
+        feedback: |
+          A sensory state is a variable at the boundary, not an object. If the calculator is included, it is the *keys and screen* that sit on the boundary; the calculator itself is internal.
+    explanation: |
+      Boundaries are a modelling choice. Extended cognition moves the boundary outwards to include tools. One can also nest several blankets inside one another (brains, organisms, communities).
+
+  - type: mcq
+    id: vicarious
+    prompt: |
+      Minimising free energy with respect to a generative model involves only the internal and active states. Why can the agent still end up with accurate beliefs about the external world $x$?
+    options:
+      - text: 'Internal and active states only see the sensory states $y$; they know $x$ vicariously, through what $x$ causes in $y$, and their beliefs are about those causes.'
+        correct: true
+      - text: 'They also read $x$ directly, but only when they have acted.'
+        feedback: |
+          Action changes $x$ but does not give a direct view of it. Even after acting, the only route back to the agent is through sensory states.
+      - text: 'They do not: beliefs about $x$ are impossible, so the model is only about $y$.'
+        feedback: |
+          Beliefs about $x$ are the whole point. They are *inferred* from $y$, as in the earlier lessons on generative models, where hidden causes were inferred from data.
+    explanation: |
+      Defining the blanket tells us two things at once: **what is being inferred** (the external states) and **what is doing the inferring** (the internal states, acting through the active states).
+
+  - type: text
+    id: model-vs-process
+    title: "Model versus process"
+    body: |
+      The loop has one more consequence. The agent carries a **generative model**: what it *believes* about how its observations are produced. But the observations are in fact produced by the world, by a **generative process**: the real dynamics of the external states and how they give rise to $y$ in response to $u$.
+
+      They sit on opposite sides of the blanket:
+
+      - **generative model**: inside the agent; it can be wrong, or simpler than the world;
+      - **generative process**: outside; it is what really happens, and it is how we simulate the environment.
+
+      The two may be identical (a "perfectly informed" agent) or differ in many ways. Which is chosen is Step 4 of the recipe; Step 1 only fixes which side each object belongs to.
+
+  - type: mcq
+    id: model-or-process
+    prompt: |
+      A simulated creature believes that a reward is equally likely behind either of two doors, but in the simulation the experimenter puts it behind the left door every time. Which statement is correct?
+    options:
+      - text: 'The belief "equally likely on either side" belongs to the generative model; "always on the left" belongs to the generative process.'
+        correct: true
+      - text: 'Both belong to the generative model, since the experimenter is part of the design.'
+        feedback: |
+          The experimenter writes both, but they live on different sides of the blanket in the simulation: the creature never sees the rule, only the observations it produces.
+      - text: 'Both belong to the generative process, since the process is everything in the simulation.'
+        feedback: |
+          The creature''s beliefs are part of the creature, hence of the model. The process is only what the *world* does.
+    explanation: |
+      Model: a belief in the head of the agent. Process: a rule of the environment. When they disagree (as here), the agent has something to **learn**, and the free-energy descent will move its beliefs toward the data.
+
+  - type: mcq
+    id: free-energy-last
+    prompt: |
+      Once the four steps are done (system, form, variables and priors, process), what is **left to specify** so that the behaviour of the system is determined?
+    options:
+      - text: 'Nothing about behaviour: it follows from the descent of the internal and active states on the free energy of the model.'
+        correct: true
+      - text: 'A separate decision rule for each situation, such as "if the cue is red, go left".'
+        feedback: |
+          That is hand-coding behaviour, the opposite of the top-down approach. Under active inference the choice emerges from the model (its priors and preferences) by free-energy minimisation.
+      - text: 'A cost function different from free energy, to say what the agent wants.'
+        feedback: |
+          What the agent wants is part of the model (its prior preferences), not an extra ingredient.
+    explanation: |
+      Four steps (in most cases) suffice. With a model and a process, standard routines run the simulation, visualise results and even fit the model to data (**model-based data analysis**).
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** Step 2. Should the model count in **categories** or in **continuous numbers**? Should it be **one layer** or a **hierarchy**? And should it be able to **plan**, that is, to predict what would be observed if it acted? Each answer changes the message passing, hence the predictions about the brain.

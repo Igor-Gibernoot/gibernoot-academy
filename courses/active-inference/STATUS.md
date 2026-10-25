@@ -28,6 +28,8 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
 
 ## Log
 
+- 2026-10-25 ch06-recipe: concept, 17 cards (hook, 5 mcq on blanket scale, order of 4 steps, build of the loop, model vs process). Text-only source (6.1-6.3), logged in VERIFIED. Choices: reused the Level 3 blanket-graph labels; own has 4 blanks. Conventions fixed here: loop labels, recipe order, two-feeder running example.
+
 - 2026-10-25 Level 5 light audit (items 2,4,5,7 + terminology Levels 1-5): level references only self-names (map/challenge titles), no book/figure/table labels in ch05 lessons, summaries show math, gamma/omega/zeta/chi, pi=sigma(-gamma G), direct/indirect wording and the attenuation-does-not-speed-reflex claim consistent. Fixed: ch04 map and model-traps wrote unsubscripted omega for fluctuations, now omega_x, omega_y. Conventions fixed here: none new.
 
 - 2026-10-25 `ch05-neuro-traps` (traps, 15 cards incl. intro and summary; validate 0/0, shots 0 problems). Reused verified items only. Choices: card 3 and 8-11 as mcq with hedged "could be mapped to" wording; numeric rate ratio .2/.8=.25 and Q(right)=.881; the learning card is an order card (gain at trial start, belief settles, counts a<-a+o x s, A11=1.9/2.9=.655); no widget. Conventions fixed here: traps summary lists rate .8 vs .2, mixture s=(.645,.355), A11 .655, Q(right) .881 (all already in Ch. 5).
