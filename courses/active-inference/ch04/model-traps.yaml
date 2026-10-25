@@ -1,0 +1,211 @@
+id: ch04-model-traps
+title: Model Traps
+kind: traps
+
+cards:
+  - type: text
+    id: intro
+    title: Trap round
+    body: |
+      Fast round: each question hides a tempting mistake about the models of this level, the discrete door model, the continuous predictive-coding model and the approximate posteriors. Answer quickly, then read the feedback, especially when you got it right for a shaky reason.
+
+      Recall the cast. In the **discrete** model, $s$ are hidden states, $o$ outcomes (what is observed), $\pi$ a policy, and four arrays: the likelihood $\mathbf A$, the transitions $\mathbf B$, the preferences $\mathbf C$ and the initial prior $\mathbf D$. In the **continuous** model, $x$ are hidden states, $y$ data, $\mu$ the belief, $\Pi$ a precision, and $F$ is the variational free energy, always minimised.
+
+  - type: mcq
+    id: columns
+    title: Which sum is one?
+    prompt: |
+      A likelihood array $\mathbf A$ gives the chance of each outcome (row) for each hidden state (column):
+      $$\mathbf A=\begin{pmatrix}0.9&0.2\\0.1&0.8\end{pmatrix}$$
+      Row 1 is "looks closed", row 2 is "looks open"; column 1 is "door closed", column 2 is "door open". A student says "each row sums to one, like a probability table". Which statement is right?
+    options:
+      - text: 'Each **column** sums to one: given a hidden state, the outcomes form a probability distribution. The rows ($0.9+0.2=1.1$) do not.'
+        correct: true
+      - text: 'Each row sums to one, so $\mathbf A$ is a distribution over states.'
+        feedback: |
+          The rows sum to $1.1$ and $0.9$. $\mathbf A$ is a conditional $P(o\mid s)$: normalised over the outcomes $o$ for a **fixed** state, not over the states.
+      - text: 'Neither: only the whole array sums to one.'
+        feedback: |
+          The whole array sums to $2$, one per column. The normalisation is column by column, since each state has its own distribution over outcomes.
+    explanation: |
+      $P(o\mid s)$ sums to one over $o$ (down a column). The rows of $\mathbf A$ say how a given outcome is spread over the states, and nothing forces them to sum to one: a likelihood is not a posterior.
+
+  - type: mcq
+    id: d-vs-c
+    title: Prior belief or wish?
+    prompt: |
+      In the door model, $\mathbf D=(0.9,0.1)$ is the prior over the hidden states (closed, open) and $\mathbf C=(0.2,0.8)$ is the preference over the outcomes (looks closed, looks open). A student says: "$\mathbf D$ says the agent wants the door closed, since it gives it $0.9$." What is wrong?
+    options:
+      - text: '$\mathbf D$ is a **belief** about the hidden state at the start (the door is probably closed). The wish lives in $\mathbf C$, a prior over **outcomes**, and here it favours seeing the door open.'
+        correct: true
+      - text: 'Nothing: a prior probability is always a preference.'
+        feedback: |
+          A prior says what the agent expects, not what it likes. Here the agent expects a closed door and prefers an open one, which is exactly why it will act.
+      - text: '$\mathbf C$ is the belief and $\mathbf D$ the wish, but the student read the numbers wrongly.'
+        feedback: |
+          The roles are fixed: $\mathbf D$ is over hidden **states**, $\mathbf C$ over **outcomes**. Beliefs about the world and preferences about what to observe are different objects.
+    explanation: |
+      Expectation and desire differ, and the gap between them drives behaviour: a policy such as "push" is attractive because its predicted outcomes ($\mathbf o$) move from what $\mathbf D$ expects towards what $\mathbf C$ prefers.
+
+  - type: numeric
+    id: policy-count
+    title: A policy is not one action
+    prompt: |
+      A student says "a policy is the action I do now, so there are only as many policies as actions". In the door model each step you either push or wait. A policy fixes the action at **every** transition. With the horizon extended to three transitions, how many different policies are there?
+    answer: 8
+    tolerance: 0.001
+    answerText: '8'
+    wrong:
+      - { value: 2, feedback: "That counts the actions of a single step. A policy is a whole sequence, one action per transition." }
+      - { value: 6, feedback: "That is $2\\times3$, adding the choices. The choices at different steps combine, so they multiply." }
+    hint: |
+      Two choices at each of three steps; for two steps the list was push-push, push-wait, wait-push, wait-wait.
+    explanation: |
+      $2\times2\times2=8$. A policy $\pi$ is a sequence of actions, so the transition used at step $\tau$ is $\mathbf B_{\pi\tau}$, the array chosen by the policy at that step. The set of policies grows exponentially with the horizon.
+
+  - type: numeric
+    id: precision
+    title: Precision is not variance
+    prompt: |
+      A student reads the phrase "a more precise sensor" and says "a larger precision means a larger spread". A sensor reading has Gaussian noise with variance $0.25$. What is its precision $\Pi$?
+    answer: 4
+    tolerance: 0.001
+    answerText: '4'
+    wrong:
+      - { value: 0.25, feedback: "That is the variance itself. Precision is the **inverse** of the variance." }
+      - { value: 0.5, feedback: "That is the standard deviation $\\sqrt{0.25}$. Precision is $1/\\text{variance}$, not a square root." }
+    hint: |
+      Small spread should mean large trust: invert the variance.
+    explanation: |
+      $\Pi=1/0.25=4$. A narrow noise distribution means a precise measurement, so a **large** precision. In the free energy, a prediction error is weighted by $\Pi$: the more precise the signal, the more its error counts.
+
+  - type: numeric
+    id: marginals
+    title: Right marginals, right posterior?
+    prompt: |
+      Two hidden causes $x_1,x_2\in\{1,2\}$ have exact posterior entries $0.48,\ 0.12$ (row $x_1=1$) and $0.08,\ 0.32$ (row $x_1=2$). Their marginals are $p(x_1=1)=0.6$ and $p(x_2=1)=0.56$. A student says "a mean-field posterior $q_1q_2$ built from the exact marginals equals the exact posterior". What entry does this product give for $(x_1,x_2)=(1,1)$? (The exact value is $0.48$.)
+    answer: 0.336
+    tolerance: 0.001
+    answerText: '0.336'
+    wrong:
+      - { value: 0.48, feedback: "That is the exact posterior entry. The product of the marginals is a different number, and the gap is the point." }
+      - { value: 1.16, feedback: "That adds the marginals; independence multiplies them." }
+    hint: |
+      A product of independent beliefs multiplies: $0.6\times0.56$.
+    explanation: |
+      $0.6\times0.56=0.336\ne0.48$. A product forgets the **correlation** between $x_1$ and $x_2$: the exact posterior makes $x_2=1$ likely when $x_1=1$ and unlikely when $x_1=2$. Even the best product, found by the coordinate updates, keeps a positive gap to the exact posterior; mean-field is exact only when the posterior itself factorises.
+
+  - type: mcq
+    id: laplace-any
+    title: Laplace for any posterior?
+    prompt: |
+      A posterior over one hidden variable has two equal humps, at $x=-2.2$ and $x=+2.2$, each of width $0.7$. A student fits a Gaussian by the Laplace method (a Gaussian at a mode, with precision equal to minus the curvature of $\ln p$ there) and says "the Laplace approximation works for any posterior". What actually happens?
+    options:
+      - text: 'It sits on **one** hump and ignores the other: it uses only the local behaviour at the chosen mode, so it can miss half of the probability mass. It is good for single-humped, roughly symmetric posteriors.'
+        correct: true
+      - text: 'It lands at $x=0$ between the humps, with a wide Gaussian covering both.'
+        feedback: |
+          That would be a moment match. The Laplace method looks at a mode and the curvature there; at $x=0$ the curvature of $\ln p$ is positive (a dip), so it is not a mode.
+      - text: 'It works, because every posterior looks Gaussian near its peak.'
+        feedback: |
+          Near a peak yes, but only **near** it. The approximation says nothing about a second peak far away.
+    explanation: |
+      Laplace buys a cheap Gaussian by a second-order Taylor expansion at a mode. It requires that one Gaussian is a fair description: a single dominant, smooth hump. For multimodal or strongly skewed posteriors the result is local and can be badly off.
+
+  - type: mcq
+    id: forward-reverse
+    title: Which divergence picks a hump?
+    prompt: |
+      Fit one Gaussian $Q$ to the two-hump posterior $P$ above (humps at $\pm2.2$, width $0.7$). Minimising $D_{\mathrm{KL}}[Q\,\|\,P]$ (the free-energy direction) gives about $0.69$ nats on one hump, against about $1.08$ for the wide Gaussian at $0$ that matches the mean and spread of $P$. A student says "the best fit must be the wide one, since it covers both humps". What is wrong?
+    options:
+      - text: 'With $D_{\mathrm{KL}}[Q\,\|\,P]$, $Q$ is penalised for putting mass where $P$ has little, so one hump ($0.69=\ln2$ nats, the missing half) beats the wide Gaussian ($1.08$). The wide fit is best for the **other** direction, $D_{\mathrm{KL}}[P\,\|\,Q]\approx0.50$.'
+        correct: true
+      - text: 'The divergence is symmetric, so both fits cost the same.'
+        feedback: |
+          $D_{\mathrm{KL}}$ is not symmetric: here $D_{\mathrm{KL}}[Q\,\|\,P]$ and $D_{\mathrm{KL}}[P\,\|\,Q]$ rank the two fits in opposite ways.
+      - text: 'The wide Gaussian wins: it has the smaller divergence in both directions.'
+        feedback: |
+          Only in the direction $D_{\mathrm{KL}}[P\,\|\,Q]$ ($0.50$ against about $9$ for one hump). In the free-energy direction the wide Gaussian costs $1.08$, more than one hump.
+    explanation: |
+      Free energy is built on $D_{\mathrm{KL}}[Q\,\|\,P]$, which punishes $Q$ for mass where $P$ is small. Because the wide Gaussian puts most of its mass in the empty valley, variational inference tends to be **mode-seeking**: it commits to one hump. The reverse direction is **mass-covering**.
+
+  - type: numeric
+    id: f-and-g
+    title: Which sign for F?
+    prompt: |
+      The policy posterior is $\pi=\sigma(-\mathbf G-\mathbf F)$, where $\mathbf F$ is the free energy of the past and present outcomes under each policy and $\mathbf G$ the expected free energy of the future ones; both are minimised. A student says "$\mathbf F$ is a score to maximise, so it should enter with a plus sign". Two policies have $\mathbf F=(0.5,\,1.5)$ and $\mathbf G=(1,\,0.8)$. What is the probability of policy 1?
+    answer: 0.690
+    tolerance: 0.005
+    answerText: '0.690'
+    wrong:
+      - { value: 0.231, tolerance: 0.005, feedback: "That uses $-\\mathbf G+\\mathbf F$. $\\mathbf F$ is a free energy: a **lower** value means the policy explains the data better, so it enters with the same minus sign as $\\mathbf G$." }
+      - { value: 0.450, tolerance: 0.005, feedback: "That drops $\\mathbf F$ and uses $\\sigma(-\\mathbf G)$ alone, the prior over policies. The data seen so far also count." }
+      - { value: 0.731, tolerance: 0.005, feedback: "That uses $\\mathbf F$ alone and ignores the future term $\\mathbf G$." }
+    hint: |
+      Scores $-(\mathbf G+\mathbf F)$ are $-1.5$ and $-2.3$; then a softmax over the two.
+    explanation: |
+      Sums: $1.5$ and $2.3$, so $\pi_1=e^{-1.5}/(e^{-1.5}+e^{-2.3})=1/(1+e^{-0.8})\approx0.690$. Both terms are costs: $\mathbf F$ says how well the policy accounts for what was observed, $\mathbf G$ how good its predicted future is. Lower total, higher probability.
+
+  - type: mcq
+    id: action-command
+    title: Does the brain compute the movement?
+    prompt: |
+      In the predictive-coding model of movement, the brain holds a prediction of the limb's sensed position (say a raised arm) and the real limb is elsewhere. A student says "the brain must compute the motor command that moves the arm there, like a controller". How does the model do it?
+    options:
+      - text: 'Action is driven by the **sensory prediction error** itself: the motor system changes $u$ so as to reduce the error between the predicted and the sensed data, so the prediction is fulfilled. No inverse model of the body is needed.'
+        correct: true
+      - text: 'A separate optimiser computes the exact torque from the target position, then the prediction is updated.'
+        feedback: |
+          That is classical control. Here $\dot u=-\nabla_u F$ only needs the (reflex) arc from the error to the motor neurons.
+      - text: 'Action changes the belief $\mu$, never the data $y$.'
+        feedback: |
+          Reversed. Perception changes $\mu$; action changes the **data** $y$ through the body. Both reduce $F$, in complementary ways.
+    explanation: |
+      Perception moves the belief towards the data; action moves the data towards the belief. The descending prediction plays the role of a goal, and the spinal reflex arc fulfils it by minimising the prediction error.
+
+  - type: mcq
+    id: error-levels
+    title: Errors only at the senses?
+    prompt: |
+      A hierarchy of predictive coding has levels stacked above the data $y$. A student says "prediction errors exist only at the bottom, where the senses are". Which statement is right?
+    options:
+      - text: 'Every level has errors: each level predicts the one below, and the mismatch between a level''s belief and the prediction from above is an error, weighted by its precision. The sensory error is the lowest member of the chain.'
+        correct: true
+      - text: 'Only the bottom level has errors; the upper levels hold plain beliefs.'
+        feedback: |
+          Upper beliefs are also pulled by the predictions descending from above and by the errors rising from below. The free energy is a precision-weighted sum over **all** the errors in the chain.
+      - text: 'Errors exist at upper levels only, since the senses are exact.'
+        feedback: |
+          Sensory data carry noise too, with its own precision $\Pi_y$. The sensory error is as real as the others.
+    explanation: |
+      Descending signals carry predictions, ascending signals carry errors, at every level. Each error is weighted by its precision, so the same chain can trust the senses more or less than its prior.
+
+  - type: mcq
+    id: notation
+    title: Do the symbols matter?
+    prompt: |
+      A student says: "$s,o$ and $x,y$ are just two spellings of the same model, so the discrete model also has derivatives $\dot s$ and noise precisions". Which statement is right?
+    options:
+      - text: 'They are two different model families: the discrete one (categorical $s,o$, arrays $\mathbf A,\mathbf B$, steps $\tau$) updates beliefs over a finite list of values with no derivatives; the continuous one (Gaussian $x,y$, rates $\dot x$, precisions $\Pi$) evolves smoothly in time.'
+        correct: true
+      - text: 'The same: every discrete update is also a differential equation.'
+        feedback: |
+          The discrete model moves between **time steps**, with $\mathbf s_{\tau+1}=\mathbf B\mathbf s_\tau$; there is no rate of change inside a step.
+      - text: 'The continuous model has arrays $\mathbf A,\mathbf B$ too, only larger.'
+        feedback: |
+          Its mappings are functions $f$ and $g$ (written $\dot x=f(x)+\omega$, $y=g(x)+\omega$), not tables; the arrays belong to the categorical model.
+    explanation: |
+      Both are generative models inside the same free-energy principle, but with different building blocks: categorical distributions and arrays for discrete choices, Gaussians and functions for smooth signals. Keeping the symbols apart keeps the model apart.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      Traps avoided (setup: discrete model with hidden states $s$, outcomes $o$, policy $\pi$, arrays $\mathbf A,\mathbf B,\mathbf C,\mathbf D$; continuous model with hidden states $x$, data $y$, belief $\mu$, precision $\Pi$; variational free energy $F$, expected free energy $\mathbf G$):
+
+      - $\mathbf A$ gives $P(o\mid s)$: each **column** sums to one. $\mathbf D$ is a belief over hidden states, $\mathbf C$ a preference over outcomes. A policy is a sequence of actions (two choices over three steps give $2^3=8$), using $\mathbf B_{\pi\tau}$ at step $\tau$.
+      - Precision is the inverse of the variance, $\Pi=1/\sigma^2$ (variance $0.25$ gives $4$). A mean-field posterior $q_1q_2$ cannot capture the correlation of the exact posterior (marginals $0.6\times0.56=0.336\ne0.48$).
+      - Laplace is local and suits one smooth hump. Free energy minimises $D_{\mathrm{KL}}[Q\,\|\,P]$, which is mode-seeking, unlike $D_{\mathrm{KL}}[P\,\|\,Q]$.
+      - Both costs are minimised: $\pi=\sigma(-\mathbf G-\mathbf F)$. Action fulfils predictions by reducing the sensory error; errors live at every level of the hierarchy; discrete and continuous models use different symbols and tools.
+
+      **Next:** the intuition lesson of this level, quick recall of the model formulas by mnemonics and scaling checks.
