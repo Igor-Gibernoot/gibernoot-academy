@@ -1,6 +1,7 @@
 # Status
 
 Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/
+
 ### 2026-10-25 ch05-challenge session A
 Wrote ch05/challenge.yaml (14 cards) and registered it. Numbers recomputed by script: P1 mu*(Pi_y=1)=1, arm rates .8/.5 (ratio .625); P2 sigma(-G)_1=.450, sigma(lnE-F-G)_1=.839, sigma(-4G)_2=.690 (the earlier .690 at gamma=4 is policy 2; sigma(-F-G)_1=.690 is a coincidence, said so in the card); P3 Q(right)=.881, mixture .645. No widget: hand-checkable numbers, a picture would reveal answers. Conventions fixed here: challenge P1 arm uses y=0, eta=1, Pi_v=1 with Pi_y=4/1 (rates .8/.5); P2 modulator wording 'could be mapped to'.
 
@@ -20,7 +21,7 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
 - **Built:** ch05-hierarchies (17 cards; microcircuit `hybrid` with presets both/discrete/continuous, predictive-coding hierarchy chain).
 - **Built:** ch05-neuro-traps (13 traps + intro + summary, 15 cards, no widget, no source reading).
 - **Built:** ch05-map (14 boxes, 3 columns, no widget). **ch05-challenge built** (25 cards, P1-P5, plain-text final summary, no widget). **Level 5 fully built. Level 5 light audit done (2026-10-25).
-- **Level 6 in progress:** built ch06-recipe (17), ch06-model-form (24), ch06-model-setup (24; door preset text fixed: read the thick ticks), **ch06-design-example** (guided, 23 cards; two-feeder creature, 8 states, pomdp-lab presets model/process, policy-scorer states mode; no new widget; own numbers verified by script and widget). **Next unit:** `ch06-recipe-traps` (traps, plan section 5, no widget).
+- **Level 6 in progress:** built ch06-recipe (17), ch06-model-form (24), ch06-model-setup (24), ch06-design-example (guided, 23; two-feeder creature, 8 states), **ch06-recipe-traps** (15 traps + intro + summary = 17 cards, no widget, no source reading; added `file:` to course.yaml). **Next unit:** `ch06-map` (plan section 6, 14 boxes, 3 columns, no widget; decoys from Ch. 4-5: mean-field, Laplace, SNpc; check archive/ for old maps).
 - **Level 3 lessons:** markov-blankets (25), self-evidencing (15), least-action (24), inference-dynamics (16), blanket-free-energy (guided, 23), models-policies (19), reconciliation (15), blanket-traps (13), map (11 boxes), challenge (29).
 - **Widgets built:** L2 `free-energy-bound`, `policy-scorer`; L3 `blanket-graph`, `blanket-sync`, `steady-state-walk`; L4 `gaussian-fit`, `factor-graph`, `pomdp-lab` (all in LESSON_FORMAT; presets door and tmaze are in its doc, to be copied into lessons), `predictive-coding` (modes static, hierarchy, dynamic, action), `mean-field-vb` (joint grid or marg+rho, q sliders, updates/sweep, message terms, F trace; in LESSON_FORMAT). No widgets left to build in Level 4. L5 `microcircuit` (generic message circuit: bands, nodes, signed edges, Play messages, modulator slider, `hideNames`, presets; in LESSON_FORMAT): built, tested with a throwaway preset (removed). Level 5 needs no other widget (hybrid-hierarchy only for Ch. 8).
 - **Verified (source pages):** Ch. 5: 5.6-5.7, Fig 5.5 (PDF pp. 111-112); 5.5 + Table 5.1 (PDF pp. 108-109); 5.1-5.2, Figs 5.1-5.2 (PDF pp. 96-100); 5.3-5.4, Figs 5.3-5.4, footnote 1 (PDF pp. 101-108). Ch. 2: 2.2, 2.3 / Fig. 2.2, 2.4-2.5 / Fig. 2.3, 2.6 (Eq. 2.5, Figs. 2.4-2.5), 2.7 (pp. 42-43), 2.8 (Eq. 2.6, Fig. 2.6, pp. 44-48), Eq. 2.3-2.4, Eq. 4.2 / Fig. 4.1 (pp. 64-65), Eq. 4.7 (p. 83), B.13 (p. 259); Eq. 4.15-4.18, Box 4.2/Fig. 4.5 (pp. 78-79). Ch. 3: 3.2, Box 3.1, Figs 3.1-3.2 (pp. 54-56); 3.3.1, Eq. 3.1, Fig. 3.3 (pp. 58-59); 3.4 (pp. 60-62); A.46-A.50 (pp. 250-251); Box 3.3 (PDF pp. 71-72); 3.3, 3.5-3.8 prose only (no formulas). Ch. 4: Eq. 4.5-4.6, 4.9-4.12 (pp. 82, 84, 85); Eq. 4.13-4.14, Fig. 4.4, B.5-B.9 (PDF pp. 86, 88, 256-258); Eq. 4.3-4.4 (pp. 76-77); Box 4.3, Eq. 4.20-4.22, A.23-A.34 (PDF pp. 92-93, 244-246); Eq. 4.21 hierarchy and Fig. 4.6 (PDF pp. 93-94); 4.3 Figs 4.2-4.3 (pp. 68, 70), Box 4.1 (p. 76); A.36-A.38, A.41-A.45 (PDF pp. 247-249).
@@ -28,6 +29,8 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
 - **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
 
 ## Log
+
+- 2026-10-25 ch06-recipe-traps (traps, 17 cards, no widget): 15 traps chosen (model=process, discrete!=deep, continuous can plan, hierarchy!=temporal depth, blanket is a choice, bigger not better, learning optional, optimal vs priors, u->y only via world, action-oriented, morphology, more states, same A,B, neural net moves choices, cue pragmatic: belief .5->.85). Source not read; formulas only P(pi)=sigma(-G-F). Conventions fixed here: none new.
 
 - 2026-10-25 ch06-model-setup: 24 cards, config-only presets. Choices: hook as mcq (inference vs learning); factorisation 3x4=12 vs 3+4=7 (B: 144 vs 25); counts preview 1.9/2.9=.655; door open belief at step 2 .468/.212/.807 exact (widget ticks close). Conventions fixed here: A..E table, pi=sigma(ln E-F-G), frog graph labels c, o_1..o_3, A_1..A_3.
 

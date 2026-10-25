@@ -1,0 +1,284 @@
+id: ch06-recipe-traps
+title: Recipe Traps
+kind: traps
+
+cards:
+  - type: text
+    id: intro
+    title: Trap round
+    body: |
+      Fast round: each question hides a tempting mistake about **building** a model. Recall the recipe: choose the system and its **blanket** (the boundary between inside and outside), choose the **form** of the model (discrete or continuous, shallow or deep), set the **variables and priors**, then write the **process** (the real world outside, which generates the data). The **model** lives inside the creature; the **process** is outside.
+
+      Notation: $F$ is the variational free energy, $G$ the expected free energy, and the policy prior is $P(\pi)=\sigma(-G-F)$ with $\sigma$ the softmax. Answer quickly, then read the feedback, especially when you were right for a shaky reason.
+
+  - type: mcq
+    id: model-equals-process
+    title: Must the model copy the world?
+    prompt: |
+      A creature believes its food is on the left with probability $0.5$ (its prior $\mathbf D$). In the real world, built by the experimenter, the food is **always** on the left. A student says: "the model must equal the generative process, otherwise the creature cannot work; so $\mathbf D$ must be $(1,0)$." What is wrong?
+    options:
+      - text: 'The model is the creature''s own guess about the world and may differ from the process. Here the creature is ignorant but not broken: it explores, sees the food on the left, and its beliefs move towards the truth.'
+        correct: true
+      - text: 'Nothing: a wrong prior makes inference impossible.'
+        feedback: |
+          Inference is exactly the update of a prior by data. A $50/50$ prior is wrong about this world but the posterior still moves to "left" after a few observations.
+      - text: 'The process must be changed to match the model instead.'
+        feedback: |
+          The process is the outside world, which the creature does not control by editing it. Nothing forces the two to agree; the creature acts to make its observations agree with its predictions.
+    explanation: |
+      Model (inside) and process (outside) are separate objects, linked only through the blanket. A mismatch is normal: it is what makes learning, and surprise, possible. A creature whose model equalled the process from birth would have nothing to infer.
+
+  - type: mcq
+    id: discrete-deep
+    title: Discrete means looking ahead?
+    prompt: |
+      A student says: "my model has discrete states, a finite list of values and arrays $\mathbf A,\mathbf B$, so it automatically plans several steps ahead." What is wrong?
+    options:
+      - text: '"Discrete" is about the **kind** of variable (a finite list of values). Looking ahead means scoring policies by their predicted future, which is a separate choice (temporal depth). A discrete model with a single time step cannot plan at all.'
+        correct: true
+      - text: 'Nothing: arrays $\mathbf B$ always predict the future.'
+        feedback: |
+          $\mathbf B$ only gives the one-step transition. Whether the model chains these steps and scores policies by the expected free energy $G$ depends on whether it was built with a time horizon.
+      - text: 'Discrete models can never plan; only continuous ones can.'
+        feedback: |
+          Discrete models with a horizon of several steps are the standard planning models. The mistake runs the other way too: discreteness neither gives nor forbids planning.
+    explanation: |
+      Two separate choices: discrete versus continuous (the kind of variable) and temporally deep versus shallow (whether consequences of actions are rolled forward). Planning needs the second.
+
+  - type: mcq
+    id: continuous-no-plan
+    title: Can a smooth model plan?
+    prompt: |
+      A student says: "continuous models only track a signal and react to it; planning needs discrete choices." Which reply is right?
+    options:
+      - text: 'Not forced: a continuous model can also predict ahead along its trajectory (its beliefs include rates of change), so it can in principle score futures. It is simply common to use continuous models for fast reflexive control and discrete ones for choosing among alternatives.'
+        correct: true
+      - text: 'Right: smooth variables have no future, only a present value.'
+        feedback: |
+          A continuous state $x$ has a rate $\dot x=f(x)+\omega_x$, so the model already says where the state goes next. A future exists in the model.
+      - text: 'Right: only categorical distributions can be compared by $G$.'
+        feedback: |
+          The expected free energy is defined for any generative model, Gaussian included. Discrete models are easier to enumerate (list the policies), which is a practical reason, not a principle.
+    explanation: |
+      Use of the continuous form for reflexes and the discrete form for choices is a habit of convenience. The form of the variables does not decide whether the model can plan.
+
+  - type: mcq
+    id: hierarchy-depth
+    title: Does hierarchy mean planning deeper?
+    prompt: |
+      A model has two layers: a slow layer above, a fast layer below, each updating its beliefs from the other. A student says: "two layers means it plans two steps further ahead." What is wrong?
+    options:
+      - text: '"Deep" in the hierarchical sense means **several timescales** stacked (slow context above, fast detail below). It says nothing about how far ahead consequences of actions are rolled out; a hierarchical model can be temporally shallow, and a flat model temporally deep.'
+        correct: true
+      - text: 'Nothing: each layer adds one planning step.'
+        feedback: |
+          Layers add timescales, not planning steps. The slow layer can fix a context (which room am I in?) that the fast layer then uses, without any look ahead at all.
+      - text: 'A hierarchy always makes the model continuous.'
+        feedback: |
+          Hierarchies exist in both forms: stacked discrete models, stacked continuous ones, and hybrids with a discrete layer above a continuous one.
+    explanation: |
+      Keep two words apart: **deep** (several timescales or levels) and **temporally deep** (consequences of actions rolled forward). They are independent choices.
+
+  - type: mcq
+    id: blanket-fixed
+    title: Is the blanket given by nature?
+    prompt: |
+      A student says: "the Markov blanket of an organism is fixed by nature: the skin for an animal, the membrane for a cell, and the modeller has no choice." Which statement is right?
+    options:
+      - text: 'The blanket is part of the **modelling choice**: the same system can be described with a blanket at a receptor, at the whole nervous system or at the body surface, and each choice defines a different inside, a different outside and a different model.'
+        correct: true
+      - text: 'Right: only the physical boundary of the organism is a valid blanket.'
+        feedback: |
+          Blankets are statistical boundaries (a set of variables that separates inside from outside), not only physical surfaces. A neuron, a nervous system and a calculator each have one at their own scale.
+      - text: 'Wrong: the modeller can choose any set of variables whatever, and the result is always a valid blanket.'
+        feedback: |
+          The choice is free but it has to separate inside from outside: inside and outside must influence each other only through the blanket. A random set does not do this.
+    explanation: |
+      Choosing the system and its blanket is the first step of the recipe, and it is a choice. What is not free is the requirement that the blanket really separates the inside from the outside.
+
+  - type: mcq
+    id: bigger-blanket
+    title: Is a bigger blanket better?
+    prompt: |
+      A student reasons: "take the biggest blanket, the whole body plus tools plus environment, because then the model explains the most." What is the problem?
+    options:
+      - text: 'Bigger is not better by itself: a larger system means a larger model to specify, with more states and priors, while the question asked (what does this neuron do?) might need only a small one. Choose the scale that matches the question.'
+        correct: true
+      - text: 'No problem: a bigger blanket always gives a more accurate model at no cost.'
+        feedback: |
+          The cost grows quickly: the number of states multiplies and so does the number of entries in the arrays (for instance $3\times4=12$ joint states against $3+4=7$ if factorised). A model nobody can specify or compute is not more accurate in practice.
+      - text: 'A bigger blanket is impossible because blankets cannot be nested.'
+        feedback: |
+          Blankets can be nested: a neuron sits inside a nervous system which sits inside a body. The scale is chosen by the question.
+    explanation: |
+      Scale is a trade-off between what the model can explain and what you can specify and compute. The recipe asks for the smallest system that answers your question.
+
+  - type: mcq
+    id: learning-mandatory
+    title: Is learning part of every model?
+    prompt: |
+      A student says: "an active inference model must learn its arrays $\mathbf A$ and $\mathbf B$ from experience; with fixed arrays it is not a proper model." Which statement is right?
+    options:
+      - text: 'Learning is optional. An array can be **fixed** by the designer (or by evolution) so that only the hidden states are inferred, or it can be **learned** by updating its parameters over many observations, on a slower timescale than inference.'
+        correct: true
+      - text: 'Right: fixed arrays mean no inference happens.'
+        feedback: |
+          Inference over hidden states still happens with fixed arrays: the posterior over $s$ is computed from the observations, with $\mathbf A$ as the likelihood.
+      - text: 'Right: otherwise the creature cannot adapt, which is the point of active inference.'
+        feedback: |
+          Adapting by inference and action already happens at fixed arrays: the creature changes beliefs and behaviour. Learning adds slower adaptation of the arrays themselves.
+    explanation: |
+      Fixed or learned is a design decision for each array. Learning is fast-slow nesting: states change at every step, parameters over many.
+
+  - type: mcq
+    id: optimal-or-priors
+    title: Optimal behaviour?
+    prompt: |
+      A student watches a creature that keeps walking to a dim feeder instead of the bright one with more food, and asks "is this behaviour optimal?" Which question is better in active inference?
+    options:
+      - text: '"Which priors (preferences $\mathbf C$, beliefs $\mathbf D$) make this behaviour the most likely choice?" Behaviour is explained by the creature''s own priors; "optimal" is only defined relative to some set of priors.'
+        correct: true
+      - text: '"How much food would an ideal agent collect?", because there is one objective best behaviour for every situation.'
+        feedback: |
+          That presupposes a fixed external reward. Here the quantity to minimise is a free energy defined through the creature''s own model, so the best action depends on what it prefers and believes.
+      - text: 'Neither question: behaviour in active inference is random.'
+        feedback: |
+          Behaviour follows $P(\pi)=\sigma(-G-F)$: noisy for flat $G$, but strongly structured once the policies differ in cost.
+    explanation: |
+      A creature that likes dim feeders (high preference for them in $\mathbf C$) is behaving optimally for its priors. The scientific move is to ask what priors the behaviour implies, and then to test them.
+
+  - type: mcq
+    id: action-direct
+    title: Do actions touch the senses?
+    prompt: |
+      In the loop between the world and the creature, the creature has active states $u$ and sensory states $y$. A student says: "an action $u$ changes the sensory state $y$ directly, so the arrow goes straight from $u$ to $y$ in the model of the loop." Which statement is right?
+    options:
+      - text: 'Actions change the **world** (the hidden states outside), and the world then changes the sensory states. The blanket forbids a direct arrow from $u$ to $y$: the effect passes through the external states.'
+        correct: true
+      - text: 'Right: the blanket states are connected to each other directly, so $u\to y$ is allowed.'
+        feedback: |
+          Active states are influenced by the inside and by the sensory states, and they influence the outside; the outside, not the active state, drives the sensory states.
+      - text: 'Actions change only the internal states.'
+        feedback: |
+          Internal states are changed by the sensory states. An action is what the creature does to the outside.
+    explanation: |
+      The loop is $x\to y\to\mu\to u\to x$: the world drives the senses, the senses drive the internal states, the internal states drive the action, and the action changes the world. Moving your eyes changes what is in view only because the eye is part of the world the light reaches.
+
+  - type: mcq
+    id: whisker
+    title: Is every model a picture of the world?
+    prompt: |
+      A rodent sweeps its whiskers to find an object. A student says: "to be a model of the world, the whisker circuit must contain an explicit internal copy of the object's position, a map of the room." Which statement is closest to the active-inference view?
+    options:
+      - text: 'A model can be **action-oriented**: states and priors serve what to do next (sweep more, withdraw, approach), not a faithful picture of the room. What counts is that the circuit predicts the consequences of its actions on its sensations.'
+        correct: true
+      - text: 'Right: only an explicit map counts as a model.'
+        feedback: |
+          Then most animals would have no model. A model in this sense is a generative description that makes predictions about sensory data under actions, not a map.
+      - text: 'There is no model in the whisker; the circuit is a pure reflex.'
+        feedback: |
+          A reflex that predicts proprioception and contact and corrects errors is exactly a small generative model, even though no explicit map is stored.
+    explanation: |
+      Explicit models (maps of the world) and action-oriented models (what to expect when I act) are both models. The second kind is often enough for survival.
+
+  - type: mcq
+    id: morphology
+    title: Does the body need no model?
+    prompt: |
+      A student says: "morphological computation means the body does part of the work, for example a springy leg stores and returns energy, so the creature needs no model of that part of the body." What is the most careful reply?
+    options:
+      - text: 'The body does part of the computation, so the **neural model can be simpler** there, but the way the body behaves is then part of the process the model must be compatible with. The creature still exploits it through its priors and through what it expects its body to do.'
+        correct: true
+      - text: 'Right: any part handled by the body is invisible to the model and can be ignored.'
+        feedback: |
+          Ignored by the design, perhaps; but the control is tuned to a body of this kind. Change the leg and the same controller fails, so the body is built into what the model assumes.
+      - text: 'Wrong: morphological computation is impossible under a Markov blanket.'
+        feedback: |
+          Nothing forbids it. The body belongs to the blanket and to the process, and doing part of the work there is a way of making the internal model cheaper.
+    explanation: |
+      Morphology reduces how much must be modelled, it does not make the body irrelevant to the model. The saving is shared between the body and the brain.
+
+  - type: mcq
+    id: more-states
+    title: More states, better model?
+    prompt: |
+      A student refines the two-feeder model by splitting the creature's place into $100$ small cells, "because more states always mean a better model". What is the problem?
+    options:
+      - text: 'The cost: $B$ has one entry per pair of states for each action, so it grows with the square of the number of states, and the data needed to fix $A$ and $B$ grows with it. Add states only when they change which policy is chosen or what is predicted.'
+        correct: true
+      - text: 'There is no problem: more states can only reduce the free energy.'
+        feedback: |
+          A finer model can overfit and is harder to infer. The free energy also contains the complexity of the beliefs, so unneeded detail is penalised.
+      - text: 'Models with more than $10$ states cannot be written in the discrete form.'
+        feedback: |
+          There is no such limit. The limit is practical (size of the arrays, number of policies, data), not a rule of the format.
+    explanation: |
+      A model is as large as the question needs. With $n$ states each transition array has $n\times n$ entries per action: $4$ states give $16$, $100$ states give $10\,000$.
+
+  - type: mcq
+    id: same-arrays
+    title: Same arrays, same meaning?
+    prompt: |
+      Two models have exactly the same likelihood $\mathbf A$ and transitions $\mathbf B$ (the same numbers). One describes a door that is open or closed; the other a switch that is on or off. A student says "same arrays, so the same model". What is missing?
+    options:
+      - text: 'The **semantics**: what the states and outcomes stand for, and the preferences $\mathbf C$ (and priors $\mathbf D$) attached to them. The same numbers can be about different things, with different consequences for behaviour.'
+        correct: true
+      - text: 'Nothing: a model is exactly its arrays and nothing else.'
+        feedback: |
+          The arrays are numbers; the model is numbers plus a reading of them. Without the labels the numbers cannot be tied to anything observed, nor to a preference.
+      - text: 'The arrays can never be equal for different objects.'
+        feedback: |
+          They can: this is just an example. The point is that equality of the numbers does not imply equality of the meaning.
+    explanation: |
+      A model is the arrays together with a map from states and outcomes to things in the world. Two models with the same $\mathbf A,\mathbf B$ but different preferences $\mathbf C$ choose different policies.
+
+  - type: mcq
+    id: neural-network
+    title: A network replaces the design?
+    prompt: |
+      A student says: "instead of choosing states, arrays and priors by hand, I will train a neural network on the data; then none of the design choices of the recipe is needed." Which statement is right?
+    options:
+      - text: 'The choices do not vanish, they **move**: the architecture, the inputs and outputs, the loss and the training data play the role of the form, the variables and the priors. They are just harder to read afterwards.'
+        correct: true
+      - text: 'Right: a trained network has no assumptions.'
+        feedback: |
+          Every network assumes an architecture, a loss and a data set. These are the priors of the model in disguise.
+      - text: 'Wrong: neural networks cannot be used as generative models.'
+        feedback: |
+          They can; a network can implement the mappings of a generative model. The point is only that the design questions of the recipe still have to be answered.
+    explanation: |
+      Using a network changes where the assumptions are written down, not whether there are any. The recipe is a list of questions that any approach has to answer.
+
+  - type: mcq
+    id: cue-choice
+    title: Why was the cue in the model?
+    prompt: |
+      In the two-feeder creature the food side is unknown (probability $0.5$ each) and there is also a cue place that shows the side with probability $0.9$. A student asks: "the cue was built into the model because active inference needs an information-seeking state; epistemic value must be put in by hand." Which reply is right?
+    options:
+      - text: 'The cue was a **pragmatic design choice**: the task has a place where the side can be learned, so the model includes it. The epistemic value is not added by hand: it follows from the model, and it shows once the cue is seen, when the belief about the side moves from $0.5$ to about $0.85$.'
+        correct: true
+      - text: 'Right: without a dedicated information state, the expected free energy has no epistemic term.'
+        feedback: |
+          The epistemic term is part of every $G$: it measures the expected reduction of uncertainty. Whether a particular action has any depends on whether the model lets observations change the beliefs.
+      - text: 'The cue is irrelevant: the creature would visit it only by chance.'
+        feedback: |
+          The cue-first policies are preferred (about $60\%$, rising with the precision $\gamma$) because they lower the expected uncertainty, which is a computed effect, not chance.
+    explanation: |
+      You design the world the creature can perceive and act in; the information-seeking behaviour is then a consequence of $G$. The learning value of the cue can be read after the fact: before the cue the side is a coin flip, after it the belief is about $0.85$.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      Traps avoided (setup: a creature with a blanket, an inside model with hidden states $s$, outcomes $o$, arrays $\mathbf A,\mathbf B,\mathbf C,\mathbf D$ and policies $\pi$, and an outside process; $F$ is the variational free energy and $G$ the expected free energy):
+
+      - The model need not equal the process: a creature with a $50/50$ prior $\mathbf D$ in a world where the food is always left still infers the truth. Policies follow
+      $$P(\pi)=\sigma(-G-F).$$
+      - Form and depth are separate choices: discrete versus continuous is the kind of variable; **deep** is several timescales; **temporally deep** is rolling consequences of actions forward. Neither implies the others.
+      - The blanket and its scale are chosen to fit the question; a bigger system means more states (for example $3\times4=12$ joint against $3+4=7$ factorised) and is not better by itself.
+      - Learning the arrays is optional (fixed or learned). Behaviour is explained by priors: ask "which $\mathbf C,\mathbf D$ make this likely", not "is it optimal".
+      - Actions change the world, and the world changes the senses: $x\to y\to\mu\to u\to x$, never a direct arrow $u\to y$.
+      - Models can be action-oriented (whisker), the body can carry computation (morphology) and a neural network moves the design choices without removing them. The same $\mathbf A,\mathbf B$ do not fix the meaning; the labels and $\mathbf C$ do.
+      - The cue in the two-feeder creature was a design choice; its epistemic value is computed and shows once it is seen (belief $0.5\to0.85$).
+
+      **Next:** the content map of this level, rebuilding the whole recipe box by box.
