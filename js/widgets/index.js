@@ -37,6 +37,7 @@ import { steadyStateWalk } from './steady-state-walk.js';
 import { gaussianFit } from './gaussian-fit.js';
 import { predictiveCoding } from './predictive-coding.js';
 import { microcircuit } from './microcircuit.js';
+import { dirichletCounts } from './dirichlet-counts.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -70,6 +71,7 @@ const WIDGETS = {
   'gaussian-fit': gaussianFit,
   'predictive-coding': predictiveCoding,
   microcircuit,
+  'dirichlet-counts': dirichletCounts,
 };
 
 export function mountWidget(name, el, config) {
