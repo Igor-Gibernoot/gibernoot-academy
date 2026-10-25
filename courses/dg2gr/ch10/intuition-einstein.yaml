@@ -1,0 +1,286 @@
+id: ch10-intuition-einstein
+title: "Intuition: The Einstein Equations and Trace Reversal"
+kind: intuition
+own: |
+  - **Setting**: a spacetime with Lorentzian metric $g$ of signature $(+,-,-,-)$ and its Levi-Civita connection; $\mathrm{Ric}_{ab}$ is its Ricci curvature, $R := (g^{-1})^{ab}\,\mathrm{Ric}_{ab}$ the Ricci scalar, $T_{ab}$ the energy–momentum tensor of the matter, $T := (g^{-1})^{ab}\,T_{ab}$ its trace, and $\kappa := 8\pi G_N$.
+  - **Einstein curvature and equations**: the Ricci tensor minus half the Ricci scalar times the metric,
+    {{ $$G_{ab} = \mathrm{Ric}_{ab} - \tfrac12\,R\,g_{ab}$$ }}
+    sits on the geometry side, and the matter side is $T$:
+    $$G_{ab} = \kappa\,T_{ab}.$$
+  - **Why the $\tfrac12$**: $\mathrm{div}\,\mathrm{Ric}=\tfrac12\,dR$, so the divergence of $G$ vanishes (contracted Bianchi identity), and therefore matter obeying $G=\kappa T$ must satisfy
+    {{ $$(g^{-1})^{kl}\,(\nabla_k T)_{ln} = 0.$$ }}
+  - **Trace in four dimensions**: tracing $G$ with $g^{-1}$ gives $R - \tfrac12\cdot4\,R$, that is
+    {{ $$(g^{-1})^{ab}\,G_{ab} = -R, \qquad R = -\kappa\,T.$$ }}
+  - **Trace-reversed form**: replacing $R$ in $\mathrm{Ric}_{ab} = G_{ab}+\tfrac12 R g_{ab}$ by $-\kappa T$ gives an equivalent form, shorter in vacuum ($T_{ab}=0$ gives $\mathrm{Ric}_{ab}=0$):
+    {{ $$\mathrm{Ric}_{ab} = \kappa\Big(T_{ab} - \tfrac12\,T\,g_{ab}\Big)$$ }}
+    For dust at rest, $T_{ab}=\mathrm{diag}(\rho,0,0,0)$ at $g=\eta=\mathrm{diag}(1,-1,-1,-1)$, so $\mathrm{Ric}_{00}=\tfrac12\kappa\rho=4\pi G_N\rho$.
+
+cards:
+  - type: text
+    id: hook
+    title: One law, two faces
+    body: |
+      The Einstein equations are one law, but they are written in **two forms**:
+
+      - one has the **Einstein curvature** on the geometry side (a combination of the Ricci tensor and the Ricci scalar), equal to the energy–momentum tensor $T$;
+      - the other has only the **Ricci tensor** on the geometry side, and on the matter side $T$ with its own **trace** (the single number made from $T$ by summing it against the inverse metric) subtracted in a certain way.
+
+      They carry exactly the same information. Yet one of them is far shorter in empty space, and the other makes you compute one extra number for ordinary matter. Which form would you use for **vacuum**, and which for **dust** (a cloud of particles with no pressure)? You will answer both by the end.
+
+      This lesson derives nothing new. It gives you a pattern for the signs and the $\tfrac12$, checks that catch an error in seconds, and a few numbers to try. Notation: the signature is $(+,-,-,-)$ (time first), repeated indices are summed, and $\kappa := 8\pi G_N$ collects Newton's constant.
+
+  - type: mcq
+    id: two-sides
+    title: Which side is which
+    prompt: |
+      The Einstein equations equate two $(0,2)$ tensor fields, one built from the **metric** and one built from the **matter**. Which statement is right?
+    options:
+      - text: '$G_{ab}=\mathrm{Ric}_{ab}-\tfrac12 R\,g_{ab}$ is built from $g$ (second derivatives of the metric) and is the geometry side; $T_{ab}$ is the matter side, the response of the matter action to a change of $g$'
+        correct: true
+      - text: '$T_{ab}$ is built from the curvature, and $G_{ab}$ is the matter'
+        feedback: |
+          Reversed. $G$ is computed from the metric alone (through the Levi-Civita connection and its curvature). $T$ comes from the matter fields (a scalar field, the electromagnetic field, a fluid...), whatever the metric is.
+      - text: 'Both sides are geometry; $T$ is another name for $\mathrm{Ric}$'
+        feedback: |
+          $T$ is not a curvature. In vacuum $T=0$ while $\mathrm{Ric}$ vanishes only because of the equations; and radiation has $T\neq0$ with $R=0$.
+      - text: '$G_{ab}$ contains $T$ through its trace, and $T_{ab}$ contains $R$'
+        feedback: |
+          Only the **trace-reversed** form mixes the trace of $T$ into the curvature equation, and that is a rewriting of the same law. The curvature $G$ itself contains no matter.
+    explanation: |
+      $$G_{ab} = \kappa\,T_{ab}:$$ curvature of the metric on the left, matter on the right. Matter tells the metric how to curve; the metric (through $\nabla$) tells matter how to move.
+
+  - type: text
+    id: mnemonic
+    title: The sign and the half
+    body: |
+      To remember $G$: **Ricci minus half of the scalar times the metric**,
+      $$G_{ab} = \mathrm{Ric}_{ab} - \tfrac12\,R\,g_{ab}.$$
+      Two things to fix:
+
+      - **The minus.** Not $+$. Both $\mathrm{Ric}_{ab}$ and $R\,g_{ab}$ are symmetric $(0,2)$ tensors, so nothing in the shape of the formula decides the sign; the check below does.
+      - **The $\tfrac12$.** The divergence of $\mathrm{Ric}$ is not zero but $\tfrac12\,dR$:
+      $$(g^{-1})^{kl}\,(\nabla_k\mathrm{Ric})_{ln} = \tfrac12\,\partial_nR.$$
+      Subtracting $\tfrac12R\,g$ removes exactly that: because $\nabla g=0$, the divergence of $\tfrac12 R\,g_{ab}$ is $\tfrac12\partial_nR$ as well. The $\tfrac12$ is the number that cancels it, not a convention.
+
+  - type: build
+    id: build-g
+    prompt: 'Build the Einstein curvature from the Ricci tensor $\mathrm{Ric}_{ab}$, the Ricci scalar $R$ and the metric $g_{ab}$.'
+    prefix: 'G_{ab} ='
+    tiles:
+      - '\mathrm{Ric}_{ab}'
+      - '-\tfrac12 R\,g_{ab}'
+      - '+\tfrac12 R\,g_{ab}'
+      - '-R\,g_{ab}'
+      - '-\tfrac12 R\,(g^{-1})^{ab}'
+    answers:
+      - ['\mathrm{Ric}_{ab}', '-\tfrac12 R\,g_{ab}']
+      - ['-\tfrac12 R\,g_{ab}', '\mathrm{Ric}_{ab}']
+    wrong:
+      - answer: ['\mathrm{Ric}_{ab}', '-R\,g_{ab}']
+        feedback: |
+          Without the $\tfrac12$ the divergence does not vanish: $\mathrm{div}\,\mathrm{Ric}=\tfrac12\,dR$ but $\mathrm{div}(R\,g)=dR$, leaving $-\tfrac12\,dR\neq0$.
+      - answer: ['\mathrm{Ric}_{ab}', '+\tfrac12 R\,g_{ab}']
+        feedback: |
+          With a plus the divergence would be $\tfrac12dR+\tfrac12dR=dR$, not zero. The minus is what cancels it.
+      - answer: ['\mathrm{Ric}_{ab}', '-\tfrac12 R\,(g^{-1})^{ab}']
+        feedback: |
+          The indices are down on the left, so the tile must have them down: the metric $g_{ab}$, not its inverse.
+    hint: 'One tile is the Ricci tensor; the other is the metric multiplied by half of the Ricci scalar, with a minus.'
+    explanation: |
+      $$G_{ab}=\mathrm{Ric}_{ab}-\tfrac12\,R\,g_{ab}.$$
+
+  - type: mcq
+    id: divergence
+    title: A zero divergence
+    prompt: |
+      A mathematical fact about the Levi-Civita connection: the divergence of the Einstein curvature **always** vanishes,
+      $$(g^{-1})^{kl}\,(\nabla_k G)_{ln} = 0.$$
+      The equations say $G_{ab}=\kappa T_{ab}$ with $\kappa$ constant. What follows for $T_{ab}$?
+    options:
+      - text: 'Its divergence vanishes too: $(g^{-1})^{kl}(\nabla_kT)_{ln}=0$ (local conservation of energy and momentum)'
+        correct: true
+      - text: 'Nothing: it only holds in vacuum'
+        feedback: |
+          The identity $\mathrm{div}\,G=0$ holds for **every** metric, vacuum or not. It is a property of the curvature, not of the equations. Then $\kappa\,\mathrm{div}\,T=\mathrm{div}\,G=0$ at every point where the equations hold.
+      - text: 'The trace $T$ vanishes'
+        feedback: |
+          Conservation is about the divergence, not the trace. Dust has a conserved $T_{ab}$ and trace $T=\rho\neq0$.
+      - text: '$T_{ab}$ must be constant on spacetime'
+        feedback: |
+          A zero covariant divergence does not mean constant: it means energy and momentum flow without being created or destroyed. A cloud of dust moving around has varying $T$.
+    explanation: |
+      $\mathrm{div}\,G=0$ is the contracted Bianchi identity, true for any metric. So an energy–momentum tensor can only source a spacetime if it is **conserved**. This also explains the $\tfrac12$: any other coefficient would break this.
+
+  - type: text
+    id: trace
+    title: The trace of G in four dimensions
+    body: |
+      Sum $G_{ab}$ against the inverse metric. Since $(g^{-1})^{ab}g_{ab}=4$ (the dimension of spacetime) and $(g^{-1})^{ab}\mathrm{Ric}_{ab}=R$,
+      $$(g^{-1})^{ab}\,G_{ab} = R - \tfrac12\cdot4\,R = -R.$$
+      **Scaling check.** In $d$ dimensions the trace is $\big(1-\tfrac d2\big)R$. At $d=2$ it is $0$, matching the fact that in two dimensions $\mathrm{Ric}=\tfrac12R\,g$ and $G\equiv0$: there is no Einstein equation to solve. At $d=4$ it is $-R$: **the trace of $G$ is minus the trace of $\mathrm{Ric}$**, which is what trace reversal means.
+
+      Taking the trace of $G_{ab}=\kappa T_{ab}$ therefore gives
+      $$-R=\kappa\,T,\qquad R=-\kappa\,T.$$
+
+  - type: build
+    id: build-trace-reversed
+    prompt: 'Rewrite $\mathrm{Ric}_{ab}=G_{ab}+\tfrac12R\,g_{ab}$ with $G=\kappa T$ and $R=-\kappa T$ (here $T$ is the trace of $T_{ab}$). Build the right side.'
+    prefix: '\mathrm{Ric}_{ab} ='
+    tiles:
+      - '\kappa\,T_{ab}'
+      - '-\tfrac12\kappa\,T\,g_{ab}'
+      - '+\tfrac12\kappa\,T\,g_{ab}'
+      - '-\kappa\,T\,g_{ab}'
+      - '\kappa\,T\,T_{ab}'
+    answers:
+      - ['\kappa\,T_{ab}', '-\tfrac12\kappa\,T\,g_{ab}']
+      - ['-\tfrac12\kappa\,T\,g_{ab}', '\kappa\,T_{ab}']
+    wrong:
+      - answer: ['\kappa\,T_{ab}', '+\tfrac12\kappa\,T\,g_{ab}']
+        feedback: |
+          That is $\mathrm{Ric}=G-\tfrac12Rg$ with the $R$ sign unchanged. The step is $+\tfrac12R\,g_{ab}$ and $R=-\kappa T$, so $+\tfrac12(-\kappa T)g_{ab}$ carries a **minus**.
+      - answer: ['\kappa\,T_{ab}', '-\kappa\,T\,g_{ab}']
+        feedback: |
+          The factor $\tfrac12$ survives: $\tfrac12R=-\tfrac12\kappa T$. Check with the trace: $(g^{-1})^{ab}\kappa(T_{ab}-T g_{ab})=\kappa(T-4T)=-3\kappa T\neq-\kappa T$.
+    hint: 'Start from $\mathrm{Ric}_{ab}=\kappa T_{ab}+\tfrac12R\,g_{ab}$ and replace $R$.'
+    explanation: |
+      $$\begin{aligned}\mathrm{Ric}_{ab}&=\kappa T_{ab}+\tfrac12(-\kappa T)\,g_{ab}\\&=\kappa\Big(T_{ab}-\tfrac12\,T\,g_{ab}\Big).\end{aligned}$$
+      Check: its trace is $\kappa(T-2T)=-\kappa T=R$. ✓
+
+  - type: mcq
+    id: vacuum-shortest
+    title: Vacuum
+    prompt: |
+      In empty space $T_{ab}=0$ everywhere. Which statement is right?
+    options:
+      - text: 'The trace-reversed form is shorter: $T_{ab}=0$ and $T=0$ make the right side $0$, so $\mathrm{Ric}_{ab}=0$ directly. Then $R=0$ and $G=0$ follow'
+        correct: true
+      - text: 'The Einstein form is shorter: $G=0$ is one equation, $\mathrm{Ric}=0$ would be many'
+        feedback: |
+          Both are the same number of components. $G=0$ means $\mathrm{Ric}-\tfrac12Rg=0$; its trace gives $R=0$, and putting that back gives $\mathrm{Ric}=0$. The trace-reversed form states the end result at once.
+      - text: 'Only the Einstein form applies: the trace-reversed one divides by $T$, which is $0$'
+        feedback: |
+          Nothing is divided by $T$: it appears as a **factor** ($T\,g_{ab}$), and multiplying by $0$ is fine. Both forms are valid for every matter, vacuum included.
+      - text: '$\mathrm{Ric}_{ab}=0$ is wrong in vacuum: space with no matter can still have $R\neq0$'
+        feedback: |
+          In vacuum $R=-\kappa T=0$. The Ricci scalar vanishes; the full curvature (Riemann) need not vanish.
+    explanation: |
+      Vacuum: $G_{ab}=0\iff\mathrm{Ric}_{ab}=0$ (trace first, then put $R=0$ back). The Schwarzschild metric is checked with $\mathrm{Ric}=0$ for this reason. For matter (dust, fluids) you need the trace $T$ and the other form is the practical one.
+
+  - type: mcq
+    id: sign-trap
+    title: A sign trap
+    prompt: |
+      With signature $(+,-,-,-)$ and $G_{ab}=\kappa T_{ab}$, which trace-reversed equation is correct?
+    options:
+      - text: '$\mathrm{Ric}_{ab}=\kappa\big(T_{ab}-\tfrac12\,T\,g_{ab}\big)$'
+        correct: true
+      - text: '$\mathrm{Ric}_{ab}=\kappa\big(T_{ab}+\tfrac12\,T\,g_{ab}\big)$'
+        feedback: |
+          Take the trace: $R=\kappa(T+2T)=3\kappa T$. But the trace of $G=\kappa T$ gave $R=-\kappa T$. The two disagree unless $T=0$.
+      - text: '$\mathrm{Ric}_{ab}=\kappa\big(T_{ab}-\tfrac12\,T\,g_{ab}\big)$ in the $(-,+,+,+)$ signature, but the sign of the $T$ term flips for $(+,-,-,-)$'
+        feedback: |
+          The relative sign between $T_{ab}$ and $\tfrac12Tg_{ab}$ does not depend on the signature: it comes from tracing in four dimensions, $-R=\kappa T$. What the signature changes is how components such as $g_{11}$ and the trace $T$ read (e.g. $T=\rho-3p$ here).
+      - text: '$\mathrm{Ric}_{ab}=\kappa\big(\tfrac12\,T\,g_{ab}-T_{ab}\big)$'
+        feedback: |
+          Overall sign flipped: dust would then give $\mathrm{Ric}_{00}=-\tfrac12\kappa\rho<0$, a repulsive gravity. In this course $\mathrm{Ric}_{00}=+4\pi G_N\rho$.
+    explanation: |
+      Relative sign: minus, from $R=-\kappa T$. Trace test: $\kappa(T-2T)=-\kappa T$ ✓. Overall sign: dust attracts, $\mathrm{Ric}_{00}=+\tfrac12\kappa\rho>0$.
+
+  - type: numeric
+    id: dust-number
+    title: Dust at rest
+    prompt: |
+      At a point the metric is $g=\eta=\mathrm{diag}(1,-1,-1,-1)$ and a cloud of dust at rest has
+      $$T_{ab}=\mathrm{diag}(3,0,0,0).$$
+      Work in units $8\pi G_N=1$ (so $\kappa=1$). Find $\mathrm{Ric}_{00}$.
+    answer: 1.5
+    wrong:
+      - { value: 3, feedback: 'That is $T_{00}$: the matter-side component. The curvature gets the **trace** correction too.' }
+      - { value: 0, feedback: 'Dust has $T_{00}\neq0$, so there is curvature: with no trace term you would be applying the vacuum answer.' }
+      - { value: 4.5, feedback: 'The trace term is subtracted: $T_{00}-\tfrac12Tg_{00}=3-\tfrac32$, not $3+\tfrac32$.' }
+    hint: 'First the trace $T=(g^{-1})^{ab}T_{ab}$, then the family that has Ric alone on the left.'
+    explanation: |
+      Trace: $T=(g^{-1})^{00}T_{00}=3$. Then
+      $$\mathrm{Ric}_{00}=T_{00}-\tfrac12\,T\,g_{00}=3-\tfrac12\cdot3\cdot1=\tfrac32.$$
+      (For general $\rho$ this is $\tfrac12\kappa\rho=4\pi G_N\rho$, the Newtonian limit. The space components are also $\mathrm{Ric}_{11}=0-\tfrac12\cdot3\cdot(-1)=\tfrac32$.)
+
+  - type: numeric
+    id: radiation-number
+    title: A fluid with p = ρ/3
+    prompt: |
+      At a point with $g=\eta=\mathrm{diag}(1,-1,-1,-1)$, a perfect fluid has $T_{ab}=\mathrm{diag}(\rho,p,p,p)$ with $\rho=6$ and $p=2$ (so $p=\rho/3$, as for radiation). In units $8\pi G_N=1$, find the Ricci scalar $R$.
+    answer: 0
+    wrong:
+      - { value: -12, feedback: 'That uses the trace $\rho+3p=12$. With signature $(+,-,-,-)$ the space components of $g^{-1}$ are $-1$, so $T=\rho-3p$.' }
+      - { value: -6, feedback: 'That is minus the energy density: you ignored the pressure contribution to the trace.' }
+    hint: 'Sum $T_{ab}$ against the inverse metric, which has signs $(+,-,-,-)$.'
+    explanation: |
+      $T=\rho-3p=6-6=0$, so $R=-\kappa T=0$ even though $T_{ab}\neq0$: $\mathrm{Ric}_{ab}=\kappa T_{ab}$ is not zero ($\mathrm{Ric}_{00}=6$, $\mathrm{Ric}_{11}=2$). Radiation (and electromagnetic fields) are **traceless** in four dimensions.
+
+  - type: numeric
+    id: scalar-from-g
+    title: R from the Einstein curvature
+    prompt: |
+      At a point with $g=\eta=\mathrm{diag}(1,-1,-1,-1)$ the Einstein curvature has components
+      $$G_{ab}=\mathrm{diag}(5,1,1,1).$$
+      Find the Ricci scalar $R$ at that point.
+    answer: -2
+    wrong:
+      - { value: 2, feedback: 'The trace of $G$ is $+2$, but it equals $-R$ in four dimensions, not $+R$.' }
+      - { value: 8, feedback: 'That adds the components. The trace uses the inverse metric $\mathrm{diag}(1,-1,-1,-1)$.' }
+    hint: 'Trace $G$ with $g^{-1}$ first, then compare with how the trace of $G$ is built from $R$.'
+    explanation: |
+      $$(g^{-1})^{ab}G_{ab}=5-1-1-1=2=-R,$$
+      so $R=-2$.
+
+  - type: text
+    id: cosmological
+    title: A constant term in the matter
+    body: |
+      Suppose the matter Lagrangian contains a constant term $\mathcal{L}_M\supset-\lambda$, with no derivatives and no fields. Its energy–momentum tensor is $T_{ab}=\lambda\,g_{ab}$ (energy density $\rho=\lambda$ and pressure $p=-\lambda$, which repels).
+
+      Where does it go? It is just one more piece of $T$:
+      $$G_{ab}=\kappa\big(T^{\text{other}}_{ab}+\lambda\,g_{ab}\big)$$
+      $$\Longleftrightarrow\quad G_{ab}-\kappa\lambda\,g_{ab}=\kappa\,T^{\text{other}}_{ab}.$$
+      Moved to the left it looks like part of the **geometry** (a constant times $g$), which is the form it is usually written in, as a **cosmological constant**. Test with trace reversal: for $T_{ab}=\lambda g_{ab}$ the trace is $4\lambda$, so $\mathrm{Ric}_{ab}=\kappa(\lambda-2\lambda)g_{ab}=-\kappa\lambda\,g_{ab}$, and $\mathrm{Ric}_{00}=-\kappa\lambda<0$: a positive $\lambda$ **repels**.
+
+  - type: mcq
+    id: equivalent-vacuum
+    title: What is equivalent to what
+    multiple: true
+    prompt: |
+      In four dimensions, which statements are true?
+    options:
+      - text: '$G_{ab}=0$ if and only if $\mathrm{Ric}_{ab}=0$'
+        correct: true
+      - text: '$\mathrm{Ric}_{ab}=0$ implies $R=0$'
+        correct: true
+      - text: '$R=0$ implies $\mathrm{Ric}_{ab}=0$'
+        feedback: |
+          Radiation has $R=-\kappa T=0$ but $\mathrm{Ric}_{ab}=\kappa T_{ab}\neq0$. One scalar cannot control a whole tensor.
+      - text: '$\mathrm{Ric}_{ab}=0$ implies the spacetime is flat'
+        feedback: |
+          Ricci-flat is not flat. Ric is a contraction of the Riemann tensor; the Schwarzschild metric has $\mathrm{Ric}=0$ and tidal forces ($\mathrm{Riem}\neq0$).
+    explanation: |
+      $G=0\Rightarrow$ trace gives $R=0\Rightarrow\mathrm{Ric}=G+\tfrac12Rg=0$; and conversely $\mathrm{Ric}=0\Rightarrow R=0\Rightarrow G=0$. But $R=0$ is only one equation and flat means $\mathrm{Riem}=0$.
+
+  - type: numeric
+    id: two-forms-agree
+    title: The two forms agree
+    prompt: |
+      At a point with $g=\eta=\mathrm{diag}(1,-1,-1,-1)$ the equations $G_{ab}=\kappa T_{ab}$ hold with $\kappa=1$ and $T_{ab}=\mathrm{diag}(4,1,1,1)$. Find $\mathrm{Ric}_{11}$.
+    answer: 1.5
+    wrong:
+      - { value: 0.5, feedback: 'You used $T=\rho+3p$ or the wrong sign for $g_{11}=-1$: $1-\tfrac12\cdot1\cdot(-1)$ is $1.5$, not $0.5$.' }
+      - { value: 1, feedback: 'That is $T_{11}=G_{11}$. The Ricci tensor differs from $G$ by $\tfrac12Rg_{11}\neq0$.' }
+    hint: 'Do it with the trace-reversed form, then check with $\mathrm{Ric}=G+\tfrac12Rg$ and the trace of $G$.'
+    explanation: |
+      Form 1: $T=4-3=1$, so $\mathrm{Ric}_{11}=T_{11}-\tfrac12T\,g_{11}=1+\tfrac12=\tfrac32$.
+
+      Form 2: $R=-\mathrm{tr}\,G=-(4-3)=-1$, so $\mathrm{Ric}_{11}=G_{11}+\tfrac12R\,g_{11}=1+\tfrac12(-1)(-1)=\tfrac32$. ✓ Same number.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the next intuition lesson compares the Levi-Civita connection with the others: which two conditions pick it out, and how the Christoffel symbols change when either one fails.

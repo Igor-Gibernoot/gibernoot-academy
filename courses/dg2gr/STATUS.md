@@ -10,7 +10,7 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
 - **State:** the whole trail is built: Levels 1-10 (every concept, guided, intuition, traps,
   map, review and challenge node in `course.yaml`), `exam-partial` (after Level 5) and
   `exam-final` (after Level 10). No planned nodes left.
-- **Next units (optional, pick one per session):** revisions from Igor's feedback; another intuition lesson only where a formula family gets mixed up (candidates: Einstein equations and trace reversal, Levi-Civita vs other connections). Built so far: `ch10-intuition-christoffel` (before Schwarzschild), `ch10-intuition-lorentz` (after `ch10-lorentz`).
+- **Next units (optional, pick one per session):** revisions from Igor's feedback; another intuition lesson only where a formula family gets mixed up (candidates: Einstein equations and trace reversal, Levi-Civita vs other connections). Built so far: `ch10-intuition-christoffel` (before Schwarzschild), `ch10-intuition-lorentz` (after `ch10-lorentz`), `ch10-intuition-einstein` (after `ch10-einstein-hilbert`). Next: `ch10-intuition-connections` (Levi-Civita vs other connections).
 - **Conventions:** `CONVENTIONS.md`, one section per chapter (notation, running examples,
   key numbers already used). Before building or editing a lesson of Chapter N, read that
   section only (`grep -n '^## ' CONVENTIONS.md`). The rules that apply everywhere are in its
@@ -26,6 +26,7 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
   2026-10-24 say `content/…`, `docs/STATUS.md`, `js/widgets.js`: read as the new paths.
 
 ## Log
+- 2026-10-25 `ch10-intuition-einstein` (16 cards, after `ch10-einstein-hilbert`): G=Ric−½Rg and the ½ (div Ric=½dR), div G=0 ⇒ div T=0, tr G=(1−d/2)R=−R, trace reversal Ric=κ(T−½Tg), vacuum/dust, sign trap, constant term λg. Verified: book 10.2 Statement (G, boxed), G=8πG_N T, B.18.10, Ricci scalar/G definitions (Ch7). Conventions fixed here: κ:=8πG_N; numerics in units κ=1 at g=η. Note: cards on radiation/constant term preview `ch10-matter`.
 
 ### 2026-10-25 — Level 10 intuition lessons
 
