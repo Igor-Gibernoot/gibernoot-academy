@@ -7,7 +7,8 @@ own: |
     With flat $\mathbf E$ and $\gamma=1$ this is $\sigma(-\mathbf G-\mathbf F)$; $\gamma=0$ gives the uniform choice, $\gamma\to\infty$ a winner-take-all.
   - **State update (hidden Markov model).** For hidden states $s_\tau$ and outcomes $o_\tau$ at step $\tau$, likelihood $\mathbf A$ and transitions $\mathbf B$, the log-belief $\mathbf v_\tau=\ln\mathbf s_\tau$ climbs a gradient made of data, past and future, where $\mathbf B^\dagger\propto\mathbf B^{\mathsf T}$ sends the future message backward:
     {{ $$\begin{aligned}\dot{\mathbf v}_\tau={}&\ln\mathbf A\cdot o_\tau+\ln(\mathbf B\mathbf s_{\tau-1})\\&+\ln(\mathbf B^\dagger\mathbf s_{\tau+1})-\ln\mathbf s_\tau\end{aligned}$$ }}
-  - **Free energy of a policy.** For a policy $\pi$ over steps $\tau$ with beliefs $\mathbf s_{\pi\tau}$, the free energy $F_\pi$ is built from the same messages (an approximation of $-\ln P(o\mid\pi)$, not a bound); it is the past score in the policy posterior.
+  - **Free energy of a policy.** For a policy $\pi$ over steps $\tau=1,\dots,T$, with beliefs $\mathbf s_{\pi\tau}$ about the state at step $\tau$, outcomes $o_\tau$, likelihood $\mathbf A$, transitions $\mathbf B_{\pi\tau}$ and initial prior $\mathbf D$, the free energy of the data seen is the past score in the policy posterior (an approximation of $-\ln P(\tilde o\mid\pi)$, not a bound):
+    $$\begin{aligned}\mathbf F_\pi=&\ \mathbf s_{\pi1}\cdot\big(\ln\mathbf s_{\pi1}-\ln\mathbf A\cdot o_1\\&\qquad-\ln\mathbf D\big)\\&+\sum_{\tau=2}^{T}\mathbf s_{\pi\tau}\cdot\big(\ln\mathbf s_{\pi\tau}\\&\qquad-\ln\mathbf A\cdot o_\tau\\&\qquad-\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}\big)\end{aligned}$$
   - **Epistemic value.** For a policy with predicted outcome distribution $Q(o)$, predicted states $Q(s)$ and likelihood $P(o\mid s)$:
     {{ $$\mathcal I(\pi)=H[Q(o)]-\mathbb E_{Q(s)}H[P(o\mid s)]$$ }}
     the entropy of the predicted outcomes minus the ambiguity; it is the information gain.
