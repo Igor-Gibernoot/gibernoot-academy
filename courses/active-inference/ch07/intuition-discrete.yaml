@@ -1,0 +1,333 @@
+id: ch07-intuition-discrete
+title: "Intuition: Discrete-Time Update Equations"
+kind: intuition
+own: |
+  - **Policy posterior.** For policies $\pi$, a habit prior $\mathbf E$ (what the creature does by default), the free energy $\mathbf F_\pi$ of the data seen so far and the expected free energy $\mathbf G_\pi$ of the outcomes to come (both minimised), with the softmax $\sigma$ and a precision $\gamma$ acting as a gain on $\mathbf G$:
+    {{ $$\boldsymbol\pi=\sigma\big(\ln\mathbf E-\mathbf F-\gamma\,\mathbf G\big)$$ }}
+    With flat $\mathbf E$ and $\gamma=1$ this is $\sigma(-\mathbf G-\mathbf F)$; $\gamma=0$ gives the uniform choice, $\gamma\to\infty$ a winner-take-all.
+  - **State update (hidden Markov model).** For hidden states $s_\tau$ and outcomes $o_\tau$ at step $\tau$, likelihood $\mathbf A$ and transitions $\mathbf B$, the log-belief $\mathbf v_\tau=\ln\mathbf s_\tau$ climbs a gradient made of data, past and future, where $\mathbf B^\dagger\propto\mathbf B^{\mathsf T}$ sends the future message backward:
+    {{ $$\begin{aligned}\dot{\mathbf v}_\tau={}&\ln\mathbf A\cdot o_\tau+\ln(\mathbf B\mathbf s_{\tau-1})\\&+\ln(\mathbf B^\dagger\mathbf s_{\tau+1})-\ln\mathbf s_\tau\end{aligned}$$ }}
+  - **Free energy of a policy.** For a policy $\pi$ over steps $\tau$ with beliefs $\mathbf s_{\pi\tau}$, the free energy $F_\pi$ is built from the same messages (an approximation of $-\ln P(o\mid\pi)$, not a bound); it is the past score in the policy posterior.
+  - **Epistemic value.** For a policy with predicted outcome distribution $Q(o)$, predicted states $Q(s)$ and likelihood $P(o\mid s)$:
+    {{ $$\mathcal I(\pi)=H[Q(o)]-\mathbb E_{Q(s)}H[P(o\mid s)]$$ }}
+    the entropy of the predicted outcomes minus the ambiguity; it is the information gain.
+  - **Expected free energy.** Salience (the same information gain), novelty and pragmatic value all lower $G$; in the other grouping, ambiguity plus risk, with $\mathbf H=-\operatorname{diag}(\mathbf A^{\mathsf T}\ln\mathbf A)$ the vector of column entropies of $\mathbf A$:
+    {{ $$\begin{gathered}G=-\text{salience}-\text{novelty}-\text{pragmatic}\\G=\text{ambiguity}+\text{risk}\\\text{ambiguity}=\mathbf H\cdot\mathbf s_\pi\end{gathered}$$ }}
+    With flat preferences $\mathbf C$ and two outcomes, $G=\ln2-\mathcal I$.
+  - **Gibbs prior.** For a prior $\mathbf D$ over states and a precision $\omega$ on it (unsubscripted $\omega$ is the transition precision):
+    $$\sigma(\omega\ln\mathbf D)\propto\mathbf D^{\omega}$$
+    $\omega=0$ flattens the prior, large $\omega$ sharpens it.
+  - **Learning the likelihood.** Dirichlet counts $\mathbf a$ (rows $i$ = outcomes, columns $j$ = states) are pseudo-observations behind $\mathbf A$; $a_{0j}$ is the column total. Each observation $o_\tau$ with state belief $\mathbf s_\tau$ adds to the counts, and the expected novelty of learning from outcome $i$ in column $j$ is small when the counts are large:
+    {{ $$\mathbf a\leftarrow\mathbf a+\sum_\tau o_\tau\otimes\mathbf s_\tau$$ }}
+    $$W_{ij}\approx\frac1{2a_{ij}}-\frac1{2a_{0j}}$$
+  - **Hierarchy.** In a two-level model of words $w$ inside sentences $k$ at word position $t$, the lower level has no prior of its own: the sentence belief supplies it. The sentence posterior weighs the sentence prior by how well it explains each word seen:
+    {{ $$D_t(w)=\sum_kQ(k)\,P(w\mid k,t)$$ }}
+    $$Q(k)\propto P(k)\prod_tP(\text{word}_t\mid k,t)$$
+
+cards:
+  - type: text
+    id: open
+    title: One page of update rules
+    body: |
+      This lesson derives nothing. It trains quick recall of the update equations of the discrete-time model:
+
+      1. the **state update** (data, past, future);
+      2. the **policy posterior** and the signs of the terms in $G$;
+      3. **learning** (Dirichlet counts and novelty);
+      4. the **hierarchy** (a prior that comes from the level above).
+
+      Recall: $F$ is the free energy of what has been observed, $G$ the expected free energy of what is to come; both are **minimised**. In the numeric cards **you** supply the formula: the data are given, the law is not.
+
+  - type: mcq
+    id: hmm-messages
+    prompt: |
+      In the state update of a hidden Markov model, the belief about the state at step $\tau$ combines three messages. Which assignment is right?
+    options:
+      - text: 'The data enter through $\ln\mathbf A$ (the likelihood of the outcome seen); the **past** neighbour comes forward through $\mathbf B$; the **future** neighbour comes backward through the transpose of $\mathbf B$.'
+        correct: true
+      - text: 'The future comes forward through $\mathbf B$ and the past backward through its transpose.'
+        feedback: |
+          Reversed. $\mathbf B$ pushes a belief **forward** in time (next-step probabilities), so it carries the past to the present. Looking from the future back needs the transpose.
+      - text: 'Only the past and the data matter; the future has not happened yet.'
+        feedback: |
+          That is the filtered belief. When the later steps are in the model (or the data are already there), they also inform the present state: this is the retrospective belief, and it is why the message from the future exists.
+      - text: 'The three messages are multiplied as probabilities, with no logarithms.'
+        feedback: |
+          Multiplication of probabilities is the same as addition of logs, and the update is written in the log scale (as a sum), which is what a gradient climbs.
+    explanation: |
+      $$\begin{aligned}\dot{\mathbf v}_\tau={}&\ln\mathbf A\cdot o_\tau+\ln(\mathbf B\mathbf s_{\tau-1})\\&+\ln(\mathbf B^\dagger\mathbf s_{\tau+1})-\ln\mathbf s_\tau.\end{aligned}$$
+      Mnemonic: **past forward, future backward, data in the middle**; the last term pulls the log-belief back to rest when the messages agree.
+
+  - type: mcq
+    id: pi-signs
+    prompt: |
+      The beliefs about policies are $\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$. Select **every** true statement.
+    multiple: true
+    options:
+      - text: 'A policy with a large habit prior $\mathbf E$ gets more probability, other terms equal.'
+        correct: true
+      - text: 'A policy that explained the past data badly (large $\mathbf F$) gets less probability.'
+        correct: true
+      - text: 'A policy expected to be costly (large $\mathbf G$) gets less probability.'
+        correct: true
+      - text: 'With a flat $\mathbf E$ the rule reduces to $\sigma(-\mathbf G-\mathbf F)$.'
+        correct: true
+      - text: 'A large $\mathbf G$ makes a policy more attractive, because it carries more to learn.'
+        feedback: |
+          $\mathbf G$ is minimised. What is attractive is the information **gain**, which enters $\mathbf G$ with a minus sign.
+      - text: 'The habit prior enters as $-\ln\mathbf E$, like the two free energies.'
+        feedback: |
+          The habit enters with a plus sign: a prior is a log-probability, and likelier policies score higher. $\mathbf F$ and $\mathbf G$ are costs, so they come with minus signs.
+    explanation: |
+      $$\boldsymbol\pi=\sigma\big(\ln\mathbf E-\mathbf F-\mathbf G\big).$$
+      Mnemonic: **prior plus, costs minus**. Past cost ($\mathbf F$) and future cost ($\mathbf G$) both subtract; the habit adds.
+
+  - type: mcq
+    id: g-signs
+    prompt: |
+      The expected free energy is written $G=-\text{salience}-\text{novelty}-\text{pragmatic}$. Select **every** true statement.
+    multiple: true
+    options:
+      - text: 'Salience (the information gained about the states) lowers $G$.'
+        correct: true
+      - text: 'Novelty (the information gained about the likelihood parameters) lowers $G$.'
+        correct: true
+      - text: 'Pragmatic value (expected log-preference of the outcomes) lowers $G$ when the outcomes are preferred.'
+        correct: true
+      - text: 'A policy with nothing to learn and no preferred outcome has all three terms $0$, so $G=0$.'
+        correct: true
+      - text: 'Novelty is the cost of leaving the model unchanged.'
+        feedback: |
+          Novelty is a gain: how much the counts behind $\mathbf A$ are expected to change. It appears with a minus sign, so it makes $G$ smaller, not larger.
+      - text: 'Salience and ambiguity are the same thing.'
+        feedback: |
+          Opposite sides: salience is the entropy of the predicted outcomes **minus** the ambiguity. A blurry sensor has high ambiguity and low salience.
+    explanation: |
+      $$G=-\text{salience}-\text{novelty}-\text{pragmatic}.$$
+      Mnemonic: **three gains, all with a minus sign**, because $G$ is minimised. And $\text{salience}=\mathcal I=H[Q(o)]-\text{ambiguity}$.
+
+  - type: mcq
+    id: limits
+    prompt: |
+      Limit checks. Pick the **wrong** statement.
+    options:
+      - text: 'A policy precision $\gamma\to\infty$ on $\mathbf G$ gives a winner-take-all, and $\gamma=0$ gives a uniform choice.'
+        feedback: |
+          True: $\gamma$ is a gain on $\mathbf G$ inside the softmax, so zero switches $\mathbf G$ off and infinity makes the smallest $\mathbf G$ win.
+      - text: 'A precision $\omega=0$ on a prior $\mathbf D$ gives $\sigma(0)$: a flat prior.'
+        feedback: |
+          True: $\sigma(\omega\ln\mathbf D)\propto\mathbf D^\omega$, and any power $0$ is $1$ for every state.
+      - text: 'With flat preferences and two outcomes, $G=\ln2-\mathcal I$, so the best policy is the one with the **least** information gain.'
+        correct: true
+      - text: 'With large counts, a new observation barely changes $\mathbf A$, so the novelty is small.'
+        feedback: |
+          True: the novelty falls roughly as one over twice the count.
+    explanation: |
+      The wrong one is the third: $G=\ln2-\mathcal I$ is smallest where the gain $\mathcal I$ is **largest**. With nothing to prefer, a creature picks the most informative policy. The other three are the standard limits: $\gamma$ as a gain, $\omega=0$ as a flat prior, and novelty $\sim1/(2a)$.
+
+  - type: numeric
+    id: num-large-counts
+    prompt: |
+      A column of a learned likelihood has counts $50$ for the first outcome and $50$ for the second. Roughly how large is the novelty of seeing the **first** outcome in this column (in nats)? Answer to three decimals.
+    answer: 0.005
+    tolerance: 0.0006
+    answerText: '0.005'
+    wrong:
+      - { value: 0.01, feedback: 'That is $1/a_{ij}$ with $a_{ij}=100$ or half of $1/50$ alone. There are two terms, and the second (the column total) is subtracted.' }
+      - { value: 0.5, feedback: 'That is the probability of the outcome, not the novelty. Large counts make a new observation change very little.' }
+    hint: 'Scaling test: the novelty of one extra observation shrinks like one over a count, and it depends on both the cell and the column total.'
+    explanation: |
+      With $a_{ij}=50$ and $a_{0j}=100$: $\dfrac1{2\cdot50}-\dfrac1{2\cdot100}=0.01-0.005=0.005$. Compare a column $(1,1)$ with novelty $0.193$: about forty times more.
+
+  - type: numeric
+    id: num-flat-c
+    prompt: |
+      A policy has two possible outcomes, the creature has **no preference** between them, and the policy is expected to yield an information gain of $0.2$ nats. What is its expected free energy $G$? Answer to three decimals.
+    answer: 0.493
+    tolerance: 0.002
+    answerText: '0.493'
+    wrong:
+      - { value: -0.2, feedback: 'That would count only the information gain. The ambiguity and the entropy of the predicted outcomes are still there: with no preference, nothing else is subtracted but the maximal outcome entropy, $\ln2$, remains.' }
+      - { value: 0.893, feedback: 'The gain lowers $G$, it does not raise it. Check the sign.' }
+    hint: 'Scaling test: the largest possible outcome entropy for two outcomes is $\ln 2$; a gain only subtracts from it.'
+    explanation: |
+      With flat preferences and two outcomes, $G=\ln2-\mathcal I=0.693-0.2=0.493$. A policy with no gain would have $G=0.693$; the more it teaches, the lower its $G$.
+
+  - type: build
+    id: build-state-update
+    prompt: |
+      Build the update of the log-belief $\mathbf v_\tau$ (with $\mathbf v_\tau=\ln\mathbf s_\tau$) in the middle of a sequence: the data $o_\tau$, the past state $\mathbf s_{\tau-1}$ and the future state $\mathbf s_{\tau+1}$ all contribute.
+    prefix: '\dot{\mathbf v}_\tau ='
+    tiles:
+      - '\ln\mathbf A\cdot o_\tau'
+      - '+\ln(\mathbf B\mathbf s_{\tau-1})'
+      - '+\ln(\mathbf B^\dagger\mathbf s_{\tau+1})'
+      - '-\ln\mathbf s_\tau'
+      - '+\ln(\mathbf B\mathbf s_{\tau+1})'
+      - '+\ln\mathbf s_\tau'
+    answers:
+      - ['\ln\mathbf A\cdot o_\tau', '+\ln(\mathbf B\mathbf s_{\tau-1})', '+\ln(\mathbf B^\dagger\mathbf s_{\tau+1})', '-\ln\mathbf s_\tau']
+    wrong:
+      - answer: ['\ln\mathbf A\cdot o_\tau', '+\ln(\mathbf B\mathbf s_{\tau-1})', '+\ln(\mathbf B\mathbf s_{\tau+1})', '-\ln\mathbf s_\tau']
+        feedback: |
+          The future message goes backward, so it needs the transposed (backward) transition $\mathbf B^\dagger$, not $\mathbf B$.
+      - answer: ['\ln\mathbf A\cdot o_\tau', '+\ln(\mathbf B\mathbf s_{\tau-1})', '+\ln(\mathbf B^\dagger\mathbf s_{\tau+1})', '+\ln\mathbf s_\tau']
+        feedback: |
+          With $+\ln\mathbf s_\tau$ the belief would run away. The last term must be minus: it is the restoring force that stops the climb when the messages agree.
+    hint: 'Mnemonic: data, past forward, future backward, minus the current log-belief.'
+    explanation: |
+      $$\begin{aligned}\dot{\mathbf v}_\tau={}&\ln\mathbf A\cdot o_\tau+\ln(\mathbf B\mathbf s_{\tau-1})\\&+\ln(\mathbf B^\dagger\mathbf s_{\tau+1})-\ln\mathbf s_\tau.\end{aligned}$$
+      At rest ($\dot{\mathbf v}=0$) the log-belief equals the sum of the three messages.
+
+  - type: build
+    id: build-a-update
+    prompt: |
+      The creature saw outcome $o_\tau$ (a one-hot vector over outcomes) while believing the state was $\mathbf s_\tau$ (a vector of probabilities). Build the update of the Dirichlet counts $\mathbf a$ behind $\mathbf A$ (rows outcomes, columns states).
+    prefix: '\mathbf a \leftarrow'
+    tiles:
+      - '\mathbf a'
+      - '+'
+      - '\sum_\tau'
+      - 'o_\tau\otimes\mathbf s_\tau'
+      - 'o_\tau\cdot\mathbf s_\tau'
+      - '\ln\mathbf a'
+    answers:
+      - ['\mathbf a', '+', '\sum_\tau', 'o_\tau\otimes\mathbf s_\tau']
+    wrong:
+      - answer: ['\mathbf a', '+', '\sum_\tau', 'o_\tau\cdot\mathbf s_\tau']
+        feedback: |
+          A dot product is one number. The counts form a table (outcome row by state column), so each observation adds the **outer** product, which puts the weight $s_j$ in the row of the outcome seen.
+    hint: 'Mnemonic: the counts add the outer product of what was seen with where the creature thinks it was.'
+    explanation: |
+      $$\mathbf a\leftarrow\mathbf a+\sum_\tau o_\tau\otimes\mathbf s_\tau.$$
+      A confident belief puts a whole count in one column; an uncertain one spreads it.
+
+  - type: build
+    id: build-ambiguity
+    prompt: |
+      Build the ambiguity of a policy in vector form: the entropies of the columns of $\mathbf A$ are collected in a vector $\mathbf H$, and the policy predicts the state beliefs $\mathbf s_\pi$.
+    prefix: '\text{ambiguity} ='
+    tiles:
+      - '\mathbf H\cdot\mathbf s_\pi'
+      - '\mathbf H\cdot\mathbf o_\pi'
+      - '\mathbf A\cdot\mathbf s_\pi'
+    answers:
+      - ['\mathbf H\cdot\mathbf s_\pi']
+    wrong:
+      - answer: ['\mathbf H\cdot\mathbf o_\pi']
+        feedback: |
+          $\mathbf H$ has one entry per **state** (the entropy of that state's column), so it is weighted by the beliefs about states, not by the predicted outcomes.
+    hint: 'Weigh the column entropies by how much each state is believed.'
+    explanation: |
+      $$\begin{gathered}\text{ambiguity}=\mathbf H\cdot\mathbf s_\pi,\\ \mathbf H=-\operatorname{diag}(\mathbf A^{\mathsf T}\ln\mathbf A).\end{gathered}$$
+      The expected entropy of the likelihood under the predicted states.
+
+  - type: build
+    id: build-novelty
+    prompt: |
+      Build the approximate novelty $W_{ij}$ of the cell in row $i$ (an outcome), column $j$ (a state) of the Dirichlet counts $a_{ij}$, with column total $a_{0j}$.
+    prefix: 'W_{ij}\approx'
+    tiles:
+      - '\frac1{2a_{ij}}'
+      - '-\frac1{2a_{0j}}'
+      - '+\frac1{2a_{0j}}'
+      - '-\frac1{2a_{ij}}'
+    answers:
+      - ['\frac1{2a_{ij}}', '-\frac1{2a_{0j}}']
+    wrong:
+      - answer: ['\frac1{2a_{ij}}', '+\frac1{2a_{0j}}']
+        feedback: |
+          Then the novelty would not vanish when the cell holds the whole column. Check: if $a_{ij}=a_{0j}$ nothing about this column can be learned from outcome $i$, so the two terms must cancel.
+      - answer: ['-\frac1{2a_{ij}}', '+\frac1{2a_{0j}}']
+        feedback: |
+          That has the sign reversed: a rarely seen cell (small $a_{ij}$) is the surprising, informative one, so it must give a **positive** novelty.
+    hint: 'Scaling check: small counts give large novelty; a cell holding the whole column gives $0$.'
+    explanation: |
+      $$W_{ij}\approx\frac1{2a_{ij}}-\frac1{2a_{0j}}.$$
+      For counts $(3,4)$, outcome $1$: $\tfrac16-\tfrac1{14}=0.095$ (the exact value, expected over outcomes, is the smaller $0.066$ seen earlier).
+
+  - type: build
+    id: build-hier-d
+    prompt: |
+      A two-level model: at the upper level the creature believes sentence $k$ with probability $Q(k)$. At step $t$ of the lower level, sentence $k$ predicts word $w$ with probability $P(w\mid k,t)$. Build the prior $D_t(w)$ over words at step $t$.
+    prefix: 'D_t(w) ='
+    tiles:
+      - '\sum_k'
+      - 'Q(k)'
+      - 'P(w\mid k,t)'
+      - '\prod_k'
+      - 'P(k)'
+    answers:
+      - ['\sum_k', 'Q(k)', 'P(w\mid k,t)']
+    wrong:
+      - answer: ['\prod_k', 'Q(k)', 'P(w\mid k,t)']
+        feedback: |
+          A product would demand that all sentences predict the word at once. The word has several possible origins, and we do not know which sentence holds, so we **average** over them, weighted by their belief.
+    hint: 'Mnemonic: the level above lends its beliefs; the prior below is their weighted average.'
+    explanation: |
+      $$D_t(w)=\sum_kQ(k)\,P(w\mid k,t).$$
+      In the other direction, the sentence posterior is $Q(k)\propto P(k)\prod_tP(\text{word}_t\mid k,t)$: each word seen reweighs the sentences.
+
+  - type: numeric
+    id: num-counts
+    prompt: |
+      A creature's likelihood for one state is learned from counts: it has seen the first outcome $3$ times and the second outcome $1$ time (counts $(3,1)$). It now observes the first outcome once more, and is certain of the state. What probability does the first outcome have in its learned likelihood for this state after the observation?
+    answer: 0.8
+    tolerance: 0.002
+    answerText: '0.8'
+    wrong:
+      - { value: 0.75, feedback: 'That is the probability before the observation, $3/4$. The new count must be added first.' }
+      - { value: 1, feedback: 'Counts never make a probability certain: the second outcome keeps its count.' }
+    hint: 'Family: counting. The learned probabilities are the counts divided by their total.'
+    explanation: |
+      The counts become $(4,1)$, with total $5$, so the first outcome has $4/5=0.8$ and the second $0.2$. If the creature had been unsure of the state, the observation would have added less than a whole count.
+
+  - type: numeric
+    id: num-gamma
+    prompt: |
+      Two policies have equal habits and equal free energy $\mathbf F$ of the data seen. Their expected free energies are $\mathbf G=(2.0,\,1.4)$, and the creature's precision on $\mathbf G$ is $\gamma=2$. What probability does it give to the second policy? Answer to three decimals.
+    answer: 0.769
+    tolerance: 0.002
+    answerText: '0.769'
+    wrong:
+      - { value: 0.646, feedback: 'That is the answer at $\\gamma=1$. Here the precision is $2$, which doubles the gap in the log-odds.' }
+    hint: 'Family: softmax of two scores. Only the gap between the scores matters, and the precision is a gain on it.'
+    explanation: |
+      With equal habits and equal $\mathbf F$, only $-\gamma\mathbf G=(-4.0,-2.8)$ matters. The gap is $1.2$, so the second policy gets $1/(1+e^{-1.2})=0.769$. At $\gamma=1$ the same policies would give only $0.646$.
+
+  - type: order
+    id: order-gain
+    prompt: |
+      A creature has no idea which of two states holds (probability $\tfrac12$ each). Three sensors have these likelihood tables, one row per state (the entries of a row are the probabilities of the two outcomes in that state):
+
+      - sensor **X**: state 1 gives $(0.9,\,0.1)$, state 2 gives $(0.1,\,0.9)$;
+      - sensor **Y**: state 1 gives $(0.8,\,0.2)$, state 2 gives $(0.8,\,0.2)$;
+      - sensor **Z**: state 1 gives $(1,\,0)$, state 2 gives $(0.4,\,0.6)$.
+
+      Order them from the sensor that teaches the **most** about the state to the one that teaches the least.
+    steps:
+      - 'X'
+      - 'Z'
+      - 'Y'
+    hint: 'Family: information gain. Ask what the outcome tells you about the state, and what it would tell if both states looked alike.'
+    explanation: |
+      Y looks the same in both states, so the outcome says nothing: gain $0$. X is sharp in both states and the predicted outcomes are $(0.5,0.5)$: gain $0.693-0.325=0.368$. Z is sharp in one state only and the predicted outcomes are $(0.7,0.3)$: gain $0.611-0.337=0.274$. So X, then Z, then Y.
+
+  - type: numeric
+    id: num-pi
+    prompt: |
+      Two policies have a habit prior $\mathbf E=(0.7,\,0.3)$, free energies of the data seen $\mathbf F=(1.2,\,0.4)$ and expected free energies $\mathbf G=(0.5,\,1.1)$. What probability does the creature give to the first policy? Answer to three decimals.
+    answer: 0.656
+    tolerance: 0.002
+    answerText: '0.656'
+    wrong:
+      - { value: 0.7, feedback: 'That is the habit alone. The past and the future costs also count.' }
+      - { value: 0.344, feedback: 'That is the probability of the second policy.' }
+    hint: 'Family: softmax of a total score; the habit enters as a log, the costs with their signs.'
+    explanation: |
+      Scores: $\ln0.7-1.2-0.5=-2.057$ and $\ln0.3-0.4-1.1=-2.704$. The gap is $0.647$, so the first policy gets $1/(1+e^{-0.647})=0.656$. The habit favoured policy 1 ($0.7$), and so did its lower $\mathbf G$, but its larger $\mathbf F$ pulled back.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the **content map** of this level: you rebuild the whole picture, from the hidden Markov model and the policy posterior to novelty and the two-level hierarchy.
