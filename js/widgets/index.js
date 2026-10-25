@@ -28,6 +28,7 @@ import { beliefMixer } from './belief-mixer.js';
 import { homeostat } from './homeostat.js';
 import { freeEnergyBound } from './free-energy-bound.js';
 import { policyScorer } from './policy-scorer.js';
+import { blanketGraph } from './blanket-graph.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -52,6 +53,7 @@ const WIDGETS = {
   homeostat,
   'free-energy-bound': freeEnergyBound,
   'policy-scorer': policyScorer,
+  'blanket-graph': blanketGraph,
 };
 
 export function mountWidget(name, el, config) {
