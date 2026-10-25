@@ -29,6 +29,8 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
 
 ## Log
 
+- 2026-10-25 ch06-model-form (concept, 24 cards): hook with door/reach/frog, discrete vs continuous (B vs xdot=f+omega_x, predictive-coding widget, tiling count 16, hybrid), shallow vs deep (language, apartment; factor-graph w slow over s_t), temporal depth (door T=2: G .535/1.065, pi .629/.371; gFrom 3 ties), softmax G=(1,.8) -> .550, depth vs discreteness. Choices: summary uses P(pi)=sigma(-G-F); no PDF check (no equations, Fig 6.2 not redrawn). Conventions fixed here: three form choices (discrete/continuous, shallow/deep, temporally deep); "deep" = timescales, "temporally deep" = consequences of actions.
+
 - 2026-10-25 ch06-recipe: concept, 17 cards (hook, 5 mcq on blanket scale, order of 4 steps, build of the loop, model vs process). Text-only source (6.1-6.3), logged in VERIFIED. Choices: reused the Level 3 blanket-graph labels; own has 4 blanks. Conventions fixed here: loop labels, recipe order, two-feeder running example.
 
 - 2026-10-25 Level 5 light audit (items 2,4,5,7 + terminology Levels 1-5): level references only self-names (map/challenge titles), no book/figure/table labels in ch05 lessons, summaries show math, gamma/omega/zeta/chi, pi=sigma(-gamma G), direct/indirect wording and the attenuation-does-not-speed-reflex claim consistent. Fixed: ch04 map and model-traps wrote unsubscripted omega for fluctuations, now omega_x, omega_y. Conventions fixed here: none new.

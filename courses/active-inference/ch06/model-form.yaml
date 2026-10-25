@@ -1,0 +1,408 @@
+id: ch06-model-form
+title: "Discrete or Continuous, Shallow or Deep"
+kind: concept
+own: |
+  - **Step 2 of the recipe is three independent design choices** about the form of the generative model $P$ (the agent's joint model of hidden states and observations): (a) discrete or continuous variables, (b) one timescale or several, (c) with or without temporal depth.
+  - **(a) Discrete or continuous.** Discrete variables (object identity, alternative plans, binned positions) evolve by a transition matrix, $\mathbf B$, at each time step. Continuous variables (position, velocity, muscle length, luminance) evolve by rates of change, $\dot x=f(x,v)+\omega_x$, with $\omega_x$ the fluctuations. The two give different message passing: {{ continuous models give predictive coding (top-down predictions, bottom-up prediction errors) }}, while discrete models send messages of another form. A **hybrid** model lets {{ a discrete state (such as an object identity) generate a pattern of continuous variables (such as luminance) }}.
+  - **(b) Shallow or deep.** A *shallow* model has all variables on one timescale. A *deep* (hierarchical) model has slow variables above fast ones: a sentence outlasts its words, a word outlasts its phonemes; the goal "enter the apartment" outlasts its steps (find keys, open door, enter). The levels are only approximately independent. To study one level we treat {{ the inferences of the faster level below as part of the sensory states of the blanket }}.
+  - **(c) Temporal depth.** A model has *temporal depth* if it represents the consequences of actions, so that it can predict future observations $\tilde o$ under each policy $\pi$ (a sequence of actions). Planning needs this, because the expected free energy $G$ is a function of future observations, which cannot be observed, only predicted:
+    {{ $$P(\pi)=\sigma(-G-F)$$ }}
+    where $\sigma$ is the softmax, $F$ the variational free energy of the past and present, and $G$ the expected free energy of the future, both minimised. A model without temporal depth (a reflex that tracks a target) has $F$ only.
+  - **Distinct, though correlated.** Discreteness and temporal depth usually go together, because alternative futures are simpler to state in discrete time, but the key difference is {{ temporal depth, not discrete versus continuous }}. A deep model can also be hierarchical *and* temporally deep, planning fast at the bottom and slowly at the top.
+cards:
+  - type: text
+    id: hook
+    title: "Three tasks, three kinds of model"
+    body: |
+      Step 2 of the recipe asks: **what form should the generative model take?** (The *generative model* is the agent's joint model of the hidden states of the world and the observations they produce.) Before any theory, guess. Three creatures:
+
+      1. **The door.** A creature faces a closed door and has to decide: *push* or *wait*?
+      2. **The reach.** A hand follows a target that glides across a table, millisecond by millisecond.
+      3. **The frog.** A frog hears a croak and must decide whether it comes from a frog or a falling leaf, then keep that belief as the sound goes on.
+
+      The answer for each will not be "the same model with different numbers". Some models count in **categories**, some in **continuous numbers**; some have **one layer**, others **a stack**; some **look ahead**, others only **react**.
+
+  - type: mcq
+    id: guess-plan
+    prompt: |
+      Of the three tasks (door: *push or wait*; reach: *follow a gliding target*; frog: *what made the croak*), which one needs the creature to **compare what would happen if it did one thing or another**?
+    options:
+      - text: 'The door: pushing and waiting have different consequences, and the creature has to choose between those futures.'
+        correct: true
+      - text: 'The reach: following a target needs a prediction of the next positions, which is already a plan.'
+        feedback: |
+          Tempting, since the hand does predict where the target is going. But it follows one trajectory by correcting the error between target and hand at every instant. It never weighs two alternative futures against each other.
+      - text: 'The frog: recognising the croak needs a plan for what to do next.'
+        feedback: |
+          Recognising what made a sound is inference about the present cause. Nothing is chosen by comparing futures here.
+      - text: 'All three, since every behaviour in active inference is a plan.'
+        feedback: |
+          Not so. Some behaviours are corrections of a present error (a reflex) or an inference about a present cause. Planning is one specific capability, and the model has to be built with it on purpose.
+    explanation: |
+      Only the door asks for a choice among futures. That capability will turn out to need a model with *temporal depth*, the third choice below. Keep this guess in mind.
+
+  - type: text
+    id: three-choices
+    title: "Three design choices"
+    body: |
+      The form of the generative model is settled by three questions:
+
+      1. **Discrete or continuous** variables (or both)?
+      2. **Shallow or deep**: do all variables evolve on **one timescale**, or are there slow ones above fast ones?
+      3. **With or without temporal depth**: does the model represent the **consequences of actions**, so that it can plan?
+
+      Each is a hypothesis about the system, not a matter of taste: a different answer gives different behaviour and different predictions for the brain. We take them in order.
+
+  - type: mcq
+    id: classify-discrete
+    prompt: |
+      Some quantities are naturally **discrete** (a finite list of alternatives, handled by probabilities that change from one time step to the next) and others naturally **continuous** (a number that changes smoothly, handled by rates of change). **Select the quantities that are naturally discrete.**
+    multiple: true
+    options:
+      - text: 'The identity of an object (apple, frog, leaf).'
+        correct: true
+      - text: 'Which of several alternative action plans to follow.'
+        correct: true
+      - text: 'The luminance (brightness) at a point of the retina.'
+        feedback: |
+          Brightness varies smoothly over a whole range; it is continuous, even though a screen shows it in steps.
+      - text: 'The velocity of the hand.'
+        feedback: |
+          Velocity is a number that changes smoothly in time. It is the typical continuous variable, with a rate of change (acceleration).
+      - text: 'The length of a muscle.'
+        feedback: |
+          A length can take any value in a range. It is continuous.
+    explanation: |
+      Discrete: object identities, alternative action plans, and discretised versions of continuous variables. Continuous: position, velocity, muscle length, luminance.
+
+  - type: text
+    id: two-styles
+    title: "How the two styles evolve"
+    body: |
+      **Discrete variables** change by *transition probabilities* at each time step: from the state $s_\tau$ at step $\tau$ to the next one, with the matrix $\mathbf B$,
+      $$P(s_{\tau+1}\mid s_\tau)=\mathbf B\,s_\tau.$$
+      **Continuous variables** change by *rates of change*. A hidden state $x$ and its cause $v$ obey
+      $$\dot x=f(x,v)+\omega_x,$$
+      where the dot is the derivative in time, $f$ a function describing the dynamics and $\omega_x$ random fluctuations (noise) acting on the state.
+
+      The line between the two is not sharp: a continuous variable can be **discretised** (cut in bins), and a discrete one can be written with continuous variables. But the choice still matters, because it states a hypothesis about the **time course** of the process: does the thing you study jump from step to step, or flow?
+
+  - type: widget
+    id: pc-widget
+    review: false
+    widget: predictive-coding
+    config:
+      mode: static
+      modes: [static]
+      g: { kind: gain, gain: 1 }
+      y: 2
+      eta: 0
+      Pi: { y: 4, v: 1 }
+      presets:
+        - { label: 'precise data, $\Pi_y=4$', Pi: { y: 4, v: 1 } }
+        - { label: 'vague data, $\Pi_y=1$', Pi: { y: 1, v: 1 } }
+    body: |
+      A **continuous** scheme: a belief $\mu$ about a cause (the dot) is pushed by two prediction errors, one against the data $y=2$ (the square) and one against the prior mean $\eta=0$ (the diamond), weighted by their precisions $\Pi_y$ and $\Pi_v$. Press **Descend**.
+
+      Watch: the belief slides smoothly, with no jump between alternatives. This is **predictive coding**: top-down predictions, bottom-up prediction errors.
+
+  - type: mcq
+    id: why-matters
+    prompt: |
+      A colleague says: "A continuous variable can always be cut into bins, so the choice between discrete and continuous changes nothing. Pick whichever is easier." What is the best reply?
+    options:
+      - text: 'Computationally the two can be converted, but the choice states a hypothesis about the time course of the process, and it changes the message passing, hence the predicted neural dynamics.'
+        correct: true
+      - text: 'It is true: the choice is only a matter of convenience and never changes any prediction.'
+        feedback: |
+          The conversion is possible, which is why the line is blurry. But continuous schemes lead to predictive coding, while discrete ones send messages of a different form, so the process theory (what neurons would compute) differs.
+      - text: 'It is false: a continuous variable can never be discretised without losing all information.'
+        feedback: |
+          Discretising loses detail but keeps what the bins resolve, and many successful models do it. The point is that the two descriptions make different claims, not that one is impossible.
+    explanation: |
+      Under both, the principle is the same, free-energy minimisation. What changes is the form of the messages, so one chooses by asking what the process under study is likely to be like.
+
+  - type: numeric
+    id: tiling
+    prompt: |
+      To use a discrete model for a creature on a square table $1\,\text{m}\times1\,\text{m}$, we cut each side in equal cells of $0.25\,\text{m}$ (a *tiling*) and let the hidden state be "which cell the creature is in". How many hidden states does the model have?
+    answer: 16
+    wrong:
+      - value: 4
+        feedback: |
+          That is the number of cells along **one** side ($1/0.25$). The table is two-dimensional, and the state is the pair (column, row).
+      - value: 8
+        feedback: |
+          $4+4$ would be the count if the two sides were separate variables (a factorised model). A single "which cell" state has $4\times4$ values.
+    hint: |
+      Cells along one side: $1/0.25$. Now both sides.
+    explanation: |
+      $4\times4=16$ cells. Finer cells mean a better description of position but more states, so a trade-off appears at once: continuous variables are compact for smooth quantities, discrete ones for categories.
+
+  - type: mcq
+    id: hybrid
+    prompt: |
+      A **hybrid** (mixed) model has both kinds of variable. A frog is in the field of view: its identity is a discrete state (frog, leaf), and the retina receives continuous luminance values. Which arrow does the generative model contain?
+    options:
+      - text: 'The discrete state (identity) generates a pattern of the continuous variables (luminance): the identity is the cause.'
+        correct: true
+      - text: 'The continuous luminance generates the discrete identity.'
+        feedback: |
+          A generative model runs from causes to consequences. The identity causes the luminance pattern; it is *inference* that goes backwards, from luminance to identity.
+      - text: 'No arrow: discrete and continuous variables can never be in one model.'
+        feedback: |
+          They can; this is exactly the hybrid case. High-level decisions are usually discrete, while fine perception and action are continuous, and the two are joined.
+    explanation: |
+      A discrete state (object identity) generates a pattern of continuous variables. This is the standard hybrid structure; an example is built in a later chapter.
+
+  - type: text
+    id: shallow-deep
+    title: "Choice 2: one timescale or several?"
+    body: |
+      A **shallow** model has all its variables evolving on the **same timescale**. A **deep** (or *hierarchical*) model has variables on different timescales: **slow** ones at the top, **fast** ones below.
+
+      Language is the classic case. A few *phonemes* (speech sounds) are put in context by the *word*, and a few words by the *sentence*. The word lasts longer than any one of its phonemes, and the sentence longer than any word. The separation is only approximate: the sentence shapes the next words, and the word the next phonemes.
+
+      The same holds for action: the goal "enter the apartment" is active for a long time and gives context to a series of faster steps (find keys, open the door, go in).
+
+  - type: order
+    id: order-timescales
+    prompt: |
+      Put these in order from the **slowest** variable (top of the hierarchy) to the **fastest**.
+    steps:
+      - 'The sentence being said'
+      - 'The word being said'
+      - 'The phoneme being said'
+    hint: |
+      Which one lasts longest, and contains the others?
+    explanation: |
+      The sentence contains words and the word contains phonemes. Higher means slower, and it supplies context to the faster level below.
+
+  - type: widget
+    id: deep-graph
+    review: false
+    widget: factor-graph
+    config:
+      unroll: 3
+      t0: 1
+      box: [400, 240]
+      variables:
+        - { id: w, label: 'w', pos: [200, 25] }
+        - { id: s, label: 's_{t}', pos: [60, 120], rep: true }
+        - { id: o, label: 'o_{t}', pos: [60, 210], rep: true, observed: true }
+      factors:
+        - { id: P, label: '1', pos: [140, 25], vars: [w], term: '\ln P(w)' }
+        - { id: A, label: '2', pos: [60, 165], vars: ['s@0', 'o@0'], rep: true, term: '\ln P(o_{t}\mid s_{t})' }
+        - { id: B, label: '3', pos: [5, 120], vars: ['s@-1', 's@0', w], rep: true, term: '\ln P(s_{t}\mid s_{t-1},w)' }
+      messageFormula: '\ln Q({v}) = {terms}'
+      join: ' + '
+    body: |
+      A two-timescale model, unrolled over three fast steps. The **slow** variable $w$ (say, the current word) is one circle that stays the same across all steps. The **fast** variables $s_t$ (say, the phoneme at step $t$) change at every step, and each produces its observation $o_t$ (shaded). Square $1$ is the prior on $w$, square $2$ links $s_t$ to $o_t$, square $3$ links $s_t$ to $s_{t-1}$ and to $w$.
+
+      **Click $w$** and see which squares it has to read; then click $s_2$.
+
+  - type: mcq
+    id: lower-as-sensory
+    prompt: |
+      You want to simulate only the **word** level of a language model, without modelling how phonemes are inferred. How can you do this?
+    options:
+      - text: 'Treat the inferences of the phoneme level below as part of the sensory states of the blanket: they are the observations of the word level.'
+        correct: true
+      - text: 'Treat the phoneme level as an external state of the world that the word level never needs to hear from.'
+        feedback: |
+          Then the word level would receive nothing from the phonemes. It needs their (inferred) content as its data; it just does not need the details of how they were inferred.
+      - text: 'You cannot: a hierarchical model must always be simulated whole, from the sentence down to the retina.'
+        feedback: |
+          It would be a heavy burden indeed. Fortunately, summarising the faster level as sensory states is what lets one study a single timescale.
+    explanation: |
+      The blanket is drawn around the level of interest; the faster inferences below become its sensory states. This hierarchical factorisation brings great computational savings.
+
+  - type: mcq
+    id: needs-deep
+    prompt: |
+      Which of these needs a **deep** model (several timescales)?
+    options:
+      - text: 'Understanding a spoken sentence word by word, where the sentence gives context to the words.'
+        correct: true
+      - text: 'Reading a single dial that can show either "low" or "high", at every moment.'
+        feedback: |
+          One variable, one timescale: a shallow model is enough. Nothing slower sits above it giving it context.
+      - text: 'Moving a hand to a spot, correcting the error at every instant.'
+        feedback: |
+          Hand and target positions evolve on the same timescale, so this too can be modelled with one level (the same single-level machinery as the reflex). A goal far above could add a level, but nothing here forces it.
+    explanation: |
+      Depth is forced by a clear separation of timescales: something that stays put while faster things change within it.
+
+  - type: text
+    id: temporal-depth
+    title: "Choice 3: can the model look ahead?"
+    body: |
+      A model has **temporal depth** if it represents explicitly the **consequences of actions** (or sequences of actions, *policies*). Then it can say: "if I did this, I would observe that." A model without it considers only the **present** observation.
+
+      Two of the models drawn earlier are the two cases: the dynamic POMDP, with a policy $\pi$ in every transition, has temporal depth. The continuous-time model of $x,x',x''$ (a state and its derivatives) has none.
+
+      Why does planning need it? Planning means choosing the policy with the smallest **expected free energy** $G$, which depends on the *future* observations. They cannot be observed (by definition), so they can only be **predicted**, and only a model of how actions produce observations can predict them. The posterior over policies is
+      $$P(\pi)=\sigma(-G-F),$$
+      the softmax ($\sigma$) of minus the sum of $G$ (future) and $F$ (the free energy of what has been observed so far).
+
+  - type: widget
+    id: door-depth
+    review: false
+    widget: pomdp-lab
+    config:
+      mode: infer
+      modes: [infer]
+      showA: false
+      showB: false
+      showD: false
+      showCurve: false
+      showExact: false
+      showPolicies: true
+      obs: [-1, -1]
+      states: [closed, open]
+      outcomes: ['looks closed', 'looks open']
+      actions: [push, wait]
+      short: { states: [clo, open], outcomes: [looks clo, looks open] }
+      A: [[0.8, 0.2], [0.2, 0.8]]
+      B: { push: [[0.2, 0.05], [0.8, 0.95]], wait: [[0.9, 0.1], [0.1, 0.9]] }
+      D: [0.9, 0.1]
+      C: [0.2, 0.8]
+      T: 2
+      policies: [[push], [wait]]
+      policy: 0
+      presets:
+        - { label: 'future counted (G from step 2)', gFrom: 2 }
+        - { label: 'no future counted (G from step 3)', gFrom: 3 }
+    body: |
+      The door model with only two steps: step 1 now, step 2 the future, and no outcome observed yet. The policies are *push* and *wait* (one action each). Press **Play**, and read the table below: $F_\pi$, $G_\pi$ and $P(\pi)$ for each.
+
+      Then switch to **no future counted**, which makes $G$ ignore step 2, as a model without temporal depth would.
+
+      Watch: with the future counted, $G$ is about $0.54$ for *push* and $1.07$ for *wait*, so *push* is preferred ($P\approx0.63$). With no future counted, the two policies tie.
+
+  - type: mcq
+    id: why-tie
+    prompt: |
+      In the door model, once no future observation is considered, the two policies *push* and *wait* get the same probability. Why?
+    options:
+      - text: 'With no observation yet, both policies fit the present equally well (same $F$), and without a prediction of the future there is no $G$ to tell them apart.'
+        correct: true
+      - text: 'Because pushing and waiting really have the same consequences for the door.'
+        feedback: |
+          They do not: pushing opens it with probability $0.95$ while waiting leaves it as it was. The model knows that, but only a **prediction** of the future makes that knowledge count.
+      - text: 'Because a softmax always gives equal probabilities to two policies.'
+        feedback: |
+          The softmax gives equal probabilities only when its inputs are equal. Here they are equal because $G$ was cut off.
+    explanation: |
+      $F$ looks at what has been observed, and no observation separates the policies. Only $G$, computed from predicted future outcomes, does. A model that cannot predict the effect of actions cannot plan.
+
+  - type: widget
+    id: scorer
+    review: false
+    widget: policy-scorer
+    config:
+      outcomes: ['o1', 'o2', 'o3']
+      C: [0.3333, 0.3333, 0.3334]
+      policies:
+        - { name: 'policy 1', qy: [0.3333, 0.3333, 0.3334], ambiguity: 1.0 }
+        - { name: 'policy 2', qy: [0.3333, 0.3333, 0.3334], ambiguity: 0.8 }
+      gamma: 1
+      gammaMax: 8
+      showRisk: false
+      showAmbiguity: false
+      showPrefs: false
+      presets:
+        - { label: 'gamma = 1', gamma: 1 }
+        - { label: 'gamma = 4', gamma: 4 }
+    body: |
+      Two policies with expected free energy $\mathbf G=(1,\,0.8)$ in nats (lower is better), with equal $F$. The probability of each is $P(\pi)=\sigma(-\gamma\mathbf G)$. Move the slider $\gamma$ (the precision over policies).
+
+      Watch: the lower $G$ wins, but not absolutely.
+
+  - type: numeric
+    id: softmax-two
+    prompt: |
+      Two policies have expected free energies $\mathbf G=(1,\,0.8)$ (nats) and equal variational free energy $F$, and $\gamma=1$. The probability of each is the softmax $P(\pi)=\sigma(-\mathbf G)$, that is $P(\pi_i)=e^{-G_i}/\sum_j e^{-G_j}$. What is $P(\pi_2)$ (the policy with $G_2=0.8$)? Give 3 decimals.
+    answer: 0.55
+    tolerance: 0.002
+    wrong:
+      - value: 0.45
+        feedback: |
+          That is $P(\pi_1)$, the policy with the larger $G$. The lower $G$ is the preferred one.
+      - value: 0.8
+        feedback: |
+          $0.8$ is $G_2$ itself, not a probability. Compute $e^{-0.8}/(e^{-1}+e^{-0.8})$.
+    hint: |
+      $e^{-1}\approx0.368$ and $e^{-0.8}\approx0.449$.
+    explanation: |
+      $P(\pi_2)=\dfrac{e^{-0.8}}{e^{-1}+e^{-0.8}}\approx\dfrac{0.449}{0.368+0.449}=0.550$. Policy 2 is only slightly favoured: $G$ is a score, and the softmax turns it into a graded preference.
+
+  - type: mcq
+    id: why-not-continuous
+    prompt: |
+      A student says: "A continuous model cannot plan, because planning is a discrete thing." What is the most accurate comment?
+    options:
+      - text: 'The key difference is temporal depth, not discrete versus continuous. What planning needs is a model that predicts the consequences of actions; discrete time just makes alternative futures simpler to state.'
+        correct: true
+      - text: 'Correct: continuous variables, by their nature, can never represent the future.'
+        feedback: |
+          Continuous variables can be used to predict future values. The obstacle is not the kind of variable, but whether the model represents the effects of actions on future observations.
+      - text: 'Wrong: any continuous model can plan, since its derivatives give the future.'
+        feedback: |
+          Derivatives describe how the present state is changing, not what *would* happen under each alternative policy. The continuous-time model of this chapter reacts to the present, and has no policy to compare.
+    explanation: |
+      Planning means selecting among possible futures defined by sequences of actions; this is most simply written with discrete-time models. So the two properties tend to go together, but they are different properties.
+
+  - type: mcq
+    id: sort-2x2
+    prompt: |
+      **Select every model that has temporal depth** (represents the consequences of actions, so it can plan).
+    multiple: true
+    options:
+      - text: 'A door model with states, transitions $\mathbf B$ per action, and three time steps with policies compared by $G$.'
+        correct: true
+      - text: 'A rodent''s map of a maze, with the future location after turning left or right, used to choose a route to food.'
+        correct: true
+      - text: 'A discrete model with a single time step: the hidden state is "frog or leaf" and nothing else.'
+        feedback: |
+          This is discrete, but it has no future steps and no policy, so it cannot compute $G$. Discrete does not mean temporally deep.
+      - text: 'A continuous model of a hand following a target by correcting its prediction error at every instant.'
+        feedback: |
+          Continuous and reactive: it uses only the present data. It has no representation of alternative futures.
+    explanation: |
+      Two properties are involved: (i) discrete or continuous, and (ii) temporal depth. They are correlated, since policies are most simply written in discrete time, but not identical: a discrete model with a single step is shallow in time, and the temporally deep model is the one that plans. A model may even be hierarchical and temporally deep at once, planning fast at the bottom and slowly at the top.
+
+  - type: text
+    id: decision-table
+    title: "From the task to the form"
+    body: |
+      A practical way to choose: ask three questions of the task.
+
+      | Question about the task | If yes | If no |
+      |---|---|---|
+      | Are the things to infer categories or plans (identity, choice)? | discrete variables | continuous variables (position, velocity, luminance) |
+      | Is there a slow context above fast changes (sentence/word, goal/steps)? | deep (hierarchical) | shallow |
+      | Must the creature choose between possible futures? | temporally deep (usually discrete) | no temporal depth (reflex, tracking) |
+
+      Back to the three tasks: the **door** is discrete and temporally deep; the **reach** is continuous and shallow in time (it tracks the present error); the **frog** is a discrete identity that generates continuous sound, a hybrid, perhaps with a slow context above.
+
+  - type: mcq
+    id: hierarchy-trap
+    prompt: |
+      A model has a slow level on top of a fast one, but neither level contains any representation of the consequences of actions. Which statement is correct?
+    options:
+      - text: 'It is deep (two timescales) but not temporally deep: it cannot plan.'
+        correct: true
+      - text: 'It can plan, since having a higher level means looking further ahead.'
+        feedback: |
+          Hierarchy and temporal depth are different. A hierarchy separates timescales of the *present* inference; planning needs the effects of actions on future observations. The two can be combined, but one does not give the other.
+      - text: 'It is shallow, because a model without planning has only one level.'
+        feedback: |
+          Shallow means a single timescale. Here there are two, so it is deep, even without planning. In language, for example, a sentence-word-phoneme hierarchy needs no actions at all.
+    explanation: |
+      "Deep" (several timescales) and "temporally deep" (consequences of actions) are two separate axes. Hence three questions, not one.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** Step 3 of the recipe. Once the form is chosen, **which variables and priors** does the model contain, and which numbers are fixed in advance and which are learned?
