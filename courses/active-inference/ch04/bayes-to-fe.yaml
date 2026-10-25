@@ -1,0 +1,275 @@
+id: ch04-bayes-to-fe
+title: "From Bayesian Inference to Free Energy"
+kind: concept
+own: |
+  - **Setup.** A model has hidden causes $x$ and one observation $y$. Its prior is $P(x)$ and its likelihood is $P(y\mid x)$; together they are the generative model. Bayes' theorem and the evidence are
+    {{ $$\begin{gathered}P(x)P(y\mid x)=P(x\mid y)P(y)\\P(y)=\textstyle\sum_x P(y\mid x)P(x)\end{gathered}$$ }}
+    The joint $P(y,x)$ is cheap to evaluate for any single $x$; the sum over all $x$ (the evidence) is what can be intractable.
+  - **Variational step.** Instead of the exact posterior, choose a belief $Q(x)$ from a tractable family (for example Gaussians, or a product of small factors) and score it by the variational free energy, which is minimised and satisfies
+    {{ $$F[Q,y]=\mathbb{E}_{Q(x)}\big[\ln Q(x)-\ln P(y,x)\big]$$ }}
+    and the bound $F\ge-\ln P(y)$. The bound is Jensen's inequality (the log of an average is at least the average of the log), and $F$ needs only the joint, never the evidence.
+  - **Two readings of $F$.** Taking $\ln P(y,x)=\ln P(y)+\ln P(x\mid y)$ under $Q$ gives
+    {{ $$F[Q,y]=D_{KL}[Q(x)\,\|\,P(x\mid y)]-\ln P(y)$$ }}
+    a divergence from the exact posterior (zero only when $Q=P(x\mid y)$) plus the surprise $-\ln P(y)$. Changing $Q$ moves only the divergence; changing the data or the model moves $-\ln P(y)$.
+  - **Which divergence.** $D_{KL}[Q\,\|\,P(x\mid y)]$ is averaged under $Q$ and needs $\ln P(y,x)$ only, so it is computable; the swapped $D_{KL}[P(x\mid y)\,\|\,Q]$ needs the unknown posterior. On a two-humped posterior the first picks one hump, the second straddles both.
+  - **Limits.** Minimising $F$ over a family gives the best member of that family: an approximate posterior, exact only if the exact one belongs to the family.
+cards:
+  - type: mcq
+    id: hook
+    title: "What can we actually compute?"
+    prompt: |
+      A doctor sees a positive test $y$ and wants the probability of each hidden condition $x$ (healthy, disease A, disease B, and so on). The model is known: a prior $P(x)$ and a likelihood $P(y\mid x)$. With the test result fixed, which of these is **cheap** to compute for one given condition $x$?
+    options:
+      - text: 'The joint $P(y,x)=P(x)\,P(y\mid x)$: one multiplication.'
+        correct: true
+      - text: 'The posterior $P(x\mid y)$: Bayes gives it directly.'
+        feedback: |
+          Bayes' theorem says $P(x\mid y)=P(y,x)/P(y)$, and the denominator $P(y)=\sum_x P(y,x)$ adds the joint over **every** condition. With many conditions (or a continuous $x$, where the sum is an integral) that sum can be impossible to evaluate. The numerator is easy; the normaliser is the obstacle.
+      - text: 'The evidence $P(y)$: it is just a number.'
+        feedback: |
+          It is a single number, but computing it needs the joint for every possible $x$ and their sum. That is exactly the expensive part.
+    explanation: |
+      The joint, one condition at a time, is cheap. The evidence $P(y)$ (a sum over all conditions) and therefore the exact posterior are not. Everything in this lesson is a way around that one sum.
+
+  - type: text
+    id: recall
+    title: "Recall: Bayes in two lines"
+    body: |
+      With hidden state $x$ and observation $y$ (the letters of the Bayes lessons; later lessons rename them for time-dependent models):
+      $$\begin{gathered}P(x)\,P(y\mid x)=P(x\mid y)\,P(y)\\P(y)=\textstyle\sum_x P(y\mid x)\,P(x)\end{gathered}$$
+      The first line is Bayes' theorem, the second computes the **evidence** $P(y)$ from the prior and the likelihood. So the generative model, prior plus likelihood, is *enough* to get the evidence and the posterior. The trouble is only the cost of the sum (an integral for a continuous $x$).
+
+  - type: numeric
+    id: tiny-bayes
+    prompt: |
+      A two-cause test: prior $P(x)=(0.7,\,0.3)$ for (healthy, ill) and likelihood of a positive result $P(y\mid x)=(0.2,\,0.6)$. Compute the evidence $P(y)$, the sum of the two joint terms.
+    answer: 0.32
+    tolerance: 0.0005
+    wrong:
+      - value: 0.8
+        feedback: |
+          That adds the two likelihoods $0.2+0.6$. The evidence weights each likelihood by its prior: $0.7\cdot0.2+0.3\cdot0.6$.
+      - value: 0.4
+        feedback: |
+          That is the plain average of the two likelihoods. Each cause must be weighted by its prior, $0.7\cdot0.2+0.3\cdot0.6$.
+    hint: |
+      The joint terms are $0.7\cdot0.2$ and $0.3\cdot0.6$. Add them.
+    explanation: |
+      $P(y)=0.7\cdot0.2+0.3\cdot0.6=0.14+0.18=0.32$. The posterior is $(0.14,0.18)/0.32=(0.4375,0.5625)$. With two causes this is trivial; with twenty binary causes the same sum has about $10^6$ terms, and with a continuous $x$ it is an integral.
+
+  - type: order
+    id: recipe
+    prompt: |
+      Variational inference turns the hard sum into an optimisation problem. Put its three steps in order.
+    steps:
+      - 'Choose a **family** of beliefs $Q(x)$ that is cheap to handle (for example Gaussians, or products of small factors).'
+      - 'Choose a **score** for each $Q$ that needs only the joint $P(y,x)$, never the evidence.'
+      - 'Move $Q$ within the family to **minimise** the score; the minimiser is the approximate posterior.'
+    hint: |
+      You cannot minimise anything before you know what the options are and how they are scored.
+    explanation: |
+      Family, score, minimise. The score is the variational free energy. Because the family may not contain the exact posterior, the result is an approximation (bounded rationality: the best belief we can afford).
+
+  - type: text
+    id: bound-recall
+    title: "Recall: the score and its bound"
+    body: |
+      The score is the **variational free energy** of the belief $Q$ given the data $y$:
+      $$F[Q,y]=\mathbb{E}_{Q(x)}\big[\ln Q(x)-\ln P(y,x)\big].$$
+      Multiplying and dividing the joint by $Q$ inside the sum for $P(y)$, then using Jensen's inequality, gave
+      $$\ln P(y)\ \ge\ \mathbb{E}_{Q(x)}\Big[\ln\frac{P(y,x)}{Q(x)}\Big]=-F[Q,y].$$
+      So $F\ge-\ln P(y)$, the surprise. $F$ is minimised, and the smaller it is, the closer it comes to the (negative log) evidence. Note what $F$ contains: $Q$ and the joint. The evidence appears nowhere.
+
+  - type: numeric
+    id: f-number
+    prompt: |
+      In the two-cause test (prior $(0.7,0.3)$, likelihood $(0.2,0.6)$, so the joint is $(0.14,\,0.18)$) take the belief $Q=(0.5,\,0.5)$. Compute $F=\sum_x Q(x)\big[\ln Q(x)-\ln P(y,x)\big]$ in nats, to two decimals.
+    answer: 1.15
+    tolerance: 0.006
+    wrong:
+      - value: 1.14
+        feedback: |
+          $1.14$ is the surprise $-\ln0.32$, the value $F$ would take for the exact posterior. $Q=(0.5,0.5)$ is not the exact posterior $(0.4375,0.5625)$, so $F$ is a little above it.
+    hint: |
+      $\ln\frac{0.5}{0.14}\approx1.273$ and $\ln\frac{0.5}{0.18}\approx1.022$, each weighted by $0.5$.
+    explanation: |
+      $F=0.5\ln\frac{0.5}{0.14}+0.5\ln\frac{0.5}{0.18}=0.5(1.273)+0.5(1.022)\approx1.147$. The surprise is $-\ln0.32\approx1.139$, so $F$ sits just above it, as the bound demands (the gap is $0.008$ nats).
+
+  - type: build
+    id: eq43
+    prompt: |
+      Take the logarithm of Bayes' theorem, $\ln P(y,x)=\ln P(y)+\ln P(x\mid y)$, and average under the belief $Q$. In terms of $F$, complete
+    prefix: '\mathbb{E}_{Q(x)}[\ln P(y,x)]='
+    tiles: ['-F[Q,y]', '+F[Q,y]', '+\mathbb{E}_{Q(x)}[\ln Q(x)]', '-\mathbb{E}_{Q(x)}[\ln Q(x)]']
+    answers:
+      - ['-F[Q,y]', '+\mathbb{E}_{Q(x)}[\ln Q(x)]']
+      - ['+\mathbb{E}_{Q(x)}[\ln Q(x)]', '-F[Q,y]']
+    wrong:
+      - answer: ['+F[Q,y]', '+\mathbb{E}_{Q(x)}[\ln Q(x)]']
+        feedback: |
+          The sign of $F$ is flipped. Move terms in $F=\mathbb{E}_Q[\ln Q]-\mathbb{E}_Q[\ln P(y,x)]$: the joint term equals $\mathbb{E}_Q[\ln Q]-F$.
+      - answer: ['-F[Q,y]', '-\mathbb{E}_{Q(x)}[\ln Q(x)]']
+        feedback: |
+          Solve the definition of $F$ for the joint: $\mathbb{E}_Q[\ln P(y,x)]=\mathbb{E}_Q[\ln Q]-F$. The entropy-like term $\mathbb{E}_Q[\ln Q]$ enters with a plus sign.
+    hint: |
+      Start from $F=\mathbb{E}_Q[\ln Q]-\mathbb{E}_Q[\ln P(y,x)]$ and isolate the joint term.
+    explanation: |
+      $\mathbb{E}_{Q}[\ln P(y,x)]=-F+\mathbb{E}_{Q}[\ln Q]$. Compare with the same average under the exact posterior, $\mathbb{E}_{P(x\mid y)}[\ln P(y,x)]=\ln P(y)+\mathbb{E}_{P(x\mid y)}[\ln P(x\mid y)]$: the roles match. **$-F$ plays the part of $\ln P(y)$, and $Q$ plays the part of $P(x\mid y)$**, the two quantities that were hard to get.
+
+  - type: mcq
+    id: why-add-evidence
+    prompt: |
+      Rewriting the score gives $F=D_{KL}[Q(x)\,\|\,P(x\mid y)]-\ln P(y)$. We would like to minimise the divergence alone, but it cannot be evaluated (it contains the unknown posterior). Why can we evaluate $F$, which is the same divergence **plus** $-\ln P(y)$?
+    options:
+      - text: 'The unknown posterior and the unknown evidence enter in the combination $\ln P(x\mid y)+\ln P(y)=\ln P(y,x)$, which is the known joint.'
+        correct: true
+      - text: 'Adding $-\ln P(y)$ makes the divergence smaller, so it becomes easy.'
+        feedback: |
+          It does not simplify the divergence; it makes $F$ *larger* (the bound is $F\ge-\ln P(y)$). What helps is that the two unknowns combine into the known joint inside the average.
+      - text: 'Because $\ln P(y)$ is zero for a well-chosen model.'
+        feedback: |
+          The evidence is a probability below one for any realistic observation, so $-\ln P(y)>0$. It is a constant for the data at hand, but not zero.
+    explanation: |
+      Inside the average, $\ln Q(x)-\ln P(x\mid y)-\ln P(y)=\ln Q(x)-\ln P(y,x)$. The two quantities we cannot compute are glued together into the one we can: the generative model. And since $-\ln P(y)$ does not depend on $Q$, minimising $F$ over $Q$ minimises the divergence.
+
+  - type: widget
+    id: blind-descent
+    review: false
+    widget: free-energy-bound
+    config:
+      observation: "the test is positive"
+      causes:
+        - { name: healthy, prior: 0.9, likelihood: 0.05 }
+        - { name: disease A, prior: 0.07, likelihood: 0.9 }
+        - { name: disease B, prior: 0.03, likelihood: 0.6 }
+      q: [0.34, 0.33, 0.33]
+      showSurprise: false
+      showGap: false
+      exact: false
+      presets:
+        - { label: "Q = prior", q: [0.9, 0.07, 0.03] }
+        - { label: "Flat", q: [0.34, 0.33, 0.33] }
+    body: |
+      A real reasoner sees only $F$: the surprise and the exact posterior are hidden here. Drag the three sliders of $Q$ to make $F$ as small as you can. Each slider is a belief about one condition; the widget keeps $Q$ normalised.
+
+      Where does $F$ stop falling? Give the lowest value you can reach.
+
+  - type: numeric
+    id: blind-min
+    review: false
+    prompt: |
+      In the test with conditions healthy / disease A / disease B, priors $0.9,\,0.07,\,0.03$ and likelihoods of a positive result $0.05,\,0.9,\,0.6$, what is the lowest free energy $F$ reachable by any $Q$, in nats (two decimals)? You can find it by dragging, or by thinking about what $F$ is minimised by.
+    answer: 2.07
+    tolerance: 0.015
+    hint: |
+      The minimum is where the divergence in $F=D_{KL}-\ln P(y)$ vanishes, so it equals $-\ln P(y)$ with $P(y)=0.9\cdot0.05+0.07\cdot0.9+0.03\cdot0.6$.
+    explanation: |
+      The minimum is $F=-\ln P(y)=-\ln0.126\approx2.07$, reached at the exact posterior $(0.357,\,0.5,\,0.143)$. Notice what happened: by minimising $F$, using only the joint, you *computed* the evidence without ever summing over the conditions. That is the point of the variational step: an optimisation does the work of the sum.
+
+  - type: mcq
+    id: two-minimisations
+    prompt: |
+      In $F[Q,y]=D_{KL}[Q(x)\,\|\,P(x\mid y)]-\ln P(y)$, what does minimising $F$ **over $Q$** do, and what does it leave alone?
+    options:
+      - text: 'It makes $Q$ approach the exact posterior $P(x\mid y)$ and leaves the surprise term $-\ln P(y)$ unchanged; that term moves only if the data $y$ (action) or the model (learning) changes.'
+        correct: true
+      - text: 'It lowers the surprise $-\ln P(y)$ itself, because $F$ is the surprise.'
+        feedback: |
+          $F$ is **not** the surprise: it is an upper bound on it. Changing $Q$ cannot change $-\ln P(y)$, which depends only on the model and the data. $F$ falls toward the surprise from above.
+      - text: 'It makes the divergence negative, so $F$ ends below the surprise.'
+        feedback: |
+          The divergence is never negative, so $F\ge-\ln P(y)$ always. The best $Q$ makes the divergence exactly $0$ (if the family allows it), not negative.
+    explanation: |
+      Perception moves $Q$ (the divergence shrinks); to lower the second term one must change the data (act) or the model (learn). This split is why the same $F$ drives perception and action.
+
+  - type: mcq
+    id: predict-fit
+    title: "Predict: which divergence?"
+    prompt: |
+      Suppose the exact posterior has **two equally likely humps**, at $x=-2.2$ and $x=+2.2$ (width $0.7$ each), and our family $Q$ contains only single Gaussians. A Gaussian cannot copy two humps. Minimising $D_{KL}[Q\,\|\,P]=\mathbb{E}_Q[\ln Q-\ln P]$ penalises $Q$ for putting weight where $P$ is small. Where does the best single Gaussian sit?
+    options:
+      - text: 'On one hump, ignoring the other.'
+        correct: true
+      - text: 'In the middle, at $x=0$, wide enough to cover both humps.'
+        feedback: |
+          That is where the *other* divergence, $D_{KL}[P\,\|\,Q]$, would put it (it penalises $Q$ for missing weight where $P$ has mass). Here the penalty is on $Q$ having mass where $P$ is tiny, and the middle, $x=0$, is a valley of $P$.
+      - text: 'It cannot be decided without the normalising constant of $P$.'
+        feedback: |
+          The constant only shifts $D_{KL}[Q\,\|\,P]$ by a number that does not depend on $Q$, so the best $Q$ is the same. That is a key point of the next cards.
+    explanation: |
+      Reverse direction, mode-seeking: all of $Q$'s mass sits where $P$ is high. Let us test it.
+
+  - type: widget
+    id: two-humps
+    review: false
+    widget: gaussian-fit
+    config:
+      components:
+        - { w: 0.5, mean: -2.2, sd: 0.7 }
+        - { w: 0.5, mean: 2.2, sd: 0.7 }
+      range: [-6, 6]
+      mu: 0
+      sigma: 1
+      labels:
+        p: 'P(x\mid y)'
+        q: 'Q(x)'
+        klRev: 'D_{KL}[Q\,\|\,P(x\mid y)]'
+        klFwd: 'D_{KL}[P(x\mid y)\,\|\,Q]'
+        fitRev: 'Best for $D_{KL}[Q\|P]$'
+        fitFwd: 'Best for $D_{KL}[P\|Q]$'
+        laplace: 'Laplace at a mode'
+    body: |
+      The grey area is the two-humped posterior; the red curve is a Gaussian $Q$. Press **Best for $D_{KL}[Q\|P]$**, then **Best for $D_{KL}[P\|Q]$**, and read both divergences each time. Then drag $\mu$ yourself.
+
+      The divergence in the free energy is the first one, $D_{KL}[Q\,\|\,P(x\mid y)]$.
+
+  - type: numeric
+    id: one-hump-kl
+    prompt: |
+      A posterior has two equal, well-separated humps. A single Gaussian $Q$ that matches **one** hump exactly puts all its mass where $P$ has half of its own mass, so $P\approx\tfrac12Q$ there. Using $D_{KL}[Q\|P]=\mathbb{E}_Q[\ln Q-\ln P]$, what is the value in nats (two decimals)?
+    answer: 0.69
+    tolerance: 0.006
+    hint: |
+      On the hump, $\ln Q-\ln P=\ln\frac{Q}{P}=\ln2$ everywhere that $Q$ has weight.
+    explanation: |
+      $D_{KL}[Q\|P]\approx\ln2\approx0.69$ nats: the cost of covering only half the posterior. The straddling fit does worse in this direction: the widget shows about $1.07$ for the moment-matched Gaussian, which has its mass in the valley. In the other direction the order flips: $D_{KL}[P\|Q]$ is about $0.50$ for the straddling fit but enormous (about $9$) for the one-hump fit, which misses a whole hump.
+
+  - type: mcq
+    id: which-computable
+    prompt: |
+      Both $D_{KL}[Q\,\|\,P(x\mid y)]$ and $D_{KL}[P(x\mid y)\,\|\,Q]$ measure how far $Q$ is from the exact posterior. Free energy uses the first. What is the practical reason?
+    options:
+      - text: 'It is an average under $Q$, which we hold, of $\ln Q-\ln P(x\mid y)$, and the unknown normaliser of the posterior only adds a constant $-\ln P(y)$ that does not depend on $Q$. The swapped one is an average under the unknown posterior itself.'
+        correct: true
+      - text: 'It is always smaller than the swapped divergence, so the bound is tighter.'
+        feedback: |
+          Neither is always smaller: in the two-humps example the reverse one is $0.69$ for one hump and the forward one is about $9$, but for the straddling fit it is $1.07$ against $0.50$. Size is not the reason.
+      - text: 'The swapped divergence can be negative, which would break the bound.'
+        feedback: |
+          Both directions are non-negative, zero only at $Q=P(x\mid y)$. The difference is what each needs to be evaluated.
+    explanation: |
+      Under $Q$ we can average; under $P(x\mid y)$ we would need the very posterior we are trying to find. There is also a deeper reason from the creature's point of view: its aim is to maximise the evidence (self-evidencing), and the divergence is only secondary. The Jensen route to $F$ gives exactly this direction, with no choice to make.
+
+  - type: mcq
+    id: misconceptions
+    prompt: |
+      Which statements about minimising the free energy over a family of beliefs are **true**? Select all.
+    multiple: true
+    options:
+      - text: 'The minimiser is the best member of the family, so it equals the exact posterior only if the exact posterior belongs to the family.'
+        correct: true
+      - text: 'At the minimum, $F$ is still above $-\ln P(y)$ whenever the family cannot reproduce the posterior (as with one Gaussian on two humps).'
+        correct: true
+      - text: 'The value of $F$ is the surprise $-\ln P(y)$ for every $Q$, because $F$ is defined to equal it.'
+        feedback: |
+          $F$ is an upper bound on the surprise, equal to it only when $Q$ is the exact posterior. For any other $Q$ it is larger by the divergence.
+      - text: 'Minimising $D_{KL}[Q\|P]$ and minimising $D_{KL}[P\|Q]$ give the same $Q$.'
+        feedback: |
+          They agree only if the family contains the exact posterior. Otherwise they trade off differently: one-hump versus straddling in the two-humps example.
+    explanation: |
+      Approximation has a price: the gap left by the family. Two humps and one Gaussian leave at least $\ln2\approx0.69$ nats of divergence in the free energy.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** what is $P$? Up to now the generative model was just "a prior times a likelihood". The next lesson draws such models as graphs (factor graphs), shows how more causes and more observations change them, and how time enters.

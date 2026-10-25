@@ -69,7 +69,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 ## Chapter 4
 
-- (none yet)
+- ch04-bayes-to-fe: symbols stay $x,y$ (rename to $s,o$ in the discrete-model lesson). Numbers: prior 0.7/0.3, likelihood 0.2/0.6, joint 0.14/0.18, $P(y)=0.32$, $F(Q=(.5,.5))=1.147$ vs surprise 1.139; three-condition test priors 0.9/0.07/0.03, likelihoods 0.05/0.9/0.6, $P(y)=0.126$, surprise 2.07, posterior 0.357/0.5/0.143; two-humps target $\pm2.2$, sd 0.7: one-hump reverse KL 0.69, moment fit reverse 1.07, forward 0.50. `gaussian-fit` legend labels are bare KaTeX (no $).
 
 ## Chapter 5
 
