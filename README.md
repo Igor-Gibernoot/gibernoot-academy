@@ -23,6 +23,7 @@ synced through an optional Google sign-in ([`docs/ACCOUNTS.md`](docs/ACCOUNTS.md
 | Course | Folder |
 | --- | --- |
 | From Differential Geometry to General Relativity | [`courses/dg2gr/`](courses/dg2gr/) |
+| Active Inference | [`courses/active-inference/`](courses/active-inference/) |
 
 ## Layout
 
