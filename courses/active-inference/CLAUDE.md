@@ -18,7 +18,7 @@ what is specific to this course.
   guided problems. Appendix B = derivations of the update equations (B.2 discrete time,
   B.3 generalized filtering): source of guided problems. Appendix C = annotated Matlab
   example (a T-maze-like task), source of worked numeric examples.
-- No professor's exams: no exam levels.
+- No professor's exams: the partial exam (after Level 5, Levels 2 to 5) and the final exam (after Level 10, Levels 6 to 10) are **original**, written from the course's lessons (root `CLAUDE.md`, Exam). Files `exams/partial.yaml`, `exams/final.yaml`.
 
 ## Source verification (conversion errors)
 

@@ -97,6 +97,8 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 - ch05-challenge: new chains y=4, Pi=(2,1,1): errors (.8, 1.6, 1.6); y-eta=5, Pi=(1,1,2): (2, 2, 1). gamma 1 to 4 on G=(1,.8), F=(.5,1.5), E=(.7,.3): pi1 .839 to .740. Counts update: A12 = 1.1/2.1 = .524.
 
+- exam-partial: Sprout garden robot; soil dry/moist prior .6/.4, P(low|x) .7/.2 (posterior .84, surprise .693, F(.5,.5) 1.003); lamp A=[[.9,.5],[.1,.5]], C=(.8,.2): G stay .537, water .400; f=-(Γ-Q)∇I with Γ=2·1, ∇I=(1,3): f=(4,-8), rate -20; y=6, η=2, Π=(1,3): μ=3; F=(1,2), G=(.5,1.5), E=(.6,.4): π1 .917 (γ=0 .803). Avoid these in the final exam.
+
 ## Chapter 6
 
 - ch06-recipe: loop labels $x\to y\to\mu\to u\to x$ (blanket-graph preset as in the blanket lesson); recipe order: system, form, variables and priors, process; model = inside the agent, process = outside. Running example for the level: two feeders (cue, left/right, reward side unknown). Blanket scale examples: neuron (receptor occupancy / vesicle release), nervous system (photoreceptors / oculomotor muscles), calculator.

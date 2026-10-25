@@ -42,7 +42,10 @@ never the whole file). In `course.yaml`, one level per chapter (Chapter 1 =
 the light intro level), each with planned lesson nodes (no `file:`): concept
 lessons in the order the source builds them, guided problems from proofs
 and worked examples, a traps round, an intuition round where formulas pile
-up, then map, review and challenge. Exams get their own levels. Copy the
+up, then map, review and challenge. Exams get their own levels: plan
+`exam-partial` right after the last level of the first half (level
+⌈N/2⌉) and `exam-final` after the last chapter (planned nodes, no `file:`),
+with or without a professor's exam (root `CLAUDE.md`, Exam). Copy the
 header comment of `courses/dg2gr/course.yaml` for the format.
 
 ## 5. Course CLAUDE.md

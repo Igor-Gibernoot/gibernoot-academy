@@ -1,0 +1,764 @@
+id: exam-partial
+title: Partial Exam
+kind: exam
+
+# Exam lesson (js/exam.js): `minutes`, `rules` (intro screen), `debrief`
+# (results screen), cards with `points`. First card = setting, then one block
+# per question (tag "Question N · …", ids qN-…). No hints beyond the exam's own.
+# Original exam (the course has no professor's exam): all numbers checked by script.
+
+minutes: 60
+
+rules: |
+  This is the **partial exam** on Levels 2 to 5 (Bayes and free energy, expected free energy, Markov blankets, generative models, message passing), in the format of a quiz exam.
+
+  - **One hour**, **10 points**, 5 questions. The bar at the top counts the time down; when it ends, the exam is submitted for you.
+  - **No feedback while you work.** Pick or type an answer and press *Next*. You can go back and change any answer until you submit.
+  - Questions are not equally weighted: the points are shown on each card.
+  - At the end, a submit slide shows which questions are still empty. Unanswered questions count as wrong.
+  - After submitting you get your score, and a **review** with your answer, the correct one and the explanation for each question.
+  - Work on **paper first** and do not open your notes. Logarithms are natural (nats). Numeric answers may be typed as decimals or fractions; three decimals are enough.
+
+  The setting (a garden robot) is the first card. Every question restates what it needs.
+
+debrief: |
+    Use the review to see where points went. The skills behind the five questions (2 points each):
+
+    - **Bayes and free energy** (Q1): the posterior from a joint, surprise, and the bound
+      $$F[Q,y] = \mathbb{E}_Q\big[\ln Q(x) - \ln P(y,x)\big] \ge -\ln P(y),$$
+      with gap $D_{\mathrm{KL}}[Q(x)\,\|\,P(x\mid y)]$.
+    - **Expected free energy** (Q2): $G = $ ambiguity $+$ risk, and the softmax
+      $$P(\pi) = \sigma(-\gamma G),$$
+      with preferences as a prior over outcomes.
+    - **Blankets and flow** (Q3): the blanket $b=(u,y)$ separates internal from external states, and at steady state the flow is
+      $$f = -(\Gamma - \mathsf{Q})\,\nabla_x\mathfrak{I},$$
+      where the circulation $\mathsf{Q}$ moves along level sets of surprise.
+    - **Generative models** (Q4): precision-weighted compromise, the Laplace variance from the curvature of $\ln p$, a forward prediction $\mathbf{o}=\mathbf{A}\mathbf{s}$, and counting policies.
+    - **Circuits** (Q5): where errors and predictions live in a cortical column, dopamine as the precision $\gamma$ of policies, and
+      $$\boldsymbol{\pi} = \sigma\big(\ln\mathbf{E} - \mathbf{F} - \gamma\mathbf{G}\big).$$
+
+    **Next:** Level 6 turns all of this into a recipe: how to choose the states, outcomes and policies of a model for a real question.
+
+cards:
+  - type: text
+    id: setting
+    title: The setting, a garden robot
+    body: |
+      **Sprout** is a garden robot. The soil it stands on is either **dry** or **moist**: this is a hidden state $x$, which Sprout cannot see. Its moisture sensor gives a reading $y$, either **low** or **high**. Sprout's generative model is
+
+      | Prior $P(x)$ | $P(y=\text{low}\mid x)$ |
+      |---|---|
+      | dry: $0.6$ | dry: $0.7$ |
+      | moist: $0.4$ | moist: $0.2$ |
+
+      so $P(y=\text{high}\mid x)$ is one minus the entry shown.
+
+      Later questions give Sprout a status lamp, a steady-state density, a one-level predictive-coding model, a two-state discrete model and a rule for choosing among policies. **Every question restates what it needs.** All logarithms are natural.
+
+  # ------------------------------------------------------------- Question 1
+  - type: numeric
+    id: q1a
+    points: 0.4
+    tag: Question 1 · Bayes and free energy
+    title: (a) The posterior
+    prompt: |
+      Sprout's prior is $P(\text{dry}) = 0.6$, $P(\text{moist}) = 0.4$, and its likelihood of a low reading is $P(\text{low}\mid\text{dry}) = 0.7$, $P(\text{low}\mid\text{moist}) = 0.2$. The sensor reads **low**. What is the posterior probability that the soil is dry, $P(\text{dry}\mid\text{low})$?
+    answer: 0.84
+    tolerance: 0.002
+    answerText: '0.84'
+    wrong:
+      - value: 0.7
+        feedback: |
+          That is the likelihood $P(\text{low}\mid\text{dry})$. The posterior also weighs the prior of each state and divides by the evidence.
+      - value: 0.42
+        feedback: |
+          That is the joint $P(\text{low},\text{dry}) = 0.6\times0.7$. It still has to be divided by the evidence $P(\text{low}) = 0.5$.
+      - value: 0.6
+        feedback: |
+          That is the prior. The reading is informative (low is much likelier in dry soil), so the belief must move.
+    explanation: |
+      Joints: $P(\text{low},\text{dry}) = 0.6\times0.7 = 0.42$ and $P(\text{low},\text{moist}) = 0.4\times0.2 = 0.08$. The evidence is their sum, $P(\text{low}) = 0.5$. Bayes' rule divides:
+      $$P(\text{dry}\mid\text{low}) = \frac{0.42}{0.5} = 0.84,$$
+      and $P(\text{moist}\mid\text{low}) = 0.16$.
+
+  - type: numeric
+    id: q1b
+    points: 0.3
+    tag: Question 1 · Bayes and free energy
+    title: (b) Surprise
+    prompt: |
+      With the same model, what is the surprise $\mathfrak{I}(y) = -\ln P(y)$ of the reading $y=\text{low}$, in nats? (Three decimals.)
+    answer: 0.693
+    tolerance: 0.002
+    answerText: '0.693'
+    wrong:
+      - value: 0.5
+        feedback: |
+          That is the evidence $P(\text{low})$ itself. Surprise is its negative logarithm.
+      - value: 0.357
+        feedback: |
+          That is $-\ln 0.7$, which uses the likelihood in dry soil. The surprise of the reading uses the evidence, summed over both states.
+      - value: 0.174
+        feedback: |
+          That is $-\ln 0.84$, the surprise of the dry-soil posterior. The surprise of a *reading* uses the evidence $P(y)$.
+    explanation: |
+      The evidence is $P(\text{low}) = 0.42 + 0.08 = 0.5$, so
+      $$\mathfrak{I}(\text{low}) = -\ln 0.5 = \ln 2 \approx 0.693.$$
+
+  - type: numeric
+    id: q1c
+    points: 0.5
+    tag: Question 1 · Bayes and free energy
+    title: (c) The free energy of a guess
+    prompt: |
+      Sprout has not computed the posterior and holds the guess $Q(\text{dry}) = Q(\text{moist}) = 0.5$. With joints $P(\text{low},\text{dry}) = 0.42$ and $P(\text{low},\text{moist}) = 0.08$ and the reading low, compute the variational free energy
+      $$F[Q,y] = \sum_x Q(x)\big[\ln Q(x) - \ln P(y,x)\big].$$
+      (Three decimals.)
+    answer: 1.003
+    tolerance: 0.003
+    answerText: '1.003'
+    wrong:
+      - value: 0.693
+        feedback: |
+          That is the surprise, the *minimum* of $F$, reached only at the exact posterior. The guess $Q=(0.5,0.5)$ is not the posterior, so $F$ is larger.
+      - value: 0.858
+        feedback: |
+          That is $F$ for $Q$ equal to the prior $(0.6,0.4)$. Here $Q=(0.5,0.5)$.
+      - value: 1.386
+        feedback: |
+          Check the sign convention: $F=\sum_x Q(x)[\ln Q(x)-\ln P(y,x)]$ averages over $Q$, with weights $0.5$ on each term, not a sum of the two terms.
+    explanation: |
+      Each term is weighted by $Q=0.5$:
+      $$F = 0.5\,[\ln 0.5 - \ln 0.42] + 0.5\,[\ln 0.5 - \ln 0.08].$$
+      The first bracket is $0.174$ and the second $1.833$, so $F = 0.5\times0.174 + 0.5\times1.833 \approx 1.003$, which is above the surprise $0.693$, as the bound requires.
+
+  - type: mcq
+    id: q1d
+    points: 0.3
+    tag: Question 1 · Bayes and free energy
+    title: (d) Where the bound is tight
+    prompt: |
+      In Sprout's model with the reading low, joints $P(\text{low},\text{dry}) = 0.42$, $P(\text{low},\text{moist}) = 0.08$, which guess $Q=(Q(\text{dry}),Q(\text{moist}))$ makes $F[Q,y]$ equal to the surprise $\mathfrak{I}(\text{low}) = 0.693$?
+    multiple: false
+    options:
+      - text: '$(0.84,\ 0.16)$'
+        correct: true
+      - text: '$(0.6,\ 0.4)$'
+        feedback: |
+          That is the prior. $F$ at the prior is $0.858$, above $0.693$: the gap is the divergence between the prior and the posterior.
+      - text: '$(0.7,\ 0.2)$ normalised to $(0.78,\ 0.22)$'
+        feedback: |
+          That is the likelihood column normalised, which ignores the prior. It is not the posterior, so $F>0.693$.
+      - text: '$(1,\ 0)$'
+        feedback: |
+          Putting all belief on the likeliest state is not the same as the posterior. Its $F$ is $-\ln 0.42 = 0.868$, still above the surprise.
+    explanation: |
+      The gap is $F - \mathfrak{I}(y) = D_{\mathrm{KL}}[Q(x)\,\|\,P(x\mid y)]$, which is zero only when $Q$ equals the posterior $P(x\mid y) = (0.84, 0.16)$.
+
+  - type: mcq
+    id: q1e
+    points: 0.5
+    tag: Question 1 · Bayes and free energy
+    title: (e) What is true of F
+    prompt: |
+      Let $F[Q,y] = \mathbb{E}_Q[\ln Q(x) - \ln P(y,x)]$ for a generative model $P(y,x)$ and any guess $Q(x)$ over hidden states. Select **all** the true statements.
+    multiple: true
+    options:
+      - text: '$F[Q,y]\ge -\ln P(y)$ for every guess $Q$.'
+        correct: true
+      - text: '$F[Q,y] = D_{\mathrm{KL}}[Q(x)\,\|\,P(x)] - \mathbb{E}_Q[\ln P(y\mid x)]$, the complexity minus the accuracy.'
+        correct: true
+      - text: 'The gap $F + \ln P(y)$ equals $D_{\mathrm{KL}}[Q(x)\,\|\,P(x\mid y)]$.'
+        correct: true
+      - text: 'To evaluate $F$ one first needs the evidence $P(y)=\sum_x P(y,x)$.'
+        feedback: |
+          Evaluating $F$ needs only the joint at each hidden state, weighted by $Q$. Its whole point is to bound the surprise *without* the sum over all hidden states, which is exactly what makes $P(y)$ hard.
+      - text: 'A very sharp $Q$ (putting all belief on one state) can make $F$ smaller than the surprise.'
+        feedback: |
+          The bound holds for every $Q$, sharp or not, because the gap is a KL divergence, which is never negative.
+      - text: 'The gap equals $D_{\mathrm{KL}}[P(x\mid y)\,\|\,Q(x)]$.'
+        feedback: |
+          The divergence has the arguments swapped. KL is asymmetric: the gap is $D_{\mathrm{KL}}[Q\,\|\,P(x\mid y)]$, averaged under $Q$.
+    explanation: |
+      Splitting $P(y,x)=P(y\mid x)P(x)$ gives complexity minus accuracy, and splitting $P(y,x) = P(x\mid y)P(y)$ gives $F = D_{\mathrm{KL}}[Q\,\|\,P(x\mid y)] - \ln P(y)$, so the bound follows from $D_{\mathrm{KL}}\ge0$. $F$ is computable from the joint alone, and the KL is not symmetric.
+
+  # ------------------------------------------------------------- Question 2
+  - type: numeric
+    id: q2a
+    points: 0.3
+    tag: Question 2 · Expected free energy
+    title: (a) Predicted outcomes of watering
+    prompt: |
+      Sprout now has a **status lamp** that shows green or red. The soil is moist or dry, and the lamp's likelihood is
+      $$\mathbf{A} = \begin{pmatrix}0.9 & 0.5\\ 0.1 & 0.5\end{pmatrix},$$
+      with rows (green, red) and columns (moist, dry). Sprout can **stay** idle, after which it believes $Q(\text{moist}\mid\text{stay}) = 0.5$, or **water**, after which it believes $Q(\text{moist}\mid\text{water}) = 0.8$. What is the predicted probability of a green lamp under **water**, $Q(\text{green}\mid\text{water})$?
+    answer: 0.82
+    tolerance: 0.002
+    answerText: '0.82'
+    wrong:
+      - value: 0.7
+        feedback: |
+          That is the prediction under **stay** ($0.9\times0.5+0.5\times0.5$). Under water the moist belief is $0.8$.
+      - value: 0.9
+        feedback: |
+          That is the green probability *if the soil is moist*. The prediction averages over the belief: $0.8$ moist and $0.2$ dry.
+      - value: 0.18
+        feedback: |
+          That is the probability of **red**. The question asks for green.
+    explanation: |
+      The prediction averages the likelihood over the belief about the state:
+      $$Q(\text{green}\mid\text{water}) = 0.9\times0.8 + 0.5\times0.2 = 0.82,$$
+      so $Q(\text{red}\mid\text{water}) = 0.18$.
+
+  - type: numeric
+    id: q2b
+    points: 0.4
+    tag: Question 2 · Expected free energy
+    title: (b) Ambiguity
+    prompt: |
+      With the same lamp, the **ambiguity** of a policy is the expected entropy of the lamp's likelihood,
+      $$\sum_x Q(x\mid\pi)\,H\big[P(y\mid x)\big],\qquad H[p]=-\sum_i p_i\ln p_i.$$
+      Under **water** ($Q(\text{moist})=0.8$, $Q(\text{dry})=0.2$), the moist column of $\mathbf{A}$ is $(0.9, 0.1)$ and the dry column is $(0.5, 0.5)$. What is the ambiguity of **water**, in nats? (Three decimals.)
+    answer: 0.399
+    tolerance: 0.002
+    answerText: '0.399'
+    wrong:
+      - value: 0.471
+        feedback: |
+          That is the entropy of the *predicted* outcomes $(0.82, 0.18)$. Ambiguity is the *expected entropy of the likelihood*: entropy per state first, then averaged over the belief about states.
+      - value: 0.509
+        feedback: |
+          That is the ambiguity of **stay** (belief $0.5/0.5$), not of water.
+      - value: 0.693
+        feedback: |
+          That is the entropy of the dry column alone. The moist column is sharper ($0.325$), and moist has weight $0.8$.
+    explanation: |
+      $H[(0.9,0.1)] = 0.325$ and $H[(0.5,0.5)] = \ln 2 = 0.693$, so
+      $$0.8\times0.325 + 0.2\times0.693 \approx 0.399.$$
+      A policy is ambiguous when it leads to states where the lamp says little.
+
+  - type: numeric
+    id: q2c
+    points: 0.4
+    tag: Question 2 · Expected free energy
+    title: (c) Risk of staying
+    prompt: |
+      Sprout's preferences are a prior over outcomes, $\mathbf{C} = (0.8, 0.2)$ for (green, red). Under **stay**, the predicted lamp is $Q(y\mid\text{stay}) = (0.7, 0.3)$. The **risk** of a policy is the divergence of the predicted outcomes from the preferred ones,
+      $$\text{risk} = D_{\mathrm{KL}}\big[Q(y\mid\pi)\,\|\,\mathbf{C}\big].$$
+      What is the risk of **stay**, in nats? (Three decimals.)
+    answer: 0.028
+    tolerance: 0.001
+    answerText: '0.028'
+    wrong:
+      - value: 0.0257
+        tolerance: 0.0003
+        feedback: |
+          That is the divergence with its arguments swapped, $D_{\mathrm{KL}}[\mathbf{C}\,\|\,Q(y\mid\text{stay})]$. In the risk, the *predicted* outcomes come first and the preferences second.
+      - value: 0.1
+        feedback: |
+          That is the difference of the green probabilities, $0.8-0.7$. The risk is a KL divergence, a sum of $Q\ln(Q/C)$ terms.
+    explanation: |
+      $$\begin{aligned}\text{risk} &= 0.7\ln\tfrac{0.7}{0.8} + 0.3\ln\tfrac{0.3}{0.2}\\ &= 0.7(-0.134) + 0.3(0.405)\\ &\approx 0.028.\end{aligned}$$
+      The prediction is already close to the preference, so the risk is small. The ambiguity $0.509$ of **stay** is what makes it costly.
+
+  - type: mcq
+    id: q2d
+    points: 0.3
+    tag: Question 2 · Expected free energy
+    title: (d) Which policy is likelier
+    prompt: |
+      With $G = \text{ambiguity} + \text{risk}$, the numbers for the two policies are: **stay**, ambiguity $0.509$ and risk $0.028$; **water**, ambiguity $0.399$ and risk $0.001$. Sprout assigns policies the prior probability $P(\pi)=\sigma(-G(\pi))$. Which statement is correct?
+    multiple: false
+    options:
+      - text: '**Water** is likelier: its $G\approx0.400$ is lower than $G\approx0.537$ of stay.'
+        correct: true
+      - text: '**Stay** is likelier: its risk is larger, so it is more "informative".'
+        feedback: |
+          A larger risk is a *cost*. $G$ adds the risk to the ambiguity, and the policy with the **lower** total is likelier.
+      - text: '**Water** is likelier because $G$ is the expected reward, and a higher reward is better.'
+        feedback: |
+          $G$ is not a reward: it is a quantity to be *minimised* (an expected free energy), and $P(\pi)=\sigma(-G)$ makes low $G$ likely. Water wins here, but because its $G$ is *lower*.
+      - text: 'Both are equally likely, since the risks are both close to zero.'
+        feedback: |
+          The ambiguities differ ($0.509$ against $0.399$), and $G$ is their sum with the risk. A gap of $0.137$ in $G$ is a real difference in probability.
+    explanation: |
+      $G_{\text{stay}} = 0.509+0.028 = 0.537$ and $G_{\text{water}} = 0.399+0.001 = 0.400$. A softmax of $-G$ favours the lower one: $P(\text{water}) = 1/(1+e^{-0.137}) \approx 0.534$.
+
+  - type: numeric
+    id: q2e
+    points: 0.4
+    tag: Question 2 · Expected free energy
+    title: (e) Sharper policy choice
+    prompt: |
+      Take $G_{\text{stay}} = 0.537$ and $G_{\text{water}} = 0.400$ and a precision $\gamma = 3$ over policies, so that $P(\pi) = \sigma(-\gamma G)$, the softmax over policies of $-\gamma G(\pi)$. What is the probability $P(\text{water})$? (Three decimals.)
+    answer: 0.602
+    tolerance: 0.003
+    answerText: '0.602'
+    wrong:
+      - value: 0.534
+        feedback: |
+          That is the probability for $\gamma=1$. A larger $\gamma$ multiplies the difference of $G$ and makes the choice more decisive.
+      - value: 0.5
+        feedback: |
+          That is the limit $\gamma = 0$, where $G$ is ignored. Here $\gamma = 3$ makes the lower $G$ count three times as much.
+      - value: 0.398
+        feedback: |
+          That is the probability of **stay**. The question asks for water, the policy with the lower $G$.
+    explanation: |
+      With two policies,
+      $$\begin{aligned}P(\text{water}) &= \frac{1}{1+e^{-\gamma\,\Delta G}}\\ &= \frac{1}{1+e^{-3\times0.137}}\\ &\approx 0.602,\end{aligned}$$
+      where $\Delta G = G_{\text{stay}}-G_{\text{water}}$.
+
+  - type: mcq
+    id: q2f
+    points: 0.2
+    tag: Question 2 · Expected free energy
+    title: (f) What the preferences are
+    prompt: |
+      In Sprout's model, $\mathbf{C} = (0.8, 0.2)$ over (green, red) is used inside the risk. How is it best described?
+    multiple: false
+    options:
+      - text: 'A prior belief about which outcomes Sprout expects to see; a preference is a prior, not a separate reward table.'
+        correct: true
+      - text: 'A reward table: green is worth $0.8$ units and red $0.2$ units, added up over time.'
+        feedback: |
+          Active inference has no separate reward function. Preferred outcomes are encoded as a prior probability over outcomes, and acting to make them likely is self-evidencing.
+      - text: 'The likelihood of the lamp given the soil, the matrix that maps states to outcomes.'
+        feedback: |
+          The likelihood is $\mathbf{A}$. $\mathbf{C}$ does not depend on the hidden state; it is a prior over outcomes.
+      - text: 'The probability that the world will actually produce a green lamp.'
+        feedback: |
+          $\mathbf{C}$ describes what Sprout *expects and prefers*. What the world actually does is set by the process, through the likelihood and the policy.
+    explanation: |
+      Preferences enter as a prior over outcomes, so the risk $D_{\mathrm{KL}}[Q(y\mid\pi)\,\|\,\mathbf{C}]$ is large for policies predicting outcomes the creature does not expect to see.
+
+  # ------------------------------------------------------------- Question 3
+  - type: mcq
+    id: q3a
+    points: 0.4
+    tag: Question 3 · Blankets and flow
+    title: (a) The blanket
+    prompt: |
+      Sprout and its world are split into **external** states $x$ (soil, weather), **sensory** states $y$ (the sensor), **active** states $u$ (the sprinkler and wheels) and **internal** states $\mu$ (Sprout's beliefs). The sensory and active states together form the **Markov blanket** $b=(u,y)$. Select **all** the true statements.
+    multiple: true
+    options:
+      - text: 'Given $b$, the internal states $\mu$ and the external states $x$ are independent.'
+        correct: true
+      - text: 'The internal states influence the external states only through the active states.'
+        correct: true
+      - text: 'The external states influence the internal states only through the sensory states.'
+        correct: true
+      - text: 'Given the sensory states $y$ alone, $\mu$ and $x$ are independent.'
+        feedback: |
+          The blanket needs *both* parts: the active states also carry influence between inside and outside, so conditioning on $y$ alone leaves a path through $u$.
+      - text: 'The external states act directly on the internal states.'
+        feedback: |
+          The blanket exists to forbid exactly that: the inside never touches the outside directly.
+    explanation: |
+      The blanket $b=(u,y)$ separates inside from outside: $\mu\perp x\mid b$. External states reach the inside through $y$, and the inside reaches the outside through $u$.
+
+  - type: order
+    id: q3b
+    points: 0.4
+    tag: Question 3 · Blankets and flow
+    title: (b) Why a creature minimises free energy
+    prompt: |
+      Put the argument from persistence to free energy in order.
+    steps:
+      - 'A creature that persists keeps returning to a small set of states, so its steady-state density is concentrated on them.'
+      - 'The average surprise of its sensory states under that density, their entropy, is therefore low.'
+      - 'The surprise of a reading cannot be computed directly, because it needs a sum over all hidden states.'
+      - 'The free energy $F$ is an upper bound on the surprise that can be computed from the model and a guess $Q$.'
+      - 'Perception adjusts $Q$ and action changes $y$, and both lower $F$.'
+    explanation: |
+      Persistence means occupying a small set of states (a concentrated density), hence low entropy of the sensory states. Surprise is intractable, so the creature bounds it by $F$, which perception (changing $Q$) and action (changing $y$) can both reduce.
+
+  - type: numeric
+    id: q3c
+    points: 0.4
+    tag: Question 3 · Blankets and flow
+    title: (c) The flow in one dimension
+    prompt: |
+      A one-dimensional state $x$ has the steady-state density $p(x) = \mathcal{N}(0, \sigma^2)$ with $\sigma^2 = 3$, and is kicked by random fluctuations of covariance $2\Gamma$ with $\Gamma = 1.5$. There is no circulation in one dimension. What is the flow $f(x)$ that keeps $p$ stationary, evaluated at $x = 2$?
+    answer: -1
+    tolerance: 0.005
+    answerText: '-1'
+    wrong:
+      - value: 1
+        feedback: |
+          The sign is wrong: the flow points *downhill* in surprise, back toward the peak at $x=0$, so at $x=2$ it is negative.
+      - value: -0.667
+        feedback: |
+          That is $-x/\sigma^2$, which forgets the factor $\Gamma = 1.5$ in front of the gradient of surprise.
+      - value: -3
+        feedback: |
+          Check the gradient of the surprise. For $p=\mathcal{N}(0,\sigma^2)$ the surprise is $\mathfrak{I}=x^2/(2\sigma^2)+\text{const}$, so $\partial_x\mathfrak{I}=x/\sigma^2$, not $x\sigma^2$.
+    explanation: |
+      The surprise of the steady state is $\mathfrak{I}(x) = x^2/(2\sigma^2) + \text{const}$, so $\partial_x\mathfrak{I} = x/\sigma^2$. The steady-state flow is
+      $$f = -\Gamma\,\partial_x\mathfrak{I} = -1.5\cdot\frac{x}{3},$$
+      which is $-1$ at $x=2$: a restoring flow toward the mode, balancing the kicks.
+
+  - type: numeric
+    id: q3d
+    points: 0.3
+    tag: Question 3 · Blankets and flow
+    title: (d) The flow with circulation
+    prompt: |
+      In two dimensions, at one point the gradient of surprise is $\nabla_x\mathfrak{I} = (1, 3)$. The fluctuation matrix is $\Gamma = 2\,\mathbb{1}$ (twice the identity) and the circulation matrix is
+      $$\mathsf{Q} = \begin{pmatrix}0 & 2\\ -2 & 0\end{pmatrix}.$$
+      What is the **first component** $f_1$ of the steady-state flow $f$ at that point?
+    answer: 4
+    tolerance: 0.01
+    answerText: '4'
+    wrong:
+      - value: -2
+        feedback: |
+          That is the first component of the flow without circulation, $-\Gamma\nabla_x\mathfrak{I} = (-2,-6)$. The circulation term $\mathsf{Q}\nabla_x\mathfrak{I}$ also contributes.
+      - value: -4
+        feedback: |
+          The overall sign is flipped: $f = -(\Gamma-\mathsf{Q})\nabla_x\mathfrak{I}$ has a minus in front, so the dissipative part points *down* the surprise gradient.
+      - value: -8
+        feedback: |
+          The circulation enters as $\Gamma - \mathsf{Q}$, not $\Gamma+\mathsf{Q}$. With the wrong sign you get $f=(-8,-4)$.
+    explanation: |
+      $$f = -(\Gamma-\mathsf{Q})\nabla_x\mathfrak{I},\qquad \Gamma-\mathsf{Q} = \begin{pmatrix}2&-2\\ 2&2\end{pmatrix}.$$
+      Applied to $(1,3)$ this gives $(2-6,\ 2+6) = (-4, 8)$, so $f = (4, -8)$ and $f_1 = 4$.
+
+  - type: numeric
+    id: q3e
+    points: 0.3
+    tag: Question 3 · Blankets and flow
+    title: (e) How fast the surprise falls
+    prompt: |
+      With $\nabla_x\mathfrak{I} = (1,3)$ and the flow $f = (4,-8)$ of the previous setup ($\Gamma = 2\,\mathbb{1}$, circulation $\mathsf{Q}=\begin{pmatrix}0&2\\-2&0\end{pmatrix}$), the state moves with velocity $f$. At what rate does its surprise change at that point,
+      $$\frac{d\mathfrak{I}}{dt} = \nabla_x\mathfrak{I}\cdot f\ ?$$
+    answer: -20
+    tolerance: 0.05
+    answerText: '-20'
+    wrong:
+      - value: 20
+        feedback: |
+          The sign is wrong: the flow descends the surprise, so the surprise decreases and the rate is negative.
+      - value: 0
+        feedback: |
+          Zero would hold for the circulation part alone, which moves along level sets of surprise. The dissipative part $\Gamma$ still lowers the surprise.
+      - value: -4
+        feedback: |
+          That is only the first component of $f$ times the first component of the gradient, $1\times4$ with a sign. The rate is the full dot product $1\cdot4 + 3\cdot(-8)$.
+    explanation: |
+      $$\nabla_x\mathfrak{I}\cdot f = 1\cdot4 + 3\cdot(-8) = -20.$$
+      The same number comes from $-\nabla_x\mathfrak{I}^{\top}\Gamma\,\nabla_x\mathfrak{I} = -2\,(1+9)$: the circulation $\mathsf{Q}$ drops out, because $\nabla_x\mathfrak{I}^{\top}\mathsf{Q}\,\nabla_x\mathfrak{I}=0$ for an antisymmetric $\mathsf{Q}$.
+
+  - type: mcq
+    id: q3f
+    points: 0.2
+    tag: Question 3 · Blankets and flow
+    title: (f) What circulation does
+    prompt: |
+      In the steady-state flow $f = -(\Gamma-\mathsf{Q})\nabla_x\mathfrak{I}$, $\mathsf{Q}$ is antisymmetric. What does the circulation term do?
+    multiple: false
+    options:
+      - text: 'It moves the state along surfaces of constant surprise: it changes the path, not the rate at which the surprise falls.'
+        correct: true
+      - text: 'It speeds up the descent of the surprise.'
+        feedback: |
+          Its contribution to $d\mathfrak{I}/dt$ is $\nabla_x\mathfrak{I}^{\top}\mathsf{Q}\,\nabla_x\mathfrak{I} = 0$ for antisymmetric $\mathsf{Q}$, so it does not speed anything up.
+      - text: 'It adds the random kicks to the state.'
+        feedback: |
+          The kicks are the fluctuations, with covariance $2\Gamma$. The circulation is a deterministic part of the flow.
+      - text: 'It pushes the state up the surprise gradient.'
+        feedback: |
+          It is perpendicular to the gradient, not against it. Going uphill would be a negative contribution of the dissipative part.
+    explanation: |
+      $\mathsf{Q}\nabla_x\mathfrak{I}$ is perpendicular to $\nabla_x\mathfrak{I}$, so it moves the state along level sets of surprise, as in an orbit, without changing the surprise.
+
+  # ------------------------------------------------------------- Question 4
+  - type: numeric
+    id: q4a
+    points: 0.3
+    tag: Question 4 · Generative models
+    title: (a) Predictive coding, one level
+    prompt: |
+      Sprout estimates a hidden cause $v$ from a data point $y$, with $y = v$ plus noise of precision $\Pi_y = 1$, and a prior $v\sim\mathcal{N}(\eta,\Pi_v^{-1})$ with mean $\eta=2$ and precision $\Pi_v=3$. The data is $y=6$. At the minimum of the free energy, what is the estimate $\mu$ of $v$ (the mode)?
+    answer: 3
+    tolerance: 0.005
+    answerText: '3'
+    wrong:
+      - value: 4
+        feedback: |
+          That is the plain average $(6+2)/2$. The two errors are weighted by their precisions, and the prior is three times as precise as the data.
+      - value: 2
+        feedback: |
+          That would trust the prior completely. The data has precision $1$, which is not zero, so the estimate moves toward $y$.
+      - value: 5
+        feedback: |
+          That weights the data by the prior's precision and the prior by the data's: the weights are swapped. The *more precise* source pulls harder.
+    explanation: |
+      At the minimum the precision-weighted errors balance:
+      $$\Pi_y\,(y-\mu) = \Pi_v\,(\mu-\eta),$$
+      which reads $1\cdot(6-\mu) = 3\,(\mu-2)$, so $\mu = 3$. Both weighted errors equal $3$.
+
+  - type: numeric
+    id: q4b
+    points: 0.3
+    tag: Question 4 · Generative models
+    title: (b) A more reliable sensor
+    prompt: |
+      Same model ($y=6$, $\eta=2$, $\Pi_v=3$), but the sensor is now three times as precise, $\Pi_y=3$. What is the new estimate $\mu$?
+    answer: 4
+    tolerance: 0.005
+    answerText: '4'
+    wrong:
+      - value: 3
+        feedback: |
+          That is the estimate for $\Pi_y=1$. A more precise sensor moves the estimate toward the data.
+      - value: 6
+        feedback: |
+          That would ignore the prior completely. The prior has precision $3$, equal to the sensor's, so it still pulls.
+    explanation: |
+      The balance $3\,(6-\mu) = 3\,(\mu-2)$ gives $\mu = 4$: with equal precisions the estimate sits halfway between data and prior mean.
+
+  - type: build
+    id: q4c
+    points: 0.3
+    tag: Question 4 · Generative models
+    title: (c) The compromise as a formula
+    prompt: |
+      Build the minimum $\mu^*$ of a one-level model with data $y$, prior mean $\eta$, data precision $\Pi_y$ and prior precision $\Pi_v$: a weighted average of $y$ and $\eta$ with weights proportional to the precisions.
+    prefix: '\mu^* ='
+    tiles:
+      - '\frac{\Pi_y\,y}{\Pi_y+\Pi_v}'
+      - '+'
+      - '\frac{\Pi_v\,\eta}{\Pi_y+\Pi_v}'
+      - '\frac{\Pi_v\,y}{\Pi_y+\Pi_v}'
+      - '\frac{\Pi_y\,\eta}{\Pi_y+\Pi_v}'
+    answers:
+      - ['\frac{\Pi_y\,y}{\Pi_y+\Pi_v}', '+', '\frac{\Pi_v\,\eta}{\Pi_y+\Pi_v}']
+      - ['\frac{\Pi_v\,\eta}{\Pi_y+\Pi_v}', '+', '\frac{\Pi_y\,y}{\Pi_y+\Pi_v}']
+    wrong:
+      - answer: ['\frac{\Pi_v\,y}{\Pi_y+\Pi_v}', '+', '\frac{\Pi_y\,\eta}{\Pi_y+\Pi_v}']
+        feedback: |
+          The weights are swapped: that gives the *less* precise source more pull. The data $y$ must be weighted by *its own* precision $\Pi_y$.
+      - answer: ['\frac{\Pi_y\,\eta}{\Pi_y+\Pi_v}', '+', '\frac{\Pi_v\,y}{\Pi_y+\Pi_v}']
+        feedback: |
+          The weights are swapped: that gives the *less* precise source more pull. The data $y$ must be weighted by *its own* precision $\Pi_y$.
+    explanation: |
+      Setting $\Pi_y(y-\mu)=\Pi_v(\mu-\eta)$ and solving gives $\mu^*=\dfrac{\Pi_y y+\Pi_v\eta}{\Pi_y+\Pi_v}$: each source is weighted by its own precision, and the weights sum to one.
+
+  - type: numeric
+    id: q4d
+    points: 0.4
+    tag: Question 4 · Generative models
+    title: (d) The Laplace variance
+    prompt: |
+      A hidden quantity $x>0$ has the log-joint, up to a constant that does not depend on $x$,
+      $$\ln p(y,x) = 6\ln x - 2x \qquad (y=6).$$
+      The Laplace approximation replaces the posterior by a Gaussian $\mathcal{N}(\mu,\Sigma)$ centred on the mode $\mu$ of $\ln p$, whose **precision** $\Sigma^{-1}$ is minus the second derivative of $\ln p$ at the mode. What is the variance $\Sigma$?
+    answer: 1.5
+    tolerance: 0.01
+    answerText: '1.5'
+    wrong:
+      - value: 0.667
+        feedback: |
+          That is the **precision** $\Sigma^{-1}=2/3$. The question asks for the variance, its inverse.
+      - value: 3
+        feedback: |
+          That is the mode $\mu=3$, where the first derivative vanishes. The variance comes from the second derivative.
+      - value: 0.5
+        feedback: |
+          That uses the second derivative at $x=1$ (or the wrong mode). Find the mode first: $6/x-2=0$.
+    explanation: |
+      The mode solves $\partial_x\ln p = 6/x - 2 = 0$, so $\mu = 3$. The second derivative is $-6/x^2 = -6/9 = -2/3$ at the mode, so the precision is $2/3$ and the variance is $\Sigma = 3/2 = 1.5$.
+
+  - type: numeric
+    id: q4e
+    points: 0.4
+    tag: Question 4 · Generative models
+    title: (e) A forward prediction
+    prompt: |
+      Discrete models write the hidden state $\mathbf{s}$ and the outcome $\mathbf{o}$ (the same objects as $x$ and $y$ above). Sprout's soil has two states (moist, dry), starts with the belief $\mathbf{s}_1=\mathbf{D}=(0.6, 0.4)$, and a chosen action moves it by
+      $$\mathbf{B} = \begin{pmatrix}0.8 & 0.1\\ 0.2 & 0.9\end{pmatrix},\qquad \mathbf{s}_2=\mathbf{B}\,\mathbf{s}_1,$$
+      while the lamp has likelihood
+      $$\mathbf{A} = \begin{pmatrix}0.9 & 0.2\\ 0.1 & 0.8\end{pmatrix},\qquad \mathbf{o}_2=\mathbf{A}\,\mathbf{s}_2,$$
+      with rows (green, red) and columns (moist, dry). What is the predicted probability of a **green** lamp at the second step?
+    answer: 0.564
+    tolerance: 0.002
+    answerText: '0.564'
+    wrong:
+      - value: 0.62
+        feedback: |
+          That is the prediction at the *first* step, $\mathbf{A}\mathbf{s}_1$. The question asks for the second step, after the transition $\mathbf{B}$.
+      - value: 0.436
+        feedback: |
+          That is the probability of **red** at the second step.
+      - value: 0.52
+        feedback: |
+          That is the belief in *moist* at the second step, $\mathbf{s}_2(\text{moist})$. The lamp prediction then multiplies by $\mathbf{A}$.
+    explanation: |
+      First the states: $\mathbf{s}_2 = \mathbf{B}\mathbf{s}_1 = (0.8\cdot0.6+0.1\cdot0.4,\ 0.2\cdot0.6+0.9\cdot0.4) = (0.52, 0.48)$. Then the outcomes: $\mathbf{o}_2(\text{green}) = 0.9\cdot0.52+0.2\cdot0.48 = 0.564$.
+
+  - type: mcq
+    id: q4f
+    points: 0.3
+    tag: Question 4 · Generative models
+    title: (f) Counting policies
+    prompt: |
+      A discrete model runs for $4$ time steps, so there are $3$ transitions. At each transition Sprout picks one of $3$ actions, and a **policy** is a full sequence of such choices. How many policies are there?
+    multiple: false
+    options:
+      - text: '$27$'
+        correct: true
+      - text: '$9$'
+        feedback: |
+          That is $3^2$, which counts two transitions. With $4$ steps there are $3$.
+      - text: '$12$'
+        feedback: |
+          Policies are sequences, so the choices multiply at each transition: $3\times3\times3$, not $3\times4$.
+      - text: '$81$'
+        feedback: |
+          That is $3^4$, one choice per time step. The final time step has no transition after it, so only $3$ choices are made.
+    explanation: |
+      A policy is a sequence of $3$ actions, each chosen among $3$: $3^3 = 27$. The number of policies grows exponentially with the horizon.
+
+  # ------------------------------------------------------------- Question 5
+  - type: mcq
+    id: q5a
+    points: 0.4
+    tag: Question 5 · Circuits
+    title: (a) The cortical column
+    prompt: |
+      In the proposed message-passing circuit of a cortical column (layers I to VI from the surface), prediction errors travel up the cortical hierarchy and predictions travel down. Select **all** the statements that belong to the proposal.
+    multiple: true
+    options:
+      - text: 'Ascending prediction errors leave from superficial pyramidal cells (layer III) and enter the spiny stellate cells of layer IV of the area above.'
+        correct: true
+      - text: 'Descending predictions leave from deep pyramidal cells (layers V and VI).'
+        correct: true
+      - text: 'Ascending errors are predicted to be carried at higher frequencies (gamma) than descending predictions (alpha and beta).'
+        correct: true
+      - text: 'Ascending errors arrive in the deep pyramidal cells of layer VI.'
+        feedback: |
+          Ascending input lands in layer IV, on the spiny stellate cells. Deep layers are where the descending predictions *start*.
+      - text: 'Descending predictions are carried at higher frequencies (gamma) than ascending errors (alpha and beta).'
+        feedback: |
+          The proposal is the reverse: errors, being the (squared) mismatch, are predicted to oscillate faster, in the gamma band, and predictions in the slower alpha and beta bands.
+    explanation: |
+      The mapping (a hypothesis, not established anatomy): error out of layer III, error in at layer IV, predictions out of the deep pyramidal cells, and a frequency split with gamma for errors and alpha/beta for predictions.
+
+  - type: mcq
+    id: q5b
+    points: 0.3
+    tag: Question 5 · Circuits
+    title: (b) Dopamine
+    prompt: |
+      In the discrete-time active inference scheme, a neuromodulator is proposed to play the role of the **precision $\gamma$ over policies**, the weight of the expected free energy $\mathbf{G}$ in the choice of a policy. Which one?
+    multiple: false
+    options:
+      - text: 'Dopamine'
+        correct: true
+      - text: 'Acetylcholine (precision of the likelihood $\mathbf{A}$)'
+        feedback: |
+          Acetylcholine is proposed for the precision of the likelihood mapping, the reliability of the sensory evidence.
+      - text: 'Noradrenaline (precision of the transitions $\mathbf{B}$)'
+        feedback: |
+          Noradrenaline is proposed for the precision of the transition beliefs, how much the model's dynamics are trusted.
+      - text: 'Serotonin, as the policies themselves'
+        feedback: |
+          Serotonin is linked to preferences, not to the precision of policies, and no neuromodulator *is* a policy.
+    explanation: |
+      Dopamine (from SNpc and VTA) is the proposed carrier of $\gamma$, the precision of policies. Acetylcholine goes with the likelihood precision, noradrenaline with the transition precision, and serotonin with preferences.
+
+  - type: numeric
+    id: q5c
+    points: 0.4
+    tag: Question 5 · Circuits
+    title: (c) Choosing a policy
+    prompt: |
+      Two policies have free energies $\mathbf{F}=(1, 2)$ and expected free energies $\mathbf{G}=(0.5, 1.5)$, and a habit prior $\mathbf{E}=(0.6, 0.4)$. The probability of policy $i$ is the softmax over the policies of
+      $$\ln\mathbf{E}_i - \mathbf{F}_i - \gamma\,\mathbf{G}_i.$$
+      With $\gamma = 1$, what is the probability of the **first** policy? (Three decimals.)
+    answer: 0.917
+    tolerance: 0.003
+    answerText: '0.917'
+    wrong:
+      - value: 0.8
+        feedback: |
+          That keeps only the gap in $\mathbf{G}$ (scores $-0.5$ and $-1.5$, difference $1$, $\sigma(1)=0.73$) and rounds, but the habit prior $\mathbf{E}$ and the evidence $\mathbf{F}$ also enter the scores, and they widen the gap.
+      - value: 0.6
+        feedback: |
+          That is the habit prior $\mathbf{E}_1$ alone. The policy is also scored by its past evidence $\mathbf{F}$ and its future expectation $\mathbf{G}$.
+      - value: 0.083
+        feedback: |
+          That is the probability of the **second** policy.
+    explanation: |
+      The scores are $\ln0.6-1-0.5 = -2.011$ and $\ln0.4-2-1.5 = -4.416$. Their difference is $2.405$, so
+      $$P(\text{policy }1) = \frac{1}{1+e^{-2.405}} \approx 0.917.$$
+
+  - type: numeric
+    id: q5d
+    points: 0.3
+    tag: Question 5 · Circuits
+    title: (d) Without dopamine
+    prompt: |
+      Same two policies ($\mathbf{F}=(1,2)$, $\mathbf{G}=(0.5,1.5)$, $\mathbf{E}=(0.6,0.4)$) with the rule that assigns policy $i$ the softmax of $\ln\mathbf{E}_i-\mathbf{F}_i-\gamma\mathbf{G}_i$, but now with $\gamma=0$. What is the probability of the **first** policy? (Three decimals.)
+    answer: 0.803
+    tolerance: 0.003
+    answerText: '0.803'
+    wrong:
+      - value: 0.917
+        feedback: |
+          That is the value for $\gamma=1$. With $\gamma=0$ the term $\gamma\mathbf{G}$ vanishes.
+      - value: 0.6
+        feedback: |
+          That is the habit prior alone. $\mathbf{F}$ still contributes when $\gamma=0$; only $\mathbf{G}$ is switched off.
+      - value: 0.5
+        feedback: |
+          That would hold if all three terms vanished. Only $\mathbf{G}$ is switched off by $\gamma=0$; $\mathbf{E}$ and $\mathbf{F}$ still favour the first policy.
+    explanation: |
+      The scores are $\ln0.6-1=-1.511$ and $\ln0.4-2=-2.916$. Their difference is $1.405$, so $P(\text{policy }1)=1/(1+e^{-1.405})\approx0.803$. The first policy is likelier here because of its habit and its fit to the past, not because of its expected free energy.
+
+  - type: mcq
+    id: q5e
+    points: 0.3
+    tag: Question 5 · Circuits
+    title: (e) The basal ganglia
+    prompt: |
+      In the proposed basal ganglia circuit, the policy probability is $\sigma(\ln\mathbf{E}-\mathbf{F}-\gamma\mathbf{G})$ and the output nucleus (the internal pallidum) carries it. Which pairing of pathway and term is proposed?
+    multiple: false
+    options:
+      - text: 'The direct pathway carries the term $-\gamma\mathbf{G}$ (a net inhibitory effect of the expected free energy), and the indirect pathway the habit term $+\ln\mathbf{E}$.'
+        correct: true
+      - text: 'The direct pathway carries the habit term $\ln\mathbf{E}$, and the indirect pathway carries $-\gamma\mathbf{G}$.'
+        feedback: |
+          The pairing is swapped. The indirect pathway (external pallidum and subthalamic nucleus) has net sign $(-)(-)(+)=+$, which matches the positive habit term.
+      - text: 'Both pathways carry $\mathbf{G}$, one with each sign, and the habit prior is not represented.'
+        feedback: |
+          The habit prior $\mathbf{E}$ is part of the rule, and the proposal gives it a pathway.
+      - text: 'The pathways carry $\mathbf{F}$ and $\mathbf{G}$, and the habit term comes from the cerebellum.'
+        feedback: |
+          The proposed striatal circuit pairs the direct pathway with $\mathbf{G}$ and the indirect pathway with the habit prior $\mathbf{E}$; the cerebellum is not part of it.
+    explanation: |
+      The signs line up: the direct pathway has net sign $-$, matching $-\gamma\mathbf{G}$, and the indirect pathway has net sign $(-)(-)(+)=+$, matching $+\ln\mathbf{E}$.
+
+  - type: mcq
+    id: q5f
+    points: 0.3
+    tag: Question 5 · Circuits
+    title: (f) A prediction about dopamine loss
+    prompt: |
+      If dopamine is the precision $\gamma$ of policies in $\sigma(\ln\mathbf{E}-\mathbf{F}-\gamma\mathbf{G})$, what does the theory predict for a creature with strongly reduced dopamine ($\gamma\to0$)?
+    multiple: false
+    options:
+      - text: 'Its choices are set mostly by habit and past evidence; the expected free energy of the future has little influence, so behaviour is less goal-directed.'
+        correct: true
+      - text: 'Its choices become uniformly random across all policies.'
+        feedback: |
+          Only the $\gamma\mathbf{G}$ term vanishes. The habit prior $\mathbf{E}$ and the evidence $\mathbf{F}$ still shape the choice, so behaviour is biased, not random.
+      - text: 'It always picks the policy with the lowest $\mathbf{G}$, because $\gamma$ is small.'
+        feedback: |
+          A *large* $\gamma$ would make the lowest-$\mathbf{G}$ policy dominate. With $\gamma\to0$ the influence of $\mathbf{G}$ disappears.
+      - text: 'Its perception of the current state fails, but its choice of policies is unchanged.'
+        feedback: |
+          Dopamine as $\gamma$ acts on the *choice of policies*, which is what changes. Perception is the job of other precisions, such as the likelihood precision.
+    explanation: |
+      With $\gamma\to0$ the softmax depends on $\ln\mathbf{E}-\mathbf{F}$ only, so habit and past evidence dominate and the future-oriented term is silenced.
