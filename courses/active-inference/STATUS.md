@@ -1,25 +1,19 @@
 # Status
 
-Session start: read only **Current** (`sed -n '/^## Current (2026-10-24)
-
-- **State:** Level 1 fully built. Level 2: `ch02-perception-inference` built (16 cards, belief-mixer relabelled). Source 2.2 (box 2.1, Eq. 2.1) verified; Eq. 2.2-2.4 and Table 2.1 not yet.
-- **Next unit:** `ch02-approximate-inference` (why exact Bayes is too costly; approximate posterior $Q$). Then `ch02-action-inference` (homeostat), WIDGET `free-energy-bound`, `ch02-free-energy`, `ch02-free-energy-bound`, `ch02-free-energy-traps`, `ch02-expected-free-energy`, WIDGET `policy-scorer`, `ch02-efe-parts`, `ch02-efe-decomposition`, `ch02-intuition-free-energy`, `ch02-map`, `ch02-challenge` (two sessions).
-- **Notation:** Level 2 uses $x$ (hidden state), $y$ (observation) as in section 2.2; "likelihood" = $P(y\mid x)$, "evidence" = $P(y)$. Precision $\gamma$ not yet PDF-verified. See CONVENTIONS Chapter 2.
-- **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
-
-## Log/p' courses/active-inference/STATUS.md`).
+Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/p' courses/active-inference/STATUS.md`).
 Session end: update Current in place (keep it under ~40 lines: replace, don't append) and add a
 3-line Log entry at the top of the Log, ending "Conventions fixed here: ..."; copy those conventions
 into the chapter's section of `CONVENTIONS.md`, not into Current.
 
 ## Current (2026-10-24)
 
-- **State:** Level 1 fully built: `ch01-persist` (15, homeostat card 4), `ch01-guessing` (11), `ch01-acting` (11), `ch01-map`, `ch01-challenge`. Source 1.1-1.3 verified; 1.4.1 prose only.
-- **Next unit:** `ch02-perception-inference` (Level 2). Level 1 sign of G is already the book's (mismatch minus information gained, lower is better); see CONVENTIONS Chapter 1.
-- **Conventions:** `CONVENTIONS.md`, one section per chapter.
+- **State:** Level 1 fully built. Level 2: `ch02-perception-inference` built (16 cards, belief-mixer relabelled). Source 2.2 (box 2.1, Eq. 2.1) verified; Eq. 2.2-2.4 and Table 2.1 not yet.
+- **Next unit:** `ch02-approximate-inference` (why exact Bayes is too costly; approximate posterior $Q$). Then `ch02-action-inference` (homeostat), WIDGET `free-energy-bound`, `ch02-free-energy`, `ch02-free-energy-bound`, `ch02-free-energy-traps`, `ch02-expected-free-energy`, WIDGET `policy-scorer`, `ch02-efe-parts`, `ch02-efe-decomposition`, `ch02-intuition-free-energy`, `ch02-map`, `ch02-challenge` (two sessions).
+- **Notation:** Level 2 uses $x$ (hidden state), $y$ (observation) as in section 2.2; "likelihood" = $P(y\mid x)$, "evidence" = $P(y)$. Precision $\gamma$ not yet PDF-verified. See CONVENTIONS Chapter 2.
 - **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
 
 ## Log
+- 2026-10-24 ch02-perception-inference (concept, 16 cards): hook on what is multiplied, belief-mixer relabelled (toggle off), names prior/likelihood/posterior, generative model, product rule, order+build derivation of Bayes, normaliser = evidence, numeric 0.36 and 42%/25%, two traps. Deviation decided: book's x/y instead of plan's s/o. Conventions fixed here: x, y notation; likelihood vs evidence words; garden numbers.
 - 2026-10-24 ch01-persist fix: homeostat reduced-mode card after the guess card (guess first, widget tests it; 15 cards); room now cold (22 C) in hook and guess; widget drift 0.04 (0.08 left 'Keep acting' at ~35.6, outside the band); headless: 'Do nothing' ends outside, 'Keep acting' inside (~36.3); roadmap table uses level/lesson titles; ASCII loop diagram fine at phone width. No new source formulas. Conventions fixed here: persist demo room 22, drift 0.04, actRate 0.8.
 
 - 2026-10-24 ch01-challenge problems 4-5 built (25 cards total): p4 surprise ranking 37/35/41/28 (errors 0,2,-4,9; distance outside band 0,1,3,8), traps big-error and low-surprise-still-acts; p5 rustle 31/31/38%, policies flee 5 vs look closer 6, sharp senses (0.05,0.05,0.9 -> fox 82%) flips to flee. Validate and shots clean. Conventions fixed here: see CONVENTIONS ch01-challenge.
@@ -36,4 +30,3 @@ Conventions fixed here: none yet.
 
 ### 2026-10-24 sign fix
 Expected free energy in Level 1 (acting, map, challenge p3/p5 and summary) rebuilt as G = mismatch - information gained, lower is better (was sign-flipped, bigger better). New numbers: p3 (mismatch, info) rock (2,0), look (4,3), stay (7,0) -> scores 2/1/7, answer 1; day two look (4,0) -> 4, rock wins; p5 flee (3,0), look closer (5,3) -> 3/2, answer 2; sharp belief: look closer ~5 > 3. Source prose checked (sources/VERIFIED.md), no formula used. Conventions fixed here: sign of G; words mismatch / information gained.
-- 2026-10-24 ch02-perception-inference (concept, 16 cards): hook on what is multiplied, belief-mixer relabelled (toggle off), names prior/likelihood/posterior, generative model, product rule, order+build derivation of Bayes, normaliser = evidence, numeric 0.36 and 42%/25%, two traps. Deviation decided: book's x/y instead of plan's s/o. Conventions fixed here: x, y notation; likelihood vs evidence words; garden numbers.
