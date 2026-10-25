@@ -6,7 +6,7 @@ cards:
     id: intro
     title: "Harder: the whole of Level 5 in five problems"
     body: |
-      Five problems that **combine** what this level taught, in two sittings (problems 1 to 3 now, 4 and 5 in the next part). Every number can be checked by hand (a calculator with $\exp$ helps), and every answer comes with the reason. No hints about which formula to use: you recall it. Logarithms are natural.
+      Five problems that **combine** what this level taught. Every number can be checked by hand (a calculator with $\exp$ helps), and every answer comes with the reason. No hints about which formula to use: you recall it. Logarithms are natural.
 
       The toolkit, in five lines:
 
@@ -19,7 +19,8 @@ cards:
       1. Precision as a gain, and sensory attenuation.
       2. The policy posterior and the two basal ganglia pathways.
       3. A discrete level over a continuous one, and the mixture of beliefs.
-      4. and 5. next part.
+      4. Circuits and loops: messages, frequencies and the basal ganglia.
+      5. Learning against gain, and a hierarchy.
 
   # ---------------------------------------------------------------- Problem 1
   - type: numeric
@@ -210,4 +211,172 @@ cards:
     body: |
       - **A state predicts**: each discrete state supplies a prior mean $\eta_s$ for the continuous cause, and the data choose among states by $Q=\sigma(-F)$ ($F_{\text{left}}=2.25$, $F_{\text{right}}=0.25$, $Q(\text{right})=0.881$).
       - **Mixtures between areas**: the message is $\mathbf s=\sum_\pi\pi\,\mathbf s_\pi$ ($0.645$ and $0.355$ here).
-      - The next part brings together microcircuit messages, the motor loop and the basal ganglia, neuromodulation and learning, and a hierarchy.
+      - Next: microcircuit messages and the basal ganglia (Problem 4), then learning and a hierarchy (Problem 5).
+
+  # ---------------------------------------------------------------- Problem 4
+  - type: numeric
+    id: p4-chain
+    tag: Problem 4 · Circuits and loops
+    prompt: |
+      **Problem 4.** A chain of three identity predictions has errors $\epsilon_y=y-\mu_1$ (data against the lower belief), $\epsilon_x=\mu_1-\mu_2$ (lower against upper belief) and $\epsilon_v=\mu_2-\eta$ (upper belief against its prior), with $y=4$, $\eta=0$ and precisions $\Pi_y=2$, $\Pi_x=1$, $\Pi_v=1$. At the minimum of $F=\tfrac12\sum\Pi\epsilon^2$ the weighted errors $\Pi\epsilon$ are all equal and the three errors add up to $y-\eta$. What is the error $\epsilon_x$ held by the middle error units? (decimal)
+    answer: 1.6
+    tolerance: 0.01
+    wrong:
+      - { value: 1.333, feedback: 'That splits $y-\eta=4$ into three equal parts. The precisions are not equal, so the errors are not either: each error is inversely proportional to its precision.' }
+      - { value: 0.8, feedback: 'That is $\epsilon_y$, the error with the highest precision ($\Pi_y=2$), hence the smallest in this chain. The middle error has precision $1$.' }
+      - { value: 2, feedback: 'The three errors must add up to $y-\eta=4$; with $\epsilon_x=2$ the other two would have to sum to $2$ while having weighted errors equal to $4$ and $2$, which they cannot.' }
+    explanation: |
+      Call the common weighted error $c$. Then $\epsilon_y=c/2$, $\epsilon_x=c$, $\epsilon_v=c$, and
+      $$c\left(\tfrac12+1+1\right)=4$$
+      gives $c=1.6$. So $\epsilon_y=0.8$, $\epsilon_x=\epsilon_v=1.6$: the sum is $4$, and the errors are small where the precision is high.
+
+  - type: mcq
+    id: p4-layers
+    tag: Problem 4 · Circuits and loops
+    prompt: |
+      In the cortical column mapping proposed for these messages (six layers numbered from the surface, I to VI), the units of one area exchange messages with the area below and the area above. Which account is right?
+    options:
+      - text: 'The error from the area below enters the spiny stellate cells of layer IV; the error leaves the superficial pyramidal cells of layer III toward the area above; the descending prediction leaves the deep pyramidal cells.'
+        correct: true
+      - text: 'The error leaves the deep layers toward the area above, and the prediction from above enters layer III.'
+        feedback: |
+          The roles are swapped. Ascending messages are errors and they leave from the superficial layer III; the deep layers are where descending predictions start.
+      - text: 'The error enters layer IV, and the descending prediction also leaves from layer III, since an area has only one output layer.'
+        feedback: |
+          An area has two outputs: errors going up (layer III) and predictions going down (deep layers). Keeping them in separate populations is what lets the two messages have different signs and frequencies.
+      - text: 'Errors are carried by the deep pyramidal cells, and expectations only by layer IV.'
+        feedback: |
+          Expectations live in the layer II and deep pyramidal cells; layer IV is the entry for the incoming error, not the store of beliefs.
+    explanation: |
+      This is a hypothesis about which population could carry which quantity, not settled anatomy: error in at layer IV, error out from layer III, expectations in layer II and the deep layers, prediction out from the deep layers.
+
+  - type: numeric
+    id: p4-freq
+    tag: Problem 4 · Circuits and loops
+    prompt: |
+      A belief oscillates as $\mu(t)=\sin(2\pi\cdot10\,t)$, with $t$ in seconds, so at $10$ Hz. A nonlinear prediction $g(\mu)=\mu^2$ is compared with the data to form an error. At what frequency (in Hz) does the oscillating part of $g(\mu)$, and hence of the error built from it, vary?
+    answer: 20
+    tolerance: 0.5
+    wrong:
+      - { value: 10, feedback: 'That is the frequency of $\mu$ itself. Squaring is nonlinear and changes the frequency.' }
+      - { value: 5, feedback: 'Squaring does not slow a signal down; it makes it faster.' }
+    explanation: |
+      $$\sin^2\theta=\tfrac12\,(1-\cos2\theta)$$
+      with $\theta=2\pi\cdot10\,t$, so the oscillation has angle $2\pi\cdot20\,t$: $20$ Hz, plus a constant. This is the reasoning behind the proposal that ascending errors may be faster (gamma) than descending predictions (alpha and beta), an empirical claim, not a theorem.
+
+  - type: mcq
+    id: p4-bg
+    tag: Problem 4 · Circuits and loops
+    prompt: |
+      Two policies have $\mathbf G=(1,\,0.8)$, $\mathbf F=(0.5,\,1.5)$, $\mathbf E=(0.7,\,0.3)$, and $\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\gamma\mathbf G)$. With $\gamma=1$, $\pi_1=0.839$. If dopamine could be mapped to $\gamma$ and it rises to $\gamma=4$, what happens to $\pi_1$, and why?
+    options:
+      - text: 'It falls to about $0.740$: $\gamma$ only multiplies $\mathbf G$, which favours policy 2, so the pull of $\mathbf G$ toward policy 2 grows while $\mathbf E$ and $\mathbf F$ stay the same.'
+        correct: true
+      - text: 'It rises, because dopamine signals reward and more dopamine makes the rewarded policy more likely.'
+        feedback: |
+          Here $\gamma$ is a precision (a gain) on $\mathbf G$, not a reward. It makes the current $\mathbf G$ count more, and $\mathbf G$ favours policy 2. Policy 1 loses, although it was the more probable.
+      - text: 'It stays $0.839$, because $\gamma$ only affects the sharpness of the choice, not which policy is preferred.'
+        feedback: |
+          A gain on a term that points toward one policy does move the posterior toward that policy when other terms disagree. $\gamma$ sharpens only if all terms agree; here $\mathbf E$ and $\mathbf F$ favour policy 1.
+      - text: 'It falls to $0.5$, since a high precision removes the habit $\mathbf E$.'
+        feedback: |
+          $\gamma$ does not touch $\ln\mathbf E$ or $\mathbf F$. The log-odds become $0.847+1-4\cdot0.2=1.047$, still positive, so $\pi_1=0.740$.
+    explanation: |
+      The log-odds of policy 1 against 2 are $\ln\tfrac{0.7}{0.3}+(1.5-0.5)-\gamma(1-0.8)=1.847-0.2\gamma$. For $\gamma=1$ this is $1.647$ ($0.839$); for $\gamma=4$ it is $1.047$ ($0.740$). A gain does not choose a direction: it scales the evidence in $\mathbf G$.
+
+  - type: text
+    id: p4-close
+    tag: Problem 4 · Circuits and loops
+    title: "Problem 4: what it used"
+    body: |
+      - **Chain of errors**: at the minimum the weighted errors $\Pi\epsilon$ are equal and the errors add up to $y-\eta$ ($0.8,\ 1.6,\ 1.6$ here).
+      - **Column mapping** (a proposal): error in at layer IV, error out from layer III, prediction out from the deep layers.
+      - **Frequency**: $\sin^2\theta=\tfrac12(1-\cos2\theta)$ doubles $10$ Hz to $20$ Hz.
+      - **Gain on $\mathbf G$**: in $\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\gamma\mathbf G)$, a larger $\gamma$ moves $\pi_1$ from $0.839$ to $0.740$.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: numeric
+    id: p5-counts
+    tag: Problem 5 · Learning and hierarchy
+    prompt: |
+      **Problem 5.** A likelihood matrix $A$ is learned from counts $a$ (concentration parameters), with $A_{ij}=a_{ij}/\sum_k a_{kj}$ for the column of state $j$. A model starts with all counts equal to $1$ (two outcomes, two states). It then sees outcome $\mathbf o=(1,0)$ (the first outcome) while its belief about the state is $\mathbf s=(0.9,\,0.1)$, and updates $a\leftarrow a+\mathbf o\otimes\mathbf s$, so $a_{ij}$ grows by $o_i\,s_j$. What is the new $A_{11}$ (first outcome, first state)? (3 decimals)
+    answer: 0.655
+    tolerance: 0.002
+    wrong:
+      - { value: 0.5, feedback: 'That is the value before learning: equal counts. The update added $o_1 s_1=0.9$ to $a_{11}$.' }
+      - { value: 1.9, feedback: 'That is the new count $a_{11}$, not yet a probability. Divide by the column sum $a_{11}+a_{21}$.' }
+      - { value: 0.9, feedback: 'That is the belief $s_1$ itself. The counts are added to the old ones, and the column is normalised.' }
+    explanation: |
+      Only $a_{11}$ changes in the first column: $a_{11}=1+1\cdot0.9=1.9$ and $a_{21}=1+0\cdot0.9=1$. So
+      $$A_{11}=\frac{1.9}{1.9+1}=0.655$$
+      The second column also moves, but less: $a_{12}=1+1\cdot0.1=1.1$, so $A_{12}=1.1/2.1=0.524$.
+
+  - type: mcq
+    id: p5-fast-slow
+    tag: Problem 5 · Learning and hierarchy
+    prompt: |
+      Acetylcholine could be mapped to the precision of the likelihood (a gain), while learning changes the counts $a$ themselves. Which statement contrasts the two correctly?
+    options:
+      - text: 'Gain changes how much a signal is trusted right now and can change within a single trial; learning accumulates over many trials and changes what the signal means (the mapping $A$).'
+        correct: true
+      - text: 'Gain and learning are the same process seen at two speeds: a large enough gain eventually becomes a new $A$.'
+        feedback: |
+          They are different variables. A gain rescales the weight of an error but leaves $A$ as it was; only the count update $a\leftarrow a+\mathbf o\otimes\mathbf s$ changes $A$.
+      - text: 'Learning is fast because every observation changes $A$ entirely; gain is slow because it must be tuned over many trials.'
+        feedback: |
+          The speeds are the other way round. One observation changes $A$ by one small increment (from $0.5$ to $0.655$ above), so learning is a slow accumulation; a gain can switch within a trial.
+    explanation: |
+      Fast: the gain on an error, which sets its influence in the present. Slow: the counts, which build up from many observations and change what an outcome means about its state.
+
+  - type: numeric
+    id: p5-split
+    tag: Problem 5 · Learning and hierarchy
+    prompt: |
+      A three-level chain has errors $\epsilon_y=y-\mu_1$, $\epsilon_x=\mu_1-\mu_2$, $\epsilon_v=\mu_2-\eta$ with precisions $\Pi_y=1$, $\Pi_x=1$, $\Pi_v=2$. A higher decision sets $\eta=-1$ while the data are $y=4$. At the minimum of $F$, what is $\epsilon_v$? (decimal)
+    answer: 1
+    tolerance: 0.01
+    wrong:
+      - { value: 1.667, feedback: 'That splits $y-\eta=5$ into three equal parts. The errors are inversely proportional to their precisions, so the equal split holds only for equal precisions.' }
+      - { value: 2, feedback: 'That is $\epsilon_y$ and $\epsilon_x$ (precision $1$). The error with the doubled precision is half as big.' }
+    explanation: |
+      The errors add up to $y-\eta=5$, and $\Pi\epsilon=c$ for all three: $c\left(1+1+\tfrac12\right)=5$ gives $c=2$. So $\epsilon_y=\epsilon_x=2$ and $\epsilon_v=1$. A decision that contradicts the data is felt at every level, less where the precision is higher.
+
+  - type: mcq
+    id: p5-slower
+    tag: Problem 5 · Learning and hierarchy
+    prompt: |
+      A recording shows that regions higher in a cortical hierarchy have slower dynamics. A student writes: "The model proves that higher levels must be slower." Which reply is right?
+    options:
+      - text: 'It is a proposal, not a result: if higher levels hold beliefs about slowly changing causes (a category, a goal), the model predicts slower activity there. The data are consistent with that and could test it.'
+        correct: true
+      - text: 'It is a theorem: a level that predicts the one below must always change more slowly than it.'
+        feedback: |
+          Nothing in the update equations forces that. The slowness is an assumption about the timescales of the causes represented, so a model with a fast cause at the top is perfectly allowed.
+      - text: 'It is false: the messages go in both directions at the same moment, so no level can be slower.'
+        feedback: |
+          Simultaneous messages do not mean equal timescales. The beliefs may differ in how fast the cause they track changes, even if they all update at once.
+    explanation: |
+      The statement "higher means slower" comes from choosing slowly changing causes at the top, a design choice and a testable hypothesis, not a consequence of the maths.
+
+  - type: text
+    id: p5-close
+    tag: Problem 5 · Learning and hierarchy
+    title: "Problem 5: what it used"
+    body: |
+      - **Learning**: $a\leftarrow a+\mathbf o\otimes\mathbf s$ and $A_{ij}=a_{ij}/\sum_k a_{kj}$, here $0.5\to0.655$; slow, in contrast to the fast gain.
+      - **Error split**: $\Pi\epsilon$ equal along the chain, errors adding up to $y-\eta$ ($2,\ 2,\ 1$ here).
+      - **Higher means slower** is a proposal about the timescales of causes, not a result.
+
+  - type: text
+    id: challenge-summary
+    title: "The main formulas of the challenge"
+    body: |
+      - **Precision and errors**: $\mathcal N(m,\Pi^{-1})$ has mean $m$ and precision $\Pi$ (inverse variance); $F=\tfrac12\sum\Pi\epsilon^2$, and along a chain the weighted errors $\Pi\epsilon$ are equal at the minimum.
+      - **Messages**: ascending errors $\epsilon=\mu-g$ (expectation minus prediction), descending predictions $g$; $\sin^2\theta=\tfrac12(1-\cos2\theta)$ doubles the frequency.
+      - **Policy posterior**, with $\sigma$ the softmax, $\mathbf E$ the habit prior, $\mathbf F$ the variational free energy of each policy, $\mathbf G$ the expected free energy and $\gamma$ the precision on $\mathbf G$:
+        $$\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\gamma\mathbf G)$$
+      - **Mixture between discrete areas**, with $\mathbf s_\pi$ the state beliefs under policy $\pi$:
+        $$\mathbf s=\sum_\pi\pi\,\mathbf s_\pi$$
+      - **Learning**, with $a$ the counts, $\mathbf o$ the observed outcome and $\mathbf s$ the state belief:
+        $$a\leftarrow a+\mathbf o\otimes\mathbf s,\qquad A_{ij}=\frac{a_{ij}}{\sum_k a_{kj}}$$
+      - **Reading**: gain is fast and learning slow; the circuit mappings (layers, pathways, neuromodulators, slower upper levels) are proposals.

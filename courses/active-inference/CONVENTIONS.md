@@ -95,6 +95,8 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - ch05-neuromodulation: Table 5.1 (PDF p. 98): ACh zeta likelihood, NA omega transitions, DA gamma policies (SNpc, VTA), 5-HT chi 'preferences or interoceptive likelihood' (unsettled, text says only preferences). Unsubscripted omega = transition precision; Level 4 fluctuations are omega_x, omega_y. Numbers: y=2, eta=0, Pi=(4,1) mu*=1.6, Pi_y=1 mu*=1; G=(1,.8) sigma(-gamma G) policy 2: .550 (gamma 1), .646 (3), .690 (4), .5 (0); door wait,wait obs looks open at step 2: open belief .468 (A .8), .212 (A .55), .807 (A .95), prior .18; B stay .95 vs flat, obs open at step 1, D=(.5,.5): step 3 open .743 vs .5; counts a=ones, o=(1,0), s=(.9,.1): A11 = 1.9/2.9 = .655 (preview a <- a + o x s).
 - ch05-hierarchies: interface node $\tilde{\mathbf o}^{(2)}$ (figure labels: continuous level (1), discrete (2)); discrete state predicts prior mean $\eta$; toy $F_s=\tfrac12\Pi_y(y-\eta_s)^2$, $y=.5,\Pi_y=2,\eta=\mp1$: $Q(\text{right})=.881$; BMA $\pi=(.69,.31)$, $\mathbf s_{\pi}=(.8,.2),(.3,.7)$ gives $\mathbf s=(.645,.355)$; equal-precision chain $y-\eta=2$ gives errors $2/3$ each. Higher = slower is a proposal, not from the text.
 
+- ch05-challenge: new chains y=4, Pi=(2,1,1): errors (.8, 1.6, 1.6); y-eta=5, Pi=(1,1,2): (2, 2, 1). gamma 1 to 4 on G=(1,.8), F=(.5,1.5), E=(.7,.3): pi1 .839 to .740. Counts update: A12 = 1.1/2.1 = .524.
+
 ## Chapter 6
 
 - (none yet)
