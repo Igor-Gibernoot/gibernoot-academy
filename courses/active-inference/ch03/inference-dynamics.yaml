@@ -1,0 +1,286 @@
+id: ch03-inference-dynamics
+title: "Inference, Cognition and Stochastic Dynamics"
+kind: concept
+own: |
+  - **One dictionary, three vocabularies.** Physics, statistics and psychology describe the same job with different words. Here $y$ = what the creature senses, $x$ = the hidden cause of $y$, $Q(x)$ = the creature's belief about $x$, and $m$ = its generative model (how it thinks $y$ is generated). Minimising variational free energy $F$ (physics) is {{ maximising model evidence $P(y\mid m)$ and minimising surprisal (statistics), that is perception and action (psychology) }}.
+  - **The bound.** Surprise is $\mathfrak{I}(y\mid m)=-\ln P(y\mid m)$ and free energy is an upper bound on it, with the gap equal to the divergence between the belief $Q$ and the exact posterior:
+    {{ $$\begin{aligned}\mathfrak{I}(y\mid m)&\le F\\ F&=D_{\mathrm{KL}}\bigl[Q(x)\,\|\,P(x\mid y,m)\bigr]\\ &\quad-\ln P(y\mid m)\end{aligned}$$ }}
+    Both $F$ and surprise are minimised, never negated. Unlike the evidence, $F$ can be minimised efficiently.
+  - **Two jobs, two kinds of states.** Perception moves the internal states to shrink the divergence term toward $0$ (a belief equal to the exact posterior). Only action, by changing the sensations $y$, lowers the second term $-\ln P(y\mid m)$. A noncognitive system always has zero divergence; a cognitive one must first do the perceptual work.
+  - **Which free energy.** Variational free energy measures a **belief state**, not the particles of the body. It targets open, **nonequilibrium** systems that keep exchanging with the world. Written as an average over the belief $Q$:
+    {{ $$F=\mathbb{E}_{Q(x)}\bigl[-\ln P(y,x)\bigr]-H[Q(x)]$$ }}
+    The entropy $H[Q]$ of the **belief** enters with a minus sign: minimising $F$ favours broad beliefs ("keep options open"), not a disordered world.
+  - **Dictionary rows.** Attaining a nonequilibrium steady state = {{ approximate Bayesian inference = self-evidencing }}. Gradient descent on $F$ = gradient ascent on evidence = {{ neuronal dynamics }}. Choosing among policies $\pi$ with $P(\pi)=\sigma(-G)$, where $G$ is the expected free energy, = {{ planning as inference, the analogue of least Action }}.
+cards:
+  - type: text
+    id: hook
+    title: "One quantity, three names"
+    body: |
+      Ask a physicist, a statistician and a psychologist what a living creature is doing, and you will hear three vocabularies for the **same** job:
+
+      - the physicist: it *minimises variational free energy* (a quantity from statistical physics, here measuring the creature's **beliefs**);
+      - the statistician: it *maximises model evidence* $P(y)$, the probability its model gave to what it sensed (equivalently, it minimises the surprise $-\ln P(y)$);
+      - the psychologist: it *perceives and acts*.
+
+      Today we build the dictionary between them. First, try to guess how the first two fit together.
+
+  - type: mcq
+    id: vocab
+    prompt: |
+      A physicist says a creature is *minimising its variational free energy*. Which statement is the statistician's version of the same job?
+    options:
+      - text: 'It is maximising the model evidence of what it senses, that is, minimising surprise.'
+        correct: true
+      - text: 'It is maximising its surprise, to learn as much as possible.'
+        feedback: |
+          Tempting because "learning" sounds like it needs surprise. But free energy is an **upper bound on** surprise, so pushing free energy down pushes surprise down, never up.
+      - text: 'It is minimising the model evidence, to keep its model simple.'
+        feedback: |
+          Evidence and surprise are opposite sides of one number: surprise is $-\ln$ of the evidence. Minimising surprise means **maximising** evidence.
+      - text: 'It is maximising free energy, since a bigger bound is safer.'
+        feedback: |
+          The bound is an **upper** bound on surprise, so it is the small values of $F$ that guarantee small surprise. $F$ is minimised, never maximised.
+    explanation: |
+      Minimise variational free energy $F$ $\Leftrightarrow$ maximise model evidence $\Leftrightarrow$ minimise surprise. The three are linked by one inequality, which we now write with the model made explicit.
+
+  - type: numeric
+    id: model-evidence
+    prompt: |
+      Surprise and evidence **depend on the model** $m$ the creature uses to explain its sensations, so we write them $P(y\mid m)$ and $\mathfrak{I}(y\mid m)=-\ln P(y\mid m)$.
+
+      A creature senses $y=$ "low blood glucose". The hidden cause $x$ is **sated** or **hungry**, and low glucose is likely when hungry: $P(y\mid\text{sated})=0.1$, $P(y\mid\text{hungry})=0.9$. A creature with model $m_B$ expects to be hungry most of the time: $P(\text{sated})=0.2$, $P(\text{hungry})=0.8$.
+
+      What is the evidence $P(y\mid m_B)=\sum_x P(x)\,P(y\mid x)$ that this model gives to low glucose?
+    answer: 0.74
+    tolerance: 0.005
+    wrong:
+      - value: 0.26
+        feedback: |
+          That is the evidence under the **other** model, which expects to be sated ($P(\text{sated})=0.8$): $0.8\cdot0.1+0.2\cdot0.9=0.26$. Here the weights are the priors of $m_B$, $0.2$ and $0.8$.
+    hint: 'Weight each likelihood by its prior: $0.2\cdot0.1+0.8\cdot0.9$.'
+    explanation: |
+      $P(y\mid m_B)=0.2\cdot0.1+0.8\cdot0.9=0.02+0.72=0.74$. The same sensation has evidence $0.26$ for a creature that expects to be sated and $0.74$ for one that expects to be hungry: **the same data are surprising for one model and unsurprising for another**, which is why we write $m$.
+
+  - type: build
+    id: eq-build
+    prompt: |
+      The variational free energy of a belief $Q(x)$ about the hidden cause, for the model $m$ and sensation $y$, is the surprise plus a gap. Build it: first the gap (a divergence between the belief and the **exact posterior** $P(x\mid y,m)$), then the surprise.
+    prefix: 'F ='
+    tiles:
+      - 'D_{KL}[Q(x)\parallel P(x\mid y,m)]'
+      - '-\ln P(y\mid m)'
+      - '+\ln P(y\mid m)'
+      - 'D_{KL}[P(x\mid y,m)\parallel Q(x)]'
+    answers:
+      - ['D_{KL}[Q(x)\parallel P(x\mid y,m)]', '-\ln P(y\mid m)']
+    wrong:
+      - answer: ['D_{KL}[Q(x)\parallel P(x\mid y,m)]', '+\ln P(y\mid m)']
+        feedback: |
+          With a plus sign the second term would be $\ln P(y\mid m)\le 0$, and $F$ would fall **below** the surprise. The surprise is $-\ln P(y\mid m)$, positive, and the divergence is added on top.
+      - answer: ['D_{KL}[P(x\mid y,m)\parallel Q(x)]', '-\ln P(y\mid m)']
+        feedback: |
+          The divergence is not symmetric. The belief $Q$ sits in the first slot: $D_{KL}[Q\,\|\,P(x\mid y,m)]$, the average under $Q$ of how much more $Q$ commits than the exact posterior.
+    hint: 'The gap is zero when $Q$ equals the exact posterior, and the rest is the surprise.'
+    explanation: |
+      $$F=D_{\mathrm{KL}}\bigl[Q(x)\,\|\,P(x\mid y,m)\bigr]-\ln P(y\mid m).$$
+      Since a divergence is never negative, $F\ge-\ln P(y\mid m)=\mathfrak{I}(y\mid m)$: free energy is an **upper bound** on surprise, and the gap is exactly the divergence. The full chain reads $\mathfrak{I}(y\mid m)=-\ln P(y\mid m)\le F$, where $P(y\mid m)$ is the model evidence and $F$ the variational free energy.
+
+      Why distinguish three names for nearly one number? Because the evidence $P(y\mid m)$ needs a sum over all hidden causes, which is hard, while $F$ can be **minimised efficiently** by adjusting $Q$.
+
+  - type: numeric
+    id: glucose-surprise
+    prompt: |
+      A creature has a prior over its hidden state: $P(\text{sated})=0.8$, $P(\text{hungry})=0.2$ (it expects to be sated, so it expects high blood glucose). With $P(y\mid\text{sated})=0.1$ and $P(y\mid\text{hungry})=0.9$ for $y=$ "low glucose", the evidence is $P(y)=0.8\cdot0.1+0.2\cdot0.9=0.26$.
+
+      What is the surprise $\mathfrak{I}(y)=-\ln P(y)$ of sensing low glucose, in nats?
+    answer: 1.347
+    tolerance: 0.01
+    wrong:
+      - value: 0.26
+        feedback: |
+          That is the evidence $P(y)$ itself. The surprise is its negative logarithm, $-\ln 0.26$.
+      - value: -1.347
+        feedback: |
+          Surprise is $-\ln P(y)$ with $P(y)<1$, so it is positive. The sign flips twice: $\ln 0.26<0$ and the minus in front.
+    hint: '$\ln 0.26\approx-1.347$.'
+    explanation: |
+      $\mathfrak{I}(y)=-\ln 0.26\approx1.35$ nats. Low glucose is surprising because the prior says "sated" and "sated" rarely produces low glucose.
+
+  - type: mcq
+    id: predict-exact
+    prompt: |
+      Same creature: priors $0.8$ (sated) and $0.2$ (hungry), it senses low glucose, surprise $\approx1.35$ nats. It first holds the belief $Q=$ prior, so $F>1.35$. Perception then updates $Q$ to the **exact posterior** $P(x\mid y)$ (about $0.31$ sated, $0.69$ hungry). What is $F$ afterwards?
+    options:
+      - text: 'Exactly the surprise, $\approx1.35$ nats: the divergence is $0$ but the surprise term remains.'
+        correct: true
+      - text: '$0$: with the perfect belief, nothing is left to explain.'
+        feedback: |
+          Tempting: "perfect inference means no error". But the exact posterior removes only the **divergence**. The term $-\ln P(y)=1.35$ belongs to the sensation itself, and the belief cannot change that.
+      - text: 'About $0.26$ nats, the evidence.'
+        feedback: |
+          $0.26$ is the evidence $P(y)$, a probability. $F$ is measured in nats and sits on the scale of surprise, $-\ln0.26$.
+      - text: 'It is higher than before, because the belief became more committed.'
+        feedback: |
+          Setting $Q$ to the exact posterior is the **minimum** of $F$ over beliefs, so $F$ can only go down or stay.
+    explanation: |
+      At the exact posterior, $F=0+\mathfrak{I}(y)=1.35$. Try it with the widget.
+
+  - type: widget
+    id: widget-low
+    review: false
+    widget: free-energy-bound
+    config:
+      observation: "you sense low blood glucose"
+      causes:
+        - { name: sated, prior: 0.8, likelihood: 0.1 }
+        - { name: hungry, prior: 0.2, likelihood: 0.9 }
+      q: [0.8, 0.2]
+      presets:
+        - { label: "Q = prior", q: [0.8, 0.2] }
+        - { label: "All hungry", q: [0, 1] }
+    body: |
+      Start from $Q=$ prior (a gap above the surprise tick). Then press **Set Q = exact posterior**. The gap bar goes to $0$ but the $F$ bar stops at the surprise tick, $1.35$: **perception cannot go below the surprise**.
+
+  - type: mcq
+    id: cognitive
+    prompt: |
+      A pebble in a basin and a mouse both keep their states near a low-surprise region. In the language of free energy, one view of the difference is:
+    options:
+      - text: 'The pebble always has zero divergence ($Q$ is already the exact posterior). The mouse has to reduce the divergence first, by perception, before its actions are guaranteed to reduce surprise.'
+        correct: true
+      - text: 'The pebble minimises surprise and the mouse minimises free energy, two different quantities.'
+        feedback: |
+          Any system minimising its surprise is also minimising a free energy. The two coincide when the divergence is $0$, which is automatic for the simple system and has to be achieved by the mouse.
+      - text: 'The mouse reduces surprise by perception alone, since perception sets $Q$ to the exact posterior.'
+        feedback: |
+          Perception closes the divergence, but, as the glucose widget showed, it leaves the second term $-\ln P(y)$ untouched, because it does not change the sensation.
+      - text: 'The pebble has no free energy at all, so the comparison is meaningless.'
+        feedback: |
+          Free energy is defined for any system with a steady state, including a very simple one. For the pebble the divergence term is just always $0$.
+    explanation: |
+      Simple (noncognitive) systems have $F=\mathfrak{I}$ at all times. Cognitive ones have a **divergence to close** by moving their internal states, and only afterwards does acting on the world (changing $y$) reliably lower surprise. Perception can only reduce the divergence, never the second term.
+
+  - type: widget
+    id: widget-dessert
+    review: false
+    widget: free-energy-bound
+    config:
+      observation: "after eating a dessert you sense high blood glucose"
+      causes:
+        - { name: sated, prior: 0.8, likelihood: 0.9 }
+        - { name: hungry, prior: 0.2, likelihood: 0.1 }
+      q: [0.31, 0.69]
+      presets:
+        - { label: "Old belief (hungry)", q: [0.31, 0.69] }
+    body: |
+      Now the creature **acts**: it eats a dessert, so the sensation becomes "high glucose", with $P(y\mid\text{sated})=0.9$ and $P(y\mid\text{hungry})=0.1$. The prior is the same. The surprise tick is now $-\ln0.74\approx0.30$ nats, far below the earlier $1.35$. Set $Q$ to the exact posterior (almost certainly sated) and read the $F$ bar.
+
+  - type: order
+    id: act-order
+    prompt: |
+      A hungry-feeling creature expects, from its model, to be sated. Put the full sequence of free-energy minimisation in order.
+    steps:
+      - 'It senses low glucose: $F$ is far above zero, with a gap and a large surprise term.'
+      - 'Perception moves the internal states to the exact posterior (hungry): the gap closes, $F$ equals the surprise $1.35$.'
+      - 'Action: it eats, which changes the sensation to high glucose.'
+      - 'The surprise falls to $0.30$, and perception again keeps $F$ equal to it.'
+    hint: 'Perception can only close the gap. Lowering the surprise itself needs a change of the sensation.'
+    explanation: |
+      Perception first (shrink the divergence), then action (change the sensations, which is the only way to reduce the second term). This is what "inference becomes **active**" means: $F$ is lowered by moving the internal states **and** the active states.
+
+  - type: mcq
+    id: box-free-energy
+    prompt: |
+      "Minimising variational free energy" is also used in thermodynamics, for example for gases and heat engines. When we say an active-inference creature minimises it, what changes?
+    options:
+      - text: 'Its **belief state** (the distribution $Q$ over hidden causes, encoded by internal states), in relation to its generative model.'
+        correct: true
+      - text: 'The physical particles of its body, which are cooled until they sit at an energy minimum.'
+        feedback: |
+          Same equations, different object. Here free energy is a functional of **beliefs**. Cooling the body to a minimum would be equilibrium, which for a living organism means being dead.
+      - text: 'The probability of the world itself: the world is rearranged so that it matches the prior.'
+        feedback: |
+          Beliefs and actions change; the world is changed only through what the creature does, and only to make sensations match predictions.
+    explanation: |
+      Free energy here is a functional of the **belief** $Q$. And the target is not a system in thermodynamic **equilibrium** (nothing flows, no net exchange with the surroundings) but an **open nonequilibrium steady state**: a creature that continuously exchanges with its environment and still keeps a stable density of states. This is why the standard term is *variational* free energy.
+
+  - type: numeric
+    id: policy-prob
+    prompt: |
+      The same logic applies to plans. A **policy** $\pi$ is a trajectory (a sequence of actions through states). Its probability is set from its expected free energy $G(\pi)$, in nats, by $P(\pi)=\sigma(-G)$: the log probability of a policy is proportional to $-G$, so the **least-$G$ path is the most probable**. (This is the discrete analogue of the principle of least Action, where the likely path is the one minimising a sum of an energy over the path.)
+
+      Two policies have $G(\pi_1)=1$ and $G(\pi_2)=2$. With the softmax $\sigma(-G)_i=e^{-G_i}/\sum_j e^{-G_j}$, what is $P(\pi_1)$?
+    answer: 0.731
+    tolerance: 0.005
+    wrong:
+      - value: 0.269
+        feedback: |
+          That is $P(\pi_2)$, the **less** probable policy. The lower $G$ gets the larger probability.
+      - value: 0.333
+        feedback: |
+          That would be $G_1/(G_1+G_2)$ for the second policy: the probability is not proportional to $G$ but to $e^{-G}$.
+      - value: 0.5
+        feedback: |
+          Equal probabilities would need equal $G$. Here a difference of $1$ nat in $G$ already shifts the odds by a factor $e$.
+    hint: '$e^{-1}=0.368$ and $e^{-2}=0.135$.'
+    explanation: |
+      $P(\pi_1)=\dfrac{e^{-1}}{e^{-1}+e^{-2}}=\dfrac{0.368}{0.368+0.135}\approx0.731$, and $P(\pi_2)\approx0.269$.
+
+  - type: mcq
+    id: dictionary-row
+    prompt: |
+      A **gradient descent** is a rule that keeps moving a variable in the direction that makes some quantity decrease fastest. In the dictionary, the dynamics of neuronal activity (how internal states change in time) are the same as:
+    options:
+      - text: 'Gradient descent on free energy; equivalently gradient ascent on model evidence, or descent on surprisal.'
+        correct: true
+      - text: 'Gradient ascent on free energy: neurons climb toward larger bounds.'
+        feedback: |
+          Free energy is minimised, never maximised. Climbing it would increase the bound on surprise.
+      - text: 'Attaining a nonequilibrium steady state, which is the same as approximate Bayesian inference.'
+        feedback: |
+          That is a different row, with cognitive reading **self-evidencing**. It says what the creature does overall, not how its internal states move.
+      - text: 'Minimising expected free energy, a choice among policies: planning as inference.'
+        feedback: |
+          That is the row about **plans** (future trajectories, least Action), not the moment-to-moment motion of internal states.
+    explanation: |
+      Four rows: (1) minimise $F$ = maximise evidence = **perception and action**; (2) minimise expected free energy, least Action = infer the most likely course of action = **planning as inference**; (3) attain a nonequilibrium steady state = approximate Bayesian inference = **self-evidencing**; (4) gradient flow on $F$ = gradient ascent on evidence = **neuronal dynamics**.
+
+  - type: numeric
+    id: energy-entropy
+    prompt: |
+      Free energy can also be written as an average over the belief $Q$: the expected **energy** $-\ln P(y,x)$ minus the **entropy** $H[Q]=-\sum_x Q(x)\ln Q(x)$ of the belief:
+      $$F=\mathbb{E}_{Q(x)}\bigl[-\ln P(y,x)\bigr]-H[Q(x)].$$
+      Take $y=$ low glucose, so $P(y,\text{sated})=0.08$ and $P(y,\text{hungry})=0.18$. The creature holds an undecided belief $Q=(0.5,0.5)$. The expected energy is then $\tfrac12(-\ln0.08)+\tfrac12(-\ln0.18)\approx2.120$ and $H[Q]=\ln2\approx0.693$. What is $F$?
+    answer: 1.427
+    tolerance: 0.01
+    wrong:
+      - value: 2.12
+        feedback: |
+          That is the expected energy alone. The entropy of the belief must be **subtracted**.
+      - value: 2.813
+        feedback: |
+          You added the entropy. In $F$ the belief entropy enters with a minus sign: a broader belief lowers $F$.
+    hint: '$2.120-0.693$.'
+    explanation: |
+      $F\approx2.120-0.693=1.427$. Check against the other form: surprise $1.347$ plus divergence from $(0.31,0.69)$ to $(0.5,0.5)$, about $0.08$, also gives $1.43$.
+
+  - type: mcq
+    id: entropy-paradox
+    prompt: |
+      In $F=\mathbb{E}_Q[-\ln P(y,x)]-H[Q]$ the entropy has a minus sign, so minimising $F$ **rewards** a high $H[Q]$. Yet a creature is supposed to resist disorder. How is this resolved?
+    options:
+      - text: 'It is the entropy of the creature''s **belief** $Q$, not of the world or of its sensory states: other things equal, it prefers not to commit to one explanation without need ("keep options open").'
+        correct: true
+      - text: 'The entropy term is small and can be ignored in practice.'
+        feedback: |
+          It is not negligible: it is exactly what makes $F$ equal the surprise plus a divergence when $Q$ is the posterior. It also carries the "do not overcommit" imperative.
+      - text: 'The creature does seek a disordered world, since high entropy is the goal of all dynamics.'
+        feedback: |
+          It is the opposite for the sensory states: the creature keeps their entropy low by acting. The high-entropy preference is about the **beliefs** it holds.
+    explanation: |
+      Two different entropies. Acting keeps the entropy of **sensory states** low (the creature stays in viable states). Minimising $F$ keeps the entropy of its **beliefs** high enough that it explains the data accurately without overcommitting: the maximum entropy principle.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** we derive the free energy bound from first principles, starting from the steady state of a system with a Markov blanket.
