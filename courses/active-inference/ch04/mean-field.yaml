@@ -1,0 +1,331 @@
+id: ch04-mean-field
+title: "Guided Problem: Mean-Field Variational Bayes"
+kind: guided
+cards:
+  - type: text
+    id: intro
+    title: "The problem"
+    body: |
+      To get free energy down we need an approximate posterior $q$ over the hidden variables. When there are **two or more** hidden causes $x_1,x_2$, the full table $q(x_1,x_2)$ grows quickly with every new variable. The cheapest family is a **product**, with one independent belief per variable:
+      $$q(x_1,x_2)=q_1(x_1)\,q_2(x_2)$$
+      This is the **mean-field** approximation. Here we ask: **if we insist on a product, how do we find the best $q_1$ given $q_2$?** The answer is a rule so local that it becomes message passing on a graph.
+
+      The plan: (1) what a product can and cannot copy, (2) free energy as a function of one factor, (3) the constraint, (4) the update rule, (5) it is really a minimum, (6) numbers, (7) which terms matter, (8) where it fails.
+
+      **The running example.** Two binary hidden causes $x_1,x_2\in\{1,2\}$ and one observation $y$ that we have already seen. The model gives the **joint** $p(y,x_1,x_2)$, with rows $x_1$ and columns $x_2$:
+
+      | | $x_2=1$ | $x_2=2$ |
+      |---|---|---|
+      | $x_1=1$ | $0.12$ | $0.03$ |
+      | $x_1=2$ | $0.02$ | $0.08$ |
+
+      The entries add up to $p(y)=0.25$. The exact posterior is the table divided by $0.25$, so it is $0.48,\ 0.12,\ 0.08,\ 0.32$.
+
+  - type: widget
+    id: hook
+    review: false
+    widget: mean-field-vb
+    config:
+      joint: [[0.084, 0.066], [0.056, 0.044]]
+      q1: [0.6, 0.4]
+      q2: [0.3, 0.7]
+      showMessages: false
+      presets:
+        - { label: 'independent causes', joint: [[0.084, 0.066], [0.056, 0.044]] }
+        - { label: 'our table', joint: [[0.12, 0.03], [0.02, 0.08]] }
+    body: |
+      Left, the joint; middle, the exact posterior $p(x\mid y)$; right, the product $q_1(x_1)q_2(x_2)$ you build with the sliders. Do **not** press the update buttons yet. Switch between the two presets and look at the **exact posterior**: for 'our table' the likely value of $x_2$ **flips** with $x_1$. Try to make the product (right grid) look like the posterior in each case.
+
+  - type: mcq
+    id: product-flip
+    prompt: |
+      Two hidden causes $x_1,x_2\in\{1,2\}$ have exact posterior $p(x_1,x_2\mid y)$ with entries $0.48,\ 0.12$ (row $x_1=1$) and $0.08,\ 0.32$ (row $x_1=2$). Can **any** product $q_1(x_1)q_2(x_2)$ reproduce it exactly?
+    options:
+      - text: 'No: in a product, the ratio between the two columns is the same $q_2(1):q_2(2)$ in every row, but here it is $4:1$ in row 1 and $1:4$ in row 2.'
+        correct: true
+      - text: 'Yes: choose $q_1=(0.6,0.4)$ and $q_2=(0.56,0.44)$, the two exact marginals.'
+        feedback: |
+          The marginals are $(0.6,0.4)$ and $(0.56,0.44)$, but their product has entries $0.336,\ 0.264,\ 0.224,\ 0.176$, which is far from $0.48,\ 0.12,\ 0.08,\ 0.32$. Matching the marginals does not match the **correlation** between $x_1$ and $x_2$.
+      - text: 'Yes: a good enough choice of $q_2$ fixes it after $q_1$ is chosen.'
+        feedback: |
+          Each row of a product is the same row $q_2$ scaled by $q_1(x_1)$, so no choice of the two factors can make row 1 favour $x_2=1$ and row 2 favour $x_2=2$.
+    explanation: |
+      A product says "knowing $x_1$ tells you nothing about $x_2$". The posterior here says the opposite: the causes are **correlated** (they were independent a priori, but the observation $y$ ties them). So a product always throws that correlation away, and the best we can hope for is the **closest** product. We now find it, one factor at a time.
+
+  - type: text
+    id: step-family
+    title: "Step 1: what we minimise"
+    body: |
+      The quantity to make small is the **free energy** of the product, with the observation $y$ fixed:
+      $$F[q]=\mathbb E_q\big[\ln q(x)-\ln p(y,x)\big]$$
+      Here $\mathbb E_q[\,\cdot\,]=\sum_{x_1,x_2}q_1(x_1)q_2(x_2)\,[\,\cdot\,]$ is the average under $q$. Recall $F=D_{KL}[q\,\|\,p(x\mid y)]-\ln p(y)$: it is the distance to the posterior, plus the constant surprise $-\ln p(y)$ that no $q$ can change. So minimising $F$ over products finds the **closest product** to the posterior.
+
+      The trick is to optimise **one factor at a time**: freeze $q_2$ and ask for the best $q_1$ (then swap the roles). First the logarithm of a product.
+
+  - type: build
+    id: split-log
+    prompt: |
+      For the product $q=q_1q_2$ we have $\ln q=\ln q_1+\ln q_2$. Build the free energy split into its three pieces.
+    prefix: 'F='
+    tiles: ['\mathbb E_q[\ln q_1]', '\mathbb E_q[\ln q_2]', '\mathbb E_q[\ln p(y,x)]', '+', '+', '-', '\mathbb E_q[\ln q_1\ln q_2]']
+    answers:
+      - ['\mathbb E_q[\ln q_1]', '+', '\mathbb E_q[\ln q_2]', '-', '\mathbb E_q[\ln p(y,x)]']
+    wrong:
+      - answer: ['\mathbb E_q[\ln q_1\ln q_2]', '-', '\mathbb E_q[\ln p(y,x)]']
+        feedback: |
+          The logarithm turns a **product** into a **sum**: $\ln(q_1q_2)=\ln q_1+\ln q_2$. A product of logs would be a different object.
+      - answer: ['\mathbb E_q[\ln q_1]', '+', '\mathbb E_q[\ln q_2]', '+', '\mathbb E_q[\ln p(y,x)]']
+        feedback: |
+          The joint enters $F$ with a **minus** sign: $F=\mathbb E_q[\ln q-\ln p(y,x)]$, and $F$ is minimised, never sign-flipped.
+    hint: 'Use $\ln(ab)=\ln a+\ln b$ inside $\mathbb E_q[\ln q-\ln p]$, then split the average of a sum into a sum of averages.'
+    explanation: |
+      $$F=\mathbb E_q[\ln q_1]+\mathbb E_q[\ln q_2]-\mathbb E_q[\ln p(y,x)]$$
+
+  - type: mcq
+    id: constants
+    prompt: |
+      We now **freeze $q_2$** and vary only $q_1$. In $F=\mathbb E_q[\ln q_1]+\mathbb E_q[\ln q_2]-\mathbb E_q[\ln p(y,x)]$, which term(s) do **not** change when $q_1$ changes (so they can be dropped as a constant)? Select all that apply.
+    multiple: true
+    options:
+      - text: '$\mathbb E_q[\ln q_2]$'
+        correct: true
+      - text: '$\mathbb E_q[\ln q_1]$'
+        feedback: |
+          This is the average of $\ln q_1$ itself, so it changes with $q_1$: it is the part that pushes $q_1$ to be spread out (its negative is the entropy of $q_1$).
+      - text: '$\mathbb E_q[\ln p(y,x)]$'
+        feedback: |
+          This depends on $q_1$ through the weights: $\sum_{x_1,x_2}q_1(x_1)q_2(x_2)\ln p(y,x_1,x_2)$. Moving belief to a different $x_1$ changes the average.
+    explanation: |
+      Since $\sum_{x_1}q_1(x_1)=1$, the term $\mathbb E_q[\ln q_2]=\sum_{x_2}q_2\ln q_2$ does not involve $q_1$ at all: it is the (negative) entropy of the frozen factor. Only two terms are left to balance.
+
+  - type: build
+    id: collect-q1
+    prompt: |
+      Collect what depends on $q_1$. Write $\mathbb E_{q_2}\ln p(y,x_1,x_2)=\sum_{x_2}q_2(x_2)\ln p(y,x_1,x_2)$ for the average over the frozen factor only. Build $F$ as a function of $q_1$ (up to the constant).
+    prefix: 'F='
+    suffix: '+\text{const}'
+    tiles: ['\sum_{x_1}q_1(x_1)', '[', '\ln q_1(x_1)', '-', '\mathbb E_{q_2}\ln p(y,x_1,x_2)', ']', '+', '\ln q_2(x_2)']
+    answers:
+      - ['\sum_{x_1}q_1(x_1)', '[', '\ln q_1(x_1)', '-', '\mathbb E_{q_2}\ln p(y,x_1,x_2)', ']']
+    wrong:
+      - answer: ['\sum_{x_1}q_1(x_1)', '[', '\ln q_1(x_1)', '+', '\mathbb E_{q_2}\ln p(y,x_1,x_2)', ']']
+        feedback: |
+          The joint comes with a minus sign: $F$ contains $-\mathbb E_q\ln p(y,x)$.
+    hint: 'Write $\mathbb E_q[g]=\sum_{x_1}q_1(x_1)\sum_{x_2}q_2(x_2)\,g(x_1,x_2)$ and pull $\sum_{x_1}q_1(x_1)$ out front.'
+    explanation: |
+      $$\begin{aligned}F={}&\sum_{x_1}q_1(x_1)\Big[\ln q_1(x_1)\\&-\mathbb E_{q_2}\ln p(y,x_1,x_2)\Big]+\text{const}\end{aligned}$$
+      Define $g(x_1)=\mathbb E_{q_2}\ln p(y,x_1,x_2)$, the **expected log joint** for each value of $x_1$. Then $F=\sum_{x_1}q_1(\ln q_1-g)+\text{const}$: a simple function of the list of numbers $q_1(1),q_1(2),\dots$
+
+  - type: mcq
+    id: derivative
+    prompt: |
+      Minimise $\sum_{x_1}q_1(x_1)\,[\ln q_1(x_1)-g(x_1)]$ over the numbers $q_1(x_1)$, **subject to** $\sum_{x_1}q_1(x_1)=1$ (a belief must sum to one). We enforce this with a **Lagrange multiplier** $\lambda$ (a free constant that we tune afterwards so the constraint holds): add $\lambda\,(\sum_{x_1}q_1-1)$. For **one** value $x_1$, the part of the total that involves $q_1(x_1)$ is $q_1\ln q_1-q_1g+\lambda q_1$. What is its derivative with respect to the number $q_1$?
+    options:
+      - text: '$\ln q_1+1-g+\lambda$'
+        correct: true
+      - text: '$\ln q_1-g+\lambda$'
+        feedback: |
+          The derivative of $q\ln q$ is not $\ln q$: the product rule gives $\ln q+q\cdot\frac1q=\ln q+1$. The extra $1$ is a constant, so it will be harmless, but it must not be forgotten.
+      - text: '$\dfrac{1}{q_1}-g+\lambda$'
+        feedback: |
+          $\frac1q$ is the derivative of $\ln q$ alone. Here the term is $q\ln q$, whose derivative is $\ln q+1$.
+    explanation: |
+      Setting the derivative to zero (for every $x_1$, as the variational condition demands) gives
+      $$\ln q_1(x_1)+1-g(x_1)+\lambda=0$$
+      Each value of $x_1$ gives its own equation, because the total is a sum over $x_1$ and the terms do not mix: this is what the functional derivative of an integral does, it differentiates the **integrand** at one point.
+
+  - type: mcq
+    id: constant-fixed
+    prompt: |
+      Stationarity gave $\ln q_1(x_1)=g(x_1)-1-\lambda$. The numbers $1$ and $\lambda$ are the same for every $x_1$. What fixes this common constant?
+    options:
+      - text: 'Normalisation: it must be such that $\sum_{x_1}q_1(x_1)=1$, so $q_1=e^{g}/\sum e^{g}$.'
+        correct: true
+      - text: 'The observation $y$: the constant is the log evidence $\ln p(y)$.'
+        feedback: |
+          The observation already sits inside $g(x_1)=\mathbb E_{q_2}\ln p(y,x_1,x_2)$ (the joint is evaluated at the seen $y$). The leftover constant only has to make $q_1$ a proper belief.
+      - text: 'It is zero.'
+        feedback: |
+          $1+\lambda$ is generally not zero: $\lambda$ was introduced precisely as the free number that makes the sum equal $1$.
+    explanation: |
+      The result (constants omitted) is
+      $$\ln q_1(x_1)=\mathbb E_{q_2}\big[\ln p(y,x_1,x_2)\big]+\text{const}$$
+      Exponentiating: $q_1(x_1)\propto\exp\mathbb E_{q_2}\ln p(y,x_1,x_2)$. It is a **softmax** of the expected log joint (normalise the exponentials so they sum to one). By the same steps with the roles swapped, $\ln q_2(x_2)=\mathbb E_{q_1}[\ln p(y,x_1,x_2)]+\text{const}$.
+
+  - type: mcq
+    id: is-minimum
+    prompt: |
+      Setting a derivative to zero finds a **stationary** point, which could in principle be a maximum or a saddle. Write $\tilde q_1(x_1)=e^{g(x_1)}/Z$ with $Z=\sum_{x_1}e^{g(x_1)}$. A direct computation gives
+      $$\sum_{x_1}q_1(\ln q_1-g)=D_{KL}\big[q_1\,\|\,\tilde q_1\big]-\ln Z$$
+      Why does this show that $q_1=\tilde q_1$ is the **minimum**?
+    options:
+      - text: 'A KL divergence is never negative and is zero only when its two arguments are equal, and $\ln Z$ does not depend on $q_1$.'
+        correct: true
+      - text: 'Because $-\ln Z$ is negative, so $F$ is always below zero.'
+        feedback: |
+          The sign of $\ln Z$ is irrelevant: it is a constant that does not depend on $q_1$, so it cannot say where the minimum is.
+      - text: 'Because $\tilde q_1$ is normalised, any normalised $q_1$ gives the same $F$.'
+        feedback: |
+          Different $q_1$ give different $D_{KL}[q_1\|\tilde q_1]$, so different $F$. Only $q_1=\tilde q_1$ makes it zero.
+    explanation: |
+      Check: $\ln\tilde q_1=g-\ln Z$, so $\sum q_1(\ln q_1-g)=\sum q_1(\ln q_1-\ln\tilde q_1)-\ln Z$. Since $D_{KL}\ge0$ with equality only at $q_1=\tilde q_1$, the update rule is the **global** minimum of $F$ over $q_1$ with $q_2$ frozen. This is a second derivation of the same rule, with no calculus of variations at all. (What can go wrong is not this step but the **alternation** between the factors.)
+
+  - type: numeric
+    id: update-q1
+    prompt: |
+      The joint of the running example is $p(y,x_1,x_2)=0.12,\ 0.03$ (row $x_1=1$) and $0.02,\ 0.08$ (row $x_1=2$), columns $x_2=1,2$. Let $q_2=(0.5,\,0.5)$. Compute the update of $q_1$ and enter $q_1(x_1=1)$.
+    answer: 0.6
+    tolerance: 0.002
+    hint: 'For each $x_1$, $\mathbb E_{q_2}\ln p=\tfrac12\ln p(y,x_1,1)+\tfrac12\ln p(y,x_1,2)$. The exponential of that is a geometric mean: $\sqrt{0.12\cdot0.03}$ and $\sqrt{0.02\cdot0.08}$. Then normalise.'
+    explanation: |
+      $$\begin{aligned}e^{g(1)}&=\sqrt{0.12\cdot0.03}=0.06\\e^{g(2)}&=\sqrt{0.02\cdot0.08}=0.04\end{aligned}$$
+      Normalising, $q_1=(0.06,\,0.04)/0.10=(0.6,\,0.4)$.
+
+  - type: numeric
+    id: update-q2
+    prompt: |
+      Same joint ($0.12,\ 0.03$ in row $x_1=1$; $0.02,\ 0.08$ in row $x_1=2$). Now freeze $q_1=(0.6,\,0.4)$ and update $q_2$ by the same rule with the roles swapped: $\ln q_2(x_2)=\mathbb E_{q_1}[\ln p(y,x_1,x_2)]+\text{const}$. Enter $q_2(x_2=1)$.
+    answer: 0.569
+    tolerance: 0.003
+    hint: 'For column $x_2=1$: $\exp(0.6\ln0.12+0.4\ln0.02)=0.12^{0.6}\,0.02^{0.4}\approx0.0586$. Column 2: $0.03^{0.6}\,0.08^{0.4}\approx0.0444$. Then normalise.'
+    explanation: |
+      $$\begin{aligned}q_2&\propto\big(0.12^{0.6}0.02^{0.4},\\&\qquad0.03^{0.6}0.08^{0.4}\big)\\&\approx(0.0586,\ 0.0444)\end{aligned}$$
+      so $q_2\approx(0.569,\,0.431)$. The new $q_2$ now leans towards $x_2=1$, as $q_1$ leans towards $x_1=1$ and the table makes $(1,1)$ the most likely cell. Notice that the update is a **softmax of log-probabilities**: the same shape as the discrete-time belief update, as we see below.
+
+  - type: widget
+    id: sweeps
+    review: false
+    widget: mean-field-vb
+    config:
+      joint: [[0.12, 0.03], [0.02, 0.08]]
+      q1: [0.6, 0.4]
+      q2: [0.3, 0.7]
+      showMessages: true
+      presets:
+        - { label: 'our table', joint: [[0.12, 0.03], [0.02, 0.08]] }
+        - { label: 'independent causes', joint: [[0.084, 0.066], [0.056, 0.044]] }
+    body: |
+      Press **Update $q_1$**, **Update $q_2$**, then **Sweep** a few times (use **Show message terms** to see the numbers inside the expectation). Watch the free energy $F$ and the gap $D_{KL}[q\,\|\,p(x\mid y)]=F+\ln p(y)$. Then switch to 'independent causes' (the posterior is itself a product) and press **Sweep** once.
+
+  - type: mcq
+    id: after-sweeps
+    prompt: |
+      Alternating the two updates on a posterior whose two hidden variables are **correlated**, the free energy $F$ falls at every update and then flattens, at a value **above** $-\ln p(y)$ (the gap to the posterior stays positive). Why does it not reach $-\ln p(y)$?
+    options:
+      - text: 'Every update is the best possible for one factor, but the family of products does not contain the exact posterior, so the smallest gap among products is positive.'
+        correct: true
+      - text: 'The update rule is only approximate and would reach the exact posterior with a more careful derivation.'
+        feedback: |
+          The rule is exact for its question ("the best $q_1$ with $q_2$ frozen"). The limit comes from the **family** (products), not from the rule.
+      - text: 'It would reach $-\ln p(y)$ after many more sweeps.'
+        feedback: |
+          Sweeps converge, and the floor stays above $-\ln p(y)$: a product cannot have zero KL to a correlated posterior. With independent causes ($p(x\mid y)$ a product), one sweep is enough and the gap is $0$.
+    explanation: |
+      Every update lowers $F$ (it is a minimum over one factor, which includes the current value), so the trace of $F$ never goes up. But it is bounded below by $-\ln p(y)+(\text{smallest gap of any product})$. For the running example the sweeps end with $q_1\approx(0.67,0.33)$ and $q_2\approx(0.62,0.38)$ and a gap of about $0.206$ nats.
+
+  - type: mcq
+    id: locality
+    prompt: |
+      A model has the factorised joint
+      $$\begin{aligned}p(y,x)={}&p(y\mid x_1)\,p(x_1\mid x_2,x_3)\\&p(x_3)\,p(x_2\mid x_4)\,p(x_4)\end{aligned}$$
+      and an approximate posterior $q=q(x_1)q(x_2)q(x_3)q(x_4)$. To update $q(x_1)$ we need $\mathbb E_{q(x_2)q(x_3)q(x_4)}[\ln p(y,x)]$, which is a sum of the logs of the five factors. Which of them survive (depend on $x_1$)? Select all that apply.
+    multiple: true
+    options:
+      - text: '$\ln p(y\mid x_1)$'
+        correct: true
+      - text: '$\ln p(x_1\mid x_2,x_3)$'
+        correct: true
+      - text: '$\ln p(x_3)$'
+        feedback: |
+          It does not contain $x_1$, so under the expectation it is just a number, the same for every value of $x_1$: it joins the normalising constant.
+      - text: '$\ln p(x_2\mid x_4)$ and $\ln p(x_4)$'
+        feedback: |
+          Neither contains $x_1$. They matter for $q(x_2)$ and $q(x_4)$, not for $q(x_1)$.
+    explanation: |
+      Averaging a constant under a probability gives the constant back, $\mathbb E_{p(b)}[f(a)]=f(a)\sum_bp(b)=f(a)$, and constants drop out at normalisation. Hence
+      $$\begin{aligned}\ln q(x_1)={}&\ln p(y\mid x_1)\\&+\mathbb E_{q(x_2)q(x_3)}\big[\ln p(x_1\mid x_2,x_3)\big]\\&+\text{const}\end{aligned}$$
+      The surviving factors are those that touch $x_1$: its own conditional (it depends on parents $x_2,x_3$) and the factor where $x_1$ is a **parent** of the data $y$. In general, the update of one variable needs only its **Markov blanket**: parents, children, and the other parents of its children (co-parents). This is **variational message passing**: each variable only listens to its neighbours.
+
+  - type: build
+    id: build-q2
+    prompt: |
+      Same model. Build the update of $x_2$: the surviving terms inside the average over the other beliefs (drop constants). Hint: $x_2$ is a parent of $x_1$ and a child of $x_4$.
+    prefix: '\ln q_2(x_2)=\mathbb E_{q_1q_3q_4}['
+    suffix: ']+\text{const}'
+    tiles: ['\ln p(x_1\mid x_2,x_3)', '+', '+', '\ln p(x_2\mid x_4)', '\ln p(y\mid x_1)', '\ln p(x_3)']
+    answers:
+      - ['\ln p(x_1\mid x_2,x_3)', '+', '\ln p(x_2\mid x_4)']
+    wrong:
+      - answer: ['\ln p(y\mid x_1)', '+', '\ln p(x_1\mid x_2,x_3)', '+', '\ln p(x_2\mid x_4)']
+        feedback: |
+          $\ln p(y\mid x_1)$ does not contain $x_2$: with $y$ and $x_1$ averaged out it is a constant for every value of $x_2$.
+    hint: 'Keep only the factors in which $x_2$ appears.'
+    explanation: |
+      $$\begin{aligned}\ln q(x_2)={}&\mathbb E_{q(x_1)q(x_3)}\big[\ln p(x_1\mid x_2,x_3)\big]\\&+\mathbb E_{q(x_4)}\big[\ln p(x_2\mid x_4)\big]+\text{const}\end{aligned}$$
+      The first term is the **child** message ($x_1$ with its co-parent $x_3$), the second the **parent** message ($x_4$). The expectation of the second term only averages over $x_4$, since $x_1,x_3$ do not appear in it.
+
+  - type: mcq
+    id: link-discrete
+    prompt: |
+      In the discrete-time model, the belief about the hidden state at time $\tau$ is a softmax of a sum of messages: one from the observation $o_\tau$ (the term $\ln\mathbf A\cdot o_\tau$, where $\mathbf A$ is the likelihood matrix), one from the previous state, one from the next state. In the mean-field rule, the observation message $\ln\mathbf A\cdot o_\tau$ plays the role of which kind of term?
+    options:
+      - text: 'A **child** term: $\ln P(o_\tau\mid s_\tau)$, the factor in which the state $s_\tau$ is the parent of the data.'
+        correct: true
+      - text: 'A constant that drops out of the update.'
+        feedback: |
+          It contains $s_\tau$ (it is the likelihood of the data given the state), so it differs from one state to another and survives.
+      - text: 'The normalising constant $Z$.'
+        feedback: |
+          $Z$ only rescales; the observation term shifts the log-belief by an amount that depends on the state.
+    explanation: |
+      The rule $\ln q_i=\mathbb E_{q_{\setminus i}}[\ln p]+\text{const}$ is the general form; the discrete-time update is a particular case in which the factors are the likelihood $\ln\mathbf A\cdot o$ (child), the transition from the past (parent) and the transition to the future (child), and the update is the softmax of their sum.
+
+  - type: numeric
+    id: gaussian-variance
+    prompt: |
+      Mean field fails in a characteristic way: it is **overconfident**. Take a Gaussian posterior over two variables with covariance
+      $$\Sigma=\begin{pmatrix}1&0.9\\0.9&1\end{pmatrix}$$
+      so each marginal has variance $1$. Its precision matrix (the inverse of $\Sigma$) is $\Lambda=\Sigma^{-1}$. With $\ln p(x)=-\tfrac12\big(\Lambda_{11}x_1^2+2\Lambda_{12}x_1x_2+\Lambda_{22}x_2^2\big)+\text{const}$, averaging over $x_2$ leaves the part in $x_1^2$ unchanged, so the mean-field factor $q_1$ is Gaussian with **precision $\Lambda_{11}$**. What is the variance of $q_1$?
+    answer: 0.19
+    tolerance: 0.002
+    hint: 'For a $2\times2$ matrix, $\Sigma^{-1}=\frac{1}{\det\Sigma}\begin{pmatrix}\Sigma_{22}&-\Sigma_{12}\\-\Sigma_{12}&\Sigma_{11}\end{pmatrix}$, with $\det\Sigma=1-0.81$. Then variance $=1/\Lambda_{11}$.'
+    explanation: |
+      $$\Lambda=\frac{1}{0.19}\begin{pmatrix}1&-0.9\\-0.9&1\end{pmatrix}$$
+      Then $\Lambda_{11}\approx5.26$, and
+      $$\text{variance}=\frac{1}{\Lambda_{11}}=0.19$$
+      The true marginal variance is $1$; the mean-field belief has $0.19$: much **narrower**. The term in $x_1x_2$ only moves the centre of $q_1$ (through $\mathbb E[x_2]$); the width is blind to the correlation, and only sees how sharp the joint is at fixed $x_2$.
+
+  - type: mcq
+    id: limits
+    prompt: |
+      Which statements about mean-field coordinate updates are true? Select all that apply.
+    multiple: true
+    options:
+      - text: 'Each update lowers $F$ or leaves it unchanged, never raises it.'
+        correct: true
+      - text: 'When the true posterior is correlated, the factors tend to be overconfident (too narrow compared with the exact marginals).'
+        correct: true
+      - text: 'The factors converge to the exact marginals of the posterior.'
+        feedback: |
+          In the running example the exact marginals are $(0.6,0.4)$ and $(0.56,0.44)$ but the mean-field factors end near $(0.67,0.33)$ and $(0.62,0.38)$, more extreme (overconfident).
+      - text: 'The final answer does not depend on where we start, because $F$ is minimised exactly at each step.'
+        feedback: |
+          Each step is a minimum over one factor, but the overall problem over products is generally not convex, so different starts can end in **different local minima** (and a perfectly symmetric start on a symmetric correlated joint can even sit at a saddle that the updates never leave).
+    explanation: |
+      Mean field buys tractability (one small table per variable and updates that use only neighbours) at the price of ignoring correlations. Richer approximate posteriors (a joint over pairs, a Gaussian with covariance) keep correlations at a higher cost.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Setup.** Two hidden variables $x_1,x_2$ and data $y$ (fixed); the model gives the joint $p(y,x_1,x_2)$. The approximate posterior is a **product** (mean-field family) $q(x)=q_1(x_1)\,q_2(x_2)$, and we minimise the free energy
+        $$\begin{aligned}F[q]&=\mathbb E_q\big[\ln q-\ln p(y,x)\big]\\&=D_{KL}\big[q\,\|\,p(x\mid y)\big]-\ln p(y)\end{aligned}$$
+        One factor at a time, the other held fixed.
+      - **Update rule.** With $q_2$ fixed, $F$ is a function of $q_1$ alone, $\sum_{x_1}q_1(x_1)\,[\ln q_1(x_1)-\mathbb E_{q_2}\ln p(y,x_1,x_2)]$ plus a constant. Setting its derivative to zero, with a multiplier for $\sum q_1=1$, gives
+        $$\ln q_1(x_1)=\mathbb E_{q_2}\big[\ln p(y,x_1,x_2)\big]+\text{const}$$
+        so $q_1$ is a **softmax of the expected log joint**. It is a minimum: $F$ equals $D_{KL}[q_1\,\|\,\tilde q_1]$ plus terms free of $q_1$, where $\tilde q_1\propto\exp\mathbb E_{q_2}\ln p$.
+      - **Locality (variational message passing).** In $\mathbb E_{q_{\setminus i}}\ln p(y,x)$ every factor of the model that does not contain $x_i$ is a constant, so only the factors that contain $x_i$ survive: the Markov blanket (parents, children and co-parents of $x_i$). Example: if $p=p(y\mid x_1)\,p(x_1\mid x_2,x_3)\,p(x_3)\,p(x_2\mid x_4)\,p(x_4)$, then
+        $$\begin{aligned}\ln q(x_2)={}&\mathbb E_{q(x_1)q(x_3)}\big[\ln p(x_1\mid x_2,x_3)\big]\\&+\mathbb E_{q(x_4)}\big[\ln p(x_2\mid x_4)\big]+\text{const}\end{aligned}$$
+      - **Limits.** Each update lowers $F$ (never raises it), but the product family may not contain $p(x\mid y)$: when the true posterior has correlation, the gap $D_{KL}[q\,\|\,p(x\mid y)]$ stays positive and $q$ is **overconfident**. For a Gaussian posterior with precision matrix $\Lambda$, each mean-field factor has variance $1/\Lambda_{ii}$, smaller than the true marginal variance.
+
+      **Next:** back to the whole generative-model picture: the next round of questions tests the common misconceptions about likelihoods, priors, states, policies and approximate posteriors.
