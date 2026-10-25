@@ -9,8 +9,8 @@ Static site, no build step, served by GitHub Pages from the repo root.
   list (`#/`). Links without a course (`#/lesson/<id>`, from before
   courses) redirect to `LEGACY_COURSE`.
 - `js/`: `cards.js` (card types), `widgets/` (interactive SVG/canvas
-  widgets shared by all courses: `index.js` with the registry `WIDGETS` at
-  the bottom, `torus.js`, `sphere.js`), `player.js` (lesson flow and feedback),
+  widgets shared by all courses: one file per widget `<name>.js`, the
+  shared SVG plane helpers `plane.js`, the registry `WIDGETS` in `index.js`), `player.js` (lesson flow and feedback),
   `trail.js`, `progress.js` (localStorage `gibernoot.progress.v2`, one state for all courses with keys prefixed `<courseId>:`, version-1 states migrated to `dg2gr:` on load, cloud merge and import; export/import codes, per-lesson resume position `partial`, Leitner
   spaced repetition), `main.js` (router), `render.js` (Markdown + KaTeX; short
   inline math keeps trailing punctuation on its line).
@@ -38,4 +38,4 @@ Static site, no build step, served by GitHub Pages from the repo root.
   (`js/cloud.js`, `docs/ACCOUNTS.md`; inactive until `js/firebase-config.js`
   is filled in).
 - `tools/validate.mjs` (structure and KaTeX checks), `tools/shots.mjs`
-  (headless screenshots and overflow check; see `courses/dg2gr/STATUS.md`, Tooling).
+  (headless screenshots and overflow check; see `courses/dg2gr/CONVENTIONS.md`, General, Tooling).

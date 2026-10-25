@@ -16,14 +16,18 @@ progress is stored, so **never rename it once the course is studied**.
 courses/<id>/
   CLAUDE.md      course-specific rules (template below)
   course.yaml    the trail: title + one level per chapter, lessons as planned nodes
-  STATUS.md      "## Current" block (next unit, conventions) and "## Log"
+  STATUS.md      short "## Current" block (state, next unit) and "## Log"
+  CONVENTIONS.md "## General" then one "## Chapter N" section per chapter
   sources/       git-ignored: the main reference (Markdown), exams, PDFs
   archive/       optional: old exercise sheets, notes worth mining
 ```
 
-Put the sources in `sources/` (Igor copies them in, or points to them).
-Convert the main reference to Markdown if it is only a PDF (never read
-PDFs directly). Check `git status` shows nothing from `sources/`.
+Put the sources in `sources/`: Igor copies them in, or gives a path or a
+link (copy or download them there). If none is given, look in
+`courses/<id>/sources/`, then ask. If the main reference is only a PDF,
+convert it to Markdown with a command-line tool (`pdftotext -layout`, or
+`marker`/`pandoc` if installed) without reading the PDF yourself, then
+work from the Markdown. Check `git status` shows nothing from `sources/`.
 
 ## 3. Register it
 

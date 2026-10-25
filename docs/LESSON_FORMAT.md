@@ -197,7 +197,7 @@ Each tile can be used once; list a tile twice if it is needed twice.
   body: |
     Instructions: what to drag and what to watch.
 ```
-Widgets live in `js/widgets/` (shared by all courses; `index.js` holds the registry `WIDGETS`, larger figures get their own module such as `sphere.js`; register new ones in `WIDGETS`). Follow a
+Widgets live in `js/widgets/` (shared by all courses): one file per widget, named after it (`chart-basis.js`, its header comment lists its config), shared SVG helpers in `plane.js` (`s`, `fmt`, `P`, `line`, `arrow`, `label`, `planeSvg`, `draggable`, `placeHandle`, …), and the registry `WIDGETS` in `index.js` (import the new file and add one line). Follow a
 widget card with a question about what the reader observed.
 
 Available widgets (all coordinates are components in the reference basis
@@ -318,7 +318,7 @@ config:
   snap: 0.1                   # grid for the ends of V
   presets: [{ label: Jump, fn: step, V: [0.5, 1.5] }]   # fn, V optional
 ```
-New maps go in `FUNCS` in `js/widgets/index.js` (rule text, formula, jump points).
+New maps go in `FUNCS` in `js/widgets/preimage-explorer.js` (rule text, formula, jump points).
 
 #### `circle-charts`
 Two charts on the unit circle $S^1$. Chart A (blue ring outside the circle) is
@@ -395,7 +395,7 @@ config:
 ```
 Circle defaults: `curves: [{ w: 1, a: 0 }, { w: 1, a: 0.5 }]`. Keep $|w| \le 1$
 in configs so arrows stay inside the drawing. New fields go in `CV_FIELDS`
-(`js/widgets/index.js`: TeX, button name, value, gradient in $\mathbb{R}^2$).
+(`js/widgets/curve-velocity.js`: TeX, button name, value, gradient in $\mathbb{R}^2$).
 
 #### `chart-basis`
 Chart-induced bases and the Jacobian in the plane $\mathbb{R}^2$ (points
@@ -454,7 +454,7 @@ $0.14$ view units (the `Y` lines $q_2 = c\,e^{-q_1}$ for large $q_1$, the polar
 rays near the origin), only every 2nd (4th, …) line continues, so they thin
 out instead of crowding. Labels are placed automatically beside or beyond the
 arrow tips, avoiding the arrows (including $v$), $p$ and each other. New charts go
-in `CB_CHARTS` (`js/widgets/index.js`: name, coordinate TeX and glyphs, rule, map,
+in `CB_CHARTS` (`js/widgets/chart-basis.js`: name, coordinate TeX and glyphs, rule, map,
 inverse, Jacobian of the map, steps).
 
 #### `parallel-transport`

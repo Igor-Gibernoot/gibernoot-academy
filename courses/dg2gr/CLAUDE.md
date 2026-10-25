@@ -36,7 +36,7 @@ Use the book's conventions exactly:
   $T_p\mathcal{M}$, $T_p^*\mathcal{M}$.
 - Chapter 2 writes sums explicitly; Einstein summation only from Chapter 4,
   where the book introduces it.
-- Later conventions are listed in `STATUS.md` (Current).
+- Later conventions: `CONVENTIONS.md`, one section per chapter.
 - **Runes:** keep the book's runic symbols (never swap them for another
   notation): write them as `\text{ᛖ}`, `\text{ᛞ}`, `\text{ᚱ}`, … inside
   math. They render on every device through the runic font that extends

@@ -12,13 +12,21 @@ same teaching method; only the content differs.
   - `CLAUDE.md`: **read it before working on that course**: its sources,
     chapter-to-level mapping, notation and conventions.
   - `course.yaml` (the trail) and lesson files `chNN/*.yaml`, `exams/`.
-  - `STATUS.md`: the course's build status (Current block + Log).
+  - `STATUS.md`: the course's build status (a short Current block + Log).
+  - `CONVENTIONS.md`: notation, running examples and key numbers fixed
+    while building, one `## Chapter N` section per chapter (read only the
+    section you need).
   - `archive/` (optional): old exercises and notes worth mining.
   - `sources/` (**git-ignored, never committed**): the course's main
     reference (books, lecture notes, the professor's exams, PDFs).
 - Every session works on **one course**. If the prompt does not name it and
   more than one course is in progress, ask.
-- A new course: follow `docs/NEW_COURSE.md`.
+- **Short prompts are enough.** "Create the course <name>" (plus where its
+  material is, if Igor gives it) means: run `docs/NEW_COURSE.md` end to
+  end, choosing the id yourself. "Next unit of <course>" (or just the
+  course name, if it is the only one in progress) means: take the next
+  unit from its Current block and build it following this file. Ask only
+  what cannot be found or decided (e.g. where the sources are).
 - **Never read the PDFs** (listed in `.claudeignore`); use the Markdown
   conversion of a source.
 - **Sources may be unpublished: never commit or push them** (Markdown,
@@ -140,7 +148,7 @@ courses, on what the subject is for).
 9. **Consistency.** Use the main source's conventions exactly (its index
    placement, symbols, fonts, special characters). Each course's
    `CLAUDE.md` lists them; later conventions fixed while building are in
-   its `STATUS.md` (Current).
+   its `CONVENTIONS.md` (the chapter's section).
 10. **Self-contained.** Never mention "the book" (or "the notes") or its
     section labels (C.3, B.5: say "the running example"); where the source
     derives a result another way, give both derivations in the lesson. End
@@ -167,8 +175,9 @@ courses, on what the subject is for).
 
 Widgets live in `js/widgets/` and belong to the academy, not to a course.
 Before building a new one, check `docs/LESSON_FORMAT.md` (`grep -n '^####'`)
-for an existing widget that a preset could adapt. Build new widgets as
-general tools (parameters in the preset, no course-specific text hard-coded),
+for an existing widget that a preset could adapt. A new widget is a new
+file `js/widgets/<name>.js` (registered in `index.js`), built as a
+general tool (parameters in the preset, no course-specific text hard-coded),
 so other courses can reuse them.
 
 ### Building sessions (token efficiency)
@@ -186,14 +195,17 @@ Lessons are built across many short sessions. Igor starts each with
   - Status: only the **Current** block of the course's status
     (`sed -n '/^## Current/,/^## Log/p' courses/<id>/STATUS.md`), never
     the Log.
+  - Conventions: only the chapter's section of `courses/<id>/CONVENTIONS.md`
+    (`grep -n '^## '`, then `sed -n` that range), plus its General section.
   - Format: `docs/QUICKREF.md`. Open `docs/LESSON_FORMAT.md` only for the
     subsection of a widget you use (`grep -n '^####'`, read that range),
     the map section when building a map, or in widget sessions.
   - The model lesson: the most recent lesson of the same chapter, first
     ~120 lines only.
   - The source: `grep -n` the section heading and read just that range.
-  - `js/widgets/index.js` only in widget sessions (the widget's function
-    and the registry at the bottom).
+  - Widget code only in widget sessions: the widget's own file
+    `js/widgets/<name>.js` (plus `plane.js` for the helpers, `index.js`
+    to register it), never the other widgets' files.
   - Never re-read a file you wrote or edited this session.
 - **Write the lesson in one `Write` call**, then fix with small `Edit`s.
   Plan the card list in your head, not as a draft file.
@@ -208,13 +220,22 @@ Lessons are built across many short sessions. Igor starts each with
   `python3 -m http.server 8000`, `#/<id>/lesson/<lessonId>/<n>` (1-based).
 - **End of every session:** validate, run shots, update the course's
   `STATUS.md` (Current block, plus a Log entry of a few lines ending with
-  "Conventions fixed here: …", copied into Current's conventions), commit
+  "Conventions fixed here: …", copied into the chapter's section of
+  `CONVENTIONS.md`), commit
   and push, then **give Igor a ready-to-paste prompt for the next session**
   naming the course and the single next unit from its `course.yaml`, with a
   card plan of about 10 lines (hook, widget, key questions, summary) and
   the source lines to read.
+- **Keep the Markdown lean** (every session pays to read it). Current
+  stays under ~40 lines: rewrite it in place (state, next unit, pointers),
+  never append history to it; history goes in the Log (never read), and
+  details in `CONVENTIONS.md`. A convention entry is one or two lines:
+  the notation or number future lessons must reuse, not a lesson summary.
+  Don't repeat in a course file what the root `CLAUDE.md` or `docs/` say.
 - **Several units in a row** ("until the end of Chapter 3"): follow
   `docs/AUTONOMOUS.md`.
 - **Engine changes** (shared by all courses): after one, run
   `node tools/validate.mjs` (all courses) and shots on a lesson of each
-  course.
+  course; after a widget change, also `node tools/widget-smoke.mjs`
+  (mounts every widget preset of every course, clicks, drags, reports
+  page errors).

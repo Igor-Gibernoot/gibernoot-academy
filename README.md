@@ -31,8 +31,8 @@ index.html, css/, vendor/   app shell, styles, KaTeX / js-yaml / marked (no CDN)
 js/                         the engine (router, player, cards, exams, recap, progress)
 js/widgets/                 interactive widgets, shared by every course
 courses/catalog.yaml        the course list shown on the home page
-courses/<id>/               one course: course.yaml, lesson files, STATUS.md, CLAUDE.md
-tools/                      validate.mjs (structure + KaTeX), shots.mjs (headless layout check)
+courses/<id>/               one course: course.yaml, lesson files, STATUS.md, CONVENTIONS.md, CLAUDE.md
+tools/                      validate.mjs (structure + KaTeX), shots.mjs (headless layout check), widget-smoke.mjs
 docs/                       lesson format, app engine, how to add a course
 ```
 

@@ -210,7 +210,7 @@ function accountPanel() {
   return panel;
 }
 
-const BUILD = '2026-10-24.1 (academy: several courses)';
+const BUILD = '2026-10-24.2 (widgets: one file each)';
 
 function settings() {
   const code = h('textarea', { readonly: true, 'aria-label': 'Your progress code' });
