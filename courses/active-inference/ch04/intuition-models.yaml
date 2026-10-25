@@ -1,0 +1,325 @@
+id: ch04-intuition-models
+title: "Intuition: The Two Model Families"
+kind: intuition
+own: |
+  - **Discrete family (the door model).** A hidden state $s_\tau$ and an outcome $o_\tau$ at step $\tau$, a policy $\pi$ (a sequence of actions). The model is four tables of probabilities, each column summing to $1$: the likelihood $\mathbf A$ (column $j$ = outcome probabilities when the state is $j$) and the transitions $\mathbf B_{\pi\tau}$ (column $j$ = next-state probabilities when the state is $j$). Prediction is push forward, then read out; with $\mathbf s_{\pi\tau}$, $\mathbf o_{\pi\tau}$ the predicted state and outcome probabilities:
+    {{ $$\begin{gathered}\mathbf s_{\pi,\tau+1}=\mathbf B_{\pi\tau}\,\mathbf s_{\pi\tau}\\\mathbf o_{\pi\tau}=\mathbf A\,\mathbf s_{\pi\tau}\end{gathered}$$ }}
+  - **Scoring policies.** $\mathbf G_\pi$ is the expected free energy and $\mathbf F_\pi$ the free energy of the outcomes seen so far, both minimised; $\sigma$ is the softmax. $\mathbf G$ is ambiguity (blurry $\mathbf A$) plus risk (predicted outcomes far from the preferred ones), and the beliefs about policies add the past score and the future score:
+    {{ $$\boldsymbol\pi=\sigma(-\mathbf G-\mathbf F)$$ }}
+  - **Continuous family (predictive coding).** Beliefs have a mode $\tilde\mu$, errors $\tilde\epsilon$ compare data, dynamics and prior with the predictions, and $\tilde\Pi$ is the precision (the inverse covariance, so a Gaussian is $\mathcal N(m,\Pi^{-1})$). The Laplace approximation (a Gaussian at the mode) has precision equal to minus the curvature of $\ln p$ there. Free energy is squared errors weighted by trust, and action moves the data so that they match the prediction ($\nabla_u\tilde y$ = how the data change with the action $u$):
+    {{ $$F=\tfrac12\,\tilde\epsilon\cdot\tilde\Pi\,\tilde\epsilon$$ }}
+    {{ $$\dot u=-\nabla_uF=-\nabla_u\tilde y(u)\cdot\tilde\Pi_y\,\tilde\epsilon_y$$ }}
+  - **Limit checks.** In one level with data $y$, prior mean $\eta$, precisions $\Pi_y,\Pi_v$ and $g(v)=v$, the belief is the weighted compromise $\mu=\dfrac{\Pi_y y+\Pi_v\eta}{\Pi_y+\Pi_v}$: for $\Pi_y\to\infty$ it hugs $y$, for $\Pi_y\to0$ it follows $\eta$ (and the reflex $\dot u=\dfrac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}(\eta-y)$ then hardly moves the arm).
+  - **Mean-field update.** For an approximate posterior $q(x)=\prod_i q_i(x_i)$ over hidden variables $x_i$ with data $y$ and joint $p(y,x)$, one factor at a time, the others $q_{\setminus i}$ held fixed:
+    {{ $$\ln q_i(x_i)=\mathbb E_{q_{\setminus i}}\big[\ln p(y,x)\big]+\text{const}$$ }}
+    average the log joint over the others, then normalise.
+
+cards:
+  - type: text
+    id: open
+    title: Two families, one recall
+    body: |
+      This lesson derives nothing. It trains quick recall of the two model families of this level:
+
+      1. the **discrete** family: tables $\mathbf A$, $\mathbf B$, $\mathbf C$, $\mathbf D$, the scores $\mathbf G$ and $\mathbf F$ and the softmax over policies;
+      2. the **continuous** family: precision-weighted prediction errors, the Laplace approximation, perception and action as gradient descent;
+      3. the **mean-field** update that links them.
+
+      Recall: $x$ (or $s$) is a hidden state, $y$ (or $o$) an observation, $F$ the variational free energy and $G$ the expected free energy. Both are **minimised**, and neither is ever sign-flipped. In the numeric cards, **you** supply the formula: the data are given, the law is not.
+
+  - type: mcq
+    id: columns-sum
+    prompt: |
+      A likelihood matrix $\mathbf A$ has entries $A_{ij}=P(o=i\mid s=j)$: row $i$ is an outcome, column $j$ a state. Which statement is true of any valid $\mathbf A$?
+    options:
+      - text: 'Each **column** sums to $1$: for a given state, the outcome probabilities add up to $1$.'
+        correct: true
+      - text: 'Each **row** sums to $1$: for a given outcome, the state probabilities add up to $1$.'
+        feedback: |
+          That would make each row a posterior $P(s\mid o)$. The likelihood fixes the state and asks about outcomes, so it is the columns that are probability tables.
+      - text: 'All entries together sum to $1$.'
+        feedback: |
+          That is a joint distribution over (outcome, state). A likelihood is conditional, so it is normalised once per state, not once overall.
+      - text: 'Nothing is required: $\mathbf A$ is just a table of weights.'
+        feedback: |
+          Each column must be a probability distribution, or the predicted outcomes $\mathbf A\mathbf s$ would not sum to $1$ either.
+    explanation: |
+      Mnemonic: **columns sum to 1**, for $\mathbf A$ and for the transitions $\mathbf B$ alike (column $j$ = what happens next when the state is $j$). That is what $\mathrm{Cat}(\mathbf A)$ means.
+
+  - type: build
+    id: build-readout
+    prompt: |
+      A creature believes its state is $\mathbf s_{\pi\tau}$ (a vector of probabilities) and has a likelihood table $\mathbf A$ and a transition table $\mathbf B_{\pi\tau}$. Build the predicted outcome probabilities $\mathbf o_{\pi\tau}$: the belief is read out through the sensor.
+    prefix: '\mathbf o_{\pi\tau} ='
+    tiles:
+      - '\mathbf A'
+      - '\mathbf B_{\pi\tau}'
+      - '\mathbf s_{\pi\tau}'
+      - '\ln\mathbf A'
+    answers:
+      - ['\mathbf A', '\mathbf s_{\pi\tau}']
+    wrong:
+      - answer: ['\mathbf B_{\pi\tau}', '\mathbf s_{\pi\tau}']
+        feedback: |
+          That product is the predicted next state $\mathbf s_{\pi,\tau+1}$: pushing forward in time. To get outcomes you read the state out through the likelihood $\mathbf A$.
+      - answer: ['\ln\mathbf A', '\mathbf s_{\pi\tau}']
+        feedback: |
+          $\ln\mathbf A$ appears in the free energy (the weight of an outcome actually seen), not in the prediction of outcomes, which is a plain table times the belief.
+    hint: 'Mnemonic: push forward with $\mathbf B$, read out with $\mathbf A$.'
+    explanation: |
+      $$\mathbf o_{\pi\tau}=\mathbf A\,\mathbf s_{\pi\tau},\qquad \mathbf s_{\pi,\tau+1}=\mathbf B_{\pi\tau}\,\mathbf s_{\pi\tau}.$$
+      Push forward (time), then read out (sensor).
+
+  - type: numeric
+    id: num-expect
+    prompt: |
+      A two-state, two-outcome sensor has likelihood table (columns are states, rows are outcomes)
+      $$\mathbf A=\begin{pmatrix}0.9&0.2\\0.1&0.8\end{pmatrix}.$$
+      The creature believes the state is state $1$ with probability $0.6$ and state $2$ with probability $0.4$. What probability does it expect for observing the **first** outcome?
+    answer: 0.62
+    tolerance: 0.001
+    answerText: '0.62'
+    wrong:
+      - { value: 0.55, feedback: 'You averaged the first row without the belief weights ($(0.9+0.2)/2$). The two states are not equally likely.' }
+      - { value: 0.9, feedback: 'That is the outcome probability if the state were certainly state $1$. The belief is uncertain.' }
+    hint: 'Weigh each column of the table by how much you believe in its state.'
+    explanation: |
+      State $1$ (probability $0.6$) shows the first outcome with probability $0.9$; state $2$ (probability $0.4$) with $0.2$. So $0.6\cdot0.9+0.4\cdot0.2=0.54+0.08=0.62$, which is the first entry of $\mathbf A\mathbf s$. The second outcome gets $0.38$.
+
+  - type: mcq
+    id: g-mnemonic
+    prompt: |
+      Select **every** true statement about the expected free energy $\mathbf G_\pi$ of a policy in the discrete model, written as ambiguity plus risk.
+    multiple: true
+    options:
+      - text: 'If every column of $\mathbf A$ is sharp (one outcome certain per state), the ambiguity is $0$.'
+        correct: true
+      - text: 'If every column of $\mathbf A$ is flat (all outcomes equally likely whatever the state), the ambiguity is as large as it can be.'
+        correct: true
+      - text: 'The risk is $0$ when the predicted outcomes equal the preferred outcomes.'
+        correct: true
+      - text: 'Both ambiguity and risk are to be minimised, so the best policy has the lowest $\mathbf G$.'
+        correct: true
+      - text: 'The risk measures how blurry the sensor is.'
+        feedback: |
+          That is the **ambiguity**. Risk is the divergence between the outcomes the policy predicts and the outcomes the creature prefers.
+      - text: 'A flat $\mathbf A$ gives zero ambiguity because it never surprises the creature.'
+        feedback: |
+          A flat column has maximal entropy: the outcome says nothing about the state. Ambiguity is the expected entropy of the likelihood.
+    explanation: |
+      Limit checks: sharp $\mathbf A$ gives ambiguity $0$ (the column entropies vanish); flat $\mathbf A$ gives the largest ambiguity (for two outcomes, $\ln2\approx0.693$ nats per state); predicted $=$ preferred gives risk $0$. Mnemonic: **ambiguity = a blurry sensor, risk = wrong expected outcomes**.
+
+  - type: build
+    id: build-pi
+    prompt: |
+      A creature scores each policy twice: $\mathbf F$ says how badly the policy explained what has been observed so far (the past), $\mathbf G$ how costly it is expected to be (the future). Both are minimised. Build the beliefs $\boldsymbol\pi$ about policies.
+    prefix: '\boldsymbol\pi ='
+    tiles:
+      - '\sigma('
+      - '-\mathbf G'
+      - '-\mathbf F'
+      - '+\mathbf F'
+      - ')'
+    answers:
+      - ['\sigma(', '-\mathbf G', '-\mathbf F', ')']
+      - ['\sigma(', '-\mathbf F', '-\mathbf G', ')']
+    wrong:
+      - answer: ['\sigma(', '-\mathbf G', '+\mathbf F', ')']
+        feedback: |
+          A plus on $\mathbf F$ would prefer policies that explained the past **badly**. $\mathbf F$ is minimised like $\mathbf G$, so both enter with the same minus sign.
+    hint: 'Mnemonic: past score plus future score, and a lower total gets more probability.'
+    explanation: |
+      $$\boldsymbol\pi=\sigma(-\mathbf G-\mathbf F).$$
+      Without data, $\mathbf F$ is equal for all policies and drops out, leaving $\boldsymbol\pi_0=\sigma(-\mathbf G)$.
+
+  - type: numeric
+    id: num-pi
+    prompt: |
+      Two policies have past scores $\mathbf F=(0.5,\,1.5)$ and future scores $\mathbf G=(1,\,0.8)$, all in nats and all to be minimised. What probability do the beliefs about policies give to policy $1$?
+    answer: 0.69
+    tolerance: 0.002
+    answerText: '0.690'
+    wrong:
+      - { value: 0.5, feedback: 'Equal probabilities would need equal total scores. Here the totals are $1.5$ and $2.3$.' }
+      - { value: 0.31, feedback: 'That is policy $2$. Policy $1$ has the lower total score, so it must get more than $\tfrac12$.' }
+    hint: 'Family: a softmax of the two total scores with a sign. With two options only the difference of the totals matters.'
+    explanation: |
+      Totals: policy $1$ has $0.5+1=1.5$, policy $2$ has $1.5+0.8=2.3$. The difference is $0.8$, so
+      $$\pi_1=\frac{1}{1+e^{-0.8}}=0.690.$$
+      Policy $1$ explained the past well, policy $2$ promises more, but the totals favour policy $1$.
+
+  - type: numeric
+    id: num-laplace
+    prompt: |
+      A posterior over a continuous hidden state is approximated by a Gaussian at its mode (the Laplace approximation). At the mode, $\ln p$ curves downward with second derivative $-0.25$ (in the units of the state). What is the standard deviation of the Gaussian?
+    answer: 2
+    tolerance: 0.01
+    answerText: '2'
+    wrong:
+      - { value: 0.25, feedback: 'That is the precision, not the standard deviation. The standard deviation is the square root of the **inverse** of the precision.' }
+      - { value: 4, feedback: 'That is the variance. The standard deviation is its square root.' }
+      - { value: 0.5, feedback: 'That is $\sqrt{0.25}$, the square root of the precision. Width goes with the inverse of the precision: a gentle curvature means a wide Gaussian.' }
+    hint: 'Mnemonic: sharper peak, narrower Gaussian. The precision is tied to the curvature.'
+    explanation: |
+      The precision is minus the curvature, $0.25$, so the variance is $1/0.25=4$ and the standard deviation is $\sqrt4=2$. A gentle hill ($-0.25$) is a wide belief; a steep one (say $-4$) would give standard deviation $\tfrac12$.
+
+  - type: build
+    id: build-f
+    prompt: |
+      In predictive coding the free energy is built from prediction errors $\tilde\epsilon$ (data, dynamics and prior against what the beliefs predict) and their precisions $\tilde\Pi$. Build $F$ up to constants: squared errors weighted by trust.
+    prefix: 'F ='
+    tiles:
+      - '\tfrac12'
+      - '\tilde\epsilon'
+      - '\tilde\Pi'
+      - '\tilde\epsilon'
+      - '\tilde\Pi^{-1}'
+    answers:
+      - ['\tfrac12', '\tilde\epsilon', '\tilde\Pi', '\tilde\epsilon']
+    wrong:
+      - answer: ['\tfrac12', '\tilde\epsilon', '\tilde\Pi^{-1}', '\tilde\epsilon']
+        feedback: |
+          The inverse precision is a variance. Weighting by variance would make a **less** trusted error count **more**. Precision (trust) multiplies the squared error.
+    hint: 'Mnemonic: half of the squared errors, each weighted by its precision.'
+    explanation: |
+      $$F=\tfrac12\,\tilde\epsilon\cdot\tilde\Pi\,\tilde\epsilon.$$
+      A large precision makes the same error expensive, so minimising $F$ first removes the errors that are trusted most.
+
+  - type: numeric
+    id: num-f
+    prompt: |
+      A model has two prediction errors, $0.5$ and $1$, with precisions $2$ and $4$ respectively (independent, so no cross terms). Up to constants, what is the free energy?
+    answer: 2.25
+    tolerance: 0.001
+    answerText: '2.25'
+    wrong:
+      - { value: 4.5, feedback: 'That is twice the answer: the overall factor of one half is missing.' }
+      - { value: 1.5, feedback: 'You added the errors, not their precision-weighted **squares**.' }
+      - { value: 0.5, feedback: 'You kept only the first error. Every error contributes, the second one with a large precision.' }
+    hint: 'Family: a precision-weighted sum of squares, with a constant factor you should recall.'
+    explanation: |
+      The first error contributes $2\cdot0.5^2=0.5$, the second $4\cdot1^2=4$, so the weighted sum of squares is $4.5$ and half of it is $2.25$. The second error dominates because it is both larger and more trusted.
+
+  - type: numeric
+    id: num-compromise
+    prompt: |
+      A creature has a prior belief that a hidden cause is $0$, held with precision $1$. It senses data $y=2$, which are the cause itself, with precision $3$. After the belief settles at the minimum of the free energy, what is it?
+    answer: 1.5
+    tolerance: 0.001
+    answerText: '1.5'
+    wrong:
+      - { value: 1, feedback: 'That is the plain average of the prior and the data. The two sources are not equally trusted: the data have three times the precision.' }
+      - { value: 2, feedback: 'That would ignore the prior altogether. A prior with precision $1$ still pulls the belief.' }
+      - { value: 0.5, feedback: 'The weights are reversed: the more precise source (the data) should pull harder.' }
+    hint: 'A weighted compromise between the prior and the data.'
+    explanation: |
+      Weigh each by its precision: $\dfrac{3\cdot2+1\cdot0}{3+1}=1.5$. The belief sits three quarters of the way from the prior to the data, because the data are three times as precise.
+
+  - type: mcq
+    id: limits-perception
+    prompt: |
+      A creature has prior mean $\eta$ (precision $\Pi_v$) and senses data $y$ of the hidden cause itself (precision $\Pi_y$). Its belief is the precision-weighted compromise between $\eta$ and $y$. Select **every** true limit.
+    multiple: true
+    options:
+      - text: 'For $\Pi_y\to\infty$ the belief tends to $y$.'
+        correct: true
+      - text: 'For $\Pi_y\to0$ the belief tends to $\eta$.'
+        correct: true
+      - text: 'For a flat prior ($\Pi_v\to0$) the belief tends to $y$.'
+        correct: true
+      - text: 'For $\Pi_y\to0$ the belief tends to $y$, because the data are all there is.'
+        feedback: |
+          With $\Pi_y\to0$ the data carry no trust at all, so the belief falls back on the prior $\eta$.
+      - text: 'For $\Pi_y=\Pi_v$ the belief is $\eta$.'
+        feedback: |
+          Equal precisions give the plain average $(\eta+y)/2$, halfway between the two.
+    explanation: |
+      Scaling test: the belief is a weighted average with weights $\Pi_y$ and $\Pi_v$. Whoever is trusted more wins; at the extremes, the belief equals that source.
+
+  - type: numeric
+    id: num-reflex
+    prompt: |
+      An arm's sensed angle changes one for one with the motor command $u$ (so $\nabla_u\tilde y=1$). The creature's belief about the angle is $1.1$, the sensed angle is $y=0.5$, and the sensory precision is $4$. At what rate does the command $u$ start to change? (Give the sign: positive means $u$ increases.)
+    answer: 2.4
+    tolerance: 0.001
+    answerText: '2.4'
+    wrong:
+      - { value: -2.4, feedback: 'The sign is reversed. The sensory error is $y-\mu=-0.6$ (data below the prediction), and the command moves **against** the gradient of $F$, so $u$ increases to lift the data up to the prediction.' }
+      - { value: 0.6, feedback: 'That is the bare error. The command is driven by the error multiplied by its precision (trust in the senses).' }
+      - { value: 0.15, feedback: 'You divided by the precision. Trust multiplies the error, it does not divide it.' }
+    hint: 'Mnemonic: move so that the sensed data match the prediction; the push is the error times its precision.'
+    explanation: |
+      The sensory error is $\epsilon_y=y-\mu=0.5-1.1=-0.6$. Then
+      $$\dot u=-\nabla_u y\;\Pi_y\,\epsilon_y=-1\cdot4\cdot(-0.6)=2.4.$$
+      Positive: the arm is predicted higher than it is sensed, so the command raises it.
+
+  - type: mcq
+    id: limits-action
+    prompt: |
+      With the arm angle $y=y_0+u$, prior mean (the predicted angle) $\eta$ with precision $\Pi_v$, and sensory precision $\Pi_y$, the reflex starts at the rate
+      $$\dot u=\frac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}\,(\eta-y).$$
+      Select **every** true statement.
+    multiple: true
+    options:
+      - text: 'For $\Pi_y\to0$ the arm hardly moves: the senses carry no trust, so no error drives the muscle.'
+        correct: true
+      - text: 'For $\Pi_y\to\infty$ the rate tends to $\Pi_v(\eta-y)$ and no longer grows with $\Pi_y$.'
+        correct: true
+      - text: 'For $\Pi_v\to0$ (no prior prediction) the arm hardly moves.'
+        correct: true
+      - text: 'Lowering $\Pi_y$ (sensory attenuation) always makes the reflex faster.'
+        feedback: |
+          The rate never falls when $\Pi_y$ increases: a small $\Pi_y$ gives a **weaker** reflex. Attenuation helps the belief follow the prediction, not the arm move faster.
+      - text: 'For $\Pi_y\to0$ the arm moves at the maximal rate $\Pi_v(\eta-y)$.'
+        feedback: |
+          That is the limit $\Pi_y\to\infty$. At $\Pi_y\to0$ the rate goes to $0$.
+    explanation: |
+      Scaling test of $\dfrac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}$: it is $\approx\Pi_y$ when $\Pi_y\ll\Pi_v$ (so it vanishes as $\Pi_y\to0$) and saturates at $\Pi_v$ when $\Pi_y\gg\Pi_v$. A prediction with no precision (no goal) also gives no movement.
+
+  - type: build
+    id: build-mf
+    prompt: |
+      An approximate posterior is a product of factors $q_i(x_i)$, with joint $p(y,x)$. The factor $q_i$ is updated with all the others $q_{\setminus i}$ held fixed. Build the update for $\ln q_i(x_i)$.
+    prefix: '\ln q_i(x_i) ='
+    tiles:
+      - '\mathbb E_{q_{\setminus i}}'
+      - '\ln p(y,x)'
+      - '+\text{const}'
+      - '\mathbb E_{q_i}'
+      - '\ln q_i(x_i)'
+    answers:
+      - ['\mathbb E_{q_{\setminus i}}', '\ln p(y,x)', '+\text{const}']
+    wrong:
+      - answer: ['\mathbb E_{q_i}', '\ln p(y,x)', '+\text{const}']
+        feedback: |
+          Averaging over $q_i$ itself would remove the dependence on $x_i$. We average over the **others**, so that $x_i$ stays free.
+    hint: 'Mnemonic: average the log joint over the others; the constant makes it sum to $1$.'
+    explanation: |
+      $$\ln q_i(x_i)=\mathbb E_{q_{\setminus i}}\big[\ln p(y,x)\big]+\text{const}.$$
+      Sweeping over the factors in turn never raises $F$.
+
+  - type: numeric
+    id: num-mf
+    prompt: |
+      Two binary hidden variables $x_1,x_2$ and fixed data $y$ have joint probabilities $p(y,x_1,x_2)$:
+
+      | | $x_2=1$ | $x_2=2$ |
+      |---|---|---|
+      | $x_1=1$ | $0.18$ | $0.02$ |
+      | $x_1=2$ | $0.04$ | $0.04$ |
+
+      The current belief $q_2$ is uniform. In one mean-field update of $q_1$, what is the new $q_1(x_1=1)$?
+    answer: 0.6
+    tolerance: 0.002
+    answerText: '0.6'
+    wrong:
+      - { value: 0.5, feedback: 'That is the old uniform guess. The update must favour $x_1=1$, whose joint probabilities are larger.' }
+      - { value: 0.714, feedback: 'That is the plain average of the probabilities in each row ($0.20$ against $0.08$). The average must be taken on the **log** scale.' }
+    hint: 'Average on the log scale over $x_2$, exponentiate, then normalise. It is not the plain average of probabilities.'
+    explanation: |
+      Averaging the log joint over a uniform $q_2$ gives $\tfrac12(\ln0.18+\ln0.02)$ for $x_1=1$ and $\tfrac12(\ln0.04+\ln0.04)$ for $x_1=2$. Exponentiating gives the geometric means $\sqrt{0.0036}=0.06$ and $\sqrt{0.0016}=0.04$ (not the arithmetic means $0.10$ and $0.04$). Normalising: $0.06/0.10=0.6$, so $q_1=(0.6,0.4)$.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the **content map** of this level: you rebuild the whole picture, from the exact posterior and the free energy to the two model families and the mean-field bridge between them.
