@@ -1,0 +1,333 @@
+id: ch07-deep-inference
+title: "Deep Inference: Words Inside Sentences"
+kind: concept
+own: |
+  - **A deep model stacks discrete models on different timescales.** Setup: a higher-level POMDP with hidden state $\mathbf s^{(2)}$ (a *sentence*), changing at the slow steps $\tau^{(2)}$; below it, at each slow step, a short lower-level POMDP with hidden state $\mathbf s^{(1)}$ (a *word*) running over the fast steps $\tau^{(1)}$ (here $3$ per word). One higher-level state persists over the whole lower-level trajectory it contextualises.
+  - **The outcomes of the higher level are the empirical priors of the lower level.** They are not observed. The outcome that the sentence $k$ generates at slow step $t$ becomes the initial prior $\mathbf D^{(1)}$ of the lower POMDP at that step. With the sentence prior $P(k)$, the word $w$ predicted at step $t$ has probability
+    {{ $$\begin{aligned}D_t(w)=\sum_k&\,Q(k\mid\text{words before }t)\\&\times P(w\mid k,t)\end{aligned}$$ }}
+    where $P(w\mid k,t)$ is $1$ if sentence $k$ has the word $w$ at step $t$ (less with noise). Example: six equally likely four-word sentences over the words flee, feed, wait, of which $4$ start with wait and $2$ with flee give $\mathbf D=(\text{flee},\text{wait})=(1/3,\,2/3)$ for the first word.
+  - **Evidence climbs, priors descend.** The lower level infers the word from its own outcomes (by foveating the parts of the word that tell the candidates apart: epistemic value, as in information seeking). That posterior over words is the only thing the higher level gets, as evidence on its outcome. The sentence posterior is
+    {{ $$Q(k\mid\text{words})\propto P(k)\prod_t P(\text{word}_t\mid k,t)$$ }}
+    Example: after the word flee, the two sentences that start with flee have probability $1/2$ each, and the prediction for step $2$ is the word wait with probability $1$:
+    {{ $$\begin{aligned}Q(\text{sentence }1\mid\text{flee})&=\tfrac12\\D_2(\text{wait})&=1\end{aligned}$$ }}
+  - **Learning and depth share one idea.** Beliefs about parameters (learning) and beliefs about a slow context (hierarchy) both live on slower timescales than beliefs about fast states, and both can be stacked to any number of levels.
+cards:
+  - type: text
+    id: hook
+    title: "Reading: the same word, different sentences"
+    body: |
+      Think of a tiny language with only three **words**: *flee*, *feed* and *wait*. Its **sentences** have four words, and there are exactly six of them:
+
+      | Sentence | 1st | 2nd | 3rd | 4th |
+      |---|---|---|---|---|
+      | 1 | flee | wait | feed | wait |
+      | 2 | wait | wait | wait | feed |
+      | 3 | wait | flee | wait | feed |
+      | 4 | flee | wait | feed | flee |
+      | 5 | wait | wait | wait | flee |
+      | 6 | wait | flee | wait | flee |
+
+      You are reading, one word at a time, a sentence picked at random from these six. You are never told which one. The word *wait* alone, for example, means nothing about the sentence: it appears in all of them. The meaning of a word depends on the **context** in which it sits, and that context lasts longer than any one word.
+
+  - type: mcq
+    id: guess
+    prompt: |
+      Using the table of six sentences, you have read the first two words: *flee*, then *wait*. What can you say about the sentence?
+    options:
+      - text: 'It is sentence 1 or sentence 4: both start with flee, wait. Only the third word onwards (both have feed) and the fourth word can separate them.'
+        correct: true
+      - text: 'It is sentence 1: the order flee, wait, feed, wait is the natural one.'
+        feedback: |
+          Nothing in two words tells sentence 1 from sentence 4. Both start flee, wait, feed and differ only in the last word. Picking one would be a guess without evidence.
+      - text: 'It could be any of the six: two words are too few to learn anything.'
+        feedback: |
+          Two words already rule out four sentences. The sentences 2, 3, 5 and 6 all start with wait, so the first word *flee* removed them.
+    explanation: |
+      Each word is **evidence** about the sentence: it keeps the sentences that agree and drops those that do not. Here the evidence leaves two candidates. The fourth word will decide. The rest of the lesson builds a model that does exactly this with numbers.
+
+  - type: text
+    id: timescales
+    title: "Two timescales"
+    body: |
+      So far a model had one level: hidden states $\mathbf s_\tau$ changing at every time step $\tau$, outcomes $\mathbf o_\tau$ observed. A **deep** (or hierarchical) model stacks two such models on **different timescales**.
+
+      Take the reading example. Each hidden state of the **lower level** is a **word**; each hidden state of the **higher level** is a **sentence**. The sentence lasts longer than any one word: a single sentence state stays in place while several words are read, and it shapes all of them.
+
+      Notation: the superscript in brackets names the level, $(1)$ lower and $(2)$ higher. The fast time index (inside one word) is $\tau^{(1)}$, the slow time index (one step per word) is $\tau^{(2)}$. The hidden states are $\mathbf s^{(1)}$ (words) and $\mathbf s^{(2)}$ (sentences).
+
+      The higher level has the same form as the lower one: a prior $\mathbf D^{(2)}$ over its first state, transitions $\mathbf B^{(2)}$, a likelihood $\mathbf A^{(2)}$, policies $\pi^{(2)}$ with expected free energy $\mathbf G^{(2)}$. It is simply stretched out in time. The only difference: its outcomes $\mathbf o^{(2)}$ are **not observed**.
+
+  - type: widget
+    id: two-levels
+    review: false
+    widget: factor-graph
+    config:
+      box: [400, 310]
+      variables:
+        - { id: pi2, label: '\pi^{(2)}', pos: [130, 24] }
+        - { id: s2a, label: 's^{(2)}_{1}', pos: [60, 62] }
+        - { id: s2b, label: 's^{(2)}_{2}', pos: [200, 62] }
+        - { id: o2a, label: 'o^{(2)}_{1}', pos: [60, 150] }
+        - { id: o2b, label: 'o^{(2)}_{2}', pos: [200, 150] }
+        - { id: s1a, label: 's^{(1)}_{1}', pos: [60, 225] }
+        - { id: s1b, label: 's^{(1)}_{2}', pos: [200, 225] }
+        - { id: s1c, label: 's^{(1)}_{3}', pos: [340, 225] }
+        - { id: o1a, label: 'o^{(1)}_{1}', pos: [60, 290], observed: true }
+        - { id: o1b, label: 'o^{(1)}_{2}', pos: [200, 290], observed: true }
+        - { id: o1c, label: 'o^{(1)}_{3}', pos: [340, 290], observed: true }
+      factors:
+        - { id: G2, label: 'G', pos: [190, 24], vars: [pi2], term: '-\mathbf G^{(2)}' }
+        - { id: D2, label: 'D', pos: [16, 62], vars: [s2a], term: '\ln\mathbf D^{(2)}' }
+        - { id: B2, label: 'B', pos: [130, 62], vars: [s2a, s2b, pi2], term: '\ln\mathbf B^{(2)}\mathbf s^{(2)}_{\tau-1}' }
+        - { id: A2a, label: 'A', pos: [60, 106], vars: [s2a, o2a], term: '\ln\mathbf A^{(2)}\cdot\mathbf o^{(2)}_{1}' }
+        - { id: A2b, label: 'A', pos: [200, 106], vars: [s2b, o2b], term: '\ln\mathbf A^{(2)}\cdot\mathbf o^{(2)}_{2}' }
+        - { id: D1, label: 'D', pos: [60, 188], vars: [o2a, s1a], term: '\ln\mathbf o^{(2)}_{1}\ (=\ln\mathbf D^{(1)})' }
+        - { id: B1a, label: 'B', pos: [130, 225], vars: [s1a, s1b], term: '\ln\mathbf B^{(1)}\mathbf s^{(1)}_{\tau-1}' }
+        - { id: B1b, label: 'B', pos: [270, 225], vars: [s1b, s1c], term: '\ln\mathbf B^{(1)}\mathbf s^{(1)}_{\tau-1}' }
+        - { id: A1a, label: 'A', pos: [60, 258], vars: [s1a, o1a], term: '\ln\mathbf A^{(1)}\cdot\mathbf o^{(1)}_{1}' }
+        - { id: A1b, label: 'A', pos: [200, 258], vars: [s1b, o1b], term: '\ln\mathbf A^{(1)}\cdot\mathbf o^{(1)}_{2}' }
+        - { id: A1c, label: 'A', pos: [340, 258], vars: [s1c, o1c], term: '\ln\mathbf A^{(1)}\cdot\mathbf o^{(1)}_{3}' }
+      messageFormula: '\ln Q({v}) = {terms}'
+      join: ' + '
+    body: |
+      The structure of a two-level model, drawn for two slow steps (two sentence states $\mathbf s^{(2)}_1,\mathbf s^{(2)}_2$, as in the reading example two *word slots*). Circles are variables (shaded = observed), squares are factors $\mathbf D,\mathbf B,\mathbf A$ and $\mathbf G$ (which sets the policy $\pi^{(2)}$). **Top:** the higher-level model; its outcomes $\mathbf o^{(2)}$ are *not* shaded. **Bottom:** the lower-level model for the first slow step, three fast steps; its outcomes $\mathbf o^{(1)}$ *are* observed. (The lower model for the second slow step hangs below $\mathbf o^{(2)}_2$ in the same way; it is not drawn, nor is the lower-level policy.)
+
+      The single link between the levels is the square $\mathbf D$ between $\mathbf o^{(2)}_1$ and $\mathbf s^{(1)}_1$. Click $\mathbf o^{(2)}_1$ and see which squares it reads, and press *Show messages*.
+
+  - type: numeric
+    id: fast-steps
+    prompt: |
+      A sentence has $4$ words, and the lower-level model runs $3$ fast steps per word, as in the figure. How many fast steps $\tau^{(1)}$ does it take to read the whole sentence?
+    answer: 12
+    tolerance: 0
+    answerText: '4 × 3 = 12'
+    wrong:
+      - { value: 4, feedback: 'That counts the slow steps (one per word). Each slow step contains $3$ fast steps.' }
+      - { value: 7, feedback: 'The steps multiply, they do not add: every word has its own run of $3$ fast steps.' }
+    hint: 'One run of fast steps per word.'
+    explanation: |
+      $4$ words $\times\,3$ fast steps $=12$ fast steps, while the higher level takes only $4$ slow steps, and if the sentence is a single state it does not change at all: one sentence state persists over all $12$ steps. That is the separation of timescales: the higher level is slow because what it represents lasts.
+
+  - type: text
+    id: empirical-priors
+    title: "Higher outcomes are priors for the lower level"
+    body: |
+      If the higher-level outcomes are never observed, what are they for? In the figure the square $\mathbf D$ joins $\mathbf o^{(2)}_1$ to the **first state of the lower model**. That is the whole trick:
+
+      > The outcome that the higher level *predicts* becomes the **initial prior $\mathbf D^{(1)}$** of the lower-level model.
+
+      A prior that comes from another level of the same model, rather than being fixed by hand, is an **empirical prior**. In reading: a sentence says "the first word is *flee*", and this prediction, as a probability vector over the three words, is the prior with which the lower level starts to interpret what it sees (the visual input from the letters).
+
+      Different slow steps give different priors: the sentence predicts a word for the 1st slot, another for the 2nd, and so on. Before we compute, try the machine.
+
+  - type: widget
+    id: reading-widget
+    review: false
+    widget: deep-levels
+    config:
+      words: [flee, feed, wait]
+      sentences:
+        - { words: [flee, wait, feed, wait] }
+        - { words: [wait, wait, wait, feed] }
+        - { words: [wait, flee, wait, feed] }
+        - { words: [flee, wait, feed, flee] }
+        - { words: [wait, wait, wait, flee] }
+        - { words: [wait, flee, wait, flee] }
+      fastSteps: 3
+      presets:
+        - { label: "start over", evidence: [] }
+        - { label: "flee", evidence: [flee] }
+        - { label: "flee, wait, feed, wait", evidence: [flee, wait, feed, wait] }
+    body: |
+      The six sentences are equally likely at the start. Each column of buttons is a **slow step** (one word); the three ticks inside show the **fast** steps spent on it. Set the word read at the first step with its button and watch the *sentence* bars (below) and the **prediction for the next word** (the bars of the next step). Then add words one by one. Try to guess each prediction before you set the word.
+
+  - type: numeric
+    id: first-prior
+    prompt: |
+      The six sentences in the table are equally likely. Before reading anything, the higher level predicts the first word and passes it down as the prior $\mathbf D^{(1)}$ for the first word. What is the probability that the **first word is *wait***?
+    answer: 0.667
+    tolerance: 0.002
+    answerText: '4/6 = 2/3 ≈ 0.667'
+    wrong:
+      - { value: 0.333, feedback: 'That is the probability of *flee* (2 of 6). *Wait* starts the other four.' }
+      - { value: 0.5, feedback: 'The three words are not equally likely at the first slot: the six sentences are, and four of them start with *wait*.' }
+    hint: 'Count the sentences starting with *wait* among the six, each with probability $1/6$.'
+    explanation: |
+      Sentences 2, 3, 5 and 6 start with *wait*: $4\times\tfrac16=\tfrac23$. Sentences 1 and 4 start with *flee*: $\tfrac13$. And *feed* never starts a sentence, so $\mathbf D^{(1)}=(\text{flee},\text{feed},\text{wait})=(\tfrac13,0,\tfrac23)$. In symbols, $D_1(w)=\sum_k P(k)\,P(w\mid k,1)$: the prior over sentences, pushed through the words each sentence predicts.
+
+  - type: numeric
+    id: after-flee
+    prompt: |
+      The lower level has read the first word and is sure it is *flee*. This is passed up as evidence on the sentence. What is now the probability of **sentence 1** (flee, wait, feed, wait)?
+    answer: 0.5
+    tolerance: 0.002
+    answerText: '1/2'
+    wrong:
+      - { value: 0.167, feedback: 'That is the prior $1/6$. The evidence has removed four sentences, so the rest share the probability.' }
+      - { value: 1, feedback: 'Sentence 4 (flee, wait, feed, flee) starts with *flee* too, and the first word cannot separate them.' }
+    hint: 'Which sentences start with *flee*? The ones that survive keep their prior ratio.'
+    explanation: |
+      The sentences 1 and 4 each had prior $1/6$ and both predicted *flee* first, so both are multiplied by the same likelihood; the other four predicted *wait* and drop to $0$. Renormalising: $\tfrac{1/6}{2/6}=\tfrac12$ each. In symbols: $Q(k\mid\text{flee})\propto P(k)\,P(\text{flee}\mid k,1)$.
+
+  - type: numeric
+    id: next-wait
+    prompt: |
+      Still after the single word *flee* (sentences 1 and 4 at $1/2$ each): the higher level now sets the prior $\mathbf D^{(1)}$ for the **second** word. What is the probability it gives to the word ***wait***?
+    answer: 1
+    tolerance: 0.001
+    answerText: '1'
+    wrong:
+      - { value: 0.667, feedback: 'That was the first-word prior, from all six sentences. The evidence has changed which sentences are alive.' }
+      - { value: 0.5, feedback: 'The two surviving sentences disagree on the last word, not on the second: both have *wait* second.' }
+    hint: 'What do sentences 1 and 4 say in second place?'
+    explanation: |
+      Both surviving sentences have *wait* in second place: $\tfrac12\cdot1+\tfrac12\cdot1=1$. So the next-word prediction is $\mathbf D^{(1)}=(\text{flee},\text{feed},\text{wait})=(0,0,1)$. The prior of a word is a **posterior-weighted average** of what each sentence predicts: $D_t(w)=\sum_k Q(k\mid\text{words before }t)\,P(w\mid k,t)$. It changes whenever the sentence belief changes.
+
+  - type: numeric
+    id: step-four
+    prompt: |
+      The words *flee, wait, feed* have been read (sentences 1 and 4 still at $1/2$ each). What probability does the higher level give to the **fourth word being *wait***?
+    answer: 0.5
+    tolerance: 0.002
+    answerText: '1/2'
+    wrong:
+      - { value: 1, feedback: 'That would be the case with only sentence 1. Sentence 4 ends with *flee*.' }
+      - { value: 0, feedback: 'Sentence 1 ends with *wait*, with probability $1/2$ of being the sentence.' }
+    hint: 'Sentence 1 ends with *wait*; what does sentence 4 end with?'
+    explanation: |
+      $\tfrac12\cdot1$ (sentence 1: *wait*) $+\ \tfrac12\cdot0$ (sentence 4: *flee*) $=\tfrac12$, and *flee* has the other $\tfrac12$. The prior is split because the higher level is itself undecided: its uncertainty about the sentence becomes the uncertainty of the lower level's prior.
+
+  - type: mcq
+    id: fourth-word
+    prompt: |
+      Reading on, the fourth word's lower-level inference concludes that the word in play is *wait*. What does the higher level conclude about the sentence?
+    options:
+      - text: 'Sentence 1 with certainty: it is the only one of the two survivors that ends with *wait*.'
+        correct: true
+      - text: 'Still sentence 1 and sentence 4 at $1/2$ each: one word cannot change a belief held over three words.'
+        feedback: |
+          The fourth word is exactly where the two survivors differ. *Wait* is impossible under sentence 4, which ends with *flee*, so its probability drops to $0$.
+      - text: 'Sentence 4: the prior prediction was split, so the less expected word wins.'
+        feedback: |
+          Sentence 4 predicts *flee* in the last place, not *wait*. The word read is *wait*, so sentence 1 is the one that fits.
+    explanation: |
+      The evidence $Q(k\mid\text{words})\propto P(k)\prod_t P(\text{word}_t\mid k,t)$ multiplies, for each sentence, the probabilities it gave to the words actually read. Sentence 4 gave $0$ to *wait* in the last place, so its posterior is $0$. The fast inference of a single word has settled a question of the slow scale.
+
+  - type: mcq
+    id: foveation
+    prompt: |
+      The lower level does not receive the word itself, only visual input from the part of the word it is looking at (the *fovea*, the small region of sharp sight). Its policies are where to look next, and it picks them by minimising the expected free energy. Why does it look at different parts of the word in turn?
+    options:
+      - text: 'To gather evidence: it looks where the outcome best tells apart the candidate words (epistemic value, information seeking), and its confidence about the word grows with each look.'
+        correct: true
+      - text: 'To reach a preferred outcome: seeing the word flee is rewarding in itself.'
+        feedback: |
+          Here the pragmatic term is not what drives the looks. What the creature needs is to find out which word is in play, so the epistemic term does the work.
+      - text: 'It looks at random parts of the word until one is clear.'
+        feedback: |
+          Random looks would waste time. Choosing the look with the largest expected information gain is exactly what $G$ with an epistemic term does.
+    explanation: |
+      This is the same machinery as in the saccade example of information seeking, now used for a word: each fast step a new look reduces the uncertainty about which word is in play. That is why the lower level's confidence rises over its fast steps.
+
+  - type: order
+    id: loop
+    prompt: |
+      Put one round of message passing between the two levels in order, from the start of a word.
+    steps:
+      - 'The higher level predicts the word for this slot, and passes this prediction down as the lower level''s prior $\mathbf D^{(1)}$.'
+      - 'The lower level looks at parts of the word and infers, over its fast steps, which word it is (a posterior over words).'
+      - 'This posterior over words is passed up as evidence on the higher level''s outcome.'
+      - 'The higher level updates its belief about the sentence from this evidence.'
+      - 'The updated sentence belief gives a new prediction, the prior for the next word.'
+    hint: |
+      Priors travel down, evidence travels up. The sentence belief is updated after the word has been inferred.
+    explanation: |
+      Priors descend, evidence ascends, in a loop that runs once per slow step. It is ordinary message passing on the graph of the first figure; only the timescales are different: many fast updates fit inside one slow update.
+
+  - type: mcq
+    id: indirect
+    prompt: |
+      A student says: "The sentence level reads the letters on the page directly, and the word level is just a convenient label." Which statement is right?
+    options:
+      - text: 'The higher level never touches the data: it receives only the lower level''s belief about the word, and it sends back only a prior over words.'
+        correct: true
+      - text: 'The higher level receives the same visual input as the lower one, and uses the word level to speed up its computation.'
+        feedback: |
+          In the figure, the only observed variables are the lower-level outcomes $\mathbf o^{(1)}$. The higher level has the unshaded $\mathbf o^{(2)}$, which are generated by the model and never seen.
+      - text: 'The two levels are independent: each one infers its own state from the visual input.'
+        feedback: |
+          They are coupled by the link $\mathbf o^{(2)}\to\mathbf D^{(1)}$: the lower level's prior depends on the higher level, and the higher level's evidence depends on the lower level's result.
+    explanation: |
+      Deep inference is a chain of inferences: data inform the words, words inform the sentence. The data reach the sentence only **through** the lower level's posterior. This is why the higher level can be slow and abstract: it works with summaries, not with raw input.
+
+  - type: widget
+    id: two-sentences-widget
+    review: false
+    widget: deep-levels
+    config:
+      words: [yes, no]
+      sentences:
+        - { words: [yes, no, no] }
+        - { words: [yes, yes, no] }
+      prior: [3, 1]
+      noise: 0.05
+      fastSteps: 3
+      presets:
+        - { label: "start over", evidence: [] }
+        - { label: "yes", evidence: [yes] }
+        - { label: "yes, no", evidence: [yes, no] }
+    body: |
+      A smaller language: two words, *yes* and *no*, and two sentences, *yes, no, no* and *yes, yes, no*. The first is believed **three times** as strongly as the second ($3:1$ prior). The model is no longer perfect: a word read is the one the sentence predicts with probability $0.95$ and the other word with probability $0.05$ (a little **noise**). Read *yes* first, then watch the prediction for the second word.
+
+  - type: numeric
+    id: noisy-prediction
+    prompt: |
+      In the language of the last picture, the first word read is *yes*. Both sentences start with *yes*, so the belief about the sentence stays at $0.75$ and $0.25$. For the second word, sentence 1 predicts *no* and sentence 2 predicts *yes*; a sentence's word is the one predicted with probability $0.95$, and the other word with $0.05$. What probability does the lower level's prior give to the **second word being *no***?
+    answer: 0.725
+    tolerance: 0.001
+    answerText: '0.75 × 0.95 + 0.25 × 0.05 = 0.725'
+    wrong:
+      - { value: 0.95, feedback: 'That is the probability of *no* if you were sure about sentence 1. Sentence 2 (probability $0.25$) predicts *yes* there.' }
+      - { value: 0.75, feedback: 'That is the probability of sentence 1; it must still be multiplied by the $0.95$ with which that sentence gives *no*, and the $0.25$ of sentence 2 contributes $0.25\cdot0.05$.' }
+    hint: 'Weight each sentence''s prediction for *no* by the probability of that sentence, then add.'
+    explanation: |
+      Sentence 1 (probability $0.75$) gives *no* with probability $0.95$; sentence 2 (probability $0.25$) gives it with probability $0.05$:
+      $$D_2(\text{no})=0.75\cdot0.95+0.25\cdot0.05=0.725$$
+      The lower level starts the second word expecting *no* with $72.5\,\%$: an expectation that is a mixture, as strong as the higher level's belief. If the second word then turns out to be *no*, sentence 1 climbs to $0.983$, because it was the one that predicted it.
+
+  - type: mcq
+    id: parallel
+    prompt: |
+      Learning (updating the counts $\mathbf a$ of the likelihood over many trials) and the two-level reading model both separate timescales. Which statement describes what they have in common?
+    options:
+      - text: 'In both, a variable that changes slowly (the parameters, or the sentence) provides context for variables that change fast (the states, or the words); beliefs about the slow variable are updated more slowly than beliefs about the fast ones.'
+        correct: true
+      - text: 'In both, the slow variable is observed directly while the fast one is hidden.'
+        feedback: |
+          In both cases the slow variable is **hidden** too: the parameters and the sentence are inferred, not seen.
+      - text: 'They are the same thing: learning is the word level of a reading model.'
+        feedback: |
+          They are different structures. In learning, the slow variable is the set of parameters of the model; in deep inference it is a state with its own transitions, generating priors for the next level. They can be combined.
+    explanation: |
+      A learning model can itself be read as a hierarchical model, with faster inference about states and slower learning about parameters. The two forms of hierarchy can be combined, even with the relations between the variables on different levels being learned.
+
+  - type: mcq
+    id: depth
+    prompt: |
+      Reading has words inside sentences. Add paragraphs above sentences: a three-level model. Which statement fits the idea of the section?
+    options:
+      - text: 'Each added level is another POMDP above, slower than the one below; its states persist over the many steps of the level beneath it. In principle, any number of levels can be stacked, matching a world that has structure on many timescales.'
+        correct: true
+      - text: 'Only two levels are possible: the higher level must contain the sentence and the lower the word.'
+        feedback: |
+          Nothing fixes the number of levels. The pattern of the first figure (outcomes of one level = empirical priors of the one below) can repeat.
+      - text: 'A third level would have to observe the visual input directly, to be useful.'
+        feedback: |
+          No level above the first needs the data: each level receives evidence from the one beneath it.
+    explanation: |
+      The pattern repeats: levels are stacked, each providing context for the next, and the speed drops as one goes up: letters, words, sentences, paragraphs, pages. This is a model of a deeply structured world with dynamics playing out over many different temporal scales.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the pieces of discrete-time active inference are now all in hand. A short round of traps follows, built on the mistakes that are easiest to make with them: the free energy against the expected free energy, precision as gain, the epistemic term, habits, Dirichlet counts and novelty, and the hierarchy.
