@@ -29,6 +29,7 @@ import { homeostat } from './homeostat.js';
 import { freeEnergyBound } from './free-energy-bound.js';
 import { policyScorer } from './policy-scorer.js';
 import { blanketGraph } from './blanket-graph.js';
+import { blanketSync } from './blanket-sync.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -54,6 +55,7 @@ const WIDGETS = {
   'free-energy-bound': freeEnergyBound,
   'policy-scorer': policyScorer,
   'blanket-graph': blanketGraph,
+  'blanket-sync': blanketSync,
 };
 
 export function mountWidget(name, el, config) {
