@@ -1,0 +1,371 @@
+id: ch03-least-action
+title: Surprise Minimization as Least Action
+kind: concept
+own: |
+  - **Setup.** A creature with a Markov blanket persists over time. Its sensory states $y$ (a vector, say $y=(y_1,y_2)$) keep a **steady-state distribution** $P(y)$: the same density at every time, even though the states themselves keep moving. The **surprise** of a state is $\mathfrak{I}(y)=-\ln P(y)$.
+  - **Restoring flow.** The random fluctuations push $y$ to less probable states. Persisting means they are corrected by the **average flow** (the deterministic part of the dynamics), which on average goes down the surprise, that is up the probability gradient. The surprise $\mathfrak{I}$ plays the role of an energy function (a **Hamiltonian**):
+    {{ stochastic systems at steady state, on average, descend $\mathfrak{I}(y)=-\ln P(y)$ }}
+    A system with no such flow disperses: its surprise grows indefinitely.
+  - **Entropy.** The (Shannon) entropy of $P(y)$ is the long-term average of surprise, and a narrow, high-probability set of sensory states means low entropy:
+    {{ $$H[P(y)]=\mathbb{E}_{P(y)}[\mathfrak{I}(y)]=-\mathbb{E}_{P(y)}[\ln P(y)]$$ }}
+    Persisting while resisting the second law (entropy grows) means keeping $H$ small.
+  - **Free energy.** Free energy $F$ is an upper bound on surprise, $F\ge\mathfrak{I}(y)$, and the gap is the divergence between the exact posterior $P(x\mid y)$ over external states $x$ and the approximate one $Q$:
+    {{ $$F-\mathfrak{I}(y)=D_{\mathrm{KL}}\bigl[Q(x)\,\|\,P(x\mid y)\bigr]\ \ge 0$$ }}
+    Internal states shrink the divergence, and active states shrink the surprise.
+  - **Least Action.** Minimising free energy gives the path of **least Action** from the current state to the desired one: {{ the Hamiltonian principle of least Action applied to behaviour }}.
+cards:
+  - type: text
+    id: hook
+    title: "Why must surprise be minimised?"
+    body: |
+      So far we **asserted** that a creature must keep its surprise low. Today we see why, with a bit of physics. The reason is that creatures **persist**: a fish stays a fish for years, although the world around it constantly jostles it with random fluctuations.
+
+      Guess first, before any theory.
+
+  - type: mcq
+    id: hook-guess
+    prompt: |
+      Two balls are shaken by the same small random kicks. Ball A sits in a bowl-shaped basin. Ball B sits on a flat plateau. After a long time, which statement is most likely true?
+    options:
+      - text: 'Ball A is still near the bottom of the basin. Ball B has wandered far from where it started, and keeps spreading out.'
+        correct: true
+      - text: 'Both balls stay near where they started, since the kicks are random and cancel out.'
+        feedback: |
+          Random kicks do not cancel: their effects add up like a drunken walk, and the distance covered keeps growing. Only something that pushes the ball **back** can stop the spreading, as the slope of the basin does for ball A.
+      - text: 'Ball A leaves the basin sooner, because it is in a harder place to stay.'
+        feedback: |
+          The opposite. The slope of the basin pushes the ball back toward the bottom after every kick, so the average motion cancels the fluctuations.
+    explanation: |
+      On the plateau nothing opposes the kicks, so the ball **disperses**. In the basin, every kick that sends it uphill is followed on average by a push downhill. A living creature is ball A: its "basin" is the set of states it can occupy while still being itself.
+
+  - type: text
+    id: steady
+    title: "Steady state: a density, not a position"
+    body: |
+      The **persistence** of a Markov blanket means that the **distribution of blanket states stays the same over time**. This is called a **steady state** (or stationary distribution).
+
+      Careful: "steady" does not mean the states stand still. The creature's temperature, say, keeps fluctuating. What is constant is the **density** $P(y)$: the fraction of time that the sensory state $y$ spends in each region. A **blanket state** is a sensory or active state, and here we follow the sensory ones, $y$.
+
+  - type: mcq
+    id: steady-mean
+    prompt: |
+      A creature's sensory state $y$ (a body temperature) jitters all the time, yet the creature is "at steady state". What is constant in time?
+    options:
+      - text: 'The probability density of $y$: the fraction of time spent in each range of values.'
+        correct: true
+      - text: 'The value of $y$ itself, which never changes.'
+        feedback: |
+          That would be a fixed point with no fluctuations at all. A steady state in this sense allows $y$ to move constantly; only its **distribution** is stationary.
+      - text: 'The velocity of $y$, which is always zero.'
+        feedback: |
+          A steady-state system can move all the time (it may even circulate around its typical region). Nothing requires zero velocity; what stays the same is how often each region is visited.
+    explanation: |
+      Steady state = constant **density of states** $P(y)$. The path wanders; the histogram of where it has been does not change.
+
+  - type: widget
+    id: widget-nodrift
+    review: false
+    widget: steady-state-walk
+    config:
+      modes: [none]
+      mode: none
+      showStrength: false
+      labels:
+        x1: 'y_1'
+        x2: 'y_2'
+    body: |
+      A 2-dimensional sensory state $(y_1,y_2)$ starts at the ring (the point $(5,5)$) and receives only random kicks: **no drift**, no push back. The grey ellipses are contours of surprise: the centre is the least surprising place, and each ring outwards is more surprising. Press **Play**, then **Restart** or **New noise** a few times. Watch the trail and the trace below it (the surprise along the path).
+
+  - type: mcq
+    id: nodrift-seen
+    prompt: |
+      A 2D state is moved only by random kicks of fixed size and starts in a region of high surprise. What happens to its surprise over time?
+    options:
+      - text: 'It stays large or grows without bound, and the path disperses over space: no steady state is reached.'
+        correct: true
+      - text: 'It drifts down to the least surprising region, since that is where states are most probable.'
+        feedback: |
+          Probability is not a force. With no average flow, nothing pulls the state toward the probable region; it only diffuses.
+      - text: 'It oscillates around a fixed value, which is a steady state.'
+        feedback: |
+          Pure kicks spread the path ever wider, so the average surprise keeps drifting upward instead of settling. There is no steady state.
+    explanation: |
+      Without an average flow, the state does a random walk that keeps **dissipating** into more and more surprising regions. This is the middle case of the original three-panel figure.
+
+  - type: mcq
+    id: restoring-guess
+    prompt: |
+      Keep the same random kicks, same start, but now add an **average flow**: at every state, a small push in the direction in which the probability $P(y)$ rises fastest. What do you expect?
+    options:
+      - text: 'The path is pulled into the high-probability region and then stays there, with fluctuations that the push keeps correcting.'
+        correct: true
+      - text: 'The path goes straight to the centre and stops there for ever.'
+        feedback: |
+          The kicks continue, so the state keeps fluctuating around the centre. It does not freeze. A steady state is a cloud, not a point.
+      - text: 'The push makes no difference, because the kicks are as large as before.'
+        feedback: |
+          The kicks do not change but the push acts **all the time**, and it grows with the distance from the centre, so it wins over the kicks far away.
+    explanation: |
+      A fluctuation that moves the state to a less probable place is corrected by a move **up the probability gradient**. The state then occupies probability-dense regions a greater proportion of the time.
+
+  - type: widget
+    id: widget-restoring
+    review: false
+    widget: steady-state-walk
+    config:
+      modes: [restoring, none]
+      mode: restoring
+      showStrength: true
+      labels:
+        x1: 'y_1'
+        x2: 'y_2'
+      presets:
+        - { label: 'Weak push', mode: restoring, strength: 0.2 }
+    body: |
+      Now the **Restoring** mode: the same start and the same noise as before, plus the average flow up the probability gradient (down the surprise). Press **Play**, compare with **No drift** (same noise), and try the slider *restoring strength* (or the preset **Weak push**): below $1$ the push is too weak to fully cancel the kicks. Watch the average surprise and the dashed entropy line in the trace.
+
+  - type: mcq
+    id: restoring-seen
+    prompt: |
+      In the walk you just played, compare the two modes on the same random kicks. Which statement is correct?
+    options:
+      - text: 'With the restoring flow the surprise falls and then fluctuates around a steady average. Without it the surprise keeps growing.'
+        correct: true
+      - text: 'With the restoring flow the surprise falls to exactly zero and stays there.'
+        feedback: |
+          Surprise $-\ln P(y)$ is never zero for a spread-out density, and the kicks keep it fluctuating. The restoring flow keeps it **on average** low.
+      - text: 'Both modes have the same average surprise; only the path looks different.'
+        feedback: |
+          The averages differ greatly: the restoring walk stays in probable states, the free walk wanders far into improbable ones. A weaker push (strength below 1) also raises the average.
+    explanation: |
+      The restoring flow is the deterministic part of the dynamics. It does not stop the fluctuations, it **corrects** them, so that on average the state descends the surprise. That is the left panel of the original figure: a (nonequilibrium) steady state, where "nonequilibrium" means that the system keeps flowing and dissipating energy, unlike a ball that has simply come to rest
+
+  - type: text
+    id: hamiltonian
+    title: "Surprise as an energy"
+    body: |
+      Physicists say it like this: stochastic (random) systems at steady state engage in dynamics that, **on average**, **descend an energy function**, also called a **Hamiltonian**. Here that energy function is the surprise,
+      $$\mathfrak{I}(y)=-\ln P(y),$$
+      a negative log evidence.
+
+      It is a ball rolling downhill: the **potential energy** (energy stored by position) is high at the top of the hill and low in the basin. "On average" matters: a single kick can push the ball uphill, but the typical motion goes down.
+
+  - type: mcq
+    id: energy-role
+    prompt: |
+      In the walk, which quantity plays the role of the height of the hill (the energy function)?
+    options:
+      - text: 'The surprise $\mathfrak{I}(y)=-\ln P(y)$: high for improbable states, low for probable ones.'
+        correct: true
+      - text: 'The probability $P(y)$ itself.'
+        feedback: |
+          Probability is high at the centre, where the "basin" is. The height of a hill is largest where the ball is **least** likely to be, so the match is with $-\ln P$, not $P$.
+      - text: 'The noise strength of the kicks.'
+        feedback: |
+          The noise is the shaking, not the landscape. The landscape is a function of the state $y$.
+    explanation: |
+      Down the hill means toward lower surprise, which is toward higher probability. So "move up the probability gradient" and "descend the surprise" are the same statement.
+
+  - type: text
+    id: entropy-intro
+    title: "Entropy: the average surprise"
+    body: |
+      How surprising is a creature's life **on average**? Average the surprise over the steady-state density $P(y)$. This long-term average is the **(Shannon) entropy**, $H$, which measures how dispersed the states are:
+      $$H[P(y)]=\mathbb{E}_{P(y)}[\mathfrak{I}(y)]=-\mathbb{E}_{P(y)}[\ln P(y)].$$
+      Here $\mathbb{E}_{P(y)}[\,\cdot\,]$ is the **expectation** (weighted average) with weights $P(y)$.
+
+  - type: build
+    id: entropy-build
+    prompt: |
+      Build the entropy of the steady-state density $P(y)$ as an expectation. Use the surprise form, or the log form. (Both are accepted.)
+    prefix: 'H[P(y)]='
+    tiles:
+      - '\mathbb{E}_{P(y)}[\mathfrak{I}(y)]'
+      - '-'
+      - '\mathbb{E}_{P(y)}[\ln P(y)]'
+      - '\mathfrak{I}(\mathbb{E}[y])'
+    answers:
+      - ['\mathbb{E}_{P(y)}[\mathfrak{I}(y)]']
+      - ['-', '\mathbb{E}_{P(y)}[\ln P(y)]']
+    wrong:
+      - answer: ['\mathbb{E}_{P(y)}[\ln P(y)]']
+        feedback: |
+          That has the wrong sign: $\ln P(y)\le 0$, so its average is negative, while entropy is non-negative. It needs the minus of $-\ln P$.
+      - answer: ['\mathfrak{I}(\mathbb{E}[y])']
+        feedback: |
+          That is the surprise of the **average state**, one number. Entropy is the **average of the surprise** over all states, weighted by how often each occurs; the two differ in general.
+    hint: |
+      Surprise is $-\ln P(y)$, and entropy is its average.
+    explanation: |
+      $H=\mathbb{E}[\mathfrak{I}]=-\mathbb{E}[\ln P]$: the minus sign sits in front of the log because $\mathfrak{I}=-\ln P$.
+
+  - type: numeric
+    id: entropy-number
+    prompt: |
+      A sensor takes three values with steady-state probabilities $P=(0.5,\,0.25,\,0.25)$. What is the entropy $H=-\sum_y P(y)\ln P(y)$, in nats? (Use $\ln 2\approx0.693$.)
+    answer: 1.04
+    tolerance: 0.01
+    answerText: '1.04'
+    wrong:
+      - { value: 0.35, tolerance: 0.01, feedback: "That is $0.5\\ln 2$ only: you forgot the two states of probability $0.25$, each with surprise $\\ln 4$." }
+      - { value: -1.04, tolerance: 0.01, feedback: "Sign: each term $-P\\ln P$ is positive, so $H\\ge 0$." }
+    hint: |
+      The state with $P=0.5$ has surprise $\ln 2$; the two with $P=0.25$ have surprise $\ln 4=2\ln 2$.
+    explanation: |
+      $$H=0.5\ln 2+0.5\ln 4$$
+      $$\phantom{H}=1.5\ln 2\approx1.04\ \text{nats}.$$
+      Each term is a probability times a surprise: the entropy is the average surprise.
+
+  - type: mcq
+    id: entropy-peaked
+    prompt: |
+      Compare $P=(0.5,0.25,0.25)$, whose entropy is about $1.04$ nats, with a more peaked $P'=(0.9,0.05,0.05)$. The entropy of $P'$ is
+    options:
+      - text: 'lower: about $0.9\ln\tfrac1{0.9}+0.1\ln 20\approx0.39$ nats. A sensor that is almost always in one state is rarely surprised.'
+        correct: true
+      - text: 'higher, since one state has a much higher probability than before.'
+        feedback: |
+          A high probability means a **small** surprise for that state, and it carries almost all the weight in the average. Peaked densities have low entropy; spread-out ones have high entropy.
+      - text: 'the same, since the number of states is three in both cases.'
+        feedback: |
+          Entropy depends on the probabilities, not only on how many states there are. The most dispersed case (all three equally likely) has the largest entropy, $\ln 3$.
+    explanation: |
+      $0.9\ln(1/0.9)\approx0.095$ and $0.1\ln 20\approx0.300$, total $\approx0.39$ nats. Keeping a **small set of states at high probability** is the same as keeping the entropy low.
+
+  - type: mcq
+    id: second-law
+    prompt: |
+      The second law of thermodynamics says that entropy, the dispersion of a system's states, always grows. How can a living creature, whose steady-state entropy stays low, exist?
+    options:
+      - text: 'By minimising surprise: its average flow keeps correcting dispersive fluctuations, so it (temporarily) resists the growth of its entropy.'
+        correct: true
+      - text: 'By having no random fluctuations, so that nothing can disperse.'
+        feedback: |
+          Real creatures are constantly kicked by their environment. The point is that the fluctuations are **countered**, not absent.
+      - text: 'The second law does not apply to anything that moves.'
+        feedback: |
+          The law holds; it applies to the whole system with its surroundings. The creature keeps its own entropy low only for a while, by dispersing energy elsewhere.
+    explanation: |
+      Surprise minimisation lets living organisms **temporarily** resist the second law. Ensuring that a small proportion of sensory states is occupied with high probability is equivalent to maintaining a particular entropy: a defining mark of self-organising systems.
+
+  - type: mcq
+    id: homeostasis
+    prompt: |
+      A physiologist reads the restoring flow as **homeostasis**. A sensor value, say blood sugar, leaves its optimal range. In the picture of surprise minimisation, what happens?
+    options:
+      - text: 'A negative-feedback mechanism kicks in and reverses the deviation, pushing the value back toward the probable range.'
+        correct: true
+      - text: 'A positive-feedback mechanism amplifies the deviation, so the creature learns the new value.'
+        feedback: |
+          That would push the state further into improbable regions: the dispersive case. Homeostasis is **negative** feedback.
+      - text: 'Nothing happens until the value is exactly at its optimum.'
+        feedback: |
+          The restoring flow acts at every state, stronger the further the state is from the probable region.
+    explanation: |
+      The average flow up the probability gradient is, in physiological language, negative feedback.
+
+  - type: mcq
+    id: control-view
+    prompt: |
+      From a **control** viewpoint, we can define a distribution of preferred outcomes, a desired steady-state density. What does optimal behaviour involve?
+    options:
+      - text: 'Evolving the system toward that distribution, and then maintaining it.'
+        correct: true
+      - text: 'Making the distribution flat, so that every outcome is equally likely.'
+        feedback: |
+          A flat density has the highest entropy, the opposite of a creature that occupies a narrow set of states.
+      - text: 'Reaching a single preferred outcome and never changing again.'
+        feedback: |
+          The target is a **density**, not a point. The creature keeps fluctuating around it while the average flow corrects the deviations.
+    explanation: |
+      The preferred outcomes define the steady-state density. Optimal behaviour evolves toward it and **maintains** it.
+
+  - type: build
+    id: gap-build
+    prompt: |
+      Recall: free energy $F$ is an upper bound on surprise $\mathfrak{I}(y)$. Build the gap between them, with $x$ the external states and $Q(x)$ the approximate posterior.
+    prefix: 'F-\mathfrak{I}(y)='
+    tiles:
+      - 'D_{\mathrm{KL}}[Q(x)\,\|\,P(x\mid y)]'
+      - 'D_{\mathrm{KL}}[P(x\mid y)\,\|\,Q(x)]'
+      - 'D_{\mathrm{KL}}[Q(x)\,\|\,P(x)]'
+    answers:
+      - ['D_{\mathrm{KL}}[Q(x)\,\|\,P(x\mid y)]']
+    wrong:
+      - answer: ['D_{\mathrm{KL}}[Q(x)\,\|\,P(x)]']
+        feedback: |
+          That compares $Q$ with the **prior**, which is the complexity term. The gap to surprise compares $Q$ with the **exact posterior** $P(x\mid y)$.
+      - answer: ['D_{\mathrm{KL}}[P(x\mid y)\,\|\,Q(x)]']
+        feedback: |
+          The KL divergence is not symmetric. Free energy has $Q$ in the first slot (the expectation is under $Q$).
+    explanation: |
+      From the bound of the free energy: $F=\mathfrak{I}(y)+D_{\mathrm{KL}}[Q(x)\|P(x\mid y)]$, with $D_{\mathrm{KL}}\ge0$. The exact posterior is the distribution of external states given blanket states; the approximate one is what the internal states encode.
+
+  - type: mcq
+    id: roles
+    prompt: |
+      The motion of **internal states** shrinks the divergence between the exact and the approximate posterior. What does that then enable the **active states** to do?
+    options:
+      - text: 'On average, minimise the surprise of the sensory states, since the bound $F\ge\mathfrak{I}(y)$ is then tight.'
+        correct: true
+      - text: 'Reduce the divergence even further, since action is perception by other means.'
+        feedback: |
+          The divergence is reduced by the internal states (perception). Active states change the sensory data, hence the surprise itself.
+      - text: 'Nothing: active states are not part of the story.'
+        feedback: |
+          Active states close the loop: they change what the creature senses, so that the surprise itself goes down on average.
+    explanation: |
+      Internal states (perception) make $F$ a tight bound; active states (action) then reduce the surprise accompanying the sensory states. Minimising $F$ by both is the route to minimising surprise.
+
+  - type: mcq
+    id: least-action
+    prompt: |
+      The **Action** (capital A) of a path is the integral, along the path, of a function called the Lagrangian. The physical path is the one with least Action. What does the theory say about optimal behaviour from free-energy minimisation?
+    options:
+      - text: 'It is the least surprising behaviour: it follows a path of least Action from the current state to the desired state (the Hamiltonian principle of least Action applied to behaviour).'
+        correct: true
+      - text: 'It is the shortest straight line in state space between the current and the desired state.'
+        feedback: |
+          Least Action is not shortest distance. The path is the one that is, on average, least surprising, and it may curve around.
+      - text: 'It is the path that maximises the total surprise, so that the creature explores.'
+        feedback: |
+          Least Action goes with **minimal** surprise. Exploration enters later, through expected free energy.
+    explanation: |
+      The Action of a path is an integral over the path, here involving the surprise. The optimal behaviour from free-energy minimisation is the least surprising one: the path of least Action from the current state to the desired state.
+
+  - type: mcq
+    id: thermostat
+    prompt: |
+      The simple system in the walk, with its restoring flow toward one centre, is analogous to a **thermostat**. What can it do?
+    options:
+      - text: 'Counter fluctuations around a single set-point. It cannot learn or plan.'
+        correct: true
+      - text: 'Learn new set-points from experience and plan sequences of actions.'
+        feedback: |
+          That is what the richer attractors of Active Inference aim to cover; the simple walk has one fixed centre and no model of the future.
+      - text: 'Nothing: it has no steady state.'
+        feedback: |
+          It has one. The restoring flow is precisely what gives it a steady state.
+    explanation: |
+      The walk has a **random attractor** with a single set-point. Active Inference uses the same explanatory apparatus for much more complex and adaptive systems, where attractors range from fixed points to increasingly complex and itinerant (wandering from place to place) dynamics. Living organisms constantly seek a compromise between excessive stability and excessive dispersion.
+
+  - type: mcq
+    id: scope
+    prompt: |
+      Of the two systems you watched, the one with a restoring flow and the one with pure random kicks, which is within the scope of Active Inference?
+    options:
+      - text: 'The system with a restoring flow, which counters random fluctuations with its average flow and so retains its form over time.'
+        correct: true
+      - text: 'The system with pure random kicks, since it explores the state space most.'
+        feedback: |
+          It dissipates in an unconstrained way and has no steady state, so it is not a persisting creature.
+      - text: 'Both: any system that moves belongs.'
+        feedback: |
+          The scope is restricted to systems with a steady state, whose dynamics are related to their surprise.
+    explanation: |
+      The scope of Active Inference is restricted to systems that counter random fluctuations with their average flow and thereby retain their form over time.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the dictionary between **inference** and **stochastic dynamics**: how the path of internal states can be read as inference, and what each state's motion computes.
