@@ -1,14 +1,15 @@
 # Status
 
-Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/p' courses/active-inference/STATUS.md`).
+Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/- 2026-10-24 WIDGET free-energy-bound: js/widgets/free-energy-bound.js (K=2-4 causes, Q sliders kept normalised, bars F / surprise / gap in nats, dashed tick on F at the surprise, exact-posterior button, Reset, presets, flags showF/showSurprise/showGap/showQ/showModel/exact to reveal progressively), CSS `.fe-*` in app.css, documented in LESSON_FORMAT, registered. Eq. 2.5 and Figs. 2.4-2.5 PDF-verified (VERIFIED.md). Choices: bar scale fixed at the largest reachable F; Q sliders allow 0 (prior/likelihood floored at 0.001 so the gap stays finite); a preset may change prior/likelihood but not K. Conventions fixed here: F = sum Q[ln Q - ln P(x) - ln P(y|x)], minimised, F >= -ln P(y); garden numbers cat/dog/fox prior 0.6/0.3/0.1, likelihood 0.2/0.5/0.9, P(y)=0.36, surprise 1.02 nats, exact posterior 0.33/0.42/0.25, Q=prior gives F=1.18.
+p' courses/active-inference/STATUS.md`).
 Session end: update Current in place (keep it under ~40 lines: replace, don't append) and add a
 3-line Log entry at the top of the Log, ending "Conventions fixed here: ..."; copy those conventions
 into the chapter's section of `CONVENTIONS.md`, not into Current.
 
 ## Current (2026-10-24)
 
-- **State:** Level 1 fully built. Level 2: `ch02-perception-inference` (16), `ch02-approximate-inference` (16), `ch02-action-inference` (12 cards) built. Verified: 2.2 (Eq. 2.1, 2.2, surprise), 2.3 / Fig. 2.2, 2.4-2.5 prose / Fig. 2.3; Eq. 2.3-2.4 and Table 2.1 not yet.
-- **Next unit:** WIDGET `free-energy-bound` (Q sliders over discrete hidden causes, bars for F, surprise, KL gap, "Set Q = exact posterior"). Then `ch02-free-energy`, `ch02-free-energy-bound`, `ch02-free-energy-traps`, `ch02-expected-free-energy`, WIDGET `policy-scorer`, `ch02-efe-parts`, `ch02-efe-decomposition`, `ch02-intuition-free-energy`, `ch02-map`, `ch02-challenge` (two sessions).
+- **State:** Level 1 fully built. Level 2: `ch02-perception-inference` (16), `ch02-approximate-inference` (16), `ch02-action-inference` (12 cards) built; widget `free-energy-bound` built (see LESSON_FORMAT). Verified: 2.2 (Eq. 2.1, 2.2, surprise), 2.3 / Fig. 2.2, 2.4-2.5 prose / Fig. 2.3, 2.6 (Eq. 2.5, Figs. 2.4-2.5); Eq. 2.3-2.4 and Table 2.1 not yet.
+- **Next unit:** `ch02-free-energy` (concept, sections 2.5-2.6, uses `free-energy-bound` right after the hook). Then `ch02-free-energy-bound`, `ch02-free-energy-traps`, `ch02-expected-free-energy`, WIDGET `policy-scorer`, `ch02-efe-parts`, `ch02-efe-decomposition`, `ch02-intuition-free-energy`, `ch02-map`, `ch02-challenge` (two sessions).
 - **Notation:** Level 2 uses $x$ (hidden state), $y$ (observation) as in section 2.2; "likelihood" = $P(y\mid x)$, "evidence" = $P(y)$. Precision $\gamma$ not yet PDF-verified. See CONVENTIONS Chapter 2.
 - **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
 

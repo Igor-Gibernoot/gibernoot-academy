@@ -26,6 +26,7 @@ import { torusFigure } from './torus.js';
 import { sphereFigure } from './sphere.js';
 import { beliefMixer } from './belief-mixer.js';
 import { homeostat } from './homeostat.js';
+import { freeEnergyBound } from './free-energy-bound.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -48,6 +49,7 @@ const WIDGETS = {
   sphere: sphereFigure,
   'belief-mixer': beliefMixer,
   homeostat,
+  'free-energy-bound': freeEnergyBound,
 };
 
 export function mountWidget(name, el, config) {
