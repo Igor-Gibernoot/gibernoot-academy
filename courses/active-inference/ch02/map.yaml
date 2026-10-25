@@ -1,0 +1,377 @@
+id: ch02-map
+title: "Content Map: Inference and Free Energy"
+kind: map
+name: Level 2, Inference and free energy (perception, action and planning as inference)
+
+intro: |
+  A **content map** shows how the ideas of a level fit together. Each box is one idea. An arrow goes from an idea to one that builds on it, and its label says how: read it as a sentence, for example "the model *is made of* a prior and a likelihood".
+
+  This map has two branches that start from the same **generative model**. On the **left**, the **variational free energy** $F$ scores a belief about what is out there, given an observation that has arrived. On the **right**, the **expected free energy** $G$ scores policies, given the outcomes they are predicted to bring. Both are **minimised**, never negated.
+
+  For each glowing box, pick the card that belongs there. The other cards look alike, but each hides a classic mistake, and every wrong pick comes with a reason. Tap a finished box at any time to reread its card.
+
+cols: 3
+nodes:
+  - id: model
+    title: Generative model
+    row: 1
+    col: 1
+    span: 3
+    body: |
+      The **generative model** is the joint probability $P(y,x)$ of an observation $y$ and a hidden state $x$: the creature's story of how hidden causes produce what it observes.
+    decoys:
+      - body: |
+          The **generative model** is the probability $P(x\mid y)$ of a hidden state $x$ once the observation $y$ has arrived: the creature's conclusion about what is out there.
+        feedback: |
+          That is the posterior, the result of inference. The model is the story that is used before any observation arrives, and the posterior is computed from it.
+      - body: |
+          The **generative model** is the real process in the world that produces the observations $y$, and the creature simply reads it off.
+        feedback: |
+          The creature never has the world itself, only its own model of it, which can be wrong. The true state of the world is a separate thing (written $x^*$), and the model's state $x$ is the creature's guess about it.
+    explanation: |
+      Everything below is computed from this one joint probability, on both branches.
+
+  - id: priorlik
+    title: Prior and likelihood
+    row: 2
+    col: 1
+    body: |
+      The joint splits into a **prior** $P(x)$ (belief about the state before any data) and a **likelihood** $P(y\mid x)$ (how observations are generated from a state):
+
+      $$P(y,x)=P(y\mid x)\,P(x)$$
+    decoys:
+      - body: |
+          The joint splits into a **prior** $P(y\mid x)$ (belief before any data) and a **likelihood** $P(x)$ (how observations are generated from a state):
+
+          $$P(y,x)=P(y\mid x)\,P(x)$$
+        feedback: |
+          The names are swapped. The prior is about the state alone, held before the data. The likelihood has $y$ on the left of the bar: it asks how probable the observation is if the state were $x$.
+      - body: |
+          The joint combines a **prior** $P(x)$ (belief about the state before any data) and a **likelihood** $P(y\mid x)$ (how observations are generated from a state) by adding:
+
+          $$P(y,x)=P(y\mid x)+P(x)$$
+        feedback: |
+          Probabilities of a joint event multiply (the product rule). Adding would not even give a probability: the total could exceed one.
+    explanation: |
+      The prior and the likelihood are the two ingredients of every belief in this level.
+
+  - id: evidence
+    title: Evidence and surprise
+    row: 2
+    col: 2
+    body: |
+      The **evidence** is the probability of the observation under the model, $P(y)=\sum_x P(y,x)$. The **surprise** is minus its logarithm (in nats):
+
+      $$\mathfrak{I}(y)=-\ln P(y)$$
+    decoys:
+      - body: |
+          The **evidence** is the likelihood $P(y\mid x)$: how well one chosen state explains the observation. The **surprise** is minus its logarithm:
+
+          $$\mathfrak{I}(y)=-\ln P(y\mid x)$$
+        feedback: |
+          This uses the word in an older, looser sense. Here the evidence is $P(y)$, with the state summed out: it does not depend on any one $x$. The quantity $P(y\mid x)$ is the likelihood.
+      - body: |
+          The **evidence** is the probability of the observation under the model, $P(y)=\sum_x P(y,x)$. The **surprise** is its logarithm (in nats):
+
+          $$\mathfrak{I}(y)=\ln P(y)$$
+        feedback: |
+          The sign is flipped. A probable observation must have low surprise, and $-\ln P(y)$ falls as $P(y)$ rises (it is $0$ at $P(y)=1$). With $\ln P(y)$ the most expected data would look the most surprising.
+    explanation: |
+      Staying alive means keeping the observations probable, that is, keeping surprise low. The evidence is also the normaliser in Bayes' rule.
+
+  - id: posterior
+    title: Exact posterior
+    row: 3
+    col: 1
+    body: |
+      The exact **posterior** is the optimal belief about the state after the observation:
+
+      $$P(x\mid y)=\frac{P(y\mid x)\,P(x)}{P(y)}$$
+
+      It is **intractable** for a rich model: the sum for $P(y)$ has $K^n$ terms ($n$ hidden variables with $K$ values each).
+    decoys:
+      - body: |
+          The exact **posterior** is the optimal belief about the state after the observation:
+
+          $$P(x\mid y)=P(y\mid x)\,P(x)$$
+
+          It is always cheap to compute: only a product of two known terms is needed.
+        feedback: |
+          The product alone does not add up to one. Dividing by $P(y)$ rescales it, and that sum over all states is the expensive part, which grows as $K^n$.
+      - body: |
+          The exact **posterior** is the optimal belief about the state after the observation:
+
+          $$P(x\mid y)=\frac{P(y\mid x)\,P(x)}{P(y)}$$
+
+          It is intractable because the creature does not know the likelihood $P(y\mid x)$.
+        feedback: |
+          The likelihood is part of the model, so it is known. The obstacle is the size of the sum over all combinations of hidden states in the normaliser $P(y)$.
+    explanation: |
+      Because the exact answer is out of reach, we look for a good approximation and need a score to say how good it is.
+
+  - id: q
+    title: Approximate posterior
+    row: 4
+    col: 1
+    body: |
+      The creature holds a simpler belief $Q(x)$, such as a product of separate beliefs $Q_i(x_i)$, one per hidden variable. It is chosen to be as close as possible to $P(x\mid y)$.
+    decoys:
+      - body: |
+          The creature holds the exact posterior $P(x\mid y)$, computed with fewer steps by skipping the small terms of the sum.
+        feedback: |
+          Skipping terms gives no guarantee about the answer. The idea is different: restrict the form of the belief to something cheap, then optimise within that family.
+      - body: |
+          The creature holds $Q(x)$, the true distribution of the state in the world, which it learns to copy into the model.
+        feedback: |
+          $Q$ is the creature's own belief, not a property of the world. The world has one state $x^*$ at a time, and $Q$ describes the creature's uncertainty about it.
+    explanation: |
+      The family of $Q$ is cheap to store and update, and the best member is picked by minimising $F$.
+
+  - id: f
+    title: Variational free energy
+    row: 5
+    col: 1
+    body: |
+      The **variational free energy** scores the belief $Q$ for an observation $y$ that has arrived. It is **minimised**:
+
+      $$\begin{aligned}F[Q,y]=\;&D_{KL}[Q(x)\,\|\,P(x)]\\&-\mathbb{E}_Q[\ln P(y\mid x)]\end{aligned}$$
+
+      The first term is the **complexity** and the second, with its sign, the **accuracy**.
+    decoys:
+      - body: |
+          The **variational free energy** scores the belief $Q$ for an observation $y$ that has arrived. It is **maximised**:
+
+          $$\begin{aligned}F[Q,y]=\;&\mathbb{E}_Q[\ln P(y\mid x)]\\&-D_{KL}[Q(x)\,\|\,P(x)]\end{aligned}$$
+
+          The first term is the **accuracy** and the second the **complexity**.
+        feedback: |
+          This is minus $F$. Each term is the same but the sign is flipped, so it would be maximised. The convention here is that $F$ is a cost, large for a bad belief, minimised, exactly as surprise is.
+      - body: |
+          The **variational free energy** scores the outcomes that a policy is expected to bring, before acting. It is **minimised**:
+
+          $$\begin{aligned}F[Q,y]=\;&D_{KL}[Q(x)\,\|\,P(x)]\\&-\mathbb{E}_Q[\ln P(y\mid x)]\end{aligned}$$
+
+          The first term is the **complexity** and the second, with its sign, the **accuracy**.
+        feedback: |
+          The formula is right, but $F$ is retrospective: it scores a belief against an observation that is already there. Scoring predicted, future outcomes is the job of the expected free energy $G$.
+    explanation: |
+      Complexity is how far the belief moved from the prior, accuracy is how well it explains the data: a good belief balances the two.
+
+  - id: bound
+    title: The bound
+    row: 6
+    col: 1
+    span: 2
+    body: |
+      $F$ is an **upper bound on surprise**, and the gap is a divergence from the exact posterior:
+
+      $$\begin{aligned}F\;&=D_{KL}[Q(x)\,\|\,P(x\mid y)]\\&\quad-\ln P(y)\\&\ge-\ln P(y)\end{aligned}$$
+
+      Equality holds exactly when $Q(x)=P(x\mid y)$.
+    decoys:
+      - body: |
+          $F$ is a **lower bound on surprise**, and the gap is a divergence from the exact posterior:
+
+          $$\begin{aligned}F\;&=D_{KL}[Q(x)\,\|\,P(x\mid y)]\\&\quad-\ln P(y)\\&\le-\ln P(y)\end{aligned}$$
+
+          Equality holds exactly when $Q(x)=P(x\mid y)$.
+        feedback: |
+          The direction is reversed. A divergence is never negative, so adding it to $-\ln P(y)$ can only raise the total: $F$ sits above surprise. That is why driving $F$ down also pushes surprise down.
+      - body: |
+          $F$ is an **upper bound on surprise**, and the gap is a divergence from the exact posterior:
+
+          $$\begin{aligned}F\;&=D_{KL}[Q(x)\,\|\,P(x\mid y)]\\&\quad+\ln P(y)\\&\ge-\ln P(y)\end{aligned}$$
+
+          Equality holds for every $Q$.
+        feedback: |
+          Two slips. The surprise term enters as $-\ln P(y)$, not $+\ln P(y)$. And equality needs the gap to vanish, which happens only when $Q$ equals the exact posterior; any other $Q$ leaves a positive gap.
+    explanation: |
+      This is why free energy is useful: we cannot compute surprise, but we can minimise $F$, which is computable and always at least as large.
+
+  - id: perception
+    title: Perception
+    row: 7
+    col: 1
+    body: |
+      **Perception** lowers $F$ by changing the belief $Q$, which shrinks the divergence term, while the observation $y$ stays as it is.
+    decoys:
+      - body: |
+          **Perception** lowers $F$ by changing the observation $y$ through the world, while the belief $Q$ stays as it is.
+        feedback: |
+          That describes action. Perception works on the inside: it moves $Q$ towards the exact posterior and leaves the world and the data alone.
+      - body: |
+          **Perception** lowers $F$ by rewriting the model's own parameters, a slow change that builds up over many trials.
+        feedback: |
+          That is learning, a separate and slower process. Here the model is fixed, and perception is only the fast update of the belief $Q$ after each observation.
+    explanation: |
+      Perception makes the gap between $F$ and surprise small, and this is the first of the two ways to lower $F$.
+
+  - id: action
+    title: Action
+    row: 7
+    col: 2
+    body: |
+      **Action** lowers $F$ by changing the world, so that new observations $y$ are more probable under the model (the evidence $P(y)$ rises and surprise falls).
+    decoys:
+      - body: |
+          **Action** lowers $F$ by changing the belief $Q$ about the world, so that the same observation $y$ fits the model better.
+        feedback: |
+          Action does not change $Q$: moving the belief is perception. Action acts on the world so that the observation itself becomes a different one.
+      - body: |
+          **Action** lowers $F$ by changing the model $P(y,x)$, so that the cold observations the creature already has become the expected ones.
+        feedback: |
+          A creature that lowers its expectation to match the cold is still cold. A goal is held in the model as a prior prediction, and action changes the world until it is fulfilled.
+    explanation: |
+      Action changes the data and perception changes the belief: two ways, one objective.
+
+  - id: policy
+    title: Policy
+    row: 2
+    col: 3
+    body: |
+      A **policy** $\pi$ is a sequence of actions. Before acting, the creature predicts its consequences: states $\tilde{x}$ and outcomes $\tilde{y}$ (whole trajectories), with beliefs $Q(\tilde{x}\mid\pi)$ and $Q(\tilde{y}\mid\pi)$.
+    decoys:
+      - body: |
+          A **policy** $\pi$ is a sequence of observations that the world will deliver, which the creature waits to receive and then scores.
+        feedback: |
+          Observations are what the world sends back, not what the creature chooses. A policy is the creature's own sequence of actions, which it chooses by comparing the predicted consequences.
+      - body: |
+          A **policy** $\pi$ is a single action, evaluated by the outcome $y$ it has just produced.
+        feedback: |
+          A policy is a sequence, evaluated before it is carried out. Looking at an outcome that already arrived is the retrospective job of $F$.
+    explanation: |
+      The right-hand branch is about choosing among futures that are only predicted.
+
+  - id: g
+    title: Expected free energy
+    row: 3
+    col: 3
+    body: |
+      The **expected free energy** $G(\pi)$ scores a policy by the outcomes it is *predicted* to bring, measured against the preferences $C$. It is **minimised**: lower is better.
+    decoys:
+      - body: |
+          The **expected free energy** $G(\pi)$ scores a policy by the outcomes it is *predicted* to bring, measured against the preferences $C$. It is a quality score: **higher** is better.
+        feedback: |
+          $G$ is a cost like $F$, so it is minimised. The creature picks the policies with the lowest $G$, and the sign is never flipped.
+      - body: |
+          The **expected free energy** $G(\pi)$ scores a policy by the outcomes it has already brought, measured against the preferences $C$. It is **minimised**: lower is better.
+        feedback: |
+          $G$ is prospective: it needs a score before the policy is carried out, so it uses predicted outcomes. Scoring what has already arrived is the retrospective $F$.
+    explanation: |
+      $G$ plays for the future the role that $F$ plays for the present observation.
+
+  - id: ambrisk
+    title: Ambiguity and risk
+    row: 4
+    col: 3
+    body: |
+      $$\begin{aligned}G(\pi)=\;&\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]\\&+D_{KL}[Q(\tilde{y}\mid\pi)\,\|\,P(\tilde{y}\mid C)]\end{aligned}$$
+
+      The first term is the **ambiguity** (how blurry the states-to-outcomes map is). The second is the **risk** (mismatch between predicted outcomes and preferences).
+    decoys:
+      - body: |
+          $$\begin{aligned}G(\pi)=\;&\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]\\&+D_{KL}[P(\tilde{y}\mid C)\,\|\,Q(\tilde{y}\mid\pi)]\end{aligned}$$
+
+          The first term is the **ambiguity** (how blurry the states-to-outcomes map is). The second is the **risk** (mismatch between predicted outcomes and preferences).
+        feedback: |
+          The divergence is reversed. It is taken from the predicted outcomes $Q(\tilde{y}\mid\pi)$ to the preferences, and the two orders give different numbers because a KL divergence is not symmetric.
+      - body: |
+          $$\begin{aligned}G(\pi)=\;&H[Q(\tilde{x}\mid\pi)]\\&+D_{KL}[Q(\tilde{y}\mid\pi)\,\|\,P(\tilde{y}\mid C)]\end{aligned}$$
+
+          The first term is the **ambiguity** (how unsure the creature is about the hidden state). The second is the **risk** (mismatch between predicted outcomes and preferences).
+        feedback: |
+          Ambiguity is not uncertainty about the state. It is how blurry the likelihood is, the entropy of $P(\tilde{y}\mid\tilde{x})$ even when the state is known: a fair coin stays ambiguous with its state fully known.
+    explanation: |
+      Risk is the expected complexity and ambiguity the expected inaccuracy: the same two ideas as in $F$, moved to the future.
+
+  - id: gainprag
+    title: Information gain and pragmatic value
+    row: 5
+    col: 3
+    body: |
+      The same $G$ splits again, into two values that are both **subtracted**:
+
+      $$G(\pi)=-\text{gain}-\text{pragmatic}$$
+
+      The **information gain** is the expected change in belief about the states (epistemic, curiosity). The **pragmatic value** is $\mathbb{E}_{Q(\tilde{y}\mid\pi)}[\ln P(\tilde{y}\mid C)]$ (goals).
+    decoys:
+      - body: |
+          The same $G$ splits again, into two values that are both **added**:
+
+          $$G(\pi)=\text{gain}+\text{pragmatic}$$
+
+          The **information gain** is the expected change in belief about the states (epistemic, curiosity). The **pragmatic value** is $\mathbb{E}_{Q(\tilde{y}\mid\pi)}[\ln P(\tilde{y}\mid C)]$ (goals).
+        feedback: |
+          Gain and pragmatic value are rewards, and $G$ is a cost. Both enter with a minus sign, so more curiosity or more preferred outcomes lowers $G$. Adding them would punish exactly what the creature should seek.
+      - body: |
+          The same $G$ splits again, into two values that are both **subtracted**:
+
+          $$G(\pi)=-\text{gain}-\text{pragmatic}$$
+
+          The **information gain** is the entropy of the predicted outcomes, how unpredictable they are (epistemic, curiosity). The **pragmatic value** is $\mathbb{E}_{Q(\tilde{y}\mid\pi)}[\ln P(\tilde{y}\mid C)]$ (goals).
+        feedback: |
+          Unpredictable is not the same as informative. A fair coin has maximum entropy and teaches nothing about the state. The gain is that entropy minus the ambiguity: only the part of the randomness that the hidden state explains.
+    explanation: |
+      Exploring and exploiting are two terms of one score, in the same units, so no separate switch is needed.
+
+  - id: softmax
+    title: Softmax over policies
+    row: 6
+    col: 3
+    body: |
+      Lower $G$ means higher probability, through a softmax with precision $\gamma$ (default $1$):
+
+      $$P(\pi)=\frac{e^{-\gamma G(\pi)}}{\sum_{\pi'}e^{-\gamma G(\pi')}}$$
+
+      A larger $\gamma$ makes the choice sharper.
+    decoys:
+      - body: |
+          Higher $G$ means higher probability, through a softmax with precision $\gamma$ (default $1$):
+
+          $$P(\pi)=\frac{e^{\gamma G(\pi)}}{\sum_{\pi'}e^{\gamma G(\pi')}}$$
+
+          A larger $\gamma$ makes the choice sharper.
+        feedback: |
+          The minus sign is missing. $G$ is a cost, so the exponent is $-\gamma G$: with $+\gamma G$ the worst policy would be the most probable.
+      - body: |
+          Lower $G$ means higher probability, through a softmax with precision $\gamma$ (default $1$):
+
+          $$P(\pi)=\frac{e^{-\gamma G(\pi)}}{\sum_{\pi'}e^{-\gamma G(\pi')}}$$
+
+          A larger $\gamma$ makes the choice more random.
+        feedback: |
+          It is the opposite. The precision $\gamma$ multiplies the differences of $G$: a large $\gamma$ concentrates the probability on the lowest $G$, and $\gamma\to0$ makes all policies equally probable.
+    explanation: |
+      The scores become beliefs about what to do, and the creature then acts on the policy it believes in.
+
+edges:
+  - { from: model, to: priorlik, label: is made of }
+  - { from: model, to: evidence, label: sums to }
+  - { from: model, to: policy, label: predicts }
+  - { from: priorlik, to: posterior, label: Bayes' rule }
+  - { from: evidence, to: posterior, label: divides by }
+  - { from: evidence, to: bound, label: is bounded by F }
+  - { from: posterior, to: q, label: approximated by }
+  - { from: q, to: f, label: scored by }
+  - { from: f, to: bound, label: implies }
+  - { from: bound, to: perception, label: change Q }
+  - { from: bound, to: action, label: change y }
+  - { from: policy, to: g, label: scored by }
+  - { from: g, to: ambrisk, label: splits into }
+  - { from: ambrisk, to: gainprag, label: equals }
+  - { from: gainprag, to: softmax, label: turned into }
+outroTitle: Level 2 in one picture
+outro: |
+  Both branches start from the **generative model** $P(y,x)=P(y\mid x)\,P(x)$, a likelihood times a prior over the hidden state $x$ for an observation $y$.
+
+  **Left, the present.** The exact posterior $P(x\mid y)$ is intractable, so the creature holds an approximate belief $Q(x)$ and minimises the variational free energy
+
+  $$\begin{aligned}F[Q,y]=\;&D_{KL}[Q(x)\,\|\,P(x\mid y)]\\&-\ln P(y)\\\ge\;&-\ln P(y)\end{aligned}$$
+
+  **Perception** lowers $F$ by changing $Q$; **action** lowers it by changing $y$. Either way surprise $-\ln P(y)$ is kept low.
+
+  **Right, the future.** For each policy $\pi$ the creature predicts outcomes and scores the policy by the expected free energy
+
+  $$\begin{aligned}G(\pi)&=\text{ambiguity}+\text{risk}\\&=-\text{gain}-\text{pragmatic}\end{aligned}$$
+
+  (minimised, never negated), then turns the scores into beliefs with $P(\pi)=\sigma(-\gamma G)$.

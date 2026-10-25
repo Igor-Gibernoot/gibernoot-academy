@@ -44,6 +44,8 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 - ch02-intuition-free-energy: garden Q=prior energy 2.082, entropy 0.898, F 1.184; point mass on dog energy 1.897, entropy 0 (spreading raises energy and entropy, entropy wins); pond gain 0.248, pragmatic -0.584, G 0.336; orchard risk for Q(y)=(0.18,0.82), C=(0.8,0.2) is 0.889 (swapped 0.911); gamma=2 gives P(pond)=0.853.
 
+- ch02-map: 14 boxes in a 3-column grid, F branch (model, posterior, Q, F, bound, perception, action) left and middle, G branch (policy, G, ambiguity/risk, gain/pragmatic, softmax) in column 3; the bound box spans columns 1-2. No book concept map exists for Chapter 2.
+
 ## Chapter 3
 
 - (none yet)
