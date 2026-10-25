@@ -40,6 +40,7 @@ import { microcircuit } from './microcircuit.js';
 import { dirichletCounts } from './dirichlet-counts.js';
 import { deepLevels } from './deep-levels.js';
 import { attractorLab } from './attractor-lab.js';
+import { flowLab } from './flow-lab.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -76,6 +77,7 @@ const WIDGETS = {
   'dirichlet-counts': dirichletCounts,
   'deep-levels': deepLevels,
   'attractor-lab': attractorLab,
+  'flow-lab': flowLab,
 };
 
 export function mountWidget(name, el, config) {
