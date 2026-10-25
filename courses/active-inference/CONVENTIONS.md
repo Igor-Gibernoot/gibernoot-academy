@@ -137,6 +137,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - Generalized filtering (B.42-B.48): D shift matrix (ones above diagonal, last entry 0); gradient written with D^T (book prints D); eps_x = D mu - f; moving frame mu-dot - D mu = -grad F; roughness lambda: rho = exp(-lambda h^2/2), Pi~ = inverse of [[1,0,-lambda],[0,lambda,0],[-lambda,0,3 lambda^2]], velocity precision 1/lambda. Running example g=x, f=-x+v, v=1, Pi_y=diag(4,2), Pi_x=I, y~=(1,.5), mu~=(.6,.2).
 - Synchrony widget `coupled-agents`: kappa = inference coupling (0..6, Lorenz sync threshold about 1); generalized sync preset T = scale 1.5, cubic .01; Fig 8.5: level-2 slow Lorenz (1/128) sets rho of level-1 fast Lorenz (1/16, theta(v-8-x3)).
 - Synchrony lesson: slow level 2 (rates x 1/128) sends one component down to set rho of fast level 1 (x 1/16); manifold y=x identical, y=T(x) generalized (widget T=1.5x+0.01x^3, T(10)=25); kappa in the widget stands for having learned the other's parameters.
+- Hybrid widget `hybrid-saccade`: outcomes fixation + up/right/down/left at unit distance; Eq 8.8 q = sum_o Q(o) eta_o (hedges: Q_up=.85, others .05 gives q=(0,.80)); eye = critically damped spring to q, w = omega0 sqrt(Pi_v); stages cue, delay, saccade, fixate; 250 ms per step.
 
 ## Chapter 9
 

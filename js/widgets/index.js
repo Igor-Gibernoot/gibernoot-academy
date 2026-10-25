@@ -42,6 +42,7 @@ import { deepLevels } from './deep-levels.js';
 import { attractorLab } from './attractor-lab.js';
 import { flowLab } from './flow-lab.js';
 import { coupledAgents } from './coupled-agents.js';
+import { hybridSaccade } from './hybrid-saccade.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -80,6 +81,7 @@ const WIDGETS = {
   'attractor-lab': attractorLab,
   'flow-lab': flowLab,
   'coupled-agents': coupledAgents,
+  'hybrid-saccade': hybridSaccade,
 };
 
 export function mountWidget(name, el, config) {
