@@ -24,6 +24,7 @@ import { observerFrame } from './observer-frame.js';
 import { areaCell } from './area-cell.js';
 import { torusFigure } from './torus.js';
 import { sphereFigure } from './sphere.js';
+import { beliefMixer } from './belief-mixer.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -44,6 +45,7 @@ const WIDGETS = {
   'area-cell': areaCell,
   torus: torusFigure,
   sphere: sphereFigure,
+  'belief-mixer': beliefMixer,
 };
 
 export function mountWidget(name, el, config) {
