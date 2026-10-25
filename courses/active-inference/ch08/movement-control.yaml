@@ -1,0 +1,367 @@
+id: ch08-movement-control
+title: "Movement Control"
+kind: concept
+own: |
+  - **Model and process are different things.** In continuous time the *generative model* says how a hidden state $x$ (a limb position) produces data $y$ (what the senses report) and how $x$ changes given a static cause $v$ (a target); $\omega_y,\omega_x$ are random fluctuations:
+    {{ $$\begin{aligned}y&=g(x)+\omega_y\\\dot x&=f(x,v)+\omega_x\end{aligned}$$ }}
+    Action $u$ is **absent** from the model. It appears only in the *generative process* (the real world), where the same equations have $u$ in $\mathbf f$:
+    {{ $$\begin{aligned}y&=\mathbf g(x)+\omega_y\\\dot x&=\mathbf f(x,u)+\omega_x\end{aligned}$$ }}
+  - **A point attractor.** With $g(x)=x$ and $f(x,v)=v-x$ the model believes the limb is drawn to the point $v$. The process is $\mathbf g(x)=x$, $\mathbf f(x,u)=u$. If $\mu$ is the belief about $x$, the action that cancels the difference between the predicted datum $g(\mu)=\mu$ and the datum $y$ is
+    {{ $$u=v-\mu$$ }}
+    so the limb moves as the *model* says it should: the prediction is fulfilled.
+  - **Equilibrium-point view.** The descending signal $v$ is a **proprioceptive prediction** (the expected position of the limb), not a motor command; reflex arcs fulfil it. No *inverse model* (a map from desired consequences to the commands that bring them) is needed. More sensory precision $\Pi_y$ does not speed the movement: the approach to $v$ decays like $e^{-t\min(1,\Pi_y)}$.
+  - **Springs.** For Newtonian dynamics the model uses position $x_1$ and velocity $x_2$, mass $m$ and spring constant $\kappa$:
+    {{ $$f(x,v)=\begin{bmatrix}x_2\\\tfrac{\kappa}{m}(v-x_1)\end{bmatrix}$$ }}
+    This is Hooke's law plus Newton's second law, $m\,\dot x_2=\kappa(v-x_1)$. Without damping it oscillates about $v$ with angular frequency $\sqrt{\kappa/m}$.
+cards:
+  - type: text
+    id: hook
+    title: "Lifting an arm with no command"
+    body: |
+      You decide to lift your arm to a cup on the table. Neuroscience used to describe this as a *motor command*: the brain computes the forces each muscle must produce and sends them down.
+
+      Active inference tells a stranger story, built from only what we have already met: a **generative model** (the brain's guess about how its sensations arise), **prediction errors** (the gap between a guess and the data) and **free energy** (the quantity that perception and action both reduce). This lesson works in *continuous time*: positions change smoothly, written with a dot, $\dot x$ = "the rate of change of $x$".
+
+      First, a guess.
+
+  - type: mcq
+    id: guess-movement
+    prompt: |
+      A creature wants its hand to be on the cup. Its only machinery is a model that predicts what its senses will report (including the felt position of its own hand), and a spinal reflex that acts to shrink any mismatch between a prediction and the data. Which description of how the hand gets to the cup fits best?
+    options:
+      - text: 'It **predicts** that its hand is at the cup; the mismatch with the felt hand position is then removed by moving the hand, so the prediction comes true.'
+        correct: true
+      - text: 'It first computes the muscle forces that would carry the hand to the cup, and sends them as commands.'
+        feedback: |
+          That is the classical *inverse model* story: from a desired result back to the commands that cause it. Here there is no such calculation; all the creature has is a prediction and a reflex that fulfils it.
+      - text: 'It waits until the senses report the hand at the cup, and then believes it.'
+        feedback: |
+          That is perception: the belief follows the data. Movement is the opposite direction: the data are made to follow the belief.
+    explanation: |
+      Movement as **fulfilled prediction**: the brain predicts the sensations of the hand being at the target, and action changes the world until the data agree. The next cards build this from two small equations.
+
+  - type: text
+    id: model-process
+    title: "A model and a process"
+    body: |
+      Two different objects must be kept apart.
+
+      The **generative model** is the creature's *belief* about how data arise. In continuous time it says: a hidden state $x$ (say, the position of the hand) produces data $y$ (what the senses report), and $x$ changes over time depending on a static cause $v$ (a variable that is not changing, such as the target):
+
+      $$\begin{aligned}y&=g(x)+\omega_y\\\dot x&=f(x,v)+\omega_x\end{aligned}$$
+
+      Here $g$ and $f$ are functions, and $\omega_y,\omega_x$ are random fluctuations whose precision (inverse variance) is part of the model.
+
+      The **generative process** is the real world that actually produces the data. Its equations have the same shape, but the real world contains the creature's **action** $u$, and its functions (written in bold) need not equal the model's:
+
+      $$\begin{aligned}y&=\mathbf g(x)+\omega_y\\\dot x&=\mathbf f(x,u)+\omega_x\end{aligned}$$
+
+  - type: mcq
+    id: where-is-u
+    prompt: |
+      In the pair of equations of the generative **model** ($y=g(x)+\omega_y$, $\dot x=f(x,v)+\omega_x$) the action $u$ never appears, although it appears in the equations of the **process**. Why?
+    options:
+      - text: 'The model only contains variables on the *outside* of the creature''s Markov blanket, which it infers. Action is something the creature itself does, so it belongs to the real world''s equations (the process); the model needs no extra term for it.'
+        correct: true
+      - text: 'Because actions have no effect on the data, so a model can ignore them.'
+        feedback: |
+          Actions change the data a great deal; that is how they reduce free energy. But that effect is carried out by the process, not by a term the creature has to believe in.
+      - text: 'Because the creature has no way of acting, in this theory.'
+        feedback: |
+          The creature acts. The point is that action is not a *belief about the world*: it is part of how the world, including the creature''s body, behaves.
+    explanation: |
+      Action is the way the creature changes the sensations it receives so that free energy falls. We therefore need not write the dynamics of action in the model: they *emerge* from the choices made for $g$ and $f$, as the next cards show.
+
+  - type: text
+    id: point-attractor
+    title: "The simplest model: a point attractor"
+    body: |
+      Take the simplest choices for the model:
+
+      $$\begin{aligned}g(x)&=x\\f(x,v)&=v-x\end{aligned}$$
+
+      The first line says the hidden state **is** the expected datum. The second says $x$ is drawn toward $v$: if $x<v$ the rate of change $\dot x$ is positive (so $x$ increases), if $x>v$ it is negative. So $x$ always flows toward $v$, which is therefore called an **attractor** (here a *fixed point*, one point that the dynamics settle on).
+
+      Hence the belief "my hand is moving to $v$" is the whole model. We still need to say what the real world does when the creature acts. Take the simplest process: the data are the true position, and action sets its rate of change directly,
+
+      $$\begin{aligned}\mathbf g(x)&=x\\\mathbf f(x,u)&=u\end{aligned}$$
+
+  - type: numeric
+    id: attractor-rate
+    prompt: |
+      A model has $g(x)=x$ and $f(x,v)=v-x$, with target $v=2$. At the moment the hand is believed to be at $x=0.5$. What rate of change $\dot x=f(x,v)$ does the model predict?
+    answer: 1.5
+    tolerance: 0.001
+    wrong:
+      - { value: -1.5, feedback: 'The sign is reversed: $f=v-x$, and $x<v$ here, so the prediction is that $x$ increases.' }
+      - { value: 2.5, feedback: 'That is $v+x$. The model subtracts the position: $f=v-x=2-0.5$.' }
+    hint: Substitute $x=0.5$ and $v=2$ into $v-x$.
+    explanation: |
+      $\dot x=2-0.5=1.5>0$: the model predicts the hand moving up toward $v=2$, and the speed shrinks as $x$ approaches $v$.
+
+  - type: build
+    id: build-action
+    prompt: |
+      Let $\mu$ be the creature's belief about $x$. The model predicts the datum $g(\mu)=\mu$. In the process $\dot x=u$, so the datum changes at the rate $u$ that the action sets. For the hand to move **as the model says it should**, the action must equal the rate $f(\mu,v)$ the model predicts. Build the action.
+    prefix: 'u ='
+    tiles: ['v', '\mu', '-', '+', 'x']
+    answers:
+      - ['v', '-', '\mu']
+    wrong:
+      - { answer: ['\mu', '-', 'v'], feedback: 'Reversed sign: with $\mu<v$ this gives a negative action and moves the hand away from the target.' }
+      - { answer: ['v', '+', '\mu'], feedback: 'A sum does not vanish when the hand reaches the target. We want $u=0$ when $\mu=v$.' }
+    hint: The model predicts $\dot x=f(\mu,v)$, and $f(x,v)=v-x$.
+    explanation: |
+      On minimising free energy, action changes to fulfil the model's prediction, so $u=f(\mu,v)=v-\mu$. Nothing about "how to produce $u$" was written into the model: the action is just the prediction error pushed back into the world. When $\mu=v$ the action is zero: the hand has arrived.
+
+  - type: numeric
+    id: action-value
+    prompt: |
+      A creature predicts a limb at the target $v=1$ with $g(x)=x$, $f(x,v)=v-x$ and process $\dot x=u$. Its current belief is $\mu=2.5$ (the limb has overshot). What is the action $u=v-\mu$?
+    answer: -1.5
+    tolerance: 0.001
+    wrong:
+      - { value: 1.5, feedback: 'The limb is beyond the target, so the action must pull it back: negative.' }
+      - { value: 3.5, feedback: 'That is $v+\mu$. The action is the difference $v-\mu$.' }
+    explanation: |
+      $u=1-2.5=-1.5$. The action restores the limb the same way for an overshoot as for a shortfall: it always points toward $v$.
+
+  - type: widget
+    id: lab-point
+    widget: attractor-lab
+    config:
+      modes: [first]
+      mode: first
+      v: 2
+      x0: 0
+      Pi: 1
+      presets:
+        - { label: point attractor, mode: first, v: 2, x0: 0, Pi: 1 }
+    body: |
+      A limb starts at $x_0=0$ and the creature predicts it at $v=2$. Press *Play*. Watch the limb $x$ approach $v$, the action $u=v-\mu$ shrink, and the phase plot: a limb at $x$ moves at speed $\dot x=u=v-x$ (the line). Drag $v$ and move the sliders to see the movement follow the prediction.
+
+  - type: mcq
+    id: after-point
+    prompt: |
+      A limb follows $\dot x=v-x$ from $x_0=0$ to the target $v=2$ (this is the movement of the widget). What does the speed of the limb do on the way?
+    options:
+      - text: 'It is largest at the start and falls to zero as the limb arrives: the speed is proportional to the distance left, $v-x$.'
+        correct: true
+      - text: 'It is constant, and stops abruptly at $v$.'
+        feedback: |
+          $\dot x=v-x$ depends on the position: the farther the limb is from $v$, the faster it moves. A constant speed would need a different $f$.
+      - text: 'It grows, because the prediction error grows as the limb moves.'
+        feedback: |
+          The error is $v-x$ (or its sensory version) and it *shrinks* as the limb approaches $v$.
+    explanation: |
+      Solving $\dot x=v-x$ gives $x(t)=v-(v-x_0)e^{-t}$: an exponential approach with no overshoot. With $v=2$ and $x_0=0$ the limb covers 90% of the way at $t=\ln10\approx2.3$ in the units of the widget.
+
+  - type: text
+    id: equilibrium-point
+    title: "What the descending signal is"
+    body: |
+      The result $u=v-\mu$ is a version of the **equilibrium point hypothesis**: motor control is carried out by reflex arcs that draw a limb toward an *equilibrium point* (a position where the pull vanishes) set by signals descending from the brain.
+
+      Active inference reads those descending signals as **proprioceptive predictions**: predictions about *proprioception* (the sense of where the limbs or the eyes are), not as commands. Movement is then the **fulfilment of proprioceptive predictions by action**.
+
+      A bonus: this scheme needs no **inverse model**, the mapping from desired consequences to the motor commands that reach them, widely used in other accounts of motor control. The only mapping needed is the forward one the creature already has: from states to predicted data.
+
+  - type: mcq
+    id: what-descends
+    prompt: |
+      In this account of reaching, which of these describes the signal $v$ that descends from higher brain areas to the reflex arcs?
+    options:
+      - text: 'A prediction of where the limb is expected to be (a proprioceptive prediction), which the reflex then makes true.'
+        correct: true
+      - text: 'A list of the forces each muscle must produce at each instant.'
+        feedback: |
+          That would be a motor command computed by an inverse model. Here the force is not specified from above; it arises from the reflex resolving the prediction error.
+      - text: 'A prediction error, sent down because the limb has not yet arrived.'
+        feedback: |
+          Prediction errors are formed at the lower level (the data minus the prediction) and drive the action. What descends is the prediction itself.
+    explanation: |
+      Higher levels say where the limb *should be believed to be*; the reflex arcs at the spinal level compare this with the proprioceptive data and move the limb until the two agree.
+
+  - type: widget
+    id: lab-precision
+    widget: attractor-lab
+    config:
+      modes: [first]
+      mode: first
+      v: 2
+      x0: 0
+      mu0: 2
+      Pi: 0.1
+      show: { v: true, x0: true, Pi: true, mu0: true }
+      presets:
+        - { label: 'belief already at the target, low precision', mode: first, mu0: 2, Pi: 0.1, show: { mu0: true } }
+        - { label: 'belief already at the target, high precision', mode: first, mu0: 2, Pi: 20, show: { mu0: true } }
+    body: |
+      Now the belief starts at $\mu_0=2$: the creature already *believes* its limb is at the target $v=2$, while the limb really sits at $x_0=0$. The slider $\Pi_y$ is the **precision of the sensory data** (how much the data are trusted against the belief). Press *Play* with $\Pi_y=0.1$, then use the second preset ($\Pi_y=20$) and play again.
+
+  - type: mcq
+    id: after-precision
+    prompt: |
+      A creature believes its limb is at the target ($\mu=v=2$), but the limb is really at $x=0$, and the action is $u=v-\mu$. With very **low** sensory precision the limb hardly moves; with very **high** sensory precision it moves. Why?
+    options:
+      - text: 'With low precision the data (which say $x=0$) barely change the belief, so $\mu$ stays at $v$ and $u=v-\mu\approx0$. With high precision the data pull $\mu$ down toward $x$, so $u=v-\mu$ becomes positive and the limb is moved.'
+        correct: true
+      - text: 'High precision makes the reflex gain larger, so any error produces a bigger action.'
+        feedback: |
+          In this model the action is $u=v-\mu$ whatever the precision. Precision acts on the **belief** $\mu$: how far the data pull it away from the prediction.
+      - text: 'Low precision makes the creature unable to sense its limb, so it cannot move at all, whatever it believes.'
+        feedback: |
+          It can sense; it just trusts the senses little. The limb does not move because the belief stays equal to the prediction, so there is nothing for the action to correct.
+    explanation: |
+      Moving needs a **difference between the belief and the prediction**: $u=v-\mu$. If the belief jumps to the target ("I am already there") the action vanishes. The data must be trusted enough to hold the belief near the true, lagging limb. This is the origin of *sensory attenuation* in movement: to start a movement, the creature must briefly down-weight the sense that says "you have not moved yet".
+
+  - type: numeric
+    id: time-constant
+    prompt: |
+      Take the first-order model of the last widget with the belief starting at $\mu_0=v$, and sensory precision $\Pi_y=0.25$. The distance to the target decays with two exponential rates, $1$ and $\Pi_y$ (the model's own rate and the sensory rate). The slower one controls the late approach. What is its time constant (1 over the rate), in the same units as time in the widget?
+    answer: 4
+    tolerance: 0.001
+    wrong:
+      - { value: 0.25, feedback: 'That is the rate $\Pi_y$ itself; the time constant is its inverse.' }
+      - { value: 1, feedback: 'That is the time constant of the model''s own rate $1$. Here the sensory rate $0.25$ is the slower one and controls the approach.' }
+    hint: The slower of the two rates is $\min(1,\Pi_y)$.
+    explanation: |
+      The slowest rate is $\min(1,0.25)=0.25$, so the time constant is $1/0.25=4$. Now raise $\Pi_y$ to 20: the rates are $1$ and $20$, the slowest is $1$, and the time constant is $1$. It never goes below $1$: **more sensory precision cannot make the limb move faster than the model's own attractor rate**. It only lets the belief be corrected so that the action starts.
+
+  - type: widget
+    id: lab-push
+    widget: attractor-lab
+    config:
+      modes: [first]
+      mode: first
+      v: 2
+      x0: 0
+      Pi: 1
+      T: 10
+      push: { t: 4, dx: -1.5 }
+      presets:
+        - { label: push, mode: first, v: 2, push: { t: 4, dx: -1.5 }, T: 10 }
+    body: |
+      The limb has arrived at $v=2$, and at $t=4$ something pushes it back by $1.5$. Press *Play* and watch the action $u=v-\mu$ and the limb. Nobody told the model about the push.
+
+  - type: mcq
+    id: after-push
+    prompt: |
+      A limb sits at the target $v$. A disturbance pushes it away from $v$. What does the creature, using only $u=v-\mu$ with belief $\mu$ following the data, do?
+    options:
+      - text: 'The belief follows the limb away from $v$, so $u=v-\mu$ becomes non-zero and pulls the limb back. The "attractor" is rebuilt by the action each moment; no specific plan for the disturbance exists.'
+        correct: true
+      - text: 'Nothing: the model only describes a limb starting from $x_0$, and the limb stays where it was pushed.'
+        feedback: |
+          The model does not describe one trajectory: $\dot x=v-x$ holds from every position, so wherever the limb is, the prediction is a return to $v$.
+      - text: 'It must recompute the whole command sequence for the new position.'
+        feedback: |
+          Because the model is a flow field (a rate of change at every $x$), nothing is recomputed: the same rule applies at the new position.
+    explanation: |
+      A point attractor is a rule valid at **every** position, not a recorded path. That is why fulfilling the prediction is robust to perturbations.
+
+  - type: text
+    id: spring-model
+    title: "A better model: a spring"
+    body: |
+      Real limbs have mass: a force changes the **velocity**, not the position. A model that respects this takes two hidden states, $x_1$ the position and $x_2$ the velocity, with mass $m$ and a spring constant $\kappa$ (the stiffness of the spring):
+
+      $$f(x,v)=\begin{bmatrix}x_2\\\tfrac{\kappa}{m}(v-x_1)\end{bmatrix}$$
+
+      Read it row by row. The rate of change of position is the velocity: $\dot x_1=x_2$. The rate of change of velocity (the acceleration) is proportional to the distance to the point $v$:
+
+      $$\dot x_2=\frac{\kappa}{m}(v-x_1)$$
+
+      Multiply by $m$: $m\,\dot x_2=\kappa(v-x_1)$, the force of a spring attached to the points $v$ and $x_1$ (**Hooke's law**) equals mass times acceleration (**Newton's second law**). So we write a model predicting the dynamics that would unfold if a spring drew the limb toward the desired location. By predicting the data this physics produces, we enact the movement that fulfils the prediction.
+
+  - type: numeric
+    id: spring-accel
+    prompt: |
+      A spring model has mass $m=2$ and spring constant $\kappa=6$, target $v=3$, and the limb is at position $x_1=1$ with velocity $x_2=0$. What acceleration $\dot x_2=\tfrac{\kappa}{m}(v-x_1)$ does it predict?
+    answer: 6
+    tolerance: 0.001
+    wrong:
+      - { value: 4, feedback: 'Compute $\kappa/m=3$ first, then multiply by the distance $v-x_1=2$.' }
+      - { value: 12, feedback: 'That is $\kappa(v-x_1)=12$, the force. Acceleration is the force divided by the mass $m=2$.' }
+    explanation: |
+      $\kappa/m=6/2=3$ and $v-x_1=2$, so the acceleration is $3\times2=6$ toward $v$. The force is $\kappa(v-x_1)=12$; dividing by $m=2$ gives $6$.
+
+  - type: widget
+    id: lab-spring
+    widget: attractor-lab
+    config:
+      modes: [first, spring]
+      mode: spring
+      v: 2
+      x0: 0
+      kappa: 4
+      m: 1
+      damping: 0
+      presets:
+        - { label: 'spring: overshoot', mode: spring, kappa: 4, m: 1, damping: 0.8 }
+        - { label: 'spring, no damping', mode: spring, kappa: 4, m: 1, damping: 0 }
+        - { label: 'spring, critical damping', mode: spring, kappa: 4, m: 1, damping: 4 }
+    body: |
+      The spring model in action. The limb starts at $x_0=0$ with target $v=2$. Press *Play* with the undamped preset first. Then try the two others. The damping $b$ is a brake that we add on top of the equation above (the equation alone has $b=0$): it removes the energy a pure spring keeps forever. Also change $\kappa$ and $m$ and watch the rhythm of the oscillation.
+
+  - type: mcq
+    id: after-spring
+    prompt: |
+      In the spring model with **no damping** the limb is released from $x_0=0$ at rest, with target $v=2$ (and the belief follows the data). What does it do?
+    options:
+      - text: 'It oscillates forever about $v$, swinging between $x_0=0$ and $2v-x_0=4$: the spring has no way to lose energy.'
+        correct: true
+      - text: 'It goes to $v$ and stays, like the first-order model.'
+        feedback: |
+          The first-order model $\dot x=v-x$ has no momentum. Here the force changes the velocity, so the limb arrives at $v$ **with speed** and overshoots; without damping it never settles.
+      - text: 'It oscillates, but the swing shrinks every cycle because the belief lags behind.'
+        feedback: |
+          A lagging belief does not remove energy from the spring; in the undamped case the swing keeps its size.
+    explanation: |
+      Reaching a target without an overshoot or ringing needs damping. A moderate damping gives an overshoot (about 53% of the distance in the widget at $b=0.8$), and *critical* damping $b=2\sqrt{\kappa/m}$ gives the fastest approach without overshoot.
+
+  - type: numeric
+    id: spring-frequency
+    prompt: |
+      An undamped spring model has spring constant $\kappa=16$ and mass $m=4$. Its oscillation has angular frequency $\sqrt{\kappa/m}$ (radians per unit time). What is that frequency?
+    answer: 2
+    tolerance: 0.001
+    wrong:
+      - { value: 4, feedback: 'That is $\kappa/m=4$ without the square root. The equation $\ddot x=-\tfrac{\kappa}{m}x$ gives $\omega^2=\kappa/m$.' }
+      - { value: 0.5, feedback: 'That is the inverse of the frequency. A stiffer spring (larger $\kappa$) oscillates faster, and a heavier mass slower.' }
+    explanation: |
+      $\sqrt{16/4}=2$. A stiffer spring or a lighter limb oscillates faster; the period is $2\pi/\omega=\pi\approx3.14$.
+
+  - type: order
+    id: order-movement
+    prompt: Put the chain of events of a reach in order, from the descending prediction to the arrival.
+    steps:
+      - 'A higher level sends down the prediction: the limb is at the target $v$.'
+      - 'The model turns it into a predicted datum: the felt limb position $g(\mu)$ is near $v$.'
+      - 'The limb is not there yet, so the prediction error $\epsilon_y=y-g(\mu)$ is non-zero.'
+      - 'Action $u$ changes the limb, so that the datum $y$ approaches the prediction.'
+      - 'The error vanishes, the action stops, and the limb rests at the point the model predicted.'
+    hint: Prediction first, error next, action after the error, rest when the error is gone.
+    explanation: |
+      Each step uses only things a spinal circuit has: a prediction coming down, data coming up, and their difference driving the action.
+
+  - type: mcq
+    id: return-hook
+    prompt: |
+      Back to the cup. In active inference, what is the role of the "intention" to grasp the cup?
+    options:
+      - text: 'A prior prediction, the target $v$ in the model: the hand is expected to be at the cup. The reflex arcs fulfil it by the action $u=v-\mu$, with no explicit command for the forces.'
+        correct: true
+      - text: 'A command $u$ computed from the cup''s position by an inverse model, then sent to the muscles.'
+        feedback: |
+          $u$ is not an input from above. It is determined at the lowest level by the mismatch $v-\mu$, through a rule that follows from the model.
+      - text: 'A change of the process $\mathbf f$, so the world itself behaves differently.'
+        feedback: |
+          The process is the real world, which the creature does not rewrite. The intention enters the *model* (the target $v$); the process changes only through the action it produces.
+    explanation: |
+      The puzzle is solved: lifting the arm needs no explicit motor command. Predict the hand at the cup (the point $v$ of an attractor), and let action fulfil it. Perception, action and intention are the same free-energy minimisation applied to different variables.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** movement uses a simple attractor. Next we meet richer dynamical systems, such as predator-prey cycles and chaotic flows, that let a model produce *sequences* and *rhythms* with no clock at all.

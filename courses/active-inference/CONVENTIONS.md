@@ -131,7 +131,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 ## Chapter 8
 
-- (none yet)
+- Model Eq. 8.1 (g,f,v, no u); process Eq. 8.2 (bold g,f, u). Point attractor g=x, f=v-x; action u=v-mu. Spring Eq. 8.5 (x1 position, x2 velocity, kappa/m); damping b is our extra (critical b=2sqrt(kappa/m)). Slowest approach rate min(1,Pi_y).
 
 ## Chapter 9
 
