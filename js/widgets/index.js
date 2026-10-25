@@ -30,6 +30,7 @@ import { freeEnergyBound } from './free-energy-bound.js';
 import { policyScorer } from './policy-scorer.js';
 import { blanketGraph } from './blanket-graph.js';
 import { blanketSync } from './blanket-sync.js';
+import { factorGraph } from './factor-graph.js';
 import { steadyStateWalk } from './steady-state-walk.js';
 import { gaussianFit } from './gaussian-fit.js';
 
@@ -58,6 +59,7 @@ const WIDGETS = {
   'policy-scorer': policyScorer,
   'blanket-graph': blanketGraph,
   'blanket-sync': blanketSync,
+  'factor-graph': factorGraph,
   'steady-state-walk': steadyStateWalk,
   'gaussian-fit': gaussianFit,
 };
