@@ -30,6 +30,7 @@ import { freeEnergyBound } from './free-energy-bound.js';
 import { policyScorer } from './policy-scorer.js';
 import { blanketGraph } from './blanket-graph.js';
 import { blanketSync } from './blanket-sync.js';
+import { steadyStateWalk } from './steady-state-walk.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -56,6 +57,7 @@ const WIDGETS = {
   'policy-scorer': policyScorer,
   'blanket-graph': blanketGraph,
   'blanket-sync': blanketSync,
+  'steady-state-walk': steadyStateWalk,
 };
 
 export function mountWidget(name, el, config) {
