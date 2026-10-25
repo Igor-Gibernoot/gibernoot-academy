@@ -46,6 +46,8 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 - ch02-map: 14 boxes in a 3-column grid, F branch (model, posterior, Q, F, bound, perception, action) left and middle, G branch (policy, G, ambiguity/risk, gain/pragmatic, softmax) in column 3; the bound box spans columns 1-2. No book concept map exists for Chapter 2.
 
+- ch02-challenge (problems 1-3): tap model priors rain/branch/bird 0.5/0.3/0.2, likelihood of a tap 0.2/0.6/0.5: joints 0.10/0.18/0.10, $P(y)=0.38$, posterior 0.263/0.474/0.263, surprise 0.968; second tap evidence 0.4684 (surprise 0.758, posterior of branch 0.607), total 1.726. F: Q=prior 1.097 (gap 0.129), uniform 1.008, all on branch 1.715, exact 0.968, Q=(0.3,0.5,0.2) 0.979. Robin: C=(0.8,0.2) worm/no worm, Lawn qx (.5,.5) L .9/.1: risk 0.223, amb 0.325, G 0.548, gain 0.368, prag -0.916; Mud qx (.8,.2) L .7/.3: risk 0.086, amb 0.611, G 0.697, gain 0.053, prag -0.750; Bed qx (.2,.8) L .95/.05: risk 0.751, amb 0.199, G 0.950, gain 0.341, prag -1.291; P(pi) at gamma=1: 0.395/0.340/0.264.
+
 ## Chapter 3
 
 - (none yet)

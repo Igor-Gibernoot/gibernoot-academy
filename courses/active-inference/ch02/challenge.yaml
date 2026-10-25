@@ -1,0 +1,362 @@
+id: ch02-challenge
+title: Level Challenge
+kind: challenge
+cards:
+  - type: text
+    id: intro
+    title: "Harder: the whole of Chapter 2 in five problems"
+    body: |
+      Five problems that **combine** what this level taught. Every number can be checked by hand (a calculator with $\ln$ helps), and every answer comes with the reason. Nothing here is a lookup: you rebuild each quantity from its definition.
+
+      The toolkit, in four lines:
+
+      - A **generative model** says how a hidden state $x$ produces an observation $y$: a prior $P(x)$ and a likelihood $P(y\mid x)$. Perception is the **posterior** $P(x\mid y)=P(y\mid x)P(x)/P(y)$, with **evidence** $P(y)=\sum_x P(y\mid x)P(x)$ and **surprise** $-\ln P(y)$ (in nats).
+      - When the exact posterior is out of reach, a guess $Q(x)$ is scored by the **variational free energy** $F$ (minimised), which is never below the surprise: $F\ge-\ln P(y)$.
+      - A **policy** $\pi$ is scored by the **expected free energy** $G$ (minimised): $G=\text{ambiguity}+\text{risk}=-\text{information gain}-\text{pragmatic value}$.
+      - Policies are chosen with probability $P(\pi)=\sigma(-\gamma G)$, where the precision $\gamma$ says how sharply the lowest $G$ is preferred.
+
+      1. A tap on the window: joint, evidence, posterior and surprise, then a second tap.
+      2. Free energy of several guesses $Q$ for that same tap, and the gap to the surprise.
+      3. A robin choosing where to dig: three policies, scored and ranked by $G$.
+      4. Perception or action: what each changes in $F$, with numbers.
+      5. The softmax over policies for three values of $\gamma$, and its limits.
+
+  # ---------------------------------------------------------------- Problem 1
+  - type: text
+    id: p1-setup
+    tag: Problem 1 · A tap on the window
+    title: "Tap, tap"
+    body: |
+      At night you hear a tap on your window. Write $y=$ "a tap" for the observation and $x$ for the hidden cause, which can be **rain**, a **branch**, or a **bird**. Your generative model is
+
+      | Cause $x$ | Prior $P(x)$ | Likelihood $P(y\mid x)$ |
+      |---|---|---|
+      | Rain | $0.5$ | $0.2$ |
+      | Branch | $0.3$ | $0.6$ |
+      | Bird | $0.2$ | $0.5$ |
+
+      Here $P(y\mid x)$ is the probability of hearing a tap in the next moment if the cause is $x$. Recall: the **joint** is $P(y,x)=P(y\mid x)P(x)$, the **evidence** is $P(y)=\sum_x P(y,x)$, the **posterior** is $P(x\mid y)=P(y,x)/P(y)$, and the **surprise** is $-\ln P(y)$.
+
+      Taps are independent given the cause, and the cause stays the same from one tap to the next.
+
+  - type: numeric
+    id: p1-evidence
+    tag: Problem 1 · A tap on the window
+    prompt: |
+      Hidden cause $x\in\{\text{rain},\text{branch},\text{bird}\}$ with priors $P(x)=0.5,\,0.3,\,0.2$ produces a tap $y$ with likelihoods $P(y\mid x)=0.2,\,0.6,\,0.5$. What is the evidence $P(y)=\sum_x P(y\mid x)P(x)$?
+    answer: 0.38
+    tolerance: 0.002
+    answerText: '0.38'
+    wrong:
+      - { value: 0.4333, tolerance: 0.002, feedback: 'You averaged the three likelihoods, $(0.2+0.6+0.5)/3$. That treats the three causes as equally likely. The evidence weights each likelihood by its prior.' }
+      - { value: 1.3, feedback: 'You added the likelihoods. A probability of hearing a tap cannot exceed $1$: weight each by the prior first.' }
+      - { value: 0.18, feedback: 'That is one joint, branch: $0.6\times0.3$. The evidence adds the joints of all three causes.' }
+    hint: Compute the three joints $P(y\mid x)P(x)$, then add them.
+    explanation: |
+      The joints are $0.2\times0.5=0.10$ (rain), $0.6\times0.3=0.18$ (branch) and $0.5\times0.2=0.10$ (bird). Their sum is the evidence:
+      $$\begin{aligned}P(y)&=0.10+0.18+0.10\\ &=0.38.\end{aligned}$$
+
+  - type: numeric
+    id: p1-posterior
+    tag: Problem 1 · A tap on the window
+    prompt: |
+      Joints $P(y,x)=0.10$ (rain), $0.18$ (branch), $0.10$ (bird) for a tap $y$, with evidence $P(y)=0.38$. What is the posterior probability of the branch, $P(\text{branch}\mid y)$, in percent?
+    answer: 47.4
+    tolerance: 0.3
+    answerText: '47.4'
+    wrong:
+      - { value: 60, feedback: 'That is the likelihood $P(y\mid\text{branch})$. The posterior also needs the prior and the division by the evidence.' }
+      - { value: 30, feedback: 'That is the prior, what you believed before the tap. The tap has to change it.' }
+      - { value: 46.2, tolerance: 0.3, feedback: 'You divided $0.6$ by the sum of the three likelihoods ($1.3$). The causes were not equally likely before the tap, so the priors matter.' }
+    hint: Posterior = joint divided by evidence.
+    explanation: |
+      $$\begin{aligned}P(\text{branch}\mid y)&=\frac{P(y,\text{branch})}{P(y)}\\ &=\frac{0.18}{0.38}\approx 0.474.\end{aligned}$$
+      Rain and bird each get $0.10/0.38\approx26.3\%$. The branch started at $30\%$ and rose to $47.4\%$, because it explains a tap better than the others.
+
+  - type: numeric
+    id: p1-surprise
+    tag: Problem 1 · A tap on the window
+    prompt: |
+      A tap has evidence $P(y)=0.38$ under your model. What is its surprise $-\ln P(y)$, in nats?
+    answer: 0.968
+    tolerance: 0.004
+    answerText: '0.968'
+    wrong:
+      - { value: 1.715, tolerance: 0.004, feedback: 'You took $-\ln 0.18$, the joint of the branch alone. Surprise is about the observation, so it uses the evidence $P(y)$, which sums over all causes.' }
+      - { value: 0.38, feedback: 'That is $P(y)$ itself. Surprise is its negative logarithm: $-\ln0.38$.' }
+      - { value: -0.968, tolerance: 0.004, feedback: 'The sign is flipped. $\ln0.38$ is negative, so $-\ln0.38$ is positive: rarer observations are more surprising.' }
+    hint: '$-\ln 0.38=\ln(1/0.38)$.'
+    explanation: |
+      $$\begin{aligned}-\ln P(y)&=-\ln0.38\\ &\approx0.968\ \text{nats}.\end{aligned}$$
+      The surprise belongs to the observation under the whole model, not to one cause. It is the number that free energy will be compared with in the next problem.
+
+  - type: numeric
+    id: p1-second
+    tag: Problem 1 · A tap on the window
+    prompt: |
+      After the first tap, the posterior over (rain, branch, bird) is $(0.263,\,0.474,\,0.263)$. It now acts as the prior for a second tap, which has the same likelihoods $(0.2,\,0.6,\,0.5)$. After the second tap, what is the posterior probability of the branch, in percent?
+    answer: 60.7
+    tolerance: 0.4
+    answerText: '60.7'
+    wrong:
+      - { value: 47.4, tolerance: 0.3, feedback: 'That is the belief after one tap. A second tap is new evidence, and it moves the belief again.' }
+      - { value: 36, feedback: 'You multiplied the old posterior by the likelihood and did not divide by the new evidence. The three products must be rescaled to add up to $100\%$.' }
+    hint: 'New joints: $0.263\times0.2$, $0.474\times0.6$, $0.263\times0.5$. Their sum is the evidence of the second tap.'
+    explanation: |
+      The new joints are $0.0526$ (rain), $0.2842$ (branch), $0.1316$ (bird), with sum $0.4684$. So
+      $$\begin{aligned}P(\text{branch}\mid y_1,y_2)&=\frac{0.2842}{0.4684}\\ &\approx 0.607.\end{aligned}$$
+      The posterior after the first observation is the prior for the next one: this is how a creature keeps updating over time. The second tap is *less surprising* than the first, because the model has already moved toward the branch, which predicts taps.
+
+  - type: numeric
+    id: p1-total
+    tag: Problem 1 · A tap on the window
+    prompt: |
+      For the tap model, the first tap has surprise $-\ln0.38=0.968$ nats. The second tap has evidence $P(y_2\mid y_1)=0.4684$ (computed with the updated prior). What is the total surprise of hearing both taps, in nats?
+    answer: 1.726
+    tolerance: 0.005
+    answerText: '1.726'
+    wrong:
+      - { value: 1.936, tolerance: 0.005, feedback: 'You counted the second tap as surprising as the first, $2\times0.968$. After the first tap the model has learned, so the second is less surprising.' }
+      - { value: 0.758, tolerance: 0.004, feedback: 'That is the surprise of the second tap alone. The total counts both.' }
+    hint: 'Surprises of successive observations add, because probabilities multiply: $P(y_1,y_2)=P(y_1)P(y_2\mid y_1)$.'
+    explanation: |
+      The second tap has surprise $-\ln0.4684=0.758$, so
+      $$\begin{aligned}\text{total}&=0.968+0.758\\ &=1.726\ \text{nats}\\ &=-\ln(0.38\times0.4684).\end{aligned}$$
+      The joint probability of two taps is $0.178$, and $-\ln0.178=1.726$. Multiplying probabilities is adding surprises, which is why the logarithm is the right scale.
+
+  # ---------------------------------------------------------------- Problem 2
+  - type: text
+    id: p2-setup
+    tag: Problem 2 · Scoring guesses
+    title: "How good is a guess?"
+    body: |
+      Same model as before: causes (rain, branch, bird) with priors $0.5,\,0.3,\,0.2$, and a tap $y$ with likelihoods $0.2,\,0.6,\,0.5$. You found $P(y)=0.38$ and surprise $0.968$ nats.
+
+      Suppose you cannot compute the exact posterior, and instead score a guess $Q(x)$ with the **variational free energy** (minimised):
+      $$F[Q,y]=\sum_x Q(x)\big[\ln Q(x)-\ln P(y,x)\big].$$
+      Equivalently $F=\underbrace{D_{KL}[Q(x)\parallel P(x)]}_{\text{complexity}}-\underbrace{\mathbb{E}_Q\ln P(y\mid x)}_{\text{accuracy}}$, and $F=-\ln P(y)+D_{KL}[Q(x)\parallel P(x\mid y)]$. Terms with $Q(x)=0$ contribute $0$.
+
+  - type: numeric
+    id: p2-fprior
+    tag: Problem 2 · Scoring guesses
+    prompt: |
+      Hidden cause $x$ with prior $P(x)=0.5,\,0.3,\,0.2$ and likelihood of a tap $P(y\mid x)=0.2,\,0.6,\,0.5$. The guess is $Q(x)=P(x)$, no change from the prior. Using $F=D_{KL}[Q(x)\parallel P(x)]-\mathbb{E}_Q\ln P(y\mid x)$, what is $F$ in nats?
+    answer: 1.097
+    tolerance: 0.004
+    answerText: '1.097'
+    wrong:
+      - { value: 0.968, tolerance: 0.004, feedback: 'That is the surprise, the lowest value $F$ can reach. The guess $Q=$ prior ignores the tap, so it is worse than the exact posterior and $F$ is higher.' }
+      - { value: -1.097, tolerance: 0.004, feedback: 'The sign is lost. The accuracy term $\mathbb{E}_Q\ln P(y\mid x)=-1.097$ is negative, but $F$ subtracts it, so $F=0-(-1.097)=+1.097$.' }
+    hint: 'The complexity is the divergence of $Q$ from the prior; for $Q=P(x)$ it is $0$. Then $F=-\sum_x Q(x)\ln P(y\mid x)$.'
+    explanation: |
+      The complexity is $D_{KL}[P\parallel P]=0$. The accuracy is
+      $$\begin{aligned}\mathbb{E}_Q\ln P(y\mid x)&=0.5\ln0.2+0.3\ln0.6\\ &\quad+0.2\ln0.5\\ &=-1.097.\end{aligned}$$
+      So $F=0-(-1.097)=1.097$ nats.
+
+  - type: numeric
+    id: p2-gap
+    tag: Problem 2 · Scoring guesses
+    prompt: |
+      A guess $Q(x)$ has free energy $F=1.097$ nats, and the observation has surprise $-\ln P(y)=0.968$ nats. Since $F=-\ln P(y)+D_{KL}[Q(x)\parallel P(x\mid y)]$, how large is the divergence of $Q$ from the exact posterior, in nats?
+    answer: 0.129
+    tolerance: 0.003
+    answerText: '0.129'
+    wrong:
+      - { value: 2.065, tolerance: 0.004, feedback: 'You added surprise and $F$. The divergence is what is left of $F$ after subtracting the surprise.' }
+      - { value: 1.097, tolerance: 0.004, feedback: 'That is $F$ itself. The gap to the exact posterior is only the part of $F$ above the surprise.' }
+    hint: Rearrange the identity for the divergence.
+    explanation: |
+      $$\begin{aligned}D_{KL}[Q\parallel P(x\mid y)]&=F-(-\ln P(y))\\ &=1.097-0.968\\ &=0.129\ \text{nats}.\end{aligned}$$
+      You learned the distance of $Q$ from the true posterior without ever computing the posterior: the posterior was the target, and $F$ minus the surprise measures how far you are from it.
+
+  - type: widget
+    id: p2-widget
+    review: false
+    widget: free-energy-bound
+    config:
+      observation: "you hear a tap"
+      causes:
+        - { name: rain, prior: 0.5, likelihood: 0.2 }
+        - { name: branch, prior: 0.3, likelihood: 0.6 }
+        - { name: bird, prior: 0.2, likelihood: 0.5 }
+      q: [0.5, 0.3, 0.2]
+      presets:
+        - { label: "Q = prior", q: [0.5, 0.3, 0.2] }
+        - { label: "all on branch", q: [0, 1, 0] }
+        - { label: "uniform", q: [0.3333, 0.3333, 0.3334] }
+    body: |
+      The model is the tap model: priors $0.5,\,0.3,\,0.2$, likelihoods $0.2,\,0.6,\,0.5$. Drag the sliders to change the guess $Q$ and read $F$, the surprise, and the gap. Try the presets: all the belief on the **branch** (the most likely single cause), the **prior**, and the **uniform** guess. Then try *Set Q = exact posterior*.
+
+      Which guess is the best? Is the most likely cause alone a good guess?
+
+  - type: order
+    id: p2-order
+    tag: Problem 2 · Scoring guesses
+    prompt: |
+      For a tap with priors $0.5,\,0.3,\,0.2$ (rain, branch, bird) and likelihoods $0.2,\,0.6,\,0.5$, order these four guesses $Q(x)$ from **highest** free energy $F$ to **lowest**.
+    steps:
+      - 'All the belief on the branch: $Q=(0,\,1,\,0)$.'
+      - 'The prior: $Q=(0.5,\,0.3,\,0.2)$.'
+      - 'Uniform: $Q=(\tfrac13,\,\tfrac13,\,\tfrac13)$.'
+      - 'The exact posterior: $Q=(0.263,\,0.474,\,0.263)$.'
+    hint: 'Lower $F$ means a smaller gap $D_{KL}[Q\parallel P(x\mid y)]$: which guess is closest to $(0.263,\,0.474,\,0.263)$?'
+    explanation: |
+      The free energies are $1.715,\ 1.097,\ 1.008$ and $0.968$ nats, with gaps $0.747,\ 0.129,\ 0.040$ and $0$.
+
+      The point mass on the branch is the worst: it is too sure ($Q=1$ where the posterior is $0.474$). Its $F$ is $-\ln0.3-\ln0.6=1.715$, because its complexity is $-\ln0.3=1.204$ and its accuracy is $\ln0.6=-0.511$. The most likely cause alone is a poor guess: $F$ rewards being close to the whole posterior, not to its peak. The uniform guess beats the prior here, since the tap moved the belief toward the branch and the bird.
+
+  - type: mcq
+    id: p2-impossible
+    tag: Problem 2 · Scoring guesses
+    prompt: |
+      For the tap model (surprise $0.968$ nats), a student reports a guess $Q(x)$ with free energy $F=0.90$ nats. What can you conclude?
+    options:
+      - text: 'There is an error: $F=-\ln P(y)+D_{KL}[Q\parallel P(x\mid y)]\ge0.968$ for every $Q$, so $0.90$ is impossible.'
+        correct: true
+      - text: 'It is possible: $Q$ would then be even better than the exact posterior.'
+        feedback: |
+          Tempting, since lower $F$ is better. But the exact posterior already has the lowest $F$ there is, equal to the surprise ($0.968$), because its divergence is $0$. No $Q$ can go below it.
+      - text: 'It is possible if $Q$ puts zero probability on some cause, because those terms drop out.'
+        feedback: |
+          Dropping a cause removes its terms, but it also leaves the other terms with larger weight. E.g. $Q=(0,\,0.5,\,0.5)$ gives $F=1.316$, worse than the prior. Zeros never push $F$ below the surprise.
+      - text: 'It is possible when the divergence is negative, which happens when $Q$ is very different from the posterior.'
+        feedback: |
+          A $KL$ divergence is never negative, and it is $0$ only when the two distributions are equal. A very different $Q$ gives a *large* positive divergence, so a larger $F$.
+    explanation: |
+      Because $D_{KL}\ge0$, the free energy is a bound: $F\ge-\ln P(y)$, with equality only at the exact posterior. A reported $F$ below the surprise is a calculation error (check the signs, or a missing term). The bound is also why minimising $F$ is a safe way to learn about the posterior and about the surprise at once.
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: text
+    id: p3-setup
+    tag: Problem 3 · Where to dig
+    title: "A robin chooses where to dig"
+    body: |
+      A robin wants a worm. The soil is either **rich** or **poor** (the hidden state $\tilde{x}$), and it observes either a **worm** or **no worm** (the outcome $\tilde{y}$). Its preferences over outcomes are $P(\tilde{y}\mid C)=(0.8,\,0.2)$ for (worm, no worm). It compares three **policies** $\pi$, each with its own belief $Q(\tilde{x}\mid\pi)$ about the soil it would reach, and its own likelihood $P(\tilde{y}\mid\tilde{x})$ (how reliably a worm shows up):
+
+      | Policy | $Q$(rich), $Q$(poor) | $P(\text{worm}\mid\text{rich})$, $P(\text{worm}\mid\text{poor})$ |
+      |---|---|---|
+      | **Lawn**: dig where it stands | $0.5,\ 0.5$ | $0.9,\ 0.1$ |
+      | **Mud**: peck the muddy edge | $0.8,\ 0.2$ | $0.7,\ 0.3$ (mud hides worms) |
+      | **Bed**: probe the bare dry bed | $0.2,\ 0.8$ | $0.95,\ 0.05$ (bare soil shows everything) |
+
+      Recall (minimised; $G$ is never negated):
+      $$\begin{aligned}G&=\text{ambiguity}+\text{risk}\\ \text{risk}&=D_{KL}[Q(\tilde{y}\mid\pi)\parallel P(\tilde{y}\mid C)]\\ \text{ambiguity}&=\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]\end{aligned}$$
+      where $H$ is the entropy $-\sum p\ln p$ of the outcome distribution given a state.
+
+  - type: numeric
+    id: p3-risk
+    tag: Problem 3 · Where to dig
+    prompt: |
+      The "Mud" policy believes the soil is rich with probability $0.8$ and poor with $0.2$. A worm shows with probability $0.7$ on rich soil and $0.3$ on poor soil, and the robin prefers outcomes $P(\tilde{y}\mid C)=(0.8,\,0.2)$ for (worm, no worm). What is the risk $D_{KL}[Q(\tilde{y}\mid\pi)\parallel P(\tilde{y}\mid C)]$ of this policy, in nats?
+    answer: 0.086
+    tolerance: 0.003
+    answerText: '0.086'
+    wrong:
+      - { value: 0.0755, tolerance: 0.002, feedback: 'You swapped the two distributions, $D_{KL}[P(\tilde{y}\mid C)\parallel Q]$. The risk is $D_{KL}[Q\parallel P(\tilde{y}\mid C)]$: the predicted outcomes come first.' }
+      - { value: 0.611, tolerance: 0.004, feedback: 'That is this policy''s ambiguity, the entropy of $(0.7,0.3)$. Risk compares predicted outcomes with the preferences.' }
+    hint: 'First the predicted outcomes: $Q(\text{worm})=0.8\times0.7+0.2\times0.3$. Then $\sum_{\tilde{y}}Q\ln(Q/C)$.'
+    explanation: |
+      Predicted outcomes: $Q(\text{worm})=0.56+0.06=0.62$ and $Q(\text{no worm})=0.38$. Then
+      $$\begin{aligned}\text{risk}&=0.62\ln\tfrac{0.62}{0.8}\\ &\quad+0.38\ln\tfrac{0.38}{0.2}\\ &\approx0.086.\end{aligned}$$
+      The predicted $(0.62,\,0.38)$ is already close to the preferred $(0.8,\,0.2)$, so the risk is small.
+
+  - type: numeric
+    id: p3-amb
+    tag: Problem 3 · Where to dig
+    prompt: |
+      The "Bed" policy believes the soil is rich with probability $0.2$ and poor with $0.8$. On bare soil, a worm shows with probability $0.95$ on rich soil and $0.05$ on poor soil. What is its ambiguity $\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]$, in nats?
+    answer: 0.1985
+    tolerance: 0.003
+    answerText: '0.199'
+    wrong:
+      - { value: 0.693, tolerance: 0.003, feedback: 'That is $\ln2$, the maximum entropy of two outcomes. Here each state gives a nearly certain outcome, so the entropy is far smaller.' }
+      - { value: 0.05, feedback: 'You took a probability instead of an entropy. The entropy of $(0.95,\,0.05)$ is $-0.95\ln0.95-0.05\ln0.05$.' }
+    hint: 'Both states have the same pair of probabilities $(0.95,\,0.05)$, just swapped. What does that do to the average?'
+    explanation: |
+      The entropy of $(0.95,\,0.05)$ is
+      $$\begin{aligned}H&=-0.95\ln0.95\\ &\quad-0.05\ln0.05\\ &\approx0.1985.\end{aligned}$$
+      The poor state gives $(0.05,\,0.95)$, with the same entropy. The average over $Q(\tilde{x}\mid\pi)$ of two equal numbers is that number, whatever the belief: ambiguity here is $0.1985$ for any $Q$.
+
+  - type: widget
+    id: p3-widget
+    review: false
+    widget: policy-scorer
+    config:
+      outcomes: ["worm", "no worm"]
+      C: [0.8, 0.2]
+      states: ["rich", "poor"]
+      likelihood: [[0.9, 0.1], [0.1, 0.9]]
+      editable: false
+      showProb: false
+      showGamma: false
+      policies:
+        - { name: "Lawn", qx: [0.5, 0.5] }
+        - { name: "Mud", qx: [0.8, 0.2], likelihood: [[0.7, 0.3], [0.3, 0.7]] }
+        - { name: "Bed", qx: [0.2, 0.8], likelihood: [[0.95, 0.05], [0.05, 0.95]] }
+    body: |
+      The three policies of the robin, with preferences $P(\tilde{y}\mid C)=(0.8,\,0.2)$ for (worm, no worm). For each policy read the **risk**, the **ambiguity**, and $G$, and also the second form: the information gain and the pragmatic value.
+
+      Which policy has the lowest risk? The lowest ambiguity? The lowest $G$? Are they the same?
+
+  - type: order
+    id: p3-rank
+    tag: Problem 3 · Where to dig
+    prompt: |
+      A robin scores three policies with preferences $P(\tilde{y}\mid C)=(0.8,\,0.2)$. Lawn has risk $0.223$ and ambiguity $0.325$. Mud has risk $0.086$ and ambiguity $0.611$. Bed has risk $0.751$ and ambiguity $0.199$ (nats). Order the policies from **best** (lowest $G=\text{ambiguity}+\text{risk}$) to worst.
+    steps:
+      - 'Lawn'
+      - 'Mud'
+      - 'Bed'
+    hint: Add the two numbers for each policy.
+    explanation: |
+      $$\begin{aligned}G_{\text{Lawn}}&=0.325+0.223=0.548\\ G_{\text{Mud}}&=0.611+0.086=0.697\\ G_{\text{Bed}}&=0.199+0.751=0.950\end{aligned}$$
+      The ranking is Lawn, Mud, Bed. Neither term decides alone: Mud has the lowest risk but loses to Lawn because its senses are blurry (high ambiguity); Bed has the lowest ambiguity but its beliefs lead to outcomes far from the preferences (high risk).
+
+  - type: mcq
+    id: p3-gain
+    tag: Problem 3 · Where to dig
+    prompt: |
+      In the second form, $G=-\text{information gain}-\text{pragmatic value}$. The robin's policies have these (in nats): Lawn gain $0.368$, pragmatic value $-0.916$; Mud gain $0.053$, pragmatic value $-0.750$; Bed gain $0.341$, pragmatic value $-1.291$. A friend ranks the policies by information gain alone (highest first): Lawn, Bed, Mud. What is wrong with that as a ranking by $G$?
+    options:
+      - text: 'It ignores the pragmatic value. Adding it gives $G=0.548$ (Lawn), $0.697$ (Mud), $0.950$ (Bed): Mud beats Bed, because Mud''s outcomes are closer to the preferences.'
+        correct: true
+      - text: 'Information gain should be subtracted twice, so Mud is even better.'
+        feedback: |
+          Gain enters $G$ once, with a minus sign. The problem is not its weight but that the pragmatic value is left out: Bed learns a lot, but what it expects to see is far from what the robin wants.
+      - text: 'Nothing is wrong: the policy that learns most always has the lowest $G$.'
+        feedback: |
+          Here it does happen at the top (Lawn is first in both rankings), which makes the claim tempting. But $G$ also contains the pragmatic value, and for the second place the two rankings disagree: Bed learns more than Mud, yet has the larger $G$.
+    explanation: |
+      $$\begin{aligned}G_{\text{Lawn}}&=-0.368+0.916=0.548\\ G_{\text{Mud}}&=-0.053+0.750=0.697\\ G_{\text{Bed}}&=-0.341+1.291=0.950\end{aligned}$$
+      These agree with the other form (ambiguity plus risk). Exploring and exploiting are not two modes: a single number $G$ contains both, and a policy with large information gain can still be poor if it expects to see what the creature does not want.
+
+  - type: numeric
+    id: p3-softmax
+    tag: Problem 3 · Where to dig
+    prompt: |
+      Three policies have expected free energies $G=0.548,\ 0.697,\ 0.950$ (nats). With the precision $\gamma=1$, policy $\pi$ is chosen with probability $P(\pi)=e^{-\gamma G(\pi)}\big/\sum_{\pi'}e^{-\gamma G(\pi')}$. What is the probability of the first policy?
+    answer: 0.395
+    tolerance: 0.003
+    answerText: '0.395'
+    wrong:
+      - { value: 0.333, tolerance: 0.002, feedback: 'That would be choosing at random. The lowest $G$ must get the largest share.' }
+      - { value: 0.578, tolerance: 0.003, feedback: 'That is $e^{-0.548}$, the numerator. Divide by the sum of the three exponentials ($1.463$).' }
+    hint: 'The three exponentials are $e^{-0.548}\approx0.578$, $e^{-0.697}\approx0.498$, $e^{-0.950}\approx0.387$.'
+    explanation: |
+      The sum is $0.578+0.498+0.387=1.463$, so
+      $$\begin{aligned}P(\pi_1)&=\frac{0.578}{1.463}\\ &\approx0.395,\end{aligned}$$
+      and the others get $0.341$ and $0.264$. The best policy is only mildly preferred at $\gamma=1$, because the three $G$ values are close. Raising $\gamma$ sharpens the choice; the last problem explores how.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      - **Perception is a Bayes update, and surprise adds up.** With a hidden cause $x$ (rain, branch, bird: priors $0.5, 0.3, 0.2$) and an observation $y$ (a tap, likelihoods $0.2, 0.6, 0.5$), the evidence and the posterior are
+        $$\begin{aligned}P(y)&=\sum_x P(y\mid x)P(x)\\ P(x\mid y)&=\frac{P(y\mid x)P(x)}{P(y)}\end{aligned}$$
+        giving $P(y)=0.38$, posterior $(0.263,\,0.474,\,0.263)$ and surprise $-\ln P(y)=0.968$ nats. The posterior is the prior for the next observation: a second tap has evidence $0.4684$ (surprise $0.758$), and the total $1.726=-\ln(0.38\times0.4684)$.
+      - **Free energy is a bound, and its excess is a divergence.** For a guess $Q(x)$ of the posterior in the same tap model,
+        $$\begin{aligned}F&=\sum_x Q(x)\big[\ln Q(x)-\ln P(y,x)\big]\\ &=-\ln P(y)+D_{KL}[Q(x)\parallel P(x\mid y)]\\ &\ge-\ln P(y).\end{aligned}$$
+        $Q=$ prior has $F=1.097$ (gap $0.129$), uniform $1.008$, all on the branch $1.715$, the exact posterior $0.968$: the best guess is the posterior, not its peak.
+      - **Policies are scored by $G$ and chosen by a softmax.** For a policy $\pi$ with predicted outcomes $Q(\tilde{y}\mid\pi)$, preferences $P(\tilde{y}\mid C)$ and likelihood $P(\tilde{y}\mid\tilde{x})$ (hidden state $\tilde{x}$, outcome $\tilde{y}$),
+        $$\begin{aligned}G&=\text{ambiguity}+\text{risk}\\ &=-\text{gain}-\text{pragmatic value}\end{aligned}$$
+        with $P(\pi)=\sigma(-\gamma G)$ for the precision $\gamma$. A robin with preferences $(0.8,\,0.2)$ for (worm, no worm) scores Lawn, Mud, Bed at $G=0.548,\,0.697,\,0.950$: the lowest risk (Mud) and the lowest ambiguity (Bed) each lose to the policy that balances both (Lawn), and at $\gamma=1$ the probabilities are $0.395,\,0.341,\,0.264$.
