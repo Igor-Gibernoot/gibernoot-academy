@@ -2,8 +2,8 @@
 
 Session start: read only **Current** (`sed -n '/^## Current (2026-10-24)
 
-- **State:** Level 1 in progress. Built: persist, guessing, acting, map, `ch01-challenge` problems 1-3 (15 cards, file exists). Source 1.1-1.3 verified; 1.4.1 prose only.
-- **Next unit:** `ch01-challenge` problems 4-5 (pending; finish `ch01/challenge.yaml`, replace the closing summary card and the intro list), then Level 1 is done.
+- **State:** Level 1 done (persist 14, guessing 11, acting 11, map, review auto, challenge 25 cards). Source 1.1-1.3 verified; 1.4.1 prose only.
+- **Next unit:** Level 2 (`ch02`), first lesson in `course.yaml` order; Level 1 'generative model' deferred to it.
 - **Conventions:** `CONVENTIONS.md`, one section per chapter.
 - **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
 
@@ -21,6 +21,7 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
 
 ## Log
 
+- 2026-10-24 ch01-challenge problems 4-5 built (25 cards total): p4 surprise ranking 37/35/41/28 (errors 0,2,-4,9; distance outside band 0,1,3,8), traps big-error and low-surprise-still-acts; p5 rustle 31/31/38%, policies flee 5 vs look closer 6, sharp senses (0.05,0.05,0.9 -> fox 82%) flips to flee. Validate and shots clean. Conventions fixed here: see CONVENTIONS ch01-challenge.
 - 2026-10-24 widget `homeostat` built (scale with safe band/body/expectation/room markers, mismatch bar, in-band flag, belief/act/wait levers, scripted presets); validate, widget-smoke, shots at phone and desktop clean. Throwaway preset removed. Conventions fixed here: body blue, expectation orange, room purple, safe band green; defaults drift 0.08, actRate 0.8 (act alone settles at ~35.3 for room 20, expect 37, so for band 36-38 use room 28, drift 0.05).
 - 2026-10-24 ch01-guessing built (concept, 11 cards: welcome, hook, belief-mixer, why-different mcq, words gloss, numeric toy 69%, 2 traps, predictive machine, lever mcq, summary). Validate and shots clean; mixer card viewed at phone width. Summary uses "belief proportional to prior x evidence" in words (own wording, not a book equation; book's Bayes' rule is Ch. 2, unverified). Notation check of CLAUDE.md: see CONVENTIONS. Conventions fixed here: causes cat/dog/fox; prior, evidence (= likelihood later), hidden cause, belief glossed; toy numbers 0.9/0.1 and 0.2/0.8 give 69/31.
 - 2026-10-24 widget `belief-mixer` built (HTML sliders for prior and evidence, belief bars, noisy/sharp switch, presets, optional evidence markers); validate and widget-smoke clean, screenshots checked at phone and desktop. Conventions fixed here: causes coloured blue, orange, purple in the order given; noisy senses flatten evidence by power 0.3.

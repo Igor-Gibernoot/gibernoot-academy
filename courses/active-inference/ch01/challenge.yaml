@@ -6,7 +6,7 @@ cards:
     id: intro
     title: "Harder, still guess first"
     body: |
-      Three problems that **combine** what Level 1 taught. Same rule as always: **guess first**; a wrong guess is fine and every answer comes with a reason. A pencil helps, but every number can be checked by hand.
+      Five problems that **combine** what Level 1 taught. Same rule as always: **guess first**; a wrong guess is fine and every answer comes with a reason. A pencil helps, but every number can be checked by hand.
 
       The toolkit, in three lines:
 
@@ -17,6 +17,8 @@ cards:
       1. A fish in water that is too warm: error and the two levers.
       2. A splash in a pond: three possible causes, and a reversal.
       3. A cold creature choosing between going straight to warmth and looking around first.
+      4. Four situations for one creature, ranked by surprise.
+      5. A rustle in the bushes: what to believe, and what to do about it.
 
   # ---------------------------------------------------------------- Problem 1
   - type: text
@@ -225,6 +227,166 @@ cards:
     explanation: |
       In active inference, seeking information and seeking goals are not rivals with a referee between them: they are two parts of one score. A big unknown makes looking attractive; a known world makes going straight attractive.
 
+  # ---------------------------------------------------------------- Problem 4
+  - type: text
+    id: p4-setup
+    tag: Problem 4 · Ranking the surprises
+    title: "Four situations, one creature"
+    body: |
+      A warm-blooded creature stays healthy only between $36$ and $38\,{}^\circ\text{C}$, and it **expects** to sense $37\,{}^\circ\text{C}$. Four different moments find it sensing:
+
+      | Situation | Sensed |
+      |---|---|
+      | A | $37\,{}^\circ\text{C}$ |
+      | B | $35\,{}^\circ\text{C}$ |
+      | C | $41\,{}^\circ\text{C}$ |
+      | D | $28\,{}^\circ\text{C}$ |
+
+      Recall: the **prediction error** is expected minus sensed, and **surprise** is how far the current sensations are from those that keep the creature intact (not how shocking they feel).
+
+  - type: numeric
+    id: p4-error
+    tag: Problem 4 · Ranking the surprises
+    prompt: |
+      The creature expects $37\,{}^\circ\text{C}$ and senses $41\,{}^\circ\text{C}$ (situation C). Taking prediction error as expected minus sensed, what is it in ${}^\circ\text{C}$?
+    answer: -4
+    answerText: '-4'
+    wrong:
+      - { value: 4, feedback: 'The size is right but the sign is flipped: expected minus sensed is $37-41=-4$. Negative means warmer than expected.' }
+      - { value: 78, feedback: 'You added the two numbers. The error is their difference.' }
+    hint: Expected first, sensed second, and subtract.
+    explanation: |
+      $$\begin{aligned}\text{prediction error} &= \text{expected}-\text{sensed}\\ &= 37-41=-4\,{}^\circ\text{C}.\end{aligned}$$
+      For the four situations the errors are $0$, $2$, $-4$ and $9$ (A to D): $37-37$, $37-35$, $37-41$, $37-28$.
+
+  - type: order
+    id: p4-order
+    tag: Problem 4 · Ranking the surprises
+    prompt: |
+      Rank the four situations from **least** to **most** surprising. The prediction errors are A: $0$, B: $2$, C: $-4$, D: $9$. Remember what surprise measures: distance from the sensations that keep the creature intact, here the band $36$ to $38\,{}^\circ\text{C}$.
+    steps:
+      - 'A: senses $37\,{}^\circ\text{C}$, inside the band (distance $0$).'
+      - 'B: senses $35\,{}^\circ\text{C}$, $1$ degree below the band.'
+      - 'C: senses $41\,{}^\circ\text{C}$, $3$ degrees above the band.'
+      - 'D: senses $28\,{}^\circ\text{C}$, $8$ degrees below the band.'
+    hint: For each sensation, ask how far it is outside $36$ to $38$ (zero if inside). Do not rank by the sign of the error.
+    explanation: |
+      Distance outside the band: A is inside, so $0$; B is $36-35=1$; C is $41-38=3$; D is $36-28=8$. The distances $0<1<3<8$ give the ranking A, B, C, D, with no ties.
+
+      Ranking by the **signed** error would be wrong: C has error $-4$, the smallest number, yet it is the third most surprising. Only the distance outside the band matters, not the direction. (Here the sizes $0, 2, 4, 9$ happen to give the same order, but in the next card the size of the error misleads.)
+
+  - type: mcq
+    id: p4-trap-big
+    tag: Trap
+    prompt: |
+      Another creature is safe between $20$ and $40\,{}^\circ\text{C}$ and expects $30\,{}^\circ\text{C}$. It senses $22\,{}^\circ\text{C}$, a prediction error of $8$. Our creature (safe band $36$ to $38$, expects $37$) senses $35\,{}^\circ\text{C}$, an error of only $2$. A friend says "the bigger error is the bigger surprise". Which situation is more surprising in the sense of this course?
+    options:
+      - text: Our creature at $35\,{}^\circ\text{C}$, which is outside its safe band, while the other creature at $22\,{}^\circ\text{C}$ is still inside its own.
+        correct: true
+      - text: The other creature at $22\,{}^\circ\text{C}$, because $8$ is bigger than $2$.
+        feedback: |
+          A big error sounds shocking, but surprise here is about staying intact, not about the size of a mismatch. At $22$ the other creature is well inside its band $20$ to $40$, so nothing threatens it.
+      - text: They are equally surprising, because both creatures sense something other than what they expect.
+        feedback: |
+          Any mismatch is an error, but not every error is dangerous. Only sensations outside the survivable range count as surprising, and only one of the two is outside.
+    explanation: |
+      Surprise measures how far the sensation is from the range that keeps the creature intact. The other creature has a big error but is inside its band ($22\ge20$), so it is not in danger. Ours has a small error but has left its narrow band by $1$ degree. An error says where the creature's *expectation* was wrong; surprise says whether the creature is in *trouble*.
+
+  - type: mcq
+    id: p4-trap-still-acts
+    tag: Trap
+    prompt: |
+      The creature of situation A senses exactly $37\,{}^\circ\text{C}$: prediction error $0$ and the lowest surprise. The room outside is much colder, $28\,{}^\circ\text{C}$. A student says "with no surprise, there is nothing to do, so it stops acting". What happens?
+    options:
+      - text: It keeps acting, because the cold room keeps pulling its body away from $37$; low surprise is the result of continuing to act, not a reason to stop.
+        correct: true
+      - text: It stops acting, and stays at $37\,{}^\circ\text{C}$ because it expects to.
+        feedback: |
+          Expecting $37$ does not hold the body there. Left alone in a colder room the body drifts down, the error grows and the surprise rises again. In the homeostat, the body only stayed in the band while the creature kept pressing the lever.
+      - text: It acts only when the error is nonzero, so it acts once and then never again.
+        feedback: |
+          The world does not stay still: the room keeps cooling the body, so the error keeps reappearing in small amounts and each time the creature corrects it. Staying put in a changing world takes continuous acting.
+    explanation: |
+      Persisting is a continuing effort. Low surprise is what a creature that **keeps** acting looks like from the outside: small corrections, again and again, cancel the drift. Remove the action and the error and the surprise come back.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: text
+    id: p5-setup
+    tag: Problem 5 · A rustle in the bushes
+    title: "Believe, then choose"
+    body: |
+      A creature hears a rustle in the bushes. It cannot see what made it. First it must **guess the hidden cause**; then it must **choose a policy**.
+
+      | Cause | Prior | Evidence (how well it explains this rustle) |
+      |---|---|---|
+      | Cat | $0.5$ | $0.3$ |
+      | Dog | $0.3$ | $0.5$ |
+      | Fox | $0.2$ | $0.9$ |
+
+      Recall: belief is proportional to prior times evidence, rescaled to add up to $100\%$.
+
+  - type: numeric
+    id: p5-belief
+    tag: Problem 5 · A rustle in the bushes
+    prompt: |
+      Three causes of a rustle have priors $0.5$ (cat), $0.3$ (dog), $0.2$ (fox) and evidence $0.3$, $0.5$, $0.9$. Multiply prior by evidence, rescale to add up to $100\%$, and give the belief in the **fox**, in percent.
+    answer: 37.5
+    tolerance: 0.5
+    answerText: '38'
+    wrong:
+      - { value: 20, feedback: 'That is the fox prior. The evidence ($0.9$, the strongest) must be multiplied in, and then everything rescaled.' }
+      - { value: 90, feedback: 'You read off the evidence alone. The belief mixes it with the prior and rescales.' }
+      - { value: 31.3, feedback: 'That is the cat (and also the dog): $0.15/0.48$. The fox has the biggest product, $0.18$.' }
+    hint: The three products add up to $0.48$; divide the fox product by that sum.
+    explanation: |
+      Products: cat $0.5\times0.3=0.15$, dog $0.3\times0.5=0.15$, fox $0.2\times0.9=0.18$. Their sum is $0.48$, so
+      $$\begin{aligned}\text{cat}&=\tfrac{0.15}{0.48}\approx 31\%\\ \text{dog}&\approx 31\%\\ \text{fox}&=\tfrac{0.18}{0.48}\approx 38\%\end{aligned}$$
+      The fox leads, but only narrowly: the creature is still **uncertain**, and that matters for what comes next.
+
+  - type: text
+    id: p5-policies
+    tag: Problem 5 · A rustle in the bushes
+    title: "Two plans"
+    body: |
+      With that spread of belief, the creature compares two **policies**. Each gets two numbers, bigger is better, and the score is their sum (the sign-flipped expected free energy, as before):
+
+      | Policy | Fit to goals | Uncertainty resolved |
+      |---|---|---|
+      | Flee at once | $5$ | $0$ |
+      | Look closer first | $3$ | $3$ |
+
+      Fleeing fits the goal "stay safe" well whatever the cause. Looking closer risks a little, but it would tell the creature which cause it is.
+
+  - type: numeric
+    id: p5-policy
+    tag: Problem 5 · A rustle in the bushes
+    prompt: |
+      Flee has (fit to goals, uncertainty resolved) of $(5,0)$ and look closer has $(3,3)$. Score each as the sum of its two numbers. What is the score of the better policy?
+    answer: 6
+    wrong:
+      - { value: 5, feedback: 'That is fleeing, which wins on goals alone. Looking closer has a lower fit ($3$) but resolves uncertainty ($3$), and the score counts both.' }
+      - { value: 3, feedback: 'You took only one part of looking closer. Add both: $3+3$.' }
+    hint: Add the two numbers for each policy, then compare the sums.
+    explanation: |
+      Flee: $5+0=5$. Look closer: $3+3=6$. Looking closer wins, because the creature's belief is spread out ($31\%$, $31\%$, $38\%$), so there is a lot to learn.
+
+  - type: mcq
+    id: p5-sharp
+    tag: Problem 5 · A rustle in the bushes
+    prompt: |
+      Now the creature's senses become **sharp**: the evidence for the three causes becomes $0.05$, $0.05$, $0.9$ (priors unchanged), so the belief in the fox rises to about $82\%$. The fit-to-goals numbers stay $5$ and $3$. What changes in the choice between the policies?
+    options:
+      - text: Little is left to learn, so looking closer resolves almost nothing and its score falls below fleeing ($5$); the creature flees.
+        correct: true
+      - text: Nothing changes, since the scores of policies do not depend on how certain the creature is.
+        feedback: |
+          They do. The second part, uncertainty resolved, is exactly about what the creature still does not know. When the belief is sharp, that part shrinks.
+      - text: Looking closer wins by even more, because sharp senses make looking more informative.
+        feedback: |
+          Sharp senses make *the rustle itself* informative, so there is less left for a closer look to add. Looking pays off when the belief is spread out, not when it is already concentrated.
+    explanation: |
+      Products: cat $0.5\times0.05=0.025$, dog $0.3\times0.05=0.015$, fox $0.2\times0.9=0.18$, summing to $0.22$, so the fox gets $0.18/0.22\approx 82\%$. With one cause nearly settled, a closer look would teach little: uncertainty resolved falls toward $0$ and looking closer drops to about $3$, below fleeing at $5$. Perception and action are one loop: what you believe changes which action is worth taking.
+
   - type: text
     id: summary
     title: What you now own
@@ -238,5 +400,9 @@ cards:
       - **A policy is scored on two parts that simply add.** A **policy** is a sequence of actions. Its score (the expected free energy, here written with the sign flipped so that bigger is better) adds
         $$\begin{aligned}\text{score} &= \text{fit to goals}\\ &\quad+\text{uncertainty resolved}\end{aligned}$$
         Looking around wins while there is still something to learn; once the surroundings are known, the second part is $0$ and the policy that heads for the goal wins, with no separate exploration switch.
+      - **Surprise is distance outside the safe range, not the size of the error.** For a creature safe between $36$ and $38\,{}^\circ\text{C}$ that expects $37\,{}^\circ\text{C}$, surprise grows with the distance outside the band:
+        $$\begin{aligned}\text{distance} &= \max(36-s,\,0,\,s-38)\\ s &= \text{sensed value}\end{aligned}$$
+        Sensing $37, 35, 41, 28$ gives errors $0, 2, -4, 9$ but distances $0, 1, 3, 8$, so the order from least to most surprising is $37, 35, 41, 28$. A big error inside a wide band is harmless, and a creature at low surprise still has to keep acting against drift.
+      - **Belief and action are one loop.** For a rustle with priors $0.5, 0.3, 0.2$ and evidence $0.3, 0.5, 0.9$ the beliefs are $31\%, 31\%, 38\%$ (products $0.15, 0.15, 0.18$). While the belief is spread out, looking closer ($3+3=6$) beats fleeing ($5+0=5$); when the senses are sharp and the belief concentrates ($82\%$), little is left to learn and fleeing wins.
 
-      **Next:** problems 4 and 5, the last two of the Level Challenge, combine all the pieces at once, from the loop to the choice of policy.
+      **Next:** the Level 1 review replays these ideas as spaced questions. Then Level 2 asks the question this tour left open: what must a creature carry inside it to predict its sensations at all, and how does it turn that into a single quantity, free energy, to minimise?
