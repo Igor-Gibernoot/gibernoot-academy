@@ -1,6 +1,13 @@
 # Status
 
-Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/p' courses/active-inference/STATUS.md`).
+Session start: read only **Current** (`sed -n '/^## Current (2026-10-24)
+
+- **State:** Level 1 in progress. Built: `ch01-persist` (14), `ch01-guessing` (11, `belief-mixer`), `ch01-acting` (11, `homeostat`), `ch01-map` (10 boxes). Source 1.1-1.3 verified; 1.4.1 prose only.
+- **Next unit:** `ch01-review` is automatic; then `ch01-challenge` (two sessions: problems 1-3, then 4-5).
+- **Conventions:** `CONVENTIONS.md`, one section per chapter.
+- **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
+
+## Log/p' courses/active-inference/STATUS.md`).
 Session end: update Current in place (keep it under ~40 lines: replace, don't append) and add a
 3-line Log entry at the top of the Log, ending "Conventions fixed here: ..."; copy those conventions
 into the chapter's section of `CONVENTIONS.md`, not into Current.
@@ -21,3 +28,4 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
 2026-10-24 · Course set up: folder, trail, CLAUDE.md, catalog entry; book converted to Markdown.
 Conventions fixed here: none yet.
 - 2026-10-24 ch01-acting: 11 cards. Hook cold creature, homeostat (presets Update belief only / Act), prediction error, set-point, one-step numeric (gap 1.8 after heater 80% + room 5%), policy, S-R trap, curiosity, explore/exploit trap. Source 1.4.1 goal/planning bullets (prose). Conventions fixed here: act settles near 36.4 C, belief-only drifts to ~29.5; prediction error = expected - sensed (words); expected free energy named, not formalised.
+- 2026-10-24 ch01-map: 10 boxes (loop, surprise, prior, evidence, prediction error, belief, action lever, perception lever, policy, exploring/exploiting), 2 decoys each (incl. stimulus-response, belief = evidence only, explore-or-exploit switch). "Generative model" was never glossed in the three lessons, so its box became separate prior and evidence boxes; the term is left for Level 2. Display math in map cards needs blank lines around `$$` and `aligned` for the error formula (phone width). Conventions fixed here: map box set above; generative model not used in Level 1.
