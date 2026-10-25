@@ -91,6 +91,8 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 - ch05-microcircuits: layers I-VI from the surface; SP (II, III), SS (IV), DP (V, VI), II interneurons; round end = inhibition. Mapping: eps^(i) enters SS (IV), eps^(i+1) leaves SP (III), g^(i+1) enters with inhibition onto the III error unit, g^(i) leaves DP; mu in II and deep layers. Figure superscripts are shifted by one vs Eq. 4.21: say "entering from below / leaving upward". Discrete circuit: s_pi in II, s in III, eps_pi in IV, o_pi and varsigma_pi in V, G_pi out of V; between areas mixtures s=sum_pi pi s_pi. Frequency: sin^2 doubles (10 to 20 Hz); gamma ~30-100 Hz, alpha/beta ~8-30 Hz (textbook values, an empirical claim). Chain y=3, Pi=(1,2,4): eps_v=3/7=.429. Widget box [440,400], bands I-VI plus 'outside'; avoid straight edges crossing nodes (place by hand).
 
+- ch05-motor-subcortical: Fig 5.3 nodes mu~ (Betz cells), y (dorsal horn), eps~_y (error cells, drawn in the ventral horn), u (lower motor neuron); Fig 5.4 left = indirect pathway (E, external pallidum GPe, STN), right = direct (G), pi in the internal pallidum (output nucleus). Direct net sign - matches -G; indirect (-)(-)(+) = + matches +ln E in pi=sigma(ln E-F-G). Footnote 1: model-free/model-based names slightly misleading (both use models). Numbers: F=(.5,1.5), G=(1,.8) pi1 .690, with E=(.7,.3) .839, sigma(-G) alone .450; arm toy rates .8 and .2. `bg` box [440,400], bands cortex/striatum/pallidum+STN/output nucleus; `spinal` bands cortex/dorsal horn/ventral horn/body.
+
 ## Chapter 6
 
 - (none yet)

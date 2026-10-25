@@ -1,0 +1,390 @@
+id: ch05-motor-subcortical
+title: "Motor Commands and Subcortical Structures"
+kind: concept
+own: |
+  - **A motor command is a prediction.** Setting: a limb whose proprioceptive data are $\tilde y(u)$ (in generalized coordinates, a tilde), where $u$ is the muscle activity (the active state), $\tilde\epsilon_y=\tilde y-\tilde g(\tilde\mu)$ is the proprioceptive prediction error against the descending prediction $\tilde g(\tilde\mu)$, and $\tilde\Pi_y$ is the precision of the proprioceptive data. The reflex arc moves the muscles so as to cancel the error:
+    {{ $$\dot u=-\nabla_u\tilde y(u)\cdot\tilde\Pi_y\,\tilde\epsilon_y$$ }}
+    It could be mapped to: Betz cells of layer V send the prediction down the pyramidal tract, the error is formed in the spinal cord, and the lower motor neurons carry the muscle activity. Layer IV is scarce in motor cortex because proprioceptive errors are resolved by reflexes, not by updating beliefs.
+  - **Sensory attenuation.** In the one-level arm model (arm angle $y$, descending prediction $\eta$, prior precision $\Pi_v$, sensory precision $\Pi_y$), lowering $\Pi_y$ keeps the belief $\mu$ close to $\eta$, so the belief "I am moving" survives while the arm is still. It does **not** speed the reflex up: the initial rate
+    {{ $$\dot u=\frac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}\,(\eta-y)$$ }}
+    never falls as $\Pi_y$ rises. Attenuation (saccadic suppression is an example) lets the movement start; failures to attenuate are hypothesised to contribute to passivity phenomena and catatonia.
+  - **Policy evaluation in the striatum.** For a discrete model with policies $\pi$, predicted outcomes $\mathbf o_\pi$ and the log-difference $\boldsymbol\varsigma_\pi=\ln\mathbf o_\pi-\ln\mathbf C$ from the preferences $\mathbf C$, layer V could send $\mathbf o_\pi$ and $\boldsymbol\varsigma_\pi$ to the striatum, where they combine into the expected free energy $\mathbf G$ of each policy. The posterior over policies (with $\mathbf F$ the variational free energy and $\mathbf E$ the habit prior) is
+    {{ $$\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$$ }}
+    and it could be mapped to the internal globus pallidus (the output nucleus of the basal ganglia).
+  - **Two pathways, two signs.** The direct pathway (striatum, then one inhibitory synapse onto the output nucleus) carries $\mathbf G$ with net sign $-$, like the $-\mathbf G$ above. The indirect pathway (inhibition, inhibition, excitation) carries the habit prior $\mathbf E$ with net sign $(-)(-)(+)=+$, like $+\ln\mathbf E$:
+    {{ $$\begin{gathered}\text{direct }(-)\leftrightarrow-\mathbf G\\\text{indirect }(+)\leftrightarrow+\ln\mathbf E\end{gathered}$$ }}
+    So goal-directed evaluation and habit are two drives on the same $\boldsymbol\pi$.
+  - **Thalamus (speculative).** Primary thalamic nuclei could play the role of a lower cortical area (they feed layer IV, like the errors of an ascending message); secondary nuclei (pulvinar, mediodorsal) could handle second order statistics, that is the precision $\Pi=\Sigma^{-1}$ of the data, the inverse of their variance $\Sigma$.
+cards:
+  - type: text
+    id: hook
+    title: "A prediction that moves a muscle"
+    body: |
+      To lift your arm you do not need to compute a force or send a "go" signal. According to the model of the last level, **it is enough to predict that your arm is lifting.**
+
+      Before any anatomy, guess: **why would a prediction ever move a muscle?** And a second puzzle: if you start with the belief "I am moving" while the data from your arm say "I am still", what stops the data from overwriting the belief before the movement begins?
+
+      Layer V of the cortex, which you met in the column, sends its output to the spinal cord and to a deep structure called the striatum. This lesson asks what those two messages could be. As in the whole level, everything is a **process theory**: we write "could be mapped to", not "is".
+
+  - type: mcq
+    id: guess-prediction
+    prompt: |
+      A model holds the belief "my arm is at the raised angle" while the arm sensors report "the arm is down". A reflex circuit acts to **reduce** the mismatch between predicted and sensed arm angle, and it can change the arm (not only the belief). What happens?
+    options:
+      - text: 'The arm is moved until the sensed angle matches the prediction: the mismatch is removed by changing the data.'
+        correct: true
+      - text: 'Nothing: a prediction is only a belief and cannot change the world.'
+        feedback: |
+          True for perception alone, where only the belief moves toward the data. The new ingredient is a second way to cancel the error: act on the body so that the data move toward the belief.
+      - text: 'The reflex needs a separate "go" command on top of the prediction, otherwise the arm cannot start.'
+        feedback: |
+          That is the classical picture, with a command signal distinct from the sensory prediction. Here the prediction of the sensory consequences of the movement is the command: the error it makes with the current data is what drives the muscles.
+    explanation: |
+      The free energy has an error term $\epsilon_y=y-g(\mu)$ that depends on the data $y$, and the data depend on the arm angle. Descending $F$ with respect to the **action** changes $y$ and shrinks the error. That is the duality of perception and action: one error, two ways to cancel it.
+
+  - type: text
+    id: recall
+    title: "Recall: the reflex, with its anatomy"
+    body: |
+      Recall the arm model of the last level. $y$ is the sensed arm angle, $\mu$ the belief, $g(\mu)$ the prediction of the data from the belief, $\epsilon_y=y-g(\mu)$ the error, $\Pi_y$ the precision (inverse variance, the trust) of the sensory data, and $u$ the **muscle activity** (the active state) that moves the arm. Acting means descending the free energy with respect to $u$:
+      $$\dot u=-\nabla_u\tilde y(u)\cdot\tilde\Pi_y\,\tilde\epsilon_y$$
+      (the tilde is the generalized-coordinates version, a few time derivatives together).
+
+      Words we need, one plain sentence each:
+      - **proprioception** is the sense of where your limbs are (from sensors in muscles and joints); a **proprioceptive afferent** is a nerve fibre carrying that signal *into* the spinal cord;
+      - the **spinal cord** has a **dorsal horn** (the back part, where sensory fibres arrive) and a **ventral horn** (the front part, where the cells that drive muscles sit);
+      - **Betz cells** are very large layer V pyramidal cells of the primary motor cortex; they are **upper motor neurons** (they start in the brain);
+      - the **pyramidal tract** is the bundle of their fibres running down to the spinal cord, **decussating** (crossing from one side of the body to the other) on the way;
+      - a **lower motor neuron** sits in the ventral horn and contracts a muscle directly.
+
+  - type: widget
+    id: spinal-widget
+    review: false
+    widget: microcircuit
+    config:
+      box: [440, 400]
+      showFreq: false
+      showLegend: true
+      bands:
+        - { label: 'motor cortex', y0: 0, y1: 100 }
+        - { label: 'dorsal horn', y0: 100, y1: 220 }
+        - { label: 'ventral horn', y0: 220, y1: 330 }
+        - { label: 'body', y0: 330, y1: 400 }
+      nodes:
+        - { id: betz, label: '\tilde\mu', name: 'Betz cells (upper motor neurons)', pos: [340, 50], cls: expectation, populations: 'layer V, primary motor cortex', info: 'Hold the expectations about the movement; their fibres form the pyramidal tract.' }
+        - { id: afferent, label: 'y', name: 'dorsal horn cells (proprioceptive input)', pos: [90, 160], cls: input, populations: 'dorsal horn', info: 'Receive the proprioceptive data, the sensed limb position.' }
+        - { id: err, label: '\tilde\epsilon_y', name: 'proprioceptive error cells', pos: [230, 275], cls: error, populations: 'spinal cord (drawn in the ventral horn)', info: 'Hold the proprioceptive prediction error: the data minus the descending prediction.' }
+        - { id: lmn, label: 'u', name: 'lower motor neurons', pos: [370, 275], cls: output, populations: 'ventral horn', info: 'Drive the muscle contraction or relaxation.' }
+        - { id: spindle, label: 'y', name: 'proprioceptors (muscle sensors)', pos: [90, 370], cls: input, populations: 'muscles and joints', info: 'Sensors that report the limb position.' }
+        - { id: muscle, label: 'u', name: 'muscle', pos: [370, 370], cls: output, populations: 'body', info: 'Moves the limb.' }
+      edges:
+        - { id: s-pred, from: betz, to: err, sign: '-', message: { label: '\tilde g^{(1)}', kind: prediction }, direction: descending, note: 'The pyramidal tract carries the prediction of the proprioceptive data down (after decussating); it is subtracted where the error is formed.' }
+        - { id: s-aff, from: spindle, to: afferent, sign: '+', message: { label: 'y', kind: error }, direction: ascending, note: 'The proprioceptive afferent brings the sensed position into the dorsal horn.' }
+        - { id: s-err, from: afferent, to: err, sign: '+', message: { label: 'y', kind: error }, direction: intrinsic, note: 'The data enter the error with a plus sign; the prediction enters with a minus sign.' }
+        - { id: s-lmn, from: err, to: lmn, sign: '+', message: { label: '\tilde\epsilon_y', kind: error }, direction: 'to the muscle', note: 'The error says how much contraction would be needed to meet the prediction.' }
+        - { id: s-mus, from: lmn, to: muscle, sign: '+', message: { label: 'u', kind: prediction }, direction: 'motor output', note: 'The motor neuron contracts or relaxes the muscle.' }
+        - { id: s-loop, from: muscle, to: spindle, sign: '+', message: { label: 'y(u)', kind: error }, direction: 'through the body', note: 'Not a synapse: the movement changes the limb position, so the sensors report new data that comply with the prediction.' }
+      sequence: [s-pred, s-aff, s-err, s-lmn, s-mus, s-loop]
+    body: |
+      One possible mapping of the reflex arc onto the spinal cord (a simplified schematic; the figure draws the error cells in the ventral horn). **Click each population** and read what it receives (blue lines) and sends (orange lines); click a line for its synapse sign. Then press **Play messages** and follow the chain: prediction down, data in, error formed, muscle moved, data change.
+
+      Find the **inhibitory** synapse (a round end): it is where the prediction is subtracted.
+
+  - type: mcq
+    id: lmn-receives
+    prompt: |
+      In this reflex circuit, what does the lower motor neuron receive from the error cells?
+    options:
+      - text: 'A proprioceptive prediction error: how much muscle contraction would be required to make the sensed position match the descending prediction.'
+        correct: true
+      - text: 'A motor command: a finished instruction saying which muscles to contract and by how much, computed in the motor cortex.'
+        feedback: |
+          Tempting, because that is how we usually describe motor control. In this proposal the cortex sends only a prediction of the proprioceptive data. The quantity that reaches the motor neuron is the *difference* between that prediction and the sensed data, and it vanishes when the movement is done.
+      - text: 'The sensed limb position $y$ itself.'
+        feedback: |
+          The raw data arrive in the dorsal horn, but the motor neuron must be driven by the mismatch with the prediction. Driven by $y$ alone it would contract whatever the cortex expects.
+    explanation: |
+      The error $\tilde\epsilon_y=\tilde y-\tilde g$ is formed in the spinal cord. It drives the muscles, and the movement it causes removes it: the error suppresses itself. This is why "the only thing we need to generate a movement is a prediction of the sensory consequences of that movement".
+
+  - type: widget
+    id: arm-widget
+    review: false
+    widget: predictive-coding
+    config:
+      mode: action
+      modes: [action]
+      g: { kind: gain, gain: 1 }
+      y0: 0
+      eta: 1
+      Pi: { y: 4, v: 1 }
+      dydu: 1
+      presets:
+        - { label: 'sensory precision 4', Pi: { y: 4, v: 1 } }
+        - { label: 'sensory precision 1/4', Pi: { y: 0.25, v: 1 } }
+    body: |
+      The arm toy of the last level, now as the spinal circuit. The arm hangs at $y=0$. The gold dashed arm is the descending prediction $\eta=1$; the green dotted arm is the belief $\mu$. The prior precision is $\Pi_v=1$.
+
+      Press *Enable reflex* and *Descend* with the sensory precision $\Pi_y=4$, then use the preset $\Pi_y=\tfrac14$ and repeat. Watch two things: where the **belief** goes, and how fast the **arm** starts to move (the readout "rate").
+
+  - type: numeric
+    id: rate-high
+    prompt: |
+      One-level arm model: arm angle $y=0$, descending prediction (prior mean) $\eta=1$, $g(\mu)=\mu$, $\partial y/\partial u=1$, prior precision $\Pi_v=1$, sensory precision $\Pi_y=4$. Perception has settled on the current arm angle: $\mu$ minimises $F=\tfrac12\Pi_y(y-\mu)^2+\tfrac12\Pi_v(\mu-\eta)^2$ at $y=0$. What is the reflex rate $\dot u=-\Pi_y\,\epsilon_y$, with $\epsilon_y=y-\mu$?
+    answer: 0.8
+    tolerance: 0.01
+    wrong:
+      - { value: 0.2, feedback: 'That is the belief $\mu$, not the rate. Compute $\mu$ first, then $\epsilon_y=y-\mu$, then $\dot u=-\Pi_y\epsilon_y$.' }
+      - { value: 4, feedback: 'That is $\Pi_y$. The rate is the precision times the **error** $\epsilon_y$, which is only $-0.2$ here.' }
+      - { value: 1, feedback: 'That is the prior $\eta$: the full distance to the target. The error actually felt by the reflex is smaller, because the belief has already moved toward the data.' }
+    hint: |
+      Minimise $F$ over $\mu$: $\mu=\dfrac{\Pi_v\eta+\Pi_y y}{\Pi_y+\Pi_v}$. Then $\epsilon_y=0-\mu$.
+    explanation: |
+      $$\mu=\frac{1\cdot1+4\cdot0}{4+1}=0.2$$
+      $$\epsilon_y=0-0.2=-0.2$$
+      $$\dot u=-4\cdot(-0.2)=0.8$$
+      Check with the closed form $\dfrac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}(\eta-y)=\dfrac45\cdot1=0.8$. The belief ends near the data ($\mu=0.2$), so the arm is moved quickly but the belief "the arm is at 1" has been mostly overwritten.
+
+  - type: numeric
+    id: rate-low
+    prompt: |
+      Same arm model ($y=0$, $\eta=1$, $g(\mu)=\mu$, $\partial y/\partial u=1$, $\Pi_v=1$) but the sensory precision is **attenuated** to $\Pi_y=0.25$. Perception has settled at $y=0$. What is the reflex rate $\dot u=-\Pi_y\,\epsilon_y$ now?
+    answer: 0.2
+    tolerance: 0.01
+    wrong:
+      - { value: 0.8, feedback: 'That is the rate for $\Pi_y=4$. Recompute the belief first: with a low $\Pi_y$ it stays near the prior.' }
+      - { value: 0.25, feedback: 'That is $\Pi_y$. Multiply it by the error $\epsilon_y=y-\mu$, which is $-0.8$ here.' }
+    hint: |
+      $\mu=\dfrac{\Pi_v\eta+\Pi_y y}{\Pi_y+\Pi_v}=\dfrac{1}{1.25}$.
+    explanation: |
+      $$\mu=\frac{1}{1.25}=0.8$$
+      $$\epsilon_y=-0.8$$
+      $$\dot u=0.25\cdot0.8=0.2$$
+      The belief stays at $0.8$, close to the intention $\eta=1$, but the arm accelerates only at $0.2$: a quarter of the previous rate.
+
+  - type: mcq
+    id: attenuation-trap
+    prompt: |
+      A student reads the two results above ($\Pi_y=4$: $\mu=0.2$, $\dot u=0.8$; $\Pi_y=0.25$: $\mu=0.8$, $\dot u=0.2$) and says: "attenuating the sensory precision makes the reflex faster, because the belief is closer to the intention". Which statement is correct?
+    options:
+      - text: 'No: the initial rate $\frac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}(\eta-y)$ **rises** with $\Pi_y$, so attenuation makes the arm start more slowly. What attenuation protects is the belief "I am moving", which is what allows the movement to start at all.'
+        correct: true
+      - text: 'Yes: a belief close to $\eta$ means a large error, and a large error means a fast reflex.'
+        feedback: |
+          The error that drives the reflex is multiplied by $\Pi_y$ and the product falls: here $\Pi_y\epsilon_y$ is $0.25\times0.8=0.2$, against $4\times0.2=0.8$. The error is larger when $\Pi_y$ is small, but the weight shrinks faster.
+      - text: 'No: the rate does not depend on $\Pi_y$ at all, only on $\eta-y$.'
+        feedback: |
+          It does depend on it, through the weight and through the belief. For $\Pi_y\to\infty$ the rate tends to $\Pi_v(\eta-y)$, for small $\Pi_y$ it tends to $\Pi_y(\eta-y)$.
+    explanation: |
+      Attenuation is not about speed. If the data were trusted fully, the belief "I am moving" would be corrected by the still arm before the reflex could act. Turning the precision down lets the belief survive the first moments, and it is the surviving belief that the reflex then fulfils.
+
+  - type: text
+    id: attenuation
+    title: "Sensory attenuation"
+    body: |
+      To **initiate** a movement we must hold the belief "I am moving" while the arm is still. The data contradict it and could revise it. The way out: the descending prediction also carries the **precision** of the proprioceptive data, and lowers it, **turning the gain down** on these errors. This is **sensory attenuation**, the complement of attention (turning the gain up).
+
+      A familiar case is **saccadic suppression**: when the eyes jump from point to point (a saccade), the image sweeps across the retina, and the resulting errors are ignored for the duration of the jump, so the world does not seem to move.
+
+      Failures to attenuate are hypothesised to contribute to some clinical conditions: passivity phenomena (the experience that one's actions are done by someone else), catatonic states in schizophrenia, and difficulty initiating movements in Parkinson's disease. These are **hypotheses** of the process theory, not settled explanations.
+
+  - type: mcq
+    id: layer-iv
+    prompt: |
+      The primary motor cortex has very few granular cells (the spiny stellate cells of layer IV, where ascending errors arrive). In the process theory of motor control by prediction, a possible reason is:
+    options:
+      - text: 'Proprioceptive prediction errors can always be resolved by reflexes (acting), not by updating beliefs, so motor cortex has little need for the cells that receive ascending errors.'
+        correct: true
+      - text: 'Motor cortex sends no signals, so it needs no input layer.'
+        feedback: |
+          It sends a lot: the pyramidal tract starts there. The point is about what it *receives*: layer IV is the entry for the errors that drive belief updating, which the motor cortex can leave to the spinal reflex.
+      - text: 'Layer IV holds the expectations $\mu$, which motor cortex does not need.'
+        feedback: |
+          In the cortical column, layer IV holds the cells that receive ascending errors, not the expectations; those sit in the superficial and deep pyramidal cells (here: the Betz cells).
+    explanation: |
+      Where an error can be cancelled by moving the body, it need not be sent up to revise a belief. The scarcity of layer IV in motor cortex is consistent with that, which is why it is offered as a *possible* explanation.
+
+  - type: text
+    id: striatum
+    title: "Layer V also talks to the striatum"
+    body: |
+      Layer V sends more than the pyramidal tract. Another target is the **striatum**: a structure deep in the brain made of the **caudate nucleus** and the **putamen** (a *nucleus* here is a cluster of neurons). It is the input stage of a network of nuclei called the **basal ganglia**, thought to be involved in **planning**, that is, in evaluating alternative courses of action.
+
+      Its working cells are **medium spiny neurons**, which take input from the cortex and send it on to other nuclei of the basal ganglia. They come in two types, according to the receptor that **dopamine** (a chemical messenger released by some neurons, the subject of the next lesson) acts on: those with **D1** receptors, which dopamine excites, and those with **D2** receptors, which dopamine damps.
+
+      The two types start two routes through the basal ganglia to the **output nuclei** (the internal globus pallidus and the substantia nigra pars reticulata). The output nuclei are themselves **inhibitory**: when they fire, they hold their targets down.
+
+      Question for the proposal: given that layer V's projection to the spinal cord carries a prediction, **which messages could its projection to the striatum carry?**
+
+  - type: mcq
+    id: layer-v-striatum
+    prompt: |
+      In the discrete circuit of the cortical column, layer V holds the predicted outcomes $\mathbf o_\pi$ and the difference $\boldsymbol\varsigma_\pi=\ln\mathbf o_\pi-\ln\mathbf C$ between predicted and preferred outcomes ($\mathbf C$ = preferences, one entry per outcome), which together give the expected free energy $\mathbf G_\pi=\mathbf H\cdot\mathbf s_\pi+\mathbf o_\pi\cdot\boldsymbol\varsigma_\pi$ of a policy $\pi$. Which messages could layer V send to the striatum, and what would it compute?
+    options:
+      - text: 'The predicted outcomes $\mathbf o_\pi$ and the differences $\boldsymbol\varsigma_\pi$; the striatum could combine them into the expected free energy $\mathbf G$ of each policy, which fits a role in planning.'
+        correct: true
+      - text: 'The posterior over policies $\boldsymbol\pi$, which the striatum then uses to select the policy.'
+        feedback: |
+          In this mapping the posterior over policies is the *result*, placed in the output nucleus (the internal globus pallidus), not an input from the cortex. The input carries the ingredients of $\mathbf G$.
+      - text: 'Proprioceptive prediction errors, exactly as the spinal cord receives.'
+        feedback: |
+          The spinal projection carries a prediction of proprioceptive data. The striatal projection carries the quantities needed to score policies, which are about outcomes and preferences, not about limb position.
+    explanation: |
+      Planning means scoring alternatives: each policy has a $\mathbf G$ built from its predicted outcomes and their distance from the preferences. Computing it in the striatum is **consistent with** the basal ganglia's role in planning; it is a proposal, not a measured fact.
+
+  - type: widget
+    id: scorer-widget
+    review: false
+    widget: policy-scorer
+    config:
+      outcomes: ['o1', 'o2', 'o3']
+      C: [0.3333, 0.3333, 0.3334]
+      policies:
+        - { name: 'policy 1', qy: [0.3333, 0.3333, 0.3334], ambiguity: 1.0 }
+        - { name: 'policy 2', qy: [0.3333, 0.3333, 0.3334], ambiguity: 0.8 }
+      gamma: 1
+      gammaMax: 8
+      showRisk: false
+      showAmbiguity: false
+      showPrefs: false
+    body: |
+      Two policies with expected free energy $\mathbf G=(1,\,0.8)$ (in nats). The posterior over policies is $\sigma(-\gamma\mathbf G)$, the softmax of $-\mathbf G$ with precision $\gamma$. Drag $\gamma$: with $\gamma=1$ the lower-$\mathbf G$ policy is only a little more probable, with a large $\gamma$ the posterior is nearly a choice. This is the quantity that the basal ganglia are to compute.
+
+  - type: widget
+    id: bg-widget
+    review: false
+    widget: microcircuit
+    config:
+      box: [440, 400]
+      showFreq: false
+      showLegend: true
+      bands:
+        - { label: 'cortex', y0: 0, y1: 80 }
+        - { label: 'striatum', y0: 80, y1: 170 }
+        - { label: 'pallidum, STN', y0: 170, y1: 270 }
+        - { label: 'output nucleus', y0: 270, y1: 350 }
+      nodes:
+        - { id: o-hi, label: '\tilde{\mathbf o}^{(i+1)}_\pi', name: 'expected outcomes of the level above', pos: [100, 40], cls: expectation, populations: 'cortex (higher level)', info: 'Expected observations under high-level states.' }
+        - { id: o-lo, label: '\mathbf o^{(i)}_\pi', name: 'predicted outcomes', pos: [310, 40], cls: expectation, populations: 'cortex, layer V', info: 'Predicted outcomes under each policy.' }
+        - { id: vs, label: '\boldsymbol\varsigma^{(i)}_\pi', name: 'preferred minus predicted outcomes', pos: [390, 40], cls: expectation, populations: 'cortex, layer V', info: 'The difference between predicted and preferred outcomes.' }
+        - { id: E, label: '\mathbf E^{(i)}', name: 'habit prior', pos: [100, 125], cls: policy, populations: 'striatum (indirect pathway cells)', info: 'The empirical prior over policies from the level above: habit.' }
+        - { id: G, label: '\mathbf G^{(i)}', name: 'expected free energy', pos: [350, 125], cls: policy, populations: 'striatum (direct pathway cells)', info: 'The expected free energy of each policy.' }
+        - { id: gpe, label: '\text{GPe}', name: 'external globus pallidus', pos: [100, 225], cls: inhibitory, populations: 'external pallidum', info: 'A relay in the indirect pathway. It is inhibitory.' }
+        - { id: stn, label: '\text{STN}', name: 'subthalamic nucleus', pos: [230, 225], cls: expectation, populations: 'subthalamic nucleus', info: 'A relay in the indirect pathway. It excites the output nucleus.' }
+        - { id: pi, label: '\boldsymbol\pi^{(i)}', name: 'posterior over policies', pos: [230, 310], cls: output, populations: 'internal globus pallidus (output nucleus)', info: 'The posterior probability of each policy.' }
+      edges:
+        - { id: b-ohi-e, from: o-hi, to: E, sign: '+', message: { label: '\tilde{\mathbf o}_\pi', kind: expectation }, direction: descending, note: 'The higher level forms the habit prior.' }
+        - { id: b-o-g, from: o-lo, to: G, sign: '+', message: { label: '\mathbf o_\pi', kind: expectation }, direction: 'cortex to striatum', note: 'Predicted outcomes. In the figure this input ends in a round open end, the other in an arrowhead; the lesson does not read more into it.' }
+        - { id: b-vs-g, from: vs, to: G, sign: '+', message: { label: '\boldsymbol\varsigma_\pi', kind: expectation }, direction: 'cortex to striatum', note: 'Preferred minus predicted outcomes.' }
+        - { id: b-g-pi, from: G, to: pi, sign: '-', message: { label: '\mathbf G', kind: policy }, direction: 'direct pathway', note: 'One inhibitory synapse onto the output nucleus: more G, less pi.' }
+        - { id: b-e-gpe, from: E, to: gpe, sign: '-', message: { label: '\mathbf E', kind: policy }, direction: 'indirect pathway', note: 'First inhibitory synapse of the indirect pathway.' }
+        - { id: b-gpe-stn, from: gpe, to: stn, sign: '-', message: { label: '\mathbf E', kind: policy }, direction: 'indirect pathway', note: 'Second inhibitory synapse.' }
+        - { id: b-stn-pi, from: stn, to: pi, sign: '+', message: { label: '\mathbf E', kind: policy }, direction: 'indirect pathway', note: 'The excitatory synapse that closes the indirect pathway.' }
+      sequence: [b-o-g, b-vs-g, b-g-pi, b-ohi-e, b-e-gpe, b-gpe-stn, b-stn-pi]
+    body: |
+      One possible mapping of policy evaluation onto the basal ganglia. A simplification of the real connectivity, and the figure shows the pathways bilaterally. **Right: the direct pathway** (striatal cells with D1 receptors). **Left: the indirect pathway** (cells with D2 receptors) through the external globus pallidus (GPe) and the subthalamic nucleus (STN). The node $\boldsymbol\pi$ sits in the output nucleus, the internal globus pallidus.
+
+      Click the nodes and the lines, press **Play messages**, and count the synapses of each pathway and their signs (round end = inhibitory).
+
+  - type: order
+    id: direct-chain
+    prompt: |
+      Put in order what happens when the **direct pathway** is activated (D1 striatal cells fire).
+    steps:
+      - 'Layer V sends predicted outcomes and preference differences to the striatum.'
+      - 'D1 striatal cells (the direct pathway) fire.'
+      - 'They inhibit the output nucleus through a single inhibitory synapse.'
+      - 'The output nucleus, itself inhibitory, fires less and releases its targets.'
+      - 'Behaviour is disinhibited: the selected policy can be enacted.'
+    hint: |
+      Two minus signs in a row make a plus: inhibiting an inhibitor.
+    explanation: |
+      Direct pathway: cortex, striatum, output nucleus, targets. The net effect of activating D1 cells is **disinhibition** of behaviour, because the nucleus they inhibit is itself an inhibitor of its targets. In the proposal, the activity of these cells encodes $\mathbf G$ and the output nucleus the policies $\boldsymbol\pi$ computed from it.
+
+  - type: mcq
+    id: indirect-sign
+    prompt: |
+      The indirect pathway has two inhibitory synapses and one excitatory one in a chain: striatum, external globus pallidus, subthalamic nucleus, output nucleus. Count the sign flips. What is the net sign of its effect on the output nucleus when the striatal D2 cells fire more?
+    options:
+      - text: 'Net excitation: $(-)(-)(+)=+$. The output nucleus fires more, so the behaviour it holds down is suppressed.'
+        correct: true
+      - text: 'Net inhibition: two inhibitory synapses out of three make the chain inhibitory.'
+        feedback: |
+          Signs multiply, they are not voted on. Striatum inhibits GPe (GPe falls), GPe no longer inhibits STN (STN rises), STN excites the output (the output rises): two flips and one plus give $+$.
+      - text: 'No net effect: inhibition and excitation cancel.'
+        feedback: |
+          A chain does not cancel; each synapse transmits the change of the previous one. The only thing that matters is the product of the signs.
+    explanation: |
+      $$(-)\times(-)\times(+)=+$$
+      The output nucleus is **disinhibited** by the indirect pathway, which then inhibits behaviour. Compare the direct pathway: one inhibitory synapse, net sign $-$. In the proposal the direct pathway carries $-\mathbf G$ and the indirect pathway carries $+\ln\mathbf E$ in $\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$: the signs match.
+
+  - type: numeric
+    id: pi-no-habit
+    prompt: |
+      Two policies have variational free energies $\mathbf F=(0.5,\,1.5)$ and expected free energies $\mathbf G=(1,\,0.8)$, and no habit prior. The posterior over policies is $\boldsymbol\pi=\sigma(-\mathbf F-\mathbf G)$ ($\sigma$ is the softmax). What is the probability $\pi_1$ of the first policy? (3 decimals)
+    answer: 0.69
+    tolerance: 0.002
+    wrong:
+      - { value: 0.45, feedback: 'That is $\sigma(-\mathbf G)$ alone, which ignores what the data already say ($\mathbf F$).' }
+      - { value: 0.31, feedback: 'That is $\pi_2$. Policy 1 has the lower total $\mathbf F+\mathbf G=1.5$ (against $2.3$), so it must be the more probable.' }
+    hint: |
+      $-\mathbf F-\mathbf G=(-1.5,\,-2.3)$. For two entries, $\pi_1=1/(1+e^{-(a_1-a_2)})$ with $a_1-a_2=0.8$.
+    explanation: |
+      $$\pi_1=\frac{e^{-1.5}}{e^{-1.5}+e^{-2.3}}=\frac{1}{1+e^{-0.8}}=0.690$$
+
+  - type: numeric
+    id: pi-with-habit
+    prompt: |
+      Add a habit prior $\mathbf E=(0.7,\,0.3)$ (the policy that has worked in this context). Now $\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$, with the same $\mathbf F=(0.5,\,1.5)$ and $\mathbf G=(1,\,0.8)$. What is $\pi_1$? (3 decimals)
+    answer: 0.839
+    tolerance: 0.002
+    wrong:
+      - { value: 0.69, feedback: 'That is the result without the habit. The prior $\mathbf E$ enters as $+\ln\mathbf E$, and it favours policy 1.' }
+      - { value: 0.7, feedback: 'That is $\mathbf E_1$ alone. The posterior combines $\ln\mathbf E$ with $-\mathbf F-\mathbf G$ before the softmax.' }
+    hint: |
+      $\ln\mathbf E=(-0.357,\,-1.204)$. The difference of the two arguments is $-1.5+2.3+(-0.357+1.204)$.
+    explanation: |
+      $$\ln\mathbf E_1-\ln\mathbf E_2=\ln\tfrac{0.7}{0.3}=0.847$$
+      $$\pi_1=\frac{1}{1+e^{-(0.8+0.847)}}=\frac{1}{1+e^{-1.647}}=0.839$$
+      The habit pushes the probability from $0.690$ to $0.839$. In the proposal the indirect pathway delivers this contextual push, and the direct pathway delivers $-\mathbf G$: habitual and goal-directed drives on one posterior.
+
+  - type: mcq
+    id: not-claimed
+    multiple: true
+    prompt: |
+      Select **all** the statements that are *not* claimed by the proposal (they are misreadings of it).
+    options:
+      - text: 'The striatum has been shown to compute $\mathbf G$ with the formulas of the model.'
+        correct: true
+      - text: '"Direct pathway = go, indirect pathway = stop": the indirect pathway only suppresses movement and carries no information about policies.'
+        correct: true
+      - text: 'Habitual ($\mathbf E$) and goal-directed ($\mathbf G$) drives are called "model-free" and "model-based" systems, so the habit system works without any model.'
+        correct: true
+      - text: 'Layer V could send a prediction to the spinal cord and the ingredients of $\mathbf G$ to the striatum, and the basal ganglia could be involved in planning.'
+        feedback: |
+          This is what *is* proposed: a possible mapping, consistent with the anatomy and with the role of the basal ganglia in planning.
+    explanation: |
+      The mapping is a hypothesis consistent with evidence from clinical pathology (for instance Parkinsonism) and from cell morphology, not a demonstration. The indirect pathway is proposed to carry context-sensitive priors ($\mathbf E$) that suppress implausible policies in a context, not just "stop". And "model-free" is a slightly misleading name inherited from reinforcement learning: both systems rely on models, the habit system just uses a simpler one.
+
+  - type: mcq
+    id: thalamus
+    multiple: true
+    prompt: |
+      The **thalamus** is a deep structure on the route between the senses and the cortex. It is divided into **primary** nuclei (for instance the lateral geniculate nucleus, the relay between the eye and the visual cortex) and **secondary** nuclei (the pulvinar, linked to the posterior cortex, and the mediodorsal nucleus, linked to the frontal cortex). Select **all** statements that agree with the proposal.
+    options:
+      - text: 'A primary nucleus could play the role of a lower cortical region: it targets layer IV and receives backward projections from deep pyramidal cells, which could be construed as predictions.'
+        correct: true
+      - text: 'Secondary nuclei could have a role in predicting second order statistics (precision, variance), consistent with figure-ground discrimination tasks. This is speculative.'
+        correct: true
+      - text: 'The thalamus is only a passive relay and does not matter for message passing.'
+        feedback: |
+          The lateral geniculate nucleus is often *thought of* as a relay. But it receives both sensory input and cortical predictions, which is exactly what an error-holding population does.
+      - text: 'Primary nuclei target layer V, because they carry predictions.'
+        feedback: |
+          Primary nuclei target **layer IV**, the layer that receives ascending messages, as a lower cortical area does.
+    explanation: |
+      Primary nuclei behave like a low level of the hierarchy (they hold, in effect, first order statistics: the data). Secondary nuclei could be the place for **second order** statistics, precision and variance. The division of the thalamus into primary and secondary nuclei would then mirror the division into first and second order statistics. This is the book's simplified suggestion: a guess to be tested.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the figure of the basal ganglia has an arrow we have not used yet, from a nucleus in the midbrain (the substantia nigra pars compacta) onto both pathways. It releases dopamine. If $\mathbf E$ and $\mathbf G$ are two drives on the same $\boldsymbol\pi$, what could dopamine be doing to them? And do other chemicals do the same for other precisions?
