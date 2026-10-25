@@ -101,6 +101,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 - ch06-recipe: loop labels $x\to y\to\mu\to u\to x$ (blanket-graph preset as in the blanket lesson); recipe order: system, form, variables and priors, process; model = inside the agent, process = outside. Running example for the level: two feeders (cue, left/right, reward side unknown). Blanket scale examples: neuron (receptor occupancy / vesicle release), nervous system (photoreceptors / oculomotor muscles), calculator.
 - ch06-model-form: three form choices; "deep" = several timescales, "temporally deep" = consequences of actions (planning). Factor-graph two-timescale: slow $w$, fast $s_t$, $o_t$ (squares 1,2,3 as in the POMDP graph). Door T=2 policies push/wait: $G=.535/1.065$, $P(\pi)=.629/.371$ with no data; tiling 1 m table, 0.25 m cells = 16 states (4+4 if factorised).
+- ch06-model-setup: frog graph $c$, $o_1,o_2,o_3$ (sight, sound, touch), factors $P(c),A_1,A_2,A_3$. $\pi=\sigma(\ln\mathbf E-F-G)$. 3 objects x 4 locations: 12 vs 7 states, B 144 vs 25 entries. Door A .8/.55/.95, prior open at step 2 = .18, posterior .468/.212/.807. Counts: A11 = 1.9/2.9 = .655.
 
 ## Chapter 7
 

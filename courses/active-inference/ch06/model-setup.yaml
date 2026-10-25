@@ -1,0 +1,395 @@
+id: ch06-model-setup
+title: "Setting Up the Variables"
+kind: concept
+own: |
+  - **Step 3 of the recipe: choose the variables.** Given the system and the form of the model, we decide which hidden states $s$ (what in the world causes the data), observations $o$ (what the blanket receives) and actions to include. A good default is that the generative model is {{ as similar as possible to how we believe the data are generated }} (for an experiment: how the experimenter generates the stimuli). The good regulator theorem says a creature that regulates its world well must be a model of it; but the agent's model need not be identical to the real generating process, and it may be simpler or different.
+  - **Common cause.** A concept such as a jumping frog is one hidden state that causes sensations in several modalities (exteroceptive: vision, audition; proprioceptive: limb positions; interoceptive: heart, stomach). Inverting the model infers that one cause from all of them at once.
+  - **A discrete-time model (a POMDP, a partially observable Markov decision process) is specified by five objects**, each a table of probabilities:
+    {{ $\mathbf A$ = likelihood, $P(o\mid s)$ }}; $\mathbf B$ = transitions, $P(s_{t+1}\mid s_t,\text{action})$; $\mathbf C$ = preferred observations; $\mathbf D$ = prior over the initial state; $\mathbf E$ = prior over policies, the habits, so that
+    {{ $$P(\pi)=\sigma(\ln\mathbf E-F-G)$$ }}
+    with $\sigma$ the softmax, $F$ the variational free energy and $G$ the expected free energy, both minimised.
+  - **Factorisation.** If object identity (3 values) and location (4 values) can be treated independently, we keep $3+4=7$ states instead of $3\times4=12$ combinations.
+  - **Fixed or learned.** Learning is optional. It is inference on parameters: {{ states change fast (inference, neuronal dynamics), parameters change slowly (learning, synaptic plasticity) }}, with the same kind of Bayesian update. For example, with counts $\mathbf a$ of a likelihood and an observation $o$ with state belief $\mathbf s$, the counts grow by the product $o\otimes\mathbf s$ (the learning rule, derived later).
+  - **Priors are hypotheses.** By the complete class theorems, any behaviour is Bayes optimal under some prior beliefs. So {{ "is this behaviour optimal?" is meaningless; ask which prior beliefs would make it optimal }}, and compare candidate priors on data.
+cards:
+  - type: mcq
+    id: hook
+    title: "Inference or learning?"
+    prompt: |
+      A creature has a model with two hidden states, *apple* and *frog*, and two observations, *red* and *green*. It first sees one red thing and becomes more sure that it is an apple. Then it sees **many** red apples, and afterwards the model itself says "red goes with apple" more strongly than before. Which statement is the best guess?
+    options:
+      - text: 'The first change (this thing is an apple) is inference on a hidden state; the second (red goes with apple more strongly) is learning, a change in a parameter of the model.'
+        correct: true
+      - text: 'Both are the same thing: inference and learning are just two names for updating beliefs.'
+        feedback: |
+          Tempting, because we will see that they use the same kind of update. But they act on different things (a state of the world now, against a rule of the model) and at different speeds, and that difference matters when we design a model.
+      - text: 'Neither: a model with a fixed likelihood cannot change at all.'
+        feedback: |
+          A fixed likelihood stays fixed, but whether it is fixed is a design choice. A model can also be given beliefs about its own parameters.
+      - text: 'The second change is inference too, since seeing red apples again and again is only more data about the same apple.'
+        feedback: |
+          Each red thing is a new apple (a new state), but the strength of the red-apple link is a property of the model, shared by all of them. That is what stays after the apples are gone.
+    explanation: |
+      Keep this split: **states** are what is happening now, **parameters** are the rules of the model. Choosing which is which is part of step 3 of the recipe: **setting up the variables**.
+
+  - type: text
+    id: frog-cause
+    title: "A frog is a common cause"
+    body: |
+      Step 3 asks: which **hidden states**, **observations** and **actions** go in the model? Take the concept of a *jumping frog*. It is not one sensation, but one **cause** (a hidden state) with many consequences: something green and jumping in the visual field, a croak in the auditory field, a feel of damp skin on touching it.
+
+      Inverting the model means going from the consequences back to the one cause. Since the frog explains all of them together, evidence from sight, sound and touch is combined.
+
+  - type: widget
+    id: frog-graph
+    review: false
+    widget: factor-graph
+    config:
+      box: [400, 230]
+      variables:
+        - { id: c, label: 'c', pos: [200, 95] }
+        - { id: ov, label: 'o_{1}', pos: [60, 200], observed: true }
+        - { id: oa, label: 'o_{2}', pos: [200, 200], observed: true }
+        - { id: ot, label: 'o_{3}', pos: [340, 200], observed: true }
+      factors:
+        - { id: P, label: 'P(c)', pos: [200, 30], vars: [c], term: '\ln P(c)' }
+        - { id: Av, label: 'A_1', pos: [115, 150], vars: [c, ov], term: '\ln P(o_{1}\mid c)' }
+        - { id: Aa, label: 'A_2', pos: [200, 150], vars: [c, oa], term: '\ln P(o_{2}\mid c)' }
+        - { id: At, label: 'A_3', pos: [285, 150], vars: [c, ot], term: '\ln P(o_{3}\mid c)' }
+      messageFormula: '\ln Q({v}) = {terms}'
+      join: ' + '
+    body: |
+      One hidden cause $c$ (the concept "jumping frog") and three observations (shaded): $o_1$ sight (green, jumpy), $o_2$ sound (a croak), $o_3$ touch. Each square is a probability table: $P(c)$ is the prior over the cause, and $A_1,A_2,A_3$ say what each modality shows for each cause.
+
+      **Click $c$**: how many squares must it read? Then click $o_2$ and compare.
+
+  - type: mcq
+    id: frog-combine
+    prompt: |
+      In the frog model, the creature sees something green and jumpy ($o_1$), but hears nothing yet. Each observation is produced from the cause $c$ by its own table. How does the sight help the creature to expect a **croak** ($o_2$)?
+    options:
+      - text: 'The sight raises the belief that the cause is a frog, and the frog table $A_2$ then predicts a croak.'
+        correct: true
+      - text: 'The sight directly changes the table $A_2$, so that croaks become more likely.'
+        feedback: |
+          The tables are the rules of the model and do not change with a single observation. What changes is the belief about the cause $c$, and the prediction of the croak comes through it.
+      - text: 'It does not: the three modalities are separate models with nothing in common.'
+        feedback: |
+          Then the creature could not combine sight and sound. The cause $c$ is the shared variable that links them.
+      - text: 'It helps only if the creature also touches the frog.'
+        feedback: |
+          Touch is a third consequence of the same cause. The link from sight to sound already goes through $c$, with no touch needed.
+    explanation: |
+      Inference runs up from sight to the common cause, then down from the cause to the expected sound. This is the multisensory integration of one concept.
+
+  - type: text
+    id: modalities
+    title: "Three kinds of sensory modality"
+    body: |
+      The observations of the frog model come in different **modalities**. Active inference separates three kinds:
+
+      - **Exteroceptive**: sensing the outside world (vision, hearing).
+      - **Proprioceptive**: sensing the positions of joints and limbs.
+      - **Interoceptive**: sensing the inside of the body (heart, stomach).
+
+      The same principles apply to all three. Seeing is inferring hidden causes of a scene; feeling hungry is inferring a hidden state of the body. Moving a limb changes the scene and engages reflexes that fulfil proprioceptive predictions; **autonomic** reflexes (those that regulate the body, like heart rate) fulfil interoceptive predictions, which supports **allostasis**, the adaptive regulation of the body's needs.
+
+  - type: mcq
+    id: modality-sort
+    prompt: |
+      **Select the observations that are interoceptive** (sensing the inside of the body).
+    multiple: true
+    options:
+      - text: 'A feeling of an empty stomach'
+        correct: true
+      - text: 'The heartbeat felt in the chest'
+        correct: true
+      - text: 'The angle of the elbow felt with the eyes closed'
+        feedback: |
+          Joint and limb positions are proprioceptive, not interoceptive. It is the body, but its posture and movement, not its internal organs.
+      - text: 'The croak of a frog'
+        feedback: |
+          Sounds from the outside world are exteroceptive.
+    explanation: |
+      Stomach and heart are internal organs (interoceptive); the elbow is posture (proprioceptive); the croak is the outside world (exteroceptive).
+
+  - type: mcq
+    id: factor-modalities
+    prompt: |
+      In a model with sight and hearing, why can it be useful to **factorise** it by modality (keep the sight and hearing parts of the model separate)?
+    options:
+      - text: 'Because some actions have effects in one modality only: an eye movement (saccade) changes what is seen, not what is heard.'
+        correct: true
+      - text: 'Because sight and hearing can never be caused by the same hidden state.'
+        feedback: |
+          They can: the frog is exactly one cause of both. Factorising the observation side keeps the parts that are independent apart; it does not forbid a shared cause.
+      - text: 'Because factorising makes the model more accurate than the real world.'
+        feedback: |
+          It only removes combinations that are not needed. It cannot add accuracy; it saves effort.
+    explanation: |
+      A saccade has visual but not auditory consequences, so the model does not need a link between the saccade and the sound.
+
+  - type: text
+    id: abcde
+    title: "What a discrete-time model needs"
+    body: |
+      Once the variables are chosen, the elements to specify follow from the form of the model. A discrete-time model (a POMDP: a *partially observable Markov decision process*, where states are hidden and the next state depends on the current one and the action) needs five tables, all of them beliefs written as probabilities:
+
+      | Symbol | Name | Content |
+      |---|---|---|
+      | $\mathbf A$ | likelihood | $P(o\mid s)$: observation given state |
+      | $\mathbf B$ | transitions | $P(s_{t+1}\mid s_t,\text{action})$ |
+      | $\mathbf C$ | preferences | which observations the creature prefers |
+      | $\mathbf D$ | initial prior | belief about the state at the first step |
+      | $\mathbf E$ | habit prior | prior over policies before looking at the future |
+
+      The recipe is not far from the frog and apple model: prior beliefs about states ($\mathbf D$) and a mapping between states and observations ($\mathbf A$), plus the extras for time, preference and habit.
+
+  - type: mcq
+    id: which-matrix
+    prompt: |
+      A creature has a discrete-time model with matrices $\mathbf A,\mathbf B,\mathbf C,\mathbf D,\mathbf E$. You want it to **want** food more (without changing anything about how it perceives the world or how the world moves). Which matrix do you change?
+    options:
+      - text: '$\mathbf C$, the preferred observations.'
+        correct: true
+      - text: '$\mathbf A$, the likelihood.'
+        feedback: |
+          $\mathbf A$ says how states generate observations, that is, how the creature perceives. Changing it would change what it believes, not what it wants.
+      - text: '$\mathbf D$, the initial prior.'
+        feedback: |
+          $\mathbf D$ says where the creature thinks it begins (for instance, what state it believes it is in). It is a belief, not a preference.
+      - text: '$\mathbf E$, the habit prior.'
+        feedback: |
+          $\mathbf E$ biases the choice of policy towards habits, whatever the outcome. It does not say which observations are desirable (that is $\mathbf C$, through $G$).
+    explanation: |
+      Preferences live in $\mathbf C$ and act through the expected free energy $G$. Beliefs about the world are $\mathbf A,\mathbf B,\mathbf D$; $\mathbf E$ is the prior over policies.
+
+  - type: mcq
+    id: which-matrix-2
+    prompt: |
+      Which matrix would you change to make a creature **slower to trust its senses**: the same sensory input should move its belief about the hidden state less?
+    options:
+      - text: '$\mathbf A$: make the observations less informative about the state (more ambiguous).'
+        correct: true
+      - text: '$\mathbf B$: make the transitions more random.'
+        feedback: |
+          That changes how much the creature expects the world to change, not how informative the sensory data are. (It has a different effect: beliefs forget the past faster.)
+      - text: '$\mathbf C$: lower the preferences.'
+        feedback: |
+          Preferences say which outcomes are wanted. They do not alter how a given observation updates a belief about the state.
+      - text: '$\mathbf E$: flatten the habit prior.'
+        feedback: |
+          $\mathbf E$ is a prior over policies. It does not enter how observations update beliefs about states.
+    explanation: |
+      How far an observation moves the belief is set by the likelihood $\mathbf A$. A blurrier $\mathbf A$ (rows nearly equal) gives smaller updates.
+
+  - type: numeric
+    id: count-states
+    prompt: |
+      A creature must keep track of **which of 3 objects** is in front of it and **at which of 4 locations**. If it lists every combination (object, location) as one hidden state, how many states does it need?
+    answer: 12
+    hint: |
+      One state for each pair (object, location).
+    explanation: |
+      $3\times4=12$ combinations.
+
+  - type: numeric
+    id: count-factorised
+    prompt: |
+      Now the creature **factorises**: one hidden variable for the object (3 values) and a separate one for the location (4 values), assumed independent. How many numbers are needed to list all the values of both variables?
+    answer: 7
+    hint: |
+      The values of the two variables are listed separately, not as pairs.
+    explanation: |
+      $3+4=7$ instead of $3\times4=12$. The saving grows quickly: a transition table $\mathbf B$ between all combinations has $12\times12=144$ entries, while separate tables for object and location have $3\times3+4\times4=9+16=25$.
+
+  - type: mcq
+    id: when-factorise
+    prompt: |
+      When is it **safe** to factorise object identity and location into two separate variables?
+    options:
+      - text: 'When they can be treated as independent of each other: what the object is does not depend on where it is (the "what" and "where" streams of perception).'
+        correct: true
+      - text: 'Always: factorising never loses anything.'
+        feedback: |
+          It does lose something when the variables are linked. If, say, a particular object can only be at one location, the factorised model cannot say so.
+      - text: 'Only if the number of states is below 10.'
+        feedback: |
+          Size alone is not the criterion. Factorisation is valid because of a structural independence, which is helpful more as the state space grows.
+    explanation: |
+      Object identity and location are largely invariant to each other (a mug is a mug wherever it is), which is why perception can use separate "what" and "where" variables and keep the model small.
+
+  - type: text
+    id: good-regulator
+    title: "Make the model like the data"
+    body: |
+      How do we choose the "right" variables? Ultimately, by comparing alternatives and keeping the one with the lowest free energy (Bayesian model comparison). A useful rule for practice is:
+
+      > the generative model should be **as similar as possible to how we believe the data are generated**.
+
+      In cognitive experiments, ask how the experimenter generates the stimuli (which cue, which reward, with what probabilities), write down those probabilities, and the free-energy-minimising creature then performs the task.
+
+      This echoes the **good regulator theorem**: a creature that regulates its environment effectively must be a good model of that environment. But note the limit. The model **does not have to be identical** to the real generating process (the *generative process*): it can be simpler, or different. The similarity is a design pressure, not a rule that the model must copy the world.
+
+  - type: mcq
+    id: model-vs-process
+    prompt: |
+      A creature's model has an initial prior $\mathbf D=(0.5,0.5)$ over two states, but the experimenter's process always starts in state 1. Which statement is correct?
+    options:
+      - text: 'The creature is wrong about where it begins, but this is allowed: the model is the creature''s belief, which can differ from the process that actually generates the data. How well it fares is a separate question.'
+        correct: true
+      - text: 'This is impossible: the active inference scheme requires the model to be identical to the generating process.'
+        feedback: |
+          Not required. The similarity is only a design pressure (good regulation needs a good model), not an identity.
+      - text: 'The creature will then be unable to infer anything.'
+        feedback: |
+          Inference is still well defined: it combines the model's priors with the observations. A wrong prior may slow it down or bias it, but inference runs.
+      - text: 'The experimenter must change the process to match $\mathbf D$.'
+        feedback: |
+          Neither has to change. A mismatch between the two is exactly what is studied when a creature has a mistaken belief.
+    explanation: |
+      Model (inside the agent) and process (outside) are different objects. Matching them is the best design default, and a deliberate mismatch is a way to model beliefs that are wrong.
+
+  - type: text
+    id: fixed-or-learned
+    title: "Fixed or learned?"
+    body: |
+      The second design choice: **which parts of the model are fixed** and which are updated over time by learning. In principle every part can be learned, even the structure. So learning is a **design choice, not an obligation**: some models are fully hand-designed, others keep $\mathbf B$ fixed and learn $\mathbf A$.
+
+      Learning is cast as **inference on parameters**. We give the model prior beliefs about its parameters (for a Gaussian, the mean and variance; for a table of probabilities, counts), and update them to posterior beliefs when data come in. The update has the same algorithmic form as the update of states.
+
+  - type: mcq
+    id: fast-slow
+    prompt: |
+      Both inference and learning are Bayesian updates. In what way do they differ for the cognitive model?
+    options:
+      - text: 'Inference changes beliefs about states, and is fast (what is in front of me now?). Learning changes beliefs about parameters, and is slow (what does an apple usually look like?).'
+        correct: true
+      - text: 'Inference uses Bayes'' rule and learning does not.'
+        feedback: |
+          Both do. Learning is inference on parameters, with priors over parameters and posteriors after data. The difference is what is updated and how fast.
+      - text: 'Inference is slow, learning is fast, since learning has to react to each new observation.'
+        feedback: |
+          The other way round. Beliefs about parameters change slowly, usually only after the states have been inferred; beliefs about states change at once.
+      - text: 'They are the same, and the distinction between a state and a parameter is always clear.'
+        feedback: |
+          The two use the same kind of update, so the choice of what to model as a state and what as a parameter can be hard. For cognitive models, though, the speed makes the difference clear.
+    explanation: |
+      Fast: belief that there is an apple, after seeing red. Slow: the strength of the red-apple link, after seeing many red apples.
+
+  - type: mcq
+    id: neural-map
+    prompt: |
+      The two timescales suggest a mapping from the model to the brain. Which is the natural one?
+    options:
+      - text: 'Inference corresponds to neuronal dynamics (fast changes of activity), learning to synaptic plasticity (slow changes of connection strength).'
+        correct: true
+      - text: 'Inference corresponds to synaptic plasticity, and learning to neuronal firing.'
+        feedback: |
+          Reversed. Firing changes in milliseconds and tracks the current state; synapses change slowly and hold what was learned.
+      - text: 'Both are changes in neuronal firing rates only.'
+        feedback: |
+          Learning needs something that outlasts the current stimulus, such as the strength of the connections. Plasticity is the natural candidate.
+    explanation: |
+      States are carried by activity, parameters by connections. Beliefs about parameters also induce novelty-seeking (to learn the best data), a theme for later.
+
+  - type: numeric
+    id: count-update
+    title: "A first look at learning"
+    prompt: |
+      Preview, by name only: the learning of a likelihood table by **counts**. Each column of the count table $\mathbf a$ (one column per state) starts as $(1,1)$ over the two outcomes (*red*, *green*). The creature sees *red* ($o=(1,0)$) and believes the state is *apple* with probability $0.9$ and *frog* with $0.1$. The update adds the product of the observation and the state belief to the counts: the *apple* column becomes $(1+0.9,\,1)$. Normalised, what is the probability of *red* given *apple*, to 3 decimals?
+    answer: 0.655
+    tolerance: 0.001
+    hint: |
+      Divide the red count by the sum of the apple column.
+    explanation: |
+      The apple column is $(1.9,\,1)$ with sum $2.9$, so $P(\text{red}\mid\text{apple})=1.9/2.9\approx0.655$, up from $0.5$. Many red apples will push it further, slowly. This preview is the learning rule; its derivation comes later.
+
+  - type: widget
+    id: same-model-diff-A
+    review: false
+    widget: pomdp-lab
+    config:
+      mode: infer
+      modes: [infer]
+      showB: false
+      showD: false
+      showCurve: false
+      showExact: true
+      showPolicies: false
+      editable: false
+      states: [closed, open]
+      outcomes: ['looks closed', 'looks open']
+      actions: [wait]
+      short: { states: [clo, open], outcomes: [looks clo, looks open] }
+      A: [[0.8, 0.2], [0.2, 0.8]]
+      B: { wait: [[0.9, 0.1], [0.1, 0.9]] }
+      D: [0.9, 0.1]
+      C: [0.2, 0.8]
+      T: 3
+      policies: [[wait, wait]]
+      policy: 0
+      obs: [-1, 1, -1]
+      dt: 0.25
+      presets:
+        - { label: 'A = 0.8', A: [[0.8, 0.2], [0.2, 0.8]] }
+        - { label: 'A = 0.55', A: [[0.55, 0.45], [0.45, 0.55]] }
+        - { label: 'A = 0.95', A: [[0.95, 0.05], [0.05, 0.95]] }
+    body: |
+      The same door model (states *closed*, *open*; the creature waits twice; prior $\mathbf D=(0.9,0.1)$ that it is closed), and one observation: at step 2 the door **looks open**. Only the likelihood $\mathbf A$ changes between the three presets: the probability that the sensor reports the true state is $0.8$, $0.55$ or $0.95$.
+
+      Press **Play** and read the belief that the door is *open* at step 2 (the bars and the thick tick). Do it for each preset.
+
+  - type: mcq
+    id: same-model-read
+    prompt: |
+      In the door model of the widget the prior probability that the door is open at step 2 is $0.18$, and the door **looks open**. With a sensor that reports the true state with probability $0.8$, the posterior that it is open is about $0.47$. What is it with a sensor right with probability $0.55$, and with one right with probability $0.95$?
+    options:
+      - text: 'About $0.21$ for the $0.55$ sensor (barely above the prior of $0.18$) and about $0.81$ for the $0.95$ sensor.'
+        correct: true
+      - text: 'About $0.47$ for both: the posterior depends only on the prior and the observation.'
+        feedback: |
+          It depends on the likelihood too. The same model with a different $\mathbf A$ weighs the same observation differently.
+      - text: 'About $0.55$ and $0.95$: the posterior equals the sensor reliability.'
+        feedback: |
+          The reliability would be the posterior only with a flat prior. Here the prior is strongly against "open" ($0.18$), which pulls the posterior down.
+      - text: 'About $0.21$ for the $0.95$ sensor and $0.81$ for the $0.55$ one.'
+        feedback: |
+          Reversed: the more reliable sensor should move the belief further from the prior, not less.
+    explanation: |
+      Bayes: $\dfrac{0.18\cdot0.8}{0.18\cdot0.8+0.82\cdot0.2}\approx0.47$, with $0.55$: $\dfrac{0.18\cdot0.55}{0.18\cdot0.55+0.82\cdot0.45}\approx0.21$, with $0.95$: $\dfrac{0.18\cdot0.95}{0.18\cdot0.95+0.82\cdot0.05}\approx0.81$. The widget's iterative result is close to these values but not identical. The numbers are fixed by the table $\mathbf A$, which is why it matters whether $\mathbf A$ is fixed by design or learned.
+
+  - type: text
+    id: complete-class
+    title: "Priors are hypotheses"
+    body: |
+      Which priors should the model have? A result from decision theory, the **complete class theorems**, says that any statistical decision procedure (any behaviour) can be seen as **Bayes optimal** under some set of prior beliefs.
+
+      Two consequences:
+
+      - To explain observed behaviour, find the generative model (with its priors) that reproduces it **as simply as possible**.
+      - Priors are **hypotheses** about the system. If other priors are plausible, put them to the data with Bayesian model comparison. In clinical work (*computational phenotyping*: describing a patient's condition by the model parameters that fit the behaviour), the key question about a deficit is which prior beliefs the person has.
+
+  - type: mcq
+    id: ask-priors
+    prompt: |
+      A researcher finds that a patient keeps checking a door that is clearly locked. The researcher asks, "Is this behaviour Bayes optimal?" What is the better question?
+    options:
+      - text: 'Which prior beliefs (about the door, about the lock, about the cost of a mistake) would make the checking Bayes optimal, and do the data prefer those priors over the alternatives?'
+        correct: true
+      - text: 'Is the behaviour irrational? If so, active inference does not apply.'
+        feedback: |
+          Active inference applies to any behaviour; it describes it through priors. Calling the behaviour "irrational" skips the real question of which beliefs explain it.
+      - text: 'Can the behaviour be made optimal by removing the priors?'
+        feedback: |
+          There is no prior-free model: every model has priors, and removing them changes the hypothesis, it does not make it more neutral.
+      - text: 'Nothing: the behaviour cannot be explained without changing the process that generates the door.'
+        feedback: |
+          The model can differ from the generating process. The behaviour may well be explained by the creature's beliefs, not by the door.
+    explanation: |
+      Since some prior always renders a behaviour optimal, "is it optimal?" is meaningless; "which priors make it optimal?" is testable.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a full small design from scratch, following all four steps for a two-feeder creature, in a guided problem.
