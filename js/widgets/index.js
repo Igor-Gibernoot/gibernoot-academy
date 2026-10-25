@@ -36,6 +36,7 @@ import { meanFieldVb } from './mean-field-vb.js';
 import { steadyStateWalk } from './steady-state-walk.js';
 import { gaussianFit } from './gaussian-fit.js';
 import { predictiveCoding } from './predictive-coding.js';
+import { microcircuit } from './microcircuit.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -68,6 +69,7 @@ const WIDGETS = {
   'steady-state-walk': steadyStateWalk,
   'gaussian-fit': gaussianFit,
   'predictive-coding': predictiveCoding,
+  microcircuit,
 };
 
 export function mountWidget(name, el, config) {

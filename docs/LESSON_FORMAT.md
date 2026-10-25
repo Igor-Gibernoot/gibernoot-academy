@@ -1483,7 +1483,7 @@ in generalized coordinates $\dot{\tilde\mu}-D\tilde\mu=-\nabla_{\tilde\mu}F$, ac
   drop the higher orders (1 order = visible lag, readout of the mean gap). Only linear $g$ (its `gain`) and $f$ here.
 - **action**: arm drawn at angle $y=y_0+\text{dydu}\cdot u$ (thick), the belief $g(\mu)$ (green dotted), and $\eta$ = the descending prediction (gold dashed).
   Without the reflex only $\mu$ moves toward the data. **Enable reflex** adds $\dot u=-\nabla_uF=-\text{dydu}\,\Pi_y\epsilon_y$: the arm moves to fulfil the prediction;
-  if $\Pi_y$ is large against $\Pi_v$ the belief is dragged to the arm and the movement is slow, with small $\Pi_y$ it is fast (sensory attenuation). Readout: rate $-\text{dydu}^2\Pi_y\epsilon_y$.
+  if $\Pi_y$ is large against $\Pi_v$ the belief is dragged toward the sensed arm (it stops believing "I am moving") while the arm moves faster; with small $\Pi_y$ the belief keeps the prediction but the arm moves slowly (sensory attenuation protects the belief "I am moving"; it does **not** speed the reflex up: the rate $\frac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}(\eta-y)$ never falls as $\Pi_y$ rises; toy $y=0,\eta=1,\Pi_v=1$: $\Pi_y=4$ gives $\mu=.2,\dot u=.8$, $\Pi_y=.25$ gives $\mu=.8,\dot u=.2$). Readout: rate $-\text{dydu}^2\Pi_y\epsilon_y$.
 Under the scene each error has a signed bar ($\epsilon$, full width = half the range) and a bar for its contribution $\tfrac12\Pi\epsilon^2$ to $F$ (full = largest $F$ since Reset),
 with the numbers. Precision sliders are log-scale (`PiRange`).
 Config: `mode`, `modes`, `g`, `g2` (`'identity'|'gain'|'tanh'|'sin'` or `{kind, gain}`, $g=\text{gain}\cdot\text{base}(x)$), `f: {x, v}`, `eta` 0, `y` 1, `y0` 0,
@@ -1516,3 +1516,40 @@ match the preset), `rhoSlider` (slider for $\rho$ with the marginal form), flags
 `labels: {joint, post, prod, update1, update2, sweep, reset, messages, hideMessages, rho, F, surprise, gap, best, trace, traceKey, sum, result}`,
 `presets: [{label, ...any key above}]`. `el.dataset`: `F`, `surprise`, `gap`, `best`, `q1`, `q2`, `updates`, `trace`, `rho`.
 Example: `{names: [['$a$','$b$'], ['$c$','$d$']], rho: 0.9, q1: [.6, .4], q2: [.3, .7], presets: [{label: independent, rho: 0}, {label: correlated, rho: 0.9}]}`.
+
+#### `microcircuit`
+A generic message circuit (`js/widgets/microcircuit.js`, SVG + HTML, rAF for Play; no inference, all names and formulas from the config).
+Populations (round nodes) joined by synapses (arrows) that carry named messages, on horizontal bands (layers, nuclei, levels). Colours: input
+teal, expectation green, error red, inhibitory grey, output purple, modulator gold (`cls`); an excitatory synapse ends in an arrowhead, an
+inhibitory one in a round end (`sign: '-'`). **Click a node**: thick ring; incoming edges blue, outgoing orange, the rest dimmed; the readout
+lists "Receives / Sends" with each message formula, kind, direction, frequency and sign. **Click an edge**: lights it and states message, synapse
+sign, direction badge, frequency, `note`. **Play messages** sends one dot (colour = message kind) along each edge of `sequence`, one per
+~0.75 s, with the step in the readout; Stop/Reset. Optional **modulator**: a gold node with dashed arrows to the listed edges and a slider that
+scales their thickness and dot size (visual only; the readout prints the weighting, e.g. $\Pi_y=1.5$). Edges in both directions between two
+nodes are drawn side by side. No self-loops (use two nodes). Hues, not colour names, in the text: blue = incoming, orange = outgoing.
+```yaml
+config:
+  box: [400, 300]                        # drawing box; all positions are in it (default 400 x 300)
+  bands: [{label: "layers II/III", y0: 0, y1: 100}, ...]
+  nodes:
+    - {id: ss, label: "\\epsilon^{(i)}", name: "spiny stellate", pos: [90, 135], cls: input,
+       populations: "layer IV", info: "Markdown sentence", tag: "A"}
+  edges:
+    - {id: e1, from: ss, to: sp, sign: '+', message: {label: "\\Pi\\epsilon", kind: error},
+       direction: ascending, freq: gamma, note: "Markdown"}
+  sequence: [e1, e2, e3]                 # order of Play (default: all edges)
+  modulator: {node: mod, edges: [e1], label: "\\Pi_y", min: 0, max: 2, value: 1, step: .1, weighting: "{label}={g}"}
+  hideNames: false      # true: nodes show only `tag` (default A, B, C...); names, populations, info, notes hidden
+  showLabels: true      # message formulas and kinds   (all six flags below default true; false hides the piece)
+  showSigns, showFreq, showModulator, showBands, showLegend
+  select: sp            # start with a node (or edge) selected
+  labels: {reads, sends, none, hint, play, stop, reset, sign, excitatory, inhibitory, message, direction, step, gain, cls: {error: "..."}}
+  presets: [{label: "continuous", ...any key above}, {label: "discrete", nodes: [...], edges: [...]}]
+```
+`kind` in {prediction, error, expectation, policy, precision} sets the dot colour; `direction` is a free badge (ascending | descending |
+intrinsic, or any text). Presets replace the whole circuit (a preset overrides the same-named top-level keys): a discrete/continuous
+toggle, a "with / without modulator" toggle (`modulator: null`) or a stepwise reveal are presets. For an mcq "which population?" use
+`hideNames: true`, `showBands: false` (layer names would give it away) and, if the formula would, `showLabels: false`.
+`el.dataset`: `selected`, `selectedEdge`, `reads`, `sends` (edge ids), `playing`, `step`, `gain`, `preset`.
+Covers the Level 5 presets: `column` (anatomy, signs), `pc`, `pomdp`, `spinal`, `bg` (modulator = dopamine), `hybrid`; any layered
+signal-flow diagram (Bayes filter, learning loop, a network layer diagram) is the same config.
