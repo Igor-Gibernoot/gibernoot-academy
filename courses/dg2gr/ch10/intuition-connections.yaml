@@ -1,0 +1,277 @@
+id: ch10-intuition-connections
+title: "Intuition: Levi-Civita versus Other Connections"
+kind: intuition
+own: |
+  - **Setting**: on a manifold with a metric $g$, in a chart with coordinates $x^i$ (repeated indices summed, $\partial_k := \partial/\partial x^k$), a connection $\nabla$ has coefficient functions $\Gamma^i_{kj}$, the $i$-th component of $\nabla_{\partial_j}\partial_k$ (the last lower index is the direction of differentiation); $\Gamma^{\mathrm{LC}}$ denotes the coefficients of the Levi-Civita connection of $g$.
+  - **Torsion** of $\nabla$ is the tensor whose components in a chart are
+    {{ $$T^i_{jk} = \Gamma^i_{kj} - \Gamma^i_{jk}.$$ }}
+    So $\nabla$ is torsion free exactly when $\Gamma^i_{kj}$ is symmetric in its two lower indices, in every chart at once, because $T$ is a tensor.
+  - **Metric compatibility**: $\nabla g = 0$, that is
+    {{ $$(\nabla_k g)_{ij} = \partial_k g_{ij} - \Gamma^m_{ik}\,g_{mj} - \Gamma^m_{jk}\,g_{im} = 0,$$ }}
+    which means parallel transport preserves lengths and angles.
+  - **Levi-Civita**: the only connection that is torsion free and metric compatible, so its coefficients are forced to be
+    {{ $$\Gamma^k_{ij} = \tfrac12 (g^{-1})^{km}\big(\partial_i g_{mj} + \partial_j g_{mi} - \partial_m g_{ij}\big).$$ }}
+    The count is $d^3 = \tfrac12 d^2(d-1) + \tfrac12 d^2(d+1)$: torsion freeness fixes the antisymmetric part of $\Gamma$ in its lower pair, compatibility fixes the rest.
+  - **Any other connection** is $\Gamma = \Gamma^{\mathrm{LC}} + C$ with $C^i_{kj}$ a **tensor** (a difference of two connections), and with $C_{mik} := g_{mn}C^n_{ik}$:
+    {{ $$T^i_{jk} = C^i_{kj} - C^i_{jk},$$ }}
+    {{ $$(\nabla_k g)_{ij} = -C_{jik} - C_{ijk}.$$ }}
+    The torsion sees only the part of $C$ antisymmetric in its lower pair; the non-metricity sees only the part symmetric in its first two indices.
+
+cards:
+  - type: text
+    id: hook
+    title: Three ways to differentiate on the plane
+    body: |
+      A **connection** $\nabla$ is a rule for comparing vectors at nearby points; in a chart it is a list of numbers $\Gamma^i_{kj}$, the $i$-th component of $\nabla_{\partial_j}\partial_k$ (the last lower index is the direction you move in). The plane $\mathbb{R}^2$ with Euclidean metric $g=\delta$ and cartesian chart $(x^1,x^2)$ admits many connections. Three of them, listing the nonzero $\Gamma^i_{kj}$:
+
+      - **A**: all $\Gamma^i_{kj}=0$.
+      - **B**: $\Gamma^1_{21}=1$ and $\Gamma^2_{11}=-1$. Transporting a vector along $x^1$, its components $Z=(Z^1,Z^2)$ change as $\dot Z^1=-Z^2$ and $\dot Z^2=Z^1$, a steady turn.
+      - **C**: $\Gamma^1_{11}=1$. Transporting a vector along $x^1$, its first component changes as $\dot Z^1=-Z^1$, a steady shrinking.
+
+      We want a connection that satisfies **two** demands:
+
+      1. transporting two vectors keeps their **lengths and angles** (measured with $g$);
+      2. the coefficients are **symmetric**, $\Gamma^i_{kj}=\Gamma^i_{jk}$.
+
+      Guess before the next card: which of A, B, C meets both, and what does each of the others lack?
+
+  - type: mcq
+    id: three-connections
+    title: Test A, B, C
+    prompt: |
+      On $\mathbb{R}^2$ with $g=\delta$, connection **A** has $\Gamma=0$; **B** has $\Gamma^1_{21}=1$, $\Gamma^2_{11}=-1$ (transport along $x^1$ turns a vector steadily); **C** has $\Gamma^1_{11}=1$ (transport along $x^1$ shrinks the first component). Which row is right?
+    options:
+      - text: 'A has both properties; B keeps lengths but its coefficients are not symmetric; C has symmetric coefficients but does not keep lengths'
+        correct: true
+      - text: 'A has both properties; B has symmetric coefficients but does not keep lengths; C keeps lengths but is not symmetric'
+        feedback: |
+          Swapped. B has $\Gamma^1_{21}=1$ but $\Gamma^1_{12}=0$, so it is not symmetric; yet a turn preserves lengths. C has $\Gamma^1_{11}$ only, symmetric trivially, but shrinking a component changes the length.
+      - text: 'All three have both properties, since each is a smooth rule for differentiating'
+        feedback: |
+          Being a connection (linear, with the Leibniz rule) is much weaker. Both demands are extra conditions on $\Gamma$, and B and C each break one.
+      - text: 'B has both: a turn is a rigid motion, so it keeps lengths, and it is smooth, so it is symmetric'
+        feedback: |
+          Keeping lengths is right, but symmetry is a statement about the numbers $\Gamma^i_{kj}$ and $\Gamma^i_{jk}$ being equal: for B, $\Gamma^1_{21}=1\neq0=\Gamma^1_{12}$.
+    explanation: |
+      Demand 1 is **metric compatibility**, $\nabla g=0$; demand 2 is **torsion freeness**. For B, $Z=(Z^1,Z^2)$ turns, so $|Z|^2=(Z^1)^2+(Z^2)^2$ is constant: compatible, but $\Gamma^1_{21}\neq\Gamma^1_{12}$: torsion. For C, $\dot Z^1=-Z^1$ makes $|Z|^2$ change: not compatible, but symmetric. Only A has both, and nothing else on $(\mathbb{R}^2,\delta)$ does, as the next cards show.
+
+  - type: text
+    id: mnemonic
+    title: Two conditions, two halves
+    body: |
+      Memorize the pair as two sentences:
+
+      - **Compatible** ($\nabla g=0$): *lengths and angles survive transport.* For vector fields $\mathcal{X}_\gamma,\mathcal{Y}_\gamma$ along a curve, $\frac{d}{d\lambda}g(\mathcal{X}_\gamma,\mathcal{Y}_\gamma)=g(\nabla_{v_\gamma}\mathcal{X}_\gamma,\mathcal{Y}_\gamma)+g(\mathcal{X}_\gamma,\nabla_{v_\gamma}\mathcal{Y}_\gamma)$, which is zero when both are transported.
+      - **Torsion free** ($T=0$): *the coefficients are symmetric in the lower pair*, $\Gamma^k_{ij}=\Gamma^k_{ji}$.
+
+      **Counting check.** In $d$ dimensions $\Gamma^i_{kj}$ has $d\cdot d\cdot d$ numbers. A symmetric pair $(k,j)$ leaves $\tfrac12d(d+1)$ per $i$, so torsion freeness imposes $\tfrac12d^2(d-1)$ conditions. Compatibility is a symmetric array $(\nabla_kg)_{ij}$, with $\tfrac12 d^2(d+1)$ components, all set to zero. The two counts add up:
+      $$\tfrac12 d^2(d-1)+\tfrac12 d^2(d+1)=d^3.$$
+      Together they fix **every** coefficient, which is why the connection is unique. For $d=2$: $8=2+6$.
+
+  - type: build
+    id: build-torsion
+    title: Build the torsion
+    prompt: 'The torsion has components $T^i_{jk}$ = component $i$ of $\nabla_{\partial_j}\partial_k-\nabla_{\partial_k}\partial_j$ in a chart, where $\Gamma^i_{kj}$ is the $i$-th component of $\nabla_{\partial_j}\partial_k$. Build it in terms of $\Gamma$.'
+    prefix: 'T^i_{jk} ='
+    tiles:
+      - '\Gamma^i_{kj}'
+      - '-\Gamma^i_{jk}'
+      - '+\Gamma^i_{jk}'
+      - '-\Gamma^i_{kj}'
+    answers:
+      - ['\Gamma^i_{kj}', '-\Gamma^i_{jk}']
+      - ['-\Gamma^i_{jk}', '\Gamma^i_{kj}']
+    wrong:
+      - answer: ['\Gamma^i_{kj}', '+\Gamma^i_{jk}']
+        feedback: |
+          A plus gives twice the **symmetric** part, which is the part torsion ignores. The torsion must vanish when $\Gamma$ is symmetric, and this does not.
+      - answer: ['+\Gamma^i_{jk}', '-\Gamma^i_{kj}']
+        feedback: |
+          This is $-T^i_{jk}=T^i_{kj}$. It also vanishes exactly when $\Gamma$ is symmetric, but the sign is reversed: $\nabla_{\partial_j}\partial_k$ has components $\Gamma^i_{kj}$ (direction last), and it comes first.
+    hint: 'The first term is the $i$-th component of $\nabla_{\partial_j}\partial_k$; the second is the same with $j$ and $k$ exchanged, with a minus.'
+    explanation: |
+      $$T^i_{jk}=\Gamma^i_{kj}-\Gamma^i_{jk}.$$
+      It is antisymmetric in $(j,k)$ and vanishes exactly when $\Gamma^i_{kj}=\Gamma^i_{jk}$. (The usual definition also subtracts $[\mathcal{X},\mathcal{Y}]$, which is zero for the chart basis fields.)
+
+  - type: build
+    id: build-compat
+    title: Build the compatibility
+    prompt: 'Build the components of $\nabla_kg$: the derivative of $g_{ij}$, corrected by one term per index of $g$. In $\Gamma^m_{ik}$ the last index $k$ is the direction of differentiation.'
+    prefix: '(\nabla_kg)_{ij} ='
+    tiles:
+      - '\partial_kg_{ij}'
+      - '-\Gamma^m_{ik}g_{mj}'
+      - '-\Gamma^m_{jk}g_{im}'
+      - '+\Gamma^m_{ik}g_{mj}'
+      - '-\Gamma^m_{ki}g_{mj}'
+    answers:
+      - ['\partial_kg_{ij}', '-\Gamma^m_{ik}g_{mj}', '-\Gamma^m_{jk}g_{im}']
+      - ['\partial_kg_{ij}', '-\Gamma^m_{jk}g_{im}', '-\Gamma^m_{ik}g_{mj}']
+      - ['-\Gamma^m_{ik}g_{mj}', '\partial_kg_{ij}', '-\Gamma^m_{jk}g_{im}']
+      - ['-\Gamma^m_{ik}g_{mj}', '-\Gamma^m_{jk}g_{im}', '\partial_kg_{ij}']
+      - ['-\Gamma^m_{jk}g_{im}', '\partial_kg_{ij}', '-\Gamma^m_{ik}g_{mj}']
+      - ['-\Gamma^m_{jk}g_{im}', '-\Gamma^m_{ik}g_{mj}', '\partial_kg_{ij}']
+    wrong:
+      - answer: ['\partial_kg_{ij}', '+\Gamma^m_{ik}g_{mj}', '-\Gamma^m_{jk}g_{im}']
+        feedback: |
+          Each index of $g$ is a covector slot, and a covector slot gets **minus** $\Gamma$ (as for $\nabla_k\mathsf{X}_i=\partial_k\mathsf{X}_i-\Gamma^m_{ik}\mathsf{X}_m$). Both correction terms carry the same sign.
+      - answer: ['\partial_kg_{ij}', '-\Gamma^m_{ki}g_{mj}', '-\Gamma^m_{jk}g_{im}']
+        feedback: |
+          In $\Gamma^m_{ik}$ the **last** index is the direction $k$ of $\nabla_k$. The tile $\Gamma^m_{ki}$ puts $k$ in the middle slot, which is the derivative of the other index.
+    hint: 'Three terms, all but the first with a minus: one for the slot $i$ of $g$ and one for the slot $j$.'
+    explanation: |
+      $$(\nabla_kg)_{ij}=\partial_kg_{ij}-\Gamma^m_{ik}\,g_{mj}-\Gamma^m_{jk}\,g_{im}.$$
+      Pattern: the derivative, then one correction per lower index, each with a minus and the contracted index $m$ taking the place of that slot in $g$.
+
+  - type: mcq
+    id: which-gamma
+    title: Which Γ is both?
+    prompt: |
+      On $\mathbb{R}^2$ with $g=\delta$ in the cartesian chart, four connections are given by their nonzero coefficients $\Gamma^i_{kj}$ (the last lower index is the direction). Which one is **both** torsion free and metric compatible?
+    options:
+      - text: 'All $\Gamma^i_{kj}=0$'
+        correct: true
+      - text: '$\Gamma^1_{12}=\Gamma^1_{21}=1$, all others zero'
+        feedback: |
+          Torsion free ($\Gamma^1_{12}=\Gamma^1_{21}$), but not compatible: for $g=\delta$, $(\nabla_2g)_{11}=-2\Gamma^1_{12}=-2\neq0$.
+      - text: '$\Gamma^1_{21}=1$, $\Gamma^2_{11}=-1$, all others zero'
+        feedback: |
+          Compatible (transport along $x^1$ is a rotation), but $T^1_{12}=\Gamma^1_{21}-\Gamma^1_{12}=1\neq0$.
+      - text: '$\Gamma^1_{11}=1$, all others zero'
+        feedback: |
+          Torsion free (nothing to be unsymmetric), but $(\nabla_1g)_{11}=-2\Gamma^1_{11}=-2\neq0$.
+    explanation: |
+      For $g=\delta$ constant, compatibility reads $\Gamma^j_{ik}+\Gamma^i_{jk}=0$ (the $g$-derivative is absent), and torsion freeness is $\Gamma^i_{kj}=\Gamma^i_{jk}$. Together they force every coefficient to vanish, which is the Levi-Civita connection of a constant metric (all derivatives of $g$ vanish).
+
+  - type: text
+    id: difference
+    title: Any connection is Levi-Civita plus a tensor
+    body: |
+      The coefficients $\Gamma$ of one connection are **not** a tensor: they pick up a second-derivative term when the chart changes. But the **difference** of two connections is a tensor, because both pick up the same term and it cancels. So for any connection $\nabla$ with metric $g$, write
+      $$\Gamma^i_{kj}=\Gamma^{\mathrm{LC},i}_{kj}+C^i_{kj},$$
+      with $C^i_{kj}$ a tensor field. Lower the first index: $C_{mik}:=g_{mn}C^n_{ik}$.
+
+      - **Torsion**: $\Gamma^{\mathrm{LC}}$ is symmetric, so the torsion sees only $C$:
+      $$T^i_{jk}=C^i_{kj}-C^i_{jk}.$$
+      A *contorsion* is a $C$ of this kind: it is exactly the antisymmetric part of $C$ in the lower pair that makes the torsion.
+      - **Non-metricity**: $\nabla^{\mathrm{LC}}g=0$, so only $C$ survives:
+      $$(\nabla_kg)_{ij}=-C_{jik}-C_{ijk}.$$
+      It sees the part of $C_{mik}$ **symmetric in its first two indices** $(m,i)$.
+
+      Two different pieces of $C$, two different conditions. Setting both to zero kills all of $C$, so $\Gamma=\Gamma^{\mathrm{LC}}$.
+
+  - type: mcq
+    id: which-part
+    title: Which part belongs to which condition
+    prompt: |
+      A connection $\Gamma=\Gamma^{\mathrm{LC}}+C$ with $C^i_{kj}$ a tensor and $C_{mik}=g_{mn}C^n_{ik}$. Which statement is right?
+    options:
+      - text: 'The torsion measures the part of $C^i_{kj}$ antisymmetric in $(k,j)$; the non-metricity measures the part of $C_{mik}$ symmetric in $(m,i)$'
+        correct: true
+      - text: 'The torsion measures the part of $C^i_{kj}$ symmetric in $(k,j)$; the non-metricity the antisymmetric part'
+        feedback: |
+          Reversed. $T^i_{jk}=C^i_{kj}-C^i_{jk}$ is a difference, so a symmetric $C$ cancels in it: a symmetric $C$ changes neither $T$ nor torsion freeness.
+      - text: 'Both measure the same part of $C$, the part antisymmetric in $(k,j)$'
+        feedback: |
+          Non-metricity is symmetric in $(i,j)$ of $g$ and is built from $C_{jik}+C_{ijk}$, a sum over the **first two** indices, while torsion compares the **last two**. Different pairs, different parts.
+      - text: 'Torsion freeness already implies $C=0$'
+        feedback: |
+          No: the symmetric $C$ (e.g. $C^1_{11}=1$ alone) leaves the torsion zero and still moves the connection away from Levi-Civita. Compatibility is what then removes it.
+    explanation: |
+      Torsion: antisymmetric in the pair $(k,j)$ of **lower** indices of $C^i_{kj}$. Non-metricity: symmetric in the pair $(m,i)$ = *(raised index lowered, first lower index)*. Together they remove the $d^3$ components.
+
+  - type: numeric
+    id: torsion-number
+    title: A torsion component
+    prompt: |
+      In a chart of a surface with coordinates $(x^1,x^2)$, a connection has, at a point, $\Gamma^1_{12}=3$ and $\Gamma^1_{21}=-1$ (the $i$-th component of $\nabla_{\partial_j}\partial_k$ is $\Gamma^i_{kj}$). Find the torsion component $T^1_{12}$, the first component of $\nabla_{\partial_1}\partial_2-\nabla_{\partial_2}\partial_1$.
+    answer: -4
+    wrong:
+      - { value: 4, feedback: 'The size is right but the sign is reversed: $\nabla_{\partial_1}\partial_2$ has component $\Gamma^1_{21}=-1$ (direction last), and it comes first.' }
+      - { value: 2, feedback: 'That is the antisymmetric part $\tfrac12(\Gamma^1_{12}-\Gamma^1_{21})$. The torsion is the full difference, with its sign, not half.' }
+      - { value: 1, feedback: 'That is the symmetric part $\tfrac12(\Gamma^1_{12}+\Gamma^1_{21})$, which is exactly what the torsion cannot see.' }
+    hint: 'Identify the two vectors $\nabla_{\partial_1}\partial_2$ and $\nabla_{\partial_2}\partial_1$ among the given $\Gamma$ (direction is the last index).'
+    explanation: |
+      $\nabla_{\partial_1}\partial_2$ has first component $\Gamma^1_{21}=-1$ and $\nabla_{\partial_2}\partial_1$ has $\Gamma^1_{12}=3$, so
+      $$T^1_{12}=-1-3=-4.$$
+      The symmetric part ($1$) plays no role: only the antisymmetric part counts.
+
+  - type: numeric
+    id: nonmetricity-number
+    title: Not compatible, by how much
+    prompt: |
+      In a chart $(x^1,x^2)$ the metric is $g_{11}=1$, $g_{12}=0$, $g_{22}=(x^1)^2$. At the point $x^1=2$ it has $g=\mathrm{diag}(1,4)$ and the only nonzero derivative is $\partial_1g_{22}=4$. A connection has there $\Gamma^2_{12}=\Gamma^2_{21}=1$ and $\Gamma^1_{22}=-2$ (the last lower index is the direction; all other coefficients zero). Find the component $(\nabla_1g)_{22}$.
+    answer: -4
+    wrong:
+      - { value: 0, feedback: 'That is the answer for the Levi-Civita value $\Gamma^2_{12}=\tfrac12$. Here the coefficient is $1$, twice too big, so the connection stretches $g_{22}$ wrongly.' }
+      - { value: 4, feedback: 'That is only the derivative $\partial_1g_{22}$. Each of the two slots of $g$ subtracts its own connection term.' }
+      - { value: -8, feedback: 'That is the two connection terms alone, $-2\cdot\Gamma^2_{21}g_{22}$; the derivative of $g_{22}$ adds back $+4$.' }
+      - { value: 12, feedback: 'The connection terms are subtracted, not added: $4+4+4$ has the wrong sign.' }
+    hint: 'Which entries of $g$ and $\Gamma$ contribute to the component $(\nabla_1g)_{22}$? Not every given number does.'
+    explanation: |
+      Only $\Gamma^2_{21}$ (direction $1$) enters, once for each of the two slots, multiplied by $g_{22}=4$, plus the derivative $4$:
+      $$(\nabla_1g)_{22}=4-1\cdot4-1\cdot4=-4.$$
+      With the Levi-Civita value $\tfrac12$ it would be $4-2-2=0$. The coefficient $\Gamma^1_{22}$ does not enter this component.
+
+  - type: mcq
+    id: uniqueness
+    title: What uniqueness means
+    prompt: |
+      The Levi-Civita theorem says $\nabla^{\mathrm{LC}}$ is the **only** torsion-free, metric-compatible connection of $g$, and its coefficients are
+      $$\Gamma^k_{ij}=\tfrac12(g^{-1})^{km}\big(\partial_ig_{mj}+\partial_jg_{mi}-\partial_mg_{ij}\big).$$
+      What does uniqueness say about this formula?
+    options:
+      - text: 'The formula is **forced**: any connection satisfying both conditions has exactly these coefficients in every chart; it is a consequence, not an extra choice'
+        correct: true
+      - text: 'It is one choice among several; other formulas give other torsion-free compatible connections'
+        feedback: |
+          That is precisely what uniqueness rules out. Other formulas give connections with torsion, or non-metricity, or both (cards above).
+      - text: 'The connection is the only one compatible with $g$, even allowing torsion'
+        feedback: |
+          Connection **B** of the hook is compatible with $g=\delta$ and is not the Levi-Civita one, because it has torsion. Uniqueness needs both conditions.
+      - text: 'It holds only for positive definite metrics, not for a Lorentzian $g$'
+        feedback: |
+          The derivation only needs $g$ symmetric and invertible, so it works for $(+,-,-,-)$ too. This is why general relativity uses it.
+    explanation: |
+      Torsion freeness symmetrizes $\Gamma$ in its lower pair; compatibility, rewritten three times with the indices permuted and combined (plus, plus, minus), solves for $\Gamma$ in terms of $\partial g$ and $g^{-1}$. No freedom is left: the formula is **derived**, not postulated. Hence in general relativity the metric determines the connection.
+
+  - type: numeric
+    id: add-tensor
+    title: Levi-Civita plus a tensor
+    prompt: |
+      At a point of a surface with metric $g=\mathrm{diag}(1,4)$ in a chart $(x^1,x^2)$, a connection is the Levi-Civita connection of $g$ **plus** a tensor $C$, whose only nonzero component there is $C^1_{22}=1$ (the last lower index is the direction; $C_{mik}:=g_{mn}C^n_{ik}$). Find the component $(\nabla_2g)_{12}$ of this connection.
+    answer: -1
+    wrong:
+      - { value: 0, feedback: 'That would hold for the Levi-Civita part alone, which is compatible. The extra tensor $C$ is what makes $\nabla g\neq0$.' }
+      - { value: 1, feedback: 'The size is right, the sign is not: non-metricity is $-C_{jik}-C_{ijk}$, so a positive $C$ makes it negative.' }
+      - { value: -2, feedback: 'Only one of the two terms is nonzero here: $C_{212}=g_{22}C^2_{12}=0$ and $C_{122}=g_{11}C^1_{22}=1$.' }
+    hint: 'The Levi-Civita part contributes nothing to $\nabla g$. Lower the first index of $C$ with $g$, then pick the two components that the pair $(i,j)=(1,2)$, $k=2$ asks for.'
+    explanation: |
+      The Levi-Civita part drops out, since $\nabla^{\mathrm{LC}}g=0$:
+      $$\begin{aligned}(\nabla_2g)_{12}&=-C_{212}-C_{122}\\&=-g_{22}C^2_{12}-g_{11}C^1_{22}\\&=-0-1=-1.\end{aligned}$$
+      The torsion of this connection is zero ($C^1_{22}$ is symmetric in its lower pair), so it is torsion free but **not** compatible: a symmetric $C$ breaks only compatibility.
+
+  - type: mcq
+    id: traps
+    title: Tensor or not, chart or not
+    multiple: true
+    prompt: |
+      Which statements are true?
+    options:
+      - text: 'The coefficients $\Gamma^k_{ij}$ of a connection are not the components of a tensor, but the difference $\Gamma-\tilde\Gamma$ of two connections is'
+        correct: true
+      - text: 'If $\nabla$ is torsion free in one chart, it is torsion free in every chart'
+        correct: true
+      - text: 'The symmetry $\Gamma^k_{ij}=\Gamma^k_{ji}$ can hold in one chart and fail in another'
+        feedback: |
+          It cannot: the torsion is a **tensor**, and a tensor whose components vanish in one chart vanishes in all. Only the symmetric part of $\Gamma$ is chart dependent (it can be removed at a point); the antisymmetric part is not.
+      - text: 'If $\Gamma^{\mathrm{LC}}=0$ at a point $p$ in some chart, the Riemann curvature vanishes at $p$'
+        feedback: |
+          Normal coordinates make $\Gamma^{\mathrm{LC}}(p)=0$ in a curved space too. What cannot be removed are the **derivatives** of $\Gamma$, and curvature is built from them.
+    explanation: |
+      $\Gamma$ transforms with an inhomogeneous second-derivative term, which is common to all connections and cancels in a difference, so $C=\Gamma-\Gamma'$ is a tensor. Torsion and non-metricity are tensors too, so "torsion free" and "compatible" are chart-independent properties. Only the coefficients themselves depend on the chart.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the matter side of the Einstein equations, where the energy–momentum tensor is defined as the response of the matter action to a change of the metric.
