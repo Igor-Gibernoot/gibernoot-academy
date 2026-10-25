@@ -1,10 +1,6 @@
 # Status
 
-Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/
-### 2026-10-25 ch02-challenge (problems 1-3 of 5, 21 cards incl. intro and summary)
-Built `ch02/challenge.yaml` (`file:` added to course.yaml). P1 tap model (rain/branch/bird 0.5/0.3/0.2, tap 0.2/0.6/0.5): evidence 0.38, posterior, surprise 0.968, second tap, total 1.726. P2 same model: F of Q=prior 1.097, gap 0.129, `free-energy-bound` widget, ordering of four Q, impossible F=0.90. P3 robin Lawn/Mud/Bed with `policy-scorer` (per-policy likelihoods), risk, ambiguity, ranking, gain vs G, softmax at gamma 1. Plan for 4-5 is in Current. No new formulas (Eq. 2.5, 2.6, B.13 already verified).
-Conventions fixed here: tap model numbers; robin G 0.548/0.697/0.950; summary card has bullets 1-3 only.
-p' courses/active-inference/STATUS.md`).
+Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/p' courses/active-inference/STATUS.md`).
 Session end: update Current in place (keep it under ~40 lines: replace, don't append) and add a
 3-line Log entry at the top of the Log, ending "Conventions fixed here: ..."; copy those conventions
 into the chapter's section of `CONVENTIONS.md`, not into Current.
@@ -19,6 +15,10 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
 - **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
 
 ## Log
+
+### 2026-10-25 ch02-challenge (problems 1-3 of 5, 21 cards incl. intro and summary)
+Built `ch02/challenge.yaml` (`file:` added to course.yaml). P1 tap model (rain/branch/bird 0.5/0.3/0.2, tap 0.2/0.6/0.5): evidence 0.38, posterior, surprise 0.968, second tap, total 1.726. P2 same model: F of Q=prior 1.097, gap 0.129, `free-energy-bound` widget, ordering of four Q, impossible F=0.90. P3 robin Lawn/Mud/Bed with `policy-scorer` (per-policy likelihoods), risk, ambiguity, ranking, gain vs G, softmax at gamma 1. Plan for 4-5 is in Current. No new formulas (Eq. 2.5, 2.6, B.13 already verified).
+Conventions fixed here: tap model numbers; robin G 0.548/0.697/0.950; summary card has bullets 1-3 only.
 
 ### 2026-10-25 ch02-map (content map, 14 boxes)
 Built `ch02/map.yaml` (28 decoys, 15 labelled edges; `file: ch02/map.yaml` added to course.yaml). Left: model, prior/likelihood, evidence/surprise, exact posterior, Q, F, bound, perception, action. Right: policy, G, ambiguity/risk, gain/pragmatic, softmax. Decoys: evidence as likelihood, F and G negated, F prospective / G retrospective, action changes Q, parameter learning, swapped KL, entropy as gain. Book has no Chapter 2 concept map; formulas are Eq. 2.5, 2.6, B.13 (already in VERIFIED).
