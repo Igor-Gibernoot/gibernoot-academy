@@ -50,6 +50,8 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 - ch02-challenge (problems 4-5): porch light prior home/away (0.7,0.3), P(on|x)=(0.9,0.2); y=off: P=0.31, surprise 1.171, posterior (0.226,0.774), F at Q=prior 1.679 (gap 0.508); y=on: P=0.69, surprise 0.371, posterior (0.913,0.087), F at Q=prior 0.557 (gap 0.186); robin G 0.548/0.697/0.950 softmax: gamma=0 1/3 each, 0.5 0.364/0.338/0.298, 2 0.457/0.339/0.204, 10 about 0.804/0.181/0.014; ratio P(a)/P(b)=e^{gamma(G_b-G_a)}; gamma=-1 gives 0.274/0.318/0.409. Challenge file kept at 25 cards.
 
+- Audit: learner-visible text never names the source or its labels ("the book", Figure 2.6, Eq. numbers); special-case schemes of G are named (expected utility, KL control, intrinsic motivation, uncertainty sampling).
+
 ## Chapter 3
 
 - (none yet)
