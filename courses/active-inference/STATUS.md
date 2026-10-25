@@ -18,7 +18,7 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
 ## Log
 
 - 2026-10-25 ch04-pomdp-active-inference (20 cards): gradient update of states (v, softmax), messages, last-step fixed point, policy posterior derivation, door data flip (closed x3: wait,wait wins), habit E. Verified Eq. 4.13-4.14, Fig. 4.4, B.5-B.9. Doubt: book's compact future message vs exact gradient (lesson says so).
-  Conventions fixed here: door pi with data (closed,open,open) = .447/.399/.104/.051, (closed x3) = .152/.284/.229/.335; G .1.042/1.095/1.596/2.050.
+  Conventions fixed here: door pi with data (closed,open,open) = .447/.399/.104/.051, (closed x3) = .152/.284/.229/.335; G 1.042/1.095/1.596/2.050.
 
 - 2026-10-25 `ch04-pomdp` (25 cards, concept): door model (renaming card x->s, y->o; A, D, B, C; forward prediction; G = ambiguity + risk numbers; F of a policy; mean-field in time; infer widget shown as close to, not equal to, exact posterior). Verified Eq. 4.5-4.6, 4.9-4.12 against the PDF (fixed varsigma in 4.10, tau/number in 4.12).
   Conventions fixed here: door numbers (s2 push (0.185,0.815), o2 (0.311,0.689), H=0.500, risk wait 0.565, G push 0.535 / wait 1.065, F(.5,.5)=1.427, min 1.347); G uses varsigma = ln o - ln C; B_{pi,tau-1} s_{pi,tau-1} in F.
