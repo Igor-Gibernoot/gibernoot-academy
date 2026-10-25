@@ -1,0 +1,166 @@
+id: ch01-guessing
+title: Perceiving Is Guessing
+kind: concept
+own: |
+  - **You never sense the world's causes directly, only their effects, so perceiving is guessing.** A **hidden cause** is something out there that you cannot observe, only infer from what it does to your senses (a rustle in the grass is the effect; a cat, a dog or a fox may be the hidden cause). A **belief** is {{ your current best guess, with a degree of confidence, about which hidden cause is behind your sensations }}.
+  - **A belief combines two ingredients.** The **prior** is what you expected before sensing anything; the **evidence** is how well each possible cause would explain the sensation you just got. Each cause's share of belief follows
+    $$\text{belief} \;\propto\; \text{prior} \times \text{evidence},$$
+    where $\propto$ means "proportional to", and the shares are then rescaled to add up to $100\%$. Example: two causes with priors $0.9$ and $0.1$ and evidence $0.2$ and $0.8$ give
+    $$\frac{0.9\times 0.2}{0.9\times 0.2+0.1\times 0.8}=\frac{0.18}{0.26}\approx 69\%$$
+    for the first cause: {{ a strong prior can beat evidence that points the other way }}.
+  - **The brain is a predictive machine.** It does not wait passively for sensations: it {{ predicts them from its prior beliefs }}, so the same sensation can lead to different beliefs in different creatures or contexts. Noisy senses give weak evidence (every cause explains the sensation about equally), so the prior dominates; sharp senses give strong evidence and the evidence dominates.
+  - **Two levers when sensations and expectations disagree:** {{ change your belief }} (perceive: *change your mind*) or {{ act to change the world }} (*change the world*). Both serve the same imperative: keep the surprise of your sensations low.
+cards:
+  - type: text
+    id: welcome
+    title: "Perceiving is guessing"
+    body: |
+      Same rule as in the first lesson: **guess first**. Wrong guesses are expected and each one comes with a reason. No maths or earlier knowledge needed, and every technical word is explained when it first appears.
+
+  - type: text
+    id: hook
+    title: "A rustle in the grass"
+    body: |
+      You are walking at dusk through a garden. Suddenly, in the bushes beside you, something goes *rustle*.
+
+      You cannot see what made the sound. It might be a cat, a dog or a fox. All you have is the sound itself: the effect, not the cause.
+
+      Before any theory: how do you decide what it is? Keep the question in mind while you play with the next card.
+
+  - type: widget
+    id: mixer
+    widget: belief-mixer
+    config:
+      causes:
+        - { name: Cat, prior: 0.34, evidence: 0.5 }
+        - { name: Dog, prior: 0.33, evidence: 0.5 }
+        - { name: Fox, prior: 0.33, evidence: 0.5 }
+      sharp: true
+      markers: true
+      labels:
+        prior: "What you expected before the rustle"
+        evidence: "How well each animal explains this rustle"
+        belief: "What you end up believing"
+      presets:
+        - { label: "Strong prior, weak evidence", prior: [0.9, 0.1, 0.1], evidence: [0.4, 0.5, 0.5], sharp: false }
+        - { label: "Sharp senses win", prior: [0.4, 0.3, 0.3], evidence: [0.1, 0.2, 0.9], sharp: true }
+    body: |
+      This toy mixes **what you expected** with **what your senses say**. The top sliders set how likely you thought each animal was *before* the rustle. The middle sliders set how well each animal would explain *this* rustle (a light, quick rustle suits a cat better than a dog). The bars show what you end up believing.
+
+      Try it: (1) drag one expectation slider up and watch the bars; (2) drag one explanation slider up; (3) press **Noisy senses** and see the middle sliders get flatter (the small tick shows the value actually used); (4) press the two preset buttons and compare. Which ingredient wins, and when?
+
+  - type: mcq
+    id: why-different
+    prompt: |
+      Two creatures hear exactly the same rustle. A fox lives in this garden every night; the other creature lives in a place where foxes were never seen. Why might they end up believing different things?
+    options:
+      - text: They start with different expectations (what was likely beforehand), and these mix with the same sound.
+        correct: true
+      - text: One of them must be hearing the sound wrongly; the same sound always has the same meaning.
+        feedback: |
+          Hearing can be identical. The sound alone does not name its cause: many animals make a rustle. What differs is what each creature brings to the sound.
+      - text: Beliefs are random, so there is no reason.
+        feedback: |
+          Beliefs are not random: with different expectations and the same sound, the mix is different in a predictable way, as the sliders showed.
+    explanation: |
+      A sensation is *ambiguous*: several causes could produce it. To choose, the creature leans on what it expected beforehand. So the same sensation can mean different things to different creatures, and rightly so.
+
+  - type: text
+    id: words
+    title: "Four words for guessing"
+    body: |
+      Let us name the pieces you just played with.
+
+      - A **hidden cause** is something out there that you cannot sense directly, only through its effects. The animal in the bushes is hidden; the rustle is what reaches you.
+      - Your **prior** is what you expected *before* this sensation: how likely each cause seemed beforehand, from past experience.
+      - The **evidence** is how well each possible cause would explain the sensation you actually got. (Later Levels call this the *likelihood*.)
+      - Your **belief** is the result: a guess about the hidden cause, with a degree of confidence in each option, such as $69\%$ cat and $31\%$ dog. It is a spread of confidence, not a single verdict.
+
+      Perceiving, in this picture, is the act of mixing prior and evidence into a belief: **perceiving is guessing**, and good guessing uses both.
+
+  - type: numeric
+    id: toy
+    prompt: |
+      A tiny case with two possible causes. You **expected** cause 1 much more: its prior is $0.9$ and cause 2 has $0.1$. But the sensation you got is better explained by cause 2: its evidence score is $0.8$, against $0.2$ for cause 1.
+
+      Weigh each cause by multiplying its prior by its evidence, then rescale so the two shares add up to $100\%$. What percentage of your belief goes to cause 1? (Enter a number between 0 and 100.)
+    answer: 69
+    tolerance: 0.6
+    answerText: '69'
+    wrong:
+      - value: 90
+        feedback: |
+          That is the prior alone; it ignores the sensation. The evidence favours cause 2, which pulls the belief in 1 below $90\%$.
+      - value: 20
+        feedback: |
+          That is the evidence score of cause 1 alone, ignoring what you expected. Both ingredients must be multiplied.
+      - value: 18
+        feedback: |
+          $0.9\times0.2=0.18$ is the unrescaled weight of cause 1, not yet a share. Divide it by the total weight of both causes.
+    hint: |
+      Cause 1 weighs $0.9\times0.2$, cause 2 weighs $0.1\times0.8$. Its share is its weight divided by the two weights added together.
+    explanation: |
+      Weight of cause 1: $0.9\times0.2=0.18$. Weight of cause 2: $0.1\times0.8=0.08$. Total: $0.26$. Share of cause 1: $0.18/0.26\approx 0.69$, so about $69\%$ (cause 2 gets $31\%$). The sensation pulled the belief from $90\%$ down to $69\%$, but the strong prior still won: the evidence was only $4$ times in favour of cause 2, while the prior was $9$ times in favour of cause 1.
+
+  - type: mcq
+    id: trap-direct
+    tag: Trap
+    prompt: |
+      A friend says: "My senses simply show me what is out there. I see the world as it is, with no guessing involved." What is wrong with this?
+    options:
+      - text: Senses deliver effects (light, sound, pressure). The causes behind them are hidden, so something must infer them, and the result is a belief.
+        correct: true
+      - text: Nothing is wrong; seeing is a direct copy of the world.
+        feedback: |
+          If it were a direct copy, illusions could not exist. A flat drawing can look like a staircase, and a dark coat on a chair can look like a person: the same sensations are compatible with more than one cause.
+      - text: Senses are always wrong, so nothing can be trusted.
+        feedback: |
+          Too far. Senses are usually good evidence; the point is only that they are evidence, to be combined with expectations, and never the cause itself.
+    explanation: |
+      We never touch causes directly; we receive their effects. Going from effect to cause is an inference, a guess. Most of the time it is such a good guess, and so fast, that it feels like direct seeing.
+
+  - type: mcq
+    id: trap-prior
+    tag: Trap
+    prompt: |
+      Another friend says: "Having a strong prior is always bad: it makes you stubborn and biased, so a good perceiver should have none." Choose the best reply.
+    options:
+      - text: A strong prior helps when senses are noisy or ambiguous (dim light, far sound), and it is only harmful when it is wrong and the evidence is sharp.
+        correct: true
+      - text: Strong priors are always good, because experience never misleads.
+        feedback: |
+          Experience can mislead: a prior from one garden can be wrong in another. Strong priors are a bet, and bets can fail.
+      - text: Priors do not matter once a creature has any senses.
+        feedback: |
+          The sliders showed otherwise: with noisy senses the prior decided the result. Priors always count; their weight depends on how sharp the evidence is.
+    explanation: |
+      The sensible weight for the prior depends on the quality of the senses. In a dark garden with a faint rustle, leaning on past experience is wise. If the evidence is sharp (you clearly see a fox's eyes), it should override even a strong prior. A perceiver without priors could do nothing with ambiguous sensations.
+
+  - type: text
+    id: predictive
+    title: "A machine that predicts"
+    body: |
+      There is a consequence. If perceiving always mixes in a prior, the brain is not just waiting for the world to arrive. It **predicts** what it expects to sense, and then compares the prediction with what really comes in.
+
+      This is why we say the brain is a **predictive machine**: it keeps asking "what do I expect to sense next?", and sensations are judged against those expectations. Expected sensations are processed one way; unexpected ones, which are the surprising ones from the first lesson, are processed another way.
+
+  - type: mcq
+    id: lever
+    prompt: |
+      In the first lesson you met two ways to reduce a mismatch between what you expect and what you sense: **change your belief** (perceive) or **change the world** (act). In which situation is changing your belief the sensible lever?
+    options:
+      - text: You expected a quiet cat in the bushes, but you now hear a bark and see a big dog. Nothing can be done to the dog; your belief about the cause was wrong.
+        correct: true
+      - text: Your body is at $39\,{}^\circ\text{C}$ and your expectation says $37\,{}^\circ\text{C}$.
+        feedback: |
+          Here the expectation encodes what keeps you alive, so dropping it ("39 is fine") would not cool the body. The sensible lever is to act (sweat, move to shade).
+      - text: You are hungry, and you expect to be fed.
+        feedback: |
+          Lowering the expectation does not feed you. Staying alive requires keeping the expectation and acting to find food.
+    explanation: |
+      When the mismatch comes from a **wrong guess about what is out there**, update the belief. When it comes from an expectation that must be kept (a safe body, a fed body), change the world. Both reduce surprise; they are two ways to serve the same imperative.
+
+  - type: text
+    id: summary
+    body: |
+      **Next: Acting to Get the Senses You Expect.** Perception changes the belief to fit the senses. But what if the belief is a goal, such as "I will be warm"? How can moving change the world until the senses match it? That is the other lever, and the next lesson shows how it works.
