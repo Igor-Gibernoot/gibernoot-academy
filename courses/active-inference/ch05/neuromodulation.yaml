@@ -1,0 +1,417 @@
+id: ch05-neuromodulation
+title: "Neuromodulation and Learning"
+kind: concept
+own: |
+  - **Precision is a gain on errors.** Setting: one level of a continuous model with data $y$ (precision $\Pi_y$) generated from a cause with prior mean $\eta$ (precision $\Pi_v$); the error $\epsilon$ is a prediction mismatch and it travels with weight $\Pi\,\epsilon$. For the identity mapping the best belief $\mu^*$ is the precision-weighted compromise
+    {{ $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$$ }}
+    A more precise likelihood (larger $\Pi_y$) drags $\mu^*$ toward the data: a bigger response to the same stimulus. Changing a precision is **fast** and only turns a signal up or down; it does not change how the signal is interpreted.
+  - **Each distribution has its own precision.** In a discrete model with policies $\pi$ and expected free energy $\mathbf G$ of each policy, the posterior over policies uses the precision $\gamma>0$:
+    {{ $$P(\pi)=\sigma(-\gamma\,\mathbf G)$$ }}
+    Large $\gamma$ makes the policy with the lowest $\mathbf G$ nearly certain, $\gamma=0$ makes all policies equal. A dopamine burst could signal a rise in this confidence $\gamma$, not "reward" itself.
+  - **Table of putative roles** (a hypothesis, not a measurement). Each neuromodulator (a chemical released by a small group of neurons that rescales how strongly many other neurons respond) could be mapped to the precision of one distribution:
+    {{ $$\begin{gathered}\zeta\ (\text{likelihood})\leftrightarrow\text{acetylcholine}\\\omega\ (\text{transitions})\leftrightarrow\text{noradrenaline}\\\gamma\ (\text{policies})\leftrightarrow\text{dopamine}\end{gathered}$$ }}
+    Serotonin ($\chi$, preferences or the likelihood of internal body signals) is the least settled.
+  - **Learning is slow and changes the interpretation.** The slowly varying parameters, such as the likelihood matrix $\mathbf A$ (rows = outcomes, columns = states), are beliefs too; their substrate would be synaptic efficacy. A small preview: keep counts $\mathbf a$ with the same shape as $\mathbf A$; after outcome vector $\mathbf o$ (one-hot) with state belief $\mathbf s$,
+    {{ $$\mathbf a\leftarrow\mathbf a+\mathbf o\otimes\mathbf s$$ }}
+    and $\mathbf A$ is each column of $\mathbf a$ divided by its sum ("cells that fire together wire together"). Likelihood connections enter and leave a cortical column, so likelihood learning would change extrinsic connections; transitions and dynamics live inside the column, so their learning would change intrinsic ones.
+cards:
+  - type: text
+    id: hook
+    title: "Turning the volume of a belief"
+    body: |
+      Dopamine neurons famously fire when an animal receives **unexpected fruit juice**, and also when a **cue** signals that juice is coming. The standard description is a *reward prediction error*. Before any theory, guess: is that the whole story?
+
+      And a second puzzle. Every distribution in a model (how data arise from states, how states change, how we choose) can be held with more or less confidence. If each has its own confidence, how many separate "volume knobs" would a brain need?
+
+      As in the whole level, this is a **process theory**: the chemicals below **could be mapped to** these quantities. Nothing here is a settled measurement. A **neuromodulator** is a chemical released by a small group of neurons that spreads to many targets and changes how strongly they respond, rather than carrying a message of its own.
+
+  - type: mcq
+    id: guess-dopamine
+    prompt: |
+      Dopamine neurons fire on unexpected juice and on a cue that predicts juice. In the active inference picture, an agent holds some policy (a plan) that it believes will minimise its expected free energy $\mathbf G$. Which description of a dopamine burst would this picture give?
+    options:
+      - text: 'A rise in the agent''s **confidence** that the policy it follows will minimise $\mathbf G$: the cue or the juice tells it that things are going according to plan.'
+        correct: true
+      - text: 'The amount of pleasure or reward just received.'
+        feedback: |
+          Tempting, because dopamine is popularly "the reward chemical". But a fully predicted reward gives no burst, and a cue (which is not itself rewarding) does. Something about *what the agent knows about its plan* changes, not the size of the reward.
+      - text: 'The error between expected and actual juice, and nothing else.'
+        feedback: |
+          This is the classic reward-prediction-error story, and it fits the juice data well. The active inference account is an alternative that fits the same data, with a different meaning: reaching a reward or seeing a cue raises confidence in the current policy.
+    explanation: |
+      Getting a reward (fulfilling a preference), or a cue that signals one is near, makes the agent more confident that its policy minimises $\mathbf G$. That confidence is the precision $\gamma$ over policies, and a burst of dopamine could signal it. Both accounts are hypotheses; this lesson builds the second one.
+
+  - type: text
+    id: gain
+    title: "Precision is a gain"
+    body: |
+      Recall the free energy of one level of a continuous model: $F=\tfrac12\sum\Pi\,\epsilon^2$. Here $\epsilon$ is a **prediction error** (data minus prediction) and $\Pi$ its **precision**, the inverse of the variance: a distribution written $\mathcal N(m,\Pi^{-1})$ has mean $m$ and variance $\Pi^{-1}$. When beliefs descend $F$, each error is multiplied by its precision, $\Pi\,\epsilon$. So precision is a **multiplicative gain** on the error message.
+
+      A very precise likelihood (data are trusted) lets the data move the belief a lot; an imprecise one lets the belief ignore them. When belief updates show up as neuronal firing, a more precise likelihood means a **bigger response to the same stimulus**.
+
+      Two timescales matter. Changing a gain is **fast** (seconds, even less): it only turns a signal up or down. Changing what the signal *means* needs **learning**, which is slow. We return to the second at the end.
+
+  - type: widget
+    id: gain-widget
+    review: false
+    widget: predictive-coding
+    config:
+      mode: static
+      modes: [static]
+      g: { kind: gain, gain: 1 }
+      y: 2
+      eta: 0
+      Pi: { y: 4, v: 1 }
+      presets:
+        - { label: 'precise data, $\Pi_y=4$', Pi: { y: 4, v: 1 } }
+        - { label: 'vague data, $\Pi_y=1$', Pi: { y: 1, v: 1 } }
+        - { label: 'very vague data, $\Pi_y=0.25$', Pi: { y: 0.25, v: 1 } }
+    body: |
+      One level: the data are $y=2$, the prior mean of the cause is $\eta=0$ (the diamond), and the belief is $\mu$ (the dot). The prior precision is $\Pi_v=1$. **Press Descend** and note where the belief ends (the dashed ring). Then drag the sensory precision $\Pi_y$ down and descend again.
+
+      Watch: how far does the belief travel toward the data as $\Pi_y$ changes? The same stimulus, $y=2$, drives a bigger or smaller change of belief.
+
+  - type: numeric
+    id: mu-star-4
+    prompt: |
+      One level with identity mapping: data $y=2$ with precision $\Pi_y=4$, prior mean $\eta=0$ with precision $\Pi_v=1$. The belief that minimises the free energy is the precision-weighted compromise
+      $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}.$$
+      What is $\mu^*$?
+    answer: 1.6
+    tolerance: 0.005
+    wrong:
+      - { value: 1, feedback: 'That is the compromise for equal precisions $\Pi_y=\Pi_v$ (halfway between $0$ and $2$). Here the data are four times as precise, so the belief sits closer to them.' }
+      - { value: 0.4, feedback: 'That would put the weight $4$ on the prior; the larger precision belongs to the data, so the belief moves toward $y$, not toward $\eta$.' }
+    hint: 'Numerator $4\cdot2+1\cdot0$; denominator $4+1$.'
+    explanation: |
+      $$\mu^*=\frac{4\cdot2+1\cdot0}{4+1}=\frac{8}{5}=1.6$$
+      The weights $\Pi_y/(\Pi_y+\Pi_v)=0.8$ and $0.2$ say how much each source counts.
+
+  - type: numeric
+    id: mu-star-1
+    prompt: |
+      Same setting ($y=2$, $\eta=0$, $\Pi_v=1$), but the sensory precision is turned down to $\Pi_y=1$. What is $\mu^*$ now?
+    answer: 1
+    tolerance: 0.005
+    hint: 'Equal precisions: the compromise is the midpoint.'
+    explanation: |
+      $$\mu^*=\frac{1\cdot2+1\cdot0}{1+1}=1$$
+      The same stimulus now moves the belief by $1$ instead of $1.6$. Turning the gain down reduced the response, with no change at all in the data.
+
+  - type: mcq
+    id: own-precision
+    prompt: |
+      A generative model contains several distributions: how data come from hidden states (the likelihood), how states change in time (the transitions), and how policies are chosen. Which statement fits the idea that precision is "an attribute of a distribution"?
+    options:
+      - text: 'There can be a different precision for each distribution: one can trust the senses, the dynamics and the plan to different degrees.'
+        correct: true
+      - text: 'There is one global precision, a single gain applied to all prediction errors in the brain.'
+        feedback: |
+          That would force a creature to be equally confident about its sensors, about how the world evolves and about what to do. We can be sure of the senses and unsure of the plan, so each distribution is allowed its own gain.
+      - text: 'Precision belongs only to sensory data; the other distributions have no confidence attached.'
+        feedback: |
+          A precision is the inverse variance of a distribution, and every distribution of the model has a variance, so each can be more or less confident. The sensory one is just the easiest to picture.
+    explanation: |
+      If precision is an attribute of a distribution, there should be different precisions for different distributions. This is intuitively sensible: we can be more or less confident in the reliability of our sensations, in how things will evolve, and even in how we might act.
+
+  - type: text
+    id: table
+    title: "A putative table of neuromodulators"
+    body: |
+      Four neuromodulators have each been linked to one such precision. **Table (putative roles; a hypothesis, with evidence from several kinds of experiment)**. The Greek letters are the symbols sometimes used for these precisions; each is a positive number, the inverse variance of its distribution.
+
+      | Neuromodulator | Precision of | Symbol |
+      |---|---|---|
+      | Acetylcholine | likelihood | $\zeta$ |
+      | Noradrenaline | transitions | $\omega$ |
+      | Dopamine | policies | $\gamma$ |
+      | Serotonin | preferences, or the likelihood of internal body signals | $\chi$ |
+
+      Words: **acetylcholine** is released by the *cholinergic* system, whose cells in the basal nucleus of Meynert (a structure under the front of the brain) reach the cortex; **noradrenaline** by the *noradrenergic* system of the locus coeruleus (a small nucleus in the brainstem); **dopamine** by cells of the substantia nigra pars compacta (SNpc) and the neighbouring ventral tegmental area in the midbrain; **serotonin** by the *serotonergic* system.
+
+      Two notes on notation. $\gamma$ is the precision over policies we already used. And $\omega$ here is the **precision** of the transitions; the earlier level used the same letter *with a subscript* ($\omega_x,\omega_y$) for the random fluctuations of the model. In this lesson an unsubscripted $\omega$ is always the transition precision.
+
+      **Serotonin is the loose row.** The table lists two options (preferences, or interoceptive likelihood, where *interoceptive* means about signals from inside the body), while the surrounding text says only that it "may relate to the precision of prior preferences". We treat $\chi$ as unsettled and do not build on it.
+
+  - type: mcq
+    id: assign
+    prompt: |
+      Which assignment of neuromodulator to the precision it could signal matches the table?
+    options:
+      - text: 'Acetylcholine: likelihood; noradrenaline: transitions; dopamine: policies.'
+        correct: true
+      - text: 'Acetylcholine: transitions; noradrenaline: likelihood; dopamine: policies.'
+        feedback: |
+          Two of the three are swapped. Acetylcholine goes with the precision of the likelihood (how data relate to states), and noradrenaline with the precision of how states change.
+      - text: 'Acetylcholine: policies; noradrenaline: likelihood; dopamine: transitions.'
+        feedback: |
+          Dopamine is the one linked to policies: the striatum, which scores policies, is rich in dopamine receptors. The other two are then likelihood (acetylcholine) and transitions (noradrenaline).
+      - text: 'All of them signal the same thing, the precision of sensory data, in different brain regions.'
+        feedback: |
+          The point of the table is exactly that different modulators are linked to *different* distributions, so that the brain has separate gain knobs.
+    explanation: |
+      Acetylcholine: likelihood ($\zeta$). Noradrenaline: transitions ($\omega$). Dopamine: policies ($\gamma$). The evidence is mixed: receptor locations (for example dopamine receptors on the main cells of the striatum, the *medium spiny neurons*), modulation of the gain of visual responses, effects of drugs on behaviour and on effective connectivity.
+
+  - type: widget
+    id: scorer-widget
+    review: false
+    widget: policy-scorer
+    config:
+      outcomes: ['o1', 'o2', 'o3']
+      C: [0.3333, 0.3333, 0.3334]
+      policies:
+        - { name: 'policy 1', qy: [0.3333, 0.3333, 0.3334], ambiguity: 1.0 }
+        - { name: 'policy 2', qy: [0.3333, 0.3333, 0.3334], ambiguity: 0.8 }
+      gamma: 1
+      gammaMax: 8
+      showRisk: false
+      showAmbiguity: false
+      showPrefs: false
+      labels: { gamma: 'Precision (dopamine gain)' }
+      presets:
+        - { label: 'gamma = 1', gamma: 1 }
+        - { label: 'gamma = 4', gamma: 4 }
+        - { label: 'gamma = 0', gamma: 0 }
+    body: |
+      Two policies with expected free energy $\mathbf G=(1,\,0.8)$ (in nats; lower is better). The posterior over policies is $P(\pi)=\sigma(-\gamma\mathbf G)$, the softmax with precision $\gamma$. Try the presets and drag $\gamma$.
+
+      Watch: at $\gamma=1$ policy 2 wins only slightly (about $0.55$); at $\gamma=4$ it is about $0.69$; at $\gamma=0$ the two are equal, whatever $\mathbf G$ says. The slider is a **confidence gain on the policy choice**, not a change in what $\mathbf G$ is.
+
+  - type: widget
+    id: bg-dopamine
+    review: false
+    widget: microcircuit
+    config:
+      box: [440, 420]
+      showFreq: false
+      showLegend: true
+      bands:
+        - { label: 'cortex', y0: 0, y1: 80 }
+        - { label: 'striatum', y0: 80, y1: 170 }
+        - { label: 'pallidum, STN', y0: 170, y1: 270 }
+        - { label: 'output nucleus', y0: 270, y1: 350 }
+        - { label: 'midbrain', y0: 350, y1: 420 }
+      nodes:
+        - { id: o-hi, label: '\tilde{\mathbf o}^{(i+1)}_\pi', name: 'expected outcomes of the level above', pos: [100, 40], cls: expectation, populations: 'cortex (higher level)', info: 'Expected observations under high-level states.' }
+        - { id: o-lo, label: '\mathbf o^{(i)}_\pi', name: 'predicted outcomes', pos: [310, 40], cls: expectation, populations: 'cortex, layer V', info: 'Predicted outcomes under each policy.' }
+        - { id: vs, label: '\boldsymbol\varsigma^{(i)}_\pi', name: 'preferred minus predicted outcomes', pos: [390, 40], cls: expectation, populations: 'cortex, layer V', info: 'The difference between predicted and preferred outcomes.' }
+        - { id: E, label: '\mathbf E^{(i)}', name: 'habit prior', pos: [100, 125], cls: policy, populations: 'striatum (indirect pathway cells)', info: 'The empirical prior over policies from the level above: habit.' }
+        - { id: G, label: '\mathbf G^{(i)}', name: 'expected free energy', pos: [350, 125], cls: policy, populations: 'striatum (direct pathway cells)', info: 'The expected free energy of each policy.' }
+        - { id: gpe, label: '\text{GPe}', name: 'external globus pallidus', pos: [100, 225], cls: inhibitory, populations: 'external pallidum', info: 'A relay in the indirect pathway. It is inhibitory.' }
+        - { id: stn, label: '\text{STN}', name: 'subthalamic nucleus', pos: [230, 225], cls: expectation, populations: 'subthalamic nucleus', info: 'A relay in the indirect pathway. It excites the output nucleus.' }
+        - { id: pi, label: '\boldsymbol\pi^{(i)}', name: 'posterior over policies', pos: [230, 310], cls: output, populations: 'internal globus pallidus (output nucleus)', info: 'The posterior probability of each policy.' }
+        - { id: snpc, label: '\gamma^{(i)}', name: 'precision over policies (dopamine)', pos: [390, 385], cls: modulator, populations: 'substantia nigra pars compacta (SNpc), midbrain', info: 'Dopamine cells that, in this proposal, set the precision of the policy posterior (a hypothesis).' }
+      edges:
+        - { id: b-ohi-e, from: o-hi, to: E, sign: '+', message: { label: '\tilde{\mathbf o}_\pi', kind: expectation }, direction: descending, note: 'The higher level forms the habit prior.' }
+        - { id: b-o-g, from: o-lo, to: G, sign: '+', message: { label: '\mathbf o_\pi', kind: expectation }, direction: 'cortex to striatum', note: 'Predicted outcomes.' }
+        - { id: b-vs-g, from: vs, to: G, sign: '+', message: { label: '\boldsymbol\varsigma_\pi', kind: expectation }, direction: 'cortex to striatum', note: 'Preferred minus predicted outcomes.' }
+        - { id: b-g-pi, from: G, to: pi, sign: '-', message: { label: '\mathbf G', kind: policy }, direction: 'direct pathway', note: 'One inhibitory synapse onto the output nucleus: more G, less pi. The dopamine gain scales this message.' }
+        - { id: b-e-gpe, from: E, to: gpe, sign: '-', message: { label: '\mathbf E', kind: policy }, direction: 'indirect pathway', note: 'First inhibitory synapse of the indirect pathway.' }
+        - { id: b-gpe-stn, from: gpe, to: stn, sign: '-', message: { label: '\mathbf E', kind: policy }, direction: 'indirect pathway', note: 'Second inhibitory synapse.' }
+        - { id: b-stn-pi, from: stn, to: pi, sign: '+', message: { label: '\mathbf E', kind: policy }, direction: 'indirect pathway', note: 'The excitatory synapse that closes the indirect pathway.' }
+      sequence: [b-o-g, b-vs-g, b-g-pi, b-ohi-e, b-e-gpe, b-gpe-stn, b-stn-pi]
+      modulator: { node: snpc, edges: [b-g-pi], label: '\gamma', min: 0, max: 2, value: 1, step: 0.1, weighting: '{label}={g}' }
+    body: |
+      The basal ganglia circuit of the last lesson, now with the **dopamine** cells of the substantia nigra pars compacta (SNpc, in the midbrain) added: the figure draws them modulating the balance between the two pathways. The gold node is the precision $\gamma$; the dashed arrow points at the message it scales, the expected free energy $\mathbf G$ on its way to the output nucleus $\boldsymbol\pi$ (in $\sigma(-\gamma\mathbf G)$).
+
+      Drag the **$\gamma$ slider** and watch the thickness of that line change. **Click** the gold node and the lines for what each carries.
+
+  - type: numeric
+    id: softmax-gamma
+    prompt: |
+      Two policies have expected free energies $\mathbf G=(1,\,0.8)$ and the precision over policies is $\gamma=3$. The posterior is $P(\pi)=\sigma(-\gamma\mathbf G)$, where $\sigma$ is the softmax, $\sigma(\mathbf x)_k=e^{x_k}/\sum_j e^{x_j}$. What is the probability of policy 2, the one with $\mathbf G=0.8$?
+    answer: 0.646
+    tolerance: 0.003
+    wrong:
+      - { value: 0.354, feedback: 'That is the probability of policy 1. Policy 2 has the lower $\mathbf G$, so it must be the more probable one.' }
+      - { value: 0.55, feedback: 'That is the value for $\gamma=1$. With the precision $\gamma=3$ the difference $\mathbf G_1-\mathbf G_2=0.2$ is multiplied by $3$ before the softmax.' }
+    hint: 'For two policies the softmax is a logistic: $P(\pi_2)=1/(1+e^{-\gamma(\mathbf G_1-\mathbf G_2)})$.'
+    explanation: |
+      $$P(\pi_2)=\frac{e^{-3\cdot0.8}}{e^{-3\cdot1}+e^{-3\cdot0.8}}=\frac{1}{1+e^{-0.6}}\approx0.646$$
+      so policy 1 gets about $0.354$. Compare $\gamma=1$ (about $0.55$) and $\gamma=4$ (about $0.69$): a larger gain on the same $\mathbf G$ gives a more confident choice.
+
+  - type: mcq
+    id: rpe-vs-confidence
+    prompt: |
+      After training, a cue always predicts juice, and the juice itself then arrives fully predicted. Dopamine rises at the cue but not at the fully predicted juice. In the account where dopamine signals the precision $\gamma$ over policies, why?
+    options:
+      - text: 'The cue raises the confidence that the current policy will reach the preferred outcome (juice is now near). Once that confidence is high, a fully predicted juice adds nothing to it.'
+        correct: true
+      - text: 'Dopamine reports the amount of juice, and fully predicted juice has no amount.'
+        feedback: |
+          Then the same juice would produce the same burst whenever it arrives. What changes between the surprising and the predicted case is how much the agent already knew about its plan, not how much juice there is.
+      - text: 'A predicted reward lowers the precision $\gamma$ to zero, so the agent stops pursuing it.'
+        feedback: |
+          A zero $\gamma$ would make all policies equally probable, a loss of confidence. A predicted reward leaves the confidence high; it is simply not *news*, so there is no change to signal.
+    explanation: |
+      Reward prediction error and policy confidence give the **same pattern** here: a burst when confidence in the policy rises (a surprising reward, or a cue that predicts one) and no burst when nothing new is learned. They differ in what the signal means and in what else they predict. Both are hypotheses.
+
+  - type: widget
+    id: blur-widget
+    review: false
+    widget: pomdp-lab
+    config:
+      mode: infer
+      modes: [infer]
+      editable: true
+      showA: true
+      showB: false
+      showD: false
+      showPolicies: false
+      obs: [-1, 1, -1]
+      states: [closed, open]
+      outcomes: ['looks closed', 'looks open']
+      actions: [push, wait]
+      short: { states: [clo, open], outcomes: [looks clo, looks open] }
+      A: [[0.8, 0.2], [0.2, 0.8]]
+      B: { push: [[0.2, 0.05], [0.8, 0.95]], wait: [[0.9, 0.1], [0.1, 0.9]] }
+      D: [0.9, 0.1]
+      C: [0.2, 0.8]
+      T: 3
+      policies: [[wait, wait]]
+      policy: 0
+      presets:
+        - { label: 'sharp sensor, 0.8', A: [[0.8, 0.2], [0.2, 0.8]] }
+        - { label: 'blurred sensor, 0.55', A: [[0.55, 0.45], [0.45, 0.55]] }
+        - { label: 'very sharp sensor, 0.95', A: [[0.95, 0.05], [0.05, 0.95]] }
+    body: |
+      The door model: a door is **closed** or **open**; the observation is *looks closed* or *looks open*. The matrix $\mathbf A$ (rows = outcomes, columns = states) says how reliable the sensor is, the **likelihood**; its sharpness plays the role of the likelihood precision, the one tied to acetylcholine. The agent waits twice. The only observation is *looks open* at **step 2**.
+
+      Press **Play** and read the final belief that the door is open at step 2 (the bar; the thick tick is the exact value). Then try each preset. Before the data the belief is $0.18$.
+
+  - type: mcq
+    id: lewy
+    prompt: |
+      In Lewy body dementia (a disease in which abnormal protein deposits build up in brain cells), cholinergic signalling falls and patients often see complex visual hallucinations. One proposal: if acetylcholine signals the precision $\zeta$ of the likelihood, what would a loss of $\zeta$ do?
+    options:
+      - text: 'Sensory data constrain beliefs less (as with the blurred sensor): predictions from higher areas dominate, so percepts are no longer held in check by the senses, which could explain hallucinations.'
+        correct: true
+      - text: 'Sensory data count for more, so the patient reacts too strongly to every stimulus.'
+        feedback: |
+          That is the opposite: a larger $\zeta$ would do that. Lower precision means the likelihood has less power to move the belief, as in the blurred-sensor preset where observing *looks open* moved the belief only from $0.18$ to about $0.21$.
+      - text: 'The prior beliefs vanish, so the patient has no expectations and sees nothing.'
+        feedback: |
+          Turning down the likelihood precision leaves the priors in charge, it does not remove them. A belief driven mainly by expectations, with little check from data, is a hallucination-like percept.
+    explanation: |
+      The proposal runs: pathology in higher visual cortices creates a mismatch between their predictions and the activity in primary visual cortex; this mismatch downgrades confidence in the likelihood and cholinergic signalling is lost. Beliefs then fail to be updated by the data, so perception loses the constraints of sensation. This is a **hypothesis** that suggests tests, not a proven mechanism.
+
+  - type: widget
+    id: transition-widget
+    review: false
+    widget: pomdp-lab
+    config:
+      mode: infer
+      modes: [infer]
+      editable: true
+      showA: false
+      showB: true
+      showD: false
+      showPolicies: false
+      obs: [1, -1, -1]
+      states: [closed, open]
+      outcomes: ['looks closed', 'looks open']
+      actions: [wait]
+      short: { states: [clo, open], outcomes: [looks clo, looks open] }
+      A: [[0.8, 0.2], [0.2, 0.8]]
+      B: { wait: [[0.95, 0.05], [0.05, 0.95]] }
+      D: [0.5, 0.5]
+      C: [0.2, 0.8]
+      T: 3
+      policies: [[wait, wait]]
+      policy: 0
+      presets:
+        - { label: 'sharp transitions, 0.95', B: { wait: [[0.95, 0.05], [0.05, 0.95]] } }
+        - { label: 'flat transitions, 0.5', B: { wait: [[0.5, 0.5], [0.5, 0.5]] } }
+    body: |
+      The same door, now with **transitions** as the focus: $\mathbf B$ (rows = next state, columns = current state) says how likely the door is to stay as it is. In the sharp case it stays with probability $0.95$; in the flat case the next state does not depend on the current one at all. A sharp $\mathbf B$ is a precise belief about how things evolve, the one tied to noradrenaline. Here the only observation is *looks open* at **step 1**, with a $50/50$ prior.
+
+      Press **Play** and compare the belief that the door is open at **step 3** (two steps after the data) in the two presets. The ticks are the exact values; the animation's final bars may differ slightly from them.
+
+  - type: mcq
+    id: pupil
+    prompt: |
+      Experiments find that the **pupil** (the black opening of the eye) responds differently to surprising and unsurprising sequences, and that the response relates to the transition precision an *ideal Bayesian observer* (an agent that does exact inference) would expect for the sequence. If noradrenaline is linked to that precision, what could such a measurement be used for?
+    options:
+      - text: 'A non-invasive probe of the subject''s implicit generative model: the precision they assign to transitions, inferred from a peripheral signal.'
+        correct: true
+      - text: 'It proves that noradrenaline is the transition precision.'
+        feedback: |
+          A relation between pupil dynamics and the model's precision is evidence that is *consistent* with the proposal, in the same way as receptor locations and drug effects. The table is a set of putative roles, not a proof.
+      - text: 'It reads out the hidden state of the world, since the pupil tracks the state.'
+        feedback: |
+          The pupil is related to the *precision* of the beliefs about transitions, not to which state is the true one. That is why it can reveal the subject's implicit model.
+    explanation: |
+      Peripheral manifestations of central neurochemical activity (pupil size and noradrenaline; the spontaneous blink rate and dopamine) let us measure computational quantities without entering the brain. The implication: we could probe someone's implicit generative model, their empirical prior beliefs, with such measurements.
+
+  - type: text
+    id: learning
+    title: "Gain is crude: learning changes the meaning"
+    body: |
+      Fast changes of precision are important, but they are a crude way to tune effective connectivity: they raise or lower the gain of a signal, **nothing more subtle**. To change *how a signal is interpreted* we need **learning**.
+
+      The idea: we hold beliefs not only about states of the world but also about the **fixed or slowly varying parameters** that set the dependencies between variables, such as the likelihood matrix $\mathbf A$. The substrate of these beliefs is the **efficacy of synaptic connections** between the populations that represent states and outcomes. When an outcome occurs that we believe was generated by a given state, we raise the belief that the two go together: the synapse between those populations is strengthened. This is Hebb's edict, paraphrased: **cells that fire together wire together**.
+
+      A later chapter treats learning in detail. Here we only preview the counting form of the idea.
+
+  - type: numeric
+    id: counts
+    prompt: |
+      Keep counts $\mathbf a$ for the likelihood $\mathbf A$ of a model with two outcomes (rows) and two states (columns), all counts starting at $1$:
+      $$\mathbf a=\begin{pmatrix}1&1\\1&1\end{pmatrix}.$$
+      You observe outcome 1 (the one-hot vector $\mathbf o=(1,0)$) while your belief about the state is $\mathbf s=(0.9,\,0.1)$. The counts grow by the outer product $\mathbf o\otimes\mathbf s$ (entry $(i,j)$ grows by $o_i s_j$), and $\mathbf A$ is each column of $\mathbf a$ divided by its sum. What is the new $A_{11}$, the probability of outcome 1 in state 1?
+    answer: 0.655
+    tolerance: 0.003
+    wrong:
+      - { value: 0.5, feedback: 'That is the value before any observation (equal counts). The count of outcome 1 with state 1 has grown by $o_1s_1=0.9$.' }
+      - { value: 0.9, feedback: 'That is the state belief $s_1$, not a likelihood. The count goes from $1$ to $1.9$ and must be divided by the column sum $1.9+1=2.9$.' }
+    hint: 'The first column of $\mathbf a$ becomes $(1+0.9,\;1+0)$.'
+    explanation: |
+      $$\mathbf a=\begin{pmatrix}1.9&1.1\\1&1\end{pmatrix}$$
+      Column 1 sums to $2.9$, so $A_{11}=1.9/2.9\approx0.655$; column 2 gives $A_{12}=1.1/2.1\approx0.524$ (the weaker belief in state 2 strengthened that column only a little). The outcome that **co-occurred** with the believed state became more likely given that state: cells that fire together wire together.
+
+  - type: mcq
+    id: learning-place
+    prompt: |
+      In a cortical column, the connections entering and leaving the column carry likelihood messages, while transitions and continuous dynamics are computed by connections within the column. Where should *learning* the likelihood and learning the transitions show up?
+    options:
+      - text: 'Learning the likelihood changes the connections entering and leaving the column (extrinsic); learning transitions or dynamics changes connections inside the column (intrinsic).'
+        correct: true
+      - text: 'The reverse: likelihood learning is intrinsic, transition learning is extrinsic.'
+        feedback: |
+          The likelihood links one area's hidden states to the data (outcomes) of another, so it lives on the connections between areas. The transitions link a population to itself later in time, which is within a column.
+      - text: 'Neither: learning only changes the gain of existing connections, so it appears as a change of precision.'
+        feedback: |
+          That confuses the two timescales. A gain change is fast, reversible and only rescales a signal. Learning changes the parameters (synaptic efficacy) slowly and changes what the signal means.
+    explanation: |
+      This gives a testable prediction: **dynamic causal modelling** (a method that fits a circuit model to brain-imaging data to estimate how strongly populations drive each other, the *effective connectivity*) can look for changes in intrinsic or extrinsic connections after learning. This is what process theories are for: specific hypotheses that can be tested.
+
+  - type: mcq
+    id: traps
+    prompt: |
+      Select **all** statements that are correct in the active inference account.
+    multiple: true
+    options:
+      - text: 'A change of precision is fast and rescales how much an error counts; learning is slow and changes the parameters themselves.'
+        correct: true
+      - text: 'Dopamine is proposed to signal confidence in the policy (precision $\gamma$); a reward can raise it, but it is not the reward itself.'
+        correct: true
+      - text: 'A burst of dopamine means that a reward has just been received.'
+        feedback: |
+          A cue that merely predicts a reward also raises dopamine, and a fully predicted reward may not. What the burst reports, in this account, is a change in confidence about the plan.
+      - text: 'Learning is just a large, long-lasting change of precision.'
+        feedback: |
+          A precision multiplies a signal and leaves its meaning alone; learning changes which state is linked to which outcome. A large gain on a wrong likelihood is still a wrong likelihood.
+    explanation: |
+      Two traps: **dopamine = reward** (it is proposed to be policy confidence, and it is a hypothesis), and **learning = gain** (gain is fast and only rescales; learning is slow and rewires the interpretation).
+
+  - type: text
+    id: summary
+    body: |
+      | Neuromodulator | Precision of | Symbol |
+      |---|---|---|
+      | Acetylcholine | likelihood | $\zeta$ |
+      | Noradrenaline | transitions | $\omega$ |
+      | Dopamine | policies | $\gamma$ |
+      | Serotonin | preferences or interoceptive likelihood (unsettled) | $\chi$ |
+
+      **Next:** the basal ganglia choose among *discrete* policies, yet the muscles move in *continuous* time. How are the discrete and the continuous circuits stacked on top of each other?
