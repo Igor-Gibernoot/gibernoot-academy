@@ -1,0 +1,264 @@
+id: ch03-map
+title: "Content Map: Persistence and the Two Roads"
+kind: map
+name: Level 3, Markov blankets, surprise, free energy and policies (why a creature minimises free energy)
+
+intro: |
+  A **content map** shows how the ideas of a level fit together. Each box is one idea. An arrow goes from an idea to one that builds on it, and its label says how: read it as a sentence, for example "the blanket *makes possible* a steady state".
+
+  This map starts from a creature that **persists** and ends with a creature that **plans**. The left column is the physics of staying alive, the right column is the statistics of beliefs, and the two meet in a model with a future. Free energy $F$ and expected free energy $G$ are **minimised**, never negated.
+
+  For each glowing box, pick the card that belongs there. The other cards look alike, but each hides a classic mistake, and every wrong pick comes with a reason. Tap a finished box at any time to reread its card.
+
+cols: 3
+nodes:
+  - id: blanket
+    title: Markov blanket
+    row: 1
+    col: 1
+    span: 3
+    body: |
+      A creature has **external** states $x$, **internal** states $\mu$, and between them the **blanket** $b=(u,y)$ of active states $u$ and sensory states $y$. Given the blanket, inside and outside are independent:
+
+      $$\mu\perp x\mid b$$
+    decoys:
+      - body: |
+          A creature has **external** states $x$, **internal** states $\mu$, and between them the **blanket** $b=(u,y)$ of active states $u$ and sensory states $y$. The blanket cuts all contact, so inside and outside never influence each other:
+
+          $$\mu\perp x$$
+        feedback: |
+          The independence is conditional on $b$, not absolute. The outside acts on the inside through $y$, and the inside acts on the outside through $u$. Without that two-way exchange the creature could neither sense nor act.
+      - body: |
+          A creature has **external** states $x$, **internal** states $\mu$, and between them the **blanket** $b=(u,y)$ of active states $u$ and sensory states $y$. The blanket is part of the external states, so the creature is only its internal states:
+
+          $$\mu\perp b\mid x$$
+        feedback: |
+          The blanket is the interface, neither external nor internal, and it is what we condition on. The correct statement is $\mu\perp x\mid b$: knowing $b$, the outside adds nothing about the inside.
+    explanation: |
+      Everything below needs a creature that is separate from its surroundings while still exchanging with them.
+
+  - id: steady
+    title: Steady state
+    row: 2
+    col: 1
+    body: |
+      A creature that **persists** keeps a **steady-state density** $P(y)$ over its sensory states. The density is constant in time although the states keep moving. The **surprise** of a state is
+
+      $$\mathfrak{I}(y)=-\ln P(y)$$
+    decoys:
+      - body: |
+          A creature that **persists** keeps a **steady-state density** $P(y)$ over its sensory states. The states themselves stand still. The **surprise** of a state is
+
+          $$\mathfrak{I}(y)=-\ln P(y)$$
+        feedback: |
+          "Steady" refers to the density, not to the states. Temperature, heart rate and the rest keep fluctuating; what stays constant is the fraction of time spent in each region.
+      - body: |
+          A creature that **persists** keeps a **steady-state density** $P(y)$ over its sensory states. The density is constant in time although the states keep moving. The **surprise** of a state is
+
+          $$\mathfrak{I}(y)=\ln P(y)$$
+        feedback: |
+          The sign is flipped. A probable state must have low surprise, and $-\ln P(y)$ falls as $P(y)$ rises. With $+\ln P(y)$ the characteristic states would look the most surprising.
+    explanation: |
+      The blanket makes the creature a thing with its own distribution of states, and surprise is measured against that distribution.
+
+  - id: selfev
+    title: Self-evidencing
+    row: 2
+    col: 3
+    body: |
+      The evidence $P(y)$ that the model gives to the data and the surprise are two faces of one quantity. **Maximising evidence** is **minimising surprise**. Preferred states are **priors** of the model, so the creature acts to gather data that are evidence for its own model.
+    decoys:
+      - body: |
+          The evidence $P(y)$ that the model gives to the data and the surprise are opposite goals. **Maximising evidence** means **maximising surprise**, to learn as much as possible. Preferred states are **priors** of the model.
+        feedback: |
+          Surprise is $-\ln$ of the evidence, so more evidence means less surprise. A creature that sought surprise would leave its comfort zone and stop being itself.
+      - body: |
+          The evidence $P(y)$ that the model gives to the data and the surprise are two faces of one quantity. **Maximising evidence** is **minimising surprise**. Preferred states are a separate **reward** kept outside the model, which the creature collects.
+        feedback: |
+          Here a preference is a prior belief: the model expects the sensations the creature needs, so any departure is surprising. No reward kept apart from the beliefs is needed.
+    explanation: |
+      Perception makes the model fit the data and action makes the data fit the model: two sides of one imperative.
+
+  - id: flow
+    title: Restoring flow
+    row: 3
+    col: 1
+    body: |
+      Random kicks push the state to improbable places, so a steady state needs a **flow** that opposes them. The surprise plays the role of an energy (a **Hamiltonian**), and on average the state descends it:
+
+      $$f=-(\Gamma-\mathsf{Q})\,\nabla_x\mathfrak{I}$$
+
+      ($\Gamma$: size of the kicks; $\mathsf{Q}$: antisymmetric circulation.)
+    decoys:
+      - body: |
+          Random kicks push the state to improbable places, so a steady state needs a **flow** that opposes them. The surprise plays the role of an energy (a **Hamiltonian**), and on average the state climbs it:
+
+          $$f=+(\Gamma-\mathsf{Q})\,\nabla_x\mathfrak{I}$$
+
+          ($\Gamma$: size of the kicks; $\mathsf{Q}$: antisymmetric circulation.)
+        feedback: |
+          A flow up the surprise would push the state to ever less probable places, adding to the spreading instead of opposing it. The sign is minus: down the surprise.
+      - body: |
+          Random kicks push the state to improbable places, so a steady state needs a **flow** that opposes them. Without it the system settles to equilibrium, with no net current at all:
+
+          $$f=-\Gamma\,\nabla_x\mathfrak{I}\ \text{only}$$
+        feedback: |
+          The part $-\Gamma\nabla_x\mathfrak{I}$ alone balances the kicks, but a living, nonequilibrium system may also circulate along the contours of the surprise, through the antisymmetric $\mathsf{Q}$. That part moves it without changing $P$.
+    explanation: |
+      A system with no such flow disperses, its surprise growing indefinitely, like the ball on the plateau.
+
+  - id: bound
+    title: Free energy bound
+    row: 3
+    col: 3
+    body: |
+      Surprise cannot be computed, but free energy $F$ can. It is an **upper bound** on surprise, and the gap is a divergence from the exact posterior:
+
+      $$\begin{aligned}F\;&=D_{\mathrm{KL}}[Q(x)\,\|\,P(x\mid y)]\\&\quad-\ln P(y)\\&\ge\mathfrak{I}(y)\end{aligned}$$
+    decoys:
+      - body: |
+          Surprise cannot be computed, but free energy $F$ can. It is a **lower bound** on surprise, and the gap is a divergence from the exact posterior:
+
+          $$\begin{aligned}F\;&=D_{\mathrm{KL}}[Q(x)\,\|\,P(x\mid y)]\\&\quad-\ln P(y)\\&\le\mathfrak{I}(y)\end{aligned}$$
+        feedback: |
+          The direction is reversed. A divergence is never negative, so adding it to the surprise can only raise the total: $F$ sits above surprise, and driving $F$ down pushes surprise down.
+      - body: |
+          Surprise cannot be computed, but free energy $F$ can. It is an **upper bound** on surprise, and the gap is a divergence from the exact posterior. It is the entropy of the **world** that $F$ penalises:
+
+          $$F=\mathbb{E}_{Q(x)}\bigl[-\ln P(y,x)\bigr]+H[Q(x)]$$
+        feedback: |
+          Two slips. The entropy enters with a minus sign, $-H[Q(x)]$, so minimising $F$ favours broad beliefs. And it is the entropy of the creature's belief $Q$, not of the world.
+    explanation: |
+      Variational free energy measures a belief state, and it is efficient to minimise even when the evidence is not.
+
+  - id: least
+    title: Least Action
+    row: 4
+    col: 1
+    body: |
+      Minimising free energy gives the path of **least Action** (capital A: the integral of a Lagrangian over a path) from the current state to the desired one. It is the Hamiltonian principle of least Action applied to **behaviour**, with the Hamiltonian being the surprise.
+    decoys:
+      - body: |
+          Minimising free energy gives the path of **least Action** (capital A: the integral of a Lagrangian over a path) from the current state to the desired one. It is a rule for the **motion of the particles of the body**, with the Hamiltonian being the free energy of a heat bath.
+        feedback: |
+          The free energy here measures a belief state, not the particles of the body, and the Hamiltonian is the surprise $-\ln P(y)$. The principle is applied to the creature's behaviour.
+      - body: |
+          Minimising free energy gives the path of **least Action** (capital A: the integral of a Lagrangian over a path) from the current state to the desired one. It holds only for systems in **equilibrium**, with no net flow.
+        feedback: |
+          Living creatures are open, nonequilibrium systems that keep exchanging with the world. The steady state of the flow box has a nonzero circulation, so the principle is stated for nonequilibrium steady states.
+    explanation: |
+      The same variational principle that gives Newton's laws now gives a creature's behaviour.
+
+  - id: percact
+    title: Perception and action
+    row: 4
+    col: 3
+    body: |
+      **Perception** changes the internal states $\mu$, which shrinks the divergence term of $F$. **Action** changes the data $y$ through the active states $u$, which lowers the term $-\ln P(y)$. Both lower $F$.
+    decoys:
+      - body: |
+          **Perception** changes the data $y$ through the active states $u$, which lowers the term $-\ln P(y)$. **Action** changes the internal states $\mu$, which shrinks the divergence term of $F$. Both lower $F$.
+        feedback: |
+          The roles are swapped. Moving the belief is perception, and it cannot change the data. Acting on the world is what changes the data.
+      - body: |
+          **Perception** changes the internal states $\mu$, which shrinks the divergence term of $F$. **Action** changes the model $P(y,x)$, so that the data become expected. Both lower $F$.
+        feedback: |
+          A creature that lowers its expectations to match the cold is still cold. Its preferences stay in the model as priors, and action changes the world until they are fulfilled.
+    explanation: |
+      Two kinds of states, two jobs, one objective: perception is the descriptive side and action the prescriptive side.
+
+  - id: depth
+    title: Temporal depth
+    row: 5
+    col: 2
+    body: |
+      A creature that only minimises $F$ reacts to the **sensed present**. A model with a **future** and with the **consequences of actions** lets it also select among alternative futures.
+    decoys:
+      - body: |
+          A creature that only minimises $F$ reacts to the **sensed present**. A model with a **longer memory of the past** lets it also select among alternative futures.
+        feedback: |
+          Remembering more is not enough. The model must represent what would happen under each course of action, which means a future and the consequences of actions.
+      - body: |
+          A creature that only minimises $F$ **plans its future**. A model with a **future** only adds the sensed present.
+        feedback: |
+          It is the reverse. $F$ scores a belief against an observation that has arrived, so a creature minimising only $F$ lives in the present.
+    explanation: |
+      Temporal depth is what turns a reacting system into an agent.
+
+  - id: policy
+    title: Policies and G
+    row: 6
+    col: 2
+    body: |
+      The creature gives a prior to each **policy** $\pi$ (a plan) through the expected free energy $G$, minimised:
+
+      $$P(\pi)=\sigma(-G(\pi))$$
+
+      The lowest $G$ is the most probable policy. $G$ favours low **ambiguity**.
+    decoys:
+      - body: |
+          The creature gives a prior to each **policy** $\pi$ (a plan) through the expected free energy $G$:
+
+          $$P(\pi)=\sigma(G(\pi))$$
+
+          The highest $G$ is the most probable policy. $G$ favours low **ambiguity**.
+        feedback: |
+          The minus sign is missing. $G$ is a cost, so the exponent carries $-G$; with $+G$ the worst policy would be the most probable.
+      - body: |
+          The creature scores each **state** $s$ with a stored **value** $V(s)$ learned by trial and error, and walks to the highest value:
+
+          $$s^\star=\arg\max_s V(s)$$
+
+          A preference is a reward kept apart from beliefs.
+        feedback: |
+          That is the reinforcement-learning route. Here there is no value table: the preference is a prior belief, and the behaviour follows from the belief over policies.
+    explanation: |
+      Behaviour follows from beliefs: preferring means expecting, and acting on the most probable policy realises it.
+
+  - id: school
+    title: Three schools reconciled
+    row: 7
+    col: 2
+    body: |
+      One principle covers the **enactive** view (the blanket keeps a thing separate and going), the **cybernetic** view ($F$ as a prediction error that is reduced), and the **predictive** view (a model that scores policies by $G$).
+    decoys:
+      - body: |
+          One principle covers the **enactive** view (the stimulus triggers the response), the **cybernetic** view ($F$ as a prediction error that is reduced), and the **predictive** view (a model that scores policies by $G$).
+        feedback: |
+          Stimulus-response is the view that Active Inference rejects: action starts from a predicted consequence, a belief, and the creature must even attenuate sensory evidence that contradicts it.
+      - body: |
+          One principle covers the **enactive** view (the blanket keeps a thing separate and going), the **cybernetic** view (a fixed set point is compared with the output), and the **predictive** view (the world is in **equilibrium** with the brain).
+        feedback: |
+          The fixed set point is replaced by a goal held as a prior in a model, and the creature is a nonequilibrium system, not one in equilibrium. A good regulator must be, or contain, a model of what it controls.
+    explanation: |
+      Self-organisation, goal-direction and model-based control are three views of the same minimisation.
+
+edges:
+  - { from: blanket, to: steady, label: makes possible }
+  - { from: blanket, to: selfev, label: lets the inside model }
+  - { from: steady, to: flow, label: needs }
+  - { from: selfev, to: bound, label: is bounded by }
+  - { from: flow, to: least, label: gives }
+  - { from: bound, to: percact, label: reduced by }
+  - { from: least, to: depth, label: extended in time }
+  - { from: percact, to: depth, label: plus a future }
+  - { from: depth, to: policy, label: scored by }
+  - { from: policy, to: school, label: reconciles }
+  - { from: steady, to: selfev, dashed: true }
+outroTitle: Level 3 in one picture
+outro: |
+  A creature with external states $x$, internal states $\mu$ and blanket $b=(u,y)$ obeys $\mu\perp x\mid b$, and **persists** with a steady-state density $P(y)$ over its sensory states $y$. Its surprise is
+
+  $$\mathfrak{I}(y)=-\ln P(y)$$
+
+  **Left, the physics.** The flow descends the surprise, and the Hamiltonian principle of least Action applies to behaviour. **Right, the statistics.** Maximising model evidence is minimising surprise, and the variational free energy
+
+  $$\begin{aligned}F\;&=D_{\mathrm{KL}}[Q(x)\,\|\,P(x\mid y)]\\&\quad-\ln P(y)\\&\ge\mathfrak{I}(y)\end{aligned}$$
+
+  is a tractable upper bound. **Perception** lowers it through $\mu$, **action** through $y$.
+
+  Adding a model with a future gives **policies** $\pi$ with the prior
+
+  $$P(\pi)=\sigma(-G(\pi))$$
+
+  ($G$ minimised, never negated). The enactive, cybernetic and predictive schools are three views of this one minimisation.

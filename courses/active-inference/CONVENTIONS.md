@@ -63,6 +63,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - ch03-reconciliation: three schools map to blanket (enactive), $F$ as prediction error (cybernetic), generative model + policies + attenuation of sensory evidence (predictive/ideomotor); good regulator = controller must be/contain a model; chapter arc: blanket, persistence, surprise, $F$ bound, policies with $G$.
 
 - ch03-blanket-traps: fish out of water $P=0.001\to6.9$ nats; shelter $2\cdot3+8\cdot0.2=7.6$ vs staying 10; $G=1,2\to0.731$; blanket $(u,y)$ = interface, neither external nor internal.
+- ch03-map: 11 boxes (ids blanket, steady, selfev, flow, bound, least, percact, depth, policy, school); flow box $f=-(\Gamma-\mathsf{Q})\nabla_x\mathfrak{I}$.
 
 ## Chapter 4
 
