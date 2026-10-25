@@ -1,0 +1,250 @@
+id: ch05-neuro-traps
+title: Neurobiology Traps
+kind: traps
+
+cards:
+  - type: text
+    id: intro
+    title: Trap round
+    body: |
+      Fast round: each question hides a tempting over-reading of the **mapping between the equations and the brain**. Everything in this level is a **process theory**: a proposal of how the message passing of the equations *could be mapped to* cells, layers and chemicals. It is not a proven wiring diagram. Answer quickly, then read the feedback, especially when you got it right for a shaky reason.
+
+      Recall the cast. A **prediction error** is a difference between data and prediction, $\epsilon=y-g(\mu)$; a **precision** $\Pi$ is the inverse variance, the trust given to a message; an **expectation unit** holds a belief $\mu$. In the discrete model, $s$ are hidden states, $o$ outcomes, $\pi$ a policy, and the policy probabilities are $\pi=\sigma(-\mathbf G-\mathbf F)$. The **cortical column** has layers I to VI, counted from the surface.
+
+  - type: mcq
+    id: error-unit
+    title: What does an error unit report?
+    prompt: |
+      In predictive coding, an **error unit** is a cell that holds a prediction error, the difference between what arrives and what was predicted. A student says "an error unit is a neuron that reports reward, a good surprise". Which statement is right?
+    options:
+      - text: 'An error unit reports a mismatch about **any** quantity the model predicts (a pixel, an arm angle, a hidden cause one level up). Its sign says whether the data are above or below the prediction; it has nothing to do with reward.'
+        correct: true
+      - text: 'Yes: error units are the cells that fire when something better than expected happens.'
+        feedback: |
+          Reward-like language belongs to preferences and to the expected free energy $\mathbf G$. An error unit fires for any mismatch, good, bad or neutral, and can go negative (fewer spikes than the baseline) when the data fall **below** the prediction.
+      - text: 'An error unit reports only mismatches in the sensory data, never in hidden causes.'
+        feedback: |
+          Every level of the hierarchy has errors: the one between the data and the prediction of the data, and the ones between a hidden cause and what the level above predicts for it.
+    explanation: |
+      An error unit is defined by its inputs (data or expectation excitatory, prediction inhibitory), not by what the quantity means for the animal. Whether an error is "good" depends on the preferences $\mathbf C$, which enter policy selection through $\mathbf G$.
+
+  - type: mcq
+    id: one-synapse
+    title: One arrow, one synapse?
+    prompt: |
+      In a diagram of the cortical column, an arrow with a round end means that the sending population **inhibits** the receiving one. A student says "each such arrow is one inhibitory synapse". Which statement is right?
+    options:
+      - text: 'An arrow is a **message**, not a synapse. A descending inhibition onto layer III can be disynaptic: the descending fibre excites an inhibitory interneuron in layer IV, and that interneuron inhibits layer III.'
+        correct: true
+      - text: 'True: a round end can only be drawn for a direct inhibitory synapse.'
+        feedback: |
+          The diagram shows the **net sign** of the message. The signal can pass through an interneuron on its way (excite the interneuron, which then inhibits), and the net effect is still an inhibition.
+      - text: 'False: inhibition can only be produced by a chain of at least three cells.'
+        feedback: |
+          One inhibitory cell can inhibit its target directly. The point is only that a drawn arrow may hide one or more cells in between.
+    explanation: |
+      Equations ask for a **sign** (the prediction must be subtracted from the data); biology offers many ways to build that sign. The diagram is a simplification, and the real wiring has more synapses.
+
+  - type: mcq
+    id: direction-flip
+    title: Which way do errors go?
+    prompt: |
+      In the cortical hierarchy, a signal travelling towards higher areas is **ascending**, towards lower areas **descending**. A student says "descending signals are errors and ascending signals are predictions". Select the correct statement.
+    shuffle: false
+    options:
+      - text: 'False. In the predictive-coding proposal, **ascending** messages are precision-weighted prediction errors and **descending** messages are predictions.'
+        correct: true
+      - text: 'True. Higher areas compute errors and send them down to correct the senses.'
+        feedback: |
+          Reversed. A higher area sends down what it **expects** the level below to show; the lower level compares that prediction with its own data and sends the leftover error up. Errors are what the higher level has not yet explained.
+      - text: 'It depends on the species: the direction of errors is not fixed by the theory.'
+        feedback: |
+          The proposal fixes it: expectations (predictions) flow down, errors flow up. Whether real cortex does so is an empirical question, but the roles are not free.
+    explanation: |
+      Think of a manager and a worker: the manager passes down the expectation, the worker reports back only the surprise. That is why a well-predicted input produces a small ascending signal.
+
+  - type: mcq
+    id: discrete-ascending
+    title: Ascending in the discrete circuit
+    prompt: |
+      In the circuit for the **discrete** model (hidden states $s$, policies $\pi$), a student says "ascending messages are prediction errors, exactly as in continuous predictive coding". What does the proposal say the ascending messages are?
+    options:
+      - text: 'Expectations over hidden states, mixed over policies: $\mathbf s=\sum_\pi \pi\,\mathbf s_\pi$, the average of the policy-specific beliefs $\mathbf s_\pi$ weighted by the policy probabilities. Prediction errors stay inside the area.'
+        correct: true
+      - text: 'Prediction errors, as in the continuous case: all message passing is error passing.'
+        feedback: |
+          In the discrete circuit the errors $\boldsymbol\epsilon_\pi$ are local (they sit in layer IV and update the policy-specific belief). What leaves the area upward is the belief itself.
+      - text: 'The policies $\pi$ themselves, not the states.'
+        feedback: |
+          The policy probabilities are used to **weight** the mixture. What is passed between areas is the mixture of beliefs about hidden states.
+    explanation: |
+      For example, with $\mathbf s_{\pi_1}=(0.8,0.2)$, $\mathbf s_{\pi_2}=(0.3,0.7)$ and $\pi=(0.69,0.31)$ the ascending message is $\mathbf s=(0.645,0.355)$, since $0.69\cdot0.8+0.31\cdot0.3=0.645$. The discrete and continuous circuits share the layers, not the message types.
+
+  - type: numeric
+    id: attenuation-rate
+    title: Does attenuation speed up the reflex?
+    prompt: |
+      One-level arm model: the arm sits at angle $y=0$, the descending prediction (prior mean) is $\eta=1$, the belief $\mu$ is read out as the predicted arm angle, the prior precision is $\Pi_v=1$ and the muscle activity moves the arm with $\partial y/\partial u=1$. After perception settles, the reflex acts at the initial rate
+      $$\dot u=\frac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}(\eta-y),$$
+      where $\Pi_y$ is the sensory precision. A student says "turning the sensory precision **down** from $\Pi_y=4$ to $\Pi_y=\tfrac14$ makes the reflex faster". What is the ratio of the rate at $\Pi_y=\tfrac14$ to the rate at $\Pi_y=4$?
+    answer: 0.25
+    tolerance: 0.01
+    answerText: '0.25'
+    wrong:
+      - { value: 4, tolerance: 0.01, feedback: "That would be the ratio if the rate **grew** when the precision falls. It does the opposite: the rate is a precision-weighted quantity." }
+      - { value: 1, tolerance: 0.01, feedback: "The rate does depend on $\\Pi_y$, through the weight $\\Pi_y\\Pi_v/(\\Pi_y+\\Pi_v)$." }
+      - { value: 16, tolerance: 0.01, feedback: "That is $\\Pi_y$ going from $\\tfrac14$ to $4$, the inverse of the change asked for, and it is a ratio of precisions, not of rates." }
+    hint: |
+      Compute the rate for each $\Pi_y$ with the formula, then divide.
+    explanation: |
+      At $\Pi_y=4$: $\tfrac{4\cdot1}{5}\cdot1=0.8$. At $\Pi_y=\tfrac14$: $\tfrac{0.25}{1.25}\cdot1=0.2$. The ratio is $0.2/0.8=0.25$: attenuation makes the arm start **more slowly**. What it protects is the belief "I am moving", which would otherwise be corrected by the still arm before the reflex could act.
+
+  - type: mcq
+    id: dopamine-reward
+    title: Does dopamine signal reward?
+    prompt: |
+      In the policy equation $\pi=\sigma(-\gamma\mathbf G)$, $\gamma$ is a precision (an inverse temperature): the confidence in the expected free energies $\mathbf G$. A student says "dopamine is the reward signal, so it must be $\mathbf G$". Which statement fits the proposal best?
+    options:
+      - text: 'Dopamine could be mapped to the precision $\gamma$ of the policy beliefs, a **confidence** that sharpens the choice between policies. It is not $\mathbf G$ and it is not reward as such.'
+        correct: true
+      - text: 'Dopamine is the value $-\mathbf G$ itself: the larger, the better the policy.'
+        feedback: |
+          $\mathbf G$ is carried by the policies' own evaluation; $\gamma$ only scales it. With $\mathbf G=(1,0.8)$, $\gamma=0$ gives $(0.5,0.5)$ whatever $\mathbf G$ is, and $\gamma=4$ gives $0.690$ for the better policy.
+      - text: 'Dopamine reports prediction errors about outcomes, as error units do.'
+        feedback: |
+          The proposal puts dopamine on the policy precision $\gamma$, a gain on the choice, not on the sensory errors. (The link between dopamine and reward prediction errors is a well-known finding that the proposal tries to reinterpret, but it does not make dopamine an error unit.)
+    explanation: |
+      Raising $\gamma$ makes the softmax sharper, so the same $\mathbf G$ gives a more decisive choice. The identification is a hypothesis: nothing in the equations forces it.
+
+  - type: mcq
+    id: ach-na
+    title: Which modulator for which precision?
+    prompt: |
+      A model has two kinds of precision: the **likelihood precision** $\zeta$, the trust in the mapping from hidden states to outcomes, and the **transition precision** $\omega$, the trust in how states evolve in time. A student says "acetylcholine is about transitions, noradrenaline about the likelihood". Which pairing is the one in the proposal?
+    options:
+      - text: 'Acetylcholine could be mapped to the likelihood precision $\zeta$, and noradrenaline to the transition precision $\omega$.'
+        correct: true
+      - text: 'Acetylcholine to transitions $\omega$, noradrenaline to the likelihood $\zeta$ (as the student says).'
+        feedback: |
+          Swapped. Acetylcholine is the sensory one (trust in how outcomes follow from states); noradrenaline is the one about change over time.
+      - text: 'Both to the likelihood; only dopamine concerns the dynamics.'
+        feedback: |
+          Dopamine is on the policy precision $\gamma$. Transitions have their own modulator, noradrenaline.
+    explanation: |
+      One handy check: with a blurred likelihood ($A_{11}=0.55$) the evidence is weak and beliefs move little (open belief $0.212$ against $0.468$ for $A_{11}=0.8$); with sharp transitions the past carries more weight. Each modulator turns one gain.
+
+  - type: mcq
+    id: go-stop
+    title: Is the direct pathway "go"?
+    prompt: |
+      The basal ganglia have a **direct** pathway (striatal cells with D1 receptors, one inhibitory step to the output nucleus) and an **indirect** pathway (D2 cells, through the external pallidum and the subthalamic nucleus). A student says "the direct pathway is the go signal, the indirect pathway the stop signal". Which statement is best?
+    options:
+      - text: 'In the proposal they are two **terms of the policy score**: the direct pathway could carry $-\mathbf G$ (its net sign is negative), the indirect pathway the prior $+\ln\mathbf E$, in $\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$. "Go" and "stop" is a rough shorthand, not what the equations say.'
+        correct: true
+      - text: 'The shorthand is exact: the direct pathway selects a policy and the indirect pathway always vetoes it.'
+        feedback: |
+          Both pathways feed one competition between policies; the indirect pathway is not a veto but a context-dependent prior (a habit-like term $\mathbf E$) added to the score.
+      - text: 'The direct pathway carries the data and the indirect pathway the predictions.'
+        feedback: |
+          Neither carries sensory data. They are routes for the policy evaluation terms.
+    explanation: |
+      Counting signs: the indirect chain has two inhibitory synapses and one excitatory one, $(-)(-)(+)=+$, which matches $+\ln\mathbf E$; the direct pathway's net sign is $-$, matching $-\mathbf G$. The proposal is a simplification of real connectivity, so "go/stop" survives only as a first impression.
+
+  - type: mcq
+    id: layer-v
+    title: One kind of message from layer V?
+    prompt: |
+      Layer V of the cortex projects to the spinal cord and to the striatum. A student says "layer V is the output layer, so it carries one kind of message, the prediction". Select **all** statements that agree with the proposal.
+    multiple: true
+    options:
+      - text: 'To the spinal cord, layer V could send a prediction of proprioceptive sensations (the Betz cells of motor cortex); the error is formed in the spinal cord.'
+        correct: true
+      - text: 'To the striatum, layer V could send the predicted outcomes $\mathbf o_\pi$ of each policy and their log-difference from the preferences, $\boldsymbol\varsigma_\pi=\ln\mathbf o_\pi-\ln\mathbf C$.'
+        correct: true
+      - text: 'Layer V sends the same prediction to every target, because a cell has one message.'
+        feedback: |
+          Different populations of layer V, belonging to different circuits (continuous for the muscles, discrete for the policies), send different quantities. "Layer V" names a place, not a message.
+      - text: 'Layer V sends the sensory errors to the striatum.'
+        feedback: |
+          Errors arrive in layer IV. What goes to the striatum is a predicted outcome and its difference from the preference, from which the expected free energy is built.
+    explanation: |
+      The same layer can serve a continuous circuit (movement, via the spinal cord) and a discrete one (policy evaluation, via the striatum). The label of a layer does not fix the content of the message.
+
+  - type: mcq
+    id: thalamus-relay
+    title: Only a relay?
+    prompt: |
+      The thalamus sits on the route between the senses and the cortex. It has **primary** nuclei (such as the one relaying the eye to visual cortex) and **secondary** nuclei (the pulvinar and the mediodorsal nucleus). A student says "the thalamus is a passive relay, so it plays no role in message passing". Which statement is best?
+    options:
+      - text: 'Primary nuclei could behave like a low level of the hierarchy (holding the data, first-order statistics); secondary nuclei **could** handle second-order statistics, the precisions. This is a hypothesis, not a result.'
+        correct: true
+      - text: 'It is established that the pulvinar computes precisions, so the thalamus is far more than a relay.'
+        feedback: |
+          Too strong. The suggestion is speculative: it only says that the primary/secondary division would mirror first-order/second-order statistics.
+      - text: 'The proposal says nothing about the thalamus.'
+        feedback: |
+          It does: it gives the thalamus a role in the hierarchy, as a lower cortical area for primary nuclei and a place for precision for secondary ones.
+    explanation: |
+      Both extremes over-read: "just a relay" ignores a candidate role the theory offers, and "proven precision computer" turns a conjecture into a fact. The honest summary is a possible mapping awaiting evidence.
+
+  - type: mcq
+    id: gamma-proof
+    title: Does the gamma band prove it?
+    prompt: |
+      A textbook-level observation: the **ascending** messages seem to be carried by fast oscillations (gamma band, about 30-100 Hz) and the **descending** ones by slower alpha and beta rhythms (about 8-30 Hz). A student says "ascending errors are in the gamma band, so predictive coding is proven". Which statement is right?
+    options:
+      - text: 'Finding such a pattern is **consistent with** the proposal, but it does not prove it: other theories can also place fast and slow rhythms in different directions. It is an empirical prediction that could fail.'
+        correct: true
+      - text: 'Yes: a theory that predicts a frequency pattern and finds it has been proven.'
+        feedback: |
+          A confirmed prediction raises confidence; it cannot prove, since rival accounts could predict the same pattern.
+      - text: 'It says nothing: oscillations have no connection to message passing in the theory.'
+        feedback: |
+          The proposal ties them together: for instance a $\sin^2$ error term oscillates at twice the frequency of the underlying signal, which is why errors could sit at higher frequencies than predictions.
+    explanation: |
+      The frequency values are textbook figures and the link to the theory is an empirical claim. A good process theory gives testable predictions; a single consistent observation is a reason to keep testing, not a theorem.
+
+  - type: order
+    id: gain-vs-learning
+    title: Fast gain, slow learning
+    prompt: |
+      A student says "learning is just changing the gain of a signal". Gain (precision) and learning (parameters of the model) work on **different timescales**. Put these events in the order they happen, fastest first. (Setup: a likelihood matrix $\mathbf A$ with Dirichlet counts $\mathbf a$, all initially $1$, and an observation of outcome 1 while the belief over two states is $\mathbf s=(0.9,0.1)$.)
+    steps:
+      - 'At the start of a trial, the gain (precision) is set: it rescales how strongly errors pull the belief.'
+      - 'Within the trial, the belief $\mathbf s$ settles: $\mathbf s=(0.9,0.1)$.'
+      - 'After the observation, the counts are updated: $\mathbf a\leftarrow\mathbf a+\mathbf o\otimes\mathbf s$, which raises the first column of row 1 to $1.9$.'
+      - 'Over many trials, the likelihood is read off the counts, and $A_{11}$ drifts to $1.9/2.9\approx0.655$.'
+    hint: |
+      Precision and belief change within a trial; counts change after it; the matrix they define changes slowly.
+    explanation: |
+      **Gain** (precision) is fast: it can change from one moment to the next and acts on how errors are weighted. **Learning** is slow: it changes the parameters (here the counts $\mathbf a$, and so the likelihood $A_{11}=1.9/(1.9+1)=1.9/2.9\approx0.655$ after one update, from $0.5$), which could be mapped to changes in synaptic efficacy. Gain is not learning; learning is not gain.
+
+  - type: numeric
+    id: reverse-hierarchy
+    title: Which level is discrete?
+    prompt: |
+      A student says "the top of the hierarchy is a continuous model and the bottom a discrete one". In fact, a hierarchy that mixes the two puts a **discrete** level on top: it chooses between two hypotheses, left ($\eta=-1$) and right ($\eta=+1$) with equal prior, and each predicts the mean of the **continuous** cause below. The continuous data are $y=0.5$ with precision $\Pi_y=2$, and the free energy of each state is $F_s=\tfrac12\Pi_y(y-\eta_s)^2$, the other terms being equal. The posterior over states is $Q(s)=\sigma(-F)_s$. What is $Q(\text{right})$?
+    answer: 0.881
+    tolerance: 0.002
+    answerText: '0.881'
+    wrong:
+      - { value: 0.5, tolerance: 0.002, feedback: "That is the prior. The data favour right ($\\eta=+1$ is close to $y=0.5$), so the posterior must move away from $0.5$." }
+      - { value: 0.119, tolerance: 0.002, feedback: "That is $Q(\\text{left})$. The state that fits the data gets the larger share." }
+      - { value: 0.9, tolerance: 0.002, feedback: "A softmax uses exponentials of $-F$, not a ratio of the $F$ values themselves." }
+    hint: |
+      Compute $F_{\text{left}}$ and $F_{\text{right}}$, then $Q(\text{right})=e^{-F_{\text{right}}}/(e^{-F_{\text{left}}}+e^{-F_{\text{right}}})$.
+    explanation: |
+      $F_{\text{left}}=\tfrac12\cdot2\cdot(0.5+1)^2=2.25$ and $F_{\text{right}}=\tfrac12\cdot2\cdot(0.5-1)^2=0.25$. Then $Q(\text{right})=\dfrac{e^{-0.25}}{e^{-2.25}+e^{-0.25}}=\dfrac{1}{1+e^{-2}}\approx0.881$. The discrete level (a choice among hypotheses) sits **above** and supplies the prior mean $\eta$ of the continuous level; the continuous level, which touches the senses and muscles, sits below.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      Traps avoided (setup: predictive coding with data $y$, belief $\mu$, error $\epsilon=y-g(\mu)$, precision $\Pi$; discrete model with states $s$, policies $\pi$, expected free energy $\mathbf G$; every mapping to the brain is a proposal):
+
+      - An error unit holds a mismatch about **any** predicted quantity, not reward. One arrow of a diagram is a message, possibly disynaptic. **Ascending** messages are errors and **descending** are predictions in the continuous circuit; in the discrete circuit the ascending message is the mixture $\mathbf s=\sum_\pi\pi\,\mathbf s_\pi$.
+      - Attenuating sensory precision protects the belief but **slows** the reflex: rate $\dfrac{\Pi_y\Pi_v}{\Pi_y+\Pi_v}(\eta-y)$ is $0.8$ at $\Pi_y=4$ and $0.2$ at $\Pi_y=\tfrac14$.
+      - Dopamine could be the policy precision $\gamma$ in $\pi=\sigma(-\gamma\mathbf G)$; acetylcholine the likelihood precision $\zeta$, noradrenaline the transition precision $\omega$. Direct and indirect pathways are terms $-\mathbf G$ and $+\ln\mathbf E$ of $\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$, not simply go and stop.
+      - Layer V carries different messages to different targets; the thalamus may host precision; the gamma pattern is consistent evidence, not proof. Gain is fast, learning ($\mathbf a\leftarrow\mathbf a+\mathbf o\otimes\mathbf s$) is slow. A discrete level sits **above** a continuous one: $Q(\text{right})=1/(1+e^{-2})\approx0.881$.
+
+      **Next:** the chapter map, rebuilt box by box among look-alike decoys.
