@@ -1,0 +1,351 @@
+id: ch04-pomdp-active-inference
+title: "Active Inference in a POMDP"
+kind: concept
+own: |
+  - **The setting (the door model).** A door is *closed* or *open* (hidden state $s_\tau$, step $\tau=1,2,3$), a noisy sensor gives an outcome $o_\tau$, and a policy $\pi$ is a sequence of actions (*push*, *wait*). The model is the four tables $\mathbf A$ (likelihood), $\mathbf B_{\pi\tau}$ (transitions), $\mathbf C_\tau$ (preferred outcomes) and $\mathbf D$ (first state); $\mathbf G_\pi$ is the expected free energy of policy $\pi$, $\mathbf F_\pi$ its variational free energy given the outcomes seen, and $\sigma$ the softmax.
+  - **Perception: beliefs about states by gradient descent.** For each policy, an auxiliary variable $\mathbf v_{\pi\tau}$ stands for the log of the belief $\mathbf s_{\pi\tau}$ (so $\mathbf s_{\pi\tau}$ stays a probability vector), and it descends the gradient of $\mathbf F_\pi$:
+    {{ $$\begin{gathered}\mathbf s_{\pi\tau}=\sigma(\mathbf v_{\pi\tau})\\\dot{\mathbf v}_{\pi\tau}=-\nabla_{\mathbf s}\mathbf F_\pi\end{gathered}$$ }}
+    The right-hand side is a sum of three messages minus $\ln\mathbf s_{\pi\tau}$: the outcome at that step, the past, and the future:
+    $$\begin{aligned}\dot{\mathbf v}_{\pi\tau}=\ &\ln\mathbf A\cdot o_\tau+\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}\\&+\ln\mathbf B_{\pi\tau}\cdot\mathbf s_{\pi,\tau+1}-\ln\mathbf s_{\pi\tau}\end{aligned}$$
+    It stops where the right-hand side is $0$, a minimum of $\mathbf F_\pi$ (beliefs at different steps treated as independent, so not exactly the exact posterior).
+  - **Planning: beliefs about policies.** Minimising the free energy over the policy beliefs $\boldsymbol\pi$ gives
+    {{ $$\boldsymbol\pi=\sigma(-\mathbf G-\mathbf F)$$ }}
+    with $\mathbf F$ and $\mathbf G$ the vectors of $\mathbf F_\pi$ and $\mathbf G_\pi$ over policies, both minimised and both entering with the same minus sign: $\mathbf F$ is how well a policy explained the outcomes so far (the past), $\mathbf G$ how good it promises to be (the future).
+  - **A habit prior** $\mathbf E$ (a fixed vector of policy probabilities) adds a term:
+    {{ $$\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$$ }}
+  - **The loop.** Perceive (descend $\mathbf F$ for each policy), plan (compute $\boldsymbol\pi$), act (choose a policy and execute its first action), observe, repeat. Perception and planning are the same scheme: minimise one free energy.
+cards:
+  - type: mcq
+    id: hook
+    title: "The plan that the data refuse"
+    prompt: |
+      Before any theory, guess. A door is probably closed, and the agent likes seeing it open. Its best-looking plan *before* any data is "push, then push again", because pushing a closed door usually opens it. Now the agent pushes, and its sensor keeps reporting **looks closed**, step after step. Should its confidence in the plan "push, push" stay the same?
+    options:
+      - text: 'Yes: the plan was chosen for what it promises, and the future is what matters.'
+        feedback: |
+          The promise of a plan is computed from the model. If the data keep contradicting what the plan predicts (an opening door), the model is likely wrong about the plan, so the promise is worth less. Planning must listen to the past.
+      - text: 'It should drop: the plan explained the data badly.'
+        correct: true
+      - text: 'It should rise: pushing more is the only way to open it.'
+        feedback: |
+          Data that clash with a plan's predictions count against the plan, not for it. Repeating a push that has not worked is a way of ignoring the evidence.
+    explanation: |
+      A policy is a hypothesis about how the world will respond, and the data seen so far test it. A plan whose predictions ("the door opens") were contradicted should lose weight; a plan that predicted the data (for instance "wait, wait", which predicts a door that stays closed) gains. This lesson turns the idea into one formula, with the past (the free energy $F$) and the promise (the expected free energy $G$) side by side.
+
+  - type: text
+    id: recall
+    title: "Recall: the door model"
+    body: |
+      The hidden state is the door, *closed* or *open*, at steps $\tau=1,2,3$ (written $s_\tau$, the old $x$); the outcome is what a noisy sensor reports (written $o_\tau$, the old $y$). A **policy** $\pi$ is a sequence of actions (*push*, *wait*). Four tables, each column a probability list, define the model: the likelihood $\mathbf A$, the transitions $\mathbf B_{\pi\tau}$, the preferred outcomes $\mathbf C_\tau$ and the first-state prior $\mathbf D$. Predicted state probabilities are $\mathbf s_{\pi\tau}$ and $\sigma$ is the softmax (exponentiate and normalise).
+
+      Two numbers weigh a policy. The **free energy of a policy**, given the outcomes $o_\tau$ actually seen (with $\mathbf s_{\pi,0}:=\mathbf D$):
+      $$\begin{aligned}\mathbf F_\pi=\sum_\tau\mathbf s_{\pi\tau}\cdot\big(&\ln\mathbf s_{\pi\tau}-\ln\mathbf A\cdot o_\tau\\&-\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}\big)\end{aligned}$$
+      and the **expected free energy**, which only needs predictions (the ambiguity $\mathbf H$ is the entropy of the sensor for each state):
+      $$\mathbf G_{\pi\tau}=\mathbf H\cdot\mathbf s_{\pi\tau}+\mathbf o_{\pi\tau}\cdot\big(\ln\mathbf o_{\pi\tau}-\ln\mathbf C_\tau\big)$$
+      Both are to be **minimised**. Two questions remain: how do the beliefs $\mathbf s_{\pi\tau}$ (perception), and the policy probabilities (planning), come out of these? Both by descending one free energy.
+
+  - type: text
+    id: gradient
+    title: "Perception: descend the free energy"
+    body: |
+      Fix a policy $\pi$. The beliefs $\mathbf s_{\pi\tau}$ are chosen to make $\mathbf F_\pi$ small. A probability vector must stay positive and add to $1$, so we do not move $\mathbf s_{\pi\tau}$ directly. We move an **auxiliary variable** $\mathbf v_{\pi\tau}$ that stands for the log of the belief, and read the belief off with the softmax:
+      $$\mathbf s_{\pi\tau}=\sigma(\mathbf v_{\pi\tau})$$
+      Whatever values $\mathbf v$ takes, $\sigma(\mathbf v)$ is a valid probability vector. Then $\mathbf v$ slides downhill on the free energy (a **gradient descent**; the dot on $\mathbf v$ is its rate of change in time):
+      $$\dot{\mathbf v}_{\pi\tau}=-\nabla_{\mathbf s}\mathbf F_\pi$$
+      Take the gradient of $\mathbf F_\pi$ with respect to the belief at step $\tau$. Three terms of the free energy contain it: the step's own $\ln\mathbf s_{\pi\tau}$, the outcome term $\ln\mathbf A\cdot o_\tau$, and the transition terms linking it to the steps before and after. The result is a sum of **messages**:
+      $$\begin{aligned}\dot{\mathbf v}_{\pi\tau}=\ &\ln\mathbf A\cdot o_\tau+\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}\\&+\ln\mathbf B_{\pi\tau}\cdot\mathbf s_{\pi,\tau+1}-\ln\mathbf s_{\pi\tau}\end{aligned}$$
+      The first message is the **outcome** seen at step $\tau$, the second comes from the **past** (the belief one step before, pushed through the transition), the third from the **future** (the belief one step after, sent backward through the transition), and $-\ln\mathbf s_{\pi\tau}$ pulls back. Everything is local: a step only needs its own outcome and its two neighbours.
+
+      **Notation.** $\ln\mathbf A\cdot o_\tau$ is the row of $\ln\mathbf A$ belonging to the outcome seen (taking $\ln$ entry by entry). The future message is written compactly here; differentiating $\mathbf F_\pi$ exactly gives it a slightly more elaborate form (the transition transposed, with the belief divided by the prediction), and the widget below uses the exact gradient.
+
+  - type: widget
+    id: messages
+    review: false
+    widget: pomdp-lab
+    config:
+      mode: infer
+      modes: [infer]
+      showA: false
+      showB: false
+      showD: false
+      showPolicies: false
+      obs: [-1, 1, -1]
+      states: [closed, open]
+      outcomes: ['looks closed', 'looks open']
+      actions: [push, wait]
+      short: { states: [clo, open], outcomes: [looks clo, looks open] }
+      A: [[0.8, 0.2], [0.2, 0.8]]
+      B: { push: [[0.2, 0.05], [0.8, 0.95]], wait: [[0.9, 0.1], [0.1, 0.9]] }
+      D: [0.9, 0.1]
+      C: [0.2, 0.8]
+      T: 3
+      policies: [[push, push], [push, wait], [wait, push], [wait, wait]]
+      policy: 0
+    body: |
+      Policy *push, push*. Only **step 2** has an outcome (*looks open*); steps 1 and 3 have "$-$", no outcome. Press *Play* and watch the bars of the three steps move from flat to their final values. The thick ticks are the exact posterior; the curve is $\mathbf F_\pi$ going down.
+
+      Before the data, the belief at step 1 is the prior $\mathbf D=(0.9,\,0.1)$ and at step 3 the forward prediction $(0.078,\,0.922)$. Compare them with the end values, and try changing the outcome at step 2 to *looks closed*.
+
+  - type: mcq
+    id: messages-q
+    prompt: |
+      In a door model, step 1 starts from the prior $\mathbf D=(0.9,\,0.1)$ (closed, open) and has **no outcome of its own**. The only outcome is *looks open* at step 2. After the belief updates, the probability of *open* at step 1 has gone from $0.10$ to about $0.11$. Which message moved it?
+    options:
+      - text: 'The outcome message $\ln\mathbf A\cdot o_1$ of step 1.'
+        feedback: |
+          Step 1 has no outcome (a flat likelihood adds nothing). That term is the same for both states, so it moves nothing.
+      - text: 'The message from the past: step 1 is the first step, so its past is the prior $\mathbf D$ and the prior is unchanged.'
+        feedback: |
+          The prior $\mathbf D$ is fixed, so the message from the past does not change; it is what keeps the belief near $(0.9,0.1)$.
+      - text: 'The message from the future: step 2 has seen *looks open*, and that is a little more likely if the door was already open at step 1.'
+        correct: true
+      - text: 'Nothing moved it: the change is a rounding error of the descent.'
+        feedback: |
+          The change is real: the exact posterior (the ticks) shows it too. Data about a later step carry information about earlier steps through the transition, and the future message is how a step hears of it.
+    explanation: |
+      Under *push*, a closed door opens with probability $0.8$ and an open door stays open with probability $0.95$, so "open at step 2" is slightly more likely if step 1 was open. The data at step 2 thus nudge step 1 toward *open* (from $0.10$ to $0.11$) through the future message, and nudge step 3 toward *closed* (from $0.078$ to $0.058$) through the past message, by the same reasoning in the other direction.
+
+  - type: build
+    id: fixed-point
+    prompt: |
+      Descent stops where $\dot{\mathbf v}_{\pi\tau}=0$, that is where $\ln\mathbf s_{\pi\tau}$ equals the sum of the three messages. Build the right-hand side (the order of the messages is free).
+    prefix: '\ln\mathbf s_{\pi\tau}='
+    tiles: ['\ln\mathbf A\cdot o_\tau', '+', '\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}', '+', '\ln\mathbf B_{\pi\tau}\cdot\mathbf s_{\pi,\tau+1}', '-', '\ln\mathbf D']
+    answers:
+      - ['\ln\mathbf A\cdot o_\tau', '+', '\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}', '+', '\ln\mathbf B_{\pi\tau}\cdot\mathbf s_{\pi,\tau+1}']
+      - ['\ln\mathbf A\cdot o_\tau', '+', '\ln\mathbf B_{\pi\tau}\cdot\mathbf s_{\pi,\tau+1}', '+', '\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}']
+      - ['\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}', '+', '\ln\mathbf A\cdot o_\tau', '+', '\ln\mathbf B_{\pi\tau}\cdot\mathbf s_{\pi,\tau+1}']
+      - ['\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}', '+', '\ln\mathbf B_{\pi\tau}\cdot\mathbf s_{\pi,\tau+1}', '+', '\ln\mathbf A\cdot o_\tau']
+      - ['\ln\mathbf B_{\pi\tau}\cdot\mathbf s_{\pi,\tau+1}', '+', '\ln\mathbf A\cdot o_\tau', '+', '\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}']
+      - ['\ln\mathbf B_{\pi\tau}\cdot\mathbf s_{\pi,\tau+1}', '+', '\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}', '+', '\ln\mathbf A\cdot o_\tau']
+    hint: |
+      One message from the outcome seen, one from the step before, one from the step after. Taking a logarithm turns a product of evidence into a sum of messages.
+    explanation: |
+      Setting $\dot{\mathbf v}_{\pi\tau}=0$ in the update leaves $\ln\mathbf s_{\pi\tau}$ equal to the sum of the outcome, past and future messages. Exponentiating gives a *product*: belief is proportional to (likelihood of the outcome) $\times$ (what the past predicts) $\times$ (what the future needs). That is Bayes' rule applied along a chain.
+
+  - type: numeric
+    id: last-step
+    prompt: |
+      Take the **last** step $\tau$ of a model: there is no future message. The step before had the belief $\mathbf D=(0.9,\,0.1)$ (closed, open), the action in between was *push* with $\mathbf B=\begin{pmatrix}0.2&0.05\\0.8&0.95\end{pmatrix}$, and the sensor $\mathbf A=\begin{pmatrix}0.8&0.2\\0.2&0.8\end{pmatrix}$ reports *looks closed*. At the fixed point, what is the belief that the door is **closed**? (Exponentiate the sum of the two messages, then normalise.)
+    answer: 0.476
+    tolerance: 0.002
+    answerText: '0.476'
+    wrong:
+      - { value: 0.185, feedback: 'That is the predicted probability of "closed" after the push (0.185) alone, the past message without the outcome.' }
+      - { value: 0.8, feedback: 'That is the sensor reliability, the entry $A_{11}$ alone. The belief also needs the prediction from the past.' }
+    hint: |
+      Past message: the predicted state after the push, $\mathbf B\mathbf D=(0.185,\,0.815)$. Outcome message: the row of $\mathbf A$ for *looks closed*, $(0.8,\,0.2)$. Multiply entry by entry, then normalise.
+    explanation: |
+      $\mathbf B\mathbf D=(0.2\cdot0.9+0.05\cdot0.1,\ 0.8\cdot0.9+0.95\cdot0.1)=(0.185,\ 0.815)$. Multiply by the likelihood of *looks closed*: $(0.8\cdot0.185,\ 0.2\cdot0.815)=(0.148,\ 0.163)$. Normalising, $0.148/0.311=0.476$. The sensor says *closed* but the prior from the push says *open* (0.815): the belief ends almost undecided.
+
+  - type: text
+    id: policies
+    title: "Planning: beliefs about policies"
+    body: |
+      Perception gave, for each policy $\pi$, the beliefs $\mathbf s_{\pi\tau}$ and its free energy $\mathbf F_\pi$, a number that measures how badly the policy, taken as a model, explains the outcomes seen (low $\mathbf F_\pi$ = explained well). To plan we need a belief about the policies themselves, $Q(\pi)=\mathrm{Cat}(\boldsymbol\pi)$, and a prior $P(\pi)=\mathrm{Cat}(\boldsymbol\pi_0)$ with $\boldsymbol\pi_0=\sigma(-\mathbf G)$ (good futures are more probable). Write the free energy as a function of $\boldsymbol\pi$; each policy contributes its own $\mathbf F_\pi$, so
+      $$F=\boldsymbol\pi\cdot\big(\ln\boldsymbol\pi-\ln\boldsymbol\pi_0+\mathbf F\big)$$
+      with $\mathbf F$ the vector of the $\mathbf F_\pi$. Since $-\ln\boldsymbol\pi_0=\mathbf G$ plus a constant that normalisation removes, this is $F=\boldsymbol\pi\cdot(\ln\boldsymbol\pi+\mathbf F+\mathbf G)$. The best $\boldsymbol\pi$ makes $F$ stationary, with the constraint that the entries add to $1$.
+
+  - type: order
+    id: derive
+    prompt: |
+      Put the steps that lead from $F=\boldsymbol\pi\cdot(\ln\boldsymbol\pi+\mathbf F+\mathbf G)$ to the policy posterior in order.
+    steps:
+      - 'Differentiate with respect to each entry $\pi_k$ of $\boldsymbol\pi$: $\ln\pi_k+1+F_k+G_k$.'
+      - 'Add a multiplier $\lambda$ for the constraint that the $\pi_k$ add to $1$, and set every derivative to zero: $\ln\pi_k+1+F_k+G_k+\lambda=0$.'
+      - 'Solve for the entry: $\ln\pi_k=-F_k-G_k-(1+\lambda)$, so $\pi_k\propto e^{-F_k-G_k}$.'
+      - 'Normalise (the constant $1+\lambda$ is exactly the normaliser): $\boldsymbol\pi=\sigma(-\mathbf G-\mathbf F)$.'
+    hint: |
+      Same pattern as always: differentiate, set to zero, solve, normalise.
+    explanation: |
+      The factor $e^{-(1+\lambda)}$ is the same for every policy, so it only fixes the total, which is the job of the softmax. The result is the policy posterior
+      $$\boldsymbol\pi=\sigma(-\mathbf G-\mathbf F).$$
+
+  - type: widget
+    id: g-part
+    review: false
+    widget: policy-scorer
+    config:
+      outcomes: ['looks closed', 'looks open']
+      C: [0.2, 0.8]
+      states: [closed, open]
+      likelihood: [[0.8, 0.2], [0.2, 0.8]]
+      policies:
+        - { name: 'push at step 1', qx: [0.185, 0.815] }
+        - { name: 'wait at step 1', qx: [0.82, 0.18] }
+      showGamma: false
+      showPrefs: true
+    body: |
+      The future part, $\mathbf G$ at step 2 of the door. The two policies predict different states at step 2: after *push* (closed, open) $=(0.185,\,0.815)$, after *wait* $(0.82,\,0.18)$. The preferred outcomes are $\mathbf C=(0.2,\,0.8)$ (the agent likes to see the door open). Look at the bars: ambiguity and risk give $\mathbf G$, and the policy probabilities $\sigma(-\mathbf G)$ use only the future.
+
+      This is the choice before any data arrive: $\mathbf F$ has nothing to say yet. Next, see what outcomes do to it.
+
+  - type: widget
+    id: planning
+    review: false
+    widget: pomdp-lab
+    config:
+      mode: infer
+      modes: [infer]
+      showA: false
+      showB: false
+      showD: false
+      showCurve: false
+      showPolicies: true
+      obs: [0, 1, 1]
+      states: [closed, open]
+      outcomes: ['looks closed', 'looks open']
+      actions: [push, wait]
+      short: { states: [clo, open], outcomes: [looks clo, looks open] }
+      A: [[0.8, 0.2], [0.2, 0.8]]
+      B: { push: [[0.2, 0.05], [0.8, 0.95]], wait: [[0.9, 0.1], [0.1, 0.9]] }
+      D: [0.9, 0.1]
+      C: [0.2, 0.8]
+      T: 3
+      policies: [[push, push], [push, wait], [wait, push], [wait, wait]]
+      policy: 0
+      presets:
+        - { label: 'closed, open, open', obs: [0, 1, 1] }
+        - { label: 'closed, closed, closed', obs: [0, 0, 0] }
+    body: |
+      The same door, now with all four policies. Choose a data set (*closed, open, open* or *closed, closed, closed*), then press *Play* with each policy selected in turn, or just read the table at the bottom: for every policy the converged $\mathbf F_\pi$, the expected free energy $\mathbf G_\pi$ and the probability $\boldsymbol\pi=\sigma(-\mathbf G-\mathbf F)$.
+
+      Watch: the values of $\mathbf G_\pi$ never change with the data (they are predictions), while $\mathbf F_\pi$ does.
+
+  - type: mcq
+    id: planning-q
+    prompt: |
+      In the door model, $\mathbf G$ alone favours *push, push* ($\mathbf G=1.04$, the lowest; *wait, wait* has $2.05$). The outcomes seen are now **looks closed at all three steps**. After computing $\mathbf F_\pi$ for each policy, which policy has the highest probability $\sigma(-\mathbf G-\mathbf F)$, roughly?
+    options:
+      - text: '*push, push*, since it has the lowest $\mathbf G$.'
+        feedback: |
+          Its $\mathbf G$ is lowest, but its $\mathbf F$ is large ($2.7$ nats): it predicted a door that opens, and the sensor never saw it. The sum $\mathbf G+\mathbf F$ is what counts, and that is now worst for it.
+      - text: '*wait, wait*: its $\mathbf F$ is smallest because it predicted a door that stays closed.'
+        correct: true
+      - text: '*push, wait*: half of the actions are the best ones.'
+        feedback: |
+          Mixing does not average away the mismatch: a policy is judged as a whole, and *push, wait* still predicts a door that opens at step 2.
+      - text: 'All equal: three equal outcomes carry no information.'
+        feedback: |
+          Three identical outcomes are still data: they say the door stayed closed, which fits a policy that does not open it.
+    explanation: |
+      With the data *closed, closed, closed*, $\mathbf F_\pi=(2.73,\,2.05,\,1.76,\,0.93)$ for (push-push, push-wait, wait-push, wait-wait), while $\mathbf G_\pi=(1.04,\,1.10,\,1.60,\,2.05)$. Adding, $\mathbf G+\mathbf F=(3.77,\,3.15,\,3.36,\,2.98)$, so $\boldsymbol\pi=(0.15,\,0.28,\,0.23,\,0.34)$ (ticks from the converged beliefs, to two decimals): the winner flips from *push, push* ($0.35$ with $\mathbf G$ alone) to *wait, wait*. With the data *closed, open, open* the plan *push, push* keeps its lead ($\boldsymbol\pi\approx0.45$), because it predicted exactly that.
+
+  - type: numeric
+    id: policy-numbers
+    prompt: |
+      Two policies, with $\mathbf F=(0.5,\,1.5)$ and $\mathbf G=(1,\,0.8)$. Compute the probability of the **first** policy, $\pi_1$ of $\boldsymbol\pi=\sigma(-\mathbf G-\mathbf F)$.
+    answer: 0.69
+    tolerance: 0.005
+    answerText: '0.69'
+    wrong:
+      - { value: 0.45, feedback: 'That is $\sigma(-\mathbf G)$ alone, which ignores the outcomes seen. Add $\mathbf F$ before exponentiating.' }
+      - { value: 0.31, feedback: 'That is $\pi_2$. The question asks for the first policy.' }
+    hint: |
+      Sum first: $\mathbf G+\mathbf F=(1.5,\,2.3)$. Then $\pi_1=e^{-1.5}/(e^{-1.5}+e^{-2.3})$.
+    explanation: |
+      $\mathbf G+\mathbf F=(1.5,\,2.3)$, so $\pi_1=\dfrac{1}{1+e^{-0.8}}=0.690$ and $\pi_2=0.310$. Without $\mathbf F$ it would be $\sigma(-(1,0.8))=(0.450,\,0.550)$: the past outcomes reverse the preference.
+
+  - type: mcq
+    id: past-future
+    prompt: |
+      In $\boldsymbol\pi=\sigma(-\mathbf G-\mathbf F)$, what do $\mathbf F$ and $\mathbf G$ measure?
+    options:
+      - text: '$\mathbf F$ is how well the policy explained the outcomes seen so far (retrospective); $\mathbf G$ is how good the outcomes it will cause are expected to be (prospective).'
+        correct: true
+      - text: 'Both are about the future: $\mathbf F$ is risk and $\mathbf G$ is ambiguity.'
+        feedback: |
+          Risk and ambiguity are the two parts of $\mathbf G$. $\mathbf F$ needs the actual outcomes $o_\tau$, which exist only for the past.
+      - text: '$\mathbf F$ is a reward and $\mathbf G$ a cost.'
+        feedback: |
+          Both are costs to be minimised (free energies). $\mathbf G$ contains the preferences $\mathbf C$ (a pragmatic part) and an epistemic part, but neither is a "reward" added with the opposite sign.
+      - text: 'Both are about the past, since both are computed from the model.'
+        feedback: |
+          $\mathbf G$ uses only *predicted* outcomes $\mathbf o_{\pi\tau}$ and the preferences, never the actual data.
+    explanation: |
+      $\mathbf F_\pi$ contains $\ln\mathbf A\cdot o_\tau$ with the real outcomes: it is the evidence for the policy as a model. $\mathbf G_\pi$ contains the predicted outcomes and $\mathbf C$: it is what the policy promises. Each one separately gives an incomplete choice: $\mathbf G$ alone ignores the data, $\mathbf F$ alone ignores what we want.
+
+  - type: build
+    id: habit
+    prompt: |
+      Some behaviours are fixed before any inference: a **habit prior** $\mathbf E$ is a fixed vector of probabilities over policies, a bias independent of the model's predictions. It replaces the flat prior in the derivation. Build the resulting policy posterior (the order inside is free).
+    prefix: '\boldsymbol\pi=\sigma('
+    suffix: ')'
+    tiles: ['\ln\mathbf E', '-\mathbf F', '-\mathbf G', '+\mathbf F', '+\mathbf G', '-\ln\mathbf E']
+    answers:
+      - ['\ln\mathbf E', '-\mathbf F', '-\mathbf G']
+      - ['\ln\mathbf E', '-\mathbf G', '-\mathbf F']
+      - ['-\mathbf F', '\ln\mathbf E', '-\mathbf G']
+      - ['-\mathbf G', '\ln\mathbf E', '-\mathbf F']
+      - ['-\mathbf F', '-\mathbf G', '\ln\mathbf E']
+      - ['-\mathbf G', '-\mathbf F', '\ln\mathbf E']
+    hint: |
+      The prior over policies was $\sigma(-\mathbf G)$, which contributes $-\mathbf G$. With a habit it is $\sigma(\ln\mathbf E-\mathbf G)$.
+    explanation: |
+      The prior becomes $\boldsymbol\pi_0=\sigma(\ln\mathbf E-\mathbf G)$, and the same derivation as before gives
+      $$\boldsymbol\pi=\sigma(\ln\mathbf E-\mathbf F-\mathbf G).$$
+      A larger habit probability $E_k$ raises policy $k$; $\mathbf F$ and $\mathbf G$ still enter with a minus sign.
+
+  - type: numeric
+    id: habit-number
+    prompt: |
+      Same two policies as before, $\mathbf F=(0.5,\,1.5)$ and $\mathbf G=(1,\,0.8)$, now with a habit $\mathbf E=(0.7,\,0.3)$. What is $\pi_1=[\sigma(\ln\mathbf E-\mathbf F-\mathbf G)]_1$?
+    answer: 0.839
+    tolerance: 0.003
+    answerText: '0.839'
+    wrong:
+      - { value: 0.69, feedback: 'That is the value without the habit. Add $\ln\mathbf E$ to the exponent, or equivalently multiply by $E_k$.' }
+      - { value: 0.7, feedback: 'That is $E_1$ itself: the habit is only one factor, the outcomes and the future still count.' }
+    hint: |
+      Exponentiating, $\pi_k\propto E_k\,e^{-F_k-G_k}$. Use the unnormalised values $0.7\,e^{-1.5}$ and $0.3\,e^{-2.3}$.
+    explanation: |
+      $0.7\,e^{-1.5}=0.1562$ and $0.3\,e^{-2.3}=0.0301$, so $\pi_1=0.1562/0.1863=0.839$. The habit adds weight to the already preferred policy: $0.690\to0.839$.
+
+  - type: order
+    id: loop
+    prompt: |
+      Put the cycle of one step of active inference in the discrete-time model in order.
+    steps:
+      - 'Receive the new outcome $o_\tau$ from the world.'
+      - 'For each policy, descend $\mathbf F_\pi$ to update the beliefs $\mathbf s_{\pi\tau}$ (perception).'
+      - 'Compute $\mathbf F_\pi$ and $\mathbf G_\pi$ for each policy and the posterior $\boldsymbol\pi=\sigma(-\mathbf G-\mathbf F)$ (planning).'
+      - 'Choose a policy from $\boldsymbol\pi$ (sample it, or take the most probable) and execute its **first** action.'
+    hint: |
+      Data first, then perception, then planning, then action.
+    explanation: |
+      Only the first action of the chosen policy is executed; the next outcome then arrives and the whole cycle runs again, so plans are revised after every step. Perception and planning are not two machines: both minimise one free energy, in two sets of variables (beliefs over states, then beliefs over policies).
+
+  - type: text
+    id: brain
+    title: "A hint about neurons (a hypothesis)"
+    body: |
+      The messages above can be drawn as a network. Draw each belief $\mathbf s_{\pi\tau}$ as a node, each prediction error ($\boldsymbol\epsilon=\dot{\mathbf v}$, the mismatch between a belief and the sum of its messages) as another node, and let nodes at neighbouring steps exchange messages along edges; add a node for $\boldsymbol\pi$ that receives $\mathbf G$ and $\mathbf F$ and returns a weighting of the beliefs. If nodes are populations of neurons, edges synapses and messages synaptic signals, this is a **hypothesis** about how a brain could implement the scheme: nobody has shown that each node is a given neuron population. The point for now is that every message is local, as in the update above. The details and the claimed anatomy come later with the continuous-time version.
+
+  - type: mcq
+    id: traps
+    prompt: |
+      Which statements about perception and planning in this scheme are **wrong**? (Select all.)
+    multiple: true
+    options:
+      - text: 'The probability of a policy depends only on $\mathbf G$, since $\mathbf G$ is what the agent wants to minimise.'
+        correct: true
+        feedback: |
+          Wrong: the policy posterior is $\sigma(-\mathbf G-\mathbf F)$. $\mathbf G$ says where a policy leads; $\mathbf F$ says how well it explained the data so far.
+      - text: '$\mathbf F$ and $\mathbf G$ enter with opposite signs, because $\mathbf F$ is a "past" quantity.'
+        correct: true
+        feedback: |
+          Wrong: both enter as $-\mathbf F-\mathbf G$. Both are free energies to be minimised, and neither is negated.
+      - text: 'Beliefs about states are computed once, for a single policy chosen in advance.'
+        correct: true
+        feedback: |
+          Wrong: beliefs $\mathbf s_{\pi\tau}$ are computed **for every policy** (each one is a model), and $\mathbf F_\pi$ then scores them. Only afterwards is one chosen.
+      - text: 'The auxiliary variable $\mathbf v$ is the log of the belief, so that $\sigma(\mathbf v)$ is always a probability vector.'
+        feedback: |
+          This is correct: it is the reason for $\mathbf v$.
+    explanation: |
+      The correct picture: for each policy, descend $\mathbf F_\pi$ for the states; score the policy by $\mathbf F_\pi$ and $\mathbf G_\pi$; weigh them with $\sigma(-\mathbf G-\mathbf F)$ (optionally with $\ln\mathbf E$); act; repeat.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the update above works for any discrete model, but the continuous-time version needs a Gaussian approximation of the posterior. A guided problem derives it (the Laplace approximation), and the continuous model of perception and action follows.

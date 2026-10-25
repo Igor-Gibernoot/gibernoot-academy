@@ -75,6 +75,8 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 - ch04-pomdp: door model states (closed, open), outcomes (looks closed, looks open); A=[[.8,.2],[.2,.8]], push B=[[.2,.05],[.8,.95]], wait B=[[.9,.1],[.1,.9]], D=(.9,.1), C=(.2,.8). Numbers: s2 push (0.185,0.815), o2 (0.311,0.689); H=0.500 nats both states; risk step 2 wait 0.565, push 0.034; G step 2 push 0.535, wait 1.065; F(s=(.5,.5), looks open, step 1)=1.427, min 1.347=-ln 0.26, posterior (0.692,0.308). Book writes G=H.s+o.varsigma with varsigma=ln o-ln C (printed s in Markdown); H_j column entropy; F uses B_{pi,tau-1}s_{pi,tau-1}, first step ln D. Renaming card x->s, y->o done here; widget ticks differ slightly from the F fixed point (mean-field in time).
 
+- ch04-pomdp-active-inference: door policies (pp, pw, wp, ww): G 1.042/1.095/1.596/2.050; data (closed,open,open) F .951/1.012/1.859/2.115, pi .447/.399/.104/.051; data (closed x3) F 2.727/2.050/1.762/.931, pi .152/.284/.229/.335; last-step belief (push from D, looks closed) closed .476; F=(.5,1.5), G=(1,.8) -> pi1 .690, with E=(.7,.3) .839. Eq. 4.13 printed with the compact backward term $\ln\mathbf B_{\pi\tau}\cdot\mathbf s_{\pi,\tau+1}$ (widget uses the exact gradient); habit E only in B.9.
+
 ## Chapter 5
 
 - (none yet)
