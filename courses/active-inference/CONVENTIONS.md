@@ -35,6 +35,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - free-energy-bound widget: $F=\sum_x Q(x)[\ln Q-\ln P(x)-\ln P(y\mid x)]$ minimised, $F\ge-\ln P(y)$, gap $=D_{KL}[Q\parallel P(x\mid y)]$; garden: $P(y)=0.36$, surprise $1.02$ nats, exact posterior $0.33/0.42/0.25$, $Q=$prior gives $F=1.18$ (gap $0.16$), all on fox $F=2.41$.
 - ch02-free-energy: $F[Q,y]=\mathbb{E}_Q[\ln Q-\ln P(y,x)]$; garden Q=prior: complexity 0, accuracy -1.184, F 1.184, gap 0.162; KL example Q=(.5,.5), P=(.25,.75) gives 0.144 (swapped 0.131); all on cat F=2.12, uniform Q F=1.04. KL is asymmetric (stated).
 - ch02-free-energy-bound: KL>=0 proved by $\ln u\le u-1$ with $u=P(x\mid y)/Q$ (Jensen mentioned, Eq. 4.2); all-on-fox $Q=(0,0,1)$: $F=2.408$, gap $\ln4=1.386$; $F=2$, $P(y)=0.36$ gives divergence $0.978$. Terms with $Q=0$ contribute $0$.
+- ch02-free-energy-traps: garden at exact posterior: complexity 0.170, accuracy -0.852 (F 1.022); $Q=(0.5,0.3,0.2)$: complexity 0.0475, accuracy -1.034, F 1.081; $Q=(0.5,0.5,0)$: F 1.316; KL example swapped 0.131 vs 0.144.
 
 ## Chapter 3
 

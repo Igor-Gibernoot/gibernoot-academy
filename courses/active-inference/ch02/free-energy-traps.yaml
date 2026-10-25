@@ -1,0 +1,196 @@
+id: ch02-free-energy-traps
+title: Free Energy Traps
+kind: traps
+
+cards:
+  - type: text
+    id: intro
+    title: Trap round
+    body: |
+      Fast round: each question hides a tempting mistake about surprise, free energy and the approximate posterior. Answer quickly, then read the feedback, especially when you got it right for a shaky reason.
+
+      Setup for every card (the garden). You hear a rustle $y$. The hidden cause $x$ is a cat, a dog or a fox, with prior $P(x)=0.6/0.3/0.1$ and likelihood $P(y\mid x)=0.2/0.5/0.9$. So the evidence is $P(y)=0.36$, the surprise is $-\ln P(y)\approx1.02$ nats, and the exact posterior is $P(x\mid y)=33\%/42\%/25\%$. Our guess about the cause is the approximate posterior $Q(x)$. The variational free energy $F$ is minimised, and
+      $$F[Q,y]=\mathbb{E}_{Q(x)}\big[\ln Q(x)-\ln P(y,x)\big].$$
+
+  - type: mcq
+    id: f-equals-surprise
+    title: Is F the surprise?
+    prompt: |
+      In the garden (surprise $-\ln P(y)\approx1.02$ nats), you use the prior as your guess, $Q=(0.6,\,0.3,\,0.1)$, and find $F\approx1.18$ nats. A friend says: "Free energy is just another name for surprise, so something is wrong with your computation." What is true?
+    options:
+      - text: '$F$ is an upper bound on surprise: $F\ge-\ln P(y)$, equal only when $Q$ is the exact posterior $P(x\mid y)$. Here $F-1.02\approx0.16$ is the leftover divergence.'
+        correct: true
+      - text: 'Your computation is wrong: $F$ must equal $1.02$ for any $Q$.'
+        feedback: |
+          $F$ depends on the guess $Q$, the surprise does not (it depends only on the model and the data). They coincide at one special $Q$, the exact posterior, and only there.
+      - text: '$F$ and the surprise are unrelated quantities.'
+        feedback: |
+          They are tightly related: $F=D_{KL}[Q\,\|\,P(x\mid y)]-\ln P(y)$, so $F$ is the surprise plus a divergence that is never negative.
+    explanation: |
+      $F=D_{KL}[Q(x)\,\|\,P(x\mid y)]-\ln P(y)$. The prior is not the exact posterior (it ignores the rustle), so the divergence is about $0.16$ and $F\approx1.18>1.02$.
+
+  - type: mcq
+    id: bound-direction
+    title: Which side of the surprise?
+    prompt: |
+      In the garden, the surprise of the rustle is $-\ln P(y)\approx1.02$ nats. You improve your guess $Q$ until it is very close to the exact posterior. Where does $F$ end up?
+    options:
+      - text: 'Just above $1.02$, approaching it from above and never below.'
+        correct: true
+      - text: 'Below $1.02$: a good guess "explains away" some of the surprise.'
+        feedback: |
+          A guess cannot make the rustle less surprising; surprise is fixed by the model and the data. Since $F=D_{KL}[Q\,\|\,P(x\mid y)]-\ln P(y)$ and the divergence is at least $0$, $F\ge1.02$ for every $Q$.
+      - text: 'Close to $0$: the better the guess, the smaller $F$ becomes without limit.'
+        feedback: |
+          Improving $Q$ lowers only the divergence term, and that stops at $0$. The term $-\ln P(y)\approx1.02$ stays, so $F$ has a floor.
+    explanation: |
+      Free energy is an **upper** bound on surprise: $F\ge-\ln P(y)$. Better guesses push $F$ down towards the surprise, never through it.
+
+  - type: numeric
+    id: needs-evidence
+    title: Do we need P(y)?
+    prompt: |
+      Someone claims: "to compute $F$ you first need the evidence $P(y)$, which is the expensive sum over all causes." Test it. In the garden the joint probabilities are $P(y,\text{cat})=0.12$, $P(y,\text{dog})=0.15$, $P(y,\text{fox})=0.09$. Take the guess $Q=(0.5,\,0.5,\,0)$ and compute
+      $$F=\mathbb{E}_{Q(x)}\big[\ln Q(x)-\ln P(y,x)\big]$$
+      in nats, using only $Q$ and the joint (a term with $Q(x)=0$ contributes $0$).
+    answer: 1.3155
+    tolerance: 0.01
+    answerText: '1.32'
+    wrong:
+      - { value: 1.022, tolerance: 0.01, feedback: "That is the surprise $-\\ln0.36$. $F$ is larger for this guess; it does not need $P(y)$ to be computed." }
+      - { value: 0.5, tolerance: 0.05, feedback: "Check the signs: $F=\\sum_x Q(x)\\,[\\ln Q(x)-\\ln P(y,x)]$, and $-\\ln P(y,x)$ is a positive number here (about $2.12$ and $1.90$)." }
+    hint: |
+      Two terms, each weighted by $0.5$: $0.5\,[\ln0.5-\ln0.12]+0.5\,[\ln0.5-\ln0.15]$.
+    explanation: |
+      $0.5(-0.693+2.120)+0.5(-0.693+1.897)=0.5(1.427)+0.5(1.204)\approx1.316$ nats. Only $Q$ and the joint (prior times likelihood, always available) were used. The evidence $P(y)$ appears only in the second reading of $F$, as a term we cannot evaluate directly; that is the point of $F$. Check: $1.316\ge1.02$.
+
+  - type: mcq
+    id: kl-symmetric
+    title: A distance?
+    prompt: |
+      For $Q=(0.5,\,0.5)$ and $P=(0.25,\,0.75)$, the divergence $D_{KL}[Q\,\|\,P]=\mathbb{E}_Q[\ln Q-\ln P]\approx0.144$ nats. A student says "the KL divergence is a distance, so $D_{KL}[P\,\|\,Q]$ is also $0.144$." What is $D_{KL}[P\,\|\,Q]$ and what does this show?
+    options:
+      - text: '$\approx0.131$ nats: swapping the arguments changes the value, so KL is a divergence, not a distance.'
+        correct: true
+      - text: '$0.144$ nats: KL is symmetric, as every distance is.'
+        feedback: |
+          A distance must be symmetric, but KL averages under its first argument. Here $0.25\ln\frac{0.25}{0.5}+0.75\ln\frac{0.75}{0.5}\approx0.131\ne0.144$.
+      - text: '$-0.144$ nats: swapping flips the sign.'
+        feedback: |
+          KL is never negative, whichever way round. Swapping changes the weights of the average (now $P$, not $Q$), not the sign.
+    explanation: |
+      $D_{KL}[P\,\|\,Q]=0.25\ln\frac{0.25}{0.5}+0.75\ln\frac{0.75}{0.5}=-0.173+0.304\approx0.131$ nats. That is why free energy uses the specific order $D_{KL}[Q\,\|\,P(x\mid y)]$, averaging under our guess $Q$.
+
+  - type: mcq
+    id: perception-floor
+    title: Can perception reach zero?
+    prompt: |
+      A model tries to lower $F=D_{KL}[Q(x)\,\|\,P(x\mid y)]-\ln P(y)$ by changing only its guess $Q$ (perception), with the data $y$ fixed at the rustle ($-\ln P(y)\approx1.02$ nats). A student says: "with enough computation, perception can bring $F$ to $0$." What is true?
+    options:
+      - text: 'Perception can lower $F$ only to the surprise, about $1.02$ nats (at $Q=P(x\mid y)$).'
+        correct: true
+      - text: 'Yes: setting $Q$ to the exact posterior makes $F=0$.'
+        feedback: |
+          At the exact posterior the divergence is $0$, but $-\ln P(y)$ remains: $F=1.02$, not $0$.
+      - text: 'No, because the divergence is always positive, so $F$ cannot be lowered at all.'
+        feedback: |
+          The divergence is non-negative and equals $0$ at $Q=P(x\mid y)$, so $F$ can be lowered down to the surprise.
+    explanation: |
+      Perception only touches the divergence term. To go lower than $-\ln P(y)$ the data must change, which is what action does.
+
+  - type: mcq
+    id: action-changes-q
+    title: What does action change?
+    prompt: |
+      In $F=D_{KL}[Q(x)\,\|\,P(x\mid y)]-\ln P(y)$, a creature moves its head and now hears a different sound $y_2$ that its model finds much less surprising. Which term did the action change directly?
+    options:
+      - text: "The data changes from $y$ to a new $y_2$, hence the evidence term $-\\ln P(y)$ (and with it the exact posterior). Updating $Q$ is a separate step, perception."
+        correct: true
+      - text: 'The approximate posterior $Q$: acting is a way of updating beliefs.'
+        feedback: |
+          Changing $Q$ is perception. Action changes the world, and with it the observation $y$ that the model receives; $Q$ is then updated by perception.
+      - text: 'The generative model $P(y,x)$: the creature rewrites its own priors to fit what it hears.'
+        feedback: |
+          Here the model is held fixed. The creature moves the world (and its sensors) to bring observations closer to what the model predicts.
+    explanation: |
+      Perception changes $Q$ (divergence term); action changes $y$ (evidence term). Both lower the same $F$.
+
+  - type: mcq
+    id: retrospective
+    title: Does F look ahead?
+    prompt: |
+      A creature must choose between two actions, each leading to a different future observation. It computes $F[Q,y]$ for each action's anticipated observation $y$ and picks the lower. Is this what the variational free energy $F$ is designed for?
+    options:
+      - text: 'No: $F$ is a function of past and present data, so it is retrospective. Scoring plans needs a quantity defined on future outcomes, the expected free energy.'
+        correct: true
+      - text: 'Yes: $F$ depends on $y$, so plugging in a predicted $y$ scores the future like any observation.'
+        feedback: |
+          Plugging in a prediction would treat a guess about the future as if it had happened, ignoring that the outcome is not yet known and may differ between plans. Planning needs an average over the outcomes a policy is expected to bring about.
+      - text: 'Yes: free energy is minimised by action, and action is always about the future.'
+        feedback: |
+          Action does lower $F$ by changing the data, but the value scored is the data actually received. How to choose among future courses of action needs a further quantity, the expected free energy.
+    explanation: |
+      $F$ scores a guess $Q$ against the data in hand. For planning, the generative model is supplemented with the expected free energy, which scores a policy by the outcomes it is expected to bring about.
+
+  - type: mcq
+    id: complexity-meaning
+    title: What is complexity?
+    prompt: |
+      Write $F=D_{KL}[Q(x)\,\|\,P(x)]-\mathbb{E}_{Q(x)}[\ln P(y\mid x)]$, where $P(x)$ is the prior. The first term is called **complexity**. A student says: "complexity measures how complicated the world is, i.e. how many causes the model has." What is it?
+    options:
+      - text: 'How far the guess $Q$ has moved away from the prior $P(x)$: how much you changed your mind.'
+        correct: true
+      - text: 'The number of possible causes $x$ in the model.'
+        feedback: |
+          The number of causes is fixed by the model. The complexity term changes with the guess $Q$: with $Q=P(x)$ it is $0$, whatever the number of causes.
+      - text: 'How uncertain the guess $Q$ is, i.e. its entropy.'
+        feedback: |
+          Entropy is a different term (energy minus entropy is another reading of $F$). Complexity is a divergence from the prior; a very certain guess that equals the prior has zero complexity.
+    explanation: |
+      Complexity $=D_{KL}[Q(x)\,\|\,P(x)]$ is the cost of updating beliefs. For the garden's exact posterior $(0.33,0.42,0.25)$ it is about $0.17$ nats; for $Q=P(x)$ it is $0$.
+
+  - type: mcq
+    id: accuracy-evidence
+    title: Accuracy or evidence?
+    prompt: |
+      In the garden, the exact posterior is $Q=(0.33,\,0.42,\,0.25)$ for the rustle $y$. Its accuracy is $\mathbb{E}_{Q}[\ln P(y\mid x)]\approx-0.85$ nats, and the log evidence is $\ln P(y)=\ln0.36\approx-1.02$. A student says "accuracy is the same thing as the log evidence". What is the correct relation at this $Q$?
+    options:
+      - text: 'They differ: accuracy $-$ complexity $=\ln P(y)$, here $-0.85-0.17\approx-1.02$.'
+        correct: true
+      - text: 'They are the same: both measure how well the model predicts the rustle, so $-0.85\approx-1.02$ is rounding.'
+        feedback: |
+          The gap is real, not rounding. Accuracy ignores the price of moving the guess away from the prior; the evidence is accuracy after paying the complexity.
+      - text: 'Accuracy is larger than the evidence by the surprise $1.02$.'
+        feedback: |
+          The difference is the complexity $\approx0.17$, not the surprise. At the exact posterior, $F=\text{complexity}-\text{accuracy}=-\ln P(y)$.
+    explanation: |
+      Accuracy is $\mathbb{E}_Q[\ln P(y\mid x)]$, an average of likelihoods under $Q$; the evidence is $P(y)=\sum_xP(x)P(y\mid x)$, an average under the prior. At the exact posterior, $F=-\ln P(y)$, so $0.17-(-0.85)=1.02$.
+
+  - type: numeric
+    id: simplest-q
+    title: Is the prior the best simple guess?
+    prompt: |
+      A student reasons: "$F$ is complexity minus accuracy, so the best $Q$ has zero complexity, i.e. $Q=P(x)$." In the garden ($P(x)=0.6/0.3/0.1$, $P(y\mid x)=0.2/0.5/0.9$) compare with the guess $Q=(0.5,\,0.3,\,0.2)$, which moves a little towards the fox. Compute $F=D_{KL}[Q\,\|\,P(x)]-\mathbb{E}_{Q}[\ln P(y\mid x)]$ for it, in nats. (For $Q=P(x)$, $F\approx1.184$.)
+    answer: 1.081
+    tolerance: 0.01
+    answerText: '1.08'
+    wrong:
+      - { value: 1.184, tolerance: 0.01, feedback: "That is $F$ for $Q=P(x)$. The new guess pays a small complexity but gains accuracy." }
+      - { value: 0.0475, tolerance: 0.005, feedback: "That is only the complexity term. $F$ also subtracts the accuracy, which is negative here." }
+    hint: |
+      Complexity: $0.5\ln\frac{0.5}{0.6}+0.3\ln\frac{0.3}{0.3}+0.2\ln\frac{0.2}{0.1}\approx0.0475$. Accuracy: $0.5\ln0.2+0.3\ln0.5+0.2\ln0.9$.
+    explanation: |
+      Complexity $\approx0.0475$, accuracy $\approx-0.8047-0.2079-0.0211=-1.0337$, so $F\approx0.0475+1.0337\approx1.081<1.184$. A little complexity bought more accuracy. The best trade-off is the exact posterior ($F\approx1.02$, complexity $0.17$, accuracy $-0.85$). Being "simple" means no more complex than the data justify, not zero complexity.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      Traps avoided (setup: hidden state $x$, observation $y$, prior $P(x)$, likelihood $P(y\mid x)$, joint $P(y,x)$, approximate posterior $Q(x)$, exact posterior $P(x\mid y)$):
+
+      - $F$ is not the surprise: $F=D_{KL}[Q(x)\,\|\,P(x\mid y)]-\ln P(y)\ge-\ln P(y)$, tight only at $Q=P(x\mid y)$; perception cannot go below the surprise.
+      - $F$ needs only $Q$ and the joint: $F=\mathbb{E}_{Q}[\ln Q(x)-\ln P(y,x)]$, never $P(y)$.
+      - KL is not symmetric. Complexity is $D_{KL}[Q(x)\,\|\,P(x)]$ (distance from the prior), accuracy is $\mathbb{E}_Q[\ln P(y\mid x)]$ (not the evidence), and the best $Q$ trades them off.
+      - Action changes $y$, perception changes $Q$; $F$ is retrospective.
+
+      **Next:** scoring a plan whose outcomes have not happened yet, the expected free energy.
