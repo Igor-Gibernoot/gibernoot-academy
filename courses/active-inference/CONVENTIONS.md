@@ -42,6 +42,8 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 - ch02-efe-decomposition: proof G = -gain - pragmatic = ambiguity + risk via $\ln Q(\tilde x|\tilde y,\pi)-\ln Q(\tilde x|\pi)=\ln P(\tilde y|\tilde x)-\ln Q(\tilde y|\pi)$; gain $=H[Q(\tilde y|\pi)]-$ambiguity (pond $0.573-0.325=0.248$, orchard $0.471-0.325=0.146$); $P(\text{pond})=0.706$; flat C (0.5, 0.5) look/blind: G $0.325$ / $0.693$, gain $0.368$ / $0$; flat-C risk of $Q(y)=(0.9,0.1)$ is $0.368$; flat C gives $G=\ln n-$gain; no ambiguity and no preferences gives $G=\ln n-H[Q(\tilde y|\pi)]$ (maximum entropy). Fig. 2.6 schemes: no preferences = Bayesian surprise/intrinsic motivation; no ambiguity = KL (risk-sensitive) control; only preferences = expected utility; neither = entropy maximisation (prose p. 36). Line 3 of Eq. 2.6 inequality is stated by the book; the data-processing reason is ours.
 
+- ch02-intuition-free-energy: garden Q=prior energy 2.082, entropy 0.898, F 1.184; point mass on dog energy 1.897, entropy 0 (spreading raises energy and entropy, entropy wins); pond gain 0.248, pragmatic -0.584, G 0.336; orchard risk for Q(y)=(0.18,0.82), C=(0.8,0.2) is 0.889 (swapped 0.911); gamma=2 gives P(pond)=0.853.
+
 ## Chapter 3
 
 - (none yet)

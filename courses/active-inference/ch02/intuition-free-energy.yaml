@@ -1,0 +1,278 @@
+id: ch02-intuition-free-energy
+title: "Intuition: The Free Energy Family"
+kind: intuition
+own: |
+  - **Setup for $F$.** A generative model with a hidden state $x$, a prior $P(x)$, a likelihood $P(y\mid x)$ of the observation $y$ and the joint $P(y,x)=P(x)\,P(y\mid x)$; $P(x\mid y)$ is the exact posterior, $P(y)$ the evidence, and $Q(x)$ our guess about $x$. The **variational free energy** (minimised, never flipped) has three readings:
+    {{ $$F=\underbrace{-\mathbb{E}_{Q}[\ln P(y,x)]}_{\text{energy}}-\underbrace{H[Q(x)]}_{\text{entropy}}$$ }}
+    {{ $$F=D_{KL}[Q(x)\,\|\,P(x)]-\mathbb{E}_{Q}[\ln P(y\mid x)]$$ }}
+    (complexity minus accuracy), and
+    {{ $$F=D_{KL}[Q(x)\,\|\,P(x\mid y)]-\ln P(y)$$ }}
+  - **Bound and limit.** Since a KL divergence is at least $0$, $F\ge-\ln P(y)$ (the surprise), with equality only for $Q=P(x\mid y)$. Check on the rustle garden (priors $0.6/0.3/0.1$ for cat, dog, fox; likelihoods $0.2/0.5/0.9$; $P(y)=0.36$): $Q$ equal to the prior gives $F=1.184$, the surprise is $1.022$, so the divergence is $0.162$.
+  - **Setup for $G$.** A policy $\pi$ predicts states $\tilde{x}$ and outcomes $\tilde{y}$ with beliefs $Q(\tilde{x}\mid\pi)$, likelihood $P(\tilde{y}\mid\tilde{x})$ and predicted outcomes $Q(\tilde{y}\mid\pi)$; the preferences $C$ define $P(\tilde{y}\mid C)$. The **expected free energy** (minimised, never negated) has two forms:
+    {{ $$\begin{aligned}G(\pi)=\;&\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]\\&+D_{KL}[Q(\tilde{y}\mid\pi)\,\|\,P(\tilde{y}\mid C)]\end{aligned}$$ }}
+    ambiguity plus risk, and
+    {{ $$\begin{aligned}G(\pi)=\;&-\,\text{information gain}\\&-\,\text{pragmatic value}\end{aligned}$$ }}
+    with the pragmatic value $\mathbb{E}_{Q(\tilde{y}\mid\pi)}\ln P(\tilde{y}\mid C)$.
+  - **Checks.** A policy that leaves the state certain has gain $0$; a flat $C$ makes the pragmatic value the same constant for every policy; with no ambiguity $G$ is the risk alone. On the pond (predicted jumps $0.74$, preferred $0.8$): gain $0.248$, pragmatic value $-0.584$, so $G=0.336$.
+  - **Policy beliefs.** With precision $\gamma$ over policies,
+    {{ $$P(\pi)=\frac{e^{-\gamma G(\pi)}}{\sum_{\pi'}e^{-\gamma G(\pi')}}$$ }}
+    that is $\boldsymbol{\pi}_0=\sigma(-\gamma\mathbf{G})$; $\gamma=0$ gives equal probabilities, a large $\gamma$ puts almost all probability on the lowest $G$.
+
+cards:
+  - type: text
+    id: open
+    title: Four things to keep in your head
+    body: |
+      This lesson derives nothing. It trains quick recall of four things from this level:
+
+      1. the **variational free energy** $F$, in its three readings;
+      2. the **bound** $F\ge-\ln P(y)$ and when it is tight;
+      3. the two forms of the **expected free energy** $G$;
+      4. the **softmax** that turns scores into beliefs about policies.
+
+      Recall: $x$ is a hidden state, $y$ an observation, $Q(x)$ our guess about $x$, $P$ the generative model, $D_{KL}$ the KL divergence (how far one distribution is from another, never negative). Both $F$ and $G$ are **minimised**, and neither is ever sign-flipped.
+
+  - type: mcq
+    id: mnemonic-f
+    prompt: |
+      A generative model has a prior $P(x)$, a likelihood $P(y\mid x)$ and a joint $P(y,x)$, and $Q(x)$ is a guess about $x$. Select **every** expression equal to the variational free energy $F[Q,y]$.
+    multiple: true
+    options:
+      - text: 'energy $-$ entropy: $\;-\mathbb{E}_{Q}[\ln P(y,x)]-H[Q(x)]$'
+        correct: true
+      - text: 'complexity $-$ accuracy: $\;D_{KL}[Q(x)\,\|\,P(x)]-\mathbb{E}_{Q}[\ln P(y\mid x)]$'
+        correct: true
+      - text: 'divergence from the posterior, plus surprise: $\;D_{KL}[Q(x)\,\|\,P(x\mid y)]-\ln P(y)$'
+        correct: true
+      - text: 'complexity $+$ accuracy: $\;D_{KL}[Q(x)\,\|\,P(x)]+\mathbb{E}_{Q}[\ln P(y\mid x)]$'
+        feedback: |
+          Accuracy ($\mathbb{E}_Q\ln P(y\mid x)$, higher when the guess explains the data) must be **subtracted**: $F$ is minimised, so explaining the data well has to lower it. With a plus, a better fit would raise $F$.
+      - text: 'entropy $-$ energy: $\;H[Q(x)]+\mathbb{E}_{Q}[\ln P(y,x)]$'
+        feedback: |
+          That is $-F$. It has the right pieces but the wrong overall sign. $F$ is energy minus entropy, and $F$ is the quantity that is minimised.
+      - text: 'divergence minus evidence: $\;D_{KL}[Q(x)\,\|\,P(x\mid y)]+\ln P(y)$'
+        feedback: |
+          The surprise is $-\ln P(y)$, which is positive for a probability below $1$. Adding $\ln P(y)$ would subtract the surprise, and then the bound $F\ge-\ln P(y)$ could not hold.
+    explanation: |
+      Three readings of one number. Mnemonic: energy **minus** entropy; complexity **minus** accuracy; divergence **plus** surprise ($-\ln P(y)$). In each, the term to push down comes with a plus and the term to push up with a minus.
+
+  - type: build
+    id: build-f
+    prompt: |
+      Build $F$ as complexity minus accuracy. Complexity is how far the guess $Q(x)$ moves away from the prior; accuracy is how well the guessed causes explain the data.
+    prefix: 'F ='
+    tiles:
+      - 'D_{KL}[Q(x)\,\|\,P(x)]'
+      - '-\,\mathbb{E}_{Q}[\ln P(y\mid x)]'
+      - '+\,\mathbb{E}_{Q}[\ln P(y\mid x)]'
+      - 'D_{KL}[Q(x)\,\|\,P(x\mid y)]'
+      - '-\ln P(y)'
+    answers:
+      - ['D_{KL}[Q(x)\,\|\,P(x)]', '-\,\mathbb{E}_{Q}[\ln P(y\mid x)]']
+    wrong:
+      - answer: ['D_{KL}[Q(x)\,\|\,P(x)]', '+\,\mathbb{E}_{Q}[\ln P(y\mid x)]']
+        feedback: |
+          With a plus, a guess that explains the data well would raise $F$. Accuracy is a quantity we want large, and $F$ is minimised, so it enters with a minus.
+      - answer: ['D_{KL}[Q(x)\,\|\,P(x\mid y)]', '-\ln P(y)']
+        feedback: |
+          That is a correct expression for $F$, but it is the divergence-plus-surprise reading, not complexity minus accuracy. Complexity is the divergence from the **prior**.
+    hint: 'Complexity compares $Q$ with the prior. Accuracy is the expected log-likelihood, which is large when the guess explains $y$.'
+    explanation: |
+      $$F=D_{KL}[Q(x)\,\|\,P(x)]-\mathbb{E}_{Q}[\ln P(y\mid x)].$$
+      Minimising $F$ trades off staying simple (close to the prior) against fitting the data.
+
+  - type: mcq
+    id: limit-exact
+    prompt: |
+      In the rustle garden the evidence is $P(y)=0.36$, so the surprise is $-\ln 0.36\approx1.02$ nats. Now let the guess $Q(x)$ equal the exact posterior $P(x\mid y)$. What do $F$ and the gap between $F$ and the surprise become?
+    options:
+      - text: '$F$ equals the surprise, $1.02$; the gap is $0$.'
+        correct: true
+      - text: '$F=0$; the gap is $1.02$.'
+        feedback: |
+          $F$ is not zero for a perfect guess: it still pays the surprise of the data. Only the divergence part goes to $0$.
+      - text: '$F$ equals the surprise, $1.02$; the gap is still positive because the data are noisy.'
+        feedback: |
+          The gap is exactly the divergence $D_{KL}[Q\,\|\,P(x\mid y)]$, which is $0$ when $Q=P(x\mid y)$, whatever the noise.
+      - text: '$F$ is below the surprise, because the exact posterior is the best possible guess.'
+        feedback: |
+          $F$ can never go below the surprise: $F\ge-\ln P(y)$. The best guess reaches the bound, not below it.
+    explanation: |
+      In $F=D_{KL}[Q\,\|\,P(x\mid y)]-\ln P(y)$ the divergence is $0$ at $Q=P(x\mid y)$, so $F=-\ln P(y)$: the bound is tight. (In the garden the exact posterior is $0.33/0.42/0.25$ and $F=1.022$.)
+
+  - type: mcq
+    id: spread-q
+    prompt: |
+      In $F=\text{energy}-\text{entropy}$, the energy is $-\mathbb{E}_{Q}[\ln P(y,x)]$ and the entropy is $H[Q(x)]$. Start from a guess $Q$ that puts all its weight on the single best-explaining cause, and spread it out (keep some weight on the other causes). What happens to the two terms?
+    options:
+      - text: 'The entropy goes up and the energy goes up; $F$ falls only if the entropy gain wins.'
+        correct: true
+      - text: 'The entropy goes up and the energy goes down, so $F$ always falls.'
+        feedback: |
+          Moving weight off the best cause puts it on causes that explain the data worse, so $-\ln P(y,x)$ is larger there and the energy goes **up**, not down.
+      - text: 'The entropy goes down and the energy goes up, so $F$ always rises.'
+        feedback: |
+          A spread-out $Q$ has **more** entropy than a point mass (a point mass has entropy $0$).
+      - text: 'Neither term changes; only the mean of $Q$ matters.'
+        feedback: |
+          Both change: $F$ depends on the whole distribution $Q$, not on a summary of it.
+    explanation: |
+      In the garden, a point mass on the best cause (dog, joint $0.15$) has energy $1.897$, entropy $0$, so $F=1.897$. Spreading to $Q$ equal to the prior gives energy $2.082$ (up), entropy $0.898$ (up), and $F=1.184$: the entropy gain wins. The minimum of $F$ is a compromise: not a point mass, not a flat guess.
+
+  - type: numeric
+    id: numeric-energy-entropy
+    prompt: |
+      A guess $Q(x)$ has energy $2.082$ nats and entropy $0.898$ nats. What is the variational free energy $F$ of this guess?
+    answer: 1.184
+    tolerance: 0.002
+    answerText: '1.184'
+    wrong:
+      - { value: 2.98, feedback: 'You added the two terms. Entropy is subtracted: spreading the guess out lowers $F$.' }
+      - { value: -1.184, feedback: 'That is entropy minus energy, the negative of $F$. $F$ is energy minus entropy.' }
+    hint: 'Recall the energy-and-entropy reading of $F$ and its sign.'
+    explanation: |
+      $F=2.082-0.898=1.184$ nats. These are the energy and entropy of the garden guess $Q$ equal to the prior $(0.6,0.3,0.1)$.
+
+  - type: numeric
+    id: numeric-gap
+    prompt: |
+      In a model with evidence $P(y)=0.36$, a guess $Q(x)$ has free energy $F=1.184$ nats. How large is the KL divergence from $Q$ to the exact posterior $P(x\mid y)$? (Use natural logarithms.)
+    answer: 0.162
+    tolerance: 0.002
+    answerText: '0.162'
+    wrong:
+      - { value: 1.022, feedback: 'That is the surprise $-\ln 0.36$. It is the part of $F$ that no guess can remove; the divergence is what is left after taking it out.' }
+      - { value: -0.162, feedback: 'A KL divergence is never negative. Check the order: $F$ lies **above** the surprise.' }
+      - { value: 2.206, feedback: 'You added the surprise to $F$. The bound says $F$ is the divergence **plus** the surprise, so the divergence is $F$ minus the surprise.' }
+    hint: 'Which reading of $F$ contains both the evidence and a divergence from the posterior? Compute the surprise first.'
+    explanation: |
+      $D_{KL}=F+\ln P(y)=1.184-1.022=0.162$ nats. (Directly: $0.6\ln\frac{0.6}{1/3}+0.3\ln\frac{0.3}{0.4167}+0.1\ln\frac{0.1}{0.25}=0.162$.) A small positive gap: the prior is a decent but not perfect guess.
+
+  - type: order
+    id: order-bound
+    prompt: |
+      Put the four moves that take $F[Q,y]=\mathbb{E}_{Q}[\ln Q(x)-\ln P(y,x)]$ to the bound $F\ge-\ln P(y)$ in order.
+    steps:
+      - 'Split the joint with the product rule: $\ln P(y,x)=\ln P(x\mid y)+\ln P(y)$.'
+      - 'Pull out $-\ln P(y)$, which does not depend on $x$ (and $Q$ sums to $1$).'
+      - 'Recognise the rest, $\mathbb{E}_Q[\ln Q(x)-\ln P(x\mid y)]$, as the divergence $D_{KL}[Q(x)\,\|\,P(x\mid y)]$.'
+      - 'A KL divergence is at least $0$, so $F\ge-\ln P(y)$.'
+    hint: 'You cannot call something a divergence before the posterior appears, and you cannot drop it before it is a divergence.'
+    explanation: |
+      $$\begin{aligned}F&=D_{KL}[Q(x)\,\|\,P(x\mid y)]-\ln P(y)\\&\ge-\ln P(y).\end{aligned}$$
+
+  - type: mcq
+    id: mnemonic-g
+    prompt: |
+      A policy $\pi$ has an ambiguity, a risk, an information gain and a pragmatic value (the expected log-probability of the outcomes under the preferences $C$). The expected free energy $G(\pi)$ is minimised. Select **every** expression equal to $G(\pi)$.
+    multiple: true
+    options:
+      - text: '$\text{ambiguity}+\text{risk}$'
+        correct: true
+      - text: '$-\,\text{information gain}-\text{pragmatic value}$'
+        correct: true
+      - text: '$\text{information gain}+\text{pragmatic value}$'
+        feedback: |
+          That is $-G$, the quality score of the policy (higher is better). $G$ itself is the cost that is minimised, and it is never negated.
+      - text: '$\text{ambiguity}-\text{risk}$'
+        feedback: |
+          Both costs add. A policy is worse when its outcomes are blurry **and** when they clash with the preferences; neither lowers $G$.
+      - text: '$-\,\text{ambiguity}-\text{risk}$'
+        feedback: |
+          Ambiguity and risk are costs, so $G$ adds them. The minus signs belong to the other form, where the gain and the pragmatic value are rewards.
+    explanation: |
+      Costs add, rewards are subtracted: $G=\text{ambiguity}+\text{risk}=-\text{gain}-\text{pragmatic value}$. A reward appears with a minus in $G$ because $G$ is minimised.
+
+  - type: numeric
+    id: numeric-g-signs
+    prompt: |
+      A policy ("go to the pond") has information gain $0.248$ nats and pragmatic value $-0.584$ nats (the pragmatic value is negative: the outcomes are probable under the preferences but less than certain). What is its expected free energy $G$?
+    answer: 0.336
+    tolerance: 0.002
+    answerText: '0.336'
+    wrong:
+      - { value: -0.336, feedback: 'That is $-G$, the quality score. $G$ is minimised and is never negated.' }
+      - { value: 0.832, feedback: 'You subtracted the pragmatic value with the wrong sign pattern (gain minus pragmatic value). Both rewards must enter $G$ with a minus: $-0.248-(-0.584)$.' }
+      - { value: -0.832, feedback: 'That subtracts the gain but adds the pragmatic value. Both enter with a minus sign.' }
+    hint: 'Both are rewards, and $G$ is a cost that is minimised.'
+    explanation: |
+      $G=-0.248-(-0.584)=0.336$. A pragmatic value close to $0$ would be better; the gain pulls $G$ down.
+
+  - type: mcq
+    id: limits-g
+    prompt: |
+      Select **every** statement that is true for the expected free energy $G(\pi)$ (preferences $C$ define $P(\tilde{y}\mid C)$ over $n$ possible outcomes).
+    multiple: true
+    options:
+      - text: 'A policy after which the hidden state is certain has information gain $0$ (there is nothing left to learn).'
+        correct: true
+      - text: 'If $C$ is flat (every outcome equally preferred), the pragmatic value is the same constant, $-\ln n$, for every policy.'
+        correct: true
+      - text: 'If there is no ambiguity (each state gives one definite outcome), $G$ equals the risk.'
+        correct: true
+      - text: 'If $C$ is flat, the risk is $0$ for every policy.'
+        feedback: |
+          The risk is $0$ only when the predicted outcomes $Q(\tilde{y}\mid\pi)$ equal the preferences. With a flat $C$ it is $0$ for a policy that predicts a flat outcome distribution, and positive otherwise (for a sure outcome it is $\ln n$).
+      - text: 'If the state is certain, $G$ is $0$.'
+        feedback: |
+          Certainty removes the information gain, but $G$ still contains the pragmatic value (or equivalently the ambiguity and risk). A certain state with disliked outcomes has a large $G$.
+    explanation: |
+      Each statement is a limit of $G=-\text{gain}-\text{pragmatic value}=\text{ambiguity}+\text{risk}$. Flat $C$: the pragmatic term cannot tell policies apart, so only the information gain matters ($G=\ln n-\text{gain}$ in the decomposition). No ambiguity: the first term of $G$ vanishes.
+
+  - type: numeric
+    id: numeric-risk
+    prompt: |
+      A creature prefers outcomes (jumps, still) with probabilities $(0.8, 0.2)$. The policy "go to the orchard" predicts $(0.18, 0.82)$. What is the risk of this policy, in nats?
+    answer: 0.889
+    tolerance: 0.005
+    answerText: '0.889'
+    wrong:
+      - { value: 0.911, feedback: 'You took the divergence the wrong way round (from the preferences to the predictions). The risk compares the **predicted** outcomes with the preferences, predictions first.' }
+      - { value: 0.62, feedback: 'That is the plain difference between the two probabilities, $0.8-0.18$. The risk is a divergence, an average of log ratios.' }
+    hint: 'The risk belongs to the KL family. Which distribution goes first: the predictions or the preferences?'
+    explanation: |
+      $$\begin{aligned}D_{KL}&=0.18\ln\tfrac{0.18}{0.8}+0.82\ln\tfrac{0.82}{0.2}\\&=-0.268+1.157=0.889.\end{aligned}$$
+      Large: the orchard predicts mostly the outcome the creature does not prefer.
+
+  - type: numeric
+    id: numeric-softmax
+    prompt: |
+      Two policies, pond and orchard, have expected free energies $G=0.336$ and $G=1.214$. Beliefs about policies come from the softmax with precision $\gamma=2$. What is the probability of the pond?
+    answer: 0.853
+    tolerance: 0.003
+    answerText: '0.853'
+    wrong:
+      - { value: 0.706, feedback: 'That is the answer for $\gamma=1$. Here the precision multiplies $G$ before exponentiating, which sharpens the choice.' }
+      - { value: 0.5, feedback: 'Equal probabilities happen only for $\gamma=0$ or equal $G$. The pond has the lower $G$, so it gets more than half.' }
+      - { value: 0.147, feedback: 'That is the orchard. Lower $G$ means higher probability, so the pond is the larger one.' }
+    hint: 'Scores are costs: exponentiate minus precision times $G$, then normalise. With two policies only the difference of the $G$ values matters.'
+    explanation: |
+      The difference is $1.214-0.336=0.878$, so
+      $$P(\text{pond})=\frac{1}{1+e^{-2\cdot0.878}}=0.853.$$
+      For $\gamma=1$ the same formula gives $0.706$.
+
+  - type: mcq
+    id: gamma-limits
+    prompt: |
+      Beliefs about policies are $P(\pi)=\sigma(-\gamma G)$ with a precision $\gamma\ge0$. Select **every** true statement.
+    multiple: true
+    options:
+      - text: 'For $\gamma=0$ every policy has the same probability, whatever the $G$ values.'
+        correct: true
+      - text: 'For very large $\gamma$ almost all probability sits on the policy with the lowest $G$.'
+        correct: true
+      - text: 'Only the differences of $G$ between policies matter: adding the same constant to every $G$ changes nothing.'
+        correct: true
+      - text: 'For very large $\gamma$ almost all probability sits on the policy with the highest $G$.'
+        feedback: |
+          The softmax is applied to $-\gamma G$: a lower $G$ means a larger exponent and a higher probability.
+      - text: 'For $\gamma=0$ the lowest-$G$ policy is chosen with certainty.'
+        feedback: |
+          $\gamma$ is the confidence in the scores. At $\gamma=0$ the scores are ignored altogether.
+    explanation: |
+      Scaling test: $\gamma\to0$ gives the uniform distribution; $\gamma\to\infty$ gives a hard minimum of $G$. A constant added to all $G$ cancels between numerator and denominator.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the **content map** of this level: you rebuild the whole picture, box by box, from surprise and the generative model to $F$, $G$ and the choice among policies.
