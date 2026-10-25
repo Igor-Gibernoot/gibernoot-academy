@@ -1,0 +1,174 @@
+id: ch02-expected-free-energy
+title: Planning as Inference
+kind: concept
+own: |
+  - **Policy.** An **action** acts directly on the world; a **policy** $\pi$ is a hypothesis about a way of behaving (a sequence of actions, such as "go to the pond"). Planning is **inferring what to do**: Bayesian inference over policies.
+  - **Predicting a policy's outcomes.** Write $\tilde{x}$ for a trajectory of hidden states over time and $\tilde{y}$ for a sequence of observations. The model chains the dynamics $P(\tilde{x}\mid\pi)$ with the likelihood $P(\tilde{y}\mid\tilde{x})$ to run "what if" (counterfactual) simulations. Marginalising over states,
+    {{ $$P(\tilde{y}\mid\pi)=\sum_{\tilde{x}}P(\tilde{y}\mid\tilde{x})\,P(\tilde{x}\mid\pi)$$ }}
+  - **Expected free energy $G(\pi)$** scores a policy by the future it predicts. It differs from the variational free energy $F$, which uses only past and present data. **Lower $G$ is better**; $-G$ is the quality score of the policy.
+  - **From scores to beliefs.** $G$ lives in the space of log probabilities, so beliefs about policies come from exponentiating and normalising (a **softmax**, written $\sigma$):
+    {{ $$P(\pi)=\frac{e^{-G(\pi)}}{\sum_{\pi'}e^{-G(\pi')}}\qquad\text{i.e. }\ \boldsymbol{\pi}_0=\sigma(-\mathbf{G})$$ }}
+    Lower $G$ gives higher probability, but every policy keeps some probability.
+  - **Planning and action.** The predictions of the believed policy, such as proprioceptive input from flexing an elbow, are {{ predictions that action fulfils by resolving the discrepancy with the measured data }}.
+cards:
+  - type: text
+    id: hook
+    title: "Which way to go?"
+    body: |
+      You are the frog-hunting creature again. You can **go to the pond**, where frogs are common, or **go to the orchard**, where apples are common. You must decide now.
+
+      The trouble: what you will see in each place **has not happened yet**. The free energy $F$ of the last lessons scores a guess about the cause of data you already have. Here there is no data yet for either choice.
+
+      Before any formula, think: what would a score for a *plan* have to be built from? You will build it step by step.
+
+  - type: mcq
+    id: why-not-f
+    prompt: |
+      Variational free energy $F[Q,y]$ needs an observation $y$. Why can't $F$ alone be used to score "go to the pond" against "go to the orchard"?
+    options:
+      - text: '$F$ is retrospective: it needs data that already exist, and the data each plan would bring are in the future.'
+        correct: true
+      - text: '$F$ can only be computed for one hidden cause at a time, never for a whole plan.'
+        feedback: |
+          $F$ handles any guess $Q(x)$ over causes, as many as the model has. The obstacle is not the number of causes but the missing observation $y$.
+      - text: 'Free energy is only defined for perception; action has no free energy.'
+        feedback: |
+          Action changes the data and so lowers the same $F$. The problem here is different: before acting, the data of the future do not exist.
+      - text: '$F$ is always zero for plans that have not been tried.'
+        feedback: |
+          $F$ is never below the surprise $-\ln P(y)$, and with no $y$ it is simply undefined, not zero.
+    explanation: |
+      $F$ is a function of **past and present** observations. To choose among plans we must score them by the observations they are **expected** to bring. That needs one more ingredient: the **expected free energy** $G$.
+
+  - type: text
+    id: policy
+    title: "Action versus policy"
+    body: |
+      Active Inference separates two things:
+
+      - an **action** directly influences the outside world (take a step, flex a muscle);
+      - a **policy**, written $\pi$, is a *hypothesis about a way of behaving*: a whole sequence of actions, such as "go to the pond" or "turn left three times".
+
+      Choosing a policy is then **Bayesian inference**: we have a prior and a likelihood (as in the garden), but in place of frogs and apples as hypotheses, the alternatives are policies. *Is it more probable that I go to the pond or to the orchard?* Planning is **inferring what to do**.
+
+  - type: mcq
+    id: policy-check
+    prompt: |
+      Which of these is a **policy** in the sense of Active Inference?
+    options:
+      - text: '"Go to the pond, then look at the lily pads": a sequence of actions held as a hypothesis about what I will do.'
+        correct: true
+      - text: 'The jump of the frog I see at the pond.'
+        feedback: |
+          That is an observation, something the world gives me. A policy is about what *I* do.
+      - text: 'The probability that the frog is hungry.'
+        feedback: |
+          That is a belief about a hidden state of the world. A policy concerns my own behaviour.
+      - text: 'A single muscle twitch, the actual motion of my leg.'
+        feedback: |
+          The twitch that happens in the world is an action. A policy is the hypothesis about a way of behaving that may include many such actions.
+    explanation: |
+      An action is what happens; a policy is what we **believe** we will do, so it can be inferred, compared and scored.
+
+  - type: text
+    id: chain
+    title: "Running what-if simulations"
+    body: |
+      The outcomes of a policy are not available, but they can be **predicted** by chaining two parts of the generative model.
+
+      **1. Dynamics under a policy.** We write $\tilde{x}$ for a **trajectory**: a sequence of hidden states over time (the tilde means "the whole sequence"). The model says how likely each trajectory is *given the policy*,
+      $$P(\tilde{x}\mid\pi).$$
+      Going to the pond makes the state "frog" probable; going to the orchard makes "apple" probable.
+
+      **2. The usual likelihood.** $P(\tilde{y}\mid\tilde{x})$ says what observations $\tilde{y}$ (again a sequence) to expect in each state, for example whether the creature sees a jump.
+
+      Combining them, the creature can run a **counterfactual** ("what if") simulation: *what would happen if I went to the pond?* Summing over the hidden states gives the probability of the observations under that policy,
+      $$P(\tilde{y}\mid\pi)=\sum_{\tilde{x}}P(\tilde{y}\mid\tilde{x})\,P(\tilde{x}\mid\pi).$$
+
+  - type: numeric
+    id: orchard-jump
+    prompt: |
+      One step, two hidden states. Going to the **pond** makes the state frog with probability $0.8$ and apple with probability $0.2$; going to the **orchard** gives frog $0.1$ and apple $0.9$. In either state, "something jumps" is observed with probability $P(\text{jumps}\mid\text{frog})=0.9$ and $P(\text{jumps}\mid\text{apple})=0.1$. Using $P(\text{jumps}\mid\pi)=\sum_x P(\text{jumps}\mid x)\,P(x\mid\pi)$, what is the probability of seeing a jump if the creature goes to the **orchard**?
+    answer: 0.18
+    tolerance: 0.002
+    answerText: '0.18'
+    wrong:
+      - { value: 0.74, tolerance: 0.002, feedback: "That is the pond: $0.9\\cdot0.8+0.1\\cdot0.2$. For the orchard use its own state probabilities, $0.1$ and $0.9$." }
+      - { value: 0.9, tolerance: 0.002, feedback: "That is $P(\\text{jumps}\\mid\\text{frog})$ only. The policy makes the frog state improbable, so the answer must weigh both states." }
+      - { value: 0.1, tolerance: 0.002, feedback: "That is the state probability of frog under the orchard policy. Multiply it by the likelihood and add the apple term as well." }
+    hint: |
+      Two terms: $0.9\times P(\text{frog}\mid\text{orchard})+0.1\times P(\text{apple}\mid\text{orchard})$.
+    explanation: |
+      Orchard: $0.9\cdot0.1+0.1\cdot0.9=0.09+0.09=0.18$. The pond gives $0.9\cdot0.8+0.1\cdot0.2=0.72+0.02=0.74$. The same likelihood gives very different predicted observations because the **policy changes the state probabilities**. This is how a creature can compare futures that have not happened.
+
+  - type: text
+    id: score
+    title: "A score for each policy"
+    body: |
+      Active Inference splits planning into **two successive operations**:
+
+      1. **Compute a score for each policy.** This score defines a *prior belief* about which policy to pursue: the best policies get high probability, the worst get low.
+      2. **Form posterior beliefs** about which to pursue.
+
+      The score is the **expected free energy**, written $G(\pi)$, and the quality of a policy is its **negative** $-G(\pi)$: **lower $G$ is better**, exactly as lower $F$ was better. The difference from $F$:
+
+      - $F$ looks at present and past observations;
+      - $G$ engages the generative model to predict the future observations each policy would bring, up to a **planning horizon**, and adds up all the time steps of the policy.
+
+      What $G$ is made of (risk, ambiguity, information) comes in the next lessons. For now, take its value as given and see how it becomes a belief.
+
+  - type: numeric
+    id: softmax-numeric
+    prompt: |
+      Three policies have expected free energies $G=1$, $2$ and $3$ (in nats). A belief over policies comes from exponentiating $-G$ and normalising: $P(\pi)=e^{-G(\pi)}\big/\sum_{\pi'}e^{-G(\pi')}$. Use $e^{-1}\approx0.368$, $e^{-2}\approx0.135$, $e^{-3}\approx0.050$. What probability does the policy with $G=2$ get?
+    answer: 0.245
+    tolerance: 0.004
+    answerText: '0.245'
+    wrong:
+      - { value: 0.135, tolerance: 0.002, feedback: "That is $e^{-2}$ before normalising. The three numbers $0.368, 0.135, 0.050$ add to $0.553$, not $1$; divide by that sum." }
+      - { value: 0.333, tolerance: 0.004, feedback: "Equal shares ignore the scores. Lower $G$ must get more probability, so the three shares differ." }
+      - { value: 0.9, tolerance: 0.01, feedback: "You normalised the wrong way (or took a policy with the highest probability by mistake). The share of the middle policy must be below that of the $G=1$ policy, which gets $0.665$." }
+    hint: |
+      Sum of the three exponentials: $0.368+0.135+0.050=0.553$. Then divide the middle one by it.
+    explanation: |
+      Normalising: $0.368/0.553\approx0.665$, $0.135/0.553\approx0.245$, $0.050/0.553\approx0.090$, which add to $1$. Exponentiating undoes the logarithm ($G$ lives in the space of log probabilities) and dividing by the sum makes the beliefs obey the sum rule. This is the **softmax** $\sigma(-G)$.
+
+  - type: mcq
+    id: softmax-trap
+    prompt: |
+      Three policies with $G=1$, $2$ and $3$ get probabilities $66.5\%$, $24.5\%$ and $9.0\%$ from $P(\pi)\propto e^{-G(\pi)}$. Which statement is **true**?
+    options:
+      - text: 'The lowest-$G$ policy is the most probable, but the others keep some probability: it is a belief, not a winner-takes-all rule.'
+        correct: true
+      - text: 'The lowest-$G$ policy gets probability $1$, since it is the best.'
+        feedback: |
+          Tempting because "best" sounds like "certain". But the softmax gives every policy a share proportional to $e^{-G}$; here the best gets $66.5\%$. Only a huge gap in $G$ pushes it near $1$.
+      - text: 'The highest-$G$ policy is the most probable, since a larger score is better.'
+        feedback: |
+          $G$ is minimised: **lower** expected free energy means higher probability. It is the negative, $-G$, that is the quality score.
+      - text: 'Probabilities are proportional to $G$, so $G=3$ gets three times the share of $G=1$.'
+        feedback: |
+          The relation is exponential in $-G$, not linear in $G$, and the direction is reversed: $G=3$ gets the smallest share.
+    explanation: |
+      Lower $G$ gives higher probability, through $e^{-G}$, and the shares always add to $1$. Policies are **beliefs**, so even the worse ones keep non-zero probability.
+
+  - type: mcq
+    id: to-action
+    prompt: |
+      A creature believes it will pursue a policy that includes flexing its elbow. How does this belief lead to movement?
+    options:
+      - text: 'The policy entails predictions about proprioceptive input from the biceps and triceps; action resolves the discrepancy between these predictions and the measured input.'
+        correct: true
+      - text: 'The belief directly commands the muscles, bypassing any prediction.'
+        feedback: |
+          In Active Inference there is no separate command channel: the belief produces **predictions**, and action is what makes the sensory data match them.
+      - text: 'The belief changes the elbow only through perception, by updating $Q(x)$ after the movement is seen.'
+        feedback: |
+          Perception updates beliefs about the world; it does not move the arm. The link to movement is action, which changes the data to fit the predictions.
+    explanation: |
+      Inferring a policy has consequences for the data we predict. The predictions associated with the plan translate into action that resolves discrepancies with the measured data, the same mechanism by which action lowers free energy. In psychological terms, believing a policy is an **intention**, fulfilled by acting.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** what $G$ is actually made of. It splits into **risk** and **ambiguity** in one form and into **pragmatic** and **epistemic value** (preferences versus information gain) in another, the policy-level counterpart of the complexity and accuracy split of $F$. A widget will let you score policies yourself.
