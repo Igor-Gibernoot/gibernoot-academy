@@ -8,19 +8,44 @@
 // Recap items (the {{ }} blanks of "what you now own" summaries, keyed
 // "<lessonId>#<hash>") share the same boxes: "knew it" promotes one box,
 // "missed" sends the item back to box 0 and counts a lapse.
+//
+// One state holds every course: lesson, card, recap and partial keys start
+// with "<courseId>:" (version 2). The API takes keys without the prefix and
+// works on the current course (course.js); the streak is shared.
 
-const KEY = 'dg2gr.progress.v1';
+import { courseId, LEGACY_COURSE } from './course.js';
+
+const KEY = 'gibernoot.progress.v2';
+const OLD_KEY = 'dg2gr.progress.v1'; // single-course app; left in place as a backup
 const INTERVALS = [0, 1, 3, 7, 16, 35];
 
 const today = () => Math.floor((Date.now() - new Date().getTimezoneOffset() * 60000) / 86400000);
-const blank = () => ({ version: 1, epoch: 0, lessons: {}, cards: {}, recap: {}, partial: {}, streak: { count: 0, last: null } });
+const blank = () => ({ version: 2, epoch: 0, lessons: {}, cards: {}, recap: {}, partial: {}, streak: { count: 0, last: null } });
+
+// Keys without a course prefix come from version 1 (before courses existed,
+// or an old tab still open somewhere) and belong to the first course; a
+// prefixed copy of the same key wins.
+function migrate(s) {
+  const pre = obj => {
+    const out = {};
+    for (const [key, v] of Object.entries(obj ?? {})) if (key.includes(':')) out[key] = v;
+    for (const [key, v] of Object.entries(obj ?? {})) if (!key.includes(':')) out[`${LEGACY_COURSE}:${key}`] ??= v;
+    return out;
+  };
+  return { ...s, version: 2, lessons: pre(s.lessons), cards: pre(s.cards), recap: pre(s.recap), partial: pre(s.partial) };
+}
 
 function load() {
   try {
-    const s = JSON.parse(localStorage.getItem(KEY));
-    return s && s.lessons && s.cards ? { recap: {}, partial: {}, ...s } : blank();
+    const s = JSON.parse(localStorage.getItem(KEY) ?? localStorage.getItem(OLD_KEY));
+    return s && s.lessons && s.cards ? migrate({ recap: {}, partial: {}, ...s }) : blank();
   } catch { return blank(); }
 }
+
+// Current-course key, and the reverse.
+const k = id => `${courseId()}:${id}`;
+const mine = key => key.startsWith(`${courseId()}:`);
+const strip = key => key.slice(key.indexOf(':') + 1);
 
 let state = load();
 
@@ -77,9 +102,18 @@ function schedule(key, box) {
 }
 
 export const progress = {
-  lesson: id => state.lessons[id],
+  lesson: id => state.lessons[k(id)],
 
-  completeLesson(id, { questions, firstTry }) {
+  // Lessons done, review cards due and average first-try accuracy of any course (for the course list).
+  courseStats(course, ids) {
+    const recs = ids.map(id => state.lessons[`${course}:${id}`]).filter(r => r?.done);
+    const scores = recs.map(r => r.first ?? r.score ?? r.best);
+    const due = Object.entries(state.cards).filter(([key, c]) => key.startsWith(`${course}:`) && c.due <= today()).length;
+    return { done: recs.length, due, acc: scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null };
+  },
+
+  completeLesson(lessonId, { questions, firstTry }) {
+    const id = k(lessonId);
     const prev = state.lessons[id];
     const score = questions ? firstTry / questions : 1;
     state.lessons[id] = {
@@ -97,36 +131,37 @@ export const progress = {
 
   // Where the reader stopped in an unfinished lesson: { at: 0-based card, n: cards }, or undefined.
   partial: id => {
-    const p = state.partial[id];
+    const p = state.partial[k(id)];
     return p && p.at > 0 ? p : undefined;
   },
 
   // `extra` ({ stats, combo, answered }) lets a resumed lesson show earlier answers and keep its score.
   savePartial(id, at, n, extra) {
-    state.partial[id] = { at, n, ...extra, t: Date.now() };
+    state.partial[k(id)] = { at, n, ...extra, t: Date.now() };
     save();
   },
 
   // A question answered inside a lesson enters the review deck.
   recordLessonCard(key, firstTry) {
-    const c = state.cards[key];
-    if (!c || !firstTry) schedule(key, firstTry ? 1 : 0);
+    const c = state.cards[k(key)];
+    if (!c || !firstTry) schedule(k(key), firstTry ? 1 : 0);
     save();
   },
 
   recordReview(key, correct) {
-    const box = correct ? Math.min((state.cards[key]?.box ?? 0) + 1, INTERVALS.length - 1) : 0;
-    schedule(key, box);
+    const box = correct ? Math.min((state.cards[k(key)]?.box ?? 0) + 1, INTERVALS.length - 1) : 0;
+    schedule(k(key), box);
     save();
   },
 
   finishReview() { bumpStreak(); save(); },
 
   // Recap items: undefined until first rated.
-  recapItem: key => state.recap[key],
-  recapDue: key => !state.recap[key] || state.recap[key].due <= today(),
+  recapItem: key => state.recap[k(key)],
+  recapDue: key => !state.recap[k(key)] || state.recap[k(key)].due <= today(),
 
-  recordRecap(key, knew) {
+  recordRecap(recapKey, knew) {
+    const key = k(recapKey);
     const prev = state.recap[key];
     const box = knew ? Math.min((prev?.box ?? 0) + 1, INTERVALS.length - 1) : 0;
     state.recap[key] = { box, due: today() + INTERVALS[box], at: Date.now(), lapses: (prev?.lapses ?? 0) + (knew ? 0 : 1), last: knew ? 'knew' : 'missed' };
@@ -135,23 +170,23 @@ export const progress = {
 
   // Average first-try accuracy (first run; replays don't change it) over the finished lessons among ids.
   accuracy(ids) {
-    const scores = ids.map(id => state.lessons[id]).filter(r => r?.done).map(r => r.first ?? r.score ?? r.best);
+    const scores = ids.map(id => state.lessons[k(id)]).filter(r => r?.done).map(r => r.first ?? r.score ?? r.best);
     return scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null;
   },
 
   // Review-deck keys belonging to the given lessons, most urgent first:
   // due cards, then the weakest box, then the earliest due date.
   deckKeys(lessonIds) {
-    const set = new Set(lessonIds);
+    const set = new Set(lessonIds.map(k));
     return Object.entries(state.cards)
-      .filter(([k]) => set.has(k.split('/')[0]))
+      .filter(([key]) => set.has(key.split('/')[0]))
       .sort(([, a], [, b]) => (a.due <= today() ? 0 : 1) - (b.due <= today() ? 0 : 1) || a.box - b.box || a.due - b.due)
-      .map(([k]) => k);
+      .map(([key]) => strip(key));
   },
 
   dueKeys() {
     const d = today();
-    return Object.entries(state.cards).filter(([, c]) => c.due <= d).map(([k]) => k);
+    return Object.entries(state.cards).filter(([key, c]) => mine(key) && c.due <= d).map(([key]) => strip(key));
   },
 
   streak() {
@@ -165,7 +200,7 @@ export const progress = {
   // Combine a remote state into the local one; returns the merged state.
   mergeRemote(remote) {
     if (!remote || !remote.lessons || !remote.cards) return state;
-    state = merge(state, { streak: { count: 0, last: null }, partial: {}, ...remote });
+    state = merge(state, migrate({ streak: { count: 0, last: null }, partial: {}, ...remote }));
     save();
     return state;
   },
@@ -175,7 +210,7 @@ export const progress = {
   importCode(code) {
     const s = JSON.parse(decodeURIComponent(escape(atob(code.trim()))));
     if (!s || !s.lessons || !s.cards) throw new Error('Not a progress code.');
-    state = { recap: {}, ...s, epoch: Date.now() };
+    state = { ...migrate({ recap: {}, partial: {}, ...s }), epoch: Date.now() };
     save();
   },
 

@@ -4,8 +4,8 @@
 // component values, no labelled results. Presets are chosen by `view`
 // (documented in docs/LESSON_FORMAT.md, `torus`).
 
-import { h } from './dom.js';
-import { mdInline } from './render.js';
+import { h } from '../dom.js';
+import { mdInline } from '../render.js';
 
 const PI = Math.PI, TAU = 2 * PI;
 

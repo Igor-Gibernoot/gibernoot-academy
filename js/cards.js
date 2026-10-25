@@ -15,7 +15,7 @@
 
 import { h, shuffle } from './dom.js';
 import { md, mdInline, tex } from './render.js';
-import { mountWidget } from './widgets.js';
+import { mountWidget } from './widgets/index.js';
 
 export function renderCard(card, el) {
   const render = RENDERERS[card.type];

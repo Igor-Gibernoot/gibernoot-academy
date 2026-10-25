@@ -3,8 +3,8 @@
 //     widget: basis-playground
 //     config: { ... }
 
-import { h } from './dom.js';
-import { tex, mdInline } from './render.js';
+import { h } from '../dom.js';
+import { tex, mdInline } from '../render.js';
 import { torusFigure } from './torus.js';
 import { sphereFigure } from './sphere.js';
 

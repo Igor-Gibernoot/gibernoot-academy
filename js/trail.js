@@ -4,6 +4,7 @@ import { h } from './dom.js';
 import { mdInline } from './render.js';
 import { icons, KIND_LABEL } from './icons.js';
 import { getCourse } from './content.js';
+import { at } from './course.js';
 import { progress } from './progress.js';
 import { recapCards } from './recap.js';
 import { themeButton } from './theme.js';
@@ -23,13 +24,14 @@ export async function renderTrail(root) {
   const nextId = course.levels.flatMap(l => l.lessons ?? []).find(m => m.file && !progress.lesson(m.id)?.done)?.id;
 
   const top = h('header', { class: 'topbar' },
+    h('a', { class: 'academy-link', href: '#/', html: `${icons.back}<span>Gibernoot Academy</span>` }),
     h('h1', { class: 'course-title', 'data-hue': 0 }, ...titleLines(course.title)),
     h('div', { class: 'toolbar' },
       acc != null ? h('span', { class: 'chip acc', tabindex: 0, 'data-tip': 'Average first-try accuracy over the lessons you finished', html: `${icons.target}<span>${pct(acc)}</span>` }) : null,
       h('span', { class: 'chip streak', tabindex: 0, 'data-tip': 'Days in a row you studied', html: `${icons.flame}<span>${streak}</span>` }),
       h('button', {
         class: `chip review${due ? ' due' : ''}`, type: 'button', 'data-hue': 0, 'data-tip': 'Spaced-repetition review',
-        html: `${icons.review}<span>${due ? `Review ${due}` : 'Review'}</span>`, onclick: () => { location.hash = '#/review'; },
+        html: `${icons.review}<span>${due ? `Review ${due}` : 'Review'}</span>`, onclick: () => { location.hash = at('review'); },
       }),
       recapChip(),
       accountChip(),
@@ -119,9 +121,9 @@ function openSheet(meta, state, { level, deck, due }) {
       ? `Practice only the questions from ${level.title}: ${due ? `${due} due now, ` : ''}${deck.length} in this level's deck. Due and weak ones come first.`
       : `Questions you answer in this level's lessons collect here, so you can practice just ${level.title}. Play a lesson first.`);
     actions = [h('button', { class: 'btn ghost', type: 'button', onclick: close }, 'Close')];
-    if (deck) actions.push(h('button', { class: 'btn primary', type: 'button', onclick: () => { close(); location.hash = `#/review/${level.id}`; } }, 'Start review'));
+    if (deck) actions.push(h('button', { class: 'btn primary', type: 'button', onclick: () => { close(); location.hash = at(`review/${level.id}`); } }, 'Start review'));
   } else if (state === 'planned') {
-    body = h('p', {}, 'Not built yet. Ask Claude to build this lesson from the book.');
+    body = h('p', {}, 'Not built yet. Ask Claude to build this lesson from the course sources.');
     actions = [h('button', { class: 'btn ghost', type: 'button', onclick: close }, 'Close')];
   } else {
     body = h('p', { html: mdInline(meta.summary ?? '') + (rec ? `<br><b>Best first-try score: ${Math.round(rec.best * 100)}%</b>` : '') });
@@ -129,9 +131,9 @@ function openSheet(meta, state, { level, deck, due }) {
     const go = (path) => () => { close(); location.hash = path; };
     actions = [
       h('button', { class: 'btn ghost', type: 'button', onclick: close }, 'Close'),
-      rec ? h('button', { class: 'btn ghost', type: 'button', onclick: go(`#/read/${meta.id}`) }, 'Read through') : null,
-      h('button', { class: `btn ${part ? 'ghost' : 'primary'}`, type: 'button', onclick: go(`#/lesson/${meta.id}`) }, part ? 'Start over' : rec ? 'Replay' : 'Start'),
-      part ? h('button', { class: 'btn primary', type: 'button', onclick: go(`#/lesson/${meta.id}/${part.at + 1}`) }, `Continue (card ${part.at + 1}${part.n ? `/${part.n}` : ''})`) : null,
+      rec ? h('button', { class: 'btn ghost', type: 'button', onclick: go(at(`read/${meta.id}`)) }, 'Read through') : null,
+      h('button', { class: `btn ${part ? 'ghost' : 'primary'}`, type: 'button', onclick: go(at(`lesson/${meta.id}`)) }, part ? 'Start over' : rec ? 'Replay' : 'Start'),
+      part ? h('button', { class: 'btn primary', type: 'button', onclick: go(at(`lesson/${meta.id}/${part.at + 1}`)) }, `Continue (card ${part.at + 1}${part.n ? `/${part.n}` : ''})`) : null,
     ].filter(Boolean);
   }
   const scrim = h('div', { class: 'scrim', onclick: e => { if (e.target === scrim) close(); } },
@@ -147,7 +149,7 @@ function openSheet(meta, state, { level, deck, due }) {
     const n = list.reduce((s, c) => s + c.due.length, 0);
     const recap = h('button', {
       class: `btn ${deck ? 'ghost' : 'primary'}`, type: 'button', 'data-tip': 'Recall the key results of this level’s lesson summaries',
-      onclick: () => { close(); location.hash = `#/recap/${level.id}`; },
+      onclick: () => { close(); location.hash = at(`recap/${level.id}`); },
     }, n ? `Recap ${n}` : 'Recap');
     const start = scrim.querySelector('.actions .btn.primary');
     if (start) start.before(recap); else scrim.querySelector('.actions').append(recap);
@@ -160,7 +162,7 @@ function recapChip() {
   const label = h('span', {}, 'Recap');
   const chip = h('button', {
     class: 'chip recap', type: 'button', 'data-hue': 0, 'data-tip': 'Recall the key results of the lessons you finished',
-    onclick: () => { location.hash = '#/recap'; },
+    onclick: () => { location.hash = at('recap'); },
   });
   chip.innerHTML = icons.recap;
   chip.append(label);
@@ -178,7 +180,7 @@ function titleLines(title) {
 }
 
 // Sign-in button that turns into the account avatar once signed in.
-function accountChip() {
+export function accountChip() {
   if (!cloudConfigured) return null;
   preloadCloud();
   const btn = h('button', { class: 'chip account', type: 'button' });

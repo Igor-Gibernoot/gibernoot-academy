@@ -1,19 +1,21 @@
 # Lesson format
 
-Lessons are YAML files in `content/<chapter>/`, registered in `content/course.yaml`.
-The engine (`js/`) renders them; adding a lesson never requires touching code
-(unless it needs a new widget).
+Lessons are YAML files in `courses/<course>/<chapter>/`, registered in that
+course's `courses/<course>/course.yaml` (courses are listed in
+`courses/catalog.yaml`; new course: `docs/NEW_COURSE.md`). The engine (`js/`)
+renders them for every course; adding a lesson never requires touching code
+(unless it needs a new widget). Widgets are shared by all courses.
 
 After any content change run:
 
 ```sh
-node tools/validate.mjs
+node tools/validate.mjs <course>   # or no argument: every course
 ```
 
 It checks structure, that build answers only use available tiles, and that
 every `$...$` / `$$...$$` and every tile renders in KaTeX.
 
-## Registering a lesson (`content/course.yaml`)
+## Registering a lesson (`courses/<course>/course.yaml`)
 
 ```yaml
 levels:
@@ -195,7 +197,7 @@ Each tile can be used once; list a tile twice if it is needed twice.
   body: |
     Instructions: what to drag and what to watch.
 ```
-Widgets live in `js/widgets.js` (register new ones in `WIDGETS`). Follow a
+Widgets live in `js/widgets/` (shared by all courses; `index.js` holds the registry `WIDGETS`, larger figures get their own module such as `sphere.js`; register new ones in `WIDGETS`). Follow a
 widget card with a question about what the reader observed.
 
 Available widgets (all coordinates are components in the reference basis
@@ -316,7 +318,7 @@ config:
   snap: 0.1                   # grid for the ends of V
   presets: [{ label: Jump, fn: step, V: [0.5, 1.5] }]   # fn, V optional
 ```
-New maps go in `FUNCS` in `js/widgets.js` (rule text, formula, jump points).
+New maps go in `FUNCS` in `js/widgets/index.js` (rule text, formula, jump points).
 
 #### `circle-charts`
 Two charts on the unit circle $S^1$. Chart A (blue ring outside the circle) is
@@ -393,7 +395,7 @@ config:
 ```
 Circle defaults: `curves: [{ w: 1, a: 0 }, { w: 1, a: 0.5 }]`. Keep $|w| \le 1$
 in configs so arrows stay inside the drawing. New fields go in `CV_FIELDS`
-(`js/widgets.js`: TeX, button name, value, gradient in $\mathbb{R}^2$).
+(`js/widgets/index.js`: TeX, button name, value, gradient in $\mathbb{R}^2$).
 
 #### `chart-basis`
 Chart-induced bases and the Jacobian in the plane $\mathbb{R}^2$ (points
@@ -452,7 +454,7 @@ $0.14$ view units (the `Y` lines $q_2 = c\,e^{-q_1}$ for large $q_1$, the polar
 rays near the origin), only every 2nd (4th, …) line continues, so they thin
 out instead of crowding. Labels are placed automatically beside or beyond the
 arrow tips, avoiding the arrows (including $v$), $p$ and each other. New charts go
-in `CB_CHARTS` (`js/widgets.js`: name, coordinate TeX and glyphs, rule, map,
+in `CB_CHARTS` (`js/widgets/index.js`: name, coordinate TeX and glyphs, rule, map,
 inverse, Jacobian of the map, steps).
 
 #### `parallel-transport`
@@ -1038,7 +1040,7 @@ so the small `sheared` chart panel shows larger tick labels.
 
 #### `torus`
 The exam figures: the torus $\mathcal{M}$ with the angle chart $(\theta,\varphi)$ and the
-projection chart $(a,b)$ (`js/torus.js`, canvas, no library, theme-aware). **Display only**:
+projection chart $(a,b)$ (`js/widgets/torus.js`, canvas, no library, theme-aware). **Display only**:
 no component values, no labelled results. A rotatable 3D torus (drag; touch rotates
 horizontally only, so the page scrolls; arrow keys; buttons Reset view / From above / From the side)
 plus chart panels below it. Config: `view` (one name, or a list shown as tab buttons;
@@ -1055,8 +1057,8 @@ answer of Question 4(b,c) qualitatively, as the paper exam did).
 #### `sphere`
 The final-exam figures: the unit sphere $\mathcal{M}$, $\Phi(\alpha_1,\alpha_2)=(\sin\alpha_1\cos\alpha_2,\sin\alpha_1\sin\alpha_2,\cos\alpha_1)$,
 with the angle chart $(\alpha_1,\alpha_2)$ and the projection chart $(\beta_1,\beta_2)$ on the northern
-hemisphere (`js/sphere.js`, canvas, no library, theme-aware; reuses the palette, frame and text helpers
-exported by `js/torus.js`, and the `tor-*` CSS). **Display only**: no component values, no labelled
+hemisphere (`js/widgets/sphere.js`, canvas, no library, theme-aware; reuses the palette, frame and text helpers
+exported by `js/widgets/torus.js`, and the `tor-*` CSS). **Display only**: no component values, no labelled
 answers. A rotatable 3D sphere (hidden lines dashed; drag, touch rotates horizontally only, arrow keys,
 buttons Reset view / From above / From the side) plus chart panels below. Config: `view` (one name, or
 a list shown as tab buttons; `labels: {view: text}` renames tabs), `rotate: false`, `az`, `el`

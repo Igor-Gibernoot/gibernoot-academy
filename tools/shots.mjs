@@ -1,6 +1,7 @@
 // Screenshot pass for one lesson (serves the repo itself, no server needed).
 // usage: node tools/shots.mjs <lessonFile> <lessonId> <outDir> [--all]
-//   e.g. node tools/shots.mjs ch03/hausdorff.yaml ch03-hausdorff /tmp/shots
+//   <lessonFile> is relative to courses/, so it starts with the course folder:
+//   e.g. node tools/shots.mjs dg2gr/ch03/hausdorff.yaml ch03-hausdorff /tmp/shots
 // Prints one line per problem (formula overflow at phone/desktop width, page
 // errors) and saves PNGs of widget cards (plus build/order and phone `$$`
 // cards with --all). Setup once: npm install --prefix tools
@@ -18,7 +19,8 @@ const [file, id, out] = args.filter(a => a !== '--all');
 const yaml = createRequire(import.meta.url)(`${repo}/vendor/js-yaml.min.js`);
 // Map lessons (kind: map) have no cards: expand them as the app does.
 const { expandLesson } = await import(pathToFileURL(`${repo}/js/content.js`));
-const lesson = expandLesson(yaml.load(readFileSync(`${repo}/content/${file}`, 'utf8')));
+const course = file.split('/')[0];
+const lesson = expandLesson(yaml.load(readFileSync(`${repo}/courses/${file}`, 'utf8')));
 mkdirSync(out, { recursive: true });
 
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css',
@@ -46,7 +48,7 @@ for (const [w, hgt, tag] of [[390, 844, 'phone'], [1280, 860, 'desk']]) {
   const errs = []; p.on('pageerror', e => errs.push(e.message));
   for (let n = 0; n < lesson.cards.length; n++) {
     const c = lesson.cards[n];
-    await p.goto(`http://localhost:${port}/#/lesson/${id}/${n + 1}`); await p.waitForTimeout(300);
+    await p.goto(`http://localhost:${port}/#/${course}/lesson/${id}/${n + 1}`); await p.waitForTimeout(300);
     await p.reload(); await p.waitForTimeout(400);
     const extras = [c.explanation, c.hint, ...(c.options ?? []).map(o => o.feedback), ...(c.wrong ?? []).map(o => o.feedback)].filter(Boolean);
     const res = await p.evaluate(async extras => {

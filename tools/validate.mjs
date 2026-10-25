@@ -1,11 +1,12 @@
 #!/usr/bin/env node
-// Checks the course and every lesson file:
+// Checks the course catalog, then each course and every lesson file:
 //   - YAML parses, required fields exist, ids are unique
 //   - question cards are well-formed (mcq has a correct option, build answers
 //     use only available tiles, numeric answers are numbers, ...)
 //   - every piece of math ($...$, $$...$$, tiles, prefixes) renders in KaTeX
 //
-// Usage: node tools/validate.mjs        (exit code 1 on any error)
+// Usage: node tools/validate.mjs            all courses in courses/catalog.yaml
+//        node tools/validate.mjs <course>   one course (exit code 1 on any error)
 
 import { readFileSync, existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -26,8 +27,9 @@ console.warn = (...args) => {
 
 const errors = [];
 const warnings = [];
-const err = (where, msg) => errors.push(`${where}: ${msg}`);
-const warn = (where, msg) => warnings.push(`${where}: ${msg}`);
+let cid = ''; // course being checked: messages start with its folder
+const err = (where, msg) => errors.push(`${cid}${where}: ${msg}`);
+const warn = (where, msg) => warnings.push(`${cid}${where}: ${msg}`);
 
 const MATH = /\$\$([\s\S]+?)\$\$|\$((?:\\\$|[^$\n])+?)\$/g;
 function checkTex(where, src, display = false) {
@@ -46,10 +48,26 @@ function checkText(where, text) {
 const BACKREF = /\b(previous|last) (card|step|lesson|question)|\bin the (last|previous) lesson|\bas (shown|seen) above/i;
 
 const KINDS = ['concept', 'intuition', 'guided', 'traps', 'map', 'review', 'challenge', 'exam'];
-const course = yaml.load(readFileSync(join(root, 'content/course.yaml'), 'utf8'));
-const lessonIds = new Set();
+const catalog = yaml.load(readFileSync(join(root, 'courses/catalog.yaml'), 'utf8'));
+const only = process.argv[2];
+if (only && !catalog.courses?.some(c => c.id === only)) { console.log(`ERROR no course "${only}" in courses/catalog.yaml`); process.exit(1); }
 let built = 0, cardsTotal = 0;
+const courseIds = new Set();
+for (const c of catalog.courses ?? []) {
+  if (!c.id || !c.title) err('catalog.yaml', 'each course needs id and title');
+  if (!/^[a-z0-9-]+$/.test(c.id ?? '')) err('catalog.yaml', `course id "${c.id}": lowercase letters, digits and - only`);
+  if (courseIds.has(c.id)) err('catalog.yaml', `duplicate course id "${c.id}"`);
+  courseIds.add(c.id);
+  checkText(`catalog.yaml ${c.id}`, c.blurb);
+  if (c.status === 'planned' || (only && c.id !== only)) continue;
+  if (!existsSync(join(root, 'courses', c.id, 'course.yaml'))) { err('catalog.yaml', `courses/${c.id}/course.yaml not found`); continue; }
+  cid = `${c.id}/`;
+  checkCourse(yaml.load(readFileSync(join(root, 'courses', c.id, 'course.yaml'), 'utf8')), join(root, 'courses', c.id));
+  cid = '';
+}
 
+function checkCourse(course, dir) {
+const lessonIds = new Set();
 for (const level of course.levels ?? []) {
   const lw = `course.yaml level ${level.id}`;
   if (!level.id || !level.title || (level.number == null && !level.eyebrow)) err(lw, 'needs id, title and number (or eyebrow)');
@@ -64,8 +82,8 @@ for (const level of course.levels ?? []) {
     checkText(w, meta.summary);
     if (meta.kind === 'review' && meta.file) err(w, 'a level review is automatic: it takes no file');
     if (!meta.file) continue;
-    const path = join(root, 'content', meta.file);
-    if (!existsSync(path)) { err(w, `file not found: content/${meta.file}`); continue; }
+    const path = join(dir, meta.file);
+    if (!existsSync(path)) { err(w, `file not found: ${meta.file}`); continue; }
     built++;
     let lesson;
     try { lesson = yaml.load(readFileSync(path, 'utf8')); }
@@ -75,6 +93,7 @@ for (const level of course.levels ?? []) {
     if (lesson.own != null) checkOwn(meta.file, lesson);
     checkLesson(meta.file, expandLesson(lesson));
   }
+}
 }
 
 function checkMap(file, m) {

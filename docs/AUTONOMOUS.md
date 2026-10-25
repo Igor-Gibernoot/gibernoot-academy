@@ -1,7 +1,7 @@
 # Autonomous mode (agents, one unit each)
 
 Read this only when Igor asks for several units in a row (e.g. "until the end
-of Chapter 3"). The main session is then a **lean coordinator**: it builds
+of Chapter 3" of a course). The main session is then a **lean coordinator**: it builds
 nothing and reads nothing itself (no lesson files, no book, no docs), so its
 context stays small. Igor reviews the level on the live site at the end.
 
@@ -16,7 +16,7 @@ context stays small. Igor reviews the level on the live site at the end.
   Do not view screenshot images unless shots.mjs flags a card or the unit
   uses a widget preset never used before. Run commands from the repo root
   without `cd … &&` prefixes. At the end, validate, run shots, update
-  docs/STATUS.md, commit and push, then reply with a report of at most 15
+  the course's STATUS.md, commit and push, then reply with a report of at most 15
   lines (what was built, checks output, conventions fixed, doubts) followed
   by the next unit's prompt. When writing that prompt, decide explicitly
   whether a new widget would build intuition (CLAUDE.md: add a widget

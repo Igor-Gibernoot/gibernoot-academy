@@ -1,11 +1,11 @@
 // Feedback sounds, synthesized with Web Audio (no audio files).
 // The on/off preference is per browser and is not part of the progress code.
 
-const KEY = 'dg2gr.sound';
+const KEY = 'gibernoot.sound', OLD_KEY = 'dg2gr.sound';
 let ctx = null;
 
 export function soundOn() {
-  try { return localStorage.getItem(KEY) !== 'off'; } catch { return true; }
+  try { return (localStorage.getItem(KEY) ?? localStorage.getItem(OLD_KEY)) !== 'off'; } catch { return true; }
 }
 
 export function setSound(on) {

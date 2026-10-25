@@ -4,7 +4,7 @@ The short version of `docs/LESSON_FORMAT.md`, for lesson sessions. The full
 doc is the source of truth; open it only for a widget's own subsection
 (`grep -n '^####' docs/LESSON_FORMAT.md`), the map format, or widget work.
 
-## Registering (`content/course.yaml`)
+## Registering (`courses/<course>/course.yaml`)
 
 ```yaml
       - id: ch03-circle               # must equal the lesson file's id
@@ -180,7 +180,7 @@ Write plain Markdown tables (`| a | b |` with a `|---|---|` row). The `.prose ta
 ## Checks
 
 ```sh
-node tools/validate.mjs
-node tools/shots.mjs ch03/circle.yaml ch03-circle <scratchpad>/shots
+node tools/validate.mjs dg2gr          # one course; no argument = all courses
+node tools/shots.mjs dg2gr/ch03/circle.yaml ch03-circle <scratchpad>/shots   # path relative to courses/
 ```
 `#/lesson/<id>/<n>` (1-based) jumps to card n under `python3 -m http.server 8000`.

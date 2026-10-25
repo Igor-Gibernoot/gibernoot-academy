@@ -2,9 +2,16 @@
 
 Static site, no build step, served by GitHub Pages from the repo root.
 
-- `js/`: `cards.js` (card types), `widgets.js` (interactive SVG widgets,
-  registry `WIDGETS` at the bottom), `player.js` (lesson flow and feedback),
-  `trail.js`, `progress.js` (localStorage with export/import codes, per-lesson resume position `partial`, Leitner
+- Courses: `courses/catalog.yaml` lists them; each `courses/<id>/` holds
+  its `course.yaml` and lesson files. `js/course.js` keeps the current
+  course (set by the router from `#/<id>/...`) and `at(path)` builds its
+  hashes; `content.js` loads from `courses/<id>/`; `home.js` is the course
+  list (`#/`). Links without a course (`#/lesson/<id>`, from before
+  courses) redirect to `LEGACY_COURSE`.
+- `js/`: `cards.js` (card types), `widgets/` (interactive SVG/canvas
+  widgets shared by all courses: `index.js` with the registry `WIDGETS` at
+  the bottom, `torus.js`, `sphere.js`), `player.js` (lesson flow and feedback),
+  `trail.js`, `progress.js` (localStorage `gibernoot.progress.v2`, one state for all courses with keys prefixed `<courseId>:`, version-1 states migrated to `dg2gr:` on load, cloud merge and import; export/import codes, per-lesson resume position `partial`, Leitner
   spaced repetition), `main.js` (router), `render.js` (Markdown + KaTeX; short
   inline math keeps trailing punctuation on its line).
 - `vendor/`: KaTeX, js-yaml, marked. No CDN, so the app works offline.
@@ -31,4 +38,4 @@ Static site, no build step, served by GitHub Pages from the repo root.
   (`js/cloud.js`, `docs/ACCOUNTS.md`; inactive until `js/firebase-config.js`
   is filled in).
 - `tools/validate.mjs` (structure and KaTeX checks), `tools/shots.mjs`
-  (headless screenshots and overflow check; see `docs/STATUS.md`, Tooling).
+  (headless screenshots and overflow check; see `courses/dg2gr/STATUS.md`, Tooling).

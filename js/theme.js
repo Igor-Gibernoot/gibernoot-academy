@@ -3,11 +3,11 @@
 
 import { icons } from './icons.js';
 
-const KEY = 'dg2gr.theme';
+const KEY = 'gibernoot.theme', OLD_KEY = 'dg2gr.theme';
 const mq = window.matchMedia('(prefers-color-scheme: dark)');
 
 function stored() {
-  try { const v = localStorage.getItem(KEY); return v === 'light' || v === 'dark' ? v : null; } catch { return null; }
+  try { const v = localStorage.getItem(KEY) ?? localStorage.getItem(OLD_KEY); return v === 'light' || v === 'dark' ? v : null; } catch { return null; }
 }
 
 export const currentTheme = () => stored() ?? (mq.matches ? 'dark' : 'light');

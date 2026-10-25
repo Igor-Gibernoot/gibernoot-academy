@@ -1,63 +1,75 @@
-# From Differential Geometry to General Relativity — Study App
+# Gibernoot Academy — Study Apps
 
 ## Context
 
 Personal study project for Igor, a physics PhD student at the University of
-São Paulo, taking *"From Differential Geometry to General Relativity"*,
-based on an in-progress book by the professor (Daniel López Cano).
+São Paulo. **Gibernoot Academy** is one static web app with several
+**courses**, all built with the same engine, the same lesson kinds and the
+same teaching method; only the content differs.
 
-- The book (Markdown) is the **main reference**:
-  `from_differential_geometry_to_general_relativity/from_differential_geometry_to_general_relativity.md`.
-  It is complete: Chapters 1–10 plus appendices A (computational), B
-  (proofs), C (worked examples). B and C are sources for guided problems.
-- **Never read the PDFs** (listed in `.claudeignore`).
-- **The book is unpublished: never commit or push it** (Markdown, images,
-  PDFs). The repo is public; `.gitignore` excludes the book folder and all
-  PDFs. Keep it that way.
-- Trail levels use **book chapter numbers** (Chapter 1 is the
-  introduction). In lessons, refer to later material by name ("the metric,
-  Level 7").
+- Courses: `courses/catalog.yaml` (the home page list). Each course is a
+  folder `courses/<id>/`:
+  - `CLAUDE.md`: **read it before working on that course**: its sources,
+    chapter-to-level mapping, notation and conventions.
+  - `course.yaml` (the trail) and lesson files `chNN/*.yaml`, `exams/`.
+  - `STATUS.md`: the course's build status (Current block + Log).
+  - `archive/` (optional): old exercises and notes worth mining.
+  - `sources/` (**git-ignored, never committed**): the course's main
+    reference (books, lecture notes, the professor's exams, PDFs).
+- Every session works on **one course**. If the prompt does not name it and
+  more than one course is in progress, ask.
+- A new course: follow `docs/NEW_COURSE.md`.
+- **Never read the PDFs** (listed in `.claudeignore`); use the Markdown
+  conversion of a source.
+- **Sources may be unpublished: never commit or push them** (Markdown,
+  images, PDFs). The repo is public; `.gitignore` excludes
+  `courses/*/sources/` and all PDFs. Keep it that way.
+- Trail levels use the **chapter numbers of the course's main source**
+  (Chapter 1 is the introduction). In lessons, refer to later material by
+  name ("the metric, Level 7").
 
 ## Role
 
 Act as Igor's personal tutor, in problem-based-learning style: build genuine
 understanding, explain rigorously but pedagogically, and connect back to the
-book's notation and logical development.
+main source's notation and logical development.
 
 ## The deliverable: a Brilliant-style study app
 
 Static web app on GitHub Pages (laptop and phone). Deploy = commit + push to
 `main` (Igor has authorized pushing this repo).
-- Repo: https://github.com/Igor-Gibernoot/From-differential-geometry-to-General-relativity-
-- Live: https://igor-gibernoot.github.io/From-differential-geometry-to-General-relativity-/
-- Trail: `content/course.yaml`, one level per book chapter; lessons without
-  `file:` are planned nodes. Lessons: `content/chNN/*.yaml` (format in
+- Repo: https://github.com/Igor-Gibernoot/gibernoot-academy
+- Live: https://igor-gibernoot.github.io/gibernoot-academy/ (home = course
+  list; a course at `#/<id>`, a lesson at `#/<id>/lesson/<lessonId>/<n>`).
+- Shared by all courses: the engine `js/`, the widgets `js/widgets/`
+  (`index.js` holds the registry; any course may use any widget), styles
+  `css/app.css`, `vendor/`, `tools/`, and the format docs in `docs/`.
+- Trail: `courses/<id>/course.yaml`, one level per chapter; lessons without
+  `file:` are planned nodes. Lessons: `courses/<id>/chNN/*.yaml` (format in
   `docs/QUICKREF.md`, full spec `docs/LESSON_FORMAT.md`). Engine and app
   features: `docs/APP.md` (read only when changing the engine).
-- `archive/tex_exercises/`: retired TeX exercises, a source of good problems
-  (and of each chapter's content map); the book stays the reference.
 
 ### Lesson kinds (per chapter level)
 
 1. **Concept** (`kind: concept`): open with a problem or prediction the
    reader cannot yet solve, build the concept, return to resolve it.
 2. **Guided problem** (`kind: guided`): one substantial problem split into
-   steps, each a question. Prefer results the book states without proof
-   (grep `DLC: PROOF`) and the Appendix B proofs.
+   steps, each a question. Prefer results the source states without proof
+   and its appendix proofs (the course's `CLAUDE.md` says where they are).
 3. **Traps** (`kind: traps`): fast questions, each built on a common
    misconception.
 4. **Intuition** (`kind: intuition`): derives nothing; builds quick recall of the main formulas of the concept lessons (mnemonics, limit/scaling checks, build cards, a small numeric example).
    The numeric/applied cards after the build cards **must not state the formula to apply**: the learner recalls it (hints may point to the family or the scaling test, never write the law). Give data, not the law.
 5. **End of every level:** **content map** (`kind: map`, rebuild the
-   chapter's concept map box by box among decoys; start from the old TeX
-   map and check it against the book), **level review** (`kind: review`,
-   automatic), **level challenge** (`kind: challenge`, harder problems
-   combining the level's concepts; built last).
+   chapter's concept map box by box among decoys; start from an old map in
+   `archive/` if any and check it against the source), **level review**
+   (`kind: review`, automatic), **level challenge** (`kind: challenge`,
+   harder problems combining the level's concepts; built last).
    **Summaries show the math:** each `own:` bullet restates its main formulas (displayed, phone-safe), never only prose.
    **Summaries are self-contained:** the recap is read alone, weeks later, and in Recap with blanks. Every symbol, chart, map, connection, space and running example an `own:` bullet uses is defined in that bullet or in the lines just above it ("on the plane $\mathbb{R}^2$ with cartesian chart $(x,y)$ and polar chart $(r,\theta)$, ..."), never assumed from the lesson. Re-state the setup of any example you recall; never "the book" or its labels.
-6. **Exam** (`kind: exam`, own level, played by `js/exam.js`; format in `docs/LESSON_FORMAT.md`). Built from the professor's exam in `partial_exam/` or `final_exam/`; one session per exam (widgets for its figures first, in their own session). Rules for building one:
+6. **Exam** (`kind: exam`, own level, played by `js/exam.js`; format in `docs/LESSON_FORMAT.md`). Built from the professor's exam in the course's `sources/`; one session per exam (widgets for its figures first, in their own session). Rules for building one:
    - **Faithful**: same questions, same point weights (`points:` per card, total = original total), same numbers. Adapt only the format (below).
-   - **Own level** between chapters (`eyebrow`, `hue`), never inside a chapter. The final exam is `exam-final` after Level 10.
+   - **Own level** between chapters (`eyebrow`, `hue`), never inside a chapter. The final exam is `exam-final` after the last chapter level.
    - **Setting card first** (not a question): the objects and notation of the exam, self-contained. Then one card per sub-question, tagged `Question N · …`, ids `qN-…`.
    - **Written answers become gradable cards**: mcq (also multi-select), numeric, build, order. Each wrong option encodes a real mistake, with `feedback` (shown only in the review). Every card has an `explanation`; the debrief lists the skills tested.
    - **No hints, no feedback, no widgets that reveal the answer** while answering; figures are shown as in the original exam (static or interactive widgets that only display, never solve).
@@ -65,29 +77,28 @@ Static web app on GitHub Pages (laptop and phone). Deploy = commit + push to
    - Verify every number twice; the review must show the right answer for every card.
    - Check: validate, shots, and a headless run of intro, answering, submit, time-up, results, review, exit.
 
-7. **Review** is automatic: every question enters a spaced-repetition deck,
-   so prompts, hints and feedback must be **self-contained**.
-8. **Intro level (Level 1, and any future preview lesson)** is a *light*
-   tour for a reader who may know no relativity and no tensor notation.
-   Keep the advanced content, but present it thoroughly:
+7. **Review** is automatic: every question enters a spaced-repetition deck
+   (one deck per course), so prompts, hints and feedback must be
+   **self-contained**.
+8. **Intro level (Level 1 of a course, and any future preview lesson)** is a
+   *light* tour for a reader who may know nothing of the field and none of
+   its notation. Keep the advanced content, but present it thoroughly:
    - **Guessing is the point, for the whole level.** The first lesson says
      so for *all* intro lessons; every later intro lesson repeats it in one
      line in its opening card.
    - **Gloss every technical word at first use**, in one plain sentence,
-     even if a later Level formalizes it: event, worldline, proper time,
-     timelike, geodesic, chart, basis, tangent plane, tensor, covector,
-     great circle, horizon, orientable, energy–momentum tensor, … Never a
+     even if a later Level formalizes it (in a relativity course: event,
+     worldline, proper time, geodesic, chart, tensor, horizon, …). Never a
      bare name plus "(Level N)".
-   - **Warn about notation**: a raised index is a label, not a power
+   - **Warn about notation**: e.g. a raised index is a label, not a power
      ($x^i$, $x^2$ = "second component"); a dot is a time derivative;
-     units $c = 1$ (speeds as fractions of light speed). Avoid index-heavy
-     formulas (Riem, $\Gamma$, $\partial_r$) in cards and `own:`; if one
-     appears (e.g. a widget readout), say "the symbols come later, watch
-     the shape".
-   - **Outside knowledge (special relativity, Newton) is explained where
-     used**: if a question needs e.g. the slow-clock factor
-     $\sqrt{1-v^2}$, the hint gives it and the explanation derives or
-     motivates it (light clock), so a reader who never met it learns it.
+     units such as $c = 1$. Avoid index-heavy formulas in cards and
+     `own:`; if one appears (e.g. a widget readout), say "the symbols come
+     later, watch the shape".
+   - **Outside knowledge is explained where used**: if a question needs a
+     result from another subject (e.g. the slow-clock factor
+     $\sqrt{1-v^2}$), the hint gives it and the explanation derives or
+     motivates it, so a reader who never met it learns it.
    - **Questions must be guessable** from intuition or the card before
      (no recalling the course structure, no counting tasks without the
      needed definition in the prompt). Explanations show the reasoning,
@@ -102,11 +113,12 @@ Static web app on GitHub Pages (laptop and phone). Deploy = commit + push to
 
 Igor's emphasis: **language as simple as possible and an intuitive approach,
 while building a rigorous foundation**: define every new notation and symbol,
-and put the weight on understanding and on the physics.
+and put the weight on understanding and on the physics (or, in other
+courses, on what the subject is for).
 
 1. **Why the topic exists.** Say what problem it was invented to solve,
-   ideally physics- or GR-flavored. Start with a hook: a concrete puzzle
-   or prediction ("before any theory, guess…").
+   ideally flavored by the course's goal. Start with a hook: a concrete
+   puzzle or prediction ("before any theory, guess…").
 2. **First principles.** Derive what can be derived from the definitions;
    state requirements, valid conditions and limitations (finite-dimensional,
    real scalars, needs a metric or not, …). Turn derivation steps into
@@ -120,32 +132,20 @@ and put the weight on understanding and on the physics.
 5. **Applied examples** small enough to check by hand. Verify every number
    before writing it.
 6. **Never use a concept before it is introduced.** Recall earlier
-   concepts briefly ("Recall: …") instead of pointing to a book section.
+   concepts briefly ("Recall: …") instead of pointing to a source section.
 7. **Show, don't assert.** Claims like "the same in every basis" get
    demonstrated, by the general argument plus a small numeric example or a
    widget.
 8. **Don't give away a question in the card before it.**
-9. **Consistency.** Use the book's conventions exactly: $\hat{x}_i = \sum_j
-   J_i^j\cdot\hat{y}_j$ (old in terms of new), $y^i = \sum_j J^i_j x^j$,
-   $\mathtt{x}_j = \sum_i J^i_j \mathtt{y}_i$ (covector components are
-   typewriter `\mathtt`, covectors sans-serif `\mathsf{X}`), notation
-   $\mathcal{X}$, $\hat{\mathfrak{x}}^i$ (the book's "induced dual cobasis"),
-   $T^{i_1\dots}_{j_1\dots}$ for tensor components, $T_p\mathcal{M}$,
-   $T_p^*\mathcal{M}$. Chapter 2 writes sums explicitly; Einstein summation
-   only from Chapter 4, where the book introduces it. Later conventions are
-   listed in `docs/STATUS.md` (Current).
-   **Runes:** keep the book's runic symbols (never swap them for another
-   notation): write them as `\text{ᛖ}`, `\text{ᛞ}`, `\text{ᚱ}`, … inside
-   math. They render on every device through the runic font that extends
-   KaTeX (`vendor/fonts/`, any rune U+16A0–16F8). Introduce each with its
-   meaning and subscript order, e.g. $\text{ᛖ}_{\mathcal{U}\mathcal{V}} :=
-   \mathscr{Y}\circ\mathscr{X}^{-1}$, Jacobian $(\text{ᛞ}_{\mathcal{V}\mathcal{U}})^i_j
-   := (\partial\mathscr{Y}^i/\partial\mathscr{X}^j)_p$ (first subscript = chart of
-   the row index); the fraction form may be used alongside it in laws.
-10. **Self-contained.** Never mention "the book" or its section labels
-    (C.3, B.5: say "the running example"); where the book derives a result
-    another way, give both derivations in the lesson. End each lesson
-    with a short "what you now own" summary and a teaser for the next one.
+9. **Consistency.** Use the main source's conventions exactly (its index
+   placement, symbols, fonts, special characters). Each course's
+   `CLAUDE.md` lists them; later conventions fixed while building are in
+   its `STATUS.md` (Current).
+10. **Self-contained.** Never mention "the book" (or "the notes") or its
+    section labels (C.3, B.5: say "the running example"); where the source
+    derives a result another way, give both derivations in the lesson. End
+    each lesson with a short "what you now own" summary and a teaser for
+    the next one.
 11. **Card-sized steps for flow.** One idea per card, many small
     questions, immediate feedback. Mix question types (not only MCQ). Add a
     widget wherever manipulating something builds intuition, and put it
@@ -155,7 +155,7 @@ and put the weight on understanding and on the physics.
     that needs more is split into two or three lessons, each with its own
     hook or recall opening, `own:` summary and teaser. **This limit applies
     only to lessons, not to exams** (`kind: exam`): an exam has as many
-    cards as the original has sub-questions (the final exam has 39).
+    cards as the original has sub-questions.
 12. **Displayed math.** A standalone equation, definition or chain goes on
     its own `$$...$$` line, phone-safe (`docs/QUICKREF.md`).
 13. **Theme-neutral wording.** Never "the black arrow": name things by label
@@ -163,10 +163,18 @@ and put the weight on understanding and on the physics.
     orange).
 14. **Tables.** Plain Markdown tables only; the house style lives in `css/app.css` (`.prose table`: bordered, shaded header, zebra rows). Never style a table per lesson.
 
+### Widgets are shared
+
+Widgets live in `js/widgets/` and belong to the academy, not to a course.
+Before building a new one, check `docs/LESSON_FORMAT.md` (`grep -n '^####'`)
+for an existing widget that a preset could adapt. Build new widgets as
+general tools (parameters in the preset, no course-specific text hard-coded),
+so other courses can reuse them.
+
 ### Building sessions (token efficiency)
 
 Lessons are built across many short sessions. Igor starts each with
-`/clear` and a prompt naming **one unit of work**.
+`/clear` and a prompt naming **one course and one unit of work**.
 - **One unit per session:** one concept or guided lesson, or one traps
   round, or one content map, or **one new widget** (build it, document it
   in `docs/LESSON_FORMAT.md`, test it with a throwaway preset, no lesson).
@@ -174,31 +182,39 @@ Lessons are built across many short sessions. Igor starts each with
   that needs a new widget is two sessions: the widget first. Don't start
   the next unit even if budget seems to remain; finish cleanly.
 - **Read only what you need, once:**
-  - Status: only the **Current** block of `docs/STATUS.md`
-    (`sed -n '/^## Current/,/^## Log/p' docs/STATUS.md`), never the Log.
+  - The course's `CLAUDE.md` (always).
+  - Status: only the **Current** block of the course's status
+    (`sed -n '/^## Current/,/^## Log/p' courses/<id>/STATUS.md`), never
+    the Log.
   - Format: `docs/QUICKREF.md`. Open `docs/LESSON_FORMAT.md` only for the
     subsection of a widget you use (`grep -n '^####'`, read that range),
     the map section when building a map, or in widget sessions.
   - The model lesson: the most recent lesson of the same chapter, first
     ~120 lines only.
-  - The book: `grep -n` the section heading and read just that range.
-  - `js/widgets.js` only in widget sessions (the widget's function and the
-    registry at the bottom).
+  - The source: `grep -n` the section heading and read just that range.
+  - `js/widgets/index.js` only in widget sessions (the widget's function
+    and the registry at the bottom).
   - Never re-read a file you wrote or edited this session.
 - **Write the lesson in one `Write` call**, then fix with small `Edit`s.
   Plan the card list in your head, not as a draft file.
-- **Checks are text-first.** `node tools/validate.mjs` (fix every error and
-  warning), then `node tools/shots.mjs <file> <id> <scratchpad>/shots`: it
-  prints only problems (formula overflow at phone and desktop width, page
-  errors). **View images only when something visual is new** (widget
-  sessions, a widget preset not seen before) or a card is flagged. `--all`
-  only when hunting a layout bug. Setup once: `npm install --prefix tools`.
-  By hand: `python3 -m http.server 8000`, `#/lesson/<id>/<n>` (1-based).
-- **End of every session:** validate, run shots, update `docs/STATUS.md`
-  (Current block, plus a Log entry of a few lines ending with "Conventions
-  fixed here: …", copied into Current's conventions), commit and push,
-  then **give Igor a ready-to-paste prompt for the next session** naming
-  the single next unit from `course.yaml`, with a card plan of about 10
-  lines (hook, widget, key questions, summary) and the book lines to read.
+- **Checks are text-first.** `node tools/validate.mjs <id>` (fix every
+  error and warning; without `<id>` it checks every course), then
+  `node tools/shots.mjs <id>/<file> <lessonId> <scratchpad>/shots` (file
+  path relative to `courses/`): it prints only problems (formula overflow
+  at phone and desktop width, page errors). **View images only when
+  something visual is new** (widget sessions, a widget preset not seen
+  before) or a card is flagged. `--all` only when hunting a layout bug.
+  Setup once: `npm install --prefix tools`. By hand:
+  `python3 -m http.server 8000`, `#/<id>/lesson/<lessonId>/<n>` (1-based).
+- **End of every session:** validate, run shots, update the course's
+  `STATUS.md` (Current block, plus a Log entry of a few lines ending with
+  "Conventions fixed here: …", copied into Current's conventions), commit
+  and push, then **give Igor a ready-to-paste prompt for the next session**
+  naming the course and the single next unit from its `course.yaml`, with a
+  card plan of about 10 lines (hook, widget, key questions, summary) and
+  the source lines to read.
 - **Several units in a row** ("until the end of Chapter 3"): follow
   `docs/AUTONOMOUS.md`.
+- **Engine changes** (shared by all courses): after one, run
+  `node tools/validate.mjs` (all courses) and shots on a lesson of each
+  course.

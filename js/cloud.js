@@ -6,9 +6,9 @@
 import { firebaseConfig } from './firebase-config.js';
 import { progress } from './progress.js';
 
-const HINT = 'dg2gr.signedin'; // set once the user signs in, so we restore the session on load
-const hasHint = () => { try { return localStorage.getItem(HINT) === '1'; } catch { return false; } };
-const setHint = on => { try { on ? localStorage.setItem(HINT, '1') : localStorage.removeItem(HINT); } catch { /* ignore */ } };
+const HINT = 'gibernoot.signedin', OLD_HINT = 'dg2gr.signedin'; // set once the user signs in, so we restore the session on load
+const hasHint = () => { try { return (localStorage.getItem(HINT) ?? localStorage.getItem(OLD_HINT)) === '1'; } catch { return false; } };
+const setHint = on => { try { on ? localStorage.setItem(HINT, '1') : (localStorage.setItem(HINT, '0'), localStorage.removeItem(OLD_HINT)); } catch { /* ignore */ } };
 
 export const cloudConfigured = !!firebaseConfig;
 

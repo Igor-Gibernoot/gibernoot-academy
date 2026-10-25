@@ -4,8 +4,8 @@
 // answers. Views are chosen by `view` (documented in docs/LESSON_FORMAT.md,
 // `sphere`). Palette, frames and text helpers are shared with js/torus.js.
 
-import { h } from './dom.js';
-import { mdInline } from './render.js';
+import { h } from '../dom.js';
+import { mdInline } from '../render.js';
 import { palette, css, mixc, arrowHead, haloText, frame } from './torus.js';
 
 const PI = Math.PI, TAU = 2 * PI, R3 = Math.sqrt(3);

@@ -1,20 +1,25 @@
-// Loads the YAML course map and lesson files from /content.
+// Loads the course catalog (courses/catalog.yaml) and, for the current course,
+// its course map and lesson files from courses/<id>/.
+
+import { courseId } from './course.js';
 
 const cache = new Map();
 
 function loadYaml(path) {
   if (!cache.has(path)) {
-    cache.set(path, fetch(`content/${path}`, { cache: 'no-cache' })
-      .then(r => { if (!r.ok) throw new Error(`content/${path}: HTTP ${r.status}`); return r.text(); })
+    cache.set(path, fetch(`courses/${path}`, { cache: 'no-cache' })
+      .then(r => { if (!r.ok) throw new Error(`courses/${path}: HTTP ${r.status}`); return r.text(); })
       .then(t => jsyaml.load(t)));
   }
   return cache.get(path);
 }
 
+export const getCatalog = () => loadYaml('catalog.yaml');
+
 export const QUESTION_TYPES = ['mcq', 'numeric', 'build', 'order', 'mapstep'];
 export const isQuestion = card => QUESTION_TYPES.includes(card.type);
 
-export const getCourse = () => loadYaml('course.yaml');
+export const getCourse = (id = courseId()) => loadYaml(`${id}/course.yaml`);
 
 // Every lesson entry of the course, in trail order, with its level attached.
 export async function allLessons() {
@@ -26,7 +31,7 @@ export async function getLesson(id) {
   const entry = (await allLessons()).find(e => e.meta.id === id);
   if (!entry) throw new Error(`No lesson with id "${id}" in course.yaml.`);
   if (!entry.meta.file) return { ...entry, data: null };
-  return { ...entry, data: expandLesson(await loadYaml(entry.meta.file)) };
+  return { ...entry, data: expandLesson(await loadYaml(`${courseId()}/${entry.meta.file}`)) };
 }
 
 export async function nextLessonAfter(id) {
