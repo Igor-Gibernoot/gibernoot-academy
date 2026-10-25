@@ -1,0 +1,314 @@
+id: ch06-map
+title: "Content Map: Designing a Model"
+kind: map
+name: Level 6, the recipe in four steps for designing an active inference model
+
+intro: |
+  A **content map** shows how the ideas of a level fit together. Each box is one idea. An arrow goes from an idea to one that builds on it, and its label says how: read it as a sentence, for example "the system *is drawn as* a Markov blanket".
+
+  This level is a **recipe in four steps**: (1) which system, (2) which form of model, (3) which variables and priors, (4) which generative process. The **left column** holds steps 1 and 2 (the system, its blanket and the form of the model). The **middle column** is step 3 (variables and priors). The **right column** is step 4 (the world that produces the data) and what we do with the finished model.
+
+  Two examples return. The **loop** $x\to y\to\mu\to u\to x$ (hidden state $x$, observation $y$, internal state $\mu$, active state $u$), and the **two-feeder creature** (a place and a food side give 8 states; a cue is right with probability $0.9$).
+
+  For each glowing box, pick the card that belongs there. The other cards look alike, but each hides a classic mistake, and every wrong pick comes with a reason. Tap a finished box at any time to reread its card.
+
+cols: 3
+nodes:
+  - id: system
+    title: The system
+    row: 1
+    col: 1
+    body: |
+      **Step 1.** The recipe starts from the question "which system are we modelling?". The answer is a boundary, and the model is whatever that system believes about how its observations are produced. Top-down: ask first which generative model the system's problem calls for.
+    decoys:
+      - body: |
+          **Step 1.** The recipe starts from the question "which system are we modelling?". The answer is a list of parts, and the model is built by imitating each part in turn. Bottom-up: copy the mechanism first and see which model comes out.
+        feedback: |
+          That is the opposite of the method. Imitating parts piece by piece does not say what problem is being solved. The recipe is **top-down**: find the generative model that describes the problem, then let behaviour and neural dynamics follow from descending its free energy.
+      - body: |
+          **Step 1.** The recipe starts from the question "which model form do we want?". Once discrete or continuous time is fixed, the system is whatever the model describes, and its boundary comes for free.
+        feedback: |
+          The order matters. The system and its boundary come **first**; the form of the model is step 2 and is chosen to suit that system.
+    explanation: |
+      Everything else in the level hangs on this first choice: with another boundary you get another inference problem.
+
+  - id: blanket
+    title: Markov blanket
+    row: 2
+    col: 1
+    body: |
+      The boundary of the system is a **Markov blanket**: a set of states $b$ through which the inside and the outside influence each other. Where we draw it sets what is inferred: around one neuron, around the nervous system, around the body, or around the body plus a tool such as a calculator, it is a different inference problem.
+    decoys:
+      - body: |
+          The boundary of the system is a **Markov blanket**: a fixed physical surface, such as the skin, that nature draws for us. There is one correct place for it, and the modeller finds it.
+        feedback: |
+          The blanket is a modelling choice tied to the question. The skin is one option; a single neuron, or the body with a tool, are others. Each gives a valid but different problem.
+      - body: |
+          The boundary of the system is a **Markov blanket**: a set of states $b$ that carries all the influence in one direction only, from the world to the agent. What the agent does is not part of it.
+        feedback: |
+          The blanket carries influence **both ways**: sensory states bring the world in, active states send the agent's effect out. A one-way boundary would leave action out.
+    explanation: |
+      The blanket is what makes "inside" and "outside" precise enough to write a model of one from the point of view of the other.
+
+  - id: intext
+    title: Internal and external states
+    row: 3
+    col: 1
+    body: |
+      The blanket splits the world in two sets of states: **external** $x$ (the world being modelled, hidden from the agent) and **internal** $\mu$ (the agent). Internal states never touch $x$ directly: the agent infers $x$ only **vicariously**, through what crosses the blanket.
+    decoys:
+      - body: |
+          The blanket splits the world in two sets of states: **external** $x$ (the world being modelled, hidden from the agent) and **internal** $\mu$ (the agent). Internal states read $x$ directly, so inference only needs to correct a little noise.
+        feedback: |
+          The whole point of a blanket is that there is **no direct access**: given the blanket, inside and outside are independent. Everything the agent knows about $x$ is vicarious.
+      - body: |
+          The blanket splits the world in two sets of states: **external** $x$ (the agent's own beliefs) and **internal** $\mu$ (the hidden world being modelled). The agent infers $\mu$ from what crosses the blanket.
+        feedback: |
+          The labels are swapped. $x$ is the **world** and is external; $\mu$ is the **agent** and is internal, and its states encode beliefs about $x$.
+    explanation: |
+      The external states play the role of hidden states in the generative model; the internal states carry the beliefs about them.
+
+  - id: sensact
+    title: Sensory and active states
+    row: 4
+    col: 1
+    body: |
+      The blanket itself is made of **sensory states** $y$ (the only way $x$ reaches $\mu$) and **active states** $u$ (the only way $\mu$ reaches $x$). The loop is
+      $$x \to y \to \mu \to u \to x$$
+      Around the nervous system, $y$ are photoreceptors and $u$ are muscles.
+    decoys:
+      - body: |
+          The blanket itself is made of **sensory states** $y$ (the only way $\mu$ reaches $x$) and **active states** $u$ (the only way $x$ reaches $\mu$). The loop is
+          $$x \to u \to \mu \to y \to x$$
+          Around the nervous system, $y$ are muscles and $u$ are photoreceptors.
+        feedback: |
+          The roles are reversed. Sensory states bring **information in** ($x\to y\to\mu$), active states carry **influence out** ($\mu\to u\to x$).
+      - body: |
+          The blanket itself is made of **sensory states** $y$ (the only way $x$ reaches $\mu$) and **active states** $u$ (the only way $\mu$ reaches $x$). The loop is
+          $$x \to y \to u \to \mu \to x$$
+          Around the nervous system, $y$ are photoreceptors and $u$ are muscles.
+        feedback: |
+          The order is wrong. Sensation feeds the internal states ($y\to\mu$), and only then do the internal states drive action ($\mu\to u$). Active states are not an input to $\mu$ in this loop.
+    explanation: |
+      This is the loop of the whole book: the agent senses, updates beliefs, acts, and the world responds.
+
+  - id: form
+    title: Form of the model
+    row: 5
+    col: 1
+    body: |
+      **Step 2.** Given the system, we choose the **form** of its generative model. Three choices, each a modelling decision and not a fact of nature: discrete or continuous states (and time), shallow or deep, and with or without temporal depth.
+    decoys:
+      - body: |
+          **Step 2.** Given the system, we choose the **form** of its generative model. Two choices, each a fact of nature found by measurement: whether the system is discrete or continuous, and whether it plans.
+        feedback: |
+          The form is **chosen** to suit the question, and a system can often be modelled in more than one form. And there are three choices, not two: the depth of the hierarchy is the one this card forgets.
+      - body: |
+          **Step 2.** Given the variables and priors, we choose the **form** of its generative model. The three choices are the order of the tables, the number of states, and the number of policies.
+        feedback: |
+          Form comes **before** the variables, as step 2, not after. And the three choices are discrete versus continuous, shallow versus deep, and temporal depth; table sizes follow from them.
+    explanation: |
+      The next three boxes unpack the three choices, one after another.
+
+  - id: dch
+    title: Discrete, continuous or hybrid
+    row: 6
+    col: 1
+    body: |
+      A **discrete** model has a few categories and steps in time (a POMDP with tables $\mathbf A,\mathbf B$); a **continuous** one has real-valued states and smooth time (Laplace-style beliefs, as in the reflex). A **hybrid** model puts a discrete level on top of a continuous one. Use whichever fits what is to be explained: decisions among a few options suit discrete, smooth movement suits continuous.
+    decoys:
+      - body: |
+          A **discrete** model has a few categories and steps in time (a POMDP with tables $\mathbf A,\mathbf B$); a **continuous** one has real-valued states and smooth time (Laplace-style beliefs, as in the reflex). A **hybrid** model is one in which each continuous state is cut into bins (a finer discrete model).
+        feedback: |
+          A hybrid is not a binned continuous model. It stacks **two different kinds of level**: a discrete level above (categories, slow) and a continuous one below (real numbers, fast), linked by messages.
+      - body: |
+          A **discrete** model has a few categories and steps in time (a POMDP with tables $\mathbf A,\mathbf B$); a **continuous** one has real-valued states and smooth time (mean-field beliefs, as in the reflex). A **hybrid** model puts a discrete level on top of a continuous one.
+        feedback: |
+          Mean-field is an approximation about how beliefs **factorise**, and it applies to discrete and continuous models alike. What marks the continuous case is real-valued states in smooth time (Laplace-style beliefs).
+    explanation: |
+      The choice follows the phenomenon: categories and decisions on one side, smooth signals and movement on the other, and both when a decision steers a movement.
+
+  - id: deep
+    title: Shallow or deep
+    row: 7
+    col: 1
+    body: |
+      A **deep** model has several levels that run at different timescales: slow states above set the context for fast states below. A **shallow** model has a single level. Depth is useful when the phenomenon has nested timescales (a sentence above its words above its phonemes), and a deep model can be simulated one level at a time.
+    decoys:
+      - body: |
+          A **deep** model has several levels that run at different timescales: slow states above set the context for fast states below. A **shallow** model has a single level. A deep model is always better, since more levels can only add accuracy.
+        feedback: |
+          More levels also add **complexity**, and the free energy penalises unneeded detail. A shallow model is the right choice when the phenomenon has no nested timescales.
+      - body: |
+          A **deep** model is one that looks far into the future, many time steps ahead. A **shallow** model looks only a step or two ahead. Depth is how far the model can plan.
+        feedback: |
+          That describes **temporal depth** (the next box), a different choice. "Deep" here counts **levels at different timescales**; a deep model need not plan, and a planning model can have one level.
+    explanation: |
+      Do not mix the two meanings: deep is about levels and timescales; looking ahead is temporal depth.
+
+  - id: depth
+    title: Temporal depth and planning
+    row: 8
+    col: 1
+    body: |
+      A model has **temporal depth** if it represents the **consequences of actions** (policies $\pi$): "if I did this, I would observe that". Then policies are scored by their expected free energy $G$, and
+      $$P(\pi)=\sigma(-\mathbf G-\mathbf F)$$
+      With no data yet all $F$ are equal and the choice is made by $G$ alone. Without temporal depth the model sees only the present observation.
+    decoys:
+      - body: |
+          A model has **temporal depth** if it represents the **consequences of actions** (policies $\pi$): "if I did this, I would observe that". Then policies are scored by their expected free energy $G$, and
+          $$P(\pi)=\sigma(+\mathbf G-\mathbf F)$$
+          With no data yet all $F$ are equal and the choice is made by $G$ alone.
+        feedback: |
+          The sign of $G$ is wrong. Both $F$ and $G$ are **minimised**: a policy with large $G$ must get a **smaller** probability, hence $-\mathbf G$.
+      - body: |
+          A model has **temporal depth** if it has several time steps in its state sequence. Then policies are scored by their expected free energy $G$, and
+          $$P(\pi)=\sigma(-\mathbf G-\mathbf F)$$
+          Without temporal depth the model has only one time step.
+        feedback: |
+          A sequence of states alone is not enough: the model must predict how **actions** change the future observations. A model can have many time steps and still ignore what its policies would do.
+    explanation: |
+      In the two-feeder creature, the cue policies get $G=2.446$ against $2.855$ for walking straight to a feeder, so $P(\text{cue first})=0.60$.
+
+  - id: variables
+    title: Variables and priors
+    row: 5
+    col: 2
+    body: |
+      **Step 3.** Choose the hidden states $s$, the observations $o$ and the actions. A good default is a generative model **as similar as possible to how we believe the data are generated** (for an experiment: how the experimenter produces the stimuli). It need not be identical to the real process. Factorise when you can: 3 objects and 4 places are $3+4=7$ states, not $3\times4=12$.
+    decoys:
+      - body: |
+          **Step 3.** Choose the hidden states $s$, the observations $o$ and the actions. A good default is a generative model **identical to the real process**, since any difference is a mistake. Factorise when you can: 3 objects and 4 places are $3\times4=12$ states.
+        feedback: |
+          The model may be simpler than, or different from, the real process; only "similar" is the guide. And a factorised model adds the sizes ($3+4=7$) instead of multiplying them: that is its saving.
+      - body: |
+          **Step 3.** Choose the hidden states $s$, the observations $o$ and the actions. A good default is a generative model **as similar as possible to how we believe the data are generated**. Factorising is a separate step done afterwards, once the posterior has been computed.
+        feedback: |
+          The factorisation is part of the **model**: it is decided here, before any inference, and it is what keeps the number of states small ($3+4=7$ instead of $12$).
+    explanation: |
+      In the two-feeder creature the states are place (centre, cue, left, right) times food side (left, right): 8 states, or 4+2 if factorised.
+
+  - id: abcde
+    title: The objects A, B, C, D, E
+    row: 6
+    col: 2
+    body: |
+      A discrete model is specified by five tables: $\mathbf A$ the likelihood $P(o\mid s)$, $\mathbf B$ the transitions $P(s_{t+1}\mid s_t,\text{action})$, $\mathbf C$ the preferred observations, $\mathbf D$ the prior over the initial state, and $\mathbf E$ the prior over policies (habits), so that
+      $$P(\pi)=\sigma(\ln\mathbf E-F-G)$$
+      In the two-feeder creature, $\mathbf A$ gives the cue the right side with probability $0.9$.
+    decoys:
+      - body: |
+          A discrete model is specified by five tables: $\mathbf A$ the transitions $P(s_{t+1}\mid s_t,\text{action})$, $\mathbf B$ the likelihood $P(o\mid s)$, $\mathbf C$ the prior over the initial state, $\mathbf D$ the preferred observations, and $\mathbf E$ the prior over policies, so that
+          $$P(\pi)=\sigma(\ln\mathbf E-F-G)$$
+        feedback: |
+          Letters swapped: $\mathbf A$ is the likelihood and $\mathbf B$ the transitions, $\mathbf C$ is what the agent prefers to observe and $\mathbf D$ is the initial prior.
+      - body: |
+          A discrete model is specified by five tables: $\mathbf A$ the likelihood $P(o\mid s)$, $\mathbf B$ the transitions $P(s_{t+1}\mid s_t,\text{action})$, $\mathbf C$ the preferred observations, $\mathbf D$ the prior over the initial state, and $\mathbf E$ the prior over policies (habits), so that
+          $$P(\pi)=\sigma(\ln\mathbf E+F+G)$$
+        feedback: |
+          Free energies are minimised, so they enter with a **minus** sign. With plus signs a policy that fits badly (large $F$) or is expected to be uninformative (large $G$) would become more probable.
+    explanation: |
+      $\mathbf C$ is where reward lives in this framework: it is a preference over observations, which enters $G$.
+
+  - id: learned
+    title: Fixed or learned
+    row: 7
+    col: 2
+    body: |
+      Each number in the model is either **fixed** by the modeller or **learned**. Learning is optional: it is inference on the parameters. States change fast (inference), parameters change slowly (learning), with the same kind of Bayesian update. Priors are **hypotheses**, so we ask which prior beliefs would make a behaviour optimal, and compare candidates on data.
+    decoys:
+      - body: |
+          Each number in the model is either **fixed** by the modeller or **learned**. Learning is mandatory: every table must be learned, or the model cannot be inverted. Priors are **facts**, so we ask whether a behaviour is optimal and report it.
+        feedback: |
+          A fixed table can be inverted perfectly well. And since any behaviour is Bayes optimal under some prior beliefs, "is it optimal?" is empty; the useful question is **which priors** would make it so.
+      - body: |
+          Each number in the model is either **fixed** by the modeller or **learned**. Learning is inference on the parameters. States and parameters change on the same timescale, so the SNpc and dopamine are what tell them apart.
+        feedback: |
+          They change on **different timescales**: fast for states (inference), slow for parameters (learning). That separation does not come from a neuromodulator; it is built into which variables are treated as states and which as parameters.
+    explanation: |
+      In the two-feeder creature, $\mathbf A$ is fixed: it is not simulated learning the cue reliability.
+
+  - id: process
+    title: Generative process
+    row: 6
+    col: 3
+    body: |
+      **Step 4.** The **generative process** is what really produces the observations. It lives **outside** the agent and responds to its actions; the **generative model** lives inside and is only what the agent believes. They may differ: an agent can believe the food is 50/50 while the experimenter always puts it on the left.
+    decoys:
+      - body: |
+          **Step 4.** The **generative process** is what the agent believes produces its observations. It lives **inside** the agent; the **generative model** lives outside and describes the world. By construction they cannot differ.
+        feedback: |
+          Reversed. The model is the agent's belief (inside), the process is the world (outside), and they **may differ**: that gap is what makes surprise, learning and mistakes possible.
+      - body: |
+          **Step 4.** The **generative process** is what really produces the observations, but it is a copy of the agent's model run forward. It lives outside the agent and responds to its actions.
+        feedback: |
+          The process is fixed by the experiment or the world, not derived from the agent's model. Setting it equal to the model is one option for a simulation, but not a rule.
+    explanation: |
+      In a simulation we write the process ourselves, and it is how we make the environment answer the creature's actions.
+
+  - id: explicit
+    title: Explicit or action-oriented model
+    row: 7
+    col: 3
+    body: |
+      A model need not be an **explicit** picture of the world. An **action-oriented** model keeps only what is needed to act: states and priors serve "what to do next", and it predicts the consequences of actions on sensations. A whisker reflex that predicts contact and corrects errors is already a small generative model.
+    decoys:
+      - body: |
+          A model need not be an **explicit** picture of the world. An **action-oriented** model keeps only what is needed to act, but this is not a generative model: only a stored map counts, and a reflex does not.
+        feedback: |
+          A reflex that predicts proprioception and contact and corrects the errors is exactly a small generative model, even with no explicit map stored.
+      - body: |
+          A model need not be an **explicit** picture of the world. An **action-oriented** model is the one used in predictive coding, and an explicit one is the one used in planning.
+        feedback: |
+          Both kinds can appear in either setting. The distinction is about **what the states stand for**: a faithful picture of the world, or what is useful for acting.
+    explanation: |
+      Both kinds are models; the second is often enough for survival.
+
+  - id: simulate
+    title: Simulate or fit
+    row: 8
+    col: 3
+    body: |
+      With a model and a process, standard routines can **simulate** the agent (generate its beliefs, choices and responses), visualise the results, or **fit** the model to data: model-based data analysis, which compares candidate priors by Bayesian model comparison and reads off parameters, for instance of a patient's behaviour.
+    decoys:
+      - body: |
+          With a model and a process, standard routines can **simulate** the agent, but they cannot fit the model to data: the model of an agent is only a thought experiment.
+        feedback: |
+          The same model can be run forwards to simulate or inverted against recorded behaviour to fit its parameters and priors. That is how computational phenotyping works.
+      - body: |
+          With a model alone, no process, standard routines can **simulate** the agent: the world is not needed, since the agent's beliefs alone produce its observations.
+        feedback: |
+          Without a process nothing answers the agent's actions, so there are no observations to update on. A simulation needs **both**, the model for the agent and the process for the world.
+    explanation: |
+      This closes the recipe: system, form, variables and priors, process, and then simulate or fit.
+
+edges:
+  - { from: system, to: blanket, label: drawn as }
+  - { from: blanket, to: intext, label: separates }
+  - { from: intext, to: sensact, label: joined by }
+  - { from: sensact, to: form, label: then choose }
+  - { from: form, to: dch, label: first choice }
+  - { from: dch, to: deep, label: second choice }
+  - { from: deep, to: depth, label: third choice }
+  - { from: form, to: variables, label: shapes }
+  - { from: variables, to: abcde, label: written as }
+  - { from: abcde, to: learned, label: each is }
+  - { from: learned, to: process, label: then }
+  - { from: process, to: explicit, label: may be }
+  - { from: explicit, to: simulate, label: runs to }
+
+outroTitle: Level 6 in one picture
+outro: |
+  **Recipe, in order.** (1) The system: a Markov blanket with external states $x$, internal states $\mu$, sensory states $y$ and active states $u$,
+
+  $$x \to y \to \mu \to u \to x$$
+
+  (2) The form: discrete, continuous or hybrid; shallow or deep (levels and timescales); with or without temporal depth, where policies are scored by
+
+  $$P(\pi)=\sigma(\ln\mathbf E-F-G)$$
+
+  (3) Variables and priors: states, observations and actions, with the tables $\mathbf A$ (likelihood), $\mathbf B$ (transitions), $\mathbf C$ (preferences), $\mathbf D$ (initial prior), $\mathbf E$ (habits), each fixed or learned. (4) The generative process: the world that really produces the observations and answers actions, which may differ from the model.
+
+  The two-feeder creature (8 states, cue right with probability $0.9$) went through all four steps, and the finished model can be simulated or fitted to data.
+
+  **Next:** the level challenge. Five harder problems that combine these choices on new systems: draw the blanket, pick the form, count the states, set the tables, and decide what the process does.

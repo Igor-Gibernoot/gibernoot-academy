@@ -104,6 +104,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - ch06-model-setup: frog graph $c$, $o_1,o_2,o_3$ (sight, sound, touch), factors $P(c),A_1,A_2,A_3$. $\pi=\sigma(\ln\mathbf E-F-G)$. 3 objects x 4 locations: 12 vs 7 states, B 144 vs 25 entries. Door A .8/.55/.95, prior open at step 2 = .18, posterior .468/.212/.807. Counts: A11 = 1.9/2.9 = .655.
 - ch06-design-example: two-feeder creature. States place (centre, cue, left, right) x food side = 8 (factorised 4+2=6; B 64 vs 20 per action). Outcomes nothing, cue L, cue R, taste, no taste. A cue .9, feeder .98; C=(.1,.25,.25,.35,.05); D centre, side 50/50; E flat; T=3, policies cue-left, cue-right, left-left, right-right. G=2.446/2.855, P(cue first)=.60 (.84 at gamma 4); after cue-left observed P=.85. Door widget: bars (mean-field) differ from exact ticks.
 - ch06-recipe-traps: cue-first trap uses P(cue first)=.60 and belief .5 -> .85 after the cue; no new conventions.
+- ch06-map: no new conventions; map layout col1 rows 1-8, col2 rows 5-7, col3 rows 6-8.
 
 ## Chapter 7
 
