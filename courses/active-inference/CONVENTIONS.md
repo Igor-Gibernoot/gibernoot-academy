@@ -62,6 +62,8 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - ch03-models-policies: preference = prior belief (no value table); $P(\pi)=\sigma(-G)$, lowest $G$ most probable ($G=0.336/1.214\to P(\text{orchard})=0.294$); Hamilton analogy: (i) quantity, (ii) Hamiltonian = surprise $\mathfrak I=-\ln P(y)$, (iii) function (path, belief $Q$) vs functional (Action, $F$); $F$ favours high $H[Q]$, $G$ low ambiguity ($H[(0.9,0.1)]=0.325$ nats); creatures minimising only $F$ 'live in the present'.
 - ch03-reconciliation: three schools map to blanket (enactive), $F$ as prediction error (cybernetic), generative model + policies + attenuation of sensory evidence (predictive/ideomotor); good regulator = controller must be/contain a model; chapter arc: blanket, persistence, surprise, $F$ bound, policies with $G$.
 
+- ch03-blanket-traps: fish out of water $P=0.001\to6.9$ nats; shelter $2\cdot3+8\cdot0.2=7.6$ vs staying 10; $G=1,2\to0.731$; blanket $(u,y)$ = interface, neither external nor internal.
+
 ## Chapter 4
 
 - (none yet)

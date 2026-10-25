@@ -1,0 +1,212 @@
+id: ch03-blanket-traps
+title: Blanket Traps
+kind: traps
+
+cards:
+  - type: text
+    id: intro
+    title: Trap round
+    body: |
+      Fast round: each question hides a tempting mistake about Markov blankets, surprise and free energy. Answer quickly, then read the feedback, especially when you got it right for a shaky reason.
+
+      Recall the vocabulary. Hidden causes in the world are the **external states** $x$; the agent's own states are the **internal states** $\mu$. Between them sits the **blanket** $b=(u,y)$, made of the **sensory states** $y$ (what the world does to the agent) and the **active states** $u$ (what the agent does to the world). The surprise of a sensation is $\mathfrak{I}(y)=-\ln P(y)$, and the variational free energy $F$ is minimised, never negated:
+      $$\mathfrak{I}(y)\le F=D_{\mathrm{KL}}[Q(x)\,\|\,P(x\mid y)]-\ln P(y).$$
+
+  - type: widget
+    id: widget-blanket
+    review: false
+    widget: blanket-graph
+    config:
+      conditioned: true
+      nodes:
+        - { id: x, label: 'x', role: external, hue: 140, pos: [52, 115] }
+        - { id: y, label: 'y', role: sensory, hue: 48, pos: [170, 46] }
+        - { id: a, label: 'u', role: active, hue: 350, pos: [170, 184] }
+        - { id: mu, label: '\mu', role: internal, hue: 188, pos: [348, 115] }
+      edges:
+        - { from: x, to: y, on: true }
+        - { from: y, to: mu, on: true }
+        - { from: mu, to: a, on: true }
+        - { from: a, to: x, on: true }
+    body: |
+      The loop of influences for the first traps. Arrows run from cause to effect, and $y$ and $u$ are given (the blanket).
+
+  - type: mcq
+    id: cut-off
+    title: Cut off from the world?
+    prompt: |
+      In the loop above, $y$ and $u$ form a blanket, so $\mu$ and $x$ are independent once $y$ and $u$ are known. A student concludes: "the internal states are cut off from the world and can never be influenced by it." What is wrong?
+    options:
+      - text: 'The world does influence $\mu$, through the sensory states ($x\to y\to\mu$). The blanket only says that once $y$ and $u$ are known, $x$ adds no extra information about $\mu$.'
+        correct: true
+      - text: 'Nothing is wrong: a blanket means no influence at all crosses it.'
+        feedback: |
+          If nothing crossed it there would be no perception and no action. The blanket is a **mediator**: all influence passes through $y$ and $u$.
+      - text: 'The independence holds only when $y$ and $u$ are unknown.'
+        feedback: |
+          Reversed. With $y$ and $u$ unknown, $x$ and $\mu$ are linked through them; conditioning on $y$ and $u$ closes those paths.
+    explanation: |
+      Independence is conditional: $p(\mu,x\mid b)=p(\mu\mid b)\,p(x\mid b)$. It is a statement about what is left to learn after reading the blanket, not a wall. Information flows in through $y$ and out through $u$.
+
+  - type: mcq
+    id: skin
+    title: Is the blanket a skin?
+    prompt: |
+      A student says: "A Markov blanket is the physical boundary of the creature, like its skin or cell membrane." Which statement is best?
+    options:
+      - text: 'The blanket is a **statistical** separation: variables that screen the inside from the outside. It may or may not coincide with a skin, and blankets can be nested (brain inside organism inside community).'
+        correct: true
+      - text: 'It is always the outer surface of the body, and nothing smaller or larger can be a blanket.'
+        feedback: |
+          Blankets are drawn wherever the conditional independence holds. Draw one around the nervous system and the rest of the body becomes external; draw one around the whole organism and organs look like parts of the inference.
+      - text: 'It is a physical wall that stops signals, so nothing can pass.'
+        feedback: |
+          A blanket transmits: its sensory and active states carry every interaction. It separates statistically (what is informative about what), not physically.
+    explanation: |
+      The blanket is a modelling choice with a precise meaning. Where we draw it decides what counts as internal and what as external, and several blankets can sit inside one another.
+
+  - type: mcq
+    id: who-belongs
+    title: Whose states are active and sensory?
+    prompt: |
+      Which description of the four sets is right?
+    options:
+      - text: 'The blanket $(u,y)$ is neither external nor internal: it is the interface. Together with the internal states it makes up the agent as seen from outside; the external states $x$ are the world.'
+        correct: true
+      - text: 'Sensory states are part of the environment, since the world produces them.'
+        feedback: |
+          The world drives $y$, but $y$ is a state of the agent (a receptor, a retina). Placing it in the environment would leave $\mu$ with no sensory input, and the blanket would not separate anything.
+      - text: 'Active states are external states, since they act on the world.'
+        feedback: |
+          $u$ is driven by the agent ($\mu\to u$) and acts out on the world ($u\to x$); it is a state of the agent's interface, not a hidden cause in the world.
+    explanation: |
+      Four sets, two sides: external states $x$ on one side, internal states $\mu$ on the other, and $y$, $u$ between them. The loop $x\to y\to\mu\to u\to x$ shows the roles: $y$ is driven by the world, $u$ is driven by the inside.
+
+  - type: mcq
+    id: surprise-news
+    title: Surprise is not a startle
+    prompt: |
+      A fish is lifted out of the water and lies quietly on a dry bank. Under the fish's model of itself, being out of water has $P(y)=0.001$. Someone says: "Nothing sudden or startling happened, so there is no surprise to speak of." What is the surprise in the sense of this chapter?
+    options:
+      - text: '$\mathfrak{I}(y)=-\ln0.001\approx6.9$ nats: surprise is how improbable a sensation or state is under what the creature expects to occupy, whether or not it felt like news.'
+        correct: true
+      - text: 'About $0$: surprise needs a sudden change.'
+        feedback: |
+          Surprise has no time component. It is the negative log probability of the state under the creature's model, so a calm but very improbable state is highly surprising.
+      - text: '$0.001$ nats: surprise is the probability itself.'
+        feedback: |
+          Surprise is $-\ln P(y)$. It grows as the probability shrinks; $P=0.001$ gives $\ln1000\approx6.9$ nats.
+    explanation: |
+      $-\ln0.001=\ln1000\approx6.91$ nats. This is why surprise minimisation explains persistence: a fish that stays in the water keeps its states in the improbable-to-leave, high-probability region.
+
+  - type: numeric
+    id: short-term
+    title: Does minimising surprise mean staying still?
+    prompt: |
+      A cold creature over ten time steps. **Stay** in the open: surprise $1$ nat per step. **Build a shelter**: the first two steps are unfamiliar and cost $3$ nats each, then the shelter keeps surprise at $0.2$ nats for the remaining eight steps. A student says "minimising surprise means avoiding any increase, so staying is better." What is the total surprise of building, in nats?
+    answer: 7.6
+    tolerance: 0.05
+    answerText: '7.6'
+    wrong:
+      - { value: 10, tolerance: 0.05, feedback: "That is the total for staying ($10\\times1$). Compute the building total separately: two expensive steps plus eight cheap ones." }
+      - { value: 1.6, tolerance: 0.05, feedback: "That is only the eight cheap steps ($8\\times0.2$). Do not forget the two costly steps." }
+    hint: |
+      $2\times3+8\times0.2$.
+    explanation: |
+      $6+1.6=7.6<10$. Accepting a short-term increase (building something new) lowers the surprise accumulated over the long run. Minimising surprise is not rigid avoidance of novelty, and it promotes exploration and niche-building.
+
+  - type: mcq
+    id: entropy-paradox
+    title: Maximise entropy, minimise surprise?
+    prompt: |
+      Free energy can be written as a Gibbs energy averaged under $Q$ minus the entropy of $Q$, $F=\mathbb{E}_{Q}[-\ln P(y,x)]-H[Q]$. A student says: "$F$ is minimised, but it rewards a large $H[Q]$. So the agent wants more entropy, which contradicts minimising surprise." Where is the confusion?
+    options:
+      - text: 'Two different entropies. Surprise concerns the sensations the creature ends up in; $H[Q]$ is the entropy of the creature''s **belief** about hidden states. Keeping beliefs open (no commitment beyond what the data justify) lowers $F$ and does not make sensations more surprising.'
+        correct: true
+      - text: 'There is no confusion: the agent really does seek states with high entropy of the world.'
+        feedback: |
+          Sensations are kept in a small, predictable set. The entropy rewarded in $F$ belongs to the approximate posterior $Q(x)$, the agent''s own uncertainty, not to the world.
+      - text: '$F$ rewards entropy only by mistake; the correct objective has no entropy term.'
+        feedback: |
+          The term is real: it is the maximum-entropy principle, "explain accurately but keep options open", and it follows from the definition of $F$.
+    explanation: |
+      Minimising $F$ lowers surprise (the sensory entropy of the creature's long-run states) while keeping the belief $Q$ as broad as the data allow. They act on different objects, so they do not conflict.
+
+  - type: numeric
+    id: gap
+    title: Can perception alone reach the surprise?
+    prompt: |
+      Glucose example: a low-glucose sensation $y$ has evidence $P(y)=0.26$, so the surprise is $\mathfrak{I}(y)=-\ln0.26\approx1.347$ nats. With the guess $Q(x)=(0.5,\,0.5)$ over sated/hungry, the free energy is $F\approx1.427$ nats. A student says: "if the creature keeps refining $Q$, $F$ goes to $0$ and the problem disappears." By perception alone, what is the lowest value $F$ can reach, in nats?
+    answer: 1.347
+    tolerance: 0.01
+    answerText: '1.35'
+    wrong:
+      - { value: 0, tolerance: 0.01, feedback: "Refining $Q$ lowers only the divergence term in $F=D_{\\mathrm{KL}}[Q\\,\\|\\,P(x\\mid y)]-\\ln P(y)$, and that stops at $0$. The term $-\\ln P(y)$ stays." }
+      - { value: 1.427, tolerance: 0.01, feedback: "That is $F$ for the current guess. Perception can still lower it by the divergence, which here is $0.08$ nats." }
+    hint: |
+      $F=D_{\mathrm{KL}}[Q\,\|\,P(x\mid y)]-\ln P(y)$. What is left when the divergence is $0$?
+    explanation: |
+      At the exact posterior the divergence vanishes and $F=-\ln P(y)=1.347$ nats; the current gap is $1.427-1.347\approx0.08$. Perception closes only that gap. To lower the surprise itself, the creature must act and change $y$, for example by eating, so that a more probable sensation arrives.
+
+  - type: mcq
+    id: moves-particles
+    title: Does F push the particles?
+    prompt: |
+      A student reads "the agent minimises free energy" as: "$F$ is a force field that pushes the atoms of the body around until $F$ is small." Which statement is better?
+    options:
+      - text: '$F$ is a function of the sensations and of the agent''s beliefs. Internal states change to reduce it (perception), and active states change the world so that the sensations change (action); the body''s particles simply follow their own dynamics.'
+        correct: true
+      - text: 'Yes: $F$ acts as a potential on every physical coordinate of the body.'
+        feedback: |
+          $F$ is an information-theoretic quantity, a bound on surprise built from $Q$ and the model. At the steady state the flow can be written as a descent on surprise, but this is a description of the dynamics, not a new force.
+      - text: '$F$ can only change the beliefs; action cannot lower it.'
+        feedback: |
+          Action changes $y$, and $F$ depends on $y$ through the model evidence $-\ln P(y)$. Perception and action lower $F$ in complementary ways.
+    explanation: |
+      Two routes lower $F$: update $Q$ (the divergence term) or change the data $y$ by acting (the surprise term). Neither requires an extra physical force on the body.
+
+  - type: numeric
+    id: no-reward
+    title: Where is the reward?
+    prompt: |
+      A student objects: "to choose between two plans you must first attach a reward to each outcome, a value table; priors are only beliefs, not preferences." In active inference a plan is scored by its expected free energy $G$ (minimised), and $P(\pi)=\sigma(-G)$, where preferred outcomes are already prior beliefs inside $G$. Two policies have $G=1$ and $G=2$. What is the probability of the policy with $G=1$?
+    answer: 0.731
+    tolerance: 0.005
+    answerText: '0.731'
+    wrong:
+      - { value: 0.269, tolerance: 0.005, feedback: "That is the probability of the policy with $G=2$. Lower $G$ is **more** probable." }
+      - { value: 0.5, tolerance: 0.01, feedback: "A tie would need equal $G$. A smaller $G$ gets a larger share." }
+    hint: |
+      $\sigma(-G)$ normalises $e^{-G}$ over the policies: $e^{-1}/(e^{-1}+e^{-2})$.
+    explanation: |
+      $0.3679/(0.3679+0.1353)\approx0.731$. No separate value table appears: the preference "stay warm" is a prior over outcomes, and $G$ measures how far a policy's predicted outcomes are from it (plus the information it will gather). Prior belief and preference are the same object.
+
+  - type: mcq
+    id: every-system
+    title: Every random system?
+    prompt: |
+      A student says: "any random system, a bag of gas or a rolling pebble, can be described as minimising free energy, so active inference explains everything." What limits the claim?
+    options:
+      - text: 'It applies to systems that have a blanket and persist by counteracting fluctuations (a nonequilibrium steady state with a recognisable boundary). Something that simply disperses has no surprise to keep low; that persistence is what the principle singles out.'
+        correct: true
+      - text: 'Nothing limits it: all randomness is surprise minimisation.'
+        feedback: |
+          Without a separation between a system and its environment there is "nothing to be surprised and nothing to be surprised about". A gas that spreads out is not holding itself in a small set of states.
+      - text: 'It applies only to brains.'
+        feedback: |
+          The principle is stated for any adaptive system with a blanket: a cell, an organism, a dyad, a community. Brains are a case, not the boundary.
+    explanation: |
+      The principle describes things that last, resisting the dispersal that random forces would otherwise cause. The scope is set by two requirements: a blanket that separates, and a steady state that persists.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      Traps avoided (setup: external states $x$, internal states $\mu$, sensory states $y$, active states $u$, blanket $b=(u,y)$, surprise $\mathfrak{I}(y)=-\ln P(y)$, approximate posterior $Q(x)$, variational free energy $F$):
+
+      - The blanket is a statistical mediator, not a wall or a skin: $p(\mu,x\mid b)=p(\mu\mid b)\,p(x\mid b)$, with influence flowing $x\to y\to\mu\to u\to x$. Blankets can be nested, and $(u,y)$ is neither external nor internal.
+      - Surprise is $\mathfrak{I}(y)=-\ln P(y)$, improbability of a state, not a startle; minimising it accepts short-term rises (build the shelter: $2\cdot3+8\cdot0.2=7.6<10$).
+      - $\mathfrak{I}(y)\le F=D_{\mathrm{KL}}[Q(x)\,\|\,P(x\mid y)]-\ln P(y)$: perception closes only the divergence; lowering $-\ln P(y)$ takes action. The entropy rewarded in $F=\mathbb{E}_Q[-\ln P(y,x)]-H[Q]$ is the entropy of the belief $Q$, not of sensations.
+      - Preferences are priors inside $G$, with $P(\pi)=\sigma(-G)$ and lower $G$ more probable. The principle covers systems with a blanket that persist, not every random system.
+
+      **Next:** the content map of the chapter, rebuilding blanket, surprise, free energy and policies as one picture.
