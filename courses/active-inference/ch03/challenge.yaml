@@ -1,0 +1,291 @@
+id: ch03-challenge
+title: Level Challenge
+kind: challenge
+cards:
+  - type: text
+    id: intro
+    title: "Harder: the whole of Chapter 3 in five problems"
+    body: |
+      Five problems that **combine** what this level taught. Every number can be checked by hand (a calculator with $\ln$ helps), and every answer comes with the reason. You rebuild each quantity from its definition.
+
+      The toolkit, in four lines:
+
+      - A **Markov blanket** $b=(u,y)$ (active states $u$, sensory states $y$) separates the internal states $\mu$ from the external states $x$: given $b$, they are independent, $p(\mu,x\mid b)=p(\mu\mid b)\,p(x\mid b)$.
+      - A creature that persists keeps a **steady state** $p(y)$ with low **entropy** $H[p]=\mathbb{E}_p[\mathfrak{I}]$, the average of the **surprise** $\mathfrak{I}(y)=-\ln p(y)$. The flow that keeps it there descends surprise: $f=-(\Gamma-\mathsf{Q})\nabla\mathfrak{I}$.
+      - **Free energy** $F$ (minimised) bounds the surprise: $F=\mathfrak{I}(y)+D_{KL}[Q(x)\parallel P(x\mid y)]\ge\mathfrak{I}(y)$. Perception changes $Q$; action changes $y$.
+      - **Policies** are scored by the expected free energy $G$ (minimised) and chosen with probability $P(\pi)=\sigma(-G)$.
+
+      1. A blanket in numbers: independence given $b$, and what a leak does.
+      2. A steady state: entropy before and after a restoring flow, and the flow itself.
+      3. Perceiving or acting: what each does to $F$, with numbers.
+      4. A flow that keeps a distribution still: checking a steady state.
+      5. Policies as beliefs: scoring with $G$ and the softmax.
+
+  # ---------------------------------------------------------------- Problem 1
+  - type: text
+    id: p1-setup
+    tag: Problem 1 · A blanket in numbers
+    title: "A tiny blanket"
+    body: |
+      A toy system has one binary variable of each kind: an internal state $\mu\in\{0,1\}$, an external state $x\in\{0,1\}$, and a binary blanket state $b\in\{0,1\}$ (read it as the pair $(u,y)$ lumped into one variable). The blanket is a fair coin, $p(b=0)=p(b=1)=0.5$. **Given** $b$, the internal and external states are drawn independently:
+
+      | $b$ | $p(\mu=1\mid b)$ | $p(x=1\mid b)$ |
+      |---|---|---|
+      | $0$ | $0.3$ | $0.6$ |
+      | $1$ | $0.8$ | $0.2$ |
+
+      So $\mu$ and $x$ never touch: each one only listens to $b$.
+
+  - type: numeric
+    id: p1-cond
+    tag: Problem 1 · A blanket in numbers
+    prompt: |
+      A system has a binary blanket state $b$ (a fair coin), an internal state $\mu$ and an external state $x$, both binary. Given $b$ they are independent, with $p(\mu=1\mid b=1)=0.8$ and $p(x=1\mid b=1)=0.2$. What is the joint probability $p(\mu=1,x=1\mid b=1)$?
+    answer: 0.16
+    tolerance: 0.002
+    answerText: '0.16'
+    wrong:
+      - { value: 1.0, feedback: 'You added the two probabilities, $0.8+0.2$. Independence means the joint is the **product** $p(\mu\mid b)\,p(x\mid b)$.' }
+      - { value: 0.08, tolerance: 0.002, feedback: 'You also multiplied by $p(b=1)=0.5$. That gives the joint $p(\mu,x,b)$ with $b$ included. Here $b=1$ is already given, so no factor $p(b)$.' }
+    hint: Given $b$, the blanket makes the joint factorise.
+    explanation: |
+      Given $b$, the internal and external states are independent:
+      $$\begin{aligned}p(\mu=1,x=1\mid b=1)&=p(\mu=1\mid b=1)\\ &\quad\times p(x=1\mid b=1)\\ &=0.8\times0.2=0.16.\end{aligned}$$
+
+  - type: numeric
+    id: p1-marg
+    tag: Problem 1 · A blanket in numbers
+    prompt: |
+      A fair-coin blanket state $b$ drives two binary states that are independent given $b$. For $b=0$: $p(\mu=1\mid b)=0.3$, $p(x=1\mid b)=0.6$. For $b=1$: $p(\mu=1\mid b)=0.8$, $p(x=1\mid b)=0.2$. **Without** conditioning on $b$, compute
+      $$p(\mu=1,x=1)-p(\mu=1)\,p(x=1).$$
+      (A nonzero value means $\mu$ and $x$ are dependent.)
+    answer: -0.05
+    tolerance: 0.002
+    answerText: '-0.05'
+    wrong:
+      - { value: 0, feedback: 'That is what you get if you assume independence without conditioning. Given $b$ they are independent, but averaging over $b$ mixes two different situations and creates a link.' }
+      - { value: 0.05, tolerance: 0.002, feedback: 'Right size, wrong sign. The joint ($0.17$) is smaller than the product of the marginals ($0.22$), so the difference is negative.' }
+    hint: 'Sum over $b$: $p(\mu=1,x=1)=\sum_b p(b)\,p(\mu=1\mid b)\,p(x=1\mid b)$, and likewise for each marginal.'
+    explanation: |
+      The joint adds the two cases of the coin:
+      $$\begin{aligned}p(\mu=1,x=1)&=0.5(0.3\cdot0.6)\\ &\quad+0.5(0.8\cdot0.2)\\ &=0.09+0.08=0.17.\end{aligned}$$
+      The marginals are $p(\mu=1)=0.5(0.3+0.8)=0.55$ and $p(x=1)=0.5(0.6+0.2)=0.40$, whose product is $0.22$. So the difference is $0.17-0.22=-0.05$.
+
+      The states are dependent **only through** $b$ (the coin makes $\mu$ high and $x$ low together). Fix $b$ and the link disappears: that is what a Markov blanket means.
+
+  - type: numeric
+    id: p1-leak
+    tag: Problem 1 · A blanket in numbers
+    prompt: |
+      A second system, with the blanket state fixed at $b=1$, has this joint table for the internal state $\mu$ and the external state $x$ (both binary):
+
+      | | $x=0$ | $x=1$ |
+      |---|---|---|
+      | $\mu=0$ | $0.5$ | $0.1$ |
+      | $\mu=1$ | $0.1$ | $0.3$ |
+
+      Given that $\mu=1$ (and $b=1$), what is the probability that $x=1$, in percent?
+    answer: 75
+    tolerance: 0.5
+    answerText: '75'
+    wrong:
+      - { value: 40, feedback: 'That is $p(x=1\mid b=1)=0.1+0.3$, the probability of $x=1$ **ignoring** $\mu$. If $\mu$ and $x$ were independent given $b$, learning $\mu=1$ would leave it at $40\%$. The question is whether it does.' }
+      - { value: 30, feedback: 'That is the joint $p(\mu=1,x=1\mid b=1)$. A conditional probability divides it by the probability of the condition, $p(\mu=1\mid b=1)=0.4$.' }
+    hint: 'Divide the joint $p(\mu=1,x=1\mid b)$ by $p(\mu=1\mid b)$, the sum of the row.'
+    explanation: |
+      $$\begin{aligned}p(x=1\mid\mu=1,b=1)&=\frac{0.3}{0.1+0.3}\\ &=0.75.\end{aligned}$$
+      Without knowing $\mu$ the probability is $p(x=1\mid b=1)=0.4$. Learning $\mu=1$ moved it to $75\%$, so $\mu$ and $x$ are **not** independent given $b$: this $b$ is not a Markov blanket. The joint would have factorised as $0.4\times0.4=0.16$ for the entry $(1,1)$, not $0.3$.
+
+  - type: widget
+    id: p1-graph
+    review: false
+    widget: blanket-graph
+    config:
+      editable: true
+      conditioned: true
+      nodes:
+        - { id: x, label: 'x', role: external, hue: 140, pos: [52, 115] }
+        - { id: y, label: 'y', role: sensory, hue: 48, pos: [170, 46] }
+        - { id: a, label: 'u', role: active, hue: 350, pos: [170, 184] }
+        - { id: mu, label: '\mu', role: internal, hue: 188, pos: [348, 115] }
+      edges:
+        - { from: x, to: y, on: true }
+        - { from: y, to: mu, on: true }
+        - { from: mu, to: a, on: true }
+        - { from: a, to: x, on: true }
+        - { from: x, to: mu, on: true, editable: true }
+        - { from: mu, to: x, on: false, editable: true }
+      presets:
+        - { label: 'Blanket', edges: ['x>y', 'y>mu', 'mu>a', 'a>x'], conditioned: true }
+        - { label: 'Leaky', edges: ['x>y', 'y>mu', 'mu>a', 'a>x', 'x>mu'], conditioned: true }
+    body: |
+      The second system of the last card had a **direct** influence of $x$ on $\mu$. Here it is the extra edge $x\to\mu$ (switched on). With the sensory states $y$ and the active states $u$ conditioned on, read the verdict. Then switch the extra edge off, and try the other direction, $\mu\to x$.
+
+  - type: mcq
+    id: p1-fix
+    tag: Problem 1 · A blanket in numbers
+    prompt: |
+      In a loop of influences $x\to y\to\mu\to u\to x$, a new direct influence $x\to\mu$ appears (arrows run from cause to effect). Conditioning on the blanket $b=(u,y)$ no longer makes $\mu$ and $x$ independent. Which statement is correct?
+    options:
+      - text: 'The direct edge is a path that conditioning on $b$ cannot block: $x$ is now a parent of $\mu$, so $x$ belongs to the blanket of $\mu$, and $(u,y)$ is not enough.'
+        correct: true
+      - text: 'Nothing changes: the edge goes from $x$ to $\mu$, and a one-way influence carries no information back from $\mu$ to $x$.'
+        feedback: |
+          Tempting, since $\mu$ does not act on $x$ through this edge. But dependence is not about direction: if $\mu$ is a function of $x$, then seeing $\mu$ tells you about $x$ (as the table showed: $40\%$ became $75\%$).
+      - text: 'Conditioning on one more state, the internal state $\mu$, would restore the independence of $\mu$ and $x$.'
+        feedback: |
+          Conditioning on $\mu$ makes the question empty: you cannot ask whether $\mu$ is independent of $x$ given $\mu$ itself. The blanket must separate the two **without** including either.
+      - text: 'It is still a blanket, because $x\to y\to\mu$ remains the main path and the extra edge is a small correction.'
+        feedback: |
+          Independence is all or nothing. One unblocked path, however weak, leaves $\mu$ and $x$ dependent given $b$, so the factorisation $p(\mu\mid b)\,p(x\mid b)$ fails.
+    explanation: |
+      A Markov blanket of $\mu$ is the set of states that, once known, make $\mu$ independent of everything else: its parents, its children and the other parents of its children. In the loop $x\to y\to\mu\to u\to x$ these are $y$ and $u$. A direct edge $x\to\mu$ makes $x$ a parent of $\mu$, so $x$ is itself in the blanket, which is why the clean partition into external, sensory, internal and active states needs **no direct edge between $x$ and $\mu$**.
+
+  # ---------------------------------------------------------------- Problem 2
+  - type: numeric
+    id: p2-entropy
+    tag: Problem 2 · A steady state
+    prompt: |
+      A creature's sensor reads one of three values (cold, comfy, hot). Left alone, its steady-state probabilities are $(0.5,\,0.25,\,0.25)$, with entropy $1.04$ nats. A restoring flow, which pushes the state back toward comfy, changes them to $(0.9,\,0.05,\,0.05)$. The entropy $H=\mathbb{E}[\mathfrak{I}]$ is the **average surprise** $-\sum_y p(y)\ln p(y)$. What is $H$ for $(0.9,\,0.05,\,0.05)$, in nats?
+    answer: 0.394
+    tolerance: 0.004
+    answerText: '0.394'
+    wrong:
+      - { value: 1.04, tolerance: 0.004, feedback: 'That is the entropy before the flow, $(0.5,\,0.25,\,0.25)$. After the flow the creature spends most of its time in one reading, so the average surprise is lower.' }
+      - { value: 0.105, tolerance: 0.004, feedback: 'That is the surprise of the comfy reading alone, $-\ln0.9$. The entropy averages over all three readings, weighted by their probabilities, and the two rare readings are very surprising.' }
+      - { value: 3.0, tolerance: 0.02, feedback: 'That is the surprise of one rare reading, $-\ln0.05$. The entropy is the **average** of the surprises, weighted by how often each occurs.' }
+    hint: 'Surprises: $-\ln0.9=0.105$ and $-\ln0.05=2.996$. Weight them by $0.9,\,0.05,\,0.05$.'
+    explanation: |
+      $$\begin{aligned}H&=0.9(0.105)+2(0.05)(2.996)\\ &=0.0948+0.2996\\ &\approx0.394\ \text{nats}.\end{aligned}$$
+      Before the flow: $0.5\ln2+2(0.25)\ln4=0.347+0.693=1.04$. The flow lowered the entropy by about $0.65$ nats.
+
+  - type: mcq
+    id: p2-rare
+    tag: Problem 2 · A steady state
+    prompt: |
+      A sensor with three readings changes its steady-state probabilities from $(0.5,\,0.25,\,0.25)$ (entropy $1.04$ nats) to $(0.9,\,0.05,\,0.05)$ (entropy $0.39$ nats) under a restoring flow. Which statement is correct?
+    options:
+      - text: 'The **average** surprise fell, but each rare reading became **more** surprising ($1.39\to3.00$ nats): it is just much rarer.'
+        correct: true
+      - text: 'Every reading became less surprising, which is why the entropy fell.'
+        feedback: |
+          Only the common reading did ($0.69\to0.105$ nats). The rare ones went up: $-\ln0.25=1.39$ became $-\ln0.05=3.00$. Entropy fell because the creature now sits in the low-surprise reading most of the time.
+      - text: 'The flow removed the random kicks, so the readings can no longer change.'
+        feedback: |
+          The kicks are still there, and the rare readings still have probability $0.05$. A steady state is a balance: the flow pulls back exactly as fast as the kicks push away.
+      - text: 'The entropy fell because the creature now visits fewer distinct readings.'
+        feedback: |
+          All three readings are still possible. The entropy depends on how the probability is spread, not on the number of readings that can occur at all.
+    explanation: |
+      The entropy is a **time average** of surprise. A creature that persists is one that spends nearly all its time in expected, low-surprise states (the comfy reading, $-\ln0.9=0.105$), at the price of being more shocked on the rare occasions it leaves them. This is the sense in which a creature "minimises surprise" at steady state: it keeps its entropy low, not each surprise small.
+
+  - type: numeric
+    id: p2-flow
+    tag: Problem 2 · A steady state
+    prompt: |
+      A one-dimensional state $x$ has steady-state density $p(x)=\mathcal{N}(0,4)$, a Gaussian with mean $0$ and **variance** $4$. Its surprise is $\mathfrak{I}(x)=-\ln p(x)=\dfrac{x^2}{2\cdot4}+\text{const}$. The random kicks have strength $\Gamma=2$, and the flow has no circulation, $f=-\Gamma\,\nabla_x\mathfrak{I}$. What is the flow $f$ at $x=6$?
+    answer: -3
+    tolerance: 0.02
+    answerText: '-3'
+    wrong:
+      - { value: -12, feedback: 'You took $\nabla\mathfrak{I}=x=6$. The surprise is $x^2/8$, so its slope is $x/4$, not $x$: the variance $4$ matters.' }
+      - { value: -1.5, tolerance: 0.02, feedback: 'You forgot the factor $\Gamma=2$: $-x/4=-1.5$. The flow is $-\Gamma$ times the slope.' }
+      - { value: 3, feedback: 'The sign is flipped. At $x=6$ the surprise is high on the right of the peak, so the flow must point **left** (negative), toward lower surprise.' }
+    hint: 'The slope of $x^2/8$ is $x/4$; then multiply by $-\Gamma$.'
+    explanation: |
+      $$\begin{aligned}\nabla_x\mathfrak{I}&=\frac{x}{4}=1.5\ \text{at }x=6,\\ f&=-\Gamma\nabla_x\mathfrak{I}=-2(1.5)=-3.\end{aligned}$$
+      The flow points back toward the peak of $p$ (the minimum of the surprise) and grows linearly with the distance: a restoring spring. The stationary Gaussian is exactly the balance between this pull and the kicks.
+
+  - type: numeric
+    id: p2-circ
+    tag: Problem 2 · A steady state
+    prompt: |
+      A two-dimensional state has, at one point, surprise slope $\nabla\mathfrak{I}=(2,\,1)$. The flow is $f=-(\Gamma-\mathsf{Q})\nabla\mathfrak{I}$ with $\Gamma=1$ (times the identity) and the antisymmetric circulation matrix $\mathsf{Q}=\begin{pmatrix}0&3\\-3&0\end{pmatrix}$. Along this flow, at what rate does the surprise change, $\nabla\mathfrak{I}\cdot f$?
+    answer: -5
+    tolerance: 0.02
+    answerText: '-5'
+    wrong:
+      - { value: 0, feedback: 'Circulation makes the flow go round the contours of constant surprise, which does not change it. But the part $\Gamma\nabla\mathfrak{I}$ still pulls straight downhill, so the rate is not zero.' }
+      - { value: -50, tolerance: 0.2, feedback: 'That is $-|f|^2$, with $f=(1,-7)$. The rate of change of $\mathfrak{I}$ is the dot product of the slope $(2,1)$ with $f$, not the squared length of $f$.' }
+      - { value: 5, feedback: 'The sign is flipped. The flow descends the surprise, so the rate is negative.' }
+    hint: 'Compute $f$ first: $\mathsf{Q}\nabla\mathfrak{I}=(3\cdot1,\,-3\cdot2)=(3,-6)$. Then take the dot product with $(2,1)$.'
+    explanation: |
+      $$\begin{aligned}(\Gamma-\mathsf{Q})\nabla\mathfrak{I}&=(2,1)-(3,-6)\\ &=(-1,\,7),\\ f&=(1,\,-7).\end{aligned}$$
+      The rate is $\nabla\mathfrak{I}\cdot f=2(1)+1(-7)=-5$. The circulation term contributes $\nabla\mathfrak{I}\cdot\mathsf{Q}\nabla\mathfrak{I}=0$ for every antisymmetric $\mathsf{Q}$, so the rate is always $-\Gamma|\nabla\mathfrak{I}|^2=-5$. Circulation changes where the creature goes, never how fast it descends.
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: text
+    id: p3-setup
+    tag: Problem 3 · Perceiving or acting
+    title: "A creature checks its glucose"
+    body: |
+      A creature is either **sated** or **hungry** (the hidden state $x$). It expects to be sated: prior $P(x)=(0.8,\,0.2)$ for (sated, hungry). It reads its glucose level $y$. A **low** reading has likelihood $P(y\mid x)=(0.1,\,0.9)$ (low glucose is rare when sated, common when hungry). It has just read **low**. A **high** reading would have likelihood $(0.9,\,0.1)$.
+
+      We keep three numbers in mind: $P(y)=0.8(0.1)+0.2(0.9)=0.26$ for the low reading, the exact posterior $P(x\mid y)=(0.308,\,0.692)$, and the surprise $\mathfrak{I}(y)=-\ln0.26=1.347$ nats. The creature's current guess is the undecided $Q(x)=(0.5,\,0.5)$, with $F=1.427$ nats.
+
+  - type: numeric
+    id: p3-gap
+    tag: Problem 3 · Perceiving or acting
+    prompt: |
+      A creature has prior $P(x)=(0.8,\,0.2)$ for (sated, hungry) and has read a low glucose level, whose exact posterior is $P(x\mid y)=(0.308,\,0.692)$. Its guess is $Q(x)=(0.5,\,0.5)$. What is the divergence $D_{KL}[Q(x)\parallel P(x\mid y)]$, in nats? (This is how much perception can still lower $F$.)
+    answer: 0.08
+    tolerance: 0.004
+    answerText: '0.08'
+    wrong:
+      - { value: 1.427, tolerance: 0.004, feedback: 'That is the free energy $F$ of this guess, not the divergence. $F$ contains the surprise ($1.347$) **plus** the divergence.' }
+      - { value: 1.347, tolerance: 0.004, feedback: 'That is the surprise $-\ln0.26$. It is the part of $F$ that perception cannot touch. The divergence is the rest.' }
+      - { value: 0.223, tolerance: 0.004, feedback: 'That is the divergence from the **prior** $D_{KL}[Q\parallel P(x)]$ (the complexity). The question is the divergence from the **posterior**.' }
+    hint: '$0.5\ln(0.5/0.308)+0.5\ln(0.5/0.692)$. Or use $F=\mathfrak{I}+D_{KL}$ with $F=1.427$.'
+    explanation: |
+      $$\begin{aligned}D_{KL}&=0.5\ln\frac{0.5}{0.308}+0.5\ln\frac{0.5}{0.692}\\ &=0.5(0.485)+0.5(-0.325)\\ &\approx0.08.\end{aligned}$$
+      Check with the bound: $F-\mathfrak{I}=1.427-1.347=0.080$. Perception (setting $Q$ to the posterior) lowers $F$ by only $0.08$, down to $1.347$.
+
+  - type: numeric
+    id: p3-act-only
+    tag: Problem 3 · Perceiving or acting
+    prompt: |
+      A creature has prior $P(x)=(0.8,\,0.2)$ for (sated, hungry) and keeps the undecided guess $Q(x)=(0.5,\,0.5)$. It **eats**, and the next reading is **high** glucose, with likelihood $P(y\mid x)=(0.9,\,0.1)$. Without updating $Q$, what is its free energy $F=D_{KL}[Q(x)\parallel P(x)]-\mathbb{E}_Q\ln P(y\mid x)$, in nats?
+    answer: 1.427
+    tolerance: 0.004
+    answerText: '1.427'
+    wrong:
+      - { value: 0.301, tolerance: 0.004, feedback: 'That is the new surprise, $-\ln0.74$, which $F$ reaches only if $Q$ is also updated to the new posterior. With the old guess $Q$, the divergence term is still large.' }
+      - { value: 1.347, tolerance: 0.004, feedback: 'That is the old surprise, the best $F$ for the **low** reading. The question is the high reading with the old $Q$.' }
+    hint: 'Complexity: $0.5\ln(0.5/0.8)+0.5\ln(0.5/0.2)=0.223$. Accuracy: $0.5\ln0.9+0.5\ln0.1$.'
+    explanation: |
+      $$\begin{aligned}F&=0.223-\big(0.5\ln0.9+0.5\ln0.1\big)\\ &=0.223+1.204\\ &=1.427.\end{aligned}$$
+      It is the same $F$ as before eating, because $\ln0.9$ and $\ln0.1$ simply swap places: for the undecided $Q$ the accuracy is the same. The surprise did fall (from $1.347$ to $0.301$), but the **gap** grew from $0.08$ to $1.126$ (the posterior is now $(0.973,\,0.027)$, far from $(0.5,0.5)$). Acting changes the observation; the belief must catch up.
+
+  - type: numeric
+    id: p3-split
+    tag: Problem 3 · Perceiving or acting
+    prompt: |
+      A creature starts with free energy $F=1.427$ nats (low glucose reading, guess $Q=(0.5,\,0.5)$). It eats, so the reading becomes high glucose, and it updates $Q$ to the new exact posterior, reaching $F=\mathfrak{I}=-\ln0.74=0.301$ nats. Perceiving alone (keeping the low reading) would have lowered $F$ only to the surprise $-\ln0.26=1.347$ nats. How much of the total drop in $F$ is due to **acting**, that is, to the change of the observation?
+    answer: 1.046
+    tolerance: 0.004
+    answerText: '1.046'
+    wrong:
+      - { value: 1.126, tolerance: 0.004, feedback: 'That is the **total** drop, $1.427-0.301$. It includes the $0.080$ that perception alone would have given.' }
+      - { value: 0.08, tolerance: 0.004, feedback: 'That is the part due to perception, $1.427-1.347$. The question asks for the other part.' }
+    hint: 'Acting moves the floor of the bound: the surprise goes from $1.347$ to $0.301$.'
+    explanation: |
+      $$\begin{aligned}\text{total}&=1.427-0.301=1.126,\\ \text{perception}&=1.427-1.347=0.080,\\ \text{action}&=1.347-0.301=1.046.\end{aligned}$$
+      Perception can only bring $F$ down to the surprise $\mathfrak{I}(y)$ of the current observation; only changing the observation lowers that floor. Here eating makes the reading $\ln(0.74/0.26)=1.046$ nats less surprising: the creature acted to make its sensations match its expectation of being sated, **self-evidencing**.
+
+  - type: widget
+    id: p3-widget
+    review: false
+    widget: free-energy-bound
+    config:
+      observation: "you read low glucose"
+      causes:
+        - { name: sated, prior: 0.8, likelihood: 0.1 }
+        - { name: hungry, prior: 0.2, likelihood: 0.9 }
+      q: [0.5, 0.5]
+      presets:
+        - { label: "Start: low reading", q: [0.5, 0.5], likelihood: [0.1, 0.9] }
+        - { label: "Perceive", q: exact, likelihood: [0.1, 0.9] }
+        - { label: "Act only (high reading)", q: [0.5, 0.5], likelihood: [0.9, 0.1] }
+        - { label: "Act and perceive", q: exact, likelihood: [0.9, 0.1] }
+    body: |
+      Check your numbers. **Perceive** moves $Q$ to the exact posterior of the low reading; **Act only** changes the reading to high glucose but leaves $Q$; **Act and perceive** does both. Watch the three bars: the free energy $F$, the surprise (the floor) and the gap.
