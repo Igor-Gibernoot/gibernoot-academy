@@ -1,0 +1,326 @@
+id: ch02-free-energy
+title: Variational Free Energy
+kind: concept
+own: |
+  - **Free energy scores a guess $Q$ with computable pieces.** Setup: a generative model with a hidden state $x$, a prior $P(x)$, a likelihood $P(y\mid x)$ of the observation $y$, hence the joint $P(y,x)=P(x)\,P(y\mid x)$; and an approximate posterior $Q(x)$, our guess about $x$. The **variational free energy** (minimised) is
+    {{ $$F[Q,y]=\mathbb{E}_{Q(x)}\big[\ln Q(x)-\ln P(y,x)\big]$$ }}
+    which equals energy minus entropy: $-\mathbb{E}_{Q}[\ln P(y,x)]-H[Q(x)]$. It needs only $Q$ and the joint, never the evidence $P(y)$.
+  - **KL divergence.** For two distributions $Q(x)$ and $P(x)$ over the same $x$, their dissimilarity is
+    {{ $$\begin{gathered}D_{KL}[Q(x)\,\|\,P(x)]\\=\mathbb{E}_{Q(x)}\big[\ln Q(x)-\ln P(x)\big]\end{gathered}$$ }}
+    It is never negative, it is $0$ only when $Q=P$, and swapping the two arguments changes its value.
+  - **First reading: complexity minus accuracy.** With the same setup,
+    {{ $$\begin{gathered}F=\underbrace{D_{KL}[Q(x)\,\|\,P(x)]}_{\text{complexity}}\\-\underbrace{\mathbb{E}_{Q(x)}[\ln P(y\mid x)]}_{\text{accuracy}}\end{gathered}$$ }}
+    Complexity is how far the guess $Q$ moves away from the prior; accuracy is how well the guessed causes explain the data. The best explanation is the simplest one that still fits.
+  - **Second reading: divergence plus evidence.** Writing $P(x\mid y)$ for the exact posterior and $P(y)$ for the evidence,
+    {{ $$F=D_{KL}[Q(x)\,\|\,P(x\mid y)]-\ln P(y)$$ }}
+    The first term measures how far the guess is from the exact posterior; the second is the surprise.
+  - **Free energy bounds surprise.** Since a KL divergence is at least $0$,
+    {{ $$F\ge-\ln P(y)$$ }}
+    with equality only when $Q$ is the exact posterior $P(x\mid y)$. $F$ looks only at past and present data (it is **retrospective**), not at future observations.
+  - **Perception and action lower the same $F$.** In $F=D_{KL}[Q\,\|\,P(x\mid y)]-\ln P(y)$: {{ perception changes $Q$, which lowers the divergence; action changes the data $y$, which changes the evidence term }}.
+cards:
+  - type: text
+    id: hook
+    title: "Scoring a guess"
+    body: |
+      In the garden you hear a rustle ($y$). The hidden cause $x$ is a **cat**, a **dog** or a **fox**. Exact Bayes would give the posterior $33\%$ / $42\%$ / $25\%$, but we saw that for a brain it is too costly to compute.
+
+      So the brain keeps a rough guess $Q(x)$ about the cause, the **approximate posterior**: three numbers adding to $100\%$. A rough guess is only useful if we can **score** it, without knowing the exact answer, and then improve it.
+
+      Before any formula: what could a good score of a guess use? You know the prior (how common each animal is), and the likelihood (how well each animal explains a rustle). Keep that in mind and play.
+
+  - type: widget
+    id: widget-f
+    widget: free-energy-bound
+    config:
+      observation: "you hear a rustle"
+      showGap: false
+      exact: false
+      causes:
+        - { name: cat, prior: 0.6, likelihood: 0.2 }
+        - { name: dog, prior: 0.3, likelihood: 0.5 }
+        - { name: fox, prior: 0.1, likelihood: 0.9 }
+      q: [0.34, 0.33, 0.33]
+      presets:
+        - { label: "Q = prior", q: [0.6, 0.3, 0.1] }
+        - { label: "All on fox", q: [0.02, 0.02, 0.96] }
+    body: |
+      Drag the sliders to set your guess $Q$ (the three always add to $100\%$). The bar **Free energy** $F$ is a score of your guess: **lower is better**. The dashed tick is the **surprise** of the rustle, $-\ln P(y)$, in nats.
+
+      Try to push $F$ as low as you can. Where does the bar stop?
+
+  - type: mcq
+    id: lowest-q
+    review: false
+    prompt: |
+      In the garden (priors cat/dog/fox $0.6/0.3/0.1$, a rustle is produced with probability $0.2/0.5/0.9$ by each), which guess $Q$ about the cause of the rustle gets the lowest free energy $F$?
+    options:
+      - text: 'The exact posterior from Bayes'' rule: $33\%$ cat, $42\%$ dog, $25\%$ fox.'
+        correct: true
+      - text: 'All weight on the dog, the single most probable cause.'
+        feedback: |
+          The dog is the most probable cause, so this is tempting. But a score that rewards certainty about a single cause is overconfident: $F=-\ln(0.15)\approx1.90$ nats, well above the best value of about $1.02$.
+      - text: 'The prior, $60\%$ / $30\%$ / $10\%$.'
+        feedback: |
+          The prior ignores the rustle completely. It scores $F\approx1.18$ nats, not the lowest.
+      - text: 'Equal weights, $\tfrac13$ each, the "no opinion" guess.'
+        feedback: |
+          This one is close ($F\approx1.04$ nats) which is why it is tempting, but it is still a little above the exact posterior's $1.02$.
+    explanation: |
+      The lowest score is reached by the **exact posterior**. A good score for guesses is therefore one that is smallest exactly when the guess is the true Bayesian answer, and the more the guess drifts from it, the larger the score.
+
+  - type: mcq
+    id: floor
+    review: false
+    prompt: |
+      In the widget, the free energy $F$ can be pushed down but the bar never ends to the left of the dashed tick (the surprise $-\ln P(y)=-\ln 0.36\approx1.02$ nats). What do you conclude?
+    options:
+      - text: '$F$ never goes below the surprise: for every guess $Q$, $F\ge-\ln P(y)$.'
+        correct: true
+      - text: '$F$ can reach $0$, the widget just has a limited slider range.'
+        feedback: |
+          The sliders cover every possible guess $Q$ and the bar still stops at the tick. The floor is a property of the score, not of the slider.
+      - text: 'The tick moves to the left when $Q$ is good.'
+        feedback: |
+          The tick depends only on the model and the data ($P(y)=0.36$), not on $Q$. It stays put.
+    explanation: |
+      This is the central fact of the lesson: free energy is an **upper bound on surprise**. The score can only get *down to* the surprise, never below it, and it reaches it exactly at the exact posterior. We now build the formula and prove why.
+
+  - type: text
+    id: define-f
+    title: "The variational free energy"
+    body: |
+      The score you played with is the **variational free energy** $F$. Its ingredients:
+
+      - $P(y,x)=P(x)\,P(y\mid x)$, the **joint** probability of cause $x$ *and* observation $y$ (prior times likelihood). It is the generative model, so we can always compute it.
+      - $\ln Q(x)$: the logarithm of the probability our guess gives to cause $x$.
+      - $\mathbb{E}_{Q(x)}[\,\cdot\,]=\sum_x Q(x)\,[\,\cdot\,]$: an average over the causes, **weighted by our guess $Q$**.
+
+      The free energy is
+      $$F[Q,y]=\mathbb{E}_{Q(x)}\big[\ln Q(x)-\ln P(y,x)\big].$$
+      The notation $F[Q,y]$ says it depends on the whole function $Q$ and on the data $y$. Splitting the logarithm gives the book's first form: **energy** minus **entropy**,
+      $$F=-\underbrace{\mathbb{E}_{Q(x)}[\ln P(y,x)]}_{\text{energy}}-\underbrace{H[Q(x)]}_{\text{entropy}},$$
+      where the entropy of the guess is
+      $$H[Q(x)]=-\mathbb{E}_{Q(x)}[\ln Q(x)].$$
+      Energy asks that the guess agree with the model; entropy rewards a guess that stays uncertain when nothing forces it to commit.
+
+      Check with the widget: put **all** of $Q$ on the cat. Then $\ln Q=\ln 1=0$ and $F=-\ln P(y,\text{cat})=-\ln0.12\approx2.12$ nats. Notice what $F$ never needed: the evidence $P(y)$.
+
+  - type: text
+    id: kl
+    title: "Measuring how different two guesses are"
+    body: |
+      To say how far a guess $Q$ is from another distribution $P$ over the same $x$, information theory uses the **Kullback-Leibler (KL) divergence**: the average difference of two log probabilities, averaged under $Q$,
+      $$\begin{gathered}D_{KL}[Q(x)\,\|\,P(x)]\\=\mathbb{E}_{Q(x)}\big[\ln Q(x)-\ln P(x)\big].\end{gathered}$$
+      Two facts, used all lesson:
+
+      - it is **never negative**, and it is $0$ **only when $Q=P$** (every $Q(x)=P(x)$);
+      - it is **not symmetric**: $D_{KL}[Q\,\|\,P]$ and $D_{KL}[P\,\|\,Q]$ generally differ, so it is a divergence, not a distance.
+
+      Example with two causes: $Q=(0.5,\,0.5)$ and $P=(0.25,\,0.75)$.
+
+  - type: numeric
+    id: kl-numeric
+    prompt: |
+      Take two distributions over two causes: $Q=(0.5,\,0.5)$ and $P=(0.25,\,0.75)$. With $D_{KL}[Q\,\|\,P]=\mathbb{E}_{Q}[\ln Q-\ln P]=\sum_x Q(x)\,[\ln Q(x)-\ln P(x)]$, compute $D_{KL}[Q\,\|\,P]$ in nats.
+    answer: 0.1438
+    tolerance: 0.003
+    answerText: '0.144'
+    wrong:
+      - { value: 0.1308, tolerance: 0.001, feedback: "That is $D_{KL}[P\\,\\|\\,Q]$, with the arguments swapped (the average is taken under $P$). The KL divergence is not symmetric: the average is under the **first** argument, here $Q$." }
+      - { value: 0.6931, tolerance: 0.002, feedback: "That is only the first term, $0.5\\ln\\frac{0.5}{0.25}$. Add the second cause: $0.5\\,[\\ln0.5-\\ln0.75]$, which is negative." }
+      - { value: 0, feedback: "Zero only when $Q=P$ exactly. Here the two differ." }
+    hint: |
+      Two terms: $0.5\,(\ln0.5-\ln0.25)+0.5\,(\ln0.5-\ln0.75)$. Use $\ln2\approx0.693$ and $\ln1.5\approx0.405$.
+    explanation: |
+      $0.5\ln\frac{0.5}{0.25}+0.5\ln\frac{0.5}{0.75}=0.5(0.693)+0.5(-0.405)\approx0.144$ nats. The second term is negative but the total is positive, as a KL divergence always is. It would be $0$ only for $Q=P$.
+
+  - type: text
+    id: complexity-accuracy
+    title: "Reading 1: complexity minus accuracy"
+    body: |
+      Use $\ln P(y,x)=\ln P(y\mid x)+\ln P(x)$ inside the definition of $F$:
+      $$\begin{gathered}F=\mathbb{E}_{Q(x)}\big[\ln Q(x)-\ln P(x)\big]\\-\mathbb{E}_{Q(x)}\big[\ln P(y\mid x)\big].\end{gathered}$$
+      The first average is exactly a KL divergence, so
+      $$\begin{gathered}F=\underbrace{D_{KL}[Q(x)\,\|\,P(x)]}_{\text{complexity}}\\-\underbrace{\mathbb{E}_{Q(x)}[\ln P(y\mid x)]}_{\text{accuracy}}.\end{gathered}$$
+
+      - **Complexity**: how far the guess $Q$ has moved away from the prior $P(x)$, that is how much you changed your mind (the cost of updating beliefs).
+      - **Accuracy**: how well the causes you believe in predict the data, on average under $Q$. Higher is better, hence the minus sign.
+
+      So $F$ favours the **simplest** explanation (least change from the prior) that still **accounts well** for the data, an Occam's razor.
+
+  - type: numeric
+    id: cx-acc-numeric
+    prompt: |
+      Garden: priors cat/dog/fox $0.6/0.3/0.1$; probability of the rustle given each cause $P(y\mid x)=0.2/0.5/0.9$. Let the guess be the prior itself, $Q=(0.6,\,0.3,\,0.1)$. Using $F=D_{KL}[Q\,\|\,P(x)]-\mathbb{E}_{Q}[\ln P(y\mid x)]$, compute $F$ in nats.
+    answer: 1.184
+    tolerance: 0.01
+    answerText: '1.18'
+    wrong:
+      - { value: -1.184, tolerance: 0.01, feedback: "That is the accuracy term, $\\mathbb{E}_Q[\\ln P(y\\mid x)]$. $F$ is complexity **minus** accuracy, so the sign flips and $F=0-(-1.18)$." }
+      - { value: 0, feedback: "That is the complexity alone. Here $Q=P(x)$, so the divergence is $0$, but the accuracy term still counts." }
+    hint: |
+      Since $Q=P(x)$, the complexity is $0$. For the accuracy, average $\ln P(y\mid x)$ with weights $0.6, 0.3, 0.1$: $0.6\ln0.2+0.3\ln0.5+0.1\ln0.9$.
+    explanation: |
+      Complexity: $D_{KL}[P(x)\,\|\,P(x)]=0$. Accuracy: $0.6\ln0.2+0.3\ln0.5+0.1\ln0.9\approx-0.966-0.208-0.011=-1.184$. So $F=0-(-1.184)\approx1.18$ nats. The guess changed nothing from the prior (zero complexity) but explains the rustle poorly (low accuracy).
+
+  - type: build
+    id: joint-split
+    prompt: |
+      The joint probability can be split in two ways. Build the right-hand side that makes the equation true using the **posterior** $P(x\mid y)$ and the evidence $P(y)$, which together give back the joint.
+    prefix: '\ln P(y,x)='
+    tiles: ['\ln P(x\mid y)', '+', '\ln P(y)', '-', '\ln P(y\mid x)', '\ln Q(x)']
+    answers:
+      - ['\ln P(x\mid y)', '+', '\ln P(y)']
+      - ['\ln P(y)', '+', '\ln P(x\mid y)']
+    wrong:
+      - { answer: ['\ln P(x\mid y)', '-', '\ln P(y)'], feedback: "That would be $\\ln\\frac{P(x\\mid y)}{P(y)}$. The product rule $P(y,x)=P(x\\mid y)P(y)$ multiplies, so the logs **add**." }
+    hint: |
+      The product rule: $P(y,x)=P(x\mid y)\,P(y)$. Take the logarithm of both sides.
+    explanation: |
+      $P(y,x)=P(x\mid y)\,P(y)$, so $\ln P(y,x)=\ln P(x\mid y)+\ln P(y)$ (the other split, $\ln P(y\mid x)+\ln P(x)$, is what gave complexity and accuracy). Now put this into $F$.
+
+  - type: text
+    id: divergence-evidence
+    title: "Reading 2: divergence plus evidence"
+    body: |
+      Insert $\ln P(y,x)=\ln P(x\mid y)+\ln P(y)$ into $F=\mathbb{E}_{Q}[\ln Q-\ln P(y,x)]$:
+      $$\begin{gathered}F=\mathbb{E}_{Q(x)}\big[\ln Q(x)-\ln P(x\mid y)\big]\\-\mathbb{E}_{Q(x)}\big[\ln P(y)\big].\end{gathered}$$
+      The first average is the KL divergence from $Q$ to the exact posterior. In the second, $\ln P(y)$ does not depend on $x$, and $\sum_x Q(x)=1$, so its average is itself. Therefore
+      $$F=\underbrace{D_{KL}[Q(x)\,\|\,P(x\mid y)]}_{\text{divergence}}-\underbrace{\ln P(y)}_{\text{evidence}}.$$
+
+      - **Divergence**: how far your guess is from the exact posterior. Free energy cannot compute it (it needs $P(y)$), but it contains it.
+      - $-\ln P(y)$ is the **surprise**.
+
+      The same number $F$, three ways of writing it (energy minus entropy, complexity minus accuracy, divergence plus surprise). This last one will be the key.
+
+  - type: widget
+    id: widget-gap
+    widget: free-energy-bound
+    config:
+      observation: "you hear a rustle"
+      causes:
+        - { name: cat, prior: 0.6, likelihood: 0.2 }
+        - { name: dog, prior: 0.3, likelihood: 0.5 }
+        - { name: fox, prior: 0.1, likelihood: 0.9 }
+      q: [0.6, 0.3, 0.1]
+      presets:
+        - { label: "Q = prior", q: [0.6, 0.3, 0.1] }
+        - { label: "All on fox", q: [0.02, 0.02, 0.96] }
+    body: |
+      Now the third bar, the **gap** $F-(\text{surprise})$, is on. By the divergence-plus-evidence reading it is the divergence $D_{KL}[Q\,\|\,P(x\mid y)]$. Press **Set Q = exact posterior**, then drag the sliders away from it.
+
+      What is the gap at the exact posterior, and can it ever go negative?
+
+  - type: mcq
+    id: gap-zero
+    review: false
+    prompt: |
+      In $F=D_{KL}[Q(x)\,\|\,P(x\mid y)]-\ln P(y)$, what happens to $F$ when $Q$ is exactly the exact posterior $P(x\mid y)$?
+    options:
+      - text: '$F$ equals the surprise $-\ln P(y)$: the divergence is $0$.'
+        correct: true
+      - text: '$F$ becomes $0$.'
+        feedback: |
+          The divergence becomes $0$, but the $-\ln P(y)$ term is still there (here about $1.02$ nats). $F$ falls to the surprise, not to zero.
+      - text: '$F$ becomes larger than the surprise, since the exact posterior is the most complex guess.'
+        feedback: |
+          The divergence is never negative and is exactly $0$ at the exact posterior, so $F$ cannot exceed the surprise there.
+    explanation: |
+      Divergence $0$ means $F=-\ln P(y)$: the bar meets the tick. Changing $Q$ can lower only the divergence part, and the divergence part stops at $0$.
+
+  - type: numeric
+    id: gap-numeric
+    prompt: |
+      Garden: $P(y)=0.36$, so the surprise is $-\ln0.36\approx1.022$ nats. A guess $Q$ has free energy $F\approx1.184$ nats. Using $F=D_{KL}[Q\,\|\,P(x\mid y)]-\ln P(y)$, how large is the divergence $D_{KL}[Q\,\|\,P(x\mid y)]$, in nats?
+    answer: 0.162
+    tolerance: 0.006
+    answerText: '0.16'
+    wrong:
+      - { value: 1.184, tolerance: 0.01, feedback: "That is $F$ itself. The divergence is only the part of $F$ **above** the surprise." }
+      - { value: 2.206, tolerance: 0.01, feedback: "You added the surprise. $F=D_{KL}-\\ln P(y)$ with $-\\ln P(y)=+1.022$, so $D_{KL}=F-1.022$." }
+    hint: |
+      Rearrange: divergence $=F-(-\ln P(y))=F-\text{surprise}$.
+    explanation: |
+      $D_{KL}=F-(-\ln P(y))=1.184-1.022\approx0.162$ nats. This is the gap you saw for $Q=$ prior: the guess is a little away from the exact posterior $(0.33,0.42,0.25)$. We can find the gap although we never computed the posterior.
+
+  - type: text
+    id: bound
+    title: "Why free energy bounds surprise"
+    body: |
+      Put the two facts together. By the second reading,
+      $$F=D_{KL}[Q(x)\,\|\,P(x\mid y)]+\big(-\ln P(y)\big),$$
+      and a KL divergence is never negative. Hence
+      $$F\ge-\ln P(y),$$
+      with equality exactly when $Q=P(x\mid y)$. The free energy is an **upper bound on surprise**, and the bound is tight at the exact posterior. (Machine learning writes $-F$ and calls it the evidence lower bound, ELBO.)
+
+      So **minimising $F$ over $Q$** is a computable stand-in for minimising the divergence to the exact posterior, and brings $F$ down towards the surprise. The next lesson proves the inequality step by step.
+
+  - type: mcq
+    id: bound-direction
+    prompt: |
+      A model gives an observation the evidence $P(y)=0.36$ (surprise $\approx1.02$ nats). An approximate posterior $Q$ has free energy $F=1.5$ nats. Which statement is guaranteed?
+    options:
+      - text: 'The surprise is at most $1.5$ nats, since $F$ is an upper bound on it.'
+        correct: true
+      - text: 'The surprise is at least $1.5$ nats.'
+        feedback: |
+          That reverses the bound. $F\ge-\ln P(y)$: free energy sits **above** the surprise, never below.
+      - text: 'The surprise equals $1.5$ nats, since $F$ measures surprise.'
+        feedback: |
+          Equality only holds at the exact posterior. Here the gap, $1.5-1.02\approx0.48$ nats, is the divergence of $Q$ from it.
+    explanation: |
+      $F\ge$ surprise for every $Q$, so surprise $\le F=1.5$. The leftover $F-\text{surprise}$ is the divergence from the exact posterior, which a better $Q$ shrinks.
+
+  - type: mcq
+    id: retrospective
+    prompt: |
+      $F[Q,y]$ is built from the generative model, the guess $Q$ and an observation $y$. Which statement about time is right?
+    options:
+      - text: 'It is **retrospective**: it uses past and present observations, not future ones.'
+        correct: true
+      - text: 'It already scores which future observations a plan would bring about.'
+        feedback: |
+          $F$ is a function of the data $y$ received so far. Judging plans by the data they are *expected* to bring needs another quantity, the **expected free energy**, still ahead.
+      - text: 'It can only be computed once the exact posterior is known.'
+        feedback: |
+          The whole point is the opposite: $F$ needs only $Q$ and the joint $P(y,x)$, never the exact posterior or the evidence.
+    explanation: |
+      $F$ evaluates a guess about what happened, given data already in hand. It helps inferences about the future from past data, but it does not rank future-looking plans. That job is taken up later by the expected free energy.
+
+  - type: mcq
+    id: perception-term
+    prompt: |
+      In $F=D_{KL}[Q(x)\,\|\,P(x\mid y)]-\ln P(y)$, **perception** changes the guess $Q$ and leaves the data $y$ alone. What is the most it can do to $F$?
+    options:
+      - text: 'Lower the divergence down to $0$, so that $F$ comes down to the surprise $-\ln P(y)$ but not below.'
+        correct: true
+      - text: 'Lower $F$ all the way to $0$.'
+        feedback: |
+          The evidence term $-\ln P(y)$ does not depend on $Q$, so perception cannot touch it. $F$ stops at the surprise.
+      - text: 'Lower the surprise itself.'
+        feedback: |
+          The surprise is a property of the model and the data, not of $Q$. Perception adjusts only the guess.
+    explanation: |
+      Perception acts on the divergence: it moves $Q$ towards the exact posterior. Once it has done so, $F\approx$ surprise, and the divergence cannot shrink further.
+
+  - type: mcq
+    id: action-term
+    prompt: |
+      Perception has done its best, so $F$ is close to the surprise $-\ln P(y)$, which is large because the data $y$ do not fit what the model expects. In $F=D_{KL}[Q(x)\,\|\,P(x\mid y)]-\ln P(y)$, which term can **action** still change, and how?
+    options:
+      - text: 'The evidence term: by changing the world, action changes the data $y$ to ones with higher $P(y)$ (lower surprise).'
+        correct: true
+      - text: 'The divergence term: action refines $Q$ further.'
+        feedback: |
+          Refining $Q$ is what perception does, and it has already reached its limit. Action works on the other term, by changing what is observed.
+      - text: 'Neither: after perception $F$ cannot be lowered any more.'
+        feedback: |
+          Perception can only bring $F$ down to the surprise. The surprise itself can still change if the data change, which is what action does.
+    explanation: |
+      The two terms map onto the two jobs: **perception** minimises the divergence by changing $Q$; **action** raises the evidence $P(y)$ by changing the data. Both lower the same $F$, which is the single objective promised by the previous lesson.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a guided problem. You will derive $F\ge-\ln P(y)$ yourself, step by step from the definition, see exactly why the gap is a KL divergence, and check when the bound is tight.
