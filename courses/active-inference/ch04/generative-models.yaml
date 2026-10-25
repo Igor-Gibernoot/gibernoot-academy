@@ -1,0 +1,404 @@
+id: ch04-generative-models
+title: "Generative Models"
+kind: concept
+own: |
+  - **A generative model is a recipe for producing data.** With a hidden state $x$ (a disease) and an observation $y$ (a test result), it is a prior $P(x)$ (prevalence) and a likelihood $P(y\mid x)$ (the test's properties), whose product is the joint
+    {{ $$P(x,y)=P(y\mid x)\,P(x)$$ }}
+    The free energy of an earlier lesson needs exactly three things: data $y$, a family of beliefs $Q$, and this model.
+  - **Factor graphs draw the model.** Circles are variables (shaded when observed), squares are factors (probability tables), and a square touches the variables it relates. With two tests $y$ and $w$ that both depend on the same disease $x$ (and are independent given $x$), likelihoods multiply:
+    {{ $$P(x\mid y,w)\propto P(x)\,P(y\mid x)\,P(w\mid x)$$ }}
+    With two diseases $x,z$ that can both cause a positive $y$, learning that one is present lowers belief in the other (*explaining away*). With a context $v$ above $x$, $P(x\mid v)$ is a prior that depends on the context.
+  - **Active inference uses models that evolve in time.** The discrete-time model (called a POMDP: states $s_t$ hidden, outcomes $o_t$ seen, a policy $\pi$ = a sequence of actions) has three factors:
+    {{ $$P(\pi),\quad P(o_t\mid s_t),\quad P(s_{t+1}\mid s_t,\pi)$$ }}
+    The continuous-time model replaces the sequence by a state $x$ with its successive time derivatives $x',x'',\dots$ (generalized coordinates), a slowly varying cause $v$ playing the part of the policy, and data $y$, with factors $P(v)$, $P(y\mid x)$, $P(x'\mid x,v)$.
+  - **Updates are local.** A variable's Markov blanket is its parents $\rho(x)$ (causes), its children $\kappa(x)$ (what it causes) and the other parents of its children. Variational message passing updates the belief $Q(x)$ from the blanket alone:
+    {{ $$\begin{aligned}\ln Q(x)={}&\mathbb{E}_{Q(\rho(x))}\big[\ln P(x\mid\rho(x))\big]\\&+\mathbb{E}\big[\ln P(\kappa(x)\mid\rho(\kappa(x)))\big]\end{aligned}$$ }}
+    where the second average runs over the children and their other parents. Belief propagation has the same shape, but each message is built from the messages arriving at the sender (all but the one from the receiver).
+cards:
+  - type: mcq
+    id: hook
+    title: "A positive test: how worried?"
+    prompt: |
+      Before any theory, guess. A disease affects $2$ people in $100$. A test comes out **positive** for $90$ of every $100$ ill people (its *sensitivity*) and also, wrongly, for $9$ of every $100$ healthy people (the *false positives*). You test positive. Roughly how likely is it that you are ill?
+    options:
+      - text: 'About $90\%$.'
+        feedback: |
+          This swaps two different questions. "$90\%$ of ill people test positive" answers *given ill, how likely is a positive?* You are asking the reverse: *given a positive, how likely is illness?* The reverse depends on how rare the disease is, and here it is rare.
+      - text: 'About $50\%$.'
+        feedback: |
+          Tempting ("positive or negative, who knows"), but we are not in the dark: we know the disease is rare and the test is quite sharp, and both facts enter. Count people instead of guessing, as in the explanation.
+      - text: 'About $17\%$.'
+        correct: true
+      - text: 'About $2\%$.'
+        feedback: |
+          That is the base rate, the chance before the test. A positive test is informative: it raises the chance, only not to the level one might fear.
+    explanation: |
+      Count people. Take $1000$: $20$ are ill and $18$ of them test positive; $980$ are healthy and $88.2$ of them test positive. So $18$ of the $106.2$ positives are ill:
+      $$\frac{18}{18+88.2}\approx0.17.$$
+      A rare disease means that most positives are false alarms. Two ingredients decided the answer: how common the disease is *before* the test (the **prior**) and how the test behaves for ill and healthy people (the **likelihood**).
+
+  - type: widget
+    id: mixer
+    review: false
+    widget: belief-mixer
+    config:
+      causes:
+        - { name: Ill, prior: 0.02, evidence: 0.9 }
+        - { name: Healthy, prior: 0.98, evidence: 0.09 }
+      sharp: true
+      toggle: false
+      labels:
+        prior: "Before the test: how common is each condition"
+        evidence: "If a person had this condition: how likely is a positive test"
+        belief: "After a positive test: how likely each condition is"
+        reset: "Reset"
+      presets:
+        - { label: "Common disease (prior 0.5)", prior: [0.5, 0.5] }
+        - { label: "Useless test (same for both)", evidence: [0.5, 0.5] }
+    body: |
+      The top sliders are the **prior** (how common each condition is). The middle sliders are the **likelihood** of a positive test for each condition. The bars are the belief after the test: prior times likelihood, rescaled to add up to $100\%$.
+
+      Try it: (1) raise the prior of Ill and watch the bar; (2) make the two likelihoods equal; (3) press the two presets.
+
+  - type: numeric
+    id: prevalence-ten
+    prompt: |
+      Same test (positive for $90\%$ of the ill, $9\%$ of the healthy) but now the disease affects $10$ people in $100$. After a positive test, what is the probability of being ill? Give it as a number between $0$ and $1$.
+    answer: 0.526
+    tolerance: 0.006
+    wrong:
+      - value: 0.17
+        feedback: |
+          That is the answer for the $2\%$ disease. The prior changed to $0.1$, and the whole point is that the posterior moves with it.
+      - value: 0.9
+        feedback: |
+          $0.9$ is the sensitivity $P(\text{positive}\mid\text{ill})$, not $P(\text{ill}\mid\text{positive})$. Compare the two joint terms.
+    hint: |
+      Ill and positive: $0.1\cdot0.9$. Healthy and positive: $0.9\cdot0.09$. The belief is the first divided by the sum.
+    explanation: |
+      $0.1\cdot0.9=0.09$ and $0.9\cdot0.09=0.081$, so the belief is $0.09/(0.09+0.081)\approx0.526$. The same test now gives about one chance in two, instead of $17\%$: the data never speak alone, they speak through a prior.
+
+  - type: text
+    id: model
+    title: "A generative model is a recipe"
+    body: |
+      What we just used is a **generative model**: a recipe that says how the data come to exist.
+
+      1. Draw the hidden condition $x$ (ill or healthy) from the **prior** $P(x)$, the prevalence.
+      2. Given that condition, draw the observation $y$ (the test result) from the **likelihood** $P(y\mid x)$. Its two key numbers have names: the *sensitivity* is $P(\text{positive}\mid\text{ill})$ and the *specificity* is $P(\text{negative}\mid\text{healthy})$.
+
+      Multiplying the two steps gives the **joint** probability of a whole story (a condition together with a result):
+      $$P(x,y)=P(y\mid x)\,P(x).$$
+      The free energy of the previous lesson needs three things: **data** $y$, a **family** of beliefs $Q$, and this **model**. The rest of this lesson is about the shapes a model can take and how they are drawn.
+
+  - type: widget
+    id: graphs
+    review: false
+    widget: factor-graph
+    config:
+      variables:
+        - { id: x, label: x, pos: [100, 115] }
+        - { id: y, label: y, pos: [300, 115], observed: true }
+      factors:
+        - { id: F1, label: '1', pos: [20, 115], vars: [x], term: '\ln P(x)' }
+        - { id: F2, label: '2', pos: [200, 115], vars: [x, y], term: '\ln P(y\mid x)' }
+      messageFormula: '\ln Q({v}) = {terms}'
+      join: ' + '
+      presets:
+        - label: "Diagnosis (x, y)"
+        - label: "Two diseases"
+          variables:
+            - { id: x, label: x, pos: [100, 45] }
+            - { id: z, label: z, pos: [100, 190] }
+            - { id: y, label: y, pos: [320, 115], observed: true }
+          factors:
+            - { id: F1, label: '1', pos: [20, 45], vars: [x], term: '\ln P(x)' }
+            - { id: F3, label: '3', pos: [20, 190], vars: [z], term: '\ln P(z)' }
+            - { id: F2, label: '2', pos: [210, 115], vars: [x, z, y], term: '\ln P(y\mid x,z)' }
+        - label: "Two tests"
+          variables:
+            - { id: x, label: x, pos: [100, 115] }
+            - { id: y, label: y, pos: [320, 50], observed: true }
+            - { id: w, label: w, pos: [320, 180], observed: true }
+          factors:
+            - { id: F1, label: '1', pos: [20, 115], vars: [x], term: '\ln P(x)' }
+            - { id: F2, label: '2', pos: [210, 55], vars: [x, y], term: '\ln P(y\mid x)' }
+            - { id: F3, label: '3', pos: [210, 175], vars: [x, w], term: '\ln P(w\mid x)' }
+        - label: "Context above"
+          variables:
+            - { id: v, label: v, pos: [70, 115] }
+            - { id: x, label: x, pos: [200, 115] }
+            - { id: y, label: y, pos: [340, 115], observed: true }
+          factors:
+            - { id: F1, label: '1', pos: [15, 115], vars: [v], term: '\ln P(v)' }
+            - { id: F3, label: '3', pos: [135, 115], vars: [v, x], term: '\ln P(x\mid v)' }
+            - { id: F2, label: '2', pos: [270, 115], vars: [x, y], term: '\ln P(y\mid x)' }
+    body: |
+      A **factor graph** draws a model. A **circle** is a variable (something we hold beliefs about; shaded grey when it is observed data). A **square** is a **factor**: one probability table, joined by lines to the variables it relates.
+
+      Squares in the first picture: $1$ is $P(x)$ (the prior), $2$ is $P(y\mid x)$ (the likelihood). The other buttons show three extensions: $x$ and $z$ two diseases that can each cause a positive $y$; $y$ and $w$ two tests of one disease $x$; and a context $v$ (say, a genetic variant) that sets the prior of $x$.
+
+      Click a variable: the squares it must read light up, and the readout shows the sum of their terms. Click **Show messages** to see them arrive.
+
+  - type: mcq
+    id: which-factor
+    prompt: |
+      In the factor graph of a diagnosis, the circle $x$ is the disease and the circle $y$ is the test result. One square touches only $x$ and another touches both $x$ and $y$. Where do the test's **sensitivity** and **false-positive rate** live?
+    options:
+      - text: 'In the square that touches only $x$: it is the prior $P(x)$.'
+        feedback: |
+          The prior says how common the disease is, before any test. It knows nothing about the test.
+      - text: 'In the square that touches $x$ and $y$: it is the likelihood $P(y\mid x)$.'
+        correct: true
+      - text: 'In neither: they are the posterior $P(x\mid y)$.'
+        feedback: |
+          The posterior is not a factor of the model; it is what we *compute* from the factors after seeing $y$. The test's properties are fixed numbers of the model, known before any patient arrives.
+    explanation: |
+      A factor sits between exactly the variables whose relation it describes. The likelihood relates the disease to the result, so it touches both, and it holds the table "ill: positive $0.9$; healthy: positive $0.09$".
+
+  - type: mcq
+    id: explaining-away
+    prompt: |
+      Two diseases $x$ and $z$ (each affects $10\%$ of people, independently) can each make a test positive. You test positive, so you think disease $x$ is fairly likely. Then you learn that you certainly have the other disease $z$. What happens to your belief in $x$?
+    options:
+      - text: 'It goes up: more disease means more reason to expect $x$ too.'
+        feedback: |
+          That would be right if $z$ and $x$ went together. But they are independent in the model, and the only link between them is that both can explain the positive test.
+      - text: 'It goes down: $z$ already explains the positive test.'
+        correct: true
+      - text: 'It stays the same: $x$ and $z$ are independent, so $z$ is irrelevant to $x$.'
+        feedback: |
+          They are independent *before* the test. After a positive result, they compete to explain it, so information about one is information about the other. Two parents of the same observed child become dependent once the child is seen.
+    explanation: |
+      This is **explaining away**. A positive test needs some cause. If $z$ is known to be present, the test no longer needs $x$ to be present, so belief in $x$ falls back toward its prior. The graph shows why: $x$ and $z$ share a square with $y$, so evidence about one flows to the other through it.
+
+  - type: numeric
+    id: explaining-numbers
+    prompt: |
+      Put numbers on it. Each disease has prior $0.1$. The test is positive with probability $0.05$ if neither disease is present, $0.9$ if exactly one is, and $0.95$ if both are. You test positive and learn that $z$ is present. What is the probability that $x$ is present too? (Without knowing $z$, a positive test would make $x$ about $0.43$ likely.)
+    answer: 0.105
+    tolerance: 0.003
+    wrong:
+      - value: 0.427
+        feedback: |
+          $0.43$ is the belief in $x$ from the positive test alone. You must now condition on $z$ as well: only the two states with $z$ present remain.
+      - value: 0.667
+        feedback: |
+          That is the belief in $x$ if you learn that $z$ is *absent*. Here $z$ is present, and its presence explains the test.
+    hint: |
+      With $z$ present, compare two joint terms: $x$ present, $0.1\cdot0.1\cdot0.95$, and $x$ absent, $0.9\cdot0.1\cdot0.9$.
+    explanation: |
+      The two joint terms are $0.1\cdot0.1\cdot0.95=0.0095$ and $0.9\cdot0.1\cdot0.9=0.081$. So $P(x\mid{+},z)=0.0095/0.0905\approx0.105$: almost exactly the prior $0.1$. The positive test no longer tells us anything about $x$.
+
+  - type: build
+    id: two-tests
+    prompt: |
+      Two different tests $y$ and $w$ of the same disease $x$ are both positive. Given the disease, the two results are independent of each other. Complete the belief in $x$ after both tests (the sign $\propto$ means "proportional to").
+    prefix: 'P(x\mid y,w)\ \propto'
+    tiles: ['P(x)', 'P(y\mid x)', 'P(w\mid x)', 'P(y\mid x)+P(w\mid x)', 'P(x\mid y)']
+    answers:
+      - ['P(x)', 'P(y\mid x)', 'P(w\mid x)']
+      - ['P(x)', 'P(w\mid x)', 'P(y\mid x)']
+      - ['P(y\mid x)', 'P(x)', 'P(w\mid x)']
+      - ['P(y\mid x)', 'P(w\mid x)', 'P(x)']
+      - ['P(w\mid x)', 'P(x)', 'P(y\mid x)']
+      - ['P(w\mid x)', 'P(y\mid x)', 'P(x)']
+    wrong:
+      - answer: ['P(x)', 'P(y\mid x)+P(w\mid x)']
+        feedback: |
+          Independent pieces of evidence multiply, they do not add. Two independent positives are much stronger together than the sum suggests; in the factor graph, each test is a separate square attached to $x$, and the joint is a product of squares.
+    hint: |
+      The joint of the whole graph is the product of its squares: one prior, two likelihoods.
+    explanation: |
+      $P(x,y,w)=P(x)\,P(y\mid x)\,P(w\mid x)$, one factor per square, and the belief is that joint rescaled (divided by $P(y,w)$). Each new test just adds one more square, one more likelihood factor. In log form the evidence adds: $\ln P(x)+\ln P(y\mid x)+\ln P(w\mid x)$.
+
+  - type: numeric
+    id: two-tests-numbers
+    prompt: |
+      The disease affects $2\%$ of people; each test is positive for $90\%$ of the ill and $9\%$ of the healthy, independently given the condition. After **two** positive tests, what is the probability of being ill?
+    answer: 0.671
+    tolerance: 0.006
+    wrong:
+      - value: 0.17
+        feedback: |
+          That is the belief after one positive test. The second test multiplies in its own likelihoods.
+      - value: 0.18
+        feedback: |
+          Adding the two likelihoods ($0.9+0.09$...) or the two single-test beliefs is not the rule. Multiply the likelihoods, once per test, into each joint term.
+    hint: |
+      Ill: $0.02\cdot0.9\cdot0.9$. Healthy: $0.98\cdot0.09\cdot0.09$.
+    explanation: |
+      Ill: $0.02\cdot0.81=0.0162$. Healthy: $0.98\cdot0.0081=0.007938$. The belief is $0.0162/(0.0162+0.007938)\approx0.671$. A second independent positive took us from $17\%$ to $67\%$.
+
+  - type: numeric
+    id: context
+    prompt: |
+      Add a context $v$ above the disease: a genetic variant that is present in $20\%$ of people. The disease prior depends on it: $P(x=\text{ill}\mid v=\text{present})=0.3$ and $P(x=\text{ill}\mid v=\text{absent})=0.01$. A person has the variant and tests positive (positive for $90\%$ of the ill, $9\%$ of the healthy). What is the probability of being ill?
+    answer: 0.811
+    tolerance: 0.006
+    wrong:
+      - value: 0.17
+        feedback: |
+          That uses the population prior $2\%$ and ignores the variant. Once $v$ is known, the prior of $x$ is $P(x\mid v)$, not an average over contexts.
+      - value: 0.092
+        feedback: |
+          That is the answer for a person *without* the variant (prior $0.01$). This person has it.
+    hint: |
+      With the variant: ill $0.3\cdot0.9$, healthy $0.7\cdot0.09$.
+    explanation: |
+      $0.3\cdot0.9=0.27$ and $0.7\cdot0.09=0.063$, so the belief is $0.27/0.333\approx0.811$. In a hierarchy, a variable's prior is itself a conditional distribution given the level above: **a context is a prior on the prior**. For a person without the variant the same test gives only $0.092$.
+
+  - type: mcq
+    id: dynamic
+    multiple: true
+    prompt: |
+      The models above are **static**: one set of causes, then one observation. Which of these tasks needs a model whose hidden state **changes over time**? Select all that apply.
+    options:
+      - text: 'Telling from one photo whether an animal is a cat or a fox.'
+        feedback: |
+          One observation, one unchanging hidden cause: a static model is enough.
+      - text: 'Following a thrown ball from a sequence of glimpses.'
+        correct: true
+      - text: 'Finding a route through a maze, one move at a time.'
+        correct: true
+      - text: 'Combining two tests of the same patient taken on the same morning.'
+        feedback: |
+          The disease does not change between the tests, so this is the static two-tests model from before.
+    explanation: |
+      When what you see depends on where you are in time, and what you do changes the next observation, the hidden state at one moment depends on the previous moment. Models for active inference therefore have two extra features: hidden states depend on **earlier hidden states**, and the model may include a hypothesis about **how I am acting**.
+
+  - type: text
+    id: two-families
+    title: "Two families of dynamic models"
+    body: |
+      Active inference uses two basic dynamic models. Both are drawn with the same squares and circles.
+
+      **Discrete time (a POMDP,** *partially observable Markov decision process***).** The hidden state $s_t$ (a **categorical** variable: it takes one of a finite list of values) evolves in steps $t=1,2,\dots$. The next state depends on the present one and on the **policy** $\pi$, a sequence of actions being pursued. Each observation $o_t$ depends only on the state at that time. The three squares are
+      $$\begin{gathered}P(\pi)\\P(o_t\mid s_t)\\P(s_{t+1}\mid s_t,\pi)\end{gathered}$$
+      It suits planning (a maze) and choosing between alternatives.
+
+      **Continuous time.** Instead of a list of states, keep one state $x$ together with its velocity $x'$, acceleration $x''$, and so on: the *generalized coordinates of motion*. They are enough to rebuild a short trajectory with a Taylor series. A slowly varying **cause** $v$ plays the part of the policy: it shapes how $x$ changes. States generate the data $y$. It suits smooth sensing and moving.
+
+      The change of letters is deliberate: $s,o,\pi$ mean *categorical and discrete in time*; $x,v,y$ mean *continuous*. Until the discrete-time lesson, we keep $x$ and $y$ for the generic hidden state and observation.
+
+  - type: widget
+    id: dynamic-graphs
+    review: false
+    widget: factor-graph
+    config:
+      unroll: 3
+      t0: 1
+      variables:
+        - { id: pi, label: '\pi', pos: [170, 25] }
+        - { id: s, label: 's_{t}', pos: [60, 105], rep: true }
+        - { id: o, label: 'o_{t}', pos: [60, 200], rep: true, observed: true }
+      factors:
+        - { id: P, label: '1', pos: [120, 25], vars: [pi], term: '\ln P(\pi)' }
+        - { id: A, label: '2', pos: [60, 152], vars: ['s@0', 'o@0'], rep: true, term: '\ln P(o_{t}\mid s_{t})' }
+        - { id: B, label: '3', pos: [5, 105], vars: ['s@-1', 's@0', pi], rep: true, term: '\ln P(s_{t}\mid s_{t-1},\pi)' }
+      messageFormula: '\ln Q({v}) = {terms}'
+      join: ' + '
+      presets:
+        - label: "Discrete time (POMDP)"
+        - label: "Continuous time"
+          unroll: 0
+          box: [400, 230]
+          variables:
+            - { id: v, label: v, pos: [200, 25] }
+            - { id: x0, label: x, pos: [60, 105] }
+            - { id: x1, label: "x'", pos: [200, 105] }
+            - { id: x2, label: "x''", pos: [340, 105] }
+            - { id: y0, label: y, pos: [60, 200], observed: true }
+            - { id: y1, label: "y'", pos: [200, 200], observed: true }
+            - { id: y2, label: "y''", pos: [340, 200], observed: true }
+          factors:
+            - { id: P, label: '1', pos: [150, 25], vars: [v], term: '\ln P(v)' }
+            - { id: A0, label: '2', pos: [60, 152], vars: [x0, y0], term: '\ln P(y\mid x)' }
+            - { id: A1, label: '2', pos: [200, 152], vars: [x1, y1], term: "\\ln P(y'\\mid x')" }
+            - { id: A2, label: '2', pos: [340, 152], vars: [x2, y2], term: "\\ln P(y''\\mid x'')" }
+            - { id: B1, label: '3', pos: [130, 105], vars: [x0, x1, v], term: "\\ln P(x'\\mid x,v)" }
+            - { id: B2, label: '3', pos: [270, 105], vars: [x1, x2, v], term: "\\ln P(x''\\mid x',v)" }
+    body: |
+      **Discrete time** (the first picture shows three time steps): circles $s_t$ are hidden states, $o_t$ the observations (shaded), $\pi$ the policy that shapes every transition. Square $1$ is $P(\pi)$, square $2$ is $P(o_t\mid s_t)$, square $3$ is $P(s_t\mid s_{t-1},\pi)$.
+
+      **Continuous time** (second button): the same pattern with $x,x',x''$ (a state and its first two derivatives, a prime means a time derivative), their data $y,y',y''$, and the cause $v$.
+
+      Click $s_2$ (or $x'$) and see which squares it must read.
+
+  - type: mcq
+    id: which-family-a
+    prompt: |
+      A robot arm moves smoothly and a sensor reports its angle at every instant. You want beliefs about the angle and about how fast it is changing. Which family of generative model is the natural choice?
+    options:
+      - text: |-
+          Continuous time: a state with its derivatives $x,x',x''$, and data $y$.
+        correct: true
+      - text: 'Discrete time (POMDP): a list of categorical states $s_t$ and outcomes $o_t$ with a policy.'
+        feedback: |
+          The variables here (angle, speed) vary smoothly rather than hopping between a few labelled values, and the sensor works at every instant. A discrete list of states would need to chop the motion into steps first.
+    explanation: |
+      Smoothly varying quantities and continuously arriving data call for derivatives and generalized coordinates. This is also how sensing and moving are modelled later.
+
+  - type: mcq
+    id: which-family-b
+    prompt: |
+      An agent must choose, at each of three steps, to turn left or right in a maze whose rooms are labelled A to D, and at each room it observes a colour. Which family fits best?
+    options:
+      - text: 'Continuous time with generalized coordinates of motion.'
+        feedback: |
+          Rooms, colours and left/right are labels from short lists, and decisions are taken step by step. These are categorical variables in discrete time.
+      - text: 'Discrete time (POMDP): hidden room $s_t$, colour $o_t$, a policy $\pi$ as a sequence of turns.'
+        correct: true
+    explanation: |
+      The state (which room) takes one of four values, time moves in steps, and the thing to choose is a policy, a sequence of actions. That is the POMDP.
+
+  - type: mcq
+    id: blanket-read
+    prompt: |
+      In the two-diseases model, $x$ and $z$ each have a prior square ($P(x)$, $P(z)$), and one square $P(y\mid x,z)$ links both to the test $y$. To update the belief about $x$, which squares must be read?
+    options:
+      - text: 'All three squares: $P(x)$, $P(z)$ and $P(y\mid x,z)$.'
+        feedback: |
+          $P(z)$ is not needed directly. What $x$ needs from $z$ is carried by the belief about $z$ and by the likelihood square that links them, and that square is already on the list.
+      - text: 'Only $P(x)$ and $P(y\mid x,z)$ (plus the current belief about $z$).'
+        correct: true
+      - text: 'Only $P(x)$: the prior is all that concerns $x$.'
+        feedback: |
+          Then the data would never change the belief. $x$ also touches the likelihood square, which carries the evidence from $y$ (and the competition with $z$).
+    explanation: |
+      Only squares touching $x$ matter. This is the **Markov blanket** of $x$: its parents (here the prior), its child $y$, and the *other parents of its child* ($z$, through the shared square). Everything else in the graph is irrelevant once these are known.
+
+  - type: order
+    id: local-update
+    prompt: |
+      Put the steps of belief updating by local message passing in order.
+    steps:
+      - 'Pick a variable $x$ and look only at the squares touching it.'
+      - 'Collect from those squares the current beliefs of the neighbouring variables (parents, children, co-parents of children).'
+      - 'Combine the log terms of those squares into a new belief $Q(x)$.'
+      - 'Move on to the next variable and repeat, until the beliefs stop changing.'
+    hint: |
+      Think of a conversation: first you listen to neighbours, then you update, then it is someone else's turn.
+    explanation: |
+      Each update uses only the Markov blanket, so the cost of an update does not grow with the size of the whole model. Repeating the updates lets information travel through the graph. The next lessons show what this becomes in the discrete-time and continuous-time models.
+
+  - type: mcq
+    id: vmp-bp
+    prompt: |
+      Two common message-passing schemes for approximate inference are **variational message passing** and **belief propagation**. Both update $\ln Q(x)$ by summing contributions from parents and children. What is the key difference?
+    options:
+      - text: 'Belief propagation is local and variational message passing needs the whole graph.'
+        feedback: |
+          Both are local: each variable reads only its Markov blanket.
+      - text: 'In belief propagation each message is itself built from the messages arriving at its sender (all but the one from the receiver); in variational message passing the messages use the neighbours'' current beliefs $Q$.'
+        correct: true
+      - text: 'Variational message passing minimises the free energy and belief propagation does not use probabilities.'
+        feedback: |
+          Both work with probabilities. The difference is in how a message is defined, not in what it is about.
+    explanation: |
+      The two have the same overall structure: $\ln Q(x)$ is a sum of a parent term and a child term. Belief propagation defines messages recursively and directionally (the message from $a$ to $b$ uses everything arriving at $a$ except from $b$, to avoid telling $b$ its own news); variational message passing uses the current beliefs of the neighbours. The next lessons use the variational one.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the discrete-time model in full, with the renaming of the letters to $s$ and $o$ and the matrices that fill the squares: how a state, a policy and an outcome are encoded, and how a belief about the state is updated by exactly the local rule above.

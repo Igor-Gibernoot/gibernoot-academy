@@ -71,6 +71,8 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 - ch04-bayes-to-fe: symbols stay $x,y$ (rename to $s,o$ in the discrete-model lesson). Numbers: prior 0.7/0.3, likelihood 0.2/0.6, joint 0.14/0.18, $P(y)=0.32$, $F(Q=(.5,.5))=1.147$ vs surprise 1.139; three-condition test priors 0.9/0.07/0.03, likelihoods 0.05/0.9/0.6, $P(y)=0.126$, surprise 2.07, posterior 0.357/0.5/0.143; two-humps target $\pm2.2$, sd 0.7: one-hump reverse KL 0.69, moment fit reverse 1.07, forward 0.50. `gaussian-fit` legend labels are bare KaTeX (no $).
 
+- ch04-generative-models: diagnosis test prevalence 2%, sensitivity 90%, false positive 9% (posterior 0.169; two positive tests 0.671; prevalence 10% gives 0.526). Two diseases prior 0.1 each, test positive 0.05/0.9/0.95 (neither/one/both): $P(x\mid+)=0.427$, given $z$ 0.105 (given no $z$ 0.667). Context $v$ 20%, $P(x\mid v)=0.3/0.01$: 0.811 / 0.092. Factor squares numbered 1,2,3 with legend in the body. VMP formula with parents $\rho(x)$, children $\kappa(x)$ (verified p. 76); generalized coordinates written $x,x',x''$.
+
 ## Chapter 5
 
 - (none yet)
