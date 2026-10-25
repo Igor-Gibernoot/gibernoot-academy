@@ -1,0 +1,177 @@
+id: ch01-acting
+title: Acting to Get the Senses You Expect
+kind: concept
+own: |
+  - **Action is the second lever: change the world until it matches the expectation.** Take a creature whose safe body temperature is $36$ to $38\,{}^\circ\text{C}$ and who *expects* to sense $37\,{}^\circ\text{C}$. If it senses $30\,{}^\circ\text{C}$, the gap between expectation and sensation is a **prediction error**:
+    $$\text{prediction error} \;=\; \text{expected} - \text{sensed}$$
+    $$37-30=7\,{}^\circ\text{C}.$$
+    Changing the belief to "I am cold" makes the error vanish on paper but leaves the body outside its safe range; {{ acting (for example heating) }} moves the body itself toward the expectation, and that is what keeps the creature alive.
+  - **A goal is a prior prediction.** A preference or goal (here "I will sense about $37\,{}^\circ\text{C}$") is held as a prediction about future sensations, like a *set-point* in a thermostat: {{ action is whatever reduces the prediction error between that prediction and the current sensation }}.
+  - **Planning chooses a policy.** A **policy** is a sequence of actions. Each candidate policy is scored by its **expected free energy** (a score computed from the sensations the policy is *predicted* to bring), which has two parts: how well the predicted sensations fit the goals (**exploiting**), and how much the policy is expected to {{ resolve uncertainty (exploring) }}.
+  - **Not only stimulus and response.** A fixed reflex ("when cold, shiver") is {{ one special, habitual kind of policy }}; the general picture is goal-directed. And seeking informative sensations (looking, sampling) is not opposed to pursuing goals: one score balances both.
+cards:
+  - type: text
+    id: welcome
+    title: "Acting to get the senses you expect"
+    body: |
+      Same rule as in every lesson of this level: **guess first**. Wrong guesses are expected and each one comes with a reason. No maths or earlier knowledge needed, and every technical word is explained when it first appears.
+
+  - type: text
+    id: hook
+    title: "You expect warmth, you sense cold"
+    body: |
+      You are a warm-blooded creature. Your body is only healthy between $36$ and $38\,{}^\circ\text{C}$, and you **expect** to sense about $37\,{}^\circ\text{C}$.
+
+      But the room is cold, and right now your senses report only $30\,{}^\circ\text{C}$. Expectation and sensation disagree.
+
+      In the last lesson you saw one way out: *change your mind*. Is that enough here? And what is the other way out? Test both on the next card before answering.
+
+  - type: widget
+    id: homeostat
+    widget: homeostat
+    config:
+      range: [20, 42]
+      band: [36, 38]
+      room: 28
+      drift: 0.05
+      actRate: 0.8
+      body: 30
+      expect: 37
+      unit: '°C'
+      decimals: 1
+      bandLabel: "Safe body range (36 to 38 °C)"
+      labels:
+        body: "Your body"
+        sensed: "You sense"
+        expect: "You expect"
+        room: "Room"
+        mismatch: "Gap between expectation and sensation"
+        slider: "Your expectation"
+        inBand: "Body inside the safe range"
+        outBand: "Body outside the safe range"
+        belief: "Change your mind"
+        act: "Act (heat yourself)"
+        wait: ""
+        reset: "Reset"
+        steps: "Steps"
+      presets:
+        - { label: "Update belief only", body: 30, expect: 37, room: 28, script: [belief, belief, belief, belief, belief, belief] }
+        - { label: "Act", body: 30, expect: 37, room: 28, script: [act, act, act, act, act, act] }
+    body: |
+      The blue marker is your **body**, the orange marker is what you **expect**, the purple marker is the cold **room**, and the green zone is the safe range. After every press, the cold room pulls your body a little toward $28\,{}^\circ\text{C}$.
+
+      Try it: (1) press **Change your mind** several times: what happens to the orange marker, to the gap, and to the body? (2) press **Reset**, then press **Act (heat yourself)** several times; (3) run the two preset buttons and compare the final flag. Which lever keeps you alive?
+
+  - type: mcq
+    id: lever
+    prompt: |
+      You are cold, you must stay in your safe range, and your expectation ("about $37\,{}^\circ\text{C}$") is the *right* one for your species. Which lever actually solves the problem?
+    options:
+      - text: "Act (heat yourself), so the body and then the sensation move toward the expectation."
+        correct: true
+      - text: Change your belief to "I am cold", so that the gap disappears.
+        feedback: |
+          Tempting, because the gap does shrink: the orange marker falls to meet the blue one. But the body is still too cold, and the cold room keeps pulling it lower. The error vanished only because you gave up the expectation that was protecting you.
+      - text: Either one; a smaller gap is all that matters.
+        feedback: |
+          A smaller gap is not enough: the *way* it shrinks matters. If the expectation is the healthy one, shrinking the gap by dropping it leaves the body in danger.
+    explanation: |
+      When the expectation is worth keeping (it encodes the states in which you survive), the gap must be closed from the other side: by **changing the world**, here your own body temperature. The widget showed it: updating the belief alone let the body slide toward the cold room, while acting brought it back into the safe range and held it near $36.4\,{}^\circ\text{C}$, where the heating just balances the cold.
+
+  - type: text
+    id: goals
+    title: "A goal is a prediction"
+    body: |
+      So where does "$37\,{}^\circ\text{C}$" live in the creature? In active inference, a **preference** or **goal** is an expectation about future sensations: a **prior prediction**, held in advance, of what you will sense.
+
+      Engineers know this idea as a **set-point**: a thermostat set to $20\,{}^\circ\text{C}$ is a device that predicts "the room will read $20$" and acts whenever it does not.
+
+      The gap between that prediction and what you actually sense is a **prediction error** (the orange-to-blue distance in the widget). The recipe is the same as in the last lesson, with one twist:
+
+      - the error can be reduced by *changing the prediction* (perceiving), or
+      - by *changing the sensation*, through **action**, which is how a goal gets fulfilled.
+
+      Action is therefore **goal-directed** (it starts from a desired outcome) rather than random.
+
+  - type: numeric
+    id: heater
+    prompt: |
+      One step of the creature, with these data. Start: body $30\,{}^\circ\text{C}$, expectation $37\,{}^\circ\text{C}$, room $28\,{}^\circ\text{C}$. The creature presses **Act**: the heater closes $80\%$ of the gap between the body and the expectation. Then, still within the same step, the cold room pulls the body $5\%$ of the way from where it is toward $28\,{}^\circ\text{C}$.
+
+      After this one step, how far (in ${}^\circ\text{C}$) is the sensed temperature from the expectation of $37\,{}^\circ\text{C}$? Give it to one decimal.
+    answer: 1.8
+    tolerance: 0.06
+    answerText: '1.8'
+    wrong:
+      - value: 1.4
+        feedback: |
+          That is the gap right after the heater, before the room acts. The room then pulls the body back down a little, so the gap grows again.
+      - value: 7
+        feedback: |
+          That is the gap at the start. The heater closes most of it in one step.
+      - value: 5.6
+        feedback: |
+          $5.6$ is how much the heater *warms* the body ($80\%$ of $7$), not the gap that is left.
+    hint: |
+      Do the two moves in order. First the body after the heater, then the body after the room pulls it toward $28$. The answer is $37$ minus the body you end with.
+    explanation: |
+      Initial gap: $37-30=7$. The heater closes $80\%$ of it, so the body rises by $0.8\times 7=5.6$ to $35.6\,{}^\circ\text{C}$. The room then moves it $5\%$ of the way toward $28$: the distance is $35.6-28=7.6$, so the body falls by $0.05\times 7.6=0.38$ to $35.22\,{}^\circ\text{C}$. The remaining gap is $37-35.22=1.78\approx 1.8\,{}^\circ\text{C}$: one step removed about three quarters of the error, but the cold room already took a bit back. Repeating the step is what carries the body to about $36.4\,{}^\circ\text{C}$ and into the safe range.
+
+  - type: text
+    id: policy
+    title: "Planning: choosing a policy"
+    body: |
+      One step is not a plan. To warm up you may put on a coat, walk to the sunny side, then light a fire. A **policy** is a **sequence of actions** like that, chosen in advance.
+
+      How does the creature pick among many possible policies? It asks of each one: "if I did this, what would I *predict* to sense, and how well would those predicted sensations fit my goals?" The policies whose predicted sensations best fit the goals (warm, in the safe range) win.
+
+      Two things to notice. First, the choice looks at **future** sensations, which are only predicted. Second, the score used for this has a name that you will meet again: the **expected free energy** of a policy. The word "expected" says it is built from predicted, not yet real, sensations. We only need its two jobs for now, and the last cards say what they are.
+
+  - type: mcq
+    id: trap-sr
+    tag: Trap
+    prompt: |
+      A student says: "A creature just maps each stimulus to a response: cold gives shivering, food gives eating. That is the whole story of behaviour, no goals or predictions needed." What is the weak point?
+    options:
+      - text: A fixed mapping cannot say why the creature would do something new, such as walking to the sun, to reach a state it prefers; goal-directed policies are the general case and a reflex is one special, habitual policy.
+        correct: true
+      - text: Nothing; shivering and eating prove that behaviour is stimulus-response.
+        feedback: |
+          Shivering and eating are real, and they are well captured as habits. But the same creature can also act on a stimulus that is *absent* (heading to a warm place it only predicts) and its habits themselves exist because they served its goals.
+      - text: Stimulus-response behaviour does not exist at all.
+        feedback: |
+          Too strong: reflexes and habits are real. In this picture they are simply a special case, a policy that is so well practised it fires almost automatically.
+    explanation: |
+      Cybernetics, the early science of control (thermostats and the like), already saw action as aimed at a set-point, not as a bare reaction to a stimulus. Active inference keeps that view: behaviour starts from a prior prediction of the desired outcome. Stimulus-response behaviour then becomes a **special case** of a broader family of policies.
+
+  - type: text
+    id: curiosity
+    title: "Curiosity: seeking informative sensations"
+    body: |
+      Goals are not the only thing that drives action. A creature that does not yet know where the warm spots are cannot plan well, so it also acts **to find out**: it turns its head, moves closer, tries a path just to see.
+
+      These actions are chosen because the sensations they bring are **informative**: they resolve uncertainty about the hidden causes from the previous lesson. Informative sensations are called **salient**. Active inference says that perceiving and learning are *active* in this sense: a creature seeks out salient observations instead of waiting for them.
+
+      So the score of a policy has two parts. One asks "how well do the predicted sensations fit my goals?" (**exploiting** what I know). The other asks "how much uncertainty would this resolve?" (**exploring** what I do not).
+
+  - type: mcq
+    id: trap-explore
+    tag: Trap
+    prompt: |
+      Someone concludes: "A creature has to pick, at each moment, between exploring and pursuing its goals; the two always pull in opposite directions, so a good theory needs an extra rule to settle the conflict." What is wrong with this?
+    options:
+      - text: Both are parts of one score of the policy, so choosing the best policy balances them automatically; exploring also helps the goals, because better knowledge makes goal-seeking more effective.
+        correct: true
+      - text: Nothing; exploration always costs goal progress, so a separate switch is needed.
+        feedback: |
+          Sometimes a probe costs time, but it often pays back: a creature that knows where the warm spot is reaches its goal faster. A single score that includes both terms weighs this cost and benefit in one go.
+      - text: Creatures should always explore and never pursue goals.
+        feedback: |
+          Pure exploration never fulfils any preference, so the creature would never leave the cold. The score includes how well the predicted sensations fit the goals.
+    explanation: |
+      Many frameworks treat exploration versus exploitation as a trade-off that needs a separate mechanism. Here, the expected free energy of each policy contains both parts, so selecting the policy with the best score automatically balances exploring and exploiting. Chapters 2 and 3 show how.
+
+  - type: text
+    id: summary
+    body: |
+      **Next: the Level 1 content map.** You now have the whole picture of this level: surprise, perceiving as guessing, and acting to fulfil expectations, with policies and curiosity on top. Next you will rebuild the map of how these ideas connect, box by box.

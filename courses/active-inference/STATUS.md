@@ -7,8 +7,8 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
 
 ## Current (2026-10-24)
 
-- **State:** Level 1 in progress. Built: `ch01-persist` (14 cards), `ch01-guessing` (11 cards, uses `belief-mixer`), widget `homeostat` (documented in `docs/LESSON_FORMAT.md`). Source 1.1-1.3 verified; 1.4.1 prose only.
-- **Next unit:** `ch01-acting` (concept, intro rules, uses `homeostat`). Source: lines ~177-181 of the Markdown (goal-directed, planning bullets).
+- **State:** Level 1 in progress. Built: `ch01-persist` (14), `ch01-guessing` (11, `belief-mixer`), `ch01-acting` (11, `homeostat`). Source 1.1-1.3 verified; 1.4.1 prose only.
+- **Next unit:** `ch01-map` (Level 1 content map), then review, challenge.
 - **Conventions:** `CONVENTIONS.md`, one section per chapter.
 - **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
 
@@ -20,3 +20,4 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
 - 2026-10-24 ch01-persist built (concept, 14 cards: welcome, hook, drift prediction, persist=small set of states, loop + order, two ways to cut a mismatch, which lever, neats/scruffies, surprise gloss, 2 traps, roadmap table, summary). No widget existed for a state-drift demo; used mcq/order instead (choice made autonomously). Conventions fixed here: running example creature 36-38 C and fish; surprise glossed as distance from intact-keeping sensations; degrees as `{}^\circ`.
 2026-10-24 · Course set up: folder, trail, CLAUDE.md, catalog entry; book converted to Markdown.
 Conventions fixed here: none yet.
+- 2026-10-24 ch01-acting: 11 cards. Hook cold creature, homeostat (presets Update belief only / Act), prediction error, set-point, one-step numeric (gap 1.8 after heater 80% + room 5%), policy, S-R trap, curiosity, explore/exploit trap. Source 1.4.1 goal/planning bullets (prose). Conventions fixed here: act settles near 36.4 C, belief-only drifts to ~29.5; prediction error = expected - sensed (words); expected free energy named, not formalised.
