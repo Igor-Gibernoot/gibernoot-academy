@@ -19,25 +19,57 @@ cards:
     id: hook
     title: "A creature in a room"
     body: |
-      Picture a small warm-blooded creature in a room whose temperature changes during the day: some hours it is hot, some hours cold. The creature works well only while its body stays between about $36$ and $38\,{}^\circ\text{C}$. Outside that range it gets sick, and far outside it dies.
+      Picture a small warm-blooded creature in a room whose temperature changes during the day: some hours it is hot, some hours cold. Today it is a cold day. The creature works well only while its body stays between about $36$ and $38\,{}^\circ\text{C}$. Outside that range it gets sick, and far outside it dies.
 
       Nobody tells the creature the safe range. It only has sensations: it feels warm, comfortable, or cold.
 
   - type: mcq
     id: guess-nothing
     prompt: |
-      A creature works only with its body between $36$ and $38\,{}^\circ\text{C}$. The room slowly drifts to $45\,{}^\circ\text{C}$. What happens if the creature does **nothing** at all, for hours?
+      A creature works only with its body between $36$ and $38\,{}^\circ\text{C}$. The room is at $22\,{}^\circ\text{C}$. What happens if the creature does **nothing** at all, for hours?
     options:
-      - text: Its body warms toward the room's temperature and leaves the safe range.
+      - text: Its body slowly cools toward the room's temperature and leaves the safe range.
         correct: true
       - text: Its body stays at the same temperature, because bodies are naturally stable.
         feedback: |
-          Bodies are not stable on their own. A hot object next to a cooler one exchanges heat with it, so the body drifts toward its surroundings. Staying stable is *work* the creature must do (sweat, move to shade, ...).
-      - text: Its body cools, because it was designed for cold.
+          Bodies are not stable on their own. A warm object next to a cooler one exchanges heat with it, so the body drifts toward its surroundings. Staying stable is *work* the creature must do (shiver, curl up, find the sun, ...).
+      - text: Its body warms up, because it was designed to be warm.
         feedback: |
-          Heat flows from the hotter thing to the cooler one. At $45\,{}^\circ\text{C}$ the room is hotter than the body, so the body gains heat.
+          Heat flows from the hotter thing to the cooler one. At $22\,{}^\circ\text{C}$ the room is colder than the body, so the body loses heat.
     explanation: |
       Doing nothing is not neutral. The world keeps pushing the creature toward other states, so **staying put requires acting**: the creature only persists by actively holding itself inside a narrow range.
+
+  - type: widget
+    id: stay-alive-widget
+    widget: homeostat
+    config:
+      showBelief: false
+      levers: [wait, act]
+      range: [20, 42]
+      band: [36, 38]
+      expect: 37
+      body: 37
+      room: 22
+      drift: 0.04
+      actRate: 0.8
+      unit: '°C'
+      decimals: 1
+      bandLabel: "Safe range (36 to 38 °C)"
+      labels:
+        body: "Your body"
+        sensed: "You sense"
+        room: "Room"
+        inBand: "Body inside the safe range"
+        outBand: "Body outside the safe range"
+        act: "Act (shiver, curl up, seek the sun)"
+        wait: "Wait (do nothing)"
+        reset: "Reset"
+        steps: "Steps"
+      presets:
+        - { label: "Do nothing", script: [wait, wait, wait, wait, wait, wait] }
+        - { label: "Keep acting", script: [act, act, act, act, act, act] }
+    body: |
+      Test your guess. The blue marker is your **body** temperature, the purple marker is the cold **room**, and the green zone is the safe range. Each press is one short time step. **Wait** lets the room pull on the body; **Act** means the creature does something to warm itself (shivering, curling up, moving to the sun). Run the two preset buttons and compare the final flag.
 
   - type: mcq
     id: persist-meaning
@@ -190,11 +222,11 @@ cards:
 
       | Puzzle | Where it is resolved |
       |---|---|
-      | How can a creature figure out what is out there from noisy senses? | Next lesson, then Level 2 |
-      | How does acting make the senses match what it expects? | Lesson 3 of this level, Level 2 |
-      | Why is surviving the same as keeping surprise low? | Level 3 |
-      | What exactly is computed, and by whom? | Levels 4 and 5 |
-      | How do I build such a model myself? | Levels 6 to 9 |
+      | How can a creature figure out what is out there from noisy senses? | The next lesson ("Perceiving Is Guessing"), then the low-road level ("The Low Road to Active Inference") |
+      | How does acting make the senses match what it expects? | The acting lesson of this level ("Acting to Get the Senses You Expect"), then the low-road level |
+      | Why is surviving the same as keeping surprise low? | The high-road level ("The High Road to Active Inference") |
+      | What exactly is computed, and by whom? | The generative-models level and the message-passing level ("Message Passing and Neurobiology") |
+      | How do I build such a model myself? | The recipe level, the discrete-time and continuous-time levels, and the data-analysis level |
 
   - type: text
     id: summary

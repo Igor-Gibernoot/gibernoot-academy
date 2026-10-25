@@ -1,26 +1,19 @@
 # Status
 
-Session start: read only **Current** (`sed -n '/^## Current (2026-10-24)
-
-- **State:** Level 1 fully built: `ch01-persist` (14), `ch01-guessing` (11), `ch01-acting` (11), `ch01-map`, `ch01-challenge` (commit e09e2c8). Widget `homeostat` now has a reduced mode for persist.
-- **Next unit:** fixes: (1) add the early drift/hold card to `ch01-persist` right after the hook, using the homeostat reduced mode (config below); (2) challenge fixes.
-- **Persist card config:** `showBelief: false`, `levers: [wait, act]`, `band: [36,38]`, `expect: 37` (hidden set-point), `body: 37`, `room: 22`, `drift: 0.08`, labels `wait`/`act`; presets "Do nothing" (wait x6-8) and "Keep acting" (act x6-8). No belief lever, expectation or mismatch is shown.
-- **Conventions:** `CONVENTIONS.md`, one section per chapter.
-- **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
-
-## Log/p' courses/active-inference/STATUS.md`).
+Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/p' courses/active-inference/STATUS.md`).
 Session end: update Current in place (keep it under ~40 lines: replace, don't append) and add a
 3-line Log entry at the top of the Log, ending "Conventions fixed here: ..."; copy those conventions
 into the chapter's section of `CONVENTIONS.md`, not into Current.
 
 ## Current (2026-10-24)
 
-- **State:** Level 1 in progress. Built: `ch01-persist` (14), `ch01-guessing` (11, `belief-mixer`), `ch01-acting` (11, `homeostat`). Source 1.1-1.3 verified; 1.4.1 prose only.
-- **Next unit:** `ch01-map` (Level 1 content map), then review, challenge.
+- **State:** Level 1 fully built: `ch01-persist` (15, homeostat card 4), `ch01-guessing` (11), `ch01-acting` (11), `ch01-map`, `ch01-challenge`. Source 1.1-1.3 verified; 1.4.1 prose only.
+- **Next unit:** remaining fix: sign-flip rebuild of the policy score in the Level 1 challenge; then Level 2.
 - **Conventions:** `CONVENTIONS.md`, one section per chapter.
 - **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
 
 ## Log
+- 2026-10-24 ch01-persist fix: homeostat reduced-mode card after the guess card (guess first, widget tests it; 15 cards); room now cold (22 C) in hook and guess; widget drift 0.04 (0.08 left 'Keep acting' at ~35.6, outside the band); headless: 'Do nothing' ends outside, 'Keep acting' inside (~36.3); roadmap table uses level/lesson titles; ASCII loop diagram fine at phone width. No new source formulas. Conventions fixed here: persist demo room 22, drift 0.04, actRate 0.8.
 
 - 2026-10-24 ch01-challenge problems 4-5 built (25 cards total): p4 surprise ranking 37/35/41/28 (errors 0,2,-4,9; distance outside band 0,1,3,8), traps big-error and low-surprise-still-acts; p5 rustle 31/31/38%, policies flee 5 vs look closer 6, sharp senses (0.05,0.05,0.9 -> fox 82%) flips to flee. Validate and shots clean. Conventions fixed here: see CONVENTIONS ch01-challenge.
 - 2026-10-24 widget `homeostat` built (scale with safe band/body/expectation/room markers, mismatch bar, in-band flag, belief/act/wait levers, scripted presets); validate, widget-smoke, shots at phone and desktop clean. Throwaway preset removed. Conventions fixed here: body blue, expectation orange, room purple, safe band green; defaults drift 0.08, actRate 0.8 (act alone settles at ~35.3 for room 20, expect 37, so for band 36-38 use room 28, drift 0.05).

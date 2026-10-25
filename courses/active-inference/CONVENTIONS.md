@@ -22,6 +22,8 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - ch01-challenge: fish band 18-26 C, expects 22, senses 30 (error -8); splash priors 0.6/0.3/0.1 (frog, duck, otter), evidence 0.2/0.5/0.9 -> 33/42/25%, flat 0.4/0.5/0.6 -> 53/33/13%; policy table (fit, resolved): rock (6,0), look (4,3), stay (1,0); expected free energy shown sign-flipped (bigger better).
 - ch01-challenge p4-5: creature band 36-38 expects 37; sensed 37/35/41/28 -> errors 0/2/-4/9, distance outside band 0/1/3/8 (surprise ranks by distance, not signed error); rustle priors 0.5/0.3/0.2, evidence 0.3/0.5/0.9 -> 31/31/38%; sharp evidence 0.05/0.05/0.9 -> fox 82%; policies flee (5,0), look closer (3,3).
 
+- Persist demo (homeostat reduced mode): room 22, drift 0.04, actRate 0.8, band 36-38, body/set-point 37 (drift 0.08 would not hold the band).
+
 ## Chapter 2
 
 - (none yet)

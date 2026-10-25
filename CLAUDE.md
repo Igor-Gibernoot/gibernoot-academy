@@ -146,7 +146,12 @@ courses, on what the subject is for).
    widget.
 8. **Don't give away a question in the card before it.**
 9. **Consistency.** Use the main source's conventions exactly (its index
-   placement, symbols, fonts, special characters). Each course's
+   placement, symbols, fonts, special characters, **and signs**: a quantity
+   the source minimises is never shown "sign-flipped so bigger is better";
+   if a toy version is needed, build it so it keeps the source's direction).
+   Each lesson checks the formulas and symbols it uses against the PDF
+   pages (course `CLAUDE.md`, "Source verification"), even in intro levels.
+   Each course's
    `CLAUDE.md` lists them; later conventions fixed while building are in
    its `CONVENTIONS.md` (the chapter's section).
 10. **Self-contained.** Never mention "the book" (or "the notes") or its
@@ -188,7 +193,12 @@ Lessons are built across many short sessions. Igor starts each with
   round, or one content map, or **one new widget** (build it, document it
   in `docs/LESSON_FORMAT.md`, test it with a throwaway preset, no lesson).
   A level challenge takes two sessions (problems 1–3, then 4–5). A lesson
-  that needs a new widget is two sessions: the widget first. Don't start
+  that needs a new widget is two sessions: the widget first. **A planned
+  widget card is never dropped silently.** If the card plan asks for a
+  widget that does not exist (and no preset of an existing one fits), the
+  lesson session stops *before writing the lesson* and reports "needs widget
+  <name>: <what it shows>" with the widget unit's prompt; it does not build
+  the lesson without it. Don't start
   the next unit even if budget seems to remain; finish cleanly.
 - **Read only what you need, once:**
   - The course's `CLAUDE.md` (always).

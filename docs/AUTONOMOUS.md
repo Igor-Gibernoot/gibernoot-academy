@@ -23,6 +23,21 @@ context stays small. Igor reviews the level on the live site at the end.
   wherever manipulating something builds intuition); if yes, the next unit
   is that widget session and the lesson follows it. Never write 'No new
   widget' without a one-line reason."
+- **Widgets are separate units, scheduled by the coordinator.** Before the
+  first lesson of a level, the coordinator asks one agent to list, from the
+  unit prompts' card plans, every widget card and whether an existing
+  widget/preset fits; each missing widget becomes its own agent (widget
+  unit, in `course.yaml` order *before* the lesson that uses it). If a lesson
+  agent reports "needs widget", the coordinator spawns the widget agent and
+  then sends the lesson agent back. A lesson agent never drops a planned
+  widget card silently, and never writes "no widget fits" without naming the
+  widgets it checked.
+- **The unit prompt must carry the source rules**: the book's sign and
+  symbols (no flipped signs), later material referred to by *name* (never
+  "Levels 4 and 5"), and PDF verification of every formula or symbol used.
+  Agents report any deviation as a doubt *and* fix it before committing.
+- The coordinator also checks that `STATUS.md` Current matches the report
+  (`sed -n '/^## Current/,/^## Log/p'`), not only the commit.
 - Between units the coordinator only reads that report: it checks that
   validate and shots were clean and the commit was pushed (`git log -1
   --oneline`), and passes the agent's next-unit prompt on, adding any
