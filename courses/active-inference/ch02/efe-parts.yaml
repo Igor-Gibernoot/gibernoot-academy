@@ -1,0 +1,300 @@
+id: ch02-efe-parts
+title: What Is Expected Free Energy?
+kind: concept
+own: |
+  - **Setup.** A creature chooses between policies $\pi$ (ways of behaving, such as going to the pond or to the orchard). For each it predicts hidden states $\tilde{x}$ (what is out there) and outcomes $\tilde{y}$ (what it will observe) through the beliefs $Q(\tilde{x}\mid\pi)$ and the likelihood $P(\tilde{y}\mid\tilde{x})$, so $Q(\tilde{y}\mid\pi)$ is the predicted outcome distribution. The **preferences** $C$ define $P(\tilde{y}\mid C)$: how probable each outcome is for a creature like this one (it "expects" to see them). The expected free energy $G(\pi)$ is **minimised**: lower is better, and it is never negated.
+  - **Risk and ambiguity.** With $H[\cdot]$ the entropy ($-\sum p\ln p$, how spread out a distribution is) and $D_{KL}$ the KL divergence,
+    {{ $$\begin{aligned}G(\pi)=\;&\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]\\&+D_{KL}[Q(\tilde{y}\mid\pi)\,\|\,P(\tilde{y}\mid C)]\end{aligned}$$ }}
+    The first term is the **ambiguity**, the second the **risk**. **Risk** is the mismatch between predicted outcomes and preferences ($0$ only when $Q(\tilde{y}\mid\pi)=P(\tilde{y}\mid C)$). **Ambiguity** is how blurry the mapping from states to outcomes is, even when the state is known (a fair coin flip has the maximum, $\ln 2\approx0.69$ nats).
+  - **Pragmatic and epistemic value.** The same $G$ splits as
+    {{ $$\begin{aligned}G(\pi)=\;&-\,\text{information gain}\\&-\,\text{pragmatic value}\end{aligned}$$ }}
+    with the pragmatic value (the expected utility of the outcomes, in the same units as the gain)
+    $$\text{pragmatic value}=\mathbb{E}_{Q(\tilde{y}\mid\pi)}[\ln P(\tilde{y}\mid C)]$$
+    and the information gain (the epistemic value: how much the expected observation will change the belief about the states, where $Q(\tilde{x},\tilde{y}\mid\pi)=Q(\tilde{x}\mid\pi)P(\tilde{y}\mid\tilde{x})$)
+    $$\begin{aligned}\text{information gain}=\;&\mathbb{E}_{Q(\tilde{x},\tilde{y}\mid\pi)}\\&D_{KL}[Q(\tilde{x}\mid\tilde{y},\pi)\\&\qquad\|\,Q(\tilde{x}\mid\pi)]\end{aligned}$$
+    Both terms are subtracted, so more gain and more preferred outcomes both lower $G$. Exploration and exploitation are scored in the same units (nats).
+  - **Epistemic before pragmatic.** When the state is uncertain, a policy that resolves the uncertainty (look at the calendar) can score better than a pragmatic one (go straight to a cafe that may be closed); once the state is known, only the pragmatic value is left.
+  - **From scores to beliefs.** Policies with lower $G$ get higher probability, through a softmax with a precision $\gamma$ over policies:
+    {{ $$P(\pi)=\frac{e^{-\gamma G(\pi)}}{\sum_{\pi'}e^{-\gamma G(\pi')}}$$ that is $\boldsymbol{\pi}_0=\sigma(-\gamma\mathbf{G})$. }}
+    With $\gamma=1$ this is the plain $\sigma(-G)$.
+cards:
+  - type: text
+    id: hook
+    title: "Getting what you want, or finding out?"
+    body: |
+      The frog-hunting creature again. It **wants to see something jump** (a frog): out of every ten looks, it would like about eight to show a jump. It has two policies:
+
+      - **go to the pond**, where frogs are common (it expects a jump with probability $0.74$);
+      - **go to the orchard**, where apples are common (it expects a jump with probability only $0.18$).
+
+      Last lesson we said each policy gets a score $G$, lower is better, and left open what $G$ is made of. A good score could reward **two different things**: ending up with the outcomes you **prefer**, and **learning** something about the hidden state (is this a frog or an apple?).
+
+      Before any formula, guess.
+
+  - type: mcq
+    id: hook-guess
+    prompt: |
+      A creature prefers to see jumps (about $80\%$ of its looks). Going to the **pond** predicts a jump with probability $0.74$; going to the **orchard** predicts it with probability $0.18$. In both places a frog jumps with probability $0.9$ and an apple with probability $0.1$, and the pond is $80\%$ frog while the orchard is $90\%$ apple. Which policy should get the **lower** (better) expected free energy $G$?
+    options:
+      - text: 'The pond: its predicted outcomes are close to the preferred ones, and the creature also expects to learn something there.'
+        correct: true
+      - text: 'The orchard: it is the least likely to show a jump, so there is more to learn there.'
+        feedback: |
+          Tempting: a surprise teaches more. But expected learning is about how much the observation will change the belief about the state, not about how unlikely the observation is, and the orchard also predicts outcomes far from what the creature wants. Both pieces will be measured soon.
+      - text: 'They tie, since the same likelihood is used in both places.'
+        feedback: |
+          The likelihood is the same, but the policy changes which states are probable, and so changes both the predicted outcomes and the learning. They cannot tie here.
+    explanation: |
+      Pond: the predictions match the preferences and the creature has something to learn. We will check this with numbers by the end, and see that the same $G$ can be read in **two ways**.
+
+  - type: text
+    id: recall
+    title: "Recall: the score of a policy"
+    body: |
+      Recall from the last lesson:
+
+      - A **policy** $\pi$ is a hypothesis about a way of behaving. For each one the creature predicts hidden states $\tilde{x}$ and outcomes $\tilde{y}$ (the tilde means a whole sequence over time), with the predicted outcome distribution $Q(\tilde{y}\mid\pi)$.
+      - The **expected free energy** $G(\pi)$ is a score: **lower is better**, never negated. It becomes a belief about policies by a softmax,
+      $$P(\pi)=\frac{e^{-\gamma G(\pi)}}{\sum_{\pi'}e^{-\gamma G(\pi')}}.$$
+      Here $\gamma$ is the **precision over policies**: how sharply the belief favours the best score. With $\gamma=1$ this is exactly the plain $e^{-G}$ rule of before.
+      - What the creature wants is written $C$ (the **preferences**): $P(\tilde{y}\mid C)$ is the distribution of outcomes that a creature like this one expects to see. Our frog hunter has $P(\text{jumps}\mid C)=0.8$ and $P(\text{still}\mid C)=0.2$.
+
+      Now we open $G$ in two steps. First, the piece that measures how far the predicted outcomes are from the preferred ones.
+
+  - type: widget
+    id: widget-risk
+    review: false
+    widget: policy-scorer
+    config:
+      outcomes: ["jumps", "still"]
+      C: [0.8, 0.2]
+      editable: true
+      showAmbiguity: false
+      showPragmatic: false
+      showEpistemic: false
+      showGamma: false
+      policies:
+        - { name: "pond", qy: [0.74, 0.26] }
+        - { name: "orchard", qy: [0.18, 0.82] }
+      presets:
+        - { label: "As predicted", policies: [{ qy: [0.74, 0.26] }, { qy: [0.18, 0.82] }] }
+        - { label: "Both match C", policies: [{ qy: [0.8, 0.2] }, { qy: [0.8, 0.2] }] }
+        - { label: "Always a jump", policies: [{ qy: [1, 0] }, { qy: [1, 0] }] }
+    body: |
+      Each policy has its predicted outcome distribution $Q(\tilde{y}\mid\pi)$ (sliders). The **risk** bar measures how far it is from the preferences $(0.8,\,0.2)$. To isolate it, the outcomes here are taken to be certain given the state, so $G$ equals the risk.
+
+      Drag the pond slider towards $0.8$ and watch the risk bar. Then try **Both match C** and **Always a jump**.
+
+  - type: mcq
+    id: risk-zero
+    prompt: |
+      The preferences are $P(\text{jumps}\mid C)=0.8$, $P(\text{still}\mid C)=0.2$. The **risk** is the KL divergence $D_{KL}[Q(\tilde{y}\mid\pi)\,\|\,P(\tilde{y}\mid C)]$, which is $0$ only when the two distributions are equal. Which predicted outcome distribution $(Q(\text{jumps}),\,Q(\text{still}))$ has **zero risk**?
+    options:
+      - text: '$(0.8,\;0.2)$: the prediction equals the preference.'
+        correct: true
+      - text: '$(1,\;0)$: always the preferred outcome.'
+        feedback: |
+          Tempting: "jumps" is what the creature likes most. But the preferences are a whole **distribution** ($80\%$ jumps), and risk measures the divergence between distributions. Predicting a jump for sure is not equal to $(0.8,\,0.2)$, and its risk is $\ln(1/0.8)\approx0.223>0$.
+      - text: '$(0.5,\;0.5)$: no outcome favoured.'
+        feedback: |
+          This is not equal to the preferences, so the divergence is positive: it is $0.5\ln\frac{0.5}{0.8}+0.5\ln\frac{0.5}{0.2}\approx0.223$.
+      - text: '$(0.2,\;0.8)$: the opposite of the preferences.'
+        feedback: |
+          The most mismatched of the four: its risk is $0.2\ln\frac{0.2}{0.8}+0.8\ln\frac{0.8}{0.2}=0.6\ln4\approx0.832$.
+    explanation: |
+      The first term is the **ambiguity**, the second the **risk**. **Risk** is the mismatch between the predicted outcomes and the preferred outcomes, a divergence that vanishes only when they coincide. Policies are chosen "whose probabilistic outcomes match one's prior preferences".
+
+  - type: numeric
+    id: risk-number
+    prompt: |
+      The preferences are $P(\text{jumps}\mid C)=0.8$, $P(\text{still}\mid C)=0.2$. A policy predicts a jump for sure: $Q(\text{jumps})=1$, $Q(\text{still})=0$. Its risk is $D_{KL}[Q\,\|\,P(\cdot\mid C)]=\sum_y Q(y)\ln\frac{Q(y)}{P(y\mid C)}$ (terms with $Q=0$ contribute $0$). What is the risk, in nats?
+    answer: 0.223
+    tolerance: 0.003
+    answerText: '0.223'
+    wrong:
+      - { value: 0, tolerance: 0.003, feedback: "Risk is $0$ only when $Q$ equals $(0.8,\\,0.2)$ exactly. A sure jump is a different distribution, even though jumps are preferred." }
+      - { value: 0.8, tolerance: 0.01, feedback: "$0.8$ is the preference itself, not a divergence. Compute $1\\cdot\\ln\\frac{1}{0.8}$." }
+      - { value: -0.223, tolerance: 0.003, feedback: "A KL divergence is never negative. $\\ln(1/0.8)=-\\ln0.8=+0.223$." }
+    hint: |
+      Only the term $y=\text{jumps}$ survives: $1\cdot\ln\frac{1}{0.8}$.
+    explanation: |
+      $D_{KL}=1\cdot\ln\frac{1}{0.8}+0=-\ln0.8\approx0.223$ nats. The creature prefers jumps, but only $80\%$ of the time, so a policy that forces a jump every time still has a small mismatch.
+
+  - type: widget
+    id: widget-ambiguity
+    review: false
+    widget: policy-scorer
+    config:
+      outcomes: ["jumps", "still"]
+      C: [0.8, 0.2]
+      states: ["frog", "apple"]
+      likelihood: [[0.9, 0.1], [0.1, 0.9]]
+      editable: true
+      showPragmatic: false
+      showEpistemic: false
+      showGamma: false
+      showProb: false
+      policies:
+        - { name: "sharp view", qx: [0.8, 0.2] }
+        - { name: "blurry view", qx: [0.8, 0.2], likelihood: [[0.78, 0.22], [0.58, 0.42]] }
+      presets:
+        - { label: "Both 80% frog", policies: [{ qx: [0.8, 0.2] }, { qx: [0.8, 0.2] }] }
+        - { label: "Both sure frog", policies: [{ qx: [1, 0] }, { qx: [1, 0] }] }
+    body: |
+      Two policies believe the same thing about the states (here $80\%$ frog), but they look at the world differently. The **sharp view** has $P(\text{jumps}\mid\text{frog})=0.9$ and $P(\text{jumps}\mid\text{apple})=0.1$. The **blurry view** has $0.78$ and $0.58$: the outcome says much less about the state. Both predict a jump with probability $0.74$, so their **risk is the same**.
+
+      Look at the **ambiguity** bar. Then try **Both sure frog**: the state is now known with certainty. Does the ambiguity of the blurry view go away?
+
+  - type: mcq
+    id: ambiguity-coin
+    prompt: |
+      **Ambiguity** is the expected entropy of the outcomes given the state, $\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]$, where the entropy $H[p]=-\sum p\ln p$ measures how spread out a distribution is. A fair coin is flipped each day, whatever the weather: $P(\text{heads}\mid\text{sunny})=P(\text{heads}\mid\text{rain})=0.5$. You know for certain that it is sunny. What is the ambiguity of this situation?
+    options:
+      - text: 'Maximal ($\ln2\approx0.69$ nats): even with the state known, the outcome is a 50-50 chance, so it says nothing about the weather.'
+        correct: true
+      - text: 'Zero, because you know the state with complete confidence.'
+        feedback: |
+          Knowing the state removes uncertainty about the state, not about the outcome. Ambiguity asks how dispersed the outcomes are **given** the state, and for a coin they stay at 50-50.
+      - text: 'Zero, because heads and tails are equally good.'
+        feedback: |
+          Whether outcomes are preferred belongs to the risk, not to ambiguity. Ambiguity is only about how blurry the state-to-outcome mapping is.
+      - text: 'It depends on the preferences $C$.'
+        feedback: |
+          Ambiguity uses only the likelihood $P(\tilde{y}\mid\tilde{x})$ and the belief about the states. The preferences enter the risk.
+    explanation: |
+      A mapping is **ambiguous** if the outcomes expected are highly dispersed even when the state is known with complete confidence. The coin's entropy is $-2\cdot0.5\ln0.5=\ln2\approx0.693$, the largest possible for two outcomes. Observing tails would give no information about the weather. Most real situations have both risk and ambiguity.
+
+  - type: text
+    id: second-reading
+    title: "A second reading of the same G"
+    body: |
+      The same $G$ can be written another way, built from two **values** that you subtract:
+
+      - the **pragmatic value** $\mathbb{E}_{Q(\tilde{y}\mid\pi)}[\ln P(\tilde{y}\mid C)]$: how much the predicted outcomes are what the creature prefers (an expected utility; it is a log probability, so a number below $0$, closer to $0$ is better);
+      - the **information gain** (the **epistemic value**): how much the expected observation will **change the belief about the states**. Formally it is the average KL divergence from the belief before the observation, $Q(\tilde{x}\mid\pi)$, to the belief after it, $Q(\tilde{x}\mid\tilde{y},\pi)$.
+
+      $$\begin{aligned}G(\pi)=\;&-\,\text{information gain}\\&-\,\text{pragmatic value}\end{aligned}$$
+
+      Both are in **nats**, the same units, so exploring and getting what you prefer are scored on one scale.
+
+      In the widget below, the pond and the orchard have the same likelihood. Both bars appear: the **epistemic** bar (information gain) and the **pragmatic** bar.
+
+  - type: widget
+    id: widget-values
+    review: false
+    widget: policy-scorer
+    config:
+      outcomes: ["jumps", "still"]
+      C: [0.8, 0.2]
+      states: ["frog", "apple"]
+      likelihood: [[0.9, 0.1], [0.1, 0.9]]
+      editable: true
+      showGamma: false
+      showProb: false
+      policies:
+        - { name: "pond", qx: [0.8, 0.2] }
+        - { name: "orchard", qx: [0.1, 0.9] }
+      presets:
+        - { label: "Pond and orchard", policies: [{ qx: [0.8, 0.2] }, { qx: [0.1, 0.9] }] }
+        - { label: "Sure state", policies: [{ qx: [1, 0] }, { qx: [0, 1] }] }
+        - { label: "Even mix", policies: [{ qx: [0.5, 0.5] }, { qx: [0.5, 0.5] }] }
+    body: |
+      Read the epistemic (information gain) and pragmatic bars, then the second line of $G$. Move the pond's slider to **Sure state** (frog for certain): the creature already knows the state.
+
+      What happens to the information gain when the state is already known?
+
+  - type: mcq
+    id: gain-lowers
+    prompt: |
+      Two policies have the same pragmatic value, but policy A has information gain $0.25$ nats and policy B has information gain $0.15$ nats. With $G=-\text{information gain}-\text{pragmatic value}$, which has the **lower** (better) $G$?
+    options:
+      - text: 'A: its larger gain is subtracted, so $G$ is $0.10$ nats lower.'
+        correct: true
+      - text: 'B: more information gain means a larger $G$, which is a penalty.'
+        feedback: |
+          This would be right if the gain were added. In $G$ the information gain carries a **minus sign**: a policy that is expected to teach more has a lower $G$, and lower is better.
+      - text: 'They tie: only the pragmatic value matters for choosing.'
+        feedback: |
+          Schemes that keep only the pragmatic value exist (they cannot handle uncertainty), but $G$ contains both terms, and the gain breaks the tie.
+    explanation: |
+      Why subtract? $G$ is a cost, to be minimised. The divergence in the gain is the one met in the free energy of outcomes, but now the outcomes have not happened yet, so we **want** it large: we pick policies that maximise the expected divergence, i.e. that minimise $-\text{gain}$.
+
+  - type: mcq
+    id: sign-trap
+    prompt: |
+      In the widget, each policy shows bars labelled risk, ambiguity and $G$. A reader says: "The orchard has the tallest $G$ bar ($1.21$ against $0.34$), so the orchard is the better policy." What is wrong?
+    options:
+      - text: '$G$ is a cost that is minimised: the taller bar is worse. The pond ($0.34$) is the better policy, with the higher probability.'
+        correct: true
+      - text: 'Nothing: the policy with the largest $G$ has the highest probability.'
+        feedback: |
+          The probability is $P(\pi)\propto e^{-\gamma G(\pi)}$: the **minus** sign makes a large $G$ improbable. The negative, $-G$, is the quality score.
+      - text: '$G$ should be negated before the bars are drawn, so that higher is better.'
+        feedback: |
+          Negating $G$ would flip the direction of the whole scale, but $G$ is defined as the quantity to minimise, like the free energy $F$. The bars of risk, ambiguity and $G$ are costs; only $-G$ is a quality.
+      - text: 'The bars of risk and ambiguity should be subtracted, not added, to give $G$.'
+        feedback: |
+          $G=\text{ambiguity}+\text{risk}$: two costs add up. The subtraction appears only in the other reading, where the **values** (information gain and pragmatic value) are subtracted.
+    explanation: |
+      Cost bars (risk, ambiguity, $G$): lower is better. Value terms (gain, pragmatic value): higher is better, which is why they appear with a minus sign. $G$ is never shown negated.
+
+  - type: text
+    id: cafe
+    title: "Look first, then act"
+    body: |
+      A person wants an espresso and knows of two good cafes: one opens **only Monday to Friday**, the other **only on the weekend**. He does not know what day it is.
+
+      His options: **look at the calendar**, or **go straight to one of the cafes** and hope.
+
+  - type: mcq
+    id: cafe-epistemic
+    prompt: |
+      A person wants an espresso. One cafe is open only Monday to Friday, the other only on the weekend, and he does not know the day. Which of these is the **epistemic** action (the one valued for the information it brings)?
+    options:
+      - text: 'Looking at the calendar: it resolves the uncertainty about the day, and only then can he pick the right cafe.'
+        correct: true
+      - text: 'Walking to the weekday cafe: this brings the coffee, if it is open.'
+        feedback: |
+          Walking to a cafe is **pragmatic**: its value is the preferred outcome (coffee). Here it is also a gamble, since the cafe may be closed.
+      - text: 'Drinking the espresso.'
+        feedback: |
+          That is the preferred outcome itself, the pragmatic payoff, not an action valued for what it teaches.
+    explanation: |
+      In most uncertain situations one first performs an **epistemic action** (look at the calendar) to resolve uncertainty, and then a **pragmatic action** (go to the correct cafe) that brings the reward. A scheme that scores only the pragmatic value cannot see the calendar's worth and would choose with a random number generator; it works only when there is no epistemic uncertainty, for example when he already knows the day.
+
+  - type: widget
+    id: widget-resolve
+    review: false
+    widget: policy-scorer
+    config:
+      outcomes: ["jumps", "still"]
+      C: [0.8, 0.2]
+      states: ["frog", "apple"]
+      likelihood: [[0.9, 0.1], [0.1, 0.9]]
+      editable: false
+      policies:
+        - { name: "pond", qx: [0.8, 0.2] }
+        - { name: "orchard", qx: [0.1, 0.9] }
+    body: |
+      Back to the hook: the pond against the orchard. Read **both** forms of $G$ for each policy, and the probability $\sigma(-\gamma G)$ with $\gamma=1$. Then drag $\gamma$ up and down.
+
+  - type: numeric
+    id: orchard-g
+    prompt: |
+      The orchard policy has information gain $0.146$ nats and pragmatic value $-1.360$ nats. Using $G=-\text{information gain}-\text{pragmatic value}$, what is its expected free energy $G$ (in nats)?
+    answer: 1.214
+    tolerance: 0.004
+    answerText: '1.214'
+    wrong:
+      - { value: -1.214, tolerance: 0.004, feedback: "Both terms carry a minus sign: $-0.146-(-1.360)=+1.214$. A negative pragmatic value becomes a positive cost." }
+      - { value: 1.506, tolerance: 0.004, feedback: "You added the gain. It is subtracted: $-0.146+1.360$." }
+      - { value: 1.360, tolerance: 0.004, feedback: "That is the cost from preferences alone; the information gain lowers it by $0.146$." }
+    hint: |
+      $G=-0.146-(-1.360)$.
+    explanation: |
+      $G=-0.146+1.360=1.214$. The other reading gives the same number: ambiguity $0.325$ plus risk $0.889$ equals $1.214$. For the pond the same two readings give $0.325+0.011=0.336$ and $-0.248+0.584=0.336$. The pond wins (lower $G$), and with $\gamma=1$ its probability is $0.706$ against $0.294$. The two readings are the same quantity cut in two ways, which is the subject of the next lesson.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a guided problem rewrites $G$ from one form to the other step by step, checks them on a two-policy example, and reads the special cases (no preferences, no ambiguity) that recover other decision schemes.
