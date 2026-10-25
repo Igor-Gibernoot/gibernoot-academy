@@ -34,6 +34,7 @@ import { factorGraph } from './factor-graph.js';
 import { pomdpLab } from './pomdp-lab.js';
 import { steadyStateWalk } from './steady-state-walk.js';
 import { gaussianFit } from './gaussian-fit.js';
+import { predictiveCoding } from './predictive-coding.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -64,6 +65,7 @@ const WIDGETS = {
   'pomdp-lab': pomdpLab,
   'steady-state-walk': steadyStateWalk,
   'gaussian-fit': gaussianFit,
+  'predictive-coding': predictiveCoding,
 };
 
 export function mountWidget(name, el, config) {

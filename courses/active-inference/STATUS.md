@@ -1,6 +1,10 @@
 # Status
 
-Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/p' courses/active-inference/STATUS.md`).
+Session start: read only **Current** (`sed -n '/^## Current/,/^## Log
+
+### 2026-10-25 widget predictive-coding (W4)
+Built `js/widgets/predictive-coding.js` (css `pc-`), registered, documented in LESSON_FORMAT. Modes static, hierarchy, dynamic (generalized coordinates, orders kept 1-3), action (arm, reflex). Checked by script: gradients vs finite differences, closed-form compromise = descent = Newton, K=1/2/3 lag 0.23/0.10/0.09; widget-smoke 150 mounts clean; phone and desktop screenshots of every mode. Throwaway lesson removed.
+Conventions fixed here: $\epsilon_x=D\tilde\mu-(f_x\tilde\mu+f_v\tilde v)$ with $\tilde v=(v,0,0)$; hierarchy errors $\epsilon_y,\epsilon_x=\mu_1-g_2(\mu_2),\epsilon_v$; $\dot u=-\text{dydu}\,\Pi_y\epsilon_y$; the descending prediction is the prior mean $\eta$; precisions as log sliders $\Pi_y,\Pi_x,\Pi_v$./p' courses/active-inference/STATUS.md`).
 Session end: update Current in place (keep it under ~40 lines: replace, don't append) and add a
 3-line Log entry at the top of the Log, ending "Conventions fixed here: ...". Copy those conventions
 into the chapter's section of `CONVENTIONS.md`, not into Current.
@@ -8,9 +12,9 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
 ## Current (2026-10-25)
 
 - **State:** Levels 1, 2 and 3 fully built; Level 3 audited (light). **Level 4 in progress:** `ch04-bayes-to-fe` (17 cards) and `ch04-generative-models` (20 cards; `belief-mixer` once, `factor-graph` twice) `ch04-pomdp` (25 cards; `pomdp-lab` door preset three times) and `ch04-pomdp-active-inference` (20 cards; `pomdp-lab` infer twice, `policy-scorer` once) and `ch04-laplace` (guided, 20 cards; `gaussian-fit` skew, Taylor overlay, two humps) built.
-- **Next unit:** widget `predictive-coding` (W4), then in course.yaml order: `ch04-predictive-coding`, `ch04-motor-reflexes`, widget `mean-field-vb`, `ch04-mean-field`, `ch04-model-traps`, `ch04-intuition-models`, `ch04-map`, `ch04-challenge` (A, B).
+- **Next unit:** `ch04-predictive-coding` (uses `predictive-coding` static, dynamic), then in course.yaml order: `ch04-motor-reflexes` (action, hierarchy), widget `mean-field-vb`, `ch04-mean-field`, `ch04-model-traps`, `ch04-intuition-models`, `ch04-map`, `ch04-challenge` (A, B).
 - **Level 3 lessons:** markov-blankets (25), self-evidencing (15), least-action (24), inference-dynamics (16), blanket-free-energy (guided, 23), models-policies (19), reconciliation (15), blanket-traps (13), map (11 boxes), challenge (29).
-- **Widgets built:** L2 `free-energy-bound`, `policy-scorer`; L3 `blanket-graph`, `blanket-sync`, `steady-state-walk`; L4 `gaussian-fit`, `factor-graph`, `pomdp-lab` (all in LESSON_FORMAT; presets door and tmaze are in its doc, to be copied into lessons). Still to build: `predictive-coding`, `mean-field-vb`.
+- **Widgets built:** L2 `free-energy-bound`, `policy-scorer`; L3 `blanket-graph`, `blanket-sync`, `steady-state-walk`; L4 `gaussian-fit`, `factor-graph`, `pomdp-lab` (all in LESSON_FORMAT; presets door and tmaze are in its doc, to be copied into lessons), `predictive-coding` (modes static, hierarchy, dynamic, action). Still to build: `mean-field-vb`.
 - **Verified (source pages):** Ch. 2: 2.2, 2.3 / Fig. 2.2, 2.4-2.5 / Fig. 2.3, 2.6 (Eq. 2.5, Figs. 2.4-2.5), 2.7 (pp. 42-43), 2.8 (Eq. 2.6, Fig. 2.6, pp. 44-48), Eq. 2.3-2.4, Eq. 4.2 / Fig. 4.1 (pp. 64-65), Eq. 4.7 (p. 83), B.13 (p. 259). Ch. 3: 3.2, Box 3.1, Figs 3.1-3.2 (pp. 54-56); 3.3.1, Eq. 3.1, Fig. 3.3 (pp. 58-59); 3.4 (pp. 60-62); A.46-A.50 (pp. 250-251); 3.3, 3.5-3.8, Box 3.3 prose (Markdown only). Ch. 4: Eq. 4.5-4.6, 4.9-4.12 (pp. 82, 84, 85); Eq. 4.13-4.14, Fig. 4.4, B.5-B.9 (PDF pp. 86, 88, 256-258); Eq. 4.3-4.4 (pp. 76-77); Box 4.3, Eq. 4.20-4.22, A.23-A.34 (PDF pp. 92-93, 244-246); 4.3 Figs 4.2-4.3 (pp. 68, 70), Box 4.1 (p. 76).
 - **Notation:** $x$ hidden state, $y$ observation (Levels 2-4 start), $s$/$o$ only in the discrete POMDP lesson with a renaming card; $u$ active states, blanket $b=(u,y)$; surprise $\mathfrak{I}(y)=-\ln P(y)$; $P(\pi)=\sigma(-\gamma G)$; circulation matrix $\mathsf{Q}$ vs posterior $Q$; noise covariance $2\Gamma$. See CONVENTIONS.
 - **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
