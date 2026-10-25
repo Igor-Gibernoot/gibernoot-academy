@@ -1,0 +1,328 @@
+id: ch04-laplace
+title: "Guided Problem: The Laplace Approximation"
+kind: guided
+cards:
+  - type: text
+    id: intro
+    title: "The problem"
+    body: |
+      Free energy needs an approximate posterior $q(x)$ over a hidden state $x$. The simplest choice is a **Gaussian** (a bell curve): two numbers, a centre $\mu$ and a width, describe it completely, and its integrals are known in closed form. But real posteriors are not bells. Here we ask: **how do we get the best bell from a lopsided posterior, and what does free energy become when we do?** This is the **Laplace approximation**, the step that makes the continuous-time (predictive coding) model simple.
+
+      The plan, in six steps: (1) a Taylor refresher, (2) a Gaussian from a Taylor expansion of $\ln p$, (3) a worked example, (4) the free energy of the Gaussian, (5) the best width, (6) when it fails.
+
+      **The running example.** A hidden quantity $x>0$ is a **rate** (say, drops per second falling on a sensor). Before looking, we believe $p(x)=e^{-x}$ (small rates are likelier). We then observe $y=3$ drops in one second, which has probability $p(y\mid x)=x^{3}e^{-x}/3!$ given the rate $x$. Multiplying prior and likelihood gives the joint density, and only its logarithm matters:
+      $$\ln p(y,x)=3\ln x-2x-\ln 3!$$
+      The posterior is proportional to this joint, so it has the same shape: skewed, with a long tail to the right.
+
+  - type: widget
+    id: lopsided
+    review: false
+    widget: gaussian-fit
+    config:
+      skew: { loc: -1, scale: 1.5, alpha: 5 }
+      range: [-3, 6]
+      mu: 0
+      sigma: 1
+      showForward: false
+      labels:
+        p: 'p(x)'
+        q: 'q(x)'
+        klRev: 'D_{KL}[q\,\|\,p]'
+        laplace: 'Laplace at the mode'
+    body: |
+      A lopsided hill (grey) like our posterior, and a Gaussian $q$ (red). Drag on the plot to move its centre $\mu$ and use the width slider. Try to hug the **top** of the hill, then press the **Laplace** button to see what rule puts the centre.
+
+  - type: mcq
+    id: centre-at
+    prompt: |
+      You want a Gaussian that matches a lopsided hill **right around its top**. Where should its centre $\mu$ go?
+    options:
+      - text: 'At the top of the hill, the **mode** (the value of $x$ where the density is highest).'
+        correct: true
+      - text: 'At the average $x$ of the density (its mean), which sits in the long tail.'
+        feedback: |
+          The mean is pulled toward the long tail, away from the top. A Gaussian centred there would miss the peak. A bell curve has its own top at its centre, so to match the hill near its top the centre must be where the hill's top is.
+      - text: 'In the middle of the plotted range.'
+        feedback: |
+          The plotted range is arbitrary; it says nothing about the shape of the density.
+    explanation: |
+      Near its top, the hill and the bell can only agree if their tops agree. The width is then fixed by how **sharply** the hill curves there. Both ideas come from the Taylor expansion, which we now recall.
+
+  - type: numeric
+    id: taylor-ln
+    prompt: |
+      To approximate a function $f(x)$ near a point $a$, write $\varepsilon=x-a$ and add terms that match $f$ more and more closely at $a$: $f(x)\approx f(a)+\varepsilon f^{\prime}(a)+\tfrac12\varepsilon^{2}f^{\prime\prime}(a)$, where $f^{\prime}(a)$ is the slope and $f^{\prime\prime}(a)$ the **curvature** (how fast the slope changes) at $a$.
+
+      Take $f(x)=\ln x$ around $a=1$. Use the quadratic Taylor expansion to approximate $\ln 1.2$ (so $\varepsilon=0.2$). Remember $f'(x)=1/x$ and $f''(x)=-1/x^{2}$.
+    answer: 0.18
+    tolerance: 0.001
+    hint: |
+      At $a=1$: $f(1)=0$, $f'(1)=1$, $f''(1)=-1$. Then $0+0.2\cdot1+\tfrac12\cdot0.2^{2}\cdot(-1)$.
+    explanation: |
+      $$\ln 1.2\approx 0+0.2-0.02=0.18$$
+      The exact value is $0.1823$, so the quadratic is already very close. Note the sign: the curvature of $\ln$ is **negative**, which bends the approximation downward below its tangent line.
+
+  - type: build
+    id: build-taylor
+    prompt: |
+      Build the quadratic Taylor expansion of $f$ around $a$, with $\varepsilon=x-a$.
+    prefix: 'f(x)\approx'
+    tiles: ['f(a)', '+', '+', '\varepsilon f^{\prime}(a)', '\tfrac12\varepsilon^{2}f^{\prime}(a)', '\tfrac12\varepsilon^{2}f^{\prime\prime}(a)', '\tfrac12\varepsilon f^{\prime\prime}(a)']
+    answers:
+      - ['f(a)', '+', '\varepsilon f^{\prime}(a)', '+', '\tfrac12\varepsilon^{2}f^{\prime\prime}(a)']
+    wrong:
+      - answer: ['f(a)', '+', '\varepsilon f^{\prime}(a)', '+', '\tfrac12\varepsilon^{2}f^{\prime}(a)']
+        feedback: |
+          The $\varepsilon^2$ term multiplies the **curvature** $f''(a)$ (two primes), not the slope again. Each extra power of $\varepsilon$ goes with one more derivative.
+    hint: 'Powers of $\varepsilon$ go with derivatives of the same order, with a factor $1/n!$.'
+    explanation: |
+      $$f(x)\approx f(a)+\varepsilon f'(a)+\tfrac12\varepsilon^{2}f''(a)$$
+
+  - type: widget
+    id: taylor-overlay
+    review: false
+    widget: gaussian-fit
+    config:
+      skew: { loc: -1, scale: 1.5, alpha: 5 }
+      range: [-3, 6]
+      showTaylor: true
+      order: 2
+      a: 1.5
+      lnSpan: 9
+      sigma: 1
+      mu: 0
+      showForward: false
+      labels:
+        p: 'p(x)'
+        q: 'q(x)'
+        klRev: 'D_{KL}[q\,\|\,p]'
+    body: |
+      We expand $\ln p$ rather than $p$, because the log of a Gaussian is **exactly** a quadratic: a quadratic Taylor expansion of $\ln p$ is a Gaussian once exponentiated. Around which point $a$? The lower panel shows $\ln p$ and its Taylor polynomial at a point $a$ (drag it). Press the order buttons **0, 1, 2**. For order 2 the Gaussian the polynomial implies is drawn dashed on the density panel. Find the $a$ where the **order 1** line is **flat**, and watch what the dashed Gaussian does there.
+
+  - type: mcq
+    id: first-vanishes
+    prompt: |
+      You expand $\ln p(x)$ to second order around the **mode** $\mu$ of $p$ (where $p$ is largest). The first-order term is $\varepsilon\,\partial_x\ln p(x)|_{x=\mu}$. What is it, and why?
+    options:
+      - text: 'It is $0$: $\ln$ is increasing, so $\ln p$ has its maximum where $p$ does, and the slope there is zero.'
+        correct: true
+      - text: 'It is $\ln p(\mu)$, the value of the density at the mode.'
+        feedback: |
+          That is the zeroth-order term (a constant). The first-order term involves the **slope** $\partial_x\ln p$, not the value.
+      - text: 'It is positive, since the density is largest there.'
+        feedback: |
+          Being largest is a statement about the value; the slope at a maximum is zero (rising on the left, falling on the right). Positive slope would mean the density is still rising.
+    explanation: |
+      $\ln$ is an increasing function, so $p$ and $\ln p$ peak at the **same** $x$. At a peak, the slope is zero, so
+      $$\partial_x\ln p(x)\big|_{x=\mu}=0$$
+      This is why expanding at the mode leaves only a constant and a curvature term, which is exactly a Gaussian.
+
+  - type: build
+    id: build-ln-p
+    prompt: |
+      Build the quadratic expansion of $\ln p(x)$ around its mode $\mu$, with the vanishing first-order term already dropped.
+    prefix: '\ln p(x)\approx'
+    tiles: ['\ln p(\mu)', '+', '\tfrac12(x-\mu)^{2}\,\partial_x^{2}\ln p(\mu)', '\tfrac12(x-\mu)\,\partial_x\ln p(\mu)', '-', '\tfrac12\,\partial_x^{2}\ln p(\mu)']
+    answers:
+      - ['\ln p(\mu)', '+', '\tfrac12(x-\mu)^{2}\,\partial_x^{2}\ln p(\mu)']
+    wrong:
+      - answer: ['\ln p(\mu)', '+', '\tfrac12(x-\mu)\,\partial_x\ln p(\mu)']
+        feedback: |
+          That keeps the first-order term, which is zero at the mode, and drops the curvature term that carries all the shape.
+    hint: 'Value at the mode, plus half the squared distance times the curvature at the mode.'
+    explanation: |
+      $$\ln p(x)\approx\ln p(\mu)+\tfrac12(x-\mu)^{2}\,\partial_x^{2}\ln p(\mu)$$
+      Here $\partial_x^2\ln p(\mu)$ is the curvature of $\ln p$ at $\mu$; at a maximum it is negative.
+
+  - type: numeric
+    id: exponentiate
+    prompt: |
+      Exponentiating the expansion gives $p(x)\propto e^{-\frac12\Pi\,(x-\mu)^{2}}$, a Gaussian with **precision** $\Pi$ (the inverse of its variance). In a toy case the log density is $\ln p(x)=-2(x-1)^{2}+\text{const}$. Use the expansion to find the precision $\Pi$ of the Gaussian.
+    answer: 4
+    tolerance: 0.001
+    wrong:
+      - { value: 2, feedback: 'That is the coefficient in front of $(x-1)^2$, which is $\tfrac12\Pi$, not $\Pi$. Compare $-\tfrac12\Pi(x-1)^2$ with $-2(x-1)^2$.' }
+      - { value: -4, feedback: 'The curvature is $-4$, but the precision is minus the curvature, so that it is positive: a width must be positive.' }
+    hint: 'Curvature $\partial_x^2\ln p=-4$, and $\Pi=-\partial_x^2\ln p$.'
+    explanation: |
+      $$\Pi=-\partial_x^{2}\ln p(\mu)=4,\qquad \text{variance}=\tfrac14$$
+      The minus sign makes the precision positive at a maximum: a sharper peak (more negative curvature) gives a narrower Gaussian.
+
+  - type: numeric
+    id: example-mode
+    prompt: |
+      Apply the recipe to our posterior (same shape as the joint). Two steps: find the mode (slope zero), then read the curvature there; recall $\partial_x\ln x=1/x$. For $\ln p(y,x)=3\ln x-2x-\ln 3!$ with $x>0$, find the mode $\mu$, where $\partial_x\ln p(y,x)=0$.
+    answer: 1.5
+    tolerance: 0.001
+    hint: 'Slope $=3/x-2$.'
+    explanation: |
+      $$\partial_x\ln p=\frac3x-2=0\ \Rightarrow\ \mu=\frac32$$
+      This is the top of the hill: the posterior is most likely near a rate of $1.5$ drops per second.
+
+  - type: numeric
+    id: example-precision
+    prompt: |
+      Compute the precision $\Pi=-\partial_x^{2}\ln p(y,x)$ at the mode $\mu=1.5$, for $\ln p(y,x)=3\ln x-2x-\ln 3!$ (three decimals).
+    answer: 1.333
+    tolerance: 0.002
+    wrong:
+      - { value: 0.75, feedback: 'That is the **variance** $1/\Pi$. The precision is the curvature itself with its sign flipped.' }
+      - { value: -1.333, feedback: 'That is the curvature $-4/3$. The precision is minus the curvature, so it is positive.' }
+    hint: 'Curvature $=-3/x^{2}$ at $x=1.5$.'
+    explanation: |
+      $$\begin{aligned}\partial_x^{2}\ln p&=-\frac{3}{x^{2}}=-\frac{3}{2.25}=-\frac43\\\Pi&=\frac43\approx1.333\end{aligned}$$
+      The Laplace approximation is therefore $q(x)=\mathcal N(1.5,\ 0.75)$: centre $1.5$, variance $\Sigma=1/\Pi=0.75$, standard deviation $0.866$.
+
+  - type: numeric
+    id: example-mismatch
+    prompt: |
+      How good is it? The posterior is exactly a density of the form $x^{a-1}e^{-bx}$ with $a=4$ and $b=2$ (a **Gamma** density), whose true mean is $a/b$. What is the true posterior mean, to compare with the Laplace centre $1.5$?
+    answer: 2
+    tolerance: 0.001
+    hint: 'Mean $=a/b=4/2$.'
+    explanation: |
+      The true mean is $2$ and the true standard deviation is $\sqrt{a}/b=1$, against the Laplace centre $1.5$ and width $0.866$. The Gaussian sits at the **top** (mode), not the mean, and is a little too narrow, because it ignores the long right tail. It is excellent near the peak and wrong far out. Laplace is a **local** approximation.
+
+  - type: text
+    id: step4
+    title: "Step 4: the free energy of the Gaussian"
+    body: |
+      Now put $q(x)=\mathcal N(\mu,\Sigma)$ into the free energy, with $\Sigma$ the variance (so $\Sigma^{-1}$ is the precision) and $x$ one-dimensional:
+      $$F[y,q]=\mathbb E_{q(x)}\big[\ln q(x)-\ln p(y,x)\big]$$
+      We expand each log to second order around $\mu$, and use only $\mathbb E_q[x-\mu]=0$ and $\mathbb E_q[(x-\mu)^2]=\Sigma$.
+
+      **The $\ln q$ part.** The quadratic term of $\ln q$ is $-\tfrac12\Sigma^{-1}(x-\mu)^{2}$, whose average is $-\tfrac12\Sigma^{-1}\Sigma=-\tfrac12$. Together with $\ln q(\mu)=-\tfrac12\ln 2\pi\Sigma$:
+      $$\mathbb E_q[\ln q]=-\tfrac12\ln(2\pi e\,\Sigma)$$
+      (this is minus the **entropy** of a Gaussian: it depends on the width alone).
+
+      **The $\ln p$ part.** The first-order term averages to zero (the mean of $x-\mu$ is $0$), and the squared term averages to $\Sigma$ times the curvature:
+      $$\begin{aligned}\mathbb E_q[\ln p(y,x)]&=\ln p(y,\mu)\\&\quad+\tfrac12\Sigma\,\partial_x^{2}\ln p(y,x)\big|_{\mu}\end{aligned}$$
+      Subtracting, the Laplace free energy is
+      $$\begin{aligned}F&=-\tfrac12\ln(2\pi e\,\Sigma)\\&\quad-\ln p(y,\mu)\\&\quad-\tfrac12\Sigma\,\partial_x^{2}\ln p(y,x)\big|_{\mu}\end{aligned}$$
+      For a vector $x$ with $k$ components, $e\to e^{k}$, $\Sigma$ is a covariance matrix, $|\Sigma|$ its determinant, and the last term becomes a trace $\mathrm{tr}[\Sigma\,\nabla\nabla^{\!\top}\ln p]$.
+
+  - type: mcq
+    id: which-depends
+    prompt: |
+      In the Laplace free energy
+      $$\begin{aligned}F&=-\tfrac12\ln(2\pi e\,\Sigma)\\&\quad-\ln p(y,\mu)\\&\quad-\tfrac12\Sigma\,\partial_x^{2}\ln p(y,x)\big|_{\mu}\end{aligned}$$
+      the mode $\mu$ and the width $\Sigma$ are the two things $q$ can change. Which statement is right if we **keep the curvature fixed**?
+    options:
+      - text: 'Only the middle term, $-\ln p(y,\mu)$, depends on $\mu$; the other terms depend on the width.'
+        correct: true
+      - text: 'The first term depends on $\mu$ too, since it comes from $\ln q$, which is centred at $\mu$.'
+        feedback: |
+          $\ln q$ is centred at $\mu$, but after averaging over $q$ its value depends only on how **wide** it is: a Gaussian of the same width at another centre has the same entropy. The centre dropped out when we averaged.
+      - text: 'None: $F$ depends on the pair only through $\Sigma$.'
+        feedback: |
+          $\ln p(y,\mu)$ is the log of the joint density evaluated **at the centre**, so moving the centre toward a likelier $x$ lowers $F$.
+    explanation: |
+      Moving the centre only changes **where** we evaluate the joint density, so minimising $F$ over $\mu$ means **maximising $\ln p(y,\mu)$**: finding the mode of the posterior (a MAP estimate). The width enters separately, which is the next question.
+
+  - type: mcq
+    id: optimal-width
+    prompt: |
+      Now minimise $F$ over $\Sigma$ in
+      $$\begin{aligned}F&=-\tfrac12\ln(2\pi e\,\Sigma)\\&\quad-\ln p(y,\mu)\\&\quad-\tfrac12\Sigma\,\partial_x^{2}\ln p(y,x)\big|_{\mu}\end{aligned}$$
+      Setting $\partial_\Sigma F=-\frac1{2\Sigma}-\tfrac12\partial_x^{2}\ln p(y,x)|_{\mu}=0$, what is the precision $\Sigma^{-1}$ of the best $q$?
+    options:
+      - text: '$\Sigma^{-1}=-\partial_x^{2}\ln p(y,x)\big|_{x=\mu}$, minus the curvature of the log joint at the mode.'
+        correct: true
+      - text: '$\Sigma^{-1}=\partial_x^{2}\ln p(y,x)\big|_{x=\mu}$, the curvature itself.'
+        feedback: |
+          At a maximum the curvature is negative, so that would be a negative precision, which is meaningless. Check the sign in $\partial_\Sigma F=0$: it gives $\frac1{\Sigma}=-\partial_x^2\ln p$.
+      - text: '$\Sigma^{-1}=\ln p(y,\mu)$.'
+        feedback: |
+          The value of the density at the mode says how high the hill is, not how sharp. The width comes from the curvature, a second derivative.
+    explanation: |
+      $$\Sigma^{-1}=-\partial_x^{2}\ln p(y,x)\big|_{x=\mu}$$
+      The same rule as in the direct expansion: **minimising $F$ over the width gives exactly the Laplace width**. And the precision follows from the mode by a formula, so it never needs to be optimised separately: only $\mu$ remains to be found.
+
+  - type: numeric
+    id: laplace-f
+    prompt: |
+      At the optimal width the last two terms of $F$ combine: $-\tfrac12\Sigma\,\partial_x^2\ln p=+\tfrac12$, which cancels the $-\tfrac12$ inside $-\tfrac12\ln(2\pi e\Sigma)$, leaving
+      $$F=-\tfrac12\ln(2\pi\Sigma)-\ln p(y,\mu).$$
+      In our example $\Sigma=0.75$ and $\ln p(y,\mu)=3\ln1.5-3-\ln6=-3.575$. Compute $F$ in nats (two decimals).
+    answer: 2.8
+    tolerance: 0.006
+    hint: '$-\tfrac12\ln(2\pi\cdot0.75)=-0.775$ and $-\ln p(y,\mu)=3.575$.'
+    explanation: |
+      $$F=-0.775+3.575=2.80$$
+      The exact surprise is $-\ln p(y)=\ln16=2.77$ (the probability of seeing $3$ drops is $1/16$). The Laplace $F$ is slightly above it, consistent with $F$ being a bound on surprise (the gap, $0.03$ nats, is the price of using a Gaussian for a skewed posterior).
+
+  - type: widget
+    id: two-humps
+    review: false
+    widget: gaussian-fit
+    config:
+      components:
+        - { w: 0.5, mean: -2.2, sd: 0.7 }
+        - { w: 0.5, mean: 2.2, sd: 0.7 }
+      range: [-6, 6]
+      mu: 0
+      sigma: 1
+      showForward: false
+      labels:
+        p: 'p(x)'
+        q: 'q(x)'
+        klRev: 'D_{KL}[q\,\|\,p]'
+        laplace: 'Laplace at a mode'
+    body: |
+      A posterior with **two** equal humps. Press **Laplace at a mode** and read $D_{KL}[q\,\|\,p]$. The Laplace Gaussian describes one hump well and says nothing about the other.
+
+  - type: mcq
+    id: when-fails
+    prompt: |
+      For which posterior is the Laplace approximation (a Gaussian at the mode, with width from the curvature there) a **poor** summary? Select all that apply.
+    multiple: true
+    options:
+      - text: 'A posterior with two well-separated humps.'
+        correct: true
+      - text: 'A strongly skewed posterior with a long tail, as in our rate example with few observations.'
+        correct: true
+      - text: 'A narrow, nearly symmetric posterior, such as after many observations.'
+        feedback: |
+          This is where Laplace works best: a sharp peak makes the quadratic expansion accurate over the whole region that carries probability.
+      - text: 'A posterior that is itself Gaussian.'
+        feedback: |
+          Then $\ln p$ is **exactly** quadratic, so the Taylor expansion has no error and Laplace is exact.
+    explanation: |
+      Laplace sees only the curvature at **one** peak. It misses a second hump entirely and ignores skew, because both are information far from the mode. It is exact for a Gaussian and gets better as data make the posterior sharper.
+
+  - type: numeric
+    id: gaussian-link
+    prompt: |
+      One more check, which previews the continuous-time model. A hidden state $x$ has prior $\mathcal N(\eta,\,\Pi_x^{-1})$ and generates data $y$ with $\mathcal N(x,\,\Pi_y^{-1})$, where $\Pi_x=1$ and $\Pi_y=4$ are precisions. Then
+      $$\begin{aligned}-\ln p(y,x)&=\tfrac12\Pi_y(y-x)^{2}\\&\quad+\tfrac12\Pi_x(x-\eta)^{2}+\text{const}\end{aligned}$$
+      What is the Laplace precision $\Sigma^{-1}=-\partial_x^{2}\ln p(y,x)$ of the posterior?
+    answer: 5
+    tolerance: 0.001
+    hint: 'Differentiate twice: each squared term contributes its precision.'
+    explanation: |
+      $$\Sigma^{-1}=\Pi_y+\Pi_x=5$$
+      Laplace is exact here, and the free energy reduces to **precision-weighted squared prediction errors**
+      $$F\simeq\tfrac12\Pi_y\,\varepsilon_y^{2}+\tfrac12\Pi_x\,\varepsilon_x^{2}$$
+      $$\varepsilon_y=y-x,\qquad \varepsilon_x=x-\eta$$
+      where each $\varepsilon$ is a **prediction error** (data minus prediction). This is the form the continuous-time model uses.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      **Setup.** A hidden state $x$ (here one-dimensional) and data $y$ have joint density $p(y,x)$. We approximate the posterior by a Gaussian $q(x)=\mathcal N(\mu,\Sigma)$ with centre $\mu$ and variance $\Sigma$ (precision $\Sigma^{-1}$).
+
+      - **Taylor.** Near a point $a$, with $\varepsilon=x-a$:
+        $$f(x)\approx f(a)+\varepsilon f'(a)+\tfrac12\varepsilon^{2}f''(a)$$
+      - **Laplace approximation.** The log of a Gaussian is a quadratic, so expand $\ln p$ at its mode $\mu$, where the slope is zero:
+        $$\ln p(x)\approx\ln p(\mu)+\tfrac12(x-\mu)^{2}\,\partial_x^{2}\ln p(\mu)$$
+        so the density is Gaussian with centre at the mode and precision minus the curvature:
+        $$\Sigma^{-1}=-\partial_x^{2}\ln p(y,x)\big|_{x=\mu}$$
+      - **Laplace free energy** (for $F=\mathbb E_q[\ln q-\ln p(y,x)]$):
+        $$\begin{aligned}F&=-\tfrac12\ln(2\pi e\,\Sigma)\\&\quad-\ln p(y,\mu)\\&\quad-\tfrac12\Sigma\,\partial_x^{2}\ln p(y,x)\big|_{\mu}\end{aligned}$$
+        For a $k$-dimensional $x$: $-\tfrac12\ln(2\pi e)^{k}|\Sigma|-\ln p(y,\mu)-\tfrac12\mathrm{tr}[\Sigma\,\nabla\nabla^{\!\top}\ln p(y,x)|_\mu]$.
+      - **Optimal width.** Setting $\partial_\Sigma F=0$ returns the same $\Sigma^{-1}$ as above, so the width is a function of the mode, and the only term that depends on $\mu$ is $-\ln p(y,\mu)$: inference is a search for the mode.
+      - **Example.** For $\ln p(y,x)=3\ln x-2x-\ln 3!$: mode $1.5$, precision $4/3$, variance $0.75$, $F=2.80$ (true surprise $2.77$; true posterior mean $2$).
+      - **Limits.** Exact for Gaussian posteriors, good for sharp peaks, poor for several humps or long tails.
+
+      **Next:** the continuous-time model has Gaussian noise everywhere, so this $F$ is a sum of precision-weighted squared prediction errors. We build a network that descends it.
