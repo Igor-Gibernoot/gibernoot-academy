@@ -1,0 +1,441 @@
+id: ch04-map
+title: "Content Map: Two Families of Models"
+kind: map
+name: Level 4, generative models, approximate posteriors, discrete (POMDP) and continuous (predictive coding) active inference
+
+intro: |
+  A **content map** shows how the ideas of a level fit together. Each box is one idea. An arrow goes from an idea to one that builds on it, and its label says how: read it as a sentence, for example "the generative model *must be inverted* by Bayes".
+
+  This map starts from a **generative model** (a recipe that produces the data) and from the problem that its exact posterior cannot be computed. The top is shared. Then it splits in two. The **left column** is the discrete-time family (hidden states $s$, outcomes $o$, policies $\pi$). The **right column** is the continuous-time family (hidden states $x$, causes $v$, data $y$, precisions $\Pi$). Free energy $F$ and expected free energy $G$ are **minimised**, never negated.
+
+  For each glowing box, pick the card that belongs there. The other cards look alike, but each hides a classic mistake, and every wrong pick comes with a reason. Tap a finished box at any time to reread its card.
+
+cols: 3
+nodes:
+  - id: genmodel
+    title: Generative model
+    row: 1
+    col: 2
+    body: |
+      A **generative model** is a recipe for the data $y$: a prior $P(x)$ over a hidden state $x$, and a likelihood $P(y\mid x)$ of the data given the state. Their product is the joint:
+
+      $$P(x,y)=P(y\mid x)\,P(x)$$
+    decoys:
+      - body: |
+          A **generative model** is a recipe for the data $y$: a prior $P(x)$ over a hidden state $x$, and a likelihood $P(y\mid x)$ of the data given the state. Their product is the joint:
+
+          $$P(x,y)=P(x\mid y)\,P(x)$$
+        feedback: |
+          The posterior $P(x\mid y)$ is what we want to find, not an ingredient of the recipe. The joint is built from the prior and the likelihood, which the model supplies.
+      - body: |
+          A **generative model** is a recipe for the data $y$: a likelihood $P(y\mid x)$ of the data given a hidden state $x$. The prior is only chosen after the data are seen:
+
+          $$P(x,y)=P(y\mid x)$$
+        feedback: |
+          The prior is part of the model and is fixed before the data arrive. It says which states were plausible beforehand, and the joint needs it.
+    explanation: |
+      Everything in the level is a way of using this one object: to infer states, to score plans and to move.
+
+  - id: bayes
+    title: Exact inference is intractable
+    row: 2
+    col: 2
+    body: |
+      Inference **inverts** the model with Bayes' rule:
+
+      $$P(x\mid y)=\frac{P(y\mid x)\,P(x)}{P(y)}$$
+
+      The numerator is cheap. The **evidence** $P(y)$ is a sum over every hidden state, so in a rich model the exact posterior cannot be computed.
+    decoys:
+      - body: |
+          Inference **inverts** the model with Bayes' rule:
+
+          $$P(x\mid y)=P(y\mid x)$$
+
+          The posterior is the likelihood, the sum over every hidden state is never needed.
+        feedback: |
+          That drops the prior and the evidence. A sensor that is often positive for the disease does not make the disease likely if the disease is rare: the base rate matters.
+      - body: |
+          Inference **inverts** the model with Bayes' rule:
+
+          $$P(x\mid y)=\frac{P(y\mid x)\,P(x)}{P(y)}$$
+
+          The **numerator** is the hard part, because it needs the posterior itself.
+        feedback: |
+          The numerator is the joint, one multiplication for each state. The expensive part is the denominator $P(y)=\sum_x P(y\mid x)P(x)$, a sum over all states.
+    explanation: |
+      Because the evidence is out of reach, we replace the exact posterior by a belief $Q$ that we can handle.
+
+  - id: vfe
+    title: Variational free energy
+    row: 3
+    col: 2
+    body: |
+      Choose a belief $Q(x)$ and minimise the **variational free energy**, which needs only the joint:
+
+      $$\begin{aligned}F\;&=D_{\mathrm{KL}}[Q(x)\,\|\,P(x\mid y)]\\&\quad-\ln P(y)\end{aligned}$$
+
+      The divergence is never negative, so $F$ is an upper bound on surprise.
+    decoys:
+      - body: |
+          Choose a belief $Q(x)$ and minimise the **variational free energy**, which needs only the joint:
+
+          $$\begin{aligned}F\;&=D_{\mathrm{KL}}[P(x\mid y)\,\|\,Q(x)]\\&\quad-\ln P(y)\end{aligned}$$
+
+          The divergence is never negative, so $F$ is an upper bound on surprise.
+        feedback: |
+          The divergence is the other way round. Averaged under the unknown posterior it would need the posterior itself. The computable one averages under $Q$, and it favours a belief that sits on one peak.
+      - body: |
+          Choose a belief $Q(x)$ and **maximise** the free energy, which needs only the joint:
+
+          $$\begin{aligned}F\;&=\ln P(y)\\&\quad-D_{\mathrm{KL}}[Q(x)\,\|\,P(x\mid y)]\end{aligned}$$
+
+          The divergence is never negative, so $F$ is a lower bound on log evidence.
+        feedback: |
+          This is the same quantity with its sign flipped. In this course free energy is the quantity that is minimised, so the divergence enters with a plus sign and $-\ln P(y)$ is surprise.
+    explanation: |
+      Minimising $F$ over $Q$ shrinks the gap to the posterior, and it bounds the surprise from above.
+
+  - id: meanfield
+    title: Mean-field family
+    row: 4
+    col: 1
+    body: |
+      With several hidden variables, take a **product** $q(x)=q_1(x_1)\,q_2(x_2)$ and update one factor at a time:
+
+      $$\begin{aligned}\ln q_1(x_1)={}&\mathbb E_{q_2}\big[\ln p(y,x_1,x_2)\big]\\&+\text{const}\end{aligned}$$
+
+      Only the factors that contain $x_1$ survive: its Markov blanket (**variational message passing**).
+    decoys:
+      - body: |
+          With several hidden variables, take a **product** $q(x)=q_1(x_1)\,q_2(x_2)$ and update one factor at a time:
+
+          $$q_1(x_1)=p(x_1\mid y)$$
+
+          The product loses nothing, so the best $q_1$ is the exact marginal of the posterior.
+        feedback: |
+          If the hidden variables are correlated in the posterior, a product cannot represent that, and each factor ends up too narrow (overconfident). The update uses the expected log joint, not the exact marginal.
+      - body: |
+          With several hidden variables, take a **product** $q(x)=q_1(x_1)\,q_2(x_2)$ and update one factor at a time:
+
+          $$\begin{aligned}\ln q_1(x_1)={}&\ln\mathbb E_{q_2}\big[p(y,x_1,x_2)\big]\\&+\text{const}\end{aligned}$$
+
+          Only the factors that contain $x_1$ survive: its Markov blanket (**variational message passing**).
+        feedback: |
+          The average and the logarithm are in the wrong order. The rule averages the log of the joint under the other factors. The log of an average is a different, larger quantity.
+    explanation: |
+      The product keeps the number of beliefs small, and each update listens only to a variable's neighbours.
+
+  - id: laplace
+    title: Laplace approximation
+    row: 4
+    col: 3
+    body: |
+      With a continuous hidden state, take a **Gaussian** $q=\mathcal N(\mu,\Sigma)$ centred on the mode of $\ln p(y,x)$, with precision minus the curvature there:
+
+      $$\Sigma^{-1}=-\partial_x^2\ln p(y,x)\big|_{x=\mu}$$
+
+      Only $-\ln p(y,\mu)$ depends on $\mu$: inference is a search for the mode.
+    decoys:
+      - body: |
+          With a continuous hidden state, take a **Gaussian** $q=\mathcal N(\mu,\Sigma)$ centred on the mode of $\ln p(y,x)$, with variance minus the curvature there:
+
+          $$\Sigma=-\partial_x^2\ln p(y,x)\big|_{x=\mu}$$
+
+          Only $-\ln p(y,\mu)$ depends on $\mu$: inference is a search for the mode.
+        feedback: |
+          The curvature gives the precision, not the variance. A sharp peak has a large curvature and must give a narrow bell, which is a large precision and a small variance.
+      - body: |
+          With a continuous hidden state, take a **Gaussian** $q=\mathcal N(\mu,\Sigma)$ centred on the **mean** of the posterior, with precision minus the curvature at the mode:
+
+          $$\Sigma^{-1}=-\partial_x^2\ln p(y,x)\big|_{x=\mu}$$
+
+          The fit is exact for any posterior.
+        feedback: |
+          The bell is centred on the mode, because the quadratic expansion is made at the top of the hill. A long tail pulls the mean away from the top, and the fit is good only for sharp single peaks.
+    explanation: |
+      With Gaussian noise everywhere this makes the free energy a simple sum of squared errors.
+
+  - id: pomdp
+    title: Discrete model (POMDP)
+    row: 5
+    col: 1
+    body: |
+      Hidden states $s_\tau$, outcomes $o_\tau$ and a policy $\pi$ (a sequence of actions) are tied by four tables, each a categorical distribution $\mathrm{Cat}$:
+
+      $$\begin{gathered}P(o_\tau\mid s_\tau)=\mathrm{Cat}(\mathbf A)\\P(s_{\tau+1}\mid s_\tau,\pi)=\mathrm{Cat}(\mathbf B_{\pi\tau})\\P(s_1)=\mathrm{Cat}(\mathbf D)\\P(o_\tau\mid C)=\mathrm{Cat}(\mathbf C_\tau)\end{gathered}$$
+    decoys:
+      - body: |
+          Hidden states $s_\tau$, outcomes $o_\tau$ and a policy $\pi$ (a sequence of actions) are tied by four tables, each a categorical distribution $\mathrm{Cat}$:
+
+          $$\begin{gathered}P(o_\tau\mid s_\tau)=\mathrm{Cat}(\mathbf B)\\P(s_{\tau+1}\mid s_\tau,\pi)=\mathrm{Cat}(\mathbf A_{\pi\tau})\\P(s_1)=\mathrm{Cat}(\mathbf D)\\P(o_\tau\mid C)=\mathrm{Cat}(\mathbf C_\tau)\end{gathered}$$
+        feedback: |
+          The roles of $\mathbf A$ and $\mathbf B$ are swapped. $\mathbf A$ is the likelihood, from a state to an outcome. $\mathbf B$ is the transition, from a state to the next one, and it is the table that depends on the policy.
+      - body: |
+          Hidden states $s_\tau$, outcomes $o_\tau$ and a policy $\pi$ (a sequence of actions) are tied by four tables, each a categorical distribution $\mathrm{Cat}$:
+
+          $$\begin{gathered}P(o_\tau\mid s_\tau)=\mathrm{Cat}(\mathbf A)\\P(s_{\tau+1}\mid s_\tau,\pi)=\mathrm{Cat}(\mathbf B_{\pi\tau})\\P(s_1)=\mathrm{Cat}(\mathbf D)\\P(s_\tau\mid C)=\mathrm{Cat}(\mathbf C_\tau)\end{gathered}$$
+        feedback: |
+          The preferences $\mathbf C$ are over **outcomes**, the things the creature senses (for instance seeing the door open). They are a prior over $o_\tau$, not over hidden states, which it cannot sense directly.
+    explanation: |
+      The tables define predictions forward in time, state first and outcome second.
+
+  - id: contmodel
+    title: Continuous model
+    row: 5
+    col: 3
+    body: |
+      A hidden state $x$ moves under a cause $v$, and data $y$ are read from it, both with Gaussian fluctuations $\omega$ of **precision** $\Pi$ (inverse covariance, written $\mathcal N(m,\Pi^{-1})$):
+
+      $$\begin{gathered}\dot x=f(x,v)+\omega_x\\y=g(x,v)+\omega_y\end{gathered}$$
+
+      Trajectories use generalized coordinates $\tilde x=(x,x',x'',\dots)$ and $D\tilde x=\tilde f+\tilde\omega_x$.
+    decoys:
+      - body: |
+          A hidden state $x$ moves under a cause $v$, and data $y$ are read from it, both with Gaussian fluctuations $\omega$ of **precision** $\Pi$ (inverse covariance, written $\mathcal N(m,\Pi^{-1})$):
+
+          $$\begin{gathered}x=f(x,v)+\omega_x\\y=g(x,v)+\omega_y\end{gathered}$$
+
+          Trajectories use generalized coordinates $\tilde x=(x,x',x'',\dots)$ and $D\tilde x=\tilde f+\tilde\omega_x$.
+        feedback: |
+          The dynamics must give the **rate of change** $\dot x$, not the state itself. A state that is equal to a function of itself would not evolve in time.
+      - body: |
+          A hidden state $x$ moves under a cause $v$, and data $y$ are read from it, both with Gaussian fluctuations $\omega$ of **covariance** $\Pi$ (so a large $\Pi$ means a noisy source, written $\mathcal N(m,\Pi)$):
+
+          $$\begin{gathered}\dot x=f(x,v)+\omega_x\\y=g(x,v)+\omega_y\end{gathered}$$
+
+          Trajectories use generalized coordinates $\tilde x=(x,x',x'',\dots)$ and $D\tilde x=\tilde f+\tilde\omega_x$.
+        feedback: |
+          $\Pi$ is the **inverse** covariance. A large precision is a narrow Gaussian, a source that is trusted. Mixing the two reverses every weighting that follows.
+    explanation: |
+      The Laplace approximation turns this model into a free energy made of squared errors.
+
+  - id: states
+    title: Perception (discrete)
+    row: 6
+    col: 1
+    body: |
+      For each policy, an auxiliary variable $\mathbf v_{\pi\tau}$ (the log of the belief) descends the free energy $\mathbf F_\pi$ of the outcomes **actually seen**:
+
+      $$\begin{gathered}\mathbf s_{\pi\tau}=\sigma(\mathbf v_{\pi\tau})\\\dot{\mathbf v}_{\pi\tau}=-\nabla_{\mathbf s}\mathbf F_\pi\end{gathered}$$
+    decoys:
+      - body: |
+          For each policy, an auxiliary variable $\mathbf v_{\pi\tau}$ (the log of the belief) climbs the free energy $\mathbf F_\pi$ of the outcomes **actually seen**:
+
+          $$\begin{gathered}\mathbf s_{\pi\tau}=\sigma(\mathbf v_{\pi\tau})\\\dot{\mathbf v}_{\pi\tau}=+\nabla_{\mathbf s}\mathbf F_\pi\end{gathered}$$
+        feedback: |
+          Climbing would make the beliefs fit the data worse and worse. Free energy is minimised, so the update goes down its gradient, with a minus sign.
+      - body: |
+          For each policy, an auxiliary variable $\mathbf v_{\pi\tau}$ (the log of the belief) descends the **expected** free energy $\mathbf G_\pi$ of the outcomes **predicted**:
+
+          $$\begin{gathered}\mathbf s_{\pi\tau}=\sigma(\mathbf v_{\pi\tau})\\\dot{\mathbf v}_{\pi\tau}=-\nabla_{\mathbf s}\mathbf G_\pi\end{gathered}$$
+        feedback: |
+          $\mathbf G$ needs no data: it scores the future. Beliefs about states are fitted to the outcomes that arrived, so they descend $\mathbf F_\pi$, which contains the outcome, the past and the future as messages.
+    explanation: |
+      The update is a sum of local messages: the outcome, the previous state and the next state.
+
+  - id: pc
+    title: Predictive coding
+    row: 6
+    col: 3
+    body: |
+      With a Gaussian belief of mode $\tilde\mu$, the free energy is, up to constants, a sum of **precision-weighted squared prediction errors**:
+
+      $$F=\tfrac12\,\tilde\epsilon\cdot\tilde\Pi\,\tilde\epsilon$$
+
+      with $\tilde\epsilon_y=\tilde y-\tilde g(\tilde\mu)$, $\tilde\epsilon_x=D\tilde\mu_x-\tilde f(\tilde\mu)$ and $\tilde\epsilon_v=\tilde\mu_v-\tilde\eta$.
+    decoys:
+      - body: |
+          With a Gaussian belief of mode $\tilde\mu$, the free energy is, up to constants, a plain sum of **squared prediction errors**:
+
+          $$F=\tfrac12\,\tilde\epsilon\cdot\tilde\epsilon$$
+
+          with $\tilde\epsilon_y=\tilde y-\tilde g(\tilde\mu)$, $\tilde\epsilon_x=D\tilde\mu_x-\tilde f(\tilde\mu)$ and $\tilde\epsilon_v=\tilde\mu_v-\tilde\eta$.
+        feedback: |
+          Without precisions every source would count the same. A reliable sensor must pull the belief harder than a vague prior, which is what the weights $\tilde\Pi$ do.
+      - body: |
+          With a Gaussian belief of mode $\tilde\mu$, the free energy is, up to constants, a sum of **covariance-weighted squared prediction errors**:
+
+          $$F=\tfrac12\,\tilde\epsilon\cdot\tilde\Pi^{-1}\tilde\epsilon$$
+
+          with $\tilde\epsilon_y=\tilde y-\tilde g(\tilde\mu)$, $\tilde\epsilon_x=D\tilde\mu_x-\tilde f(\tilde\mu)$ and $\tilde\epsilon_v=\tilde\mu_v-\tilde\eta$.
+        feedback: |
+          The weights are the precisions $\tilde\Pi$, not the covariances. With covariances a noisy source would count more than a precise one, the opposite of a sensible compromise.
+    explanation: |
+      Three kinds of error (data, dynamics and prior) compete, each trusted in proportion to its precision.
+
+  - id: policies
+    title: Policies and G
+    row: 7
+    col: 1
+    body: |
+      A prior over policies is the softmax of the **expected free energy** $\mathbf G$, with $\mathbf H$ the ambiguity of each state and $\mathbf C_\tau$ the preferred outcomes:
+
+      $$\begin{gathered}\boldsymbol\pi_0=\sigma(-\mathbf G)\\\mathbf G_{\pi\tau}=\mathbf H\cdot\mathbf s_{\pi\tau}+\mathbf o_{\pi\tau}\cdot\boldsymbol\varsigma_{\pi\tau}\\\boldsymbol\varsigma_{\pi\tau}=\ln\mathbf o_{\pi\tau}-\ln\mathbf C_\tau\end{gathered}$$
+    decoys:
+      - body: |
+          A prior over policies is the softmax of the **expected free energy** $\mathbf G$, with $\mathbf H$ the ambiguity of each state, computed from the observation likelihood only:
+
+          $$\begin{gathered}\boldsymbol\pi_0=\sigma(-\mathbf G)\\\mathbf G_{\pi\tau}=\mathbf H\cdot\mathbf s_{\pi\tau}\end{gathered}$$
+        feedback: |
+          This keeps the ambiguity and drops the risk, the divergence between predicted outcomes $\mathbf o_{\pi\tau}$ and preferred outcomes $\mathbf C_\tau$. Without it no policy is ever steered toward what the creature prefers.
+      - body: |
+          A prior over policies is the softmax of the **expected free energy** $\mathbf G$, with $\mathbf H$ the ambiguity of each state and $\mathbf C_\tau$ the preferred outcomes:
+
+          $$\begin{gathered}\boldsymbol\pi_0=\sigma(\mathbf G)\\\mathbf G_{\pi\tau}=\mathbf H\cdot\mathbf s_{\pi\tau}+\mathbf o_{\pi\tau}\cdot\boldsymbol\varsigma_{\pi\tau}\\\boldsymbol\varsigma_{\pi\tau}=\ln\mathbf o_{\pi\tau}-\ln\mathbf C_\tau\end{gathered}$$
+        feedback: |
+          The minus sign is missing. $\mathbf G$ is a cost (ambiguity plus risk), so the exponent carries $-\mathbf G$: with $+\mathbf G$ the worst policy would be the most probable.
+    explanation: |
+      Preferring means expecting, so policies that promise little ambiguity and little risk get the most prior weight.
+
+  - id: perception
+    title: Perception (continuous)
+    row: 7
+    col: 3
+    body: |
+      The belief $\tilde\mu$ slides downhill on $F$ but also moves at the rate it believes in, through the shift operator $D$:
+
+      $$\dot{\tilde\mu}-D\tilde\mu=-\nabla_{\tilde\mu}F$$
+
+      At a minimum $\dot{\tilde\mu}=D\tilde\mu$: the belief keeps moving at its predicted pace.
+    decoys:
+      - body: |
+          The belief $\tilde\mu$ slides downhill on $F$, with no other motion:
+
+          $$\dot{\tilde\mu}=-\nabla_{\tilde\mu}F$$
+
+          At a minimum $\dot{\tilde\mu}=0$: the belief freezes.
+        feedback: |
+          For a moving target a frozen belief lags behind. The correction $D\tilde\mu$ makes the belief about a trajectory keep moving at its own predicted rate, and the gradient only corrects it.
+      - body: |
+          The belief $\tilde\mu$ slides **uphill** on $F$ but also moves at the rate it believes in, through the shift operator $D$:
+
+          $$\dot{\tilde\mu}-D\tilde\mu=+\nabla_{\tilde\mu}F$$
+
+          At a minimum $\dot{\tilde\mu}=D\tilde\mu$: the belief keeps moving at its predicted pace.
+        feedback: |
+          The sign is flipped. Perception reduces the prediction errors, so the belief goes down the gradient of $F$. Going up would increase the errors.
+    explanation: |
+      It is a gradient descent in a frame that moves with the belief, which is why it tracks changing causes.
+
+  - id: postpol
+    title: Policy posterior
+    row: 8
+    col: 1
+    body: |
+      Minimising the free energy over beliefs about policies gives
+
+      $$\boldsymbol\pi=\sigma(-\mathbf G-\mathbf F)$$
+
+      Both are minimised: $\mathbf F$ says how well a policy explained the outcomes so far (the past), $\mathbf G$ how good it promises to be (the future).
+    decoys:
+      - body: |
+          Minimising the free energy over beliefs about policies gives
+
+          $$\boldsymbol\pi=\sigma(-\mathbf G+\mathbf F)$$
+
+          $\mathbf F$ rewards a policy for how well it explained the outcomes so far (the past), $\mathbf G$ says how good it promises to be (the future).
+        feedback: |
+          A large $\mathbf F$ means the policy explained the data badly. With a plus sign a policy would gain weight by predicting poorly. Both $\mathbf F$ and $\mathbf G$ are costs and enter with a minus sign.
+      - body: |
+          Minimising the free energy over beliefs about policies gives
+
+          $$\boldsymbol\pi=\sigma(-\mathbf G)$$
+
+          Whatever the outcomes seen, only the promise of each policy (the future) counts.
+        feedback: |
+          That is the prior $\boldsymbol\pi_0$ before any data. A policy whose predictions were contradicted by the outcomes must lose weight, which is the job of $\mathbf F$.
+    explanation: |
+      Planning is the same scheme as perception: one free energy, minimised.
+
+  - id: action
+    title: Action as a reflex
+    row: 8
+    col: 3
+    body: |
+      Only the sensory error depends directly on the action $u$ (a signal to the muscles that changes the data $\tilde y(u)$), so
+
+      $$\dot u=-\nabla_uF=-\nabla_u\tilde y(u)\cdot\tilde\Pi_y\,\tilde\epsilon_y$$
+
+      Perception moves the belief toward the data, action moves the data toward the belief. Lowering $\Pi_y$ weakens the reflex.
+    decoys:
+      - body: |
+          Only the sensory error depends directly on the action $u$ (a signal to the muscles that changes the data $\tilde y(u)$), so
+
+          $$\dot u=-\nabla_uF=-\nabla_u\tilde y(u)\cdot\tilde\Pi_y\,\tilde\epsilon_y$$
+
+          Perception moves the belief toward the data, action moves the data toward the belief. Lowering $\Pi_y$ (attenuating the senses) makes the reflex **faster**.
+        feedback: |
+          The reflex is driven by the precision-weighted error, so a smaller $\Pi_y$ gives a weaker push. What attenuation does is let the belief follow the prediction, which sets the size of the error; the reflex rate never grows by lowering $\Pi_y$.
+      - body: |
+          Only the sensory error depends directly on the action $u$ (a signal to the muscles that changes the data $\tilde y(u)$), so
+
+          $$\dot u=-\nabla_{\tilde\mu}F$$
+
+          Perception moves the belief toward the data, action moves the data toward the belief. Lowering $\Pi_y$ weakens the reflex.
+        feedback: |
+          Action is a change of $u$, so it descends the gradient with respect to $u$. The gradient with respect to the belief $\tilde\mu$ is the perception update and cannot move the muscles.
+    explanation: |
+      Active inference is predictive coding plus reflex arcs: the goal of a movement is a prior, the prediction that the arm will be there.
+
+  - id: hier
+    title: Hierarchy
+    row: 9
+    col: 3
+    body: |
+      Levels are stacked, with $i$ a label and $i+1$ the slower level above. The cause of level $i$ is predicted by level $i+1$:
+
+      $$\tilde{\mathcal E}_v^{(i)}=\tilde\mu_v^{(i)}-g^{(i+1)}\big(\tilde\mu_x^{(i+1)},\tilde\mu_v^{(i+1)}\big)$$
+
+      Predictions go **down**, prediction errors go **up**.
+    decoys:
+      - body: |
+          Levels are stacked, with $i$ a label and $i+1$ the slower level above. The cause of level $i$ is predicted by level $i+1$:
+
+          $$\tilde{\mathcal E}_v^{(i)}=\tilde\mu_v^{(i)}-g^{(i+1)}\big(\tilde\mu_x^{(i+1)},\tilde\mu_v^{(i+1)}\big)$$
+
+          Predictions go **up**, prediction errors go **down**.
+        feedback: |
+          The direction is reversed. The level above holds the more abstract belief and sends it down as a prediction of the cause below. The lower level returns what it could not explain, the error, up.
+      - body: |
+          Levels are stacked, with $i$ a label and $i+1$ the **faster** level above. The cause of level $i$ is predicted by level $i+1$:
+
+          $$\tilde{\mathcal E}_v^{(i)}=\tilde\mu_v^{(i)}-g^{(i+1)}\big(\tilde\mu_x^{(i+1)},\tilde\mu_v^{(i+1)}\big)$$
+
+          Predictions go **down**, prediction errors go **up**.
+        feedback: |
+          Higher levels are the slower ones. That is why the level below can treat its cause as nearly constant while it explains the fast data, and why the cause can be a slowly changing prediction.
+    explanation: |
+      A complex movement is a succession of predictions from above, each fulfilled by reflex arcs at the lowest level.
+
+edges:
+  - { from: genmodel, to: bayes, label: must be inverted }
+  - { from: bayes, to: vfe, label: approximated by }
+  - { from: vfe, to: meanfield, label: with a product }
+  - { from: vfe, to: laplace, label: with a Gaussian }
+  - { from: meanfield, to: pomdp, label: family for }
+  - { from: laplace, to: contmodel, label: family for }
+  - { from: pomdp, to: states, label: gives }
+  - { from: contmodel, to: pc, label: gives }
+  - { from: states, to: policies, label: predict forward }
+  - { from: pc, to: perception, label: descended by }
+  - { from: policies, to: postpol, label: plus F }
+  - { from: perception, to: action, label: plus action }
+  - { from: action, to: hier, label: stacked into }
+outroTitle: Level 4 in one picture
+outro: |
+  A **generative model** $P(x,y)=P(y\mid x)\,P(x)$ must be inverted, but the evidence $P(y)$ is intractable. So we minimise the **variational free energy** over a belief $Q$:
+
+  $$\begin{aligned}F\;&=D_{\mathrm{KL}}[Q(x)\,\|\,P(x\mid y)]\\&\quad-\ln P(y)\end{aligned}$$
+
+  **Left, discrete time.** Hidden states $s_\tau$, outcomes $o_\tau$ and policies $\pi$ are tied by the tables $\mathbf A,\mathbf B,\mathbf C,\mathbf D$. Beliefs are a product over time and descend $\mathbf F_\pi$, and policies get the prior $\boldsymbol\pi_0=\sigma(-\mathbf G)$ and then the posterior
+
+  $$\boldsymbol\pi=\sigma(-\mathbf G-\mathbf F)$$
+
+  **Right, continuous time.** Hidden states $x$, causes $v$ and data $y$ with precisions $\Pi$. A Gaussian (Laplace) belief makes $F$ a sum of precision-weighted squared errors,
+
+  $$F=\tfrac12\,\tilde\epsilon\cdot\tilde\Pi\,\tilde\epsilon$$
+
+  Perception moves the belief, $\dot{\tilde\mu}-D\tilde\mu=-\nabla_{\tilde\mu}F$, and action moves the data, $\dot u=-\nabla_uF$. Stacking levels sends predictions down and errors up.
+
+  Both families minimise one thing: free energy, with $F$ and $G$ minimised, never negated.

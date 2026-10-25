@@ -83,6 +83,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - ch04-mean-field: joint rows $x_1$, columns $x_2$ = .12,.03 / .02,.08 ($p(y)=.25$, posterior .48,.12,.08,.32, marginals (.6,.4),(.56,.44)); $q_2$ uniform gives $q_1=(.6,.4)$; $q_1=(.6,.4)$ gives $q_2(1)=.569$; sweeps end near $q_1=(.67,.33)$, $q_2=(.62,.38)$, gap .206; Gaussian cov (1,.9;.9,1) gives mean-field variance .19. $\mathbb E_{q_{\setminus i}}$ for the other factors; source A.42 omits constants.
 - ch04-model-traps: 3 transitions, 2 actions = 8 policies; variance .25 gives precision 4; marginals product .6*.56=.336 (exact .48); two humps $\pm2.2$ sd .7: reverse KL one hump .69, wide fit 1.08, forward wide .50; pi1 .690 for F=(.5,1.5), G=(1,.8).
 - Widget `mean-field-vb`: grids rows x1, columns x2; rho form J=py a_i b_j (1+rho u_i v_j)/Z; uniform q on a symmetric correlated 2x2 is a saddle (start asymmetric, q1=(.6,.4), q2=(.3,.7)); 2x2 rho=.9, py=.2: best product gap .620 nats.
+- ch04-map: 14 boxes (left discrete, right continuous, top shared); ids genmodel, bayes, vfe, meanfield, laplace, pomdp, contmodel, states, pc, policies, perception, postpol, action, hier.
 ## Chapter 5
 
 - (none yet)
