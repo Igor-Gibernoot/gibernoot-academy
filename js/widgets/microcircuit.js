@@ -228,10 +228,11 @@ export function microcircuit(el, cfg) {
     const tick = now => {
       if (!playing) return;
       if (!el.isConnected) { playing = false; return; }
-      const k = Math.floor((now - t0) / STEP_MS);
+      const k = Math.max(0, Math.floor((now - t0) / STEP_MS));
       if (k >= seq.length) { stop(); return; }
       if (k !== stepNo) { stepNo = k; draw(); }
-      const e = byE[seq[stepNo]], g = els.edges[e.id].g, f = ((now - t0) % STEP_MS) / STEP_MS * 1.25;
+      const e = byE[seq[stepNo]]; if (!e) { stop(); return; }
+      const g = els.edges[e.id].g, f = ((now - t0) % STEP_MS) / STEP_MS * 1.25;
       const u = Math.min(f, 1), gg = gainOf(e);
       els.dot.setAttribute('cx', g.x1 + (g.x2 - g.x1) * u); els.dot.setAttribute('cy', g.y1 + (g.y2 - g.y1) * u);
       els.dot.setAttribute('r', String(5.5 * Math.max(gg, 0.3)));
