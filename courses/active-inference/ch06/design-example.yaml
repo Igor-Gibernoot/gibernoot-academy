@@ -1,0 +1,397 @@
+id: ch06-design-example
+title: "Guided Problem: Designing a Small Model"
+kind: guided
+cards:
+  - type: text
+    id: intro
+    title: "The problem"
+    body: |
+      We design, from scratch, a tiny creature with the four-step recipe. It lives in a box with **two feeders**, one on the left and one on the right. It is **hungry**. Food is in only one feeder, and which one is unknown to the creature. A small **cue light** in the middle of the box says *left* or *right*, but it is right only 9 times out of 10.
+
+      The creature can do three things: **go to the cue**, **go to the left feeder**, **go to the right feeder**. At a feeder it tastes food or tastes nothing.
+
+      **The question:** what generative model makes this creature behave sensibly, and does it check the cue before choosing a feeder?
+
+      The plan, one step of the recipe per group of cards: (1) the system and its blanket, (2) the form of the model, (3) the variables and priors, (4) the generative process, then a simulation. Every number below was computed by script and checked twice.
+
+  - type: mcq
+    id: blanket-sort
+    title: "Step 1: the system"
+    prompt: |
+      The creature is the system, and the box is the environment. The **Markov blanket** is the interface between them: **sensory states** (what the environment sends to the creature) and **active states** (what the creature sends to the environment). **Select everything that sits on the blanket.**
+    multiple: true
+    options:
+      - text: 'The cue light as seen by the creature'
+        correct: true
+      - text: 'The taste of food (or of nothing) at a feeder'
+        correct: true
+      - text: 'The three moves: go to the cue, go to the left feeder, go to the right feeder'
+        correct: true
+      - text: 'Which feeder actually holds the food'
+        feedback: |
+          This is a state of the box (the environment), hidden from the creature. It reaches the creature only through the cue light and the taste, which are the sensory states.
+      - text: 'The creature''s belief about which feeder holds the food'
+        feedback: |
+          A belief is an internal state: it lives inside the creature, behind the blanket, not on it.
+    explanation: |
+      Sensory states: cue light, taste. Active states: the three moves. External (hidden): the side of the food and the position in the box. Internal: the creature's beliefs about them.
+
+  - type: mcq
+    id: reward-side
+    prompt: |
+      A friend says: "the creature should simply receive the food side as an input, since the box knows it." Why does the recipe say no?
+    options:
+      - text: 'The food side is external: the creature is built to infer it from the cue light and the taste, so only those two reach the model as observations.'
+        correct: true
+      - text: 'Because a model may have only two kinds of observation.'
+        feedback: |
+          There is no such limit. The reason is what the blanket is: the food side is behind it.
+      - text: 'Because the food side changes too fast for any creature to follow.'
+        feedback: |
+          In this box the food side stays fixed during a trial. The issue is not speed but where the variable lives.
+    explanation: |
+      If the creature were told the food side, there would be nothing to infer and no reason to look at the cue. The whole task is **inference of a hidden state from sensory states**.
+
+  - type: mcq
+    id: form-discrete
+    title: "Step 2: the form"
+    prompt: |
+      Which form fits the variables of this creature: where it stands (centre, cue, left feeder, right feeder), the food side (left or right), what it senses (a few categories)?
+    options:
+      - text: 'A discrete model: every variable takes one of a few categories, and time moves in steps.'
+        correct: true
+      - text: 'A continuous model: the creature must track positions as real numbers.'
+        feedback: |
+          Positions here are four places, not a continuum; the question is only "which place". A continuous model would suit a reaching movement, where the exact hand position matters.
+      - text: 'A hybrid model: any task with a body needs a continuous part.'
+        feedback: |
+          A hybrid is for tasks where a discrete choice drives a continuous movement (and we do not model the movement here). Nothing in this task needs continuous values.
+    explanation: |
+      Categories and steps: a discrete (POMDP) model. We also keep it **shallow**: a single level, because everything happens on one timescale (a trial of a few moves), with no slower context above it.
+
+  - type: numeric
+    id: form-T
+    prompt: |
+      The creature is at the centre at **step 1**. Each move takes it to a new place and gives a new observation at the next step. The model must be **temporally deep**: it must predict the outcomes of its actions. What is the smallest number $T$ of steps (counting step 1) that lets it compare the policy "go to the cue, then go to a feeder" with "go straight to a feeder"?
+    answer: 3
+    hint: 'Count the moves of the longer plan: each move needs a step after it.'
+    explanation: |
+      "Cue, then feeder" is **two moves**, so it needs step 1 (start), step 2 (at the cue) and step 3 (at a feeder): $T=3$. With $T=2$ the creature could plan one move only and could never see why the cue is worth a visit.
+
+  - type: numeric
+    id: form-policies
+    prompt: |
+      With $T=3$ a **policy** is a sequence of $T-1=2$ moves, each one of the 3 actions. How many sequences exist in all?
+    answer: 9
+    hint: 'Three choices for the first move, three for the second.'
+    explanation: |
+      $3\times3=9$. We keep only four of them: *cue then left*, *cue then right*, *left then left*, *right then right* (check the cue and then commit, or commit at once). Choosing which policies the model allows is part of the design.
+
+  - type: numeric
+    id: factor-count
+    title: "Step 3: the variables"
+    prompt: |
+      Hidden states: the **place** (4 values: centre, cue, left feeder, right feeder) and the **food side** (2 values). Written as one variable there are $4\times2=8$ joint states. Written as two independent factors there are $4+2=6$ values. A transition table $\mathbf B$ (one per action) has (next states) $\times$ (current states) entries. How many entries does one action's $\mathbf B$ have with the **two factors** (one table per factor)?
+    answer: 20
+    hint: 'One table for the place, $4\times4$, and one for the side, $2\times2$.'
+    explanation: |
+      $4\times4+2\times2=20$ entries per action, against $8\times8=64$ for the joint version. We still use the joint 8-state form below, so that the widget can show it in one grid; the factorised form would be smaller and equivalent here, because the side never changes and the place never depends on the side.
+
+  - type: text
+    id: A-table
+    title: "The likelihood A"
+    body: |
+      The creature senses one of 5 outcomes: *nothing* (at the centre), *cue says left*, *cue says right*, *taste*, *no taste*. The likelihood $\mathbf A$ gives $P(o\mid s)$ for each hidden state $s=(\text{place},\text{side})$:
+
+      | standing at | food side | what it senses |
+      |---|---|---|
+      | centre | either | nothing, 1 |
+      | cue | left | says left 0.9, says right 0.1 |
+      | cue | right | says right 0.9, says left 0.1 |
+      | left feeder | left | taste 0.98, no taste 0.02 |
+      | left feeder | right | taste 0.02, no taste 0.98 |
+      | right feeder | left | taste 0.02, no taste 0.98 |
+      | right feeder | right | taste 0.98, no taste 0.02 |
+
+      The cue is **reliable 0.9**; the feeders are almost certain (0.98), so a feeder is a decisive but costly look.
+
+  - type: widget
+    id: lab-model
+    review: false
+    widget: pomdp-lab
+    config:
+      mode: generate
+      modes: [generate]
+      editable: false
+      showAmbiguity: true
+      states: ['centre, food L', 'centre, food R', 'cue, food L', 'cue, food R', 'left, food L', 'left, food R', 'right, food L', 'right, food R']
+      outcomes: ['nothing', 'cue says L', 'cue says R', 'taste', 'no taste']
+      actions: [cue, left, right]
+      short: { states: ['ct L', 'ct R', 'cue L', 'cue R', 'lf L', 'lf R', 'rt L', 'rt R'], outcomes: ['none', 'cue L', 'cue R', 'taste', 'no tst'] }
+      A: [[1,1,0,0,0,0,0,0],[0,0,.9,.1,0,0,0,0],[0,0,.1,.9,0,0,0,0],[0,0,0,0,.98,.02,.02,.98],[0,0,0,0,.02,.98,.98,.02]]
+      B:
+        cue: [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[1,0,1,0,1,0,1,0],[0,1,0,1,0,1,0,1],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
+        left: [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[1,0,1,0,1,0,1,0],[0,1,0,1,0,1,0,1],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
+        right: [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[1,0,1,0,1,0,1,0],[0,1,0,1,0,1,0,1]]
+      D: [.5,.5,0,0,0,0,0,0]
+      C: [.1,.25,.25,.35,.05]
+      T: 3
+      policies: [[cue, left], [cue, right], [left, left], [right, right]]
+      policy: 0
+    body: |
+      The whole model in one place (8 hidden states: place $\times$ food side; 5 outcomes). The grid $\mathbf A$ is the table above (rows = outcomes, columns = states). Switch the action buttons to see $\mathbf B$ for *cue*, *left*, *right*: every column has a single 1 (a move is certain) and the food side never changes. $\mathbf D$ starts at the centre with the food side 50/50.
+
+      Choose the policy *cue, left*, press **Sample a trajectory** a few times, and watch what the creature senses at step 2.
+
+  - type: numeric
+    id: cue-posterior
+    prompt: |
+      The creature stands at the cue. Before looking, its belief that the food is on the **left** is $0.5$. The cue says **left**, and a cue says the true side with probability $0.9$. By Bayes' rule, what is its belief that the food is on the left now?
+    answer: 0.9
+    tolerance: 0.001
+    hint: '$\dfrac{0.5\cdot0.9}{0.5\cdot0.9+0.5\cdot0.1}$.'
+    explanation: |
+      $$\begin{aligned}P(\text{left}\mid\text{says left})&=\frac{0.5\cdot0.9}{0.45+0.05}\\&=0.9\end{aligned}$$
+      With a flat prior the belief equals the reliability of the cue. A prior leaning to one side would shift it.
+
+  - type: mcq
+    id: B-meaning
+    prompt: |
+      In the transition tables $\mathbf B$ of this creature, what does the action *go to the left feeder* do?
+    options:
+      - text: 'It sends the place to "left feeder" whatever the current place, and leaves the food side as it was.'
+        correct: true
+      - text: 'It makes the food appear in the left feeder.'
+        feedback: |
+          Actions change the world only through the place the creature occupies. The food side is a property of the box that the creature cannot move.
+      - text: 'It moves the creature to the left feeder only if the food is there.'
+        feedback: |
+          The move itself does not depend on the food: only what the creature then tastes does, through the likelihood $\mathbf A$.
+    explanation: |
+      $\mathbf B_{\text{left}}$ has a 1 in "left feeder" for every column, with the same side as before. The place is controlled by the action; the side is not.
+
+  - type: mcq
+    id: C-D-E
+    prompt: |
+      Which table makes the creature **hungry**, that is, makes it care about the taste?
+    options:
+      - text: '$\mathbf C$: the preferred outcomes give "taste" the highest probability and "no taste" the lowest.'
+        correct: true
+      - text: '$\mathbf D$: the prior over the initial state says the food is in a feeder.'
+        feedback: |
+          $\mathbf D$ says where the creature (and the food) is believed to be at the start. It says nothing about what the creature wants. Here it is flat over the food side.
+      - text: '$\mathbf E$: the habit prior over policies prefers eating.'
+        feedback: |
+          $\mathbf E$ is a prior over policies, a habit independent of outcomes. We leave it flat: the creature has no habit, only a goal.
+      - text: '$\mathbf A$: it stores how pleasant each outcome is.'
+        feedback: |
+          $\mathbf A$ is a likelihood: it says what is sensed in each state, with no value attached.
+    explanation: |
+      We choose $\mathbf C=(0.1,\,0.25,\,0.25,\,0.35,\,0.05)$ for (nothing, cue says left, cue says right, taste, no taste): taste is most preferred, no taste least, and the cue light is mildly pleasant, like seeing the way. $\mathbf D$ puts the creature at the centre with the food side 50/50, and $\mathbf E$ is flat.
+
+  - type: mcq
+    id: fixed-learned
+    prompt: |
+      Step 3 also asks which parts of the model are **fixed** and which are **learned** (slowly adapted over many trials). The creature has never been told how reliable the cue light is. Which design is the most natural?
+    options:
+      - text: 'Fix $\mathbf B$, $\mathbf C$, $\mathbf D$ and $\mathbf E$; the cue part of $\mathbf A$ is the candidate for learning, and we fix it to 0.9 here to keep the example small.'
+        correct: true
+      - text: 'Learn everything: a model with no fixed part is the most flexible.'
+        feedback: |
+          Learning needs priors over the parameters, and every learned table adds slow dynamics that must be justified. Here the moves are known (the creature knows how its own legs work) and its goal is given.
+      - text: 'Learn $\mathbf C$: hunger should be discovered by the creature.'
+        feedback: |
+          Preferences define the task (here: eat). Learning them is possible in other designs, but this one just wants a hungry creature.
+    explanation: |
+      Learning is **optional**: states move fast (inference), parameters move slowly (learning). If the creature had to find the cue reliability, we would put a prior over the cue block of $\mathbf A$ and let the counts grow trial after trial. We do not simulate that here: $\mathbf A$ is fixed.
+
+  - type: widget
+    id: process-widget
+    review: false
+    widget: pomdp-lab
+    config:
+      mode: generate
+      modes: [generate]
+      editable: false
+      showA: false
+      showB: false
+      states: ['centre, food L', 'centre, food R', 'cue, food L', 'cue, food R', 'left, food L', 'left, food R', 'right, food L', 'right, food R']
+      outcomes: ['nothing', 'cue says L', 'cue says R', 'taste', 'no taste']
+      actions: [cue, left, right]
+      short: { states: ['ct L', 'ct R', 'cue L', 'cue R', 'lf L', 'lf R', 'rt L', 'rt R'], outcomes: ['none', 'cue L', 'cue R', 'taste', 'no tst'] }
+      A: [[1,1,0,0,0,0,0,0],[0,0,.9,.1,0,0,0,0],[0,0,.1,.9,0,0,0,0],[0,0,0,0,.98,.02,.02,.98],[0,0,0,0,.02,.98,.98,.02]]
+      B:
+        cue: [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[1,0,1,0,1,0,1,0],[0,1,0,1,0,1,0,1],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
+        left: [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[1,0,1,0,1,0,1,0],[0,1,0,1,0,1,0,1],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
+        right: [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[1,0,1,0,1,0,1,0],[0,1,0,1,0,1,0,1]]
+      D: [.5,.5,0,0,0,0,0,0]
+      C: [.1,.25,.25,.35,.05]
+      T: 3
+      policies: [[cue, left], [cue, right]]
+      policy: 1
+      seed: 11
+      presets:
+        - { label: 'Model: food side unknown', D: [.5,.5,0,0,0,0,0,0] }
+        - { label: 'Process: food on the right', D: [0,1,0,0,0,0,0,0] }
+    body: |
+      **Step 4: the generative process.** The model above says "the food side is 50/50". The real box does not have to agree. Here the same tables generate data, but with $\mathbf D$ replaced by what the box really does.
+
+      Policy *cue, right* is selected. Press **Sample a trajectory** about eight times with **Model: food side unknown**, then eight times with **Process: food on the right**, and compare how often the cue says right and how often the creature then tastes food.
+
+  - type: mcq
+    id: process-vs-model
+    prompt: |
+      In a box where the food is **always on the right**, the creature still holds the prior "50/50" in its $\mathbf D$. Which statement is correct?
+    options:
+      - text: 'This is allowed and useful: the model is the creature''s belief and the process is what the box does; the mismatch is exactly why the creature must look at the cue.'
+        correct: true
+      - text: 'It is a design error: the model must copy the process, so $\mathbf D$ must say "right".'
+        feedback: |
+          If the creature already believed "right" with certainty, there would be nothing to find out and no cue to check. The model describes what the creature knows, not what is true.
+      - text: 'It cannot happen: with the same $\mathbf A$ and $\mathbf B$ the two $\mathbf D$ tables are the same thing.'
+        feedback: |
+          Two tables that share $\mathbf A$ and $\mathbf B$ still differ in $\mathbf D$: the first is a prior belief, the second is the real start of the box.
+    explanation: |
+      Model and process are two separate objects. The process generates the observations (cue light, taste); the model only has to be good enough for inference and planning. Here the creature starts uncertain and the data teach it.
+
+  - type: widget
+    id: plan-widget
+    review: false
+    widget: pomdp-lab
+    config:
+      mode: infer
+      modes: [infer]
+      showA: false
+      showB: false
+      showD: false
+      showCurve: false
+      showExact: false
+      showPolicies: true
+      obs: [-1, -1, -1]
+      states: ['centre, food L', 'centre, food R', 'cue, food L', 'cue, food R', 'left, food L', 'left, food R', 'right, food L', 'right, food R']
+      outcomes: ['nothing', 'cue says L', 'cue says R', 'taste', 'no taste']
+      actions: [cue, left, right]
+      short: { states: ['ct L', 'ct R', 'cue L', 'cue R', 'lf L', 'lf R', 'rt L', 'rt R'], outcomes: ['none', 'cue L', 'cue R', 'taste', 'no tst'] }
+      A: [[1,1,0,0,0,0,0,0],[0,0,.9,.1,0,0,0,0],[0,0,.1,.9,0,0,0,0],[0,0,0,0,.98,.02,.02,.98],[0,0,0,0,.02,.98,.98,.02]]
+      B:
+        cue: [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[1,0,1,0,1,0,1,0],[0,1,0,1,0,1,0,1],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
+        left: [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[1,0,1,0,1,0,1,0],[0,1,0,1,0,1,0,1],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
+        right: [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[1,0,1,0,1,0,1,0],[0,1,0,1,0,1,0,1]]
+      D: [.5,.5,0,0,0,0,0,0]
+      C: [.1,.25,.25,.35,.05]
+      T: 3
+      policies: [[cue, left], [cue, right], [left, left], [right, right]]
+      policy: 0
+      presets:
+        - { label: 'No data yet', obs: [-1, -1, -1] }
+        - { label: 'Cue said left', obs: [0, 1, -1] }
+    body: |
+      **Simulate.** The creature is at the centre and has seen nothing yet. The table at the bottom scores the four policies: $F_\pi$ (how well each policy explains the data so far), $G_\pi$ (expected free energy of what it would sense), and $\pi=\sigma(-\mathbf G-\mathbf F)$.
+
+      Press **Play** with **No data yet**, and read $G_\pi$ and $P(\pi)$ for the four policies.
+
+  - type: numeric
+    id: plan-read
+    prompt: |
+      In the same model, with no data yet, the policies *cue then left* and *cue then right* each get probability $0.30$, and *left then left*, *right then right* each get $0.20$ (the four add up to 1). What is the probability that the creature's first move is **to the cue**?
+    answer: 0.6
+    tolerance: 0.01
+    hint: 'Add the two policies that begin with the cue.'
+    explanation: |
+      $0.3005+0.3005\approx0.60$. The expected free energy is $G\approx2.446$ for the cue policies and $2.855$ for the direct ones, so the cue is preferred, but not with certainty: a softmax over $-G$ gives $0.60$ to $0.40$.
+
+  - type: widget
+    id: scorer-widget
+    review: false
+    widget: policy-scorer
+    config:
+      states: ['cue, food L', 'cue, food R', 'feeder, food L', 'feeder, food R']
+      outcomes: ['nothing', 'cue says L', 'cue says R', 'taste', 'no taste']
+      likelihood: [[0,.9,.1,0,0],[0,.1,.9,0,0],[0,0,0,.98,.02],[0,0,0,.02,.98]]
+      C: [.1,.25,.25,.35,.05]
+      policies:
+        - { name: 'go to the cue', qx: [.5,.5,0,0] }
+        - { name: 'go to a feeder (say, left)', qx: [0,0,.5,.5] }
+      gamma: 1
+      gammaMax: 8
+    body: |
+      The same comparison in one step. The creature expects, at the next step, to be at the **cue** or at a **feeder** (say the left feeder, with the food side unknown; the right feeder gives mirror numbers). The bars give the risk, the ambiguity, $G$, and also the split $G=-\text{information gain}-\text{pragmatic value}$.
+
+      Read the information gain and the pragmatic value of the two moves, then move the $\gamma$ slider and watch $P(\pi)=\sigma(-\gamma G)$.
+
+  - type: mcq
+    id: why-cue
+    prompt: |
+      In the widget, a look at a feeder has the **larger** information gain (0.60 nats, against 0.37 at the cue), yet the cue gets the lower $G$. Why?
+    options:
+      - text: 'A feeder look is half the time "no taste", an outcome the creature dislikes: its pragmatic value is much worse than that of the cue, which only shows a mildly pleasant light.'
+        correct: true
+      - text: 'Because the information gain of the cue is secretly larger when counted over the next step too.'
+        feedback: |
+          The next step's gain is not added to this step: each step's $G$ is computed from the beliefs of the policy, and the figures here are the one-step numbers. The cue's gain is smaller.
+      - text: 'Because $G$ ignores information gain and only counts preferences.'
+        feedback: |
+          $G$ is the sum $-\text{gain}-\text{pragmatic value}$: both count. The cue loses a bit of the gain, but wins a lot on preference.
+    explanation: |
+      Cue: $G=-0.37+1.39=1.02$. Feeder: $G=-0.60+2.02=1.43$. The difference $0.41$ is the difference of the two policy groups, since both direct policies pay the feeder cost twice and the cue policies pay it once. In this model, the choice of the cue is made mostly for **pragmatic** reasons (avoid a risky "no taste"). Its **epistemic** value shows up as soon as the cue has been seen, in the next card.
+
+  - type: numeric
+    id: gamma-read
+    prompt: |
+      With the precision $\gamma$ at 4 in the policy scorer (go to the cue against go to a feeder; $G=1.018$ and $1.428$), what is the probability of going to the cue first? Use $P(\pi)=\sigma(-\gamma G)$.
+    answer: 0.837
+    tolerance: 0.005
+    hint: 'Set $\gamma$ to 4 in the widget, or compute $1/(1+e^{-4\times0.409})$.'
+    explanation: |
+      $$\begin{aligned}P(\text{cue})&=\frac{1}{1+e^{-\gamma(1.428-1.018)}}\\&=\frac{1}{1+e^{-4\cdot0.409}}\approx0.84\end{aligned}$$
+      At $\gamma=1$ it was $0.60$, at $\gamma=0$ it would be $0.5$ (a coin toss), and as $\gamma$ grows the creature becomes more sure to go to the cue. $\gamma$ is how much it trusts its own $G$.
+
+  - type: mcq
+    id: after-cue
+    prompt: |
+      Now the creature has gone to the cue and seen "cue says **left**" (it saw nothing at the start). It re-scores the four policies (*cue, left*, *cue, right*, *left, left*, *right, right*) in the same model with this observation. *Cue, left* gets about $0.85$, *cue, right* about $0.15$, and the two direct policies almost $0$. Why are the direct policies out?
+    options:
+      - text: 'They predicted the creature at a feeder at step 2, where no cue light is ever seen, so seeing the cue gives them a very large $F$; and between the two cue policies, the cue favours *left*.'
+        correct: true
+      - text: 'Because the cue is never wrong, so only *cue, left* is left.'
+        feedback: |
+          The cue is wrong one time in ten, which is why *cue, right* still gets about $0.15$.
+      - text: 'Because the direct policies have a larger $G$ than the cue policies.'
+        feedback: |
+          Their $G$ is not the cause here. The huge penalty is in $F$, their fit to the data: $F\approx22$ nats, against $0.49$ for the cue policies.
+    explanation: |
+      After the cue the belief that the food is on the left is $0.9$, so the policy that goes there has the lower $G$ ($2.37$ against $4.11$). **This** is the epistemic value at work: the observation moved the creature's beliefs and with them its preferred policy, so a cue visit is the way to turn $0.5$ into $0.9$.
+
+  - type: mcq
+    id: verdict
+    prompt: |
+      Final verdict on the design. In the model with $\gamma=1$, does the creature **visit the cue first**, and what would change it?
+    options:
+      - text: 'Probably yes (probability $0.60$, and $0.84$ at $\gamma=4$); the cue costs less than a risky feeder visit, and a sharper cue (or a stronger dislike of "no taste") would make it more certain.'
+        correct: true
+      - text: 'Always yes: with a cue present, a creature always checks it first.'
+        feedback: |
+          Not in this model: $0.60$ is far from 1. The creature chooses by the numbers: a cue that is unreliable, or a mild preference for "no taste", would flip the choice.
+      - text: 'No: the creature goes straight to a feeder, since that is where the reward is.'
+        feedback: |
+          Going straight has the larger expected free energy ($2.855$ against $2.446$), because half of the time it would taste nothing.
+    explanation: |
+      The recipe delivered: blanket, form, variables and process fixed, and the behaviour followed from minimising $G$ and $F$, not from any rule written by hand. To change the behaviour, change the model (the numbers of $\mathbf A$, $\mathbf C$, the allowed policies), not the creature.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      **The creature.** A hungry creature in a box with a cue light and a left and right feeder, food in one feeder only.
+
+      1. **System.** Sensory states: cue light, taste. Active states: go to the cue, go to the left feeder, go to the right feeder. The food side is external and hidden.
+      2. **Form.** Discrete (categories in steps), shallow (one timescale), temporally deep with $T=3$ steps (two moves per policy, $3\times3=9$ sequences, 4 allowed).
+      3. **Variables.** $8=4\times2$ hidden states (place $\times$ food side), 5 outcomes. $\mathbf A$ with cue reliability $0.9$ and feeder reliability $0.98$, $\mathbf B$ per action (the place moves, the side never does), $\mathbf C=(0.1,0.25,0.25,0.35,0.05)$, $\mathbf D$ at the centre with the side $50/50$, $\mathbf E$ flat. Factorised: $4+2=6$ states and $20$ entries per $\mathbf B$ against $64$. Everything is fixed here; the cue part of $\mathbf A$ is the natural thing to learn.
+      4. **Process.** The box can put the food on the right while the model believes $50/50$: the model is not the process.
+
+      **Behaviour.** For a policy $\pi$ (a sequence of moves) with beliefs $\mathbf s_{\pi\tau}$ at step $\tau$, outcome distribution $\mathbf A\mathbf s_{\pi\tau}$ and ambiguity $\mathbf H\cdot\mathbf s_{\pi\tau}$:
+      $$G_{\pi\tau}=\mathrm{KL}[\mathbf A\mathbf s_{\pi\tau}\,\|\,\mathbf C]+\mathbf H\cdot\mathbf s_{\pi\tau}$$
+      $$\pi=\sigma(-\mathbf G-\mathbf F),\qquad P(\pi)=\sigma(-\gamma G)$$
+      with $\sigma$ the softmax, $F$ the variational free energy, $G$ the expected free energy and $\gamma$ the precision. Numbers: $G=2.446$ for *cue, left* and *cue, right*, $2.855$ for *left, left* and *right, right*, so the cue is visited first with probability $0.60$ ($0.84$ at $\gamma=4$). After "cue says left", the belief in left is $0.9$ and *cue, left* gets $0.85$.
+
+      **Next:** a round of traps on the recipe: the model must not copy the process, discrete is not temporal depth, learning is optional, and more.
