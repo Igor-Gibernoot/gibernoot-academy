@@ -1,0 +1,355 @@
+id: ch07-state-inference
+title: "Guided Problem: Deriving the State Update"
+kind: guided
+cards:
+  - type: text
+    id: hook
+    title: "One door, three looks"
+    body: |
+      Recall the **door** model: the hidden state is *closed* or *open*, and the sensor says *looks closed* or *looks open* but is wrong 20% of the time. The creature plans to **wait** twice (so the door should stay as it is). It observes three looks in a row: *closed*, *open*, *open*.
+
+      The creature needs a belief about the door at each of the three steps, $\mathbf s_1,\mathbf s_2,\mathbf s_3$ (a belief is a list of two probabilities, closed and open). Not "what the sensor says", but what the whole story supports.
+
+      In this lesson we **derive** the rule that updates such beliefs, instead of being handed it. First, a guess.
+
+  - type: mcq
+    id: guess-inputs
+    prompt: |
+      Under the plan "wait, wait", a creature has observed *closed*, *open*, *open* at steps 1, 2, 3. It wants to update its belief about the door **at step 2**. Which information is relevant to that one belief?
+    options:
+      - text: 'The look at step 2, its belief about step 1 (what the door was) **and** its belief about step 3 (what the door became, since the third look also depends on it).'
+        correct: true
+      - text: 'Only the look at step 2: that is the sensation produced by the state at step 2.'
+        feedback: |
+          Tempting, but the sensor is noisy, and a single look is weak evidence. The neighbours matter: a door that was closed a moment ago and is being waited on is probably still closed, and a later look says something about it too.
+      - text: 'The look at step 2 and the belief about step 1, but nothing from step 3: the future cannot change the past.'
+        feedback: |
+          The *world* cannot change the past, but a belief about the past can still improve. A later look is evidence about the door at step 3, and the door at step 3 depends on the door at step 2. Evidence flows in both directions along the chain.
+    explanation: |
+      Three sources: the **likelihood** (the look now), the **prior** from the past (where the door was and how it moves), and a message from the **future** (what the later belief implies for now). Deriving them from one function of the beliefs, the free energy, shows where each comes from.
+
+  - type: text
+    id: setup
+    title: "What we want, and why it is hard"
+    body: |
+      Notation. $\mathbf s_\tau$ is the belief at step $\tau$ (a probability vector over states). $\mathbf A$ is the likelihood matrix (rows = outcomes, columns = states), $\mathbf B$ the transition matrix of the chosen action (rows = next state, columns = current state), $\mathbf D$ the initial prior. An observed outcome $o_\tau$ is written as a **one-hot vector** (a $1$ at the outcome seen, $0$ elsewhere), so $\ln\mathbf A\cdot o_\tau$ is the log-likelihood of the observation for each state.
+
+      To score a policy $\pi$ we need the marginal likelihood of all outcomes $\tilde o=(o_1,\dots,o_T)$ under it. States are hidden, so we sum over every trajectory $\tilde s=(s_1,\dots,s_T)$:
+
+      $$P(\tilde o\mid\pi)=\sum_{\tilde s}P(\tilde o\mid\tilde s)\,P(\tilde s\mid\pi)$$
+
+      With $|S|$ states and $T$ steps there are $|S|^T$ trajectories. The free energy gives a cheaper route: for any belief $Q(\tilde s\mid\pi)$,
+
+      $$\begin{aligned}F(\pi)=\ &\mathbb E_{Q}\big[\ln Q(\tilde s\mid\pi)\\&\quad-\ln P(\tilde o,\tilde s\mid\pi)\big]\\\ge\ &-\ln P(\tilde o\mid\pi)\end{aligned}$$
+
+      and minimising over $Q$ makes $F(\pi)\approx-\ln P(\tilde o\mid\pi)$.
+
+  - type: numeric
+    id: count-trajectories
+    prompt: |
+      A T-maze creature has 8 hidden states (4 places times 2 contexts) and plans over $T=3$ steps. How many state trajectories $\tilde s=(s_1,s_2,s_3)$ would a direct sum for the marginal likelihood of one policy have to add up?
+    answer: 512
+    hint: |
+      Each step can be any of the 8 states, independently of the choice at the other steps in the count.
+    explanation: |
+      $8^3=512$ for one policy, and the count grows exponentially with $T$ ($8^{10}\approx10^9$). The door has $2^3=8$. That is why we look for a belief $Q$ that is cheap to store and to update.
+
+  - type: text
+    id: form
+    title: "Choosing the form of Q and P"
+    body: |
+      We pick explicit forms. **Beliefs:** one categorical factor per step, $Q(\tilde s\mid\pi)=\prod_\tau\mathrm{Cat}(\mathbf s_{\pi\tau})$ (a **mean-field** factorisation over time: neighbouring steps are treated as independent in $Q$). **Model:** $P(o_\tau\mid s_\tau)=\mathrm{Cat}(\mathbf A)$, $P(s_{\tau+1}\mid s_\tau,\pi)=\mathrm{Cat}(\mathbf B_{\pi\tau})$, $P(s_1)=\mathrm{Cat}(\mathbf D)$. Substituting, and using that a dot product with a probability vector is an expectation:
+
+      $$\begin{aligned}\mathbf F_\pi=&\ \mathbf s_{\pi1}\cdot\big(\ln\mathbf s_{\pi1}-\ln\mathbf A\cdot o_1\\&\qquad-\ln\mathbf D\big)\\&+\sum_{\tau=2}^{T}\mathbf s_{\pi\tau}\cdot\big(\ln\mathbf s_{\pi\tau}\\&\qquad-\ln\mathbf A\cdot o_\tau\\&\qquad-\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}\big)\end{aligned}$$
+
+      Read each step as *belief times (log belief minus log likelihood minus log prior)*. The prior of the first step is $\mathbf D$; the prior of step $\tau\ge2$ is the **prediction** $\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}$: the previous belief pushed through the transitions.
+
+      The picture below is the same model as a factor graph.
+
+  - type: widget
+    id: chain-graph
+    review: false
+    widget: factor-graph
+    config:
+      unroll: 3
+      t0: 1
+      box: [400, 230]
+      select: s2
+      messages: true
+      variables:
+        - { id: s, label: 's_{t}', pos: [90, 100], rep: true }
+        - { id: o, label: 'o_{t}', pos: [90, 190], rep: true, observed: true }
+      factors:
+        - { id: A, label: 'A', pos: [90, 145], vars: ['s@0', 'o@0'], rep: true, term: '\ln\mathbf A\cdot o_{t}' }
+        - { id: B, label: 'B', pos: [35, 100], vars: ['s@-1', 's@0'], rep: true, term: '\ln\mathbf B\,\mathbf s_{t-1}' }
+      messageFormula: '\text{messages into } {v}:\ {terms}'
+      join: ' ;\ '
+    body: |
+      The door model unrolled over three steps. Circles $s_t$ are hidden states, shaded circles $o_t$ the observed outcomes, square **A** links $s_t$ to $o_t$, and each square **B** links $s_t$ to the state before it. The leftmost square touches only $s_1$: there there is no earlier state, and it stands for the initial prior $\mathbf D$.
+
+      $s_2$ is selected with its messages shown. Click the other circles to see which squares each one has to read.
+
+  - type: mcq
+    id: touching-factors
+    prompt: |
+      In the unrolled chain $s_1,s_2,s_3$ with outcomes $o_1,o_2,o_3$, three kinds of squares exist: the likelihood $\mathbf A$ (linking a state to its outcome), the transition $\mathbf B$ (linking a state to the state before it) and the prior $\mathbf D$ on $s_1$. Which squares involve the **middle** state $s_2$? Select all.
+    multiple: true
+    options:
+      - text: 'The likelihood square linking $s_2$ to $o_2$.'
+        correct: true
+      - text: 'The transition square linking $s_1$ to $s_2$ (the past).'
+        correct: true
+      - text: 'The transition square linking $s_2$ to $s_3$ (the future).'
+        correct: true
+      - text: 'The prior $\mathbf D$.'
+        feedback: |
+          $\mathbf D$ is the prior of the *first* state only. Later states get their prior from the past, through $\mathbf B$.
+      - text: 'The likelihood squares of $o_1$ and $o_3$.'
+        feedback: |
+          Those link $s_1$ to $o_1$ and $s_3$ to $o_3$. They reach $s_2$ only indirectly, through the neighbours' beliefs, not as squares touching $s_2$.
+    explanation: |
+      $s_2$ touches exactly three squares: its own likelihood, the transition from $s_1$ and the transition to $s_3$. Everything the update of $\mathbf s_2$ needs is local: **three messages**, one per square. The next cards find them as terms of the free energy.
+
+  - type: mcq
+    id: terms-with-s2
+    prompt: |
+      In $\mathbf F_\pi$ for $T=3$, which terms contain the belief $\mathbf s_2$ (and so contribute to its gradient)? Here $\mathbf B$ is the transition of the chosen action. Select all.
+    multiple: true
+    options:
+      - text: '$\mathbf s_2\cdot\ln\mathbf s_2$'
+        correct: true
+      - text: '$-\,\mathbf s_2\cdot\ln\mathbf A\cdot o_2$'
+        correct: true
+      - text: '$-\,\mathbf s_2\cdot\ln\mathbf B\mathbf s_1$'
+        correct: true
+      - text: '$-\,\mathbf s_3\cdot\ln\mathbf B\mathbf s_2$'
+        correct: true
+        feedback: |
+          Easy to miss: $\mathbf s_2$ appears inside the *prior of step 3*, which is the prediction $\mathbf B\mathbf s_2$. This is where the message from the future comes from.
+      - text: '$-\,\mathbf s_1\cdot\ln\mathbf D$'
+        feedback: |
+          This is the first step's prior term; it does not contain $\mathbf s_2$.
+      - text: '$-\,\mathbf s_3\cdot\ln\mathbf A\cdot o_3$'
+        feedback: |
+          Step 3's likelihood term involves $\mathbf s_3$ only. The third look reaches $\mathbf s_2$ through the term above it.
+    explanation: |
+      Four terms: the entropy-like term $\mathbf s_2\cdot\ln\mathbf s_2$, the likelihood of $o_2$, the prior of step 2 (from the past) and the prior of step 3 (which uses $\mathbf s_2$ as the thing being pushed forward). The first term has no message of its own; the other three are the likelihood, past and future messages.
+
+  - type: build
+    id: backward-gradient
+    prompt: |
+      Differentiate the future term with respect to $\mathbf s_2$. Let $\mathbf B$ be the transition matrix (rows = next state, columns = current state), $\mathbf s_3\oslash\mathbf B\mathbf s_2$ the element-wise ratio of the two vectors and $g$ the gradient of $-\mathbf s_3\cdot\ln\mathbf B\mathbf s_2$ with respect to $\mathbf s_2$. Component $j$ is $-\sum_i s_{3,i}\,B_{ij}\big/(\mathbf B\mathbf s_2)_i$. Build $g$.
+    prefix: 'g ='
+    tiles: ['-', '\mathbf B^{\mathsf T}', '\mathbf B', '\frac{\mathbf s_3}{\mathbf B\mathbf s_2}', '\ln\mathbf s_3', '\ln\mathbf B\mathbf s_2']
+    answers:
+      - ['-', '\mathbf B^{\mathsf T}', '\frac{\mathbf s_3}{\mathbf B\mathbf s_2}']
+    wrong:
+      - answer: ['-', '\mathbf B', '\frac{\mathbf s_3}{\mathbf B\mathbf s_2}']
+        feedback: |
+          Check the indices: $\sum_i s_{3,i}B_{ij}/(\cdots)_i$ sums over the **row** index $i$ of $\mathbf B$ (the next state). That is a product with the **transpose**: $(\mathbf B^{\mathsf T}\mathbf x)_j=\sum_iB_{ij}x_i$. $\mathbf B$ itself would sum over the column index.
+      - answer: ['-', '\mathbf B^{\mathsf T}', '\ln\mathbf s_3']
+        feedback: |
+          That would be the gradient of a term like $\mathbf s_3\cdot\ln\mathbf B\mathbf s_2$ in a model where the *log* of $\mathbf s_3$ enters. Here the chain rule on $\ln(\mathbf B\mathbf s_2)$ gives $1/(\mathbf B\mathbf s_2)$, not a log.
+    hint: |
+      The derivative of $\ln u$ is $1/u$, and $\partial(\mathbf B\mathbf s_2)_i/\partial s_{2,j}=B_{ij}$.
+    explanation: |
+      $\partial/\partial s_{2,j}$ of $-\sum_is_{3,i}\ln(\mathbf B\mathbf s_2)_i$ is $-\sum_is_{3,i}B_{ij}/(\mathbf B\mathbf s_2)_i$. In vector form this is $-\mathbf B^{\mathsf T}(\mathbf s_3\oslash\mathbf B\mathbf s_2)$. Why a **transpose**: $\mathbf B$ carries a belief forward in time (current column to next row); $\mathbf B^{\mathsf T}$ carries a message backward, from the next step to the current one. This is the backward message.
+
+  - type: text
+    id: update
+    title: "The update rule"
+    body: |
+      Collect the gradient of $\mathbf F_\pi$ with respect to $\mathbf s_{\pi\tau}$ (the constant $+1$ from differentiating $\mathbf s\cdot\ln\mathbf s$ shifts every component equally and drops out under the softmax):
+
+      $$\begin{aligned}\nabla_{\mathbf s_{\pi\tau}}\mathbf F_\pi=&\ \ln\mathbf s_{\pi\tau}-\ln\mathbf A\cdot o_\tau-\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}\\&-\mathbf B_{\pi\tau}^{\mathsf T}\big(\mathbf s_{\pi,\tau+1}\oslash\mathbf B_{\pi\tau}\mathbf s_{\pi\tau}\big)\end{aligned}$$
+
+      We want beliefs that stay positive and add up to 1, so we do not move $\mathbf s$ directly. We move an auxiliary vector $\mathbf v$, the **log posterior** (a log probability up to a constant), and set $\mathbf s_{\pi\tau}=\sigma(\mathbf v_{\pi\tau})$:
+
+      $$\dot{\mathbf v}_{\pi\tau}=-\nabla_{\mathbf s_{\pi\tau}}\mathbf F_\pi$$
+
+      For the first step $\ln\mathbf B\mathbf s_{\pi,0}$ is replaced by $\ln\mathbf D$; for the last step there is no backward term. The standard notation writes the backward term in the compact form $\ln\mathbf B^\dagger\mathbf s_{\pi,\tau+1}$ with $\mathbf B^\dagger\propto\mathbf B^{\mathsf T}$; we keep the exact gradient, which is what the widget below runs.
+
+  - type: mcq
+    id: why-v
+    prompt: |
+      Why does the update move the auxiliary vector $\mathbf v$, with $\mathbf s=\sigma(\mathbf v)$, instead of moving $\mathbf s$ directly with $\dot{\mathbf s}=-\nabla_{\mathbf s}F$?
+    options:
+      - text: 'A step on $\mathbf v$ always gives a valid probability vector (positive, summing to 1), while a step on $\mathbf s$ can leave the simplex: a component can turn negative and the sum drift from 1.'
+        correct: true
+      - text: 'Because $F$ is not differentiable with respect to $\mathbf s$.'
+        feedback: |
+          It is differentiable (we just did it). The issue is the **constraint** $\sum_is_i=1$, $s_i\ge0$, not differentiability.
+      - text: 'Because the softmax makes $F$ convex, so the descent finds the global minimum.'
+        feedback: |
+          The softmax is only a reparameterisation; it does not change the function being minimised, and it does not make it convex (indeed the fixed point we find is not the exact posterior; see below).
+    explanation: |
+      Probabilities live on a simplex. Moving $\mathbf v$ (unconstrained) and mapping through $\sigma$ respects the constraint automatically, and $\mathbf v$ has the nice reading "log posterior". At a fixed point, $\dot{\mathbf v}=0$ means $\ln\mathbf s_{\pi\tau}$ equals the sum of the three messages up to a constant.
+
+  - type: numeric
+    id: prior-message
+    prompt: |
+      Door, plan "wait, wait". The belief at step 1 is $\mathbf s_1=(0.813,\,0.187)$ over (closed, open), and $\mathbf B_{\text{wait}}=\begin{pmatrix}.9&.1\\.1&.9\end{pmatrix}$ (rows = next state closed, open). The **prior message** to step 2 is $\ln(\mathbf B\mathbf s_1)$. What probability does the prediction $\mathbf B\mathbf s_1$ give to **open** at step 2?
+    answer: 0.2496
+    tolerance: 0.001
+    wrong:
+      - { value: 0.187, feedback: 'That is the belief that the door was open at step 1. Waiting leaks some probability each way: $0.1\times0.813+0.9\times0.187$.' }
+    hint: |
+      The open row of $\mathbf B$ is $(0.1,\,0.9)$: multiply it by $\mathbf s_1$.
+    explanation: |
+      $0.1\cdot0.813+0.9\cdot0.187=0.0813+0.1683=0.2496$, so $\mathbf B\mathbf s_1=(0.7504,\,0.2496)$. The prior message is its log, $(-0.287,\,-1.388)$: the *difference* open minus closed is $\ln(0.2496/0.7504)=-1.101$.
+
+  - type: numeric
+    id: likelihood-message
+    prompt: |
+      Same door, $\mathbf A=\begin{pmatrix}.8&.2\\.2&.8\end{pmatrix}$ (rows = looks closed, looks open). At step 2 the creature sees *looks open*, so $o_2=(0,1)$. The **likelihood message** is $\ln\mathbf A\cdot o_2$. By how much, in nats, does it favour *open* over *closed*: (open component) $-$ (closed component)?
+    answer: 1.386
+    tolerance: 0.002
+    hint: |
+      $\ln\mathbf A\cdot o_2$ picks the *looks open* row of $\mathbf A$ and takes its log.
+    explanation: |
+      The row is $(0.2,\,0.8)$, so the message is $(\ln0.2,\ln0.8)=(-1.609,-0.223)$ and the difference is $\ln(0.8/0.2)=\ln4=1.386$. In odds terms: the look multiplies the odds of *open* by 4.
+
+  - type: numeric
+    id: backward-message
+    prompt: |
+      Door, plan "wait, wait", $\mathbf B=\begin{pmatrix}.9&.1\\.1&.9\end{pmatrix}$. Take the current beliefs $\mathbf s_2=(0.257,\,0.743)$ and $\mathbf s_3=(0.099,\,0.901)$ over (closed, open). Compute the **backward message** $\mathbf B^{\mathsf T}\big(\mathbf s_3\oslash\mathbf B\mathbf s_2\big)$ and give its **open** component.
+    answer: 1.2
+    tolerance: 0.01
+    hint: |
+      First $\mathbf B\mathbf s_2=(0.306,\,0.694)$; divide $\mathbf s_3$ by it element by element; then multiply by $\mathbf B^{\mathsf T}=\mathbf B$ (this matrix is symmetric).
+    explanation: |
+      $\mathbf B\mathbf s_2=(0.9\cdot0.257+0.1\cdot0.743,\ 0.1\cdot0.257+0.9\cdot0.743)=(0.306,0.694)$. The ratio is $(0.099/0.306,\ 0.901/0.694)=(0.324,\ 1.298)$. Then the open component is $0.1\cdot0.324+0.9\cdot1.298=1.200$ (the closed one is $0.421$). Step 3 *believes* open more than step 2 predicted (0.694), so the message pushes step 2 toward open.
+
+  - type: numeric
+    id: combine
+    prompt: |
+      At a fixed point of the update, $\ln\mathbf s_2$ equals the sum of the three messages up to a constant, so the difference (open minus closed) of $\ln\mathbf s_2$ equals the sum of the differences of the messages. Door numbers: prior message $-1.101$, likelihood message $1.386$, backward message $1.200-0.421=0.779$. What belief in **open** does $\mathbf s_2=\sigma(\mathbf v)$ give?
+    answer: 0.743
+    tolerance: 0.003
+    hint: |
+      Two states: $P(\text{open})=1/(1+e^{-d})$ where $d$ is the open-minus-closed difference of the log posterior.
+    explanation: |
+      $d=-1.101+1.386+0.779=1.064$, so $P(\text{open})=1/(1+e^{-1.064})=0.743$. The three messages vote: the past says "probably closed" ($-1.10$), the look says "open" ($+1.39$), and the future says "open" ($+0.78$). Without the future the belief would be $\sigma(0.285)=0.571$.
+
+  - type: numeric
+    id: last-step
+    prompt: |
+      The simplest case: **the last step has no future**, so its update is $\dot{\mathbf v}=\ln\mathbf A\cdot o+\ln\mathbf B\mathbf s_{\text{before}}-\ln\mathbf s$ and the fixed point is $\mathbf s=\sigma(\ln\mathbf A\cdot o+\ln\mathbf B\mathbf s_{\text{before}})$. Door with two steps: step 1 is not observed, so $\mathbf s_1=\mathbf D=(0.9,0.1)$; the action is *push*, $\mathbf B_{\text{push}}=\begin{pmatrix}.2&.05\\.8&.95\end{pmatrix}$; at step 2 the sensor says *looks closed*. What is the belief in **closed** at step 2?
+    answer: 0.476
+    tolerance: 0.002
+    wrong:
+      - { value: 0.8, feedback: 'That is the sensor reliability, the likelihood alone. The prior matters: pushing makes *open* likely (0.815).' }
+      - { value: 0.185, feedback: 'That is the prior (prediction) of closed after pushing, before looking.' }
+    hint: |
+      Prior $\mathbf B\mathbf D=(0.185,\,0.815)$; multiply it, component by component, by the *looks closed* likelihoods $(0.8,\,0.2)$ and normalise.
+    explanation: |
+      $\mathbf B_{\text{push}}\mathbf D=(0.2\cdot0.9+0.05\cdot0.1,\ 0.8\cdot0.9+0.95\cdot0.1)=(0.185,0.815)$. Times the likelihood: $(0.148,\,0.163)$, sum $0.311$, so closed $=0.148/0.311=0.476$. This is **exactly Bayes' rule**: with a fixed prior and no future, the descent has nothing to approximate. The gap with the exact answer appears only when neighbours are uncertain *and* depend on each other.
+
+  - type: mcq
+    id: mmp
+    prompt: |
+      The mean-field factorisation over time treats neighbouring steps as independent in $Q$, yet in the model they are strongly linked, and the resulting posteriors are often overconfident. A modified scheme, **marginal message passing**, replaces the sum of the two log-messages from the past and the future by the average
+      $$\tfrac12\Big(\ln\mathbf B\mathbf s_{\tau-1}+\ln\mathbf B^\dagger\mathbf s_{\tau+1}\Big).$$
+      What does this change in practice?
+    options:
+      - text: 'The past and future messages count for half as much, so the beliefs are more conservative (more uncertainty) than with the full sum.'
+        correct: true
+      - text: 'The likelihood message is dropped, so beliefs ignore the data.'
+        feedback: |
+          The likelihood term $\ln\mathbf A\cdot o_\tau$ is untouched in the modified scheme; only the weights of the past and future messages change.
+      - text: 'The update becomes exact for every model, since the factor $\tfrac12$ corrects the mean-field error.'
+        feedback: |
+          It is a practical remedy, not an exact solution. It makes the beliefs less sharp in the cases where mean-field is too confident, and it is the version in common use, but it is still an approximation.
+      - text: 'The beliefs become more extreme, because averaging log-messages sharpens them.'
+        feedback: |
+          Averaging halves the pull of the neighbours; the result is a weaker, not a stronger, push toward the extremes.
+    explanation: |
+      With mean-field, each neighbour's message is counted as if its information were independent of the others, so evidence tends to be double counted and the belief is too sharp. Halving the neighbour messages is a simple remedy that gives more conservative inferences.
+
+  - type: numeric
+    id: evidence-bound
+    prompt: |
+      Door, plan "wait, wait", data (closed, open, open). Summing over the 8 trajectories, the exact evidence of the plan is $P(\tilde o\mid\pi)=0.0871$. What is $-\ln P(\tilde o\mid\pi)$, the number that $F_\pi$ is supposed to approximate?
+    answer: 2.441
+    tolerance: 0.003
+    explanation: |
+      $-\ln0.0871=2.441$ nats. The descent above ends at $F_\pi=2.115$ for this plan. The two are not equal: the minimised $\mathbf F_\pi$ is an **approximation** of $-\ln P(\tilde o\mid\pi)$. The exact free energy $F(\pi)$ (with the true expectation of $\ln\mathbf B$) is a bound, $F(\pi)\ge-\ln P(\tilde o\mid\pi)$, with equality only if $Q$ is the exact posterior; the practical form of $\mathbf F_\pi$ uses $\ln(\mathbf B\mathbf s)$, the log of an average, which is larger than the average of the log, and so can land slightly below. What matters for planning is that the number tracks the evidence of each policy.
+
+  - type: mcq
+    id: perception-first
+    prompt: |
+      How is the free energy of a policy used afterwards, and what does that tell us about perception and planning?
+    options:
+      - text: 'The converged $F_\pi$ of each policy enters the policy posterior, $\boldsymbol\pi=\sigma(-\mathbf F-\mathbf G)$: plans that explain the data so far get more weight. So states must be inferred (perception) under each policy **before** the policies can be compared (planning).'
+        correct: true
+      - text: 'Policies are chosen first, and beliefs about states are inferred afterwards, using the chosen policy.'
+        feedback: |
+          The order is the reverse for evidence: to know how well a plan explains the data, we must first find the beliefs about states under that plan.
+      - text: 'The free energy of a policy is used only to choose the action at the last step.'
+        feedback: |
+          $F_\pi$ sums over all steps already seen. It scores the whole plan against the data; the future is scored by $\mathbf G$.
+    explanation: |
+      Because $F_\pi\approx-\ln P(\tilde o\mid\pi)$, $-\mathbf F$ in the policy posterior is the (log) evidence of each plan, as in Bayes' rule with plans as hypotheses. Computing it requires the state beliefs under that plan: "perceptual inference is mandated for planning to proceed".
+
+  - type: widget
+    id: door-ticks
+    review: false
+    widget: pomdp-lab
+    config:
+      mode: infer
+      modes: [infer]
+      policy: 3
+      obs: [0, 1, 1]
+      showA: false
+      showB: false
+      showD: false
+      editable: false
+      states: [closed, open]
+      outcomes: [looks closed, looks open]
+      actions: [push, wait]
+      A: [[0.8, 0.2], [0.2, 0.8]]
+      B:
+        push: [[0.2, 0.05], [0.8, 0.95]]
+        wait: [[0.9, 0.1], [0.1, 0.9]]
+      D: [0.9, 0.1]
+      C: [0.2, 0.8]
+      T: 3
+      policies: [[push, push], [push, wait], [wait, push], [wait, wait]]
+    body: |
+      The door model with policy **wait, wait** selected and the data (closed, open, open) set. Press **Play**: the bars are the beliefs $\mathbf s_\tau$ following the descent $\dot{\mathbf v}=-\nabla F$, and the curve is $F_\pi$ falling. The **thick ticks** mark the **exact posterior** (computed by summing over all trajectories). **Read the ticks**: compare each bar with its tick at the end, step by step.
+
+  - type: mcq
+    id: gap
+    prompt: |
+      The door, plan "wait, wait", data (closed, open, open). The descent converges to $\mathbf s_1=(0.813,0.187)$, $\mathbf s_2=(0.257,0.743)$, $\mathbf s_3=(0.099,0.901)$ over (closed, open). The exact posterior marginals are $(0.876,0.124)$, $(0.388,0.612)$ and $(0.285,0.715)$. At which step is the gap between the descent and the exact posterior largest, and what does it say?
+    options:
+      - text: 'Step 3: belief in open $0.901$ against $0.715$. The descent is overconfident there, because it treats $\mathbf s_3$ as independent of $\mathbf s_2$ and counts the evidence of the last two looks twice.'
+        correct: true
+      - text: 'Step 1: the descent is the least reliable at the start, where there is no earlier belief.'
+        feedback: |
+          Step 1 has the smallest gap here: $0.813$ against $0.876$ for closed, only $0.063$ apart. Its prior is the fixed $\mathbf D$, not a belief that has to be estimated.
+      - text: 'There is no gap: the descent converges to the exact posterior, only slower.'
+        feedback: |
+          The descent minimises the mean-field $F_\pi$, whose minimum is not the exact posterior. Running it longer does not close the gap (the ticks stay where they are).
+    explanation: |
+      Gaps in the probability of open: step 1 $0.063$ (in closed), step 2 $0.743-0.612=0.131$, step 3 $0.901-0.715=0.186$. The two *open* looks pull the product-form beliefs hard toward open, because each step is updated as if its neighbours were fixed and independent, so the shared evidence is counted too strongly. The scheme minimises $\mathbf F_\pi$, and the exact marginals, placed in the same $\mathbf F_\pi$, give a higher value ($2.217$ against $2.115$): the descent is doing its job, but its minimum is not the exact posterior. Marginal message passing exists to soften this.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **The free energy of a policy.** Take a policy $\pi$ and a model with hidden states $s_\tau$ at steps $\tau=1,\dots,T$, outcomes $o_\tau$ (written as one-hot vectors: a $1$ at the observed outcome, $0$ elsewhere), likelihood matrix $\mathbf A$ (rows = outcomes, columns = states), transition matrix $\mathbf B_{\pi\tau}$ (rows = next state, columns = current state) and initial prior $\mathbf D$. With one belief vector $\mathbf s_{\pi\tau}$ per step (a mean-field factorisation over time),
+        $$\begin{aligned}\mathbf F_\pi=&\ \mathbf s_{\pi1}\cdot\big(\ln\mathbf s_{\pi1}-\ln\mathbf A\cdot o_1\\&\qquad-\ln\mathbf D\big)\\&+\sum_{\tau=2}^{T}\mathbf s_{\pi\tau}\cdot\big(\ln\mathbf s_{\pi\tau}\\&\qquad-\ln\mathbf A\cdot o_\tau\\&\qquad-\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}\big)\end{aligned}$$
+        and minimising it over the beliefs makes it an approximation of the log evidence of the policy, which is why perception must come before planning:
+        $$F_\pi\approx-\ln P(\tilde o\mid\pi)$$
+        and the policy posterior uses it:
+        $$\boldsymbol\pi=\sigma(-\mathbf F-\mathbf G)$$
+        where $\tilde o=(o_1,\dots,o_T)$ is the sequence of outcomes, $\mathbf G$ the expected free energy and $\sigma$ the softmax (flat habit prior).
+      - **State inference is a descent with three messages.** Write $\mathbf s_{\pi\tau}=\sigma(\mathbf v_{\pi\tau})$ ($\mathbf v$ = log posterior, which keeps the beliefs positive and normalised) and $\dot{\mathbf v}_{\pi\tau}=-\nabla_{\mathbf s_{\pi\tau}}\mathbf F_\pi$. In the middle of the chain, with $\oslash$ the element-wise division,
+        $$\begin{aligned}\dot{\mathbf v}_{\pi\tau}=&\ \ln\mathbf A\cdot o_\tau+\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}\\&+\mathbf B_{\pi\tau}^{\mathsf T}\big(\mathbf s_{\pi,\tau+1}\oslash\mathbf B_{\pi\tau}\mathbf s_{\pi\tau}\big)-\ln\mathbf s_{\pi\tau}\end{aligned}$$
+        likelihood from the data, prior message from the past, backward message from the future (absent at the last step; at the first step $\ln\mathbf D$ replaces the past). At the last step, with no future, the fixed point is exact Bayes, $\mathbf s_{\pi T}=\sigma\big(\ln\mathbf A\cdot o_T+\ln\mathbf B\mathbf s_{\pi,T-1}\big)$.
+      - **Door example** (states closed/open; outcomes looks closed/looks open; $\mathbf A=\begin{pmatrix}.8&.2\\.2&.8\end{pmatrix}$, $\mathbf D=(.9,.1)$): pushing from $\mathbf D$ and seeing *looks closed* gives
+        $$\begin{aligned}\mathbf s_{\pi2}&=\sigma\big(\ln\mathbf A\cdot o_2\\&\qquad+\ln\mathbf B_{\text{push}}\mathbf D\big)\\&=(0.476,\,0.524)\end{aligned}$$
+        over (closed, open). For longer chains the descent treats neighbouring steps as independent, so its fixed point is **more confident than the exact posterior**: for the plan wait, wait and data (closed, open, open) it ends with $\mathbf s_3(\text{open})=0.901$ against the exact $0.715$. A modified scheme, **marginal message passing**, averages the log-messages from the past and from the future with weight $\tfrac12$ each, giving more conservative beliefs.
+
+      **Next:** the policy posterior $\boldsymbol\pi=\sigma(-\mathbf F-\mathbf G)$ is half built: we now know where $\mathbf F$ comes from. The other half, the expected free energy $\mathbf G$, hides the way the creature *seeks information*: why it goes to the cue before the arm. That is the next lesson.
