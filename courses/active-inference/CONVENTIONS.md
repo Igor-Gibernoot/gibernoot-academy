@@ -84,6 +84,8 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - ch04-model-traps: 3 transitions, 2 actions = 8 policies; variance .25 gives precision 4; marginals product .6*.56=.336 (exact .48); two humps $\pm2.2$ sd .7: reverse KL one hump .69, wide fit 1.08, forward wide .50; pi1 .690 for F=(.5,1.5), G=(1,.8).
 - Widget `mean-field-vb`: grids rows x1, columns x2; rho form J=py a_i b_j (1+rho u_i v_j)/Z; uniform q on a symmetric correlated 2x2 is a saddle (start asymmetric, q1=(.6,.4), q2=(.3,.7)); 2x2 rho=.9, py=.2: best product gap .620 nats.
 - ch04-map: 14 boxes (left discrete, right continuous, top shared); ids genmodel, bayes, vfe, meanfield, laplace, pomdp, contmodel, states, pc, policies, perception, postpol, action, hier.
+- ch04-challenge A: alarm causes toast/fire/steam priors .80/.05/.15, likelihoods .30/.95/.10: P(y)=.3025, surprise 1.196, posterior .793/.157/.050, F(Q=(.5,.3,.2))=1.438, gap .242. Door variant A=[[.9,.1],[.1,.9]], push [[.3,.1],[.7,.9]], wait [[.8,.2],[.2,.8]], D=(.8,.2), C=(.1,.9), T=2: s2 push (.26,.74), o2 (.308,.692), G push .490 wait 1.194, pi0 push .669; observe looks closed: F .440 wait, 1.178 push (F=-ln P(o|pi), step 1 held at D), pi push .492 (looks open: .797). Laplace y=5, ln p=5 ln x-2x-ln5!: mode 2.5, precision .8, F_L 4.176 vs ln64=4.159 (gap .017); y=1: mode .5, precision 4, F_L 1.467 vs 1.386; y=0 has no mode.
+
 ## Chapter 5
 
 - (none yet)

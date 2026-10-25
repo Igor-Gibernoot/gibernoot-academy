@@ -1,0 +1,285 @@
+id: ch04-challenge
+title: Level Challenge
+kind: challenge
+cards:
+  - type: text
+    id: intro
+    title: "Harder: the whole of Chapter 4 in five problems"
+    body: |
+      Five problems that **combine** what this level taught. Every number can be checked by hand (a calculator with $\ln$ and $\exp$ helps), and every answer comes with the reason. You rebuild each quantity from its definition. All logarithms are natural, so energies are in **nats**.
+
+      The toolkit, in five lines:
+
+      - **Free energy** (minimised) bounds surprise: $F=\sum_x Q(x)\,[\ln Q(x)-\ln P(x,y)]=-\ln P(y)+D_{KL}[Q(x)\parallel P(x\mid y)]$.
+      - A **discrete model** (states $s$, outcomes $o$) has likelihood $\mathbf A$, transitions $\mathbf B$, first prior $\mathbf D$, preferences $\mathbf C$. A policy $\pi$ predicts $\mathbf s_{\pi\tau}$ and $\mathbf o_{\pi\tau}=\mathbf A\mathbf s_{\pi\tau}$, and is scored by the expected free energy $\mathbf G$ and the free energy $\mathbf F$: $\pi=\sigma(-\mathbf G-\mathbf F)$.
+      - The **Laplace** approximation replaces a posterior by $q=\mathcal N(\mu,\Sigma)$ at its mode, with precision $\Sigma^{-1}=-\partial^2_x\ln p(y,x)$.
+      - **Predictive coding** (continuous states $x$, causes $v$, data $y$) descends precision-weighted prediction errors; **action** changes $y$ to meet the prediction.
+      - **Mean field** splits $Q$ into factors updated one at a time, each from the others' averages.
+
+      1. Bayes to free energy: the lowest $F$, an $F$ for a given $Q$, and its gap.
+      2. A door model: predictions, $\mathbf G$, then the effect of an observation.
+      3. Laplace: mode, precision, and how good (or bad) the approximation is.
+      4. Predictive coding and action.
+      5. Mean field on a $2\times2$ joint.
+
+  # ---------------------------------------------------------------- Problem 1
+  - type: widget
+    id: p1-widget
+    review: false
+    widget: free-energy-bound
+    config:
+      observation: "the smoke alarm sounds"
+      causes:
+        - { name: burnt toast, prior: 0.80, likelihood: 0.30 }
+        - { name: fire, prior: 0.05, likelihood: 0.95 }
+        - { name: steam, prior: 0.15, likelihood: 0.10 }
+      q: [0.34, 0.33, 0.33]
+      showSurprise: false
+      showGap: false
+      exact: false
+      presets:
+        - { label: "Q = prior", q: [0.80, 0.05, 0.15] }
+        - { label: "Flat", q: [0.34, 0.33, 0.33] }
+    body: |
+      **Problem 1 · Bayes to free energy.** A kitchen has three possible causes $x$ of a smoke alarm: burnt toast (prior $0.80$), fire ($0.05$), steam ($0.15$). The chance that the alarm sounds, given each cause, is $0.30$, $0.95$ and $0.10$.
+
+      Only $F$ is shown. Drag the three sliders of $Q$ (the belief over the cause) to make $F$ as small as you can, then answer the next card.
+
+  - type: numeric
+    id: p1-min
+    tag: Problem 1 · Bayes to free energy
+    prompt: |
+      Alarm model: causes burnt toast / fire / steam with priors $0.80,\,0.05,\,0.15$ and chances of the alarm $0.30,\,0.95,\,0.10$. What is the lowest free energy $F$ reachable by any belief $Q$, in nats (two decimals)?
+    answer: 1.20
+    tolerance: 0.015
+    answerText: '1.20'
+    wrong:
+      - { value: 1.31, tolerance: 0.01, feedback: 'That is $F$ for $Q=$ prior $(0.80,0.05,0.15)$: it ignores the alarm. It is not the lowest, because the alarm makes fire more likely than its prior.' }
+    hint: '$F=-\ln P(y)+D_{KL}\ge-\ln P(y)$, with equality for the exact posterior. So compute $P(y)=\sum_x P(x)P(y\mid x)$.'
+    explanation: |
+      The lowest $F$ is the surprise of the alarm, reached when $Q$ is the exact posterior:
+      $$\begin{aligned}P(y)&=0.8\cdot0.3+0.05\cdot0.95\\ &\quad+0.15\cdot0.1=0.3025,\\ -\ln P(y)&=1.196.\end{aligned}$$
+      The three joint terms are $0.24,\ 0.0475,\ 0.015$, and the posterior is these divided by $0.3025$: $(0.793,\,0.157,\,0.050)$. Fire went from $5\%$ to $16\%$.
+
+  - type: numeric
+    id: p1-F
+    tag: Problem 1 · Bayes to free energy
+    prompt: |
+      Alarm model: causes burnt toast / fire / steam with joint terms $P(x)P(y\mid x)=0.24,\ 0.0475,\ 0.015$ (for the alarm sounding). A belief $Q=(0.5,\,0.3,\,0.2)$ is held. Compute the free energy
+      $$F=\sum_x Q(x)\,[\ln Q(x)-\ln P(x,y)]$$
+      in nats (two decimals).
+    answer: 1.44
+    tolerance: 0.01
+    answerText: '1.44'
+    wrong:
+      - { value: 2.04, tolerance: 0.01, feedback: 'That is $F$ for the mistake of putting most belief on fire, $Q=(0.2,0.5,0.3)$. Check which $Q$ goes with which cause: the order is burnt toast, fire, steam.' }
+      - { value: 1.20, tolerance: 0.015, feedback: 'That is the **lowest** $F$, the surprise, reached only by the exact posterior. This $Q$ is not the exact posterior, so its $F$ is higher.' }
+    hint: 'Three terms, one per cause: $Q(x)\,[\ln Q(x)-\ln P(x,y)]$. For burnt toast: $0.5\,(\ln0.5-\ln0.24)$.'
+    explanation: |
+      Term by term:
+      $$\begin{aligned}0.5\,(\ln0.5-\ln0.24)&=0.367,\\ 0.3\,(\ln0.3-\ln0.0475)&=0.552,\\ 0.2\,(\ln0.2-\ln0.015)&=0.518.\end{aligned}$$
+      The sum is $F=1.438\approx1.44$ nats.
+
+  - type: numeric
+    id: p1-gap
+    tag: Problem 1 · Bayes to free energy
+    prompt: |
+      In the alarm model, $Q=(0.5,\,0.3,\,0.2)$ has free energy $F=1.438$ nats and the alarm has surprise $-\ln P(y)=1.196$ nats; the exact posterior is $(0.793,\,0.157,\,0.050)$. How far is $Q$ from the exact posterior, $D_{KL}[Q\parallel P(x\mid y)]$, in nats (two decimals)?
+    answer: 0.24
+    tolerance: 0.01
+    answerText: '0.24'
+    wrong:
+      - { value: 1.44, tolerance: 0.01, feedback: 'That is $F$ itself. $F$ contains the surprise $1.196$, which no $Q$ can remove; the divergence is only what is **above** it.' }
+    hint: 'Use $F=-\ln P(y)+D_{KL}[Q\parallel P(x\mid y)]$ and solve for the divergence.'
+    explanation: |
+      From the decomposition,
+      $$\begin{aligned}D_{KL}&=F-(-\ln P(y))\\ &=1.438-1.196=0.242.\end{aligned}$$
+      Check the other way, straight from the definition: $0.5\ln\tfrac{0.5}{0.793}+0.3\ln\tfrac{0.3}{0.157}+0.2\ln\tfrac{0.2}{0.050}=-0.230+0.194+0.277=0.242$.
+
+      So **$F$ is computable** (it needs only the joint $P(x,y)$, no normalisation) **and** it measures the distance to the posterior: that is why minimising it does inference.
+
+  # ---------------------------------------------------------------- Problem 2
+  - type: widget
+    id: p2-widget
+    review: false
+    widget: pomdp-lab
+    config:
+      mode: generate
+      modes: [generate]
+      showCurve: false
+      showPolicies: false
+      showA: false
+      showB: false
+      showD: false
+      editable: false
+      states: [closed, open]
+      outcomes: ['looks closed', 'looks open']
+      actions: [push, wait]
+      short: { states: [clo, open], outcomes: [looks clo, looks open] }
+      A: [[0.9, 0.1], [0.1, 0.9]]
+      B: { push: [[0.3, 0.1], [0.7, 0.9]], wait: [[0.8, 0.2], [0.2, 0.8]] }
+      D: [0.8, 0.2]
+      C: [0.1, 0.9]
+      T: 2
+      policies: [[push], [wait]]
+      policy: 0
+    body: |
+      **Problem 2 · A door model.** Two steps, $\tau=1,2$, one action between them. States: closed or open. Outcomes: looks closed or looks open. The tables:
+      $$\mathbf A=\begin{pmatrix}0.9&0.1\\0.1&0.9\end{pmatrix}$$
+      $$\mathbf D=\begin{pmatrix}0.8\\0.2\end{pmatrix},\ \mathbf C=\begin{pmatrix}0.1\\0.9\end{pmatrix}$$
+      Columns of $\mathbf A$ are states, rows outcomes. *Push* has $\mathbf B_{\text{push}}=\begin{pmatrix}0.3&0.1\\0.7&0.9\end{pmatrix}$ and *wait* has $\mathbf B_{\text{wait}}=\begin{pmatrix}0.8&0.2\\0.2&0.8\end{pmatrix}$ (columns are the current state). The two policies are *push* and *wait*.
+
+      Open *Predict* and read the bars for each policy at step 2. You want the open door (outcome *looks open*, preferred $0.9$).
+
+  - type: numeric
+    id: p2-o2
+    tag: Problem 2 · A door model
+    prompt: |
+      Door model: $\mathbf D=(0.8,\,0.2)$ over (closed, open) at step 1, sensor $\mathbf A=\begin{pmatrix}0.9&0.1\\0.1&0.9\end{pmatrix}$ (rows outcomes, columns states), and the action *push* with $\mathbf B_{\text{push}}=\begin{pmatrix}0.3&0.1\\0.7&0.9\end{pmatrix}$ (columns are the current state). Under *push*, what is the predicted probability of the outcome *looks open* at step 2, $\mathbf o_{\pi2}=\mathbf A\mathbf s_{\pi2}$ (three decimals)?
+    answer: 0.692
+    tolerance: 0.002
+    answerText: '0.692'
+    wrong:
+      - { value: 0.74, tolerance: 0.002, feedback: 'That is the predicted **state**, the probability that the door is open, $\mathbf s_{\pi2}=\mathbf B\mathbf D=(0.26,\,0.74)$. The sensor then blurs it: the outcome is $\mathbf A\mathbf s_{\pi2}$.' }
+      - { value: 0.2, tolerance: 0.002, feedback: 'That is the first prior $\mathbf D$ for open. Push changes the state before step 2.' }
+    hint: 'Two products: first $\mathbf s_{\pi2}=\mathbf B_{\text{push}}\mathbf D$, then $\mathbf o_{\pi2}=\mathbf A\mathbf s_{\pi2}$.'
+    explanation: |
+      The state moves first:
+      $$\begin{aligned}\mathbf s_{\pi2}&=\mathbf B_{\text{push}}\mathbf D\\ &=(0.3\cdot0.8+0.1\cdot0.2,\\ &\quad\ 0.7\cdot0.8+0.9\cdot0.2)\\ &=(0.26,\ 0.74).\end{aligned}$$
+      Then the sensor: the probability of *looks open* is $0.1\cdot0.26+0.9\cdot0.74=0.692$, so $\mathbf o_{\pi2}=(0.308,\ 0.692)$. For *wait*: $\mathbf s_{\pi2}=(0.68,0.32)$ and $\mathbf o_{\pi2}=(0.644,\ 0.356)$.
+
+  - type: numeric
+    id: p2-G
+    tag: Problem 2 · A door model
+    prompt: |
+      Door model: sensor $\mathbf A=\begin{pmatrix}0.9&0.1\\0.1&0.9\end{pmatrix}$, preferred outcomes $\mathbf C=(0.1,\,0.9)$ over (looks closed, looks open). Under *push* the step-2 predictions are $\mathbf s_{\pi2}=(0.26,\,0.74)$ and $\mathbf o_{\pi2}=(0.308,\,0.692)$. Compute the expected free energy of *push* at step 2,
+      $$\mathbf G_\pi=D_{KL}[\mathbf o_{\pi2}\parallel\mathbf C]+\mathbf H\cdot\mathbf s_{\pi2},$$
+      where $H_j=-\sum_o A_{oj}\ln A_{oj}$ is the entropy of column $j$ of $\mathbf A$ (three decimals).
+    answer: 0.490
+    tolerance: 0.004
+    answerText: '0.490'
+    wrong:
+      - { value: 0.165, tolerance: 0.003, feedback: 'That is only the risk $D_{KL}[\mathbf o_{\pi2}\parallel\mathbf C]$. The ambiguity $\mathbf H\cdot\mathbf s_{\pi2}$ must be added: the sensor is not perfect.' }
+      - { value: 1.194, tolerance: 0.004, feedback: 'That is $\mathbf G$ for *wait*. Check that you used the predictions of *push*.' }
+    hint: 'Both columns of $\mathbf A$ have the same entropy, $H=-0.9\ln0.9-0.1\ln0.1=0.325$, so $\mathbf H\cdot\mathbf s_{\pi2}=0.325$ whatever $\mathbf s_{\pi2}$ is.'
+    explanation: |
+      Risk, with $\mathbf o_{\pi2}=(0.308,0.692)$ and $\mathbf C=(0.1,0.9)$:
+      $$\begin{aligned}D_{KL}&=0.308\ln\tfrac{0.308}{0.1}\\ &\quad+0.692\ln\tfrac{0.692}{0.9}=0.165.\end{aligned}$$
+      Ambiguity: $0.325\,(0.26+0.74)=0.325$. Total $\mathbf G_{\text{push}}=0.490$ nats.
+
+      For *wait* the risk is $0.869$ (the outcomes $(0.644,0.356)$ are far from the preferred ones), the ambiguity is again $0.325$, and $\mathbf G_{\text{wait}}=1.194$. Here the ambiguity is the same for both policies, so **risk decides**.
+
+  - type: numeric
+    id: p2-pi0
+    tag: Problem 2 · A door model
+    prompt: |
+      Door model with two policies, *push* and *wait*, and expected free energies $\mathbf G_{\text{push}}=0.490$ and $\mathbf G_{\text{wait}}=1.194$ (nats). **Before any observation**, the prior over policies is $\pi_0=\sigma(-\mathbf G)$. What is the probability of *push* (three decimals)?
+    answer: 0.669
+    tolerance: 0.003
+    answerText: '0.669'
+    wrong:
+      - { value: 0.5, feedback: 'That would ignore $\mathbf G$. A policy with lower expected free energy is more probable.' }
+      - { value: 0.331, tolerance: 0.003, feedback: 'That is the probability of *wait*. The lower $\mathbf G$ gets the larger weight $e^{-\mathbf G}$.' }
+    hint: '$\sigma$ is the softmax: $\pi_{\text{push}}=e^{-\mathbf G_{\text{push}}}/(e^{-\mathbf G_{\text{push}}}+e^{-\mathbf G_{\text{wait}}})$, which depends only on the difference $0.704$.'
+    explanation: |
+      The ratio of the weights is $e^{-0.490}/e^{-1.194}=e^{0.704}=2.02$, so
+      $$\pi_{\text{push}}=\frac{2.02}{1+2.02}=0.669.$$
+      The agent prefers *push* two to one before seeing anything: it predicts that pushing leads to the open door it prefers.
+
+  - type: numeric
+    id: p2-pi
+    tag: Problem 2 · A door model
+    prompt: |
+      Door model, step 2 only. The agent now observes **looks closed** at step 2. Treat the step-1 belief as the prior $\mathbf D=(0.8,0.2)$. For a policy, the lowest $F_{\pi2}$ is $-\ln\big(\mathbf A_{\text{closed}}\cdot\mathbf s_{\pi2}\big)=-\ln P(\text{looks closed}\mid\pi)$, with $\mathbf A_{\text{closed}}=(0.9,\,0.1)$ the first row of $\mathbf A$ and $\mathbf s_{\pi2}=(0.26,0.74)$ for *push*, $(0.68,0.32)$ for *wait*. With $\mathbf G_{\text{push}}=0.490$ and $\mathbf G_{\text{wait}}=1.194$, what is $\pi_{\text{push}}=\sigma(-\mathbf G-\mathbf F)$ (three decimals)?
+    answer: 0.492
+    tolerance: 0.004
+    answerText: '0.492'
+    wrong:
+      - { value: 0.669, tolerance: 0.003, feedback: 'That is the prior $\sigma(-\mathbf G)$. The observation must enter through $\mathbf F$: pushing predicted *looks open*, and the sensor said *looks closed*.' }
+      - { value: 0.797, tolerance: 0.004, feedback: 'That is what you get after seeing *looks open* instead. Here the report was *looks closed*.' }
+    hint: 'Compute the two $F$ values from $P(\text{looks closed}\mid\pi)=0.9\,s_{\text{closed}}+0.1\,s_{\text{open}}$, then softmax of $-(\mathbf G+\mathbf F)$.'
+    explanation: |
+      Probability of the report under each policy:
+      $$\begin{aligned}\text{push: }&0.9\cdot0.26+0.1\cdot0.74=0.308,\\ \text{wait: }&0.9\cdot0.68+0.1\cdot0.32=0.644.\end{aligned}$$
+      So $F_{\text{push}}=-\ln0.308=1.178$ and $F_{\text{wait}}=-\ln0.644=0.440$. The sums are $\mathbf G+\mathbf F=1.668$ (push) and $1.634$ (wait), so
+      $$\pi_{\text{push}}=\frac{e^{-1.668}}{e^{-1.668}+e^{-1.634}}=0.492.$$
+      The prior favoured *push* two to one; one disappointing observation made it a coin flip (slightly *wait*). $\mathbf F$ asks "which policy **explained** the data?", $\mathbf G$ "which will give me what I prefer?". If the report had been *looks open*, $F$ would be $0.368$ and $1.033$ and $\pi_{\text{push}}=0.797$.
+
+      (The widget's inference mode reports a total $F$ over all steps and settles on a nearby, not identical, value, because it lets the step-1 belief move too; here step 1 is held at the prior so that the numbers can be checked by hand.)
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: numeric
+    id: p3-mode
+    tag: Problem 3 · Laplace
+    prompt: |
+      **Problem 3 · Laplace.** A count $y=5$ of events is recorded, with rate $x>0$ unknown. The likelihood is Poisson, $x^y e^{-x}/y!$, and the prior is $e^{-x}$. So the joint density is
+      $$\ln p(y,x)=5\ln x-2x-\ln5!.$$
+      The Laplace approximation sits at the mode of the posterior. What is the mode $\mu$ (one decimal)?
+    answer: 2.5
+    tolerance: 0.02
+    answerText: '2.5'
+    wrong:
+      - { value: 3, feedback: 'That is the posterior **mean**. The posterior here is skewed (long tail to the right), so the mean sits to the right of the mode. The approximation is placed at the **mode**, where the slope of $\ln p$ is zero.' }
+      - { value: 5, feedback: 'You set $5/x=1$, forgetting the $-2x$ term. The slope of $\ln p(y,x)$ is $5/x-2$.' }
+    hint: 'Set $\partial_x\ln p(y,x)=5/x-2=0$.'
+    explanation: |
+      The mode of the posterior is the mode of the joint (they differ by a constant in $x$):
+      $$\partial_x\ln p=\frac5x-2=0\ \Rightarrow\ \mu=2.5.$$
+      The true posterior is a gamma density with mean $3$, so the mode $2.5$ is to the left of the mean: a first warning that a symmetric Gaussian will be imperfect.
+
+  - type: numeric
+    id: p3-prec
+    tag: Problem 3 · Laplace
+    prompt: |
+      Joint density $\ln p(y,x)=5\ln x-2x-\ln5!$ with mode $\mu=2.5$. The Laplace approximation is $q=\mathcal N(\mu,\Sigma)$ with precision $\Sigma^{-1}=-\partial_x^2\ln p(y,x)\big|_{x=\mu}$. What is the precision $\Sigma^{-1}$ (one decimal)?
+    answer: 0.8
+    tolerance: 0.01
+    answerText: '0.8'
+    wrong:
+      - { value: 1.25, tolerance: 0.01, feedback: 'That is the **variance** $\Sigma=1/0.8$. The question asks for the precision, the curvature itself.' }
+      - { value: -0.8, tolerance: 0.01, feedback: 'The second derivative of $\ln p$ is $-0.8$ at the mode (a peak), but the precision is **minus** that curvature, so it is positive.' }
+    hint: '$\partial_x^2\ln p=-5/x^2$.'
+    explanation: |
+      $$\begin{aligned}\partial_x^2\ln p&=-\frac{5}{x^2},\\ \Sigma^{-1}&=\frac{5}{2.5^2}=0.8.\end{aligned}$$
+      So $q=\mathcal N(2.5,\ 1.25)$: standard deviation $1.12$. A sharp peak (large curvature) means a precise belief.
+
+  - type: numeric
+    id: p3-gap
+    tag: Problem 3 · Laplace
+    prompt: |
+      Joint density $\ln p(y,x)=5\ln x-2x-\ln5!$, Laplace approximation $q=\mathcal N(2.5,\,1.25)$. Its free energy is
+      $$F_L=-\ln p(y,\mu)-\tfrac12\ln(2\pi\Sigma)$$
+      (the value of $-\ln p$ at the mode, minus the entropy of $q$ up to the constant $\tfrac12$ that cancels). The true surprise is $-\ln p(y)=-\ln\int_0^\infty p(y,x)\,dx$, and the integral equals $2^{-6}$. How much larger is $F_L$ than the true surprise, $F_L-(-\ln p(y))$ (three decimals)?
+    answer: 0.017
+    tolerance: 0.002
+    answerText: '0.017'
+    wrong:
+      - { value: 0, feedback: 'The bound $F\ge-\ln p(y)$ holds for every $Q$, and the Gaussian is not the exact posterior (which is skewed), so the gap is strictly positive, though small.' }
+      - { value: 4.176, tolerance: 0.004, feedback: 'That is $F_L$ itself. The question asks for the **difference** from the true surprise $\ln64=4.159$.' }
+    hint: 'Evaluate $-\ln p(y,\mu)=-5\ln2.5+5+\ln120$ ($=5.206$) and $\tfrac12\ln(2\pi\cdot1.25)$ ($=1.030$); the true surprise is $\ln64$.'
+    explanation: |
+      Value at the mode: $-\ln p(y,\mu)=-5\ln2.5+5+\ln120=5.206$. Entropy term: $\tfrac12\ln(2\pi\cdot1.25)=1.030$. So
+      $$F_L=5.206-1.030=4.176.$$
+      The true surprise is $-\ln2^{-6}=\ln64=4.159$. The gap is $0.017$ nats, which equals the divergence from $q$ to the true gamma posterior (plus the small error of the second-order expansion of $F$). For this fairly peaked posterior the Gaussian is excellent. The same recipe with $y=1$ (mode $0.5$, variance $0.25$) gives $F_L=1.467$ against $\ln4=1.386$: a gap $0.081$, five times worse, because the posterior is more skewed.
+
+  - type: mcq
+    id: p3-fail
+    tag: Problem 3 · Laplace
+    prompt: |
+      Same counting model: joint density $\ln p(y,x)=y\ln x-2x-\ln y!$ for rate $x>0$. Now no events are recorded, $y=0$, so $\ln p(0,x)=-2x$. What happens to the Laplace approximation?
+    options:
+      - text: 'There is no interior mode: the slope $-2$ never vanishes, the density only decreases away from $x=0$, so there is no peak to put a Gaussian on and the recipe breaks down.'
+        correct: true
+      - text: 'The mode is $x=0$ with precision $\infty$, a perfectly sharp and exact approximation.'
+        feedback: |
+          The curvature $-\partial_x^2\ln p=0$ here (a straight line), not infinite. A boundary maximum with non-zero slope is not a stationary point, and the second-order expansion that defines the precision has no quadratic term.
+      - text: 'The mode is $x=2$, where $\ln p$ has slope $-2$.'
+        feedback: |
+          A mode is where the slope is **zero**, not where it equals $-2$. Setting $-2=0$ has no solution.
+      - text: 'It works exactly, because $\ln p$ is linear and linear functions are Gaussian.'
+        feedback: |
+          A Gaussian has a log that is a **quadratic** in $x$ with negative curvature. A linear log density is an exponential, which is far from Gaussian (all its mass piles up at the edge, with a long tail).
+    explanation: |
+      The Laplace approximation needs a **peak** of $\ln p$ with curvature below it. For $y=0$ the true posterior is the exponential density $2e^{-2x}$ on $x>0$: highest at the boundary with a nonzero slope, a long right tail, and no quadratic structure at all. The method fails because the posterior is **far from Gaussian** (skewed, bounded). The usual repairs are to change variables so that the unknown lives on the whole line (here $w=\ln x$, which makes the posterior a smooth bump), or to use a richer family for $Q$ (mixtures, several modes).
+
+      Moral of the problem: the Laplace free energy is a bound, and it is only as tight as the posterior is Gaussian. A large gap, or no mode, is the signal that the Gaussian assumption is wrong.
