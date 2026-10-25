@@ -55,6 +55,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 ## Chapter 3
 
 - ch03-markov-blankets: sets external $x$, internal $\mu$, sensory $y$, **active $u$** (the book's letter, same as the action $u$ of Level 2), blanket $b=(u,y)$; $\mu\perp x\mid b\Leftrightarrow p(\mu,x\mid b)=p(\mu\mid b)p(x\mid b)$. Loop $x\to y\to\mu\to u\to x$. Flows $\dot z=f_z(\cdot)+\omega_z$, $\dot\mu=f_\mu(\mu,u,y)+\omega_\mu$, $\dot x=f_x(x,u,y)+\omega_x$ (printed figure's $f_u(x,..)$, $f_y(\mu,..)$ looks swapped; not used). "Active states" (capital sense) vs behaviour $u$. Toy numbers: 0.3/0.8 gives 0.24; Gaussian toy ($b\sim N(0,1)$, noise sd 0.5): $E[x\mid\mu=1.5]=1.2$. Graph-widget node id `a` carries label `u`.
+- ch03-self-evidencing: preferred sensations are priors of the model ('optimism bias'); evidence $P(y)$ max = surprise $\mathfrak I(y)=-\ln P(y)$ min; perception = descriptive side, action = prescriptive side; self-evidencing = acting to gather data that are evidence for one's own model. Temperature toy: comfort $37\,{}^{\circ}\mathrm{C}$ (write `\,{}^{\circ}`, plain `^\circ` after `\,` breaks KaTeX); $P(y)=0.5$ vs $0.1$ gives 0.69 vs 2.30 nats.
 
 ## Chapter 4
 

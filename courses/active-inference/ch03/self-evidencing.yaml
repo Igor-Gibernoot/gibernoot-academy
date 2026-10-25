@@ -1,0 +1,210 @@
+id: ch03-self-evidencing
+title: Surprise Minimization and Self-Evidencing
+kind: concept
+own: |
+  - **Setup.** A creature has internal states $\mu$ that track external states $x$ through its blanket, and it receives sensory data $y$ (a measurement, for example its body temperature). It acts as if it had a **generative model** $P$, a probabilistic story of how $y$ is produced.
+  - **Surprise.** The surprise of the data $y$ is the negative log of its probability under the model:
+    {{ $$\mathfrak{I}(y)=-\ln P(y)$$ }}
+    $P(y)$ is the **model evidence**: how well the model explains $y$. A probable $y$ has small surprise.
+  - **Evidence and surprise are one quantity.** Because $-\ln$ is decreasing,
+    {{ maximising the evidence $P(y)$ is the same as minimising the surprise $\mathfrak{I}(y)$ }}
+  - **Preferred states are priors.** The model cannot just copy the world. It also assigns high prior probability to the sensations the creature needs in order to exist (body temperature near its comfort zone). This **optimism bias** makes any departure from them surprising.
+  - **Self-evidencing.** Perception makes the model fit the data (the descriptive side). Action changes the data until it fits what the model prefers (the prescriptive side). Together:
+    {{ a creature acts to gather sensory data that are evidence for its own model }}
+cards:
+  - type: text
+    id: hook
+    title: "Defined by where it lives"
+    body: |
+      A fish out of water is not a fish for long. A human at $45\,{}^{\circ}\mathrm{C}$ body temperature is, soon, something else. A thing is **defined by the states it occupies**: the range of states in which it stays itself is its **comfort zone**.
+
+      Today's question: if staying in the comfort zone is the whole game, what does it mean for a creature to be **surprised**, and what must its internal model contain to avoid surprise? Guess first.
+
+  - type: mcq
+    id: hook-guess
+    prompt: |
+      A human is sensing a body temperature of $45\,{}^{\circ}\mathrm{C}$. Which description of this sensation fits best the idea of "surprising" used in this theory?
+    options:
+      - text: 'It is very unlikely for a human who is still alive and still herself: it lies far outside the states she normally occupies.'
+        correct: true
+      - text: 'It is surprising because nobody told her it was coming.'
+        feedback: |
+          That is the everyday meaning (unexpected news). Here surprise is a property of the **state** relative to the creature's own distribution of states, not of how much warning she had. A slow, announced rise to $45\,{}^{\circ}\mathrm{C}$ is just as surprising.
+      - text: 'It is surprising only if it is a rare temperature in the whole universe.'
+        feedback: |
+          Across the universe most places are cold, yet $-200\,{}^{\circ}\mathrm{C}$ is not "common for her". Surprise is measured against the states **this creature** occupies when it is itself.
+    explanation: |
+      Surprising means **improbable under the creature's own distribution of characteristic states**. States outside the comfort zone are improbable for that creature, so they are surprising.
+
+  - type: text
+    id: surprise
+    title: "Surprise, in one formula"
+    body: |
+      Recall from the low road: a **generative model** $P$ says how sensory data $y$ come about, and the probability it gives to the data actually received, $P(y)$, is the **model evidence**. The **surprise** of $y$ is
+      $$\mathfrak{I}(y)=-\ln P(y).$$
+      Here $\ln$ is the natural logarithm (surprise is measured in nats). A probable $y$ has small surprise; an improbable one has large surprise. Surprise is never negative, since $P(y)\le 1$.
+
+  - type: numeric
+    id: evidence-numbers
+    prompt: |
+      Two models are shown the same data $y$. Model A gives it probability $P(y)=0.5$ and model B gives $P(y)=0.1$. What is the surprise $\mathfrak{I}(y)=-\ln P(y)$ of $y$ under model B, in nats? (Use $\ln 10\approx 2.30$ and $\ln 2\approx 0.69$.)
+    answer: 2.30
+    tolerance: 0.02
+    answerText: '2.30'
+    wrong:
+      - { value: 0.69, tolerance: 0.02, feedback: "That is the surprise under model A, $-\\ln 0.5=\\ln 2$. Model B gave a probability of $0.1$." }
+      - { value: -2.30, tolerance: 0.02, feedback: "Careful with the sign: $\\ln 0.1=-2.30$ is negative, and the minus in $-\\ln P(y)$ makes the surprise positive." }
+      - { value: 0.1, tolerance: 0.005, feedback: "That is the probability itself. Surprise is the negative **log** of it." }
+    hint: |
+      $-\ln 0.1=\ln 10$.
+    explanation: |
+      $\mathfrak{I}=-\ln 0.1=\ln 10\approx 2.30$ nats, against $\ln 2\approx 0.69$ under model A. Model B has the **lower evidence** ($0.1<0.5$) and the **higher surprise**: the two always move in opposite directions.
+
+  - type: mcq
+    id: max-min
+    prompt: |
+      Model A has evidence $P(y)=0.5$ and model B has $P(y)=0.1$ for the same data. Which statement is correct?
+    options:
+      - text: 'A has more evidence and less surprise: maximising $P(y)$ and minimising $-\ln P(y)$ pick the same model.'
+        correct: true
+      - text: 'A has more evidence but also more surprise, because bigger numbers mean more surprise.'
+        feedback: |
+          The minus sign reverses the order. Since $\ln$ is increasing, $-\ln$ is decreasing: bigger $P$ gives smaller $-\ln P$.
+      - text: 'Evidence and surprise are unrelated; one is about models, the other about data.'
+        feedback: |
+          Both are about the same number $P(y)$: one is that number, the other is its negative log.
+    explanation: |
+      $-\ln$ is a decreasing function, so
+      $$\max_{m} P(y)\;\Longleftrightarrow\;\min_{m}\,\bigl(-\ln P(y)\bigr).$$
+      Maximising evidence and minimising surprise are the same task written two ways. The theory always speaks of **minimising** surprise.
+
+  - type: text
+    id: mimic
+    title: "A model that only copies the world"
+    body: |
+      The internal states $\mu$ of a creature behind a blanket track the external states $x$: they act like an (approximate) **posterior belief** about the world, produced with a generative model. The creature's model of how the senses are produced is accurate if it matches the environment.
+
+      But a puzzle: suppose the model did **nothing else** than mimic the dynamics of the world, with no opinion about what it likes.
+
+  - type: mcq
+    id: mimic-q
+    prompt: |
+      A creature has a generative model that perfectly copies the world's dynamics, but it has no preference for any particular sensation. The world slowly heats up (a dissipative drift: everything spreads and equalises). What does the creature do?
+    options:
+      - text: 'It follows the world: it is predicted, and it is carried along, even out of its comfort zone.'
+        correct: true
+      - text: 'It resists, because any good model automatically protects the creature.'
+        feedback: |
+          Accuracy alone does not protect. A perfect weather forecast does not stop you from getting wet. Resisting requires the model to say which outcomes it **wants**.
+      - text: 'It stops sensing, since nothing in the world is surprising to a perfect model.'
+        feedback: |
+          Sensing continues; what is missing is a reason to act against the drift. A perfect copy would predict the heat-up and happily keep up with it.
+    explanation: |
+      A model that is only a copy of the external dynamics would make the creature **follow** those dynamics: dissolve, disperse. To persist, the model must also say **which states the creature should be in**.
+
+  - type: text
+    id: preferred
+    title: "Preferred states are priors"
+    body: |
+      The fix: the generative model also specifies the **preferred conditions for existence**, the regions of states the creature must visit to remain itself. These preferred sensations are written into the model as **priors**: the model assumes that its preferred sensations are **more likely to occur**, hence less surprising, when the creature meets the criteria for existing.
+
+      So the model is deliberately **optimistic**: it expects body temperature near $37\,{}^{\circ}\mathrm{C}$, blood sugar in range, water around the fish. This built-in expectation is called an **optimism bias**. It is what lets the creature go beyond duplicating the world: the model can now **prescribe** what the creature should do, through its active states, to bring the sensations it expects.
+
+  - type: mcq
+    id: optimism
+    prompt: |
+      Which best describes what the "optimism bias" is in this theory?
+    options:
+      - text: 'The generative model gives high prior probability to the sensations that the creature needs to exist, so that departures from them are surprising.'
+        correct: true
+      - text: 'A tendency to underestimate danger, so that the creature ignores bad news.'
+        feedback: |
+          Ignoring data would lower the model's fit, not raise it. The bias lives in the **prior over preferred sensations**; it does not tell the creature to disbelieve what it senses.
+      - text: 'A prior that makes every sensation equally likely, so nothing is surprising.'
+        feedback: |
+          A flat prior prefers nothing, which is the "pure copy" model: no pull toward the comfort zone. The bias is the opposite, a **sharp** expectation of the preferred states.
+    explanation: |
+      The prior expectation is sharp around the characteristic states. Everything outside is highly surprising, and so the creature has a reason (written in its own model) to act to avoid it.
+
+  - type: mcq
+    id: sides
+    multiple: true
+    prompt: |
+      Model evidence has a **descriptive** side (the model explains and accounts for its data) and a **prescriptive** side (the model asks for its preferred data). Select the statements that are about the **prescriptive** side.
+    options:
+      - text: 'The model expects body temperature near $37\,{}^{\circ}\mathrm{C}$, so it pushes the creature to find warmth when cold.'
+        correct: true
+      - text: 'The internal states settle on the belief that the room is probably at $20\,{}^{\circ}\mathrm{C}$, given what the skin reports.'
+        feedback: |
+          That is **descriptive**: the model accounts for the data by updating a belief about the world.
+      - text: 'The creature moves so that its sensory data match what its model prefers.'
+        correct: true
+      - text: 'The model explains why the sensor reading jumped by comparing it with what it predicted.'
+        feedback: |
+          Explaining a reading is **descriptive**: it is about fit to the data, not about what the creature wants.
+    explanation: |
+      Good fit has two faces. **Descriptive**: the model successfully explains its sensations. **Prescriptive**: the creature realises its preferred sensations, which are less surprising. A good fit guarantees low surprise on both counts.
+
+  - type: mcq
+    id: policy-choice
+    prompt: |
+      A creature whose model prefers a body temperature near $37\,{}^{\circ}\mathrm{C}$ can stand in the sun (it will sense about $42\,{}^{\circ}\mathrm{C}$) or in the shade (it will sense about $37\,{}^{\circ}\mathrm{C}$). Which choice gives more **evidence for its own model**?
+    options:
+      - text: 'The shade: the data it brings are the ones the model gives high probability, so $P(y)$ is high and the surprise is low.'
+        correct: true
+      - text: 'The sun: more extreme data carry more information, so they are stronger evidence.'
+        feedback: |
+          "Information" in the sense of rarity is exactly the surprise we want to avoid. Data the model finds improbable are **evidence against** the model, not for it.
+      - text: 'Both give the same evidence, because the model does not change.'
+        feedback: |
+          The model is the same, but the **data** differ, and evidence is $P(y)$ for the data received. Acting changes which $y$ arrive.
+    explanation: |
+      The sun brings $y\approx 42\,{}^{\circ}\mathrm{C}$, improbable under a model with a sharp prior at $37\,{}^{\circ}\mathrm{C}$: high surprise. The shade brings $y\approx 37\,{}^{\circ}\mathrm{C}$: low surprise. Choosing the shade is acting to garner data that support one's own model.
+
+  - type: text
+    id: selfevidencing
+    title: "Self-evidencing"
+    body: |
+      Putting it together, optimal behaviour (relative to the preferences the model holds) can be cast as **maximising model evidence by perception and action**:
+
+      - **Perception** makes the model fit the data it receives (the descriptive side).
+      - **Action** changes what data arrive, so that they fit what the model prefers (the prescriptive side).
+
+      Either way $P(y)$ goes up, which is the same as $\mathfrak{I}(y)=-\ln P(y)$ going down. A shorter name for this: any adaptive system engages in **self-evidencing**, meaning it acts to garner sensory data consistent with, and so affording evidence to, its own internal model.
+
+  - type: mcq
+    id: levers
+    prompt: |
+      A creature's model prefers $y\approx 37\,{}^{\circ}\mathrm{C}$ but its skin reports $y=42\,{}^{\circ}\mathrm{C}$. Two ways to make $P(y)$ larger are open. Which pair is correct?
+    options:
+      - text: 'Perception: revise beliefs about the world to explain the reading. Action: move (to shade) so that a reading nearer $37\,{}^{\circ}\mathrm{C}$ arrives.'
+        correct: true
+      - text: 'Perception: lower the prior preference for $37\,{}^{\circ}\mathrm{C}$ until $42\,{}^{\circ}\mathrm{C}$ looks normal. Action: stay still.'
+        feedback: |
+          Dropping the preference would raise $P(y)$ on paper, but the preference is the creature's definition of itself, and it is fixed. A creature that "adapts" its standards to heat stroke stops being that creature.
+      - text: 'Only action can change the evidence; perception cannot.'
+        feedback: |
+          Perception also improves the fit of the model to the data (the descriptive side); it is not useless, only unable to change the data themselves.
+    explanation: |
+      Evidence $P(y)$ depends on the model and on the data. Perception works on how the model accounts for the data; action works on the data. The preferred priors stay fixed.
+
+  - type: mcq
+    id: anything-model
+    prompt: |
+      A student objects: "To maximise evidence, the creature should choose a model so flexible that it predicts anything. Then every $y$ would be probable, and surprise would be low whatever happens." What is wrong with this?
+    options:
+      - text: 'The model is not free to be chosen: its preferred sensations are fixed by what it takes to exist. A model that predicts anything has no preference, so it cannot tell the creature to leave a dangerous state.'
+        correct: true
+      - text: 'Nothing is wrong: this is exactly what the creature does, and it is why animals ignore pain.'
+        feedback: |
+          A creature with no sharp expectations would not avoid pain, heat or hunger and would soon cease to exist. The theory says the opposite: the expectations are sharp.
+      - text: 'A flexible model gives probability above $1$ to some data, which is impossible.'
+        feedback: |
+          Probabilities are normalised: they sum to $1$ over all possible data. A model that spreads probability on everything gives each outcome **less** probability, not more than $1$.
+    explanation: |
+      Probabilities sum to $1$, so predicting everything weakly means predicting nothing strongly. The preferred states are what the creature needs; the model has to commit to them, and then acts so that the data match.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** we have simply asserted that surprise must be minimised. Why must it? The answer comes from physics: a thing that persists, with a blanket, is a system at a steady state, and its average flow can be read as rolling down a hill whose height is the surprise.
