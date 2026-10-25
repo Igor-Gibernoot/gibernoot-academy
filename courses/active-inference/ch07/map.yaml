@@ -1,0 +1,369 @@
+id: ch07-map
+title: "Content Map: Discrete-Time Models"
+kind: map
+name: Level 7, discrete-time models (perception, planning, learning and depth)
+
+intro: |
+  A **content map** shows how the ideas of a level fit together. Each box is one idea. An arrow goes from an idea to one that builds on it, and its label says how: read it as a sentence, for example "the HMM *is factorised as* several streams".
+
+  This level builds **discrete-time models** of a creature that perceives, plans, learns and reads in layers. The **left column** is perception: the model without choices, how beliefs about states are updated, and the free energy $F_\pi$ of a policy $\pi$ given the data so far. The **middle column** is planning: the expected free energy $G$ of the outcomes to come, its parts, and the rule that turns scores into a choice. The **right column** is learning and hierarchy: counts that learn the likelihood, the Gibbs form for precision, and a higher level that sets the prior of a lower one.
+
+  Four running examples return: an **amateur musician** (an HMM over 4 notes), the **T-maze** rat (8 states: a place and a context), **two lamps** with a noisy likelihood, and **sentences** made of words (two levels).
+
+  For each glowing box, pick the card that belongs there. The other cards look alike, but each hides a classic mistake, and every wrong pick comes with a reason. Tap a finished box at any time to reread its card.
+
+cols: 3
+nodes:
+  - id: hmm
+    title: Hidden Markov model
+    row: 1
+    col: 1
+    body: |
+      A **hidden Markov model** (HMM) is the discrete model with **no choices**: hidden states $s_\tau$ at times $\tau$, a likelihood $\mathbf A$ from state to outcome, transitions $\mathbf B$ from one state to the next, and an initial prior $\mathbf D$. It is a POMDP with a single action, so only perception is left to do.
+    decoys:
+      - body: |
+          A **hidden Markov model** (HMM) is the discrete model with **no choices**: the outcomes $o_\tau$ follow one another directly, with transitions $\mathbf B$ from one outcome to the next, so nothing is hidden. It is a POMDP with a single action.
+        feedback: |
+          The word *hidden* matters. The transitions $\mathbf B$ act on **hidden states**, which are seen only through the likelihood $\mathbf A$. Outcomes do not drive each other.
+      - body: |
+          A **hidden Markov model** (HMM) is the discrete model with hidden states $s_\tau$, likelihood $\mathbf A$, transitions $\mathbf B$ and prior $\mathbf D$. Its policies are scored by the expected free energy $G$, so it plans.
+        feedback: |
+          With a single available action there is nothing to choose between, so $G$ has no work to do. Planning appears when several policies compete.
+    explanation: |
+      The amateur musician is an HMM: four notes, a likelihood that blurs what is heard, and transitions that move along the tune.
+
+  - id: factor
+    title: Factorised states
+    row: 2
+    col: 1
+    body: |
+      When the world has independent aspects, split the state into **factors**. A note with 12 pitches and 4 loudness levels can be two factors (12 and 4) instead of one state with $12\times4=48$ values. The table $\mathbf B$ then needs $12^2+4^2=160$ entries instead of $48^2=2304$.
+    decoys:
+      - body: |
+          When the world has independent aspects, split the state into **factors**. A note with 12 pitches and 4 loudness levels can be two factors (12 and 4) instead of one state with $12\times4=48$ values. The table $\mathbf B$ then needs $12+4=16$ entries instead of $48^2$.
+        feedback: |
+          Each factor still has its own square table: $12\times12$ and $4\times4$, so $144+16=160$ entries. It is a large saving, but not $16$.
+      - body: |
+          When the world has independent aspects, split the state into **factors**. A note with 12 pitches and 4 loudness levels can be two factors (12 and 4), but then the model must give up inferring the pitch and loudness at the same time.
+        feedback: |
+          Both factors are inferred together, from the same outcomes. Factorising removes the cross-terms between independent aspects, not the joint inference.
+    explanation: |
+      This is why a "what" stream and a "where" stream can be modelled apart: they rarely depend on each other.
+
+  - id: update
+    title: State update
+    row: 3
+    col: 1
+    body: |
+      The belief $\mathbf s_\tau$ about the state at time $\tau$ follows a gradient with three messages in log space:
+      $$\begin{aligned}\dot{\mathbf v}_\tau&=\ln\mathbf A\cdot o_\tau+\ln(\mathbf B\mathbf s_{\tau-1})\\&\quad+\ln(\mathbf B^\dagger\mathbf s_{\tau+1})-\ln\mathbf s_\tau\end{aligned}$$
+      The data, the past (forward) and the future (backward) each send a message, and $\mathbf s_\tau=\sigma(\mathbf v_\tau)$.
+    decoys:
+      - body: |
+          The belief $\mathbf s_\tau$ about the state at time $\tau$ follows a gradient with two messages in log space:
+          $$\begin{aligned}\dot{\mathbf v}_\tau&=\ln\mathbf A\cdot o_\tau\\&\quad+\ln(\mathbf B\mathbf s_{\tau-1})-\ln\mathbf s_\tau\end{aligned}$$
+          The data and the past each send a message, and $\mathbf s_\tau=\sigma(\mathbf v_\tau)$.
+        feedback: |
+          That is filtering only. The belief also hears the **future**: a later observation changes what we believe about now, which is why the retrospective belief can be sharper than the filtered one.
+      - body: |
+          The belief $\mathbf s_\tau$ about the state at time $\tau$ follows a gradient with three messages, now in probability space:
+          $$\dot{\mathbf s}_\tau=\mathbf A^{\mathsf T}o_\tau+\mathbf B\mathbf s_{\tau-1}+\mathbf B^\dagger\mathbf s_{\tau+1}$$
+          The data, the past and the future each send a message, and they add up.
+        feedback: |
+          Independent pieces of evidence **multiply** as probabilities, so they **add as logarithms**. Adding the probabilities themselves would average the sources instead of combining them.
+    explanation: |
+      Written as messages, the same rule is a neural-style circuit: each neighbour reports, and the state settles where the messages balance.
+
+  - id: fpi
+    title: Free energy of a policy
+    row: 4
+    col: 1
+    body: |
+      $F_\pi$ scores how well a policy $\pi$ explains the data **seen so far**: it approximates $-\ln P(o\mid\pi)$, the surprise of those data under the policy. It is an approximation of a log of an average, not a bound. Lower is better, so it enters the policy score as $-F_\pi$.
+    decoys:
+      - body: |
+          $F_\pi$ scores how well a policy $\pi$ is expected to explain the outcomes **still to come**: it averages the surprise of future data under the policy. Lower is better, so it enters the policy score as $-F_\pi$.
+        feedback: |
+          That is the job of $G$. $F_\pi$ looks backwards at the observations already received; $G$ looks forward at the outcomes expected.
+      - body: |
+          $F_\pi$ scores how well a policy $\pi$ explains the data **seen so far**: it is a bound on $-\ln P(o\mid\pi)$. **Higher** is better, so it enters the policy score as $+F_\pi$.
+        feedback: |
+          $F_\pi$ is a free energy, and free energies are minimised: a policy that explained the data well has a small $F_\pi$ and must be favoured, so it enters with a minus sign.
+    explanation: |
+      After the cue, policies that predicted a cue like the one heard keep a low $F_\pi$; the others are penalised.
+
+  - id: tmaze
+    title: The T-maze
+    row: 5
+    col: 1
+    body: |
+      The T-maze rat has 8 states (4 places, 2 contexts). Having seen only the middle place, it compares policies by $G$: **visit the cue and then go to the arm the cue indicates** has the lowest score, because the cue is the only way to remove its uncertainty about the context.
+    decoys:
+      - body: |
+          The T-maze rat has 8 states (4 places, 2 contexts). Having seen only the middle place, it compares policies by $G$: **go straight to one arm** has the lowest score, because the food is what it prefers and the cue only delays it.
+        feedback: |
+          Going straight is a gamble on the unknown context: half the time it ends in shock. The cue costs a step but has a large epistemic value, and the total score is lower.
+      - body: |
+          The T-maze rat has 8 states (4 places, 2 contexts). Having seen only the middle place, it compares policies by $G$: **visit the cue and then go to the arm the cue indicates** has the lowest score, so the cue must be visited before the rat has any preference.
+        feedback: |
+          The preferences ($\mathbf C$: food good, shock bad) are what make the cue useful. Information is valued **for the decision it enables**; without a preference between outcomes the cue would not change the choice.
+    explanation: |
+      Once the cue is read, its epistemic value is spent: the context is known and the remaining policies differ only by the pragmatic term.
+
+  - id: efe
+    title: Expected free energy
+    row: 1
+    col: 2
+    body: |
+      $G_\pi$ scores the **outcomes expected** under a policy $\pi$, for outcomes still to come. It is **minimised**, and it subtracts two gains:
+      $$G=-\mathcal I-\mathcal P$$
+      Here $\mathcal I$ is the epistemic value (reward for learning) and $\mathcal P$ the pragmatic value (reward for getting what the creature prefers).
+    decoys:
+      - body: |
+          $G_\pi$ scores the **outcomes expected** under a policy $\pi$, for outcomes still to come. It is **maximised**, and it adds two gains:
+          $$G=\mathcal I+\mathcal P$$
+          Here $\mathcal I$ is the epistemic value (reward for learning) and $\mathcal P$ the pragmatic value (reward for getting what the creature prefers).
+        feedback: |
+          Signs matter. $G$ is a free energy, minimised, so a gain enters with a **minus** sign: the larger the gains, the smaller $G$ and the more likely the policy.
+      - body: |
+          $G_\pi$ scores the **outcomes observed** under a policy $\pi$, once they have arrived. It is **minimised**, and it subtracts two gains:
+          $$G=-\mathcal I-\mathcal P$$
+        feedback: |
+          $G$ is about outcomes **not yet seen**, which is why it needs expectations under the model. The seen outcomes are in $F_\pi$.
+    explanation: |
+      Exploring and exploiting are not two modes: both are terms of the same score.
+
+  - id: epistemic
+    title: Epistemic value
+    row: 2
+    col: 2
+    body: |
+      The **epistemic value** is the expected information gain about the hidden state:
+      $$\begin{aligned}\mathcal I(\pi)&=H[Q(o\mid\pi)]\\&\quad-\mathbb E_{Q(s\mid\pi)}H[P(o\mid s)]\end{aligned}$$
+      The entropy of the outcomes minus their average **ambiguity**. It is zero when every state gives the same outcome probabilities.
+    decoys:
+      - body: |
+          The **epistemic value** is the expected information gain about the hidden state:
+          $$\mathcal I(\pi)=H[Q(o\mid\pi)]$$
+          The entropy of the outcomes, so a policy that leads to the most unpredictable outcomes is the most informative.
+        feedback: |
+          Unpredictability is not information. A noisy channel whose outcome is random whatever the state has a large $H[Q(o)]$ but gives no information about $s$: the ambiguity term removes exactly that part.
+      - body: |
+          The **epistemic value** is the expected information gain about the hidden state:
+          $$\begin{aligned}\mathcal I(\pi)&=\mathbb E_{Q(s\mid\pi)}H[P(o\mid s)]\\&\quad-H[Q(o\mid\pi)]\end{aligned}$$
+          The average ambiguity minus the entropy of the outcomes.
+        feedback: |
+          The two terms are swapped, which makes the gain negative. Outcomes that distinguish states have a spread-out $Q(o)$ but sharp $P(o\mid s)$, so $H[Q(o)]$ is the larger.
+    explanation: |
+      For two lamps with likelihood rows $(0.8,0.2)$ and $(0.2,0.8)$ and a flat belief: $0.693-0.500=0.193$ nats.
+
+  - id: pragmatic
+    title: Pragmatic value
+    row: 3
+    col: 2
+    body: |
+      The **pragmatic value** is how well the outcomes match the preferences $\mathbf C$, written as a probability of preferred outcomes, $P(o\mid C)$. Call it $\mathcal P$:
+      $$\mathcal P=\mathbb E_{Q(o\mid\pi)}\ln P(o\mid C)$$
+      Large when the policy is expected to bring outcomes the creature prefers.
+    decoys:
+      - body: |
+          The **pragmatic value** is how well the outcomes match the preferences $\mathbf C$, written as a probability of preferred outcomes, $P(o\mid C)$. Call it $\mathcal P$:
+          $$\mathcal P=-\mathbb E_{Q(o\mid\pi)}\ln P(o\mid C)$$
+          Large when the policy is expected to bring outcomes the creature dislikes.
+        feedback: |
+          The sign is flipped. A preferred outcome has a large $P(o\mid C)$, so $\ln P(o\mid C)$ is the larger (less negative) and the gain must be $+\mathbb E\ln P(o\mid C)$.
+      - body: |
+          The **pragmatic value** is how well the outcomes match the preferences $\mathbf C$, set by hand to $1$ for the preferred outcome and $0$ for all others:
+          $$\mathcal P=\mathbb E_{Q(o\mid\pi)}\ln P(o\mid C)$$
+          Large when the policy is expected to bring the preferred outcome.
+        feedback: |
+          A probability of $0$ has $\ln0=-\infty$, which would forbid every other outcome absolutely. Preferences are graded: the food outcome is $e^6\approx403$ times as likely as the cue under $\mathbf C$, not infinitely.
+    explanation: |
+      In the T-maze, $\mathbf C=\sigma(-1,0,0,6,-6)$ over (middle, cue left, cue right, food, shock).
+
+  - id: ambrisk
+    title: Ambiguity and risk
+    row: 4
+    col: 2
+    body: |
+      The same $G$ can be regrouped, with the gains written out:
+      $$\begin{aligned}G&=\mathbb E_{Q(s\mid\pi)}H[P(o\mid s)]\\&\quad+D_{KL}[Q(o\mid\pi)\|P(o\mid C)]\end{aligned}$$
+      **Ambiguity** (how blurred the likelihood is) plus **risk** (distance of the expected outcomes from the preferred ones). Both are minimised.
+    decoys:
+      - body: |
+          The same $G$ can be regrouped, with the gains written out:
+          $$\begin{aligned}G&=-\mathbb E_{Q(s\mid\pi)}H[P(o\mid s)]\\&\quad+D_{KL}[Q(o\mid\pi)\|P(o\mid C)]\end{aligned}$$
+          **Ambiguity** (how blurred the likelihood is) plus **risk** (distance of the expected outcomes from the preferred ones).
+        feedback: |
+          Ambiguity enters $G$ with a **plus**: a policy that leads to states with blurred outcomes is worse. A minus sign would make the creature seek ambiguity.
+      - body: |
+          The same $G$ can be regrouped, with the gains written out:
+          $$\begin{aligned}G&=\mathbb E_{Q(s\mid\pi)}H[P(o\mid s)]\\&\quad+H[Q(o\mid\pi)]\end{aligned}$$
+          **Ambiguity** (how blurred the likelihood is) plus **risk** (how spread the expected outcomes are).
+        feedback: |
+          Risk is not the spread of the outcomes, it is the **divergence from the preferred outcomes**. A policy can have a sharp outcome and a large risk, if it is the wrong outcome.
+    explanation: |
+      With flat preferences, ambiguity plus risk equals a constant minus the epistemic value, so the two groupings give the same ranking of policies.
+
+  - id: policy
+    title: Policy posterior
+    row: 5
+    col: 2
+    body: |
+      The policy probabilities are a softmax of three scores:
+      $$\boldsymbol\pi=\sigma\big(\ln\mathbf E-\mathbf F-\gamma\,\mathbf G\big)$$
+      Habit $\mathbf E$ (a prior over policies), the free energy $\mathbf F$ of the data seen and the expected free energy $\mathbf G$ of the outcomes to come, with a precision $\gamma$ on $\mathbf G$. At $\gamma=1$ it is $\sigma(\ln\mathbf E-\mathbf F-\mathbf G)$.
+    decoys:
+      - body: |
+          The policy probabilities are a softmax of three scores, with the habit added as a probability:
+          $$\boldsymbol\pi\propto\mathbf E+\sigma\big(-\mathbf F-\gamma\,\mathbf G\big)$$
+          Habit $\mathbf E$, the free energy $\mathbf F$ of the data seen and the expected free energy $\mathbf G$, with a precision $\gamma$ on $\mathbf G$.
+        feedback: |
+          Beliefs combine by **multiplying** probabilities, i.e. adding their logarithms. With $\mathbf E=(0.7,0.3)$ and $\mathbf F=(0.5,1.5)$, $\mathbf G=(1,0.8)$ the right answer is $0.839$ for the first policy, not the result of adding $0.7$ to a probability.
+      - body: |
+          The policy probabilities are a softmax of three scores:
+          $$\boldsymbol\pi=\sigma\big(\ln\mathbf E-\mathbf F-\gamma\,\mathbf G\big)$$
+          With $\gamma=0$ the creature picks the policy with the lowest $\mathbf G$ every time, and with $\gamma\to\infty$ it chooses at random.
+        feedback: |
+          Reversed. The precision $\gamma$ is a gain on $\mathbf G$: at $\gamma=0$ the term vanishes and, with no other difference, the choice is uniform; at $\gamma\to\infty$ the smallest $\mathbf G$ wins outright.
+    explanation: |
+      The action is then drawn from $\boldsymbol\pi$ (or its mode): a creature that acts, as a creature that infers.
+
+  - id: dirichlet
+    title: Dirichlet counts
+    row: 1
+    col: 3
+    body: |
+      Learning the likelihood means putting a prior on it: **Dirichlet counts** $a_{ij}$ (pseudo-observations: row $i$ outcome, column $j$ state). Each observation adds to the counts, weighted by the belief about the state:
+      $$\mathbf a\leftarrow\mathbf a+\sum_\tau o_\tau\otimes\mathbf s_\tau$$
+      The expected likelihood is each column of $\mathbf a$ divided by its total.
+    decoys:
+      - body: |
+          Learning the likelihood means putting a prior on it: **Dirichlet counts** $a_{ij}$ (pseudo-observations: row $i$ outcome, column $j$ state). Each observation adds to the counts, ignoring the belief about the state:
+          $$\mathbf a\leftarrow\mathbf a+\sum_\tau o_\tau\otimes\mathbf 1$$
+          The expected likelihood is each column of $\mathbf a$ divided by its total.
+        feedback: |
+          The state is hidden, so the count for a state column is shared out **according to the belief** $\mathbf s_\tau$. Adding to every column equally would make all columns look the same.
+      - body: |
+          Learning the likelihood means putting a prior on it: **Dirichlet counts** $a_{ij}$ (pseudo-observations: row $i$ outcome, column $j$ state). Each observation resets the counts to the latest one:
+          $$\mathbf a\leftarrow o_\tau\otimes\mathbf s_\tau$$
+          The expected likelihood is each column of $\mathbf a$ divided by its total.
+        feedback: |
+          Counts **accumulate**: the old pseudo-observations stay and the new one is added. That is why an old, well-counted column hardly moves while a new one moves a lot.
+    explanation: |
+      From a prior of ones, one observation $o=(1,0)$ with belief $\mathbf s=(0.9,0.1)$ gives $A_{11}=1.9/2.9\approx0.655$.
+
+  - id: novelty
+    title: Novelty
+    row: 2
+    col: 3
+    body: |
+      Once the likelihood is uncertain, the policy score gets a **novelty** term for outcomes that would teach the counts something. For a column with counts $a_{ij}$ and total $a_{0j}$:
+      $$W_{ij}\approx\frac{1}{2a_{ij}}-\frac{1}{2a_{0j}}$$
+      It shrinks as counts grow: a column $(3,4)$ has $0.066$, a column $(53,49)$ only $0.0049$.
+    decoys:
+      - body: |
+          Once the likelihood is uncertain, the policy score gets a **novelty** term for outcomes that would teach the counts something. For a column with counts $a_{ij}$ and total $a_{0j}$:
+          $$W_{ij}\approx\frac{a_{ij}}{2}-\frac{a_{0j}}{2}$$
+          It grows as counts grow: a column $(53,49)$ is more novel than a column $(3,4)$.
+        feedback: |
+          Backwards: well-known columns have little left to teach. Novelty is large when the counts are **small**, and goes to zero as they grow.
+      - body: |
+          Once the likelihood is uncertain, the policy score gets a **novelty** term for outcomes that would teach the counts something. It is the same as the epistemic value about states, $H[Q(o)]-\mathbb E H[P(o\mid s)]$, now computed with $\mathbf A$.
+        feedback: |
+          Salience (about states) and novelty (about the **parameters** $\mathbf A$) are different gains. A model can know its states and still have much to learn about its likelihood, and the reverse.
+    explanation: |
+      The total is $G=-\text{salience}-\text{novelty}-\text{pragmatic}$: curiosity about states, and curiosity about the model.
+
+  - id: gibbs
+    title: Precision as a gain
+    row: 3
+    col: 3
+    body: |
+      A prior $\mathbf D$ can be made more or less sure with a precision $\omega$ that multiplies its logarithm:
+      $$P(s\mid\omega)=\mathrm{Cat}\big(\sigma(\omega\ln\mathbf D)\big)$$
+      $\omega=0$ gives a uniform distribution, $\omega=1$ gives $\mathbf D$, large $\omega$ gives all probability to the largest entry. For $\mathbf D=(0.6,0.3,0.1)$ and $\omega=2$: $(0.783,0.196,0.022)$.
+    decoys:
+      - body: |
+          A prior $\mathbf D$ can be made more or less sure with a precision $\omega$ that is added to its logarithm:
+          $$P(s\mid\omega)=\mathrm{Cat}\big(\sigma(\ln\mathbf D+\omega)\big)$$
+          Larger $\omega$ gives more weight to the largest entry.
+        feedback: |
+          Adding the same number to every log-probability changes nothing after the softmax. A gain must **multiply** the differences between them.
+      - body: |
+          A prior $\mathbf D$ can be made more or less sure with a precision $\omega$ that multiplies its logarithm:
+          $$P(s\mid\omega)=\mathrm{Cat}\big(\sigma(\omega\ln\mathbf D)\big)$$
+          $\omega=0$ gives all probability to the largest entry, and large $\omega$ gives a uniform distribution.
+        feedback: |
+          Reversed. At $\omega=0$ the log prior is erased and the softmax of equal numbers is uniform; a larger $\omega$ stretches the differences and the largest entry wins.
+    explanation: |
+      The same gain trick is used on $\mathbf G$ in the policy rule, and $\omega$ itself can be inferred by free energy minimisation.
+
+  - id: hier
+    title: Empirical prior from above
+    row: 4
+    col: 3
+    body: |
+      In a two-level model, the outcomes of the higher level are **not observed**: they are predicted, and the prediction becomes the initial prior $\mathbf D^{(1)}$ of the lower level. For a sentence $k$ and word $w$ at step $t$:
+      $$\begin{aligned}D_t(w)=\sum_k&\,Q(k\mid\text{words before }t)\\&\times P(w\mid k,t)\end{aligned}$$
+    decoys:
+      - body: |
+          In a two-level model, the outcomes of the higher level are **observed** from the lower level, and they become the initial prior $\mathbf D^{(1)}$ of the next lower step. For a sentence $k$ and word $w$ at step $t$:
+          $$\begin{aligned}D_t(w)=\sum_k&\,Q(k\mid\text{words before }t)\\&\times P(w\mid k,t)\end{aligned}$$
+        feedback: |
+          Nothing is observed at the higher level. Its outcomes are predictions, which is exactly why they work as **empirical priors** for the level below. The data enter only at the lowest level.
+      - body: |
+          In a two-level model, the outcomes of the higher level are **not observed**: they are predicted, and the prediction becomes the initial prior $\mathbf D^{(1)}$ of the lower level, fixed at the start:
+          $$D_t(w)=\sum_k P(k)\,P(w\mid k,t)$$
+        feedback: |
+          The prediction must use the **posterior** over sentences after the words heard so far, $Q(k\mid\text{words before }t)$. With the prior $P(k)$ the higher level would never learn which sentence is being read.
+    explanation: |
+      After reading *flee wait feed* when two sentences share it, the posterior over the sentences stays at $0.5$: the evidence does not separate them yet.
+
+  - id: timescale
+    title: Two timescales
+    row: 5
+    col: 3
+    body: |
+      The levels run at **different speeds**: the higher level takes one slow step $\tau^{(2)}$ for several fast steps $\tau^{(1)}$ of the lower level. The sentence persists while its words follow one another, and the state of the higher level changes only when a whole sentence is done.
+    decoys:
+      - body: |
+          The levels run at **different speeds**: the higher level takes several fast steps $\tau^{(2)}$ for each slow step $\tau^{(1)}$ of the lower level. The sentence changes at every word, because each word is observed in turn.
+        feedback: |
+          Reversed. The higher level is the **slow** one, which is what lets it carry a context (the sentence) through the quick changes of the lower level (the words).
+      - body: |
+          The levels run at the **same speed**: both take one step per observation, and the higher level differs only in having more states.
+        feedback: |
+          Same speed would leave nothing to carry across steps. The separation of timescales is the whole point of depth: slow context, fast detail.
+    explanation: |
+      With words of three steps each, the lower level makes three steps while the higher makes one.
+
+edges:
+  - { from: hmm, to: factor, label: factorised as }
+  - { from: factor, to: update, label: then run }
+  - { from: update, to: fpi, label: summed into }
+  - { from: fpi, to: policy, label: enters as }
+  - { from: policy, to: tmaze, dashed: true }
+  - { from: efe, to: epistemic, label: gain term }
+  - { from: epistemic, to: pragmatic, label: traded against }
+  - { from: pragmatic, to: ambrisk, label: regrouped as }
+  - { from: ambrisk, to: policy, label: scores }
+  - { from: epistemic, to: novelty, dashed: true }
+  - { from: dirichlet, to: novelty, label: gives }
+  - { from: pragmatic, to: gibbs, dashed: true }
+  - { from: gibbs, to: hier, label: a prior for }
+  - { from: hier, to: timescale, label: runs at }
+
+outroTitle: Level 7 in one picture
+outro: |
+  **Perception.** An HMM has hidden states $s_\tau$ with likelihood $\mathbf A$, transitions $\mathbf B$ and prior $\mathbf D$; beliefs update from three messages,
+
+  $$\begin{aligned}\dot{\mathbf v}_\tau&=\ln\mathbf A\cdot o_\tau+\ln(\mathbf B\mathbf s_{\tau-1})\\&\quad+\ln(\mathbf B^\dagger\mathbf s_{\tau+1})-\ln\mathbf s_\tau\end{aligned}$$
+
+  **Planning.** Policies $\pi$ are scored by habit $\mathbf E$, the free energy $\mathbf F$ of the data seen and the expected free energy $\mathbf G$ of the outcomes to come, with $G=-\text{epistemic}-\text{pragmatic}$, equivalently ambiguity plus risk:
+
+  $$\boldsymbol\pi=\sigma\big(\ln\mathbf E-\mathbf F-\gamma\,\mathbf G\big)$$
+
+  **Learning and depth.** Dirichlet counts learn the likelihood and add a novelty term to $G$; a precision $\omega$ multiplies a log prior, $\sigma(\omega\ln\mathbf D)$; a slow higher level sets the prior of a fast lower level from its predicted outcomes.
+
+  **Next:** the level challenge. Five harder problems that combine these pieces: a model of a new creature, the policy scores, a learning step and a two-level reading.

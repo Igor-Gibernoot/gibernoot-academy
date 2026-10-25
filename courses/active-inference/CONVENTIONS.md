@@ -124,6 +124,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - ch07-deep-inference (widget `deep-levels`, Figs 7.12-7.13): six sentences flee wait feed wait / wait wait wait feed / wait flee wait feed / flee wait feed flee / wait wait wait flee / wait flee wait flee; first-word prior wait 2/3, flee 1/3; $\tau^{(2)}$ slow (sentence persists), $\tau^{(1)}$ fast (3 steps per word); preset `reading`. Lesson: structure card by hand-placed factor-graph; two-sentences prior 3:1 noise .05: D_2(no)=.725, after yes,no sentence 1 .983; sentence 1 after flee .5, step 4 wait .5.
 - ch07-discrete-traps: lamp A rows states (.8,.2),(.2,.8), Q(s)=(.5,.5): H[Q(o)] .693, ambiguity .500, gain .193; pi=sigma(-gamma G), G=(1,.8): better policy .646 at gamma 3; counts (3,4)->(4,4) gives .5; novelty (3,4) .066 vs (53,49) .0049; flee wait feed shared by two sentences: Q(sentence 1)=.5.
 - ch07-intuition-discrete: gain at belief (.5,.5): sensor X rows (.9,.1),(.1,.9) .368; Z rows (1,0),(.4,.6) .274; Y rows both (.8,.2) 0. pi: E=(.7,.3), F=(1.2,.4), G=(.5,1.1) gives .656; G=(2,1.4), gamma 2 gives .769.
+- ch07-map: epistemic value $\mathcal I$, pragmatic value $\mathcal P=\mathbb E\ln P(o|C)$, $G=-\mathcal I-\mathcal P=$ ambiguity + $D_{KL}[Q(o|\pi)\|P(o|C)]$; policy rule written $\sigma(\ln\mathbf E-\mathbf F-\gamma\mathbf G)$; $\omega$ = gain on $\ln\mathbf D$ (Gibbs). Factorised B: 12 pitch x 4 loudness, 160 vs 2304 entries.
 
 ## Chapter 8
 
