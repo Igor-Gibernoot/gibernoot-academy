@@ -1,0 +1,258 @@
+id: ch02-free-energy-bound
+title: "Guided Problem: Free Energy Bounds Surprise"
+kind: guided
+cards:
+  - type: text
+    id: problem
+    title: "The problem"
+    body: |
+      You hear a rustle ($y$) in the garden. The hidden cause $x$ is a **cat**, a **dog** or a **fox**, with prior $P(x)=0.6,\,0.3,\,0.1$, and each makes the rustle with probability $P(y\mid x)=0.2,\,0.5,\,0.9$. So the joint $P(y,x)=P(x)\,P(y\mid x)$ is $0.12,\,0.15,\,0.09$ and the evidence is $P(y)=0.36$.
+
+      You hold a guess $Q(x)$ about the cause. Its **variational free energy** is
+      $$F[Q,y]=\mathbb{E}_{Q(x)}\big[\ln Q(x)-\ln P(y,x)\big],$$
+      the average under $Q$ of $\ln Q(x)-\ln P(y,x)$, in nats.
+
+      > **Prove** that for every guess $Q$,
+      > $$F[Q,y]\ge-\ln P(y),$$
+      > find exactly when equality holds, and check it on the garden.
+
+      The hard part: $F$ is computed *without* $P(y)$, yet it must sit above the number $-\ln P(y)$ built from it. We go step by step. Recall: $\mathbb{E}_{Q(x)}[g(x)]=\sum_x Q(x)\,g(x)$, and $\sum_x Q(x)=1$.
+
+  - type: build
+    id: split-joint
+    prompt: |
+      **Step 1.** The product rule unfolds the joint in two ways, $P(y,x)=P(x)\,P(y\mid x)=P(x\mid y)\,P(y)$. Use the second one, with the exact posterior $P(x\mid y)$ and the evidence $P(y)$, to complete
+    prefix: '-\ln P(y,x)='
+    tiles: ['-\ln P(x\mid y)', '-\ln P(y)', '+\ln P(y)', '-\ln P(x)', '-\ln P(y\mid x)']
+    answers:
+      - ['-\ln P(x\mid y)', '-\ln P(y)']
+      - ['-\ln P(y)', '-\ln P(x\mid y)']
+    wrong:
+      - answer: ['-\ln P(x\mid y)', '+\ln P(y)']
+        feedback: |
+          The sign of the second term is flipped. $P(y,x)=P(x\mid y)\,P(y)$, so $\ln P(y,x)=\ln P(x\mid y)+\ln P(y)$, and with the minus sign in front **both** terms keep a minus.
+      - answer: ['-\ln P(x)', '-\ln P(y\mid x)']
+        feedback: |
+          That is also correct for the joint (the other unfolding, prior times likelihood), but it is not the one we need: it does not contain the exact posterior or the evidence.
+    hint: |
+      Take the logarithm of $P(y,x)=P(x\mid y)\,P(y)$: a product becomes a sum. Then put a minus in front of everything.
+    explanation: |
+      $\ln P(y,x)=\ln P(x\mid y)+\ln P(y)$, so $-\ln P(y,x)=-\ln P(x\mid y)-\ln P(y)$. The point of this unfolding is that it brings in the quantity we want to compare with, the evidence $P(y)$, and the exact posterior.
+
+  - type: text
+    id: substitute
+    title: "Step 2: put it into F"
+    body: |
+      Insert $-\ln P(y,x)=-\ln P(x\mid y)-\ln P(y)$ into the definition and split the average into two:
+      $$\begin{gathered}F=\mathbb{E}_{Q(x)}\big[\ln Q(x)-\ln P(x\mid y)\big]\\-\mathbb{E}_{Q(x)}\big[\ln P(y)\big].\end{gathered}$$
+      The first average has the shape of a KL divergence. The second contains $\ln P(y)$, a number that has **no** $x$ in it.
+
+  - type: mcq
+    id: constant-average
+    prompt: |
+      The term $\mathbb{E}_{Q(x)}[\ln P(y)]=\sum_x Q(x)\,\ln P(y)$ has a quantity, $\ln P(y)$, that is the same for every cause $x$. What is this average equal to?
+    options:
+      - text: '$\ln P(y)$ itself: it factors out of the sum, and $\sum_x Q(x)=1$.'
+        correct: true
+      - text: '$0$, because $\ln P(y)$ does not depend on $x$.'
+        feedback: |
+          Not depending on $x$ means it is a constant, not that it vanishes. The constant comes out of the sum and is multiplied by $\sum_x Q(x)=1$, so it stays. Here it is $\ln0.36\approx-1.02$.
+      - text: '$\ln P(y)\cdot P(y)$, because the average is also weighted by the evidence.'
+        feedback: |
+          The weights of this average are the numbers $Q(x)$, our guess. The evidence is not a weight. Only the $Q(x)$ appear, and they add to $1$.
+    explanation: |
+      $\sum_x Q(x)\ln P(y)=\ln P(y)\sum_x Q(x)=\ln P(y)$. The average of a constant is the constant. This is why $Q$ drops out of the second term: perception, which changes only $Q$, cannot change it.
+
+  - type: build
+    id: divergence-form
+    prompt: |
+      **Step 3.** The first average in Step 2 is the KL divergence from $Q(x)$ to the exact posterior. Complete the result.
+    prefix: 'F='
+    tiles: ['D_{KL}[Q(x)\,\|\,P(x\mid y)]', 'D_{KL}[P(x\mid y)\,\|\,Q(x)]', 'D_{KL}[Q(x)\,\|\,P(x)]', '-\ln P(y)', '+\ln P(y)']
+    answers:
+      - ['D_{KL}[Q(x)\,\|\,P(x\mid y)]', '-\ln P(y)']
+      - ['-\ln P(y)', 'D_{KL}[Q(x)\,\|\,P(x\mid y)]']
+    wrong:
+      - answer: ['D_{KL}[Q(x)\,\|\,P(x\mid y)]', '+\ln P(y)']
+        feedback: |
+          The sign is flipped. Step 2 has $-\mathbb{E}_{Q}[\ln P(y)]=-\ln P(y)$.
+      - answer: ['D_{KL}[P(x\mid y)\,\|\,Q(x)]', '-\ln P(y)']
+        feedback: |
+          The arguments are swapped. The average in Step 2 is taken under $Q$, and a KL divergence is averaged under its **first** argument, so it is $D_{KL}[Q\,\|\,P(x\mid y)]$. Swapping changes the value.
+      - answer: ['D_{KL}[Q(x)\,\|\,P(x)]', '-\ln P(y)']
+        feedback: |
+          That compares $Q$ with the **prior** $P(x)$, which gives the complexity reading. Here the log inside is $\ln P(x\mid y)$, the exact posterior.
+    hint: |
+      The first average is $\mathbb{E}_{Q}[\ln Q-\ln P(x\mid y)]$; the second is $-\ln P(y)$ by the card before.
+    explanation: |
+      $$F=D_{KL}[Q(x)\,\|\,P(x\mid y)]-\ln P(y).$$
+      Divergence from the exact posterior, plus the surprise $-\ln P(y)$. We are left with the sign of the divergence.
+
+  - type: mcq
+    id: why-kl-nonneg
+    prompt: |
+      **Step 4.** To conclude $F\ge-\ln P(y)$ we need $D_{KL}[Q(x)\,\|\,P(x\mid y)]\ge0$. Which argument proves it?
+    options:
+      - text: 'Write $-D_{KL}=\sum_x Q\ln\frac{P(x\mid y)}{Q}$ and use $\ln u\le u-1$: this is at most $\sum_x Q\big(\frac{P(x\mid y)}{Q}-1\big)=1-1=0$.'
+        correct: true
+      - text: 'Probabilities are at most $1$, so every logarithm of a probability is negative and the average is positive.'
+        feedback: |
+          Tempting, but the divergence is a difference of logs, $\ln Q-\ln P(x\mid y)$, and a single term can have either sign (in the earlier example one of the two terms was negative). Only the **average under $Q$** is guaranteed non-negative, and this needs the normalisation of both distributions.
+      - text: 'It is a distance, and distances are never negative.'
+        feedback: |
+          A KL divergence is not a distance: swapping its arguments changes its value, and it breaks the triangle inequality too. Its non-negativity is a separate fact that needs its own proof.
+      - text: 'Because $Q(x)\ge P(x\mid y)$ for every $x$.'
+        feedback: |
+          Both $Q$ and $P(x\mid y)$ add up to $1$, so if one were larger for every $x$ they could not both be normalised. They can differ in either direction at different causes.
+    hint: |
+      The curve $\ln u$ lies below its tangent line at $u=1$, which is $u-1$: $\ln u\le u-1$. Apply it to $u=P(x\mid y)/Q(x)$.
+    explanation: |
+      $\ln u\le u-1$ for every $u>0$, with equality only at $u=1$. With $u=P(x\mid y)/Q(x)$,
+      $$\begin{aligned}-D_{KL}&=\sum_x Q\ln\frac{P(x\mid y)}{Q}\\&\le\sum_x Q\Big(\frac{P(x\mid y)}{Q}-1\Big)\\&=\sum_x P(x\mid y)-\sum_x Q=1-1=0.\end{aligned}$$
+      So $D_{KL}\ge0$. The same fact is Jensen's inequality, "the log of an average is at least the average of the log", $\ln\mathbb{E}_Q\big[\frac{P(x\mid y)}{Q}\big]=\ln1=0\ge\mathbb{E}_Q\big[\ln\frac{P(x\mid y)}{Q}\big]$, the move behind the usual derivation of the bound.
+
+  - type: order
+    id: order-kl-proof
+    prompt: Put the proof that $D_{KL}[Q\,\|\,P(x\mid y)]\ge0$ in order.
+    steps:
+      - 'Write $-D_{KL}=\sum_x Q(x)\ln\frac{P(x\mid y)}{Q(x)}$, the minus sign turns $Q/P$ into $P/Q$ inside the log.'
+      - 'Apply $\ln u\le u-1$ to each $u=P(x\mid y)/Q(x)$, the weights $Q(x)$ are non-negative, so the inequality survives the sum.'
+      - 'Simplify: $\sum_x Q\big(\frac{P(x\mid y)}{Q}-1\big)=\sum_x P(x\mid y)-\sum_x Q(x)$.'
+      - 'Both distributions are normalised: this is $1-1=0$, so $-D_{KL}\le0$, that is $D_{KL}\ge0$.'
+    hint: |
+      Start from the definition, bound it, simplify, then use that probabilities add to $1$.
+    explanation: |
+      Definition, inequality, simplification, normalisation. Equality in $\ln u\le u-1$ holds only at $u=1$, so $D_{KL}=0$ requires $P(x\mid y)=Q(x)$ for every $x$ that $Q$ gives weight to.
+
+  - type: mcq
+    id: when-tight
+    prompt: |
+      Now $F=D_{KL}[Q\,\|\,P(x\mid y)]-\ln P(y)\ge-\ln P(y)$. For which guess $Q$ does $F$ equal the surprise $-\ln P(y)$ exactly?
+    options:
+      - text: 'Exactly when $Q(x)=P(x\mid y)$ for every $x$: the exact posterior.'
+        correct: true
+      - text: 'When $Q$ is the prior $P(x)$.'
+        feedback: |
+          In the garden the prior $(0.6,0.3,0.1)$ gives $F\approx1.18$ against a surprise of $1.02$: the gap is $0.16$, not $0$. The prior ignores the rustle.
+      - text: 'When $Q$ puts all its weight on the most probable cause.'
+        feedback: |
+          In the garden the most probable cause is the dog ($42\%$). All on the dog gives $F=-\ln0.15\approx1.90$, a gap of about $0.88$. A certain guess is not an exact one.
+      - text: 'Never: the bound is strict for every $Q$.'
+        feedback: |
+          The divergence is $0$ at $Q=P(x\mid y)$ (equality case of $\ln u\le u-1$ at $u=1$), so the bound is reached there.
+    explanation: |
+      $D_{KL}=0$ only if $u=P(x\mid y)/Q(x)=1$ for every $x$, that is $Q=P(x\mid y)$. Then $F=-\ln P(y)$. The bound is tight only for the exact posterior, and the farther $Q$ is from it, the bigger the gap.
+
+  - type: numeric
+    id: f-all-fox
+    prompt: |
+      **Step 5, the garden.** Take the guess $Q=(0,\,0,\,1)$ for (cat, dog, fox): all weight on the fox. The joint is $P(y,\text{fox})=0.1\times0.9=0.09$. In $F=\sum_x Q(x)\,[\ln Q(x)-\ln P(y,x)]$ the causes with $Q(x)=0$ contribute $0$. Compute $F$ in nats.
+    answer: 2.408
+    tolerance: 0.01
+    answerText: '2.41'
+    wrong:
+      - { value: 1.022, tolerance: 0.01, feedback: "That is $-\\ln P(y)=-\\ln0.36$, the surprise. $F$ uses the **joint** of the fox, $0.09$, not the evidence." }
+      - { value: 1.386, tolerance: 0.01, feedback: "That is $-\\ln0.25$, the exact posterior of the fox. $F$ uses the joint $P(y,\\text{fox})=0.09$." }
+      - { value: 0, feedback: "Only $\\ln Q(\\text{fox})=\\ln1=0$ vanishes. The term $-\\ln P(y,\\text{fox})$ remains." }
+    hint: |
+      Only the fox term survives, with $\ln Q(\text{fox})=\ln1=0$: $F=-\ln0.09$.
+    explanation: |
+      $F=1\cdot[\ln1-\ln0.09]=-\ln0.09\approx2.408$ nats. Check the bound: $-\ln P(y)=-\ln0.36\approx1.022$, and $2.408\ge1.022$. Note that $F$ never used $P(y)$.
+
+  - type: numeric
+    id: gap-subtract
+    prompt: |
+      The guess "all on the fox" has $F=-\ln0.09\approx2.408$ nats, and the surprise is $-\ln P(y)=-\ln0.36\approx1.022$ nats. By the result $F=D_{KL}[Q\,\|\,P(x\mid y)]-\ln P(y)$, how large is the divergence $D_{KL}[Q\,\|\,P(x\mid y)]$, in nats?
+    answer: 1.386
+    tolerance: 0.01
+    answerText: '1.39'
+    wrong:
+      - { value: 3.43, tolerance: 0.02, feedback: "You added the surprise. The relation is $F=D_{KL}+(-\\ln P(y))$, so $D_{KL}=F-(-\\ln P(y))$." }
+      - { value: 2.408, tolerance: 0.01, feedback: "That is $F$ itself. The divergence is only the part of $F$ **above** the surprise." }
+    hint: |
+      $D_{KL}=F-\text{surprise}$.
+    explanation: |
+      $D_{KL}=2.408-1.022=1.386$ nats, the distance of this very confident guess from the exact posterior. We found it without computing the posterior. Now check it the other way.
+
+  - type: numeric
+    id: kl-all-fox
+    prompt: |
+      Compute the same divergence directly from its definition. The exact posterior is $P(x\mid y)=P(y,x)/P(y)=(0.12,\,0.15,\,0.09)/0.36$, so $P(\text{fox}\mid y)=0.25$. For $Q=(0,\,0,\,1)$ (cat, dog, fox), compute $D_{KL}[Q\,\|\,P(x\mid y)]=\sum_x Q(x)\,[\ln Q(x)-\ln P(x\mid y)]$ in nats. Causes with $Q(x)=0$ contribute $0$.
+    answer: 1.386
+    tolerance: 0.01
+    answerText: '1.39'
+    wrong:
+      - { value: 0, feedback: "Zero only if $Q=P(x\\mid y)$ exactly. Here the fox has $Q=1$ but exact posterior $0.25$." }
+    hint: |
+      Only the fox term: $1\cdot[\ln1-\ln0.25]=\ln4$.
+    explanation: |
+      $D_{KL}=\ln1-\ln0.25=\ln4\approx1.386$ nats. The two routes agree: $F-(-\ln P(y))=2.408-1.022=1.386$. This is the identity $F=D_{KL}-\ln P(y)$ working on real numbers.
+
+  - type: widget
+    id: widget-check
+    review: false
+    widget: free-energy-bound
+    config:
+      observation: "you hear a rustle"
+      causes:
+        - { name: cat, prior: 0.6, likelihood: 0.2 }
+        - { name: dog, prior: 0.3, likelihood: 0.5 }
+        - { name: fox, prior: 0.1, likelihood: 0.9 }
+      q: [0, 0, 1]
+      presets:
+        - { label: "All on fox", q: [0, 0, 1] }
+        - { label: "All on dog", q: [0, 1, 0] }
+        - { label: "Q = prior", q: [0.6, 0.3, 0.1] }
+    body: |
+      The sliders start at "all on the fox": read $F\approx2.41$, the surprise $1.02$ and the gap $1.39$, your two routes. Now try **All on dog** and **Q = prior**, then **Set Q = exact posterior**.
+
+      Does the gap ever drop below $0$? Where is it exactly $0$?
+
+  - type: mcq
+    id: why-useful
+    prompt: |
+      Computing $-\ln P(y)$ needs the sum over all causes, $P(y)=\sum_x P(y,x)$, which for a brain is too costly. Why is the bound $F\ge-\ln P(y)$ still useful?
+    options:
+      - text: '$F$ needs only $Q$ and the joint $P(y,x)=P(x)\,P(y\mid x)$, with no sum over all causes. Lowering $F$ pushes it towards the surprise and shrinks the divergence to the exact posterior.'
+        correct: true
+      - text: 'Because $F$ is always equal to the surprise, so we can use either.'
+        feedback: |
+          Equality holds only at the exact posterior. For other guesses $F$ is strictly larger by the divergence, which is what makes lowering it meaningful.
+      - text: 'Because the divergence $D_{KL}[Q\,\|\,P(x\mid y)]$ is easy to compute directly.'
+        feedback: |
+          It is not: it contains $P(x\mid y)=P(y,x)/P(y)$, hence the evidence $P(y)$ and the costly sum. Only the combination $F$ avoids it.
+    explanation: |
+      Each step of the proof turned a quantity we cannot compute (the divergence, which needs $P(y)$) into one we can ($F$, which needs only $Q$ and the generative model), at the price of an inequality. Minimising $F$ over $Q$ is therefore a workable stand-in for exact inference, and the bound tells us how far we still are: $F-(-\ln P(y))$.
+
+  - type: numeric
+    id: divergence-from-f
+    prompt: |
+      A model has evidence $P(y)=0.36$ for an observation $y$. A guess $Q$ has free energy $F=2$ nats. Using $F=D_{KL}[Q\,\|\,P(x\mid y)]-\ln P(y)$, what is its divergence from the exact posterior, in nats?
+    answer: 0.978
+    tolerance: 0.01
+    answerText: '0.98'
+    wrong:
+      - { value: 3.022, tolerance: 0.02, feedback: "You added the surprise instead of subtracting it: $D_{KL}=F-(-\\ln P(y))$." }
+      - { value: 2, feedback: "That is $F$. The divergence is $F$ minus the surprise $-\\ln0.36\\approx1.022$." }
+      - { value: 1.022, tolerance: 0.01, feedback: "That is the surprise $-\\ln0.36$. The divergence is the part of $F$ above it." }
+    hint: |
+      $D_{KL}=F+\ln P(y)=2+\ln0.36$.
+    explanation: |
+      $D_{KL}=2-(-\ln0.36)=2-1.022\approx0.978$ nats. As a check, it is positive, as it must be since $F=2\ge1.022$.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Setup.** A generative model over a hidden state $x$ and an observation $y$ has the joint $P(y,x)=P(x)\,P(y\mid x)$, the evidence $P(y)=\sum_x P(y,x)$ and the exact posterior $P(x\mid y)$. A guess about $x$ is an approximate posterior $Q(x)$. Its **variational free energy** (minimised) is
+        $$F[Q,y]=\mathbb{E}_{Q(x)}\big[\ln Q(x)-\ln P(y,x)\big].$$
+      - **Divergence plus evidence.** Splitting $\ln P(y,x)=\ln P(x\mid y)+\ln P(y)$ and using $\sum_x Q(x)=1$ (the term $\ln P(y)$ does not depend on $x$):
+        $$F=D_{KL}[Q(x)\,\|\,P(x\mid y)]-\ln P(y)$$
+      - **Why the divergence is never negative.** With $\ln u\le u-1$ (equality only at $u=1$) applied to $u=P(x\mid y)/Q(x)$:
+        $$\begin{aligned}-D_{KL}&=\sum_x Q\ln\frac{P(x\mid y)}{Q}\\&\le\sum_x Q\Big(\frac{P(x\mid y)}{Q}-1\Big)\\&=1-1=0\end{aligned}$$
+      - **The bound.** Hence for every guess $Q$,
+        $$F\ge-\ln P(y)$$
+        with equality **only** when $Q(x)=P(x\mid y)$. The gap $F-(-\ln P(y))$ is exactly $D_{KL}[Q\,\|\,P(x\mid y)]$.
+      - **Example and use.** In the garden (cat/dog/fox, prior $0.6/0.3/0.1$, rustle likelihood $0.2/0.5/0.9$, $P(y)=0.36$) the guess "all on the fox" has $F=-\ln0.09\approx2.41$ nats, surprise $1.02$, gap $1.39=\ln4$, since the exact posterior gives the fox $0.25$. $F$ needs only $Q$ and the joint, never $P(y)$ or $P(x\mid y)$, so it can be computed and lowered.
+
+      **Next:** a fast traps round on surprise, free energy and approximate posteriors.

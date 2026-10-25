@@ -34,6 +34,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - ch02-action-inference: surprise $\mathfrak{I}(y)=-\ln P(y)$ nats; action $u$ (acts on the world $x^*$, not the model); toy model A: P(cold)=0.05, P(warm)=0.5 (drop $\ln10\approx2.30$); homeostat body 35, expect 37, room 28, drift 0.05.
 - free-energy-bound widget: $F=\sum_x Q(x)[\ln Q-\ln P(x)-\ln P(y\mid x)]$ minimised, $F\ge-\ln P(y)$, gap $=D_{KL}[Q\parallel P(x\mid y)]$; garden: $P(y)=0.36$, surprise $1.02$ nats, exact posterior $0.33/0.42/0.25$, $Q=$prior gives $F=1.18$ (gap $0.16$), all on fox $F=2.41$.
 - ch02-free-energy: $F[Q,y]=\mathbb{E}_Q[\ln Q-\ln P(y,x)]$; garden Q=prior: complexity 0, accuracy -1.184, F 1.184, gap 0.162; KL example Q=(.5,.5), P=(.25,.75) gives 0.144 (swapped 0.131); all on cat F=2.12, uniform Q F=1.04. KL is asymmetric (stated).
+- ch02-free-energy-bound: KL>=0 proved by $\ln u\le u-1$ with $u=P(x\mid y)/Q$ (Jensen mentioned, Eq. 4.2); all-on-fox $Q=(0,0,1)$: $F=2.408$, gap $\ln4=1.386$; $F=2$, $P(y)=0.36$ gives divergence $0.978$. Terms with $Q=0$ contribute $0$.
 
 ## Chapter 3
 
