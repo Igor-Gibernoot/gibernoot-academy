@@ -46,6 +46,29 @@ context stays small. Igor reviews the level on the live site at the end.
 - Traps, map and challenge agents grep the chapter's earlier lesson files
   (titles, card ids, key prompts; not whole files) so they build on what
   was actually taught.
-- **Stop at the end of each level** (after its challenge) and give Igor a
+- **Level audit (after the challenge, before stopping).** The coordinator
+  spawns one fresh agent (same model rule) to audit every lesson file of the
+  level, then fix what it finds, commit and push. Checklist:
+  1. **Signs and symbols**: each formula and symbol matches the book (PDF
+     pages, per the course `CLAUDE.md` "Source verification"); no quantity
+     the book minimises is shown with a flipped sign; `sources/VERIFIED.md`
+     lists what was checked (a prose-only check is redone against the PDF).
+  2. **Level references**: no "Level N", "Levels N to M" or "Lesson N of this
+     level" for later material; refer by name. Roadmap tables use the real
+     level and lesson titles.
+  3. **Planned widget cards**: every widget card in the unit prompts' plans
+     exists in the lesson, or a widget unit was scheduled; no "no widget
+     fits" without the widgets checked.
+  4. **STATUS.md**: the Current block names the right next unit and matches
+     the last report; it stays under ~40 lines.
+  5. **Self-contained summaries**: every `own:` bullet shows its math and
+     defines each symbol, chart and example it uses; no "the book" or
+     section labels anywhere.
+  6. **Intro-level rules** (Level 1 only): every technical word glossed at
+     first use, guessing line in each opening card, cards guessable.
+  7. `node tools/validate.mjs` and shots stay clean after the fixes.
+  The agent fixes each problem itself (small `Edit`s), then reports a list
+  of what it found and fixed, plus anything it could not decide.
+- **Stop at the end of each level** (after the audit) and give Igor a
   summary of the units, any doubts, and the prompt to continue with the
   next level, so he can review the level on the live site first.
