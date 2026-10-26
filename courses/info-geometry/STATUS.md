@@ -1,22 +1,16 @@
 # Status
 
-Session start: read only **Current** (`sed -n '/^## Current (2026-10-26)
-
-- **State:** widgets `simplex-points`, `gauss-charts`, `bregman-gap`, `dual-grids` built; Level 1 built: `ch01-why` (19 cards), `ch01-manifold` (19), `ch01-divergence` (20), `ch01-bregman` (22), `ch01-legendre` (19), `ch01-dually-flat` (23).
-- **Next unit:** `ch01-pythagoras` (source md ~1006-1100, section 1.6: orthogonal curves, generalized Pythagorean theorem (1.112), projection theorem). Then proof-pythagoras, alternating, map, review, challenge, exam-partial after Level 7.
-- **Verified:** Preface, Ch.1 opening; manifold (1.1)-(1.15) PDF pp.17-20; divergence (1.23)-(1.31) pp.22-24; convex/Bregman (1.35)-(1.50) pp.25-28; Legendre (1.59)-(1.79) pp.29-31; dually flat (1.80)-(1.108) pp.32-36; Pythagorean (2.70-2.71) p.54 (see `sources/VERIFIED.md`). md anchors drift from PDF later: search the PDF page.
-- **Paths:** lessons `courses/info-geometry/chNN/`, exams `exams/`, sources git-ignored.
-
-## Log/p' STATUS.md`), never the Log.
+Session start: read only the **Current** block (`sed -n '/^## Current/,/^## Log/p' courses/info-geometry/STATUS.md`), never the Log.
 
 ## Current (2026-10-26)
 
-- **State:** widgets `simplex-points`, `gauss-charts`, `bregman-gap`, `dual-grids` built; Level 1 built: `ch01-why` (19 cards), `ch01-manifold` (19), `ch01-divergence` (20), `ch01-bregman` (22), `ch01-legendre` (19).
-- **Next unit:** `ch01-dually-flat` (widget `dual-grids` exists; presets grids, dual-basis, metric, coupled, bent; source md 841-1006, section 1.5: affine/dual affine coordinates, metric as Hessian, dual bases, parallel transport). Then pythagoras, proof-pythagoras, alternating, map, review, challenge, exam-partial after Level 7.
-- **Verified:** Preface, Ch.1 opening; manifold (1.1)-(1.15) PDF pp.17-20; divergence (1.23)-(1.31) pp.22-24; convex/Bregman (1.35)-(1.50) pp.25-28; Legendre (1.59)-(1.79) pp.29-31; Pythagorean (2.70-2.71) p.54 (see `sources/VERIFIED.md`). md anchors drift from PDF later: search the PDF page.
+- **State:** widgets `simplex-points`, `gauss-charts`, `bregman-gap`, `dual-grids` built; Level 1 built: `ch01-why` (19 cards), `ch01-manifold` (19), `ch01-divergence` (20), `ch01-bregman` (22), `ch01-legendre` (19), `ch01-dually-flat` (23), `ch01-pythagoras` (16).
+- **Next unit:** `ch01-proof-pythagoras` (guided: three-point identity and the theorem step by step; appendix-style proof is the proof of Theorem 1.2, md ~1040-1070, (1.113)-(1.119); book's (1.114) has a typo, see Log). Then alternating (md 1120-1140), map, review, challenge, then `exam-partial` is after Level 7 (not Level 1).
+- **Verified:** Preface, Ch.1 opening; manifold (1.1)-(1.15) PDF pp.17-20; divergence (1.23)-(1.31) pp.22-24; convex/Bregman (1.35)-(1.50) pp.25-28; Legendre (1.59)-(1.79) pp.29-31; dually flat (1.80)-(1.108) pp.32-36; Pythagorean/projection (1.109)-(1.122), Thms 1.2-1.4, Figs 1.7-1.8, pp.37-39; (2.70-2.71) p.54 (see `sources/VERIFIED.md`). md anchors drift from PDF later: search the PDF page.
 - **Paths:** lessons `courses/info-geometry/chNN/`, exams `exams/`, sources git-ignored.
 
 ## Log
+- 2026-10-26 `ch01-pythagoras` built (16 cards): hook, Euclid case (12.5), orthogonal curves (metric, numeric y=-2 at xi=(2,4)), triangle + simplex orthogonality sum a.b=0 (a=dlnp, b=dp), widget simplex-points (exp P-Q, mixture Q-R), numeric 0.5157, order mcq (dual theorem), non-orthogonal Q2 (sum 0.3509), flat submanifolds mcq, projection text, widget foot, numeric foot 2/3, minimality mcq. No new widget: simplex-points (family exponential/mixture) shows the triangle and the foot; checked also dual-grids, bregman-gap (not simplex pictures). Book discrepancies logged in sources/VERIFIED.md: (1.114) RHS letters and Thm 1.4 argument order (corrected consistently with (1.113), Thm 1.2). Conventions fixed here: coordinates xi, xi* kept (book theta, theta*); theorem written $D[R:P]=D[Q:P]+D[R:Q]$ with dual geodesic PQ orthogonal to geodesic QR; projection = minimize $D[R:P]$ over flat $S$, foot of the dual geodesic.
 - 2026-10-26 `ch01-manifold` built (19 cards): plane (chart-basis cartesian+polar, point (3,4): r=5, theta=0.927), Gaussians (gauss-charts sigma-only, both, two-points; midpoint sigma 1.1 -> 1.21 vs 1.46; moments (1,2)->(1,4)->(1,5)), simplex (p1,p2)=(0.3,0.45) -> p0=0.25; 3 traps; sphere only one line; Section D/E (measures, matrices) skipped. Source fix: (1.6) denominator. Conventions fixed here: subscripts as in the source (xi_1, p_0..p_n), simplex outcomes 0..n, chart (p_1..p_n).
 - 2026-10-26 widget `bregman-gap`: convex psi(xi) (quad, negentropy, neglog, quartic) with draggable tangent point and second point, tangent, gap D[xi:xi0], optional reverse gap, chord, slope triangle, conjugate panel (analytic psi*, bisection for quartic; intercept -psi*(eta0) at xi=0). Existing widgets checked for overlap: all 43 files in js/widgets (none plots a 1D convex function with a tangent; closest free-energy-bound, gaussian-fit). Throwaway lesson (removed): 7 widget cards, smoke 0 errors, shots desktop+phone viewed, validate ok. Choices: nothing numeric unless `readout`/`showSlope`; right panel not draggable; log clamps min 0.05 / 0.15. Also repaired STATUS header (a stray Current/Log fragment). Conventions fixed here: none.
 ### 2026-10-26: course created

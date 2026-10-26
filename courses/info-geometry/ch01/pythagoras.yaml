@@ -1,0 +1,256 @@
+id: ch01-pythagoras
+title: Generalized Pythagorean and Projection Theorems
+kind: concept
+own: |
+  - **Orthogonal curves.** On a space with coordinates $\xi=(\xi^1,\dots,\xi^n)$ (the index is a label, not a power), a convex potential $\psi$ and its metric $g_{ij}=\partial_i\partial_j\psi$, two curves $\xi_1(t),\xi_2(t)$ through the same point at $t=0$ are **orthogonal** when their velocities $\dot\xi_1=d\xi_1/dt$, $\dot\xi_2$ satisfy
+    {{ $$g_{ij}\,\dot\xi_1^{\,i}\,\dot\xi_2^{\,j}=0.$$ }}
+    For a geodesic with velocity $b$ (linear in $\xi$) and a dual geodesic with velocity $a$ (linear in the dual coordinates $\xi^*=\nabla\psi(\xi)$), this reads
+    {{ $$\sum_i a_i\,b^i=0.$$ }}
+  - **Generalized Pythagorean theorem.** With the divergence of the potential $\psi$ ($\psi^*$ its Legendre dual)
+    $$D[A:B]=\psi(\xi_A)+\psi^*(\xi^*_B)-\xi_A\cdot\xi^*_B,$$
+    if the dual geodesic from $P$ to $Q$ is orthogonal at $Q$ to the geodesic from $Q$ to $R$, then
+    {{ $$D[R:P]=D[Q:P]+D[R:Q].$$ }}
+    The roles swap for the other pairing (geodesic $PQ$ orthogonal to dual geodesic $QR$): then
+    $$D[P:R]=D[P:Q]+D[Q:R].$$
+    For $\psi=\tfrac12\sum(\xi^i)^2$ it is the usual theorem, since $D[A:B]=\tfrac12\lVert A-B\rVert^2$.
+  - **Projection theorem.** Let $S$ be a flat submanifold (a surface or line linear in $\xi$) of the space and $P$ a point outside. The point $F\in S$ reached by the dual geodesic from $P$ that meets $S$ at a right angle (the **foot**) is the unique minimizer
+    {{ $$F=\arg\min_{R\in S}D[R:P],$$ }}
+    because every $R\in S$ gives
+    $$\begin{aligned}D[R:P]&=D[F:P]+D[R:F]\\&\ge D[F:P],\end{aligned}$$
+    with equality only for $R=F$.
+cards:
+  - type: text
+    id: hook
+    title: "Squares add. Do divergences?"
+    body: |
+      Same rules as the rest of this level: a light tour, **guessing is the point**, and every technical word is explained when it first appears.
+
+      In school geometry, a triangle with a **right angle** (a quarter turn, $90^\circ$) at the corner $Q$ obeys Pythagoras: the squares of the two short sides add up to the square of the long side.
+
+      The last lessons gave us a **divergence** $D[A:B]$: a number measuring how far apart the points $A$ and $B$ are, which behaves like a *squared* length but is **not symmetric** ($D[A:B]\ne D[B:A]$). We also found **two kinds of straight line**: a **geodesic** (linear in the coordinates $\xi$) and a **dual geodesic** (linear in the dual coordinates $\xi^*$).
+
+      So a fair question: take a triangle $P,Q,R$ and a right angle at $Q$. Does a squared-length rule $D[R:P]=D[Q:P]+D[R:Q]$ hold? Two things are unclear. Which two sides must meet at the right angle, a geodesic with a geodesic, or one of each? And which order of arguments goes where? **Guess first**; the next cards test your guess.
+
+      A word on letters: other texts write $\theta,\theta^*$ for the coordinates; here we keep $\xi,\xi^*$, with the same meaning.
+
+  - type: numeric
+    id: euclid-case
+    prompt: |
+      Take the simplest potential $\psi(\xi)=\tfrac12\big((\xi^1)^2+(\xi^2)^2\big)$ (the index is a label, not a power). Then $\xi^*=\xi$ and the divergence is $D[A:B]=\tfrac12\lVert A-B\rVert^2$, half the ordinary squared distance. Take $P=(0,0)$, $Q=(3,0)$, $R=(3,4)$: the sides $PQ$ (along the first axis) and $QR$ (straight up) meet at a right angle at $Q$. Compute $D[R:P]$.
+    answer: 12.5
+    tolerance: 0.001
+    wrong:
+      - { value: 5, feedback: 'That is the ordinary length $\lVert R-P\rVert=5$. The divergence is **half the square** of it.' }
+      - { value: 25, feedback: 'That is $\lVert R-P\rVert^2$. The divergence has an extra factor $\tfrac12$.' }
+    hint: |
+      $\lVert R-P\rVert^2=3^2+4^2$.
+    explanation: |
+      $$D[R:P]=\tfrac12(3^2+4^2)=12.5.$$
+      And the two short sides give $D[Q:P]=\tfrac12\cdot 9=4.5$ and $D[R:Q]=\tfrac12\cdot16=8$, which add to $12.5$. So here $D[R:P]=D[Q:P]+D[R:Q]$: Pythagoras, exactly. In this case a geodesic and a dual geodesic are the same straight line, so the question "which kind of line?" cannot even be asked. The rest of the lesson is about what survives when the two kinds differ.
+
+  - type: text
+    id: orthogonal
+    title: "Orthogonal curves"
+    body: |
+      First we need a right angle for **curves**. A curve is a point moving with a parameter $t$; write it $\xi(t)$. Its **velocity** is the list of rates of change $\dot\xi=d\xi/dt$ (a dot means $d/dt$): the arrow tangent to the curve (its **tangent vector**).
+
+      Recall that the **metric** $g_{ij}=\partial^2\psi/\partial\xi^i\partial\xi^j$ turns two arrows into a number, their **inner product**. Two curves that meet at the point where $t=0$ are **orthogonal** (cross at a right angle) when their velocities there have zero inner product:
+      $$\langle\dot\xi_1,\dot\xi_2\rangle=g_{ij}\,\dot\xi_1^{\,i}\,\dot\xi_2^{\,j}=0.$$
+      The repeated index $i$ (once up, once down) is summed, as before. Note that the metric depends on the point: *right angle* means right with respect to $g$ at that point, not in a flat drawing.
+
+      Test it with $\psi=\sum_i(\xi^i\ln\xi^i-\xi^i)$, where $g_{ii}=1/\xi^i$ and $g_{12}=0$.
+
+  - type: numeric
+    id: right-angle-calc
+    prompt: |
+      Take $\psi=\sum_{i=1}^2(\xi^i\ln\xi^i-\xi^i)$, whose metric at a point $\xi$ is $g_{11}=1/\xi^1$, $g_{22}=1/\xi^2$, $g_{12}=0$. Two curves cross at $\xi=(2,4)$ with velocities $\dot\xi_1=(1,1)$ and $\dot\xi_2=(1,y)$. For which $y$ are they orthogonal?
+    answer: -2
+    tolerance: 0.001
+    wrong:
+      - { value: -1, feedback: 'That would be orthogonal for the ordinary dot product, $1\cdot1+1\cdot y=0$. But the right angle is measured with the metric, which weights the two components differently at $\xi=(2,4)$.' }
+    hint: |
+      At $\xi=(2,4)$ the metric is $g_{11}=\tfrac12$, $g_{22}=\tfrac14$. Compute $g_{11}\cdot1\cdot1+g_{22}\cdot1\cdot y$.
+    explanation: |
+      $$\langle\dot\xi_1,\dot\xi_2\rangle=\tfrac12\cdot1\cdot1+\tfrac14\cdot1\cdot y=0\ \Rightarrow\ y=-2.$$
+      With the plain dot product the answer would be $-1$: the geometry of divergences has its own idea of a right angle.
+
+  - type: text
+    id: triangle
+    title: "The orthogonal triangle"
+    body: |
+      Now the triangle. Three points $P,Q,R$. Join $P$ to $Q$ by a **dual geodesic** (a curve linear in $\xi^*$) and $Q$ to $R$ by a **geodesic** (linear in $\xi$). We call $PQR$ an **orthogonal triangle** when these two curves are orthogonal at $Q$.
+
+      **Generalized Pythagorean theorem.** For an orthogonal triangle,
+      $$D[R:P]=D[Q:P]+D[R:Q].$$
+      Here $D$ is the divergence of the potential $\psi$, with $\psi^*$ its Legendre dual:
+      $$D[A:B]=\psi(\xi_A)+\psi^*(\xi^*_B)-\xi_A\cdot\xi^*_B.$$ Read the order: the far corner $R$ is the **first** argument in the left side and in the second term, and $P$ is the **second** argument in the first term. The proof is the next lesson.
+
+      **A formula for the right angle.** A geodesic leaves $Q$ with velocity $b$ (components $b^i$, in $\xi$); a dual geodesic arrives with velocity $a$ in the dual coordinates (components $a_i$, lower index = dual component). The pairing of a vector's two lists of components is the inner product, so
+      $$\langle\dot\xi_{QR},\dot\xi_{PQ}\rangle=\sum_i a_i\,b^i.$$
+      On the **probability simplex** (beliefs $p=(p_1,p_2,p_3)$ over three outcomes, $\sum p_i=1$) with $\psi$ the negentropy $\sum_i(p_i\ln p_i-p_i)$ (the entropy-like bowl from before), $\xi$ is the belief $p$ itself (a geodesic is a mixture path, a straight segment) and $\xi^*_i=\ln(p_i/p_3)$ (a dual geodesic is an exponential path). The third outcome's terms combine nicely, because the velocities of the $p_i$ sum to $0$, and the right angle becomes
+      $$\sum_{i=1}^{3}a_i\,b_i=0,\qquad a_i=\frac{d\ln p_i}{dt},\quad b_i=\frac{dp_i}{dt}.$$
+
+  - type: widget
+    id: triangle-widget
+    widget: simplex-points
+    config:
+      outcomes: [a, b, c]
+      points:
+        - { name: P, p: [0.1, 0.3, 0.6], fixed: true }
+        - { name: Q, p: [0.175, 0.525, 0.3], fixed: true }
+        - { name: R, p: [0.5, 0.2, 0.3], fixed: true }
+      pairs: []
+      showKL: false
+      showComponents: false
+      family:
+        - { type: exponential, a: 0, b: 1 }
+        - { type: mixture, a: 1, b: 2, hue: covec }
+    body: |
+      The simplex of beliefs over three outcomes $a,b,c$ (a corner means "this outcome is certain"). Three fixed beliefs $P$, $Q$, $R$. The **curve** through $P$ and $Q$ is the dual geodesic (an exponential path); the **straight line** through $Q$ and $R$ is the geodesic (a mixture path). They cross at $Q$. The drawing is flat, so it distorts angles, but at $Q$ the right-angle condition holds exactly in the geometry of divergences.
+
+  - type: numeric
+    id: pythagoras-simplex
+    prompt: |
+      Three beliefs over outcomes $a,b,c$: $P=(0.1,0.3,0.6)$, $Q=(0.175,0.525,0.3)$, $R=(0.5,0.2,0.3)$. The exponential path from $P$ to $Q$ and the mixture path from $Q$ to $R$ meet at a right angle at $Q$. With $D[A:B]=\sum_i A_i\ln(A_i/B_i)$ (natural log), one finds $D[Q:P]=0.1838$ and $D[R:Q]=0.3319$. Guess $D[R:P]$.
+    answer: 0.5157
+    tolerance: 0.002
+    answerText: '0.516'
+    wrong:
+      - { value: 0.3766, feedback: 'That is $D[P:R]$, with the arguments swapped. The divergence is not symmetric, and the sum rule is for $D[R:P]$.' }
+    hint: |
+      The generalized Pythagorean theorem for an orthogonal triangle: the divergence from the far corner adds the two short ones.
+    explanation: |
+      $$\begin{aligned}D[R:P]&=D[Q:P]+D[R:Q]\\&=0.1838+0.3319\\&=0.5157.\end{aligned}$$
+      Direct check from the formula: $D[R:P]=0.5\ln5+0.2\ln\tfrac23+0.3\ln\tfrac12=0.5157$. And the right angle checks out too: the exponential path arrives at $Q$ with $a_i=\ln(Q_i/P_i)=(0.5596,\,0.5596,\,-0.6931)$, the mixture path leaves with $b=R-Q=(0.325,-0.325,0)$, and $\sum a_ib_i=0.5596\cdot0.325-0.5596\cdot0.325+0=0$.
+
+  - type: mcq
+    id: which-order
+    prompt: |
+      Same triangle: the **geodesic** (mixture path) from $P$ to $Q$ is orthogonal at $Q$ to the **dual geodesic** (exponential path) from $Q$ to $R$, so the two kinds of line have **swapped roles** compared with the theorem. Which relation do you expect?
+    options:
+      - text: '$D[R:P]=D[Q:P]+D[R:Q]$, the same as before.'
+        feedback: |
+          That relation needs the dual geodesic from $P$ to $Q$ and the geodesic from $Q$ to $R$. With the two kinds of line swapped, the proof gives the mirror relation, with the arguments of every $D$ reversed.
+      - text: '$D[P:R]=D[P:Q]+D[Q:R]$, every divergence with its arguments reversed.'
+        correct: true
+      - text: 'No relation: only a right angle between two geodesics counts.'
+        feedback: |
+          Two geodesics (two straight sides) give no such rule; if the angle is not right, the sum fails. It is the **mixed** pair, one geodesic and one dual geodesic, that works, in either order.
+    explanation: |
+      Because $D[A:B]$ and $D[B:A]$ differ, there are **two** theorems: geodesic $\perp$ dual geodesic one way gives $D[R:P]=D[Q:P]+D[R:Q]$, the other way gives the **dual** theorem $D[P:R]=D[P:Q]+D[Q:R]$. Swapping the roles of the two flat structures reverses all arguments (it is the same statement for the dual potential $\psi^*$, whose divergence is $D_{\psi^*}[A:B]=D_\psi[B:A]$).
+
+  - type: mcq
+    id: not-a-right-angle
+    prompt: |
+      Keep $P=(0.1,0.3,0.6)$ and $R=(0.5,0.2,0.3)$ and put the middle corner at $Q_2=(0.35,0.35,0.3)$ instead. Numerically $D[Q_2:P]=0.2845$, $D[R:Q_2]=0.0664$ and $D[R:P]=0.5157$. The right-angle sum at $Q_2$ is $\sum a_ib_i=0.165$ (not $0$). What does the sum $D[Q_2:P]+D[R:Q_2]=0.3509$ tell you?
+    options:
+      - text: 'Nothing is wrong: $D[R:P]=D[Q:P]+D[R:Q]$ holds for any three points.'
+        feedback: |
+          If it did, $0.3509$ would equal $0.5157$. The identity is **not** a property of three arbitrary points, it needs the right angle at $Q$.
+      - text: 'The relation fails here because the triangle is not orthogonal at $Q_2$; the missing amount is $0.5157-0.3509=0.165$, which is exactly the size of the angle sum $\sum a_ib_i$.'
+        correct: true
+      - text: 'The relation fails because divergences can never be added.'
+        feedback: |
+          They can, when the angle at the middle corner is right. With a right angle at the middle corner the sum is exact (for instance $0.1838+0.3319=0.5157$ above).
+    explanation: |
+      In general (proved next lesson) the gap is a single product, with the dual-coordinate difference $a$ and the coordinate difference $\xi_Q-\xi_R$:
+      $$\begin{aligned}&D[Q:P]+D[R:Q]-D[R:P]\\&=-\sum_i a_i\,(R-Q)_i.\end{aligned}$$
+      Orthogonality makes the right-hand side vanish. Here it is $-0.165$, so the sum comes out too small: $0.3509=0.5157-0.165$. Pythagoras for divergences measures the angle in this very sum.
+
+  - type: text
+    id: submanifold
+    title: "Flat surfaces inside the space"
+    body: |
+      To use the theorem we need surfaces inside our space. A **submanifold** $S$ is a smaller piece of the space that is itself a smooth curve or surface (a line, a plane, a sphere inside 3-space). A **tangent vector** of $S$ at a point is the velocity of a curve that stays in $S$. A curve is **orthogonal to $S$** when its velocity is orthogonal to **every** tangent vector of $S$ at the crossing point.
+
+      Two kinds of flat submanifold, one for each structure:
+
+      - $S$ is **flat** (a geodesic submanifold) when it is linear in $\xi$: for instance every straight line $\xi(t)=at+b$ is flat;
+      - $S$ is **dual flat** when it is linear in $\xi^*$.
+
+      On the simplex, the line $p_3=0.3$ is flat (linear in $p$: a mixture line). A curve such as $p_1p_2=p_3^2$ is dual flat: in $\xi^*_i=\ln(p_i/p_3)$ it reads $\xi^*_1+\xi^*_2=0$, a line there.
+
+  - type: mcq
+    id: which-flat
+    prompt: |
+      On the simplex of beliefs $p=(p_1,p_2,p_3)$ (with $p_1+p_2+p_3=1$ and chart $\xi=(p_1,p_2)$), which of these sets are **flat** submanifolds (linear in $\xi=(p_1,p_2)$)? Select all that apply.
+    multiple: true
+    options:
+      - text: '$p_3=0.3$'
+        correct: true
+      - text: '$p_1=2p_2$'
+        correct: true
+      - text: '$p_1p_2=p_3^2$'
+        feedback: |
+          In $\xi=(p_1,p_2)$ this is the curve $p_1p_2=(1-p_1-p_2)^2$, not a line. It is **dual** flat instead: with $\xi^*_i=\ln(p_i/p_3)$ it reads $\xi^*_1+\xi^*_2=0$.
+      - text: '$p_1^2+p_2^2=0.1$'
+        feedback: |
+          A circle in $\xi=(p_1,p_2)$, linear in neither $\xi$ nor $\xi^*$: it is neither flat nor dual flat.
+    explanation: |
+      $p_3=0.3$ means $p_1+p_2=0.7$ and $p_1=2p_2$ is a line through the origin of the chart: both linear in $(p_1,p_2)$, hence flat (mixture lines). The product law $p_1p_2=p_3^2$ is straight only in the dual coordinates.
+
+  - type: text
+    id: projection
+    title: "The closest point: projection"
+    body: |
+      Now the payoff. A point $P$ lies outside a submanifold $S$, and we want its **best approximation inside $S$**: the point $R\in S$ with the smallest divergence $D[R:P]$. (In learning, $P$ is the true belief, $S$ the family of beliefs a model can express.)
+
+      Draw the dual geodesic from $P$ to $S$ that meets $S$ at a **right angle**, at a point $F$, the **foot** (the dual geodesic projection of $P$). For any other $R\in S$ the geodesic from $F$ to $R$ lies in $S$ when $S$ is flat, so the triangle $P,F,R$ is orthogonal at $F$ and the Pythagorean theorem gives
+      $$D[R:P]=D[F:P]+D[R:F].$$
+      The last term is $\ge0$ and vanishes only at $R=F$. That is the **projection theorem**: for a **flat** $S$, the foot is the unique minimizer of $D[R:P]$. Without flatness, a right angle only makes $F$ a critical point (it could be a saddle or a maximum), which is why the flatness of $S$ matters.
+
+  - type: widget
+    id: projection-widget
+    widget: simplex-points
+    config:
+      outcomes: [a, b, c]
+      points:
+        - { name: P, p: [0.5, 0.1, 0.4], fixed: true }
+        - { name: F, p: [0.6667, 0.1333, 0.2], fixed: true }
+        - { name: A, p: [0.05, 0.75, 0.2], fixed: true }
+      pairs: []
+      showKL: false
+      showComponents: false
+      family:
+        - { type: mixture, a: 1, b: 2 }
+        - { type: exponential, a: 0, b: 1, hue: covec }
+    body: |
+      The flat submanifold $S$ is the straight line $p_3=0.2$ (all mixtures of two beliefs with the same third component), through $F$ and $A$. The point $P$ is outside. The curved path from $P$ is the dual geodesic (an exponential path) that reaches $S$ at the **foot** $F$ at a right angle (in the geometry of divergences, not as a flat drawing shows it).
+
+  - type: numeric
+    id: find-foot
+    prompt: |
+      Beliefs over three outcomes. The flat submanifold $S$ is the line $p_3=0.2$, so its tangent direction is $b=(1,-1,0)$. The point is $P=(0.5,0.1,0.4)$. The exponential path from $P$ multiplies each $P_i$ by a factor $e^{ta_i}$ and renormalizes, so its log-velocity is $a$, and it meets $S$ at a right angle when $\sum_i a_ib_i=0$. Find the first component $F_1$ of the foot $F\in S$.
+    answer: 0.6667
+    tolerance: 0.002
+    answerText: '2/3 ≈ 0.667'
+    wrong:
+      - { value: 0.5, feedback: 'That is $P_1$. Moving along $S$ changes the first component, since $S$ must reach $p_3=0.2$.' }
+      - { value: 0.4, feedback: 'That would split $0.8$ evenly between $p_1$ and $p_2$. The right angle condition is not that.' }
+    hint: |
+      $a\cdot b=a_1-a_2=0$, so the first two components are multiplied by the **same** factor. What does that say about the ratio $F_1/F_2$, and what is $F_1+F_2$ on $S$?
+    explanation: |
+      $a_1=a_2$ means $F_1:F_2=P_1:P_2=5:1$. On $S$, $F_1+F_2=1-0.2=0.8$, so
+      $$F_1=0.8\cdot\tfrac56=0.6667,\qquad F_2=0.1333.$$
+      As a check, the other points of $S$ do worse: with $D[R:P]=\sum R_i\ln(R_i/P_i)$, $R=(0.6,0.2,0.2)$ gives $0.1094$, $R=(0.4,0.4,0.2)$ gives $0.3266$, and the foot gives $D[F:P]=0.0915$, the smallest.
+
+  - type: mcq
+    id: why-minimum
+    prompt: |
+      The foot $F=(0.6667,0.1333,0.2)$ of $P=(0.5,0.1,0.4)$ on the line $S:\ p_3=0.2$ has $D[F:P]=0.0915$. Another point $R=(0.4,0.4,0.2)$ of $S$ has $D[R:P]=0.3266$ and $D[R:F]=0.2351$. Why can no point of $S$ beat $F$?
+    options:
+      - text: 'Because $F$ is the nearest point of $S$ to $P$ for a ruler laid on the picture.'
+        feedback: |
+          A ruler on the flat drawing ignores the geometry of divergences (it can even point to a different point). The argument is about $D$, not about drawn lengths.
+      - text: 'Because $D[R:P]=D[F:P]+D[R:F]$ for every $R\in S$ (here $0.0915+0.2351=0.3266$), and $D[R:F]\ge0$.'
+        correct: true
+      - text: 'Because $D[R:P]$ is symmetric, so $F$ is equally close from both sides.'
+        feedback: |
+          $D$ is not symmetric, and the argument never needs symmetry: it needs the right angle at $F$ and a flat $S$.
+    explanation: |
+      Flatness of $S$ puts the geodesic from $F$ to every $R\in S$ inside $S$, so each triangle $P,F,R$ is orthogonal at $F$ and Pythagoras applies to all of them at once. The unavoidable extra term $D[R:F]\ge0$ is what makes $F$ the unique minimum.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** why does the right angle make the three divergences add? A short calculation with $\psi$ and $\psi^*$ shows that the gap between the two sides is exactly the inner product of the two tangent vectors: we derive it step by step, then use the projection repeatedly in the algorithm of alternating projections.
