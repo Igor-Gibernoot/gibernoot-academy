@@ -1,0 +1,305 @@
+id: ch10-action-theories
+title: "Action Control"
+kind: concept
+own: |
+  - **Action is a proprioceptive prediction made true.** Setting: an arm with sensed (proprioceptive) angle $y$, a belief mode $\mu$ about it with prediction $g(\mu)$, a descending prediction (prior mean) $\eta$, and the action $u$ (the signal sent to the reflex arc) that moves the arm, $y=y(u)$. The sensory prediction error is $\epsilon_y=y-g(\mu)$ and the prior error is $\epsilon_v=\mu-\eta$, with precisions $\Pi_y$ (sensory) and $\Pi_v$ (prior). The free energy is $F=\tfrac12\Pi_y\epsilon_y^2+\tfrac12\Pi_v\epsilon_v^2$. Perception changes $\mu$ and action changes $u$, both by descending the same $F$:
+    {{ $$\dot\mu=-\frac{\partial F}{\partial\mu}\qquad\dot u=-\frac{\partial F}{\partial u}=-\frac{\partial y}{\partial u}\,\Pi_y\,\epsilon_y$$ }}
+    The descending signal is a prediction, not a command; the reflex arc turns the sensory prediction error into movement.
+  - **A strong prior starts the movement.** Take $g(\mu)=\mu$ and $\partial y/\partial u=1$. When the belief has settled, $\Pi_y\epsilon_y=\Pi_v\epsilon_v$, so the reflex rate is
+    {{ $$\dot u=\Pi_v\,(\eta-\mu)$$ }}
+    A precise prior ($\Pi_v$ large against $\Pi_y$) keeps $\mu$ near $\eta$ against the conflicting senses and the arm moves; an imprecise prior is revised by the senses and nothing happens. Starting an action therefore needs a transient **sensory attenuation** (turning $\Pi_y$ down).
+  - **Ideomotor theory.** Action-effect links ("this movement gives that sensation") run in two directions: {{ **action to effect** generates sensory predictions, **effect to action** selects the movement that achieves a desired sensation }}. Active inference adds precision control and sensory attenuation.
+  - **Cybernetics.** In TOTE (Test, Operate, Test, Exit) and in active inference, action is driven by the discrepancy between a goal state and the current state, not by a stimulus-response rule. In perceptual control theory what is controlled is a **perceptual state** (the sensed speed, kept at a reference value against disturbances) while the actions are flexible. Higher levels of a hierarchy set the **reference points** (*what*) of lower levels and leave the means (*how*) to them; active inference additionally uses **feedforward** (anticipatory) control from its generative model.
+  - **Optimal control theory** uses a reactive policy (stimulus to response) built from {{ **inverse models** (select motor commands under a cost function) and **forward models** (predict outcomes, replacing noisy or delayed feedback) }}. Active inference lets the generative (forward) model do the work, the motor command is the prediction, the inverse model shrinks to a simple reflex, and the cost function is replaced by the prior.
+cards:
+  - type: text
+    id: hook
+    title: "Grasping a cup"
+    body: |
+      You decide to pick up the cup on your desk. A moment later your hand closes around it.
+
+      The traditional story has the brain *computing a motor command*: "contract these muscles by this much, in this order". The cup is the target, and the command is the output of a computation that starts from the goal.
+
+      Active inference tells a different story, and this lesson compares it with three older theories of action control: **ideomotor theory**, **cybernetics** and **optimal control theory**. First, a guess, before any theory.
+
+  - type: mcq
+    id: guess
+    prompt: |
+      Just before your hand closes on the cup, what does the motor part of the brain send down toward the spinal cord? Guess.
+    options:
+      - text: 'A prediction of what the senses of the arm should report: that the hand is already grasping the cup.'
+        correct: true
+      - text: 'A list of muscle forces and timings that, if executed, will produce the grasp.'
+        feedback: |
+          This is the traditional guess, and it is the one active inference rejects: the descending signal is not a command but a *prediction*, and the movement follows from resolving the mismatch between that prediction and what the senses report.
+      - text: 'Nothing: the spinal cord decides alone, and the brain only watches.'
+        feedback: |
+          The brain does act on the spinal cord: its descending signal sets where the movement should end up, but it is a prediction, and the cord's reflex arc closes the gap.
+    explanation: |
+      In active inference, action processing is analogous to perceptual processing: both are guided by forward predictions, exteroceptive for perception and **proprioceptive** (about the position and stretch of the body) for action. It is the proprioceptive prediction "my hand grasps the cup" that induces the grasp.
+
+  - type: widget
+    id: arm-widget
+    review: false
+    widget: predictive-coding
+    config:
+      mode: action
+      modes: [action]
+      g: { kind: gain, gain: 1 }
+      y0: 0
+      eta: 1
+      Pi: { y: 4, v: 1 }
+      dydu: 1
+      presets:
+        - { label: 'perception only', reflex: false }
+        - { label: 'with reflex', reflex: true }
+    body: |
+      An arm hangs at the angle $y=0$ (thick arm). The gold dashed arm is the descending prediction $\eta=1$: where the arm is *expected* to be. The green dotted arm is the belief $\mu$ about the arm.
+
+      First press *Descend* with the reflex **off** (preset "perception only") and watch what moves. Then *Reset*, choose "with reflex" (or press *Enable reflex*) and *Descend* again.
+
+  - type: mcq
+    id: widget-q
+    prompt: |
+      An arm sits at angle $y=0$. The cortex sends down the prediction (prior mean) $\eta=1$, the belief prediction is $g(\mu)=\mu$, and the precisions are $\Pi_y=4$ (sensory) and $\Pi_v=1$ (prior). The **reflex arc is switched on**. What finally brings the arm to the predicted angle?
+    options:
+      - text: 'The sensory prediction error $\epsilon_y=y-g(\mu)$ drives the reflex, $\dot u=-\partial F/\partial u$, so the arm moves until the error vanishes and the prediction is fulfilled.'
+        correct: true
+      - text: 'The belief $\mu$ alone: once it settles near the prediction, the arm follows automatically.'
+        feedback: |
+          Changing the belief never touches the arm. Without the reflex the belief only settles at a compromise ($\mu=0.2$ here) and the arm stays at $0$, with a persistent error.
+      - text: 'A motor command computed from a cost function, which the brain sends to the muscles.'
+        feedback: |
+          There is no cost function here. The only drive is the sensory prediction error and the single objective $F$; the goal sits in the prior $\eta=1$.
+    explanation: |
+      With the reflex off the arm stays at $0$ and the belief settles at $\mu^*=\dfrac{4\cdot0+1\cdot1}{5}=0.2$. With the reflex on, the same $F$ is also lowered by changing the sensed arm angle, so the arm moves to fulfil the prediction.
+
+  - type: text
+    id: action-pred
+    title: "Action as a proprioceptive prediction"
+    body: |
+      The picture of the widget is the whole story at the lowest level. The descending prediction $\eta$ (here "the arm is at angle $1$") reaches a **reflex arc** in the brain stem or spinal cord, which compares it with the sensed angle $y$. The mismatch is a prediction error, and the reflex moves the arm to cancel it:
+      $$\dot u=-\frac{\partial F}{\partial u}=-\frac{\partial y}{\partial u}\,\Pi_y\,\epsilon_y$$
+      Here $u$ is the action (the signal sent to the reflex), $\partial y/\partial u$ says how much the sensed angle changes when $u$ changes, and $\Pi_y$ is the sensory precision.
+
+      The same holds in the cortex: the motor cortex has the architecture of a predictive coding hierarchy, like the sensory cortex, with two differences: it can influence **motor reflexes** in the brain stem and spine, and it receives relatively little ascending input. By setting where a movement should end up, motor reflexes control it through "equilibrium points" along a desired trajectory (the *equilibrium point hypothesis*).
+
+  - type: mcq
+    id: precision-start
+    prompt: |
+      You hold the prior belief "I am grasping the cup" while your senses still report that your hand is open. When does a grasping action start?
+    options:
+      - text: 'When the prior belief is precise enough to dominate: it is kept in the face of the conflicting senses, and the conflict is resolved by moving.'
+        correct: true
+      - text: 'When the prior belief is imprecise: then the senses can overrule it and the hand moves to match them.'
+        feedback: |
+          If the prior is imprecise, the senses overrule it: the belief changes to "my hand is open" and there is a change of mind and no action. The hand moves only when the prediction wins.
+      - text: 'Whenever sensory precision is raised as high as possible, since the sensory error is then largest.'
+        feedback: |
+          High sensory precision weights the conflicting senses heavily, so they revise the belief instead of the prior being fulfilled. Action initiation is accompanied by a transient *sensory attenuation* (sensory prediction errors turned down).
+    explanation: |
+      Initiating an action requires regulating the precision of the prior belief and of the sensory stream. Failure of the sensory attenuation can have maladaptive consequences, such as failing to initiate or control movements.
+
+  - type: text
+    id: ideomotor
+    title: "Ideomotor theory"
+    body: |
+      In active inference, **action stems from (proprioceptive) predictions and not from motor commands**. This ties it to **ideomotor theory**, a framework for action control that goes back to William James (1890), and to later "event coding" and "anticipatory behavioural control" theories.
+
+      Ideomotor theory says that **action-effect links** (they act like *forward models*: "if I do this, then that sensation follows") are key mechanisms of cognition, and that these links are used in **two directions**:
+
+      - *action to effect*: from a movement, generate the sensory prediction it would produce;
+      - *effect to action*: from a desired sensation, select the movement that achieves it. Hence "ideo" (idea) plus "motor": actions are selected and controlled on the basis of their **predicted consequences**.
+
+      Active inference gives a mathematical version of this idea and adds mechanisms ideomotor theory does not fully study (but is compatible with): precision control and sensory attenuation.
+
+  - type: mcq
+    id: ideo-q
+    prompt: |
+      Ideomotor theory says that action-effect links work in two directions. You want to hear the click of a light switch, and you press it. Which direction is this, and why?
+    options:
+      - text: '*Effect to action*: a desired sensation (the click) is used to select the movement that should produce it.'
+        correct: true
+      - text: '*Action to effect*: the movement is chosen first, at random, and the click is only a surprise afterwards.'
+        feedback: |
+          Action to effect is the direction used to *generate a prediction* from a movement. Here the desired sensation selects the action, which is the other direction.
+      - text: 'Neither: ideomotor theory says that actions never depend on their expected consequences.'
+        feedback: |
+          The opposite: actions are selected and controlled on the basis of their predicted consequences, a view supported by studies of how anticipated consequences affect action selection and execution.
+    explanation: |
+      The same links give sensory predictions (action to effect) and select actions that realise desired sensations (effect to action): action control is anticipatory.
+
+  - type: text
+    id: cybernetics
+    title: "Cybernetics, TOTE and perceptual control"
+    body: |
+      **Cybernetics** is the study of purposeful, goal-directed behaviour through feedback between a creature and its environment. A classic cybernetic model is **TOTE**: *Test* (does the current state match the goal?), *Operate* (if not, act), *Test* again, and *Exit* when the goal is reached.
+
+      In both TOTE and active inference, the choice of action is set by the **discrepancy between a preferred (goal) state and the current state**. This departs from simple **stimulus-response** rules, as assumed in behaviourist theories and in frameworks like reinforcement learning.
+
+      Closest to active inference is **perceptual control theory** (Powers, 1973): what is controlled is a **perceptual state**, not a motor output. When driving, what you keep stable against disturbances (wind, a steep road, other cars) is the *speed shown on the speedometer*, at the reference value you want, while the actions that do it (accelerate, brake) vary with the disturbance. This implements William James's suggestion that humans achieve stable goals via **flexible means**.
+
+      The two theories differ in how control is exerted. Perceptual control theory takes **feedback** as largely sufficient and thinks predicting a disturbance (feedforward, open-loop control) is worthless. In active inference, control also has **anticipatory (feedforward)** aspects built on generative models: these are not used to predict a disturbance but to predict **future desired states and trajectories** to be fulfilled by acting, and to infer the latent causes of perceptual events.
+
+  - type: widget
+    id: feedback-widget
+    review: false
+    widget: homeostat
+    config:
+      showBelief: false
+      levers: [wait, act]
+      range: [20, 42]
+      band: [36, 38]
+      expect: 37
+      body: 37
+      room: 22
+      drift: 0.04
+      actRate: 0.8
+      unit: '°C'
+      decimals: 1
+      bandLabel: "Reference range (36 to 38 °C)"
+      labels:
+        body: "Your body"
+        sensed: "You sense"
+        room: "Room"
+        inBand: "Sensed value inside the reference range"
+        outBand: "Sensed value outside the reference range"
+        act: "Act (correct toward the reference)"
+        wait: "Wait (do nothing)"
+        reset: "Reset"
+        steps: "Steps"
+      presets:
+        - { label: "Cold room: act", body: 37, room: 22, script: [act, act, act, act, act, act, act, act] }
+        - { label: "Hot room: act", body: 37, room: 40, script: [act, act, act, act, act, act, act, act] }
+        - { label: "Hot room: wait", body: 37, room: 40, script: [wait, wait, wait, wait, wait, wait, wait, wait] }
+    body: |
+      A toy feedback controller (our illustration, not a model from the theory). The creature has a fixed **reference** around $37\,{}^\circ\text{C}$ for the value it senses, and a single lever, **Act**, which always moves the body *toward the reference*. The room pulls the body toward its own temperature (the disturbance).
+
+      Run the three presets: a cold room with acting, a hot room with acting, and a hot room with waiting. Watch the body, and notice what the *same* lever physically does in each room.
+
+  - type: mcq
+    id: pct-q
+    prompt: |
+      A creature keeps a sensed body value near a fixed reference $37\,{}^\circ\text{C}$ with one lever, "act toward the reference". In a cold room acting warms the body; in a hot room the same lever cools it. In the language of perceptual control theory, what is the controlled quantity?
+    options:
+      - text: 'The sensed body value (a perceptual state), held at its reference; the physical actions (warming or cooling) vary with the disturbance.'
+        correct: true
+      - text: 'The motor action itself, repeated identically in every room.'
+        feedback: |
+          The action is exactly what *changes* between the rooms (warm in one, cool in the other). What stays stable against the disturbance is the sensed value.
+      - text: 'The room temperature, which the creature sets by acting.'
+        feedback: |
+          The room is the disturbance that the creature does not control. The controlled quantity is what the creature senses of its own body.
+    explanation: |
+      "Stable goals via flexible means": the sensed value is kept at its reference, and the actions needed for it depend on context. This is the TOTE loop run continuously: test the sensed value against the reference, operate, test again.
+
+  - type: text
+    id: hierarchy
+    title: "Control hierarchies: what, not how"
+    body: |
+      Perceptual control theory also describes hierarchies. A **higher level controls a lower level by setting its reference points (set-points)**: it says *what* the lower level has to achieve, and leaves it free to choose the means, *how* to operate. This contrasts with most theories of hierarchical control, in which higher levels directly select plans or bias which actions and motor commands are chosen at lower levels.
+
+      Active inference decomposes hierarchical control in the same way: a top-down **cascade of goals and subgoals**, each achieved autonomously at the appropriate lower level. In addition, the contribution of the goals at different levels can be **precision weighted** by motivational processes, so that more salient or urgent goals are prioritised.
+
+  - type: mcq
+    id: hier-q
+    prompt: |
+      A higher level of a control hierarchy wants "the cup is in my hand". According to perceptual control theory (and to active inference), what does it pass to the level below?
+    options:
+      - text: 'A reference point: the hand-and-arm state it wants (what to achieve). The lower level selects the means.'
+        correct: true
+      - text: 'The muscle commands the lower level must execute, one by one (how to operate).'
+        feedback: |
+          That is the common alternative in which higher levels bias the selection of actions or motor commands at lower levels. In the control hierarchy discussed here the higher level sets *what*, not *how*.
+      - text: 'Nothing: levels never communicate, and every level pursues its own independent goal.'
+        feedback: |
+          The levels are coupled through a top-down cascade of goals and subgoals; the goals of different levels are weighted by precision.
+    explanation: |
+      Goals travel down as set-points (predictions), and each lower level resolves its own discrepancy. Because the weights are precisions, urgent or salient goals can dominate.
+
+  - type: text
+    id: optimal
+    title: "Optimal control theory"
+    body: |
+      **Optimal control theory** is a popular model of motor control in neuroscience. It assumes that the motor cortex selects actions with a **reactive control policy** that maps stimuli to responses, by minimising a cost function (for example, a smooth reach). Active inference instead assumes that the motor cortex conveys **predictions, not commands**.
+
+      Both appeal to internal models, but in different ways. Optimal control uses two kinds:
+
+      - **inverse models** encode stimulus-response contingencies and select motor commands (according to a cost function);
+      - **forward models** encode action-outcome contingencies and give the inverse models *simulated* inputs to replace noisy or delayed feedback, so control goes beyond pure feedback. The two can also run in a loop detached from the world, as internal "what if" simulations of action sequences (planning, imitation).
+
+      In active inference the **forward (generative) model does the heavy lifting**. The inverse model is minimal and often reduces to a **simple reflex** at the periphery (brain stem, spinal cord): action starts when anticipated and observed states differ (a sensory prediction error), and the reflex resolves it. So a motor command **is** a prediction made by the forward model, not something computed by an inverse model. A reflex is simpler than an inverse model because it does not map inferred states of the world to actions but links action to its sensory consequences. Finally, optimal control uses a **cost or value function** to motivate action, whereas active inference replaces it by a **prior** (prior preference).
+
+  - type: mcq
+    id: oct-q
+    prompt: |
+      Which pair correctly contrasts what the motor system conveys in optimal control theory and in active inference?
+    options:
+      - text: 'Optimal control: a reactive policy selects motor commands from stimuli by an inverse model and a cost function. Active inference: the forward model conveys predictions, and a reflex resolves the sensory prediction error.'
+        correct: true
+      - text: 'Optimal control: predictions of future states. Active inference: a stimulus-response policy with a cost function.'
+        feedback: |
+          The roles are swapped. Optimal control uses a reactive stimulus-response policy (though its forward models do simulate outcomes); active inference conveys predictions and replaces the cost function with a prior.
+      - text: 'Both use only inverse models, which differ in the cost function they minimise.'
+        feedback: |
+          Optimal control has both inverse and forward models; in active inference the inverse model is minimal (a reflex) and the generative (forward) model does the heavy lifting.
+    explanation: |
+      Where optimal control has a value to minimise, active inference has a prior over what is preferred; where optimal control computes a command, active inference sends the prediction that the reflex fulfils.
+
+  - type: mcq
+    id: traps-1
+    prompt: |
+      A student says: "Perceptual control theory and active inference both say that a (proprioceptive) prediction controls action, so they are the same theory." What is the best correction?
+    options:
+      - text: 'They share the idea, but they differ in how control is operated: perceptual control theory takes feedback as sufficient and rejects feedforward control, while active inference also has anticipatory control from its generative model, used to predict future desired states and trajectories (not disturbances).'
+        correct: true
+      - text: 'They differ because only perceptual control theory uses a perceptual state as its target.'
+        feedback: |
+          Both do: in active inference the controlled target is also a (proprioceptive) prediction. The difference lies in the feedforward, anticipatory aspect of active inference.
+      - text: 'They differ because active inference cannot have hierarchies, while perceptual control theory can.'
+        feedback: |
+          Hierarchies are a point of contact: both decompose control into a top-down cascade of goals, with higher levels setting the reference points of lower ones.
+    explanation: |
+      Points of contact: control of a perceptual state, and hierarchies that pass down set-points. Point of divergence: feedforward control from generative models.
+
+  - type: mcq
+    id: traps-2
+    prompt: |
+      Select **all** statements that are true of the three theories as the source compares them with active inference.
+    multiple: true
+    options:
+      - text: 'In ideomotor theory, actions are selected and controlled on the basis of their predicted consequences.'
+        correct: true
+      - text: 'TOTE and active inference both choose actions from the discrepancy between a goal state and the current state.'
+        correct: true
+      - text: 'In optimal control theory, the motor command is a prediction made by the forward model.'
+        feedback: |
+          This is the active inference claim. In optimal control the command is selected by an inverse model (under a cost function), while the forward model supplies simulated inputs.
+      - text: 'In active inference, the inverse model is minimal and often reduces to a simple reflex.'
+        correct: true
+      - text: 'Perceptual control theory says that what is controlled is the motor output.'
+        feedback: |
+          It says the opposite: what is controlled is a perceptual state (like the speed on the speedometer), not a motor output.
+    explanation: |
+      Ideomotor theory and TOTE are close relatives of active inference. Optimal control theory is the one that differs most: reactive policy, inverse and forward models and a cost function, against predictions, reflexes and priors.
+
+  - type: numeric
+    id: reflex-rate
+    prompt: |
+      An arm has sensed angle $y=2$, the cortex sends the prediction (prior mean) $\eta=5$, $g(\mu)=\mu$, $\partial y/\partial u=1$, the sensory precision is $\Pi_y=2$ and the prior precision is $\Pi_v=6$. The belief has settled at its minimum $\mu^*$ and the reflex now acts. At what rate $\dot u=-\frac{\partial y}{\partial u}\Pi_y\epsilon_y$ does the arm start to move?
+    answer: 4.5
+    tolerance: 0.01
+    wrong:
+      - { value: -4.5, feedback: 'Sign error. The sensed arm ($y=2$) is *below* the belief, so $\epsilon_y=y-\mu<0$ and $-\Pi_y\epsilon_y>0$: the arm rises toward the prediction.' }
+      - { value: 6, feedback: 'You used $\Pi_v$ alone. The rate is $\Pi_v(\eta-\mu^*)$, where $\mu^*$ has already moved from $\eta$ toward the arm.' }
+      - { value: 3, feedback: 'That is the distance $\eta-y=3$ with no precision. The reflex is driven by the error between the arm and the *belief*, weighted by $\Pi_y$.' }
+    hint: |
+      First find the resting belief, $\mu^*=\dfrac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$, then $\epsilon_y=y-\mu^*$.
+    explanation: |
+      $$\mu^*=\frac{2\cdot2+6\cdot5}{2+6}=\frac{34}{8}=4.25$$
+      Then $\epsilon_y=2-4.25=-2.25$ and $\dot u=-1\cdot2\cdot(-2.25)=4.5$. Check by the balance of the belief: $\Pi_y\epsilon_y=\Pi_v\epsilon_v$, so $\dot u=\Pi_v(\eta-\mu^*)=6\cdot0.75=4.5$. The strong prior keeps the belief near the prediction, so the reflex pushes hard.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** an action needs a goal, and goals are usually expressed as utilities, costs or rewards. In the next lesson we meet **Bayesian decision theory** and **reinforcement learning**, and see how active inference replaces the value function by a prior and turns planning into inference.
