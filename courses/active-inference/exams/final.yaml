@@ -1,0 +1,668 @@
+id: exam-final
+title: Final Exam
+kind: exam
+
+# Exam lesson (js/exam.js). Original exam (no professor's exam): all numbers checked by script.
+# Levels 6 to 10. First card = setting; then one block per question (tag "Question N · …", ids qN-…).
+
+minutes: 90
+
+rules: |
+  This is the **final exam** on Levels 6 to 10 (designing models, discrete time, continuous time, model-based data analysis, active inference as a unified theory), in the format of a quiz exam.
+
+  - **Ninety minutes**, **10 points**, 5 questions. The bar at the top counts the time down; when it ends, the exam is submitted for you.
+  - **No feedback while you work.** Pick or type an answer and press *Next*. You can go back and change any answer until you submit.
+  - Questions are not equally weighted: the points are shown on each card.
+  - At the end, a submit slide shows which questions are still empty. Unanswered questions count as wrong.
+  - After submitting you get your score, and a **review** with your answer, the correct one and the explanation for each question.
+  - Work on **paper first** and do not open your notes. Logarithms are natural (nats). Numeric answers may be typed as decimals or fractions; three decimals are enough.
+
+  The setting (five creatures, one per question) is the first card. Every question restates what it needs.
+
+debrief: |
+    Use the review to see where points went. The skills behind the five questions (2 points each):
+
+    - **Discrete-time planning** (Q1): predicted outcomes $Q(o\mid\pi)$, then
+      $$G(\pi) = \text{ambiguity} + \text{risk},\qquad P(\pi)=\sigma(-\gamma G),$$
+      and the order of the computation.
+    - **Habit, perseveration and deliberation** (Q2): the policy rule
+      $$P(\pi) = \sigma\big(\ln E - F - \gamma G\big),$$
+      and what each term and the precision $\gamma$ do.
+    - **Continuous time and action** (Q3): the resting belief
+      $$\mu^* = \frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v},$$
+      the reflex $\dot u = -\frac{\partial y}{\partial u}\Pi_y\epsilon_y$, the spring frequency $\omega=\sqrt{\kappa/m}$ and synchronization.
+    - **Model-based analysis** (Q4): the Laplace precision $\Pi^{\text{post}}=\Pi^{(1)}-\nabla^2L(\mu)$, empirical-Bayes shrinkage, Bayes factors as evidence (not proof), and false inference from aberrant priors.
+    - **Learning and unified theory** (Q5): Dirichlet counts, parameter against structure learning, the size of a factorised model, salience as information gain, and valence as the rate of change of $F$.
+
+    **Next:** the course is complete. Come back through the reviews and the Recap blanks to keep these formulas fresh.
+
+cards:
+  - type: text
+    id: setting
+    title: The setting, five creatures
+    body: |
+      Each question has its own creature and its own model, stated again where it is used. All logarithms are natural.
+
+      | Question | Creature | What it does |
+      |---|---|---|
+      | 1 | **Tern**, a seabird | chooses a fishing spot (discrete time) |
+      | 2 | **Mole** | chooses a burrow by habit, memory and planning |
+      | 3 | **Eye**, a robotic camera | senses and moves its pan angle (continuous time) |
+      | 4 | **A scientist** | fits a model to a subject's behaviour |
+      | 5 | **A learner** | updates counts, builds a model and feels valence |
+
+      Symbols follow the course: $F$ and $G$ are the variational and expected free energy (both **minimised**), $\sigma$ is the softmax, $\gamma$ is the precision over policies, $\Pi$ a precision (inverse variance).
+
+  # ------------------------------------------------------------- Question 1
+  - type: numeric
+    id: q1a
+    points: 0.3
+    tag: Question 1 · Planning a fishing trip
+    title: (a) Predicted catch
+    prompt: |
+      **Tern** believes a fishing spot holds fish ($s=$ fish) or not ($s=$ empty). A catch ($o=$ catch) has likelihood $P(\text{catch}\mid\text{fish})=0.8$ and $P(\text{catch}\mid\text{empty})=0.1$. Under policy **A** (a rich spot) Tern believes $Q(\text{fish}\mid A)=0.7$. What is the predicted probability of a catch under A, $Q(\text{catch}\mid A)$?
+    answer: 0.59
+    tolerance: 0.002
+    answerText: '0.59'
+    wrong:
+      - value: 0.8
+        feedback: |
+          That is the catch probability *if there are fish*. The prediction averages over Tern's belief: $0.7$ fish and $0.3$ empty.
+      - value: 0.7
+        feedback: |
+          That is the belief $Q(\text{fish}\mid A)$, a probability over states. The prediction is over outcomes and passes through the likelihood.
+      - value: 0.41
+        feedback: |
+          That is the probability of a **miss**, $1-0.59$. The question asks for the catch.
+    explanation: |
+      The predicted outcome averages the likelihood over the belief about the state:
+      $$Q(\text{catch}\mid A)=0.8\times0.7+0.1\times0.3=0.59.$$
+
+  - type: numeric
+    id: q1b
+    points: 0.4
+    tag: Question 1 · Planning a fishing trip
+    title: (b) Ambiguity of policy B
+    prompt: |
+      Same Tern. The likelihood columns are $(0.8,\,0.2)$ for fish and $(0.1,\,0.9)$ for empty (rows: catch, miss). Under policy **B** Tern believes $Q(\text{fish}\mid B)=0.4$. The **ambiguity** of a policy is the expected entropy of the likelihood,
+      $$\sum_s Q(s\mid\pi)\,H\big[P(o\mid s)\big],\qquad H[p]=-\sum_i p_i\ln p_i.$$
+      Using $H[(0.8,0.2)]=0.500$ and $H[(0.1,0.9)]=0.325$, what is the ambiguity of B, in nats? (Three decimals.)
+    answer: 0.395
+    tolerance: 0.002
+    answerText: '0.395'
+    wrong:
+      - value: 0.664
+        feedback: |
+          That is the entropy of the *predicted outcomes* $(0.38,0.62)$. Ambiguity is the entropy of the likelihood **per state**, averaged over the belief about states.
+      - value: 0.448
+        feedback: |
+          That is the ambiguity of policy **A** (belief $0.7$ in fish). For B the weights are $0.4$ and $0.6$.
+      - value: 0.413
+        feedback: |
+          That is the plain mean of the two entropies, $(0.500+0.325)/2$. The columns must be weighted by the belief, $0.4$ and $0.6$.
+    explanation: |
+      $$0.4\times0.500+0.6\times0.325\approx0.395.$$
+      A policy is ambiguous when it leads to states in which the outcome says little about what is going on.
+
+  - type: numeric
+    id: q1c
+    points: 0.4
+    tag: Question 1 · Planning a fishing trip
+    title: (c) Risk of policy A
+    prompt: |
+      Tern prefers outcomes: $\mathbf C=(0.75,\,0.25)$ is a prior over (catch, miss). Under policy **A** the predicted outcomes are $Q(o\mid A)=(0.59,\,0.41)$. The **risk** of a policy is
+      $$\text{risk}=D_{\mathrm{KL}}\big[Q(o\mid\pi)\,\|\,\mathbf C\big]=\sum_o Q(o\mid\pi)\ln\frac{Q(o\mid\pi)}{\mathbf C(o)}.$$
+      What is the risk of A, in nats? (Three decimals.)
+    answer: 0.061
+    tolerance: 0.001
+    answerText: '0.061'
+    wrong:
+      - value: 0.056
+        tolerance: 0.0004
+        feedback: |
+          That is the divergence with its arguments swapped, $D_{\mathrm{KL}}[\mathbf C\,\|\,Q(o\mid A)]$. In the risk the *predicted* outcomes come first, the preferences second.
+      - value: 0.16
+        feedback: |
+          That is the difference of the catch probabilities, $0.75-0.59$. The risk is a KL divergence, a sum of $Q\ln(Q/\mathbf C)$ terms.
+    explanation: |
+      $$\begin{aligned}\text{risk}&=0.59\ln\tfrac{0.59}{0.75}+0.41\ln\tfrac{0.41}{0.25}\\&=0.59(-0.240)+0.41(0.495)\\&\approx0.061.\end{aligned}$$
+      The prediction is close to the preference, so the risk is small.
+
+  - type: numeric
+    id: q1d
+    points: 0.5
+    tag: Question 1 · Planning a fishing trip
+    title: (d) From G to probabilities
+    prompt: |
+      Tern has computed $G(A)=0.509$, $G(B)=0.700$, $G(C)=1.086$ for its three policies. With precision $\gamma=4$, the prior probability of a policy is $P(\pi)=\sigma(-\gamma G(\pi))$, the softmax over the three policies. What is $P(A)$? (Three decimals.)
+    answer: 0.639
+    tolerance: 0.003
+    answerText: '0.639'
+    wrong:
+      - value: 0.419
+        feedback: |
+          That is $P(A)$ for $\gamma=1$. A precision of 4 multiplies all the differences of $G$ by 4 and makes the choice more decisive.
+      - value: 0.333
+        feedback: |
+          That is the limit $\gamma=0$, where $G$ is ignored and the three policies are equally likely.
+      - value: 0.063
+        feedback: |
+          That is $P(C)$, the policy with the **highest** $G$. The lowest $G$ is the likeliest.
+    explanation: |
+      $$P(A)=\frac{e^{-4(0.509)}}{e^{-4(0.509)}+e^{-4(0.700)}+e^{-4(1.086)}}\approx0.639,$$
+      with $P(B)\approx0.298$ and $P(C)\approx0.063$.
+
+  - type: order
+    id: q1e
+    points: 0.4
+    tag: Question 1 · Planning a fishing trip
+    title: (e) The order of the computation
+    prompt: |
+      Put the steps by which a discrete-time agent chooses what to do, from first to last.
+    steps:
+      - 'For each policy, use the transition matrices $\mathbf B$ to predict the hidden states $Q(s\mid\pi)$ it leads to.'
+      - 'Use the likelihood $\mathbf A$ to turn each of these into predicted outcomes $Q(o\mid\pi)$.'
+      - 'Compare the predicted outcomes with the preferences $\mathbf C$ and add the ambiguity, giving $G(\pi)$ for each policy.'
+      - 'Pass $-\gamma G$ through the softmax to obtain the probability $P(\pi)$ of each policy.'
+      - 'Act, observe the new outcome, and update the beliefs about the states.'
+    explanation: |
+      Predictions must exist before they can be scored: states first, then outcomes, then $G$, then the softmax over policies. Only after acting does new data arrive and the beliefs change, which starts the next cycle.
+
+  # ------------------------------------------------------------- Question 2
+  - type: numeric
+    id: q2a
+    points: 0.6
+    tag: Question 2 · Habit, memory and planning
+    title: (a) The mole's choice
+    prompt: |
+      **Mole** chooses among three burrows with the policy rule
+      $$P(\pi)=\sigma\big(\ln E-F-\gamma G\big),$$
+      where $E$ is the habit prior, $F$ the variational free energy of each policy given the past, and $G$ the expected free energy. The three burrows have
+      $$E=(0.5,\,0.3,\,0.2),\qquad F=(0.2,\,0.9,\,0.4),\qquad G=(1.1,\,0.3,\,0.6),$$
+      and the precision is $\gamma=3$. What is the probability of **burrow 2**? (Three decimals.)
+    answer: 0.571
+    tolerance: 0.003
+    answerText: '0.571'
+    wrong:
+      - value: 0.540
+        feedback: |
+          That drops the habit term $\ln E$. Mole's habit favours burrow 1 and so lowers burrow 2.
+      - value: 0.703
+        feedback: |
+          That drops the perseverative term $F$. Burrow 2 has the largest $F$ (it explains the past worst), which lowers it.
+      - value: 0.301
+        feedback: |
+          That is the probability for $\gamma=1$. With $\gamma=3$ the deliberative term counts three times as much, and burrow 2 has the lowest $G$.
+    explanation: |
+      The exponents $\ln E-F-3G$ are: burrow 1 gives $\ln0.5-0.2-3.3=-4.193$, burrow 2 gives $\ln0.3-0.9-0.9=-3.004$, burrow 3 gives $\ln0.2-0.4-1.8=-3.809$. The softmax then gives
+      $$P=(0.174,\ 0.571,\ 0.255).$$
+
+  - type: mcq
+    id: q2b
+    points: 0.4
+    tag: Question 2 · Habit, memory and planning
+    title: (b) A very strong habit
+    prompt: |
+      Same Mole and the same $F=(0.2,0.9,0.4)$, $G=(1.1,0.3,0.6)$, but with $\gamma=1$ and a very strong habit $E=(0.97,\,0.02,\,0.01)$. Burrow 1 has the **highest** (worst) $G$. What is the probability of burrow 1?
+    multiple: false
+    options:
+      - text: 'About $0.96$: the habit prior outweighs the planning terms.'
+        correct: true
+      - text: 'About $0.21$: burrow 1 has the worst $G$, so it is the least likely.'
+        feedback: |
+          That is the probability from $G$ alone ($\sigma(-G)$ for burrow 1). The habit term $\ln E$ is added to the exponent and here it is large for burrow 1 and very negative for the others.
+      - text: 'About $0.33$: three burrows, so a third each.'
+        feedback: |
+          Equal probabilities appear only if all the terms are equal. They are not: the habit differs by a factor of 97 between burrows.
+      - text: 'About $0.04$: a habit is a prior that planning always overrides.'
+        feedback: |
+          Planning overrides a habit only if the differences in $\gamma G$ are large compared with those in $\ln E$. Here $\ln(0.97/0.02)=3.9$ against a $G$ difference of $0.8$ at $\gamma=1$.
+    explanation: |
+      The exponents $\ln E-F-G$ are: burrow 1 gives $\ln0.97-0.2-1.1=-1.330$, burrow 2 gives $\ln0.02-0.9-0.3=-5.112$, burrow 3 gives $\ln0.01-0.4-0.6=-5.605$. The softmax gives $P(1)\approx0.965$. A strong habit (or a precision $\gamma$ too low) makes the agent act automatically.
+
+  - type: mcq
+    id: q2c
+    points: 0.5
+    tag: Question 2 · Habit, memory and planning
+    title: (c) The precision of deliberation
+    prompt: |
+      In $P(\pi)=\sigma(\ln E-F-\gamma G)$ the precision $\gamma$ is changed. Select the correct description.
+    multiple: false
+    options:
+      - text: 'As $\gamma\to0$ the expected free energy $G$ stops mattering and the choice follows $\sigma(\ln E-F)$; as $\gamma$ grows, the policy with the lowest $G$ takes over.'
+        correct: true
+      - text: 'As $\gamma\to0$ the policies become equally likely, whatever $E$ and $F$ are.'
+        feedback: |
+          Only the $G$ term is scaled by $\gamma$. At $\gamma=0$ the habit and the free energy of the past still shape $P(\pi)$.
+      - text: 'A larger $\gamma$ makes the habit $E$ stronger, because $\gamma$ multiplies the whole exponent.'
+        feedback: |
+          $\gamma$ multiplies only $G$. The habit and the perseverative term are untouched by it.
+      - text: 'A larger $\gamma$ makes the agent consider more policies, since it is a measure of exploration.'
+        feedback: |
+          The opposite: large $\gamma$ concentrates the probability on the best policy (more confident, more deterministic), and small $\gamma$ spreads it.
+    explanation: |
+      The precision $\gamma$ is the confidence in the expected free energy. It scales only the deliberative term, which is why it has been proposed to be encoded by dopamine. At $\gamma=0$ the previous Mole would choose with $\sigma(\ln E-F)=(0.615,\,0.183,\,0.201)$, dominated by habit.
+
+  - type: mcq
+    id: q2d
+    points: 0.5
+    tag: Question 2 · Habit, memory and planning
+    title: (d) The three components
+    prompt: |
+      In $P(\pi)=\sigma(\ln E-F-\gamma G)$, select **all** the true statements.
+    multiple: true
+    options:
+      - text: 'The habit prior $E$ is a prior over policies that does not depend on the outcomes observed in the current trial.'
+        correct: true
+      - text: 'The term $F$ is perseverative: it favours policies that would have explained the data so far well (low $F$).'
+        correct: true
+      - text: 'The term $G$ is deliberative: it scores the outcomes a policy is expected to bring about in the future (risk and ambiguity).'
+        correct: true
+      - text: 'The term $F$ is future-oriented: it predicts outcomes that have not been observed yet.'
+        feedback: |
+          That describes $G$. The variational free energy $F$ is computed with the observations already made, so it looks at the past.
+      - text: 'The habit $E$ can only be learned from rewards received after each policy.'
+        feedback: |
+          There is no reward signal in this scheme. A habit is a prior over policies that is updated by how often policies are selected, independently of the outcomes they brought.
+      - text: 'The three components are redundant: the rule would give the same choices with $G$ alone.'
+        feedback: |
+          They differ: with $E=(0.5,0.3,0.2)$, $F=(0.2,0.9,0.4)$, $G=(1.1,0.3,0.6)$ and $\gamma=1$, $G$ alone gives burrow 2 the probability $0.457$, while all three components give it $0.301$ and make burrow 1 the likeliest. Habit and perseveration change the choice.
+    explanation: |
+      Habit ($E$), perseveration ($F$) and deliberation ($G$) are three terms of one softmax. Only the last looks forward. They can be dissociated: a habitual agent follows $E$, a perseverative agent sticks with what has fitted the data so far, and a deliberative agent plans.
+
+  # ------------------------------------------------------------- Question 3
+  - type: numeric
+    id: q3a
+    points: 0.4
+    tag: Question 3 · An eye that moves
+    title: (a) The resting belief
+    prompt: |
+      **Eye** is a robotic camera with sensed pan angle $y=2$ (degrees) and a one-level continuous model with $g(\mu)=\mu$. A prior prediction (descending command) $\eta=-4$ asks for a different angle. The precisions are $\Pi_y=5$ (sensory) and $\Pi_v=3$ (prior). The free energy is $F=\tfrac12\Pi_y\epsilon_y^2+\tfrac12\Pi_v\epsilon_v^2$ with $\epsilon_y=y-\mu$ and $\epsilon_v=\mu-\eta$. At what value $\mu^*$ does the belief come to rest?
+    answer: -0.25
+    tolerance: 0.002
+    answerText: '-0.25'
+    wrong:
+      - value: 2
+        feedback: |
+          That is the data $y$. The belief rests at a compromise between the data and the prior, weighted by the precisions.
+      - value: -4
+        feedback: |
+          That is the prior mean $\eta$. The data have weight $\Pi_y=5$ and cannot be ignored.
+      - value: -1
+        feedback: |
+          That is the plain average of $y$ and $\eta$. The weights are the precisions, $5$ and $3$.
+    explanation: |
+      Setting $\dot\mu=\Pi_y\epsilon_y-\Pi_v\epsilon_v=0$ gives
+      $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}=\frac{5(2)+3(-4)}{8}=-0.25.$$
+
+  - type: numeric
+    id: q3b
+    points: 0.4
+    tag: Question 3 · An eye that moves
+    title: (b) The reflex
+    prompt: |
+      Eye (same model: $y=2$, $\eta=-4$, $\Pi_y=5$, $\Pi_v=3$, $g(\mu)=\mu$) now also acts. The action $u$ moves the sensed angle with $\partial y/\partial u=1$, and obeys $\dot u=-\frac{\partial y}{\partial u}\,\Pi_y\,\epsilon_y$. The belief has settled at $\mu^*=-0.25$. At what rate $\dot u$ does Eye start to move?
+    answer: -11.25
+    tolerance: 0.01
+    answerText: '-11.25'
+    wrong:
+      - value: 11.25
+        feedback: |
+          Sign error. The sensed angle ($2$) is *above* the belief ($-0.25$), so $\epsilon_y=y-\mu>0$ and $-\Pi_y\epsilon_y<0$: the eye turns down, towards the prediction.
+      - value: -2.25
+        feedback: |
+          That is the error $\epsilon_y$ alone. The reflex multiplies it by the sensory precision $\Pi_y=5$.
+      - value: -3.75
+        feedback: |
+          That is $\eta-\mu^*$, the prior error without its precision. The rate is $\Pi_v(\eta-\mu^*)=3\times(-3.75)$, equivalently $-\Pi_y\epsilon_y$.
+    explanation: |
+      $\epsilon_y=2-(-0.25)=2.25$, so $\dot u=-5\times2.25=-11.25$. At rest this equals $\Pi_v(\eta-\mu^*)=3\times(-3.75)=-11.25$: the **prior** is what drives the movement.
+
+  - type: build
+    id: q3c
+    points: 0.3
+    tag: Question 3 · An eye that moves
+    title: (c) The belief dynamics
+    prompt: |
+      Eye's belief follows a gradient descent of the free energy, $\dot\mu=-\partial F/\partial\mu$. With $g(\mu)=\mu$, $\epsilon_y=y-\mu$ and $\epsilon_v=\mu-\eta$, build $\dot\mu$ from the precision-weighted errors.
+    prefix: '\dot\mu ='
+    tiles: ['\Pi_y\epsilon_y', '\Pi_v\epsilon_v', '-', '+', '\Pi_y\epsilon_v']
+    answers:
+      - ['\Pi_y\epsilon_y', '-', '\Pi_v\epsilon_v']
+    wrong:
+      - answer: ['\Pi_y\epsilon_y', '+', '\Pi_v\epsilon_v']
+        feedback: |
+          Both errors would push $\mu$ the same way. They compete: the sensory error pulls $\mu$ towards the data, the prior error pulls it back towards $\eta$ (note the minus sign in $-\Pi_v\epsilon_v$).
+      - answer: ['\Pi_v\epsilon_v', '-', '\Pi_y\epsilon_y']
+        feedback: |
+          Sign flipped: with $\epsilon_y=y-\mu$ positive when the data exceed the belief, $\mu$ must move *up*, so the sensory term enters with a plus.
+    explanation: |
+      $F=\tfrac12\Pi_y(y-\mu)^2+\tfrac12\Pi_v(\mu-\eta)^2$ gives $-\partial F/\partial\mu=\Pi_y\epsilon_y-\Pi_v\epsilon_v$, zero at the compromise $\mu^*$.
+
+  - type: mcq
+    id: q3d
+    points: 0.3
+    tag: Question 3 · An eye that moves
+    title: (d) A weak prior
+    prompt: |
+      Eye keeps $y=2$, $\eta=-4$, $\Pi_y=5$ and the reflex $\dot u=-\Pi_y\epsilon_y$ (with $g(\mu)=\mu$, $\partial y/\partial u=1$), but its prior is now very weak: $\Pi_v=0.05$. After the belief settles, what does Eye do?
+    multiple: false
+    options:
+      - text: 'It hardly moves: $\mu^*\approx1.94$ stays close to the data, $\epsilon_y\approx0.06$ and $\dot u\approx-0.3$.'
+        correct: true
+      - text: 'It moves as fast as before, because the prior mean $\eta=-4$ has not changed.'
+        feedback: |
+          The mean is the same but its *precision* is not. A prior with a weak precision hardly pulls the belief away from the data, so the sensory error stays small.
+      - text: 'It moves faster, because a weak prior leaves the belief free to follow the command.'
+        feedback: |
+          A weak prior cannot command anything. The belief follows the data, the data match the belief, and the reflex has no error to cancel.
+      - text: 'It moves until $y=\eta$, since action always fulfils the prior.'
+        feedback: |
+          Action fulfils the prior only as far as the prior is held with enough precision to compete with the senses. With $\Pi_v=0.05$ it does not.
+    explanation: |
+      $\mu^*=(5\times2+0.05\times(-4))/5.05=1.941$, $\epsilon_y=0.059$ and $\dot u=-5\times0.059\approx-0.30$, equivalently $\Pi_v(\eta-\mu^*)=0.05\times(-5.94)$. For action, the prior must be held strongly enough to resist the evidence.
+
+  - type: numeric
+    id: q3e
+    points: 0.3
+    tag: Question 3 · An eye that moves
+    title: (e) The eye as a spring
+    prompt: |
+      Eye's pan is an undamped spring with position $x_1$ and velocity $x_2$, $\dot x_1=x_2$, $\dot x_2=-(\kappa/m)\,x_1$, with stiffness $\kappa=50$ and mass $m=2$. What is the period $T=2\pi/\omega$ of its oscillation, where $\omega=\sqrt{\kappa/m}$? (Three decimals.)
+    answer: 1.257
+    tolerance: 0.003
+    answerText: '1.257'
+    wrong:
+      - value: 5
+        feedback: |
+          That is the angular frequency $\omega=\sqrt{25}$, not the period. The period is $2\pi/\omega$.
+      - value: 0.2
+        feedback: |
+          That is $1/\omega$. The period is $2\pi/\omega$.
+      - value: 31.416
+        feedback: |
+          That inverts the ratio, $\omega=\sqrt{m/\kappa}\cdot\dots$: the frequency is $\omega=\sqrt{\kappa/m}=5$ (a stiffer spring oscillates faster) and the period is $2\pi/\omega$.
+    explanation: |
+      $\omega=\sqrt{50/2}=5$, so $T=2\pi/5\approx1.257$.
+
+  - type: mcq
+    id: q3f
+    points: 0.3
+    tag: Question 3 · An eye that moves
+    title: (f) Two coupled birds
+    prompt: |
+      Two birds each infer the state of a chaotic system and exchange their beliefs. Their joint trajectory, plotting the first bird's belief $x$ against the second's $y$, stays on a **curved line** $y=T(x)=1.5x+0.01x^3$ rather than on the straight line $y=x$. What does this show?
+    multiple: false
+    options:
+      - text: 'Generalized synchronization: $y$ is a fixed smooth function of $x$, so one bird can infer the other from its own state.'
+        correct: true
+      - text: 'Identical synchronization: the two beliefs are the same at every time.'
+        feedback: |
+          Identical synchronization means $y=x$, the diagonal. A curve $y=T(x)$ with $T\neq\text{id}$ means the beliefs differ but are tied by a map.
+      - text: 'No synchronization: the points would fill the whole plane.'
+        feedback: |
+          Without synchronization the trajectory fills a region of the $(x,y)$ plane. A one-dimensional curve is a strong constraint.
+      - text: 'The birds have learnt nothing about each other, and the curve is the effect of noise.'
+        feedback: |
+          Noise would blur the trajectory, not restrict it to a curve. The curve appears when the pair has learnt the other's parameters well enough.
+    explanation: |
+      Identical synchronization lies on $y=x$, generalized synchronization on a graph $y=T(x)$ of a fixed map. It is the continuous-time picture of a primitive theory of mind: the state of one agent encodes the state of the other.
+
+  # ------------------------------------------------------------- Question 4
+  - type: numeric
+    id: q4a
+    points: 0.4
+    tag: Question 4 · Fitting a subject
+    title: (a) The posterior precision
+    prompt: |
+      A scientist fits a parameter $\theta$ of a subject by variational Laplace. The log likelihood of the choices is $L(\theta)=-2.5(\theta-1)^2$ and the prior is Gaussian, $\theta\sim\mathcal N(\eta,\,1/\Pi^{(1)})$, with mean $\eta=3$ and prior precision $\Pi^{(1)}=1.5$. The posterior precision is $\Pi^{\text{post}}=\Pi^{(1)}-\nabla^2L(\mu)$. What is $\Pi^{\text{post}}$?
+    answer: 6.5
+    tolerance: 0.01
+    answerText: '6.5'
+    wrong:
+      - value: 5
+        feedback: |
+          That is $-\nabla^2L=5$, the precision the data alone give. The prior adds its own precision, $1.5$.
+      - value: -3.5
+        feedback: |
+          Sign error: $\nabla^2L=-5$ is negative (a peak), so $-\nabla^2L=+5$ *adds* to the prior precision.
+      - value: 1.5
+        feedback: |
+          That is the prior precision alone. The data sharpen the posterior.
+    explanation: |
+      $\nabla^2L=-5$ everywhere, so $\Pi^{\text{post}}=1.5-(-5)=6.5$ and the posterior standard deviation is $1/\sqrt{6.5}\approx0.39$.
+
+  - type: numeric
+    id: q4b
+    points: 0.3
+    tag: Question 4 · Fitting a subject
+    title: (b) The posterior mode
+    prompt: |
+      Same fit: $L(\theta)=-2.5(\theta-1)^2$ and prior $\mathcal N(3,\,1/1.5)$. The posterior mean $\mu$ is the maximum of $L(\theta)-\tfrac12\Pi^{(1)}(\theta-\eta)^2$. What is $\mu$? (Three decimals.)
+    answer: 1.462
+    tolerance: 0.003
+    answerText: '1.462'
+    wrong:
+      - value: 1
+        feedback: |
+          That is the maximum of $L$ alone, which ignores the prior. The prior at $3$ pulls the estimate up.
+      - value: 2
+        feedback: |
+          That is the midpoint of $1$ and $3$. The weights are the precisions: $5$ for the data and $1.5$ for the prior.
+      - value: 3
+        feedback: |
+          That is the prior mean. The data (precision $5$) pull strongly towards $1$.
+    explanation: |
+      Setting $-5(\theta-1)-1.5(\theta-3)=0$ gives
+      $$\mu=\frac{5(1)+1.5(3)}{6.5}=\frac{9.5}{6.5}\approx1.462.$$
+
+  - type: numeric
+    id: q4c
+    points: 0.3
+    tag: Question 4 · Fitting a subject
+    title: (c) Shrinkage in a group
+    prompt: |
+      In a group study (parametric empirical Bayes) subject $i$ has a first-level estimate $m_i=2.4$ with precision $\Pi_i=4$. The group (second-level) model predicts $\ell_i=1.2$ for this subject, with second-level precision $\Pi^{(2)}=2$. The shrunk estimate is
+      $$\frac{\Pi_i\,m_i+\Pi^{(2)}\,\ell_i}{\Pi_i+\Pi^{(2)}}.$$
+      What is it?
+    answer: 2
+    tolerance: 0.005
+    answerText: '2'
+    wrong:
+      - value: 2.4
+        feedback: |
+          That is the subject's own estimate, with no use of the group.
+      - value: 1.8
+        feedback: |
+          That is the plain average of $2.4$ and $1.2$. The weights are the precisions $4$ and $2$.
+      - value: 1.2
+        feedback: |
+          That is the group prediction alone. The subject's own data have precision $4$ and still count.
+    explanation: |
+      $$\frac{4(2.4)+2(1.2)}{6}=\frac{12}{6}=2.$$
+      The noisy estimate is pulled towards the group line, by an amount set by the relative precisions.
+
+  - type: mcq
+    id: q4d
+    points: 0.4
+    tag: Question 4 · Fitting a subject
+    title: (d) A Bayes factor
+    prompt: |
+      Comparing two models of a subject, the scientist finds $\ln\text{BF}=\ln\dfrac{P(u\mid m_1)}{P(u\mid m_2)}=2.2$ in favour of model 1, with equal prior probabilities for the two models. Which conclusion is justified?
+    multiple: false
+    options:
+      - text: 'The data are about $9$ times more probable under model 1 ($e^{2.2}\approx9.0$), so model 1 has posterior probability about $0.90$: evidence in its favour, not proof.'
+        correct: true
+      - text: 'Model 1 is proven true, since the Bayes factor is above 1.'
+        feedback: |
+          A Bayes factor weighs two models against each other. Both could be poor, and a better model not in the set could exist. It is evidence, not proof.
+      - text: 'The data are $2.2$ times more probable under model 1.'
+        feedback: |
+          $2.2$ is the *logarithm* of the ratio. The ratio itself is $e^{2.2}\approx9.0$.
+      - text: 'Model 2 is rejected with certainty because model 1 explains the data better.'
+        feedback: |
+          Model 2 keeps a posterior probability of about $0.10$. Evidence updates beliefs; it does not eliminate alternatives.
+    explanation: |
+      $\text{BF}=e^{2.2}=9.03$ and with equal priors $P(m_1\mid u)=\text{BF}/(1+\text{BF})=0.900$. The result is relative to the models compared.
+
+  - type: numeric
+    id: q4e
+    points: 0.3
+    tag: Question 4 · Fitting a subject
+    title: (e) A percept from a strong prior
+    prompt: |
+      A listener's one-level model has $g(\mu)=\mu$, sensory evidence $y=1$ with precision $\Pi_y=2$, and a prior mean $\eta=-2$ with precision $\Pi_v=18$. The percept is the resting belief $\mu^*=(\Pi_y y+\Pi_v\eta)/(\Pi_y+\Pi_v)$. What is $\mu^*$?
+    answer: -1.7
+    tolerance: 0.005
+    answerText: '-1.7'
+    wrong:
+      - value: 1
+        feedback: |
+          That is the evidence $y$. With the prior nine times more precise than the data, the percept follows the prior.
+      - value: -0.5
+        feedback: |
+          That is the plain average of $y$ and $\eta$. The weights are the precisions $2$ and $18$.
+      - value: -2
+        feedback: |
+          That is the prior mean. The evidence still has weight $\Pi_y=2$ and pulls the percept slightly up.
+    explanation: |
+      $$\mu^*=\frac{2(1)+18(-2)}{20}=-1.7.$$
+      The percept is close to the prior and far from the sensory evidence.
+
+  - type: mcq
+    id: q4f
+    points: 0.3
+    tag: Question 4 · Fitting a subject
+    title: (f) Aberrant priors
+    prompt: |
+      A patient perceives $\mu^*=-1.7$ when the sensory evidence is $y=1$ (precision $\Pi_y=2$) because the prior $\eta=-2$ is held with precision $\Pi_v=18$. Which interpretation is consistent with the framework of false inference?
+    multiple: false
+    options:
+      - text: 'The inference is normal (a precision-weighted compromise); the abnormality is in the prior, held with too much precision relative to the evidence.'
+        correct: true
+      - text: 'The inference itself is broken: the patient no longer combines evidence with prior knowledge.'
+        feedback: |
+          The percept is exactly the optimal compromise for these precisions. What is aberrant is the balance of precisions, not the rule.
+      - text: 'The sensory evidence has been lost: with $\Pi_y=2$ the patient receives no data.'
+        feedback: |
+          The evidence still enters with precision $2$ and moves the percept. It is simply outweighed by the prior.
+      - text: 'Lowering the prior precision $\Pi_v$ would move the percept even further from the evidence.'
+        feedback: |
+          Lowering $\Pi_v$ brings $\mu^*$ closer to the evidence $y=1$, not further.
+    explanation: |
+      In the false-inference account of pathology, perception can go wrong with perfectly normal inference if the priors or their precisions are aberrant. Only the model parameters, estimated from behaviour, differ.
+
+  # ------------------------------------------------------------- Question 5
+  - type: numeric
+    id: q5a
+    points: 0.4
+    tag: Question 5 · Learning and valence
+    title: (a) A Dirichlet update
+    prompt: |
+      A learner holds Dirichlet counts for a likelihood $\mathbf A$ with three outcomes (rows) and two states (columns):
+      $$\mathbf a=\begin{pmatrix}4&2\\1&5\\3&1\end{pmatrix}.$$
+      Each column is normalised, $A_{ij}=a_{ij}/a_{0j}$, where $a_{0j}=\sum_i a_{ij}$. The learner observes outcome 2 while believing the state is $\mathbf s=(0.75,\,0.25)$, and updates $\mathbf a\leftarrow\mathbf a+\mathbf o\otimes\mathbf s$ (add the belief to the row of the observed outcome). What is the new $A_{21}$, the probability of outcome 2 in state 1?
+    answer: 0.2
+    tolerance: 0.002
+    answerText: '0.2'
+    wrong:
+      - value: 0.125
+        feedback: |
+          That is the old $A_{21}=1/8$, before the update.
+      - value: 0.219
+        feedback: |
+          That divides by the old column total $8$. The update also raises the column total, to $8.75$.
+      - value: 0.222
+        feedback: |
+          That adds a full count ($1+1=2$, total $9$). The observed outcome is added with weight equal to the belief in the state, $0.75$.
+    explanation: |
+      Column 1 becomes $(4,\,1.75,\,3)$ with total $8.75$, so $A_{21}=1.75/8.75=0.2$.
+
+  - type: numeric
+    id: q5b
+    points: 0.3
+    tag: Question 5 · Learning and valence
+    title: (b) The size of a model
+    prompt: |
+      A creature lives in a grid of 5 places and has 6 possible body temperatures. A model with one hidden state per (place, temperature) pair has a transition matrix $\mathbf B$ for each action with $30\times30$ entries. A **factorised** model with two independent factors (place, temperature) uses one $5\times5$ matrix and one $6\times6$ matrix per action. How many entries more does the joint model need per action? (Joint minus factorised.)
+    answer: 839
+    tolerance: 0.5
+    answerText: '839'
+    wrong:
+      - value: 900
+        feedback: |
+          That is the size of the joint $\mathbf B$ alone. The question asks for the difference with the factorised model, which has $25+36=61$ entries.
+      - value: 61
+        feedback: |
+          That is the size of the factorised model. The question asks for how many more entries the joint model needs.
+    explanation: |
+      Joint: $30^2=900$ entries. Factorised: $5^2+6^2=61$. The difference is $839$ per action, which is why designers factorise hidden states into independent factors when the structure allows.
+
+  - type: mcq
+    id: q5c
+    points: 0.4
+    tag: Question 5 · Learning and valence
+    title: (c) Parameter or structure
+    prompt: |
+      A learner has a model of a room with a likelihood $\mathbf A$ over (light, dark). It then discovers that the readings depend on a hidden switch it never represented. Which statement is correct?
+    multiple: false
+    options:
+      - text: 'This needs structure learning (a new hidden factor); updating the Dirichlet counts of $\mathbf A$ only changes the numbers within the existing structure.'
+        correct: true
+      - text: 'Dirichlet counts can learn it: with enough observations they will add the switch as a new state.'
+        feedback: |
+          Counts learn the parameters of a fixed model (the entries of $\mathbf A$, $\mathbf B$, ...). They cannot add a hidden factor that the model does not have.
+      - text: 'It is a case of attention: raising the sensory precision $\Pi_y$ reveals the switch.'
+        feedback: |
+          Precision changes how much the data weigh against the prior, not what the model contains.
+      - text: 'No learning is needed; the model with the extra switch gives the same free energy.'
+        feedback: |
+          A model missing a real cause of the data has a worse evidence. Finding that out is the aim of structure learning (model comparison).
+    explanation: |
+      Parameter learning updates entries of a model of fixed form (counts). Structure learning changes the form (the hidden factors), typically by comparing models by their evidence.
+
+  - type: mcq
+    id: q5d
+    points: 0.5
+    tag: Question 5 · Learning and valence
+    title: (d) Valence
+    prompt: |
+      A creature's variational free energy falls from $F=6.0$ at $t=0$ to $F=4.5$ at $t=3$ minutes (so $\mathrm{d}F/\mathrm{d}t=-0.5$ per minute), though $F$ is still high. According to the (hedged) proposal that links valence to the rate of change of $F$, how does the creature feel?
+    multiple: false
+    options:
+      - text: 'Positive valence: $F$ is decreasing ($\mathrm{d}F/\mathrm{d}t<0$), whatever its current level.'
+        correct: true
+      - text: 'Negative valence, because $F=4.5$ is still high.'
+        feedback: |
+          In this proposal the sign is given by the *rate of change* of $F$, not by its level. A high $F$ that is going down is a relief.
+      - text: 'Neutral, because valence is zero unless $F$ reaches its minimum.'
+        feedback: |
+          Valence is defined by the rate of change. It is zero when $F$ is flat, not when $F$ is high.
+      - text: 'Positive valence, because $F$ is a reward that grows over time.'
+        feedback: |
+          $F$ is minimised, not a reward. It is falling here, and that falling is the positive signal.
+    explanation: |
+      The proposal is that $\mathrm{d}F/\mathrm{d}t>0$ (things getting worse than expected) feels negative and $\mathrm{d}F/\mathrm{d}t<0$ feels positive. Relief is the passage from high to lower $F$. It is a hypothesis, and the course hedges it.
+
+  - type: mcq
+    id: q5e
+    points: 0.4
+    tag: Question 5 · Learning and valence
+    title: (e) Salience
+    prompt: |
+      An animal believes $Q(s)=(0.5,\,0.5)$ over two hidden states and can look at one of two cues. Cue U has likelihood columns $(0.85,\,0.15)$ and $(0.15,\,0.85)$; cue V has $(0.7,\,0.3)$ and $(0.3,\,0.7)$. In both cases the predicted outcomes are $(0.5,0.5)$. Which cue is more salient, and why?
+    multiple: false
+    options:
+      - text: 'Cue U: its information gain $H[Q(o)]-\sum_s Q(s)H[P(o\mid s)]$ is about $0.270$ against $0.082$ for V, because its outcomes are less ambiguous.'
+        correct: true
+      - text: 'They are equally salient, since the predicted outcomes are $(0.5,0.5)$ in both cases.'
+        feedback: |
+          The predicted outcomes are the same, but the information gain subtracts the ambiguity, which is lower for U. Equal outcome entropy does not mean equal information.
+      - text: 'Cue V: its outcomes are more uncertain, so looking at it resolves more.'
+        feedback: |
+          Uncertain *given the state* means ambiguous: V's outcomes carry less information about the state. U is the better look.
+      - text: 'Neither: salience requires a preference over outcomes, and none is given.'
+        feedback: |
+          Salience is the epistemic part of $G$ and needs no preference. A preference would add the pragmatic part.
+    explanation: |
+      Information gain: for U, $\ln2-H[(0.85,0.15)]=0.693-0.423=0.270$; for V, $\ln2-H[(0.7,0.3)]=0.693-0.611=0.082$. Salience is the information a look is expected to provide.

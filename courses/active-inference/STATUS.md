@@ -1,6 +1,16 @@
 # Status
 
-Session start: read only **Current** (`sed -n '/^## Current/,/^## Log
+Session start: read only **Current** (`sed -n '/^## Current (2026-10-26)
+
+- **State: the course is complete.** Levels 1-10 fully built and audited, `exam-partial` and `exam-final` built (`exams/partial.yaml`, `exams/final.yaml`). Review is automatic. No unit left; optional: later full-course audit.
+- **Final exam:** original, Levels 6 to 10, 90 min, 26 cards, 10 points (5 questions x 2). Q1 tern fishing (POMDP G, softmax, order), Q2 mole habit/perseveration/deliberation, Q3 eye (mu*, reflex, build mu-dot, weak prior, spring, generalized sync), Q4 variational Laplace/PEB/BF/false inference, Q5 Dirichlet, factorised size, parameter vs structure, valence, salience. Numbers in CONVENTIONS (Exams).
+- **Widgets:** all built (see LESSON_FORMAT). **Notation:** see CONVENTIONS General and chapters.
+- **Paths:** lessons `courses/active-inference/chNN/`, exams `exams/`, sources git-ignored.
+
+## Log
+### 2026-10-26 — final exam (`exam-final`)
+Built `exams/final.yaml` (original, Levels 6-10, 90 min, 10 points, 26 cards, no widget, static text/tables only), node `exam-final` now has `file:`. Numbers checked twice by script (scratchpad chk.py/chk2.py); validate 0/0, shots 0 problems, headless run (intro, answering, submit, time-up with faked clock, results, review, exit) clean. No new formulas, nothing new to verify in the source. Conventions fixed here: exam settings tern (catch .8/.1, C=(.75,.25), policies A/B/C Q(fish) .7/.4/.1), mole E/F/G, eye y=2 eta=-4 Pi(5,3).
+
 
 - 2026-10-26 ch10-challenge part 2 (9 cards): P4 tortoise hydration set-point 70, y 62 -> eps_y -8; allostasis mcq; F 8 -> 0.5 in 5 min -> dF/dt -1.5; valence mcq hedged as proposal (relief low to high). P5 sailor y 9, eta 3, Pi_v 2: Pi_y 1 -> mu* 5, Pi_y 4 -> 7 (shift 2); attention vs salience mcq; counts (3,1,2)+3 -> (3,1,5), 5/9; parameter vs structure learning mcq. final-summary plain text. Conventions fixed here: see Chapter 10, Challenge part 2.
 

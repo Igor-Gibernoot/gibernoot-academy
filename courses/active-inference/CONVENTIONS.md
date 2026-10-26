@@ -173,3 +173,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - Map: 16 boxes, no new formulas; outro shows mu*, udot=Pi_v(eta-mu), P(pi)=sigma(ln E-F-G), F=complexity-accuracy.
 - Challenge part 1: arm y=4, eta=10, Pi(1,4): mu*=8.8, udot=4.8; Pi_v=.25: mu*=5.2, udot=1.2. Foraging C=(.6,.4): A Q=C amb .5 G .5; B Q=(.9,.1) amb .1 risk .226 G .326; C Q=(.3,.7) amb .2 risk .184 G .384; gamma 4 -> P(B) .436, gamma 20 -> (.023,.742,.235). Commuter E=(.7,.2,.1), F=(.1,.5,.3), G=(1,.4,.9): P=(.676,.236,.087); no habit (.32,.39,.29); E=(.98,.01,.01): .979.
 - Challenge part 2: tortoise hydration set-point 70, y 62 -> eps_y -8; Pi_y .25: F 8 -> .5 in 5 min, dF/dt -1.5. Sailor y 9, eta 3, Pi_v 2: Pi_y 1 -> mu* 5, Pi_y 4 -> 7. Counts (3,1,2)+3 on outcome 3 -> (3,1,5), 5/9 = .556. final-summary writes G both as risk+ambiguity and as -information gain - pragmatic value.
+
+## Exams
+
+- Partial: Sprout (dry/moist, prior .6/.4, P(low|x) .7/.2). Final: tern A (catch|fish .8, catch|empty .1), C=(.75,.25), Q(fish) .7/.4/.1 gives G .509/.700/1.086, gamma 4 -> P(A) .639; mole E=(.5,.3,.2), F=(.2,.9,.4), G=(1.1,.3,.6), gamma 3 -> burrow 2 .571; eye y=2, eta=-4, Pi (5,3): mu*=-.25, udot=-11.25; fit L=-2.5(th-1)^2, N(3,1/1.5): Pi_post 6.5, mu 1.462; ln BF 2.2 -> 9.0; counts [[4,2],[1,5],[3,1]] + o2 x (.75,.25): A21 .2.
