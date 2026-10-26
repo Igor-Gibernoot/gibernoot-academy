@@ -1,0 +1,234 @@
+id: ch04-tensor-space-2
+title: Tensor Spaces at a Point · Part 2
+kind: concept
+own: |
+  - **Setting:** $p$ is a point of a $d$-dimensional manifold $\mathcal{M}$; charts $\mathscr{X}$ and $\mathscr{Y}$ around $p$ give the bases $(\partial x_i)_p$, $(dx^i)_p$ and $(\partial y_i)_p$, $(dy^i)_p$ of $T_p\mathcal{M}$ and $T_p^*\mathcal{M}$; $T$ is a tensor in $T_p^{(r,s)}\mathcal{M}$ (a multilinear map with $r$ covector slots, then $s$ velocity slots) and its components in $\mathscr{X}$ are {{ $(T_\mathcal{U})^{i\dots}_{j\dots} = T((dx^i)_p,\dots,(\partial x_j)_p)$ }}; sums over repeated indices are implied.
+  - **Transformation law:** one Jacobian per index, $\partial\mathscr{Y}/\partial\mathscr{X}$ for upper (contravariant), {{ $\partial\mathscr{X}/\partial\mathscr{Y}$ }} for lower (covariant), derived by feeding or by re-expanding. For a $(0,2)$-tensor, feeding $(\partial y_k)_p = (\partial\mathscr{X}^i/\partial\mathscr{Y}^k)_p(\partial x_i)_p$ into both slots gives
+    {{ $$(T_\mathcal{V})_{kl} = \Big(\frac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k}\Big)_p\Big(\frac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}\Big)_p (T_\mathcal{U})_{ij} .$$ }}
+    For a $(1,1)$-tensor:
+    {{ $$(T_\mathcal{V})^i_j = \sum_{k,l}\Big(\frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^k}\Big)_p\Big(\frac{\partial\mathscr{X}^l}{\partial\mathscr{Y}^j}\Big)_p (T_\mathcal{U})^k_l .$$ }}
+    Checked on $T := (df)_p\otimes(df)_p$ in $\mathbb{R}^2$ with $f(q) := q_1^2+q_2$, $p := (1,1)$, $\mathscr{X}(q) := (2q_1,-q_2)$, $\mathscr{Y}(q) := (q_1,q_2e^{q_1})$: $(T_\mathcal{V})_{12} = 1/e$ both ways.
+
+cards:
+  - type: text
+    id: recall-tensor-space
+    title: "Recall: tensors at a point and their components"
+    body: |
+      At a point $p$ of a $d$-dimensional manifold $\mathcal{M}$, the tensor space $T_p^{(r,s)}\mathcal{M}$ is the set of multilinear maps with $r$ covector slots (first) and $s$ velocity slots, of dimension $d^{\,r+s}$. A chart $(\mathcal{U},\mathscr{X})$ around $p$ gives the basis $(\partial x_i)_p := (\partial/\partial\mathscr{X}^i)_p$ of velocities $T_p\mathcal{M}$ and the dual basis $(dx^i)_p := (d\mathscr{X}^i)_p$ of covectors $T_p^*\mathcal{M}$. Tensor products of these form a basis of $T_p^{(r,s)}\mathcal{M}$, and the **components** of $T$ are its values on the basis elements; for a $(1,1)$-tensor
+      $$(T_\mathcal{U})^i_j = T\big((dx^i)_p,(\partial x_j)_p\big),$$
+      $$T = (T_\mathcal{U})^i_j\,(\partial x_i)_p\otimes(dx^j)_p.$$
+      (The lesson Tensor Spaces at a Point · Part 1 built this.) Now a second chart $(\mathcal{V},\mathscr{Y})$ around $p$ gives $(\partial y_k)_p := (\partial/\partial\mathscr{Y}^k)_p$, $(dy^k)_p := (d\mathscr{Y}^k)_p$ and components $(T_\mathcal{V})$. The two bases are related by Jacobians, which the lessons Coordinate Bases and the Jacobian · Part 1 (for $\partial y_k$) and Differentials as a Basis · Part 1 (for $dy^k$) fixed.
+
+  - type: text
+    id: law-derivation
+    title: Changing chart
+    body: |
+      A second chart $(\mathcal{V}, \mathscr{Y})$ around $p$ gives the bases $(\partial y_k)_p := (\partial/\partial\mathscr{Y}^k)_p$ and $(dy^k)_p := (d\mathscr{Y}^k)_p$, and new components $(T_\mathcal{V})_{kl} := T\big((\partial y_k)_p, (\partial y_l)_p\big)$. Recall the basis law, with the inverse Jacobian (column $k$):
+      $$(\partial y_k)_p = \Big(\frac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k}\Big)_p(\partial x_i)_p.$$
+      Feed it into both slots of a $(0,2)$-tensor $T$ and use bilinearity to pull the numbers out:
+      $$\begin{aligned}(T_\mathcal{V})_{kl} &= T\big((\partial y_k)_p, (\partial y_l)_p\big)\\ &= \Big(\tfrac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k}\Big)_p\Big(\tfrac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}\Big)_p\\ &\quad\cdot T\big((\partial x_i)_p, (\partial x_j)_p\big).\end{aligned}$$
+      The last factor is a component in the first chart. Assemble the law.
+
+  - type: build
+    id: build-law-02
+    title: The (0,2) law
+    prompt: |
+      Charts $\mathscr{X}$ and $\mathscr{Y}$ around $p$. A $(0,2)$-tensor $T$ has components $(T_\mathcal{U})_{ij} := T((\partial x_i)_p, (\partial x_j)_p)$ and $(T_\mathcal{V})_{kl} := T((\partial y_k)_p, (\partial y_l)_p)$, and the bases are related by $(\partial y_k)_p = (\partial\mathscr{X}^i/\partial\mathscr{Y}^k)_p(\partial x_i)_p$. Build the law for the new components.
+    prefix: '(T_\mathcal{V})_{kl} ='
+    tiles: ['\big(\tfrac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k}\big)_p', '\big(\tfrac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}\big)_p', '(T_\mathcal{U})_{ij}', '\big(\tfrac{\partial\mathscr{Y}^k}{\partial\mathscr{X}^i}\big)_p', '\big(\tfrac{\partial\mathscr{Y}^l}{\partial\mathscr{X}^j}\big)_p']
+    answers:
+      - ['\big(\tfrac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k}\big)_p', '\big(\tfrac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}\big)_p', '(T_\mathcal{U})_{ij}']
+      - ['\big(\tfrac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}\big)_p', '\big(\tfrac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k}\big)_p', '(T_\mathcal{U})_{ij}']
+      - ['(T_\mathcal{U})_{ij}', '\big(\tfrac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k}\big)_p', '\big(\tfrac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}\big)_p']
+      - ['(T_\mathcal{U})_{ij}', '\big(\tfrac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}\big)_p', '\big(\tfrac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k}\big)_p']
+      - ['\big(\tfrac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k}\big)_p', '(T_\mathcal{U})_{ij}', '\big(\tfrac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}\big)_p']
+      - ['\big(\tfrac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}\big)_p', '(T_\mathcal{U})_{ij}', '\big(\tfrac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k}\big)_p']
+    wrong:
+      - { answer: ['\big(\tfrac{\partial\mathscr{Y}^k}{\partial\mathscr{X}^i}\big)_p', '\big(\tfrac{\partial\mathscr{Y}^l}{\partial\mathscr{X}^j}\big)_p', '(T_\mathcal{U})_{ij}'], feedback: 'That is the vector-component pattern (new from old with $\partial\mathscr{Y}/\partial\mathscr{X}$). Lower indices come from velocity slots, which are fed the basis vectors $(\partial y_k)_p$, and those are written with the **inverse** Jacobian $\partial\mathscr{X}^i/\partial\mathscr{Y}^k$.' }
+    hint: 'One Jacobian factor per lower index, each the coefficient from the basis law.'
+    explanation: |
+      $$(T_\mathcal{V})_{kl} = \Big(\tfrac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k}\Big)_p\Big(\tfrac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}\Big)_p(T_\mathcal{U})_{ij}.$$
+      Each lower index transforms like the components of a covector: **covariantly**.
+
+  - type: text
+    id: law-general
+    title: One Jacobian per index
+    body: |
+      An upper index comes from a covector slot, fed $(dy^k)_p$. Recall the dual basis law (row $k$ of the Jacobian):
+      $$(dy^k)_p = \Big(\frac{\partial\mathscr{Y}^k}{\partial\mathscr{X}^i}\Big)_p(dx^i)_p.$$
+      Linearity in that slot pulls out one factor $(\partial\mathscr{Y}^k/\partial\mathscr{X}^i)_p$, exactly as for the components of a velocity: **contravariantly**. For a $(1,1)$-tensor,
+      $$(T_\mathcal{V})^k_l = \Big(\tfrac{\partial\mathscr{Y}^k}{\partial\mathscr{X}^i}\Big)_p\Big(\tfrac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}\Big)_p(T_\mathcal{U})^i_j.$$
+      **Rule:** one Jacobian factor per index; upper index: $\partial\mathscr{Y}/\partial\mathscr{X}$, lower index: $\partial\mathscr{X}/\partial\mathscr{Y}$, each new index on the $\mathscr{Y}$ side of its fraction.
+
+      Solving for the old components with the inverse identity $(\partial\mathscr{X}^i/\partial\mathscr{Y}^k)_p(\partial\mathscr{Y}^k/\partial\mathscr{X}^j)_p = \delta^i_j$ gives the same law read backwards, old from new:
+      $$(T_\mathcal{U})^i_j = \Big(\tfrac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k}\Big)_p\Big(\tfrac{\partial\mathscr{Y}^l}{\partial\mathscr{X}^j}\Big)_p(T_\mathcal{V})^k_l.$$
+      For general $(r,s)$ there are $r$ factors of the first kind and $s$ of the second.
+
+  - type: text
+    id: second-route
+    title: A second derivation
+    body: |
+      The law also follows from the expansion. Write $T = (T_\mathcal{U})^i_j\,(\partial x_i)_p\otimes(dx^j)_p$ and replace each basis element by the second chart's, using the laws read the other way:
+      $$(\partial x_i)_p = \Big(\tfrac{\partial\mathscr{Y}^k}{\partial\mathscr{X}^i}\Big)_p(\partial y_k)_p,$$
+      $$(dx^j)_p = \Big(\tfrac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}\Big)_p(dy^l)_p.$$
+      The product $\otimes$ is linear in each factor, so the numbers come out:
+      $$\begin{aligned}T = {}&\Big(\tfrac{\partial\mathscr{Y}^k}{\partial\mathscr{X}^i}\Big)_p\Big(\tfrac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}\Big)_p(T_\mathcal{U})^i_j\\ &\cdot(\partial y_k)_p\otimes(dy^l)_p.\end{aligned}$$
+      The products $(\partial y_k)_p\otimes(dy^l)_p$ are a basis, so the coefficient of each is $(T_\mathcal{V})^k_l$: the same law as feeding basis elements. Feeding is the quicker route; the expansion shows that the law is nothing but a change of basis in $T_p^{(1,1)}\mathcal{M}$.
+
+  - type: mcq
+    id: law-12
+    title: A (1,2) law
+    prompt: |
+      Charts $\mathscr{X}$, $\mathscr{Y}$ around $p$. Rule: each upper index brings a factor $\partial\mathscr{Y}/\partial\mathscr{X}$, each lower index a factor $\partial\mathscr{X}/\partial\mathscr{Y}$, all at $p$. Which is the law for a $(1,2)$-tensor, $(T_\mathcal{V})^k_{lm}$ in terms of $(T_\mathcal{U})^i_{jn}$?
+    options:
+      - text: '$\big(\tfrac{\partial\mathscr{Y}^k}{\partial\mathscr{X}^i}\big)_p\big(\tfrac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}\big)_p\big(\tfrac{\partial\mathscr{X}^n}{\partial\mathscr{Y}^m}\big)_p(T_\mathcal{U})^i_{jn}$'
+        correct: true
+      - text: '$\big(\tfrac{\partial\mathscr{Y}^k}{\partial\mathscr{X}^i}\big)_p\big(\tfrac{\partial\mathscr{Y}^l}{\partial\mathscr{X}^j}\big)_p\big(\tfrac{\partial\mathscr{Y}^m}{\partial\mathscr{X}^n}\big)_p(T_\mathcal{U})^i_{jn}$'
+        feedback: |
+          Using the same Jacobian for every index treats all of them like velocity components. In this expression $j$ and $n$ appear twice down and $l, m$ end up up, so the free indices do not even match the left side. Lower indices take the inverse.
+      - text: '$\big(\tfrac{\partial\mathscr{X}^k}{\partial\mathscr{Y}^i}\big)_p\big(\tfrac{\partial\mathscr{Y}^j}{\partial\mathscr{X}^l}\big)_p\big(\tfrac{\partial\mathscr{Y}^n}{\partial\mathscr{X}^m}\big)_p(T_\mathcal{U})^i_{jn}$'
+        feedback: |
+          Here the new indices $k, l, m$ sit on the $\mathscr{X}$ side of their fractions. The new components carry $\mathscr{Y}$-indices, so each new index must label $\mathscr{Y}$: $\partial\mathscr{Y}^k$ upstairs for the upper index, $\partial\mathscr{Y}^l$, $\partial\mathscr{Y}^m$ downstairs for the lower ones.
+    explanation: |
+      Three indices, three factors: $\partial\mathscr{Y}^k/\partial\mathscr{X}^i$ for the upper one, $\partial\mathscr{X}^j/\partial\mathscr{Y}^l$ and $\partial\mathscr{X}^n/\partial\mathscr{Y}^m$ for the lower ones. Every summed index appears once up and once down.
+
+  - type: text
+    id: example-setup
+    title: The running example
+    body: |
+      Back to the plane, $p = (1,1)$, $f(q) = q_1^2 + q_2$, charts $\mathscr{X}(q) = (2q_1, -q_2)$ and $\mathscr{Y}(q) = (q_1, q_2e^{q_1})$. Recall the components of the differential: $(1, -1)$ in $\mathscr{X}$ and $(1, 1/e)$ in $\mathscr{Y}$, and the inverse Jacobian (row $i$ for $\mathscr{X}$, column $k$ for $\mathscr{Y}$)
+      $$\Big(\frac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k}\Big)_p = \begin{pmatrix}2 & 0\\ 1 & -1/e\end{pmatrix}.$$
+      Take $T := (df)_p\otimes(df)_p\in T_p^{(0,2)}\mathcal{M}$. On basis vectors $T((\partial x_i)_p, (\partial x_j)_p) = (df)_p((\partial x_i)_p)\cdot(df)_p((\partial x_j)_p)$, the product of two components, so
+      $$(T_\mathcal{U})_{ij} = \begin{pmatrix}1 & -1\\ -1 & 1\end{pmatrix}.$$
+      Now predict $(T_\mathcal{V})$ with the law, and check it against the product of the $\mathscr{Y}$-components.
+
+  - type: numeric
+    id: example-12
+    title: Through the law
+    prompt: |
+      At $p = (1,1)$ in the running example, $T = (df)_p\otimes(df)_p$ has $\mathscr{X}$-components $(T_\mathcal{U})_{11} = 1$, $(T_\mathcal{U})_{12} = (T_\mathcal{U})_{21} = -1$, $(T_\mathcal{U})_{22} = 1$. The inverse Jacobian has columns $(\partial\mathscr{X}^i/\partial\mathscr{Y}^1)_p = (2, 1)$ and $(\partial\mathscr{X}^i/\partial\mathscr{Y}^2)_p = (0, -1/e)$. Use
+      $$(T_\mathcal{V})_{kl} = \Big(\tfrac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k}\Big)_p\Big(\tfrac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}\Big)_p(T_\mathcal{U})_{ij}$$
+      to compute $(T_\mathcal{V})_{12}$, as a decimal.
+    answer: 0.36788
+    tolerance: 0.002
+    answerText: '1/e ≈ 0.368'
+    wrong:
+      - { value: -1, feedback: 'That is the old component $(T_\mathcal{U})_{12}$. Components are chart-dependent: the tensor stays, its numbers change with the basis.' }
+      - { value: -0.36788, feedback: 'Sign slip. With $i$ from column $1$, $(2, 1)$, and $j$ from column $2$, $(0, -1/e)$: only $j = 2$ survives, giving $2\cdot(-\tfrac1e)\cdot(-1) + 1\cdot(-\tfrac1e)\cdot 1 = \tfrac2e - \tfrac1e$.' }
+      - { value: 0.7358, feedback: 'You kept $2\cdot(-\tfrac1e)\cdot(T_\mathcal{U})_{12} = \tfrac2e$ but dropped the $i = 2$ term $1\cdot(-\tfrac1e)\cdot(T_\mathcal{U})_{22} = -\tfrac1e$.' }
+    hint: 'Only $j = 2$ contributes, since the first entry of column $2$ is $0$. Then sum over $i$ with the weights $(2, 1)$ from column $1$.'
+    explanation: |
+      $$\begin{aligned}(T_\mathcal{V})_{12} &= 2\cdot(-\tfrac1e)(-1) + 1\cdot(-\tfrac1e)(1)\\ &= \tfrac2e - \tfrac1e = \tfrac1e \approx 0.368.\end{aligned}$$
+      Check with the product: the $\mathscr{Y}$-components of $(df)_p$ are $(1, 1/e)$, and $1\cdot\tfrac1e = \tfrac1e$. The two routes agree.
+
+  - type: numeric
+    id: example-22
+    title: By the product
+    prompt: |
+      In the running example at $p = (1,1)$, the differential $(df)_p$ has components $(1, 1/e)$ in the chart $\mathscr{Y}$, i.e. $(df)_p((\partial y_1)_p) = 1$ and $(df)_p((\partial y_2)_p) = 1/e$. What is the component $(T_\mathcal{V})_{22} := T((\partial y_2)_p, (\partial y_2)_p)$ of $T = (df)_p\otimes(df)_p$, as a decimal?
+    answer: 0.13534
+    tolerance: 0.002
+    answerText: '1/e² ≈ 0.135'
+    wrong:
+      - { value: 0.36788, feedback: 'That is $1/e$, a single component of $(df)_p$. The product feeds $(\partial y_2)_p$ to **both** factors: $\tfrac1e\cdot\tfrac1e$.' }
+      - { value: 1, feedback: 'That is the old component $(T_\mathcal{U})_{22}$. In the chart $\mathscr{Y}$ each factor gives $1/e$.' }
+    hint: '$(\mathsf{X}\otimes\mathsf{Y})(u, w) = \mathsf{X}(u)\,\mathsf{Y}(w)$.'
+    explanation: |
+      $(T_\mathcal{V})_{22} = \tfrac1e\cdot\tfrac1e = e^{-2}\approx 0.135$. In full,
+      $$(T_\mathcal{V})_{kl} = \begin{pmatrix}1 & 1/e\\ 1/e & 1/e^2\end{pmatrix}.$$
+      The law gives the same (try $k = l = 2$: only $i = j = 2$ survives, $(-\tfrac1e)^2\cdot 1$). The law for a product is the product of the laws.
+
+  - type: mcq
+    id: identity-tensor
+    title: A tensor with the same numbers everywhere
+    prompt: |
+      The $(1,1)$-tensor $\delta$ at $p$ has components $(\delta_\mathcal{U})^i_j = \delta^i_j$ (the Kronecker delta) in the chart $\mathscr{X}$. The law is $(\delta_\mathcal{V})^k_l = (\partial\mathscr{Y}^k/\partial\mathscr{X}^i)_p(\partial\mathscr{X}^j/\partial\mathscr{Y}^l)_p\,\delta^i_j$. What are its components in any other chart $\mathscr{Y}$?
+    options:
+      - text: '$\delta^k_l$, in every chart'
+        correct: true
+      - text: 'The Jacobian $(\partial\mathscr{Y}^k/\partial\mathscr{X}^l)_p$'
+        feedback: |
+          The upper index brings a Jacobian, but the lower index brings its **inverse**, and the delta glues the two together: $\delta^i_j$ sets $j = i$, leaving $(\partial\mathscr{Y}^k/\partial\mathscr{X}^i)_p(\partial\mathscr{X}^i/\partial\mathscr{Y}^l)_p$, a matrix times its inverse.
+      - text: 'It depends on the chart, like any tensor''s components'
+        feedback: |
+          In general components do depend on the chart, but this tensor is special: as a linear map $T_p\mathcal{M}\to T_p\mathcal{M}$ it is the identity, $w\mapsto w$, and the identity has the matrix $\delta$ in every basis. The law confirms it.
+    explanation: |
+      $$\begin{aligned}(\delta_\mathcal{V})^k_l &= \Big(\tfrac{\partial\mathscr{Y}^k}{\partial\mathscr{X}^i}\Big)_p\Big(\tfrac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^l}\Big)_p\\ &= \delta^k_l,\end{aligned}$$
+      by the inverse identity. Its feeding definition says the same thing without any law: $\delta(\mathsf{X}, w) = \mathsf{X}(w)$, and $(dy^k)_p((\partial y_l)_p) = \delta^k_l$.
+
+  - type: mcq
+    id: trap-count
+    title: 'Trap: counting Jacobians'
+    prompt: |
+      Spacetime, $d = 4$. A $(2,1)$-tensor at $p$ is written in a new chart with the transformation law. In the law for one component $(T_\mathcal{V})^{kl}_m$, how many Jacobian factors multiply each term of the sum?
+    options:
+      - text: '$3$, one per index'
+        correct: true
+      - text: '$64$, one per component'
+        feedback: |
+          $64 = 4^3$ is the number of **terms** in the sum (the summed indices $i, j, n$ each run over $4$ values) and also the number of components. Each single term carries one Jacobian factor per index of the tensor: $3$.
+      - text: '$2$, one per upper index; lower indices do not transform'
+        feedback: |
+          Lower indices transform too, with the inverse Jacobian: a velocity slot is fed the new basis vectors $(\partial y_m)_p = (\partial\mathscr{X}^n/\partial\mathscr{Y}^m)_p(\partial x_n)_p$, and linearity pulls that factor out.
+      - text: '$1$, the Jacobian matrix of the chart change'
+        feedback: |
+          One matrix suffices for a velocity or a covector, which have one index. Each slot of a multilinear map is linear on its own, so each slot pulls out its own factor: three slots, three factors.
+    explanation: |
+      $$(T_\mathcal{V})^{kl}_m = \tfrac{\partial\mathscr{Y}^k}{\partial\mathscr{X}^i}\tfrac{\partial\mathscr{Y}^l}{\partial\mathscr{X}^j}\tfrac{\partial\mathscr{X}^n}{\partial\mathscr{Y}^m}(T_\mathcal{U})^{ij}_n,$$
+      all at $p$: three factors per term, $4^3 = 64$ terms.
+
+  - type: numeric
+    id: trap-matrix
+    title: 'Trap: same matrix, different tensor'
+    prompt: |
+      Running example at $p = (1,1)$: the inverse Jacobian has columns $(\partial\mathscr{X}^i/\partial\mathscr{Y}^1)_p = (2, 1)$ and $(\partial\mathscr{X}^i/\partial\mathscr{Y}^2)_p = (0, -1/e)$. A $(0,2)$-tensor $S$ has $\mathscr{X}$-components $(S_\mathcal{U})_{ij} = \delta_{ij}$, the identity matrix (the same numbers as the $(1,1)$-tensor $\delta$). With the $(0,2)$ law
+      $$(S_\mathcal{V})_{kl} = \Big(\tfrac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k}\Big)_p\Big(\tfrac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}\Big)_p(S_\mathcal{U})_{ij},$$
+      what is $(S_\mathcal{V})_{11}$?
+    answer: 5
+    wrong:
+      - { value: 1, feedback: 'That would be true for the $(1,1)$-tensor $\delta$, whose two factors are a Jacobian and its inverse. Here **both** indices are lower, so both factors are inverse Jacobians and nothing cancels: $2\cdot 2 + 1\cdot 1$.' }
+      - { value: 3, feedback: 'The sum is $\sum_i(\partial\mathscr{X}^i/\partial\mathscr{Y}^1)_p^2$: each entry of column $1$ appears **twice** (once per slot), so square them: $2^2 + 1^2$.' }
+    hint: '$\delta_{ij}$ sets $j = i$: $(S_\mathcal{V})_{11} = \sum_i\big((\partial\mathscr{X}^i/\partial\mathscr{Y}^1)_p\big)^2$.'
+    explanation: |
+      $(S_\mathcal{V})_{11} = 2^2 + 1^2 = 5$. In full, $(S_\mathcal{V})_{kl}$ is $\begin{pmatrix}5 & -1/e\\ -1/e & 1/e^2\end{pmatrix}$, no longer the identity, while $\delta$ stays $\delta^k_l$. A matrix is a tensor's components **in one chart**; the same matrix can belong to different tensors, and the type decides how it changes. (Here $\delta_{ij}$ just names the numbers $1$ on the diagonal, $0$ off it.)
+
+  - type: mcq
+    id: trap-order
+    title: 'Trap: slot order'
+    prompt: |
+      A chart $\mathscr{X}$ gives the basis $(\partial x_i)_p$ and dual basis $(dx^i)_p$ at $p$, with $(dx^i)_p((\partial x_j)_p) = \delta^i_j$, and $(\mathsf{X}\otimes\mathsf{Y})(u, w) := \mathsf{X}(u)\,\mathsf{Y}(w)$. Is $(dx^1)_p\otimes(dx^2)_p$ the same tensor as $(dx^2)_p\otimes(dx^1)_p$?
+    shuffle: false
+    options:
+      - text: 'No: on the pair $((\partial x_1)_p, (\partial x_2)_p)$ the first gives $1$ and the second $0$'
+        correct: true
+      - text: 'Yes: multiplication of numbers commutes, so the order of the factors does not matter'
+        feedback: |
+          The **values** $\mathsf{X}(u)$ and $\mathsf{Y}(w)$ are numbers and commute, but the order decides which factor eats which slot. Swapping factors gives $\mathsf{Y}(u)\,\mathsf{X}(w)$, a different function of $(u, w)$.
+      - text: 'Yes, up to a sign'
+        feedback: |
+          A sign appears for antisymmetric combinations such as the signed area $(dx^1)_p\otimes(dx^2)_p - (dx^2)_p\otimes(dx^1)_p$, which changes sign when the inputs swap. The two single products are not negatives of each other: on $((\partial x_1)_p, (\partial x_2)_p)$ they give $1$ and $0$.
+    explanation: |
+      $\big((dx^1)_p\otimes(dx^2)_p\big)((\partial x_1)_p, (\partial x_2)_p) = 1\cdot 1 = 1$, while $\big((dx^2)_p\otimes(dx^1)_p\big)$ gives $0\cdot 0 = 0$. The tensor product is not commutative: slot order is part of the tensor.
+
+  - type: mcq
+    id: trap-definition
+    title: 'Trap: what a tensor is'
+    prompt: |
+      A common slogan says "a tensor is something that transforms like a tensor". At a point $p$ of a manifold, which statement is the actual definition used here?
+    options:
+      - text: 'An element of $T_p^{(r,s)}\mathcal{M}$: a multilinear map with $r$ covector slots and $s$ velocity slots; the transformation law is derived from it'
+        correct: true
+      - text: 'A list of $d^{\,r+s}$ numbers attached to each chart, related by the transformation law'
+        feedback: |
+          Those are **components**, one list per chart. They describe the tensor once a chart is chosen, and the law follows from feeding the new basis to the same map. Starting from the lists makes the law look like an axiom, which is why the slogan sounds circular.
+      - text: 'A matrix whose entries change with the Jacobian'
+        feedback: |
+          Only tensors with two indices give a square array of components, and even then the array belongs to one chart; the trap about $\delta$ and $S$ shows the same matrix can belong to different tensors that change differently.
+    explanation: |
+      A tensor is a chart-free machine; components are what it returns on a chart's basis elements, and the law is linearity in each slot. Nothing about tensors is mysterious once the slots are clear.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      **Next:** a fast round of traps on everything in this level, from velocities as rates of change to covectors and tensors at a point.

@@ -1,0 +1,152 @@
+id: ch10-schwarzschild-2
+title: "Guided Problem: Checking the Schwarzschild Metric · Part 2"
+kind: guided
+
+cards:
+  - type: text
+    id: recall-schwarzschild
+    title: "Recall: the Schwarzschild exterior"
+    body: |
+      Let $r_S := 2G_NM$ with $G_N$ Newton's constant and $M>0$ a mass, and $f(r) := 1 - r_S/r$. On $\mathcal{M} = \mathbb{R}\times(r_S,\infty)\times S^2$ ($S^2$ the unit sphere) with chart coordinates $(t,r,\theta,\varphi)$, numbered $0,1,2,3$ (a raised index is a label), the lesson Guided Problem: Checking the Schwarzschild Metric · Part 1 showed that
+      $$g = \mathrm{diag}\big(f,\,-1/f,\,-r^2,\,-r^2\sin^2\theta\big)$$
+      has signature $(+,-,-,-)$ and satisfies the vacuum equation $\mathrm{Ric} = 0$. A prime is $d/dr$. Its non-zero Christoffel symbols $\Gamma^k_{ij}$ include
+      $$\Gamma^0_{01} = \frac{f'}{2f},\quad \Gamma^1_{00} = \frac{ff'}{2},\quad \Gamma^1_{11} = -\frac{f'}{2f}.$$
+      Numbers below use $r_S = 2$ (that is, $G_NM = 1$), so $f = 1 - 2/r$.
+
+      Part 2 asks what the coordinate $r$ really measures, and whether the tides of Newtonian gravity (Level 9) come out of the same $\Gamma$. As before, guess first, then check.
+
+  - type: numeric
+    id: what-is-r
+    tag: Step 5 · What does r measure?
+    title: Sphere area and radial distance
+    prompt: |
+      On a sphere with $t$ and $r$ constant, the metric is $r^2$ times that of the unit sphere, so its area is $4\pi r^2$: $r$ is the radius defined by the area. Along a radial segment ($t,\theta,\varphi$ fixed) the length element is $dr/\sqrt{f}$. Take $r_S = 4$ and a short segment at $r = 5$. By what factor is its length larger than its coordinate width $\Delta r$ (about $1/\sqrt{f}$)?
+    answer: 2.236
+    tolerance: 0.01
+    wrong:
+      - value: 1
+        feedback: |
+          That would be flat space. Here $f(5) = 1 - 4/5 = 0.2$, so lengths are stretched by $1/\sqrt{0.2}$.
+      - value: 5
+        feedback: |
+          $5 = 1/f$. The length element is $\sqrt{|g_{11}|}\,dr = dr/\sqrt{f}$, with the square root.
+    explanation: |
+      $f(5)=0.2$, so $1/\sqrt{0.2} = \sqrt5\approx2.236$. As $r\to r_S$, $f\to0$ and the factor diverges: spheres at equal radial distances crowd together in $r$ near $r_S$, even though the total radial length from $r_S$ to any $r_2$ stays finite.
+
+  - type: mcq
+    id: r-not-distance
+    tag: Step 5 · What does r measure?
+    title: Is r the distance to the centre?
+    prompt: |
+      For the exterior metric on $\mathcal{M}=\mathbb{R}\times(r_S,\infty)\times S^2$, what is the coordinate $r$?
+    options:
+      - text: 'The radius obtained from the area of the sphere, $4\pi r^2$; there is no centre in $\mathcal{M}$ to measure a distance from'
+        correct: true
+      - text: 'The distance from the centre, because the sphere has radius $r$ and area $4\pi r^2$ as in flat space'
+        feedback: |
+          In flat space the distance and the area radius agree, but here the radial distance between two spheres is $\int dr/\sqrt f > r_2 - r_1$. And the centre is not even a point of $\mathcal{M}$ (the region $r\le r_S$ is not included).
+      - text: 'The proper time of a clock at rest, in units of $r_S$'
+        feedback: |
+          $r$ is a space coordinate. The proper time along $t$ at fixed $r$ is $\sqrt f\,dt$.
+    explanation: |
+      The area radius is meaningful geometrically; the distance to a centre is not, because there is no centre in $\mathcal{M}$.
+
+  - type: text
+    id: tidal-plan
+    tag: Step 6 · Tides
+    title: The same Gamma gives the tidal tensor
+    body: |
+      In the Newtonian theory of a point mass, the tides are
+      $$\mathrm{Riem}^1_{010} = -\frac{2G_NM}{r^3},$$
+      $$\mathrm{Riem}^2_{020} = \mathrm{Riem}^3_{030} = \frac{G_NM}{r^3},$$
+      with trace $\mathrm{Ric}_{00} = 0$. Does Schwarzschild reproduce them? The curvature of a symmetric connection is
+      $$\begin{aligned}\mathrm{Riem}^i_{jkm} ={}& \partial_k\Gamma^i_{jm}\\ &- \partial_m\Gamma^i_{jk}\\ &+ \Gamma^i_{kn}\Gamma^n_{jm}\\ &- \Gamma^i_{mn}\Gamma^n_{jk}.\end{aligned}$$
+      For $\mathrm{Riem}^1_{010}$ ($i=1$, $j=0$, $k=1$, $m=0$) only three terms survive:
+      $$\partial_1\Gamma^1_{00} + \Gamma^1_{11}\Gamma^1_{00} - \Gamma^1_{00}\Gamma^0_{01}.$$
+
+  - type: build
+    id: build-riem1010
+    tag: Step 6 · Tides
+    title: The radial tide
+    prompt: |
+      Insert $\Gamma^1_{00} = ff'/2$, $\Gamma^1_{11} = -f'/(2f)$ and $\Gamma^0_{01} = f'/(2f)$ into $\partial_1\Gamma^1_{00} + \Gamma^1_{11}\Gamma^1_{00} - \Gamma^1_{00}\Gamma^0_{01}$. The last two terms each equal $-f'^2/4$. Build $\mathrm{Riem}^1_{010}$ (here $f''$ is the second derivative of $f$).
+    prefix: '\mathrm{Riem}^1_{010} ='
+    tiles: ['\dfrac{ff''''}{2}', '\dfrac{f''^2}{2}', '-\dfrac{ff''''}{2}', 'f f''''']
+    answers:
+      - ['\dfrac{ff''''}{2}']
+    wrong:
+      - answer: ['\dfrac{f''^2}{2}']
+        feedback: |
+          $f'^2/2$ is what the two product terms contribute with a minus sign; it cancels against the $f'^2/2$ inside $\partial_1(ff'/2) = (f'^2 + ff'')/2$. What is left is $\tfrac12ff''$.
+    hint: |
+      $\partial_1(ff'/2) = (f'^2 + ff'')/2$.
+    explanation: |
+      $$\mathrm{Riem}^1_{010} = \frac{f'^2 + ff''}{2} - \frac{f'^2}{2} = \frac{ff''}{2}.$$
+
+  - type: numeric
+    id: riem1010-value
+    tag: Step 6 · Tides
+    title: Compare with the Newtonian tide
+    prompt: |
+      With $r_S=2$ ($G_NM=1$): $f = 1 - 2/r$, so $f'' = -4/r^3$. Evaluate $\mathrm{Riem}^1_{010} = ff''/2$ at $r=4$. (The Newtonian value is $-2G_NM/r^3 = -0.03125$.)
+    answer: -0.015625
+    tolerance: 0.00001
+    wrong:
+      - value: -0.03125
+        feedback: |
+          That is the Newtonian value. The relativistic one carries the extra factor $f = 0.5$ at $r=4$.
+      - value: 0.015625
+        feedback: |
+          Sign: $f''<0$ because $f'= 2/r^2$ decreases. So the radial tide stretches, as in the Newtonian theory.
+    explanation: |
+      $f(4)=0.5$, $f''(4) = -4/64 = -0.0625$: $\mathrm{Riem}^1_{010} = 0.5\cdot(-0.0625)/2 = -0.015625$. In general $\mathrm{Riem}^1_{010} = -f\,\frac{2G_NM}{r^3}$: the Newtonian value times $f$, which tends to $1$ far from the mass.
+
+  - type: numeric
+    id: riem2020-value
+    tag: Step 6 · Tides
+    title: The sideways tide and the trace
+    prompt: |
+      The same computation gives $\mathrm{Riem}^2_{020} = \mathrm{Riem}^3_{030} = \dfrac{ff'}{2r}$. At $r=4$, $r_S=2$ ($f = 0.5$, $f' = 0.125$), add $\mathrm{Riem}^1_{010} = -0.015625$ and these two. The sum is $\mathrm{Ric}_{00}$ (the contraction $\mathrm{Riem}^m_{0m0}$). What is it?
+    answer: 0
+    tolerance: 0.000001
+    wrong:
+      - value: 0.0078125
+        feedback: |
+          That is a single sideways entry $ff'/(2r) = 0.5\cdot0.125/8$. There are two of them, with the radial entry $-0.015625$: $-0.015625 + 2\cdot0.0078125 = 0$.
+      - value: -0.0078125
+        feedback: |
+          Count both sideways components, $\mathrm{Riem}^2_{020}$ and $\mathrm{Riem}^3_{030}$, each $+0.0078125$.
+    explanation: |
+      $-0.015625 + 2\cdot0.0078125 = 0$: the trace vanishes, as $\mathrm{Ric}_{00}=0$ requires. Each entry is the Newtonian one times $f$ ($-2G_NM/r^3$ and $G_NM/r^3$): stretching along the line to the mass, squeezing across it.
+
+  - type: mcq
+    id: flat-trap
+    tag: Step 6 · Tides
+    title: Ricci-flat, but is it flat?
+    prompt: |
+      The Schwarzschild exterior satisfies $\mathrm{Ric}=0$. A student concludes that $\mathrm{Riem}=0$, i.e. that the spacetime is flat. What is wrong?
+    options:
+      - text: '$\mathrm{Ric}$ is a trace of $\mathrm{Riem}$; entries like $\mathrm{Riem}^1_{010}=-0.015625\neq0$ at $r=4$ show a curved spacetime whose trace cancels'
+        correct: true
+      - text: 'Nothing: $\mathrm{Ric}=0$ implies $\mathrm{Riem}=0$ in four dimensions'
+        feedback: |
+          That implication holds in dimensions 2 and 3, not in 4: the $20$ independent components of $\mathrm{Riem}$ outnumber the $10$ of $\mathrm{Ric}$, and the rest is free in vacuum.
+      - text: 'The tides computed above are coordinate artefacts that vanish in another chart'
+        feedback: |
+          A tensor that is non-zero in one chart is non-zero in every chart: components transform linearly. The tide cannot be transformed away; this is the difference between gravity and a pseudo-force.
+    explanation: |
+      Vacuum gravity is not the absence of curvature but the absence of Ricci curvature: the trace of the tidal tensor vanishes, the tensor itself does not.
+
+  - type: text
+    id: summary
+    title: Wrap-up
+    body: |
+      **Checking Schwarzschild, Part 2.** With $r_S = 2G_NM$ ($G_N$ Newton's constant, $M$ the mass), $f(r) := 1 - r_S/r$, chart $(t,r,\theta,\varphi)$ on $\mathbb{R}\times(r_S,\infty)\times S^2$, metric $g = \mathrm{diag}(f,-1/f,-r^2,-r^2\sin^2\theta)$, a prime $d/dr$ and $\mathrm{Riem}$ the Riemann tensor:
+
+      - **Meaning of $r$**: the sphere of coordinate $r$ has area $4\pi r^2$, and radial lengths are stretched by $1/\sqrt f$, since the length element is $dr/\sqrt f$; there is no centre in the spacetime to measure a distance from.
+      - **Tides**:
+        $$\mathrm{Riem}^1_{010} = \frac{ff''}{2} = -f\,\frac{2G_NM}{r^3},$$
+        $$\mathrm{Riem}^2_{020}=\mathrm{Riem}^3_{030} = \frac{ff'}{2r} = f\,\frac{G_NM}{r^3},$$
+        the Newtonian tides times $f$, with zero trace $\mathrm{Ric}_{00} = \mathrm{Riem}^m_{0m0} = 0$, yet non-zero curvature: Ricci-flat is not flat.
+
+      **Next: "Relativity Traps".** Fast questions on the misconceptions of this level: signature conventions, what $\mathrm{Ric}=0$ does and does not say, coordinate versus proper quantities, and the signs that slip when coupling to matter.
