@@ -1,0 +1,243 @@
+id: ch07-geodesic-equation-2
+title: "Guided Problem: Deriving the Geodesic Equation · Part 2"
+kind: guided
+
+cards:
+  - type: text
+    id: recall-geodesic
+    tag: Recall
+    title: 'Recall: the geodesic equation in a chart'
+    body: |
+      Recall, from the lesson Guided Problem: Deriving the Geodesic Equation · Part 1: on a metric manifold $(\mathcal{M},g)$ of dimension $d$ with a chart, with metric components $g_{ij}$ and inverse $(g^{-1})^{km}$, define the coefficients (symmetric in $i,j$, not a tensor)
+      $$\begin{aligned}\Gamma^k_{ij} = \tfrac12(g^{-1})^{km}\big(&\partial_i g_{mj} + \partial_j g_{mi}\\ &- \partial_m g_{ij}\big).\end{aligned}$$
+      A curve $\gamma$ (components $\gamma^k(\lambda)$, dot $= d/d\lambda$) of constant speed $s_\gamma = \sqrt{|g(v_\gamma,v_\gamma)|}$ and nonzero sign has stationary length if and only if
+      $$\ddot\gamma^k + \Gamma^k_{ij}\,\dot\gamma^i\dot\gamma^j = 0.\tag{G}$$
+      Opening puzzle, again: on the Euclidean plane in polar components, $g_{ij} = \mathrm{diag}(1,r^2)$, the two equations $\ddot r - r\dot\theta^2 = 0$ and $\ddot\theta + \tfrac2r\dot r\dot\theta = 0$ are supposed to be (G). Here we check them.
+
+  - type: mcq
+    id: gamma-props
+    title: What are these coefficients?
+    prompt: |
+      On a manifold with metric $g$, in a chart, define
+      $$\begin{aligned}\Gamma^k_{ij} := \tfrac12(g^{-1})^{km}\big(&\partial_i g_{mj} + \partial_j g_{mi}\\ &- \partial_m g_{ij}\big).\end{aligned}$$
+      Which statement is true?
+    options:
+      - text: '$\Gamma^k_{ij} = \Gamma^k_{ji}$ at every point'
+        correct: true
+      - text: 'They are the components of a $(1,2)$-tensor field'
+        feedback: |
+          In the cartesian chart of the Euclidean plane all $\partial_m g_{ij} = 0$, so every $\Gamma^k_{ij} = 0$; in the polar chart $\Gamma^1_{22} = -r\neq0$. A tensor with all components $0$ in one chart is $0$ in every chart, so these are not tensor components (like connection coefficients, they pick up a second-derivative term).
+      - text: 'They depend on the curve $\gamma$'
+        feedback: |
+          The definition uses only $g$ and the chart: they are functions on the chart domain. The curve enters the geodesic equation only through where they are evaluated, $\gamma(\lambda)$, and through the factors $\dot\gamma^i\dot\gamma^j$.
+      - text: 'They are only defined for constant-speed curves'
+        feedback: |
+          They are defined from the metric alone, with no curve at all. Constant speed was needed to bring the Euler-Lagrange equations into the form $\ddot\gamma^k + \Gamma^k_{ij}\dot\gamma^i\dot\gamma^j = 0$, not to define the coefficients.
+    explanation: |
+      Swapping $i\leftrightarrow j$ exchanges $\partial_i g_{mj}$ and $\partial_j g_{mi}$ and leaves $\partial_m g_{ij} = \partial_m g_{ji}$ unchanged, since $g_{ij} = g_{ji}$. So $\Gamma^k_{ij}$ is symmetric in its lower indices.
+
+  - type: numeric
+    id: polar-122
+    tag: Polar check
+    title: The first polar coefficient
+    prompt: |
+      Euclidean plane, polar chart $(r,\theta)$, metric components $g_{11} = 1$, $g_{22} = r^2$, $g_{12} = g_{21} = 0$; slot 1 is $r$, slot 2 is $\theta$. With
+      $$\begin{aligned}\Gamma^k_{ij} = \tfrac12(g^{-1})^{km}\big(&\partial_i g_{mj} + \partial_j g_{mi}\\ &- \partial_m g_{ij}\big),\end{aligned}$$
+      compute $\Gamma^1_{22}$ at a point with $r = 5$.
+    answer: -5
+    answerText: '-5'
+    wrong:
+      - { value: 5, feedback: 'The sign: for $k = 1$ only $m = 1$ contributes, and $\partial_2g_{12} = 0$ twice, so what remains is $-\partial_1g_{22} = -2r$, with a minus sign.' }
+      - { value: -10, feedback: 'That is $-\partial_1g_{22} = -2r$ without the factor $\tfrac12$ in front.' }
+      - { value: -0.2, feedback: 'That used $(g^{-1})^{22} = 1/r^2$, but $k = 1$ needs $(g^{-1})^{11} = 1$: the inverse metric of $\mathrm{diag}(1,r^2)$ is $\mathrm{diag}(1,1/r^2)$.' }
+    hint: The inverse metric is $\mathrm{diag}(1,1/r^2)$, so for $k = 1$ only $m = 1$ survives; the only nonzero derivative of the metric is $\partial_1g_{22} = 2r$.
+    explanation: |
+      $$\begin{aligned}\Gamma^1_{22} &= \tfrac12\cdot1\cdot\big(0 + 0 - \partial_1g_{22}\big)\\ &= \tfrac12(-2r) = -r,\end{aligned}$$
+      which is $-5$ at $r = 5$.
+
+  - type: numeric
+    id: polar-212
+    tag: Polar check
+    title: The mixed polar coefficient
+    prompt: |
+      Euclidean plane, polar chart $(r,\theta)$, metric $\mathrm{diag}(1,r^2)$, inverse $\mathrm{diag}(1,1/r^2)$; slot 1 is $r$, slot 2 is $\theta$. With
+      $$\begin{aligned}\Gamma^k_{ij} = \tfrac12(g^{-1})^{km}\big(&\partial_i g_{mj} + \partial_j g_{mi}\\ &- \partial_m g_{ij}\big),\end{aligned}$$
+      compute $\Gamma^2_{12}$ at a point with $r = 5$.
+    answer: 0.2
+    answerText: '1/r = 0.2'
+    wrong:
+      - { value: 0.4, feedback: 'That is $2/r$: the factor $\tfrac12$ is missing. Only $\partial_1g_{22} = 2r$ contributes (the terms $\partial_2g_{21}$ and $\partial_2g_{12}$ vanish), so $\tfrac12\cdot\tfrac{1}{r^2}\cdot2r = \tfrac1r$.' }
+      - { value: 5, feedback: 'That forgets the inverse metric: for $k = 2$ the factor is $(g^{-1})^{22} = 1/r^2$, not $1$. $\tfrac12\cdot2r = r$ must still be divided by $r^2$.' }
+      - { value: 0, feedback: 'For $k = 2$, $m = 2$, $i = 1$, $j = 2$, the first term is $\partial_1g_{22} = 2r\neq0$. Only the other two terms, $\partial_2g_{21}$ and $\partial_2g_{12}$, vanish.' }
+    hint: For $k = 2$ only $m = 2$ survives, with $(g^{-1})^{22} = 1/r^2$. Which of $\partial_1g_{22}$, $\partial_2g_{21}$, $\partial_2g_{12}$ is nonzero?
+    explanation: |
+      $$\begin{aligned}\Gamma^2_{12} &= \tfrac12\cdot\tfrac1{r^2}\big(\partial_1g_{22} + \partial_2g_{21} - \partial_2g_{12}\big)\\ &= \tfrac12\cdot\tfrac1{r^2}\cdot2r = \tfrac1r,\end{aligned}$$
+      which is $0.2$ at $r = 5$. By symmetry $\Gamma^2_{21} = 1/r$ too.
+
+  - type: text
+    id: polar-all
+    tag: Polar check
+    title: All six coefficients
+    body: |
+      In the polar chart $\mathscr{Y}$ the only nonzero coefficients are
+      $$(\Gamma_\mathscr{Y})^1_{22} = -r$$
+      $$(\Gamma_\mathscr{Y})^2_{12} = (\Gamma_\mathscr{Y})^2_{21} = \tfrac1r$$
+      (the others, $\Gamma^1_{11},\Gamma^1_{12},\Gamma^2_{11},\Gamma^2_{22}$, contain only derivatives of constants or $\partial_2g_{22} = 0$). These are **exactly** the polar coefficients of the Euclidean connection $\nabla^{\mathrm{E}}$ from Level 6, computed there from "cartesian components constant" by the transformation law: $-r$ and $1/r$. The metric alone, through the length, has rebuilt the flat connection. In the cartesian chart all $\partial_m g_{ij} = 0$, so all $\Gamma^k_{ij} = 0$ and (G) reads $\ddot\gamma^k = 0$: straight lines at constant speed, as for $\nabla^{\mathrm{E}}$ too.
+
+  - type: mcq
+    id: factor-two
+    tag: Polar check
+    title: Where does the 2 come from?
+    prompt: |
+      In the polar chart of the Euclidean plane the nonzero coefficients are $\Gamma^1_{22} = -r$ and $\Gamma^2_{12} = \Gamma^2_{21} = 1/r$. Writing out the $k = 2$ component of $\ddot\gamma^k + \Gamma^k_{ij}\dot\gamma^i\dot\gamma^j = 0$ (with $\dot\gamma^1 = \dot r$, $\dot\gamma^2 = \dot\theta$), what multiplies $\dot r\,\dot\theta$?
+    options:
+      - text: '$\tfrac2r$'
+        correct: true
+      - text: '$\tfrac1r$'
+        feedback: |
+          The double sum over $i,j$ contains **two** terms with one $\dot r$ and one $\dot\theta$: $(i,j) = (1,2)$ and $(i,j) = (2,1)$. Each brings $\tfrac1r$, so together $\tfrac2r$.
+      - text: '$-r$'
+        feedback: |
+          $-r$ is $\Gamma^1_{22}$, which belongs to the $k = 1$ equation and multiplies $\dot\theta^2$: $\ddot r - r\dot\theta^2 = 0$.
+      - text: '$\tfrac{1}{r^2}$'
+        feedback: |
+          $\tfrac1{r^2}$ is the inverse-metric component $(g^{-1})^{22}$, already absorbed into $\Gamma^2_{12} = \tfrac12\cdot\tfrac1{r^2}\cdot2r = \tfrac1r$.
+    explanation: |
+      $\Gamma^2_{12}\dot r\dot\theta + \Gamma^2_{21}\dot\theta\dot r = \tfrac2r\dot r\dot\theta$, so (G) in polar components is
+      $$\ddot r - r\,\dot\theta^2 = 0$$
+      $$\ddot\theta + \tfrac2r\,\dot r\,\dot\theta = 0$$
+      the two equations of the opening puzzle.
+
+  - type: numeric
+    id: horizontal-line
+    tag: Polar check
+    title: A straight line that is not radial
+    prompt: |
+      Euclidean plane. The horizontal line with cartesian components $(\lambda, 1)$ runs at speed $1$. In the polar chart it has
+      $$r(\lambda) = \sqrt{1+\lambda^2}$$
+      and $\theta(\lambda) = \operatorname{atan2}(1,\lambda)$, with $\dot\theta = -1/(1+\lambda^2)$. Compute $\ddot r$ at $\lambda = 0$.
+    answer: 1
+    answerText: '1'
+    wrong:
+      - { value: 0, feedback: 'A straight line need not have $\ddot r = 0$ in polar components. $\dot r = \lambda(1+\lambda^2)^{-1/2}$, and its derivative at $\lambda = 0$ is $(1+0)^{-1/2} - 0 = 1$.' }
+    hint: $\dot r = \lambda\,(1+\lambda^2)^{-1/2}$; differentiate once more with the product rule and set $\lambda = 0$.
+    explanation: |
+      $\ddot r = (1+\lambda^2)^{-3/2}$, which is $1$ at $\lambda = 0$. The acceleration $\ddot r$ is not zero, but neither is $r\dot\theta^2 = 1\cdot(-1)^2 = 1$: they balance, $\ddot r - r\dot\theta^2 = 0$. In general $\ddot r = r\dot\theta^2 = (1+\lambda^2)^{-3/2}$, and the second equation holds too. The term $-r\dot\theta^2$ is the price of curved coordinate lines: a straight line seen in polar components "accelerates outwards".
+
+  - type: text
+    id: hook-resolve
+    title: The puzzle, half resolved
+    body: |
+      The two equations of the opening puzzle are the geodesic equation (G) in polar components. So:
+      - the radial line $r = \lambda$, $\theta = 0$ passes: straight, speed $1$;
+      - the horizontal line $(\lambda,1)$ passes, though $\ddot r\neq0$: the $\Gamma$ terms balance it;
+      - the circle $r = 1$, $\theta = \lambda$ fails: $\ddot r - r\dot\theta^2 = -1$, it bends.
+
+      But the third curve, $r = \lambda^2$, $\theta = 0$ on $[1,2]$, runs along a straight segment, and its length does not care how fast it is run. Why does it fail?
+
+  - type: mcq
+    id: trap-speed
+    tag: Trap
+    title: A straight path rejected
+    prompt: |
+      Euclidean plane, polar chart. The curve $r = \lambda^2$, $\theta = 0$, $\lambda\in[1,2]$, traces the straight segment from $(1,0)$ to $(4,0)$, yet $\ddot r - r\dot\theta^2 = 2\neq0$, so it fails $\ddot\gamma^k + \Gamma^k_{ij}\dot\gamma^i\dot\gamma^j = 0$. Why?
+    options:
+      - text: 'That equation was derived for constant speed, and this curve has speed $2\lambda$'
+        correct: true
+      - text: 'It is not a geodesic: only the constant-speed run of a segment has stationary length'
+        feedback: |
+          Being a geodesic does not depend on the parametrization: a reparametrization maps variations to variations and keeps every length, so the derivative in $\text{ᛊ}$ is the same. This curve **is** a geodesic; the equation simply does not apply to it.
+      - text: 'The polar chart fails at the origin'
+        feedback: |
+          The curve stays at $r\in[1,4]$, $\theta = 0$, well inside the polar chart domain. The trouble is in the derivation of Part 1: one step pulled $1/s_\gamma$ out of a $\lambda$-derivative.
+      - text: 'The coefficients $\Gamma^k_{ij}$ are computed wrongly'
+        feedback: |
+          They are right, and here they do not even matter: $\dot\theta = 0$ kills every $\Gamma$ term. The left side is $\ddot r = 2$, nonzero because the speed $2\lambda$ changes.
+    explanation: |
+      The step $s_\gamma\frac{d}{d\lambda}(X/s_\gamma) = \dot X$ used $\dot s_\gamma = 0$. A geodesic run at varying speed solves a different equation, built next.
+
+  - type: text
+    id: general-equation
+    title: Any speed
+    body: |
+      Without constant speed, the quotient rule gives
+      $$s_\gamma\,\frac{d}{d\lambda}\Big(\frac{X}{s_\gamma}\Big) = \dot X - \frac{\dot s_\gamma}{s_\gamma}\,X,$$
+      with $X = g_{mj}\dot\gamma^j$. The extra term rides along through the symmetrization and the multiplication by $(g^{-1})^{km}$, which turns $g_{mj}\dot\gamma^j$ into $\dot\gamma^k$. Result: a curve with nonzero sign is a geodesic if and only if
+      $$\ddot\gamma^k + \Gamma^k_{ij}\,\dot\gamma^i\dot\gamma^j = \frac{\dot s_\gamma}{s_\gamma}\,\dot\gamma^k.\tag{S}$$
+      The right side is a multiple of the velocity: the curve may speed up or slow down along its own direction, never turn. For $\dot s_\gamma = 0$, (S) is (G).
+
+  - type: numeric
+    id: rhs-check
+    tag: Trap
+    title: The speed term pays the bill
+    prompt: |
+      Euclidean plane, polar chart. The curve $r = \lambda^2$, $\theta = 0$ on $[1,2]$ has speed $s_\gamma = 2\lambda$. For a geodesic at any speed,
+      $$\ddot\gamma^k + \Gamma^k_{ij}\,\dot\gamma^i\dot\gamma^j = \frac{\dot s_\gamma}{s_\gamma}\,\dot\gamma^k.$$
+      Compute the right side for $k = 1$ (where $\dot\gamma^1 = \dot r$) at $\lambda = 1.5$.
+    answer: 2
+    answerText: '2'
+    wrong:
+      - { value: 0, feedback: 'The speed $s_\gamma = 2\lambda$ is not constant: $\dot s_\gamma/s_\gamma = 2/(2\lambda) = 1/\lambda$, and $\dot r = 2\lambda$, so the product is $2$.' }
+      - { value: 3, feedback: 'That is $\dot r = 2\lambda$ alone; it still has to be multiplied by $\dot s_\gamma/s_\gamma = 1/\lambda$.' }
+    hint: $\dot s_\gamma/s_\gamma = 2/(2\lambda)$ and $\dot r = 2\lambda$.
+    explanation: |
+      $\frac{\dot s_\gamma}{s_\gamma}\dot r = \frac1\lambda\cdot2\lambda = 2$ for every $\lambda$, matching the left side $\ddot r - r\dot\theta^2 = 2$. The $k = 2$ component is $0 = 0$. So the curve satisfies (S): it is a geodesic, run at the wrong speed for (G).
+
+  - type: mcq
+    id: arc-length
+    tag: Trap
+    title: Repair the speed
+    prompt: |
+      Every geodesic with nonzero sign can be reparametrized to unit speed: with a reparametrization $\text{ᚱ}$ and new parameter $\mu$, choose $\mu = \text{ᚱ}^{-1}(\lambda) := L_{[a,\lambda]}[\gamma]$, the length run so far. For the Euclidean curve with cartesian components $(\lambda^2, 0)$, $\lambda\in[1,2]$ (speed $2\lambda$), what is $\mu$ as a function of $\lambda$?
+    options:
+      - text: '$\mu = \lambda^2 - 1$'
+        correct: true
+      - text: '$\mu = \lambda^2$'
+        feedback: |
+          $\mu$ must be the length run **so far**, so $\mu = 0$ at the start $\lambda = 1$: $\int_1^\lambda2t\,dt = \lambda^2 - 1$. $\lambda^2$ is the length from $\lambda = 0$, outside the interval.
+      - text: '$\mu = 2\lambda$'
+        feedback: |
+          $2\lambda$ is the speed, the integrand, not the length. The length run so far is $\int_1^\lambda2t\,dt = \lambda^2 - 1$.
+      - text: '$\mu = \lambda$'
+        feedback: |
+          Keeping $\lambda$ keeps speed $2\lambda$. The new parameter must grow at the rate the length grows: $d\mu/d\lambda = s_\gamma = 2\lambda$.
+    explanation: |
+      $\mu = \lambda^2 - 1$ runs over $[0,3]$, and $\delta := \gamma\circ\text{ᚱ}$ has cartesian components $(1+\mu, 0)$: speed $1$, polar $r = 1+\mu$, $\ddot r = 0$. Now (G) holds. In general $\text{ᚱ}' = 1/(s_\gamma\circ\text{ᚱ})$, so $s_\delta = |\text{ᚱ}'|\,s_\gamma\circ\text{ᚱ} = 1$. So "constant speed" costs nothing: every geodesic has a parametrization obeying (G).
+
+  - type: mcq
+    id: energy
+    title: The energy shortcut
+    prompt: |
+      In a chart, replace the length Lagrangian by the **energy** Lagrangian
+      $$\mathcal{E}_\mathscr{X}(\alpha;\beta) := \tfrac12\,g_{ij}\,\beta^i\beta^j$$
+      ($g_{ij}$ at $\mathscr{X}^{-1}(\alpha)$, no square root). Its slot derivatives are $\partial_{d+m}\mathcal{E}_\mathscr{X} = g_{mj}\beta^j$ and $\partial_m\mathcal{E}_\mathscr{X} = \tfrac12(\partial_mg_{ij})\beta^i\beta^j$. What do its Euler-Lagrange equations become, with **no** assumption on the speed?
+    options:
+      - text: '$\ddot\gamma^k + \Gamma^k_{ij}\,\dot\gamma^i\dot\gamma^j = 0$, the constant-speed geodesic equation'
+        correct: true
+      - text: '$\ddot\gamma^k + \Gamma^k_{ij}\,\dot\gamma^i\dot\gamma^j = \frac{\dot s_\gamma}{s_\gamma}\dot\gamma^k$'
+        feedback: |
+          The speed term came from the $1/s_\gamma$ produced by the square root. Without the root, $\partial_{d+m}\mathcal{E}_\mathscr{X} = g_{mj}\beta^j$ has no $s_\gamma$, and the computation is the constant-speed one verbatim.
+      - text: '$\ddot\gamma^k = 0$ in every chart'
+        feedback: |
+          That is the cartesian Euclidean case, where all $\partial_mg_{ij} = 0$. In the polar chart the energy gives $\ddot r - r\dot\theta^2 = 0$, with the $\Gamma$ term.
+      - text: 'Nothing useful: the energy is not a length'
+        feedback: |
+          True, it is not a length, but its Euler-Lagrange equations are $\frac{d}{d\lambda}(g_{mj}\dot\gamma^j) - \tfrac12(\partial_mg_{ij})\dot\gamma^i\dot\gamma^j = 0$, the same as the constant-speed equation of this lesson.
+    explanation: |
+      $\frac{d}{d\lambda}(g_{mj}\dot\gamma^j) - \tfrac12(\partial_mg_{ij})\dot\gamma^i\dot\gamma^j = 0$ is exactly the equation reached after the constant-speed step. So the energy picks out geodesics **already** at constant speed, which is why physicists often start from it. The straight segment $(\lambda^2,0)$ fails it, as the previous lesson found ($\ddot\gamma^1 = 2$).
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      **The puzzle, resolved.** The polar equations of the Euclidean plane in the chart $(r,\theta)$, $\ddot r - r\dot\theta^2 = 0$, $\ddot\theta + \tfrac2r\dot r\dot\theta = 0$ are the geodesic equation of the Euclidean plane. The circle fails because it bends; $r = \lambda^2$ fails only because its speed changes.
+
+      - **Setting**: $(\mathcal{M},g)$ a metric manifold of dimension $d$ with a chart, $g_{ij}$ the components of $g$, $(g^{-1})^{km}$ the inverse matrix, $\gamma$ a curve with components $\dot\gamma^i$ of its velocity, sign $\text{ᛇ}_\gamma := \mathrm{sgn}\,g(v_\gamma,v_\gamma)$, speed $s_\gamma := \sqrt{\text{ᛇ}_\gamma\,g(v_\gamma,v_\gamma)}$.
+      - **Geodesic equation**, constant speed, nonzero sign, with $\Gamma^k_{ij} = \tfrac12(g^{-1})^{km}(\partial_i g_{mj} + \partial_j g_{mi} - \partial_m g_{ij})$:
+      $$\ddot\gamma^k + \Gamma^k_{ij}\,\dot\gamma^i\dot\gamma^j = 0\tag{G}$$
+      - **Any speed**:
+      $$\ddot\gamma^k + \Gamma^k_{ij}\,\dot\gamma^i\dot\gamma^j = \frac{\dot s_\gamma}{s_\gamma}\,\dot\gamma^k\tag{S}$$
+      and the arc length $\mu := \int_a^\lambda s_\gamma\,d\lambda'$ as parameter always gives speed $1$.
+      - **Polar check**: on the Euclidean plane, $g_{ij} = \mathrm{diag}(1,r^2)$ in the chart $(r,\theta)$: $\Gamma^1_{22} = -r$, $\Gamma^2_{12} = \Gamma^2_{21} = \tfrac1r$, exactly the coefficients of the Euclidean connection $\nabla^{\mathrm{E}}$ (cartesian components constant) written in polar components.
+
+      **Next: "The Levi-Civita Connection · Part 1".** (G) has the shape of the autoparallel equation of a connection. Is there a connection whose coefficients are exactly these $\Gamma^k_{ij}$, so that geodesics (stationary length) and autoparallels (straightest curves) coincide? Yes, exactly one that is torsion free and respects the metric: the Levi-Civita connection.
