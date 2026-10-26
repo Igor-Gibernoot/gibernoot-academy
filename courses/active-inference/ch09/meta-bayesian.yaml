@@ -1,0 +1,307 @@
+id: ch09-meta-bayesian
+title: "Meta-Bayesian Methods: Inferring an Inferrer"
+kind: concept
+own: |
+  - **Two inferences at once.** A subject (the creature in an experiment) infers hidden states $s$ from the stimuli $\tilde o$ it sees and picks actions; we, the scientists, see only the stimuli and the subject's choices $u$ (the observed actions), and infer the unknown **parameters $\theta$** of the subject's generative model (its precision, preferences, learning rates). This is **meta-Bayesian** inference: inference about an inferrer. The subject's model is the *subjective* model; our model $m$ (which holds a prior over $\theta$ and predicts $u$) is the *objective* model.
+  - **Bayes' rule, one side per job.** With $\theta$ the parameters, $u$ the observed choices and $m$ the model:
+    {{ $$\begin{aligned}&P(u\mid\theta,m)\,P(\theta\mid m)\\&=P(\theta\mid u,m)\,P(u\mid m)\end{aligned}$$ }}
+    The left side is what we must specify (the **likelihood** and the **prior**); the right side is what we get. **Parameter estimation** reads off the posterior $P(\theta\mid u,m)$; **model comparison** uses the evidence $P(u\mid m)$.
+  - **The likelihood is a solved active inference problem.** $P(u\mid\theta,\tilde o,m)$ is the probability that the subjective model, with parameters $\theta$ put in and the stimuli $\tilde o$ presented, would take the observed actions. Toy case: two levers with expected free energies $G_{\text{left}}$, $G_{\text{right}}$, and $\Delta G=G_{\text{right}}-G_{\text{left}}$; the subject's choice probability follows the policy precision $\gamma$:
+    {{ $$P(\text{left}\mid\gamma)=\frac{1}{1+e^{-\gamma\,\Delta G}}$$ }}
+    A larger $\gamma$ makes choices more deterministic, so changing $\gamma$ changes the likelihood of the same choices.
+  - **Evidence compares models.** On a grid of parameter values the evidence is the prior-weighted sum of likelihoods:
+    {{ $$P(u\mid m)=\sum_\theta P(u\mid\theta,m)\,P(\theta\mid m)$$ }}
+    Example: $\Delta G=0.8$, 8 left choices out of 10, $\gamma\in\{0.5,2,4\}$ with equal prior weight gives the posterior $(0.259,\,0.632,\,0.109)$: $\gamma=2$ is most probable, but the other values are not ruled out. A good fit tells us what $\theta$ is likely **under $m$**, never that $m$ is true.
+cards:
+  - type: text
+    id: hook
+    title: "Reading a mind from its choices"
+    body: |
+      An experimenter watches a volunteer play a simple game: two levers, left and right, pulled ten times. The volunteer pulls **left 8 times and right 2 times**. The experimenter cannot open the volunteer's head. All they have are the **choices**.
+
+      Earlier lessons built a creature that perceives, plans and acts by minimising free energy. Now the roles reverse: the creature is the *subject* of an experiment, and we want to know what *beliefs and preferences* it must have had for these choices to be sensible. Before any maths: **what could the experimenter fit to these ten choices?**
+
+  - type: mcq
+    id: what-to-fit
+    prompt: |
+      The experimenter has the ten choices (8 left, 2 right) and a model of how a free-energy-minimising creature picks levers. What is it sensible to **fit** to the data?
+    options:
+      - text: 'The unknown **parameters** of the volunteer''s model (for example how deterministic its choices are, or what outcomes it prefers) that make these choices likely.'
+        correct: true
+      - text: 'The choices themselves: we adjust the numbers until the model reproduces 8 left and 2 right.'
+        feedback: |
+          The choices are the **data**, they are fixed. What we do not know, and may adjust, are the quantities inside the volunteer''s model that produced them.
+      - text: 'The hidden state of the world, since that is what the volunteer is trying to infer.'
+        feedback: |
+          That is the volunteer''s own inference problem. Ours is one level up: we infer what is going on *inside the volunteer*, not (only) what is going on in the world.
+      - text: 'Nothing: free energy minimisation always gives one fixed behaviour, so there is nothing to fit.'
+        feedback: |
+          The behaviour of an active inference agent depends on its generative model, and different priors or precisions give different behaviour. That dependence is exactly what lets us run the logic backwards.
+    explanation: |
+      Under active inference, behaviour is fixed by the subject''s **generative model**: its priors, precisions and preferences. Different parameters give different choices. So from the choices we can work backwards to the parameters that would make them likely. This is the idea of the whole chapter.
+
+  - type: text
+    id: two-reasons
+    title: "Two reasons to fit a model"
+    body: |
+      There are two related reasons for fitting a computational model to behaviour:
+
+      1. **Estimate parameters.** Find the parameter values that best explain one subject or a group. Describing a person by such numbers (how sure they are, what they prefer, how fast they learn) is called **computational phenotyping**.
+      2. **Compare hypotheses.** Two explanations of the same behaviour are two **models**. Which one explains the data better, once we penalise needless flexibility?
+
+      Both are done with **Bayes' rule**. The first needs a posterior over the parameters under one model; the second needs the **evidence**, how probable the data are under each model.
+
+  - type: mcq
+    id: which-side
+    prompt: |
+      Bayes' rule gives, for a model $m$, parameters $\theta$ and data $u$, a **posterior** $P(\theta\mid u,m)$ and an **evidence** (marginal likelihood) $P(u\mid m)$. Which job uses which?
+    options:
+      - text: 'Parameter estimation uses the posterior $P(\theta\mid u,m)$; model comparison uses the evidence $P(u\mid m)$ of each model.'
+        correct: true
+      - text: 'Parameter estimation uses the evidence; model comparison uses the posterior.'
+        feedback: |
+          Swapped. The evidence is a single number per model (it has no $\theta$ left in it), so it can only rank models. A distribution over $\theta$ is the posterior.
+      - text: 'Both use only the posterior of the best-fitting model.'
+        feedback: |
+          Comparing models needs a number *for each model*; the posterior of one model says nothing about a rival that was not computed. The evidence is that number.
+    explanation: |
+      Finding the posterior probability of a parameter setting, **under a model**, is parameter estimation. Finding the **marginal likelihood** of each model (its evidence) is model comparison.
+
+  - type: text
+    id: eq-9-1
+    title: "Bayes' rule for the experimenter"
+    body: |
+      Three symbols, all about *our* analysis of the volunteer:
+
+      - $\theta$: the **parameters** of the volunteer's generative model that we do not know (its precision, its preferences, ...). A vector of numbers.
+      - $u$: the **observed behaviour**, the actions or choices the volunteer made (here: the ten lever pulls).
+      - $m$: our **model**, the whole set of assumptions we make: which kind of subject model, and which prior we hold over $\theta$. Written after the bar, "given $m$".
+
+      Then Bayes' rule reads
+
+      $$P(u\mid\theta,m)\,P(\theta\mid m)=P(\theta\mid u,m)\,P(u\mid m)$$
+
+      From left to right: the **likelihood** (how probable the choices are, if the parameters were $\theta$), the **prior** (what we believed about $\theta$ before the data), the **posterior** (what we believe after), and the **evidence** (how probable the data are under the model as a whole). The left side is what we must **specify**; the right side is what the inference **gives** us.
+
+  - type: build
+    id: build-bayes
+    prompt: |
+      The right side of Bayes' rule is the posterior times the evidence:
+      $$P(\theta\mid u,m)\,P(u\mid m)$$
+      Build the **left side**: the two things we must specify.
+    tiles: ['P(u\mid\theta,m)', 'P(\theta\mid m)', 'P(\theta\mid u,m)', 'P(u\mid m)', 'P(m\mid u)']
+    answers:
+      - ['P(u\mid\theta,m)', 'P(\theta\mid m)']
+      - ['P(\theta\mid m)', 'P(u\mid\theta,m)']
+    wrong:
+      - answer: ['P(\theta\mid u,m)', 'P(u\mid m)']
+        feedback: |
+          That is the right side again. The posterior and the evidence are what the inference *delivers*; we must specify the likelihood and the prior.
+    hint: |
+      We must say how the data depend on the parameters (a likelihood), and what we believed about the parameters before seeing data (a prior).
+    explanation: |
+      The left side is our **generative model of the behaviour**: a prior over the parameters times the likelihood of the data given them. Inverting it gives the posterior and the evidence.
+
+  - type: text
+    id: lever-setup
+    title: "A toy subject: two levers"
+    body: |
+      Let the volunteer be a tiny active inference agent with two policies, pull the left lever or pull the right one. Each has an expected free energy $G$ (lower is better, as before): $G_{\text{left}}$ for left, $G_{\text{right}}$ for right. Say the left lever's feedback is clearer, so $\Delta G=G_{\text{right}}-G_{\text{left}}=0.8$ nats (nats: the natural-log unit of information).
+
+      The probability of a policy is $P(\pi)=\sigma(-\gamma G)$, where $\sigma$ is the softmax (exponentiate, then normalise) and $\gamma$ is the **precision over policies**: how strongly the agent's choice follows the $G$ values. For two levers this gives
+
+      $$P(\text{left}\mid\gamma)=\frac{1}{1+e^{-\gamma\,\Delta G}}$$
+
+      Here $\gamma$ is an unknown parameter of the *subject*: this is our $\theta$. The widget below lets you change it. Drag $\gamma$ and watch the probability of each lever.
+
+  - type: widget
+    id: gamma-widget
+    widget: policy-scorer
+    config:
+      outcomes: ['win', 'no win']
+      C: [0.5, 0.5]
+      policies:
+        - { name: 'left lever', qy: [0.5, 0.5], ambiguity: 0.2 }
+        - { name: 'right lever', qy: [0.5, 0.5], ambiguity: 1.0 }
+      gamma: 1
+      gammaMax: 6
+      showRisk: false
+      showPrefs: false
+    body: |
+      The two levers differ only in their expected free energy $G$ (here the "ambiguity" of their feedback: $0.2$ for left, $1.0$ for right, so $\Delta G=0.8$). Drag $\gamma$ from $0$ to $6$ and watch $P(\pi)$ for each lever.
+
+  - type: mcq
+    id: gamma-effect
+    review: false
+    prompt: |
+      The volunteer pulled left 8 times and right 2 times out of 10, with $\Delta G=0.8$ as in the widget. Think of the likelihood of exactly these choices as a function of $\gamma$. Why can the best $\gamma$ be neither tiny nor huge?
+    options:
+      - text: 'At tiny $\gamma$ the lever choice is nearly a coin toss, so 8 of 10 on one side is unlikely; at huge $\gamma$ the agent almost never pulls right, so the 2 right pulls are nearly impossible. A moderate $\gamma$ makes both counts reasonably likely.'
+        correct: true
+      - text: 'A huge $\gamma$ is always best, since the volunteer mostly pulled the lower-$G$ lever.'
+        feedback: |
+          The 2 right pulls count too. At huge $\gamma$ the probability of right is almost $0$, so ten choices with two rights have a likelihood close to $0$. Fitting must explain *every* choice.
+      - text: 'A tiny $\gamma$ is always best, since it makes every choice possible.'
+        feedback: |
+          A tiny $\gamma$ spreads the probability evenly: each choice gets about $\tfrac12$, so ten choices get about $\left(\tfrac12\right)^{10}$ whatever they were. It cannot explain a strong preference for left.
+      - text: '$\gamma$ does not affect the likelihood, only $G$ does.'
+        feedback: |
+          $\gamma$ sets how strongly choices follow $G$. Same $G$, different $\gamma$: different choice probabilities, hence a different likelihood of the same observed choices.
+    explanation: |
+      The likelihood of the data is the product of the probabilities of the choices actually made. Changing $\gamma$ moves $P(\text{left})$ and $P(\text{right})$ in opposite directions, so the likelihood has a **peak**: this is what lets the data pin $\gamma$ down.
+
+  - type: numeric
+    id: p-left
+    prompt: |
+      A volunteer has precision $\gamma=2$ and the two levers have $\Delta G=G_{\text{right}}-G_{\text{left}}=0.8$. Using $P(\text{left}\mid\gamma)=1/(1+e^{-\gamma\Delta G})$, what is the probability that this volunteer pulls the **left** lever on one trial? (3 decimals)
+    answer: 0.832
+    tolerance: 0.002
+    wrong:
+      - { value: 0.69, feedback: 'That is $\gamma=1$: $1/(1+e^{-0.8})$. Remember to multiply $\Delta G$ by $\gamma=2$ first, giving $e^{-1.6}$.' }
+      - { value: 0.168, feedback: 'That is the probability of the *right* lever, $1-0.832$.' }
+    hint: |
+      The exponent is $-\gamma\,\Delta G=-2\times0.8=-1.6$, and $e^{-1.6}\approx0.2019$.
+    explanation: |
+      $$P(\text{left}\mid\gamma=2)=\frac{1}{1+e^{-1.6}}=\frac{1}{1.2019}\approx0.832$$
+      This single number is one **likelihood factor**: the probability of one observed choice (left) given the parameter value $\gamma=2$.
+
+  - type: numeric
+    id: posterior-gamma
+    prompt: |
+      We hold three candidate values $\gamma\in\{0.5,\,2,\,4\}$ with equal prior probability $\tfrac13$ each. With $\Delta G=0.8$ the subject pulls left with probability $p=0.599,\ 0.832,\ 0.961$ respectively, and each trial is independent. The data $u$: **8 left and 2 right** in ten trials, in a fixed order. What is the **posterior probability of $\gamma=2$**, $P(\gamma=2\mid u,m)$? (3 decimals)
+    answer: 0.632
+    tolerance: 0.005
+    wrong:
+      - { value: 0.333, feedback: 'That is the prior. The data must change it: multiply each prior by its likelihood and renormalise.' }
+      - { value: 0.832, feedback: 'That is the probability of one left pull under $\gamma=2$, not a posterior over the three values of $\gamma$.' }
+    hint: |
+      The likelihood of the data for a given $\gamma$ is $p^{8}(1-p)^{2}$. With equal priors the $\tfrac13$ cancels: the posterior of $\gamma=2$ is its likelihood divided by the sum of the three likelihoods.
+    explanation: |
+      Likelihoods $p^8(1-p)^2$ for $\gamma=0.5,\,2,\,4$:
+      $$0.00266,\qquad 0.00648,\qquad 0.00111$$
+      Their prior-weighted sum is the **evidence** $P(u\mid m)=\tfrac13(0.01025)\approx0.00342$. Dividing each likelihood times its prior by it:
+      $$P(\gamma\mid u,m)=(0.259,\ 0.632,\ 0.109)$$
+      So $\gamma=2$ is the most probable, with probability $0.632$. The others are not excluded: ten choices give only a modest amount of evidence.
+
+  - type: text
+    id: two-inferences
+    title: "Two inference processes"
+    body: |
+      Notice that Bayes' rule is used **twice**, by two different reasoners:
+
+      - The **subject** (the creature) uses its *subjective* generative model $P(\tilde o,\tilde s,\pi\mid\theta,m)$ to infer hidden states $\tilde s$ from the stimuli $\tilde o$ it sees, and to choose a policy $\pi$. This is everything in the earlier chapters. (The tilde marks a whole sequence over time.)
+      - We, the **scientists**, use our *objective* model $m$: it holds a prior $P(\theta\mid m)$ over the subject's parameters, takes the stimuli $\tilde o$ we presented, and predicts the behaviour with a likelihood $P(\tilde u\mid\theta,\tilde o,m)$. We invert it on the observed choices $\tilde u$ to infer $\theta$.
+
+      Our model **contains** the subject's model: the likelihood is defined by *solving the subject's active inference problem*. That nesting, an inference about an inference, is why it is called **meta-Bayesian**.
+
+  - type: order
+    id: likelihood-recipe
+    prompt: |
+      To evaluate the likelihood of the observed choices for one candidate parameter value, and then get the posterior, put the steps in order.
+    steps:
+      - 'Pick a candidate $\theta$ and take the stimuli $\tilde o$ the subject actually saw.'
+      - 'Put $\theta$ into the subject''s active inference model (its priors, precisions, preferences).'
+      - 'Solve that model with $\tilde o$ as its sensory data: it gives beliefs about policies, hence a distribution over actions.'
+      - 'Read off the probability of the actions the subject really took: this is $P(\tilde u\mid\theta,\tilde o,m)$.'
+      - 'Multiply by the prior $P(\theta\mid m)$ and normalise over $\theta$: this is the posterior.'
+    hint: |
+      The likelihood needs a *solved* subject model; the prior only enters at the end.
+    explanation: |
+      Each candidate $\theta$ defines a different synthetic subject. We "run" that subject on the real stimuli and ask how probable its actions would have been. Candidates whose synthetic subject would have behaved like the real one get high likelihood.
+
+  - type: mcq
+    id: likelihood-content
+    prompt: |
+      In our objective model, what does the likelihood $P(u\mid\theta,\tilde o,m)$ contain?
+    options:
+      - text: 'The probability that a subject with parameters $\theta$, shown the stimuli $\tilde o$ and minimising free energy, would have taken exactly the observed actions $u$.'
+        correct: true
+      - text: 'The subject''s variational free energy $F$ at the end of the experiment.'
+        feedback: |
+          $F$ is a quantity inside the *subject''s* inference; we use the subject''s resulting beliefs about action, not $F$ itself, to get a probability for the observed choices.
+      - text: 'Our prior belief about which parameter values are plausible.'
+        feedback: |
+          That is $P(\theta\mid m)$, the other factor on the left of Bayes'' rule. The likelihood says how the data depend on the parameters.
+      - text: 'The probability of the stimuli $\tilde o$ that we presented.'
+        feedback: |
+          The stimuli are chosen by us and are given: they stand to the right of the bar. The thing being predicted is the behaviour $u$.
+    explanation: |
+      The likelihood is **the output of the subject model**: a distribution over actions given $\theta$ and the stimuli, evaluated at the actions really taken. It could come from an active inference model or from any other model of behaviour that produces action probabilities.
+
+  - type: text
+    id: which-parameters
+    title: "Which parameters do we fit?"
+    body: |
+      $\theta$ collects whichever parameters of the subjective model we want to learn. Typical ones, each with an everyday example:
+
+      - **Policy precision $\gamma$**: how strongly choices follow $G$. A high-$\gamma$ person almost always takes the best-looking option; a low-$\gamma$ person explores or dithers.
+      - **Prior preferences $C$**: which outcomes the subject wants. Two people with the same options can differ: one prefers a sure small win, the other a gamble, which changes $G$ and so the choices.
+      - **Learning rates** (how fast beliefs about the task update with experience): one subject switches levers after a single loss, another needs ten.
+
+      Fitted values summarise a person in terms of *beliefs they would need to hold for their behaviour to be Bayes optimal*.
+
+  - type: mcq
+    id: parameter-kinds
+    prompt: |
+      Which of these are parameters $\theta$ of the **subjective** model that we might fit? (Select all that apply.)
+    multiple: true
+    options:
+      - text: 'The subject''s precision $\gamma$ over policies.'
+        correct: true
+      - text: 'The subject''s prior preferences $C$ over outcomes.'
+        correct: true
+      - text: 'How quickly the subject learns from experience.'
+        correct: true
+      - text: 'The ten observed choices $u$.'
+        feedback: |
+          The observed choices are the **data**, known to us, to the left of the bar in $P(\theta\mid u,m)$. We fit parameters to them, not the other way round.
+      - text: 'The stimuli $\tilde o$ we showed the subject.'
+        feedback: |
+          We designed and presented the stimuli, so they are known inputs to the likelihood, not unknowns.
+    explanation: |
+      Parameters are the *unknowns about the subject*: precision, preferences, learning rates and other priors. The stimuli and the observed choices are known; they are the inputs and the data.
+
+  - type: mcq
+    id: trap-good-fit
+    prompt: |
+      A model with a fitted $\gamma$ explains the volunteer''s ten choices very well (high likelihood). A colleague says: "so this is the volunteer''s true $\gamma$ and the volunteer does reason this way." What is wrong?
+    options:
+      - text: 'The posterior is conditional on our model $m$. A rival model (other preferences, other learning rule) might fit as well or better, and several $\theta$ values can fit about equally; only the evidence $P(u\mid m)$ ranks models.'
+        correct: true
+      - text: 'Nothing: a high likelihood proves the subject''s parameters.'
+        feedback: |
+          A high likelihood shows the model can reproduce the data, not that it is the only way. Different $\theta$, or a different $m$, may reproduce them too.
+      - text: 'A good fit is impossible, because behaviour is random.'
+        feedback: |
+          Behaviour is probabilistic, but a model can still assign it high probability. The problem is the conclusion drawn, not the fit.
+    explanation: |
+      **A good fit is not the truth.** The result "$\gamma\approx2$" means "*if* the subject worked like $m$, $\gamma\approx2$ would explain the choices". To test the structure of $m$ itself we compare models through their evidence.
+
+  - type: mcq
+    id: trap-two-models
+    prompt: |
+      Which statement about the **subjective** and **objective** models is correct?
+    options:
+      - text: 'The subjective model is what we assume the subject uses to act, with unknown $\theta$; the objective model is ours: it puts a prior on $\theta$ and uses the subjective model to predict behaviour. They are different models.'
+        correct: true
+      - text: 'They are the same generative model: the subject and the scientist both infer hidden states of the world.'
+        feedback: |
+          The subject infers states of the *world*; the scientist infers *parameters of the subject*. Same Bayes' rule, different unknowns and different data.
+      - text: 'The objective model is the true model of the world, the subjective one an approximation of it.'
+        feedback: |
+          "Objective" only means that it is the scientist''s model of the experiment. It is not claimed to be true, and the subject''s model need not be a copy of the real process either.
+    explanation: |
+      Two models and two inferences: the subject infers states from $\tilde o$; we infer $\theta$ from $u$. Mixing them up is the commonest confusion.
+
+  - type: text
+    id: back-to-hook
+    title: "Back to the lever player"
+    body: |
+      The volunteer pulled **left 8 of 10**. With $\Delta G=0.8$ and three candidate precisions, the posterior was $(0.259,\,0.632,\,0.109)$ for $\gamma=0.5,\,2,\,4$: the most probable volunteer is moderately sure ($\gamma=2$), but ten choices cannot exclude the others, and the answer holds *under our model*. More trials sharpen the posterior; rival models can be ranked by their evidence.
+
+      What remains is **how to compute** the posterior when $\theta$ is a whole vector of continuous numbers and the likelihood is a full active inference simulation, not a grid of three values. The tool is **variational Laplace**: it uses the same Gaussian approximations as predictive coding, and it is the next lesson.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** variational Laplace, a way to get the posterior over continuous parameters $\theta$ when each likelihood evaluation means solving an active inference problem.

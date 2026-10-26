@@ -148,7 +148,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 ## Chapter 9
 
-- (none yet)
+- Meta-Bayes: theta subject parameters, u observed choices (actions), m scientist's model, o~ stimuli; subjective model P(o~,s~,pi|theta,m) vs objective m. Toy: two levers Delta G = G_right-G_left = 0.8, P(left|gamma)=1/(1+e^{-gamma DG}); gamma grid .5/2/4 uniform prior, 8 left of 10: posterior (.259,.632,.109), evidence .00342. Widget policy-scorer preset (qy .5/.5, ambiguity .2/1.0, showRisk false).
 
 ## Chapter 10
 

@@ -2,6 +2,8 @@
 
 Session start: read only **Current** (`sed -n '/^## Current/,/^## Log
 
+- 2026-10-25 ch09-meta-bayesian: concept, 20 cards (hook, two reasons, Eq 9.1 build, lever toy with policy-scorer, numeric likelihood and grid posterior, Fig 9.1 order card, parameters, two traps). Conventions fixed here: theta/u/m/o~ roles, lever toy numbers.
+
 - 2026-10-25 ch08-challenge part 2: P4 (g=x, f=-x+v, v=2, Pi_y=diag(3,1), Pi_x=diag(2,1), y~=(1.5,-0.4), mu~=(1.2,0.5): eps_y=(.3,-.9), eps_x=(-.3,.5), grad=(-1.5,.8), step .1 -> (1.4,.42)), P5 (Q=(.05,.15,.5,.05,.25) gives q=(.25,.10), dist .269, hedge mcq, stage order), plain summary. 25 cards, validate and shots clean. Conventions fixed here: challenge part 2 numbers.
 - 2026-10-25 ch08-challenge part 1: intro, P1 (octopus arm: u=v-mu=4.5, rate min(1,Pi_y), doubling, u absent from model), P2 (spring kappa=20, m=5: accel 14; m=10 T=4.44; kappa for T=2 98.7; critical b=2.83), P3 (LV 3x3 ring, Lorenz). Validate and shots clean. Conventions fixed here: challenge numbers listed in CONVENTIONS Ch. 8.
 
@@ -30,7 +32,8 @@ New shared widget `js/widgets/dirichlet-counts.js` (+ css `dc-*`, registry, LESS
 - **Verified (Ch. 7):** 7.6 Figs 7.12-7.13 (PDF pp. 159-161); 7.5 Eq. 7.9-7.11, Box 7.2, B.10-B.12 (PDF pp. 153-155, 258); B.31-B.34 (PDF pp. 263-264, novelty exact + approx); B.2.5 B.21-B.30 (PDF pp. 261-263; fixed B.23, B.29, B.30 in the Markdown); 7.4 Eq. 7.8 full, Box 7.1, Fig. 7.8 (PDF pp. 146-149); 7.2 Eq. 7.1-7.3 (PDF pp. 137-139); 7.3 Eq. 7.4-7.7, Figs 7.4-7.6 (PDF pp. 141-146); B.2.2-B.2.4 (B.7-B.9, B.13 matched); B.1-B.4 (PDF pp. 255-256).
 - **Verified (Ch. 8):** 8.2 Eq. 8.1-8.5 (PDF pp. 164-166); 8.3 Eq. 8.6-8.7, Box 8.2, Fig 8.4 (pp. 169, 172-174); 8.4 Fig 8.5 (pp. 174-175); 8.5 Eq. 8.8 (pp. 178-179); Box 8.3 (p. 180); B.42-B.48 (pp. 266-268), A.59-A.60 (p. 253). Ours, flagged in lessons: spring damping b, reciprocal L(o), critically damped eye, D^T in the gradient.
 - **Notation:** $x$ hidden state, $y$ observation (Levels 2-4 start), $s$/$o$ only in the discrete POMDP lesson with a renaming card; $u$ active states, blanket $b=(u,y)$; surprise $\mathfrak{I}(y)=-\ln P(y)$; $P(\pi)=\sigma(-\gamma G)$; circulation matrix $\mathsf{Q}$ vs posterior $Q$; noise covariance $2\Gamma$. See CONVENTIONS.
-- **Next unit:** Level 9 (Ch. 9), first node `ch09-meta-bayesian` (no `file:` yet; add it). **Rule:** after Level 10 the next unit is `exam-final`.
+- **Level 9:** `ch09-meta-bayesian` built (20 cards, policy-scorer preset). Verified: 9.1-9.2, Eq 9.1, Fig 9.1 (PDF pp. 185-186).
+- **Next unit:** `ch09-variational-laplace` (Ch. 9.3, Eq 9.2 onwards, no `file:` yet; add it). **Rule:** after Level 10 the next unit is `exam-final`.
 - **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
 
 ## Log
