@@ -149,6 +149,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 ## Chapter 9
 
 - Meta-Bayes: theta subject parameters, u observed choices (actions), m scientist's model, o~ stimuli; subjective model P(o~,s~,pi|theta,m) vs objective m. Toy: two levers Delta G = G_right-G_left = 0.8, P(left|gamma)=1/(1+e^{-gamma DG}); gamma grid .5/2/4 uniform prior, 8 left of 10: posterior (.259,.632,.109), evidence .00342. Widget policy-scorer preset (qy .5/.5, ambiguity .2/1.0, showRisk false).
+- Variational Laplace: L(theta)=ln P(u~|theta,m,o~); prior theta~N(eta,Pi1), Pi1 precision; eps=eta-mu; Pi_post=Pi1-Hessian L(mu); ln evidence ~ L(mu)-1/2(eps.Pi1 eps+ln|Pi_post|) (minus form); mu-dot=grad L+Pi1 eps. Lever toy with prior N(2,1): mode 1.867, sd .715, ln evidence -5.358 (exact -5.354, true mean 1.927). Quadratic toy L=-2(theta-3)^2, eta=1, Pi1=2: Pi_post 6, mu 7/3.
 
 ## Chapter 10
 

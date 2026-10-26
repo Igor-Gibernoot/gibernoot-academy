@@ -1,0 +1,301 @@
+id: ch09-variational-laplace
+title: "Variational Laplace: a Gaussian Posterior for Parameters"
+kind: concept
+own: |
+  - **The likelihood is a simulation.** For a subject whose generative model has parameters $\theta$, with stimuli $\tilde o$ and observed action sequence $\tilde u$, the log likelihood is $\mathcal{L}(\theta)=\ln P(\tilde u\mid\theta,m,\tilde o)$. It is found by solving the active inference problem: the policy beliefs $\boldsymbol\pi=\arg\min_{\boldsymbol\pi}F$ are spread over actions by an array $U$, and a softmax with temperature parameter $\theta_\alpha$ gives the probability of the actions:
+    {{ $$P(\tilde u\mid\theta,m,\tilde o)=\tilde u\cdot\sigma(\theta_\alpha\ln\tilde{\mathbf{u}})$$ }}
+    with $\tilde{\mathbf{u}}=\boldsymbol\pi\cdot U$. Nobody can integrate this over $\theta$ exactly, so we approximate the posterior by a Gaussian.
+  - **Laplace: mode and curvature.** Put a Gaussian prior $\theta\sim\mathcal{N}(\eta,\Pi^{(1)})$ ($\eta$ the prior mean, $\Pi^{(1)}$ the prior precision, an inverse covariance). The Gaussian posterior sits at the mode $\mu$ of $\mathcal{L}(\theta)-\tfrac12(\theta-\eta)\cdot\Pi^{(1)}(\theta-\eta)$, and its precision is the prior precision plus the curvature of the negative log likelihood ($\nabla_{\mu\mu}$ = the matrix of second derivatives at $\mu$):
+    {{ $$\Pi^{\text{post}}=\Pi^{(1)}-\nabla_{\mu\mu}\mathcal{L}(\mu)$$ }}
+  - **Evidence from the same numbers.** With $\varepsilon=\eta-\mu$ (the distance of the mode from the prior mean), the log model evidence is approximated, up to constants that do not depend on the model's parameters, by the value of the quantity maximised at the mode:
+    {{ $$\begin{aligned}\ln P(\tilde u\mid m,\tilde o)\approx\;&\mathcal{L}(\mu)-\tfrac12\Big(\varepsilon\cdot\Pi^{(1)}\varepsilon\\&+\ln\big|\Pi^{(1)}-\nabla_{\mu\mu}\mathcal{L}(\mu)\big|\Big)\end{aligned}$$ }}
+    The first term rewards fitting the choices, the second penalises moving away from the prior, the third (the log of the posterior precision) is an Occam-type penalty. Keeping these terms matters for comparing models.
+  - **Finding the mode by gradient ascent.** Starting from $\eta$, update the mode estimate $\mu$ with
+    {{ $$\dot\mu=\nabla_\mu\mathcal{L}(\mu)+\Pi^{(1)}\varepsilon$$ }}
+    until $\dot\mu=0$. When $\nabla_\mu\mathcal{L}$ has no formula, finite differences give it and the curvature.
+  - **Limits.** The Gaussian is exact only if the posterior is Gaussian. It reports the mode, not the true posterior mean, and it cannot represent skew or several peaks. Toy check (two levers, $\gamma$ the unknown precision, prior $\mathcal{N}(2,1)$, 8 left of 10): mode $1.867$, posterior sd $0.715$, evidence $\ln\approx-5.358$ against the exact $-5.354$.
+cards:
+  - type: text
+    id: hook
+    title: "A fit you cannot finish by hand"
+    body: |
+      Last time we set up the experimenter's problem: from a volunteer's choices $u$, infer the parameters $\theta$ of the volunteer's generative model, using Bayes' rule
+
+      $$P(\theta\mid u,m)=\frac{P(u\mid\theta,m)\,P(\theta\mid m)}{P(u\mid m)}$$
+
+      The toy example had one parameter and three candidate values, so we could add up three numbers. Real experiments have **many parameters** (precision, preferences, learning rate, ...), each a **continuous** number. And the likelihood $P(u\mid\theta,m)$ is not a neat formula: to evaluate it at one $\theta$ we must **run a whole simulated active inference agent** with those parameters and ask how probable the observed actions were.
+
+      So we can evaluate the likelihood at any single $\theta$ we like, but we cannot integrate it over all $\theta$ to normalise the posterior. Before any maths: **what can we do instead?**
+
+  - type: mcq
+    id: why-hard
+    prompt: |
+      We can compute the log likelihood $\mathcal{L}(\theta)$ at any chosen $\theta$ by simulating the subject, but each evaluation is expensive. Why is computing the exact posterior over $\theta$ hard?
+    options:
+      - text: 'Normalising needs the evidence, an integral of likelihood times prior over **all** $\theta$. With a simulated likelihood and many parameters there is no formula for it, and a grid explodes with the number of parameters.'
+        correct: true
+      - text: 'Because Bayes'' rule only works for discrete parameters.'
+        feedback: |
+          Bayes' rule holds for continuous parameters too (sums become integrals). The trouble is evaluating those integrals when the likelihood is a simulation.
+      - text: 'Because the prior $P(\theta\mid m)$ cannot be written down.'
+        feedback: |
+          The prior is ours to choose (we will take a Gaussian), so it is the easy part. The hard parts are the simulated likelihood and the integral that normalises.
+    explanation: |
+      A grid with 10 values per parameter needs $10^k$ simulations for $k$ parameters. The remedy is to **summarise the posterior by a simple shape** found with a handful of evaluations: a Gaussian.
+
+  - type: text
+    id: eq-9-2
+    title: "The likelihood is a solved active inference problem"
+    body: |
+      Let us make the likelihood concrete. Write $\tilde u$ for the **observed sequence of actions** and $\tilde o$ for the **stimuli** the volunteer was shown. Given parameters $\theta$, the log likelihood is
+
+      $$\mathcal{L}(\theta)=\ln P(\tilde u\mid\theta,m,\tilde o)$$
+
+      It is computed in four steps. The parameters set the priors of the volunteer's POMDP. The simulated volunteer sees the same stimuli and forms beliefs about policies, $\boldsymbol\pi=\arg\min_{\boldsymbol\pi}F$ (the policy beliefs that minimise its free energy $F$). Those beliefs are spread over actions by an array $U$ (it says which action each policy implies at each time), giving action probabilities $\tilde{\mathbf{u}}=\boldsymbol\pi\cdot U$. Finally a softmax with a temperature parameter $\theta_\alpha$ turns them into the probability of the observed actions:
+
+      $$P(\tilde u\mid\theta,m,\tilde o)=\tilde u\cdot\sigma(\theta_\alpha\ln\tilde{\mathbf{u}})$$
+
+      Here $\sigma$ is the softmax and $\tilde u$ is read as a one-hot vector for each observed action, so the dot product picks out the probability of the action actually taken.
+
+  - type: mcq
+    id: softmax-temp
+    prompt: |
+      In $\sigma(\theta_\alpha\ln\tilde{\mathbf{u}})$ the parameter $\theta_\alpha$ is applied to the log action probabilities $\ln\tilde{\mathbf{u}}$ of the simulated subject. What happens when $\theta_\alpha$ is **very large**?
+    options:
+      - text: 'The emitted action is the one with the largest probability under the subject''s beliefs: the subject always picks its most probable option.'
+        correct: true
+      - text: 'The subject picks every action with equal probability.'
+        feedback: |
+          That is the limit $\theta_\alpha\to0$: all log probabilities are multiplied by zero, so all actions look equal.
+      - text: 'The subject samples actions in proportion to its beliefs.'
+        feedback: |
+          That is $\theta_\alpha=1$, called matching behaviour: $\sigma(\ln\tilde{\mathbf{u}})=\tilde{\mathbf{u}}$ itself.
+    explanation: |
+      Multiplying logs by a big number makes the largest one dominate the softmax. So $\theta_\alpha=1$ is matching, $\theta_\alpha\to\infty$ is always choosing the most probable action, and $\theta_\alpha$ accounts for randomness ("shaky hands") the model does not explain. It is itself a parameter we can estimate.
+
+  - type: text
+    id: laplace-idea
+    title: "The idea: a Gaussian from two numbers"
+    body: |
+      We only need two facts about a bumpy function: **where its peak is** and **how sharply it curves there**. Recall the Laplace idea: expand the log of the target to second order around its **mode** (the peak). The first-order term vanishes there, and what is left is a constant and a quadratic, which is exactly the log of a Gaussian. The Gaussian sits at the mode, and its **precision** (one over the variance) is minus the curvature of the log.
+
+      Try it on a skewed target before returning to parameters. The grey area is a skewed density $p(x)$; the red curve is a Gaussian $q(x)$ you control.
+
+  - type: widget
+    id: laplace-widget
+    widget: gaussian-fit
+    config:
+      skew: { loc: -1, scale: 1.5, alpha: 5 }
+      range: [-3, 6]
+      showTaylor: true
+      order: 2
+      a: 1.5
+      lnSpan: 9
+      sigma: 1
+      mu: 0
+      showForward: false
+      labels:
+        p: 'p(x)'
+        q: 'q(x)'
+        klRev: 'D_{KL}[q\,\|\,p]'
+        laplace: 'Laplace at the mode'
+    body: |
+      Press **Laplace at the mode**: the Gaussian is placed at the peak of $p$ with precision $-(\ln p)^{\prime\prime}$ there. Then drag the point $a$ in the lower panel to the mode and see that the dashed second-order Gaussian is the same one. Does the Gaussian match $p$ well on both sides of the peak? Where does it fail?
+
+  - type: mcq
+    id: laplace-seen
+    review: false
+    prompt: |
+      A skewed density has a longer tail on the right. After the Laplace button (a Gaussian at the mode with precision $-(\ln p)^{\prime\prime}$ at the mode), which description is right?
+    options:
+      - text: 'The Gaussian matches the peak and its width, but it is symmetric, so it misses the long tail on one side.'
+        correct: true
+      - text: 'The Gaussian matches $p$ everywhere, because $\ln p$ is quadratic.'
+        feedback: |
+          $\ln p$ is quadratic **only near the mode**. Away from it the true $\ln p$ bends differently (that is what the skew is).
+      - text: 'The Gaussian sits at the mean of $p$, which is to the right of the peak.'
+        feedback: |
+          Laplace uses the **mode**. For a skewed density the mean is pulled toward the long tail, so the two differ.
+    explanation: |
+      Laplace is a **local** approximation: exact for the peak position and width, blind to skew and to other peaks.
+
+  - type: text
+    id: gaussian-prior
+    title: "Applying it to parameters"
+    body: |
+      For the parameters, the target is the posterior. Give $\theta$ a **Gaussian prior** $\theta\sim\mathcal{N}(\eta,\Pi^{(1)})$: mean $\eta$ and **precision** $\Pi^{(1)}$ (the inverse of the covariance; for several parameters, a matrix). Then, up to a constant,
+
+      $$\begin{aligned}\ln P(\theta\mid\tilde u,m)=\;&\mathcal{L}(\theta)\\&-\tfrac12(\theta-\eta)\cdot\Pi^{(1)}(\theta-\eta)\\&+\text{const}\end{aligned}$$
+
+      The log likelihood plus the log of a Gaussian prior. We never need the constant. Laplace says: find the **mode** $\mu$ of this expression, and take the Gaussian with precision equal to minus its second derivative there.
+
+      The prior part has second derivative $-\Pi^{(1)}$, the likelihood part has $\nabla_{\mu\mu}\mathcal{L}(\mu)$ (the second derivatives of $\mathcal{L}$ at $\mu$, a matrix when there are several parameters). Minus the sum is the posterior precision.
+
+  - type: build
+    id: build-post-precision
+    prompt: |
+      Build the **posterior precision**: the prior precision plus the curvature of the negative log likelihood.
+    prefix: '\Pi^{\text{post}}='
+    tiles: ['\Pi^{(1)}', '-', '\nabla_{\mu\mu}\mathcal{L}(\mu)', '+', '\nabla_{\mu}\mathcal{L}(\mu)']
+    answers:
+      - ['\Pi^{(1)}', '-', '\nabla_{\mu\mu}\mathcal{L}(\mu)']
+    wrong:
+      - answer: ['\Pi^{(1)}', '+', '\nabla_{\mu\mu}\mathcal{L}(\mu)']
+        feedback: |
+          Near a peak $\mathcal{L}$ curves **downward**, so $\nabla_{\mu\mu}\mathcal{L}$ is negative. Adding it would subtract precision. The data add precision through its negative, $-\nabla_{\mu\mu}\mathcal{L}>0$.
+    hint: |
+      A sharply peaked likelihood has a very negative second derivative, and should make the posterior **more** precise.
+    explanation: |
+      $\Pi^{\text{post}}=\Pi^{(1)}-\nabla_{\mu\mu}\mathcal{L}(\mu)$: prior precision plus data precision. Precisions add, as in the Gaussian updates of earlier lessons.
+
+  - type: numeric
+    id: num-post-precision
+    prompt: |
+      A one-parameter toy: the log likelihood is $\mathcal{L}(\theta)=-2(\theta-3)^2$ and the prior is $\theta\sim\mathcal{N}(\eta,\Pi^{(1)})$ with $\eta=1$ and $\Pi^{(1)}=2$. What is the posterior precision $\Pi^{\text{post}}=\Pi^{(1)}-\nabla_{\mu\mu}\mathcal{L}(\mu)$?
+    answer: 6
+    wrong:
+      - { value: 2, feedback: 'That is the prior precision alone; the data add their own precision.' }
+      - { value: -2, feedback: 'You added $\nabla_{\mu\mu}\mathcal{L}=-4$ to the prior precision instead of subtracting it.' }
+    hint: |
+      $\nabla_{\mu\mu}\mathcal{L}$ is the second derivative of $-2(\theta-3)^2$, a constant.
+    explanation: |
+      $\nabla_{\mu\mu}\mathcal{L}=-4$, so $\Pi^{\text{post}}=2-(-4)=6$. The likelihood is worth precision $4$, the prior $2$.
+
+  - type: numeric
+    id: num-mode
+    prompt: |
+      Same toy: $\mathcal{L}(\theta)=-2(\theta-3)^2$, prior mean $\eta=1$, prior precision $\Pi^{(1)}=2$. The mode $\mu$ maximises $\mathcal{L}(\mu)-\tfrac12\Pi^{(1)}(\eta-\mu)^2$. Find $\mu$ (give a decimal).
+    answer: 2.3333
+    tolerance: 0.01
+    answerText: '7/3'
+    hint: |
+      Set the derivative to zero: $-4(\mu-3)+2(1-\mu)=0$.
+    explanation: |
+      $-4\mu+12+2-2\mu=0$ gives $\mu=14/6=7/3$. It is a **precision-weighted average** of the likelihood peak $3$ and the prior mean $1$: $(4\cdot3+2\cdot1)/6$. The likelihood has twice the precision of the prior, so it pulls twice as hard.
+
+  - type: text
+    id: eq-9-3
+    title: "The evidence comes for free"
+    body: |
+      Model comparison needs the evidence, $\ln P(\tilde u\mid m,\tilde o)$. With the Gaussian posterior it is approximated using the numbers we already have. Write $\varepsilon=\eta-\mu$ for the distance from the mode to the prior mean (a **prediction error** on the parameters). Up to constants that do not depend on the model's parameters,
+
+      $$\begin{aligned}\ln P(\tilde u\mid m,\tilde o)\approx\;&\mathcal{L}(\mu)-\tfrac12\Big(\varepsilon\cdot\Pi^{(1)}\varepsilon\\&+\ln\big|\Pi^{(1)}-\nabla_{\mu\mu}\mathcal{L}(\mu)\big|\Big)\end{aligned}$$
+
+      Here $|\cdot|$ is the determinant (a plain number for one parameter), so $\ln|\cdot|$ is the log of the posterior precision. And $\mu$ is the value maximising this same expression. For a fixed $\mu$ the earlier lessons dropped the last two terms, as they did not depend on the mode; **for comparing models they must stay**.
+
+  - type: build
+    id: build-evidence
+    prompt: |
+      Build the approximate log evidence from the three pieces: the fit at the mode, the cost of moving away from the prior, and the log of the posterior precision.
+    prefix: '\ln P(\tilde u\mid m,\tilde o)\approx'
+    tiles: ['\mathcal{L}(\mu)', '-\tfrac12\varepsilon\cdot\Pi^{(1)}\varepsilon', '-\tfrac12\ln|\Pi^{\text{post}}|', '+\tfrac12\varepsilon\cdot\Pi^{(1)}\varepsilon', '\mathcal{L}(\eta)']
+    answers:
+      - ['\mathcal{L}(\mu)', '-\tfrac12\varepsilon\cdot\Pi^{(1)}\varepsilon', '-\tfrac12\ln|\Pi^{\text{post}}|']
+      - ['\mathcal{L}(\mu)', '-\tfrac12\ln|\Pi^{\text{post}}|', '-\tfrac12\varepsilon\cdot\Pi^{(1)}\varepsilon']
+    wrong:
+      - answer: ['\mathcal{L}(\mu)', '+\tfrac12\varepsilon\cdot\Pi^{(1)}\varepsilon', '-\tfrac12\ln|\Pi^{\text{post}}|']
+        feedback: |
+          A parameter estimate that moves far from the prior mean should be **penalised**, not rewarded: the term enters with a minus sign.
+    hint: |
+      Both penalty terms are subtracted from the fit.
+    explanation: |
+      Here $\Pi^{\text{post}}=\Pi^{(1)}-\nabla_{\mu\mu}\mathcal{L}(\mu)$. The three terms: **fit** of the choices at the mode; **cost of departing from the prior** ($\tfrac12\varepsilon\Pi^{(1)}\varepsilon$); **Occam penalty** ($\tfrac12\ln|\Pi^{\text{post}}|$, larger when the data pin the parameters down very sharply).
+
+  - type: mcq
+    id: which-penalty
+    prompt: |
+      Two models fit the same choices equally well at their modes, $\mathcal{L}(\mu)$ equal. Model A needs its parameter at $\mu$ far from its prior mean $\eta$ (large $\varepsilon\cdot\Pi^{(1)}\varepsilon$); model B's mode lies close to its prior mean. Other terms equal, which has the higher approximate evidence?
+    options:
+      - text: 'Model B: its fit did not require the parameter to depart from what the prior expected.'
+        correct: true
+      - text: 'Model A: moving far from the prior shows the data are informative.'
+        feedback: |
+          Evidence is the probability of the data **averaged over the prior**. A model that must put its parameter where the prior gave little weight predicted the data less well, so the term is subtracted.
+      - text: 'Equal: the evidence depends only on $\mathcal{L}(\mu)$.'
+        feedback: |
+          The evidence also contains the two penalty terms; dropping them is only legitimate when comparing different values of $\mu$ **within** one model.
+    explanation: |
+      The $\varepsilon\cdot\Pi^{(1)}\varepsilon$ term is what makes evidence compare **priors** as well as fits.
+
+  - type: text
+    id: eq-9-4
+    title: "Finding the mode"
+    body: |
+      How do we locate $\mu$ when $\mathcal{L}$ is a simulation? By **gradient ascent** on the quantity being maximised: start at the prior mean $\mu=\eta$ and move uphill. Under the quadratic assumptions of Laplace the slope of that quantity is
+
+      $$\dot\mu=\nabla_\mu\mathcal{L}(\mu)+\Pi^{(1)}\varepsilon,\qquad\varepsilon=\eta-\mu$$
+
+      The first term pulls $\mu$ toward parameter values that explain the choices better; the second is a **restoring force** toward the prior mean, stronger for a more precise prior. It stops where the two balance: $\dot\mu=0$.
+
+      When $\nabla_\mu\mathcal{L}$ has no formula, **finite differences** do the job: evaluate $\mathcal{L}$ at $\mu$ and at slightly shifted values, and divide the changes by the shift. The same trick gives the curvature $\nabla_{\mu\mu}\mathcal{L}$, hence the posterior precision.
+
+  - type: numeric
+    id: num-gradient-step
+    prompt: |
+      One parameter $\gamma$ (the precision over policies of a two-lever subject with $\Delta G=0.8$, as before). After 8 left choices and 2 right choices, the log likelihood of the sequence is
+      $$\mathcal{L}(\gamma)=8\ln\sigma(0.8\gamma)+2\ln\sigma(-0.8\gamma)$$
+      where $\sigma(z)=1/(1+e^{-z})$. Its slope is $\nabla_\gamma\mathcal{L}=0.8\,\big(8-10\,\sigma(0.8\gamma)\big)$. The prior is $\gamma\sim\mathcal{N}(2,1)$. At the current estimate $\mu=2$, with $\sigma(1.6)=0.832$, what is $\dot\mu=\nabla_\mu\mathcal{L}+\Pi^{(1)}\varepsilon$?
+    answer: -0.256
+    tolerance: 0.005
+    wrong:
+      - { value: 0, feedback: 'The prior term $\Pi^{(1)}\varepsilon$ is zero at $\mu=\eta$, but the likelihood slope is not.' }
+      - { value: 0.256, feedback: 'Check the sign: $8-10\times0.832=-0.32$, so the likelihood pushes $\mu$ **down**.' }
+    hint: |
+      At $\mu=\eta=2$ the error $\varepsilon=0$, so only the likelihood slope remains.
+    explanation: |
+      $\varepsilon=2-2=0$, so $\dot\mu=0.8\,(8-8.32)=-0.256$. The data say 8 of 10 left, which a precision slightly below 2 explains a little better ($\sigma(1.6)=0.832$ is above the observed $0.8$), so the estimate drifts down.
+
+  - type: order
+    id: order-algorithm
+    prompt: |
+      Put the steps of fitting one subject by variational Laplace in order.
+    steps:
+      - 'Start the parameter estimate at the prior mean, $\mu=\eta$.'
+      - 'Simulate the subject at $\mu$ (and slightly shifted values) to get $\mathcal{L}(\mu)$, its slope and its curvature by finite differences.'
+      - 'Update $\mu$ with $\dot\mu=\nabla_\mu\mathcal{L}+\Pi^{(1)}\varepsilon$, repeating until $\dot\mu\approx0$.'
+      - 'At the final mode, form the posterior precision $\Pi^{(1)}-\nabla_{\mu\mu}\mathcal{L}(\mu)$.'
+      - 'Read off the approximate log evidence from $\mathcal{L}(\mu)$, $\varepsilon$ and that precision.'
+    explanation: |
+      The precision and the evidence need the mode, so they come last.
+
+  - type: text
+    id: lever-result
+    title: "How good is the Gaussian? A check"
+    body: |
+      For the two-lever subject (8 left of 10, prior $\gamma\sim\mathcal{N}(2,1)$) we can afford a very fine grid and compare with the exact answer. Variational Laplace gives (all checked by script):
+
+      | Quantity | Laplace | Exact |
+      |---|---|---|
+      | centre of the Gaussian | mode $1.867$ | mean $1.927$ |
+      | posterior sd | $0.715$ | $0.722$ |
+      | $\ln$ evidence | $-5.358$ | $-5.354$ |
+
+      By hand: $\mathcal{L}(\mu)=-5.013$, curvature $\nabla_{\mu\mu}\mathcal{L}=-0.958$, so $\Pi^{\text{post}}=1+0.958=1.958$ (sd $=1/\sqrt{1.958}=0.715$), $\tfrac12\varepsilon\Pi^{(1)}\varepsilon=\tfrac12(0.133)^2=0.009$, $\tfrac12\ln1.958=0.336$. Sum: $-5.013-0.009-0.336=-5.358$.
+
+      The evidence is excellent, the **mode** is slightly off the true mean: the posterior is a little skewed.
+
+  - type: mcq
+    id: misconceptions
+    prompt: |
+      Which statements about the variational Laplace posterior are **true**? (Select all.)
+    multiple: true
+    options:
+      - text: 'It is a **local** approximation: it uses only the mode and the curvature there.'
+        correct: true
+      - text: 'It is accurate when the true posterior is close to Gaussian near its peak, as it usually is with enough data.'
+        correct: true
+      - text: 'Its centre is the mode, which need not equal the mean of the true posterior when that is skewed.'
+        correct: true
+      - text: 'It is exact for any posterior, because $\ln p$ can always be written as a quadratic.'
+        feedback: |
+          Only the **second-order Taylor expansion** of $\ln p$ is quadratic, and it is accurate only near the mode. In the toy above the exact mean is $1.927$, not $1.867$.
+      - text: 'For a posterior with two separated peaks it gives a Gaussian covering both.'
+        feedback: |
+          It sits on **one** peak (the one the ascent finds) and describes its width. The other peak is invisible to it.
+    explanation: |
+      Laplace trades exactness for tractability: two numbers per parameter (mode, curvature) from a handful of simulations. It is trusted when the posterior is unimodal and roughly symmetric; a start at the prior mean followed by ascent finds one mode.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** one subject gives one Gaussian posterior over its parameters. A study has many subjects. How do we combine their posteriors to ask whether a parameter varies with, say, age, while letting each subject shrink toward the group? That is **parametric empirical Bayes**.
