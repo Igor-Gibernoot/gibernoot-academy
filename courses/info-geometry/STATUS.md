@@ -1,23 +1,17 @@
 # Status
 
-Session start: read only **Current** (`sed -n '/^## Current (2026-10-26)
-
-- **State:** widgets `simplex-points`, `gauss-charts` built; Level 1 built: `ch01-why` (19 cards), `ch01-manifold` (19), `ch01-divergence` (20, intro-style glosses).
-- **Next unit:** `ch01-bregman` (source md 612-735: convex function, Hessian, tangent gap (1.44), Examples 1.1-1.2). Widget decision: needs a new widget `bregman-gap` (convex function curve, draggable tangent point and second point, gap = Bregman divergence, both directions); stop before writing the lesson if absent.
-- **Verified:** Preface, Ch.1 opening; manifold (1.1)-(1.15) PDF pp.17-20; divergence (1.23)-(1.31) PDF pp.22-24; Pythagorean (2.70-2.71) PDF p.54 (see `sources/VERIFIED.md`). md anchors drift from PDF later: search the PDF page.
-- **Paths:** lessons `courses/info-geometry/chNN/`, exams `exams/`, sources git-ignored.
-
-## Log/- 2026-10-26 `ch01-manifold` built (19 cards): plane (chart-basis cartesian+polar, point (3,4): r=5, theta=0.927), Gaussians (gauss-charts sigma-only, both, two-points; midpoint sigma 1.1 -> 1.21 vs 1.46; moments (1,2)->(1,4)->(1,5)), simplex (p1,p2)=(0.3,0.45) -> p0=0.25; 3 traps; sphere only one line; Section D/E (measures, matrices) skipped. Source fix: (1.6) denominator. Conventions fixed here: subscripts as in the source (xi_1, p_0..p_n), simplex outcomes 0..n, chart (p_1..p_n).
-p' STATUS.md`), never the Log.
+Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/p' STATUS.md`), never the Log.
 
 ## Current (2026-10-26)
 
-- **State:** widgets `simplex-points` and `gauss-charts` built; **`ch01-why` built** (19 cards, intro rules). Other Level 1 lessons planned.
-- **Next unit:** `ch01-manifold` (source md 345-520). Widgets: `simplex-points`, `gauss-charts` (presets `both`, `sigma-only`, `two-points`), `chart-basis` (polar chart preset, see LESSON_FORMAT "Chart presets"). No further widget known to be missing.
-- **Verified:** Preface and Ch.1 opening (PDF p.16); KL (1.30) PDF p.24; Pythagorean (2.70-2.71) PDF p.54 (see `sources/VERIFIED.md`). The md page anchors drift from the PDF later in the book: locate a PDF page by searching, not by anchor+1.
+- **State:** widgets `simplex-points`, `gauss-charts`, `bregman-gap` built; Level 1 built: `ch01-why` (19 cards), `ch01-manifold` (19), `ch01-divergence` (20, intro-style glosses).
+- **Next unit:** `ch01-bregman` (source md 612-735: convex function (1.35)-(1.37), Hessian (1.36), tangent hyperplane (1.42), Bregman divergence (1.44), Examples 1.1-1.2, Fig. 1.4). Widget `bregman-gap` exists: presets `symmetric`, `kl-measures`, `chord`, `legendre` in LESSON_FORMAT `#### bregman-gap`. Later `ch01-legendre` can reuse the `legendre` preset (`showConjugate`).
+- **Verified:** Preface, Ch.1 opening; manifold (1.1)-(1.15) PDF pp.17-20; divergence (1.23)-(1.31) PDF pp.22-24; Pythagorean (2.70-2.71) PDF p.54 (see `sources/VERIFIED.md`). md anchors drift from PDF later: search the PDF page.
 - **Paths:** lessons `courses/info-geometry/chNN/`, exams `exams/`, sources git-ignored.
 
 ## Log
+- 2026-10-26 `ch01-manifold` built (19 cards): plane (chart-basis cartesian+polar, point (3,4): r=5, theta=0.927), Gaussians (gauss-charts sigma-only, both, two-points; midpoint sigma 1.1 -> 1.21 vs 1.46; moments (1,2)->(1,4)->(1,5)), simplex (p1,p2)=(0.3,0.45) -> p0=0.25; 3 traps; sphere only one line; Section D/E (measures, matrices) skipped. Source fix: (1.6) denominator. Conventions fixed here: subscripts as in the source (xi_1, p_0..p_n), simplex outcomes 0..n, chart (p_1..p_n).
+- 2026-10-26 widget `bregman-gap`: convex psi(xi) (quad, negentropy, neglog, quartic) with draggable tangent point and second point, tangent, gap D[xi:xi0], optional reverse gap, chord, slope triangle, conjugate panel (analytic psi*, bisection for quartic; intercept -psi*(eta0) at xi=0). Existing widgets checked for overlap: all 43 files in js/widgets (none plots a 1D convex function with a tangent; closest free-energy-bound, gaussian-fit). Throwaway lesson (removed): 7 widget cards, smoke 0 errors, shots desktop+phone viewed, validate ok. Choices: nothing numeric unless `readout`/`showSlope`; right panel not draggable; log clamps min 0.05 / 0.15. Also repaired STATUS header (a stray Current/Log fragment). Conventions fixed here: none.
 ### 2026-10-26: course created
 Trail planned from the book's table of contents (planned lesson list is a draft: adjust as sections are read).
 
