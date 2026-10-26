@@ -1,0 +1,259 @@
+id: ch06-torsion-curvature-2
+title: Torsion and Curvature · Part 2
+kind: concept
+own: |
+  **The hook.** On the plane (points $(a,b)$, cartesian chart with basis fields $\partial x_1,\partial x_2$, $r := \sqrt{a^2+b^2}$) take three connections: $\nabla^{\mathrm{E}}$, all cartesian coefficients $0$; $\nabla^{\mathrm{W}}$, on the plane minus the origin, for which the unit radial and angular fields $e_1 = (a,b)/r$, $e_2 = (-b,a)/r$ are parallel; $\nabla^{\kappa}$, with $\kappa>0$ a constant, whose only nonzero cartesian coefficient is $\Gamma^1_{22} = \kappa a$. Around a loop, $\nabla^{\mathrm{E}}$ and $\nabla^{\mathrm{W}}$ return every vector (both flat); $\nabla^{\kappa}$ does not (curved), and the mismatch is curvature times area. Torsion played no part.
+
+  Notation: $f$ is a smooth function, $\mathcal{X},\mathcal{Y},\mathcal{Z}$ are vector fields with components $x^k$, $\tilde x^k$ in a chart, $\mathsf{X}$ is a covector field, $\mathcal{X}\lfloor f\rceil$ is the derivative of $f$ along $\mathcal{X}$, $\mathsf{X}\lceil\mathcal{Y}\rfloor$ the covector evaluated on the vector, $\Gamma^i_{jk}$ the coefficients of $\nabla$ (last lower index = direction), implicit sums over repeated indices. $\mathtt{T}$ is the torsion of $\nabla$, $\mathtt{T}^i_{jk} = \Gamma^i_{kj} - \Gamma^i_{jk}$, and $[\mathcal{X},\mathcal{Y}]$ the commutator of vector fields.
+
+  - **Riemann curvature**, a $(1,3)$-tensor field, $\mathrm{Riem}^i_{jkm} = -\mathrm{Riem}^i_{jmk}$:
+  {{ $$\begin{aligned}&\mathrm{Riem}(\mathsf{X},\mathcal{Z},\mathcal{X},\mathcal{Y})\\ &:= \mathsf{X}\lceil\nabla_\mathcal{X}\nabla_\mathcal{Y}\mathcal{Z} - \nabla_\mathcal{Y}\nabla_\mathcal{X}\mathcal{Z}\\ &\qquad - \nabla_{[\mathcal{X},\mathcal{Y}]}\mathcal{Z}\rfloor\end{aligned}$$ }}
+  {{ $$\begin{aligned}\mathrm{Riem}^i_{jkm} &= \partial x_k\lfloor\Gamma^i_{jm}\rceil - \partial x_m\lfloor\Gamma^i_{jk}\rceil\\ &\quad + \Gamma^i_{nk}\Gamma^n_{jm} - \Gamma^i_{nm}\Gamma^n_{jk}\end{aligned}$$ }}
+  - **Ricci curvature**:
+  {{ $$\mathrm{Ric}_{ab} = \mathrm{Riem}^m_{amb}$$ }}
+  - **Holonomy** (change $\Delta z^1$ of the first component of a vector with components $z^1,z^2$ transported once around a small counterclockwise loop in the $(x^1,x^2)$ plane; exact for $\nabla^{\kappa}$, approximate for small loops in general):
+  $$\Delta z^1 = -\mathrm{Riem}^1_{212}\,z^2\times\text{area}$$
+  - **Examples**: $\nabla^{\mathrm{E}}$ neither torsion nor curvature; $\nabla^{\mathrm{W}}$ flat with torsion; $\nabla^{\kappa}$ torsion free, $\mathrm{Riem}^1_{212} = \kappa$, $\mathrm{Ric} = \kappa\,dx^2\otimes dx^2$ ($dx^2$ the covector field giving the second cartesian component). Charts with all $\Gamma = 0$ exist locally iff $\mathtt{T} = 0$ and $\mathrm{Riem} = 0$.
+
+
+cards:
+  - type: text
+    id: recall-loop
+    title: "Recall: the three connections and the loop"
+    body: |
+      A connection $\nabla$ carries a vector along a curve $\gamma$ by the transport equation $\dot z^k + \Gamma^k_{ji}\,z^j\,\dot\gamma^i = 0$, where $\nabla_{\partial x_i}\partial x_j = \Gamma^k_{ji}\,\partial x_k$ (last lower index = direction). On the plane with points $(a,b)$, cartesian basis fields $\partial x_1,\partial x_2$ and $r := \sqrt{a^2+b^2}$ there are three connections: $\nabla^{\mathrm{E}}$ (all cartesian coefficients $0$), $\nabla^{\mathrm{W}}$ (plane minus the origin; the unit radial and angular fields $e_1,e_2$ are parallel) and $\nabla^{\kappa}$ (the only nonzero cartesian coefficient is $\Gamma^1_{22} = \kappa\,a$, $\kappa>0$ constant).
+
+      Carried once counterclockwise around the rectangle $[1,2]\times[0,1]$, a vector returns to itself under $\nabla^{\mathrm{E}}$ and $\nabla^{\mathrm{W}}$ (each keeps the components in a frame defined everywhere), but not under $\nabla^{\kappa}$: from $z = (0,1)$ with $\kappa = 1$ the transport equation $\dot z^1 = -\kappa\,a\,z^2\dot\gamma^2$ gives $\Delta z^1 = -1$. The mismatch is a linear map applied to the carried vector. It compares the two orders in which one differentiates along $\partial x_1$ and $\partial x_2$, and the tensor that measures it is the subject of this lesson.
+
+  - type: text
+    id: recall-torsion
+    title: "Recall: commutator and torsion"
+    body: |
+      The commutator of vector fields is $[\mathcal{X},\mathcal{Y}]\lfloor f\rceil := \mathcal{X}\lfloor\mathcal{Y}\lfloor f\rceil\rceil - \mathcal{Y}\lfloor\mathcal{X}\lfloor f\rceil\rceil$, with components $[\mathcal{X},\mathcal{Y}]^k = \mathcal{X}\lfloor\tilde x^k\rceil - \mathcal{Y}\lfloor x^k\rceil$ ($x^k$, $\tilde x^k$ the components of $\mathcal{X}$, $\mathcal{Y}$), and $[\partial x_j,\partial x_k] = 0$ for the basis fields of a chart. The **torsion** is the $(1,2)$-tensor field
+      $$\mathtt{T}(\mathsf{X},\mathcal{X},\mathcal{Y}) := \mathsf{X}\lceil\nabla_\mathcal{X}\mathcal{Y} - \nabla_\mathcal{Y}\mathcal{X} - [\mathcal{X},\mathcal{Y}]\rfloor,$$
+      with components $\mathtt{T}^i_{jk} = \Gamma^i_{kj} - \Gamma^i_{jk}$: a connection is torsion free exactly when its $\Gamma$'s are symmetric. The commutator term is there to cancel the derivative-of-$g$ term that the product rule $\nabla_\mathcal{X}(g\,\mathcal{Y}) = \mathcal{X}\lfloor g\rceil\,\mathcal{Y} + g\,\nabla_\mathcal{X}\mathcal{Y}$ produces, so that $\mathtt{T}$ is a tensor field. Here $\nabla^{\mathrm{E}}$ and $\nabla^{\kappa}$ are torsion free, while $\nabla^{\mathrm{W}}$ has $\mathtt{T}^1_{12} = -\tfrac b{r^2}$, $\mathtt{T}^2_{12} = \tfrac a{r^2}$. The lesson Torsion and Curvature · Part 1 built all this; the curvature below copies the same pattern one level up.
+
+  - type: text
+    id: riemann-def
+    title: Curvature
+    body: |
+      Back to the loop. The **Riemann curvature** of $\nabla$ is the $(1,3)$-tensor field
+      $$\begin{aligned}&\mathrm{Riem}(\mathsf{X},\mathcal{Z},\mathcal{X},\mathcal{Y})\\ &:= \mathsf{X}\big\lceil\nabla_\mathcal{X}\nabla_\mathcal{Y}\mathcal{Z} - \nabla_\mathcal{Y}\nabla_\mathcal{X}\mathcal{Z}\\ &\qquad - \nabla_{[\mathcal{X},\mathcal{Y}]}\mathcal{Z}\big\rfloor.\end{aligned}$$
+      Read it as: $\mathcal{Z}$ is the vector being carried, $\mathcal{X}$ and $\mathcal{Y}$ span the little loop, and the bracket compares the two orders of covariant differentiation. The last term plays the role the commutator played in the torsion: the derivative-of-$g$ terms that the product rule produces cancel against it, so $\mathrm{Riem}$ is $C^\infty(\mathcal{M})$-linear in every slot (stated here; the check is like the one for the torsion in the lesson Torsion and Curvature · Part 1).
+
+      Components: $\mathrm{Riem}^i_{jkm} := \mathrm{Riem}(dx^i,\partial x_j,\partial x_k,\partial x_m)$, upper index first, then the carried vector $j$, then the loop directions $k, m$. Since $[\partial x_k,\partial x_m] = 0$,
+      $$\mathrm{Riem}^i_{jkm} = dx^i\big\lceil\nabla_{\partial x_k}\nabla_{\partial x_m}\partial x_j - (k\leftrightarrow m)\big\rfloor,$$
+      where $(k\leftrightarrow m)$ is the same term with $k$ and $m$ swapped. The inner derivative is $\nabla_{\partial x_m}\partial x_j = \Gamma^n_{jm}\,\partial x_n$; the summation index is $n$, since $r$ is the polar radius.
+
+  - type: build
+    id: riemann-step
+    title: The outer derivative
+    prompt: |
+      Connection coefficients: $\nabla_{\partial x_k}\partial x_n = \Gamma^i_{nk}\,\partial x_i$ (last lower index = direction). Product rule: $\nabla_\mathcal{X}(g\,\mathcal{Y}) = \mathcal{X}\lfloor g\rceil\,\mathcal{Y} + g\,\nabla_\mathcal{X}\mathcal{Y}$. Build
+      $$\nabla_{\partial x_k}\big(\Gamma^n_{jm}\,\partial x_n\big).$$
+    prefix: '='
+    tiles: ['\partial x_k\lfloor\Gamma^n_{jm}\rceil\,\partial x_n', '+', '\Gamma^n_{jm}\Gamma^i_{nk}\,\partial x_i', '\Gamma^n_{jm}\Gamma^i_{kn}\,\partial x_i', '-']
+    answers:
+      - ['\partial x_k\lfloor\Gamma^n_{jm}\rceil\,\partial x_n', '+', '\Gamma^n_{jm}\Gamma^i_{nk}\,\partial x_i']
+      - ['\Gamma^n_{jm}\Gamma^i_{nk}\,\partial x_i', '+', '\partial x_k\lfloor\Gamma^n_{jm}\rceil\,\partial x_n']
+    wrong:
+      - { answer: ['\partial x_k\lfloor\Gamma^n_{jm}\rceil\,\partial x_n', '+', '\Gamma^n_{jm}\Gamma^i_{kn}\,\partial x_i'], feedback: 'In $\nabla_{\partial x_k}\partial x_n$ the differentiated field is $\partial x_n$ and the direction is $\partial x_k$, so the coefficient is $\Gamma^i_{nk}$: differentiated index first, direction last. The order matters whenever there is torsion.' }
+    hint: |
+      The function $\Gamma^n_{jm}$ multiplies the field $\partial x_n$: one term differentiates the function, the other the field.
+    explanation: |
+      $$\begin{aligned}&\nabla_{\partial x_k}(\Gamma^n_{jm}\partial x_n)\\ &= \partial x_k\lfloor\Gamma^i_{jm}\rceil\,\partial x_i + \Gamma^i_{nk}\Gamma^n_{jm}\,\partial x_i\end{aligned}$$
+      (renaming $n\to i$ in the first term). Subtracting the same with $k\leftrightarrow m$ and applying $dx^i$ gives the component formula of the next card.
+
+  - type: text
+    id: riemann-components
+    title: The component formula
+    body: |
+      $$\begin{aligned}\mathrm{Riem}^i_{jkm} &= \partial x_k\lfloor\Gamma^i_{jm}\rceil - \partial x_m\lfloor\Gamma^i_{jk}\rceil\\ &\quad + \Gamma^i_{nk}\Gamma^n_{jm} - \Gamma^i_{nm}\Gamma^n_{jk}.\end{aligned}$$
+      Two derivative terms and two quadratic terms, each pair related by $k\leftrightarrow m$.
+
+      **Antisymmetry.** Swapping $\mathcal{X}$ and $\mathcal{Y}$ in the definition flips the first two terms into each other, and $[\mathcal{Y},\mathcal{X}] = -[\mathcal{X},\mathcal{Y}]$ flips the third. So
+      $$\mathrm{Riem}^i_{jkm} = -\mathrm{Riem}^i_{jmk},$$
+      visible in the formula too: $k\leftrightarrow m$ swaps each pair of terms with a sign. In particular $\mathrm{Riem}^i_{jkk} = 0$.
+
+      Being a tensor, $\mathrm{Riem}$ cannot be removed by a chart: if it vanishes in one chart, it vanishes in all; if not, in none. Nonzero $\Gamma$'s alone prove nothing about curvature.
+
+  - type: numeric
+    id: riem-count
+    title: How many in two dimensions?
+    prompt: |
+      On a 2-dimensional manifold, the Riemann curvature has components $\mathrm{Riem}^i_{jkm}$ with every index in $\{1,2\}$, and it is antisymmetric in the last two indices, $\mathrm{Riem}^i_{jkm} = -\mathrm{Riem}^i_{jmk}$. How many components can be independent (using only this antisymmetry)?
+    answer: 4
+    wrong:
+      - { value: 16, feedback: 'That is $2^4$, every index free. Antisymmetry kills $(k,m) = (1,1)$ and $(2,2)$ and makes $(2,1)$ the negative of $(1,2)$.' }
+      - { value: 8, feedback: 'With $(k,m)$ antisymmetric, only one pair is free, $(1,2)$: $(1,1)$ and $(2,2)$ vanish, $(2,1)$ is $-(1,2)$. That leaves $i, j$: $2\times2$.' }
+      - { value: 1, feedback: 'The upper index $i$ and the carried index $j$ are not restricted by this antisymmetry: $\mathrm{Riem}^1_{112}, \mathrm{Riem}^1_{212}, \mathrm{Riem}^2_{112}, \mathrm{Riem}^2_{212}$ can all differ (a metric adds more symmetries later, but not here).' }
+    hint: |
+      Count the free choices of $(k,m)$ up to sign, then multiply by the choices of $i$ and $j$.
+    explanation: |
+      Only $(k,m) = (1,2)$ is free, and $i, j$ range over $2\times2$ values: $\mathrm{Riem}^i_{j12}$, four components.
+
+  - type: numeric
+    id: euclid-polar-flat
+    title: Nonzero Γ, zero curvature
+    prompt: |
+      In the polar chart $\mathscr{Y} = (r,\theta)$, with basis fields $\partial y_1 = \partial/\partial r$ and $\partial y_2 = \partial/\partial\theta$, the connection $\nabla^{\mathrm{E}}$ (constant cartesian components) has the nonzero coefficients $\Gamma^1_{22} = -r$ and $\Gamma^2_{12} = \Gamma^2_{21} = \tfrac1r$. Compute
+      $$\begin{aligned}\mathrm{Riem}^1_{212} &= \partial y_1\lfloor\Gamma^1_{22}\rceil - \partial y_2\lfloor\Gamma^1_{21}\rceil\\ &\quad + \Gamma^1_{n1}\Gamma^n_{22} - \Gamma^1_{n2}\Gamma^n_{21}.\end{aligned}$$
+    answer: 0
+    wrong:
+      - { value: -1, feedback: 'That is the derivative term $\partial y_1\lfloor -r\rceil = -1$ alone. The last quadratic term is $-\Gamma^1_{22}\Gamma^2_{21} = -(-r)\cdot\tfrac1r = +1$ (the $n = 2$ term; $n = 1$ gives $\Gamma^1_{12} = 0$).' }
+      - { value: -2, feedback: 'Sign of the quadratic term: $-\Gamma^1_{n2}\Gamma^n_{21}$ with $n = 2$ is $-(-r)(\tfrac1r) = +1$, which cancels the derivative term $-1$.' }
+    hint: |
+      $\partial y_1$ acts as $\partial/\partial r$. In the quadratic terms, $\Gamma^1_{n1} = 0$ for both $n$; in the last one only $n = 2$ survives.
+    explanation: |
+      $-1 - 0 + 0 + (-(-r)\cdot\tfrac1r) = -1 + 1 = 0$. The coefficients do not vanish in polar, yet the curvature does: it must, since all cartesian $\Gamma$'s of $\nabla^{\mathrm{E}}$ vanish, so every cartesian $\mathrm{Riem}$ component vanishes, and a tensor that is zero in one chart is zero in all.
+
+  - type: numeric
+    id: kappa-riem
+    title: The curved connection
+    prompt: |
+      On the plane, $\nabla^{\kappa}$ with $\kappa = 3$ has a single nonzero cartesian coefficient, $\Gamma^1_{22} = \kappa\,a$ (convention $\nabla_{\partial x_i}\partial x_j = \Gamma^k_{ji}\,\partial x_k$). Compute
+      $$\begin{aligned}\mathrm{Riem}^1_{212} &= \partial x_1\lfloor\Gamma^1_{22}\rceil - \partial x_2\lfloor\Gamma^1_{21}\rceil\\ &\quad + \Gamma^1_{n1}\Gamma^n_{22} - \Gamma^1_{n2}\Gamma^n_{21}.\end{aligned}$$
+    answer: 3
+    wrong:
+      - { value: -3, feedback: 'That is $\mathrm{Riem}^1_{221} = -\mathrm{Riem}^1_{212}$, the swapped loop directions. Here the first derivative term is $\partial x_1\lfloor\kappa a\rceil = +\kappa$.' }
+      - { value: 0, feedback: 'Torsion free does not mean flat. The derivative term $\partial x_1\lfloor\Gamma^1_{22}\rceil = \partial x_1\lfloor\kappa a\rceil = \kappa$ survives; only the quadratic terms vanish (each contains a coefficient other than $\Gamma^1_{22}$).' }
+    hint: |
+      $\partial x_1$ differentiates with respect to $a$. Every quadratic term has a factor $\Gamma^1_{n1}$ or $\Gamma^n_{21}$, which vanish.
+    explanation: |
+      $\mathrm{Riem}^1_{212} = \partial x_1\lfloor\kappa a\rceil = \kappa = 3$, and by antisymmetry $\mathrm{Riem}^1_{221} = -\kappa$. Every other component vanishes: all $\Gamma^2$'s are zero, and $\Gamma^1_{1k} = 0$. So $\nabla^{\kappa}$ is torsion free but **curved**, and no chart can make all its $\Gamma$'s vanish on an open set.
+
+  - type: text
+    id: ricci
+    title: Ricci curvature
+    body: |
+      Contracting the upper index of $\mathrm{Riem}$ with its third slot gives the **Ricci curvature**, the $(0,2)$-tensor field
+      $$\mathrm{Ric}(\mathcal{X},\mathcal{Y}) := \mathrm{Riem}(dx^m,\mathcal{X},\partial x_m,\mathcal{Y}),$$
+      summed over $m$. This does not depend on the chart: in another chart the Jacobian factors from $dy^m$ and $\partial y_m$ combine into
+      $$\frac{\partial\mathscr{Y}^m}{\partial\mathscr{X}^a}\frac{\partial\mathscr{X}^b}{\partial\mathscr{Y}^m} = \delta^b_a.$$
+      Its components are
+      $$\mathrm{Ric}_{ab} := \mathrm{Ric}(\partial x_a,\partial x_b) = \mathrm{Riem}^m_{amb}.$$
+      For a general connection $\mathrm{Ric}$ need not be symmetric. In general relativity the Ricci curvature of the connection built from the metric is what Einstein's equations tie to matter.
+
+  - type: mcq
+    id: ricci-kappa
+    title: Ricci of the curved connection
+    prompt: |
+      On the plane, $\nabla^{\kappa}$ has only two nonzero Riemann components, $\mathrm{Riem}^1_{212} = \kappa$ and $\mathrm{Riem}^1_{221} = -\kappa$. The Ricci curvature has components $\mathrm{Ric}_{ab} = \mathrm{Riem}^m_{amb}$ (sum over $m$). Which is $\mathrm{Ric}$?
+    options:
+      - text: '$\kappa\,dx^2\otimes dx^2$'
+        correct: true
+      - text: '$\kappa\,dx^1\otimes dx^1$'
+        feedback: |
+          The contracted index $m$ sits in the upper slot and the third slot, so $\mathrm{Riem}^1_{212}$ contributes with $m = 1$, $a = 2$, $b = 2$: to $\mathrm{Ric}_{22}$. $\mathrm{Ric}_{11} = \mathrm{Riem}^1_{111} + \mathrm{Riem}^2_{121} = 0$.
+      - text: '$0$, because of the antisymmetry in the last two indices'
+        feedback: |
+          Antisymmetry kills a contraction of the **last two** indices, $\mathrm{Riem}^i_{jmm}$. Ricci contracts the upper index with the **third**, which antisymmetry does not touch: $\mathrm{Ric}_{22} = \mathrm{Riem}^1_{212} + \mathrm{Riem}^2_{222} = \kappa$.
+      - text: '$\kappa\,(dx^1\otimes dx^2 - dx^2\otimes dx^1)$'
+        feedback: |
+          Off-diagonal entries would need $\mathrm{Ric}_{12} = \mathrm{Riem}^1_{112} + \mathrm{Riem}^2_{122}$ or $\mathrm{Ric}_{21} = \mathrm{Riem}^1_{211} + \mathrm{Riem}^2_{221}$, all of which vanish here.
+    explanation: |
+      $\mathrm{Ric}_{22} = \mathrm{Riem}^1_{212} + \mathrm{Riem}^2_{222} = \kappa$; the other three components vanish. So
+      $$\mathrm{Ric} = \kappa\,dx^2\otimes dx^2.$$
+
+  - type: widget
+    id: holonomy-widget
+    title: Curvature times area
+    widget: parallel-transport
+    config:
+      curve: { type: rectangle, x0: 1, x1: 2, b0: 0, b1: 1 }
+      connection: kappa
+      connections: [kappa, E, W]
+      kappa: 1
+      z0: [0, 1]
+      holonomy: true
+      showAcceleration: false
+      view: { x: -2.5, y: -2.2, w: 5, h: 5 }
+      presets:
+        - { label: 'curved, [1,2]×[0,1]', curve: { type: rectangle, x0: 1, x1: 2, b0: 0, b1: 1 }, connection: kappa, z0: [0, 1] }
+        - { label: 'curved, [0,1]×[0,1]', curve: { type: rectangle, x0: 0, x1: 1, b0: 0, b1: 1 }, connection: kappa, z0: [0, 1] }
+        - { label: 'curved, start (1, 0)', curve: { type: rectangle, x0: 1, x1: 2, b0: 0, b1: 1 }, connection: kappa, z0: [1, 0] }
+        - { label: '∇ᴱ around 0', curve: { type: rectangle, x0: -1, x1: 1, b0: -1, b1: 1 }, connection: E, z0: [0, 1] }
+        - { label: '∇ᵂ around 0', curve: { type: rectangle, x0: -1, x1: 1, b0: -1, b1: 1 }, connection: W, z0: [0, 1] }
+    body: |
+      The row **After the loop** now shows $\Delta z = z(4) - z(0)$ next to the **Prediction** from the curvature,
+      $$\Delta z^1 = -\mathrm{Riem}^1_{212}\,z^2\times\text{area}$$
+      with $\Delta z^2 = 0$ (counterclockwise loop). Under $\nabla^{\kappa}$ this is exact for every loop; for a general connection it holds approximately for small loops (stated here without proof).
+
+      1. Run the two curved rectangles: same area, different place.
+      2. Start with $(1,0)$ instead, and drag the start tip.
+      3. Run $\nabla^{\mathrm{E}}$ and $\nabla^{\mathrm{W}}$ around the origin.
+
+  - type: numeric
+    id: holonomy-law
+    title: Predict the mismatch
+    prompt: |
+      On the plane, $\nabla^{\kappa}$ with $\kappa = 2$ (single cartesian coefficient $\Gamma^1_{22} = \kappa\,a$, transport $\dot z^1 = -\kappa\,a\,z^2\dot\gamma^2$, $\dot z^2 = 0$, curvature $\mathrm{Riem}^1_{212} = \kappa$). Carry $z = (5,2)$ counterclockwise around the rectangle $[1,2]\times[0,3]$. What is $\Delta z^1$ after the loop?
+    answer: -12
+    wrong:
+      - { value: -24, feedback: 'That is the right side alone ($a = 2$, up by $3$: $-2\cdot2\cdot2\cdot3$). The left side ($a = 1$, down by $3$) gives back $+12$.' }
+      - { value: 12, feedback: 'Sign: the prediction is $\Delta z^1 = -\mathrm{Riem}^1_{212}\,z^2\times\text{area} = -2\cdot2\cdot3$.' }
+      - { value: -30, feedback: 'The change is proportional to $z^2 = 2$, not to $z^1 = 5$: $\dot z^1 = -\kappa\,a\,z^2\,\dot\gamma^2$.' }
+      - { value: 0, feedback: 'That would be a flat connection. Here $\mathrm{Riem}^1_{212} = 2$ and the area is $3$.' }
+    hint: |
+      Either side by side (right side $a = 2$ up, left side $a = 1$ down, each of height 3), or directly with $\Delta z^1 = -\mathrm{Riem}^1_{212}\,z^2\times\text{area}$.
+    explanation: |
+      Right side: $-2\cdot2\cdot2\cdot3 = -24$; left side: $+2\cdot1\cdot2\cdot3 = +12$; total $-12 = -2\cdot2\cdot(1\cdot3)$. ✓ The mismatch depends on the curvature, on the carried vector (only through $z^2$) and on the area, not on where the rectangle sits.
+
+  - type: mcq
+    id: around-origin
+    title: Loops around the origin
+    multiple: true
+    prompt: |
+      On the plane, carry $z = (0,1)$ counterclockwise around the square $[-1,1]\times[-1,1]$, which surrounds the origin. $\nabla^{\mathrm{E}}$ keeps cartesian components; $\nabla^{\mathrm{W}}$ keeps components along the unit radial and angular fields (it has torsion); $\nabla^{\kappa}$ with $\kappa = 1$ has $\mathrm{Riem}^1_{212} = 1$. Select every true statement.
+    options:
+      - text: 'Under $\nabla^{\mathrm{E}}$ the vector returns unchanged'
+        correct: true
+      - text: 'Under $\nabla^{\mathrm{W}}$ the vector makes a full turn along the way and returns unchanged'
+        correct: true
+      - text: 'Under $\nabla^{\kappa}$, $\Delta z^1 = -4$'
+        correct: true
+      - text: 'Under $\nabla^{\mathrm{W}}$ the vector does not return, because $\nabla^{\mathrm{W}}$ has torsion'
+        feedback: |
+          Torsion is not what makes loops fail. $\nabla^{\mathrm{W}}$ keeps the components along $e_1, e_2$, which are defined all around the origin, so after the loop the vector has the same frame components at the same point: it returns. Its curvature is zero; the failure to return is measured by $\mathrm{Riem}$, not by $\mathtt{T}$.
+    explanation: |
+      Flat connections ($\nabla^{\mathrm{E}}$, $\nabla^{\mathrm{W}}$) return every vector. For $\nabla^{\kappa}$: $\Delta z^1 = -1\cdot1\cdot4 = -4$ (area $4$); side by side, the right side ($a = 1$, up 2) gives $-2$ and the left side ($a = -1$, down 2) gives $-2$ as well. **Torsion and curvature are independent**: $\nabla^{\mathrm{E}}$ has neither, $\nabla^{\mathrm{W}}$ only torsion, $\nabla^{\kappa}$ only curvature.
+
+  - type: text
+    id: flat-chart
+    title: When can all Γ's vanish?
+    body: |
+      Recall: at a single point a chart can always remove the symmetric part of the $\Gamma$'s (normal coordinates). On a whole open set it is a different story.
+
+      **Theorem** (stated here without proof). A torsion-free connection has $\mathrm{Riem} = 0$ on an open set $\mathcal{W}$ if and only if around every point of $\mathcal{W}$ there is a chart in which all its $\Gamma$'s vanish.
+
+      The easy direction: if all $\Gamma$'s vanish in a chart, every term of the component formula of $\mathrm{Riem}$ vanishes, and so does $\mathtt{T}^i_{jk} = \Gamma^i_{kj} - \Gamma^i_{jk}$. Both are tensors, so they vanish in every chart. Hence charts with $\Gamma = 0$ exist exactly when $\mathrm{Riem} = 0$ **and** $\mathtt{T} = 0$. The result is local: a flat torus has such charts around every point, but no single one covering it.
+
+      **Bianchi identity** (named only): for a torsion-free connection, the covariant derivatives of $\mathrm{Riem}$ obey
+      $$\begin{aligned}&(\nabla_{\partial x_n}\mathrm{Riem})^i_{jkm} + (\nabla_{\partial x_k}\mathrm{Riem})^i_{jmn}\\ &\quad + (\nabla_{\partial x_m}\mathrm{Riem})^i_{jnk} = 0,\end{aligned}$$
+      a cyclic sum over $n, k, m$. It will matter for Einstein's equations.
+
+  - type: mcq
+    id: flat-chart-which
+    title: Which connections have a chart with Γ = 0?
+    multiple: true
+    prompt: |
+      A chart with all connection coefficients zero on an open set exists around a point exactly when the torsion $\mathtt{T}$ and the curvature $\mathrm{Riem}$ both vanish there. On the plane (minus the origin where needed), select every connection that has such a chart around each point of its domain.
+    options:
+      - text: '$\nabla^{\mathrm{E}}$ (constant cartesian components)'
+        correct: true
+      - text: '$\nabla^{\mathrm{P}}$ (constant polar components, defined on the polar chart''s domain)'
+        correct: true
+      - text: '$\nabla^{\mathrm{W}}$ (the radial and angular unit fields parallel)'
+        feedback: |
+          $\nabla^{\mathrm{W}}$ is flat, but its torsion $\mathtt{T}^2_{12} = \tfrac a{r^2}$, $\mathtt{T}^1_{12} = -\tfrac b{r^2}$ never vanishes. In a chart with all $\Gamma = 0$ the torsion components $\Gamma^i_{kj} - \Gamma^i_{jk}$ would be zero, and a tensor zero in one chart is zero in all.
+      - text: '$\nabla^{\kappa}$ (single cartesian coefficient $\Gamma^1_{22} = \kappa a$)'
+        feedback: |
+          $\nabla^{\kappa}$ is torsion free but curved: $\mathrm{Riem}^1_{212} = \kappa \neq 0$. Every chart with all $\Gamma = 0$ would make all $\mathrm{Riem}$ components zero, impossible for a nonzero tensor.
+    explanation: |
+      $\nabla^{\mathrm{E}}$ has $\Gamma = 0$ in the cartesian chart, $\nabla^{\mathrm{P}}$ in the polar chart (by its definition). $\nabla^{\mathrm{W}}$ fails by torsion, $\nabla^{\kappa}$ by curvature. In general relativity the connection is torsion free and its curvature is gravity: a freely falling observer can make the $\Gamma$'s vanish at a point, but not on a region where tidal effects act.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      **Next: "Torsion Is a Tensor".** You checked one slot of the torsion; the guided problem proves $C^\infty(\mathcal{M})$-linearity in every slot, step by step. Later, the metric will single out one torsion-free connection, and its curvature will be gravity.
