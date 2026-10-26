@@ -391,13 +391,15 @@ cards:
     id: p5-stuck
     tag: Problem 5 · Alternating minimization
     prompt: |
-      Alternating minimization of $D[P:Q]$ between a finite segment $K$ and an arc $S$ that cross. From one start the values go $0.0643,\,0.0199,\,0.0120,\,0.0048,\,0.0040,\,0.0040$ and stop at $0.00397$. From another start they go $0.00035,\,0.00002,\dots$ and reach the crossing. What is $D[K:S]=\min_{P\in K,\,Q\in S}D[P:Q]$ for this pair?
-    answer: 0
-    tolerance: 0.0001
+      In the picture above, one start runs and then stops at the pair $P^*=(0.348,\,0.356,\,0.296)$, the end of the segment $K$, and $Q^*=(0.308,\,0.389,\,0.303)$, the end of the arc $S$ (neither projection can improve it). Compute its divergence $D[P^*:Q^*]=\sum_iP^*_i\ln(P^*_i/Q^*_i)$. Give four decimals.
+    answer: 0.0040
+    tolerance: 0.0003
+    hint: 'Three terms: $0.348\ln\frac{0.348}{0.308}+0.356\ln\frac{0.356}{0.389}+0.296\ln\frac{0.296}{0.303}$. Two of them are negative.'
     wrong:
-      - { value: 0.0040, feedback: 'That is where the first start got stuck, an upper bound only. The crossing belongs to both sets, so $P=Q$ there and $D=0$.' }
+      - { value: 0, feedback: 'That is the value at a crossing of $K$ and $S$ (where $P=Q$), not at this pair: $P^*\ne Q^*$, so $D>0$.' }
     explanation: |
-      $D[K:S]=0$, attained at the crossing $(0.543,0.380,0.076)$, since $D\ge0$ with equality iff $P=Q$. The first run's end value $0.0040$ is only a local minimum. The run ended $0.0643-0.0040=0.0603$ below its first value, yet $0.0040$ above the true minimum.
+      $$\begin{aligned}D[P^*:Q^*]&\approx0.0425-0.0316-0.0069\\&\approx0.0040 .\end{aligned}$$
+      This is small but positive. A crossing of $K$ and $S$ has $P=Q$ and $D=0$, and another start does reach it, so the value $0.0040$ is only a **local** minimum: the run stopped at the ends of the two pieces, where no projection moves.
 
   - type: text
     id: summary

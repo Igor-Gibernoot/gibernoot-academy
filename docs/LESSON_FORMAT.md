@@ -440,6 +440,7 @@ config:
   p: [1, 1]                   # the point; the default view is 5 × 5 centred on it
   v: [1, 2]                   # the velocity, standard components of R²
   basisOnly: false            # hide v and the components
+  arrows: true                # false: no v, no basis arrows, no components (lines and p only)
   chain: false                # the law in numbers (components; basis law if basisOnly)
   inverse: false              # also the inverse Jacobian
   dragP: true                 # p draggable

@@ -250,6 +250,13 @@ Lessons are built across many short sessions. Igor starts each with
   naming the course and the single next unit from its `course.yaml`, with a
   card plan of about 10 lines (hook, widget, key questions, summary) and
   the source lines to read.
+- **`STATUS.md` is edited only with the `Edit` tool** (small `old_string`
+  replacements), never with `sed`, `python`, `perl` or any script, and never
+  by rewriting the whole file: scripted edits corrupted it before (duplicate
+  Current/Log, a mangled header). Replace the Current block by `Edit`ing its
+  lines; add a Log entry by `Edit`ing the `## Log` line to `## Log` plus the
+  new entry. `node tools/validate.mjs` checks the structure (one `# Status`,
+  one `## Current` before one `## Log`) and fails otherwise; fix before commit.
 - **Keep the Markdown lean** (every session pays to read it). Current
   stays under ~40 lines: rewrite it in place (state, next unit, pointers),
   never append history to it; history goes in the Log (never read), and

@@ -66,7 +66,25 @@ for (const c of catalog.courses ?? []) {
   cid = '';
 }
 
+// STATUS.md must keep one header, one Current block (short) before one Log: agents' scripts corrupted it before.
+function checkStatus(dir) {
+  const f = join(dir, 'STATUS.md');
+  if (!existsSync(f)) { err('STATUS.md', 'missing'); return; }
+  const lines = readFileSync(f, 'utf8').split('\n');
+  const at = re => lines.flatMap((l, i) => (re.test(l) ? [i] : []));
+  const [title, cur, log] = [at(/^# Status\s*$/), at(/^## Current\b/), at(/^## Log\s*$/)];
+  if (title.length !== 1) err('STATUS.md', `needs exactly one "# Status" header (found ${title.length})`);
+  if (cur.length !== 1) err('STATUS.md', `needs exactly one "## Current" block (found ${cur.length})`);
+  if (log.length !== 1) err('STATUS.md', `needs exactly one "## Log" (found ${log.length})`);
+  if (title.length === 1 && cur.length === 1 && log.length === 1) {
+    if (!(title[0] < cur[0] && cur[0] < log[0])) err('STATUS.md', 'order must be "# Status", "## Current", "## Log"');
+    else if (log[0] - cur[0] > 45) warn('STATUS.md', `Current block is ${log[0] - cur[0]} lines (keep it under ~40)`);
+  }
+  if (at(/^<{7}|^={7}$|^>{7}/).length) err('STATUS.md', 'merge-conflict markers');
+}
+
 function checkCourse(course, dir) {
+  checkStatus(dir);
 const lessonIds = new Set();
 const registered = new Set();
 for (const level of course.levels ?? []) for (const m of level.lessons ?? []) if (m.file) registered.add(m.file);

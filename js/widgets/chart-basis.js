@@ -15,6 +15,7 @@
 //   p:         [1, 1]           the point (anywhere; outside a chart's domain that chart says so)
 //   v:         [1, 2]           the velocity, in the standard components of ℝ²
 //   basisOnly: false            hide v and the components
+//   arrows:    true             false hides v, the basis arrows and the components (lines and p only)
 //   chain:     false            the law in numbers (components, or the basis
 //                               law when basisOnly)
 //   inverse:   false            also show the inverse Jacobian (∂𝒳ⁱ/∂𝒴ʲ)_p
@@ -104,7 +105,7 @@ export const tipCands = (p, e, sg) => {
 };
 
 export function chartBasis(el, cfg) {
-  const sn = cfg.snap ?? 0.25, basisOnly = !!cfg.basisOnly, chain = !!cfg.chain, showInv = !!cfg.inverse, showJac = cfg.jacobian !== false;
+  const sn = cfg.snap ?? 0.25, noArrows = cfg.arrows === false, basisOnly = noArrows || !!cfg.basisOnly, chain = !!cfg.chain, showInv = !!cfg.inverse, showJac = cfg.jacobian !== false;
   const dragP = cfg.dragP ?? true, nmax = cfg.lines ?? 8;
   const mkChart = spec => {
     const o = typeof spec === 'string' ? { chart: spec } : spec;
@@ -227,7 +228,7 @@ export function chartBasis(el, cfg) {
       placeHandle(vh, tip);
     }
     chs.forEach((ch, idx) => {
-      if (!Bs[idx]) return;
+      if (noArrows || !Bs[idx]) return;
       for (const i of [0, 1]) {
         const e = [Bs[idx][0][i], Bs[idx][1][i]], tip = [p[0] + e[0], p[1] + e[1]];
         L.arrows.append(arrow(p, tip, `w-basis${idx ? ' cv-dash' : ''}`));
