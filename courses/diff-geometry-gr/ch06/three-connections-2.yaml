@@ -1,0 +1,281 @@
+id: ch06-three-connections-2
+title: "Guided Problem: Three Connections on the Plane · Part 2"
+kind: guided
+
+cards:
+  - type: text
+    id: recall-setup
+    title: "Recall: the four boxes and two connections"
+    body: |
+      On the plane, with points $(a,b)$, cartesian chart $\mathscr{X}$ (basis fields $\partial x_1, \partial x_2$) and $r := \sqrt{a^2+b^2}$, three connections are sorted by two yes/no questions: does the connection have **torsion**, is it **curved**? The coefficients of $\nabla$ in a chart are fixed by $\nabla_{\partial x_k}\partial x_j = \Gamma^i_{jk}\,\partial x_i$ (last lower index = direction), and the two tests are the tensors
+      $$\mathtt{T}^i_{jk} = \Gamma^i_{kj} - \Gamma^i_{jk},$$
+      $$\begin{aligned}\mathrm{Riem}^i_{jkm} &= \partial x_k\lfloor\Gamma^i_{jm}\rceil - \partial x_m\lfloor\Gamma^i_{jk}\rceil\\ &\quad + \Gamma^i_{nk}\Gamma^n_{jm} - \Gamma^i_{nm}\Gamma^n_{jk}.\end{aligned}$$
+      Both are tensors, so zero in one chart means zero in every chart; torsion free means the $\Gamma$'s are symmetric in their lower indices, and in two dimensions the connection is flat exactly when the four components $\mathrm{Riem}^i_{j12}$ vanish.
+
+  - type: text
+    id: recall-two
+    title: "Recall: where E and W landed"
+    body: |
+      $\nabla^{\mathrm{E}}$ (all cartesian coefficients zero) is **flat and torsion free**: in polar coordinates its coefficients $\Gamma^1_{22} = -r$, $\Gamma^2_{12} = \Gamma^2_{21} = \tfrac1r$ are symmetric and the curvature terms cancel in pairs. $\nabla^{\mathrm{W}}$ (on the plane minus the origin, the unit radial and angular fields $e_1, e_2$ declared parallel) is **flat, with torsion**: $\mathtt{T}(\,\cdot\,,e_1,e_2) = -[e_1,e_2] = \tfrac1r\,e_2\neq0$, and $\mathrm{Riem} = 0$ because every term differentiates a parallel field. Two boxes are filled; the box (curved, torsion free) and the box (curved, with torsion) are still empty. A third connection, $\nabla^{\kappa}$ with $\kappa>0$ a constant, has one nonzero cartesian coefficient, $\Gamma^1_{22} = \kappa\,a$; the next cards compute where it lands.
+
+  - type: text
+    id: k-def
+    title: "The curved one"
+    body: |
+      $\nabla^{\kappa}$ is defined on the whole plane by one nonzero cartesian coefficient:
+      $$\Gamma^1_{22} = \kappa\,a,$$
+      that is,
+      $$\nabla^{\kappa}_{\partial x_2}\partial x_2 = \kappa\,a\,\partial x_1,$$
+      and $\nabla^{\kappa}_{\partial x_1}\partial x_1 = \nabla^{\kappa}_{\partial x_1}\partial x_2 = \nabla^{\kappa}_{\partial x_2}\partial x_1 = 0$. Moving vertically, the field $\partial x_2$ tips sideways, more so the farther you are from the $b$-axis.
+
+  - type: mcq
+    id: k-torsion
+    title: Torsion of ∇^κ
+    prompt: |
+      On the plane, $\nabla^{\kappa}$ has the single nonzero cartesian coefficient $\Gamma^1_{22} = \kappa\,a$ (convention $\nabla_{\partial x_k}\partial x_j = \Gamma^i_{jk}\,\partial x_i$). The torsion components are $\mathtt{T}^i_{jk} = \Gamma^i_{kj} - \Gamma^i_{jk}$. Does $\nabla^{\kappa}$ have torsion?
+    options:
+      - text: 'No: the only nonzero coefficient has equal lower indices, so every difference $\Gamma^i_{kj} - \Gamma^i_{jk}$ vanishes'
+        correct: true
+      - text: 'Yes: $\Gamma^1_{22}$ depends on $a$ but not on $b$, an asymmetry between the directions'
+        feedback: |
+          Torsion is about swapping the two **lower indices** of $\Gamma$, not about which coordinates $\Gamma$ depends on. With lower indices $22$ the swap does nothing.
+      - text: 'Yes: $\mathtt{T}^1_{22} = \kappa\,a$'
+        feedback: |
+          $\mathtt{T}^1_{22} = \Gamma^1_{22} - \Gamma^1_{22} = 0$. Any torsion component with equal lower indices vanishes by antisymmetry.
+    explanation: |
+      Every coefficient is symmetric in its lower indices, so $\mathtt{T} = 0$: $\nabla^{\kappa}$ is torsion free.
+
+  - type: numeric
+    id: k-riem-direct
+    title: Curvature from the definition
+    prompt: |
+      On the plane, $\nabla^{\kappa}$ with $\kappa = 2$ has $\nabla^{\kappa}_{\partial x_2}\partial x_2 = \kappa\,a\,\partial x_1$, and all other $\nabla^{\kappa}_{\partial x_k}\partial x_j$ vanish. The product rule reads $\nabla_\mathcal{X}(g\,\mathcal{Y}) = \mathcal{X}\lfloor g\rceil\,\mathcal{Y} + g\,\nabla_\mathcal{X}\mathcal{Y}$. Since chart basis fields commute, the curvature is
+      $$\begin{aligned}&\mathrm{Riem}(\,\cdot\,,\partial x_2,\partial x_1,\partial x_2)\\ &= \nabla_{\partial x_1}\nabla_{\partial x_2}\partial x_2 - \nabla_{\partial x_2}\nabla_{\partial x_1}\partial x_2.\end{aligned}$$
+      What is its $\partial x_1$ component, $\mathrm{Riem}^1_{212}$?
+    answer: 2
+    wrong:
+      - { value: 0, feedback: '$\nabla_{\partial x_1}(\kappa a\,\partial x_1)$ is not zero: the function $\kappa a$ is differentiated by $\partial x_1$, giving $\kappa\,\partial x_1$. Only the second term, $\nabla_{\partial x_2}0$, vanishes.' }
+      - { value: -2, feedback: 'That is $\mathrm{Riem}^1_{221}$, with the loop directions swapped. Here the first term is $\nabla_{\partial x_1}(\kappa a\,\partial x_1) = +\kappa\,\partial x_1$, and the second is $0$.' }
+    hint: |
+      Inner derivatives first: $\nabla_{\partial x_2}\partial x_2 = \kappa a\,\partial x_1$ and $\nabla_{\partial x_1}\partial x_2 = 0$. Then apply the product rule to $\nabla_{\partial x_1}(\kappa a\,\partial x_1)$, with $\nabla_{\partial x_1}\partial x_1 = 0$.
+    explanation: |
+      $$\begin{aligned}&\nabla_{\partial x_1}(\kappa a\,\partial x_1) - \nabla_{\partial x_2}0\\ &= \partial x_1\lfloor\kappa a\rceil\,\partial x_1 = \kappa\,\partial x_1,\end{aligned}$$
+      so $\mathrm{Riem}^1_{212} = \kappa = 2$, the same as the component formula, where only $\partial x_1\lfloor\Gamma^1_{22}\rceil = \kappa$ survives. Nonzero: $\nabla^{\kappa}$ is **curved**.
+
+  - type: mcq
+    id: k-other
+    title: The other components
+    multiple: true
+    prompt: |
+      On the plane, $\nabla^{\kappa}$ has $\nabla^{\kappa}_{\partial x_2}\partial x_2 = \kappa\,a\,\partial x_1$ and all other $\nabla^{\kappa}_{\partial x_k}\partial x_j = 0$; its curvature components are $\mathrm{Riem}^i_{jkm} = dx^i\lceil\nabla_{\partial x_k}\nabla_{\partial x_m}\partial x_j - \nabla_{\partial x_m}\nabla_{\partial x_k}\partial x_j\rfloor$ ($j$ = carried field). Select every **nonzero** component.
+    options:
+      - text: '$\mathrm{Riem}^1_{212}$'
+        correct: true
+      - text: '$\mathrm{Riem}^1_{221}$'
+        correct: true
+      - text: '$\mathrm{Riem}^1_{112}$'
+        feedback: |
+          The carried field is $\partial x_1$, and $\nabla^{\kappa}_{\partial x_k}\partial x_1 = 0$ in both directions, so both second derivatives are $\nabla(0) = 0$. A vector along $\partial x_1$ never changes under this transport.
+      - text: '$\mathrm{Riem}^2_{212}$'
+        feedback: |
+          Every covariant derivative here has only a $\partial x_1$ part ($\kappa a\,\partial x_1$, $\kappa\,\partial x_1$, or $0$), so no $\partial x_2$ component ever appears.
+    explanation: |
+      $\mathrm{Riem}^1_{212} = \kappa$ and, by antisymmetry in the last two indices, $\mathrm{Riem}^1_{221} = -\kappa$; all others vanish. The 2×2 table now has all three connections: $\nabla^{\mathrm{E}}$ flat and torsion free, $\nabla^{\mathrm{W}}$ flat with torsion, $\nabla^{\kappa}$ curved and torsion free.
+
+  - type: build
+    id: k-autoparallel-eq
+    title: The straightest curves of ∇^κ
+    prompt: |
+      Recall: a curve $\gamma$ has acceleration $a_\gamma^k = \ddot\gamma^k + \Gamma^k_{ji}\,\dot\gamma^i\dot\gamma^j$ (dot $= d/d\lambda$, $\Gamma$ evaluated at $\gamma(\lambda)$), and its velocity is transported along itself when $a_\gamma = 0$. On the plane, $\nabla^{\kappa}$ has the single cartesian coefficient $\Gamma^1_{22} = \kappa\,a$, so along the curve it equals $\kappa\,\gamma^1$. Build the $k = 1$ equation.
+    prefix: '0 ='
+    tiles: ['\ddot\gamma^1', '+', '\kappa\,\gamma^1(\dot\gamma^2)^2', '-', '\kappa\,\gamma^1\dot\gamma^1\dot\gamma^2', '\kappa(\dot\gamma^2)^2']
+    answers:
+      - ['\ddot\gamma^1', '+', '\kappa\,\gamma^1(\dot\gamma^2)^2']
+      - ['\kappa\,\gamma^1(\dot\gamma^2)^2', '+', '\ddot\gamma^1']
+    wrong:
+      - { answer: ['\ddot\gamma^1', '+', '\kappa\,\gamma^1\dot\gamma^1\dot\gamma^2'], feedback: 'The only nonzero coefficient is $\Gamma^1_{22}$: both velocity factors carry index $2$, so the term is $\kappa\,\gamma^1\,\dot\gamma^2\dot\gamma^2$.' }
+      - { answer: ['\ddot\gamma^1', '+', '\kappa(\dot\gamma^2)^2'], feedback: 'The coefficient is $\kappa\,a$ at the current point, and the $a$-coordinate of $\gamma(\lambda)$ is $\gamma^1$: the term is $\kappa\,\gamma^1(\dot\gamma^2)^2$.' }
+      - { answer: ['\ddot\gamma^1', '-', '\kappa\,\gamma^1(\dot\gamma^2)^2'], feedback: 'The coefficient term enters $a_\gamma^k$ with a plus sign: $\ddot\gamma^1 + \Gamma^1_{22}\dot\gamma^2\dot\gamma^2$.' }
+    hint: |
+      Only $i = j = 2$ contributes to $\Gamma^1_{ji}\dot\gamma^i\dot\gamma^j$.
+    explanation: |
+      $$0 = \ddot\gamma^1 + \kappa\,\gamma^1(\dot\gamma^2)^2,$$
+      and for $k = 2$ (no coefficient $\Gamma^2$): $\ddot\gamma^2 = 0$, so $\gamma^2 = b_0 + v\lambda$. The first equation becomes $\ddot\gamma^1 = -\kappa v^2\gamma^1$: a **harmonic oscillator**.
+
+  - type: numeric
+    id: k-solve
+    title: Where does it cross?
+    prompt: |
+      On the plane, $\nabla^{\kappa}$ with $\kappa = 4$ has the curves with $a_\gamma = 0$ governed by
+      $$\ddot\gamma^1 + \kappa\,\gamma^1(\dot\gamma^2)^2 = 0$$
+      and $\ddot\gamma^2 = 0$. Start at $(1,0)$ with velocity $(0,1)$. Solve, and give the first value $b > 0$ at which the curve reaches the $b$-axis ($a = 0$).
+    answer: 0.7854
+    tolerance: 0.003
+    answerText: 'π/4 ≈ 0.785'
+    wrong:
+      - { value: 1.5708, feedback: 'That is the crossing for $\kappa = 1$. With $\dot\gamma^2 = 1$ the equation is $\ddot\gamma^1 = -4\gamma^1$, so $\gamma^1 = \cos(2\lambda)$, which first vanishes at $\lambda = \pi/4$.' }
+      - { value: 0.3927, feedback: 'The angular frequency is $\sqrt{\kappa} = 2$, not $\kappa = 4$: $\ddot\gamma^1 = -4\gamma^1$ is solved by $\cos(2\lambda)$.' }
+      - { value: 1, feedback: 'That would be a straight line with constant velocity. Here $\ddot\gamma^1 \neq 0$: the curve bends toward the $b$-axis as a cosine.' }
+    hint: |
+      $\gamma^2 = \lambda$ (so $b = \lambda$). Then $\ddot\gamma^1 = -4\gamma^1$ with $\gamma^1(0) = 1$, $\dot\gamma^1(0) = 0$.
+    explanation: |
+      $\gamma(\lambda) = (\cos2\lambda, \lambda)$: the curve is $a = \cos(2b)$, which first reaches $a = 0$ at $b = \pi/4$. In general the solutions are
+      $$a = A\cos\big(\sqrt\kappa\,(b - b_0) + \psi\big):$$
+      **sinusoids** with wave number $\sqrt\kappa$, whatever the speed $v$ (a faster start, $\dot\gamma^2 = v$, gives $\cos(\sqrt\kappa\,v\lambda) = \cos(\sqrt\kappa\,b)$, the same curve). The vertical line $a = 0$ ($A = 0$) and horizontal lines ($v = 0$) are the straight exceptions; the line $a = 1$ is not one. Torsion free does not mean "straight lines are straightest".
+
+  - type: numeric
+    id: hol-predict
+    title: Predict before you run
+    prompt: |
+      On the plane, $\nabla^{\kappa}$ with $\kappa = \tfrac12$ (single cartesian coefficient $\Gamma^1_{22} = \kappa\,a$) transports by
+      $$\dot z^1 = -\kappa\,a\,z^2\dot\gamma^2,$$
+      with $\dot z^2 = 0$, and $\mathrm{Riem}^1_{212} = \kappa$. Carry $z = (1,2)$ counterclockwise once around the square $[0,2]\times[-1,1]$. Predict $\Delta z^1 = z^1(\text{end}) - z^1(\text{start})$.
+    answer: -4
+    wrong:
+      - { value: 0, feedback: 'The left side sits on $a = 0$ and contributes nothing, but the right side ($a = 2$, going up by $2$) does: $-\tfrac12\cdot2\cdot2\cdot2 = -4$.' }
+      - { value: -2, feedback: 'The change is proportional to $z^2 = 2$, not to $z^1 = 1$: $\Delta z^1 = -\kappa\,z^2\times\text{area} = -\tfrac12\cdot2\cdot4$.' }
+      - { value: 4, feedback: 'Sign: going up the right side, $\dot z^1 = -\kappa\cdot2\cdot2\cdot1 < 0$. Equivalently $\Delta z^1 = -\mathrm{Riem}^1_{212}\,z^2\times\text{area}$.' }
+      - { value: -8, feedback: 'Use $\kappa = \tfrac12$: $\Delta z^1 = -\tfrac12\cdot2\cdot4 = -4$.' }
+    hint: |
+      Horizontal sides: $\dot\gamma^2 = 0$. Right side: $a = 2$, up by $2$. Left side: $a = 0$. Or directly: $\Delta z^1 = -\mathrm{Riem}^1_{212}\,z^2\times\text{area}$.
+    explanation: |
+      Side by side: right $-\tfrac12\cdot2\cdot2\cdot2 = -4$, left $0$, total $-4$. By the law: $-\tfrac12\cdot2\cdot4 = -4$. ✓ Run it next.
+
+  - type: widget
+    id: hol-widget
+    title: Check it on the loop
+    widget: parallel-transport
+    config:
+      curve: { type: rectangle, x0: 0, x1: 2, b0: -1, b1: 1 }
+      connection: kappa
+      connections: [kappa, E, W]
+      kappa: 0.5
+      z0: [1, 2]
+      holonomy: true
+      showAcceleration: false
+      view: { x: -4, y: -2, w: 7, h: 7 }
+      presets:
+        - { label: 'curved, [0,2]×[−1,1]', curve: { type: rectangle, x0: 0, x1: 2, b0: -1, b1: 1 }, connection: kappa, z0: [1, 2] }
+        - { label: 'curved, [−2,0]×[−1,1]', curve: { type: rectangle, x0: -2, x1: 0, b0: -1, b1: 1 }, connection: kappa, z0: [1, 2] }
+        - { label: '∇ᵂ, [0,2]×[−1,1]', curve: { type: rectangle, x0: 0, x1: 2, b0: -1, b1: 1 }, connection: W, z0: [1, 2] }
+    body: |
+      $\nabla^{\kappa}$ with $\kappa = \tfrac12$, start vector $z = (1,2)$ at $(0,-1)$, counterclockwise around $[0,2]\times[-1,1]$. The row **After the loop** shows $\Delta z$ next to the **Prediction** $\Delta z^1 = -\mathrm{Riem}^1_{212}\,z^2\times\text{area}$.
+
+      1. Play the loop and compare with your prediction. On which side does $z^1$ change?
+      2. Try the shifted square $[-2,0]\times[-1,1]$: same area, other side of the $b$-axis.
+      3. Try $\nabla^{\mathrm{W}}$ on the first square: it passes the origin on its left side.
+
+  - type: mcq
+    id: hol-shifted
+    title: Which side does the work?
+    prompt: |
+      On the plane, $\nabla^{\kappa}$ with $\kappa = \tfrac12$ transports by $\dot z^1 = -\kappa\,a\,z^2\dot\gamma^2$, $\dot z^2 = 0$. Carry $z = (1,2)$ counterclockwise around the square $[-2,0]\times[-1,1]$ (bottom, right side up, top, left side down). Which statement is right?
+    options:
+      - text: 'The left side ($a = -2$, going down) gives all of $\Delta z^1 = -4$'
+        correct: true
+      - text: 'The right side gives $-4$, as for the square $[0,2]\times[-1,1]$'
+        feedback: |
+          The right side of this square lies on $a = 0$, where $\dot z^1 = 0$. The change now comes from the left side: $a = -2$ and $\dot\gamma^2 = -1$ give $\dot z^1 = -\tfrac12(-2)(2)(-1) = -2$, over a length of $2$.
+      - text: 'The left side gives $+4$, since the square is now at negative $a$'
+        feedback: |
+          Two signs flip together: $a = -2 < 0$ and the left side is run downward ($\dot\gamma^2 = -1$). Their product is positive, so $\dot z^1 = -\tfrac12\cdot2\cdot(-2)(-1) = -2$, and the side gives $-4$.
+    explanation: |
+      Left side: $\Delta z^1 = -\tfrac12\cdot(-2)\cdot2\cdot(-1)\cdot2 = -4$; right side: $0$. Same total as before, $-\mathrm{Riem}^1_{212}\,z^2\times\text{area} = -4$: the mismatch depends on the enclosed area, not on where the loop sits, even though a different side does the work.
+
+  - type: mcq
+    id: trap-gamma
+    title: "Trap: nonzero Γ"
+    prompt: |
+      In the polar chart, the connection $\nabla^{\mathrm{E}}$ (all cartesian coefficients zero) has the coefficients $\Gamma^1_{22} = -r$ and $\Gamma^2_{12} = \Gamma^2_{21} = \tfrac1r$, nonzero and position dependent. A classmate concludes: "in polar coordinates $\nabla^{\mathrm{E}}$ is curved". What is wrong?
+    options:
+      - text: 'Curvature is the tensor $\mathrm{Riem}$, not the $\Gamma$''s; it is zero in cartesian, hence zero in polar (where the derivative and quadratic terms cancel)'
+        correct: true
+      - text: 'Nothing: curvature depends on the chart, and the polar chart is curved'
+        feedback: |
+          A chart is not curved or flat; a connection is. $\mathrm{Riem}$ is a tensor, so if its components vanish in one chart they vanish in every chart. In polar, $\mathrm{Riem}^1_{212} = -1 + 1 = 0$.
+      - text: 'The claim fails only because $\Gamma^2_{12} = \Gamma^2_{21}$'
+        feedback: |
+          That symmetry shows $\nabla^{\mathrm{E}}$ is **torsion free**, a different question. Flatness needs $\mathrm{Riem} = 0$, which here comes from a cancellation such as $\partial y_1\lfloor\tfrac1r\rceil + \Gamma^2_{21}\Gamma^2_{12} = -\tfrac1{r^2} + \tfrac1{r^2}$.
+    explanation: |
+      The $\Gamma$'s are not tensor components: a chart change adds a term built from second derivatives of the transition map, so they can appear or disappear with the chart. Curvature and torsion, being tensors, cannot.
+
+  - type: mcq
+    id: trap-flat-torsion
+    title: "Trap: flat means simple?"
+    prompt: |
+      On the plane minus the origin, $\nabla^{\mathrm{W}}$ makes the unit radial and angular fields $e_1, e_2$ parallel; every loop returns a vector to itself, so $\mathrm{Riem} = 0$. A classmate concludes: "being flat, $\nabla^{\mathrm{W}}$ is torsion free, and around every point some chart makes all its $\Gamma$'s vanish". Which is right?
+    options:
+      - text: 'Both claims fail: its torsion is $\mathtt{T}(\,\cdot\,,e_1,e_2) = \tfrac1r\,e_2 \neq 0$, and a chart with all $\Gamma = 0$ would force $\mathtt{T} = 0$'
+        correct: true
+      - text: 'Both hold: flat means transport is path independent, which is all a chart with $\Gamma = 0$ needs'
+        feedback: |
+          In a chart with all $\Gamma = 0$, the torsion components $\Gamma^i_{kj} - \Gamma^i_{jk}$ would vanish, and a tensor zero in one chart is zero in all. A chart with $\Gamma = 0$ needs $\mathrm{Riem} = 0$ **and** $\mathtt{T} = 0$; $\nabla^{\mathrm{W}}$ has torsion.
+      - text: 'It is torsion free, but no chart makes all its $\Gamma$''s vanish'
+        feedback: |
+          Its torsion is not zero: in polar $\mathtt{T}^2_{12} = \Gamma^2_{21} - \Gamma^2_{12} = \tfrac1r - 0$. The parallel frame $e_1, e_2$ does not commute, $[e_1,e_2] = -\tfrac1r\,e_2$, and that is exactly the torsion.
+    explanation: |
+      Flatness and torsion are independent. A flat connection makes transport path independent, so some frame is parallel; the frame comes from a chart (and the $\Gamma$'s can vanish in it) only if its fields commute, i.e. only if the torsion vanishes too.
+
+  - type: mcq
+    id: table
+    title: Fill in the table
+    prompt: |
+      On the plane: $\nabla^{\mathrm{E}}$ has all cartesian coefficients zero; $\nabla^{\mathrm{W}}$ (plane minus the origin) makes the unit radial and angular fields parallel; $\nabla^{\kappa}$ has the single cartesian coefficient $\Gamma^1_{22} = \kappa\,a$. Which placement in the table (flat or curved, torsion free or with torsion) is right?
+    options:
+      - text: '$\nabla^{\mathrm{E}}$: flat, torsion free. $\nabla^{\mathrm{W}}$: flat, with torsion. $\nabla^{\kappa}$: curved, torsion free'
+        correct: true
+      - text: '$\nabla^{\mathrm{E}}$: flat, torsion free. $\nabla^{\mathrm{W}}$: curved, with torsion. $\nabla^{\kappa}$: curved, torsion free'
+        feedback: |
+          $\nabla^{\mathrm{W}}$ turns vectors relative to $\nabla^{\mathrm{E}}$, but around every loop a vector comes back to itself (it follows the frame): $\mathrm{Riem} = 0$. Its only failure is torsion, $\mathtt{T}(\,\cdot\,,e_1,e_2) = \tfrac1r\,e_2$.
+      - text: '$\nabla^{\mathrm{E}}$: flat, torsion free. $\nabla^{\mathrm{W}}$: flat, with torsion. $\nabla^{\kappa}$: curved, with torsion'
+        feedback: |
+          $\nabla^{\kappa}$'s only coefficient, $\Gamma^1_{22}$, has equal lower indices, so all torsion components $\Gamma^i_{kj} - \Gamma^i_{jk}$ vanish. Its curvature, $\mathrm{Riem}^1_{212} = \kappa$, is what makes loops fail.
+      - text: '$\nabla^{\mathrm{E}}$: curved in polar, flat in cartesian. $\nabla^{\mathrm{W}}$: flat, with torsion. $\nabla^{\kappa}$: curved, torsion free'
+        feedback: |
+          Curvature is a tensor: one answer for all charts. In polar, $\mathrm{Riem}^1_{212} = -1 + 1 = 0$ and $\mathrm{Riem}^2_{112} = -\tfrac1{r^2} + \tfrac1{r^2} = 0$.
+    explanation: |
+      | | torsion free | with torsion |
+      |---|---|---|
+      | **flat** | $\nabla^{\mathrm{E}}$ | $\nabla^{\mathrm{W}}$ |
+      | **curved** | $\nabla^{\kappa}$ | ? |
+
+      One box is still empty.
+
+  - type: numeric
+    id: fourth-box
+    title: The fourth box
+    prompt: |
+      To fill the last box (curved, with torsion), add to $\nabla^{\kappa}$ a constant antisymmetric part: on the plane, take the cartesian coefficients
+      $$\Gamma^1_{22} = \kappa\,a,\quad \Gamma^1_{12} = 1,\quad \Gamma^1_{21} = -1,$$
+      all others zero (convention $\nabla_{\partial x_k}\partial x_j = \Gamma^i_{jk}\,\partial x_i$), with $\kappa = 2$. Its torsion is $\mathtt{T}^1_{12} = \Gamma^1_{21} - \Gamma^1_{12} = -2$. Compute
+      $$\begin{aligned}\mathrm{Riem}^1_{212} &= \partial x_1\lfloor\Gamma^1_{22}\rceil - \partial x_2\lfloor\Gamma^1_{21}\rceil\\ &\quad + \Gamma^1_{n1}\Gamma^n_{22} - \Gamma^1_{n2}\Gamma^n_{21}.\end{aligned}$$
+    answer: 3
+    wrong:
+      - { value: 2, feedback: 'That is the derivative term $\partial x_1\lfloor 2a\rceil$ alone. In the last quadratic term, $n = 1$ gives $\Gamma^1_{12}\Gamma^1_{21} = 1\cdot(-1) = -1$, and it enters with a minus sign: $+1$.' }
+      - { value: 1, feedback: 'Sign of the last term: $-\Gamma^1_{n2}\Gamma^n_{21}$ with $n = 1$ is $-(1)(-1) = +1$, so the total is $2 + 1$.' }
+      - { value: 0, feedback: 'The derivative term $\partial x_1\lfloor\kappa a\rceil = 2$ survives, and the quadratic terms add $+1$.' }
+    hint: |
+      The derivatives: $\partial x_1\lfloor 2a\rceil = 2$, $\partial x_2\lfloor -1\rceil = 0$. In $\Gamma^1_{n1}\Gamma^n_{22}$ every term has a zero factor ($\Gamma^1_{11} = 0$, $\Gamma^2_{22} = 0$). In $\Gamma^1_{n2}\Gamma^n_{21}$: $n = 1$ gives $\Gamma^1_{12}\Gamma^1_{21}$, $n = 2$ gives $\Gamma^1_{22}\Gamma^2_{21} = 0$.
+    explanation: |
+      $\mathrm{Riem}^1_{212} = 2 - 0 + 0 - (1\cdot(-1)) = 3 = \kappa + 1$. Nonzero curvature and nonzero torsion: the fourth box is filled. The constant twist even adds to the curvature here: torsion and curvature are independent, but a single connection can have both.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      **Setting.** The plane has points $(a,b)$, cartesian chart with basis fields $\partial x_1,\partial x_2$. Three connections: $\nabla^{\mathrm{E}}$ has all cartesian coefficients $0$; $\nabla^{\mathrm{W}}$, on the plane minus the origin, makes the unit radial and angular fields $e_1 = (a,b)/r$, $e_2 = (-b,a)/r$ parallel ($r := \sqrt{a^2+b^2}$); $\nabla^{\kappa}$, with $\kappa>0$ constant, has the single nonzero cartesian coefficient $\Gamma^1_{22} = \kappa a$. Here $\Gamma^i_{jk}$ are coefficients (last lower index = direction), $\mathtt{T}$ the torsion, $\mathrm{Riem}$ the curvature.
+
+      **The hook, resolved.** $\nabla^{\mathrm{E}}$: flat, torsion free. $\nabla^{\mathrm{W}}$: flat, with torsion. $\nabla^{\kappa}$: curved, torsion free. Adding a constant twist $\Gamma^1_{12} = -\Gamma^1_{21} = 1$ (cartesian) to $\nabla^{\kappa}$ gives a connection (called $\nabla^{\mathrm{F}}$) that fills the fourth box.
+
+      - **$\nabla^{\kappa}$**: $\Gamma^1_{22} = \kappa\,a$ only, so $\mathtt{T} = 0$, and
+      $$\mathrm{Riem}^1_{212} = \kappa = -\mathrm{Riem}^1_{221},$$
+      all other components zero. Its straightest curves $\gamma = (\gamma^1,\gamma^2) = (a,b)$ solve
+      $$\ddot\gamma^1 + \kappa\,\gamma^1(\dot\gamma^2)^2 = 0$$
+      with $\ddot\gamma^2 = 0$ (dots are $d/d\lambda$): sinusoids
+      $$a = A\cos\big(\sqrt\kappa\,(b-b_0) + \psi\big)$$
+      with constants $A,b_0,\psi$. Around a small counterclockwise loop, a transported vector with components $z^1,z^2$ changes by
+      $$\Delta z^1 = -\mathrm{Riem}^1_{212}\,z^2\times\text{area}.$$
+      - **The fourth box**: with $\Gamma^1_{22} = \kappa a$, $\Gamma^1_{12} = 1$, $\Gamma^1_{21} = -1$, the torsion is $\mathtt{T}^1_{12} = -2$ and $\mathrm{Riem}^1_{212} = \kappa + 1$: curved and with torsion.
+      - **The lessons:** nonzero $\Gamma$'s prove nothing; flat does not imply torsion free; torsion free does not imply flat; only the tensors $\mathtt{T}$ and $\mathrm{Riem}$ decide.
+
+      **Next: Connection Traps.** Fast questions on the classic mistakes of this level: the index order of $\Gamma$, $\Gamma$'s that look like tensors, "parallel" versus "autoparallel", and more.

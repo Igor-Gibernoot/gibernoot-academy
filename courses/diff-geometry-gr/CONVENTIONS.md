@@ -23,7 +23,7 @@ Read only the section you need: `grep -n '^## ' courses/diff-geometry-gr/CONVENT
 - **Map arrow labels:** edges take `label:` (1–3 words, read "from *label* to",
   only on arrows between different rows; labels of arrows leaving the same box must be short
   enough not to touch); used in `ch02-map`, `ch03-map`, `ch04-map`.
-- **Split lessons:** title "<Title> · Part N", files `name.yaml` / `name-2.yaml`, ids `ch..-name` / `ch..-name-2`; Part 2 opens with `recall-…` text cards; split so far: `ch04-cotangent-basis`, `ch04-coordinate-basis`, `ch06-torsion-curvature`, `ch10-spacetime`, `ch10-matter`.
+- **Split lessons:** title "<Title> · Part N", files `name.yaml` / `name-2.yaml`, ids `ch..-name` / `ch..-name-2`; Part 2 opens with `recall-…` text cards; split so far: `ch04-cotangent-basis`, `ch04-coordinate-basis`, `ch06-torsion-curvature`, `ch10-spacetime`, `ch10-matter`, `ch08-volume-forms`, `ch09-point-mass`, `ch10-einstein-hilbert`, `ch06-three-connections`, `ch09-pseudo-forces`. Guided splits (`ch09-point-mass`, `ch06-three-connections`) keep `kind: guided`, Part 2 opens with `recall-…` cards and its wrap-up card keeps id `summary`.
 
 
 ## Intuition lessons
