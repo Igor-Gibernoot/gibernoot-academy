@@ -22,7 +22,7 @@ synced through an optional Google sign-in ([`docs/ACCOUNTS.md`](docs/ACCOUNTS.md
 
 | Course | Folder |
 | --- | --- |
-| From Differential Geometry to General Relativity | [`courses/dg2gr/`](courses/dg2gr/) |
+| From Differential Geometry to General Relativity | [`courses/diff-geometry-gr/`](courses/diff-geometry-gr/) |
 | Active Inference | [`courses/active-inference/`](courses/active-inference/) |
 | Information Geometry and Its Applications | [`courses/info-geometry/`](courses/info-geometry/) |
 
@@ -42,7 +42,7 @@ Run locally:
 
 ```sh
 python3 -m http.server 8000   # open http://localhost:8000
-node tools/validate.mjs       # check every course (or: node tools/validate.mjs dg2gr)
+node tools/validate.mjs       # check every course (or: node tools/validate.mjs diff-geometry-gr)
 ```
 
 Lesson authoring format: [`docs/LESSON_FORMAT.md`](docs/LESSON_FORMAT.md).

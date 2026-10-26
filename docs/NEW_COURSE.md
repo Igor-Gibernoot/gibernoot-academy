@@ -8,7 +8,7 @@ method are shared (root `CLAUDE.md`). Setting one up is its own session
 
 Short, lowercase, digits and `-` only (e.g. `qft`, `stat-mech`). It is the
 folder name, the URL segment (`#/<id>/...`) and the prefix under which
-progress is stored, so **never rename it once the course is studied**.
+progress is stored, so pick a descriptive one. Renaming a studied course is possible only by adding it to `RENAMED` in `js/course.js` (links and saved progress migrate).
 
 ## 2. Create the folder
 
@@ -29,6 +29,14 @@ convert it to Markdown with a command-line tool (`pdftotext -layout`, or
 `marker`/`pandoc` if installed) without reading the PDF yourself, then
 work from the Markdown. Check `git status` shows nothing from `sources/`.
 
+The conversion is machine-made and has formula errors, so every course
+uses the same two-step workflow: (1) convert the PDF once, here; (2) in
+each lesson session, check the lesson's source range against the rendered
+PDF pages, fix the Markdown, and log the range in `sources/VERIFIED.md`
+(template below, "Source verification"). Create `sources/VERIFIED.md`
+(header only) in this session, and find the PDF-page offset
+(PDF page = book page + offset) once the Markdown exists.
+
 ## 3. Register it
 
 Add an entry to `courses/catalog.yaml` (`id`, `title`, `short`, `eyebrow`,
@@ -46,7 +54,7 @@ up, then map, review and challenge. Exams get their own levels: plan
 `exam-partial` right after the last level of the first half (level
 ⌈N/2⌉) and `exam-final` after the last chapter (planned nodes, no `file:`),
 with or without a professor's exam (root `CLAUDE.md`, Exam). Copy the
-header comment of `courses/dg2gr/course.yaml` for the format.
+header comment of `courses/diff-geometry-gr/course.yaml` for the format.
 
 ## 5. Course CLAUDE.md
 
@@ -60,6 +68,16 @@ header comment of `courses/dg2gr/course.yaml` for the format.
 - Main reference: `sources/<file>.md` (chapters, appendices, where the
   proofs and worked examples are, how unproved results are marked).
 - Exams: `sources/<folder>/`.
+
+## Source verification (conversion errors)
+The Markdown is machine-converted, so equations may be wrong. **Once per
+range, when a lesson uses it:** render the PDF pages of that range
+(`pdftoppm -r 110 -f P -l P -png sources/<file>.pdf <scratchpad>/pg`, then
+view the PNGs), compare the formulas, boxes and numbers the lesson will
+use against the Markdown, fix the Markdown, and log the range in
+`sources/VERIFIED.md` (`ch/section, PDF pages, date, fixes`). Read
+`sources/VERIFIED.md` first and skip any range already logged. Check
+formulas and numbers, not prose. PDF page = book page + <offset>.
 
 ## Trail
 `course.yaml`: one level per chapter. Status: `STATUS.md`.

@@ -11,7 +11,7 @@ Static site, no build step, served by GitHub Pages from the repo root.
 - `js/`: `cards.js` (card types), `widgets/` (interactive SVG/canvas
   widgets shared by all courses: one file per widget `<name>.js`, the
   shared SVG plane helpers `plane.js`, the registry `WIDGETS` in `index.js`), `player.js` (lesson flow and feedback),
-  `trail.js`, `progress.js` (localStorage `gibernoot.progress.v2`, one state for all courses with keys prefixed `<courseId>:`, version-1 states migrated to `dg2gr:` on load, cloud merge and import; export/import codes, per-lesson resume position `partial`, Leitner
+  `trail.js`, `progress.js` (localStorage `gibernoot.progress.v2`, one state for all courses with keys prefixed `<courseId>:`, version-1 states migrated to `diff-geometry-gr:` on load, cloud merge and import; export/import codes, per-lesson resume position `partial`, Leitner
   spaced repetition), `main.js` (router), `render.js` (Markdown + KaTeX; short
   inline math keeps trailing punctuation on its line).
 - `vendor/`: KaTeX, js-yaml, marked. No CDN, so the app works offline.
@@ -38,4 +38,4 @@ Static site, no build step, served by GitHub Pages from the repo root.
   (`js/cloud.js`, `docs/ACCOUNTS.md`; inactive until `js/firebase-config.js`
   is filled in).
 - `tools/validate.mjs` (structure and KaTeX checks), `tools/shots.mjs`
-  (headless screenshots and overflow check; see `courses/dg2gr/CONVENTIONS.md`, General, Tooling).
+  (headless screenshots and overflow check; see `courses/diff-geometry-gr/CONVENTIONS.md`, General, Tooling).

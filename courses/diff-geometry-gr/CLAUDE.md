@@ -1,4 +1,4 @@
-# Course `dg2gr`: From Differential Geometry to General Relativity
+# Course `diff-geometry-gr`: From Differential Geometry to General Relativity
 
 Course Igor takes at USP, based on an in-progress book by the professor
 (Daniel López Cano). Everything in the root `CLAUDE.md` applies; this file

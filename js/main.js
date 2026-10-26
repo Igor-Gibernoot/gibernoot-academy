@@ -14,7 +14,7 @@
 import { h, shuffle, escapeHtml } from './dom.js';
 import { icons } from './icons.js';
 import { getCatalog, getCourse, getLesson, nextLessonAfter, isQuestion } from './content.js';
-import { setCourse, courseId, at, LEGACY_COURSE } from './course.js';
+import { setCourse, courseId, at, LEGACY_COURSE, RENAMED } from './course.js';
 import { renderHome } from './home.js';
 import { progress } from './progress.js';
 import { renderTrail } from './trail.js';
@@ -42,6 +42,7 @@ async function route() {
       location.replace(`#/${LEGACY_COURSE}/${parts.join('/')}`);
       return;
     }
+    if (RENAMED[parts[0]]) { location.replace(`#/${[RENAMED[parts[0]], ...parts.slice(1)].join('/')}`); return; }
     if (parts[0] === 'settings') return settings();
     if (!parts.length) { document.title = 'Gibernoot Academy'; return await renderHome(root); }
     const course = (await getCatalog()).courses.find(c => c.id === parts[0]);

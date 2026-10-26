@@ -13,4 +13,7 @@ export const courseId = () => current;
 export const at = (path = '') => `#/${current}${path ? `/${path}` : ''}`;
 
 // The course that old links without a course (#/lesson/<id>, ...) belong to.
-export const LEGACY_COURSE = 'dg2gr';
+export const LEGACY_COURSE = 'diff-geometry-gr';
+
+// Course ids that were renamed: old id -> current id (links and saved progress follow).
+export const RENAMED = { dg2gr: 'diff-geometry-gr' };

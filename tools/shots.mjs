@@ -1,7 +1,7 @@
 // Screenshot pass for one lesson (serves the repo itself, no server needed).
 // usage: node tools/shots.mjs <lessonFile> <lessonId> <outDir> [--all]
 //   <lessonFile> is relative to courses/, so it starts with the course folder:
-//   e.g. node tools/shots.mjs dg2gr/ch03/hausdorff.yaml ch03-hausdorff /tmp/shots
+//   e.g. node tools/shots.mjs diff-geometry-gr/ch03/hausdorff.yaml ch03-hausdorff /tmp/shots
 // Prints one line per problem (formula overflow at phone/desktop width, page
 // errors) and saves PNGs of widget cards (plus build/order and phone `$$`
 // cards with --all). Setup once: npm install --prefix tools

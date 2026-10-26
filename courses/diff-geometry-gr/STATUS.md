@@ -1,6 +1,6 @@
 # Status
 
-Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/p' courses/dg2gr/STATUS.md`).
+Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/p' courses/diff-geometry-gr/STATUS.md`).
 Session end: update Current in place (keep it under ~40 lines: replace, don't append) and add a
 3-line Log entry at the top of the Log, ending "Conventions fixed here: …"; copy those conventions
 into the chapter's section of `CONVENTIONS.md`, not into Current.
@@ -21,8 +21,8 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
   - Map arrows take `label:` (1-3 words) only between different rows.
   - Exam cards: tagged `Question N · …`, ids `qN-…`, `points:` per card; exam figures
     (`torus`, `sphere`) are display-only widgets.
-- **Paths:** lessons `courses/dg2gr/chNN/`, exams `courses/dg2gr/exams/`, sources (book,
-  exams, `PDF_TYPOS.md`) in git-ignored `courses/dg2gr/sources/`. Log entries before
+- **Paths:** lessons `courses/diff-geometry-gr/chNN/`, exams `courses/diff-geometry-gr/exams/`, sources (book,
+  exams, `PDF_TYPOS.md`) in git-ignored `courses/diff-geometry-gr/sources/`. Log entries before
   2026-10-24 say `content/…`, `docs/STATUS.md`, `js/widgets.js`: read as the new paths.
 
 ## Log
@@ -36,8 +36,8 @@ Conventions fixed here: lowered symbol $\Gamma_{mij}$ (output first); rapidity $
 
 ### 2026-10-24 — refactor into Gibernoot Academy
 
-Repo renamed to `gibernoot-academy`; home page lists the courses of `courses/catalog.yaml`; this course moved to `courses/dg2gr/` (content, archive, STATUS) with its sources in the git-ignored `sources/`; widgets moved to `js/widgets/`. Progress: one state for all courses (`gibernoot.progress.v2`, keys `dg2gr:<lessonId>…`), the old `dg2gr.progress.v1` state (local, cloud copy and import codes) is migrated automatically and kept as a backup. Old `#/lesson/…` links redirect to `#/dg2gr/lesson/…`. Course-specific rules moved to `courses/dg2gr/CLAUDE.md`; new-course recipe `docs/NEW_COURSE.md`.
-Conventions fixed here: course id `dg2gr` (never rename: progress is keyed by it); shots paths relative to `courses/`.
+Repo renamed to `gibernoot-academy`; home page lists the courses of `courses/catalog.yaml`; this course moved to `courses/diff-geometry-gr/` (content, archive, STATUS) with its sources in the git-ignored `sources/`; widgets moved to `js/widgets/`. Progress: one state for all courses (`gibernoot.progress.v2`, keys `diff-geometry-gr:<lessonId>…`), the old `diff-geometry-gr.progress.v1` state (local, cloud copy and import codes) is migrated automatically and kept as a backup. Old `#/lesson/…` links redirect to `#/diff-geometry-gr/lesson/…`. Course-specific rules moved to `courses/diff-geometry-gr/CLAUDE.md`; new-course recipe `docs/NEW_COURSE.md`.
+Conventions fixed here: course id `diff-geometry-gr` (renamed from `dg2gr`; js/course.js RENAMED migrates old links and saved progress); shots paths relative to `courses/`.
 
 ### 2026-10-22 — final exam (`exam-final`)
 

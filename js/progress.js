@@ -13,7 +13,7 @@
 // with "<courseId>:" (version 2). The API takes keys without the prefix and
 // works on the current course (course.js); the streak is shared.
 
-import { courseId, LEGACY_COURSE } from './course.js';
+import { courseId, LEGACY_COURSE, RENAMED } from './course.js';
 
 const KEY = 'gibernoot.progress.v2';
 const OLD_KEY = 'dg2gr.progress.v1'; // single-course app; left in place as a backup
@@ -29,6 +29,10 @@ function migrate(s) {
   const pre = obj => {
     const out = {};
     for (const [key, v] of Object.entries(obj ?? {})) if (key.includes(':')) out[key] = v;
+    for (const [key, v] of Object.entries(obj ?? {})) {
+      const i = key.indexOf(':'), old = key.slice(0, i);
+      if (i > 0 && RENAMED[old]) out[`${RENAMED[old]}${key.slice(i)}`] ??= v; // renamed course: the new key wins
+    }
     for (const [key, v] of Object.entries(obj ?? {})) if (!key.includes(':')) out[`${LEGACY_COURSE}:${key}`] ??= v;
     return out;
   };

@@ -180,7 +180,7 @@ Write plain Markdown tables (`| a | b |` with a `|---|---|` row). The `.prose ta
 ## Checks
 
 ```sh
-node tools/validate.mjs dg2gr          # one course; no argument = all courses
-node tools/shots.mjs dg2gr/ch03/circle.yaml ch03-circle <scratchpad>/shots   # path relative to courses/
+node tools/validate.mjs diff-geometry-gr          # one course; no argument = all courses
+node tools/shots.mjs diff-geometry-gr/ch03/circle.yaml ch03-circle <scratchpad>/shots   # path relative to courses/
 ```
 `#/lesson/<id>/<n>` (1-based) jumps to card n under `python3 -m http.server 8000`.
