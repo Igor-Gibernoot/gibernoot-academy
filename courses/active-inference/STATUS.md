@@ -2,6 +2,9 @@
 
 Session start: read only **Current** (`sed -n '/^## Current/,/^## Log
 
+- 2026-10-25 widget `peb-regression` (no lesson). Dots m_i with +-1 sd bars vs covariate x; sliders beta0, beta1, Pi^(2); shrinkage toggle (shrunk mean (Pi_i m_i + Pi^(2) line)/(Pi_i+Pi^(2)), precision Pi_i+Pi^(2)); evidence readouts. Choices: ln E = sum_i ln N(m_i; beta0+beta1 x_i, 1/Pi_i+1/Pi^(2)); "slope free" uses slider betas, "slope 0" sets beta1=0 and refits beta0 by weighted mean (GLS) at current Pi^(2); difference = log Bayes factor, flat prior on beta (no Occam term on beta); buttons fit both / fit flat. Hand-checked in Python: demo (8 subjects) gives -8.4994, -10.0683, diff 1.5689; fit 0.4435/0.0496. Smoke 216 mounts OK, shots desktop+phone viewed. Conventions fixed here: second-level precision written Pi^(2) (book superscript style), group model theta ~ N(X beta, Pi^(2)).
+
+
 - 2026-10-25 ch09-variational-laplace (concept, 20 cards): hook = unintegrable simulated likelihood; Eq 9.2 unpacked; gaussian-fit laplace preset (skew, showTaylor); posterior precision and mode on a quadratic toy (6, 7/3); evidence build; Eq 9.4 gradient step on the lever toy (-0.256); misconception multi-select. Choices: the book prints Eq 9.3 first line with +1/2(...) but its mode line with -1/2(...); lesson uses the minus form (consistent with Laplace), and writes ln|Pi1 - Hessian| as log of the posterior precision. Prior normalising constants dropped as in the book (exact here since Pi1 = 1). Conventions fixed here: prior N(eta, Pi1) with Pi1 a precision; Pi_post = Pi1 - Hessian L; lever toy prior N(2,1): mode 1.867, sd .715, ln evidence -5.358 (exact -5.354, mean 1.927).
 
 - 2026-10-25 ch09-meta-bayesian: concept, 20 cards (hook, two reasons, Eq 9.1 build, lever toy with policy-scorer, numeric likelihood and grid posterior, Fig 9.1 order card, parameters, two traps). Conventions fixed here: theta/u/m/o~ roles, lever toy numbers.
@@ -35,7 +38,8 @@ New shared widget `js/widgets/dirichlet-counts.js` (+ css `dc-*`, registry, LESS
 - **Verified (Ch. 8):** 8.2 Eq. 8.1-8.5 (PDF pp. 164-166); 8.3 Eq. 8.6-8.7, Box 8.2, Fig 8.4 (pp. 169, 172-174); 8.4 Fig 8.5 (pp. 174-175); 8.5 Eq. 8.8 (pp. 178-179); Box 8.3 (p. 180); B.42-B.48 (pp. 266-268), A.59-A.60 (p. 253). Ours, flagged in lessons: spring damping b, reciprocal L(o), critically damped eye, D^T in the gradient.
 - **Notation:** $x$ hidden state, $y$ observation (Levels 2-4 start), $s$/$o$ only in the discrete POMDP lesson with a renaming card; $u$ active states, blanket $b=(u,y)$; surprise $\mathfrak{I}(y)=-\ln P(y)$; $P(\pi)=\sigma(-\gamma G)$; circulation matrix $\mathsf{Q}$ vs posterior $Q$; noise covariance $2\Gamma$. See CONVENTIONS.
 - **Level 9:** `ch09-meta-bayesian` (20 cards), `ch09-variational-laplace` (20 cards, gaussian-fit laplace preset reused, no new widget). Verified: 9.1-9.2, Eq 9.1, Fig 9.1 (PDF pp. 185-186); 9.3, Eq 9.2-9.4 (PDF pp. 188-189; Markdown fixed in Eq 9.2: sigma-tilde read for o-tilde).
-- **Next unit:** widget `peb-regression` (own session, before the lesson), then `ch09-peb` (Ch. 9.4, Eq 9.5, no `file:` yet). **Rule:** after Level 10 the next unit is `exam-final`.
+- **Widget `peb-regression` built** (in LESSON_FORMAT; config `subjects [{x,m,sd}]`, `beta0/beta1/pi2`, ranges, `shrink`, `labels`, presets `fit: both|flat`). No more new widgets.
+- **Next unit:** `ch09-peb` (concept, Ch. 9.4, Eq 9.5, no `file:` yet; verify Eq 9.5 on PDF pp. 189-190). **Rule:** after Level 10 the next unit is `exam-final`.
 - **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
 
 ## Log

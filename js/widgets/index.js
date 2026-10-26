@@ -35,6 +35,7 @@ import { pomdpLab } from './pomdp-lab.js';
 import { meanFieldVb } from './mean-field-vb.js';
 import { steadyStateWalk } from './steady-state-walk.js';
 import { gaussianFit } from './gaussian-fit.js';
+import { pebRegression } from './peb-regression.js';
 import { predictiveCoding } from './predictive-coding.js';
 import { microcircuit } from './microcircuit.js';
 import { dirichletCounts } from './dirichlet-counts.js';
@@ -74,6 +75,7 @@ const WIDGETS = {
   'mean-field-vb': meanFieldVb,
   'steady-state-walk': steadyStateWalk,
   'gaussian-fit': gaussianFit,
+  'peb-regression': pebRegression,
   'predictive-coding': predictiveCoding,
   microcircuit,
   'dirichlet-counts': dirichletCounts,
