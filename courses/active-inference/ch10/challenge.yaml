@@ -1,0 +1,291 @@
+id: ch10-challenge
+title: Level Challenge
+kind: challenge
+cards:
+  - type: text
+    id: intro
+    title: "Harder: the whole of Level 10 in five problems"
+    body: |
+      Five problems on **new settings** (not the toy arm, the corridor, the shop-or-walk creature, the thermostat or the gaze shelf of the lessons). They combine what this level taught: **perception and action as the same descent**, **precision as attention**, **expected free energy** for choosing policies, **habit, perseveration and deliberation** mixed in one rule, and **homeostasis, salience and learning**. Every number can be checked by hand with a calculator, and every answer comes with the reason. No hint about which formula to use: you recall it.
+
+      The five problems:
+
+      1. An arm that moves: belief, prediction error and the reflex rate.
+      2. Choosing a policy with expected free energy: risk, ambiguity and softmax.
+      3. Habit against deliberation: one rule, three components.
+      4. A homeostat that anticipates.
+      5. Attention, salience and learning.
+
+      Problems 1 to 3 come first, then 4 and 5.
+
+  # ---------------------------------------------------------------- Problem 1
+  - type: numeric
+    id: p1-mu
+    tag: Problem 1 · An arm that moves
+    prompt: |
+      **Problem 1.** A creature holds its arm at a sensed (proprioceptive) angle $y=4$. Its generative model predicts the sensed angle as $g(\mu)=\mu$, where $\mu$ is its belief about the angle. A descending prior has mean $\eta=10$ (the creature expects to see its arm at $10$). Precisions: $\Pi_y=1$ for the senses and $\Pi_v=4$ for the prior. The free energy is
+      $$F=\tfrac12\Pi_y\,\epsilon_y^2+\tfrac12\Pi_v\,\epsilon_v^2$$
+      with $\epsilon_y=y-g(\mu)$ and $\epsilon_v=\mu-\eta$. While the arm is held still ($y$ fixed), the belief settles at the minimum of $F$. What is $\mu$?
+    answer: 8.8
+    tolerance: 0.01
+    wrong:
+      - { value: 7, feedback: 'That is the plain average of $4$ and $10$. The two sources have different precisions ($1$ and $4$), so the prior counts four times more than the senses.' }
+      - { value: 4, feedback: 'That is the sensed value: it would be the answer if the prior had no precision. The prior here is the more precise of the two and drags the belief toward $\eta$.' }
+    explanation: |
+      Setting $\partial F/\partial\mu=0$ gives a precision-weighted average:
+      $$\mu=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}=\frac{4+40}{5}=8.8$$
+
+  - type: numeric
+    id: p1-udot
+    tag: Problem 1 · An arm that moves
+    prompt: |
+      Same creature: $y=4$, $g(\mu)=\mu$, $\eta=10$, $\Pi_y=1$, $\Pi_v=4$, belief settled at $\mu=8.8$. The signal $u$ sent to the reflex arc changes the sensed angle with $\partial y/\partial u=1$, and $u$ descends the same free energy. What is the rate $\dot u$?
+    answer: 4.8
+    tolerance: 0.01
+    wrong:
+      - { value: -4.8, feedback: 'The magnitude is right but the sign is not. $\dot u=-\partial F/\partial u$ and $\partial F/\partial u=\Pi_y\epsilon_y=-4.8$ (the sensed angle is **below** the prediction), so $\dot u$ is positive: the arm is driven up.' }
+      - { value: 1.2, feedback: 'That is $\eta-\mu$ alone. The reflex rate carries a precision: how strongly the prior insists.' }
+    explanation: |
+      $\epsilon_y=4-8.8=-4.8$, so
+      $$\dot u=-\frac{\partial y}{\partial u}\,\Pi_y\,\epsilon_y=4.8$$
+      At rest the belief balances the two errors, $\Pi_y\epsilon_y=\Pi_v\epsilon_v$, so the same number is also $\Pi_v(\eta-\mu)=4\cdot1.2=4.8$. The prior's prediction is not a command: the reflex arc turns the sensory error into movement.
+
+  - type: numeric
+    id: p1-weak
+    tag: Problem 1 · An arm that moves
+    prompt: |
+      The prior becomes imprecise: $\Pi_v=0.25$, with $y=4$, $\eta=10$, $\Pi_y=1$ and $g(\mu)=\mu$. Once the belief has settled, what is the reflex rate $\dot u$ (again with $\partial y/\partial u=1$)?
+    answer: 1.2
+    tolerance: 0.01
+    wrong:
+      - { value: 4.8, feedback: 'That is the rate for the precise prior $\Pi_v=4$. The belief now yields to the senses ($\mu=5.2$), so the mismatch with the prediction that action can discharge is much smaller.' }
+      - { value: 1.5, feedback: 'That is $\Pi_v(\eta-y)=0.25\cdot6$, using the sensed value instead of the settled belief. The error that matters is $\eta-\mu$, and $\mu$ has moved to $5.2$.' }
+    explanation: |
+      $\mu=(4+2.5)/1.25=5.2$ and
+      $$\dot u=\Pi_v(\eta-\mu)=0.25\cdot4.8=1.2$$
+      A quarter of the earlier rate: an imprecise prior is revised by the senses, so little remains to be discharged by movement.
+
+  - type: mcq
+    id: p1-read
+    tag: Problem 1 · An arm that moves
+    prompt: |
+      A creature has a belief $\mu$, a prior mean $\eta$ far from the sensed value $y$, and moves only if $\dot u$ is large. Which description fits an arm that actually **starts** to move toward $\eta$?
+    options:
+      - text: 'The prior is precise against the senses ($\Pi_v$ large against $\Pi_y$): the belief stays near $\eta$ despite the conflicting senses, and the reflex discharges the error.'
+        correct: true
+      - text: 'The senses are precise and the prior imprecise: the creature trusts what it feels, so it feels the need to move.'
+        feedback: |
+          Then the belief simply follows the senses ($\mu\approx y$), the conflict disappears into perception and nothing is left to drive the reflex.
+      - text: 'The prior sends a motor command $u$ directly, and the senses play no role.'
+        feedback: |
+          The descending signal is a prediction, not a command. The movement comes from the reflex arc acting on the sensory prediction error.
+      - text: 'The creature must first learn the exact inverse model that maps the target to a motor command.'
+        feedback: |
+          In active inference the generative (forward) model does the work and the inverse model shrinks to a simple reflex, with $\dot u=-(\partial y/\partial u)\,\Pi_y\epsilon_y$.
+    explanation: |
+      A precise prior keeps $\mu$ near $\eta$, so the senses keep disagreeing with the prediction; the sensory error is the one that action can remove by making the prediction true. This is why starting a movement also needs a transient sensory attenuation, turning $\Pi_y$ down.
+
+  # ---------------------------------------------------------------- Problem 2
+  - type: text
+    id: p2-setting
+    tag: Problem 2 · Choosing a policy
+    body: |
+      **Problem 2.** A foraging creature has two possible outcomes (call them *fruit* and *nothing*) and prefers fruit: its preferred distribution over outcomes is
+      $$C=(0.6,\,0.4)$$
+      It considers three policies. For each, its predicted outcome distribution $Q(\tilde y\mid\pi)$ and the **ambiguity** (the expected entropy of the likelihood under the policy) are:
+
+      | Policy | $Q(\tilde y\mid\pi)$ | Ambiguity |
+      |---|---|---|
+      | A: stay in the open | $(0.6,\,0.4)$ | $0.5$ |
+      | B: look under the leaves | $(0.9,\,0.1)$ | $0.1$ |
+      | C: follow the stream | $(0.3,\,0.7)$ | $0.2$ |
+
+      The expected free energy is $G(\pi)=\text{ambiguity}+\text{risk}$, and $P(\pi)=\sigma(-\gamma G(\pi))$.
+
+  - type: numeric
+    id: p2-risk
+    tag: Problem 2 · Choosing a policy
+    prompt: |
+      Preferred outcomes $C=(0.6,0.4)$. Under policy B the creature predicts $Q=(0.9,0.1)$. What is the **risk** of B, in nats (natural logarithm, three decimals)?
+    answer: 0.226
+    tolerance: 0.002
+    wrong:
+      - { value: 0.311, feedback: 'You took the divergence the other way round, $D_{KL}[C\,\|\,Q]$. The risk is $D_{KL}[Q(\tilde y\mid\pi)\,\|\,P(\tilde y\mid C)]$: the predicted outcomes first, weighted by $Q$.' }
+      - { value: 0.3, feedback: 'The risk is a Kullback-Leibler divergence $\sum_i Q_i\ln(Q_i/C_i)$, not a difference of probabilities.' }
+    explanation: |
+      $$\begin{aligned}
+      \text{risk}&=0.9\ln\tfrac{0.9}{0.6}+0.1\ln\tfrac{0.1}{0.4}\\
+      &=0.3649-0.1386=0.226
+      \end{aligned}$$
+      Policy A has risk $0$ (its prediction equals the preference); policy C has risk $0.184$.
+
+  - type: numeric
+    id: p2-g
+    tag: Problem 2 · Choosing a policy
+    prompt: |
+      Policy B has ambiguity $0.1$ and risk $0.226$. Policy C has ambiguity $0.2$ and risk $0.184$. Policy A has ambiguity $0.5$ and risk $0$. What is the expected free energy $G$ of the policy with the **lowest** $G$ (three decimals)?
+    answer: 0.326
+    tolerance: 0.002
+    wrong:
+      - { value: 0.5, feedback: 'That is policy A: zero risk, but its ambiguity is large. Its outcomes tell the creature little about the hidden state, and $G$ counts that.' }
+      - { value: 0.384, feedback: 'That is policy C ($0.2+0.184$). Policy B has the smaller sum.' }
+    explanation: |
+      $$\begin{aligned}
+      G(A)&=0.5+0=0.500\\
+      G(B)&=0.1+0.226=0.326\\
+      G(C)&=0.2+0.184=0.384
+      \end{aligned}$$
+      $G$ is minimised, so B is the best policy.
+
+  - type: mcq
+    id: p2-why
+    tag: Problem 2 · Choosing a policy
+    prompt: |
+      Policy A predicts exactly the preferred outcomes ($Q=C$), yet the creature does not rank it first. Why?
+    options:
+      - text: 'Its risk is zero, but its ambiguity is high: the outcomes it would meet are uninformative about the hidden state, and expected free energy also rewards policies that reduce uncertainty.'
+        correct: true
+      - text: 'Because a risk of zero is impossible: the KL divergence is always positive.'
+        feedback: |
+          The KL divergence is zero when the two distributions are equal. A risk of zero means the predicted outcomes match the preferences.
+      - text: 'Because preferred outcomes are never chosen by the creature.'
+        feedback: |
+          Preferences are exactly what the risk term encodes; policies whose predicted outcomes fit them are favoured, other things equal.
+      - text: 'Because $G$ is maximised, not minimised.'
+        feedback: |
+          $G$ is minimised, and the rule $P(\pi)=\sigma(-\gamma G)$ with the minus sign makes low $G$ more probable.
+    explanation: |
+      Expected free energy balances a pragmatic part (risk, fit to the preferences) and an epistemic part (ambiguity, the uncertainty that remains). Looking under the leaves is a little off the preferred mix, but it is far more informative.
+
+  - type: numeric
+    id: p2-prob
+    tag: Problem 2 · Choosing a policy
+    prompt: |
+      With $G(A)=0.5$, $G(B)=0.326$, $G(C)=0.384$ and precision $\gamma=4$, what is $P(B)=\sigma(-\gamma G)_B$ (the softmax over the three policies; two decimals)?
+    answer: 0.44
+    tolerance: 0.005
+    wrong:
+      - { value: 0.33, feedback: 'That is the uniform value $1/3$: it is what the softmax gives for $\gamma=0$. Here $\gamma=4$ and the $G$ values differ.' }
+      - { value: 0.74, feedback: 'That is $P(B)$ for a much larger precision, $\gamma=20$. With $\gamma=4$ the differences between the $G$ values are only mildly amplified.' }
+    explanation: |
+      The exponents are $-4G=(-2.000,\,-1.305,\,-1.535)$, so
+      $$P(B)=\frac{e^{-1.305}}{e^{-2.000}+e^{-1.305}+e^{-1.535}}=0.436$$
+      with $P(A)=0.22$ and $P(C)=0.35$.
+
+  - type: mcq
+    id: p2-gamma
+    tag: Problem 2 · Choosing a policy
+    prompt: |
+      The same three policies are scored with $\gamma=0$ and then with $\gamma=20$. Which statement is right?
+    options:
+      - text: 'At $\gamma=0$ all three policies are equally probable ($1/3$ each); at $\gamma=20$ policy B takes about $74\%$ and A almost none.'
+        correct: true
+      - text: 'At $\gamma=0$ the creature always picks the lowest $G$; at $\gamma=20$ it picks at random.'
+        feedback: |
+          Reversed. $\gamma$ multiplies $G$ inside the softmax: zero precision makes $G$ irrelevant (uniform), large precision makes the choice nearly deterministic.
+      - text: 'The probabilities do not depend on $\gamma$; it only rescales $G$ itself.'
+        feedback: |
+          $\gamma$ is the precision over policies: it sets how sharply the softmax separates them. It is a surrogate for the expected change of $F$ (a good policy has been found).
+      - text: 'At $\gamma=20$ policy A is the most probable, since its risk is zero.'
+        feedback: |
+          A has the highest $G$ ($0.5$) because of its ambiguity, so a high precision makes it the **least** probable.
+    explanation: |
+      For $\gamma=20$ the probabilities are $(0.023,\,0.742,\,0.235)$. A high $\gamma$ (linked to dopamine and to motivation) expresses confidence that a good policy has been found.
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: text
+    id: p3-setting
+    tag: Problem 3 · Habit against deliberation
+    body: |
+      **Problem 3.** A commuter chooses among three routes $\pi_1,\pi_2,\pi_3$. The habit prior $E$ (the prior probability of each route before looking at today's situation), the variational free energy $F$ of the route (how well today's observations fit it) and the expected free energy $G$ are:
+
+      | Route | $E$ | $F$ | $G$ |
+      |---|---|---|---|
+      | $\pi_1$: the usual road | $0.7$ | $0.1$ | $1.0$ |
+      | $\pi_2$: the new bridge | $0.2$ | $0.5$ | $0.4$ |
+      | $\pi_3$: the back lane | $0.1$ | $0.3$ | $0.9$ |
+
+      The probability of a route is a softmax of a sum of the three components: habit, perseveration and deliberation.
+
+  - type: build
+    id: p3-rule
+    tag: Problem 3 · Habit against deliberation
+    prompt: |
+      Build the exponent that the softmax receives for each route, so that $P(\pi)=\sigma(\,\cdot\,)$. Here $E$ is the habit prior, $F$ the variational free energy and $G$ the expected free energy.
+    prefix: 'P(\pi)=\sigma('
+    suffix: ')'
+    tiles: ['\ln E', '-F', '-G', '+G', '+F', 'E']
+    answers:
+      - ['\ln E', '-F', '-G']
+      - ['\ln E', '-G', '-F']
+      - ['-F', '\ln E', '-G']
+      - ['-F', '-G', '\ln E']
+      - ['-G', '\ln E', '-F']
+      - ['-G', '-F', '\ln E']
+    wrong:
+      - answer: ['\ln E', '+F', '-G']
+        feedback: 'The sign of $F$ is wrong. Observations that fit the current course of action (low $F$) make it persist, so $F$ enters with a minus sign, like $G$.'
+      - answer: ['E', '-F', '-G']
+        feedback: 'The habit enters through its logarithm: probabilities multiply, and the softmax exponentiates, so $\ln E$ gives back $E$ as a prior weight.'
+    hint: 'Both free energies are minimised, so both lower the probability of a route when large; the prior multiplies, so it enters through its logarithm.'
+    explanation: |
+      $$P(\pi)=\sigma(\ln E-F-G)$$
+      $G$ is the deliberative part, $F$ the perseverative part and $E$ the habitual part.
+
+  - type: numeric
+    id: p3-p1
+    tag: Problem 3 · Habit against deliberation
+    prompt: |
+      A commuter has habit priors $E=(0.7,0.2,0.1)$, variational free energies $F=(0.1,0.5,0.3)$ and expected free energies $G=(1.0,0.4,0.9)$ for three routes. What is the probability of the **usual road**, route $1$ (two decimals)?
+    answer: 0.68
+    tolerance: 0.005
+    wrong:
+      - { value: 0.32, feedback: 'That is the probability of route $1$ if the habit is ignored, $\sigma(-F-G)$. Here the habit prior $E_1=0.7$ adds $\ln 0.7$ to its exponent while the others get smaller values.' }
+      - { value: 0.7, feedback: 'That is just the habit prior $E_1$. The deliberative and perseverative parts also act: route $1$ has a large $G=1.0$.' }
+    explanation: |
+      The exponents $\ln E-F-G$ are
+      $$\begin{aligned}
+      \pi_1&:\ -0.357-0.1-1.0=-1.457\\
+      \pi_2&:\ -1.609-0.5-0.4=-2.509\\
+      \pi_3&:\ -2.303-0.3-0.9=-3.503
+      \end{aligned}$$
+      so $P=(0.676,\,0.236,\,0.087)$: the habit outweighs a worse $G$.
+
+  - type: mcq
+    id: p3-nohabit
+    tag: Problem 3 · Habit against deliberation
+    prompt: |
+      Habit priors $E=(0.7,0.2,0.1)$, free energies $F=(0.1,0.5,0.3)$ and $G=(1.0,0.4,0.9)$. With the habit term **removed** (only $-F-G$ in the softmax), the probabilities become $(0.32,\,0.39,\,0.29)$. What does this tell the commuter's tutor?
+    options:
+      - text: 'Deliberation alone prefers the new bridge (lowest $G$), but the habit prior tips the combined choice to the usual road: the components coexist and are added in one rule.'
+        correct: true
+      - text: 'The commuter has two separate systems, and the habitual one has overridden the rational one.'
+        feedback: |
+          That is the dual-system picture. Here there is one scheme: the three components enter one softmax and are traded off continuously.
+      - text: 'The bridge is bad because its $F$ is larger than that of the usual road.'
+        feedback: |
+          $F$ is only one part ($0.5$ against $0.1$). Without the habit the bridge is still the most probable route, because of its much lower $G$.
+      - text: 'Removing the habit makes the choice random.'
+        feedback: |
+          The three probabilities $(0.32,0.39,0.29)$ are close but not equal; the free energies still discriminate between the routes.
+    explanation: |
+      Which component dominates depends on experience and on the resources available for deliberation: with strong habits the usual plan dominates even when it is not the best by $G$.
+
+  - type: numeric
+    id: p3-rut
+    tag: Problem 3 · Habit against deliberation
+    prompt: |
+      Years of repetition make the habit overwhelming: $E=(0.98,0.01,0.01)$, with the same $F=(0.1,0.5,0.3)$ and $G=(1.0,0.4,0.9)$. What is the probability of the usual road now (two decimals)?
+    answer: 0.98
+    tolerance: 0.005
+    wrong:
+      - { value: 0.68, feedback: 'That was the value for the weaker habit $E_1=0.7$. With $E_1=0.98$ and the other two at $0.01$, $\ln E$ differs by about $4.6$ between the routes, which dwarfs the differences in $F+G$.' }
+      - { value: 0.32, feedback: 'That is the probability with the habit ignored. Here the habit is dominant.' }
+    explanation: |
+      The exponents are
+      $$\begin{aligned}
+      \pi_1&:\ -0.020-0.1-1.0=-1.120\\
+      \pi_2&:\ -4.605-0.5-0.4=-5.505\\
+      \pi_3&:\ -4.605-0.3-0.9=-5.805
+      \end{aligned}$$
+      so $P(\pi_1)=0.979$. The habit is an almost fixed prior: the agent sticks to the usual road however good the bridge is. The $F$ and $G$ terms still matter, but only a very large $G$ would break the rut.
