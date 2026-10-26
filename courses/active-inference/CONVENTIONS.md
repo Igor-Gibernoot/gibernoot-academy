@@ -139,6 +139,8 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - Synchrony lesson: slow level 2 (rates x 1/128) sends one component down to set rho of fast level 1 (x 1/16); manifold y=x identical, y=T(x) generalized (widget T=1.5x+0.01x^3, T(10)=25); kappa in the widget stands for having learned the other's parameters.
 - Hybrid widget `hybrid-saccade`: outcomes fixation + up/right/down/left at unit distance; Eq 8.8 q = sum_o Q(o) eta_o (hedges: Q_up=.85, others .05 gives q=(0,.80)); eye = critically damped spring to q, w = omega0 sqrt(Pi_v); stages cue, delay, saccade, fixate; 250 ms per step.
 
+- Hybrid lesson: N(m,Pi) takes precision; Eq 8.8 with tildes; widget spring and upward evidence L(o) are ours, flagged in source notes; Box 8.3 mixture-of-Gaussians correspondence s_i<->o, eta<->eta_o.
+
 ## Chapter 9
 
 - (none yet)

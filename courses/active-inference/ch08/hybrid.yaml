@@ -1,0 +1,383 @@
+id: ch08-hybrid
+title: "Hybrid Models"
+kind: concept
+own: |
+  - **Hybrid model.** The top level is a discrete POMDP (categorical hidden states, outcomes $o_\tau$ at discrete steps $\tau$, as in the discrete-time lessons); the bottom level is a continuous model in generalized coordinates (a state $x$, a cause $v$, a tilde $\tilde{\ }$ for "position plus velocity and higher derivatives"). At each discrete step the outcome **selects one segment of a continuous trajectory**, so continuous time becomes a sequence of short continuous pieces.
+  - **From outcome to cause.** Each outcome $o$ is tied to a point $\tilde\eta_o$ of the continuous space (a target location, say), and the cause $v$ has a Gaussian prior around it with precision $\tilde\Pi_v$ (second argument = precision, variance $1/\Pi_v$):
+    {{ $$P(\tilde v\mid o_\tau)=\mathcal N(\tilde\eta_{o_\tau},\tilde\Pi_v)$$ }}
+  - **Bayesian model average.** The discrete level does not know $o_\tau$ for sure but holds beliefs $Q(o_\tau)$, collected in the vector $\mathbf o_\tau$ of probabilities. The prior over the cause is a single Gaussian centred on the belief-weighted average of the points:
+    {{ $$\tilde{\mathbf q}=\mathbb E_{Q(o_\tau)}[\tilde\eta]=\mathbf o_\tau\cdot\tilde\eta$$ }}
+    and the prior is $P(\tilde v)\approx\mathcal N(\tilde{\mathbf q},\tilde\Pi_v)$. A confident belief puts $\tilde{\mathbf q}$ on one point; a belief split between opposite targets puts it between them (**hedging**), and a flat belief gives no movement.
+  - **Reciprocal messages.** Information also flows up: the continuous data give the evidence $L(o)$ of each hypothetical outcome, and the belief is updated by Bayes' rule,
+    {{ $$Q^{\text{new}}(o)\propto Q(o)\,L(o)$$ }}
+    so executing the movement raises the confidence in the chosen target.
+  - **Clustering link.** Combining a categorical variable with continuous data is what a **mixture of Gaussians** does in clustering (labels $s_i$, cluster means $\eta$, precisions $\Pi$); here $\eta$ and $\Pi$ are fixed in advance and only the labels are inferred.
+cards:
+  - type: text
+    id: hook
+    title: "Deciding is not moving"
+    body: |
+      A monkey sits in front of a screen with a small cross in the middle. A light flashes at one of **four** places (up, right, down, left), disappears, and some time later a signal says "go": the monkey must now look at the place where the light was.
+
+      Choosing one of four places is a **categorical** problem: four options, no "in between". But the eye does not jump from option to option. It sweeps through a smooth, **continuous** path in space and time, at the right moment, ending exactly on the target.
+
+      So there are two kinds of variable in one brain: a discrete choice and a continuous movement. Time to guess how they connect.
+
+  - type: mcq
+    id: guess-convert
+    prompt: |
+      A monkey has decided, in a categorical sense, "look up". What must happen for its eye to follow a smooth path to the upper target?
+    options:
+      - text: 'The decision must be turned into a *continuous* quantity, a target location, that the movement system then fulfils.'
+        correct: true
+      - text: 'The decision itself is already a movement: "up" is a smooth path.'
+        feedback: |
+          A category is just a label. "Up" says nothing about where the eye starts, how fast it goes or when it stops. Something must translate the label into coordinates and a trajectory.
+      - text: 'The eye tries the four directions one after another until it hits the target.'
+        feedback: |
+          That would be a search by trial and error. The brain already holds the decision, so no search is needed; it needs a way to convert the decision into a movement.
+    explanation: |
+      Some link must associate each category with a point in a continuous space, and the continuous level must then produce the path that reaches that point. This lesson builds that link, the **hybrid** model.
+
+  - type: text
+    id: two-layers
+    title: "A discrete layer on top of a continuous one"
+    body: |
+      Recall from the discrete-time lessons: a **POMDP** is a model with categorical hidden states $s$ and categorical outcomes $o$ evolving in discrete steps, and a hierarchy of two of them runs on two timescales ($\tau^{(2)}$ for the slow level, $\tau^{(1)}$ for the fast level inside it).
+
+      A **hybrid** (or mixed) model keeps the top level as a POMDP but makes the bottom level a **continuous** model like those of this chapter: continuous states and causes in continuous time, written in generalized coordinates (a **tilde**, as in $\tilde v$, stands for "the value and its velocity, acceleration, ...").
+
+      The top level then behaves as in the discrete-time lessons: it infers sequences of states and plans. At each discrete step its outcome $o_\tau$ is handed down and **selects a segment of a continuous trajectory**:
+
+      - the discrete level chooses *which* short movement piece;
+      - the continuous level produces *how* it unfolds in time.
+
+      Continuous time is thus cut into a discrete sequence of short continuous trajectories.
+
+  - type: text
+    id: task
+    title: "The delay-period task"
+    body: |
+      The task has three stages:
+
+      1. **Cue.** A target appears in one of four places while the monkey keeps looking at the central fixation cross.
+      2. **Delay.** The target disappears; the monkey must **remember** it and keep fixating.
+      3. **Saccade.** A signal arrives and the monkey makes a **saccade** (a fast eye movement) to where the target was.
+
+      Two inferences are needed. *Which stage is going on* (a sequence) and *which of the four places to aim at* (a category): both are discrete problems for the top level. Then the eye has to travel to the **continuous coordinates** of that place: a problem for the bottom level.
+
+      Experiments of this type are common in primate research. In the simulation the experiment has four discrete steps of 250 ms each: cue, delay, saccade, then keeping fixation at the target.
+
+  - type: mcq
+    id: stage-beliefs
+    prompt: |
+      In the four-step task (cue, delay, saccade, fixate) the top level believes the target was up. At the second step (the delay: the target has vanished, the saccade has not started), where does the top level expect the eye to be?
+    options:
+      - text: 'Still at the fixation cross. The memory of the target ("up") is kept in the hidden states, ready for the saccade step.'
+        correct: true
+      - text: 'Already at the upper location: the decision was made, so the eye moves right away.'
+        feedback: |
+          The signal to move has not come: during the delay the monkey must keep fixating. The decision is stored, not yet executed. The expected eye position (the outcome) changes only at the saccade step.
+      - text: 'Nowhere in particular: with the target gone, the beliefs are flat.'
+        feedback: |
+          The target is gone from the screen, not from memory. The hidden states keep it, so the belief about the later steps stays focused on "up".
+    explanation: |
+      Two things are tracked: *where the eye is* (the outcome, here fixation at steps 1 and 2) and *which target will be fixated* (kept in hidden states over the delay). The upper location shows up as the expected outcome from step 3 on.
+
+  - type: widget
+    id: play-trial
+    widget: hybrid-saccade
+    config:
+      cue: 1
+      beliefs: [[1,0,0,0,0],[1,0,0,0,0],[0,0.85,0.05,0.05,0.05],[0,0.85,0.05,0.05,0.05]]
+      show: { PiV: false, stepMs: false, feedback: false }
+      presets:
+        - { label: 'cue-delay-saccade' }
+    body: |
+      The simulated trial. The bars show the beliefs of the discrete level about the eye location (fixation, up, right, down, left) at each of the four steps; the plane at the left shows the eye. Press *Play*: the light is on only in the first step. Watch the eye in the plane and the curve of its speed.
+
+      **Source note:** the bars and the plan of the trial follow the experiment above. The way the eye moves (a smooth spring-like approach to the target, with a bell-shaped speed) is our simple model of the continuous level, chosen to look like a saccade; it is not a claim about the real eye.
+
+  - type: mcq
+    id: after-play
+    prompt: |
+      In the simulated trial, the discrete beliefs say fixation in steps 1 and 2 and "up" (about 85%) in steps 3 and 4. What does the eye do?
+    options:
+      - text: 'It stays at the centre during steps 1 and 2, moves smoothly to the upper target during step 3 (fast in the middle, slow at the ends) and stays there in step 4.'
+        correct: true
+      - text: 'It jumps instantly to the upper target at the start of step 3 and stays.'
+        feedback: |
+          A physical eye cannot jump: it takes time, which is why the path is a smooth curve with a speed that rises and falls.
+      - text: 'It drifts slowly towards the target during all four steps.'
+        feedback: |
+          The movement follows the discrete steps: nothing happens while the belief says fixation, and the whole movement is packed into the step where the belief says "up".
+    explanation: |
+      The discrete level changes its message once per step; the continuous level turns each change into a smooth segment of path. The saccade fits inside step 3 (it takes about 240 ms of the 250 ms available with the precision used here).
+    review: false
+
+  - type: text
+    id: outcome-to-cause
+    title: "Each outcome is a point in continuous space"
+    body: |
+      To translate, associate every discrete outcome $o$ with a point $\tilde\eta_o$ in the continuous space (here: the coordinates of that place on the screen; fixation is $(0,0)$). The continuous **hidden cause** $v$ (the target coordinates the eye must reach) then gets a Gaussian prior around that point:
+
+      $$P(\tilde v\mid o_\tau)=\mathcal N(\tilde\eta_{o_\tau},\tilde\Pi_v)$$
+
+      Here $\mathcal N(m,\Pi)$ is a Gaussian with mean $m$ and **precision** $\Pi$ (variance $1/\Pi$, as everywhere in this course). $\tilde\Pi_v$ says how tightly the target is tied to its point: a large precision means the prior is a narrow bump on $\tilde\eta_o$. Only the position matters in our example; the tilde's extra entries (velocities, ...) are zero for a fixated target.
+
+      In the widget the four targets sit at unit distance from fixation: up $(0,1)$, right $(1,0)$, down $(0,-1)$, left $(-1,0)$.
+
+  - type: numeric
+    id: prior-width
+    prompt: |
+      The prior over the target coordinates is $\mathcal N(\eta_o,\Pi_v)$ with precision $\Pi_v=4$ (precision is the inverse of the variance). What is its standard deviation, in the units of the screen?
+    answer: 0.5
+    tolerance: 0.001
+    wrong:
+      - { value: 0.25, feedback: 'That is the variance $1/\Pi_v=1/4$. The standard deviation is its square root.' }
+      - { value: 4, feedback: 'That is the precision itself. A larger precision means a *narrower* bump, so the standard deviation is $1/\sqrt{\Pi_v}$.' }
+    hint: Variance $=1/\text{precision}$, standard deviation $=\sqrt{\text{variance}}$.
+    explanation: |
+      $\sigma^2=1/\Pi_v=1/4$, so $\sigma=\sqrt{1/4}=0.5$. With targets at distance $1$ from fixation, a prior of width $0.5$ is quite tight.
+
+  - type: text
+    id: model-average
+    title: "Uncertain about the outcome: average"
+    body: |
+      The top level does not know $o_\tau$ with certainty: it holds a posterior $Q(o_\tau)$, which we write as the vector $\mathbf o_\tau$ of probabilities (one entry per outcome). Which prior should the continuous level receive? The **Bayesian model average**: weight each point $\tilde\eta_o$ by the belief in its outcome,
+
+      $$\tilde{\mathbf q}=\mathbb E_{Q(o_\tau)}[\tilde\eta]=\mathbf o_\tau\cdot\tilde\eta$$
+
+      and use one Gaussian centred there,
+
+      $$P(\tilde v)\approx\mathcal N(\tilde{\mathbf q},\tilde\Pi_v)$$
+
+      Written out for position, $\mathbf q=\sum_o Q(o)\,\eta_o$: a sum over the five outcomes of probability times location. (The $\approx$ marks a simplification: the exact prior would be a mixture of bumps, one per outcome.) Because $\mathbf q$ is a weighted average, it always lies *between* the points.
+
+  - type: mcq
+    id: compute-q
+    prompt: |
+      The discrete level believes the next eye location is up with probability $0.6$, right with $0.3$, down with $0.1$ (left and fixation $0$). The points are up $(0,1)$, right $(1,0)$, down $(0,-1)$. What is the prior mean $\mathbf q=\sum_o Q(o)\,\eta_o$?
+    options:
+      - text: '$(0.3,\ 0.5)$'
+        correct: true
+      - text: '$(0.3,\ 0.6)$'
+        feedback: |
+          That forgets the down target: it has weight $0.1$ and pulls the vertical coordinate *down* by $0.1\times1$, giving $0.6-0.1=0.5$.
+      - text: '$(0,\ 1)$'
+        feedback: |
+          That is the most probable outcome alone (winner takes all). The model average uses *all* beliefs, not only the largest.
+      - text: '$(0.3,\ 0.7)$'
+        feedback: |
+          The down target has a negative vertical coordinate $-1$, so its contribution is $0.1\times(-1)=-0.1$, not $+0.1$.
+    explanation: |
+      Horizontal: $0.3\cdot1=0.3$ (only right has a nonzero first coordinate). Vertical: $0.6\cdot1+0.1\cdot(-1)=0.5$. So $\mathbf q=(0.3,0.5)$, up and a bit to the right: the eye will aim between the likely targets.
+
+  - type: numeric
+    id: hedge-distance
+    prompt: |
+      A discrete belief splits evenly between up and down: $0.5$ for each, $0$ for the others. Up and down are at distance $1$ from fixation on opposite sides. How far (in screen units) is $\mathbf q=\sum_o Q(o)\,\eta_o$ from the **nearest of the four targets**?
+    answer: 1
+    tolerance: 0.001
+    wrong:
+      - { value: 0, feedback: 'That is the distance from $\mathbf q$ to fixation: $\mathbf q=0.5(0,1)+0.5(0,-1)=(0,0)$ *is* the fixation point. It is not a target.' }
+      - { value: 0.5, feedback: 'The weights are $0.5$, but the distances are not weighted: $\mathbf q$ is at the centre, and every target is one full unit from it.' }
+    hint: Compute $\mathbf q$ first, coordinate by coordinate.
+    explanation: |
+      $\mathbf q=0.5\,(0,1)+0.5\,(0,-1)=(0,0)$. It lies at the fixation point, at distance $1$ from every target. The average of two opposite targets is a place nobody asked for: the price of averaging is **hedging**.
+
+  - type: widget
+    id: probe-hedging
+    widget: hybrid-saccade
+    config:
+      cue: 1
+      beliefs: [[1,0,0,0,0],[1,0,0,0,0],[0,1,0,0,0],[0,1,0,0,0]]
+      presets:
+        - { label: 'sure about up' }
+        - { label: 'split up / down', beliefs: [[1,0,0,0,0],[1,0,0,0,0],[0,0.5,0,0.5,0],[0,0.5,0,0.5,0]] }
+        - { label: 'flat belief', beliefs: [[1,0,0,0,0],[1,0,0,0,0],[0.2,0.2,0.2,0.2,0.2],[0.2,0.2,0.2,0.2,0.2]] }
+        - { label: 'weak prior, short steps', beliefs: [[1,0,0,0,0],[1,0,0,0,0],[0,1,0,0,0],[0,1,0,0,0]], PiV: 0.2, stepMs: 150 }
+    body: |
+      The same trial with the controls free: choose a belief for the saccade step with the preset buttons or the sliders (one per outcome and step), and read the diamond in the plane (the prior mean $\mathbf q$). Try *sure about up*, *split up / down* and *flat belief*. Then try *weak prior, short steps* and, with the *Pi_v* and *ms per step* sliders, find when the eye does **not** reach the target.
+
+      The speed of approach is the widget's simplification: the eye is pulled to $\mathbf q$ with a stiffness set by $\Pi_v$ (a spring that does not overshoot).
+
+  - type: mcq
+    id: split-belief
+    prompt: |
+      In the third step the discrete belief is split $0.5$ up and $0.5$ down. What does the eye do, and what is the best name for this?
+    options:
+      - text: 'It stays near the centre: the prior mean is the average of the two targets, between them. The model hedges but looks at neither.'
+        correct: true
+      - text: 'It goes up half of the time and down the other half, alternating.'
+        feedback: |
+          Nothing in the average samples one target: it yields *one* mean, $\mathbf q=(0,0)$, and the eye is pulled towards it. The same logic with a flat belief over all outcomes gives $\mathbf q$ at the centre and no movement at all.
+      - text: 'It goes to one target at random, since the model must choose.'
+        feedback: |
+          A random choice would need a separate sampling step. The averaged prior does not choose: it blends. In practice the movement is rarely like this, because beliefs sharpen before the saccade (evidence arrives, and the cue is certain), but the blend is what the equation says.
+    explanation: |
+      Averaging priors is **not** choosing a target. When the belief is spread over opposite targets the mean lies between them and the eye goes there (or stays, if that is where it already is). With a flat belief over all five outcomes the mean is the fixation point and there is no movement.
+
+  - type: mcq
+    id: trap-average
+    prompt: |
+      Two readings of "the model average" for a hybrid model with beliefs $Q(o)$: (A) the continuous level receives **one Gaussian prior** centred on $\mathbf q=\sum_oQ(o)\eta_o$; (B) it receives **one separate prior per outcome** and the eye's trajectory is the probability-weighted average of the trajectories produced by each. Which matches the equation $P(\tilde v)\approx\mathcal N(\tilde{\mathbf q},\tilde\Pi_v)$?
+    options:
+      - text: '(A): the average is taken over the prior means (the points $\tilde\eta_o$), once, and the continuous level then runs a single trajectory.'
+        correct: true
+      - text: '(B): each outcome drives its own trajectory and the results are averaged afterwards.'
+        feedback: |
+          The weighting happens *before* the continuous level, on the prior mean. One trajectory is produced, not one per outcome. (For linear dynamics the two readings agree on where the eye ends, but only (A) is what the model does and it needs one pass, not four.)
+    explanation: |
+      The equation averages the means of the prior over the cause, then gives that single Gaussian to the continuous level. The approximation $\approx$ replaces the exact mixture of bumps by one bump at its mean.
+
+  - type: text
+    id: reciprocal
+    title: "Messages go both ways"
+    body: |
+      So far information goes **down**: from a discrete belief to a prior on the continuous cause. But the top level also needs to be told how the movement is going. To infer which target is right we need, for each hypothetical target $o$, the **evidence** $L(o)$ it receives from the continuous data. This is the second direction of the hybrid model, the same reciprocal exchange as between the levels of the discrete hierarchies.
+
+      With the belief $Q(o)$ as prior and $L(o)$ as the evidence, Bayes' rule gives the updated belief
+
+      $$Q^{\text{new}}(o)\propto Q(o)\,L(o)$$
+
+      This is why, in the simulation, the confidence in "up" **increases** once the saccade is performed and the eye is seen near the upper target: the movement itself is evidence.
+
+      **Source note:** in the widget we use a simple Gaussian evidence, $L(o)$ larger when the eye is closer to $\eta_o$. The hollow outlines on the bars after each step are this updated belief, our addition to show the upward message.
+
+  - type: build
+    id: build-upward
+    prompt: |
+      Build the updated belief about the outcome $o$ from the prior belief $Q(o)$ and the evidence $L(o)$ received from the continuous data.
+    prefix: 'Q^{\text{new}}(o)\propto'
+    tiles: ['Q(o)', 'L(o)', 'Q(o)+L(o)', '\eta_o', '\mathbf q']
+    answers:
+      - ['Q(o)', 'L(o)']
+      - ['L(o)', 'Q(o)']
+    wrong:
+      - answer: ['Q(o)+L(o)']
+        feedback: 'Independent sources of evidence combine by *multiplying* (Bayes), not by adding.'
+    hint: Prior times likelihood, as in every Bayes update of the course.
+    explanation: |
+      Prior times evidence: $Q^{\text{new}}(o)\propto Q(o)\,L(o)$ (then normalize so the numbers sum to $1$). The product sharpens the belief on the outcomes that explain the data.
+
+  - type: numeric
+    id: upward-update
+    prompt: |
+      The discrete belief is $Q(\text{up})=Q(\text{down})=0.5$. The eye is then seen moving towards the upper target, so the evidence is $L(\text{up})=0.9$ and $L(\text{down})=0.1$. After the update $Q^{\text{new}}(o)\propto Q(o)\,L(o)$, normalized, what is $Q^{\text{new}}(\text{up})$?
+    answer: 0.9
+    tolerance: 0.001
+    wrong:
+      - { value: 0.5, feedback: 'That is the prior: nothing was learned. The evidence differs between targets, so the belief must change.' }
+      - { value: 0.45, feedback: 'That is the *unnormalized* value $0.5\times0.9$. Divide by the total $0.45+0.05$ so the beliefs sum to $1$.' }
+    hint: Multiply, then divide by the sum of the two products.
+    explanation: |
+      Products: up $0.5\cdot0.9=0.45$, down $0.5\cdot0.1=0.05$. Sum $=0.50$. So $Q^{\text{new}}(\text{up})=0.45/0.50=0.9$.
+
+  - type: numeric
+    id: timing
+    prompt: |
+      In the widget the eye approaches its target like a critically damped spring with rate $w=\omega_0\sqrt{\Pi_v}$, so the time to get within 5% of the target is proportional to $1/w$. If the precision $\Pi_v$ of the prior is multiplied by $4$ (the step length and $\omega_0$ unchanged), by what factor is the time to arrive multiplied?
+    answer: 0.5
+    tolerance: 0.001
+    wrong:
+      - { value: 0.25, feedback: 'That would be the effect if time were $\propto1/\Pi_v$. It is $\propto1/\sqrt{\Pi_v}$: the square root halves the factor.' }
+      - { value: 2, feedback: 'More precision is a *stiffer* pull, so the eye arrives sooner, not later.' }
+    hint: $\sqrt4=2$, and time $\propto1/w$.
+    explanation: |
+      $w\propto\sqrt{\Pi_v}$ doubles, and time $\propto1/w$ halves. In the widget with $\Pi_v=1$ the saccade needs about $240$ ms, almost all of the $250$ ms step; the step length of the discrete level ($\tau^{(2)}$) must be long enough compared with the continuous timescale for the movement to complete.
+
+  - type: text
+    id: box-mixture
+    title: "A look from outside: clustering"
+    body: |
+      Combining a categorical variable with continuous data is not only an Active Inference topic. In **clustering** one has data points $y_i$ and wants to assign each to a discrete **cluster** $s_i$. Most algorithms rely implicitly on a generative model like ours, the **mixture of Gaussians**:
+
+      $$P(s_i\mid\mathbf D)=\text{Cat}(\mathbf D)$$
+
+      $$P(y_i\mid s_i,\eta,\Pi)=\mathcal N(\eta_{s_i},\Pi_{s_i})$$
+
+      Each point first draws a label $s_i$ from a categorical distribution with probabilities $\mathbf D$ (which has a Dirichlet prior, as for learning counts in the discrete-time lessons), then draws its value from the Gaussian of that cluster, with mean $\eta_{s_i}$ and precision $\Pi_{s_i}$.
+
+      The correspondence: label $s_i\leftrightarrow$ outcome $o$, cluster mean $\eta_s\leftrightarrow\tilde\eta_o$, cluster precision $\leftrightarrow\tilde\Pi_v$. The difference: clustering must **learn** $\eta$ and $\Pi$, whereas here the means and precisions are fixed in advance (delta-function priors, i.e. known), and only the labels are inferred, using a shortcut for scoring alternative priors (Bayesian model reduction).
+
+  - type: mcq
+    id: clustering
+    prompt: |
+      How does the hybrid saccade model relate to a mixture of Gaussians used for clustering?
+    options:
+      - text: 'Same generative structure: a discrete label chooses a Gaussian over a continuous variable. Here the Gaussian means (target locations) are known, and only the label has to be inferred.'
+        correct: true
+      - text: 'They are unrelated: clustering has no discrete variable.'
+        feedback: |
+          Clustering is exactly the problem of assigning a continuous point to a discrete cluster, so the discrete label is the heart of it.
+      - text: 'The hybrid model is a mixture of Gaussians in which the means $\eta$ and the precisions are learned from the eye movements.'
+        feedback: |
+          In clustering they are learned. In the saccade example they are fixed beforehand (the target coordinates are known), which is what makes the inference of the label cheap.
+    explanation: |
+      Seen this way, the top level plays the role of the cluster label and the continuous level that of the data. The difference is what is unknown: in clustering the cluster parameters, in the saccade task the label.
+
+  - type: widget
+    id: hybrid-circuit
+    review: false
+    widget: microcircuit
+    config:
+      box: [440, 400]
+      showFreq: false
+      bands:
+        - { label: 'discrete: cortex', y0: 0, y1: 90 }
+        - { label: 'discrete: basal ganglia', y0: 90, y1: 165 }
+        - { label: 'interface', y0: 165, y1: 235 }
+        - { label: 'continuous: cortex', y0: 235, y1: 315 }
+        - { label: 'continuous: spinal cord', y0: 315, y1: 400 }
+      nodes:
+        - { id: s2, label: '\tilde{\mathbf s}^{(2)}', name: 'discrete state beliefs', pos: [250, 45], cls: expectation, populations: 'cortex of the discrete level', info: 'Beliefs about the categorical hidden states, averaged over policies.' }
+        - { id: pi, label: '\boldsymbol\pi^{(2)}', name: 'policy beliefs', pos: [110, 128], cls: output, populations: 'output nucleus of the basal ganglia', info: 'Probability of each policy.' }
+        - { id: ee, label: '\mathbf E^{(2)}', name: 'habit prior', pos: [45, 128], cls: input, populations: 'indirect pathway', info: 'Prior over policies from habit, driven by higher levels.' }
+        - { id: gg, label: '\mathbf G^{(2)}', name: 'expected free energy', pos: [175, 128], cls: error, populations: 'striatum, direct pathway', info: 'Goal-directed, context-sensitive evaluation of each policy.' }
+        - { id: oo, label: '\tilde{\mathbf o}^{(2)}', name: 'discrete outcome (the interface)', pos: [250, 200], cls: output, populations: 'between the two levels', info: 'The categorical outcome of the discrete level, at once a prediction for the continuous level and the place where the continuous level reports back.' }
+        - { id: ev, label: '\tilde\epsilon_v^{(1)}', name: 'error on the cause', pos: [130, 275], cls: error, populations: 'cortex of the continuous level', info: 'Mismatch between the belief about the cause and the prediction from the discrete level.' }
+        - { id: mu, label: '\tilde\mu_v^{(1)}', name: 'expectation of the cause', pos: [250, 275], cls: expectation, populations: 'cortex of the continuous level', info: 'Holds the belief about the continuous cause (a trajectory).' }
+        - { id: ey, label: '\tilde\epsilon_y', name: 'proprioceptive error cells', pos: [250, 360], cls: error, populations: 'spinal cord', info: 'Data minus the descending prediction.' }
+        - { id: yy, label: 'y', name: 'sensed position', pos: [360, 360], cls: input, populations: 'dorsal horn', info: 'Continuous data from the body.' }
+        - { id: uu, label: 'u', name: 'action (motor neuron)', pos: [140, 360], cls: output, populations: 'ventral horn', info: 'Moves the limb so that the data match the prediction.' }
+      edges:
+        - { id: e-s2g, from: s2, to: gg, sign: '+', message: { label: '\mathbf o_\pi', kind: expectation }, direction: descending, note: 'Simplified: the full basal ganglia circuit was in an earlier lesson.' }
+        - { id: e-gpi, from: gg, to: pi, sign: '-', message: { label: '\mathbf G', kind: policy }, direction: intrinsic }
+        - { id: e-epi, from: ee, to: pi, sign: '+', message: { label: '\ln\mathbf E', kind: policy }, direction: intrinsic }
+        - { id: e-pis, from: pi, to: s2, sign: '+', message: { label: '\pi', kind: policy }, direction: ascending, note: 'The policy probabilities weight the state beliefs: Bayesian model averaging.' }
+        - { id: e-s2o, from: s2, to: oo, sign: '+', message: { label: '\mathbf s', kind: expectation }, direction: descending }
+        - { id: e-oev, from: oo, to: ev, sign: '-', message: { label: '\eta', kind: prediction }, direction: descending, note: 'Each categorical state is associated with an alternative prediction of the continuous cause: its prior mean.' }
+        - { id: e-evmu, from: ev, to: mu, sign: '+', message: { label: '\Pi_v\epsilon_v', kind: error }, direction: intrinsic }
+        - { id: e-mu-ey, from: mu, to: ey, sign: '-', message: { label: '\tilde g', kind: prediction }, direction: descending }
+        - { id: e-y-ey, from: yy, to: ey, sign: '+', message: { label: 'y', kind: error }, direction: ascending }
+        - { id: e-ey-u, from: ey, to: uu, sign: '+', message: { label: '\Pi_y\tilde\epsilon_y', kind: error }, direction: descending }
+        - { id: e-mu-o, from: mu, to: oo, sign: '+', message: { label: '\text{likelihood}', kind: expectation }, direction: ascending, note: 'Computed from the posterior expectations and variances of the continuous level: the likelihood of its trajectory under each discrete outcome.' }
+      sequence: [e-epi, e-gpi, e-pis, e-s2o, e-oev, e-evmu, e-mu-ey, e-ey-u, e-y-ey, e-mu-o]
+    body: |
+      The same two-level structure as a circuit (a discrete level with its basal ganglia loops on top, a continuous level and the spinal reflex arc at the bottom). Use the buttons or press *Play messages*; click the middle node and read what it receives and sends.
+
+      **Source note:** the reciprocal arrow from the continuous expectation up to the discrete outcome is the evidence $L(o)$ of the previous cards.
+
+  - type: mcq
+    id: anatomy
+    prompt: |
+      In the stacked circuit, the discrete outcome $\tilde{\mathbf o}^{(2)}$ sits between the two levels. Which message carries the prior over the cause **down** to the continuous level, and where does it arrive?
+    options:
+      - text: 'The prediction $\tilde\eta$ (the point tied to the outcome), arriving at the error cells for the cause, $\tilde\epsilon_v$, in the cortex of the continuous level.'
+        correct: true
+      - text: 'The policy beliefs $\boldsymbol\pi$, arriving at the proprioceptive error cells in the spinal cord.'
+        feedback: |
+          The policy beliefs stay in the discrete level (they weight the state beliefs there). The proprioceptive errors compare *sensed position* with a prediction; they sit at the bottom, far from the interface.
+      - text: 'The expected free energy $\mathbf G$, arriving at the motor neurons.'
+        feedback: |
+          $\mathbf G$ scores policies inside the discrete level. Motor neurons are driven by proprioceptive prediction errors, not directly by $\mathbf G$.
+    explanation: |
+      The outcome is handed to the continuous level as a prior mean $\tilde\eta$ for the cause; the error cells for the cause compare it with the continuous expectation $\tilde\mu_v$, weighted by $\Pi_v$. In the other direction, the continuous expectation sends the evidence for each outcome up to the interface.
+
+  - type: text
+    id: summary
+    body: |
+      **Back to the hook.** The monkey's decision "up" is a category with no motion in it. The hybrid model attaches to that category a point $\tilde\eta_{\text{up}}$ in continuous space, hands it down as a prior mean on the cause $v$, and the continuous level (the spinal-reflex machinery of the earlier lessons) produces the smooth path. The movement in turn feeds evidence back up, which raises the confidence in the choice.
+
+      **Next:** a round of traps on the continuous-time machinery of this chapter: where action lives, what precision does, what generalized coordinates are, what chaos is, and what hybrid models do not do.
