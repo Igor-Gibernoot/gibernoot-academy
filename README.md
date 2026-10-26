@@ -25,6 +25,7 @@ synced through an optional Google sign-in ([`docs/ACCOUNTS.md`](docs/ACCOUNTS.md
 | From Differential Geometry to General Relativity | [`courses/diff-geometry-gr/`](courses/diff-geometry-gr/) |
 | Active Inference | [`courses/active-inference/`](courses/active-inference/) |
 | Information Geometry and Its Applications | [`courses/info-geometry/`](courses/info-geometry/) |
+| How the World Works | [`courses/how-the-world-works/`](courses/how-the-world-works/) |
 
 ## Layout
 
