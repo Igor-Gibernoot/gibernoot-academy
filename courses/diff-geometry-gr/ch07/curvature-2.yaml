@@ -1,0 +1,297 @@
+id: ch07-curvature-2
+title: Curvature of the Metric · Part 2
+kind: concept
+
+own: |
+  - **Setting**: $(\mathcal{M},g)$ a metric manifold of dimension $d$, $(\mathcal{U},\mathscr{X})$ a chart with coordinate basis fields $\partial x_i$, $g_{ij}$ the components of $g$, $(g^{-1})^{ij}$ the entries of the inverse matrix, $\flat(\mathcal{X})\lceil\mathcal{Y}\rfloor := g(\mathcal{X},\mathcal{Y})$ the musical map, $\nabla^{\mathrm{LC}}$ the Levi-Civita connection with Christoffel symbols $\Gamma^k_{ij}$, and $\mathrm{Riem}$ its curvature, the $(1,3)$-tensor field with components $\mathrm{Riem}^l_{jkm}$. A **normal chart at $p$** is one with $\Gamma(p) = 0$.
+  - **Riemann–Christoffel curvature**, a $(0,4)$-tensor field: $\mathrm{Riem}^\flat(\mathcal{W},\mathcal{Z},\mathcal{X},\mathcal{Y}) := \mathrm{Riem}(\flat(\mathcal{W}),\mathcal{Z},\mathcal{X},\mathcal{Y})$, components
+  {{ $$(\mathrm{Riem}^\flat)_{ajkm} = g_{al}\,\mathrm{Riem}^l_{jkm}$$ }}
+  antisymmetric in $(k,m)$ and in $(a,j)$, unchanged under the pair exchange $(a,j)\leftrightarrow(k,m)$, with the algebraic Bianchi identity (cyclic sum over $j,k,m$ is $0$). Proof: in a normal chart at $p$, $\partial_kg_{ij}(p) = 0$ and $2(\mathrm{Riem}^\flat)_{ajkm}(p)$ is four second derivatives of $g$. Independent components: $d^2(d^2-1)/12$, i.e. $1, 6, 20$ for $d = 2, 3, 4$.
+  - **Ricci curvature** $\mathrm{Ric}_{ab} = \mathrm{Riem}^m_{amb}$, symmetric (pair exchange). **Ricci scalar** {{ $R := (g^{-1})^{mk}\,\mathrm{Ric}_{km}$ }}, a chart-independent function. In two dimensions $R$ decides everything: $\mathrm{Ric} = \tfrac R2\,g$.
+  - **Einstein curvature** {{ $G := \mathrm{Ric} - \tfrac12R\,g$ }}, symmetric, zero in two dimensions, and divergence free by the **contracted Bianchi identity** $(g^{-1})^{kl}(\nabla_{\partial x_k}G)_{ln} = 0$: the left-hand side of Einstein's equations.
+  - **Flat**: $\mathrm{Riem} = 0$ if and only if around every point some chart has constant metric components. $\Gamma = 0$ at one point proves nothing; $\mathrm{Ric} = 0$ forces flatness in dimensions $2$ and $3$, not in $4$.
+
+cards:
+  - type: text
+    id: recall-riem
+    title: "Recall: the curvature of the Levi-Civita connection"
+    body: |
+      Recall, from the lesson Curvature of the Metric · Part 1: on a metric manifold $(\mathcal{M},g)$ the Levi-Civita connection $\nabla^{\mathrm{LC}}$ (torsion free, keeping $g$ constant under transport) has Christoffel symbols $\Gamma^k_{ij}$ fixed by $g$ and its first derivatives, and a curvature $\mathrm{Riem}$, the $(1,3)$-tensor field with components (Einstein summation, $\partial_k$ the derivative along the $k$-th coordinate)
+      $$\begin{aligned}\mathrm{Riem}^i_{jkm} &= \partial_k\Gamma^i_{jm} - \partial_m\Gamma^i_{jk}\\ &\quad + \Gamma^i_{nk}\Gamma^n_{jm} - \Gamma^i_{nm}\Gamma^n_{jk}.\end{aligned}$$
+      From now on $\mathrm{Riem}$ and $\mathrm{Ric}_{ab} := \mathrm{Riem}^m_{amb}$ are the curvatures of $\nabla^{\mathrm{LC}}$, so the metric alone decides them. A nonzero $\Gamma$ proves nothing (the polar chart $(r,\theta)$ of the flat Euclidean plane has $\Gamma^1_{22} = -r$); the tensor $\mathrm{Riem}$ is the test. For polar-type components $g_{ij} = \mathrm{diag}(1,f(r)^2)$, $\mathrm{Riem}^1_{212} = -f\,f''$: flat for $f = r$ or $f = 2r$, curved for $f = r^2$.
+
+
+  - type: text
+    id: lowered
+    title: All indices down
+    body: |
+      $\mathrm{Riem}$ has one upper slot (it eats a covector) and three lower ones. With a metric we can turn its first slot into a vector slot using $\flat$ (recall: $\flat(\mathcal{W}) = g(\mathcal{W},\cdot)$, the covector field of $\mathcal{W}$). The **Riemann–Christoffel curvature** is the $(0,4)$-tensor field
+      $$\begin{aligned}&\mathrm{Riem}^\flat(\mathcal{W},\mathcal{Z},\mathcal{X},\mathcal{Y})\\ &:= \mathrm{Riem}\big(\flat(\mathcal{W}),\mathcal{Z},\mathcal{X},\mathcal{Y}\big).\end{aligned}$$
+      Its components follow from $\flat(\partial x_a) = g_{al}\,dx^l$. It carries the same information as $\mathrm{Riem}$ ($\flat$ is invertible), but with all indices at the same height its symmetries become visible.
+
+  - type: build
+    id: lowered-build
+    title: Lower the index
+    prompt: |
+      In a chart, the Riemann–Christoffel curvature $\mathrm{Riem}^\flat(\mathcal{W},\mathcal{Z},\mathcal{X},\mathcal{Y}) := \mathrm{Riem}(\flat(\mathcal{W}),\mathcal{Z},\mathcal{X},\mathcal{Y})$ has components $(\mathrm{Riem}^\flat)_{ajkm} := \mathrm{Riem}^\flat(\partial x_a,\partial x_j,\partial x_k,\partial x_m)$. Using $\flat(\partial x_a) = g_{al}\,dx^l$ and Einstein summation, build them.
+    prefix: '(\mathrm{Riem}^\flat)_{ajkm} ='
+    tiles: ['g_{al}', '(g^{-1})^{al}', '\mathrm{Riem}^l_{jkm}', '\mathrm{Riem}^a_{jkm}']
+    answers:
+      - ['g_{al}', '\mathrm{Riem}^l_{jkm}']
+      - ['\mathrm{Riem}^l_{jkm}', 'g_{al}']
+    wrong:
+      - { answer: ['(g^{-1})^{al}', '\mathrm{Riem}^l_{jkm}'], feedback: 'The inverse metric raises indices. Here the index goes **down**: $\flat$ uses $g$ itself, $\flat(\partial x_a) = g_{al}\,dx^l$.' }
+      - { answer: ['g_{al}', '\mathrm{Riem}^a_{jkm}'], feedback: 'The index $a$ would appear twice at the left and once on the right: the summed index must be a new one, $l$, shared between $g_{al}$ and $\mathrm{Riem}^l_{jkm}$.' }
+    explanation: |
+      $$\begin{aligned}(\mathrm{Riem}^\flat)_{ajkm} &= \mathrm{Riem}(g_{al}dx^l,\partial x_j,\partial x_k,\partial x_m)\\ &= g_{al}\,\mathrm{Riem}^l_{jkm}.\end{aligned}$$
+      Back up with the inverse: $\mathrm{Riem}^i_{jkm} = (g^{-1})^{ia}(\mathrm{Riem}^\flat)_{ajkm}$.
+
+  - type: numeric
+    id: pair-numbers
+    title: Two components, compared
+    prompt: |
+      Polar-type chart $(r,\theta)$, metric components $\mathrm{diag}(1,r^4)$. Two curvature components are $\mathrm{Riem}^1_{212} = -2r^2$ and $\mathrm{Riem}^2_{121} = -\tfrac2{r^2}$. With $(\mathrm{Riem}^\flat)_{ajkm} = g_{al}\,\mathrm{Riem}^l_{jkm}$, compute $(\mathrm{Riem}^\flat)_{2121}$ at $r = 2$.
+    answer: -8
+    answerText: '-8'
+    wrong:
+      - { value: -0.5, feedback: 'That is $\mathrm{Riem}^2_{121}$ at $r = 2$, before lowering. Multiply by $g_{22} = r^4 = 16$.' }
+      - { value: -32, feedback: 'Lowering uses $g_{22} = r^4 = 16$ times $\mathrm{Riem}^2_{121} = -\tfrac2{r^2} = -\tfrac12$, not $16\cdot(-2)$.' }
+    explanation: |
+      $$(\mathrm{Riem}^\flat)_{2121} = g_{22}\,\mathrm{Riem}^2_{121} = 16\cdot(-\tfrac12) = -8.$$
+      Compare: $(\mathrm{Riem}^\flat)_{1212} = g_{11}\,\mathrm{Riem}^1_{212} = 1\cdot(-8) = -8$. The same number, although the raised components $-8$ and $-\tfrac12$ differ. Exchanging the first pair of indices with the second leaves $\mathrm{Riem}^\flat$ unchanged; a symmetry of the lowered curvature of every metric.
+
+  - type: text
+    id: normal-chart
+    title: A chart where the proof is short
+    body: |
+      Recall from Level 6: for a torsion-free connection, at any point $p$ there is a **normal chart**, one in which all $\Gamma^k_{ji}(p) = 0$ (at $p$ only). Recall the compatibility of $\nabla^{\mathrm{LC}}$ in a chart: $\partial_kg_{ij} = \Gamma_{jik} + \Gamma_{ijk}$ with the lowered $\Gamma_{mij} = g_{mn}\Gamma^n_{ij}$. So in a normal chart also
+      $$\partial_kg_{ij}(p) = 0.$$
+      At $p$ the products $\Gamma\Gamma$ in $\mathrm{Riem}$ vanish, and so does the term of $\partial_k\Gamma^i_{jm}$ where the derivative hits $(g^{-1})^{il}$ (it multiplies first derivatives of $g$). What is left, with $\partial_{kj} := \partial_k\partial_j$ at $p$:
+      $$\begin{aligned}\partial_k\Gamma^i_{jm} = \tfrac12(g^{-1})^{il}\big(&\partial_{km}g_{lj} + \partial_{kj}g_{lm}\\ &- \partial_{kl}g_{jm}\big).\end{aligned}$$
+      Subtract the same with $k\leftrightarrow m$ and lower with $g_{ai}$ (so $g_{ai}(g^{-1})^{il} = \delta^l_a$).
+
+  - type: mcq
+    id: normal-cancel
+    title: Which term cancels?
+    prompt: |
+      At a point $p$, in a normal chart of $\nabla^{\mathrm{LC}}$ (all $\Gamma(p) = 0$, all $\partial_kg_{ij}(p) = 0$), with $\partial_{km} := \partial_k\partial_m$ at $p$:
+      $$\begin{aligned}\partial_k\Gamma^i_{jm} = \tfrac12(g^{-1})^{il}\big(&\partial_{km}g_{lj} + \partial_{kj}g_{lm}\\ &- \partial_{kl}g_{jm}\big).\end{aligned}$$
+      In $\mathrm{Riem}^i_{jkm}(p) = \partial_k\Gamma^i_{jm} - \partial_m\Gamma^i_{jk}$ one of the three terms cancels against its partner from $\partial_m\Gamma^i_{jk}$. Which one, and why?
+    options:
+      - text: '$\partial_{km}g_{lj}$, because mixed partial derivatives commute'
+        correct: true
+      - text: '$\partial_{kj}g_{lm}$, because $g$ is symmetric'
+        feedback: |
+          Swapping $k\leftrightarrow m$ turns $\partial_{kj}g_{lm}$ into $\partial_{mj}g_{lk}$, a different second derivative of a different component. Symmetry of $g$ does not relate them; this term survives.
+      - text: 'None: the four remaining terms are all different'
+        feedback: |
+          Under $k\leftrightarrow m$, $\partial_{km}g_{lj}$ becomes $\partial_{mk}g_{lj}$, the same thing (Schwarz: mixed partials commute). So it appears once with $+$ and once with $-$.
+    explanation: |
+      What survives, lowered with $g_{ai}$:
+      $$\begin{aligned}2(\mathrm{Riem}^\flat)_{ajkm}(p) &= \partial_{kj}g_{am} - \partial_{ka}g_{jm}\\ &\quad - \partial_{mj}g_{ak} + \partial_{ma}g_{jk}.\end{aligned}$$
+      Four second derivatives of $g$, each symmetric in its two derivative indices and in the two indices of $g$.
+
+  - type: text
+    id: symmetries
+    title: Four symmetries
+    body: |
+      From the four-term formula, in a normal chart at $p$:
+      $$\begin{aligned}2(\mathrm{Riem}^\flat)_{ajkm}(p) &= \partial_{kj}g_{am} - \partial_{ka}g_{jm}\\ &\quad - \partial_{mj}g_{ak} + \partial_{ma}g_{jk},\end{aligned}$$
+      read off, by relabelling:
+      - **(a)** $k\leftrightarrow m$ maps the four terms onto minus themselves: $(\mathrm{Riem}^\flat)_{ajkm} = -(\mathrm{Riem}^\flat)_{ajmk}$. (This one holds for any connection, straight from the definition.)
+      - **(b)** $a\leftrightarrow j$ swaps the first two terms and the last two: $(\mathrm{Riem}^\flat)_{ajkm} = -(\mathrm{Riem}^\flat)_{jakm}$.
+      - **(c)** The cyclic sum over $j,k,m$ vanishes, the **algebraic Bianchi identity**: $(\mathrm{Riem}^\flat)_{ajkm} + (\mathrm{Riem}^\flat)_{akmj} + (\mathrm{Riem}^\flat)_{amjk} = 0$ (twelve terms cancel in pairs).
+      - **(d)** The pair exchange $(a,j)\leftrightarrow(k,m)$ gives back the same four terms: $(\mathrm{Riem}^\flat)_{ajkm} = (\mathrm{Riem}^\flat)_{kmaj}$.
+
+      Why does a check in one special chart at one point prove them everywhere? Each identity says that some $(0,4)$-tensor field vanishes. A tensor that is $0$ in one chart at $p$ is $0$ in every chart at $p$, and $p$ was arbitrary.
+
+  - type: mcq
+    id: sym-components
+    title: One number, many components
+    prompt: |
+      On a two-dimensional manifold with metric, let $\rho := (\mathrm{Riem}^\flat)_{1212}$ at a point, where $\mathrm{Riem}^\flat$ is the Riemann–Christoffel curvature, with the symmetries $(\mathrm{Riem}^\flat)_{ajkm} = -(\mathrm{Riem}^\flat)_{ajmk}$ (last pair) and $(\mathrm{Riem}^\flat)_{ajkm} = -(\mathrm{Riem}^\flat)_{jakm}$ (first pair). Which components equal $-\rho$?
+    multiple: true
+    options:
+      - text: '$(\mathrm{Riem}^\flat)_{1221}$'
+        correct: true
+      - text: '$(\mathrm{Riem}^\flat)_{2112}$'
+        correct: true
+      - text: '$(\mathrm{Riem}^\flat)_{2121}$'
+        feedback: |
+          Two swaps, $1212\to2112\to2121$: each flips the sign, so the result is $+\rho$. (For $\mathrm{diag}(1,r^4)$ at $r = 2$, both $(\mathrm{Riem}^\flat)_{1212}$ and $(\mathrm{Riem}^\flat)_{2121}$ equal $-8$.)
+      - text: '$(\mathrm{Riem}^\flat)_{1122}$'
+        feedback: |
+          An antisymmetric pair with equal indices vanishes: $(\mathrm{Riem}^\flat)_{11km} = -(\mathrm{Riem}^\flat)_{11km}$, so it is $0$, not $-\rho$.
+    explanation: |
+      One swap gives $-\rho$ ($1221$, $2112$), two swaps give $+\rho$ ($2121$), and a repeated index inside a pair gives $0$. In two dimensions every component is $\pm\rho$ or $0$.
+
+  - type: numeric
+    id: count
+    title: How many numbers?
+    prompt: |
+      On a $d$-dimensional manifold with metric, the Riemann–Christoffel curvature $(\mathrm{Riem}^\flat)_{ajkm}$ is antisymmetric in $(a,j)$, antisymmetric in $(k,m)$, symmetric under $(a,j)\leftrightarrow(k,m)$, and obeys the algebraic Bianchi identity. In $d = 2$ the only possible nonzero components are $\pm(\mathrm{Riem}^\flat)_{1212}$. How many independent component functions are there in $d = 2$?
+    answer: 1
+    answerText: '1'
+    wrong:
+      - { value: 16, feedback: '$2^4 = 16$ counts all index combinations, ignoring the symmetries. Each antisymmetric pair in $d = 2$ has only one independent choice, $12$.' }
+      - { value: 4, feedback: 'Four components $1212, 1221, 2112, 2121$ are nonzero, but they are $\rho, -\rho, -\rho, \rho$: one number.' }
+    explanation: |
+      One: $\rho = (\mathrm{Riem}^\flat)_{1212}$. In general the symmetries leave $d^2(d^2-1)/12$ independent functions (stated, not proved here): $1$ for $d = 2$, $6$ for $d = 3$, $20$ for $d = 4$. Spacetime curvature has twenty numbers at each point.
+
+  - type: order
+    id: ricci-symmetric
+    title: Ricci is symmetric
+    prompt: |
+      For the Levi-Civita connection of a metric $g$, prove that the Ricci curvature $\mathrm{Ric}_{ab} = \mathrm{Riem}^m_{amb}$ is symmetric, using $\mathrm{Riem}^i_{jkm} = (g^{-1})^{il}(\mathrm{Riem}^\flat)_{ljkm}$ and the pair exchange $(\mathrm{Riem}^\flat)_{ajkm} = (\mathrm{Riem}^\flat)_{kmaj}$. Put the steps in order.
+    steps:
+      - '$\mathrm{Ric}_{ab} = \mathrm{Riem}^m_{amb}$, the definition.'
+      - '$= (g^{-1})^{mc}(\mathrm{Riem}^\flat)_{camb}$, raising with the inverse metric.'
+      - '$= (g^{-1})^{mc}(\mathrm{Riem}^\flat)_{mbca}$, by the pair exchange.'
+      - '$= (g^{-1})^{cm}(\mathrm{Riem}^\flat)_{cbma}$, renaming the summed $m\leftrightarrow c$ and using that $g^{-1}$ is symmetric.'
+      - '$= \mathrm{Riem}^m_{bma} = \mathrm{Ric}_{ba}$, raising back.'
+    hint: |
+      Start from the definition, go down to $\mathrm{Riem}^\flat$, use the symmetry, then come back up.
+    explanation: |
+      For a general connection $\mathrm{Ric}$ need not be symmetric (the pair exchange needs the metric and $\nabla^{\mathrm{LC}}$). For the metric's curvature it is a symmetric $(0,2)$-tensor field, like $g$ itself, which is what lets the two be compared and combined.
+
+  - type: text
+    id: scalar
+    title: One number per point
+    body: |
+      Contracting once more, with $\flat^{-1}(dx^m) = (g^{-1})^{mk}\partial x_k$, gives the **Ricci scalar**
+      $$\begin{aligned}R &:= \mathrm{Ric}\big(\flat^{-1}(dx^m),\partial x_m\big)\\ &= (g^{-1})^{mk}\,\mathrm{Ric}_{km}.\end{aligned}$$
+      A smooth function on the manifold, the same in every chart (it is a full contraction of tensors).
+
+      For $\mathrm{diag}(1,r^4)$ in the polar-type chart: $\mathrm{Ric}_{11} = \mathrm{Riem}^1_{111} + \mathrm{Riem}^2_{121} = 0 - \tfrac2{r^2}$ (the first vanishes by antisymmetry in the last pair), $\mathrm{Ric}_{22} = \mathrm{Riem}^1_{212} + \mathrm{Riem}^2_{222} = -2r^2$, and $\mathrm{Ric}_{12} = 0$.
+
+  - type: numeric
+    id: scalar-num
+    title: The Ricci scalar
+    prompt: |
+      Polar-type chart $(r,\theta)$, metric components $\mathrm{diag}(1,r^4)$, so the inverse has components $\mathrm{diag}(1,r^{-4})$. The Ricci curvature has $\mathrm{Ric}_{11} = -\tfrac2{r^2}$, $\mathrm{Ric}_{22} = -2r^2$, $\mathrm{Ric}_{12} = \mathrm{Ric}_{21} = 0$. Compute the Ricci scalar $R = (g^{-1})^{mk}\,\mathrm{Ric}_{km}$ at $r = 2$.
+    answer: -1
+    answerText: '-1'
+    wrong:
+      - { value: -8.5, feedback: 'That is $\mathrm{Ric}_{11} + \mathrm{Ric}_{22}$, a same-height sum that depends on the chart. The contraction needs the inverse metric: $(g^{-1})^{22} = \tfrac1{16}$ multiplies $\mathrm{Ric}_{22} = -8$.' }
+      - { value: -0.5, feedback: 'That is only the first term, $(g^{-1})^{11}\mathrm{Ric}_{11} = -\tfrac12$. Add $(g^{-1})^{22}\mathrm{Ric}_{22} = \tfrac1{16}\cdot(-8) = -\tfrac12$.' }
+    explanation: |
+      $$R = 1\cdot(-\tfrac12) + \tfrac1{16}\cdot(-8) = -1.$$
+      In general $R = -\tfrac2{r^2} - \tfrac2{r^2} = -\tfrac4{r^2}$, negative everywhere.
+
+  - type: text
+    id: two-dim
+    title: In two dimensions, one function says it all
+    body: |
+      In two dimensions everything is $\pm\rho$ or $0$, with $\rho := (\mathrm{Riem}^\flat)_{1212}$. Contracting, $\mathrm{Ric}_{11} = (g^{-1})^{22}(\mathrm{Riem}^\flat)_{2121} = (g^{-1})^{22}\rho$, and with $(g^{-1})^{22} = g_{11}/\det g$ (similarly for the others):
+      $$\mathrm{Ric}_{ab} = \frac{\rho}{\det g}\,g_{ab}.$$
+      Contracting again, $R = 2\rho/\det g$. So, for $d = 2$,
+      $$\mathrm{Ric} = \tfrac R2\,g,$$
+      and $(\mathrm{Riem}^\flat)_{ajkm} = \tfrac R2(g_{ak}g_{jm} - g_{am}g_{jk})$: the single function $R$ fixes all the curvature.
+
+      Check on $\mathrm{diag}(1,r^4)$: $\rho = g_{11}\mathrm{Riem}^1_{212} = -2r^2$, $\det g = r^4$, so $R = -4/r^2$ (as computed) and $\mathrm{Ric}_{22} = \tfrac R2 r^4 = -2r^2$. ✓
+
+  - type: mcq
+    id: sinh
+    title: Constant curvature
+    prompt: |
+      Polar-type chart $(r,\theta)$, metric components $\mathrm{diag}(1,f(r)^2)$ with $f(r) = \sinh r$ (so $f^{\prime\prime} = \sinh r$). For this family $\mathrm{Riem}^1_{212} = -ff^{\prime\prime}$, and in two dimensions the Ricci scalar is $R = 2\rho/\det g$ with $\rho = (\mathrm{Riem}^\flat)_{1212} = g_{11}\mathrm{Riem}^1_{212}$. What is $R$?
+    options:
+      - text: '$-2$, at every point'
+        correct: true
+      - text: '$-2\sinh^2 r$'
+        feedback: |
+          That is $2\rho$ without dividing by $\det g = \sinh^2 r$. The division is what makes $R$ chart independent; here it removes all $r$-dependence.
+      - text: '$+2$'
+        feedback: |
+          The sign of $\mathrm{Riem}^1_{212} = -\sinh^2r$ is negative because $f^{\prime\prime} = f > 0$: circles grow faster and faster. A positive $R$ needs $f^{\prime\prime}<0$, circles that grow more slowly than linear.
+      - text: '$0$, because $\sinh r\approx r$ for small $r$'
+        feedback: |
+          Near $r = 0$ the metric is close to Euclidean in its components, but curvature is a second-derivative quantity: $f^{\prime\prime} = \sinh r$ is not zero, and the ratio $\rho/\det g$ stays $-1$.
+    explanation: |
+      $\rho = -\sinh^2 r$, $\det g = \sinh^2 r$, so $R = -2$ everywhere: the same curvature at every point. This is the **hyperbolic plane**, the model of constant negative curvature. The opposite sign, $R > 0$, comes with circles that grow less than linearly: the next lesson's sphere.
+
+  - type: text
+    id: einstein
+    title: The Einstein curvature
+    body: |
+      One more combination, the **Einstein curvature**, a symmetric $(0,2)$-tensor field:
+      $$G := \mathrm{Ric} - \tfrac12R\,g,$$
+      in components $G_{ab} = \mathrm{Ric}_{ab} - \tfrac12R\,g_{ab}$. Why subtract this particular multiple of $g$? Because of a differential identity, stated here (the proof contracts the differential Bianchi identity of Level 6 twice). Its **divergence**, the derivative contracted with a slot through $g^{-1}$, vanishes:
+      $$(g^{-1})^{kl}(\nabla_{\partial x_k}G)_{ln} = 0.$$
+      This is the **contracted Bianchi identity**. $\mathrm{Ric}$ alone is not divergence free: its divergence is $\tfrac12\partial_nR$, and the $-\tfrac12Rg$ term (with $\nabla g = 0$) removes exactly that.
+
+      In two dimensions $\mathrm{Ric} = \tfrac R2 g$, so $G = 0$: the Einstein curvature is blind there.
+
+  - type: numeric
+    id: einstein-trace
+    title: Trace of the Einstein curvature
+    prompt: |
+      On a $d$-dimensional manifold with metric, the Einstein curvature is $G_{ab} = \mathrm{Ric}_{ab} - \tfrac12R\,g_{ab}$, with the Ricci scalar $R = (g^{-1})^{ab}\mathrm{Ric}_{ab}$, and $(g^{-1})^{ab}g_{ab} = d$. In $d = 4$, at a point where $R = 6$, compute $(g^{-1})^{ab}G_{ab}$.
+    answer: -6
+    answerText: '-6'
+    wrong:
+      - { value: 3, feedback: 'The trace of $g$ is not $1$: $(g^{-1})^{ab}g_{ab} = \delta^a_a = d = 4$, so the second term contributes $-\tfrac12\cdot6\cdot4 = -12$.' }
+      - { value: 0, feedback: 'Zero is the two-dimensional answer, $R - \tfrac12R\cdot2$. In four dimensions the trace of $g$ is $4$.' }
+      - { value: 6, feedback: 'Check the sign: $R - \tfrac12 R\cdot4 = R - 2R = -R$.' }
+    explanation: |
+      $$(g^{-1})^{ab}G_{ab} = R - \tfrac12R\cdot4 = -R = -6.$$
+      So in four dimensions $G = 0$ forces $R = 0$ and then $\mathrm{Ric} = 0$: $G = 0$ and $\mathrm{Ric} = 0$ are equivalent. Level 10 sets $G$ equal to the matter content, and $G = 0$ in empty space.
+
+  - type: mcq
+    id: trap-normal
+    tag: Trap
+    title: Zero at a point
+    prompt: |
+      At a point $p$ of a two-dimensional manifold with metric $g$, a normal chart has all Christoffel symbols $\Gamma^k_{ji}(p) = 0$ and all first derivatives $\partial_kg_{ij}(p) = 0$. What can you conclude about the curvature $\mathrm{Riem}(p)$?
+    options:
+      - text: 'Nothing: it can be zero or not'
+        correct: true
+      - text: 'It vanishes, since $\mathrm{Riem}$ is built from $\Gamma$'
+        feedback: |
+          $\mathrm{Riem}$ is built from $\Gamma$ **and its derivatives**. Vanishing at one point does not make the derivatives vanish: in a normal chart $2(\mathrm{Riem}^\flat)_{ajkm}(p)$ equals four second derivatives of $g$, which no chart can remove in general.
+      - text: 'It vanishes, since a tensor that is zero in one chart is zero in all'
+        feedback: |
+          True for tensors, but it is $\Gamma$ that vanishes here, and $\Gamma$ is not a tensor. Only if $\mathrm{Riem}$'s own components were zero would the tensor argument apply.
+    explanation: |
+      Every metric has a normal chart at every point, curved or not (the hyperbolic plane with $R = -2$ too). This is the "freely falling cabin" of Level 6: at one point gravity's first-order effects can be removed; curvature, the tides, cannot.
+
+  - type: mcq
+    id: trap-flat
+    tag: Trap
+    title: What flat means
+    prompt: |
+      A metric $g$ has $\mathrm{Riem} = 0$ everywhere. Recall from Level 6: for a torsion-free connection, $\mathrm{Riem} = 0$ if and only if around every point there is a chart with all $\Gamma = 0$ on a whole open set. Recall the compatibility of $\nabla^{\mathrm{LC}}$ in a chart: $\partial_kg_{ij} = \Gamma_{jik} + \Gamma_{ijk}$. What follows?
+    options:
+      - text: 'Around every point a chart has constant metric components'
+        correct: true
+      - text: 'Every chart has constant metric components'
+        feedback: |
+          The polar chart of the flat plane has $g_{22} = r^2$, not constant. Flatness promises **some** good chart around each point, not that all charts are good.
+      - text: 'Only that $\Gamma = 0$ at each point in a normal chart'
+        feedback: |
+          That holds for every metric, flat or not, and is far weaker. Flatness gives charts with $\Gamma = 0$ on a whole open set, and then $\partial_kg_{ij} = 0$ there.
+    explanation: |
+      In the chart with $\Gamma = 0$ on an open set, $\partial_kg_{ij} = 0 + 0$, so the components are constant (on a connected domain). Conversely, constant components give $\Gamma = 0$ and hence $\mathrm{Riem} = 0$. So for a metric, **flat** means: locally, in a suitable chart, constant components, like $\delta_{ij}$ or Minkowski's $\mathrm{diag}(-1,1)$. The metric $\mathrm{diag}(1,r^4)$ has no such chart.
+
+  - type: mcq
+    id: trap-ricci
+    tag: Trap
+    title: Ricci zero, curvature zero?
+    prompt: |
+      A metric has Ricci curvature $\mathrm{Ric} = 0$ everywhere. In which dimensions $d$ does this force the full curvature $\mathrm{Riem} = 0$? (The Riemann–Christoffel curvature has $d^2(d^2-1)/12$ independent components; the symmetric $\mathrm{Ric}$ has $d(d+1)/2$.)
+    multiple: true
+    options:
+      - text: '$d = 2$'
+        correct: true
+      - text: '$d = 3$'
+        correct: true
+      - text: '$d = 4$'
+        feedback: |
+          In four dimensions $\mathrm{Riem}$ has $20$ independent components and $\mathrm{Ric}$ only $10$: setting $\mathrm{Ric} = 0$ leaves ten curvature functions free. Empty space around a star has $\mathrm{Ric} = 0$ but is curved, and that leftover curvature is the tidal stretching felt near it.
+    explanation: |
+      $d = 2$: $\mathrm{Ric} = \tfrac R2 g$, so $\mathrm{Ric} = 0$ gives $R = 0$, hence $\rho = 0$ and $\mathrm{Riem} = 0$. $d = 3$: both have $6$ components, and in fact $\mathrm{Riem}$ can be written in terms of $\mathrm{Ric}$ and $g$ (stated). $d = 4$: $20 > 10$. This is why gravity in empty spacetime is not trivial: Level 10's vacuum equation $\mathrm{Ric} = 0$ still allows curvature.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** "Guided Problem: Meridians and Parallels of the Sphere · Part 1". The round sphere, in the angles of latitude and longitude: you will compute its Christoffel symbols, check which meridians and parallels are geodesics, and find its curvature, the positive counterpart of today's hyperbolic plane.

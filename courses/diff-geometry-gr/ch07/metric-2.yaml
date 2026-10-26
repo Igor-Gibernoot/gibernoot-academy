@@ -1,0 +1,214 @@
+id: ch07-metric-2
+title: The Metric and the Musical Maps · Part 2
+kind: concept
+
+own: |
+  - **Setting**: $(\mathcal{M},\mathcal{O},\mathcal{A},g)$ a metric manifold ($g$ a symmetric $(0,2)$-tensor field with invertible musical map); $\Gamma T\mathcal{M}$ and $\Gamma T^*\mathcal{M}$ are its smooth vector fields and covector fields; in a chart $(\mathcal{U},\mathscr{X})$, $\partial x_i$ is the $i$-th coordinate basis vector field, $dx^i$ the dual covector fields, $g_{ij} := g(\partial x_i,\partial x_j)$ the metric components, $\mathcal{X}=x^j\partial x_j$ a vector field and $\mathsf{X}=\mathtt{x}_j\,dx^j$ a covector field; $\delta^k_i$ is the identity matrix.
+  - **Lowering and raising**: the musical map $\flat(\mathcal{X})\lceil\mathcal{Y}\rfloor := g(\mathcal{X},\mathcal{Y})$ has components {{ $\flat(\mathcal{X})_i = x^j\,g_{ji}$ }} and $\flat^{-1}(\mathsf{X})^i = \mathtt{x}_j\,(g^{-1})^{ji}$, with the inverse metric $g^{-1}(\mathsf{X},\mathsf{Y}) := \mathsf{Y}\lceil\flat^{-1}(\mathsf{X})\rfloor$, symmetric, whose matrix is the inverse matrix (not the entrywise reciprocals):
+  {{ $$g_{ij}\,(g^{-1})^{jk} = \delta^k_i$$ }}
+  Euclidean plane, polar chart $(r,\theta)$: $g_{ij} = \mathrm{diag}(1,r^2)$, $(g^{-1})^{ij} = \mathrm{diag}(1,1/r^2)$; at the point with cartesian coordinates $(3,4)$ (polar $r=5$) the vector with polar components $(0,1)$ has $\flat$-components $(0,25)$. For $\mathsf{X}=df$, $\flat^{-1}(df)$ is the gradient of $f$.
+  - **Minkowski metric** on $\mathbb{R}^2$ with points $(t,a)$ and chart $(t,a)$: $\eta = -dx^1\otimes dx^1 + dx^2\otimes dx^2$, components $\mathrm{diag}(-1,1)$, a metric because {{ $\det(\eta_{ij}) = -1\neq0$ }}, though positivity fails: the nonzero vector $\partial x_1+\partial x_2$ has $\eta(\mathcal{W},\mathcal{W}) = 0$ (lightlike) without being in the kernel of $\flat$, and lowering flips the sign of the time component.
+
+cards:
+  - type: text
+    id: recall-metric
+    title: "Recall: the metric and its components"
+    body: |
+      Recall, from the lesson The Metric and the Musical Maps · Part 1: a **metric** $g$ on a manifold is a symmetric $(0,2)$-tensor field whose **musical map** $\flat(\mathcal{X})\lceil\mathcal{Y}\rfloor := g(\mathcal{X},\mathcal{Y})$, from vector fields to covector fields, is a bijection. Pointwise this means $g$ is non-degenerate, $\det\big(g_{ij}(p)\big)\neq0$ at every $p$, and positivity is not required. In a chart $(\mathcal{U},\mathscr{X})$ with coordinate basis fields $\partial x_i$ and dual covector fields $dx^i$, the components are $g_{ij} := g(\partial x_i,\partial x_j)$, symmetric, and for vector fields $\mathcal{X}=x^i\partial x_i$, $\mathcal{Y}=\tilde x^j\partial x_j$
+      $$g(\mathcal{X},\mathcal{Y}) = x^i\tilde x^jg_{ij}.$$
+      Euclidean plane (ordinary ruler): $\delta_{ij}$ in cartesian coordinates and $\mathrm{diag}(1,r^2)$ in polar coordinates $(r,\theta)$, so at the point with cartesian coordinates $(3,4)$, where $r = 5$, $g_{22} = 25$.
+
+  - type: text
+    id: lowering
+    title: Lowering an index
+    body: |
+      Now the musical map in a chart. For a vector field $\mathcal{X}|_\mathcal{U} = x^j\,\partial x_j$, the covector field $\flat(\mathcal{X})$ has components (recall: a covector field's components are its values on the basis fields)
+      $$\flat(\mathcal{X})_i := \flat(\mathcal{X})\lceil\partial x_i\rfloor.$$
+      By the definition of $\flat$, this is $g(\mathcal{X},\partial x_i)$. Expanding $\mathcal{X}$ gives a formula in the components $x^j$ and $g_{ij}$.
+
+  - type: build
+    id: build-flat
+    title: The components of flat
+    prompt: |
+      In a chart, let $\mathcal{X}|_\mathcal{U} = x^j\,\partial x_j$, metric components $g_{ij} := g(\partial x_i,\partial x_j)$, and $\flat(\mathcal{X})\lceil\mathcal{Y}\rfloor := g(\mathcal{X},\mathcal{Y})$. Build $\flat(\mathcal{X})_i := \flat(\mathcal{X})\lceil\partial x_i\rfloor$ (Einstein summation).
+    prefix: '\flat(\mathcal{X})_i ='
+    tiles: ['x^j', 'g_{ji}', '(g^{-1})^{ji}', 'x^i', '\delta_{ji}']
+    answers:
+      - ['x^j', 'g_{ji}']
+      - ['g_{ji}', 'x^j']
+    wrong:
+      - { answer: ['x^i'], feedback: 'Copying the vector components works only where $g_{ij} = \delta_{ij}$ (cartesian Euclidean). In polar coordinates at $(3,4)$, $\partial y_2$ has components $(0,1)$ but $\flat(\partial y_2)$ has $(0,25)$.' }
+      - { answer: ['x^j', '\delta_{ji}'], feedback: 'That copies the vector components: true only in a chart where $g_{ij} = \delta_{ij}$. In general $g(\partial x_j,\partial x_i) = g_{ji}$.' }
+      - { answer: ['x^j', '(g^{-1})^{ji}'], feedback: 'Index heights: $x^j$ up and $(g^{-1})^{ji}$ up cannot be summed, and the result must carry a **lower** $i$. Lowering uses $g$ itself: $g(x^j\partial x_j,\partial x_i) = x^jg_{ji}$.' }
+    explanation: |
+      $$\begin{aligned}\flat(\mathcal{X})_i &= g(x^j\partial x_j,\ \partial x_i)\\ &= x^j\,g_{ji}.\end{aligned}$$
+      The free index moved from upstairs ($x^j$) to downstairs ($i$): this is "lowering an index with $g$". The result keeps its own name, $\flat(\mathcal{X})_i$, never $x_i$, so it cannot be confused with anything else.
+
+  - type: mcq
+    id: flat-polar
+    title: Covector components are not vector components
+    prompt: |
+      On the plane with the Euclidean metric, polar components $(g_\mathscr{Y})_{kl} = \mathrm{diag}(1,r^2)$. At $p = (3,4)$ the vector $v$ has polar components $(y^1,y^2) = (0,1)$. Using $\flat(v)_k = y^l\,(g_\mathscr{Y})_{lk}$, what are the polar components $(\flat(v)_1, \flat(v)_2)$ of the covector $\flat(v)$?
+    options:
+      - text: '$(0,\ 25)$'
+        correct: true
+      - text: '$(0,\ 1)$'
+        feedback: |
+          Tempting, since in cartesian coordinates with the Euclidean metric vector and covector components coincide ($g_{ij} = \delta_{ij}$). In polar coordinates $g_{22} = r^2 = 25$ multiplies the angular component.
+      - text: '$(0,\ 5)$'
+        feedback: |
+          That multiplies by $r$, the length of $\partial y_2$. Lowering multiplies by the metric component $(g_\mathscr{Y})_{22} = r^2 = 25$.
+      - text: '$(0,\ 1/25)$'
+        feedback: |
+          Dividing by $r^2$ is what the **inverse** metric does when raising an index. Lowering uses $g$: $\flat(v)_2 = 1\cdot r^2 = 25$.
+    explanation: |
+      $\flat(v)_2 = y^2(g_\mathscr{Y})_{22} = 25$ and $\flat(v)_1 = 0$. Cross-check in the cartesian chart: $v = (-4,3)$ there, and with $\delta_{ij}$ its covector has cartesian components $(-4,3)$. The covector law $\mathtt{y}_k = (\partial\mathscr{X}^j/\partial\mathscr{Y}^k)\,\mathtt{x}_j$ gives
+      $$\mathtt{y}_2 = (-b)(-4) + a\cdot3 = 16 + 9 = 25.$$
+      Same covector, consistent in both charts.
+
+  - type: text
+    id: raising
+    title: The inverse musical map and the inverse metric
+    body: |
+      Since $\flat$ is a bijection, it has an inverse
+      $$\flat^{-1}\colon\Gamma T^*\mathcal{M}\to\Gamma T\mathcal{M},$$
+      also $C^\infty(\mathcal{M})$-linear: apply $\flat^{-1}$ to $\flat\big(f\,\flat^{-1}(\mathsf{X}) + \flat^{-1}(\mathsf{Y})\big) = f\,\mathsf{X}+\mathsf{Y}$. (Many texts call it $\sharp$, "sharp": it raises.) With it define the **inverse metric**, a $(2,0)$-tensor field:
+      $$g^{-1}(\mathsf{X},\mathsf{Y}) := \mathsf{Y}\lceil\flat^{-1}(\mathsf{X})\rfloor.$$
+      It is symmetric. Write $\mathsf{Y} = \flat(\flat^{-1}(\mathsf{Y}))$ and use the symmetry of $g$:
+      $$\begin{aligned}&g^{-1}(\mathsf{X},\mathsf{Y})\\ &= \flat\big(\flat^{-1}(\mathsf{Y})\big)\lceil\flat^{-1}(\mathsf{X})\rfloor\\ &= g\big(\flat^{-1}(\mathsf{Y}),\flat^{-1}(\mathsf{X})\big)\\ &= g\big(\flat^{-1}(\mathsf{X}),\flat^{-1}(\mathsf{Y})\big),\end{aligned}$$
+      which is $g^{-1}(\mathsf{Y},\mathsf{X})$ by the same steps backwards. So $g^{-1}$ is just $g$ fed the vector fields that $\flat^{-1}$ assigns to the two covector fields. Its components are
+      $$(g^{-1})^{ij} := g^{-1}(dx^i,dx^j),$$
+      often written $g^{ij}$ for short; here the $^{-1}$ stays, as a reminder of where they come from.
+
+  - type: order
+    id: inverse-matrix
+    title: Why the matrices are inverse
+    prompt: |
+      In a chart with basis fields $\partial x_i$, dual covector fields $dx^i$, metric components $g_{ij}$ and inverse metric components $(g^{-1})^{jk} := g^{-1}(dx^j,dx^k)$, where $g^{-1}(\mathsf{X},\mathsf{Y}) := \mathsf{Y}\lceil\flat^{-1}(\mathsf{X})\rfloor$. Put the derivation of $g_{ij}(g^{-1})^{jk} = \delta^k_i$ in order.
+    steps:
+      - 'Feed basis fields: $\flat(\partial x_i)\lceil\partial x_j\rfloor = g_{ij}$, so $\flat(\partial x_i) = g_{ij}\,dx^j$.'
+      - 'By definition $dx^k\lceil\flat^{-1}(dx^j)\rfloor = (g^{-1})^{jk}$, so $\flat^{-1}(dx^j) = (g^{-1})^{jk}\,\partial x_k$.'
+      - 'Undo $\flat$: $\partial x_i = \flat^{-1}\big(\flat(\partial x_i)\big) = \flat^{-1}(g_{ij}\,dx^j)$.'
+      - '$C^\infty$-linearity of $\flat^{-1}$ pulls out the functions: $\partial x_i = g_{ij}\,\flat^{-1}(dx^j)$.'
+      - 'Insert the second step: $\partial x_i = g_{ij}\,(g^{-1})^{jk}\,\partial x_k$.'
+      - 'The $\partial x_k$ form a basis, so the coefficients match: $g_{ij}(g^{-1})^{jk} = \delta^k_i$.'
+    hint: |
+      First express $\flat$ of a basis field and $\flat^{-1}$ of a basis covector field in the bases; then use $\flat^{-1}\circ\flat = \mathrm{id}$ on $\partial x_i$.
+    explanation: |
+      The relation between the matrices comes from the relation between the **maps**: $\flat^{-1}\circ\flat$ is the identity. Starting from $dx^j = \flat(\flat^{-1}(dx^j))$ instead gives the other order, $(g^{-1})^{jk}g_{kl} = \delta^j_l$. In matrix language: the matrix of $g^{-1}$ is the inverse of the matrix of $g$.
+
+  - type: numeric
+    id: polar-ginv
+    title: The inverse metric in polar coordinates
+    prompt: |
+      On the plane with the Euclidean metric, the polar components are $(g_\mathscr{Y})_{kl} = \mathrm{diag}(1, r^2)$, $r = \sqrt{a^2+b^2}$. The inverse metric components $(g^{-1}_\mathscr{Y})^{kl}$ satisfy $(g_\mathscr{Y})_{kl}\,(g^{-1}_\mathscr{Y})^{lm} = \delta^m_k$. What is $(g^{-1}_\mathscr{Y})^{22}$ at $p = (3,4)$?
+    answer: 0.04
+    answerText: '$1/25$'
+    wrong:
+      - { value: 25, feedback: 'That is $(g_\mathscr{Y})_{22} = r^2$ itself. The inverse of $\mathrm{diag}(1,r^2)$ is $\mathrm{diag}(1, 1/r^2)$, so the answer is $1/25$.' }
+      - { value: 0.2, feedback: 'That is $1/r$. The inverse of the diagonal entry $r^2 = 25$ is $1/r^2 = 1/25$.' }
+    explanation: |
+      For a diagonal matrix the inverse inverts each diagonal entry:
+      $$(g^{-1}_\mathscr{Y})^{kl} = \begin{pmatrix}1&0\\0&1/r^2\end{pmatrix},$$
+      which at $(3,4)$ has $(g^{-1}_\mathscr{Y})^{22} = 1/25$. Entry by entry inversion is special to diagonal matrices, as the next question shows.
+
+  - type: numeric
+    id: not-reciprocal
+    title: Inverse matrix, not reciprocal entries
+    prompt: |
+      On $\mathbb{R}^2$ take the constant metric with cartesian components $g_{ij} = \begin{pmatrix}2&1\\1&1\end{pmatrix}$ (symmetric, determinant $1$). Its inverse metric has components $(g^{-1})^{ij}$ with $g_{ij}(g^{-1})^{jk} = \delta^k_i$. What is $(g^{-1})^{12}$?
+    answer: -1
+    wrong:
+      - { value: 1, feedback: 'That is $1/g_{12}$, the reciprocal of one entry. The inverse metric inverts the whole **matrix**: $\begin{pmatrix}2&1\\1&1\end{pmatrix}^{-1} = \begin{pmatrix}1&-1\\-1&2\end{pmatrix}$.' }
+      - { value: 0, feedback: 'Off-diagonal entries of the inverse vanish only when the matrix is diagonal. Here $\begin{pmatrix}2&1\\1&1\end{pmatrix}^{-1} = \begin{pmatrix}1&-1\\-1&2\end{pmatrix}$.' }
+    hint: |
+      For a $2\times2$ matrix $\begin{pmatrix}\alpha&\beta\\\beta&\delta\end{pmatrix}$ the inverse is $\frac{1}{\alpha\delta-\beta^2}\begin{pmatrix}\delta&-\beta\\-\beta&\alpha\end{pmatrix}$.
+    explanation: |
+      $$(g^{-1})^{ij} = \begin{pmatrix}1&-1\\-1&2\end{pmatrix}.$$
+      Check one entry of the product: $g_{1j}(g^{-1})^{j1} = 2\cdot1 + 1\cdot(-1) = 1$. So $(g^{-1})^{11} = 1$, not $1/g_{11} = 1/2$, and $(g^{-1})^{12} = -1$, not $1/g_{12} = 1$.
+
+  - type: mcq
+    id: why-inverse
+    title: Inverse of what?
+    prompt: |
+      A metric $g$ eats two vector fields and returns a function; the inverse metric $g^{-1}(\mathsf{X},\mathsf{Y}) := \mathsf{Y}\lceil\flat^{-1}(\mathsf{X})\rfloor$ eats two covector fields, where $\flat(\mathcal{X})\lceil\mathcal{Y}\rfloor := g(\mathcal{X},\mathcal{Y})$. In what sense is $g^{-1}$ an "inverse"?
+    options:
+      - text: 'Its matrix of components is the inverse of the matrix $g_{ij}$, a consequence of $\flat^{-1}$ being the inverse map of $\flat$'
+        correct: true
+      - text: 'As a map: $g^{-1}\circ g$ is the identity'
+        feedback: |
+          $g$ sends a **pair** of vector fields to a function, and many pairs give the same function, so $g$ has no inverse map at all, and $g^{-1}\circ g$ does not even type-check: $g^{-1}$ eats covector fields, not functions. The map that is inverted is $\flat$.
+      - text: 'Each component is a reciprocal: $(g^{-1})^{ij} = 1/g_{ij}$'
+        feedback: |
+          True only for the diagonal entries of a diagonal metric. For $g_{ij} = \begin{pmatrix}2&1\\1&1\end{pmatrix}$ the inverse matrix is $\begin{pmatrix}1&-1\\-1&2\end{pmatrix}$, and $1/g_{12} = 1\neq-1$.
+    explanation: |
+      The name refers to components: $g_{ij}(g^{-1})^{jk} = \delta^k_i$. What is genuinely inverted is the musical map: $\flat\colon\Gamma T\mathcal{M}\to\Gamma T^*\mathcal{M}$ and $\flat^{-1}$ going back. A metric itself, a function of two arguments, is never invertible as a map.
+
+  - type: text
+    id: raising-components
+    title: Raising an index
+    body: |
+      For a covector field $\mathsf{X}|_\mathcal{U} = \mathtt{x}_j\,dx^j$, the vector field $\flat^{-1}(\mathsf{X})$ has components (recall: a vector field's components are the basis covector fields acting on it)
+      $$\begin{aligned}\flat^{-1}(\mathsf{X})^i &:= dx^i\lceil\flat^{-1}(\mathsf{X})\rfloor\\ &= g^{-1}(\mathtt{x}_j\,dx^j,\ dx^i)\\ &= \mathtt{x}_j\,(g^{-1})^{ji}.\end{aligned}$$
+      The free index moved up: "raising an index with $g^{-1}$". Again the result keeps its name, $\flat^{-1}(\mathsf{X})^i$, never $\mathtt{x}^i$.
+
+      Recall that until now a covector was pictured as a family of level lines, never as an arrow. With a metric, every covector has an arrow: $\flat^{-1}$ of it. For $\mathsf{X} = df$ this arrow is the familiar **gradient** of $f$.
+
+  - type: numeric
+    id: gradient-theta
+    title: The gradient of the angle
+    prompt: |
+      On the plane with the Euclidean metric, the inverse metric has polar components $(g^{-1}_\mathscr{Y})^{kl} = \mathrm{diag}(1, 1/r^2)$ in the chart $\mathscr{Y} = (r,\theta)$. The covector field $d\theta = dy^2$ has polar components $(\mathtt{y}_1,\mathtt{y}_2) = (0,1)$. Using $\flat^{-1}(\mathsf{X})^k = \mathtt{y}_l\,(g^{-1}_\mathscr{Y})^{lk}$, compute the polar $\theta$-component $\flat^{-1}(d\theta)^2$ at $p = (3,4)$.
+    answer: 0.04
+    answerText: '$1/25$'
+    wrong:
+      - { value: 1, feedback: 'That copies the covector components into the vector: valid only where the inverse metric is $\delta^{ij}$. Here $(g^{-1}_\mathscr{Y})^{22} = 1/r^2 = 1/25$.' }
+      - { value: 25, feedback: 'Multiplying by $r^2$ is lowering, with $g$. Raising uses $g^{-1}$, whose angular entry is $1/r^2$.' }
+    explanation: |
+      $\flat^{-1}(d\theta)^2 = 1\cdot\tfrac1{25}$ and $\flat^{-1}(d\theta)^1 = 0$, so the vector is $\tfrac1{25}(\partial y_2)_p = \tfrac1{25}(-4,3) = (-0.16,\ 0.12)$ in standard components. That is the gradient of $\theta$, $\big(-b/r^2,\ a/r^2\big)$ at $(3,4)$: it points along the circle, with length $1/r = 1/5$, because $\theta$ changes faster near the origin.
+
+  - type: text
+    id: minkowski
+    title: A metric that is not positive
+    body: |
+      Recall the Minkowski field of special relativity: $\mathbb{R}^2$ with points $(t,a)$ (time, position, speed of light $c = 1$), chart $\mathscr{X}(t,a) = (t,a)$, $\partial x_1 = \partial/\partial t$, $\partial x_2 = \partial/\partial a$, and
+      $$\eta := -dx^1\otimes dx^1 + dx^2\otimes dx^2,$$
+      with constant components $\eta_{ij} = \mathrm{diag}(-1,1)$. It is symmetric and $\det(\eta_{ij}) = -1\neq0$ at every point: **a metric**. Its inverse has components $(\eta^{-1})^{ij} = \mathrm{diag}(-1,1)$, its own inverse matrix.
+
+      Yet "squared lengths" $\eta(\mathcal{W},\mathcal{W})$ can be negative ($\eta(\partial x_1,\partial x_1) = -1$) or zero for a nonzero $\mathcal{W}$. Recall also the boost with speed $v$ and Lorentz factor $\kappa = 1/\sqrt{1-v^2}$: in the boosted chart the components are again $\mathrm{diag}(-1,1)$, the statement that every inertial observer measures the same spacetime intervals.
+
+  - type: mcq
+    id: lightlike-trap
+    title: Zero length, nonzero vector
+    prompt: |
+      On $\mathbb{R}^2$ with points $(t,a)$ and the Minkowski metric $\eta = -dx^1\otimes dx^1 + dx^2\otimes dx^2$ (components $\mathrm{diag}(-1,1)$), the field $\mathcal{W} = \partial x_1 + \partial x_2$ (a light ray's direction) satisfies $\eta(\mathcal{W},\mathcal{W}) = -1 + 1 = 0$, though $\mathcal{W}\neq0$. Does this contradict non-degeneracy ($\eta_p(\mathcal{W}_p,\mathcal{Y}_p) = 0$ for all $\mathcal{Y}_p$ forces $\mathcal{W}_p = 0$)?
+    options:
+      - text: 'No: non-degeneracy asks $\eta(\mathcal{W},\mathcal{Y}) = 0$ for **every** $\mathcal{Y}$, and $\eta(\mathcal{W},\partial x_1) = -1\neq0$'
+        correct: true
+      - text: 'Yes: $\eta$ is degenerate, so it is not really a metric'
+        feedback: |
+          Degenerate would mean some nonzero $\mathcal{W}$ is orthogonal to **everything**, including itself. Here $\mathcal{W}$ is orthogonal to itself only: $\eta(\mathcal{W},\partial x_1) = -1$. And $\det(\eta_{ij}) = -1\neq0$.
+      - text: 'No, because $\eta(\mathcal{W},\mathcal{W}) = 0$ only at the origin'
+        feedback: |
+          The components of $\mathcal{W}$ and of $\eta$ are constant, so $\eta(\mathcal{W},\mathcal{W}) = 0$ at **every** point. What saves non-degeneracy is another input: $\eta(\mathcal{W},\partial x_1) = -1$.
+    explanation: |
+      $\flat(\mathcal{W})_i = w^j\eta_{ji}$ with $(w^1,w^2) = (1,1)$ gives $(-1, 1)$: a nonzero covector, so $\mathcal{W}$ is not in the kernel of $\flat$. For a positive metric "zero length" would force zero vector; without positivity it does not. Such vectors are called **lightlike** (null).
+
+  - type: numeric
+    id: eta-lower
+    title: Lowering with Minkowski
+    prompt: |
+      On $\mathbb{R}^2$ with points $(t,a)$ and the Minkowski metric with components $\eta_{ij} = \mathrm{diag}(-1,1)$ in the chart $(t,a)$, take $\mathcal{W} = 2\,\partial x_1 + \partial x_2$ (components $(w^1,w^2) = (2,1)$). Compute the time component $\flat(\mathcal{W})_1 = w^j\eta_{j1}$.
+    answer: -2
+    wrong:
+      - { value: 2, feedback: 'That copies the vector component. Lowering with $\eta$ multiplies by $\eta_{11} = -1$: $\flat(\mathcal{W})_1 = 2\cdot(-1) = -2$.' }
+      - { value: 1, feedback: 'That is the space component $\flat(\mathcal{W})_2 = w^2\eta_{22} = 1$. The time component uses $w^1 = 2$ and $\eta_{11} = -1$.' }
+    explanation: |
+      $\flat(\mathcal{W}) = -2\,dx^1 + dx^2$: lowering with $\eta$ flips the sign of the time component and keeps the space one. This sign flip is why relativity texts keep track of upper and lower indices so carefully.
+
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      **Next:** the Euclidean metric is $\mathrm{diag}(1,1)$ and $\eta$ is $\mathrm{diag}(-1,1)$; recall that rescaling the chart turned $\eta$ into $\mathrm{diag}(-\tfrac14,\tfrac14)$ and a $45°$ rotation into $\begin{pmatrix}0&1\\1&0\end{pmatrix}$. The numbers change chart by chart, and a metric has no eigenvalues to fall back on. Is there anything about the minus signs that **no** chart can change? That invariant is the **signature**.
