@@ -1,0 +1,237 @@
+id: ch01-proof-pythagoras
+title: Proof of the Pythagorean Theorem
+kind: guided
+cards:
+  - type: text
+    id: goal
+    title: "Why do the divergences add?"
+    body: |
+      The last lesson **stated** a theorem. Today we **prove** it, one small step per card.
+
+      Recall the setting. A point $A$ of our space has coordinates $\xi_A$ (a list of numbers) and **dual coordinates** $\xi^*_A=\nabla\psi(\xi_A)$ (the slopes of a convex bowl-shaped function $\psi$, the **potential**; $\nabla\psi$ is the list of its slopes). The function $\psi^*$ is the **Legendre dual** of $\psi$. The divergence is
+      $$D[A:B]=\psi(\xi_A)+\psi^*(\xi^*_B)-\xi_A\cdot\xi^*_B,$$
+      where the dot is the sum of products of components. The theorem: if the dual geodesic from $P$ to $Q$ is orthogonal at $Q$ to the geodesic from $Q$ to $R$, then
+      $$D[R:P]=D[Q:P]+D[R:Q].$$
+
+      **Plan.** First an identity valid for **any** three points, with no right angle at all. Then the right angle will make one side of it vanish. Guess as you go: the algebra is short.
+
+  - type: numeric
+    id: gap-1d
+    prompt: |
+      One-dimensional example with $\psi(\xi)=\xi\ln\xi-\xi$, for which $\xi^*=\ln\xi$ and $\psi^*(\xi^*)=e^{\xi^*}$, so that $D[A:B]=A\ln(A/B)-A+B$ (here $A,B$ stand for the numbers $\xi_A,\xi_B$). Take three points $P=1$, $Q=2$, $R=4$ on the line. Compute the **gap**
+      $$D[Q:P]+D[R:Q]-D[R:P].$$
+    answer: -1.3863
+    tolerance: 0.002
+    answerText: '-ln 4 = -1.386'
+    wrong:
+      - { value: 0, feedback: 'The gap vanishes only when the triangle has a right angle at $Q$. In one dimension there are no angles at all, and the gap is generally not zero.' }
+    hint: |
+      $D[Q:P]=2\ln2-2+1$, $D[R:Q]=4\ln2-4+2$, $D[R:P]=4\ln4-4+1$.
+    explanation: |
+      $$\begin{aligned}D[Q:P]&=2\ln2-1=0.3863,\\D[R:Q]&=4\ln2-2=0.7726,\\D[R:P]&=4\ln4-3=2.5452,\end{aligned}$$
+      so the gap is $0.3863+0.7726-2.5452=-1.3863=-\ln4$. A gap of $-\ln4$ is not a coincidence: we will find a formula for it, and check that this number comes out.
+
+  - type: mcq
+    id: cancel
+    prompt: |
+      Write the gap $G=D[Q:P]+D[R:Q]-D[R:P]$ using $D[A:B]=\psi(\xi_A)+\psi^*(\xi^*_B)-\xi_A\cdot\xi^*_B$ for each of the three divergences. Which terms with $\psi$ or $\psi^*$ (not the dot products) are **left** after the cancellations?
+    options:
+      - text: '$\psi(\xi_Q)+\psi^*(\xi^*_Q)$ only.'
+        correct: true
+      - text: '$\psi(\xi_P)+\psi^*(\xi^*_R)$ only.'
+        feedback: |
+          Look at where each term comes from. $D[Q:P]$ gives $\psi(\xi_Q)+\psi^*(\xi^*_P)$, $D[R:Q]$ gives $\psi(\xi_R)+\psi^*(\xi^*_Q)$, and $-D[R:P]$ gives $-\psi(\xi_R)-\psi^*(\xi^*_P)$. Nothing involves $\psi(\xi_P)$ or $\psi^*(\xi^*_R)$.
+      - text: 'All six: nothing cancels.'
+        feedback: |
+          Two pairs cancel: $\psi(\xi_R)$ appears with $+$ in $D[R:Q]$ and $-$ in $-D[R:P]$, and $\psi^*(\xi^*_P)$ appears with $+$ in $D[Q:P]$ and $-$ in $-D[R:P]$.
+    explanation: |
+      $$\begin{aligned}G={}&\psi(\xi_Q)+\psi^*(\xi^*_P)-\xi_Q\cdot\xi^*_P\\&+\psi(\xi_R)+\psi^*(\xi^*_Q)-\xi_R\cdot\xi^*_Q\\&-\psi(\xi_R)-\psi^*(\xi^*_P)+\xi_R\cdot\xi^*_P.\end{aligned}$$
+      The $\psi(\xi_R)$ terms and the $\psi^*(\xi^*_P)$ terms cancel in pairs, leaving $\psi(\xi_Q)+\psi^*(\xi^*_Q)$ and three dot products.
+
+  - type: build
+    id: legendre-collapse
+    prompt: |
+      The point $Q$ has dual coordinates $\xi^*_Q=\nabla\psi(\xi_Q)$, and the Legendre dual is defined by $\psi^*(\xi^*)=\xi\cdot\xi^*-\psi(\xi)$ at the matching point. Use this to rewrite the leftover pair at $Q$.
+    prefix: '\psi(\xi_Q)+\psi^*(\xi^*_Q)\;='
+    tiles: ['\xi_Q\cdot\xi^*_Q', '\xi_Q\cdot\xi^*_P', '2\,\psi(\xi_Q)', '0']
+    answers:
+      - ['\xi_Q\cdot\xi^*_Q']
+    wrong:
+      - { answer: ['0'], feedback: 'The two potentials do not cancel: the definition says $\psi^*=\xi\cdot\xi^*-\psi$, so adding $\psi$ back leaves the dot product, not zero.' }
+    hint: |
+      Apply the definition $\psi^*(\xi^*)=\xi\cdot\xi^*-\psi(\xi)$ at $Q$ and add $\psi(\xi_Q)$.
+    explanation: |
+      $\psi^*(\xi^*_Q)=\xi_Q\cdot\xi^*_Q-\psi(\xi_Q)$, so $\psi(\xi_Q)+\psi^*(\xi^*_Q)=\xi_Q\cdot\xi^*_Q$. This is the point of the Legendre transform: the two potentials together at the **same** point give one dot product. (It would **not** simplify for two different points: that leftover is exactly what $D$ measures.)
+
+  - type: text
+    id: four-products
+    title: "Four products remain"
+    body: |
+      After the two cancellations and the Legendre step, the gap is a sum of four dot products:
+      $$G=\xi_Q\cdot\xi^*_Q-\xi_Q\cdot\xi^*_P-\xi_R\cdot\xi^*_Q+\xi_R\cdot\xi^*_P.$$
+      No $\psi$ is left: the gap depends only on the coordinates and dual coordinates of the three points. Four products with the pattern $xy-xz-wy+wz$ factor, exactly as $ (x-w)(y-z)$ expands.
+
+  - type: build
+    id: factor
+    prompt: |
+      Factor the four products into one dot product of two differences.
+    prefix: 'G='
+    tiles: ['(\xi_Q-\xi_R)', '(\xi^*_Q-\xi^*_P)', '(\xi_P-\xi_Q)', '(\xi^*_Q-\xi^*_R)', '\cdot']
+    answers:
+      - ['(\xi_Q-\xi_R)', '\cdot', '(\xi^*_Q-\xi^*_P)']
+      - ['(\xi^*_Q-\xi^*_P)', '\cdot', '(\xi_Q-\xi_R)']
+    wrong:
+      - { answer: ['(\xi_P-\xi_Q)', '\cdot', '(\xi^*_Q-\xi^*_R)'], feedback: 'These are the **wrong letters**: it pairs $P,Q$ in the coordinates and $Q,R$ in the dual coordinates. Expand it: the product $\xi_P\cdot\xi^*_Q$ appears, but it is not in $G$. The coordinates carry the pair $(Q,R)$, the dual coordinates the pair $(Q,P)$.' }
+    hint: |
+      The terms with $\xi_Q$ are $\xi_Q\cdot(\xi^*_Q-\xi^*_P)$ and those with $\xi_R$ are $-\xi_R\cdot(\xi^*_Q-\xi^*_P)$.
+    explanation: |
+      $$\begin{aligned}G&=\xi_Q\cdot(\xi^*_Q-\xi^*_P)-\xi_R\cdot(\xi^*_Q-\xi^*_P)\\&=(\xi_Q-\xi_R)\cdot(\xi^*_Q-\xi^*_P).\end{aligned}$$
+      This is the **three-point identity**, valid for any three points, derived here from the definition (we did not need a right angle, nor any picture):
+      $$\begin{aligned}&D[Q:P]+D[R:Q]-D[R:P]\\&=(\xi_Q-\xi_R)\cdot(\xi^*_Q-\xi^*_P).\end{aligned}$$
+
+  - type: numeric
+    id: check-1d
+    prompt: |
+      Test the identity on the one-dimensional example of before ($\psi=\xi\ln\xi-\xi$, $\xi^*=\ln\xi$, $P=1$, $Q=2$, $R=4$). Compute the right-hand side $(\xi_Q-\xi_R)(\xi^*_Q-\xi^*_P)$.
+    answer: -1.3863
+    tolerance: 0.002
+    answerText: '-2 ln 2 = -1.386'
+    hint: |
+      $\xi_Q-\xi_R=2-4$ and $\xi^*_Q-\xi^*_P=\ln2-\ln1$.
+    explanation: |
+      $(2-4)(\ln2-\ln1)=-2\ln2=-1.3863$: the same number as the left side computed directly from the three divergences, as it must be.
+
+  - type: order
+    id: order-proof
+    prompt: Put the proof of the three-point identity in order.
+    steps:
+      - 'Write the three divergences $D[Q:P]$, $D[R:Q]$, $D[R:P]$ from the definition and form $D[Q:P]+D[R:Q]-D[R:P]$.'
+      - 'Cancel $\psi(\xi_R)$ and $\psi^*(\xi^*_P)$, which appear once with each sign.'
+      - 'Replace $\psi(\xi_Q)+\psi^*(\xi^*_Q)$ by $\xi_Q\cdot\xi^*_Q$ (Legendre relation at the single point $Q$).'
+      - 'Collect the four remaining dot products and factor them as $(\xi_Q-\xi_R)\cdot(\xi^*_Q-\xi^*_P)$.'
+    hint: |
+      Cancel before you use the Legendre relation: it needs the potentials at one point.
+    explanation: |
+      Expand, cancel, apply the Legendre relation, factor. The Legendre relation is applied at one point only, $Q$, which is why the leftover is a product of differences.
+
+  - type: text
+    id: angle
+    title: "The factored gap is an angle"
+    body: |
+      Now the geometry. The **dual geodesic** from $P$ to $Q$ is the curve straight in the dual coordinates: $\xi^*(t)=(1-t)\xi^*_P+t\,\xi^*_Q$. Its **velocity** (rate of change with $t$; a tangent arrow) has dual components
+      $$\dot\xi^*=\xi^*_Q-\xi^*_P.$$
+      The **geodesic** from $Q$ to $R$ is straight in $\xi$: $\xi(t)=(1-t)\xi_Q+t\,\xi_R$, with components
+      $$\dot\xi=\xi_R-\xi_Q.$$
+      Recall that an arrow has two lists of components, in the coordinates $\xi$ and in the dual coordinates $\xi^*$, and the **inner product** of two arrows is the sum of products of one arrow's $\xi^*$-list with the other's $\xi$-list. The first arrow here is given in its dual list and the second in its $\xi$-list, so
+      $$\langle\dot\xi_{PQ},\dot\xi_{QR}\rangle=(\xi^*_Q-\xi^*_P)\cdot(\xi_R-\xi_Q).$$
+      Compare with the gap, whose first factor is $\xi_Q-\xi_R=-(\xi_R-\xi_Q)$: the gap is **minus** this inner product.
+
+  - type: mcq
+    id: conclude
+    prompt: |
+      Take $P,Q,R$ with the dual geodesic $PQ$ orthogonal to the geodesic $QR$ at $Q$ (zero inner product of their velocities). What does the three-point identity say?
+    options:
+      - text: '$D[R:P]=D[Q:P]+D[R:Q]$.'
+        correct: true
+      - text: '$D[R:P]=D[Q:P]-D[R:Q]$.'
+        feedback: |
+          The signs in the identity are $+D[Q:P]+D[R:Q]-D[R:P]$ on the left; with a zero right-hand side the three terms balance with these signs.
+      - text: '$D[R:P]=0$.'
+        feedback: |
+          A right angle makes the **gap** zero, not the divergence itself. It says the two short divergences add up to the long one.
+    explanation: |
+      Orthogonality means $\langle\dot\xi_{PQ},\dot\xi_{QR}\rangle=0$, so the right side of the three-point identity is $0$ and $D[Q:P]+D[R:Q]-D[R:P]=0$. That proves the **generalized Pythagorean theorem**: it is derived here from the definition of $D$, not quoted. The same identity also explains what the theorem does **not** say: for any triangle, the gap equals minus the inner product of the two velocities.
+
+  - type: numeric
+    id: gap-simplex
+    prompt: |
+      Beliefs over three outcomes: $P=(0.1,0.3,0.6)$, $R=(0.5,0.2,0.3)$ and a middle corner $Q=(0.35,0.35,0.3)$ (the divergence is $D[A:B]=\sum_iA_i\ln(A_i/B_i)$; the coordinates are the probabilities and $\xi^*_i=\ln p_i+\text{const}$, a constant that drops out below since $\sum_i(Q_i-R_i)=0$). Use the identity to compute the gap $D[Q:P]+D[R:Q]-D[R:P]=\sum_i(Q_i-R_i)\ln(Q_i/P_i)$.
+    answer: -0.1648
+    tolerance: 0.002
+    answerText: '-0.165'
+    hint: |
+      $Q-R=(-0.15,\,0.15,\,0)$ and $\ln(Q_i/P_i)=(1.2528,\,0.1542,\,-0.6931)$.
+    explanation: |
+      $$\begin{aligned}G&=-0.15\cdot1.2528+0.15\cdot0.1542+0\\&=-0.1648.\end{aligned}$$
+      Direct check: $D[Q:P]+D[R:Q]-D[R:P]=0.2845+0.0664-0.5157=-0.1648$. So the right angle is **absent** at this $Q$ (the gap is not zero), and the divergences do not add. With $Q=(0.175,0.525,0.3)$ the same formula gives exactly $0$: that is the triangle of the last lesson.
+
+  - type: mcq
+    id: trap-sign
+    prompt: |
+      For $P=(0.1,0.3,0.6)$, $R=(0.5,0.2,0.3)$ and a middle corner $Q=(0.1,0.5,0.4)$ the gap is $D[Q:P]+D[R:Q]-D[R:P]=+0.1127$ (positive). What does this tell you about the angle at $Q$?
+    options:
+      - text: 'The inner product of the two velocities is negative ($-0.1127$): the two short divergences add up to **more** than $D[R:P]$.'
+        correct: true
+      - text: 'The triangle is orthogonal at $Q$, since the gap is small.'
+        feedback: |
+          Orthogonal means the gap is **exactly** $0$. A small nonzero gap still means a slanted angle.
+      - text: 'The inner product is positive, because the gap is positive.'
+        feedback: |
+          Watch the sign: the gap is **minus** the inner product of the velocities, since the identity has the factor $\xi_Q-\xi_R$ while the geodesic velocity is $\xi_R-\xi_Q$.
+    explanation: |
+      Gap $=-\langle\dot\xi_{PQ},\dot\xi_{QR}\rangle$. A positive gap means a negative inner product, like an obtuse angle in ordinary geometry (the law of cosines then gives a long side shorter than the sum of the squares of the others). A negative gap, as at $(0.35,0.35,0.3)$, means a positive inner product, an acute angle.
+
+  - type: text
+    id: dual
+    title: "The mirror theorem"
+    body: |
+      The potential $\psi^*$ is also a convex potential, with coordinates $\xi^*$ and dual coordinates $\xi$. So the identity holds with the two sets of coordinates exchanged. Its divergence is $D_{\psi^*}[A:B]=D_\psi[B:A]$ (the arguments are reversed: $D_{\psi^*}[A:B]=\psi^*(\xi^*_A)+\psi(\xi_B)-\xi^*_A\cdot\xi_B=D_\psi[B:A]$). Rewriting the identity for $\psi^*$ in terms of $D=D_\psi$ gives
+
+      Now the **geodesic** $P\to Q$ (velocity $\xi_Q-\xi_P$) meets the **dual geodesic** $Q\to R$ (dual velocity $\xi^*_R-\xi^*_Q$): the roles of the two flat structures are swapped, and orthogonality gives the mirror relation $D[P:R]=D[P:Q]+D[Q:R]$.
+
+  - type: numeric
+    id: check-dual
+    prompt: |
+      Check the mirror identity in the one-dimensional example ($\psi=\xi\ln\xi-\xi$, $\xi^*=\ln\xi$, $D[A:B]=A\ln(A/B)-A+B$, $P=1$, $Q=2$, $R=4$). Compute its right-hand side $(\xi^*_Q-\xi^*_R)(\xi_Q-\xi_P)$.
+    answer: -0.6931
+    tolerance: 0.002
+    answerText: '-ln 2 = -0.693'
+    hint: |
+      $\xi^*_Q-\xi^*_R=\ln2-\ln4$ and $\xi_Q-\xi_P=2-1$.
+    explanation: |
+      $(\ln2-\ln4)(2-1)=-\ln2=-0.6931$. Directly, $D[P:Q]+D[Q:R]-D[P:R]=0.3069+0.6137-1.6137=-0.6931$: they agree. Note that this is **not** the number $-\ln4$ of the first identity: with the roles swapped, the gap differs.
+
+  - type: mcq
+    id: projection
+    prompt: |
+      Let $S$ be a flat submanifold (linear in $\xi$), $P$ a point outside and $F\in S$ the foot of the dual geodesic from $P$ that is orthogonal to $S$. For another point $R\in S$ we want $D[R:P]=D[F:P]+D[R:F]$. Which fact lets us apply the Pythagorean theorem to the triangle $P,F,R$?
+    options:
+      - text: 'The geodesic from $F$ to $R$ lies in $S$ (since $S$ is flat), so its velocity is a tangent vector of $S$, orthogonal to the dual geodesic $PF$ at $F$.'
+        correct: true
+      - text: 'The divergence is symmetric, so the order of $F$ and $R$ does not matter.'
+        feedback: |
+          Divergences are not symmetric, and the proof never uses symmetry: it uses a right angle between a dual geodesic and a geodesic.
+      - text: 'Every triangle in a dually flat space is orthogonal.'
+        feedback: |
+          No: for the middle corner $Q=(0.35,0.35,0.3)$ above, the gap was $-0.1648$, not $0$. The right angle comes from the construction of $F$ and the flatness of $S$.
+    explanation: |
+      The theorem needs a dual geodesic $PF$ orthogonal at $F$ to a **geodesic** $FR$. The foot gives the orthogonality to every tangent vector of $S$; flatness of $S$ makes the geodesic $FR$ stay inside $S$, so its velocity is such a tangent vector. Then $D[R:P]=D[F:P]+D[R:F]\ge D[F:P]$: the foot is the minimizer.
+
+  - type: numeric
+    id: projection-number
+    prompt: |
+      $S$ is the line $p_3=0.2$ of beliefs; $P=(0.5,0.1,0.4)$ and the foot is $F=(\tfrac23,\tfrac2{15},0.2)$, with $D[F:P]=0.0915$ and, for $R=(0.6,0.2,0.2)\in S$, $D[R:P]=0.1094$. By the projection identity $D[R:P]=D[F:P]+D[R:F]$, what is $D[R:F]$?
+    answer: 0.0179
+    tolerance: 0.001
+    answerText: '0.0179'
+    hint: |
+      Subtract: $0.1094-0.0915$.
+    explanation: |
+      $D[R:F]=0.1094-0.0915=0.0179$. Check directly from $D[R:F]=\sum_iR_i\ln(R_i/F_i)$ with $R=(0.6,0.2,0.2)$ and $F=(0.6667,0.1333,0.2)$: $0.6\ln0.9+0.2\ln1.5+0=0.0179$. The extra term is positive, so $F$ is better than $R$.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Setting.** On a space with coordinates $\xi$ (the index is a label, not a power), a convex potential $\psi$, its dual coordinates $\xi^*=\nabla\psi(\xi)$ and Legendre dual $\psi^*$, the divergence is
+        $$D[A:B]=\psi(\xi_A)+\psi^*(\xi^*_B)-\xi_A\cdot\xi^*_B,$$
+        and each point obeys the Legendre relation $\psi(\xi_Q)+\psi^*(\xi^*_Q)=\xi_Q\cdot\xi^*_Q$.
+      - **Three-point identity** (for any three points $P,Q,R$ of that space, no right angle needed):
+        $$\begin{aligned}&D[Q:P]+D[R:Q]-D[R:P]\\&=(\xi_Q-\xi_R)\cdot(\xi^*_Q-\xi^*_P).\end{aligned}$$
+        The proof expands the three divergences: $\psi(\xi_R)$ and $\psi^*(\xi^*_P)$ cancel, the Legendre relation turns $\psi(\xi_Q)+\psi^*(\xi^*_Q)$ into $\xi_Q\cdot\xi^*_Q$, and four products remain that factor.
+      - **Why it is an angle.** The dual geodesic $\xi^*(t)=(1-t)\xi^*_P+t\xi^*_Q$ from $P$ to $Q$ has dual velocity $\xi^*_Q-\xi^*_P$; the geodesic $\xi(t)=(1-t)\xi_Q+t\xi_R$ from $Q$ to $R$ has velocity $\xi_R-\xi_Q$. Hence
+        $$\begin{aligned}&D[Q:P]+D[R:Q]-D[R:P]\\&=-\langle\text{velocity}_{PQ},\text{velocity}_{QR}\rangle,\end{aligned}$$
+        and when the two curves are orthogonal at $Q$: $D[R:P]=D[Q:P]+D[R:Q]$.
+      - **Mirror and projection.** Applying the identity to $\psi^*$ (whose divergence is $D_{\psi^*}[A:B]=D_\psi[B:A]$) gives $D[P:Q]+D[Q:R]-D[P:R]=(\xi^*_Q-\xi^*_R)\cdot(\xi_Q-\xi_P)$. For a flat $S$ and the foot $F$ of the dual geodesic from $P$: $D[R:P]=D[F:P]+D[R:F]\ge D[F:P]$ for every $R\in S$.
+
+      **Next:** one projection finds the closest point of one flat set. With **two** flat sets, project back and forth: the algorithm of alternating minimization, in a worked case.
