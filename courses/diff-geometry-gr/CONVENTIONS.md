@@ -79,7 +79,7 @@ Read only the section you need: `grep -n '^## ' courses/diff-geometry-gr/CONVENT
 - **Chapter 4 complete** (lessons, traps, map, challenge): `ch04-tangent-space`,
   `ch04-velocity-operations`, `ch04-coordinate-basis`, `ch04-chart-basis` (guided B.5), `ch04-einstein`,
   `ch04-cotangent`, `ch04-cotangent-basis`, `ch04-tensor-space`, `ch04-traps`, `ch04-map` (13 boxes),
-  `ch04-challenge` (36 cards, five problems: polar chart at $(1,1)$, reparametrization rune and Leibniz,
+  `ch04-challenge` + `ch04-challenge-2` (problems 1-2 and 3-5; 36 cards before; five problems: polar chart at $(1,1)$, reparametrization rune and Leibniz,
   $S^1$ angle vs stereographic, trace invariant vs same-height diagonal sum, $v\otimes(df)_p$ in two charts);
   widget `chart-basis` built.
 - **Chapter 4 conventions so far:** curves pass through $p$ at $\lambda = 0$ in
@@ -189,7 +189,7 @@ Read only the section you need: `grep -n '^## ' courses/diff-geometry-gr/CONVENT
 
 - **Intuition lesson `ch05-intuition-lie`** (before `ch05-traps`): L_X on function, vector (= commutator), covector, (1,1), (0,2); rule: transport term x^m∂_m plus one term per index, **−** per upper and **+** per lower (opposite to Γ), derivative index on the top of x (upper) or on ∂ (lower). Components of X are x^i, of Y x̃^i, covector A with a_k; ∂_i := ∂/∂X^i on component functions. The book has no Lie derivative section (only the commutator, Ch. 6), so the lesson defines it itself.
 
-- **Chapter 5 complete** (lessons, traps, map, challenge): `ch05-vector-fields` (concept, 29 cards), `ch05-covector-fields` (concept, 25 cards), `ch05-module` (concept, 27 cards), `ch05-tensor-fields` (concept, 25 cards), `ch05-differentials` (guided, 28 cards), `ch05-traps` (24 cards), `ch05-map` (14 boxes, 7 rows), `ch05-challenge` (38 cards, five problems: rotation field, unit radial field and coframe, ring and zero divisors, closed vs exact, Minkowski boost).
+- **Chapter 5 complete** (lessons, traps, map, challenge): `ch05-vector-fields` (concept, 29 cards), `ch05-covector-fields` (concept, 25 cards), `ch05-module` (concept, 27 cards), `ch05-tensor-fields` (concept, 25 cards), `ch05-differentials` (guided, 28 cards), `ch05-traps` (24 cards), `ch05-map` (14 boxes, 7 rows), `ch05-challenge` + `ch05-challenge-2` (split 3+2 problems; 38 cards before; five problems: rotation field, unit radial field and coframe, ring and zero divisors, closed vs exact, Minkowski boost).
 - **Chapter 5 conventions so far** (`ch05-vector-fields`): $T\mathcal{M} := \dot\bigcup_p T_p\mathcal{M}$ (disjoint because all zero
   velocities are the same map $f\mapsto0$), projection $\pi(v_{\gamma,p}) = p$, fibre; bundle chart $\xi_{\mathscr{X}}(\mathcal{X}_p) = (\mathscr{X}(p)\,;\,x^1_p,\dots,x^d_p)$,
   transition $(\text{ᛖ}_{\mathcal{U}\mathcal{V}}(\alpha)\,;\,(\text{ᛞ}_{\mathcal{V}\mathcal{U}})^i_j(\alpha)\beta^j)$, $\dim T\mathcal{M} = 2d$, topology stated without proof; general bundle

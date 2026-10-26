@@ -11,7 +11,7 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
   map, review and challenge node in `course.yaml`), `exam-partial` (after Level 5) and
   `exam-final` (after Level 10). No planned nodes left.
 - **Next units (optional, pick one per session):** revisions from Igor's feedback; another intuition lesson only where a formula family gets mixed up (candidates: Einstein equations and trace reversal, Levi-Civita vs other connections). Built so far: `ch10-intuition-christoffel` (before Schwarzschild), `ch10-intuition-lorentz` (after `ch10-lorentz`), `ch10-intuition-einstein` (after `ch10-einstein-hilbert`). `ch10-intuition-connections` (after `ch10-intuition-einstein`, Levi-Civita vs other connections). No intuition lesson is pending.
-- **Oversized-lesson cleanup (autonomous, 3 per session):** `node tools/validate.mjs diff-geometry-gr | grep "split it"` lists 42 warnings left (challenges ch03, ch06-ch10 done). Next, worst first: challenges `ch05-challenge` (38), `ch04-challenge` (36), `ch02-challenge` (33); then lessons `ch04-cotangent-basis` (37), then the 35s (`ch06-torsion-curvature`, `ch10-spacetime`, `ch10-matter`; ids as in `course.yaml`).
+- **Oversized-lesson cleanup (autonomous, 5 per session from now on):** `node tools/validate.mjs diff-geometry-gr | grep "split it"` lists 39 warnings left (all level challenges done; only lessons remain). Next, worst first: `ch04-cotangent-basis` (37), the 35s (`ch06-torsion-curvature`, `ch10-spacetime`, `ch10-matter`), then a 33 (`ch04-coordinate-basis`, `ch08-volume-forms`, `ch09-point-mass` or `ch10-einstein-hilbert`); ids as in `course.yaml`.
 - **Conventions:** `CONVENTIONS.md`, one section per chapter (notation, running examples,
   key numbers already used). Before building or editing a lesson of Chapter N, read that
   section only (`grep -n '^## ' CONVENTIONS.md`). The rules that apply everywhere are in its
@@ -27,6 +27,8 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
   2026-10-24 say `content/…`, `docs/STATUS.md`, `js/widgets.js`: read as the new paths.
 
 ## Log
+
+- 2026-10-26 split level challenges (autonomous, 3 more): `ch05-challenge` (38) → P1-3 (23, keeps id) / `ch05-challenge-2` P4-5 (17); `ch04-challenge` (36) → P1-2 (18) / `ch04-challenge-2` P3-5 (20); `ch02-challenge` (33) → P1-2 (16) / `ch02-challenge-2` P3-5 (19). Card ids unchanged; only intro, wrap-up and teasers rewritten; no cross-references elsewhere. validate 0 errors, shots clean on all six parts. Conventions fixed here: none (CONVENTIONS.md challenge mentions updated).
 
 - 2026-10-26 split level challenges (autonomous, 3 more): `ch10-challenge` (49) → P1-2 (20, keeps id) / `ch10-challenge-2` P3-4 (22) / `ch10-challenge-3` P5 (11); `ch06-challenge` (49) → P1-2 (23) / `-2` P3-4 (19) / `-3` P5 (11); `ch03-challenge` (44) → P1-2 (20) / `-2` P3-5 (26; two parts suffice). Problems are independent, so no recall cards were needed except the ch10 part 3 intro (trace-reversed Einstein equation, traceless sources) and part 2 (field equations). Cards moved verbatim, ids unchanged; rewritten: intros, wrap-ups, teasers, three cross-references ("In Level 9" → Newton-Cartan theory, "as in Problem 4" → the plane light wave, "an earlier D" → the lesson Connections and Affine Manifolds). Validate 0 errors, 42 warnings (was 45). Conventions fixed here: none new (same part naming as ch07-ch09).
 

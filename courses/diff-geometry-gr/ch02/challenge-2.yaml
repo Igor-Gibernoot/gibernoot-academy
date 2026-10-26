@@ -1,0 +1,382 @@
+id: ch02-challenge-2
+title: Level Challenge · Part 2
+kind: challenge
+
+# The Level Challenge is split in 2 parts of at most 32 cards; part 2 holds problems 3, 4 and 5.
+
+cards:
+  - type: text
+    id: intro
+    title: Symmetry, rank and counting
+    body: |
+      This challenge mixes everything in the level. It comes in 2 parts; this is part 2 (problems 3, 4 and 5). Keep pencil and paper at hand: every answer can be checked by hand, and most need a few lines of work.
+
+      Almost every problem uses the same new basis of the plane $V = \mathbb{R}^2$, written in the old basis $\hat{x}_1, \hat{x}_2$:
+      $$\begin{aligned}
+      \hat{y}_1 &= 2\,\hat{x}_1 + \hat{x}_2 \\
+      \hat{y}_2 &= 3\,\hat{x}_1 + 2\,\hat{x}_2
+      \end{aligned}$$
+      Recall the convention: the change of basis matrix $J$ writes **old in terms of new**,
+      $$\hat{x}_i = \sum_{j=1}^2 J_i^j\,\hat{y}_j ,$$
+      so these two lines give the entries of $J^{-1}$: $\hat{y}_i = \sum_j (J^{-1})_i^j\,\hat{x}_j$.
+
+      Also recall the tensors of the level: a tensor of type $(r,s)$ eats $r$ covectors and $s$ vectors, with one factor $J$ or $J^{-1}$ per index, and its components are $d^{\,r+s}$ numbers in $d$ dimensions.
+
+      3. Splitting a $(0,2)$-tensor into symmetric and antisymmetric parts.
+      4. A $(1,1)$-tensor as a linear map: its rank.
+      5. Counting dimensions, and which numbers are basis-independent.
+
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: text
+    id: p3-intro
+    title: 'Problem 3: symmetric and antisymmetric parts'
+    body: |
+      Any $(0,2)$-tensor $T$ splits into a part that ignores the order of its inputs and a part that flips sign:
+      $$S(\mathcal{X}, \mathcal{Y}) := \tfrac12\big(T(\mathcal{X}, \mathcal{Y}) + T(\mathcal{Y}, \mathcal{X})\big)$$
+      and
+      $$A(\mathcal{X}, \mathcal{Y}) := \tfrac12\big(T(\mathcal{X}, \mathcal{Y}) - T(\mathcal{Y}, \mathcal{X})\big) .$$
+      Adding them gives back $T = S + A$. $S$ is **symmetric**, $S(\mathcal{Y}, \mathcal{X}) = S(\mathcal{X}, \mathcal{Y})$, and $A$ is **antisymmetric**, $A(\mathcal{Y}, \mathcal{X}) = -A(\mathcal{X}, \mathcal{Y})$. In components, $S_{ij} = \tfrac12(T_{ij} + T_{ji})$ and $A_{ij} = \tfrac12(T_{ij} - T_{ji})$.
+
+      Throughout, $T$ is the $(0,2)$-tensor on the plane with components
+      $$T_{11} = 1,\quad T_{12} = 3,\quad T_{21} = 1,\quad T_{22} = 4 .$$
+      Recall the determinant test: a non-zero $(0,2)$-tensor on the plane is a single product $\mathsf{a}\otimes\mathsf{b}$ (simple) exactly when $T_{11}T_{22} - T_{12}T_{21} = 0$, i.e. its rows are proportional.
+
+  - type: numeric
+    id: product-basis-coeff
+    tag: Problem 3 · Symmetric and antisymmetric
+    prompt: |
+      A $(0,2)$-tensor on the plane has components $T_{ij} = T(\hat{x}_i, \hat{x}_j)$:
+      $$T_{11} = 1,\quad T_{12} = 3,\quad T_{21} = 1,\quad T_{22} = 4 .$$
+      Expanded in the product basis, $T = \sum_{i,j} c_{ij}\,\hat{\mathfrak{x}}^i\otimes\hat{\mathfrak{x}}^j$. What is the coefficient of $\hat{\mathfrak{x}}^2\otimes\hat{\mathfrak{x}}^1$?
+    answer: 1
+    wrong:
+      - value: 3
+        feedback: |
+          That is $T_{12}$, the coefficient of $\hat{\mathfrak{x}}^1\otimes\hat{\mathfrak{x}}^2$. The first factor eats the first slot: $(\hat{\mathfrak{x}}^2\otimes\hat{\mathfrak{x}}^1)(\hat{x}_i, \hat{x}_j) = \delta^2_i\,\delta^1_j$, which picks out $T_{21}$.
+    hint: 'Feed $(\hat{x}_2, \hat{x}_1)$ to both sides: only one product survives.'
+    explanation: |
+      The coefficients are the components, in the same order: $c_{ij} = T_{ij}$. So
+      $$\begin{aligned}
+      T = {}&\hat{\mathfrak{x}}^1\otimes\hat{\mathfrak{x}}^1 + 3\,\hat{\mathfrak{x}}^1\otimes\hat{\mathfrak{x}}^2 \\
+      &+ \hat{\mathfrak{x}}^2\otimes\hat{\mathfrak{x}}^1 + 4\,\hat{\mathfrak{x}}^2\otimes\hat{\mathfrak{x}}^2
+      \end{aligned}$$
+      and the coefficient of $\hat{\mathfrak{x}}^2\otimes\hat{\mathfrak{x}}^1$ is $T_{21} = 1$.
+
+  - type: numeric
+    id: sym-part
+    tag: Problem 3 · Symmetric and antisymmetric
+    prompt: |
+      A $(0,2)$-tensor on the plane has components
+      $$T_{11} = 1,\quad T_{12} = 3,\quad T_{21} = 1,\quad T_{22} = 4 .$$
+      Its symmetric part is $S_{ij} = \tfrac12(T_{ij} + T_{ji})$. What is $S_{12}$?
+    answer: 2
+    wrong:
+      - value: 4
+        feedback: |
+          That is $T_{12} + T_{21}$ without the $\tfrac12$. Without it, $S + A$ would be $2T$, not $T$.
+      - value: 3
+        feedback: |
+          That is $T_{12}$ itself. The symmetric part averages the two off-diagonal entries, so that $S_{12} = S_{21}$.
+    explanation: |
+      $S_{12} = \tfrac12(3 + 1) = 2$, and the diagonal is unchanged ($S_{ii} = T_{ii}$):
+      $$S_{11} = 1,\quad S_{12} = S_{21} = 2,\quad S_{22} = 4 .$$
+
+  - type: numeric
+    id: antisym-part
+    tag: Problem 3 · Symmetric and antisymmetric
+    prompt: |
+      A $(0,2)$-tensor on the plane has components
+      $$T_{11} = 1,\quad T_{12} = 3,\quad T_{21} = 1,\quad T_{22} = 4 .$$
+      Its antisymmetric part is $A_{ij} = \tfrac12(T_{ij} - T_{ji})$. What is $A_{12}$?
+    answer: 1
+    wrong:
+      - value: 2
+        feedback: |
+          That is $T_{12} - T_{21}$ without the $\tfrac12$.
+      - value: -1
+        feedback: |
+          That is $A_{21} = \tfrac12(T_{21} - T_{12})$. For $A_{12}$ the first term is $T_{12}$.
+    explanation: |
+      $A_{12} = \tfrac12(3 - 1) = 1$ and $A_{21} = -1$, while $A_{11} = A_{22} = 0$: an antisymmetric tensor has zero diagonal, since $A_{ii} = -A_{ii}$. So $A$ is the signed area,
+      $$A = \hat{\mathfrak{x}}^1\otimes\hat{\mathfrak{x}}^2 - \hat{\mathfrak{x}}^2\otimes\hat{\mathfrak{x}}^1 .$$
+      Check: $S_{12} + A_{12} = 2 + 1 = 3 = T_{12}$ and $S_{21} + A_{21} = 2 - 1 = 1 = T_{21}$.
+
+  - type: mcq
+    id: which-simple-02
+    tag: Problem 3 · Symmetric and antisymmetric
+    multiple: true
+    prompt: |
+      On the plane, $T = S + A$ with components (row $i$ = first index)
+      $$T = \begin{pmatrix} 1 & 3 \\ 1 & 4 \end{pmatrix}$$
+      $$S = \begin{pmatrix} 1 & 2 \\ 2 & 4 \end{pmatrix}$$
+      $$A = \begin{pmatrix} 0 & 1 \\ -1 & 0 \end{pmatrix}$$
+      A non-zero $(0,2)$-tensor on the plane is simple ($= \mathsf{a}\otimes\mathsf{b}$) exactly when $T_{11}T_{22} - T_{12}T_{21} = 0$. Which of $T$, $S$, $A$ are simple? Select all that apply.
+    options:
+      - text: '$S$'
+        correct: true
+      - text: '$A$'
+        feedback: |
+          $A$ looks sparse, but sparse is not simple: $A_{11}A_{22} - A_{12}A_{21} = 0 - (1)(-1) = 1 \neq 0$. A non-zero antisymmetric tensor on the plane is never simple, since $\mathsf{a}\otimes\mathsf{b}$ with $\mathtt{a}_1\mathtt{b}_1 = \mathtt{a}_2\mathtt{b}_2 = 0$ forces $\mathtt{a}_1\mathtt{b}_2$ or $\mathtt{a}_2\mathtt{b}_1$ to vanish too.
+      - text: '$T$'
+        feedback: |
+          $T_{11}T_{22} - T_{12}T_{21} = 4 - 3 = 1 \neq 0$. One simple part does not make the whole simple: adding the area $A$ (which needs two products) spoils it.
+    explanation: |
+      $S_{11}S_{22} - S_{12}S_{21} = 4 - 4 = 0$: the rows $(1, 2)$ and $(2, 4)$ are proportional, so $S$ is simple. $A$ and $T$ have determinant $1$. Simplicity is a property of the tensor itself ("is it one product?"), so the test gives the same verdict in every basis.
+
+  - type: build
+    id: build-S
+    tag: Problem 3 · Symmetric and antisymmetric
+    prompt: |
+      The symmetric $(0,2)$-tensor $S$ on the plane has components $S_{11} = 1$, $S_{12} = S_{21} = 2$, $S_{22} = 4$. Products act by $(\mathsf{a}\otimes\mathsf{b})_{ij} = \mathtt{a}_i\,\mathtt{b}_j$. Write $S$ as a single product of covectors.
+    prefix: 'S ='
+    tiles: ['(\hat{\mathfrak{x}}^1 + 2\hat{\mathfrak{x}}^2)', '(\hat{\mathfrak{x}}^1 + 2\hat{\mathfrak{x}}^2)', '(2\hat{\mathfrak{x}}^1 + \hat{\mathfrak{x}}^2)', '(\hat{\mathfrak{x}}^1 + 4\hat{\mathfrak{x}}^2)', '(\hat{\mathfrak{x}}^1 + 4\hat{\mathfrak{x}}^2)', '\otimes']
+    answers:
+      - ['(\hat{\mathfrak{x}}^1 + 2\hat{\mathfrak{x}}^2)', '\otimes', '(\hat{\mathfrak{x}}^1 + 2\hat{\mathfrak{x}}^2)']
+    wrong:
+      - answer: ['(\hat{\mathfrak{x}}^1 + 2\hat{\mathfrak{x}}^2)', '\otimes', '(2\hat{\mathfrak{x}}^1 + \hat{\mathfrak{x}}^2)']
+        feedback: |
+          Its components are $\mathtt{a}_i\,\mathtt{b}_j$ with $\mathtt{a} = (1, 2)$, $\mathtt{b} = (2, 1)$: $\begin{pmatrix} 2 & 1 \\ 4 & 2 \end{pmatrix}$, which is not even symmetric. For $\mathtt{a}_1\mathtt{b}_1 = 1$ and $\mathtt{a}_1\mathtt{b}_2 = 2$, $\mathtt{b}$ must be proportional to $(1, 2)$.
+      - answer: ['(2\hat{\mathfrak{x}}^1 + \hat{\mathfrak{x}}^2)', '\otimes', '(\hat{\mathfrak{x}}^1 + 2\hat{\mathfrak{x}}^2)']
+        feedback: |
+          Its components are $\mathtt{a}_i\,\mathtt{b}_j$ with $\mathtt{a} = (2, 1)$, $\mathtt{b} = (1, 2)$: $\begin{pmatrix} 2 & 4 \\ 1 & 2 \end{pmatrix}$, which is not symmetric. Both factors must be proportional to the first row $(1, 2)$.
+      - answer: ['(\hat{\mathfrak{x}}^1 + 4\hat{\mathfrak{x}}^2)', '\otimes', '(\hat{\mathfrak{x}}^1 + 4\hat{\mathfrak{x}}^2)']
+        feedback: |
+          The diagonal of a product is $\mathtt{a}_i\,\mathtt{a}_i$, a square: this gives $S_{22} = 16$, not $4$. The factor comes from a **row** of $S$, not from its diagonal.
+    hint: 'Every row of a simple tensor is a multiple of $\mathtt{b}$. The first row of $S$ is $(1, 2)$.'
+    explanation: |
+      With $\mathsf{a} = \hat{\mathfrak{x}}^1 + 2\,\hat{\mathfrak{x}}^2$, the components of $\mathsf{a}\otimes\mathsf{a}$ are $\mathtt{a}_i\,\mathtt{a}_j$:
+      $$\begin{aligned}
+      \mathtt{a}_i\,\mathtt{a}_j &= \begin{pmatrix} 1\cdot 1 & 1\cdot 2 \\ 2\cdot 1 & 2\cdot 2 \end{pmatrix} \\
+      &= \begin{pmatrix} 1 & 2 \\ 2 & 4 \end{pmatrix} = S .
+      \end{aligned}$$
+      So $T = \mathsf{a}\otimes\mathsf{a} + A$: a single product plus the signed area.
+
+  - type: numeric
+    id: rank-T
+    tag: Problem 3 · Symmetric and antisymmetric
+    prompt: |
+      The $(0,2)$-tensor $T$ on the plane with components $T_{11} = 1$, $T_{12} = 3$, $T_{21} = 1$, $T_{22} = 4$ splits as $T = S + A$, where $S = \mathsf{a}\otimes\mathsf{a}$ is one product and the signed area $A = \hat{\mathfrak{x}}^1\otimes\hat{\mathfrak{x}}^2 - \hat{\mathfrak{x}}^2\otimes\hat{\mathfrak{x}}^1$ needs two. What is the **smallest** number of simple tensors whose sum is $T$ (its rank)?
+    answer: 2
+    wrong:
+      - value: 3
+        feedback: |
+          $1 + 2 = 3$ is how many products **this** split uses, but another split can be shorter. Group by rows: each row of $T$ gives one product, $\hat{\mathfrak{x}}^1\otimes(\ldots) + \hat{\mathfrak{x}}^2\otimes(\ldots)$.
+      - value: 1
+        feedback: |
+          A single product has $T_{11}T_{22} - T_{12}T_{21} = 0$, but here it is $4 - 3 = 1$.
+    hint: 'Write $T = \hat{\mathfrak{x}}^1\otimes\mathsf{b}_1 + \hat{\mathfrak{x}}^2\otimes\mathsf{b}_2$, with $\mathsf{b}_i$ read from row $i$.'
+    explanation: |
+      Reading the rows $(1, 3)$ and $(1, 4)$:
+      $$\begin{aligned}
+      T = {}&\hat{\mathfrak{x}}^1\otimes(\hat{\mathfrak{x}}^1 + 3\,\hat{\mathfrak{x}}^2) \\
+      &+ \hat{\mathfrak{x}}^2\otimes(\hat{\mathfrak{x}}^1 + 4\,\hat{\mathfrak{x}}^2) .
+      \end{aligned}$$
+      Two products suffice, and one cannot (determinant $1$), so the rank is $2$. Ranks don't add: on the plane every $(0,2)$-tensor has rank at most $2$.
+
+  - type: mcq
+    id: symmetry-survives
+    tag: Problem 3 · Symmetric and antisymmetric
+    prompt: |
+      A $(0,2)$-tensor $S$ has symmetric components, $S_{kl} = S_{lk}$, in one basis. Under any change of basis its components become
+      $$\tilde{S}_{ij} = \sum_{k,l} (J^{-1})_i^k\,(J^{-1})_j^l\,S_{kl} .$$
+      Are the new components symmetric too?
+    options:
+      - text: 'Yes, for every invertible $J$'
+        correct: true
+      - text: 'Only if $J$ is symmetric'
+        feedback: |
+          Swap $i$ and $j$ in the law and rename the summed indices $k \leftrightarrow l$: you get back $\tilde{S}_{ij}$ using only $S_{lk} = S_{kl}$. Nothing about $J$ is needed. Example: $\tilde{D}_{12} = \tilde{D}_{21} = 8$ for the dot product under the non-symmetric change $\hat{y}_1 = 2\,\hat{x}_1 + \hat{x}_2$, $\hat{y}_2 = 3\,\hat{x}_1 + 2\,\hat{x}_2$.
+      - text: 'Only if $J$ is a rotation'
+        feedback: |
+          Rotations need angles, hence a metric; the argument needs none. Symmetry is the basis-free statement $S(\mathcal{X}, \mathcal{Y}) = S(\mathcal{Y}, \mathcal{X})$, so $\tilde{S}_{ij} = S(\hat{y}_i, \hat{y}_j) = S(\hat{y}_j, \hat{y}_i) = \tilde{S}_{ji}$ in **any** basis.
+    explanation: |
+      $\tilde{S}_{ij} = S(\hat{y}_i, \hat{y}_j) = S(\hat{y}_j, \hat{y}_i) = \tilde{S}_{ji}$. Symmetry and antisymmetry are properties of the tensor, so the split $T = S + A$ is the same in every basis. This matters later: the metric is a **symmetric** $(0,2)$-tensor in every basis, and the electromagnetic field strength an antisymmetric one.
+
+  # ---------------------------------------------------------------- Problem 4
+  - type: text
+    id: p4-intro
+    title: 'Problem 4: a (1,1)-tensor as a linear map'
+    body: |
+      Recall that a $(1,1)$-tensor $L$ is the same thing as a linear map $\varphi_L : V \to V$, with
+      $$\varphi_L(\mathcal{X})^i = \sum_j L^i_j\,x^j :$$
+      the components $L^i_j$ form its matrix, row $i$ (upper index) and column $j$ (lower index). A simple $(1,1)$-tensor $v\otimes\mathsf{v}$ has components $v^i\,\mathtt{v}_j$ and acts as $\mathcal{X}\mapsto\mathsf{v}(\mathcal{X})\,v$, so all its outputs lie on the line of $v$.
+
+      Throughout, $L$ is the $(1,1)$-tensor on the plane with
+      $$L^1_1 = 2,\quad L^1_2 = 4,\quad L^2_1 = 1,\quad L^2_2 = 2 .$$
+
+  - type: mcq
+    id: image-L
+    tag: Problem 4 · Linear maps
+    prompt: |
+      A $(1,1)$-tensor $L$ on the plane has components (row $i$ = upper index)
+      $$L = \begin{pmatrix} 2 & 4 \\ 1 & 2 \end{pmatrix},$$
+      and acts as the linear map $\varphi_L(\mathcal{X})^i = \sum_j L^i_j\,x^j$. Where do all the outputs $\varphi_L(\mathcal{X})$ lie?
+    options:
+      - text: 'On the line of $2\,\hat{x}_1 + \hat{x}_2$'
+        correct: true
+      - text: 'On the line of $\hat{x}_1 + 2\,\hat{x}_2$'
+        feedback: |
+          $(1, 2)$ is the direction of the **rows**, which belong to the covector slot (the input side). The outputs are combinations of the **columns**: $\varphi_L(\mathcal{X}) = x^1 (2, 1) + x^2 (4, 2)$.
+      - text: 'They fill the whole plane'
+        feedback: |
+          Try $\mathcal{X} = (1, 0)$ and $(0, 1)$: the outputs are $(2, 1)$ and $(4, 2) = 2\,(2, 1)$, on the same line. Every output is a combination of these two, so it stays on that line.
+    explanation: |
+      $\varphi_L(\mathcal{X}) = (2x^1 + 4x^2,\ x^1 + 2x^2) = (x^1 + 2x^2)\,(2, 1)$. Every output is a multiple of $v = 2\,\hat{x}_1 + \hat{x}_2$, and the multiple is $\mathsf{v}(\mathcal{X})$ with $\mathsf{v} = \hat{\mathfrak{x}}^1 + 2\,\hat{\mathfrak{x}}^2$. The map squeezes the plane onto a line: rank $1$.
+
+  - type: build
+    id: build-L
+    tag: Problem 4 · Linear maps
+    prompt: |
+      The $(1,1)$-tensor $L$ on the plane has components $L^1_1 = 2$, $L^1_2 = 4$, $L^2_1 = 1$, $L^2_2 = 2$. A simple $(1,1)$-tensor $v\otimes\mathsf{v}$ (vector first, then covector) has components $v^i\,\mathtt{v}_j$. Write $L$ as a single product.
+    prefix: 'L ='
+    tiles: ['(2\hat{x}_1 + \hat{x}_2)', '(\hat{x}_1 + 2\hat{x}_2)', '(\hat{\mathfrak{x}}^1 + 2\hat{\mathfrak{x}}^2)', '(2\hat{\mathfrak{x}}^1 + \hat{\mathfrak{x}}^2)', '\otimes']
+    answers:
+      - ['(2\hat{x}_1 + \hat{x}_2)', '\otimes', '(\hat{\mathfrak{x}}^1 + 2\hat{\mathfrak{x}}^2)']
+    wrong:
+      - answer: ['(\hat{x}_1 + 2\hat{x}_2)', '\otimes', '(2\hat{\mathfrak{x}}^1 + \hat{\mathfrak{x}}^2)']
+        feedback: |
+          This has components $v^i\,\mathtt{v}_j$ with $v = (1, 2)$, $\mathtt{v} = (2, 1)$: $\begin{pmatrix} 2 & 1 \\ 4 & 2 \end{pmatrix}$, the transpose of $L$. The vector $v$ is a **column** of $L$ (the upper index labels rows), the covector a **row**.
+      - answer: ['(\hat{\mathfrak{x}}^1 + 2\hat{\mathfrak{x}}^2)', '\otimes', '(2\hat{x}_1 + \hat{x}_2)']
+        feedback: |
+          Right factors, wrong order. With the convention vector first, $v\otimes\mathsf{v}$, the vector fills the covector slot. $\mathsf{v}\otimes v$ is an element of $V^*\otimes V$, a different space.
+    hint: 'Every column of $L$ is a multiple of $v$, and every row a multiple of $\mathtt{v}$. Column $1$ is $(2, 1)$, row $1$ is $(2, 4)$.'
+    explanation: |
+      $v = (2, 1)$ and $\mathtt{v} = (1, 2)$ give
+      $$\begin{aligned}
+      v^i\,\mathtt{v}_j &= \begin{pmatrix} 2\cdot 1 & 2\cdot 2 \\ 1\cdot 1 & 1\cdot 2 \end{pmatrix} \\
+      &= \begin{pmatrix} 2 & 4 \\ 1 & 2 \end{pmatrix} = L .
+      \end{aligned}$$
+      Note $v = 2\,\hat{x}_1 + \hat{x}_2$ is exactly $\hat{y}_1$ of the challenge basis, so in the basis $\hat{y}_1, \hat{y}_2$ the vector factor has components $(1, 0)$ and only the first row of $\tilde{L}$ survives.
+
+  - type: numeric
+    id: kernel-L
+    tag: Problem 4 · Linear maps
+    prompt: |
+      The $(1,1)$-tensor $L = (2\,\hat{x}_1 + \hat{x}_2)\otimes(\hat{\mathfrak{x}}^1 + 2\,\hat{\mathfrak{x}}^2)$ acts as the linear map $\varphi_L(\mathcal{X}) = (x^1 + 2\,x^2)\,(2\,\hat{x}_1 + \hat{x}_2)$. The vector $\mathcal{X} = 2\,\hat{x}_1 + x^2\,\hat{x}_2$ is sent to $0$. What is $x^2$?
+    answer: -1
+    wrong:
+      - value: -4
+        feedback: |
+          That makes $2x^1 + x^2 = 0$, using the components of the vector factor. The output vanishes when the **covector** factor vanishes: $\mathsf{v}(\mathcal{X}) = x^1 + 2\,x^2 = 0$.
+    explanation: |
+      $x^1 + 2x^2 = 2 + 2x^2 = 0$ gives $x^2 = -1$. The vectors sent to $0$ form the line of $2\,\hat{x}_1 - \hat{x}_2$, the zero level line of $\mathsf{v}$. On the plane, rank $1$ means one line of outputs and one line of inputs sent to $0$: $1 + 1 = 2$ dimensions.
+
+  - type: mcq
+    id: which-simple-11
+    tag: Problem 4 · Linear maps
+    multiple: true
+    prompt: |
+      Each matrix lists the components $T^i_j$ of a $(1,1)$-tensor on the plane (row $i$ = upper index). A non-zero one is simple, $v\otimes\mathsf{v}$, exactly when its matrix has rank $1$ (determinant $0$). Which are simple? Select all that apply.
+    options:
+      - text: '$\begin{pmatrix} 0 & 0 \\ 3 & -1 \end{pmatrix}$'
+        correct: true
+      - text: '$\begin{pmatrix} 6 & 3 \\ -2 & -1 \end{pmatrix}$'
+        correct: true
+      - text: '$\begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$'
+        feedback: |
+          The identity sends the plane onto the whole plane, not onto a line, so it needs two products: $\hat{x}_1\otimes\hat{\mathfrak{x}}^1 + \hat{x}_2\otimes\hat{\mathfrak{x}}^2$. Its determinant is $1$.
+      - text: '$\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}$'
+        feedback: |
+          No zero entries is not the issue; proportional rows are. $1\cdot 4 - 2\cdot 3 = -2 \neq 0$, so it has rank $2$.
+    explanation: |
+      $\begin{pmatrix} 0 & 0 \\ 3 & -1 \end{pmatrix} = \hat{x}_2\otimes(3\,\hat{\mathfrak{x}}^1 - \hat{\mathfrak{x}}^2)$, and
+      $$\begin{pmatrix} 6 & 3 \\ -2 & -1 \end{pmatrix} = (3\,\hat{x}_1 - \hat{x}_2)\otimes(2\,\hat{\mathfrak{x}}^1 + \hat{\mathfrak{x}}^2) .$$
+      A zero row is fine: it just means $v$ has a zero component. The rank of a $(1,1)$-tensor is the rank of the linear map, and it is the same in every basis.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: numeric
+    id: dim-VW
+    tag: Problem 5 · Counting
+    prompt: |
+      $V$ has dimension $3$ and $W$ has dimension $4$. What is the dimension of $V\otimes W$?
+    answer: 12
+    wrong:
+      - value: 7
+        feedback: |
+          $3 + 4$ is the dimension of the Cartesian product $V\times W$: a pair $(v, w)$ needs $3$ numbers plus $4$. The tensor product has a basis element $\hat{x}_i\otimes\hat{y}_j$ for **each pair** of indices.
+      - value: 64
+        feedback: |
+          That is $4^3$, as if $V\otimes W$ were a tensor space with $3$ indices over a $4$-dimensional space. $V\otimes W$ has two indices, one running over $3$ values and one over $4$.
+      - value: 81
+        feedback: |
+          That is $3^4$. $V\otimes W$ has one index per factor: $i$ over $3$ values and $j$ over $4$, so $3\cdot 4$ basis elements.
+    explanation: |
+      Basis $\{\hat{x}_i\otimes\hat{y}_j\}$ with $i \in \{1, 2, 3\}$ and $j \in \{1, \dots, 4\}$: $3\cdot 4 = 12$. Products multiply dimensions; pairs add them.
+
+  - type: mcq
+    id: dim-16
+    tag: Problem 5 · Counting
+    multiple: true
+    prompt: |
+      $V$ is spacetime's vector space, with $\dim V = 4$, and $V^*$ its dual. Which of these spaces have dimension $16$? Select all that apply.
+    options:
+      - text: '$T^{(0,2)}$, the $(0,2)$-tensors'
+        correct: true
+      - text: '$V\otimes V^*$'
+        correct: true
+      - text: '$\mathrm{Hom}(V, V)$, the linear maps $V\to V$'
+        correct: true
+      - text: '$V\times V^*$'
+        feedback: |
+          A pair (vector, covector) needs $4 + 4 = 8$ numbers. The Cartesian product adds dimensions; only the tensor product multiplies them.
+      - text: '$T^{(1,2)}$'
+        feedback: |
+          Three indices, each over $4$ values: $4^3 = 64$. The dimension is $d^{\,r+s}$, one factor of $d$ per index.
+    explanation: |
+      Two indices over $4$ values each: $4^2 = 16$. $V\otimes V^*$ is $T^{(1,1)}$, which is the same as $\mathrm{Hom}(V, V)$ (a $4\times 4$ matrix). $T^{(0,2)}$ also has $16$ components, but it is a different space with a different transformation law.
+
+  - type: numeric
+    id: dim-sym
+    tag: Problem 5 · Counting
+    prompt: |
+      In spacetime, $\dim V = 4$. A symmetric $(0,2)$-tensor satisfies $S_{ij} = S_{ji}$, so it is fixed by its components with $i \le j$. How many independent components does it have? (The metric of GR is such a tensor.)
+    answer: 10
+    wrong:
+      - value: 16
+        feedback: |
+          $16$ counts all components $S_{ij}$, but symmetry ties $S_{ij}$ to $S_{ji}$: the entries below the diagonal repeat those above.
+      - value: 8
+        feedback: |
+          Halving $16$ forgets that the diagonal is not paired with anything: $S_{11}, \dots, S_{44}$ each count once. Count the diagonal and the pairs separately.
+      - value: 6
+        feedback: |
+          $6$ is the number of pairs $i < j$ only; the $4$ diagonal entries are independent too. ($6$ is the count for an **antisymmetric** tensor, whose diagonal is zero.)
+    hint: Count the diagonal entries, then the pairs $i < j$ above the diagonal.
+    explanation: |
+      $4$ diagonal entries plus $6$ pairs $i < j$: $4 + 6 = 10 = \tfrac{4\cdot 5}{2}$. An antisymmetric tensor has only the $6$ pairs (its diagonal vanishes), and $10 + 6 = 16$: the split $T = S + A$ divides the $16$ components exactly. The metric has $10$ components, and the electromagnetic field strength, antisymmetric, has $6$.
+
+  - type: mcq
+    id: invariant-numbers
+    tag: Problem 5 · Counting
+    multiple: true
+    prompt: |
+      In a basis of $V$, a vector has components $x^i$ and $y^i$, a covector $\mathtt{x}_i$, a $(1,1)$-tensor $T^i_j$ and a $(0,2)$-tensor $G_{ij}$. Which of these sums give the **same** number in every basis? Select all that apply.
+    options:
+      - text: '$\sum_i \mathtt{x}_i\,x^i$'
+        correct: true
+      - text: '$\sum_i T^i_i$'
+        correct: true
+      - text: '$\sum_{i,j} G_{ij}\,x^i\,y^j$'
+        correct: true
+      - text: '$\sum_i x^i\,x^i$'
+        feedback: |
+          Two **upper** indices: two factors of $J$, no $J^{-1}$ to cancel them. Example: $\mathcal{X} = 5\,\hat{x}_1 + 3\,\hat{x}_2$ gives $25 + 9 = 34$, but in the basis $\hat{y}_1 = 2\,\hat{x}_1 + \hat{x}_2$, $\hat{y}_2 = 3\,\hat{x}_1 + 2\,\hat{x}_2$ its components are $(1, 1)$, giving $2$. Lengths need a metric.
+      - text: '$\sum_i G_{ii}$'
+        feedback: |
+          Two **lower** indices: two factors of $J^{-1}$. The dot product has $\sum_i D_{ii} = 2$ in the basis $\hat{x}_i$ but $5 + 13 = 18$ in the basis $\hat{y}_1 = 2\,\hat{x}_1 + \hat{x}_2$, $\hat{y}_2 = 3\,\hat{x}_1 + 2\,\hat{x}_2$.
+    explanation: |
+      The rule: a sum is basis-independent when **every summed index appears once up and once down**, because each $J$ meets a $J^{-1}$. $\sum_i \mathtt{x}_i\,x^i = \mathsf{X}(\mathcal{X})$, $\sum_i T^i_i$ is the trace, and $\sum_{i,j} G_{ij}\,x^i y^j = G(\mathcal{X}, \mathcal{Y})$: all three are tensors evaluated on their inputs, numbers with no basis in them.
+
+  - type: text
+    id: wrap
+    title: What you now own
+    body: |
+      Problems 3, 4 and 5, part 2 of 2 of the level challenge. On the plane $V=\mathbb{R}^2$ with old basis $\{\hat{x}_i\}$ and new basis $\{\hat{y}_i\}$, $T$ is a tensor with components $T^i_j$ or $T_{ij}$ ($S$, $A$ its symmetric and antisymmetric parts), and $W$ is a second vector space, of dimensions $m=\dim V$ and $n=\dim W$ here:
+
+      - **Splitting and products.** $T = S + A$ with $S_{ij} = \tfrac12(T_{ij}+T_{ji})$ and $A_{ij} = \tfrac12(T_{ij}-T_{ji})$, in every basis; on the plane a non-zero tensor is a single product exactly when its determinant $T_{11}T_{22}-T_{12}T_{21}$ vanishes, and every two-index tensor has rank at most $2$.
+      - **Counting.** $\dim(V\otimes W) = mn$ but $\dim(V\times W) = m + n$; $d^{\,r+s}$ components, $10$ for a symmetric $(0,2)$-tensor in spacetime.
+      - **Type check.** A number is basis-independent when every summed index appears once up and once down.
+
+
+      **Next level: Topological Manifolds.** Everything so far lives in one vector space. But the surface of the Earth, or curved spacetime, is not a vector space: you cannot add two points of a sphere. What is the least structure needed to say "near each point, this space looks like $\mathbb{R}^d$"? It starts with **open sets**.

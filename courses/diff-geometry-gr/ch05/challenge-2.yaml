@@ -1,0 +1,331 @@
+id: ch05-challenge-2
+title: Level Challenge · Part 2
+kind: challenge
+
+# Organization: intro, one block per problem (cards tagged "Problem N · …", ids
+# prefixed pN-), then wrap-up. The Level Challenge is split in 2 parts of at most
+# 32 cards; part 2 holds problems 4 and 5.
+
+cards:
+  - type: text
+    id: intro
+    title: Loops and boosts
+    body: |
+      This challenge pushes each idea of the level to its edge. It comes in 2 parts; this is part 2 (problems 4 and 5). Keep pencil and paper at hand: every answer can be checked by hand.
+
+      Recall the toolkit. On a manifold with chart $(\mathcal{U},\mathscr{X})$ a **covector field** is $\mathsf{X}|_\mathcal{U} = \mathtt{x}_i\,dx^i$ with smooth component functions $\mathtt{x}_i$; for a scalar field $f$, $df = \partial x_i\lfloor f\rceil\,dx^i$. It is **exact** if $\mathsf{X} = df$ on the whole manifold, **closed** if its components pass the symmetry test of mixed derivatives, and a **tensor field** has component functions that change by one Jacobian factor per slot, old coordinates differentiated by new ones. Einstein summation is on.
+
+      4. Closed versus exact, off the beaten loop.
+      5. Minkowski spacetime: a constant tensor field and a boost.
+
+  # ---------------------------------------------------------------- Problem 4
+  - type: text
+    id: p4-setup
+    tag: Problem 4 · Closed versus exact
+    title: A new field to test
+    body: |
+      Recall the two notions. A covector field $\mathsf{X}$ is **exact** if $\mathsf{X} = df$ for one scalar field $f$ on the whole manifold. In a chart with components $\mathsf{X}|_\mathcal{U} = \mathtt{x}_i\,dx^i$ it is **closed** if
+      $$\partial x_j\lfloor\mathtt{x}_i\rceil = \partial x_i\lfloor\mathtt{x}_j\rceil. \tag{S}$$
+      Exact implies closed, because mixed partial derivatives of $f$ commute. And for a curve $\gamma$ from $p$ to $q$ the integral of an exact field only sees the endpoints:
+      $$\int_\gamma df = f(q) - f(p).$$
+
+      On the plane with points $(a,b)$ and the cartesian chart $\mathscr{X}(a,b) = (a,b)$, take
+      $$\mathsf{B} := \mathtt{b}_1\,dx^1 + \mathtt{b}_2\,dx^2,$$
+      with component functions
+      $$\mathtt{b}_1 = 2ab + b^2,$$
+      $$\mathtt{b}_2 = a^2 + 2ab.$$
+      Is it closed? Is it exact? And what happens to the angle field, which is closed but not exact, when we change it or the loop?
+
+  - type: numeric
+    id: p4-symmetry
+    tag: Problem 4 · Closed versus exact
+    title: Test (S) at a point
+    prompt: |
+      On the plane with cartesian coordinates $(a,b)$, the covector field $\mathsf{B} = \mathtt{b}_1\,dx^1 + \mathtt{b}_2\,dx^2$ has $\mathtt{b}_1 = 2ab + b^2$ and $\mathtt{b}_2 = a^2 + 2ab$. Here $\partial x_1\lfloor u\rceil$ is the partial derivative of $u$ with respect to $a$. Compute $\partial x_1\lfloor\mathtt{b}_2\rceil$ at the point $(a,b) = (1,2)$.
+    answer: 6
+    wrong:
+      - { value: 5, feedback: 'That is $\mathtt{b}_2(1,2) = 1 + 4 = 5$, the component itself. The test needs its derivative with respect to $a$: $2a + 2b$.' }
+      - { value: 2, feedback: 'That differentiates only $a^2$. The term $2ab$ also depends on $a$ and contributes $2b = 4$.' }
+      - { value: 4, feedback: 'That differentiates only $2ab$. The term $a^2$ contributes $2a = 2$ as well.' }
+    hint: 'Differentiate $a^2 + 2ab$ with respect to $a$, treating $b$ as a constant.'
+    explanation: |
+      $\partial x_1\lfloor\mathtt{b}_2\rceil = 2a + 2b$, which is $6$ at $(1,2)$. The other side of (S) is
+      $$\partial x_2\lfloor\mathtt{b}_1\rceil = 2a + 2b,$$
+      the same function, at every point. So $\mathsf{B}$ passes (S) everywhere: it is **closed**. Since the plane is a ball-like domain (one chart, image all of $\mathbb{R}^2$), closed is enough for exact there, and the next step finds the potential.
+
+  - type: mcq
+    id: p4-recipe
+    tag: Problem 4 · Closed versus exact
+    title: Run the recipe
+    prompt: |
+      On the plane with cartesian coordinates, $\mathsf{B} = (2ab + b^2)\,dx^1 + (a^2 + 2ab)\,dx^2$ passes the symmetry test (S). The recipe for a potential integrates the components along the straight segment from the origin to the point $\alpha = (\alpha^1,\alpha^2)$:
+      $$F(\alpha) = \int_0^1\bar{\mathtt{b}}_i(t\alpha)\,\alpha^i\,dt,$$
+      where $\bar{\mathtt{b}}_i$ is $\mathtt{b}_i$ written as a function of the coordinates. Writing the result back in $(a,b)$, which $f$ has $df = \mathsf{B}$?
+    options:
+      - text: '$f = a^2b + ab^2$'
+        correct: true
+      - text: '$f = 3a^2b + 3ab^2$'
+        feedback: |
+          This is what you get by evaluating the components at $\alpha$ instead of at $t\alpha$, or by the naive glue $f = \mathtt{b}_i\,\mathscr{X}^i$ ("slopes times coordinates"). Check it: its derivative in $a$ is $6ab + 3b^2$, three times $\mathtt{b}_1$. The components are quadratic, so at $t\alpha$ they carry a factor $t^2$, and $\int_0^1t^2dt = \tfrac13$ removes the extra $3$.
+      - text: '$f = \tfrac13(a^2b + ab^2)$'
+        feedback: |
+          The $\tfrac13$ from $\int_0^1t^2dt$ is right, but the integrand $\bar{\mathtt{b}}_i(\alpha)\,\alpha^i$ adds up to $3(\alpha^1)^2\alpha^2 + 3\alpha^1(\alpha^2)^2$, so the factors cancel. Check: the derivative in $a$ of this candidate is $\tfrac13(2ab + b^2)$, not $\mathtt{b}_1$.
+      - text: '$f = a^2b$'
+        feedback: |
+          Its differential is $d(a^2b) = 2ab\,dx^1 + a^2\,dx^2$: it misses the $b^2$ in $\mathtt{b}_1$ and the $2ab$ in $\mathtt{b}_2$. Those pieces come from the second term, $ab^2$.
+    explanation: |
+      At $t\alpha$ every component carries $t^2$:
+      $$\begin{aligned}F(\alpha) &= \int_0^1t^2dt\,\big[3(\alpha^1)^2\alpha^2 + 3\alpha^1(\alpha^2)^2\big]\\ &= (\alpha^1)^2\alpha^2 + \alpha^1(\alpha^2)^2.\end{aligned}$$
+      So $f = a^2b + ab^2$. Check: $\partial x_1\lfloor f\rceil = 2ab + b^2 = \mathtt{b}_1$ and $\partial x_2\lfloor f\rceil = a^2 + 2ab = \mathtt{b}_2$. $\mathsf{B}$ is **exact** on the whole plane.
+
+  - type: numeric
+    id: p4-path
+    tag: Problem 4 · Closed versus exact
+    title: An integral without integrating
+    prompt: |
+      On the plane, $\mathsf{B} = (2ab + b^2)\,dx^1 + (a^2 + 2ab)\,dx^2 = df$ with $f = a^2b + ab^2$. Along the curve
+      $$\gamma(\lambda) = (1 + \lambda,\ 1 + \lambda - \lambda^2),$$
+      $\lambda\in[0,1]$, compute $\int_\gamma\mathsf{B}$.
+    answer: 4
+    wrong:
+      - { value: 6, feedback: 'That is $f(2,1) = 6$, the value at the end only. The integral of $df$ is the **difference** $f(\text{end}) - f(\text{start})$; subtract $f(1,1) = 2$.' }
+      - { value: 2, feedback: 'That is $f(1,1) = 2$, the value at the start. The integral is $f(\text{end}) - f(\text{start})$ with end $\gamma(1) = (2,1)$.' }
+      - { value: 0, feedback: 'The integral of an exact field vanishes on **closed** curves. This curve starts at $(1,1)$ and ends at $(2,1)$: different points.' }
+    hint: 'Find the endpoints $\gamma(0)$ and $\gamma(1)$, then use $\int_\gamma df = f(\text{end}) - f(\text{start})$.'
+    explanation: |
+      $\gamma(0) = (1,1)$ and $\gamma(1) = (2,1)$. So
+      $$\int_\gamma\mathsf{B} = f(2,1) - f(1,1) = 6 - 2 = 4.$$
+      The bend $-\lambda^2$ in the path does not matter: any curve with these endpoints gives $4$. Integrating $\mathtt{b}_i(\gamma(\lambda))\,\dot\gamma^i(\lambda)$ by brute force gives the same number with much more work.
+
+  - type: numeric
+    id: p4-gauge
+    tag: Problem 4 · Closed versus exact
+    title: Can an exact term repair the angle field?
+    prompt: |
+      On the plane minus the origin, the angle field is $\mathsf{A} = -\tfrac{b}{r^2}\,dx^1 + \tfrac{a}{r^2}\,dx^2$, with $r^2 = a^2 + b^2$; it is closed but not exact. Add the exact field $dg$ with $g = a^3b$, and let $\gamma(\lambda) = (2\cos\lambda, 2\sin\lambda)$, $\lambda\in[0,2\pi]$, be the circle of radius $2$ run once counterclockwise. Compute $\int_\gamma(\mathsf{A} + dg)$ (a decimal is fine).
+    answer: 6.2832
+    tolerance: 0.01
+    answerText: '2\pi \approx 6.2832'
+    wrong:
+      - { value: 0, feedback: 'The $dg$ part does integrate to $0$ around a closed curve, $g(\text{end}) - g(\text{start}) = 0$. But $\mathsf{A}$ itself still contributes: its integrand along this circle is $1$ at every $\lambda$.' }
+      - { value: 12.566, feedback: 'The radius cancels. Along the circle, $\mathsf{A}_{\gamma(\lambda)}(\dot\gamma(\lambda)) = (4\sin^2\lambda + 4\cos^2\lambda)/4 = 1$, so $\mathsf{A}$ gives $2\pi$ for every radius.' }
+    hint: 'Split the integral: $\int_\gamma dg = g(\text{end}) - g(\text{start})$ on a closed curve, and compute $\mathsf{A}_{\gamma(\lambda)}(\dot\gamma(\lambda))$ with $\dot\gamma = (-2\sin\lambda, 2\cos\lambda)$.'
+    explanation: |
+      Linearity splits the integral:
+      $$\int_\gamma(\mathsf{A} + dg) = \int_\gamma\mathsf{A} + 0 = 2\pi.$$
+      This settles a tempting hope: no exact correction makes $\mathsf{A}$ exact. If $\mathsf{A} + dg = dh$ for some $h$ on the punctured plane, every loop integral of $\mathsf{A} + dg$ would vanish, and this one is $2\pi$. Adding $dg$ changes the potential problem but not the loop integrals, which are the real obstruction.
+
+  - type: order
+    id: p4-half-plane
+    tag: Problem 4 · Closed versus exact
+    title: A loop that does not go around
+    prompt: |
+      On the plane minus the origin, the angle field is $\mathsf{A} = -\tfrac{b}{r^2}\,dx^1 + \tfrac{a}{r^2}\,dx^2$. Let $\gamma$ be the circle of radius $1$ centred at $(3,0)$, run once. Put the argument that $\int_\gamma\mathsf{A} = 0$ in order.
+    steps:
+      - 'The circle stays in the half-plane $a > 0$, away from the origin.'
+      - 'On $a > 0$, the function $h := \arctan(b/a)$ is smooth.'
+      - 'Its partial derivatives are $-b/r^2$ in $a$ and $a/r^2$ in $b$.'
+      - 'So $\mathsf{A} = dh$ on the half-plane $a > 0$.'
+      - 'Hence $\int_\gamma\mathsf{A} = h(\text{end}) - h(\text{start})$.'
+      - 'The loop ends where it starts, so the integral is $0$.'
+    hint: 'First find a region containing the loop where $\mathsf{A}$ is exact, then use the endpoint formula.'
+    explanation: |
+      Exactness only needs to hold on a region **containing the loop**. On the half-plane $a > 0$, $\mathsf{A} = d\arctan(b/a)$; check: $\partial_a\arctan(b/a) = \frac{-b/a^2}{1 + b^2/a^2} = -b/r^2$. So every loop that avoids going around the origin has zero integral, while a loop around it gives $2\pi$ per turn. The obstruction lives at the hole, not along the loop.
+
+  - type: mcq
+    id: p4-patches
+    tag: Problem 4 · Closed versus exact
+    title: Exact on each piece, exact on the whole?
+    multiple: true
+    prompt: |
+      On the plane minus the origin, take the angle field $\mathsf{A} = -\tfrac{b}{r^2}\,dx^1 + \tfrac{a}{r^2}\,dx^2$. Two angle charts cover it: $\theta\in(0,2\pi)$ on $\mathcal{V}$ (the plane minus $\{b = 0,\ a\geq0\}$) and $\varphi\in(-\pi,\pi)$ on $\mathcal{W}$ (the plane minus $\{b = 0,\ a\leq0\}$). Select every true statement.
+    options:
+      - text: '$\mathsf{A} = d\theta$ on $\mathcal{V}$'
+        correct: true
+      - text: '$\mathsf{A} = d\varphi$ on $\mathcal{W}$'
+        correct: true
+      - text: '$\mathsf{A}$ satisfies (S) in every chart, so it is closed'
+        correct: true
+      - text: '$\mathsf{A}$ is exact on $\mathcal{V}$ and on $\mathcal{W}$, which cover the punctured plane, so it is exact there'
+        feedback: |
+          Local potentials must agree on overlaps to glue into one function. On the lower half-plane $\varphi = \theta - 2\pi$, on the upper one $\varphi = \theta$: no single function matches both. The loop integral $2\pi$ around the origin proves no potential exists at all.
+      - text: '(S) holds in the cartesian chart, but it could fail in the polar chart'
+        feedback: |
+          (S) is chart-independent: changing charts adds terms with second derivatives of the transition map, symmetric in the two indices, which cancel in the difference. Here the polar components of $\mathsf{A}$ are $(0,1)$, constants, so (S) holds there too, as it must.
+    explanation: |
+      $\mathsf{A}$ is closed everywhere and exact on each of two open pieces, but not on their union. "Locally exact" is exactly what closed means (on small balls); "globally exact" can fail when the region has a hole, and the mismatch of $2\pi$ between the local potentials $\theta$ and $\varphi$ measures it.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: text
+    id: p5-setup
+    tag: Problem 5 · Minkowski spacetime
+    title: A constant tensor field and a boost
+    body: |
+      Special relativity lives on spacetime. Keep one space dimension: $\mathcal{M} = \mathbb{R}^2$ with points $(t,a)$, time $t$ and position $a$, in units where the speed of light is $c = 1$. Use the chart $\mathscr{X}(t,a) = (t,a)$ on $\mathcal{U} = \mathbb{R}^2$, with basis fields $\partial x_1 = \partial/\partial t$, $\partial x_2 = \partial/\partial a$.
+
+      The **Minkowski tensor field** $\eta$ is the $(0,2)$-tensor field
+      $$\eta := -dx^1\otimes dx^1 + dx^2\otimes dx^2,$$
+      whose component functions $(\eta_\mathcal{U})_{ij} := \eta(\partial x_i,\partial x_j)$ are constant:
+      $$(\eta_\mathcal{U})_{ij} = \begin{pmatrix}-1&0\\0&1\end{pmatrix}.$$
+      (In four dimensions, points $(t,a,b,c)$ and components $\mathrm{diag}(-1,1,1,1)$; everything below happens in the $(t,a)$ block.) It is the simplest example of a **metric**, the central object of Level 7.
+
+      A frame moving with constant speed $v\in(-1,1)$ along $a$ uses the **boost** chart $\mathscr{Y} = (t',a')$:
+      $$t' = \kappa\,(t - v\,a),$$
+      $$a' = \kappa\,(a - v\,t),$$
+      $$\kappa := \frac{1}{\sqrt{1 - v^2}}.$$
+      Physicists call this Lorentz factor $\gamma$; here $\gamma$ already names curves, so it is $\kappa$. Recall the law for a $(0,2)$-tensor field:
+      $$(\eta_\mathcal{V})_{kl} = \frac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k}\frac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}\,(\eta_\mathcal{U})_{ij},$$
+      one Jacobian factor per slot, the old coordinates differentiated by the new ones. Does $\eta$ look the same to the moving frame?
+
+  - type: mcq
+    id: p5-inverse
+    tag: Problem 5 · Minkowski spacetime
+    title: Old coordinates from new
+    prompt: |
+      On $\mathbb{R}^2$ with points $(t,a)$, the boost chart is $t' = \kappa(t - va)$, $a' = \kappa(a - vt)$, with $\kappa = 1/\sqrt{1-v^2}$ and $v\in(-1,1)$. The $(0,2)$ law needs the Jacobian functions $\partial\mathscr{X}^i/\partial\mathscr{Y}^k$ (row $i$ for $t, a$; column $k$ for $t', a'$). Which matrix is it?
+    options:
+      - text: '$\kappa\begin{pmatrix}1&v\\v&1\end{pmatrix}$'
+        correct: true
+      - text: '$\kappa\begin{pmatrix}1&-v\\-v&1\end{pmatrix}$'
+        feedback: |
+          That is $\partial\mathscr{Y}^k/\partial\mathscr{X}^i$, new coordinates differentiated by old ones (read off $t' = \kappa t - \kappa v a$). The law for lower-index components uses the inverse direction: old in terms of new.
+      - text: '$\dfrac1\kappa\begin{pmatrix}1&v\\v&1\end{pmatrix}$'
+        feedback: |
+          Inverting the matrix does not invert the factor $\kappa$ alone. The inverse of $\kappa\begin{pmatrix}1&-v\\-v&1\end{pmatrix}$ is $\frac{1}{\kappa(1-v^2)}\begin{pmatrix}1&v\\v&1\end{pmatrix}$, and $\frac{1}{\kappa(1-v^2)} = \kappa$ because $\kappa^2(1-v^2) = 1$.
+    explanation: |
+      Solving the boost for the old coordinates gives the boost with $-v$:
+      $$t = \kappa\,(t' + v\,a'),$$
+      $$a = \kappa\,(a' + v\,t').$$
+      So $\partial\mathscr{X}^i/\partial\mathscr{Y}^k = \kappa\begin{pmatrix}1&v\\v&1\end{pmatrix}$. Physically: if the new frame moves at $v$ relative to the old one, the old frame moves at $-v$ relative to the new.
+
+  - type: numeric
+    id: p5-eta11
+    tag: Problem 5 · Minkowski spacetime
+    title: The time-time component
+    prompt: |
+      On $\mathbb{R}^2$ with points $(t,a)$, the Minkowski field has components $(\eta_\mathcal{U})_{ij} = \mathrm{diag}(-1,1)$ in the chart $(t,a)$. Take the boost with $v = 3/5$, so $\kappa = 5/4$ and
+      $$\frac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k} = \begin{pmatrix}5/4&3/4\\3/4&5/4\end{pmatrix}$$
+      (row $i$ old, column $k$ new). Using $(\eta_\mathcal{V})_{kl} = \frac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k}\frac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}(\eta_\mathcal{U})_{ij}$, compute $(\eta_\mathcal{V})_{11}$.
+    answer: -1
+    wrong:
+      - { value: -1.5625, feedback: 'That is $-(5/4)^2 = -25/16$, the $i = j = 1$ term alone. The term $i = j = 2$ contributes $+(3/4)^2 = 9/16$.' }
+      - { value: -2.125, feedback: 'That is $-25/16 - 9/16$: both terms with a minus sign. Only $(\eta_\mathcal{U})_{11} = -1$; $(\eta_\mathcal{U})_{22} = +1$, so the second term is $+9/16$.' }
+      - { value: 1, feedback: 'Check the signs: $(\eta_\mathcal{U})_{11} = -1$ multiplies $(5/4)^2$, the larger square, so the result is negative.' }
+    hint: 'With $k = l = 1$, only $i = j$ terms survive (the old components are diagonal): $-(\partial\mathscr{X}^1/\partial\mathscr{Y}^1)^2 + (\partial\mathscr{X}^2/\partial\mathscr{Y}^1)^2$.'
+    explanation: |
+      Only the diagonal old components are nonzero, so
+      $$\begin{aligned}(\eta_\mathcal{V})_{11} &= -\big(\tfrac54\big)^2 + \big(\tfrac34\big)^2\\ &= -\tfrac{25}{16} + \tfrac{9}{16} = -1.\end{aligned}$$
+      The same constant as before the boost. Each Jacobian entry is bigger than $1$ in size, yet the minus sign makes the two contributions cancel down to $-1$.
+
+  - type: numeric
+    id: p5-eta12
+    tag: Problem 5 · Minkowski spacetime
+    title: The mixed component
+    prompt: |
+      On $\mathbb{R}^2$ with points $(t,a)$, $(\eta_\mathcal{U})_{ij} = \mathrm{diag}(-1,1)$. For the boost with $v = 3/5$, the Jacobian functions are
+      $$\frac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k} = \begin{pmatrix}5/4&3/4\\3/4&5/4\end{pmatrix}$$
+      (row $i$ old, column $k$ new). Compute $(\eta_\mathcal{V})_{12} = \frac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^1}\frac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^2}(\eta_\mathcal{U})_{ij}$.
+    answer: 0
+    wrong:
+      - { value: -1.875, feedback: 'Both terms got a minus sign. The $i = j = 1$ term is $-\tfrac54\cdot\tfrac34$, but the $i = j = 2$ term has $(\eta_\mathcal{U})_{22} = +1$: $+\tfrac34\cdot\tfrac54$.' }
+      - { value: 1.875, feedback: 'Both terms got a plus sign. $(\eta_\mathcal{U})_{11} = -1$, so the $i = j = 1$ term is $-\tfrac54\cdot\tfrac34$.' }
+    hint: 'Column $1$ is $(5/4, 3/4)$, column $2$ is $(3/4, 5/4)$. Pair entries row by row, with signs $-1$ for row $1$ and $+1$ for row $2$.'
+    explanation: |
+      $$\begin{aligned}(\eta_\mathcal{V})_{12} &= -\tfrac54\cdot\tfrac34 + \tfrac34\cdot\tfrac54\\ &= 0.\end{aligned}$$
+      Likewise $(\eta_\mathcal{V})_{22} = -\tfrac{9}{16} + \tfrac{25}{16} = 1$, and $(\eta_\mathcal{V})_{21} = 0$ by the same computation. The boosted components are again $\mathrm{diag}(-1,1)$.
+
+  - type: mcq
+    id: p5-any-v
+    tag: Problem 5 · Minkowski spacetime
+    title: Every boost, not just one
+    prompt: |
+      On $\mathbb{R}^2$ with points $(t,a)$, $(\eta_\mathcal{U})_{ij} = \mathrm{diag}(-1,1)$, and the boost with speed $v\in(-1,1)$ has Jacobian functions $\partial\mathscr{X}^i/\partial\mathscr{Y}^k = \kappa\begin{pmatrix}1&v\\v&1\end{pmatrix}$ with $\kappa = 1/\sqrt{1-v^2}$. What is $(\eta_\mathcal{V})_{11}$ for general $v$?
+    options:
+      - text: '$\kappa^2(v^2 - 1) = -1$'
+        correct: true
+      - text: '$-\kappa^2(1 + v^2)$'
+        feedback: |
+          The column for $k = 1$ is $(\kappa, \kappa v)$, and the second entry is paired with $(\eta_\mathcal{U})_{22} = +1$: $-\kappa^2 + \kappa^2v^2$. Giving both terms the sign $-1$ treats $\eta$ like minus the identity.
+      - text: '$-\kappa^2$, which depends on $v$'
+        feedback: |
+          That keeps only the $i = j = 1$ term. The $i = j = 2$ term $+\kappa^2v^2$ is not zero, and together they give $-\kappa^2(1-v^2) = -1$.
+    explanation: |
+      $$\begin{aligned}(\eta_\mathcal{V})_{11} &= -\kappa^2 + \kappa^2v^2\\ &= -\kappa^2(1 - v^2) = -1,\end{aligned}$$
+      because $\kappa^2 = 1/(1-v^2)$. The same identity gives $(\eta_\mathcal{V})_{22} = \kappa^2(1 - v^2) = 1$, and $(\eta_\mathcal{V})_{12} = -\kappa^2v + \kappa^2v = 0$. So $\eta$ has components $\mathrm{diag}(-1,1)$ in **every** boost chart. Feed it a displacement and this is the invariance of the spacetime interval $-\Delta t^2 + \Delta a^2$: the factor $\kappa$ was designed exactly so that this works.
+
+  - type: mcq
+    id: p5-trap
+    tag: Problem 5 · Minkowski spacetime
+    title: Constant components, so any simple chart keeps them?
+    multiple: true
+    prompt: |
+      On $\mathbb{R}^2$ with points $(t,a)$, the Minkowski field has constant components $\mathrm{diag}(-1,1)$ in the chart $(t,a)$. Select every new chart $(t',a')$ in which its components are **again** $\mathrm{diag}(-1,1)$.
+    options:
+      - text: 'The boost with $v = -4/5$: $t'' = \tfrac53(t + \tfrac45a)$, $a'' = \tfrac53(a + \tfrac45t)$'
+        correct: true
+      - text: 'The shift $t'' = t + 5$, $a'' = a$'
+        correct: true
+      - text: 'The rescaling $t'' = 2t$, $a'' = 2a$'
+        feedback: |
+          Now $t = t'/2$, so each Jacobian factor is $\tfrac12$ and the components become $\mathrm{diag}(-\tfrac14,\tfrac14)$: still constant, but different. Constant components only say the field is "the same everywhere" in that chart, not that every linear chart sees the same numbers.
+      - text: 'The Euclidean rotation by $45°$: $t'' = (t + a)/\sqrt2$, $a'' = (a - t)/\sqrt2$'
+        feedback: |
+          A rotation preserves $t^2 + a^2$, not $-t^2 + a^2$. Here $t = (t' - a')/\sqrt2$ and $a = (t' + a')/\sqrt2$, which give $(\eta_\mathcal{V})_{11} = -\tfrac12 + \tfrac12 = 0$ and $(\eta_\mathcal{V})_{12} = \tfrac12 + \tfrac12 = 1$: the matrix $\begin{pmatrix}0&1\\1&0\end{pmatrix}$.
+    explanation: |
+      Only the Jacobian matters, and it must satisfy $J^{\mathsf{T}}\,\mathrm{diag}(-1,1)\,J = \mathrm{diag}(-1,1)$ for $J = \partial\mathscr{X}/\partial\mathscr{Y}$. A boost does (for $v = -4/5$, $\kappa = 5/3$ and $\kappa^2(1 - v^2) = 1$); a shift has $J$ the identity. Rescalings and Euclidean rotations do not: they preserve other things. The charts that keep $\eta$ are the Lorentz transformations together with shifts, the symmetries of special relativity.
+
+  - type: numeric
+    id: p5-interval
+    tag: Problem 5 · Minkowski spacetime
+    title: Feeding a field to η
+    prompt: |
+      On $\mathbb{R}^2$ with points $(t,a)$ and chart $(t,a)$, the Minkowski field is $\eta = -dx^1\otimes dx^1 + dx^2\otimes dx^2$, so for a vector field $\mathcal{Z}$ with component functions $z^1, z^2$,
+      $$\eta(\mathcal{Z},\mathcal{Z}) = -(z^1)^2 + (z^2)^2.$$
+      Take $\mathcal{W} := \partial x_1 + a\,\partial x_2$ (at the point $(t,a)$ it advances time by $1$ and position by $a$). Compute $\eta(\mathcal{W},\mathcal{W})$ at the point $(t,a) = (0, \tfrac12)$.
+    answer: -0.75
+    wrong:
+      - { value: 1.25, feedback: 'That is $1 + \tfrac14$, the Euclidean length squared. $\eta$ puts a minus sign on the time component: $-1 + \tfrac14$.' }
+      - { value: 0.75, feedback: 'The sign is reversed: the time component enters with $-1$, so $-(1)^2 + (\tfrac12)^2 = -\tfrac34$.' }
+    hint: 'The components of $\mathcal{W}$ are $z^1 = 1$, $z^2 = a$; evaluate at $a = \tfrac12$.'
+    explanation: |
+      $\eta(\mathcal{W},\mathcal{W}) = a^2 - 1$, a scalar field, which is $-\tfrac34$ at $a = \tfrac12$. Being a scalar field, it does not care about the chart. Check with the boost $v = 3/5$: the new components are $y^k = (\partial\mathscr{Y}^k/\partial\mathscr{X}^i)\,z^i$ with $\partial\mathscr{Y}/\partial\mathscr{X} = \begin{pmatrix}5/4&-3/4\\-3/4&5/4\end{pmatrix}$, so $y = (\tfrac78, -\tfrac18)$ and
+      $$-\big(\tfrac78\big)^2 + \big(\tfrac18\big)^2 = -\tfrac{48}{64} = -\tfrac34.$$
+
+  - type: mcq
+    id: p5-names
+    tag: Problem 5 · Minkowski spacetime
+    title: Timelike, spacelike, lightlike
+    multiple: true
+    prompt: |
+      On $\mathbb{R}^2$ with points $(t,a)$, $\eta(\mathcal{Z},\mathcal{Z}) = -(z^1)^2 + (z^2)^2$. A vector is called **timelike** if $\eta$ of it with itself is negative, **spacelike** if positive, **lightlike** if zero. For $\mathcal{W} = \partial x_1 + a\,\partial x_2$, so $\eta(\mathcal{W},\mathcal{W}) = a^2 - 1$, at which points is $\mathcal{W}$ timelike?
+    options:
+      - text: '$(t,a) = (0, \tfrac12)$'
+        correct: true
+      - text: '$(t,a) = (5, -0.9)$'
+        correct: true
+      - text: '$(t,a) = (0, 1)$'
+        feedback: |
+          There $a^2 - 1 = 0$: $\mathcal{W}$ is **lightlike**, advancing position by $1$ per unit of time, the speed of light in these units.
+      - text: '$(t,a) = (2, 3)$'
+        feedback: |
+          There $a^2 - 1 = 8 > 0$: $\mathcal{W}$ is **spacelike**. The value of $t$ is irrelevant; only $a$ enters.
+    explanation: |
+      $\mathcal{W}$ is timelike exactly where $|a| < 1$: where it describes motion slower than light. Since $\eta(\mathcal{W},\mathcal{W})$ is a scalar field and boosts keep the components of $\eta$, every inertial frame agrees on the label. This is why the velocity of a massive particle must be timelike, a statement that will carry over to curved spacetime.
+
+  # ---------------------------------------------------------------- Wrap-up
+
+  # ---------------------------------------------------------------- Wrap-up
+  - type: text
+    id: wrap-up
+    title: What you now own
+    body: |
+      Problems 4 and 5, part 2 of 2 of the level challenge. Level 5 turned single tensors at a point into **fields**: one smooth choice per point, components that are functions. With $\mathscr{X}$ the old and $\mathscr{Y}$ the new chart, a $(0,2)$-tensor field transforms with one Jacobian factor per slot:
+      $$(T_\mathcal{V})_{kl} = \frac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^k}\frac{\partial\mathscr{X}^j}{\partial\mathscr{Y}^l}(T_\mathcal{U})_{ij}$$
+      and tensor fields are exactly the $C^\infty$-linear machines:
+      $$T(f\mathcal{Z}_1 + \mathcal{Z}_2,\dots) = f\,T(\mathcal{Z}_1,\dots) + T(\mathcal{Z}_2,\dots)$$
+      A covector field $\mathsf{X} = \mathtt{x}_i\,dx^i$ is exact if $\mathsf{X} = df$; it is closed if
+      $$\partial x_j\lfloor\mathtt{x}_i\rceil = \partial x_i\lfloor\mathtt{x}_j\rceil, \tag{S}$$
+      which is enough on a ball, not around a hole, as loop integrals detect:
+      $$\int_\gamma df = f(\text{end}) - f(\text{start})$$
+
+      **Next, Level 6.** We can now let a vector field act on functions, but not yet **differentiate a vector field** along another. The obvious idea, differentiating its components, is not a tensor: $\partial x_1\lfloor z^1\rceil$ changes meaning with the chart, and the constant field $\partial x_1$ has non-constant polar components. Is it changing or not? Answering needs new structure: the **covariant derivative** $\nabla$, the first step toward curvature and gravity.
