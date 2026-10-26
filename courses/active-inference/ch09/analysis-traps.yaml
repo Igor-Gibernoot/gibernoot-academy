@@ -1,0 +1,278 @@
+id: ch09-analysis-traps
+title: Model-Fitting Traps
+kind: traps
+
+cards:
+  - type: text
+    id: intro
+    title: Trap round
+    body: |
+      Fast round: each question hides a tempting mistake about **fitting and comparing models of behaviour**. Answer quickly, then read the feedback, especially when you were right for a shaky reason.
+
+      Recall the cast. A scientist records the **actions** $\tilde u$ of a subject who saw **stimuli** $\tilde o$, and wants the **parameters** $\theta$ of the subject's own generative model, within the scientist's model $m$. The **likelihood** is $P(\tilde u\mid\theta,m,\tilde o)$, with log $L(\theta)$. The prior is $\theta\sim\mathcal N(\eta,\Pi_1^{-1})$ ($\Pi_1$ = precision, inverse variance). **Variational Laplace** returns a Gaussian posterior with mode $\mu$ and precision $\Pi_{\text{post}}$, and an approximate log **evidence** $\ln P(\tilde u\mid m,\tilde o)$. A **group** model treats the subjects' $\theta_i$ as data, $\theta\sim\mathcal N(X\beta,\Pi^{(2)})$. In the last questions the perceptual toy is $\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$.
+
+  - type: mcq
+    id: needs-stimuli
+    title: Same actions, same likelihood?
+    prompt: |
+      Two rats choose the same arms in the same order (left, left, right) and the scientist uses the same parameter $\theta$ for both. Rat 1 saw the cue sequence $\tilde o_1$ and rat 2 saw a different sequence $\tilde o_2$. A student says "the likelihood only depends on the actions and on $\theta$, so it is the same". What is wrong?
+    options:
+      - text: 'The likelihood is $P(\tilde u\mid\theta,m,\tilde o)$: the model''s predicted choice at each trial comes from belief updating **on the cues that rat saw**, so different stimuli give different probabilities for the same arm.'
+        correct: true
+      - text: 'Nothing is wrong: the cues are hidden states of the rat, so the scientist does not need them.'
+        feedback: |
+          The scientist **does** know the cues, because the scientist chose them. They are the data fed to the subject's model. What is hidden is $\theta$, not $\tilde o$.
+      - text: 'The likelihood depends only on the cues $\tilde o$; the actions play no role.'
+        feedback: |
+          The actions are the thing being predicted: the likelihood is the probability the model gives to the **observed** actions.
+    explanation: |
+      To score a choice the model must first "see" what the subject saw. Same $\theta$ and same actions with different cues are generally different data for the scientist.
+
+  - type: numeric
+    id: sum-logs
+    title: Sum of logs
+    prompt: |
+      For a given $\theta$ the model gives the probabilities $0.6$, $0.5$, $0.8$ to the three actions a rat actually took (each given the rat's cues so far). A student adds the probabilities. Using the rule that the log likelihood is a sum of log probabilities, $L(\theta)=\sum_t\ln P(u_t\mid\theta,m,\tilde o)$, what is $L(\theta)$? (Natural log, two decimals.)
+    answer: -1.43
+    tolerance: 0.01
+    answerText: '-1.43'
+    wrong:
+      - { value: 1.9, tolerance: 0.01, feedback: "That adds the probabilities. Independent events multiply, $0.6\\cdot0.5\\cdot0.8=0.24$; adding logs is the same as multiplying probabilities. A sum of probabilities has no meaning here." }
+      - { value: 0.24, tolerance: 0.005, feedback: "That is the likelihood itself (the product). The question asks for its **log**, $\\ln 0.24$." }
+      - { value: -0.48, tolerance: 0.01, feedback: "That is the average of the log probabilities. $L$ is their sum: more data must give more total evidence." }
+    hint: $\ln 0.6+\ln 0.5+\ln 0.8$.
+    explanation: |
+      $\ln0.6+\ln0.5+\ln0.8=-0.511-0.693-0.223=-1.43=\ln0.24$. Logs turn the product over trials into a sum, which is easier to handle and to differentiate. Since probabilities are below $1$, every term is negative.
+
+  - type: numeric
+    id: evidence-not-max
+    title: Evidence is an average
+    prompt: |
+      A parameter takes three values with prior probabilities $0.5$, $0.3$, $0.2$. The likelihoods of the observed actions under them are $0.02$, $0.01$, $0.1$. A student reports the best likelihood, $0.1$, as "the evidence". Marginalising $\theta$, $P(\tilde u\mid m)=\sum_\theta P(\theta\mid m)\,P(\tilde u\mid\theta,m)$, what is the evidence?
+    answer: 0.033
+    tolerance: 0.0005
+    answerText: '0.033'
+    wrong:
+      - { value: 0.1, tolerance: 0.0005, feedback: "That maximises over $\\theta$: it is the likelihood of the best parameter value. The evidence **averages** the likelihood over the prior, so values of $\\theta$ the prior finds unlikely count little." }
+      - { value: 0.0433, tolerance: 0.0005, feedback: "That is the plain average, which ignores the prior weights. The weights are $P(\\theta\\mid m)=0.5,0.3,0.2$." }
+    hint: Weight each likelihood by its prior and add.
+    explanation: |
+      $0.5\cdot0.02+0.3\cdot0.01+0.2\cdot0.1=0.01+0.003+0.02=0.033$. The best value (likelihood $0.1$) has only prior $0.2$, so it lifts the evidence only a little. A model that fits well only for a few improbable parameters is a poor explanation: the evidence rewards fit **and** a prior that put its mass where the fit is.
+
+  - type: numeric
+    id: post-precision
+    title: Curvature adds to the prior
+    prompt: |
+      A parameter has prior precision $\Pi_1=1$. Near its peak the log likelihood is $L(\theta)=-3(\theta-1)^2$, whose second derivative (Hessian) is $-6$ at the mode. A student writes $\Pi_{\text{post}}=\Pi_1+\nabla^2L=1-6=-5$. Using $\Pi_{\text{post}}=\Pi_1-\nabla^2L(\mu)$, what is $\Pi_{\text{post}}$?
+    answer: 7
+    tolerance: 0.001
+    answerText: '7'
+    wrong:
+      - { value: -5, tolerance: 0.001, feedback: "A precision cannot be negative. The Hessian at a **peak** is negative, so subtracting it **adds** the curvature: the sharper the peak of $L$, the more precise the posterior." }
+      - { value: 6, tolerance: 0.001, feedback: "That is the data's curvature alone. The posterior precision is the sum of what the prior and the data each contribute." }
+    hint: Minus a negative number.
+    explanation: |
+      $\Pi_{\text{post}}=1-(-6)=7$, so the posterior standard deviation is $1/\sqrt7\approx0.378$. A narrow peak in $L$ means the data pin $\theta$ down; the prior adds its own precision on top.
+
+  - type: mcq
+    id: gaussian-where
+    title: What is Gaussian?
+    prompt: |
+      A student says "variational Laplace assumes the subject's choices are Gaussian, and it draws many random samples of $\theta$ to build the posterior". Which statement is correct?
+    options:
+      - text: 'The Gaussian is the form given to the **posterior over the parameters** $\theta$ (fitted by climbing $L$ to the mode and measuring the curvature there); the choices can follow any distribution the model assigns, such as a softmax.'
+        correct: true
+      - text: 'Right: it is a sampler, and with enough draws it is exact for any posterior.'
+        feedback: |
+          It is not a sampler. It follows the gradient of $L$ to a mode and reads the curvature, which takes few evaluations, and it is exact only if the posterior is Gaussian.
+      - text: 'The Gaussian is a prior on the observed actions $\tilde u$.'
+        feedback: |
+          Actions are discrete arm choices here. The Gaussian prior is on the parameter $\theta$, and the Gaussian posterior is a second-order approximation of the true posterior over $\theta$.
+    explanation: |
+      Two different objects: the **likelihood** of the actions (whatever the POMDP gives, for example a softmax over arms) and the **Gaussian** over $\theta$ (prior and approximate posterior). The approximation is only about $\theta$.
+
+  - type: numeric
+    id: log-scale
+    title: Back from the log scale
+    prompt: |
+      A preference scale enters the model as $e^{\theta}$. The fitted posterior mean for a rat is $\theta=-0.7$. A student says "so its preference scale is $-0.7$, weaker than zero, so it dislikes the reward". What is the preference scale $e^{\theta}$ (two decimals)?
+    answer: 0.5
+    tolerance: 0.01
+    answerText: '0.50'
+    wrong:
+      - { value: -0.7, tolerance: 0.001, feedback: "$\\theta$ is the **log** of the scale, not the scale. The scale $e^{\\theta}$ is always positive; a negative $\\theta$ only means a scale below $1$." }
+      - { value: 2.0, tolerance: 0.02, feedback: "That is $e^{+0.7}$. The sign was dropped: $\\theta<0$ gives a scale **below** $1$." }
+    hint: $e^{-0.7}$.
+    explanation: |
+      $e^{-0.7}=0.50$: the rat's preferences are half as strong as the reference scale $1$ (the value at $\theta=0$, the centre of a prior $\mathcal N(0,\Pi_1^{-1})$), still positive. The log parameterisation lets $\theta$ be any real number, as a Gaussian needs, while the scale it controls stays positive.
+
+  - type: numeric
+    id: shrunk
+    title: Pulled toward the line
+    prompt: |
+      Subject $i$ has a first-level posterior with mean $m_i=2$ and precision $\Pi_i=1$ (a noisy measurement). The group line predicts $\ell_i=0.4$ with second-level precision $\Pi^{(2)}=3$. A student keeps the subject's own estimate, $2$. What is the shrunk mean $\hat m_i=\dfrac{\Pi_i m_i+\Pi^{(2)}\ell_i}{\Pi_i+\Pi^{(2)}}$?
+    answer: 0.8
+    tolerance: 0.001
+    answerText: '0.8'
+    wrong:
+      - { value: 2, tolerance: 0.001, feedback: "That ignores the group. A noisy subject ($\\Pi_i=1$) is weighed against a tighter group prediction ($\\Pi^{(2)}=3$), and the group wins." }
+      - { value: 1.2, tolerance: 0.001, feedback: "That is the plain average of $2$ and $0.4$. The weights are the **precisions** ($1$ and $3$), not equal." }
+      - { value: 0.4, tolerance: 0.001, feedback: "That is the group line alone. The subject's own data still count with weight $\\Pi_i=1$." }
+    hint: Weights $1$ and $3$, divided by their sum.
+    explanation: |
+      $\hat m_i=(1\cdot2+3\cdot0.4)/4=3.2/4=0.8$, three quarters of the way to the line. Had the subject been measured with $\Pi_i=30$, the result would be $(60+1.2)/33=1.85$, barely moved.
+
+  - type: mcq
+    id: shrink-spread
+    title: Does shrinkage hide real differences?
+    prompt: |
+      After the group model is fitted, every subject's estimate is re-read under the group prior. How does the spread of the estimates across subjects compare with the raw first-level spread, and why is that not a defect?
+    options:
+      - text: 'It is **smaller**: each estimate moves toward the group line, the noisiest most. Part of the raw spread was measurement noise, so the shrunk values are the better estimates of the true differences.'
+        correct: true
+      - text: 'It is larger, because the group model adds the subject-to-subject scatter $1/\Pi^{(2)}$ on top.'
+        feedback: |
+          The group precision $\Pi^{(2)}$ tells how far true values scatter around the line, and it enters as a weight in a precision-weighted average. An average of two numbers lies between them, so the estimates move **inward**.
+      - text: 'It is unchanged: every subject keeps their own first-level estimate, and the group model is only used to test $\beta$.'
+        feedback: |
+          The group model also feeds back and sharpens each subject's estimate (new mean $\hat m_i$ and precision $\Pi_i+\Pi^{(2)}$), which is exactly the shrinkage.
+    explanation: |
+      Raw spread = true spread + noise. Pulling noisy estimates toward the line removes more of the noise than of the signal, so the shrunk estimates are on average closer to the truth even though they are less spread.
+
+  - type: numeric
+    id: bayes-factor
+    title: From log evidences to a Bayes factor
+    prompt: |
+      Two models of the same rats have approximate log evidences $\ln P(\text{data}\mid\text{with slope})=-20.3$ and $\ln P(\text{data}\mid\text{no slope})=-23.6$. A student divides: $-20.3/-23.6\approx0.86$, "so the slope model has $86\%$ of the evidence". What is the Bayes factor $P(\text{data}\mid\text{with slope})/P(\text{data}\mid\text{no slope})$?
+    answer: 27.1
+    tolerance: 0.3
+    answerText: '27.1'
+    wrong:
+      - { value: 3.3, tolerance: 0.01, feedback: "That is the **log** Bayes factor, the difference of the log evidences. The Bayes factor itself is its exponential." }
+      - { value: 0.86, tolerance: 0.01, feedback: "A ratio of logs means nothing. Divide the evidences, equivalently subtract the logs and exponentiate." }
+    hint: Subtract, then take $e^{\text{difference}}$.
+    explanation: |
+      $\ln\text{BF}=-20.3-(-23.6)=3.3$, so $\text{BF}=e^{3.3}\approx27$: the data are about $27$ times more probable under the model with a slope. A positive log Bayes factor favours the first model.
+
+  - type: mcq
+    id: more-parameters
+    title: Better fit, better model?
+    prompt: |
+      Adding two extra free parameters to the model raises the log likelihood at the best fit, $L(\mu)$. A student says "the evidence must also rise, since the model explains the actions better". What is wrong?
+    options:
+      - text: 'The approximate log evidence is $L(\mu)-\tfrac12(\epsilon^{\top}\Pi_1\epsilon+\ln|\Pi_{\text{post}}|)$: the second term is a **complexity penalty** that grows when parameters must move away from the prior ($\epsilon=\eta-\mu$) and when the posterior is sharp. A small gain in fit may not pay for it.'
+        correct: true
+      - text: 'Nothing: extra parameters always raise the evidence, because they can only fit better.'
+        feedback: |
+          They can only raise the **fit** $L(\mu)$. The evidence also weighs how much the data forced the parameters away from their priors, so unneeded parameters lower it.
+      - text: 'Evidence ignores the fit and measures only how many parameters there are.'
+        feedback: |
+          The fit is the first term. The evidence is an accuracy-minus-complexity balance, not just a parameter count.
+    explanation: |
+      Model comparison by evidence is automatic Occam's razor: accuracy $L(\mu)$ minus complexity. This is why we compare evidences instead of picking the model with the highest likelihood.
+
+  - type: mcq
+    id: recovery-truth
+    title: Recovery succeeded, so the model is true?
+    prompt: |
+      On fictive data generated with known parameters, the pipeline recovers them within their error bars. A colleague concludes "so the model describes how real rats behave". What does this check actually show?
+    options:
+      - text: 'Only that the **pipeline works for this model**: the parameters are identifiable and the inversion is trustworthy if the model were true. Whether real rats behave like the model is a separate question, answered by comparing model evidences on real data.'
+        correct: true
+      - text: 'That the model is true of the rats, since the same likelihood is used in both cases.'
+        feedback: |
+          The fictive data were generated **by the model itself**, so it can hardly fail to describe them. Recovery cannot say anything about the rats.
+      - text: 'That the group analysis will find an effect of age.'
+        feedback: |
+          Recovery concerns individual parameters on simulated data. Whether the group shows an effect depends on the real rats.
+    explanation: |
+      Parameter recovery is a test of the method (identifiability); face validity checks that simulated behaviour looks sensible; neither tests the model against nature. That is the role of the evidence, with rival models.
+
+  - type: order
+    id: validate-first
+    title: Order the checks
+    prompt: Put the checks in the order in which they should be done.
+    steps:
+      - 'Simulate fictive choices from the model with a known $\theta$.'
+      - 'Check that the fictive behaviour looks plausible (face validity).'
+      - 'Invert the model on the fictive data and compare the posterior with the known $\theta$ (parameter recovery).'
+      - 'Only then invert the model on each real subject.'
+      - 'Finally, run the group-level analysis on the subjects'' posteriors.'
+    hint: Each step needs the one before it; real data come last.
+    explanation: |
+      Fictive data come first because their truth is known: recovery needs a known $\theta$. Real data enter after the pipeline is trusted, and the group analysis needs the individual fits.
+
+  - type: mcq
+    id: percept-at-prior
+    title: Why does the percept stay at the prior?
+    multiple: true
+    prompt: |
+      In the one-level toy $\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$ a patient's percept stays at the prior value $\eta$ whatever the data $y$ say. Select every change in the model that can cause this.
+    options:
+      - text: 'The prior precision $\Pi_v$ is very large compared with $\Pi_y$.'
+        correct: true
+      - text: 'The sensory precision $\Pi_y$ is very small compared with $\Pi_v$ (the senses are treated as unreliable).'
+        correct: true
+      - text: 'The data $y$ are exactly equal to $0$.'
+        feedback: |
+          The value of $y$ does not decide it: what matters is how much the data are **weighted**. With $\Pi_y\gg\Pi_v$ the percept would follow $y$, whatever it is.
+      - text: 'The prior mean $\eta$ is large.'
+        feedback: |
+          A large $\eta$ moves the target, not the weight. The percept sticks to $\eta$ only when the prior is weighted heavily.
+    explanation: |
+      Only the **ratio** $\Pi_v/\Pi_y$ matters, so a precise prior and a blunted likelihood look the same from the percept alone. Telling them apart needs more data or a model comparison: this is why the pathology is localised by model-based analysis.
+
+  - type: numeric
+    id: fixed-belief
+    title: A belief that data cannot move
+    prompt: |
+      A person holds the belief $\eta=3$ about a hidden cause with a very precise prior, $\Pi_v=100$. New data say $y=0$ with sensory precision $\Pi_y=1$. A student guesses that the belief moves to the midpoint $1.5$, "because the data contradict it". Using the toy $\mu^*$, what is the updated belief (two decimals)?
+    answer: 2.97
+    tolerance: 0.01
+    answerText: '2.97'
+    wrong:
+      - { value: 1.5, tolerance: 0.01, feedback: "The midpoint needs equal precisions. Here the prior is $100$ times as precise, so it takes $100/101$ of the weight." }
+      - { value: 0, tolerance: 0.01, feedback: "That would follow the data completely, which needs $\\Pi_y\\gg\\Pi_v$. Here it is the reverse." }
+    hint: Weights $100$ and $1$.
+    explanation: |
+      $\mu^*=(1\cdot0+100\cdot3)/101=2.97$: the contradiction moved the belief by less than $0.03$. This is the signature of a **delusion** in this framework: a precise belief, formed without supporting evidence, that stays fixed against contradictory data. Its inference is normal; its precision is not.
+
+  - type: mcq
+    id: disconnection-fix
+    title: Can more data repair a disconnection?
+    prompt: |
+      A model of a disconnection syndrome has an extremely confident prior about one conditional probability (how likely a cause is to produce a given observation, as if the connection were absent). A student says "show the patient many more observations and the connection will be learned". What is the problem?
+    options:
+      - text: 'An extremely confident prior cannot be updated by new data, however many: like an absent synapse, it is not modulated, and it changes the information gain that policies are expected to bring.'
+        correct: true
+      - text: 'Nothing: with enough data every prior is overwritten, so the confident prior only slows down learning.'
+        feedback: |
+          That holds for a moderately confident prior. When the prior precision is extreme, the posterior precision is dominated by it and the update is negligible, just as in the fixed-belief computation.
+      - text: 'The prior makes the data unavailable, so the patient never receives the observations.'
+        feedback: |
+          The observations arrive normally. The failure is in how the model weighs them: the inference is normal, the prior is aberrant.
+    explanation: |
+      Pathology here is an aberrant prior, not a broken rule. A fixed conditional probability also changes which policies look informative, so the choices themselves change.
+
+  - type: text
+    id: summary
+    title: Corrections to carry
+    body: |
+      Corrections (setup: a scientist's model $m$ of a subject whose own model has parameters $\theta$; actions $\tilde u$, stimuli $\tilde o$; Gaussian prior $\mathcal N(\eta,\Pi_1^{-1})$ on $\theta$; group line $\ell_i=\beta_0+\beta_1x_i$ with second-level precision $\Pi^{(2)}$; perceptual toy with data $y$, prior value $\eta$, precisions $\Pi_y,\Pi_v$):
+
+      - The likelihood needs the stimuli and is a product over trials, so its log is a sum of log probabilities:
+        $$L(\theta)=\sum_t\ln P(u_t\mid\theta,m,\tilde o)$$
+        Probabilities $0.6,0.5,0.8$ give $-1.43$, not $1.9$.
+      - Evidence averages over the prior, it does not maximise:
+        $$P(\tilde u\mid m)=\sum_\theta P(\theta\mid m)\,P(\tilde u\mid\theta,m)$$
+        Priors $(0.5,0.3,0.2)$ and likelihoods $(0.02,0.01,0.1)$ give $0.033$, not $0.1$. It balances fit against complexity: $L(\mu)-\tfrac12(\epsilon^{\top}\Pi_1\epsilon+\ln|\Pi_{\text{post}}|)$.
+      - Variational Laplace puts a Gaussian on $\theta$ (not on the choices) and is not a sampler; $\Pi_{\text{post}}=\Pi_1-\nabla^2L(\mu)$ ($1-(-6)=7$). A positive scale enters as $e^{\theta}$, so $\theta=-0.7$ means $0.50$.
+      - Shrinkage is a precision-weighted average and reduces spread:
+        $$\hat m_i=\frac{\Pi_i m_i+\Pi^{(2)}\ell_i}{\Pi_i+\Pi^{(2)}}$$
+        With $(m_i,\Pi_i,\ell_i,\Pi^{(2)})=(2,1,0.4,3)$ the result is $0.8$.
+      - A Bayes factor is $e^{\Delta\ln\text{evidence}}$: $\Delta=3.3$ gives $27$. Recovery on fictive data checks the method, not the rats; check it before real data.
+      - A percept at the prior can come from a precise prior or a blunted likelihood (only the ratio counts):
+        $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$$
+        With $\eta=3$, $\Pi_v=100$, $y=0$, $\Pi_y=1$ the belief is $2.97$: a delusion is a precise belief resisting data, not a broken rule.
+
+      **Next:** the content map of this level, then the review and the level challenge.
