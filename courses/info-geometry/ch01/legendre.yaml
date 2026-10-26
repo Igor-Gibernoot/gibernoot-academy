@@ -1,0 +1,284 @@
+id: ch01-legendre
+title: The Legendre Transformation
+kind: concept
+own: |
+  - **Dual coordinate.** Let $\psi(\xi)$ be a convex function of the coordinates $\xi=(\xi_1,\dots,\xi_n)$, with gradient $\nabla\psi=(\partial\psi/\partial\xi_i)$ (the list of slopes). The slope of its tangent at $\xi$ is a new name for the same point:
+    {{ $$\xi^*=\nabla\psi(\xi).$$ }}
+    The star is a label (not a power, not a conjugate). The map $\xi\mapsto\xi^*$ is one-to-one and differentiable, because the Hessian $\mathbf G=\nabla\nabla\psi$ is positive-definite.
+  - **Dual potential.** With $\xi\cdot\xi^*=\sum_i\xi_i\xi_i^*$, and $\xi$ the point whose slope is $\xi^*$,
+    {{ $$\begin{aligned}\psi^*(\xi^*)&=\xi\cdot\xi^*-\psi(\xi)\\&=\max_{\xi'}\big\{\xi'\cdot\xi^*-\psi(\xi')\big\}.\end{aligned}$$ }}
+    For $n=1$ it is minus the height where the tangent at $\xi$ crosses the vertical axis $\xi=0$.
+  - **Duality.** The two coordinates and the two potentials undo each other:
+    {{ $$\xi^*=\nabla\psi(\xi),\qquad\xi=\nabla\psi^*(\xi^*).$$ }}
+    The Hessian of $\psi^*$ is the Jacobian $\partial\xi/\partial\xi^*$, the inverse of $\mathbf G$, so $\psi^*$ is convex too and its dual is $\psi$.
+  - **Two examples** ($n=1$). $\psi=\tfrac12\xi^2$ is self-dual: $\xi^*=\xi$, $\psi^*=\tfrac12\xi^{*2}$ (here $\xi^{*2}$ is a square). For $\xi>0$,
+    {{ $$\psi=\xi\ln\xi-\xi\ \Rightarrow\ \xi^*=\ln\xi,\ \ \psi^*(\xi^*)=e^{\xi^*}.$$ }}
+  - **Self-dual divergence.** If $P,Q$ are two points, with $\xi_P$ the $\xi$-coordinates of $P$ and $\xi^*_Q$ the $\xi^*$-coordinates of $Q$, the Bregman divergence of $\psi$ is
+    {{ $$D_\psi[P:Q]=\psi(\xi_P)+\psi^*(\xi^*_Q)-\xi_P\cdot\xi^*_Q.$$ }}
+    The divergence built from $\psi^*$ is the same one with the two points exchanged.
+cards:
+  - type: text
+    id: hook
+    title: "Naming a point by its slope"
+    body: |
+      Same rules as the rest of this level: a light tour, **guessing is the point**, and every technical word is explained when it first appears.
+
+      Last time a bowl-shaped curve $y=\psi(\xi)$ gave us a divergence, and the star of the show was the **tangent line** at a point $\xi_0$ (the straight line that just touches the curve there). A line is fixed by two numbers: its **slope** (how steeply it rises) and its **intercept** (the height at which it crosses the vertical axis $\xi=0$).
+
+      Here is the puzzle. We named the point by its position $\xi_0$. But the tangent at $\xi_0$ also has a slope. **Could the slope alone serve as a name for the point?** That would be a second coordinate system (a way to label every point by numbers) on the same set of points.
+
+  - type: mcq
+    id: guess-slope
+    prompt: |
+      Guess. Take the bowl $y=\tfrac12\xi^2$, whose tangent slope at the point $\xi_0$ is $\xi_0$ itself. Take a bowl in general. If I tell you only the **slope** of the tangent, can you always recover the point $\xi_0$?
+    options:
+      - text: 'Yes: on a bowl, different points have different slopes, so the slope names the point.'
+        correct: true
+      - text: 'No: many points on a bowl share the same tangent slope.'
+        feedback: |
+          Think of walking along a bowl from left to right: the slope starts steeply downhill, flattens at the bottom and then keeps getting steeper uphill. It never repeats a value, so two points cannot share a slope.
+      - text: 'Only at the bottom of the bowl, where the slope is zero.'
+        feedback: |
+          The bottom is just one slope value ($0$). Every other slope value also belongs to exactly one point of the bowl.
+    explanation: |
+      On a bowl the slope keeps increasing from left to right, so every slope value occurs **exactly once**. Knowing the slope tells you the point. Let's look.
+
+  - type: widget
+    id: legendre-widget
+    widget: bregman-gap
+    config:
+      psi: negentropy
+      x0: 1.5
+      x: 3
+      showConjugate: true
+      showSlope: true
+      hide: [x]
+      xRange: [0, 4]
+      labels: { eta: '\xi^*' }
+    body: |
+      Left: the curve $y=\psi(\xi)=\xi\ln\xi-\xi$ (a bowl for $\xi>0$) with its tangent at $\xi_0$. The dashed triangle reads the slope, called $\xi^*_0$ here (a star is just a label). The hollow dot on the vertical axis $\xi=0$ is the height where the tangent crosses it. Right: a second curve, built from these slopes and heights. **Drag $\xi_0$** and watch the slope, the crossing height and the point on the right-hand curve.
+
+  - type: mcq
+    id: slope-monotone
+    prompt: |
+      For $\psi=\xi\ln\xi-\xi$ with $\xi>0$ the slope is $\psi'(\xi)=\ln\xi$. Why can two different points never have the same slope?
+    options:
+      - text: 'Because $\psi''''=1/\xi>0$, so the slope $\psi''$ keeps strictly increasing as $\xi$ grows.'
+        correct: true
+      - text: 'Because $\psi$ itself is increasing.'
+        feedback: |
+          Here $\psi$ first goes down (for $\xi<1$, where the slope $\ln\xi$ is negative) and then up, yet the slope is still never repeated. What matters is that the **slope** increases, not the height.
+      - text: 'Because $\ln\xi$ is positive.'
+        feedback: |
+          $\ln\xi$ is negative for $\xi<1$ and zero at $\xi=1$. It is **increasing**, which is what makes it never repeat.
+    explanation: |
+      A strictly increasing function never takes the same value twice, and "slope strictly increasing" is exactly "$\psi''>0$", the bowl test from before. Convexity is what makes the slope a legitimate coordinate.
+
+  - type: text
+    id: definition
+    title: "The new coordinate"
+    body: |
+      Now with several coordinates $\xi=(\xi_1,\dots,\xi_n)$. The **gradient** $\nabla\psi(\xi)$ is the list of the $n$ slopes $\partial\psi/\partial\xi_i$ (how fast $\psi$ rises along each coordinate); it describes the tangent hyperplane (the flat sheet that touches the graph at $\xi$, the many-variable tangent line). Define the **dual coordinate**
+      $$\xi^*=\nabla\psi(\xi).$$
+      The star is only a label: $\xi^*_i$ is the $i$-th number of the list, not a power. Because the Hessian (matrix of second derivatives) of a convex $\psi$ is positive-definite, different points give different $\xi^*$: the map $\xi\mapsto\xi^*$ is **one-to-one** (each $\xi^*$ comes from exactly one point) and **differentiable** (smooth). So $\xi^*$ is a second coordinate system on the same set of points. This change of name is the **Legendre transformation**.
+
+      Example: for $\psi=\tfrac12\sum\xi_i^2$, $\nabla\psi=\xi$, so $\xi^*=\xi$. Nothing changes. For other $\psi$ it does.
+
+  - type: numeric
+    id: xi-star-negentropy
+    prompt: |
+      One coordinate, $\psi(\xi)=\xi\ln\xi-\xi$ for $\xi>0$. The point has coordinate $\xi=4$. What is its dual coordinate $\xi^*=\psi'(\xi)$? (Natural logarithm, three decimals.)
+    answer: 1.386
+    tolerance: 0.002
+    wrong:
+      - { value: 4, feedback: 'That is $\xi$ itself: it is the quadratic case $\psi=\tfrac12\xi^2$ where the two coordinates agree. Here the slope is $\ln\xi$, not $\xi$.' }
+      - { value: 0.25, feedback: 'That is $\psi''=1/\xi$, the second derivative. The dual coordinate is the first derivative, the slope $\psi''$.' }
+    hint: |
+      $(\xi\ln\xi)'=\ln\xi+1$ and $(\xi)'=1$.
+    explanation: |
+      $$\begin{aligned}\psi'(\xi)&=\ln\xi+1-1=\ln\xi,\\\xi^*&=\ln4\approx1.386.\end{aligned}$$
+      Note how different the two names are: $\xi=4$ but $\xi^*=1.386$.
+
+  - type: text
+    id: dual-potential
+    title: "A new curve for the new coordinate"
+    body: |
+      A coordinate comes with a curve. In the first coordinate we had the potential $\psi(\xi)$. In the new one we define a function of $\xi^*$:
+      $$\psi^*(\xi^*)=\xi\cdot\xi^*-\psi(\xi),$$
+      where $\xi\cdot\xi^*=\sum_i\xi_i\xi_i^*$ (multiply the lists entry by entry, then add) and **$\xi$ is not free**: it is the one point whose slope is $\xi^*$. So the right-hand side is a function of $\xi^*$ alone. In one variable the number $\psi^*(\xi^*)$ is minus the height where the tangent crosses the vertical axis: the tangent is $y=\psi(\xi)+\xi^*(x-\xi)$, which at $x=0$ equals $\psi(\xi)-\xi\xi^*=-\psi^*(\xi^*)$. This is the hollow dot of the picture.
+
+  - type: build
+    id: build-dual
+    prompt: |
+      Build the definition of the dual potential, in one variable: $\xi$ is the point whose slope is $\xi^*$.
+    prefix: '\psi^*(\xi^*)='
+    tiles: ['\xi\,\xi^*', '-', '+', '\psi(\xi)', '\psi(\xi^*)', '\xi^*\psi(\xi)']
+    answers:
+      - ['\xi\,\xi^*', '-', '\psi(\xi)']
+    wrong:
+      - answer: ['\psi(\xi)', '-', '\xi\,\xi^*']
+        feedback: |
+          That is the opposite sign: it gives $-\psi^*$, the height of the tangent's crossing, not $\psi^*$.
+      - answer: ['\xi\,\xi^*', '+', '\psi(\xi)']
+        feedback: |
+          The tangent crosses the axis at $\psi(\xi)-\xi\,\xi^*$; the potential $\psi^*$ is minus that, so the product comes first and $\psi$ is subtracted.
+    hint: |
+      The tangent at $\xi$ crosses the vertical axis at height $\psi(\xi)-\xi\,\xi^*$, and $\psi^*$ is minus that height.
+    explanation: |
+      $$\psi^*(\xi^*)=\xi\,\xi^*-\psi(\xi).$$
+      For $\psi=\tfrac12\xi^2$: $\xi=\xi^*$, so $\psi^*=\xi^{*2}-\tfrac12\xi^{*2}=\tfrac12\xi^{*2}$ (here $\xi^{*2}$ is the square of $\xi^*$): the same function again, a **self-dual** case.
+
+  - type: numeric
+    id: psi-star-negentropy
+    prompt: |
+      Take $\psi(\xi)=\xi\ln\xi-\xi$, $\xi>0$, whose slope is $\xi^*=\ln\xi$. Find $\psi^*(\xi^*)=\xi\,\xi^*-\psi(\xi)$ at the dual coordinate $\xi^*=1$. (Three decimals.)
+    answer: 2.718
+    tolerance: 0.003
+    wrong:
+      - { value: 0, feedback: 'You may have plugged $\xi=1$. The point with slope $\xi^*=1$ is where $\ln\xi=1$, that is $\xi=e$, not $\xi=1$.' }
+      - { value: 1, feedback: 'That is $\xi^*$ itself. First find the point $\xi$ whose slope $\ln\xi$ equals $1$, then evaluate $\xi\,\xi^*-\psi(\xi)$.' }
+    hint: |
+      $\ln\xi=1$ means $\xi=e\approx2.718$. Then $\psi(e)=e\cdot1-e$.
+    explanation: |
+      $$\begin{aligned}\xi&=e,\\\psi(e)&=e\ln e-e=0,\\\psi^*(1)&=e\cdot1-0=e\approx2.718.\end{aligned}$$
+      The same steps for any $\xi^*$: $\xi=e^{\xi^*}$ and $\psi(\xi)=\xi\xi^*-\xi$, so $\psi^*(\xi^*)=e^{\xi^*}$.
+
+  - type: mcq
+    id: max-form
+    prompt: |
+      A second description of $\psi^*$: $\psi^*(\xi^*)=\max_{\xi'}\{\xi'\xi^*-\psi(\xi')\}$ (the **largest** value, over all trial points $\xi'$). Take $\psi=\tfrac12\xi^2$ and $\xi^*=3$. The trial values are $2\to4$, $3\to4.5$, $4\to4$. At which $\xi'$ is the maximum reached, and why?
+    options:
+      - text: 'At $\xi''=3$, where the slope $\psi''(\xi'')=\xi''$ equals $\xi^*=3$.'
+        correct: true
+      - text: 'At $\xi''=0$, the bottom of the bowl.'
+        feedback: |
+          At $\xi'=0$ the value is $0\cdot3-0=0$, smaller than $4.5$. The bottom of the bowl is the minimum of $\psi$, not the maximum of $\xi'\xi^*-\psi$.
+      - text: 'At the largest $\xi''$ allowed, since $\xi''\xi^*$ keeps growing.'
+        feedback: |
+          The product grows, but $\psi(\xi')$ grows faster ($\tfrac12\xi'^2$). Look at the values: they rise to $4.5$ at $\xi'=3$ and fall again.
+    explanation: |
+      Setting the derivative of $\xi'\xi^*-\psi(\xi')$ with respect to $\xi'$ to zero gives $\xi^*=\psi'(\xi')$: the maximizer is exactly the point whose slope is $\xi^*$. So the maximum is $\xi\xi^*-\psi(\xi)$, the same $\psi^*$ as before ($\tfrac12\cdot3^2=4.5$). The two definitions agree.
+
+  - type: order
+    id: dual-relation-order
+    prompt: |
+      Show that the dual potential gives the way back, $\psi^{*\prime}(\xi^*)=\xi$ (one variable; $\psi^{*\prime}$ is the derivative of $\psi^*$). Put the proof in order.
+    steps:
+      - '$\psi^*(\xi^*)=\xi\,\xi^*-\psi(\xi)$, with $\xi=\xi(\xi^*)$ depending on $\xi^*$.'
+      - 'Differentiate in $\xi^*$ (product and chain rule): $\psi^{*\prime}=\xi+\frac{d\xi}{d\xi^*}\,\xi^*-\psi''(\xi)\frac{d\xi}{d\xi^*}$.'
+      - 'Factor out $d\xi/d\xi^*$: $\psi^{*\prime}=\xi+\big(\xi^*-\psi''(\xi)\big)\frac{d\xi}{d\xi^*}$.'
+      - 'By the definition $\xi^*=\psi''(\xi)$ the bracket is zero.'
+      - 'Hence $\psi^{*\prime}(\xi^*)=\xi$.'
+    hint: |
+      The two terms with $d\xi/d\xi^*$ cancel because of the definition of $\xi^*$.
+    explanation: |
+      Together: $\xi^*=\nabla\psi(\xi)$ and $\xi=\nabla\psi^*(\xi^*)$. Each coordinate is the slope of the other's potential. This is what "dual" means: neither side is the original.
+
+  - type: numeric
+    id: curvature-dual
+    prompt: |
+      Take $\psi=\xi\ln\xi-\xi$. At $\xi=4$ the second derivative is $\psi''=1/4$. The dual coordinate is $\xi^*=\psi'(\xi)$, so $d\xi^*/d\xi=\psi''=1/4$ there. The second derivative $\psi^{*\prime\prime}$ of the dual potential equals $d\xi/d\xi^*$ (since $\psi^{*\prime}=\xi$). Find $\psi^{*\prime\prime}$ at the matching point.
+    answer: 4
+    wrong:
+      - { value: 0.25, feedback: 'That is $d\xi^*/d\xi=\psi''$. The dual potential''s curvature is the rate the other way, $d\xi/d\xi^*$, its reciprocal.' }
+    hint: |
+      $d\xi/d\xi^*$ is the reciprocal of $d\xi^*/d\xi$ (inverse function).
+    explanation: |
+      $$\psi^{*\prime\prime}=\frac{d\xi}{d\xi^*}=\frac1{\psi''}=4.$$
+      Check with $\psi^*=e^{\xi^*}$: $\psi^{*\prime\prime}=e^{\xi^*}=e^{\ln4}=4$. In many variables the Hessian of $\psi^*$ is the **inverse matrix** of the Hessian of $\psi$, hence positive-definite: $\psi^*$ is again convex, so we may repeat everything with it.
+
+  - type: mcq
+    id: dual-of-dual
+    prompt: |
+      $\psi^*$ is convex, so it has its own dual coordinate $\nabla\psi^*(\xi^*)$ and its own dual potential. What do they turn out to be?
+    options:
+      - text: 'The dual coordinate is $\xi$ again and the dual potential is $\psi$ again: the dual of the dual is the original.'
+        correct: true
+      - text: 'A third, new pair of coordinates and potential, different each time.'
+        feedback: |
+          The relation $\xi=\nabla\psi^*(\xi^*)$ already says the slope of $\psi^*$ is $\xi$. Nothing new appears: the cycle closes after one step.
+      - text: 'Only the coordinate returns; the potential is lost.'
+        feedback: |
+          The potential returns too: $\xi\cdot\xi^*-\psi^*(\xi^*)=\psi(\xi)$ rearranges the definition, so the dual of $\psi^*$ is $\psi$.
+    explanation: |
+      From $\psi^*=\xi\cdot\xi^*-\psi$ we get $\psi=\xi\cdot\xi^*-\psi^*$: the roles of the two sides are exactly interchangeable. A pair $(\xi,\psi)$ and a pair $(\xi^*,\psi^*)$ are two views of one structure.
+
+  - type: widget
+    id: legendre-widget-2
+    widget: bregman-gap
+    config:
+      psi: negentropy
+      x0: 2
+      x: 3
+      showConjugate: true
+      showSlope: true
+      hide: [x]
+      xRange: [0, 4]
+      labels: { eta: '\xi^*' }
+    body: |
+      Same curve $y=\xi\ln\xi-\xi$. Put $\xi_0$ near $2$ and read the slope $\xi_0^*$ and the number $-\psi^*(\xi_0^*)$. Then slide $\xi_0$ elsewhere: the number is always the height of the hollow dot on the vertical axis.
+
+  - type: numeric
+    id: intercept
+    prompt: |
+      For $\psi=\xi\ln\xi-\xi$, the tangent at $\xi_0=2$ has slope $\ln2$. At what height does this tangent line cross the vertical axis $\xi=0$?
+    answer: -2
+    wrong:
+      - { value: -0.614, feedback: 'That is $\psi(2)=2\ln2-2\approx-0.614$, the height of the **curve** at $\xi=2$. The tangent has also descended along its slope by $\ln2\cdot2$ on the way to $\xi=0$.' }
+      - { value: 2, feedback: 'The sign: it is $-\psi^*(\ln 2)=-e^{\ln2}=-2$, below the axis.' }
+    hint: |
+      Height at $\xi=0$ is $\psi(\xi_0)-\xi_0\cdot(\text{slope})$.
+    explanation: |
+      $$\begin{aligned}\psi(2)-2\ln2&=2\ln2-2-2\ln2\\&=-2.\end{aligned}$$
+      This equals $-\psi^*(\ln2)=-e^{\ln2}=-2$: the dual potential **is** the (negative) intercept, read as a function of the slope.
+
+  - type: numeric
+    id: trap-rescale
+    prompt: |
+      Trap. Is $\xi^*$ just $\xi$ multiplied by a constant? Take $\psi=\xi\ln\xi-\xi$ and move the point from $\xi=2$ to $\xi=6$ (three times larger). By what factor does $\xi^*=\ln\xi$ get multiplied? (Two decimals.)
+    answer: 2.58
+    tolerance: 0.02
+    wrong:
+      - { value: 3, feedback: 'That would be a rescaling, $\xi^*=c\,\xi$. Here $\xi^*=\ln\xi$ grows far more slowly: $\ln2=0.693$ and $\ln6=1.792$.' }
+    hint: |
+      Compute $\ln6/\ln2$.
+    explanation: |
+      $$\frac{\ln6}{\ln2}=\frac{1.792}{0.693}\approx2.58.$$
+      The change $\xi\to\xi^*$ is **nonlinear** in general: a relabelling that bends the axis. Only quadratic $\psi$ gives a plain rescaling of the axes (a linear map).
+
+  - type: mcq
+    id: trap-convex
+    prompt: |
+      Trap. Try $\psi(\xi)=\xi^3$ on all real numbers, with slope $\psi'=3\xi^2$. Is the slope a good coordinate?
+    options:
+      - text: 'No. The slope $3$ occurs at $\xi=1$ and at $\xi=-1$, so it cannot name a point; $\xi^3$ is not convex ($\psi''''=6\xi$ changes sign).'
+        correct: true
+      - text: 'Yes, $\psi''=3\xi^2$ is a perfectly good function of $\xi$.'
+        feedback: |
+          A good coordinate must be recoverable: given $\xi^*=3$ we must find **one** $\xi$. Here both $1$ and $-1$ work, so it fails.
+      - text: 'Yes, because $\xi^3$ is increasing.'
+        feedback: |
+          Increasing is not enough: the **slope** has to be one-to-one. Here the slope falls then rises, because $\psi$ is not a bowl.
+    explanation: |
+      The Legendre transformation needs a **convex** $\psi$ (positive-definite Hessian), exactly the condition that makes the slope one-to-one. On the half-line $\xi>0$, $\xi^3$ is convex and everything works there.
+
+  - type: numeric
+    id: theorem-self-dual
+    prompt: |
+      Two points $P,Q$ with $\xi_P=3$, $\xi_Q=1$ and $\psi=\xi\ln\xi-\xi$, so $\psi^*(\xi^*)=e^{\xi^*}$. The divergence can be written with both coordinates:
+      $$D_\psi[P:Q]=\psi(\xi_P)+\psi^*(\xi^*_Q)-\xi_P\,\xi^*_Q.$$
+      Find it. Here $\xi^*_Q=\ln\xi_Q$. (Three decimals.)
+    answer: 1.296
+    tolerance: 0.003
+    wrong:
+      - { value: 0.901, feedback: 'That is $D[1:3]$, the divergence in the other order. Here $P$ (at $\xi=3$) uses its $\xi$-coordinate and $Q$ (at $\xi=1$) its $\xi^*$-coordinate.' }
+    hint: |
+      $\xi^*_Q=\ln1=0$, so $\psi^*(0)=e^0$ and the product term vanishes.
+    explanation: |
+      $$\begin{aligned}D_\psi[P:Q]&=(3\ln3-3)+e^0-3\cdot0\\&=0.296+1=1.296.\end{aligned}$$
+      This matches $\psi(\xi)-\psi(\xi_0)-\psi'(\xi_0)(\xi-\xi_0)$ with $\xi=3$, $\xi_0=1$ from before: use $\psi^*(\xi_Q^*)=\xi_Q\xi_Q^*-\psi(\xi_Q)$ to see why. The tangent term disappears into a product of the two coordinates.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a single convex $\psi$ gave us two coordinate systems, $\xi$ and $\xi^*$, and two potentials. In the next lesson both systems are called **flat** in a precise sense, and we meet the metric (the ruler) as a Hessian and bases that are dual to each other.
