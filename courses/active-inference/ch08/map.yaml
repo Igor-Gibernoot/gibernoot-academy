@@ -1,0 +1,376 @@
+id: ch08-map
+title: "Content Map: Continuous-Time Models"
+kind: map
+name: Level 8, continuous-time models (movement, generalized filtering, dynamical systems, synchrony and hybrid models)
+
+intro: |
+  A **content map** shows how the ideas of a level fit together. Each box is one idea. An arrow goes from an idea to one that builds on it, and its label says how: read it as a sentence, for example "the attractor *is extended to* a spring".
+
+  This level moves the whole theory into **continuous time**, where a state $x$ changes smoothly and $\dot x$ means its rate of change. The **left column** is movement and control: the model against the process, the point attractor, the action $u$, springs, and the role of precision. The **middle column** is generalized filtering: beliefs about a state together with its derivatives, the shift matrix $D$, the moving frame and the prediction errors. The **right column** is dynamical systems, synchrony and hybrid models: Lotka-Volterra sequences, the Lorenz system, two creatures that synchronize, and a discrete level that sets a continuous target.
+
+  Running examples return: a **limb** that reaches a target $v$, a **spring** with stiffness $\kappa$ and mass $m$, three **populations** that peak in turn, two **singing birds**, and a **monkey** looking at one of four targets.
+
+  For each glowing box, pick the card that belongs there. The other cards look alike, but each hides a classic mistake, and every wrong pick comes with a reason. Tap a finished box at any time to reread its card.
+
+cols: 3
+nodes:
+  - id: modelproc
+    title: Model and process
+    row: 1
+    col: 1
+    body: |
+      The **generative model** says how a hidden state $x$ makes the data $y$ and how $x$ flows, given a static cause $v$: $g$ and $f$, with **no** action. The **process** (the real world) has the same shape with an action $u$ in its flow:
+      $$\dot x=\mathbf f(x,u)+\omega_x$$
+      Action is absent from the model and present only in the process.
+    decoys:
+      - body: |
+          The **generative model** says how a hidden state $x$ makes the data $y$ and how $x$ flows, given a static cause $v$. The **process** (the real world) has the same shape, but the action $u$ sits in the model:
+          $$\dot x=f(x,v,u)+\omega_x$$
+          The agent must know its own action to predict.
+        feedback: |
+          The model holds a prediction $v$ (where the limb should be), not a command. Action enters only through the world, as the way the data are made to match the model.
+      - body: |
+          The **generative model** says how a hidden state $x$ makes the data $y$ and how $x$ flows, given a static cause $v$: $g$ and $f$, with **no** action. The **process** has no action either, so the state only changes by its own flow:
+          $$\dot x=\mathbf f(x)+\omega_x$$
+        feedback: |
+          If nothing in the world responded to the agent, it could never fulfil a prediction. The process is exactly where $u$ acts, $\mathbf f(x,u)$.
+    explanation: |
+      Keeping $u$ out of the model is what makes movement a *fulfilled prediction* rather than a calculated command.
+
+  - id: attractor
+    title: Point attractor
+    row: 2
+    col: 1
+    body: |
+      For a limb with $g(x)=x$ and $f(x,v)=v-x$, the **model** believes the state is drawn to the point $v$. In the process $\mathbf f(x,u)=u$: the limb moves only if an action pushes it, so it reaches $v$ because the action makes the process behave like the model.
+    decoys:
+      - body: |
+          For a limb with $g(x)=x$ and $f(x,v)=x-v$, the **model** believes the state is drawn to the point $v$. In the process $\mathbf f(x,u)=u$: the limb moves only if an action pushes it.
+        feedback: |
+          With $f=x-v$ the flow points **away** from $v$ (a repeller): for $x>v$ it grows. A point attractor needs $f=v-x$, which is positive below $v$ and negative above.
+      - body: |
+          For a limb with $g(x)=x$ and $f(x,v)=v-x$, the **model** believes the state is drawn to the point $v$. The process obeys the same rule, $\mathbf f(x)=v-x$, so the limb reaches $v$ by itself, with no action.
+        feedback: |
+          The attractor is the creature's **belief**. The real limb sits still unless something moves it; the action is what carries the world to the model's attractor.
+    explanation: |
+      Target $v=2$, limb at $x=0$: the model expects the limb to rise at rate $v-x=2$, and the world does not yet comply.
+
+  - id: action
+    title: Action
+    row: 3
+    col: 1
+    body: |
+      With belief $\mu$ about $x$ and $g(\mu)=\mu$, the action cancels the difference between the predicted datum and the actual one, and moves the **limb** towards the prediction:
+      $$u=v-\mu$$
+      The limb then follows the model's flow, and the prediction comes true.
+    decoys:
+      - body: |
+          With belief $\mu$ about $x$ and $g(\mu)=\mu$, the action cancels the difference between the predicted datum and the actual one, and moves the **limb** towards the prediction:
+          $$u=\mu-v$$
+          The limb then follows the model's flow, and the prediction comes true.
+        feedback: |
+          The sign is flipped. With the belief at $\mu=0$ and target $v=2$ this gives $u=-2$: the limb would move away from the target. Action must push the process the way the model's flow points, $v-\mu$.
+      - body: |
+          With belief $\mu$ about $x$ and $g(\mu)=\mu$, the action cancels the difference between the predicted datum and the actual one, and moves the **belief** towards the target:
+          $$u=v-\mu$$
+          The prediction then comes true because the belief has been corrected.
+        feedback: |
+          Changing the belief is perception. Action is the other route: it changes the **world**, so the data come to agree with a prediction that stays fixed.
+    explanation: |
+      Perception and action both lower the same free energy: one moves $\mu$ to the data, the other moves the data to $\mu$.
+
+  - id: spring
+    title: Springs
+    row: 4
+    col: 1
+    body: |
+      For Newtonian dynamics the model uses position $x_1$, velocity $x_2$, mass $m$ and spring constant $\kappa$:
+      $$f(x,v)=\begin{bmatrix}x_2\\\tfrac{\kappa}{m}(v-x_1)\end{bmatrix}$$
+      Without damping, the state oscillates about $v$ with angular frequency $\omega=\sqrt{\kappa/m}$. For $\kappa=25$, $m=1$ it is $5$.
+    decoys:
+      - body: |
+          For Newtonian dynamics the model uses position $x_1$, velocity $x_2$, mass $m$ and spring constant $\kappa$:
+          $$f(x,v)=\begin{bmatrix}x_2\\\tfrac{\kappa}{m}(v-x_1)\end{bmatrix}$$
+          Without damping, the state oscillates about $v$ with angular frequency $\omega=\kappa/m$. For $\kappa=25$, $m=1$ it is $25$.
+        feedback: |
+          The frequency is the square root: $\ddot x_1=-\omega^2x_1$ for the displacement, and here $\omega^2=\kappa/m$. A stiffer spring speeds up the oscillation, but only as $\sqrt\kappa$.
+      - body: |
+          For Newtonian dynamics the model uses position $x_1$, velocity $x_2$, mass $m$ and spring constant $\kappa$:
+          $$f(x,v)=\begin{bmatrix}x_2\\\tfrac{m}{\kappa}(v-x_1)\end{bmatrix}$$
+          Without damping, the state oscillates about $v$ with angular frequency $\omega=\sqrt{\kappa/m}$.
+        feedback: |
+          Newton's law is $m\,\dot x_2=\kappa(v-x_1)$, so the acceleration is the force divided by the mass, $\tfrac{\kappa}{m}(v-x_1)$. A heavy mass accelerates **less**.
+    explanation: |
+      The point attractor is the first-order case; the spring adds momentum, so the state overshoots $v$ and rings around it.
+
+  - id: eqpoint
+    title: Equilibrium-point view
+    row: 5
+    col: 1
+    body: |
+      The descending signal $v$ is a **proprioceptive prediction**: the expected position of the limb. Reflex arcs fulfil it, so no **inverse model** (a map from the desired consequence to the commands that cause it) is needed.
+    decoys:
+      - body: |
+          The descending signal $v$ is a **motor command**: the force each muscle must produce. The reflex arcs only relay it, and an **inverse model** computes the command from the desired position.
+        feedback: |
+          That is the classical story that active inference replaces. The descending signal says where the limb is expected to be; the spinal reflex turns the mismatch into muscle activity.
+      - body: |
+          The descending signal $v$ is a **proprioceptive prediction**: the expected position of the limb. The reflex arcs are not needed, because the cortex moves the muscles directly to the position $v$.
+        feedback: |
+          The prediction alone moves nothing. It is the reflex arc, minimising the proprioceptive prediction error, that produces the movement; the cortex only supplies what to expect.
+    explanation: |
+      This is the equilibrium-point hypothesis in free-energy language: the limb settles where the prediction says it should be.
+
+  - id: precision
+    title: Precision and attenuation
+    row: 6
+    col: 1
+    body: |
+      For the limb, the approach to $v$ decays like $e^{-t\min(1,\Pi_y)}$ with $\Pi_y$ the precision of the sensory data. Raising $\Pi_y$ above $1$ does **not** speed up the movement. To act at all, the precision given to the sensations of the moving limb is lowered (**sensory attenuation**), or the data would overrule the prediction.
+    decoys:
+      - body: |
+          For the limb, the approach to $v$ decays like $e^{-t\,\Pi_y}$ with $\Pi_y$ the precision of the sensory data. The larger the sensory precision, the faster the movement. To act, the creature **raises** the precision of the moving limb's sensations.
+        feedback: |
+          Past $\Pi_y=1$ the other time scale of the model (the prior's rate $1$) is the bottleneck, so the rate is $\min(1,\Pi_y)$. And high sensory precision lets the data pull the belief back to the current position, cancelling the prediction.
+      - body: |
+          For the limb, the approach to $v$ decays like $e^{-t\min(1,\Pi_y)}$ with $\Pi_y$ the precision of the sensory data. To act at all, the creature lowers the precision of the **prediction** $v$, so it can be revised quickly.
+        feedback: |
+          Attenuation is applied to the **sensory** side. A prediction with little precision would not be fulfilled: the movement is exactly the prediction held firm against the data.
+    explanation: |
+      The same trade-off returns for birdsong: to sing, a bird must lower the precision of its own sounds, so it cannot also listen closely.
+
+  - id: genco
+    title: Generalized coordinates
+    row: 1
+    col: 2
+    body: |
+      A belief about a moving state carries its derivatives too, collected in a vector with a tilde:
+      $$\tilde\mu=(\mu,\mu',\mu'',\dots)$$
+      The entries are the Taylor coefficients of **one** trajectory, truncated at some order, so the belief describes a short stretch of time and not one instant.
+    decoys:
+      - body: |
+          A belief about a moving state carries extra hidden variables, collected in a vector with a tilde:
+          $$\tilde\mu=(\mu,\mu',\mu'',\dots)$$
+          The entries are independent hidden states of different kinds, each with its own equation of motion.
+        feedback: |
+          Each entry is tied to the previous one: $\mu'$ is the rate of change of $\mu$, $\mu''$ that of $\mu'$. They describe the same state, not separate quantities.
+      - body: |
+          A belief about a moving state carries its derivatives too, collected in a vector with a tilde:
+          $$\tilde\mu=(\mu,\mu',\mu'',\dots)$$
+          The more orders are included, the better, since each one adds exact information.
+        feedback: |
+          Derivatives of fluctuating data are rougher and less reliable at higher orders, so their precision is lower and eventually they add nothing. A few orders are enough.
+    explanation: |
+      With velocity in the belief, a state that moves at constant speed is no longer a state that must "lag": its velocity is part of what is believed.
+
+  - id: shift
+    title: Shift matrix D
+    row: 2
+    col: 2
+    body: |
+      The matrix $D$ has ones just **above** the diagonal and shifts the entries of $\tilde\mu$ one place up:
+      $$D\tilde\mu=(\mu',\mu'',\dots,0)$$
+      It turns each coefficient into the one for the next derivative; the last entry has nothing above it, so it becomes $0$.
+    decoys:
+      - body: |
+          The matrix $D$ has ones just **below** the diagonal and shifts the entries of $\tilde\mu$ one place down:
+          $$D\tilde\mu=(0,\mu,\mu',\dots)$$
+          It turns each coefficient into the one for the previous derivative.
+        feedback: |
+          Differentiating raises the order: the velocity $\mu'$ comes out of the position slot. The ones belong above the diagonal, so that the first entry of $D\tilde\mu$ is $\mu'$.
+      - body: |
+          The matrix $D$ has ones just **above** the diagonal and shifts the entries of $\tilde\mu$ one place up. It acts on the **data** $y$ to differentiate them numerically, and not on the belief.
+        feedback: |
+          $D$ acts on the belief $\tilde\mu$ (and on $\tilde y$, which already contains its derivatives). It does not compute a derivative of data; the derivatives are components of the vector.
+    explanation: |
+      For $\tilde\mu=(\mu,\mu',\mu'')=(0.6,0.2,0.1)$, $D\tilde\mu=(0.2,0.1,0)$.
+
+  - id: frame
+    title: Moving frame
+    row: 3
+    col: 2
+    body: |
+      The belief moves in a frame that travels with its own velocity, and the errors push it off that path:
+      $$\dot{\tilde\mu}-D\tilde\mu=-\nabla_{\tilde\mu}F$$
+      At $\nabla F=0$ this gives $\dot{\tilde\mu}=D\tilde\mu$: the belief keeps following the trajectory it already believes in.
+    decoys:
+      - body: |
+          The belief descends the free energy as it does for a still state:
+          $$\dot{\tilde\mu}=-\nabla_{\tilde\mu}F$$
+          At $\nabla F=0$ the belief stops, and the next prediction is made again from a standstill.
+        feedback: |
+          For a moving state the minimum of $F$ itself moves. A belief that stops where the gradient vanishes falls behind and has to be dragged back all the time (a lag). The term $D\tilde\mu$ makes it travel along.
+      - body: |
+          The belief moves in a frame that travels with its own velocity:
+          $$\dot{\tilde\mu}-D\tilde\mu=-\nabla_{\tilde\mu}F$$
+          At $\nabla F=0$ this gives $\dot{\tilde\mu}=0$, the minimum of free energy.
+        feedback: |
+          Setting the gradient to zero leaves $\dot{\tilde\mu}=D\tilde\mu$, not zero. Only for a static state ($D=0$) is a vanishing gradient a resting belief.
+    explanation: |
+      The minimum of free energy is then a **path** that the belief follows, not a point where it halts.
+
+  - id: errors
+    title: Prediction errors
+    row: 4
+    col: 2
+    body: |
+      Two errors drive the belief, both weighted by their precisions $\tilde\Pi$: the sensory one and the one on the motion,
+      $$\tilde\epsilon_y=\tilde y-\tilde g(\tilde\mu),\qquad\tilde\epsilon_x=D\tilde\mu-\tilde f(\tilde\mu)$$
+      and $F=\tfrac12\sum\tilde\epsilon\,\tilde\Pi\,\tilde\epsilon$ up to constants.
+    decoys:
+      - body: |
+          Two errors drive the belief, both weighted by their precisions $\tilde\Pi$: the sensory one and the one on the motion,
+          $$\tilde\epsilon_y=\tilde y-\tilde g(\tilde\mu),\qquad\tilde\epsilon_x=\tilde\mu-\tilde f(\tilde\mu)$$
+          and $F=\tfrac12\sum\tilde\epsilon\,\tilde\Pi\,\tilde\epsilon$ up to constants.
+        feedback: |
+          The model says that the **velocity** of the state equals the flow, $\dot x=f(x)$. So the error compares $D\tilde\mu$ (the believed velocity) with $\tilde f$, and not $\tilde\mu$ itself.
+      - body: |
+          Two errors drive the belief, the sensory one and the one on the motion,
+          $$\tilde\epsilon_y=\tilde y-\tilde g(\tilde\mu),\qquad\tilde\epsilon_x=D\tilde\mu-\tilde f(\tilde\mu)$$
+          and $F=\tfrac12\sum\tilde\epsilon$ up to constants, every error counting equally.
+        feedback: |
+          Errors are weighted by their **precisions**: $F=\tfrac12\sum\tilde\epsilon\,\tilde\Pi\,\tilde\epsilon$. A noisy channel has to count less than a reliable one.
+    explanation: |
+      Running example $g=x$, $f=v-x$, $v=1$: with $\tilde y=(1,0.5)$ and $\tilde\mu=(0.6,0.2)$, $\tilde\epsilon_y=(0.4,0.3)$.
+
+  - id: lv
+    title: Lotka-Volterra
+    row: 1
+    col: 3
+    body: |
+      For populations $x$ with growth rates $v$ and interaction matrix $\mathbf A$ ($A_{ij}$ = effect of population $j$ on the growth of $i$):
+      $$f(x,v)=x\circ(v+\mathbf Ax)$$
+      The symbol $\circ$ multiplies entry by entry. With suitable negative entries the populations peak in turn, a **sequence with no clock**.
+    decoys:
+      - body: |
+          For populations $x$ with growth rates $v$ and interaction matrix $\mathbf A$ ($A_{ij}$ = effect of population $j$ on the growth of $i$):
+          $$f(x,v)=v+\mathbf Ax$$
+          With suitable negative entries the populations peak in turn, a **sequence with no clock**.
+        feedback: |
+          Without the factor $x\circ$ the rate does not scale with the population: it can push a population below zero, and a population at zero could still change. Growth is **proportional** to the population.
+      - body: |
+          For populations $x$ with growth rates $v$ and interaction matrix $\mathbf A$ ($A_{ij}$ = effect of population $i$ on the growth of $j$):
+          $$f(x,v)=x\circ(v+\mathbf Ax)$$
+          With suitable negative entries the populations peak in turn, a **sequence with no clock**.
+        feedback: |
+          Row $i$ of $\mathbf A$ gives the growth of population $i$: $\dot x_i=x_i(v_i+\sum_jA_{ij}x_j)$. So $A_{ij}$ is the effect of $j$ **on** $i$.
+    explanation: |
+      Which population is highest acts as a discrete state, and the number of peaks between two events is an implicit measure of time (eyeblink conditioning).
+
+  - id: lorenz
+    title: Lorenz and itinerancy
+    row: 2
+    col: 3
+    body: |
+      The Lorenz system has a 3-component state and constants $\sigma$, $\rho$, $\beta$:
+      $$\begin{aligned}\dot x_1&=\sigma(x_2-x_1)\\\dot x_2&=x_1(\rho-x_3)-x_2\\\dot x_3&=x_1x_2-\beta x_3\end{aligned}$$
+      It is deterministic, yet for $\rho=28$ two starts that differ by $10^{-6}$ end up unrelated: **chaos**, wandering with no repeat (**itinerancy**).
+    decoys:
+      - body: |
+          The Lorenz system has a 3-component state and constants $\sigma$, $\rho$, $\beta$:
+          $$\begin{aligned}\dot x_1&=\sigma(x_2-x_1)\\\dot x_2&=x_1(\rho-x_3)-x_2\\\dot x_3&=x_1x_2-\beta x_3\end{aligned}$$
+          Its irregular wandering at $\rho=28$ comes from random fluctuations added to the rule: without them it would settle.
+        feedback: |
+          The rule is deterministic and no noise is needed. The irregularity comes from **sensitivity to the start**: tiny differences are amplified.
+      - body: |
+          The Lorenz system has a 3-component state and constants $\sigma$, $\rho$, $\beta$:
+          $$\begin{aligned}\dot x_1&=\sigma(x_2-x_1)\\\dot x_2&=x_1(\rho-x_3)-x_2\\\dot x_3&=x_1x_2-\beta x_3\end{aligned}$$
+          It is deterministic, so two starts that differ by $10^{-6}$ stay close for all time.
+        feedback: |
+          Determinism does not mean stability. At $\rho=28$ the gap grows until the two runs are unrelated; only for small $\rho$ does the system settle (a fixed point).
+    explanation: |
+      This richness is why a Lorenz system makes a good model of birdsong: a rule with a few constants that yields an endless, non-repeating song.
+
+  - id: gensync
+    title: Generalized synchrony
+    row: 3
+    col: 3
+    body: |
+      Plot the belief $x$ of one creature against the belief $y$ of another. In **identical** synchrony the pair stays on the line $y=x$. In **generalized** synchrony it stays on a lower-dimensional set, possibly curved:
+      $$y=T(x)$$
+      for a fixed map $T$ (for $T(x)=1.5x+0.01x^3$, $T(4)=6.64$). Without synchrony the pair fills the plane.
+    decoys:
+      - body: |
+          Plot the belief $x$ of one creature against the belief $y$ of another. In **identical** synchrony the pair stays on the line $y=x$. **Generalized** synchrony means that $y$ and $x$ are no longer related, so the pair fills the plane:
+          $$y\ \text{independent of}\ x$$
+        feedback: |
+          Generalized synchrony is a **stronger** kind of order than none: a fixed relation $y=T(x)$ that need not be the identity. Filling the plane is what happens without synchrony.
+      - body: |
+          Plot the belief $x$ of one creature against the belief $y$ of another. Synchrony is possible only if the two have the same dynamics and the same states, so the pair stays on the line:
+          $$y=x$$
+        feedback: |
+          Two creatures with different parameters, or one seeing the other through a transformation, still lock onto a curve $y=T(x)$. Identical synchrony is a special case.
+    explanation: |
+      Like the surface of the Earth (2-dimensional) inside 3-dimensional space, the manifold is smaller than the space it sits in. Learning each other's parameters brings the pair onto it.
+
+  - id: turn
+    title: Turn-taking
+    row: 4
+    col: 3
+    body: |
+      Action resolves prediction error: a bird that hears the song it predicts has nothing to fix and stays silent; a bird that predicts a song it does not hear sings. Singing requires lower precision on its own sounds, so the two birds **alternate**.
+    decoys:
+      - body: |
+          Action resolves prediction error: a bird that hears the song it predicts has nothing to fix and stays silent; a bird that predicts a song it does not hear sings. Synchronized birds sing **together**, since both beliefs are the same.
+        feedback: |
+          Synchrony ties the *beliefs about the song*, not the behaviour. While one sings, the other hears what it predicts and stays silent; then they swap. Synchronized does not mean copying.
+      - body: |
+          Action resolves prediction error: the birds alternate because a shared clock or a leader tells each one when to sing, and the sound only carries the notes.
+        feedback: |
+          There is no clock and no leader. The alternation emerges from each bird's own prediction error and from lowered sensory precision while it sings.
+    explanation: |
+      A conversation is two generative models taking turns at fulfilling the same prediction.
+
+  - id: hybrid
+    title: Hybrid prior q
+    row: 5
+    col: 3
+    body: |
+      A discrete level holds beliefs $Q(o)$ over outcomes $o$, each tied to a point $\tilde\eta_o$ of the continuous space. The continuous level gets **one** Gaussian prior centred on the belief-weighted average:
+      $$\tilde{\mathbf q}=\sum_oQ(o)\,\tilde\eta_o$$
+      With $Q=0.6$ for up $(0,1)$, $0.2$ for down $(0,-1)$ and $0.2$ for right $(1,0)$: $\tilde{\mathbf q}=(0.2,0.4)$.
+    decoys:
+      - body: |
+          A discrete level holds beliefs $Q(o)$ over outcomes $o$, each tied to a point $\tilde\eta_o$ of the continuous space. The continuous level gets the point of the **most probable** outcome:
+          $$\tilde{\mathbf q}=\tilde\eta_{o^*},\quad o^*=\arg\max_oQ(o)$$
+          With $Q=0.6$ for up, $0.2$ for down and $0.2$ for right: $\tilde{\mathbf q}=(0,1)$.
+        feedback: |
+          The discrete belief is uncertain, and that uncertainty must pass down. The Bayesian model average keeps it: here the prior leans to the right and a little below the top, **hedging** between targets.
+      - body: |
+          A discrete level holds beliefs $Q(o)$ over outcomes $o$, each tied to a point $\tilde\eta_o$ of the continuous space. The continuous level gets a **two-peaked** prior, one Gaussian at each point weighted by $Q(o)$, and the movement goes to the highest peak.
+        feedback: |
+          The level below receives a single Gaussian centred on the average, so the eye moves smoothly to an intermediate point when the belief is split. It does not pick the highest peak.
+    explanation: |
+      A flat belief averages the points to the centre: no movement. A confident belief puts $\tilde{\mathbf q}$ on one target, and executing the movement sends evidence back up.
+
+edges:
+  - { from: modelproc, to: attractor, label: built as }
+  - { from: attractor, to: action, label: gives }
+  - { from: action, to: spring, label: extended to }
+  - { from: spring, to: eqpoint, label: read as }
+  - { from: eqpoint, to: precision, label: limited by }
+  - { from: genco, to: shift, label: shifted by }
+  - { from: shift, to: frame, label: gives }
+  - { from: frame, to: errors, label: driven by }
+  - { from: action, to: errors, dashed: true }
+  - { from: lv, to: lorenz, label: richer case }
+  - { from: lorenz, to: gensync, label: two coupled }
+  - { from: gensync, to: turn, label: seen as }
+  - { from: turn, to: hybrid, dashed: true }
+  - { from: precision, to: turn, dashed: true }
+
+outroTitle: Level 8 in one picture
+outro: |
+  **Movement.** The model has no action; the process does. With $g(x)=x$, $f=v-x$ and belief $\mu$, action fulfils the prediction, and a spring adds momentum with $\omega=\sqrt{\kappa/m}$:
+
+  $$u=v-\mu$$
+
+  **Generalized filtering.** The belief $\tilde\mu=(\mu,\mu',\mu'',\dots)$ moves in a frame that travels with its own velocity, pushed by precision-weighted errors:
+
+  $$\dot{\tilde\mu}-D\tilde\mu=-\nabla_{\tilde\mu}F$$
+
+  **Dynamical systems and beyond.** Lotka-Volterra, $f=x\circ(v+\mathbf Ax)$, gives sequences; Lorenz gives itinerant chaos; two creatures with such models synchronize on $y=T(x)$ and take turns; a discrete level sets the continuous target by
+
+  $$\tilde{\mathbf q}=\sum_oQ(o)\,\tilde\eta_o$$
+
+  **Next:** the level review, then the level challenge: five harder problems that combine action and precision, a spring, a dynamical system, a generalized-filtering step and a hybrid prior.
