@@ -1,0 +1,260 @@
+id: ch01-alternating
+title: Divergence Between Two Sets of Beliefs
+kind: guided
+cards:
+  - type: text
+    id: hook
+    title: "Which two beliefs are closest?"
+    body: |
+      So far we measured the divergence between **two points**: two beliefs $P$ and $Q$ about three outcomes $a,b,c$ (each belief is three numbers, one per outcome, adding to $1$). The divergence $D[P:Q]$ tells how much worse it is to hold $Q$ when $P$ is true; it is $0$ only when $P=Q$, and it is **not symmetric**: $D[P:Q]\ne D[Q:P]$ in general.
+
+      Now suppose we do not have one belief but a **whole set** of them on each side. A set $K$ of beliefs (for example, all beliefs of a certain family: a line or a curve in the space of beliefs), and another set $S$. We want the **closest pair**: one belief $P$ taken from $K$, one belief $Q$ taken from $S$, with $D[P:Q]$ as small as possible.
+
+      Why would we care? Think of $K$ as "what the data allow" and $S$ as "what a simple model can say": the closest pair tells the best the model can do. The statistical use comes later; today is the geometry.
+
+      **Guessing is the point** of this level: answer first, then read the explanation, even if you are unsure.
+
+  - type: text
+    id: definition
+    title: "Divergence between two sets"
+    body: |
+      **Definition.** For two sets $K$ and $S$ of beliefs, the divergence between them is the smallest value of $D[P:Q]$ over all choices of $P$ in $K$ and $Q$ in $S$:
+      $$D[K:S]=\min_{P\in K,\;Q\in S}D[P:Q]=D[\bar P:\bar Q].$$
+      The pair $(\bar P,\bar Q)$ that reaches the minimum is the **closest pair**. ("min" means the smallest value; "$\arg\min$" later means the point where the smallest value is reached.)
+
+      Two warnings. $D[K:S]$ is not a distance: since $D$ is not symmetric, **the order matters**, the first argument always comes from $K$ and the second from $S$. And $D[K:S]=0$ exactly when the sets **touch** (they share a belief), because $D[P:Q]=0$ only when $P=Q$.
+
+      Finding the closest pair directly means searching two things at once. The trick: **freeze one, optimize the other, then swap**. First a picture.
+
+  - type: widget
+    id: picture
+    widget: alt-projections
+    config:
+      outcomes: [a, b, c]
+      K: { type: mixture, a: [0.4, 0.55, 0.05], b: [0.6, 0.25, 0.15] }
+      S: { type: mixture, a: [0.35, 0.05, 0.6], b: [0.2, 0.45, 0.35] }
+      start: [0.077, 0.779, 0.144]
+      done: 0
+      hide: [table, buttons]
+    body: |
+      The triangle is the space of beliefs over three outcomes $a,b,c$ (a corner means "this outcome is certain"). Two lines of beliefs, $K$ and $S$. The point marked $Q_0$ on $S$ is where we start (the small subscript $0$ is a step counter, not a component). **Guess:** if you hold $Q_0$ fixed and look for the belief of $K$ with the smallest $D[P:Q_0]$, roughly where on $K$ is it? Do not compute; just point.
+
+  - type: mcq
+    id: which-argument
+    prompt: |
+      We hold a belief $Q_t$ of $S$ fixed and look for the belief $P_t$ of the set $K$ that is "nearest" to it, in the sense of the closest-pair problem. Which rule is it?
+    options:
+      - text: '$P_t=\arg\min_{P\in K}D[P:Q_t]$: the **first** argument is the free one.'
+        correct: true
+      - text: '$P_t=\arg\min_{P\in K}D[Q_t:P]$: the **second** argument is the free one.'
+        feedback: |
+          It is tempting because "nearest to $Q_t$" sounds symmetric, but $D$ is not. The closest-pair problem minimizes $D[P:Q]$ with $P$ from $K$ in the **first** slot, so with $Q_t$ frozen we vary the first slot. The version $D[Q_t:P]$ is a different problem, with another answer.
+      - text: '$P_t=\arg\min_{P\in K}\tfrac12\big(D[P:Q_t]+D[Q_t:P]\big)$.'
+        feedback: |
+          This symmetrized value is a legitimate quantity, but it is not what $D[K:S]$ uses. The definition keeps one fixed order, $D[P:Q]$ with $P\in K$, $Q\in S$.
+    explanation: |
+      Freezing $Q_t$, the quantity to make small is $D[P:Q_t]$, and the free belief $P$ sits in the first slot. Later we freeze $P_t$ and vary $Q$ in the **second** slot. The two steps use the two arguments in turn.
+
+  - type: numeric
+    id: first-step
+    prompt: |
+      Beliefs over $a,b,c$. Start from $Q_0=(0.0766,0.7791,0.1443)$ on $S$. The belief of $K$ minimizing $D[P:Q_0]$ is $P_0=(0.3117,0.6824,0.0059)$, with $D[P_0:Q_0]=0.3283$. Now freeze $P_0$ and move $Q$ along $S$: the minimizer is $Q_1=(0.1170,0.6714,0.2117)$. Compute the new value
+      $$D[P_0:Q_1]=\sum_i P_{0,i}\ln\frac{P_{0,i}}{Q_{1,i}}$$
+      (the subscript $i$ labels the outcomes $a,b,c$; $\ln$ is the natural logarithm).
+    answer: 0.2956
+    tolerance: 0.003
+    hint: |
+      Three terms: $0.3117\ln\frac{0.3117}{0.1170}$, then $0.6824\ln\frac{0.6824}{0.6714}$, then $0.0059\ln\frac{0.0059}{0.2117}$. The last two are small, one of them negative.
+    wrong:
+      - { value: 0.3283, feedback: 'That is the value before the move, $D[P_0:Q_0]$. The move to $Q_1$ made it smaller.' }
+    explanation: |
+      $$0.3054+0.0111-0.0211\approx0.2954,$$
+      so about $0.2956$ with unrounded numbers. It is **smaller** than $0.3283$: moving $Q$ to its best place in $S$ cannot do worse than staying at $Q_0$ (it could stay).
+
+  - type: widget
+    id: zigzag
+    widget: alt-projections
+    config:
+      outcomes: [a, b, c]
+      K: { type: mixture, a: [0.4, 0.55, 0.05], b: [0.6, 0.25, 0.15] }
+      S: { type: mixture, a: [0.35, 0.05, 0.6], b: [0.2, 0.45, 0.35] }
+      start: [0.077, 0.779, 0.144]
+      showMin: true
+    body: |
+      Press **Step** repeatedly (or **Run**). Each press does one projection: from the current $Q_t$ to the best $P_t$ on $K$, or from $P_t$ to the best $Q_{t+1}$ on $S$. The table lists $D$ after each step: $0.3283,\ 0.2956,\ 0.2849,\ 0.2803,\ 0.2777,\ 0.2762,\dots$ Watch the zigzag and the dotted rings (the closest pair, found by a long search).
+
+  - type: mcq
+    id: never-up
+    prompt: |
+      In the zigzag, $D[P_{t-1}:Q_t]\ \ge\ D[P_t:Q_t]\ \ge\ D[P_t:Q_{t+1}]$ for every step. Why is the **first** inequality true?
+    options:
+      - text: 'Because $P_t$ is the point of $K$ minimizing $D[P:Q_t]$, and the earlier point $P_{t-1}$ is also a point of $K$, so it cannot do better.'
+        correct: true
+      - text: 'Because $Q_t$ is closer to $P_t$ than to $P_{t-1}$ in the ordinary ruler distance.'
+        feedback: |
+          The algorithm never uses a ruler. Both points $P_{t-1},P_t$ belong to $K$, and the rule picks the one with the smaller **divergence** $D[\,\cdot:Q_t]$; the ruler distance on the screen can disagree.
+      - text: 'Because the divergence is symmetric, so the order of the two points does not matter.'
+        feedback: |
+          $D$ is **not** symmetric. The inequality uses the same slot arrangement on both sides: $P$ in the first slot, $Q_t$ in the second, and $P_t$ is the best choice for that fixed $Q_t$.
+    explanation: |
+      Each step minimizes over a set that **contains the previous point** (the old $P_{t-1}$ is still available in $K$; the old $Q_t$ is still available in $S$), so the value can only go down or stay. The same reasoning gives the second inequality for the move $Q_t\to Q_{t+1}$. A sequence that never increases and is never negative must settle down: the procedure **converges**.
+
+  - type: build
+    id: q-rule
+    prompt: |
+      Write the second step of the algorithm: freeze $P_t$ and choose the next belief of $S$.
+    prefix: 'Q_{t+1}=\arg\min_{Q\in S}'
+    tiles: ['D[P_t:Q]', 'D[Q:P_t]', 'D[P:Q_t]', 'D[P_{t-1}:Q]']
+    answers:
+      - ['D[P_t:Q]']
+    wrong:
+      - { answer: ['D[Q:P_t]'], feedback: 'The order is reversed. The free belief $Q$ comes from $S$ and sits in the **second** slot; $P_t$ stays frozen in the first slot.' }
+      - { answer: ['D[P_{t-1}:Q]'], feedback: 'This uses the old $P_{t-1}$. The freshest belief of $K$ is $P_t$, and it is the one to freeze.' }
+    hint: |
+      The pattern is always $D[\text{from }K:\text{from }S]$. The frozen one is the latest $P_t$.
+    explanation: |
+      The two rules together:
+      $$\begin{aligned}P_t&=\arg\min_{P\in K}D[P:Q_t],\\Q_{t+1}&=\arg\min_{Q\in S}D[P_t:Q].\end{aligned}$$
+      Free first slot, then free second slot, starting from any $Q_0$ in $S$.
+
+  - type: text
+    id: right-angles
+    title: "Right angles at the feet"
+    body: |
+      Each projection ends at a **foot**: $P_t$ is the foot of the curve dropped from $Q_t$ onto $K$, and $Q_{t+1}$ the foot of the curve dropped from $P_t$ onto $S$. The curves are not the same kind:
+      - to find $P_t$ (first slot free) we follow the **exponential curve** from $Q_t$ (the family $p_i\propto q_i\,e^{s\,v_i}$, along which $\ln p$ changes linearly); this is the **dual geodesic** of the Pythagorean theorem;
+      - to find $Q_{t+1}$ (second slot free) we follow the **mixture segment** (straight line) from $P_t$; this is the **geodesic**.
+
+      Now the Pythagorean theorem does its work. When $K$ is flat (a mixture line), it says that at the foot $P_t$, for **every** belief $R$ of $K$,
+      $$\begin{aligned}D[R:Q_t]&=D[P_t:Q_t]+D[R:P_t]\\&\ge D[P_t:Q_t],\end{aligned}$$
+      so $P_t$ is certainly the minimizer. Even better, the drop in the first inequality is exactly $D[P_{t-1}:P_t]$, the divergence between two successive feet.
+
+      The picture shows a small corner marker at each foot, but on the screen it does **not** look like $90^\circ$. That is not a bug: the right angle is measured with the **Fisher metric** (the metric built from $D$ in an earlier lesson), and the triangle on the screen is drawn with an ordinary ruler.
+
+  - type: widget
+    id: line-and-exp
+    widget: alt-projections
+    config:
+      outcomes: [a, b, c]
+      K: { type: mixture, a: [0.55, 0.4, 0.05], b: [0.3, 0.5, 0.2] }
+      S: { type: exponential, a: [0.35, 0.2, 0.45], b: [-0.9, 0, 0.9], t: [-1, 1] }
+      start: [0.55, 0.15, 0.3]
+      showMin: true
+    body: |
+      A different pair: $K$ is a straight line of beliefs (a mixture line) and $S$ is a curved family (an exponential curve). Step through it. The divergences go $0.1864,\ 0.1832,\ 0.1813,\ 0.1801,\ 0.1794,\ 0.1790,\dots$ and flatten at $D[K:S]=0.1784$, the dotted closest pair.
+
+  - type: numeric
+    id: distance-left
+    prompt: |
+      In that run the divergence after the first two projections is $D[P_0:Q_1]=0.1832$, and the closest-pair value found by a long search is $D[K:S]=0.1784$. How far above the true minimum is the algorithm after two projections?
+    answer: 0.0048
+    tolerance: 0.0003
+    answerText: '0.1832 - 0.1784 = 0.0048'
+    explanation: |
+      $0.1832-0.1784=0.0048$: already within about $3\%$ of the final value. Each step cannot increase $D$, and it can never go below the minimum $D[K:S]$ (that is the definition of a minimum), so the sequence is squeezed from above toward $D[K:S]$.
+
+  - type: mcq
+    id: uniqueness
+    prompt: |
+      The algorithm always converges, but **to what**? Which statement is right? (Here "flat" means a straight mixture line or plane of beliefs, and "dual flat" means a line or plane in the exponential sense, straight in $\ln p$.)
+    options:
+      - text: 'If $K$ is flat and $S$ is dual flat, each projection has a single answer and the limit does not depend on the start. Otherwise the limit may depend on where we begin.'
+        correct: true
+      - text: 'The limit never depends on the start, for any two sets.'
+        feedback: |
+          For general curved sets the minimization can have several local minima, and the zigzag can settle into any of them. The next two pictures show one.
+      - text: 'The limit always depends on the start, even for straight lines.'
+        feedback: |
+          For a flat set $K$ and a dual flat set $S$ the Pythagorean theorem gives a single foot at each step, and the limit is the same from every start. (The first pair of lines in this lesson are both flat, and no start-dependence was found either.)
+    explanation: |
+      Flatness is what makes the Pythagorean identity hold for **every** point of the set, so a foot is the true minimum and is unique. It is a sufficient condition, not a necessary one. (Careful with the order: with $P$ in the first slot, the set $K$ needs to be the flat one, and $S$ the dual flat one. We use the order consistent with the Pythagorean theorem proved earlier.)
+
+  - type: widget
+    id: stuck
+    widget: alt-projections
+    config:
+      outcomes: [a, b, c]
+      K: { type: mixture, a: [0.46, 0.37, 0.17], b: [0.38, 0.36, 0.26], t: [-1.4, 1.4] }
+      S: { type: arc, center: [0.444, 0.346, 0.21], r: 0.17, from: 282, to: 582 }
+      start: [0.5134, 0.2072, 0.2794]
+      draggableStart: true
+      steps: 20
+    body: |
+      Now $K$ is a short straight segment and $S$ is an **arc** of a circle (a curved set, not dual flat). The start $Q_0$ is at the lower right of the arc. Press **Run** and watch where the zigzag stops. Then drag $Q_0$ along the arc and try again.
+
+  - type: widget
+    id: crossing
+    widget: alt-projections
+    config:
+      outcomes: [a, b, c]
+      K: { type: mixture, a: [0.46, 0.37, 0.17], b: [0.38, 0.36, 0.26], t: [-1.4, 1.4] }
+      S: { type: arc, center: [0.444, 0.346, 0.21], r: 0.17, from: 282, to: 582 }
+      start: [0.5332, 0.3935, 0.0733]
+      draggableStart: true
+      steps: 20
+    body: |
+      The same two sets, but $Q_0$ now starts near the top of the arc. Press **Run**. The first run stops with $D=0.0040$, stuck against the end of the segment $K$ at $(0.348,0.356,0.296)$. This run goes to $D\approx0$, at the point $(0.543,0.380,0.076)$ where the segment and the arc **cross**.
+
+  - type: mcq
+    id: which-limit
+    prompt: |
+      Beliefs over $a,b,c$. The segment $K$ and the arc $S$ cross at the belief $(0.543,0.380,0.076)$. One zigzag stopped at $D=0.0040$, another at $D=0$. Which is the true divergence $D[K:S]$ between the sets?
+    options:
+      - text: '$D[K:S]=0$: the smallest value of $D$ that is reached anywhere.'
+        correct: true
+      - text: '$D[K:S]=0.0040$: it is the value the first run reached after 20 steps.'
+        feedback: |
+          That run is stuck at a **local** minimum: moving a little cannot lower $D$, but another pair of beliefs gives less. $D[K:S]$ is the minimum over **all** pairs, not what one run reports.
+      - text: 'Both are correct: $D[K:S]$ depends on where the algorithm starts.'
+        feedback: |
+          $D[K:S]$ is defined by the sets alone, by the minimum over all pairs. Only the **output of the algorithm** depends on the start.
+    explanation: |
+      $D\ge0$, and $D[P:Q]=0$ only if $P=Q$. The sets share the belief $(0.543,0.380,0.076)$, so $D[K:S]=0$ and the closest pair is that single belief. A run that stops at $0.0040$ has found only a local minimum. This is exactly the case the uniqueness statement warns about: the arc is curved, so the Pythagorean identity fails and the algorithm may get stuck.
+
+  - type: mcq
+    id: trap-finds
+    prompt: |
+      True or false: "The alternating algorithm always finds the closest pair of the two sets."
+    multiple: false
+    shuffle: false
+    options:
+      - text: 'False: $D$ never increases, so it converges, but possibly to a local minimum.'
+        correct: true
+      - text: 'True: it minimizes at every step, so it must end at the global minimum.'
+        feedback: |
+          Minimizing at **every step** (a greedy choice) is not the same as the global minimum. With a curved set the zigzag can settle where no single step helps, while a better pair exists elsewhere.
+    explanation: |
+      Convergence is guaranteed by the monotone decrease; the **value** of the limit equals $D[K:S]$ when the sets are suitably flat, and in general only bounds it from above.
+
+  - type: mcq
+    id: trap-order
+    prompt: |
+      True or false: "Since the divergence between two sets is a closeness of $K$ and $S$, $D[K:S]=D[S:K]$ and we may swap which set plays the free first slot."
+    multiple: false
+    shuffle: false
+    options:
+      - text: 'False: $D[P:Q]\ne D[Q:P]$ in general, so $D[K:S]$ and $D[S:K]$ differ and the order of the two projections matters.'
+        correct: true
+      - text: 'True: the closest pair is the same pair in both cases.'
+        feedback: |
+          The pair itself can differ, and so can the value. Each belief of $K$ enters in a first slot in one problem and a second slot in the other, and $D$ weighs the two slots differently. On the first pair of lines, for example, minimizing $D[P:Q]$ and minimizing $D[Q:P]$ are different searches.
+    explanation: |
+      In this course $P$ (from $K$) is always the **first** argument. In later chapters the projection onto $K$ along an exponential curve is the **e-projection**, the projection onto $S$ along a mixture segment is the **m-projection**, and the alternating algorithm is called the **em algorithm**.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Divergence between two sets** of beliefs $K$ and $S$ (first slot from $K$, second from $S$):
+        $$D[K:S]=\min_{P\in K,\;Q\in S}D[P:Q]=D[\bar P:\bar Q],$$
+        where $(\bar P,\bar Q)$ is the **closest pair**. It is $0$ exactly when the sets share a belief, and it is not symmetric.
+      - **Alternating minimization.** Start from any $Q_0\in S$ and repeat
+        $$\begin{aligned}P_t&=\arg\min_{P\in K}D[P:Q_t],\\Q_{t+1}&=\arg\min_{Q\in S}D[P_t:Q].\end{aligned}$$
+        The first step frees the first slot, the second step frees the second slot ($t$ counts steps; it is not a component).
+      - **Monotone decrease.** Each step minimizes over a set that still contains the previous point, so
+        $$\begin{aligned}D[P_{t-1}:Q_t]&\ge D[P_t:Q_t]\\&\ge D[P_t:Q_{t+1}]\\&\ge D[K:S]\ge0,\end{aligned}$$
+        and the procedure converges.
+      - **Uniqueness.** With $K$ flat (a mixture line or plane) and $S$ dual flat (an exponential curve or surface) the Pythagorean theorem makes each foot unique and the limit independent of the start. Otherwise the zigzag can stop at a **local** minimum (a segment against an arc stopped at $D=0.0040$ while the true $D[K:S]=0$).
+      - **Names.** The projection onto $K$ along an exponential curve is the **e-projection**; the projection onto $S$ along a mixture segment is the **m-projection**; alternating them is the **em algorithm**.
+
+      **Next:** the content map of this level, to rebuild the whole chapter box by box. The em algorithm returns in the chapter on statistical inference, where $K$ is "the data" and $S$ is "the model".
