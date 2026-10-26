@@ -1,0 +1,326 @@
+id: ch01-why
+title: Why Geometry of Probabilities?
+kind: concept
+own: |
+  - **A belief is a point.** A **probability distribution** over three outcomes (a belief: how likely you think each outcome is) is a list
+    $$p=(p_1,p_2,p_3)$$
+    with $p_i>0$ and
+    $$p_1+p_2+p_3=1.$$
+    Here $p_i$ means "the $i$-th number" (a label, not a power). Drawn as a point of a triangle (the **simplex**), where {{ the corner $i$ means "outcome $i$ is certain" }}. A set of beliefs is a *space*, so it can have distances, straight lines and curvature.
+  - **Straight-line distance is a poor measure of surprise.** On the simplex, $\lVert p-q\rVert=\sqrt{\sum_i (p_i-q_i)^2}$, yet moving an outcome from $10\%$ to $1\%$ is a far bigger change of belief than moving it from $40\%$ to $31\%$, though both are the same straight-line distance.
+  - **The KL divergence** (Kullback–Leibler) of two distributions $p,q$ over the same outcomes measures, in **nats**, how badly $q$ describes $p$:
+    $$D_{KL}[p:q]=\sum_i p_i\ln\frac{p_i}{q_i}.$$
+    The colon separates the two arguments, and {{ $D_{KL}[p:q]\neq D_{KL}[q:p]$ }} in general (for $p=(\tfrac12,\tfrac12)$, $q=(\tfrac14,\tfrac34)$: $0.144$ against $0.131$ nats). So it is a divergence, not a distance.
+  - **Two kinds of straight path** join $p$ and $q$: the **mixture** path (a blend of the two beliefs) and the **exponential** path (blend of their logarithms, rescaled to add up to $1$; $Z$ = that rescaling number):
+    $$(1-t)\,p+t\,q \quad\text{and}\quad \frac{p^{1-t}q^{t}}{Z}.$$
+    The first is a {{ straight segment }} of the triangle, the second is curved there.
+  - **A Pythagorean theorem for beliefs.** For three distributions $p,q,r$, if the mixture path from $p$ to $q$ meets the exponential path from $q$ to $r$ at a right angle (in the geometry the course builds), then
+    $$D_{KL}[p:r]=D_{KL}[p:q]+D_{KL}[q:r].$$
+    Divergences add where squared lengths would: {{ $D_{KL}[p:r]=D_{KL}[p:q]+D_{KL}[q:r]$ }}.
+cards:
+  - type: text
+    id: hook
+    title: "How far apart are two beliefs?"
+    body: |
+      This first level is a **light tour**. **Guessing is the point**, for every lesson of the level: wrong guesses are expected, each one comes with a reason, and no earlier knowledge is needed. Every technical word is explained the first time it appears.
+
+      You and a friend forecast tomorrow's weather, with three possible **outcomes** (the things that might happen): sun, cloud, rain. You say $50\%$, $30\%$, $20\%$. Your friend says $40\%$, $40\%$, $20\%$.
+
+      Such a list of percentages that adds up to $100\%$ is a **probability distribution**: a *belief* about which outcome will happen. The two of you disagree a little. But how *much*? Could we put a number on "how far apart are two beliefs", and could that number come from **geometry** (distances, straight lines, curved spaces)?
+
+      That is the whole subject of this course. Before any theory, let us play with it.
+
+  - type: widget
+    id: simplex
+    widget: simplex-points
+    config:
+      outcomes: [a, b, c]
+      points:
+        - { name: p, p: [0.5, 0.3, 0.2] }
+        - { name: q, p: [0.2, 0.3, 0.5] }
+      showKL: false
+      showComponents: false
+    body: |
+      With **three outcomes** $a, b, c$, a belief is three numbers $p_a, p_b, p_c$ that add up to $1$, and it fits in a **triangle**: each corner means "this outcome is certain", and a point near the middle means "all three about equally likely". This triangle is called the **simplex** of three outcomes. (Here the subscripts are only labels.)
+
+      Drag $p$ and $q$ around. Watch what happens when a point moves toward a corner, then along an edge.
+
+  - type: mcq
+    id: read-point
+    prompt: |
+      In the triangle of beliefs over three outcomes $a, b, c$ (each corner means "that outcome is certain"), a point sits very close to the middle of the edge between corner $a$ and corner $b$, far from corner $c$. Which belief does it describe?
+    options:
+      - text: Outcomes $a$ and $b$ are about equally likely, and $c$ is almost impossible.
+        correct: true
+      - text: Outcome $c$ is almost certain.
+        feedback: |
+          A point near a corner says that corner's outcome is almost certain. Here the point is *far* from corner $c$, so $c$ gets almost no probability.
+      - text: All three outcomes are about equally likely.
+        feedback: |
+          That is the centre of the triangle, equally far from all three corners. A point on an edge has one outcome at (nearly) zero.
+      - text: Outcome $a$ is certain and $b$ is impossible.
+        feedback: |
+          Certainty would put the point exactly at corner $a$. Halfway along the edge $a$-$b$ splits the probability evenly between $a$ and $b$.
+    explanation: |
+      Along the edge from corner $a$ to corner $b$ the third outcome has probability $0$, and the position along the edge sets how the rest is shared. The middle of the edge shares it equally: $(0.5,\,0.5,\,0)$. Every point of the triangle is a belief, and every belief is a point.
+
+  - type: mcq
+    id: coin-guess
+    prompt: |
+      Two forecasters give the chance of rain tomorrow. Pair X says $50\%$ and $51\%$. Pair Y says $1\%$ and $2\%$. In both pairs the numbers differ by exactly one percentage point. Which pair **disagrees more** about the world, in your gut feeling?
+    options:
+      - text: Pair Y.
+        correct: true
+      - text: Pair X.
+        feedback: |
+          Tempting, because the numbers are bigger. But $50\%$ versus $51\%$ is hardly any disagreement: both expect rain about half the time.
+      - text: They disagree equally, since the gap is one point in both.
+        feedback: |
+          This is the "ruler" answer, and it is exactly what we are about to question. A gap of one point means little around $50\%$, and much more near $0\%$.
+    hint: |
+      Ask how often each forecaster expects rain relative to the other. One of them expects it twice as often.
+    explanation: |
+      Pair Y: the second forecaster expects rain **twice** as often as the first. Pair X: only $2\%$ more often. Near an extreme (very unlikely or very likely events) small differences in the numbers are big differences in belief. A good measure of "how far apart" must see this.
+
+  - type: text
+    id: euclid
+    title: "The ruler on the triangle"
+    body: |
+      The most natural idea: measure the **straight-line distance** in the triangle, like a ruler. For two beliefs $p=(p_1,p_2,p_3)$ and $q=(q_1,q_2,q_3)$ (subscripts are labels: $p_2$ is "the second number"), Pythagoras gives
+      $$\begin{aligned}\lVert p-q\rVert^2 &= (p_1-q_1)^2\\ &\quad+(p_2-q_2)^2\\ &\quad+(p_3-q_3)^2\end{aligned}$$
+      and the length is the square root of this sum. The bars $\lVert\cdot\rVert$ mean "length of". This is called the **Euclidean distance**.
+
+      Two pairs of beliefs over three outcomes:
+
+      | Pair | First belief | Second belief |
+      |---|---|---|
+      | A | $(0.40,\ 0.30,\ 0.30)$ | $(0.31,\ 0.345,\ 0.345)$ |
+      | B | $(0.10,\ 0.45,\ 0.45)$ | $(0.01,\ 0.495,\ 0.495)$ |
+
+      In A the first outcome drops from $40\%$ to $31\%$. In B it drops from $10\%$ to $1\%$.
+
+  - type: numeric
+    id: euclid-b
+    prompt: |
+      Compute the Euclidean distance $\lVert p-q\rVert$ for pair B: $p=(0.10,\,0.45,\,0.45)$ and $q=(0.01,\,0.495,\,0.495)$. Give three decimals.
+    answer: 0.1102
+    tolerance: 0.002
+    answerText: '0.110'
+    hint: |
+      The differences are $0.09$, then $-0.045$ twice. Square, add, take the square root.
+    explanation: |
+      $$\begin{aligned}\lVert p-q\rVert^2&=0.09^2+2\cdot 0.045^2\\&=0.01215\end{aligned}$$
+      so $\lVert p-q\rVert=\sqrt{0.01215}\approx 0.110$.
+      Pair A gives exactly the same $0.110$ (its differences are the same three numbers). The ruler says the two pairs are equally far apart, yet in B an outcome went from $10\%$ to $1\%$ (ten times rarer), against a mild change in A. We will soon meet a number that tells them apart: about $0.018$ for A against $0.144$ for B, in a unit called nats.
+
+  - type: text
+    id: kl-def
+    title: "A better number: the KL divergence"
+    body: |
+      Here is the number the course is built on. For two distributions $p$ and $q$ over the same outcomes, the **Kullback–Leibler divergence** (KL for short) is
+      $$D_{KL}[p:q]=\sum_i p_i\,\ln\frac{p_i}{q_i}.$$
+
+      Notation:
+      - $\sum_i$ means "add over all outcomes $i$"; $p_i$ and $q_i$ are labels for the $i$-th probabilities, not powers.
+      - $\ln$ is the **natural logarithm** ($\ln 1=0$, $\ln 2\approx0.693$, and $\ln$ of a number below $1$ is negative). Many texts write $\log$ for the same thing. The unit of the result is called the **nat**.
+      - The **colon** in $D_{KL}[p:q]$ only separates the two arguments, read "from $p$ to $q$". It is not a ratio, and the order will matter.
+
+      The idea: each outcome contributes $p_i\ln(p_i/q_i)$, large when $q$ gives much *less* probability to an outcome than $p$ does. It measures how surprised you are, on average, when outcomes follow $p$ but you believed $q$. It is $0$ when $p=q$ and positive otherwise. It is called a **divergence** (a "degree of separation") rather than a distance, and the reason comes next.
+
+  - type: numeric
+    id: kl-by-hand
+    prompt: |
+      Two outcomes. Belief $p=(\tfrac12,\tfrac12)$ and belief $q=(\tfrac14,\tfrac34)$. Compute $D_{KL}[p:q]=\sum_i p_i\ln(p_i/q_i)$ in nats, to three decimals.
+    answer: 0.1438
+    tolerance: 0.002
+    answerText: '0.144'
+    wrong:
+      - value: 0.1308
+        feedback: |
+          That is $D_{KL}[q:p]$, with the two arguments swapped: you weighted with $q$ instead of $p$. The first argument is the one that weights the sum.
+    hint: |
+      Two terms. First outcome: $\tfrac12\ln\frac{1/2}{1/4}=\tfrac12\ln 2$. Second: $\tfrac12\ln\frac{1/2}{3/4}=\tfrac12\ln\tfrac23$. Use $\ln 2\approx0.6931$ and $\ln\tfrac23\approx-0.4055$.
+    explanation: |
+      $$\begin{aligned}D_{KL}[p:q]&=\tfrac12\ln2+\tfrac12\ln\tfrac23\\&=\tfrac12\ln\tfrac43\approx0.144\end{aligned}$$
+      nats.
+      The first term counts the outcome that $q$ underrates ($\tfrac12$ against $\tfrac14$: positive), the second the outcome that $q$ overrates (negative); the first wins.
+
+  - type: mcq
+    id: predict-sym
+    prompt: |
+      With $p=(\tfrac12,\tfrac12)$ and $q=(\tfrac14,\tfrac34)$ we found $D_{KL}[p:q]\approx0.144$ nats. A distance between two points is the same in both directions. Guess: is the swapped number $D_{KL}[q:p]=\sum_i q_i\ln(q_i/p_i)$ the same?
+    options:
+      - text: No, it comes out different (about $0.131$ nats).
+        correct: true
+      - text: Yes, it must be exactly $0.144$ again.
+        feedback: |
+          It is tempting, since the formula looks symmetric. But the weights are different: the first argument weights the sum. Here $q$ weights the second outcome by $\tfrac34$, not $\tfrac12$.
+    explanation: |
+      $$\begin{aligned}D_{KL}[q:p]&=\tfrac14\ln\tfrac12+\tfrac34\ln\tfrac32\\&\approx-0.1733+0.3041\\&=0.131\end{aligned}$$
+      Close to $0.144$, but not equal. KL is **asymmetric**: $D_{KL}[p:q]\neq D_{KL}[q:p]$ in general. That is why it is called a divergence and not a distance.
+
+  - type: widget
+    id: asymmetry
+    widget: simplex-points
+    config:
+      outcomes: [a, b, c]
+      points:
+        - { name: p, p: [0.6, 0.3, 0.1] }
+        - { name: q, p: [0.2, 0.3, 0.5] }
+      showEuclid: true
+      segment: true
+    body: |
+      Same idea in the triangle with three outcomes. The readout shows the straight-line distance $\lVert p-q\rVert$ and, with bars, $D_{KL}[p:q]$ and $D_{KL}[q:p]$ in nats. (The symbols in the readout are the ones above; watch the shapes, not the details.)
+
+      Drag $p$ and $q$. The straight-line distance never changes when you swap the two points. Do the two KL bars? Try a pair near an edge, then a pair near the middle.
+
+  - type: mcq
+    id: read-asym
+    prompt: |
+      For $p=(0.6,\,0.3,\,0.1)$ and $q=(0.2,\,0.3,\,0.5)$ the straight-line distance is $0.566$ in both directions, while $D_{KL}[p:q]=0.498$ and $D_{KL}[q:p]=0.585$ nats. What does this say?
+    options:
+      - text: Swapping the two beliefs leaves the ruler distance unchanged, but changes the KL number, so KL is not a distance.
+        correct: true
+      - text: KL must be wrong, since a measure of separation is always the same in both directions.
+        feedback: |
+          The reverse: the separation of beliefs is not symmetric. Being surprised by $q$ when reality is $p$ is a different experience from the opposite case, as the example with $0.144$ and $0.131$ showed.
+      - text: The two KL numbers differ only because the sliders were not exact.
+        feedback: |
+          The numbers come from the formula, not from the sliders. They differ exactly, for every pair except $p=q$ (and a few symmetric positions).
+    explanation: |
+      KL depends on the order: it weights the outcomes by the **first** argument's probabilities. Asymmetry is not a flaw to repair. It is the first sign that the geometry of beliefs is richer than that of a ruler, and the course turns it into a feature (two different notions of "straight").
+
+  - type: widget
+    id: midpoint
+    widget: simplex-points
+    config:
+      outcomes: [a, b, c]
+      points:
+        - { name: p, p: [0.6, 0.3, 0.1] }
+        - { name: q, p: [0.2, 0.3, 0.5] }
+      showEuclid: true
+      showMidpoints: true
+      segment: true
+    body: |
+      The hollow marker $m$ is the **midpoint** of $p$ and $q$: the belief $m=(p+q)/2$, exactly halfway along the dashed line, so a ruler measures the same distance from $m$ to $p$ as from $m$ to $q$. The four extra bars are $D_{KL}[p:m]$, $D_{KL}[m:p]$, $D_{KL}[q:m]$, $D_{KL}[m:q]$.
+
+      Is $m$ also "halfway" for KL? Drag $p$ and $q$ and compare the bars.
+
+  - type: mcq
+    id: read-mid
+    prompt: |
+      Take $p=(0.6,\,0.3,\,0.1)$, $q=(0.2,\,0.3,\,0.5)$ and their midpoint $m=(0.4,\,0.3,\,0.3)$. A ruler gives $0.283$ from $m$ to $p$ and $0.283$ from $m$ to $q$. The KL numbers are $D_{KL}[p:m]=0.133$ and $D_{KL}[q:m]=0.117$ nats. What follows?
+    options:
+      - text: 'The ruler''s midpoint is not the KL midpoint: "halfway" depends on the measure and on the direction.'
+        correct: true
+      - text: $m$ is halfway for KL too, since the two numbers are close.
+        feedback: |
+          Close is not equal: $0.133\neq0.117$, and moving $p$ and $q$ nearer an edge makes the gap larger. Also the reverse direction $D_{KL}[m:p]=0.167$ differs again.
+      - text: One of the two KL numbers must be a computational mistake.
+        feedback: |
+          Both are right (check one with the formula). The inequality is the point: distances measured by KL are not shared out equally even by the ruler's midpoint.
+    explanation: |
+      $D_{KL}[p:m]=0.133$, $D_{KL}[m:p]=0.167$, $D_{KL}[q:m]=0.117$, $D_{KL}[m:q]=0.124$ nats: four different numbers for "half the way". With KL, the words "distance", "midpoint" and "straight" all need care.
+
+  - type: widget
+    id: right-angle
+    widget: simplex-points
+    config:
+      outcomes: [a, b, c]
+      points:
+        - { name: p, p: [0.6, 0.3, 0.1], fixed: true }
+        - { name: q, p: [0.3, 0.4, 0.3], fixed: true }
+        - { name: r, p: [0.1912, 0.6929, 0.116], fixed: true }
+      pairs: []
+      showKL: false
+      showComponents: false
+      family:
+        - { type: mixture, a: 0, b: 1 }
+        - { type: exponential, a: 1, b: 2 }
+    body: |
+      Three fixed beliefs $p$, $q$, $r$ and two paths. The **straight line** through $p$ and $q$ is the **mixture** path: the beliefs $(1-t)p+tq$ for a number $t$ (a blend: at $t=0$ you get $p$, at $t=1$ you get $q$). The **curve** through $q$ and $r$ is the **exponential** path (it blends the *logarithms* of the two beliefs and rescales; we meet it properly later).
+
+      They cross at $q$. In the sense of the geometry this course builds, the two paths meet there at a **right angle**, even if the picture does not look like one. (A flat drawing of this space distorts angles, like a flat map of the Earth.)
+
+  - type: numeric
+    id: pythag
+    prompt: |
+      Three beliefs $p,q,r$ over three outcomes are placed so that the mixture path from $p$ to $q$ meets the exponential path from $q$ to $r$ at a right angle, in the geometry of divergences. The numbers are $D_{KL}[p:q]=0.2197$ nats and $D_{KL}[q:r]=0.2006$ nats. For a right triangle of ordinary lengths, squares add. Guess how divergences combine, and give $D_{KL}[p:r]$ in nats.
+    answer: 0.4203
+    tolerance: 0.002
+    answerText: '0.420'
+    wrong:
+      - value: 0.2975
+        feedback: |
+          You took $\sqrt{0.2197^2+0.2006^2}$, as for ordinary lengths. But a divergence already plays the role of a *squared* length: no further squaring is needed.
+    hint: |
+      A divergence behaves like a squared length. What does Pythagoras say for squared lengths?
+    explanation: |
+      Pythagoras says $c^2=a^2+b^2$: squared lengths add. A divergence plays the role of a squared length, so
+      $$D_{KL}[p:r]=D_{KL}[p:q]+D_{KL}[q:r]$$
+      $$=0.2197+0.2006=0.4203.$$
+      This is the **generalized Pythagorean theorem**, a highlight of the course. With the numbers $p=(0.6,0.3,0.1)$, $q=(0.3,0.4,0.3)$, $r\approx(0.1912,0.6929,0.1160)$ one checks $D_{KL}[p:r]=0.4203$ directly from the formula.
+
+  - type: widget
+    id: mix-vs-exp
+    widget: simplex-points
+    config:
+      outcomes: [a, b, c]
+      points:
+        - { name: p, p: [0.6, 0.3, 0.1] }
+        - { name: q, p: [0.2, 0.3, 0.5] }
+      showKL: false
+      showComponents: false
+      family:
+        - { type: mixture, a: 0, b: 1 }
+        - { type: exponential, a: 0, b: 1 }
+    body: |
+      Two natural ways to go from belief $p$ to belief $q$. Both start at $p$ and end at $q$ (and continue beyond, as long as they stay inside the triangle). One is a **straight line** of the picture, the other is **curved**. Drag $p$ and $q$ and watch how the curve bends: more when the points are near an edge, almost not at all near the middle.
+
+  - type: mcq
+    id: which-straight
+    prompt: |
+      Two paths join the beliefs $p$ and $q$: the blend $(1-t)p+tq$ (a straight segment in the triangle) and the path $p^{1-t}q^{t}/Z$ (curved in the triangle; $Z$ is the number that makes the result add up to $1$). Which statement is right?
+    options:
+      - text: Both are natural notions of "straight". Which one looks straight depends on how we describe a belief, so the geometry has two kinds of straight lines.
+        correct: true
+      - text: Only the blend is a real straight line; the other path is a drawing mistake.
+        feedback: |
+          The curved look is real in this picture, but the second path is perfectly regular: it is straight when beliefs are described by their *logarithms*. A path is not straight or curved by itself, only relative to a way of describing points.
+      - text: The two paths must be the same path drawn badly.
+        feedback: |
+          They share only the two ends (and all the points where $p=q$). In between they differ, as the drag shows.
+    explanation: |
+      "Straight" depends on the coordinates, like straight lines on a map that become curved on a globe. The course makes this precise: a **mixture** path and an **exponential** path are the two kinds of straight line of the geometry of beliefs, linked by a duality, and the Pythagorean theorem above uses one of each.
+
+  - type: mcq
+    id: why-curved
+    title: "Why not just use the ruler?"
+    prompt: |
+      The triangle of beliefs is drawn flat on the page, yet we saw that a ruler on it misjudges beliefs near an edge, and that straight paths can look curved. What does this suggest about the space of beliefs?
+    options:
+      - text: It behaves like a curved space, where lengths depend on the position, so measuring distance needs a rule that varies from point to point.
+        correct: true
+      - text: It is flat, and we simply need a better ruler.
+        feedback: |
+          Changing the units of the ruler would not help: the mismatch changes from place to place (small in the middle, large near an edge). A single flat ruler cannot do that.
+      - text: Distance cannot be defined at all for beliefs.
+        feedback: |
+          It can, once we choose a rule for lengths at each point. That rule is the subject of a later part of the course, and it gives a natural distance.
+    explanation: |
+      A set of beliefs where we can move smoothly and use coordinates is a **manifold** (a space that is locally like ordinary flat space, but may be curved as a whole, like a sphere). A rule for measuring lengths at each point is a **metric**. The same set of Gaussian bell curves, with the mean and the spread as coordinates, turns out to carry the geometry of a famous curved plane from non-Euclidean geometry, the Poincaré half-plane.
+
+  - type: text
+    id: summary
+    body: |
+      ## Where each puzzle goes
+
+      | Puzzle in this lesson | Where it is answered |
+      |---|---|
+      | A belief is a point; coordinates | Manifolds and coordinate systems |
+      | The ruler misjudges edges | The metric (Fisher information) |
+      | $D_{KL}[p:q]\neq D_{KL}[q:p]$ | Divergences |
+      | Mixture and exponential straight lines | Exponential and mixture families |
+      | Divergences add like squares | Dually flat structure; Pythagorean theorem |
+
+      **Next:** the manifold itself. We start with flat space and a change of coordinates, then the simplex of beliefs and the family of Gaussian bell curves, all as spaces with coordinates.
