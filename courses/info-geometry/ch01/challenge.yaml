@@ -216,10 +216,214 @@ cards:
       - { value: 2.0575, feedback: 'That is $D[N:R]$, the other order. $R$ comes first.' }
     explanation: |
       $$0+\big(8\ln\tfrac83-5\big)=7.8466-5=2.8466 .$$
-      So $R$ is much farther (in this order) from the dual midpoint $N$ than from the geodesic midpoint $M$ ($0.814$): the "midpoint" depends on which kind of straightness we use. Here $R$ is close to the geodesic midpoint in the first coordinate-wise sense and far from the geometric-mean midpoint in the second coordinate ($8$ against $3$).
+      So $R$ is much farther (in this order) from the dual midpoint $N$ than from the geodesic midpoint $M$ ($0.814$): the "midpoint" depends on which kind of straightness we use. The comparison shows that, with $R$ in the first slot, $M$ is the nearer of the two midpoints. The first coordinates contribute $0.0537$ to $D[R:M]$ and $0$ to $D[R:N]$ (here $R_1=N_1=2$), so the whole difference comes from the second coordinate, where $R$ has $8$, $M$ has $5$ and $N$ has $3$. It does not say that one midpoint is the right one: each is the midpoint for its own kind of straightness.
+
+  # ---------------------------------------------------------------- Problem 4
+  - type: widget
+    id: p4-picture
+    tag: Problem 4 · Pythagorean theorem
+    review: false
+    widget: simplex-points
+    config:
+      outcomes: [a, b, c]
+      points:
+        - { name: P, p: [0.2, 0.5, 0.3], fixed: true }
+        - { name: R, p: [0.3, 0.1, 0.6], fixed: true }
+        - { name: A, p: [0.05, 0.35, 0.6], fixed: true }
+      pairs: []
+      showKL: false
+      showComponents: false
+      family:
+        - { type: mixture, a: 1, b: 2 }
+    body: |
+      The simplex of beliefs over three outcomes $a,b,c$ (a corner means "this outcome is certain"). The straight line through $R$ and $A$ is the set $S$ of beliefs with $p_3=0.6$: a **mixture line**, a geodesic. The belief $P$ lies outside it. **Guess:** from $P$ we follow an exponential path (a dual geodesic, which bends in this picture) until it meets $S$ at a right angle in the geometry of divergences. Roughly where on $S$ is that meeting point, the **foot** $F$? Do not compute yet.
+
+  - type: mcq
+    id: p4-which
+    tag: Problem 4 · Pythagorean theorem
+    prompt: |
+      Three beliefs $P,Q,R$ over three outcomes, and $D$ the KL divergence. A **mixture path** is a straight line $(1-t)A+tB$; an **exponential path** is a curve $A^{1-t}B^t/Z$ (the dual geodesic). Which configuration gives $D[R:P]=D[Q:P]+D[R:Q]$?
+    options:
+      - text: 'The exponential path from $P$ to $Q$ meets the mixture path from $Q$ to $R$ at a right angle at $Q$.'
+        correct: true
+      - text: 'The mixture path from $P$ to $Q$ meets the exponential path from $Q$ to $R$ at a right angle at $Q$.'
+        feedback: |
+          That right angle gives the **mirrored** identity $D[P:R]=D[P:Q]+D[Q:R]$, with the first slot of every term on the same side. The two curves have swapped roles, so the order of the arguments swaps too.
+      - text: 'The three beliefs lie on one mixture line, with $Q$ between $P$ and $R$.'
+        feedback: |
+          Being on a straight line is not enough. $D$ is not a ruler distance, and on a line the gap $D[Q:P]+D[R:Q]-D[R:P]$ is generally not $0$ (one card below computes a nonzero gap). What matters is a **right angle between a geodesic and a dual geodesic**.
+      - text: 'Always, whenever $Q$ lies between $P$ and $R$ in any sense, because divergences add like lengths.'
+        feedback: |
+          Divergences do not add like lengths unless the right-angle condition holds. The identity is a Pythagorean theorem, and without the right angle there is a nonzero gap.
+    explanation: |
+      Dual geodesic $PQ$ perpendicular to geodesic $QR$ gives
+      $$D[R:P]=D[Q:P]+D[R:Q].$$
+      Geodesic $PQ$ perpendicular to dual geodesic $QR$ gives the mirror
+      $$D[P:R]=D[P:Q]+D[Q:R].$$
+      In both, the curve that **ends** at the corner point of the first leg decides which slot holds the shared point.
+
+  - type: numeric
+    id: p4-foot
+    tag: Problem 4 · Pythagorean theorem
+    prompt: |
+      Beliefs over three outcomes. The set $S$ is the mixture line $p_3=0.6$, with tangent direction $b=(1,-1,0)$. The belief is $P=(0.2,0.5,0.3)$. The exponential path from $P$ multiplies each $P_i$ by $e^{ta_i}$ and renormalizes; it meets $S$ at a right angle when $\sum_ia_ib_i=0$. Find the first component $F_1$ of the foot $F\in S$.
+    answer: 0.1143
+    tolerance: 0.001
+    hint: |
+      $\sum_ia_ib_i=a_1-a_2=0$, so $a_1=a_2$: the components $1$ and $2$ keep their ratio $P_1:P_2$. Then use $F_3=0.6$.
+    wrong:
+      - { value: 0.2, feedback: 'That is $P_1$ itself. The path rescales the components, and the foot has $F_3=0.6$, not $0.3$.' }
+    explanation: |
+      Along the path $a_1=a_2$, so $F_1:F_2=0.2:0.5=2:5$. With $F_1+F_2=1-0.6=0.4$,
+      $$F_1=0.4\cdot\tfrac27=0.1143,\qquad F_2=0.2857 .$$
+      So $F=(0.1143,\,0.2857,\,0.6)$.
+
+  - type: numeric
+    id: p4-pyth
+    tag: Problem 4 · Pythagorean theorem
+    prompt: |
+      Beliefs over three outcomes, $D[A:B]=\sum_iA_i\ln(A_i/B_i)$. The belief $P=(0.2,0.5,0.3)$ projects along an exponential path onto the mixture line $p_3=0.6$ at the foot $F=(0.1143,0.2857,0.6)$, at a right angle. Another belief on that line is $R=(0.3,0.1,0.6)$. One finds $D[F:P]=0.1920$ and $D[R:F]=0.1845$. Predict $D[R:P]$ without computing it.
+    answer: 0.3766
+    tolerance: 0.001
+    hint: 'The exponential path $PF$ is perpendicular to the mixture path $FR$ at $F$.'
+    wrong:
+      - { value: 0.1845, feedback: 'That is only the leg $D[R:F]$; the theorem adds the other leg $D[F:P]$.' }
+    explanation: |
+      $$\begin{aligned}D[R:P]&=D[F:P]+D[R:F]\\&=0.1920+0.1845\\&=0.3766 ,\end{aligned}$$
+      and a direct computation gives $D[R:P]=0.3766$. The same identity says $F$ minimizes $D[R:P]$ over $R$ in the line $S$, since the extra leg $D[R:F]\ge0$ vanishes only at $R=F$.
+
+  - type: numeric
+    id: p4-mirror
+    tag: Problem 4 · Pythagorean theorem
+    prompt: |
+      Beliefs $P=(0.2,0.5,0.3)$, $Q=(0.3,0.4,0.3)$, $R=(0.15,0.2,0.65)$ with $D[A:B]=\sum_iA_i\ln(A_i/B_i)$. The mixture path from $P$ to $Q$ has velocity $b=Q-P=(0.1,-0.1,0)$, and the exponential path from $Q$ to $R$ has log-velocity $a_i=\ln(R_i/Q_i)$ up to a constant. Since $a_1=a_2=\ln0.5$, one has $\sum_ia_ib_i=0$: a right angle at $Q$. One finds $D[P:Q]=0.0305$ and $D[Q:R]=0.2532$. Predict $D[P:R]$.
+    answer: 0.2837
+    tolerance: 0.001
+    hint: 'The mixture path comes first and the exponential path second, so the mirrored identity applies.'
+    wrong:
+      - { value: 0.2532, feedback: 'That is only the leg $D[Q:R]$; add the other leg $D[P:Q]$.' }
+    explanation: |
+      $$\begin{aligned}D[P:R]&=D[P:Q]+D[Q:R]\\&=0.0305+0.2532\\&=0.2837 ,\end{aligned}$$
+      confirmed by a direct computation. Here the mixture path (geodesic) comes first and the exponential path second, so the roles of the two kinds of path are swapped relative to the foot example above, and the shared point $Q$ is the **second** slot of the first leg and the **first** slot of the second.
+
+  - type: numeric
+    id: p4-trap
+    tag: Problem 4 · Pythagorean theorem
+    prompt: |
+      A student sees beliefs $P=(0.2,0.5,0.3)$, $Q=(0.3,0.4,0.3)$, $R=(0.1,0.2,0.7)$ and adds the "legs": $D[Q:P]+D[R:Q]=0.0324+0.3446=0.3770$, claiming this equals $D[R:P]$. The true value is $D[R:P]=0.3405$. Compute the gap $D[Q:P]+D[R:Q]-D[R:P]$.
+    answer: 0.0365
+    tolerance: 0.0006
+    hint: 'Subtract $0.3405$ from $0.3770$.'
+    wrong:
+      - { value: 0, feedback: 'The gap is zero only with a right angle between the exponential path $PQ$ and the mixture path $QR$ at $Q$. Here the log-velocity of $PQ$ and the velocity of $QR$ are not orthogonal.' }
+    explanation: |
+      $$0.3770-0.3405=0.0365>0 .$$
+      The gap equals $(\xi_Q-\xi_R)\cdot(\xi^*_Q-\xi^*_P)$ with $\xi=p$ and $\xi^*=\ln p$: it measures how far from a right angle the corner at $Q$ is. Its sign depends on the angle, so "the legs add up" holds only at exactly a right angle.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: widget
+    id: p5-picture
+    tag: Problem 5 · Alternating minimization
+    review: false
+    widget: alt-projections
+    config:
+      outcomes: [a, b, c]
+      K: { type: mixture, a: [0.46, 0.37, 0.17], b: [0.38, 0.36, 0.26], t: [-1.4, 1.4] }
+      S: { type: arc, center: [0.444, 0.346, 0.21], r: 0.17, from: 282, to: 582 }
+      start: [0.5134, 0.2072, 0.2794]
+      steps: 20
+      done: 0
+      hide: [table, buttons]
+    body: |
+      Beliefs over three outcomes $a,b,c$. $K$ is a **finite segment** of a mixture line and $S$ is a closed **arc** (a circle of beliefs). They cross. We look for the closest pair $P\in K$, $Q\in S$ for $D[P:Q]$, starting from the marked belief $Q_0$ on $S$ and alternating the two projections. **Guess:** does the zigzag necessarily end at a crossing of $K$ and $S$?
+
+  - type: numeric
+    id: p5-step
+    tag: Problem 5 · Alternating minimization
+    prompt: |
+      In alternating minimization the belief $P_t=(0.3,0.2,0.5)$ of $K$ is frozen, and the next belief is $Q_{t+1}=\arg\min_{Q\in S}D[P_t:Q]$, with $D[A:B]=\sum_iA_i\ln(A_i/B_i)$. Here $S$ is the mixture line $q_3=0.2$, so $Q=(q_1,\,0.8-q_1,\,0.2)$. Find $q_1$ at the minimum.
+    answer: 0.48
+    tolerance: 0.002
+    hint: |
+      Only the terms with $Q$ matter: minimize $-0.3\ln q_1-0.2\ln(0.8-q_1)$. Set the derivative to $0$: $\frac{0.3}{q_1}=\frac{0.2}{0.8-q_1}$.
+    wrong:
+      - { value: 0.3, feedback: 'That copies $P_1$. The free components of $Q$ must add up to $0.8$, not $0.5$, so they are rescaled.' }
+      - { value: 0.4, feedback: 'That splits $0.8$ equally. The minimizer keeps the ratio $P_1:P_2=3:2$, not $1:1$.' }
+    explanation: |
+      The free components keep the ratio of $P_t$: $q_1:q_2=0.3:0.2$ with $q_1+q_2=0.8$, so
+      $$q_1=0.8\cdot\tfrac35=0.48,\qquad q_2=0.32 .$$
+      This is the mixture projection of $P_t$ onto $S$. The divergence is $D[P_t:Q_{t+1}]=0.2231$.
+
+  - type: order
+    id: p5-loop
+    tag: Problem 5 · Alternating minimization
+    prompt: Put the alternating minimization of $D[P:Q]$ over $P\in K$ and $Q\in S$ in order.
+    steps:
+      - 'Start from a belief $Q_0\in S$.'
+      - 'Freeze $Q_t$ and set $P_t=\arg\min_{P\in K}D[P:Q_t]$.'
+      - 'Freeze $P_t$ and set $Q_{t+1}=\arg\min_{Q\in S}D[P_t:Q]$.'
+      - 'Each step cannot increase $D$; repeat until $D$ stops decreasing.'
+    hint: 'First slot free for $K$, then second slot free for $S$.'
+    explanation: |
+      The two projections alternate and each one minimizes over a set that contains the previous point, so $D[P_{t-1}:Q_t]\ge D[P_t:Q_t]\ge D[P_t:Q_{t+1}]\ge0$. A non-increasing sequence bounded below converges.
+
+  - type: mcq
+    id: p5-local
+    tag: Problem 5 · Alternating minimization
+    prompt: |
+      Alternating minimization between two sets $K$ and $S$ of beliefs never increases $D[P:Q]$. When $K$ is a short segment and $S$ an arc that crosses it, the algorithm can stop at $D\approx0.0040$ although a crossing has $D=0$. Why is that possible?
+    options:
+      - text: 'Each step only finds the best point for one frozen argument; the limit is a point where neither projection can improve, and that need not be the global minimum of $D$ over the pair.'
+        correct: true
+      - text: 'Because $D$ may increase at some step, so the sequence can leave the minimum.'
+        feedback: |
+          $D$ never increases: each step minimizes over a set containing the previous point. The sequence settles down, but settling does not mean reaching the lowest value.
+      - text: 'Because $D[P:Q]$ is zero only when $P$ and $Q$ are far apart.'
+        feedback: |
+          Reversed: $D[P:Q]=0$ exactly when $P=Q$, so a crossing has $D=0$.
+      - text: 'Because the KL divergence is symmetric, so the two projections cancel.'
+        feedback: |
+          $D$ is not symmetric, and the two projections use different slots. Nothing cancels.
+    explanation: |
+      Uniqueness of the limit needs structure: one set flat and the other dual flat, so that both projections are unique and the pair has a single minimum. Here the segment ends and the arc curves, so a limit can sit at the end of the segment, a **local** minimum. Another start reaches the crossing.
+
+  - type: numeric
+    id: p5-stuck
+    tag: Problem 5 · Alternating minimization
+    prompt: |
+      Alternating minimization of $D[P:Q]$ between a finite segment $K$ and an arc $S$ that cross. From one start the values go $0.0643,\,0.0199,\,0.0120,\,0.0048,\,0.0040,\,0.0040$ and stop at $0.00397$. From another start they go $0.00035,\,0.00002,\dots$ and reach the crossing. What is $D[K:S]=\min_{P\in K,\,Q\in S}D[P:Q]$ for this pair?
+    answer: 0
+    tolerance: 0.0001
+    wrong:
+      - { value: 0.0040, feedback: 'That is where the first start got stuck, an upper bound only. The crossing belongs to both sets, so $P=Q$ there and $D=0$.' }
+    explanation: |
+      $D[K:S]=0$, attained at the crossing $(0.543,0.380,0.076)$, since $D\ge0$ with equality iff $P=Q$. The first run's end value $0.0040$ is only a local minimum. The run ended $0.0643-0.0040=0.0603$ below its first value, yet $0.0040$ above the true minimum.
 
   - type: text
-    id: part1-end
-    title: Halfway
+    id: summary
+    title: What you now own
     body: |
-      Three problems done: a metric with a cross term, the dual potential with both orders of $D$, and the two kinds of straight curve through the same two points. Problems 4 and 5 (the Pythagorean theorem on beliefs, and alternating projections) follow.
+      **Metric.** On a convex potential $\psi(\xi)$, $\xi=(\xi_1,\dots,\xi_n)$, the metric matrix and its dual are
+      $$G=\big(\partial_i\partial_j\psi\big),\qquad G^*=G^{-1},$$
+      with $ds^2=g_{ij}\,d\xi^id\xi^j=2D$.
+
+      **Dual coordinates.** With $\xi^*=\nabla\psi(\xi)$ and
+      $$\psi^*(\xi^*)=\xi\cdot\xi^*-\psi(\xi),$$
+      the divergence has three forms (Bregman, Legendre, dual Bregman):
+      $$\begin{aligned}D[P:Q]&=\psi(\xi_P)-\psi(\xi_Q)\\&\quad-\xi^*_Q\cdot(\xi_P-\xi_Q)\\&=\psi(\xi_P)+\psi^*(\xi^*_Q)\\&\quad-\xi_P\cdot\xi^*_Q\\&=D_{\psi^*}[Q:P] .\end{aligned}$$
+
+      **Geodesic and dual geodesic.** The geodesic is straight in $\xi$, the dual geodesic is straight in $\xi^*$:
+      $$\xi(t)=at+b,\qquad \xi^*(t)=at+b .$$
+      On the simplex of beliefs $p=(p_1,p_2,p_3)$ with the negentropy potential, $\xi=p$ and $\xi^*=\ln p$: the geodesic is a **mixture** path, the dual geodesic an **exponential** path.
+
+      **Pythagoras.** If the dual geodesic $PQ$ is perpendicular to the geodesic $QR$ at $Q$,
+      $$D[R:P]=D[Q:P]+D[R:Q],$$
+      and if the geodesic $PQ$ is perpendicular to the dual geodesic $QR$,
+      $$D[P:R]=D[P:Q]+D[Q:R].$$
+      The foot of the projection onto a flat set minimizes the divergence.
+
+      **Alternating minimization** of $D[P:Q]$ over $P\in K$, $Q\in S$:
+      $$\begin{aligned}P_t&=\arg\min_{P\in K}D[P:Q_t],\\Q_{t+1}&=\arg\min_{Q\in S}D[P_t:Q],\end{aligned}$$
+      with $D$ never increasing; the limit is the closest pair when one set is flat and the other dual flat, and only a local minimum in general.
+
+      **Next:** the families of distributions that realize these straight curves, **exponential families and mixture families**, and the dual coordinates they give.
