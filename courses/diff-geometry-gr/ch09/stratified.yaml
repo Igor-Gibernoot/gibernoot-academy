@@ -1,17 +1,14 @@
 id: ch09-stratified
-title: Stratified Atlases
+title: Stratified Atlases · Part 1
 kind: concept
 
 own: |
-  - **Setting and symbols**: $\mathcal{M}$ is the 4-dimensional manifold of events, $\mathcal{A}$ its atlas of charts $(\mathcal{U},\mathscr{X})$, $t\in C^\infty(\mathcal{M})$ the absolute time with $(dt)_p\neq0$, and $\mathcal{S}_\tau := \mathrm{preim}_t(\{\tau\})$ the absolute space at time $\tau$. $\Gamma^i_{jk}$ are the coefficients of the torsion-free connection $\nabla$ in a chart, $\mathtt{t}_k$ the components of $dt$, $\gamma^i := \mathscr{X}^i\circ\gamma$ the coordinates of a worldline $\gamma$ of mass $m$ (dot $= d/dt$), $a_\gamma$ its acceleration and $f_\gamma$ the force on it.
+  - **Setting and symbols**: $\mathcal{M}$ is the 4-dimensional manifold of events, $\mathcal{A}$ its atlas of charts $(\mathcal{U},\mathscr{X})$, $t\in C^\infty(\mathcal{M})$ the absolute time with $(dt)_p\neq0$, and $\mathcal{S}_\tau := \mathrm{preim}_t(\{\tau\})$ the absolute space at time $\tau$.
   - **Stratified chart**: a chart $(\mathcal{U},\mathscr{X})$ with {{ $\mathscr{X}^0 = t|_\mathcal{U}$ }}, so the absolute spaces are the slices $\mathscr{X}^0 = \text{const}$. They exist around every event ($(dt)_p\neq0$ lets $t$ replace some coordinate, by the inverse function theorem) and form the **stratified atlas** $\mathcal{A}_{\text{strat.}}\subseteq\mathcal{A}$. Latin $i,j,k\in\{0,1,2,3\}$, Greek $\alpha,\beta,\delta\in\{1,2,3\}$.
   - **Between stratified charts** the Jacobian has a fixed time row:
   {{ $$\begin{gathered}\frac{\partial\mathscr{Y}^0}{\partial\mathscr{X}^0} = 1\\ \frac{\partial\mathscr{Y}^0}{\partial\mathscr{X}^\beta} = 0\end{gathered}$$ }}
-  while $\partial\mathscr{Y}^\alpha/\partial\mathscr{X}^0$ is arbitrary: the spatial grid may move, rotate or deform in time. Time components of vectors agree; spatial vectors transform with the $3\times3$ block $\partial\mathscr{Y}^\alpha/\partial\mathscr{X}^\beta$ only.
-  - **Uniform flow** in a stratified chart: $\mathtt{t}_k = \delta^0_k$, so $\nabla dt = 0$ iff {{ $\Gamma^0_{ki} = 0$ for all $k,i$ }}. Of the 40 torsion-free coefficients, 10 vanish; 30 remain: $\Gamma^\alpha_{\beta\delta}$ (18), $\Gamma^\alpha_{0\beta}$ (9), $\Gamma^\alpha_{00}$ (3).
-  - **Pseudo-forces**: in spatial Newton II only the whole left side is a component of $a_\gamma$. Moving the $\Gamma$-terms right and multiplying by $m$,
-  {{ $$\begin{aligned}m\ddot\gamma^\alpha = f^\alpha_\gamma &- m\Gamma^\alpha_{\beta\delta}\dot\gamma^\beta\dot\gamma^\delta\\ &- 2m\Gamma^\alpha_{0\beta}\dot\gamma^\beta - m\Gamma^\alpha_{00}\end{aligned}$$ }}
-  each extra term is a pseudo-force, proportional to $m$. From a chart with all $\Gamma = 0$, a change of stratified chart creates one exactly when {{ the transition is not affine }} (the grid accelerates, rotates or deforms).
+  while $\partial\mathscr{Y}^\alpha/\partial\mathscr{X}^0$ is arbitrary: the spatial grid may move, rotate or deform in time. Time components of vectors agree.
+  - **Spatial vectors** ($v^0 = 0$, such as forces): {{ they transform with the $3\times3$ block $\partial\mathscr{Y}^\alpha/\partial\mathscr{X}^\beta$ only }}, while a velocity ($v^0 = 1$) also picks up the grid velocity $\partial\mathscr{Y}^\alpha/\partial\mathscr{X}^0$.
 
 cards:
   - type: text
@@ -23,6 +20,8 @@ cards:
       Two more observers keep $t$ as their clock but lay out space with their own grids:
       - **B**, chart $\mathscr{Y}$: $y^0 = x^0$, $y^1 = x^1 - 2x^0$, $y^2 = x^2$, $y^3 = x^3$. B's grid point $y^1 = 0$ sits at $x^1 = 2t$: the grid **slides** at speed $2$.
       - **C**, chart $\mathscr{Z}$: $z^0 = x^0$, $z^1 = x^1 - (x^0)^2$, $z^2 = x^2$, $z^3 = x^3$. C's grid point $z^1 = 0$ sits at $x^1 = t^2$: the grid **accelerates**.
+
+      Two questions, one per part of this lesson: do the three observers agree on **when** things happen, and do they agree on the connection (which paths count as free)? This part takes the first; Part 2 takes the second.
 
   - type: mcq
     id: hook-simultaneity
@@ -43,26 +42,6 @@ cards:
           B's time coordinate $y^0 = x^0 = t$ is A's absolute time exactly; sliding the grid at constant speed does not touch it.
     explanation: |
       All three time coordinates equal the absolute time $t$, so two events have the same time coordinate for A iff they do for B and for C. Simultaneity is fixed by $t$, not by the grid.
-
-  - type: mcq
-    id: hook-gamma
-    title: And the connection?
-    prompt: |
-      Same three observers: A has coordinates $x^k$ with $x^0 = t$ and **all** connection coefficients zero, so free particles move as $x^\alpha = v^\alpha t + c^\alpha$. B uses $y^1 = x^1 - 2x^0$, C uses $z^1 = x^1 - (x^0)^2$ (time and other coordinates copied). In whose charts are all connection coefficients zero? (Hint: are free particles still straight lines in each chart?)
-    options:
-      - text: 'A and B only'
-        correct: true
-      - text: 'All three: the connection is the same geometric object'
-        feedback: |
-          The connection is the same, but its coefficients $\Gamma^k_{ji}$ are not the components of a tensor and change with the chart. In C a free particle has $z^1 = v^1t + c^1 - t^2$, a parabola: its second derivative $-2$ must be balanced by a nonzero $\Gamma$.
-      - text: 'A only: any moving grid creates coefficients'
-        feedback: |
-          In B a free particle has $y^1 = (v^1 - 2)t + c^1$, still a straight line with $\ddot y^1 = 0$. A grid moving at constant speed changes velocities, not accelerations.
-      - text: 'A and C only'
-        feedback: |
-          It is the other way round: B's grid moves at constant speed and keeps free particles straight, while C's grid accelerates and bends them into parabolas $z^1 = v^1t + c^1 - t^2$.
-    explanation: |
-      In B free particles stay straight, $y^1 = (v^1-2)t + c^1$, so the coefficients stay zero. In C they become parabolas, $z^1 = v^1t + c^1 - t^2$, and the lesson will compute the coefficient that bends them. Charts that share the clock $t$ agree on "when" but may disagree on the $\Gamma$'s.
 
   - type: text
     id: def-stratified
@@ -230,201 +209,6 @@ cards:
       The rotating grid keeps $y^0 = t$, and its spatial block is a rotation (determinant $1$). The angle $x^0$ makes $\partial y^\alpha/\partial x^0\neq0$, which is allowed.
 
   - type: text
-    id: uniform-flow
-    title: Uniform flow, in a stratified chart
-    body: |
-      Recall uniform flow: $\nabla dt = 0$. In any chart, with $dt = \mathtt{t}_k\,dx^k$,
-      $$(\nabla_{\partial x_i}dt)_k = \partial x_i\lfloor\mathtt{t}_k\rceil - \Gamma^j_{ki}\mathtt{t}_j.$$
-
-      In a stratified chart $dt = dx^0$, so the components are constants, $\mathtt{t}_k = \delta^0_k$ ($1$ for $k = 0$, else $0$). The derivative term vanishes and the sum keeps only $j = 0$:
-      $$(\nabla_{\partial x_i}dt)_k = -\Gamma^0_{ki}.$$
-      Hence
-      $$\nabla dt = 0 \iff \Gamma^0_{ki} = 0\ \ \forall k,i.$$
-      Uniform flow removes every coefficient with an **upper time index**.
-
-  - type: numeric
-    id: count-time
-    title: How many vanish?
-    prompt: |
-      A torsion-free connection in 4 dimensions has coefficients $\Gamma^k_{ji} = \Gamma^k_{ij}$ ($i,j,k\in\{0,1,2,3\}$), so $4\times10 = 40$ independent ones. In a stratified chart, uniform flow means $\Gamma^0_{ki} = 0$. How many of the 40 independent coefficients does this set to zero?
-    answer: 10
-    wrong:
-      - value: 16
-        feedback: |
-          There are 16 index pairs $(k,i)$, but $\Gamma^0_{ki} = \Gamma^0_{ik}$ by torsion-freeness, so only the unordered pairs count: $4$ diagonal plus $6$ off-diagonal.
-      - value: 4
-        feedback: |
-          The upper index is fixed to $0$, but the two lower indices still range over all of $\{0,1,2,3\}$: symmetric pairs give $10$.
-    explanation: |
-      Symmetric pairs from 4 values: $\tfrac{4\cdot5}{2} = 10$. So $40 - 10 = 30$ coefficients survive.
-
-  - type: numeric
-    id: count-spatial
-    title: The purely spatial ones
-    prompt: |
-      In a stratified chart with a torsion-free connection ($\Gamma^k_{ji} = \Gamma^k_{ij}$) and uniform flow, the surviving coefficients have a spatial upper index $\alpha\in\{1,2,3\}$. How many independent coefficients $\Gamma^\alpha_{\beta\delta}$ have **all three** indices spatial ($\alpha,\beta,\delta\in\{1,2,3\}$)?
-    answer: 18
-    wrong:
-      - value: 27
-        feedback: |
-          $3^3 = 27$ index triples, but $\Gamma^\alpha_{\beta\delta} = \Gamma^\alpha_{\delta\beta}$: count unordered lower pairs, $6$ per value of $\alpha$.
-      - value: 6
-        feedback: |
-          $6$ symmetric lower pairs is right, but each of the $3$ values of $\alpha$ has its own: $3\times6$.
-    explanation: |
-      $3$ choices of $\alpha$ times $\tfrac{3\cdot4}{2} = 6$ symmetric pairs $(\beta,\delta)$: $18$.
-
-  - type: numeric
-    id: count-mixed
-    title: One time index below
-    prompt: |
-      Same setting: torsion-free ($\Gamma^k_{ji} = \Gamma^k_{ij}$), stratified chart, uniform flow. How many **independent** coefficients have spatial upper index and exactly one lower index equal to $0$, i.e. $\Gamma^\alpha_{0\beta}$ and $\Gamma^\alpha_{\beta0}$ ($\alpha,\beta\in\{1,2,3\}$)?
-    answer: 9
-    wrong:
-      - value: 18
-        feedback: |
-          $\Gamma^\alpha_{0\beta}$ and $\Gamma^\alpha_{\beta0}$ are equal by torsion-freeness: count them once, $3\times3$.
-      - value: 3
-        feedback: |
-          $\beta$ also runs over three values, for each of the three values of $\alpha$.
-    explanation: |
-      $3\times3 = 9$. With the $3$ coefficients $\Gamma^\alpha_{00}$:
-      $$10 + 18 + 9 + 3 = 40.$$
-      Uniform flow kills the 10 with upper index 0; the remaining 30 split as $18 + 9 + 3$.
-
-  - type: mcq
-    id: create-time-gamma
-    title: Can a new grid bring them back?
-    prompt: |
-      In a Newtonian spacetime with uniform flow ($\nabla dt = 0$), a stratified chart has $\Gamma^0_{ki} = 0$ for all $k,i$. Switch to another stratified chart whose spatial grid accelerates and rotates. Can some $\Gamma^0_{ki}$ become nonzero?
-    options:
-      - text: 'No: uniform flow is equivalent to $\Gamma^0_{ki} = 0$ in every stratified chart'
-        correct: true
-      - text: 'Yes: coefficients are not tensors, so any of them can appear'
-        feedback: |
-          They are not tensors, but $\nabla dt = 0$ is a statement about a tensor field, true in every chart. In the new stratified chart it again reads $\Gamma^0_{ki} = 0$.
-      - text: 'Yes, but only $\Gamma^0_{00}$, from the acceleration of the grid'
-        feedback: |
-          The acceleration of the grid shows up in $\Gamma^\alpha_{00}$ (spatial upper index), not in $\Gamma^0_{00}$: the time coordinate $t$ itself is untouched.
-    explanation: |
-      $\nabla dt = 0$ holds or fails independently of the chart, and in **any** stratified chart it is equivalent to $\Gamma^0_{ki} = 0$. A change of stratified chart can only reshuffle the 30 spatial-upper coefficients.
-
-  - type: text
-    id: recap-newton
-    title: Recall spatial Newton II
-    body: |
-      Recall: parametrize a worldline $\gamma$ by absolute time ($\lambda\equiv t$, so $\dot\gamma^0 = 1$) and write $f^k_\gamma := (dx^k)(\mathcal{F}_\gamma)$ for the force components. In a stratified chart the time component of Newton II is $0 = 0$, and the spatial components read
-      $$\begin{aligned}\ddot\gamma^\alpha &+ \Gamma^\alpha_{\beta\delta}\dot\gamma^\beta\dot\gamma^\delta + 2\Gamma^\alpha_{0\beta}\dot\gamma^\beta\\ &+ \Gamma^\alpha_{00} = f^\alpha_\gamma/m.\end{aligned}$$
-      The left side is $a^\alpha_\gamma$, the acceleration's components. The three $\Gamma$-blocks are exactly the $18 + 9 + 3$ surviving coefficients, the factor $2$ coming from $\Gamma^\alpha_{0\beta} = \Gamma^\alpha_{\beta0}$.
-
-  - type: numeric
-    id: gamma-c
-    title: C's coefficient, from free particles
-    prompt: |
-      In a stratified chart $\mathscr{X}$ with all $\Gamma = 0$, free particles move as $x^\alpha = v^\alpha t + c^\alpha$. Observer C uses $z^0 = x^0$, $z^1 = x^1 - (x^0)^2$, $z^2 = x^2$, $z^3 = x^3$, so every free particle has $z^1 = v^1t + c^1 - t^2$ and $\ddot z^1 = -2$. Free particles of every velocity obey spatial Newton II with $f = 0$:
-      $$\begin{aligned}\ddot z^\alpha &+ \Gamma^\alpha_{\beta\delta}\dot z^\beta\dot z^\delta + 2\Gamma^\alpha_{0\beta}\dot z^\beta\\ &+ \Gamma^\alpha_{00} = 0.\end{aligned}$$
-      In C's chart, what is $\Gamma^1_{00}$?
-    answer: 2
-    wrong:
-      - value: -2
-        feedback: |
-          Solve for it: $\ddot z^1 + \Gamma^1_{00} = 0$ with $\ddot z^1 = -2$ gives $\Gamma^1_{00} = +2$.
-      - value: 0
-        feedback: |
-          Then the equation would give $\ddot z^1 = 0$, but every free particle has $\ddot z^1 = -2$ in C's chart.
-    hint: |
-      Through each event pass free particles of every velocity, so the terms with $\dot z^\beta$ must vanish separately. What is left?
-    explanation: |
-      The equation holds for every velocity, so the $\dot z^\beta$-terms vanish ($\Gamma^\alpha_{\beta\delta} = \Gamma^\alpha_{0\beta} = 0$) and
-      $$-2 + \Gamma^1_{00} = 0\ \Rightarrow\ \Gamma^1_{00} = 2.$$
-
-  - type: text
-    id: gamma-c-law
-    title: The same number from the transformation law
-    body: |
-      Recall the transformation law of the coefficients: from a chart $\mathscr{X}$ to a chart $\mathscr{Z}$ it has a homogeneous part, linear in $\Gamma_\mathscr{X}$, plus an inhomogeneous part. With $\Gamma_\mathscr{X} = 0$ only the latter survives:
-      $$(\Gamma_\mathscr{Z})^i_{jk} = \frac{\partial\mathscr{Z}^i}{\partial\mathscr{X}^s}\frac{\partial^2\mathscr{X}^s}{\partial\mathscr{Z}^k\partial\mathscr{Z}^j}.$$
-
-      For C, invert: $x^1 = z^1 + (z^0)^2$, the other $x^k = z^k$. The only nonzero second derivative is
-      $$\frac{\partial^2\mathscr{X}^1}{\partial\mathscr{Z}^0\partial\mathscr{Z}^0} = 2,$$
-      and $\partial\mathscr{Z}^1/\partial\mathscr{X}^1 = 1$, $\partial\mathscr{Z}^0/\partial\mathscr{X}^1 = 0$. So $(\Gamma_\mathscr{Z})^1_{00} = 2$ and every other coefficient is $0$, matching the free-particle count.
-
-      For B, $x^1 = y^1 + 2y^0$ is linear: all second derivatives vanish and $\Gamma_\mathscr{Y} = 0$. In general, starting from $\Gamma_\mathscr{X} = 0$, the new coefficients vanish exactly when $\mathscr{X}$ is an **affine** function of the new coordinates (linear plus constant).
-
-  - type: mcq
-    id: whole-left-side
-    title: Is $\ddot z^1$ an acceleration?
-    prompt: |
-      A ball rests at the origin of a stratified chart $\mathscr{X}$ in which all $\Gamma = 0$, so its acceleration $a_\gamma$ is the zero vector. In C's stratified chart ($z^1 = x^1 - (x^0)^2$), the ball has $z^1 = -t^2$, so $\ddot z^1 = -2$, and $\Gamma^1_{00} = 2$. Is $\ddot z^1 = -2$ the $z^1$-component of the ball's acceleration?
-    options:
-      - text: 'No: the component is the whole left side, $\ddot z^1 + \Gamma^1_{00} = 0$'
-        correct: true
-      - text: 'Yes: in C the ball accelerates, so $a^1_\gamma = -2$ there'
-        feedback: |
-          The zero vector has zero components in every chart, and $a_\gamma = 0$ is a statement about a vector, not about a chart. What changes between charts is how the zero splits: $0 + 0$ for A, $-2 + 2$ for C.
-      - text: 'Yes, because $\ddot z^1$ is a second derivative of a coordinate along the curve'
-        feedback: |
-          A plain second derivative of coordinates is not a vector component: it ignores how the coordinate grid itself bends. Only $\ddot z^\alpha$ plus the $\Gamma$-terms transforms like a vector.
-    explanation: |
-      $a^1_\gamma = \ddot z^1 + \Gamma^1_{00} = -2 + 2 = 0$, as in A. Only the whole left side of spatial Newton II is a component of $a_\gamma$; the individual terms are not, because the $\Gamma$'s are not components of a tensor field.
-
-  - type: text
-    id: pseudo-force
-    title: Pseudo-forces
-    body: |
-      Move the $\Gamma$-terms of spatial Newton II to the right side and multiply by $m$:
-      $$\begin{aligned}m\ddot\gamma^\alpha = f^\alpha_\gamma &- m\Gamma^\alpha_{\beta\delta}\dot\gamma^\beta\dot\gamma^\delta\\ &- 2m\Gamma^\alpha_{0\beta}\dot\gamma^\beta - m\Gamma^\alpha_{00}.\end{aligned}$$
-      Read naively, "mass times coordinate acceleration equals force", each extra term looks like an additional force. It is called a **pseudo-force**: it comes from the chart, not from any push, and a change of stratified chart can create or remove it.
-
-      For observer C: $f = 0$ and only $\Gamma^1_{00} = 2$, so
-      $$m\ddot z^1 = -2m.$$
-      Every body, whatever its mass, falls toward $-z^1$ with the same coordinate acceleration $-2$: like standing in an accelerating lift, a uniform "gravity" made by the grid.
-
-  - type: numeric
-    id: pseudo-force-mass
-    title: The pseudo-force on a 3 kg ball
-    prompt: |
-      In observer C's stratified chart, the only nonzero coefficient is $\Gamma^1_{00} = 2$. A free ball of mass $m = 3$ is described by $m\ddot z^1 = f^1 - m\Gamma^1_{00}$ (here $f^1 = 0$, and the ball's velocity does not enter). What is the pseudo-force component $-m\Gamma^1_{00}$?
-    answer: -6
-    wrong:
-      - value: -2
-        feedback: |
-          $-2$ is the coordinate acceleration $\ddot z^1$. The pseudo-force is $m$ times $-\Gamma^1_{00}$: $3\cdot(-2)$.
-      - value: 6
-        feedback: |
-          Moving $\Gamma^1_{00}$ to the right side flips its sign: $-m\Gamma^1_{00} = -3\cdot2$.
-    explanation: |
-      $-m\Gamma^1_{00} = -3\cdot2 = -6$, proportional to the mass, so $\ddot z^1 = -2$ for every body: pseudo-forces cause equal fall, just like gravity.
-
-  - type: mcq
-    id: which-create
-    title: Which grids create a pseudo-force?
-    multiple: true
-    prompt: |
-      In a stratified chart $\mathscr{X}$ all connection coefficients are zero. Each option is a change to a new stratified chart $(y^0 = x^0,\, y^1,\, y^2,\, y^3)$, with unlisted coordinates copied. Which ones produce a nonzero coefficient, hence a pseudo-force? (Starting from zero coefficients, the new ones are $(\partial\mathscr{Y}^i/\partial\mathscr{X}^s)(\partial^2\mathscr{X}^s/\partial\mathscr{Y}^k\partial\mathscr{Y}^j)$.)
-    options:
-      - text: '$y^1 = x^1 - (x^0)^2$ (accelerating grid)'
-        correct: true
-      - text: '$y^1 = x^1\cos x^0 + x^2\sin x^0$, $y^2 = -x^1\sin x^0 + x^2\cos x^0$ (rotating grid)'
-        correct: true
-      - text: '$y^1 = x^1 - 2x^0$ (grid sliding at constant speed)'
-        feedback: |
-          The inverse $x^1 = y^1 + 2y^0$ is linear: all second derivatives vanish. Constant-speed sliding changes velocities, not accelerations, so free particles stay straight.
-      - text: '$y^\alpha = 3x^\alpha$ (rescaled grid)'
-        feedback: |
-          A constant rescaling is linear, so its second derivatives vanish: free particles stay straight lines, just with relabelled positions.
-    explanation: |
-      From zero coefficients, a pseudo-force appears exactly when the inverse transition is not affine. The accelerating grid gives $\Gamma^1_{00} = 2$. The rotating grid mixes $x^0$ with the spatial coordinates through $\cos x^0$ and $\sin x^0$, so second derivatives such as $\partial^2\mathscr{X}^1/\partial\mathscr{Y}^0\partial\mathscr{Y}^2$ appear: those are the Coriolis and centrifugal terms.
-
-  - type: text
-    id: resolve
-    title: Back to the three grids
-    body: |
-      A, B and C all use $t$ as their zeroth coordinate: they are **stratified** charts, so they agree on which events are simultaneous. Between them the Jacobian's time row is frozen at $(1,0,0,0)$, while the column $\partial\mathscr{Y}^\alpha/\partial\mathscr{X}^0$ records how the grid moves.
-
-      They do **not** all agree on the connection coefficients. B's grid slides at constant speed, an affine change, so $\Gamma_\mathscr{Y} = 0$ like A's. C's grid accelerates, and $\Gamma^1_{00} = 2$ appears: in C's description every body feels the pseudo-force $-2m$. The acceleration vector of each worldline is the same for all three; only its split into "$\ddot\gamma$" and "$\Gamma$-terms" differs.
-
-  - type: text
     id: summary
     body: |
-      **Next:** which stratified charts make all $\Gamma$'s vanish (inertial charts), and the rotating grid in detail: its coefficients are the Coriolis and centrifugal forces of classical mechanics.
+      **Next:** the three observers agree on **when**, but do they agree on which paths are free? Uniform flow, $\nabla dt = 0$, kills the connection coefficients with an upper time index in a stratified chart, and a grid that accelerates brings back the others as pseudo-forces. That is the lesson Stratified Atlases · Part 2.

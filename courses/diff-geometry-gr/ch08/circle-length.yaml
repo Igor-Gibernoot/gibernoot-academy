@@ -1,5 +1,5 @@
 id: ch08-circle-length
-title: "Guided Problem: The Length of a Circle, Chart by Chart"
+title: "Guided Problem: The Length of a Circle, Chart by Chart · Part 1"
 kind: guided
 
 cards:
@@ -11,10 +11,12 @@ cards:
 
       The circle is the best test bench because every integral is one-dimensional, so each step can be checked by hand. And it has a trap: a chart in which the circle looks squashed, where the naive computation gives the wrong number.
 
-      This lesson runs the whole construction on the circle, step by step:
+      This lesson and its Part 2 run the whole construction on the circle, step by step. This part does the first three:
       1. three charts, and a check that they form an oriented atlas;
       2. the metric and its volume form in each chart;
       3. the length of an arc, computed in two charts;
+
+      and Part 2 does the last two:
       4. what goes wrong in a chart with the wrong orientation;
       5. the length of the whole circle, with a partition of unity.
 
@@ -356,195 +358,15 @@ cards:
       The chart representatives of $f = 1$ alone give $\alpha_2-\alpha_1 = \tfrac\pi3$ and $u_2-u_1 = 2$, which differ from each other and from the length. With the densities, both charts give $\tfrac{2\pi}3\approx2.094$. The density is exactly what makes the answer a property of the arc, not of the chart.
 
   - type: text
-    id: flipped-setup
-    tag: Step 6 · The wrong orientation
-    title: Projecting the other way
-    body: |
-      Now replace the projection chart by the **flipped projection**
-      $$\mathscr{P}'(a,b) := -a,$$
-      on the same lower half $\mathcal{W}$, with coordinate $u' := -a\in(-R,R)$. It is a perfectly good chart (a homeomorphism onto an open interval, smoothly compatible with the others). But $u'$ runs from right to left along the lower half, while $\alpha$ runs from left to right.
-
-      The metric component is still the squared speed, $(g_{\mathscr{P}'})_{11} = \frac{R^2}{R^2-u'^2}$, because reversing a direction does not change a speed. What happens to the volume form?
-
-  - type: mcq
-    id: flipped-density
-    tag: Step 6 · The wrong orientation
-    title: The density in the flipped chart
-    prompt: |
-      Circle of radius $R$; the metric volume form $\Omega^g$ is defined by the oriented atlas of the two angle charts and the projection chart $u = a$; in the angle chart $\alpha$ it has density $\omega^g_\mathscr{X} = R$. On the lower half, the flipped projection $u' = -a$ gives $\alpha = \pi+\arccos(u'/R)$, so
-      $$\frac{d\alpha}{du'} = -\frac{1}{\sqrt{R^2-u'^2}}.$$
-      Using the density law $\omega_{\mathscr{P}'} = \frac{d\alpha}{du'}\,\omega_\mathscr{X}$, what is the density of $\Omega^g$ in the chart $u'$?
-    options:
-      - text: '$-\dfrac{R}{\sqrt{R^2-u''^2}}$'
-        correct: true
-      - text: '$+\dfrac{R}{\sqrt{R^2-u''^2}}$, since $\omega^g = \sqrt{|\det g|}$'
-        feedback: |
-          The formula $\omega^g = \sqrt{|\det g|}$ holds only in charts **of the oriented atlas** that defines $\Omega^g$, and $\mathscr{P}'$ is not one: its Jacobian with $\mathscr{X}$ is negative. The density of $\Omega^g$ in $\mathscr{P}'$ follows from the density law, which carries the sign of the Jacobian.
-      - text: '$-R$'
-        feedback: |
-          The sign is right, but the factor $\frac{1}{\sqrt{R^2-u'^2}}$ from the Jacobian is missing: the projection still squashes the circle near its ends.
-    explanation: |
-      $$\omega_{\mathscr{P}'} = -\frac{1}{\sqrt{R^2-u'^2}}\cdot R,$$
-      the negative of $\sqrt{|\det g_{\mathscr{P}'}|}$. A volume form's density changes sign under a chart that reverses direction; $\sqrt{|\det g|}$ never does. They agree exactly on the charts of the oriented atlas.
-
-  - type: numeric
-    id: flipped-integral
-    tag: Step 6 · The wrong orientation
-    title: The arc in the flipped chart
-    prompt: |
-      Circle of radius $R = 2$, arc $\mathcal{D}$ of angles $\alpha\in(\tfrac{4\pi}3,\tfrac{5\pi}3)$, length $\tfrac{2\pi}3$. In the flipped projection $u' = -a$ (which reverses direction relative to $\alpha$) the arc becomes $u'\in(-1,1)$, and $\Omega^g$ has density $-\frac{R}{\sqrt{R^2-u'^2}}$. Apply the one-chart recipe blindly in this chart: compute
-      $$\int_{-1}^{1}du'\,\Big(-\frac{2}{\sqrt{4-u'^2}}\Big).$$
-      (Decimals are fine.)
-    answer: -2.0944
-    tolerance: 0.001
-    answerText: '$-2\pi/3\approx-2.094$'
-    wrong:
-      - value: 2.0944
-        feedback: |
-          The integrand is negative on the whole interval, and the interval is run from $-1$ to $1$ (the one-chart integral is over the set $\mathscr{P}'(\mathcal{D})$, with $du'$ positive). The result is $-\tfrac{2\pi}3$.
-    hint: |
-      It is minus the integral of the projection chart: $2[\arcsin(u/2)]_{-1}^{1} = \tfrac{2\pi}3$.
-    explanation: |
-      The result is $-R(\alpha_2-\alpha_1) = -\tfrac{2\pi}3$. That is why the one-chart integral only accepts charts of the oriented atlas: $\mathscr{P}'$ is not in $\mathcal{A}^\uparrow$ (its Jacobian with $\mathscr{X}$ is negative), and in it the recipe produces the opposite sign. Adding $\mathscr{P}'$ to the atlas would destroy the orientation.
-
-  - type: text
-    id: whole-setup
-    tag: Step 7 · The whole circle
-    title: Why one chart is not enough
-    body: |
-      Now the whole circle, $f = 1$ on $\mathcal{M}$. The one-chart integral needs the region (with its closure) inside one chart domain. But $\mathcal{M}$ itself is in none: $\mathcal{U}$ misses $(R,0)$, $\mathcal{V}$ misses $(-R,0)$, $\mathcal{W}$ misses the upper half.
-
-      Recall: a **partition of unity** $\{\text{ᚹ}_n\}$ (rune ᚹ, "wynn") is a family of smooth functions with values in $[0,1]$, each with support (the closure of the set where it is nonzero) inside one chart domain, locally finite, summing to $1$ at every point. Then
-      $$\int_\mathcal{M}\Omega f := \sum_n\int\Omega\,\text{ᚹ}_nf,$$
-      each term computed in the chart that contains the support of $\text{ᚹ}_n$; the result does not depend on the partition.
-
-      Recall the smooth step $h\colon\mathbb{R}\to[0,1]$: $h(s) = 0$ for $s\le-\tfrac12$, $h(s) = 1$ for $s\ge\tfrac12$, and $h(s)+h(-s) = 1$. On the circle of radius $R$, take
-      $$\text{ᚹ}_1(a,b) := h(-a/R),$$
-      and $\text{ᚹ}_2 := 1-\text{ᚹ}_1$, which equals $h(a/R)$ by the symmetry of $h$.
-
-  - type: mcq
-    id: supports
-    tag: Step 7 · The whole circle
-    title: Do the supports fit?
-    multiple: true
-    prompt: |
-      Circle $a^2+b^2 = R^2$; angle chart $\alpha$ on $\mathcal{U}$ (misses $(R,0)$), angle chart $\beta$ on $\mathcal{V}$ (misses $(-R,0)$). Smooth step $h$: $h(s) = 0$ for $s\le-\tfrac12$, $h(s) = 1$ for $s\ge\tfrac12$, $h(s)+h(-s) = 1$. Partition $\text{ᚹ}_1(a,b) := h(-a/R)$ and $\text{ᚹ}_2 := 1-\text{ᚹ}_1 = h(a/R)$. Select all true statements.
-    options:
-      - text: 'The support of $\text{ᚹ}_1$ lies in $\{a\le R/2\}$, so inside $\mathcal{U}$'
-        correct: true
-      - text: 'The support of $\text{ᚹ}_2$ lies in $\{a\ge-R/2\}$, so inside $\mathcal{V}$'
-        correct: true
-      - text: 'Any smooth $\text{ᚹ}_1$ with $\text{ᚹ}_1(R,0) = 0$ would do for the first chart'
-        feedback: |
-          Vanishing at the missing point is not enough. The support is the **closure** of the set where $\text{ᚹ}_1\neq0$; if $\text{ᚹ}_1$ is nonzero at points arbitrarily close to $(R,0)$, the closure contains $(R,0)$, which is not in $\mathcal{U}$. $\text{ᚹ}_1$ must vanish on a whole neighbourhood of $(R,0)$, as $h(-a/R)$ does for $a\ge R/2$.
-      - text: '$\text{ᚹ}_2 := h(-a/R)$ would work just as well'
-        feedback: |
-          Then $\text{ᚹ}_1+\text{ᚹ}_2 = 2h(-a/R)$, which is $0$ near $(R,0)$ and $2$ near $(-R,0)$, not $1$. And its support would contain $(-R,0)$, the point missing from $\mathcal{V}$.
-    explanation: |
-      $h(-a/R)\neq0$ needs $-a/R>-\tfrac12$, that is $a<R/2$; the closure of that set is in $\{a\le R/2\}$, which avoids $(R,0)$. Likewise $h(a/R)\neq0$ needs $a>-R/2$, avoiding $(-R,0)$. So $\{\text{ᚹ}_1,\text{ᚹ}_2\}$ is a partition of unity subordinate to $\{\mathcal{U},\mathcal{V}\}$; the projection chart is not needed.
-
-  - type: build
-    id: first-term
-    tag: Step 7 · The whole circle
-    title: The first term
-    prompt: |
-      Circle of radius $R$, metric volume form with density $R$ in the angle chart $\alpha\in(0,2\pi)$, where $a = R\cos\alpha$. Partition of unity $\text{ᚹ}_1(a,b) := h(-a/R)$, with support inside the angle chart's domain. Build the first term $\int\Omega^g\,\text{ᚹ}_1$ as an integral in the chart $\alpha$.
-    prefix: '\int\Omega^g\,\text{ᚹ}_1 ='
-    tiles: ['\int_0^{2\pi}d\alpha', '\int_{-\pi}^{\pi}d\alpha', 'R', 'R^2', 'h(-\cos\alpha)', 'h(-R\cos\alpha)']
-    answers:
-      - ['\int_0^{2\pi}d\alpha', 'R', 'h(-\cos\alpha)']
-      - ['\int_0^{2\pi}d\alpha', 'h(-\cos\alpha)', 'R']
-    wrong:
-      - answer: ['\int_0^{2\pi}d\alpha', 'R^2', 'h(-\cos\alpha)']
-        feedback: |
-          $R^2$ is the metric component $(g_\mathscr{X})_{11}$. The density of the volume form is its square root, $R$.
-      - answer: ['\int_0^{2\pi}d\alpha', 'R', 'h(-R\cos\alpha)']
-        feedback: |
-          $\text{ᚹ}_1 = h(-a/R)$ and $a = R\cos\alpha$, so $a/R = \cos\alpha$: the $R$ cancels.
-      - answer: ['\int_{-\pi}^{\pi}d\alpha', 'R', 'h(-\cos\alpha)']
-        feedback: |
-          The one-chart integral runs over the chart's image, $\mathscr{X}(\mathcal{U}) = (0,2\pi)$. (Moving to $(-\pi,\pi)$ is possible later, but it is a step that needs a reason.)
-    hint: |
-      Integrand = density times the function in the chart; domain = the chart's interval.
-    explanation: |
-      $$\int\Omega^g\,\text{ᚹ}_1 = \int_0^{2\pi}d\alpha\,R\,h(-\cos\alpha).$$
-      In the same way, in the chart $\beta$,
-      $$\int\Omega^g\,\text{ᚹ}_2 = \int_{-\pi}^{\pi}d\beta\,R\,h(\cos\beta).$$
-
-  - type: mcq
-    id: shift
-    tag: Step 8 · The partition drops out
-    title: Moving the interval
-    prompt: |
-      Circle of radius $R$, smooth step $h$. The length of the circle is the sum
-      $$\int_0^{2\pi}d\alpha\,R\,h(-\cos\alpha)+\int_{-\pi}^{\pi}d\beta\,R\,h(\cos\beta).$$
-      To combine them, one rewrites the first integral over $(-\pi,\pi)$. Why is that allowed?
-    options:
-      - text: 'The integrand is $2\pi$-periodic, and both intervals are one full period'
-        correct: true
-      - text: '$\alpha$ and $\beta$ are the same coordinate'
-        feedback: |
-          They are different coordinates: on the lower half $\alpha = \beta+2\pi$. The move is a statement about a periodic function of one real variable, not about the charts.
-      - text: 'The integrand vanishes near $\alpha = 0$, so the interval does not matter'
-        feedback: |
-          It does vanish near $\alpha = 0$ and $2\pi$ (there $\cos\alpha$ is close to $1$ and $h(-1) = 0$), but not everywhere: changing the interval to, say, $(0,\pi)$ would change the value. What matters is that $(0,2\pi)$ and $(-\pi,\pi)$ are both one full period of a periodic integrand.
-    explanation: |
-      $R\,h(-\cos\alpha)$ is $2\pi$-periodic, and the integral of a periodic function over any interval of one period length is the same: the piece $(\pi,2\pi)$ moves to $(-\pi,0)$. Then
-      $$\begin{aligned}\int_\mathcal{M}\Omega^g &= \int_{-\pi}^{\pi}d\beta\,R\,\big(h(-\cos\beta)\\ &\qquad+h(\cos\beta)\big).\end{aligned}$$
-
-  - type: numeric
-    id: total
-    tag: Step 8 · The partition drops out
-    title: The length of the circle
-    prompt: |
-      Circle of radius $R = 2$, smooth step $h$ with $h(s)+h(-s) = 1$ for all $s$. After moving to a common interval, the length of the circle is
-      $$\int_{-\pi}^{\pi}d\beta\,R\,\big(h(-\cos\beta)+h(\cos\beta)\big).$$
-      What is it? (Decimals are fine.)
-    answer: 12.566
-    tolerance: 0.01
-    answerText: '$4\pi\approx12.566$'
-    wrong:
-      - value: 6.2832
-        feedback: |
-          $2\pi$ forgets the density $R = 2$: that is the length of the unit circle.
-      - value: 25.133
-        feedback: |
-          $8\pi$ counts each term as a full circle. The two terms share the circle: $h(-\cos\beta)+h(\cos\beta) = 1$, so together they give one circle, $2\pi R$.
-    hint: |
-      Use $h(s)+h(-s) = 1$ with $s = \cos\beta$.
-    explanation: |
-      The bracket is $1$ at every $\beta$, so the integral is $2\pi R = 4\pi\approx12.566$. The function $h$, that is the choice of partition of unity, **drops out**: any smooth step would give the same answer, as the general theory promised. (Each term alone is $\pi R$: substituting $\beta\mapsto\pi-\beta$ swaps $h(\cos\beta)$ and $h(-\cos\beta)$.)
-
-  - type: mcq
-    id: one-chart-shortcut
-    tag: Step 8 · The partition drops out
-    title: The shortcut
-    prompt: |
-      Circle of radius $R$, metric volume form with density $R$ in the angle chart $\alpha\in(0,2\pi)$, whose domain misses the single point $(R,0)$. In practice, people compute the length of the circle as $\int_0^{2\pi}d\alpha\,R = 2\pi R$, ignoring the missing point. Which statement is right?
-    options:
-      - text: 'The value is correct, but it is not a one-chart integral: the circle is not inside the chart domain; it is justified because a set of zero length can be dropped'
-        correct: true
-      - text: 'It is a one-chart integral: the region $\mathcal{M}\setminus\{(R,0)\}$ lies in the chart domain'
-        feedback: |
-          The one-chart integral needs the **closure** of the region to be compact and inside the chart domain. The closure of $\mathcal{M}\setminus\{(R,0)\}$ is all of $\mathcal{M}$, which contains $(R,0)$.
-      - text: 'It gives the wrong value: the missing point carries some length'
-        feedback: |
-          A single point has length zero; the partition-of-unity computation, which misses nothing, gives the same $2\pi R$.
-    explanation: |
-      The careful computation with the partition of unity gives $2\pi R$, and so does the shortcut. That they agree is an instance of the fact (stated without proof) that a set of zero volume, here a single point of zero length, can be dropped from a region without changing the integral. The one-chart definition alone does not cover it.
-
-  - type: text
     id: summary
     title: Wrap-up
     body: |
-      **The answer, earned.** The circle has length $2\pi R$, and every step of the construction was needed to get it honestly.
+      **So far.** The circle has an oriented atlas, a metric, a volume form, and an arc has the same length in two different charts. Every step was needed to get it honestly.
 
       - **Setting**: the circle $\mathcal{M} := \{(a,b)\in\mathbb{R}^2\mid a^2+b^2 = R^2\}$ with $R>0$, and three charts given by their inverses: the angle chart $\mathscr{X}^{-1}(\alpha) = R(\cos\alpha,\sin\alpha)$, $\alpha\in(0,2\pi)$, on $\mathcal{U} := \mathcal{M}\setminus\{(R,0)\}$; the angle chart $\mathscr{Y}^{-1}(\beta) = R(\cos\beta,\sin\beta)$, $\beta\in(-\pi,\pi)$, on $\mathcal{V} := \mathcal{M}\setminus\{(-R,0)\}$; the projection chart $\mathscr{P}(a,b) := a =: u\in(-R,R)$ on the lower half $\mathcal{W} := \{(a,b)\in\mathcal{M}\mid b<0\}$.
       - **Oriented atlas**: the coordinates $\alpha$, $\beta$ and $u$ all increase counterclockwise; Jacobians $\frac{d\alpha}{d\beta} = 1$, $\frac{d\alpha}{du} = \frac{1}{\sqrt{R^2-u^2}}$, all positive.
       - **Metric**: in one dimension the single component is the squared speed of the inverse chart: $R^2$ in the angle charts, $\frac{R^2}{R^2-u^2}$ in the projection chart.
       - **Densities** $\omega^g = \sqrt{|\det g|}$ (a real number $g$ per chart, $\det g = g$ in one dimension), the speed: $R$, $R$, $\frac{R}{\sqrt{R^2-u^2}}$; the density law $\omega^g_\mathscr{P} = \text{ᛞ}_{\mathcal{U}\mathcal{W}}\,\omega^g_\mathscr{X}$ holds, with $\text{ᛞ}_{\mathcal{U}\mathcal{W}} = d\alpha/du$ the Jacobian of the old coordinate $\alpha$ with respect to the new one $u$.
       - **Arc** of the lower half between the points of angles $\pi<\alpha_1<\alpha_2<2\pi$ (so $u_k = R\cos\alpha_k$): length $R(\alpha_2-\alpha_1)$ in the angle chart and, through $\arcsin(\cos\alpha) = \alpha-\tfrac{3\pi}2$, in the projection chart. Without the density: $\alpha_2-\alpha_1$ and $u_2-u_1$, which differ.
-      - **Orientation**: the flipped projection chart $u' := -a$ has density $-\frac{R}{\sqrt{R^2-u'^2}}$ and gives $-R(\alpha_2-\alpha_1)$; it is not in the oriented atlas.
-      - **Whole circle**: take a smooth step $h\colon\mathbb{R}\to[0,1]$ with $h(s)=0$ for $s\le-\tfrac12$, $h(s)=1$ for $s\ge\tfrac12$, $h(s)+h(-s)=1$, and the partition of unity $\text{ᚹ}_1(a,b) := h(-a/R)$ (support inside $\mathcal{U}$), $\text{ᚹ}_2 := h(a/R)$ (support inside $\mathcal{V}$); periodicity and $h(s)+h(-s) = 1$ give $2\pi R$, independent of $h$. The one-chart shortcut agrees, by dropping a point of zero length.
 
-      **Next: "Integration Traps".** Fast questions on the misconceptions of this level: densities that are not scalars, integrals in charts of the wrong orientation, supports that touch the missing point, and the square root that turns a metric into a volume.
+      **Next:** two things are left. What happens in a chart that runs the wrong way, and how do we get the length of the whole circle, which lies in no single chart? The lesson The Length of a Circle, Chart by Chart · Part 2 takes both.
