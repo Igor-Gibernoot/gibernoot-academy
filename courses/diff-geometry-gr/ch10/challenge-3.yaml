@@ -1,0 +1,202 @@
+id: ch10-challenge-3
+title: Level Challenge · Part 3
+kind: challenge
+
+# Organization: intro, one block per problem (cards tagged "Problem N · ...", ids
+# prefixed pN-), then wrap-up. The Level Challenge is split in 3 parts of at most
+# 32 cards; part 3 holds problem 5.
+
+cards:
+  - type: text
+    id: intro
+    title: Outside a star
+    body: |
+      This challenge pushes each idea of the level to its edge. It comes in 3 parts; this is part 3 (problem 5). Keep pencil, paper and a calculator at hand: every answer can be checked by hand.
+
+      Recall the toolkit. Spacetime is a 4-dimensional manifold with a Lorentzian metric $g$ of signature $(+,-,-,-)$. A massive worldline $\gamma$ with velocity $v_\gamma$ has **proper time**
+      $$\tau[\gamma] = \int\sqrt{g(v_\gamma,v_\gamma)}\,d\lambda.$$
+      Gravity is the curvature of $g$, and the field equations $G_{ab} = \mathrm{Ric}_{ab} - \tfrac12R\,g_{ab} = 8\pi G_N\,T_{ab}$ ($T$ the energy-momentum tensor, $G_N$ Newton's constant) have the equivalent form
+      $$\begin{aligned}\mathrm{Ric}_{ab} &= 8\pi G_N\big(T_{ab} - \tfrac12T\,g_{ab}\big),\\ T &:= (g^{-1})^{ab}T_{ab}.\end{aligned}$$
+      A traceless source ($T=0$, such as the electromagnetic field, whose energy-momentum tensor has no trace) therefore has $\mathrm{Ric}_{ab} = 8\pi G_N T_{ab}$, and for a fluid at rest $\mathrm{Ric}_{00} = 4\pi G_N(\rho+3p)$ with $\rho$ the energy density and $p$ the pressure.
+
+      5. Outside a star: static clocks and the redshift of their ticks, then a modified $f$ whose $\mathrm{Ric}_{00}$ is the energy of an electric field.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: text
+    id: p5-setup
+    tag: Problem 5 · Outside a star
+    title: Clocks at rest, and a charged cousin
+    body: |
+      Take the chart $(t,r,\theta,\varphi)$ and the metric
+      $$\begin{aligned}g ={}& f\,dt\otimes dt - \frac1f\,dr\otimes dr\\ &- r^2\,d\theta\otimes d\theta\\ &- r^2\sin^2\theta\,d\varphi\otimes d\varphi,\end{aligned}$$
+      with $f(r)>0$ a function of $r$ alone. A **static clock** sits at fixed $(r,\theta,\varphi)$, so $dr=d\theta=d\varphi=0$ along it. Write $f' := df/dr$ and $f'' := d^2f/dr^2$.
+
+      Part A uses $f = 1 - 2/r$ (Schwarzschild with $r_S = 2$). Part B uses $f = 1 - \dfrac2r + \dfrac1{r^2}$.
+
+  - type: numeric
+    id: p5-rate
+    tag: Problem 5 · Outside a star
+    title: How fast does a static clock run?
+    prompt: |
+      In the metric $g = f\,dt\otimes dt - \dots$ with $f = 1-2/r$, a static clock has velocity $v = \partial_t$ (parameter $\lambda = t$) and proper time $d\tau = \sqrt{g(v,v)}\,dt$. At $r = 4$, how much proper time passes per unit of $t$, $d\tau/dt$?
+    answer: 0.7071
+    tolerance: 0.001
+    wrong:
+      - value: 0.5
+        feedback: |
+          That is $f(4) = 0.5$. Proper time uses $\sqrt{g(v,v)} = \sqrt f$.
+      - value: 1.4142
+        feedback: |
+          That is $1/\sqrt f$, the inverse: a clock deeper in the field runs **slower** than $t$, so $d\tau/dt<1$.
+    hint: '$g(\partial_t,\partial_t) = f(4) = 0.5$.'
+    explanation: |
+      $$\frac{d\tau}{dt} = \sqrt{f(4)} = \sqrt{0.5}\approx0.7071.$$
+      Far away, $f\to1$ and $\tau\approx t$: $t$ is the proper time of a distant static clock.
+
+  - type: mcq
+    id: p5-static
+    tag: Problem 5 · Outside a star
+    title: Why do the received ticks keep the emitted spacing in t?
+    prompt: |
+      A static emitter at $r_A$ sends radial light signals to a static receiver at $r_B$, one at each tick of its clock, in the metric with $f(r)$. Why is the chart time between the two arrivals equal to the chart time between the two emissions?
+    options:
+      - text: 'The metric components do not depend on $t$, so the second light ray is the first one shifted in $t$ by the emission interval'
+        correct: true
+      - text: 'Because light travels at speed $1$ in every chart'
+        feedback: |
+          Light has $g(v,v)=0$, which gives $dr/dt = \pm f$ here, not $1$. What matters is that this speed depends on $r$ only, not on $t$.
+      - text: 'Because the clocks at $r_A$ and $r_B$ run at the same rate'
+        feedback: |
+          They do not: $d\tau/dt = \sqrt f$ differs between the two radii. That is exactly why the proper time between arrivals differs from the proper time between emissions.
+    explanation: |
+      For a null radial curve $f\,dt^2 = dr^2/f$, so $dt/dr = \pm1/f(r)$ and the travel time $\int dr/f$ depends only on $r_A$ and $r_B$. Hence the arrival interval in $t$ equals the emission interval, and each clock converts it to proper time with its own $\sqrt f$.
+
+  - type: numeric
+    id: p5-redshift
+    tag: Problem 5 · Outside a star
+    title: Ticks climbing out
+    prompt: |
+      Metric with $f = 1 - 2/r$. A static clock at $r=4$ emits a light pulse each time its proper time advances by $1$. A static observer at $r = 10$ receives them. Because $g$ does not depend on $t$, the chart time between arrivals equals that between emissions. Using $d\tau = \sqrt f\,dt$ at each radius, how much proper time does the receiver measure between two arrivals?
+    answer: 1.2649
+    tolerance: 0.001
+    wrong:
+      - value: 0.7906
+        feedback: |
+          You inverted the ratio. The emitter is deeper: the chart interval is $1/\sqrt{f(4)}$, and the receiver measures $\sqrt{f(10)}$ times it, which is larger than $1$ (redshift: ticks arrive more slowly).
+      - value: 1.6
+        feedback: |
+          That is the ratio $f(10)/f(4) = 0.8/0.5$ without square roots. Each proper time uses $\sqrt f$.
+      - value: 1
+        feedback: |
+          Equal chart times, but not equal proper times: the clocks sit at different $f$.
+    hint: 'Chart interval $1/\sqrt{0.5}$, then multiply by $\sqrt{0.8}$.'
+    explanation: |
+      $$\Delta\tau_B = \sqrt{\frac{f(10)}{f(4)}}\,\Delta\tau_A = \sqrt{\frac{0.8}{0.5}}\approx1.2649.$$
+      The arrivals are spaced further apart than the emissions: the light is **redshifted** (its frequency is multiplied by $0.7906$) on climbing out.
+
+  - type: text
+    id: p5-b-setup
+    tag: Problem 5 · Outside a star
+    title: A modified f
+    body: |
+      Now take $f = 1 - \dfrac2r + \dfrac1{r^2}$. Recall from the Schwarzschild computation that, for any $f(r)$, the tidal entries are
+      $$\mathrm{Riem}^1_{010} = \frac{ff''}{2},$$
+      $$\mathrm{Riem}^2_{020} = \mathrm{Riem}^3_{030} = \frac{ff'}{2r},$$
+      and $\mathrm{Ric}_{00}$ is their sum. At $r = 2$ this $f$ gives
+      $$f = \tfrac14,\quad f' = \tfrac14,\quad f'' = -\tfrac18.$$
+      For $f = 1-2/r$ the sum was zero (vacuum). Is it still zero?
+
+  - type: numeric
+    id: p5-ric00
+    tag: Problem 5 · Outside a star
+    title: The trace of the tides
+    prompt: |
+      For the static metric with function $f(r)$, the tidal entries are $\mathrm{Riem}^1_{010} = ff''/2$ and $\mathrm{Riem}^2_{020} = \mathrm{Riem}^3_{030} = ff'/(2r)$, and $\mathrm{Ric}_{00}$ is their sum. For $f = 1 - 2/r + 1/r^2$ at $r = 2$ one has $f = 0.25$, $f' = 0.25$, $f'' = -0.125$. Compute $\mathrm{Ric}_{00}$.
+    answer: 0.015625
+    tolerance: 0.000001
+    wrong:
+      - value: 0
+        feedback: |
+          That is the Schwarzschild value ($f=1-2/r$). The extra $1/r^2$ in $f$ breaks the cancellation: the radial entry is $-0.015625$ and each sideways entry is $+0.015625$.
+      - value: -0.015625
+        feedback: |
+          That is only the radial entry $ff''/2$. Add the two sideways entries, $ff'/(2r) = 0.25\cdot0.25/4$ each.
+      - value: 0.0078125
+        feedback: |
+          That is half of the answer: there are **two** sideways entries, so the sum is $-0.015625 + 2(0.015625)$.
+    hint: 'Radial entry $-0.015625$; each sideways entry $+0.015625$.'
+    explanation: |
+      $$\mathrm{Ric}_{00} = -\tfrac1{64} + 2\cdot\tfrac1{64} = \tfrac1{64} = 0.015625.$$
+      Positive: free-falling neighbours are squeezed together overall, as near a positive energy density. In closed form $\mathrm{Ric}_{00} = \dfrac{f\,(r^2f')'}{2r^2}$, which equals $f/r^4$ for this $f$.
+
+  - type: numeric
+    id: p5-density
+    tag: Problem 5 · Outside a star
+    title: The energy density a static observer measures
+    prompt: |
+      A metric has $g_{00} = f = 0.25$ at $r = 2$ and $\mathrm{Ric}_{00} = 0.015625$. A static observer has unit velocity $e_0 = \partial_t/\sqrt f$. Assume the source is traceless, so $\mathrm{Ric}_{ab} = 8\pi G_NT_{ab}$, and use units with $8\pi G_N = 1$. What energy density $\rho = T(e_0,e_0)$ does this observer measure?
+    answer: 0.0625
+    tolerance: 0.000001
+    wrong:
+      - value: 0.015625
+        feedback: |
+          That is the chart component $T_{00} = \mathrm{Ric}_{00}$. The observer's unit vector is $\partial_t/\sqrt f$, so $T(e_0,e_0) = T_{00}/f$.
+      - value: 0.0039
+        feedback: |
+          You multiplied by $f$ instead of dividing: $T(e_0,e_0) = T(\partial_t,\partial_t)/(\sqrt f)^2$.
+    hint: '$T(e_0,e_0) = T_{00}/(\sqrt f)^2$.'
+    explanation: |
+      $$\rho = \frac{0.015625}{0.25} = 0.0625 = \frac1{r^4}\Big|_{r=2}.$$
+      In general $\rho = 1/r^4$ (units $8\pi G_N=1$): positive, falling like $r^{-4}$.
+
+  - type: mcq
+    id: p5-source
+    tag: Problem 5 · Outside a star
+    title: What fills this region?
+    prompt: |
+      The metric with $f = 1 - 2/r + 1/r^2$ has $\mathrm{Ric}_{00}\neq0$ and measured energy density $\rho = 1/r^4$ (units $8\pi G_N=1$). A radial electric field of strength $E\propto1/r^2$ has energy density $\tfrac12E^2$. What do you conclude?
+    options:
+      - text: 'It is not vacuum; the source behaves like an electric field around a charge ($\rho\propto r^{-4}$, traceless): an Einstein–Maxwell solution'
+        correct: true
+      - text: 'It is a vacuum solution, because $f\to1$ at infinity'
+        feedback: |
+          The limit at infinity only fixes the asymptotics. Vacuum requires $\mathrm{Ric}=0$ at every $r$, and here $\mathrm{Ric}_{00} = f/r^4\neq0$.
+      - text: 'It is a vacuum solution, because Schwarzschild is the only spherical solution'
+        feedback: |
+          Schwarzschild is the only spherical **vacuum** solution. A source changes $f$.
+      - text: 'The positive $\mathrm{Ric}_{00}$ means a negative energy density, which is unphysical'
+        feedback: |
+          With $T=0$, $\mathrm{Ric}_{00} = 8\pi G_N T_{00}$, so $T_{00}>0$. A positive $\mathrm{Ric}_{00}$ is attraction by a positive source.
+    explanation: |
+      The $1/r^2$ term in $f$ is a charge term: the electromagnetic field around a charge carries energy and is traceless ($T=0$), like the plane light wave, and curves spacetime through $\mathrm{Ric}=8\pi G_NT$. Schwarzschild is the case without it.
+
+  - type: text
+    id: p5-wrap
+    tag: Problem 5 · Outside a star
+    title: What this problem showed
+    body: |
+      For a static metric the clock rate is
+      $$\frac{d\tau}{dt} = \sqrt{f},$$
+      and signals keep their spacing in $t$, so ticks climbing from $r_A$ to $r_B$ are stretched by
+      $$\sqrt{f(r_B)/f(r_A)}.$$
+      The trace of the tides,
+      $$\mathrm{Ric}_{00} = \frac{f\,(r^2f')'}{2r^2},$$
+      is the detector of matter: zero for $f = 1-2/r$, and $f/r^4$, the energy of an electric field, for $f = 1-2/r+1/r^2$.
+
+
+  # ---------------------------------------------------------------- Wrap-up
+  - type: text
+    id: wrap-up
+    title: What you now own
+    body: |
+      Problem 5, part 3 of 3 of the level challenge. Notation: $g$ is the Lorentzian metric, $\mathrm{Ric}$ the Ricci tensor, $T$ the energy-momentum tensor, $G_N$ Newton's constant, $f(r)$ the function in the Schwarzschild-type metric with $g_{tt}=f$, $g_{rr}=-1/f$, and $t$ the time coordinate. The formulas to keep:
+
+      **5. Outside a star**: static clocks run at
+      $$\frac{d\tau}{dt} = \sqrt f,$$
+      and the trace of the tides, $\mathrm{Ric}_{00} = f(r^2f')'/(2r^2)$, detects matter: zero for $f=1-2/r$, and $f/r^4$, the energy of an electric field, for $f=1-2/r+1/r^2$.
+
+      And the level in one line: a Lorentzian metric $g$ → light cones and proper time → observers and Lorentz matrices → the action with $R$ and $\mathcal{L}_M$ → the field equations
+      $$G_{ab} = 8\pi G_N\,T_{ab}$$
+      → Schwarzschild and its tides.
+
+      **Next:** the Review of Level 10, which replays every question of the level.

@@ -1,0 +1,390 @@
+id: ch06-challenge-2
+title: Level Challenge · Part 2
+kind: challenge
+
+# Organization: intro, one block per problem (cards tagged "Problem N · …", ids
+# prefixed pN-), then wrap-up. The Level Challenge is split in 3 parts of at most
+# 32 cards; part 2 holds problems 3 and 4.
+
+cards:
+  - type: text
+    id: intro
+    title: Sheared charts and differences
+    body: |
+      This challenge pushes each idea of the level to its edge. It comes in 3 parts; this is part 2 (problems 3 and 4). Keep pencil and paper at hand: every answer can be checked by hand. Einstein summation is on.
+
+
+      Recall the toolkit. The plane has points $(a,b)$, the cartesian chart $\mathscr{X}$ with basis fields $\partial x_1 = \partial/\partial a$, $\partial x_2 = \partial/\partial b$, and the polar chart $\mathscr{Y} = (r,\theta)$ with $\partial y_1 = \partial/\partial r$, $\partial y_2 = \partial/\partial\theta$. A connection $\nabla$ has, in a chart, the coefficient functions $\Gamma^i_{jk}$ defined by
+      $$\nabla_{\partial x_k}\partial x_j = \Gamma^i_{jk}\,\partial x_i$$
+      (the **last** lower index is the direction). A curve $\gamma$ with components $\gamma^k(\lambda)$ and velocity $v_\gamma$ (components $\dot\gamma^k$, dot $= d/d\lambda$) has acceleration $a_\gamma := \nabla_{v_\gamma}v_\gamma$ with components
+      $$a^k_\gamma = \ddot\gamma^k + \Gamma^k_{ji}\,\dot\gamma^i\dot\gamma^j.$$
+      It is **autoparallel** (a straightest curve) if $a_\gamma = \text{ᚱ}\,v_\gamma$ for some function $\text{ᚱ}(\lambda)$, and **autoparallelly transported** if $a_\gamma = 0$. A vector $\mathcal{Z}$ with components $z^k$ is transported along $\gamma$ when
+      $$\dot z^k + \Gamma^k_{ji}\,z^j\dot\gamma^i = 0.$$
+      Torsion and curvature have components
+      $$\mathtt{T}^i_{jk} = \Gamma^i_{kj} - \Gamma^i_{jk},$$
+      $$\begin{aligned}\mathrm{Riem}^i_{jkm} &= \partial x_k\lfloor\Gamma^i_{jm}\rceil - \partial x_m\lfloor\Gamma^i_{jk}\rceil\\ &\quad + \Gamma^i_{nk}\Gamma^n_{jm} - \Gamma^i_{nm}\Gamma^n_{jk}.\end{aligned}$$
+      Three connections recur: $\nabla^{\mathrm{E}}$ (all cartesian coefficients zero), $\nabla^{\mathrm{W}}$ (the unit radial and angular fields declared parallel) and $\nabla^{\kappa}$ (single cartesian coefficient $\Gamma^1_{22} = \kappa\,a$).
+
+
+      3. The sheared chart: coordinate lines that are not straight, and coefficients that do not mean curvature.
+      4. The difference of two connections: the object that **is** a tensor.
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: text
+    id: p3-setup
+    tag: Problem 3 · The sheared chart
+    title: Coordinate lines that bend
+    body: |
+      On the plane take $\nabla^{\mathrm{E}}$ (all cartesian coefficients zero) and the **sheared chart** $\mathscr{Y} = (u, v)$,
+      $$u = a,\quad v = b - a^2,$$
+      defined on the whole plane, with inverse $a = u$, $b = v + u^2$. Its coordinate curves are the vertical lines $u = \text{const}$ and the parabolas $v = \text{const}$, i.e. $b = a^2 + \text{const}$.
+
+      Its basis fields, $\partial y_j = \frac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^j}\,\partial x_i$ with $\frac{\partial\mathscr{X}^2}{\partial u} = 2u = 2a$:
+      $$\partial y_1 = \partial x_1 + 2a\,\partial x_2,$$
+      $$\partial y_2 = \partial x_2.$$
+      **Guess:** are the coordinate curves of a chart always straightest curves of a flat, torsion-free connection? Is a nonzero coefficient a sign of curvature?
+
+  - type: numeric
+    id: p3-count
+    tag: Problem 3 · The sheared chart
+    title: How many coefficients survive?
+    prompt: |
+      On the plane, $\nabla^{\mathrm{E}}$ has all cartesian coefficients zero. In the sheared chart $\mathscr{Y} = (u,v) = (a,\ b - a^2)$ the basis fields are $\partial y_1 = \partial x_1 + 2a\,\partial x_2$ and $\partial y_2 = \partial x_2$, and $\nabla^{\mathrm{E}}$ differentiates cartesian components. Of the eight coefficients $(\Gamma^{\mathrm{E}}_\mathscr{Y})^i_{jk}$, defined by $\nabla^{\mathrm{E}}_{\partial y_k}\partial y_j = \Gamma^i_{jk}\,\partial y_i$, how many are nonzero?
+    answer: 1
+    wrong:
+      - { value: 0, feedback: 'The $\Gamma$''s are not tensor components: zero in the cartesian chart does not force zero here. $\partial y_1$ has the non-constant cartesian component $2a$, and $\partial y_1\lfloor 2a\rceil = 2$.' }
+      - { value: 3, feedback: 'Check each pair separately. $\nabla^{\mathrm{E}}_{\partial y_2}\partial y_1$ differentiates $(1, 2a)$ along $\partial x_2 = \partial/\partial b$, which gives $0$: $2a$ does not depend on $b$. Only differentiating along $\partial y_1$ hits the $a$-dependence.' }
+      - { value: 2, feedback: 'In polar, $\nabla^{\mathrm{E}}$ has the symmetric pair $\Gamma^2_{12} = \Gamma^2_{21}$. Here $\nabla^{\mathrm{E}}_{\partial y_2}\partial y_1 = \partial x_2\lfloor 2a\rceil\,\partial x_2 = 0$ and $\nabla^{\mathrm{E}}_{\partial y_1}\partial y_2 = \nabla^{\mathrm{E}}_{\partial y_1}\partial x_2 = 0$.' }
+    hint: 'Compute the four derivatives $\nabla^{\mathrm{E}}_{\partial y_k}\partial y_j$ by differentiating the cartesian components $(1, 2a)$ and $(0, 1)$.'
+    explanation: |
+      Directly: only
+      $$\nabla^{\mathrm{E}}_{\partial y_1}\partial y_1 = \partial y_1\lfloor 2a\rceil\,\partial x_2 = 2\,\partial y_2$$
+      is nonzero, so $\Gamma^2_{11} = 2$ and the other seven vanish.
+
+      By the transformation law: with $\Gamma_\mathscr{X} = 0$ only the second-derivative term survives,
+      $$(\Gamma_\mathscr{Y})^i_{jk} = \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^s}\,\frac{\partial^2\mathscr{X}^s}{\partial\mathscr{Y}^k\partial\mathscr{Y}^j}.$$
+      Of $\mathscr{X} = (u,\ v + u^2)$ only $\partial^2\mathscr{X}^2/\partial u^2 = 2$ is nonzero, and $\partial v/\partial b = 1$, $\partial u/\partial b = 0$: again only $\Gamma^2_{11} = 2$.
+
+  - type: build
+    id: p3-equation
+    tag: Problem 3 · The sheared chart
+    title: Straight lines in sheared coordinates
+    prompt: |
+      On the plane, $\nabla^{\mathrm{E}}$ has in the sheared chart $\mathscr{Y} = (u,v) = (a,\ b - a^2)$ the single nonzero coefficient $\Gamma^2_{11} = 2$. A curve with $\mathscr{Y}$ components $u(\lambda)$, $v(\lambda)$ is autoparallelly transported when $\ddot\gamma^k + \Gamma^k_{ji}\dot\gamma^i\dot\gamma^j = 0$. The first equation is $\ddot u = 0$. Build the second.
+    prefix: '0 = \ddot v +'
+    tiles: ['2\,\dot u^2', '4\,\dot u\dot v', '2\,\dot u\dot v', '2u\,\dot u^2']
+    answers:
+      - ['2\,\dot u^2']
+    wrong:
+      - { answer: ['4\,\dot u\dot v'], feedback: 'The coefficient is $\Gamma^2_{11}$, both lower indices $1$: it multiplies $\dot\gamma^1\dot\gamma^1 = \dot u^2$. A mixed product $\dot u\dot v$ would need $\Gamma^2_{12}$ or $\Gamma^2_{21}$, both zero.' }
+      - { answer: ['2\,\dot u\dot v'], feedback: 'The coefficient is $\Gamma^2_{11}$, so the product is $\dot\gamma^1\dot\gamma^1 = \dot u^2$, not $\dot u\dot v$.' }
+      - { answer: ['2u\,\dot u^2'], feedback: '$2a = 2u$ is the cartesian component of $\partial y_1$, not a coefficient. Differentiating it along $\partial y_1$ gives the constant $\Gamma^2_{11} = 2$.' }
+    hint: 'Only $(j,i) = (1,1)$ has a nonzero coefficient.'
+    explanation: |
+      $$\ddot u = 0,$$
+      $$\ddot v + 2\,\dot u^2 = 0.$$
+      These are the straight lines of the plane, written in $u, v$.
+
+  - type: mcq
+    id: p3-which
+    tag: Problem 3 · The sheared chart
+    title: Which curves are straight?
+    multiple: true
+    prompt: |
+      On the plane, in the sheared chart $\mathscr{Y} = (u,v) = (a,\ b - a^2)$, the autoparallelly transported curves of $\nabla^{\mathrm{E}}$ solve $\ddot u = 0$ and $\ddot v + 2\,\dot u^2 = 0$. Which of these curves (given by their $\mathscr{Y}$ components, $c$ a constant) solve them? Select all.
+    options:
+      - text: '$u = c$, $v = \lambda$ (a coordinate curve)'
+        correct: true
+      - text: '$u = \lambda$, $v = \lambda - \lambda^2$'
+        correct: true
+      - text: '$u = \lambda$, $v = c$ (a coordinate curve)'
+        feedback: |
+          $\ddot v + 2\,\dot u^2 = 0 + 2 = 2 \neq 0$. In the plane this is the parabola $b = a^2 + c$; its $\mathscr{Y}$ components are linear in $\lambda$, but that makes it straight only for a connection whose coefficients vanish in $\mathscr{Y}$, and $\nabla^{\mathrm{E}}$'s do not.
+      - text: '$u = \lambda$, $v = \lambda$'
+        feedback: |
+          $\ddot v + 2\,\dot u^2 = 0 + 2 \neq 0$. In the plane: $a = \lambda$, $b = v + u^2 = \lambda + \lambda^2$, a parabola.
+    explanation: |
+      - $u = c$, $v = \lambda$: $\ddot u = 0$, $\ddot v + 0 = 0$. In the plane, the vertical line $a = c$.
+      - $u = \lambda$, $v = \lambda - \lambda^2$: $\ddot v = -2$ and $2\,\dot u^2 = 2$, sum $0$. In the plane $b = v + u^2 = \lambda$: the line $b = a$.
+
+      One family of coordinate curves is straight, the other is not. Being a coordinate line is a property of the chart; being straight is a property of the connection.
+
+  - type: numeric
+    id: p3-tangent
+    tag: Problem 3 · The sheared chart
+    title: A line touching a parabola
+    prompt: |
+      On the plane, take the straight line $\gamma(\lambda) = (1 + \lambda,\ 1 + 2\lambda)$ (cartesian components). In the sheared chart $\mathscr{Y} = (u,v) = (a,\ b - a^2)$ it starts at $(u,v) = (1, 0)$. Find $\dot v$ at $\lambda = 0$.
+    answer: 0
+    wrong:
+      - { value: 2, feedback: '$2$ is $\dot b$. But $v = b - a^2$ also changes with $a$: $\dot v = \dot b - 2a\,\dot a = 2 - 2\cdot1\cdot1 = 0$.' }
+      - { value: 1, feedback: 'Differentiate $v = b - a^2$ along the curve: $\dot v = \dot b - 2a\,\dot a$, with $a = 1$, $\dot a = 1$, $\dot b = 2$.' }
+    hint: 'Chain rule: $\dot v = \dot b - 2a\,\dot a$.'
+    explanation: |
+      $\dot v = 2 - 2 = 0$ and $\dot u = 1$. So at $\lambda = 0$ the line has the same point $(1,0)$ and the same velocity $(1,0)$ in $\mathscr{Y}$ as the coordinate curve $u = 1 + \lambda$, $v = 0$: the line is **tangent** to the parabola $b = a^2$ at $(1,1)$.
+
+  - type: mcq
+    id: p3-same-start
+    tag: Problem 3 · The sheared chart
+    title: Same start, two curves
+    prompt: |
+      On the plane with $\nabla^{\mathrm{E}}$, in the sheared chart $\mathscr{Y} = (u,v) = (a,\ b - a^2)$, two curves start at $(u,v) = (1,0)$ with the same velocity components $(1,0)$: the coordinate curve $u = 1 + \lambda$, $v = 0$ (the parabola $b = a^2$) and the straight line $(a,b) = (1 + \lambda, 1 + 2\lambda)$, for which $v = -\lambda^2$. The straightest-curve equations in $\mathscr{Y}$ are $\ddot u = 0$, $\ddot v + 2\,\dot u^2 = 0$. Which is autoparallelly transported?
+    options:
+      - text: 'Only the straight line: $\ddot v = -2$ balances $2\,\dot u^2 = 2$'
+        correct: true
+      - text: 'Only the coordinate curve, since its components are linear in $\lambda$'
+        feedback: |
+          For $v = 0$: $\ddot v + 2\,\dot u^2 = 2 \neq 0$. Components linear in $\lambda$ mean zero acceleration only when all coefficients vanish in that chart; here $\Gamma^2_{11} = 2$.
+      - text: 'Both, since they start at the same point with the same velocity'
+        feedback: |
+          The equations are second order: a point and a velocity fix **one** solution. These two curves share point and velocity, so at most one of them can solve the equations, and the coordinate curve gives $2 \neq 0$.
+    explanation: |
+      For the line, $u = 1 + \lambda$ and $v = b - a^2 = 1 + 2\lambda - (1+\lambda)^2 = -\lambda^2$:
+      $$\ddot v + 2\,\dot u^2 = -2 + 2 = 0.$$
+      Point and velocity fix the straightest curve uniquely, and it is the line, not the parabola it touches.
+
+  - type: mcq
+    id: p3-flat
+    tag: Problem 3 · The sheared chart
+    title: A coefficient is not a curvature
+    prompt: |
+      On the plane, $\nabla^{\mathrm{E}}$ has in the sheared chart $\mathscr{Y} = (u,v) = (a,\ b - a^2)$ the single nonzero coefficient $\Gamma^2_{11} = 2$, a constant. What are its torsion and curvature?
+    options:
+      - text: 'Both zero: $\Gamma^2_{11}$ has equal lower indices, and every term of $\mathrm{Riem}$ vanishes'
+        correct: true
+      - text: 'Torsion zero, but curved, because a coefficient survives in this chart'
+        feedback: |
+          Curvature is computed, not read off a coefficient. $\mathrm{Riem}^2_{112} = \partial y_1\lfloor\Gamma^2_{12}\rceil - \partial y_2\lfloor\Gamma^2_{11}\rceil + \Gamma^2_{n1}\Gamma^n_{12} - \Gamma^2_{n2}\Gamma^n_{11} = 0 - 0 + 0 - 0$: the constant $2$ differentiates to zero and each product has a vanishing factor.
+      - text: 'Torsion nonzero, since $\Gamma^2_{11}$ has no partner $\Gamma^2_{11}$ with swapped indices to cancel it'
+        feedback: |
+          Swapping the two lower indices of $\Gamma^2_{11}$ gives $\Gamma^2_{11}$ itself: $\mathtt{T}^2_{11} = \Gamma^2_{11} - \Gamma^2_{11} = 0$. Torsion components with equal lower indices always vanish.
+      - text: 'It depends on the chart: flat in $\mathscr{X}$, curved in $\mathscr{Y}$'
+        feedback: |
+          $\mathrm{Riem}$ and $\mathtt{T}$ are tensors: zero in one chart means zero in every chart. Only the $\Gamma$'s depend on the chart.
+    explanation: |
+      $\mathtt{T} = 0$ and $\mathrm{Riem} = 0$ in $\mathscr{Y}$, as they must be, since both vanish in $\mathscr{X}$. This matches the theorem: flat and torsion free means **some** chart (here the cartesian one) has all coefficients zero, not every chart.
+
+  - type: text
+    id: p3-own
+    tag: Problem 3 · The sheared chart
+    title: What you now own
+    body: |
+      - Setting: the plane with points $(a,b)$, cartesian chart $\mathscr{X}$, $\nabla^{\mathrm{E}}$ the connection differentiating cartesian components. Sheared chart $\mathscr{Y} = (u,v)$ with $u = a$, $v = b - a^2$, basis fields $\partial y_1 = \partial/\partial u$, $\partial y_2 = \partial/\partial v$, $\partial x_i$ the cartesian ones:
+      $$\partial y_1 = \partial x_1 + 2a\,\partial x_2,\quad \partial y_2 = \partial x_2;$$
+      $\nabla^{\mathrm{E}}$ has the single coefficient
+      $$\Gamma^2_{11} = \frac{\partial\mathscr{Y}^2}{\partial\mathscr{X}^s}\frac{\partial^2\mathscr{X}^s}{\partial u^2} = 2.$$
+      - Straight lines in $\mathscr{Y}$:
+      $$\ddot u = 0,\quad \ddot v + 2\,\dot u^2 = 0.$$
+      - The vertical coordinate lines are straight, the parabolas $v = c$ are not, though both are coordinate curves. The line $b = a$ reads $u = \lambda$, $v = \lambda - \lambda^2$.
+      - Point plus velocity fix one straightest curve: the tangent line at $(1,1)$, $v = -\lambda^2$, beats the parabola it touches.
+      - $\Gamma \neq 0$ in a chart, yet $\mathtt{T} = 0$ and $\mathrm{Riem} = 0$: flat and torsion free means some chart with all $\Gamma = 0$, not every chart.
+
+  # ---------------------------------------------------------------- Problem 4
+  - type: text
+    id: p4-setup
+    tag: Problem 4 · The difference is a tensor
+    title: Two non-tensors
+    body: |
+      Neither of our two flat connections has tensor coefficients. On the plane, $\nabla^{\mathrm{E}}$ has all cartesian coefficients $0$, yet in the polar chart
+      $$(\Gamma^{\mathrm{E}}_\mathscr{Y})^1_{22} = -r,$$
+      $$(\Gamma^{\mathrm{E}}_\mathscr{Y})^2_{12} = (\Gamma^{\mathrm{E}}_\mathscr{Y})^2_{21} = \tfrac1r.$$
+      A tensor that vanishes in one chart vanishes in all, so these cannot be tensor components. $\nabla^{\mathrm{W}}$ (unit radial and angular fields $e_1, e_2$ declared parallel, plane minus the origin) has the single polar coefficient $(\Gamma^{\mathrm{W}}_\mathscr{Y})^2_{21} = \tfrac1r$, but four nonzero cartesian ones.
+
+      Now subtract. For vector fields $\mathcal{X}$ (the direction) and $\mathcal{Y}$ on the plane minus the origin, define
+      $$\mathcal{Q}(\mathcal{X},\mathcal{Y}) := \nabla^{\mathrm{W}}_\mathcal{X}\mathcal{Y} - \nabla^{\mathrm{E}}_\mathcal{X}\mathcal{Y},$$
+      a vector field. We call it $\mathcal{Q}$, a fresh letter: $D$ would suggest "derivative", and the $D$ of the lesson Connections and Affine Manifolds (the derivative of a first component) was exactly a machine that failed to be a tensor.
+
+      **Guess:** a difference of two non-tensors. Is $\mathcal{Q}$ a tensor field, or is it as chart-sensitive as each $\Gamma$?
+
+  - type: build
+    id: p4-leibniz
+    tag: Problem 4 · The difference is a tensor
+    title: The Leibniz terms meet
+    prompt: |
+      On the plane minus the origin, $\mathcal{Q}(\mathcal{X},\mathcal{Y}) := \nabla^{\mathrm{W}}_\mathcal{X}\mathcal{Y} - \nabla^{\mathrm{E}}_\mathcal{X}\mathcal{Y}$. Each connection obeys the Leibniz rule: for a smooth function $g$,
+      $$\nabla_\mathcal{X}(g\mathcal{Y}) = \mathcal{X}\lfloor g\rceil\,\mathcal{Y} + g\,\nabla_\mathcal{X}\mathcal{Y}.$$
+      Build $\mathcal{Q}(\mathcal{X}, g\mathcal{Y})$.
+    prefix: '\mathcal{Q}(\mathcal{X},g\mathcal{Y}) ='
+    tiles: ['g\,\mathcal{Q}(\mathcal{X},\mathcal{Y})', '+\,\mathcal{X}\lfloor g\rceil\mathcal{Y}', '+\,2\,\mathcal{X}\lfloor g\rceil\mathcal{Y}', '\mathcal{X}\lfloor g\rceil\,\mathcal{Q}(\mathcal{X},\mathcal{Y})']
+    answers:
+      - ['g\,\mathcal{Q}(\mathcal{X},\mathcal{Y})']
+    wrong:
+      - { answer: ['g\,\mathcal{Q}(\mathcal{X},\mathcal{Y})', '+\,\mathcal{X}\lfloor g\rceil\mathcal{Y}'], feedback: 'That is the Leibniz rule of a **single** connection. Here there are two copies of $\mathcal{X}\lfloor g\rceil\mathcal{Y}$, one from $\nabla^{\mathrm{W}}$ and one from $\nabla^{\mathrm{E}}$, and the second is subtracted: they cancel.' }
+      - { answer: ['g\,\mathcal{Q}(\mathcal{X},\mathcal{Y})', '+\,2\,\mathcal{X}\lfloor g\rceil\mathcal{Y}'], feedback: 'Two copies appear, but $\mathcal{Q}$ is a **difference**: $\mathcal{X}\lfloor g\rceil\mathcal{Y} - \mathcal{X}\lfloor g\rceil\mathcal{Y} = 0$. A sum $\nabla^{\mathrm{W}} + \nabla^{\mathrm{E}}$ would give the factor $2$.' }
+      - { answer: ['\mathcal{X}\lfloor g\rceil\,\mathcal{Q}(\mathcal{X},\mathcal{Y})'], feedback: 'The Leibniz term differentiates $g$ and multiplies the undifferentiated $\mathcal{Y}$; it never multiplies $\mathcal{Q}$. Write out both rules and subtract.' }
+    hint: 'Expand $\nabla^{\mathrm{W}}_\mathcal{X}(g\mathcal{Y})$ and $\nabla^{\mathrm{E}}_\mathcal{X}(g\mathcal{Y})$ with the Leibniz rule, then subtract.'
+    explanation: |
+      $$\begin{aligned}\mathcal{Q}(\mathcal{X},g\mathcal{Y}) &= \mathcal{X}\lfloor g\rceil\mathcal{Y} + g\,\nabla^{\mathrm{W}}_\mathcal{X}\mathcal{Y}\\ &\quad - \mathcal{X}\lfloor g\rceil\mathcal{Y} - g\,\nabla^{\mathrm{E}}_\mathcal{X}\mathcal{Y}\\ &= g\,\mathcal{Q}(\mathcal{X},\mathcal{Y})\end{aligned}$$
+      The term that made each connection a non-tensor (it sees how $g$ varies near the point) is the **same** for both, and cancels.
+
+  - type: mcq
+    id: p4-tensor
+    tag: Problem 4 · The difference is a tensor
+    title: Which properties hold?
+    multiple: true
+    prompt: |
+      On the plane minus the origin, $\mathcal{Q}(\mathcal{X},\mathcal{Y}) := \nabla^{\mathrm{W}}_\mathcal{X}\mathcal{Y} - \nabla^{\mathrm{E}}_\mathcal{X}\mathcal{Y}$, where $\nabla^{\mathrm{E}}$ has all cartesian coefficients zero and $\nabla^{\mathrm{W}}$ makes the unit radial and angular fields parallel. Let $f, g$ be smooth functions. Select every true statement.
+    options:
+      - text: '$\mathcal{Q}(f\mathcal{X},\mathcal{Y}) = f\,\mathcal{Q}(\mathcal{X},\mathcal{Y})$'
+        correct: true
+      - text: '$\mathcal{Q}(\mathcal{X},g\mathcal{Y}) = g\,\mathcal{Q}(\mathcal{X},\mathcal{Y})$'
+        correct: true
+      - text: '$\mathcal{Q}(\mathcal{X},\mathcal{Y})$ at $p$ depends only on $\mathcal{X}_p$ and $\mathcal{Y}_p$'
+        correct: true
+      - text: '$\mathcal{Q}(\mathcal{X},\mathcal{Y}) = -\mathcal{Q}(\mathcal{Y},\mathcal{X})$'
+        feedback: |
+          Nothing forces antisymmetry. In fact $\mathcal{Q}(\partial y_2,\partial y_2) = \nabla^{\mathrm{W}}_{\partial y_2}\partial y_2 - \nabla^{\mathrm{E}}_{\partial y_2}\partial y_2 = 0 - (-r\,\partial y_1) = r\,\partial y_1 \neq 0$, while an antisymmetric map would give $0$ on equal arguments.
+    explanation: |
+      The direction slot is $C^\infty$-linear for every connection, so also for the difference. The second slot is $C^\infty$-linear because the Leibniz terms cancel. Additivity holds in both slots. A machine $C^\infty$-linear in each slot is pointwise, so $\mathcal{Q}$ is a $(1,2)$-tensor field: feed it a covector field $\mathsf{X}$ too, $\mathsf{X}\lceil\mathcal{Q}(\mathcal{X},\mathcal{Y})\rfloor$, and it eats one covector and two vectors.
+
+  - type: numeric
+    id: p4-cartesian
+    tag: Problem 4 · The difference is a tensor
+    title: Cartesian components by hand
+    prompt: |
+      On the plane minus the origin, the components of $\mathcal{Q}(\mathcal{X},\mathcal{Y}) := \nabla^{\mathrm{W}}_\mathcal{X}\mathcal{Y} - \nabla^{\mathrm{E}}_\mathcal{X}\mathcal{Y}$ in a chart are
+      $$Q^i_{jk} := dx^i\lceil\mathcal{Q}(\partial x_k,\partial x_j)\rfloor = \Gamma^{\mathrm{W}\,i}_{jk} - \Gamma^{\mathrm{E}\,i}_{jk}$$
+      (last lower index = direction). In the cartesian chart $\nabla^{\mathrm{E}}$'s coefficients vanish, so $Q^i_{jk}$ is just $\nabla^{\mathrm{W}}$'s. $\nabla^{\mathrm{W}}$ makes $e_1 = \tfrac1r(a\,\partial x_1 + b\,\partial x_2)$ and $e_2 = \tfrac1r(-b\,\partial x_1 + a\,\partial x_2)$ parallel and differentiates only frame components, and
+      $$\partial x_1 = \tfrac ar\,e_1 - \tfrac br\,e_2.$$
+      Compute $Q^2_{11}$ at $p = (3,4)$.
+    answer: 0.16
+    answerText: '$4/25 = b/r^2$'
+    wrong:
+      - { value: 0, feedback: '$\partial x_1$ is parallel for $\nabla^{\mathrm{E}}$, not for $\nabla^{\mathrm{W}}$: its frame components $a/r$ and $-b/r$ change along $\partial x_1$. Differentiate them: $\partial_a(a/r) = b^2/r^3$, $\partial_a(b/r) = -ab/r^3$.' }
+      - { value: 0.12, feedback: '$0.12 = a/r^2$, the value of $Q^1_{22}$. For $Q^2_{11}$: $\nabla^{\mathrm{W}}_{\partial x_1}\partial x_1 = \tfrac{b^2}{r^3}e_1 + \tfrac{ab}{r^3}e_2 = \tfrac b{r^2}\partial x_2$, so $4/25$.' }
+      - { value: 0.8, feedback: '$0.8 = b/r$. Differentiating $a/r$ and $b/r$ brings one more factor $1/r$: the result is $b/r^2 = 4/25$.' }
+    hint: |
+      $\nabla^{\mathrm{W}}_{\partial x_1}\partial x_1 = \partial_a(\tfrac ar)\,e_1 - \partial_a(\tfrac br)\,e_2$. Then rewrite $b\,e_1 + a\,e_2 = r\,\partial x_2$.
+    explanation: |
+      $\partial_a(a/r) = b^2/r^3$ and $\partial_a(b/r) = -ab/r^3$, so
+      $$\begin{aligned}\nabla^{\mathrm{W}}_{\partial x_1}\partial x_1 &= \tfrac b{r^3}(b\,e_1 + a\,e_2)\\ &= \tfrac b{r^2}\,\partial x_2\end{aligned}$$
+      and $Q^2_{11} = b/r^2 = 4/25$ at $(3,4)$. The same way, all four nonzero cartesian components are
+      $$Q^2_{11} = \tfrac b{r^2},\quad Q^2_{12} = -\tfrac a{r^2},$$
+      $$Q^1_{21} = -\tfrac b{r^2},\quad Q^1_{22} = \tfrac a{r^2},$$
+      at $(3,4)$: $\tfrac4{25}, -\tfrac3{25}, -\tfrac4{25}, \tfrac3{25}$.
+
+  - type: mcq
+    id: p4-polar
+    tag: Problem 4 · The difference is a tensor
+    title: Polar components
+    prompt: |
+      On the plane minus the origin, $\mathcal{Q}(\mathcal{X},\mathcal{Y}) := \nabla^{\mathrm{W}}_\mathcal{X}\mathcal{Y} - \nabla^{\mathrm{E}}_\mathcal{X}\mathcal{Y}$ has components $Q^i_{jk} = \Gamma^{\mathrm{W}\,i}_{jk} - \Gamma^{\mathrm{E}\,i}_{jk}$. In the polar chart $\mathscr{Y} = (r,\theta)$, $\nabla^{\mathrm{W}}$ has only $\Gamma^2_{21} = \tfrac1r$, and $\nabla^{\mathrm{E}}$ has $\Gamma^1_{22} = -r$ and $\Gamma^2_{12} = \Gamma^2_{21} = \tfrac1r$. What are the nonzero polar components of $\mathcal{Q}$?
+    options:
+      - text: '$Q^1_{22} = r$ and $Q^2_{12} = -\tfrac1r$, while $Q^2_{21} = 0$'
+        correct: true
+      - text: '$Q^2_{21} = \tfrac1r$ only, the same as $\nabla^{\mathrm{W}}$'
+        feedback: |
+          In the cartesian chart $\mathcal{Q}$ coincides with $\nabla^{\mathrm{W}}$'s coefficients because $\nabla^{\mathrm{E}}$'s vanish there. In polar they do not vanish, so they must be subtracted: $Q^2_{21} = \tfrac1r - \tfrac1r = 0$.
+      - text: '$Q^1_{22} = -r$ and $Q^2_{12} = \tfrac1r$, while $Q^2_{21} = 0$'
+        feedback: |
+          These are the components of $\nabla^{\mathrm{E}} - \nabla^{\mathrm{W}} = -\mathcal{Q}$. The order matters: $Q^1_{22} = 0 - (-r) = r$.
+    explanation: |
+      Subtract coefficient by coefficient:
+      $$\begin{aligned}Q^1_{22} &= 0 - (-r) = r\\ Q^2_{12} &= 0 - \tfrac1r = -\tfrac1r\\ Q^2_{21} &= \tfrac1r - \tfrac1r = 0\end{aligned}$$
+      Check one directly: $\nabla^{\mathrm{W}}_{\partial y_2}\partial y_2 = 0$ (the frame components of $\partial y_2 = r\,e_2$ do not depend on $\theta$) and $\nabla^{\mathrm{E}}_{\partial y_2}\partial y_2 = -r\,\partial y_1$, so $\mathcal{Q}(\partial y_2,\partial y_2) = r\,\partial y_1$.
+
+  - type: numeric
+    id: p4-law
+    tag: Problem 4 · The difference is a tensor
+    title: The plain tensor law
+    prompt: |
+      On the plane minus the origin, $\mathcal{Q} := \nabla^{\mathrm{W}} - \nabla^{\mathrm{E}}$ has, at $p = (3,4)$, the cartesian components
+      $$Q^2_{11} = \tfrac4{25},\quad Q^2_{12} = -\tfrac3{25},$$
+      $$Q^1_{21} = -\tfrac4{25},\quad Q^1_{22} = \tfrac3{25},$$
+      all others $0$. For the polar chart $\mathscr{Y} = (r,\theta)$ at $p$, $\partial\mathscr{X}^s/\partial\theta = (-b, a) = (-4, 3)$ and $\partial r/\partial\mathscr{X}^l = (a/r, b/r) = (0.6, 0.8)$. Using the plain $(1,2)$ tensor law, **no** inhomogeneous term,
+      $$(Q_\mathscr{Y})^1_{22} = \frac{\partial r}{\partial\mathscr{X}^l}\frac{\partial\mathscr{X}^s}{\partial\theta}\frac{\partial\mathscr{X}^m}{\partial\theta}(Q_\mathscr{X})^l_{sm},$$
+      compute $(Q_\mathscr{Y})^1_{22}$ at $p$.
+    answer: 5
+    wrong:
+      - { value: 0, feedback: '$0$ is $\nabla^{\mathrm{W}}$''s own polar $\Gamma^1_{22}$. The difference also subtracts $\nabla^{\mathrm{E}}$''s $-r$. With $w = (-4,3)$: $Q^1_{sm}w^sw^m = \tfrac3{25}\cdot9 + (-\tfrac4{25})(3)(-4) = 3$ and $Q^2_{sm}w^sw^m = \tfrac4{25}\cdot16 + (-\tfrac3{25})(-4)(3) = 4$.' }
+      - { value: -5, feedback: '$-5$ is $\nabla^{\mathrm{E}}$''s polar $\Gamma^1_{22} = -r$, which enters $\mathcal{Q}$ with a minus sign. The contraction gives $0.6\cdot3 + 0.8\cdot4 = 5$.' }
+      - { value: 3, feedback: 'You have the cartesian vector $\mathcal{Q}(\partial y_2,\partial y_2) = 3\,\partial x_1 + 4\,\partial x_2$ (only its first component). Its $\partial y_1$-component is $0.6\cdot3 + 0.8\cdot4 = 5$.' }
+    hint: |
+      First compute the cartesian vector $\mathcal{Q}(\partial y_2,\partial y_2)$: its component $l$ is $Q^l_{sm}w^sw^m$ with $w = (-4,3)$. Then apply the row $(0.6, 0.8)$.
+    explanation: |
+      With $w = (-4,3)$, only $Q^1_{22}, Q^1_{21}$ and $Q^2_{11}, Q^2_{12}$ contribute:
+      $$\begin{aligned}Q^1_{sm}w^sw^m &= \tfrac{27}{25} + \tfrac{48}{25} = 3\\ Q^2_{sm}w^sw^m &= \tfrac{64}{25} + \tfrac{36}{25} = 4\end{aligned}$$
+      so $\mathcal{Q}(\partial y_2,\partial y_2) = 3\,\partial x_1 + 4\,\partial x_2$, and
+      $$(Q_\mathscr{Y})^1_{22} = 0.6\cdot3 + 0.8\cdot4 = 5 = r.$$
+      Exactly the polar component $Q^1_{22} = r$ found by subtracting. Why no inhomogeneous term? Each $\Gamma$ obeys the law
+      $$\begin{aligned}(\Gamma_\mathscr{Y})^i_{jk} &= \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^s}\frac{\partial^2\mathscr{X}^s}{\partial\mathscr{Y}^k\partial\mathscr{Y}^j}\\ &\quad + (\text{tensor term})\end{aligned}$$
+      and the first term involves only the two charts, the same for $\nabla^{\mathrm{W}}$ and $\nabla^{\mathrm{E}}$: it cancels in the difference.
+
+  - type: build
+    id: p4-torsion
+    tag: Problem 4 · The difference is a tensor
+    title: Torsion hides in the difference
+    prompt: |
+      On the plane minus the origin, $\mathcal{Q} := \nabla^{\mathrm{W}} - \nabla^{\mathrm{E}}$ has components $Q^i_{jk} = \Gamma^{\mathrm{W}\,i}_{jk} - \Gamma^{\mathrm{E}\,i}_{jk}$. Torsion components are $\mathtt{T}^i_{jk} = \Gamma^i_{kj} - \Gamma^i_{jk}$, and $\nabla^{\mathrm{E}}$ is torsion free ($\Gamma^{\mathrm{E}\,i}_{kj} = \Gamma^{\mathrm{E}\,i}_{jk}$). Build the torsion of $\nabla^{\mathrm{W}}$ from $\mathcal{Q}$ alone.
+    prefix: '\mathtt{T}^{\mathrm{W}\,i}_{jk} ='
+    tiles: ['Q^i_{kj}', '-\,Q^i_{jk}', '+\,Q^i_{jk}', '-\,Q^i_{kj}', '2\,Q^i_{jk}']
+    answers:
+      - ['Q^i_{kj}', '-\,Q^i_{jk}']
+    wrong:
+      - { answer: ['Q^i_{kj}', '+\,Q^i_{jk}'], feedback: 'The symmetric part of $\mathcal{Q}$ is not torsion: in polar $Q^1_{22} = r \neq 0$, yet $\mathtt{T}^1_{22} = 0$ for every connection (equal lower indices).' }
+      - { answer: ['2\,Q^i_{jk}'], feedback: 'That would need $Q^i_{kj} = -Q^i_{jk}$, and $\mathcal{Q}$ is not antisymmetric: $Q^1_{22} = r \neq 0$ in polar.' }
+    hint: 'Write $\mathtt{T}^{\mathrm{W}\,i}_{jk} - \mathtt{T}^{\mathrm{E}\,i}_{jk}$, which equals $\mathtt{T}^{\mathrm{W}\,i}_{jk}$, in terms of the $\Gamma$ differences.'
+    explanation: |
+      $$\begin{aligned}\mathtt{T}^{\mathrm{W}\,i}_{jk} &= \mathtt{T}^{\mathrm{W}\,i}_{jk} - \mathtt{T}^{\mathrm{E}\,i}_{jk}\\ &= Q^i_{kj} - Q^i_{jk}\end{aligned}$$
+      the antisymmetric part of the difference (times $-2$). Polar check: $\mathtt{T}^{\mathrm{W}\,2}_{12} = Q^2_{21} - Q^2_{12} = 0 + \tfrac1r$, which is $0.2$ at $(3,4)$, the known $\mathtt{T}(\cdot,\partial y_1,\partial y_2) = \tfrac1r\partial y_2$. Cartesian: $Q^2_{21} - Q^2_{12} = 0 + \tfrac a{r^2} = \tfrac3{25}$.
+
+  - type: mcq
+    id: p4-affine
+    tag: Problem 4 · The difference is a tensor
+    title: Connections plus tensors
+    multiple: true
+    prompt: |
+      On the plane minus the origin, $\mathcal{Q} := \nabla^{\mathrm{W}} - \nabla^{\mathrm{E}}$ is a $(1,2)$-tensor field. A connection must obey the Leibniz rule $\nabla_\mathcal{X}(g\mathcal{Y}) = \mathcal{X}\lfloor g\rceil\,\mathcal{Y} + g\,\nabla_\mathcal{X}\mathcal{Y}$ with the Leibniz term $\mathcal{X}\lfloor g\rceil\,\mathcal{Y}$ appearing **exactly once**. Which of these are connections? Select all.
+    options:
+      - text: '$\nabla^{\mathrm{E}} + \mathcal{Q}$'
+        correct: true
+      - text: '$\nabla^{\mathrm{E}} + 2\,\mathcal{Q}$'
+        correct: true
+      - text: '$\tfrac12(\nabla^{\mathrm{E}} + \nabla^{\mathrm{W}})$'
+        correct: true
+      - text: '$\nabla^{\mathrm{E}} + \nabla^{\mathrm{W}}$'
+        feedback: |
+          Each connection brings its own Leibniz term, so the sum gives $2\,\mathcal{X}\lfloor g\rceil\,\mathcal{Y}$: one too many. Connections can be averaged (weights adding to $1$), not added.
+      - text: '$2\,\nabla^{\mathrm{E}}$'
+        feedback: |
+          Doubling doubles the Leibniz term too: $2\,\mathcal{X}\lfloor g\rceil\,\mathcal{Y}$. On a function it would give $2\,\mathcal{X}\lfloor f\rceil$, breaking the rule that a connection acts on scalars as the direction does.
+    explanation: |
+      A tensor field has no Leibniz term, so adding any multiple of $\mathcal{Q}$ to a connection keeps exactly one: $\nabla^{\mathrm{E}} + \mathcal{Q} = \nabla^{\mathrm{W}}$, and $\nabla^{\mathrm{E}} + 2\mathcal{Q}$ is a new connection. The average is $\nabla^{\mathrm{E}} + \tfrac12\mathcal{Q}$. So: **every** connection is $\nabla^{\mathrm{E}}$ plus some $(1,2)$-tensor field, and the coefficients of that tensor in cartesian coordinates are exactly the connection's $\Gamma$'s.
+
+  - type: text
+    id: p4-own
+    tag: Problem 4 · The difference is a tensor
+    title: What you now own
+    body: |
+      - Setting: on the plane (points $(a,b)$, $r = \sqrt{a^2+b^2}$, cartesian and polar charts), $\nabla^{\mathrm{E}}$ differentiates cartesian components and $\nabla^{\mathrm{W}}$ (plane minus the origin) makes the unit radial and angular fields parallel; $\mathcal{X},\mathcal{Y}$ are vector fields, $g$ a smooth function, $\Gamma^{\mathrm{E}\,i}_{jk}$, $\Gamma^{\mathrm{W}\,i}_{jk}$ their coefficients.
+      - The difference of two connections,
+      $$\mathcal{Q}(\mathcal{X},\mathcal{Y}) := \nabla^{\mathrm{W}}_\mathcal{X}\mathcal{Y} - \nabla^{\mathrm{E}}_\mathcal{X}\mathcal{Y},$$
+      is a $(1,2)$-tensor field: the Leibniz terms cancel,
+      $$\mathcal{Q}(\mathcal{X},g\mathcal{Y}) = g\,\mathcal{Q}(\mathcal{X},\mathcal{Y}).$$
+      - Components $Q^i_{jk} = \Gamma^{\mathrm{W}\,i}_{jk} - \Gamma^{\mathrm{E}\,i}_{jk}$ obey the plain law (the inhomogeneous terms cancel). Cartesian: $Q^2_{11} = \tfrac b{r^2}$, $Q^1_{22} = \tfrac a{r^2}$, $Q^2_{12} = -\tfrac a{r^2}$, $Q^1_{21} = -\tfrac b{r^2}$. Polar:
+      $$Q^1_{22} = r,\quad Q^2_{12} = -\tfrac1r.$$
+      - Since $\nabla^{\mathrm{E}}$ is torsion free,
+      $$\mathtt{T}^{\mathrm{W}\,i}_{jk} = Q^i_{kj} - Q^i_{jk}.$$
+      - Connection plus $(1,2)$-tensor field = connection; connection plus connection is not.
+
+      **Next:** the opposite move. Not a tensor that no chart can remove, but a chart that removes every $\Gamma$, at one point.
+
+
+  # ---------------------------------------------------------------- Wrap-up
+  - type: text
+    id: wrap-up
+    title: What you now own
+    body: |
+      Problems 3 and 4, part 2 of 3 of the level challenge. Setting: the plane has points $(a,b)$, $r = \sqrt{a^2+b^2}$, cartesian and polar charts; $\nabla^{\mathrm{E}}$ differentiates cartesian components (all cartesian $\Gamma = 0$); $\nabla^{\mathrm{W}}$ (plane minus the origin) makes the unit radial and angular fields parallel; $\mathcal{X},\mathcal{Y}$ are vector fields, $g$ a smooth function, $\gamma$ a curve with dots $= d/d\lambda$, $\mathtt{T}$ torsion, $\mathrm{Riem}$ curvature. The formulas to keep:
+
+      **3. Sheared chart** $(u,v)$ with $u = a$, $v = b - a^2$, for $\nabla^{\mathrm{E}}$ (coefficients in that chart):
+      $$\Gamma^2_{11} = 2,$$
+      $$\ddot u = 0,\quad \ddot v + 2\,\dot u^2 = 0;$$
+      a nonzero $\Gamma$ with $\mathtt{T} = 0$ and $\mathrm{Riem} = 0$.
+
+      **4. Difference of connections**, a $(1,2)$-tensor field:
+      $$\mathcal{Q} := \nabla^{\mathrm{W}} - \nabla^{\mathrm{E}},$$
+      $$\mathcal{Q}(\mathcal{X},g\mathcal{Y}) = g\,\mathcal{Q}(\mathcal{X},\mathcal{Y}),$$
+      $$\mathtt{T}^{\mathrm{W}\,i}_{jk} = Q^i_{kj} - Q^i_{jk}.$$
+
+      **Next:** part 3 of the Level Challenge: normal coordinates, which remove every $\Gamma$ at a point, and the curvature that survives.

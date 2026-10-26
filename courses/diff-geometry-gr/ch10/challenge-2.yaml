@@ -1,0 +1,375 @@
+id: ch10-challenge-2
+title: Level Challenge · Part 2
+kind: challenge
+
+# Organization: intro, one block per problem (cards tagged "Problem N · ...", ids
+# prefixed pN-), then wrap-up. The Level Challenge is split in 3 parts of at most
+# 32 cards; part 2 holds problems 3 and 4.
+
+cards:
+  - type: text
+    id: intro
+    title: Who gravitates, and light
+    body: |
+      This challenge pushes each idea of the level to its edge. It comes in 3 parts; this is part 2 (problems 3 and 4). Keep pencil, paper and a calculator at hand: every answer can be checked by hand.
+
+      Recall the toolkit. Spacetime is a 4-dimensional manifold with a Lorentzian metric $g$ of signature $(+,-,-,-)$; $\eta := \mathrm{diag}(1,-1,-1,-1)$ is its form in an orthonormal frame. Gravity is the curvature of $g$, and the field equations read
+      $$G_{ab} = \mathrm{Ric}_{ab} - \tfrac12R\,g_{ab} = 8\pi G_N\,T_{ab},$$
+      with $\mathrm{Ric}$ the Ricci tensor, $R$ the scalar curvature, $T$ the energy-momentum tensor and $G_N$ Newton's constant. Conservation $\nabla_aT^{ab}=0$ follows from the Bianchi identity.
+
+      3. Who gravitates? Dust, light and vacuum energy as sources of $\mathrm{Ric}_{00}$, and a scalar field that repels.
+      4. A plane electromagnetic wave: its energy-momentum tensor, why it is traceless, why it must move at the speed of light, and what observers measure.
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: text
+    id: p3-setup
+    tag: Problem 3 · Who gravitates?
+    title: Pressure weighs too
+    body: |
+      Consider matter at rest in an orthonormal frame, so that $g = \eta = \mathrm{diag}(1,-1,-1,-1)$ and its energy-momentum tensor has components (all lower indices)
+      $$\begin{gathered}T_{00} = \rho,\\
+      T_{11} = T_{22} = T_{33} = p,\end{gathered}$$
+      and all other components zero; $\rho$ is the energy density, $p$ the pressure. In Newtonian gravity only $\rho$ sources the field. Here the field equations $G_{ab} = 8\pi G_N\,T_{ab}$ are the rule, so let's see what actually acts as source.
+
+  - type: numeric
+    id: p3-trace
+    tag: Problem 3 · Who gravitates?
+    title: The trace of T
+    prompt: |
+      A fluid at rest has $T_{ab} = \mathrm{diag}(\rho, p, p, p)$ in an orthonormal frame, with $g = \mathrm{diag}(1,-1,-1,-1)$ and inverse $g^{-1} = g$. The trace is $T := (g^{-1})^{ab}T_{ab}$. Compute $T$ for $\rho = 5$ and $p = 1$.
+    answer: 2
+    wrong:
+      - { value: 8, feedback: 'That adds all four diagonal entries, $5 + 3\cdot1$. The inverse metric carries signs: $(g^{-1})^{00} = +1$ but $(g^{-1})^{\alpha\alpha} = -1$.' }
+      - { value: 6, feedback: 'That is $\rho + p$. All three space entries contribute, each with a minus sign: $5 - 3\cdot1$.' }
+    hint: '$T = (+1)\rho + (-1)p + (-1)p + (-1)p$.'
+    explanation: |
+      $$T = \rho - 3p = 5 - 3 = 2.$$
+
+  - type: order
+    id: p3-order
+    tag: Problem 3 · Who gravitates?
+    title: Ricci from the Einstein equations
+    prompt: Put in order the derivation of $\mathrm{Ric}_{ab} = 8\pi G_N\big(T_{ab} - \tfrac12T\,g_{ab}\big)$ from $G_{ab} = 8\pi G_N\,T_{ab}$.
+    steps:
+      - 'Start from $\mathrm{Ric}_{ab} - \tfrac12R\,g_{ab} = 8\pi G_N\,T_{ab}$.'
+      - 'Contract with $(g^{-1})^{ab}$, using $(g^{-1})^{ab}g_{ab} = 4$: $R - 2R = 8\pi G_N\,T$.'
+      - 'So $R = -8\pi G_N\,T$.'
+      - 'Isolate Ric: $\mathrm{Ric}_{ab} = 8\pi G_N\,T_{ab} + \tfrac12R\,g_{ab}$.'
+      - 'Insert $R$: $\mathrm{Ric}_{ab} = 8\pi G_N\big(T_{ab} - \tfrac12T\,g_{ab}\big)$.'
+    hint: 'Trace first; then solve for Ric.'
+    explanation: |
+      The trace turns the Einstein tensor into a multiple of $R$, which can be solved and put back. In dimension four $G$ and $T$ determine each other's traces: $-R = 8\pi G_N\,T$.
+
+  - type: build
+    id: p3-ric00
+    tag: Problem 3 · Who gravitates?
+    title: Ric₀₀ of a fluid
+    prompt: |
+      Use $\mathrm{Ric}_{ab} = 8\pi G_N(T_{ab} - \tfrac12Tg_{ab})$ with $T_{00} = \rho$, $T = \rho - 3p$ and $g_{00} = 1$. Build $\mathrm{Ric}_{00}$.
+    prefix: '\mathrm{Ric}_{00} ='
+    tiles: ['4\pi G_N', '(\rho + 3p)', '(\rho - 3p)', '8\pi G_N', '(\rho + p)']
+    answers:
+      - ['4\pi G_N', '(\rho + 3p)']
+    wrong:
+      - { answer: ['4\pi G_N', '(\rho - 3p)'], feedback: 'That is $4\pi G_N\,T$, the trace without the $\rho$. Compute $\rho - \tfrac12(\rho - 3p) = \tfrac12(\rho + 3p)$: the pressure term changes sign because of the $-\tfrac12T$.' }
+      - { answer: ['8\pi G_N', '(\rho + 3p)'], feedback: 'Factor: $8\pi G_N(\rho - \tfrac12\rho + \tfrac32p) = 8\pi G_N\cdot\tfrac12(\rho + 3p) = 4\pi G_N(\rho+3p)$.' }
+      - { answer: ['4\pi G_N', '(\rho + p)'], feedback: 'The pressure enters with weight $3$ (one per space direction), not $1$: $-\tfrac12T = -\tfrac12\rho + \tfrac32p$.' }
+    hint: '$\rho - \tfrac12(\rho - 3p)$.'
+    explanation: |
+      $$\begin{aligned}\mathrm{Ric}_{00} &= 8\pi G_N\big(\rho - \tfrac12(\rho-3p)\big)\\
+      &= 4\pi G_N(\rho + 3p).\end{aligned}$$
+      For dust ($p = 0$) this is $4\pi G_N\rho$, the value of $\mathrm{Ric}_{00}$ in the Newtonian field equation. The source of gravity is $\rho + 3p$.
+
+  - type: numeric
+    id: p3-radiation
+    tag: Problem 3 · Who gravitates?
+    title: Light gravitates twice
+    prompt: |
+      A fluid at rest has $\mathrm{Ric}_{00} = 4\pi G_N(\rho + 3p)$. For dust ($p = 0$) it is $4\pi G_N\rho$. For radiation, with $p = \tfrac13\rho$, compute the ratio $\mathrm{Ric}_{00}\big/(4\pi G_N\rho)$.
+    answer: 2
+    wrong:
+      - { value: 1, feedback: 'That is dust. For radiation the pressure $p = \rho/3$ adds $3p = \rho$ to the source.' }
+      - { value: 1.33, feedback: 'That adds $p$ once, $1 + \tfrac13$. All three space directions count: $\rho + 3p = 2\rho$.' }
+    hint: '$\rho + 3\cdot\tfrac13\rho$.'
+    explanation: |
+      $$\frac{\rho + 3p}{\rho} = 1 + 1 = 2.$$
+      Radiation of the same energy density curves spacetime twice as much as dust, since its pressure is a source too.
+
+  - type: numeric
+    id: p3-vacuum
+    tag: Problem 3 · Who gravitates?
+    title: Vacuum energy repels
+    prompt: |
+      A constant Lagrangian $\mathcal{L}_M = -\lambda$ gives $T_{ab} = \lambda g_{ab}$, that is $\rho = \lambda$ and $p = -\lambda$ (with $\lambda > 0$). Using $\mathrm{Ric}_{00} = 4\pi G_N(\rho + 3p)$, compute the ratio $\mathrm{Ric}_{00}\big/(4\pi G_N\lambda)$.
+    answer: -2
+    wrong:
+      - { value: 2, feedback: 'The pressure is **negative**, $p = -\lambda$: $\rho + 3p = \lambda - 3\lambda = -2\lambda$. A positive $\mathrm{Ric}_{00}$ would mean attraction.' }
+      - { value: -4, feedback: 'That is $\rho + 3p$ with $\rho$ also taken negative. The energy density is $+\lambda$.' }
+      - { value: 0, feedback: 'The source vanishes for $p = -\rho/3$, not for $p = -\rho$.' }
+    hint: '$\rho + 3p = \lambda + 3(-\lambda)$.'
+    explanation: |
+      $$\mathrm{Ric}_{00} = 4\pi G_N(\lambda - 3\lambda) = -8\pi G_N\lambda.$$
+      Negative: vacuum energy with positive $\lambda$ makes neighbouring free-falling particles move **apart** (the sum of the tidal accelerations per unit offset is $-\mathrm{Ric}_{00} > 0$). Positive energy density and gravitational repulsion at once.
+
+  - type: numeric
+    id: p3-neutral
+    tag: Problem 3 · Who gravitates?
+    title: The fluid that does not gravitate
+    prompt: |
+      A fluid with $\rho > 0$ has $\mathrm{Ric}_{00} = 4\pi G_N(\rho + 3p)$. Find the ratio $p/\rho$ for which $\mathrm{Ric}_{00} = 0$, so that it neither attracts nor repels.
+    answer: -0.3333
+    tolerance: 0.001
+    answerText: '-1/3'
+    wrong:
+      - { value: -1, feedback: 'That is the vacuum, which repels: $\rho + 3p = -2\rho$. Solve $\rho + 3p = 0$.' }
+      - { value: 0.3333, feedback: 'With $p>0$ the sum $\rho + 3p$ only grows. A negative pressure is needed to cancel $\rho$.' }
+      - { value: -3, feedback: 'Solve $\rho + 3p = 0$ for $p/\rho$: divide by $3\rho$.' }
+    hint: '$\rho + 3p = 0$.'
+    explanation: |
+      $$\frac{p}{\rho} = -\frac13.$$
+      Between dust ($p/\rho = 0$, attracts) and vacuum ($-1$, repels) lies the borderline $-\tfrac13$.
+
+  - type: numeric
+    id: p3-scalar
+    tag: Problem 3 · Who gravitates?
+    title: A scalar field in time
+    prompt: |
+      A homogeneous scalar field $\phi(\tau)$ with potential $V$ (constant at this instant) has Lagrangian $\mathcal{L}_M = \tfrac12\dot\phi^2 - V$ and energy-momentum components $\rho = T_{00} = \tfrac12\dot\phi^2 + V$ and $p = T_{11} = \tfrac12\dot\phi^2 - V$. Take $\dot\phi = 1$ and $V = 3$. Compute the gravitating source $\rho + 3p$.
+    answer: -4
+    wrong:
+      - { value: 11, feedback: 'The sign of $p$: $p = \tfrac12 - 3 = -2.5$, not $+2.5$. Then $\rho + 3p = 3.5 - 7.5$.' }
+      - { value: 3.5, feedback: 'That is $\rho$ alone, the Newtonian source. Add $3p = -7.5$.' }
+      - { value: -2.5, feedback: 'That is $p$ alone. The source is $\rho + 3p = 3.5 + 3(-2.5)$.' }
+    hint: '$\rho = 3.5$, $p = -2.5$.'
+    explanation: |
+      $$\begin{aligned}\rho + 3p &= (\tfrac12\dot\phi^2 + V) + 3(\tfrac12\dot\phi^2 - V)\\
+      &= 2\dot\phi^2 - 2V = 2 - 6 = -4.\end{aligned}$$
+      Negative: this field repels.
+
+  - type: numeric
+    id: p3-threshold
+    tag: Problem 3 · Who gravitates?
+    title: How fast must the field roll?
+    prompt: |
+      For a homogeneous scalar field the source of gravity is $\rho + 3p = 2\dot\phi^2 - 2V$. For $V = 3$, find the smallest $\dot\phi > 0$ for which the field no longer repels, $\rho + 3p \geq 0$.
+    answer: 1.7321
+    tolerance: 0.001
+    answerText: '\sqrt3'
+    wrong:
+      - { value: 3, feedback: 'The condition is on $\dot\phi^2$, not $\dot\phi$: $2\dot\phi^2 \geq 2V$ gives $\dot\phi^2\geq3$, so $\dot\phi\geq\sqrt3$.' }
+      - { value: 1.5, feedback: 'The kinetic energy is $\tfrac12\dot\phi^2$, but the threshold is $2\dot\phi^2 = 2V$ i.e. $\dot\phi^2 = V = 3$. Solve for $\dot\phi$.' }
+    hint: '$2\dot\phi^2 - 2V = 0$.'
+    explanation: |
+      $$\dot\phi^2 = V\ \Rightarrow\ \dot\phi = \sqrt3\approx1.732.$$
+      A field that rolls slowly, $\dot\phi^2 < V$, stores its energy mostly as potential energy and behaves like vacuum energy: it repels. A fast one acts like matter or radiation.
+
+  - type: numeric
+    id: p3-closure
+    tag: Problem 3 · Who gravitates?
+    title: Closing the loop on vacuum energy
+    prompt: |
+      Take vacuum energy with $T_{ab} = \lambda g_{ab}$ and units in which $8\pi G_N\lambda = 1$, so the field equation $G = 8\pi G_N T$ is $G_{ab} = g_{ab}$. Using $\mathrm{Ric}_{ab} = 8\pi G_N(T_{ab} - \tfrac12T g_{ab})$, we get $\mathrm{Ric}_{ab} = -g_{ab}$. Compute the scalar curvature $R = (g^{-1})^{ab}\mathrm{Ric}_{ab}$ in four dimensions.
+    answer: -4
+    wrong:
+      - { value: 4, feedback: 'The sign: $R = (g^{-1})^{ab}(-g_{ab}) = -4$. With $\mathrm{Ric} = -g$ the check is $-g - \tfrac12(-4)g = -g + 2g = g$, as required.' }
+      - { value: -1, feedback: 'The trace of $g_{ab}$ with its inverse is the dimension $4$, not $1$.' }
+    hint: '$(g^{-1})^{ab}g_{ab} = 4$.'
+    explanation: |
+      $$\begin{gathered}R = -4,\\
+      G = -g - \tfrac12(-4)g = g.\end{gathered}$$
+      This equals $8\pi G_N T = g$.
+      Consistent. Also $\mathrm{Ric}_{00} = -g_{00} = -1 = -8\pi G_N\lambda$, the value of the previous card.
+
+  - type: text
+    id: p3-wrap
+    tag: Problem 3 · Who gravitates?
+    title: What this problem showed
+    body: |
+      Two lessons. First, taking the trace of $G = 8\pi G_N T$ gives
+      $$\mathrm{Ric}_{ab} = 8\pi G_N\big(T_{ab} - \tfrac12T\,g_{ab}\big),$$
+      and for a fluid at rest
+      $$\mathrm{Ric}_{00} = 4\pi G_N(\rho + 3p):$$
+      pressure gravitates, and negative pressure repels. Second, the same energy density can attract (dust), attract twice as hard (light), or repel (vacuum, a slowly rolling scalar field). In the chapter on Newton-Cartan theory, $\mathrm{Ric}_{00} = 4\pi G_N\rho$ was the field equation of Newtonian gravity: it is the dust case $p = 0$ of this one.
+
+  # ---------------------------------------------------------------- Problem 4
+  - type: text
+    id: p4-setup
+    tag: Problem 4 · A plane light wave
+    title: The field of a light wave
+    body: |
+      Work in Minkowski space with Cartesian coordinates $(x^0,x^1,x^2,x^3)$ and $g = \eta = \mathrm{diag}(1,-1,-1,-1)$. The electromagnetic field has components $F_{ab} = -F_{ba}$, and its energy-momentum tensor is
+      $$T_{mn} = -(g^{-1})^{bd}F_{mb}F_{nd} + \tfrac14\,g_{mn}\,F_{ab}\hat F^{ab},$$
+      with $F_{ab}\hat F^{ab} = \sum_{a,b}(g^{-1})^{aa}(g^{-1})^{bb}(F_{ab})^2$ at $g=\eta$.
+
+      A plane wave of amplitude $3$ has only these nonzero components (and the ones forced by antisymmetry):
+      $$F_{02} = 3,\qquad F_{12} = -3.$$
+      In terms of $\mathbf{e} = (F_{01},F_{02},F_{03})$ and $\mathbf{b} = (F_{23},F_{31},F_{12})$ this is an electric part along $x^2$ and a magnetic part along $x^3$, of equal size and perpendicular to each other.
+
+  - type: numeric
+    id: p4-invariant
+    tag: Problem 4 · A plane light wave
+    title: The invariant of a wave
+    prompt: |
+      At $g = \eta = \mathrm{diag}(1,-1,-1,-1)$ the electromagnetic field has $F_{02} = 3$ and $F_{12} = -3$ (all other components zero up to antisymmetry: $F_{20} = -3$, $F_{21} = 3$). Compute the full sum $F_{ab}\hat F^{ab} = \sum_{a,b}(g^{-1})^{aa}(g^{-1})^{bb}(F_{ab})^2$.
+    answer: 0
+    tolerance: 0.000001
+    wrong:
+      - value: -18
+        feedback: |
+          That keeps only the electric entries, each with $(g^{-1})^{00}(g^{-1})^{22} = -1$. The magnetic entries $F_{12},F_{21}$ have $(g^{-1})^{11}(g^{-1})^{22} = +1$ and contribute $+9$ each.
+      - value: 36
+        feedback: |
+          The electric entries $F_{02},F_{20}$ each contribute $(+1)(-1)\cdot9 = -9$ (time and space inverse metrics have opposite signs), and the magnetic ones $F_{12},F_{21}$ contribute $(-1)(-1)\cdot9 = +9$ each.
+    hint: 'Two entries of each kind: $F_{02},F_{20}$ and $F_{12},F_{21}$.'
+    explanation: |
+      $$F_{ab}\hat F^{ab} = 2(-9) + 2(+9) = 0.$$
+      In general $F_{ab}\hat F^{ab} = 2(|\mathbf{b}|^2 - |\mathbf{e}|^2)$, so it vanishes when $|\mathbf{e}| = |\mathbf{b}|$: the Lagrangian $\mathcal{L}_{\mathrm{EM}}$ is zero on a plane wave.
+
+  - type: numeric
+    id: p4-t01
+    tag: Problem 4 · A plane light wave
+    title: The momentum component
+    prompt: |
+      At $g=\eta$ take $F_{02} = 3$, $F_{12} = -3$ (others zero up to antisymmetry), so $F_{ab}\hat F^{ab} = 0$ and $T_{mn} = -(g^{-1})^{bd}F_{mb}F_{nd}$. Compute $T_{01}$. (Only $b = d = 2$ contributes, with $(g^{-1})^{22} = -1$.)
+    answer: -9
+    wrong:
+      - value: 9
+        feedback: |
+          Check the signs of the two factors: $F_{02} = +3$ but $F_{12} = -3$, so $F_{02}F_{12} = -9$, and $-(g^{-1})^{22} = +1$ multiplies it.
+      - value: 0
+        feedback: |
+          Off-diagonal components of $T$ are the momentum density. Here $\mathbf{e}$ and $\mathbf{b}$ are perpendicular and equal, so the field carries momentum along $x^1$.
+    hint: '$T_{01} = -(g^{-1})^{22}F_{02}F_{12}$.'
+    explanation: |
+      $$T_{01} = -(-1)(3)(-3) = -9.$$
+      With lower indices, $T_{01} = -9$ means $T^{01} = (g^{-1})^{00}(g^{-1})^{11}T_{01} = +9$: a **positive** flow of energy along $x^1$, the direction in which the wave travels.
+
+  - type: numeric
+    id: p4-pressure
+    tag: Problem 4 · A plane light wave
+    title: Pressure along the beam
+    prompt: |
+      The same field ($F_{02} = 3$, $F_{12} = -3$, $F_{ab}\hat F^{ab}=0$, $g=\eta$) has $T_{00} = 9$. Compute $T_{11} = -(g^{-1})^{bd}F_{1b}F_{1d}$ (only $b=d=2$ contributes, with $(g^{-1})^{22}=-1$), and then the ratio $T_{11}/T_{00}$: the pressure along $x^1$ divided by the energy density.
+    answer: 1
+    wrong:
+      - value: 0.3333
+        feedback: |
+          That is $p/\rho = \tfrac13$ for radiation **averaged over all directions**. A single beam pushes only along its own direction, with full strength.
+      - value: 0
+        feedback: |
+          Light exerts radiation pressure: $T_{11} = (3)^2 = 9\neq0$.
+    hint: '$T_{11} = -(-1)(F_{12})^2 = 9$.'
+    explanation: |
+      $T_{11} = 9$, so $T_{11}/T_{00} = 1$. The full tensor is
+      $$T_{ab} = 9\,k_ak_b,\qquad k_a = (1,-1,0,0):$$
+      all of the energy flows along one null direction. Isotropic radiation, $p/\rho = \tfrac13$, is a sum of such beams over all directions.
+
+  - type: mcq
+    id: p4-traceless
+    tag: Problem 4 · A plane light wave
+    title: Trace and the wave
+    prompt: |
+      For the wave $T_{ab} = 9\,k_ak_b$ with $k_a = (1,-1,0,0)$, the trace is $T = (g^{-1})^{ab}T_{ab} = 9\,(1\cdot1^2 - 1\cdot1^2) = 0$. Which statement about this is correct?
+    options:
+      - text: 'It reflects $k$ being **null**, $(g^{-1})^{ab}k_ak_b = 0$; for any electromagnetic field the trace vanishes in four dimensions'
+        correct: true
+      - text: 'It happens only because $F_{ab}\hat F^{ab}=0$ on this wave'
+        feedback: |
+          The trace of the first term of $T_{mn}$ is $-F_{ab}\hat F^{ab}$ and that of the second is $+F_{ab}\hat F^{ab}$ (four times $\tfrac14$): they cancel for every $F$. A wave is special in having $F_{ab}\hat F^{ab}=0$ too, but that is not the reason for $T=0$.
+      - text: 'It means the wave carries no energy'
+        feedback: |
+          $T_{00} = 9 > 0$. The trace cancels because the pressure along the beam equals the energy density: $T_{00} - T_{11} = 0$.
+      - text: 'It means the wave does not curve spacetime'
+        feedback: |
+          $\mathrm{Ric}_{ab} = 8\pi G_N(T_{ab} - \tfrac12Tg_{ab}) = 8\pi G_NT_{ab}\neq0$. Only the Ricci scalar $R = -8\pi G_NT$ vanishes.
+    explanation: |
+      Light has $T=0$, so $R = 0$ in its presence, while $\mathrm{Ric}_{ab} = 8\pi G_NT_{ab}$ is nonzero: the wave curves spacetime without changing $R$.
+
+  - type: numeric
+    id: p4-conservation
+    tag: Problem 4 · A plane light wave
+    title: Which way can the beam move?
+    prompt: |
+      Let a beam have an energy density that varies along it, $T^{ab} = \rho(x^0,x^1)\,k^ak^b$ with the constant null vector $k^a = (1,1,0,0)$ (a beam moving towards **increasing** $x^1$). In Cartesian coordinates at $g=\eta$ all $\Gamma$ vanish, so $\nabla_aT^{a0} = \sum_a\partial_a(\rho\,k^a)\,k^0 = \partial_0\rho + \partial_1\rho$. Evaluate it at $x^0 = 1$, $x^1 = 2$ for $\rho = (x^0 + x^1)^2$.
+    answer: 12
+    wrong:
+      - value: 0
+        feedback: |
+          It vanishes for $\rho = (x^0 - x^1)^2$, a pulse that moves along with the beam. For $(x^0+x^1)^2$ both derivatives equal $2(x^0+x^1) = 6$ and they add.
+      - value: 6
+        feedback: |
+          You counted one of the two derivatives. $\partial_0\rho = 6$ and $\partial_1\rho = 6$ at this event; the divergence is their sum.
+    hint: '$\partial_0\rho = \partial_1\rho = 2(x^0+x^1)$.'
+    explanation: |
+      $$\partial_0\rho + \partial_1\rho = 6 + 6 = 12 \neq 0.$$
+      Conservation $\nabla_aT^{ab}=0$ (forced by the Bianchi identity through $G=8\pi G_NT$) holds exactly when $\rho$ depends on $x^0 - x^1$ only: the pattern of energy must travel at the speed of light, along $k$. A profile $f(x^0+x^1)$ would belong to a beam moving the other way, with $k^a = (1,-1,0,0)$.
+
+  - type: numeric
+    id: p4-observer
+    tag: Problem 4 · A plane light wave
+    title: Chasing the light
+    prompt: |
+      The wave has $T_{ab} = 9\,k_ak_b$, $k_a = (1,-1,0,0)$, and $T = 0$, so the Einstein equation gives $\mathrm{Ric}_{ab} = 8\pi G_NT_{ab}$. An observer moves along the beam (towards increasing $x^1$) at speed $0.6$, with unit velocity $u^a = \gamma(1,0.6,0,0)$, $\gamma = 1.25$. In units where $8\pi G_N = 1$, compute $\mathrm{Ric}(u,u) = 9\,(k_au^a)^2$.
+    answer: 2.25
+    wrong:
+      - value: 9
+        feedback: |
+          That is the value for an observer at rest. The moving observer sees the wave with a smaller (Doppler-shifted) energy: $k_au^a = 1.25 - 0.75 = 0.5$.
+      - value: 14.0625
+        feedback: |
+          That is $9\gamma^2$, the factor for a pure time dilation. Light is not like a massive body: the Doppler factor is $k_au^a = \gamma(1-0.6) = 0.5$, not $\gamma$.
+      - value: 36
+        feedback: |
+          That is the observer **meeting** the beam head-on, with $k_au^a = \gamma(1+0.6) = 2$. Here the observer runs away along it, so the light is redshifted.
+    hint: '$k_au^a = 1\cdot1.25 + (-1)(0.75)$.'
+    explanation: |
+      $$k_au^a = 1.25 - 0.75 = 0.5,\qquad 9\cdot0.5^2 = 2.25.$$
+      The measured energy density scales with the square of the Doppler factor $\sqrt{(1-0.6)/(1+0.6)} = 0.5$. At speed $0.6$ the observer measures $1/4$ of the energy density; as the speed tends to $1$ it tends to $0$, but never reaches it.
+
+  - type: mcq
+    id: p4-rest
+    tag: Problem 4 · A plane light wave
+    title: A frame in which the light is at rest?
+    prompt: |
+      For the wave $T_{ab} = 9\,k_ak_b$, an observer with unit timelike velocity $u$ measures $T(u,u) = 9\,(k_au^a)^2$. Could some observer find $T(u,u) = 0$, a frame where the wave has disappeared?
+    options:
+      - text: 'No: for a null $k\neq0$ and a timelike $u$, $k_au^a\neq0$, so $T(u,u)>0$ for every observer; only the amount changes'
+        correct: true
+      - text: 'Yes: an observer moving along the beam fast enough sees the light at rest'
+        feedback: |
+          Observer speeds satisfy $|v|<1$ and light moves at the limiting speed $1$ for every observer. As $v\to1$ the measured energy density tends to $0$ but is positive for all $v<1$.
+      - text: 'Yes: a frame exists because $T=0$'
+        feedback: |
+          The vanishing trace says nothing about $T(u,u)$, which is the square of a nonzero number.
+    explanation: |
+      A null vector is never orthogonal to a timelike one in signature $(+,-,-,-)$: in the frame of $u$, $k_au^a = k_0$ is the energy of the light, positive. So an electromagnetic field with $F\neq0$ never has $T(u,u)=0$: there is no rest frame of light.
+
+  - type: text
+    id: p4-wrap
+    tag: Problem 4 · A plane light wave
+    title: What this problem showed
+    body: |
+      From $\mathcal{L}_{\mathrm{EM}}$ alone we got a tensor
+      $$T_{ab} = \rho\,k_ak_b,\qquad (g^{-1})^{ab}k_ak_b = 0,$$
+      with $T_{00}\geq0$, trace $0$, pressure along the beam equal to the energy density, and conservation forcing the pattern to move at the speed of light. Its source for gravity is $\mathrm{Ric}_{ab} = 8\pi G_NT_{ab}$, nonzero for every observer. Next, a metric whose Ricci tensor is exactly that of an electric field.
+
+
+  # ---------------------------------------------------------------- Wrap-up
+  - type: text
+    id: wrap-up
+    title: What you now own
+    body: |
+      Problems 3 and 4, part 2 of 3 of the level challenge. Notation: $\mathrm{Ric}$ is the Ricci tensor, $T$ the energy-momentum tensor with trace $T = (g^{-1})^{ab}T_{ab}$, $G_N$ Newton's constant, $\rho$ the energy density and $p$ the pressure. The formulas to keep:
+
+      **3. Who gravitates**: the trace of $G_{ab} = 8\pi G_N T_{ab}$ gives
+      $$\mathrm{Ric}_{ab} = 8\pi G_N\big(T_{ab} - \tfrac12T\,g_{ab}\big),$$
+      and for a fluid at rest with energy density $\rho$ and pressure $p$,
+      $$\mathrm{Ric}_{00} = 4\pi G_N(\rho+3p),$$
+      so light attracts twice as hard as dust and vacuum energy repels.
+
+      **4. Light**: the electromagnetic tensor is traceless, and for a plane wave
+      $$T_{ab} = \rho\,k_ak_b,\quad k\ \text{null},$$
+      ($k$ a covector with $g^{-1}(k,k)=0$, $\rho$ the energy density)
+      with conservation forcing its pattern to move at the speed of light.
+
+      **Next:** part 3 of the Level Challenge: static clocks outside a star, and a modified metric whose Ricci tensor is that of an electric field.

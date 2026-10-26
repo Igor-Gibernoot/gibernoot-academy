@@ -1,0 +1,213 @@
+id: ch06-challenge-3
+title: Level Challenge · Part 3
+kind: challenge
+
+# Organization: intro, one block per problem (cards tagged "Problem N · …", ids
+# prefixed pN-), then wrap-up. The Level Challenge is split in 3 parts of at most
+# 32 cards; part 3 holds problem 5.
+
+cards:
+  - type: text
+    id: intro
+    title: Normal coordinates
+    body: |
+      This challenge pushes each idea of the level to its edge. It comes in 3 parts; this is part 3 (problem 5). Keep pencil and paper at hand: every answer can be checked by hand. Einstein summation is on.
+
+
+      Recall the toolkit. The plane has points $(a,b)$, the cartesian chart $\mathscr{X}$ with basis fields $\partial x_1 = \partial/\partial a$, $\partial x_2 = \partial/\partial b$, and the polar chart $\mathscr{Y} = (r,\theta)$ with $\partial y_1 = \partial/\partial r$, $\partial y_2 = \partial/\partial\theta$. A connection $\nabla$ has, in a chart, the coefficient functions $\Gamma^i_{jk}$ defined by
+      $$\nabla_{\partial x_k}\partial x_j = \Gamma^i_{jk}\,\partial x_i$$
+      (the **last** lower index is the direction). A curve $\gamma$ with components $\gamma^k(\lambda)$ and velocity $v_\gamma$ (components $\dot\gamma^k$, dot $= d/d\lambda$) has acceleration $a_\gamma := \nabla_{v_\gamma}v_\gamma$ with components
+      $$a^k_\gamma = \ddot\gamma^k + \Gamma^k_{ji}\,\dot\gamma^i\dot\gamma^j.$$
+      It is **autoparallel** (a straightest curve) if $a_\gamma = \text{ᚱ}\,v_\gamma$ for some function $\text{ᚱ}(\lambda)$, and **autoparallelly transported** if $a_\gamma = 0$. A vector $\mathcal{Z}$ with components $z^k$ is transported along $\gamma$ when
+      $$\dot z^k + \Gamma^k_{ji}\,z^j\dot\gamma^i = 0.$$
+      Torsion and curvature have components
+      $$\mathtt{T}^i_{jk} = \Gamma^i_{kj} - \Gamma^i_{jk},$$
+      $$\begin{aligned}\mathrm{Riem}^i_{jkm} &= \partial x_k\lfloor\Gamma^i_{jm}\rceil - \partial x_m\lfloor\Gamma^i_{jk}\rceil\\ &\quad + \Gamma^i_{nk}\Gamma^n_{jm} - \Gamma^i_{nm}\Gamma^n_{jk}.\end{aligned}$$
+      Three connections recur: $\nabla^{\mathrm{E}}$ (all cartesian coefficients zero), $\nabla^{\mathrm{W}}$ (the unit radial and angular fields declared parallel) and $\nabla^{\kappa}$ (single cartesian coefficient $\Gamma^1_{22} = \kappa\,a$).
+
+
+      5. Normal coordinates: removing every $\Gamma$ at a point, and the curvature that survives.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: text
+    id: p5-setup
+    tag: Problem 5 · Normal coordinates
+    title: Falling in a curved plane
+    body: |
+      An astronaut in a freely falling cabin feels no gravity: dropped crumbs float beside her. Yet, over minutes, two crumbs released side by side slowly drift apart or together: the **tides**. Something can be switched off, something cannot. Here is the mathematical version.
+
+      On the plane, $\nabla^{\kappa}$ has the single cartesian coefficient $\Gamma^1_{22} = \kappa\,a$ ($\kappa$ a nonzero constant). It is torsion free and curved:
+      $$\mathrm{Riem}^1_{212} = \kappa.$$
+      At $p = (1,0)$ its only nonzero coefficient is $\Gamma^1_{22}(p) = \kappa$.
+
+      **Guess:**
+      - Can a new chart make **all** coefficients vanish at $p$?
+      - On a whole neighbourhood of $p$?
+      - Can it make $\mathrm{Riem}^1_{212}(p)$ vanish?
+
+  - type: text
+    id: p5-recipe
+    tag: Problem 5 · Normal coordinates
+    title: The recipe
+    body: |
+      Recall the transformation law of the coefficients, from a chart $\mathscr{X}$ to a chart $\mathscr{Y}$:
+      $$\begin{aligned}(\Gamma_\mathscr{Y})^i_{jk} &= \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^s}\frac{\partial^2\mathscr{X}^s}{\partial\mathscr{Y}^k\partial\mathscr{Y}^j}\\ &\quad + \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^l}\frac{\partial\mathscr{X}^s}{\partial\mathscr{Y}^j}\frac{\partial\mathscr{X}^m}{\partial\mathscr{Y}^k}(\Gamma_\mathscr{X})^l_{sm}\end{aligned}$$
+      The inhomogeneous first term is a tool: pick a chart whose Jacobian is the identity at $p$ and whose second derivatives cancel the $\Gamma$'s there. With $\bar x^i$ the cartesian coordinates shifted to vanish at $p$ and $\Gamma^i_{(jk)} := \tfrac12(\Gamma^i_{jk} + \Gamma^i_{kj})$ the symmetric part, the recipe is
+      $$\mathscr{Y}^i = \bar x^i + \tfrac12\,\Gamma^i_{(jk)}(p)\,\bar x^j\bar x^k.$$
+      For $\nabla^{\kappa}$ at $p = (1,0)$: $\bar x = (a - 1,\ b)$ and only $\Gamma^1_{22}(p) = \kappa$, so the new chart $\mathscr{Y} = (u,v)$ is
+      $$u = (a - 1) + \tfrac\kappa2\,b^2,$$
+      $$v = b.$$
+      Its coordinate curves $v = \text{const}$ are horizontal lines, and $u = \text{const}$ are parabolas opening to the left.
+
+  - type: build
+    id: p5-inverse
+    tag: Problem 5 · Normal coordinates
+    title: Back to the plane
+    prompt: |
+      On the plane, the chart $\mathscr{Y} = (u,v)$ adapted to $\nabla^{\kappa}$ at $p = (1,0)$ is $u = (a - 1) + \tfrac\kappa2\,b^2$, $v = b$. Invert it: build $a$ as a function of $u, v$.
+    prefix: 'a ='
+    tiles: ['1 + u', '-\,\tfrac\kappa2\,v^2', '+\,\tfrac\kappa2\,v^2', '-\,\kappa\,v^2', '1 - u']
+    answers:
+      - ['1 + u', '-\,\tfrac\kappa2\,v^2']
+    wrong:
+      - { answer: ['1 + u', '+\,\tfrac\kappa2\,v^2'], feedback: 'Solve $u = a - 1 + \tfrac\kappa2 b^2$ for $a$: the quadratic term moves to the other side with a minus sign, $a = 1 + u - \tfrac\kappa2 v^2$.' }
+      - { answer: ['1 + u', '-\,\kappa\,v^2'], feedback: 'The factor stays $\tfrac\kappa2$; only the sign flips. $\kappa$ will appear as a second derivative: $\partial^2a/\partial v^2 = -\kappa$.' }
+    hint: 'Use $b = v$ and solve the first equation for $a$.'
+    explanation: |
+      $$a = 1 + u - \tfrac\kappa2\,v^2,$$
+      $$b = v.$$
+      The Jacobians at $p$ ($u = v = 0$, $b = 0$) are both the identity, since $\partial u/\partial b = \kappa b$ and $\partial a/\partial v = -\kappa v$ vanish there. The only nonzero second derivative is
+      $$\frac{\partial^2a}{\partial v^2} = -\kappa.$$
+
+  - type: numeric
+    id: p5-law
+    tag: Problem 5 · Normal coordinates
+    title: The cancellation
+    prompt: |
+      On the plane take $\nabla^{\kappa}$ with $\kappa = 2$: single cartesian coefficient $\Gamma^1_{22} = 2a$. At $p = (1,0)$ use the chart $u = (a - 1) + b^2$, $v = b$, with inverse $a = 1 + u - v^2$, $b = v$. At $p$ both Jacobians are the identity, and the only nonzero second derivative is $\partial^2a/\partial v^2 = -2$. Using
+      $$\begin{aligned}(\Gamma_\mathscr{Y})^1_{22} &= \frac{\partial u}{\partial\mathscr{X}^s}\frac{\partial^2\mathscr{X}^s}{\partial v^2}\\ &\quad + \frac{\partial u}{\partial\mathscr{X}^l}\frac{\partial\mathscr{X}^s}{\partial v}\frac{\partial\mathscr{X}^m}{\partial v}(\Gamma_\mathscr{X})^l_{sm}\end{aligned}$$
+      compute $(\Gamma_\mathscr{Y})^1_{22}$ at $p$.
+    answer: 0
+    wrong:
+      - { value: -2, feedback: 'That is only the inhomogeneous term $1\cdot(-2)$. The tensor term adds $(\Gamma_\mathscr{X})^1_{22}(p) = 2\cdot1 = 2$ (identity Jacobians), and the two cancel.' }
+      - { value: 2, feedback: 'That is only the tensor term, $(\Gamma_\mathscr{X})^1_{22}(p) = 2$. The chart was built so that its second derivative $\partial^2a/\partial v^2 = -2$ cancels it.' }
+      - { value: 4, feedback: 'Check the sign of the second derivative: $a = 1 + u - v^2$ gives $\partial^2a/\partial v^2 = -2$, not $+2$. Then $-2 + 2 = 0$.' }
+    hint: 'At $p$, $\partial u/\partial\mathscr{X}^s = (1, 0)$ and $\partial\mathscr{X}^s/\partial v = (0, 1)$. The first term is $1\cdot(-2)$; the second is $(\Gamma_\mathscr{X})^1_{22}(p)$.'
+    explanation: |
+      $$(\Gamma_\mathscr{Y})^1_{22}(p) = -2 + 2\cdot1 = 0.$$
+      The other seven vanish at $p$ too: the inhomogeneous term needs a nonzero second derivative of $\mathscr{X}$ (only $\partial^2a/\partial v^2$), and with identity Jacobians the tensor term copies $(\Gamma_\mathscr{X})^i_{jk}(p)$, zero except $\Gamma^1_{22}$. **Every** coefficient of $\nabla^{\kappa}$ vanishes at $p$ in this chart.
+
+  - type: numeric
+    id: p5-away
+    tag: Problem 5 · Normal coordinates
+    title: Only at p
+    prompt: |
+      On the plane take $\nabla^{\kappa}$ with $\kappa = 2$ (single cartesian coefficient $\Gamma^1_{22} = 2a$, so $\nabla^{\kappa}_{\partial x_2}\partial x_2 = 2a\,\partial x_1$, all other $\nabla^{\kappa}_{\partial x_k}\partial x_j = 0$) and the chart $u = (a - 1) + b^2$, $v = b$. Its basis fields are
+      $$\partial y_1 = \partial x_1,$$
+      $$\partial y_2 = -2b\,\partial x_1 + \partial x_2.$$
+      Compute $(\Gamma_\mathscr{Y})^1_{22}$, the $\partial y_1$-component of $\nabla^{\kappa}_{\partial y_2}\partial y_2$, at the point $(a,b) = (2,0)$.
+    answer: 2
+    wrong:
+      - { value: 4, feedback: '$4 = 2a$ is the cartesian coefficient. The component $-2b$ of $\partial y_2$ also changes along $\partial y_2$: $\partial y_2\lfloor -2b\rceil = -2$, which subtracts $2$.' }
+      - { value: 0, feedback: 'The chart removes the coefficients at $p = (1,0)$ only. At $(2,0)$: $\nabla^{\kappa}_{\partial y_2}\partial y_2 = (-2 + 2a)\,\partial x_1 = 2\,\partial y_1$.' }
+    hint: |
+      Leibniz: $\nabla_{\partial y_2}(-2b\,\partial x_1) = \partial y_2\lfloor -2b\rceil\,\partial x_1 + (-2b)\,\nabla_{\partial y_2}\partial x_1$, and $\nabla_{\partial y_2}\partial x_2 = -2b\,\nabla_{\partial x_1}\partial x_2 + \nabla_{\partial x_2}\partial x_2$.
+    explanation: |
+      $\partial y_2\lfloor b\rceil = 1$, $\nabla^{\kappa}\partial x_1 = 0$ in every direction, and $\nabla^{\kappa}_{\partial y_2}\partial x_2 = 2a\,\partial x_1$. So
+      $$\nabla^{\kappa}_{\partial y_2}\partial y_2 = (2a - 2)\,\partial y_1,$$
+      which is $2$ at $(2,0)$. For general $\kappa$ the single coefficient is, everywhere,
+      $$(\Gamma_\mathscr{Y})^1_{22} = \kappa(a - 1) = \kappa\big(u - \tfrac\kappa2 v^2\big),$$
+      zero at $p$, but with a nonzero $u$-derivative.
+
+  - type: numeric
+    id: p5-riem
+    tag: Problem 5 · Normal coordinates
+    title: What survives
+    prompt: |
+      On the plane, $\nabla^{\kappa}$ with $\kappa = 2$ has, in the chart $u = (a - 1) + b^2$, $v = b$, the single coefficient
+      $$(\Gamma_\mathscr{Y})^1_{22} = 2u - 2v^2,$$
+      which vanishes at $p = (1,0)$, where $u = v = 0$. Using
+      $$\begin{aligned}\mathrm{Riem}^i_{jkm} &= \partial y_k\lfloor\Gamma^i_{jm}\rceil - \partial y_m\lfloor\Gamma^i_{jk}\rceil\\ &\quad + \Gamma^i_{nk}\Gamma^n_{jm} - \Gamma^i_{nm}\Gamma^n_{jk}\end{aligned}$$
+      in this chart ($\partial y_1 = \partial/\partial u$), compute $\mathrm{Riem}^1_{212}$ at $p$.
+    answer: 2
+    wrong:
+      - { value: 0, feedback: 'All $\Gamma$''s vanish at $p$, so the quadratic terms do; but $\mathrm{Riem}$ also contains **derivatives** of the $\Gamma$''s, and $\partial y_1\lfloor 2u - 2v^2\rceil = 2$ at $p$.' }
+      - { value: -2, feedback: 'The derivative term with the plus sign is $\partial y_1\lfloor\Gamma^1_{22}\rceil$ (here $k = 1$, $m = 2$); the minus term $\partial y_2\lfloor\Gamma^1_{21}\rceil$ vanishes, since $\Gamma^1_{21} = 0$.' }
+    hint: 'With $i = 1$, $j = 2$, $k = 1$, $m = 2$, the first term is $\partial y_1\lfloor\Gamma^1_{22}\rceil$.'
+    explanation: |
+      $$\mathrm{Riem}^1_{212} = \partial_u(2u - 2v^2) - 0 + 0 - 0 = 2 = \kappa.$$
+      It had to be: $\mathrm{Riem}$ is a tensor, the Jacobians at $p$ are the identity, so its components at $p$ are the same in both charts, $\kappa$. A tensor that is nonzero at $p$ is nonzero in every chart. So no chart can make the $\Gamma$'s vanish on a whole neighbourhood of $p$: there $\mathrm{Riem}$ (built from the $\Gamma$'s and their derivatives) would vanish too.
+
+  - type: mcq
+    id: p5-what
+    tag: Problem 5 · Normal coordinates
+    title: What a chart can remove
+    multiple: true
+    prompt: |
+      A chart change alters connection coefficients by the inhomogeneous term $\frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^s}\frac{\partial^2\mathscr{X}^s}{\partial\mathscr{Y}^k\partial\mathscr{Y}^j}$, which is symmetric in $j, k$. On the plane, $\nabla^{\kappa}$ (cartesian $\Gamma^1_{22} = \kappa\,a$, $\kappa \neq 0$) is torsion free with $\mathrm{Riem}^1_{212} = \kappa$; $\nabla^{\mathrm{W}}$ (unit radial and angular fields parallel) is flat with nonzero torsion. Which can a suitable chart make vanish? Select all.
+    options:
+      - text: 'The symmetric part $\Gamma^i_{(jk)}$ of any connection, at one chosen point $p$'
+        correct: true
+      - text: 'All eight coefficients of $\nabla^{\kappa}$ at $p = (1,0)$'
+        correct: true
+      - text: 'All coefficients of $\nabla^{\kappa}$ on a whole neighbourhood of $p$'
+        feedback: |
+          Then $\mathrm{Riem}$, built from the $\Gamma$'s and their derivatives, would vanish on that neighbourhood. But $\mathrm{Riem}^1_{212} = \kappa \neq 0$ is a tensor component: nonzero in one chart means nonzero in every chart.
+      - text: 'All coefficients of $\nabla^{\mathrm{W}}$ at a point'
+        feedback: |
+          The inhomogeneous term is symmetric in $j, k$, so it cannot touch the antisymmetric part $\tfrac12(\Gamma^i_{jk} - \Gamma^i_{kj}) = -\tfrac12\mathtt{T}^i_{jk}$, a tensor. $\nabla^{\mathrm{W}}$ has $\mathtt{T}^2_{12} = \tfrac1r \neq 0$ in polar, so some coefficient survives at every point.
+      - text: '$\mathrm{Riem}^1_{212}$ of $\nabla^{\kappa}$ at $p$'
+        feedback: |
+          $\mathrm{Riem}$ is a tensor: its components at $p$ change by Jacobians, never from nonzero to zero. In the chart that kills every $\Gamma$ at $p$, $\mathrm{Riem}^1_{212}(p) = \partial_u\big(\kappa(u - \tfrac\kappa2v^2)\big) = \kappa$.
+    explanation: |
+      At one point a chart removes exactly the symmetric part of the $\Gamma$'s. What it cannot remove are tensors: the torsion (the antisymmetric part) and the curvature (built from **derivatives** of the $\Gamma$'s). The construction is the **normal coordinates** at $p$ (one common construction; another one builds them from the straightest curves through $p$).
+
+  - type: text
+    id: p5-physics
+    tag: Problem 5 · Normal coordinates
+    title: The equivalence principle
+    body: |
+      In the chart $(u,v)$ at $p$, the straightest-curve equation $\ddot\gamma^k + \Gamma^k_{ji}\dot\gamma^i\dot\gamma^j = 0$ reads, **at $p$**,
+      $$\ddot\gamma^k = 0.$$
+      
+      No acceleration at all, as in empty space. This is the cabin: in free fall, gravity disappears at a point.
+
+      The curvature is still there. Around a small loop of area $A$ (counterclockwise) near $p$, a transported vector changes by
+      $$\Delta z^1 \approx -\mathrm{Riem}^1_{212}\,z^2\,A,$$
+      and neighbouring straightest curves bend toward or away from each other. These are the crumbs drifting: **tidal effects are curvature**, and no choice of falling frame removes them.
+
+      This is the **equivalence principle**: locally (at a point), gravity looks like no gravity; what remains, the tides, is a tensor. Later levels make it physics: the metric (Level 7), gravity as a connection (Level 9), general relativity (Level 10).
+
+  - type: text
+    id: p5-own
+    tag: Problem 5 · Normal coordinates
+    title: What you now own
+    body: |
+      - Setting: $\nabla$ is a torsion-free connection and $p$ a point; $\bar x^i$ are the coordinates of any chart that vanish at $p$, $\Gamma^i_{(jk)}(p) := \tfrac12\big(\Gamma^i_{jk} + \Gamma^i_{kj}\big)(p)$ the symmetric part of the coefficients of $\nabla$ in that chart at $p$; $\nabla^{\kappa}$ is the connection on the plane (points $(a,b)$) with single cartesian coefficient $\Gamma^1_{22} = \kappa a$ ($\kappa$ a nonzero constant), and $p = (1,0)$.
+      - Normal coordinates at $p$, with $\bar x^i$ vanishing at $p$:
+      $$\mathscr{Y}^i = \bar x^i + \tfrac12\,\Gamma^i_{(jk)}(p)\,\bar x^j\bar x^k.$$
+      - For $\nabla^{\kappa}$ at $p = (1,0)$:
+      $$u = (a - 1) + \tfrac\kappa2\,b^2,\quad v = b,$$
+      $$a = 1 + u - \tfrac\kappa2\,v^2,$$
+      and $\partial^2a/\partial v^2 = -\kappa$ cancels $\Gamma^1_{22}(p) = \kappa$.
+      - The single coefficient in $(u,v)$:
+      $$(\Gamma_\mathscr{Y})^1_{22} = \kappa\big(u - \tfrac\kappa2v^2\big),$$
+      zero at $p$ only.
+      - What survives: $\mathrm{Riem}^1_{212} = \kappa$ (a tensor), and for connections with torsion the antisymmetric part $-\tfrac12\mathtt{T}^i_{jk}$.
+      - Equivalence principle: gravity vanishes at a point in free fall; tides are curvature.
+
+
+  # ---------------------------------------------------------------- Wrap-up
+  - type: text
+    id: wrap-up
+    title: What you now own
+    body: |
+      Problem 5, part 3 of 3 of the level challenge. Setting: the plane has points $(a,b)$ with cartesian chart; $\nabla^{\kappa}$ has the single cartesian coefficient $\Gamma^1_{22} = \kappa a$ ($\kappa$ a constant), $p = (1,0)$, $\mathrm{Riem}$ is curvature. The formulas to keep:
+
+      **5. Normal coordinates** $(u,v)$ for $\nabla^{\kappa}$ at $p = (1,0)$ ($\Gamma_\mathscr{Y}$ = coefficients in the chart $\mathscr{Y} = (u,v)$):
+      $$u = (a - 1) + \tfrac\kappa2\,b^2,\quad v = b,$$
+      $$(\Gamma_\mathscr{Y})^i_{jk}(p) = 0,$$
+      $$\mathrm{Riem}^1_{212} = \kappa.$$
+      The thread of the whole level: $\Gamma$'s depend on the chart; torsion and curvature do not.
+
+      **Next, Level 7: the metric.** So far a connection was a free choice: $\nabla^{\mathrm{E}}$, $\nabla^{\mathrm{W}}$, $\nabla^{\kappa}$, any of them plus any tensor. A ruler that measures lengths and angles changes that. Which connection does a ruler pick? The answer will be a single one, torsion free and keeping lengths of transported vectors: the **Levi-Civita connection**.

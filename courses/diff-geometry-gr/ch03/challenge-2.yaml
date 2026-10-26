@@ -1,0 +1,513 @@
+id: ch03-challenge-2
+title: Level Challenge · Part 2
+kind: challenge
+
+# Organization: intro, one block per problem (cards tagged "Problem N · …", ids
+# prefixed pN-), then wrap-up. The Level Challenge is split in 2 parts of at most
+# 32 cards; part 2 holds problems 3, 4 and 5.
+
+cards:
+  - type: text
+    id: intro
+    title: Structures, origins and doubling
+    body: |
+      This challenge pushes each idea of the level to its edge. It comes in 2 parts; this is part 2 (problems 3, 4 and 5). Keep pencil and paper at hand: every answer can be checked by hand.
+
+      Recall the toolkit. A **topological manifold** of dimension $d$ is a Hausdorff, second countable topological space in which every point has an open neighbourhood homeomorphic to an open set of $\mathbb{R}^d$. A **chart** $(\mathcal{U}, \mathscr{X})$ is such a homeomorphism $\mathscr{X}\colon\mathcal{U}\to\mathscr{X}(\mathcal{U})\subseteq\mathbb{R}^d$; an **atlas** is a set of charts covering the space; it is **smooth** when every transition map $\mathscr{Y}\circ\mathscr{X}^{-1}$ is $C^\infty$ (all derivatives exist and are continuous). A map $\phi$ between smooth manifolds is **smooth** when its representatives $\mathscr{Y}\circ\phi\circ\mathscr{X}^{-1}$ are $C^\infty$.
+
+      3. Two smooth structures on $\mathbb{R}$, one manifold.
+      4. The line with two origins: an atlas, yet no manifold.
+      5. Doubling the circle: smooth, but not a diffeomorphism.
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: text
+    id: p3-setup
+    tag: Problem 3 · Two structures on one line
+    title: Same set, two rulers
+    body: |
+      Take the set $\mathbb{R}$ with its standard topology and two one-chart atlases:
+
+      - $\mathbb{R}_x$: the chart $x(p) = p$;
+      - $\mathbb{R}_y$: the chart $y(p) = p^3$.
+
+      Both charts are homeomorphisms onto $\mathbb{R}$. Recall that they are **not** compatible: the transition $x\circ y^{-1}(b) = \sqrt[3]{b}$ has slope $\tfrac13 b^{-2/3}$, which blows up at $b = 0$. So $\mathbb{R}_x$ and $\mathbb{R}_y$ are different smooth structures on the same set.
+
+      Are they different **manifolds**? To show they are not, you must **construct** a diffeomorphism $\phi\colon\mathbb{R}_x\to\mathbb{R}_y$: a bijection with $\phi$ and $\phi^{-1}$ both smooth. The cleanest target is a representative equal to the identity,
+      $$y\circ\phi\circ x^{-1}(a) = a.$$
+
+  - type: mcq
+    id: p3-construct
+    tag: Problem 3 · Two structures on one line
+    prompt: |
+      On $\mathbb{R}$ take the smooth structures $\mathbb{R}_x$ (chart $x(p) = p$) and $\mathbb{R}_y$ (chart $y(p) = p^3$). You want a bijection $\phi\colon\mathbb{R}_x\to\mathbb{R}_y$ whose representative is the identity:
+      $$y\circ\phi\circ x^{-1}(a) = a$$
+      for every $a\in\mathbb{R}$. Which $\phi$ does this?
+    options:
+      - text: '$\phi(p) = \sqrt[3]{p}$'
+        correct: true
+      - text: '$\phi(p) = p^3$'
+        feedback: |
+          Its representative is $y(\phi(a)) = (a^3)^3 = a^9$. Smooth, but its inverse $b\mapsto b^{1/9}$ has an infinite slope at $0$, so this $\phi$ is not a diffeomorphism. Undo the cube in $y$ instead of adding another.
+      - text: '$\phi(p) = p$, the identity'
+        feedback: |
+          Its representative is $y(a) = a^3$, not $a$. The identity leaves points in place, so the cube in the chart $y$ remains.
+      - text: '$\phi(p) = 3p$'
+        feedback: |
+          Its representative is $y(3a) = 27a^3$. The goal needs $\phi(p)^3 = p$: $\phi$ must undo the cube, not scale.
+    explanation: |
+      With $x^{-1}(a) = a$, the condition reads $y(\phi(a)) = \phi(a)^3 = a$, so $\phi(a) = \sqrt[3]{a}$. In words: $\phi$ moves each point so that its $y$-reading after the move equals its $x$-reading before, $y\circ\phi = x$. As a real function $\sqrt[3]{p}$ has a vertical tangent at $0$, yet here it is the **good** map: what counts is its representative, not its formula.
+
+  - type: build
+    id: p3-inverse
+    tag: Problem 3 · Two structures on one line
+    prompt: |
+      On $\mathbb{R}$ take the smooth structures $\mathbb{R}_x$ (chart $x(p) = p$) and $\mathbb{R}_y$ (chart $y(p) = p^3$). The bijection $\phi\colon\mathbb{R}_x\to\mathbb{R}_y$, $\phi(p) = \sqrt[3]{p}$, has inverse $\phi^{-1}\colon\mathbb{R}_y\to\mathbb{R}_x$, $\phi^{-1}(q) = q^3$. Build the representative of $\phi^{-1}$: the composition that takes a $y$-coordinate $b$ to an $x$-coordinate.
+    prefix: 'b\mapsto'
+    suffix: '(b)'
+    tiles: ['x\circ', 'y\circ', '\phi^{-1}\circ', '\phi\circ', 'y^{-1}', 'x^{-1}']
+    answers:
+      - ['x\circ', '\phi^{-1}\circ', 'y^{-1}']
+    wrong:
+      - answer: ['y\circ', '\phi^{-1}\circ', 'x^{-1}']
+        feedback: |
+          The charts are in the wrong places. $\phi^{-1}$ starts in $\mathbb{R}_y$, so the coordinate $b$ is turned into a point by $y^{-1}$; it lands in $\mathbb{R}_x$, so the point is read by $x$.
+      - answer: ['x\circ', '\phi\circ', 'y^{-1}']
+        feedback: |
+          $\phi$ goes from $\mathbb{R}_x$ to $\mathbb{R}_y$, but after $y^{-1}$ you hold a point of $\mathbb{R}_y$. The map that starts there is $\phi^{-1}$.
+    hint: Read right to left. Coordinate to point in the source, apply the map, point to coordinate in the target.
+    explanation: |
+      $$\begin{aligned}
+      x\circ\phi^{-1}\circ y^{-1}(b) &= x\big(\phi^{-1}(\sqrt[3]{b})\big) \\
+      &= (\sqrt[3]{b})^3 = b.
+      \end{aligned}$$
+      Both representatives are the identity, so $\phi$ and $\phi^{-1}$ are smooth: $\phi$ is a diffeomorphism and $\mathbb{R}_x$, $\mathbb{R}_y$ are diffeomorphic.
+
+  - type: numeric
+    id: p3-id-slope
+    tag: Problem 3 · Two structures on one line
+    prompt: |
+      On $\mathbb{R}$ take the smooth structures $\mathbb{R}_x$ (chart $x(p) = p$) and $\mathbb{R}_y$ (chart $y(p) = p^3$). Now consider the identity $\text{id}(p) = p$ as a map $\mathbb{R}_x\to\mathbb{R}_y$. What is the derivative of its representative $y\circ\text{id}\circ x^{-1}$ at $a = 1$?
+    answer: 3
+    wrong:
+      - value: 1
+        feedback: |
+          The identity leaves points in place, but the representative also reads them with different charts: $y(\text{id}(x^{-1}(a))) = a^3$, not $a$.
+      - value: 0.3333333
+        tolerance: 0.002
+        feedback: |
+          That is the slope of $\sqrt[3]{b}$ at $1$, the representative of the identity in the **other** direction, $\mathbb{R}_y\to\mathbb{R}_x$. For $\mathbb{R}_x\to\mathbb{R}_y$, start with $x^{-1}$ and finish with $y$.
+    hint: '$y\circ\text{id}\circ x^{-1}(a) = a^3$.'
+    explanation: |
+      The representative is $a\mapsto a^3$, with derivative $3a^2 = 3$ at $a = 1$. It is $C^\infty$, so $\text{id}\colon\mathbb{R}_x\to\mathbb{R}_y$ **is** smooth. But its derivative is $0$ at $a = 0$: a warning sign for the inverse.
+
+  - type: mcq
+    id: p3-id-verdict
+    tag: Problem 3 · Two structures on one line
+    prompt: |
+      On $\mathbb{R}$ take the smooth structures $\mathbb{R}_x$ (chart $x(p) = p$) and $\mathbb{R}_y$ (chart $y(p) = p^3$). The map $\phi(p) = \sqrt[3]{p}$ is a diffeomorphism $\mathbb{R}_x\to\mathbb{R}_y$. What about the identity $\text{id}(p) = p$, from $\mathbb{R}_x$ to $\mathbb{R}_y$?
+    options:
+      - text: 'A smooth homeomorphism, but not a diffeomorphism: the representative of its inverse is $b\mapsto\sqrt[3]{b}$'
+        correct: true
+      - text: 'A diffeomorphism: the identity is always one'
+        feedback: |
+          The identity of a manifold to **itself** is a diffeomorphism. Here the two sides carry incompatible structures, so its inverse $\text{id}\colon\mathbb{R}_y\to\mathbb{R}_x$ has representative $x\circ y^{-1}(b) = \sqrt[3]{b}$, with infinite slope at $0$.
+      - text: 'Not smooth: its representative is $a\mapsto\sqrt[3]{a}$'
+        feedback: |
+          That is the representative of the identity in the **other** direction. From $\mathbb{R}_x$ to $\mathbb{R}_y$ it is $y\circ x^{-1}(a) = a^3$, which is smooth.
+      - text: 'Not even continuous, since the structures differ'
+        feedback: |
+          Both structures sit on the standard topology of $\mathbb{R}$, so the identity is a homeomorphism. The two structures disagree only about derivatives.
+    explanation: |
+      Smooth one way ($a\mapsto a^3$), not the other ($b\mapsto\sqrt[3]{b}$). So the obvious map fails while the less obvious $\phi = \sqrt[3]{\cdot}$ succeeds. Proving two manifolds diffeomorphic means finding the **right** map; one failed candidate proves nothing.
+
+  - type: mcq
+    id: p3-functions
+    tag: Problem 3 · Two structures on one line
+    multiple: true
+    prompt: |
+      On $\mathbb{R}$ take the smooth structure $\mathbb{R}_y$, generated by the single chart $y(p) = p^3$. A function $f\colon\mathbb{R}_y\to\mathbb{R}$ is smooth when its chart representative $f\circ y^{-1}(b) = f(\sqrt[3]{b})$ is $C^\infty$. Which of these functions are smooth on $\mathbb{R}_y$? Select all that apply.
+    options:
+      - text: '$f(p) = p^3$'
+        correct: true
+      - text: '$f(p) = p^6$'
+        correct: true
+      - text: '$f(p) = p$'
+        feedback: |
+          Its representative is $f(\sqrt[3]{b}) = \sqrt[3]{b}$, with infinite slope at $b = 0$. The function that is the chart on $\mathbb{R}_x$ is **not** smooth on $\mathbb{R}_y$.
+      - text: '$f(p) = p^2$'
+        feedback: |
+          Its representative is $(\sqrt[3]{b})^2 = b^{2/3}$, which has a cusp at $b = 0$ (slope $\tfrac23 b^{-1/3}$, infinite there). Smooth on $\mathbb{R}_x$, not on $\mathbb{R}_y$.
+      - text: '$f(p) = |p|^3$'
+        feedback: |
+          Its representative is $|\sqrt[3]{b}|^3 = |b|$, which has a corner at $0$. Being built from powers of $p$ is not enough: $f$ must be a smooth function **of $p^3$**.
+    explanation: |
+      The representatives are $b$, $b^2$, $\sqrt[3]{b}$, $b^{2/3}$, $|b|$; only the first two are $C^\infty$. The smooth functions on $\mathbb{R}_y$ are exactly $f(p) = h(p^3)$ with $h$ a smooth function of one variable. And the diffeomorphism $\phi(p) = \sqrt[3]{p}$ translates them: for $f(p) = h(p^3)$,
+      $$f\circ\phi(p) = h(p),$$
+      a smooth function on $\mathbb{R}_x$. $\phi$ matches the two lists of smooth functions one to one.
+
+  - type: mcq
+    id: p3-meaning
+    tag: Problem 3 · Two structures on one line
+    prompt: |
+      On $\mathbb{R}$ with its standard topology, $\mathbb{R}_x$ is generated by the chart $x(p) = p$ and $\mathbb{R}_y$ by $y(p) = p^3$. The charts are not compatible, yet $\phi(p) = \sqrt[3]{p}$ is a diffeomorphism $\mathbb{R}_x\to\mathbb{R}_y$. Which statement describes the situation correctly?
+    options:
+      - text: 'The two structures declare different functions on the set $\mathbb{R}$ smooth, but $\phi$ relabels the points so that one becomes the other: as smooth manifolds they are the same line'
+        correct: true
+      - text: '$\mathbb{R}_x$ and $\mathbb{R}_y$ have different open sets'
+        feedback: |
+          $y(p) = p^3$ is a homeomorphism of the standard topology, so both atlases live on the **same** topological space. A smooth structure is extra data on top of the topology; it can change while the open sets stay the same.
+      - text: '$\mathbb{R}_y$ has a defect at $0$, a point where calculus breaks down'
+        feedback: |
+          Every point of $\mathbb{R}_y$, including $0$, sits in the chart $y$, and calculus in that chart works everywhere. The trouble at $0$ appears only when $\mathbb{R}_y$ is **compared** with $\mathbb{R}_x$ through the identity map.
+      - text: '$\mathbb{R}_x$ and $\mathbb{R}_y$ are not diffeomorphic, since the identity fails to be a diffeomorphism'
+        feedback: |
+          "Diffeomorphic" asks whether **some** diffeomorphism exists. The identity fails, but $\phi(p) = \sqrt[3]{p}$ works, with both representatives equal to the identity.
+    explanation: |
+      "Different smooth structures" compares two atlases through the identity of the set: are their charts compatible? "Diffeomorphic" allows any bijection. The first can fail while the second holds, as here. The same trick works for **any** structure on $\mathbb{R}$ given by one chart $y\colon\mathbb{R}\to\mathbb{R}$ (a homeomorphism onto $\mathbb{R}$): take $\phi = y^{-1}$, so both representatives are $y\circ\phi\circ x^{-1}(a) = a$ and $x\circ\phi^{-1}\circ y^{-1}(b) = b$. Two deep theorems, far beyond this course and stated here without proof: even with atlases of many charts, every smooth structure on $\mathbb{R}$ is diffeomorphic to $\mathbb{R}_x$; elsewhere, structures that are not diffeomorphic do exist (exotic spheres in dimension $7$).
+
+  # ---------------------------------------------------------------- Problem 4
+  - type: text
+    id: p4-setup
+    tag: Problem 4 · The line with two origins
+    title: An atlas without a manifold
+    body: |
+      A particle moves along a line with velocity $1$: $\dot{x} = 1$, starting at $x = -1$ at time $-1$. At time $0$ it reaches the origin. Could physics allow **two** different continuations? On the space below, yes. Your job is to find which axiom of a manifold forbids it.
+
+      Take two copies of the real line, copy $A$ and copy $B$, and **glue** them: identify each $t\neq 0$ of copy $A$ with the same $t$ of copy $B$. Only the two origins stay apart, as two different points $0_A$ and $0_B$:
+      $$\mathcal{M} = (\mathbb{R}\setminus\{0\})\cup\{0_A, 0_B\}.$$
+      Copy $A$ becomes $\mathcal{U}_A = \mathcal{M}\setminus\{0_B\}$, with the map $\mathscr{X}_A(t) = t$ for $t\neq 0$ and $\mathscr{X}_A(0_A) = 0$; copy $B$ becomes $\mathcal{U}_B = \mathcal{M}\setminus\{0_A\}$, with $\mathscr{X}_B$ defined the same way using $0_B$.
+
+      A set $\mathcal{W}\subseteq\mathcal{M}$ is **open** when both readings are open in $\mathbb{R}$: $\mathscr{X}_A(\mathcal{W}\cap\mathcal{U}_A)$ and $\mathscr{X}_B(\mathcal{W}\cap\mathcal{U}_B)$.
+
+  - type: mcq
+    id: p4-chart
+    tag: Problem 4 · The line with two origins
+    prompt: |
+      The line with two origins is $\mathcal{M} = (\mathbb{R}\setminus\{0\})\cup\{0_A, 0_B\}$, where $\mathcal{W}\subseteq\mathcal{M}$ is open when both readings $\mathscr{X}_A(\mathcal{W}\cap\mathcal{U}_A)$ and $\mathscr{X}_B(\mathcal{W}\cap\mathcal{U}_B)$ are open in $\mathbb{R}$. Here $\mathcal{U}_A = \mathcal{M}\setminus\{0_B\}$, $\mathscr{X}_A(t) = t$ for $t\neq 0$ and $\mathscr{X}_A(0_A) = 0$ (and likewise for $B$). Is $(\mathcal{U}_A, \mathscr{X}_A)$ a chart?
+    options:
+      - text: 'Yes: $\mathcal{U}_A$ is open and $\mathscr{X}_A$ is a homeomorphism onto all of $\mathbb{R}$'
+        correct: true
+      - text: 'No: $\mathcal{U}_A$ is not open, because it leaves out the origin $0_B$'
+        feedback: |
+          Apply the test. The $A$-reading of $\mathcal{U}_A$ is $\mathbb{R}$, open. The $B$-reading is $\mathscr{X}_B(\mathcal{U}_A\cap\mathcal{U}_B) = \mathbb{R}\setminus\{0\}$, open too. Leaving out one point does no harm, just as $\mathbb{R}\setminus\{0\}$ is open in $\mathbb{R}$.
+      - text: 'No: $0_A$ and $0_B$ both go to $0$, so the map is not injective'
+        feedback: |
+          That would be a map defined on all of $\mathcal{M}$. $\mathscr{X}_A$ is defined only on $\mathcal{U}_A$, which contains a single origin, $0_A$. On $\mathcal{U}_A$ it is a bijection onto $\mathbb{R}$.
+      - text: 'No: its image is $\mathbb{R}\setminus\{0\}$, since the origin was removed from the line'
+        feedback: |
+          The ordinary $0$ was removed, but $0_A$ took its place, and $\mathscr{X}_A(0_A) = 0$. The image is all of $\mathbb{R}$.
+    explanation: |
+      $\mathscr{X}_A$ is a bijection $\mathcal{U}_A\to\mathbb{R}$. For $\mathcal{V}\subseteq\mathcal{U}_A$, its $B$-reading is its $A$-reading with $0$ removed, so $\mathcal{V}$ is open in $\mathcal{M}$ exactly when $\mathscr{X}_A(\mathcal{V})$ is open in $\mathbb{R}$: $\mathscr{X}_A$ and its inverse both carry open sets to open sets. The same holds for $(\mathcal{U}_B, \mathscr{X}_B)$, and the two domains cover $\mathcal{M}$. Every point, both origins included, has a neighbourhood homeomorphic to $\mathbb{R}$.
+
+  - type: build
+    id: p4-overlap
+    tag: Problem 4 · The line with two origins
+    prompt: |
+      On the line with two origins $\mathcal{M} = (\mathbb{R}\setminus\{0\})\cup\{0_A, 0_B\}$, the chart $\mathscr{X}_A$ lives on $\mathcal{U}_A = \mathcal{M}\setminus\{0_B\}$ and $\mathscr{X}_B$ on $\mathcal{U}_B = \mathcal{M}\setminus\{0_A\}$; both read $t\neq 0$ as $t$ and their own origin as $0$. Build the domain of the transition map $\mathscr{X}_B\circ\mathscr{X}_A^{-1}$: the coordinates of the points in both chart domains.
+    prefix: '\mathscr{X}_A(\mathcal{U}_A\cap\mathcal{U}_B) ='
+    tiles: ['\mathbb{R}', '\setminus', '\{0\}', '\{0_A, 0_B\}', '\{0_A\}']
+    answers:
+      - ['\mathbb{R}', '\setminus', '\{0\}']
+    wrong:
+      - answer: ['\mathbb{R}']
+        feedback: |
+          $0_A$ lies in $\mathcal{U}_A$ but not in $\mathcal{U}_B = \mathcal{M}\setminus\{0_A\}$, so its coordinate $0$ is not in the overlap's image.
+      - answer: ['\mathbb{R}', '\setminus', '\{0_A, 0_B\}']
+        feedback: |
+          $0_A$ and $0_B$ are points of $\mathcal{M}$, not numbers. $\mathscr{X}_A(\dots)$ is a set of real numbers, so remove the number $0$.
+      - answer: ['\mathbb{R}', '\setminus', '\{0_A\}']
+        feedback: |
+          $0_A$ is a point of $\mathcal{M}$, not a number. $\mathscr{X}_A(\dots)$ is a set of real numbers, so remove the number $0$.
+    hint: Which points lie in both $\mathcal{M}\setminus\{0_B\}$ and $\mathcal{M}\setminus\{0_A\}$? Then read them with $\mathscr{X}_A$.
+    explanation: |
+      The overlap is $\mathcal{M}\setminus\{0_A, 0_B\}$, the glued points $t\neq 0$, and its image is $\mathbb{R}\setminus\{0\}$, an open set. There both charts read $t$ as $t$:
+      $$\mathscr{X}_B\circ\mathscr{X}_A^{-1}(t) = t,$$
+      which is $C^\infty$, with $C^\infty$ inverse. So $\{(\mathcal{U}_A, \mathscr{X}_A), (\mathcal{U}_B, \mathscr{X}_B)\}$ is a **smooth atlas**: every chart-level test passes.
+
+  - type: numeric
+    id: p4-tail
+    tag: Problem 4 · The line with two origins
+    prompt: |
+      On the line with two origins $\mathcal{M} = (\mathbb{R}\setminus\{0\})\cup\{0_A, 0_B\}$, the set
+      $$\mathcal{W}_A = (-0.01, 0)\cup(0, 0.01)\cup\{0_A\}$$
+      is open and contains $0_A$: the chart $\mathscr{X}_A$ reads it as the interval $(-0.01, 0.01)$. Take the sequence $p_n = \tfrac1n$, $n = 1, 2, 3, \dots$ (points $t\neq 0$ of $\mathcal{M}$). What is the smallest $n$ with $p_n\in\mathcal{W}_A$?
+    answer: 101
+    wrong:
+      - value: 100
+        feedback: |
+          $\tfrac1{100} = 0.01$ is the endpoint of the interval, and the interval is open: $0.01\notin(0, 0.01)$. You need $\tfrac1n < 0.01$ strictly.
+    hint: '$\tfrac1n < 0.01$ means $n > 100$.'
+    explanation: |
+      $\tfrac1n < 0.01$ holds exactly for $n > 100$, so the first term inside is $p_{101}$, and every later term is inside too. Now take $\mathcal{W}_B = (-0.01, 0)\cup(0, 0.01)\cup\{0_B\}$ around $0_B$: no term of the sequence is an origin, so the very same terms, from $n = 101$ on, lie in $\mathcal{W}_B$. The sequence cannot tell the origins apart.
+
+  - type: mcq
+    id: p4-limits
+    tag: Problem 4 · The line with two origins
+    multiple: true
+    prompt: |
+      On the line with two origins $\mathcal{M} = (\mathbb{R}\setminus\{0\})\cup\{0_A, 0_B\}$, every open set containing $0_A$ contains a punctured interval $(-r, 0)\cup(0, r)$, and likewise for $0_B$; the sets $\mathcal{U}_A = \mathcal{M}\setminus\{0_B\}$ and $\mathcal{U}_B = \mathcal{M}\setminus\{0_A\}$ are open. A sequence **converges** to $p$ when every open set containing $p$ contains all its terms from some index on. Which statements are true? Select all that apply.
+    options:
+      - text: '$p_n = \tfrac1n$ converges to $0_A$'
+        correct: true
+      - text: '$p_n = \tfrac1n$ converges to $0_B$'
+        correct: true
+      - text: '$p_n = -\tfrac1n$ converges to $0_A$ only, since it approaches from the other side'
+        feedback: |
+          Both origins are approached from both sides: every open set around $0_A$ **and** every open set around $0_B$ contains some $(-r, 0)$, which traps the tail $-\tfrac1n$. Copies $A$ and $B$ are not left and right; each is a whole line.
+      - text: 'The constant sequence $p_n = 0_A$ converges to $0_B$'
+        feedback: |
+          $\mathcal{U}_B = \mathcal{M}\setminus\{0_A\}$ is an open set containing $0_B$ and no term of this sequence. Each origin can be fenced off from the other **alone**; what fails is fencing both with two disjoint open sets.
+    explanation: |
+      Both $\pm\tfrac1n$ converge to $0_A$ and to $0_B$: limits are not unique. In $\mathbb{R}^d$ a limit is unique, and the proof uses exactly the property that fails here, disjoint neighbourhoods. Back to the particle with $\dot{x} = 1$: its path $x(\tau) = \tau$ for $\tau < 0$ tends to both origins at time $0$, so it may continue through either one, and the motion is no longer determined.
+
+  - type: order
+    id: p4-proof
+    tag: Problem 4 · The line with two origins
+    prompt: |
+      On the line with two origins $\mathcal{M} = (\mathbb{R}\setminus\{0\})\cup\{0_A, 0_B\}$, the chart $\mathscr{X}_A$ is a homeomorphism from the open set $\mathcal{U}_A = \mathcal{M}\setminus\{0_B\}$ onto $\mathbb{R}$, with $\mathscr{X}_A(0_A) = 0$ and $\mathscr{X}_A(t) = t$ otherwise; likewise $\mathscr{X}_B$ on $\mathcal{U}_B = \mathcal{M}\setminus\{0_A\}$. Put in order the proof that $0_A$ and $0_B$ have no disjoint open neighbourhoods.
+    steps:
+      - 'Let $\mathcal{W}_A\ni 0_A$ and $\mathcal{W}_B\ni 0_B$ be any two open sets of $\mathcal{M}$.'
+      - '$\mathcal{W}_A\cap\mathcal{U}_A$ is open, so its image under the homeomorphism $\mathscr{X}_A$ is an open set of $\mathbb{R}$ containing $0$.'
+      - 'That image contains an interval $(-r_A, r_A)$, so $\mathcal{W}_A$ contains every $t$ with $0 < |t| < r_A$.'
+      - 'The same argument with $\mathscr{X}_B$ gives $r_B > 0$ such that $\mathcal{W}_B$ contains every $t$ with $0 < |t| < r_B$.'
+      - 'The point $t = \tfrac12\min(r_A, r_B)$ lies in both, so $\mathcal{W}_A\cap\mathcal{W}_B$ is not empty: $\mathcal{M}$ is not Hausdorff.'
+    hint: Start from two arbitrary open sets; read each one in its own chart; then find a common point.
+    explanation: |
+      The proof runs entirely on the charts. Each chart controls the neighbourhoods of **its** origin and forces them to contain a punctured interval; and because the transition is $t\mapsto t$, the two punctured intervals are made of the same points. Two neighbourhoods of the origins always share the points $t$ close to $0$.
+
+  - type: mcq
+    id: p4-which-fails
+    tag: Problem 4 · The line with two origins
+    prompt: |
+      The line with two origins $\mathcal{M} = (\mathbb{R}\setminus\{0\})\cup\{0_A, 0_B\}$ carries the atlas $\{(\mathcal{U}_A, \mathscr{X}_A), (\mathcal{U}_B, \mathscr{X}_B)\}$, one chart per copy of $\mathbb{R}$, each a homeomorphism onto $\mathbb{R}$, with transition $t\mapsto t$ on $\mathbb{R}\setminus\{0\}$; and $0_A$, $0_B$ cannot be separated by disjoint open sets. Which requirement of a smooth manifold fails?
+    options:
+      - text: Hausdorff
+        correct: true
+      - text: The transition maps must be smooth
+        feedback: |
+          The only transitions are $t\mapsto t$ on $\mathbb{R}\setminus\{0\}$, $C^\infty$ both ways. The atlas is perfectly smooth; nothing in it notices the problem.
+      - text: Second countable
+        feedback: |
+          Take the intervals $(a, b)$ with rational $a < b$ and pull them back through $\mathscr{X}_A$ and through $\mathscr{X}_B$: two countable lists of open sets. Any open set, read in either chart, is a union of rational intervals, so these form a countable basis.
+      - text: Every point needs a chart around it, and $0_B$ has none
+        feedback: |
+          $(\mathcal{U}_B, \mathscr{X}_B)$ is a chart around $0_B$, with $\mathscr{X}_B(0_B) = 0$. Both origins have neighbourhoods homeomorphic to $\mathbb{R}$.
+    explanation: |
+      Charts only describe the neighbourhood of **one** point at a time. Hausdorff is a condition on **pairs** of points, and the pair $0_A$, $0_B$ lies in no common chart: $\mathcal{U}_A$ misses $0_B$ and $\mathcal{U}_B$ misses $0_A$. That is why the definition of a manifold lists Hausdorff separately, on top of the atlas.
+
+  - type: mcq
+    id: p4-trap-inherit
+    tag: Problem 4 · The line with two origins
+    prompt: |
+      The line with two origins $\mathcal{M} = (\mathbb{R}\setminus\{0\})\cup\{0_A, 0_B\}$ is covered by two charts, each a homeomorphism from one copy of the line onto $\mathbb{R}$. A student argues: "Every subset of $\mathbb{R}^d$, with the inherited topology, is Hausdorff. $\mathcal{M}$ is covered by charts onto $\mathbb{R}$, so it is Hausdorff too." Where does the argument break?
+    options:
+      - text: 'Inheritance needs the whole space inside one $\mathbb{R}^d$; $\mathcal{M}$ is only pieced together from copies of $\mathbb{R}$, and no single chart contains both $0_A$ and $0_B$'
+        correct: true
+      - text: 'Nowhere: $\mathcal{U}_A\ni 0_A$ and $\mathcal{U}_B\ni 0_B$ are open sets separating the origins'
+        feedback: |
+          Separating needs **disjoint** open sets, and $\mathcal{U}_A\cap\mathcal{U}_B = \mathbb{R}\setminus\{0\}$ is far from empty. In fact every open set around $0_A$ meets every open set around $0_B$.
+      - text: 'The first sentence is false: subsets of $\mathbb{R}^d$ need not be Hausdorff'
+        feedback: |
+          It is true. Two distinct points of a subset $S$ have disjoint balls $B_1, B_2$ in $\mathbb{R}^d$, and $S\cap B_1$, $S\cap B_2$ are disjoint open sets of $S$ separating them.
+      - text: 'The charts are not homeomorphisms, so they transfer nothing'
+        feedback: |
+          They are homeomorphisms: a subset $\mathcal{V}\subseteq\mathcal{U}_A$ is open in $\mathcal{M}$ exactly when $\mathscr{X}_A(\mathcal{V})$ is open in $\mathbb{R}$.
+    explanation: |
+      The argument does work **inside** each chart domain: $\mathcal{U}_A$ is homeomorphic to $\mathbb{R}$, hence Hausdorff, so any two points of $\mathcal{U}_A$ are separated, and likewise in $\mathcal{U}_B$. The only pair that escapes is $0_A$, $0_B$, which share no chart domain. Local copies of $\mathbb{R}$ do not add up to a subset of $\mathbb{R}$: there is no single map sending all of $\mathcal{M}$ injectively into $\mathbb{R}$ that is a homeomorphism onto its image.
+
+  - type: mcq
+    id: p4-embed
+    tag: Problem 4 · The line with two origins
+    shuffle: false
+    prompt: |
+      The line with two origins $\mathcal{M} = (\mathbb{R}\setminus\{0\})\cup\{0_A, 0_B\}$ is a space in which every open set around $0_A$ meets every open set around $0_B$. True or false: some subset $S\subseteq\mathbb{R}^2$, with the topology inherited from $\mathbb{R}^2$, is homeomorphic to $\mathcal{M}$ (for instance, a line with its origin replaced by two points drawn one above the other).
+    options:
+      - text: 'True'
+        feedback: |
+          The drawing is tempting, but test it. In $S = (\mathbb{R}\setminus\{0\})\times\{0\}\cup\{(0, 0.1), (0, -0.1)\}$ the two stacked points have disjoint balls of radius $0.1$, and $(\tfrac1n, 0)$ converges to neither of them. Every subset of $\mathbb{R}^2$ is Hausdorff, and a homeomorphism carries disjoint open sets to disjoint open sets, so no subset of the plane can behave like $\mathcal{M}$.
+      - text: 'False'
+        correct: true
+    explanation: |
+      Hausdorff is a **topological** property: a homeomorphism carries a pair of disjoint open sets to a pair of disjoint open sets. Every subset of any $\mathbb{R}^N$ is Hausdorff, so $\mathcal{M}$ sits faithfully in none of them, and every picture of it is misleading. For contrast, a theorem stated here without proof (Whitney's embedding theorem): every smooth manifold, with both global conditions, does fit inside some $\mathbb{R}^N$.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: text
+    id: p5-setup
+    tag: Problem 5 · Doubling the circle
+    title: Wrapping the circle twice
+    body: |
+      The **doubling map** $D\colon S^1\to S^1$ sends the point at angle $t$ to the point at angle $2t$:
+      $$D(\cos t, \sin t) = (\cos 2t, \sin 2t).$$
+      In complex numbers, writing a point $q = (q_1, q_2)$ as $q_1 + i\,q_2$ with $|q| = 1$, it is $q\mapsto q^2$: squaring doubles the angle. It wraps the circle around itself twice.
+
+      Recall the two angle charts: $\theta\in(0, 2\pi)$ on $S^1\setminus\{(1, 0)\}$ and $\varphi\in(-\pi, \pi)$ on $S^1\setminus\{(-1, 0)\}$. On the overlap, $\varphi = \theta$ on the upper half and $\varphi = \theta - 2\pi$ on the lower half.
+
+      Read with $\theta$ on both sides, $D$ has representative $2\theta$ on $(0, \pi)$ and $2\theta - 2\pi$ on $(\pi, 2\pi)$. The point $\theta = \pi$ dropped out, since $D(-1, 0) = (1, 0)$ is the point $\theta$ misses. Smoothness must hold at **every** point, so that one still needs a check. Is $D$ smooth everywhere? Is it a diffeomorphism?
+
+  - type: mcq
+    id: p5-domain
+    tag: Problem 5 · Doubling the circle
+    prompt: |
+      The doubling map $D\colon S^1\to S^1$ sends the point at angle $t$ to the point at angle $2t$. Read it with the chart $\theta\in(0, 2\pi)$ (on $S^1\setminus\{(1, 0)\}$) at the source and the chart $\varphi\in(-\pi, \pi)$ (on $S^1\setminus\{(-1, 0)\}$) at the target. The representative $\varphi\circ D\circ\theta^{-1}$ needs $D(p)$ to lie in the domain of $\varphi$. Which values of $\theta$ must be removed from $(0, 2\pi)$?
+    options:
+      - text: '$\tfrac{\pi}{2}$ and $\tfrac{3\pi}{2}$'
+        correct: true
+      - text: '$\pi$ only'
+        feedback: |
+          $\theta = \pi$ is the point $(-1, 0)$, and $D$ sends it to angle $2\pi$, the point $(1, 0)$. That point was missing for the target chart $\theta$, but $\varphi$ covers it, with $\varphi = 0$.
+      - text: '$\tfrac{\pi}{2}$, $\pi$ and $\tfrac{3\pi}{2}$'
+        feedback: |
+          $\tfrac{\pi}{2}$ and $\tfrac{3\pi}{2}$ are right, but $\theta = \pi$ is fine here: $D(-1, 0) = (1, 0)$, which $\varphi$ covers with $\varphi = 0$.
+      - text: 'None: $D$ is defined on the whole circle'
+        feedback: |
+          $D$ is, but the representative also reads $D(p)$ in the chart $\varphi$. The points $(0, 1)$ and $(0, -1)$, at $\theta = \tfrac{\pi}{2}$ and $\tfrac{3\pi}{2}$, are sent to $(-1, 0)$, which $\varphi$ misses.
+    explanation: |
+      $D(p) = (-1, 0)$ when $2\theta$ is an odd multiple of $\pi$; in $(0, 2\pi)$ that means $\theta = \tfrac{\pi}{2}$ or $\tfrac{3\pi}{2}$. The domain splits into three open pieces,
+      $$\big(0, \tfrac{\pi}{2}\big)\cup\big(\tfrac{\pi}{2}, \tfrac{3\pi}{2}\big)\cup\big(\tfrac{3\pi}{2}, 2\pi\big),$$
+      on which $2\theta$ lies in $(0, \pi)$, $(\pi, 3\pi)$ and $(3\pi, 4\pi)$ respectively.
+
+  - type: build
+    id: p5-build
+    tag: Problem 5 · Doubling the circle
+    prompt: |
+      The doubling map $D\colon S^1\to S^1$ sends the point at angle $t$ to the point at angle $2t$. Read the source with $\theta\in(0, 2\pi)$ and the target with $\varphi\in(-\pi, \pi)$. For $\tfrac{\pi}{2} < \theta < \tfrac{3\pi}{2}$, the doubled angle $2\theta$ lies in $(\pi, 3\pi)$. Build the representative there, a value in $(-\pi, \pi)$.
+    prefix: '\varphi\circ D\circ\theta^{-1}(\theta) ='
+    tiles: ['2\theta', '-2\pi', '-4\pi', '+2\pi', '\theta']
+    answers:
+      - ['2\theta', '-2\pi']
+    wrong:
+      - answer: ['2\theta']
+        feedback: |
+          $2\theta$ names the right point, but it lies in $(\pi, 3\pi)$, outside the range $(-\pi, \pi)$ of $\varphi$. Subtract one full turn.
+      - answer: ['2\theta', '-4\pi']
+        feedback: |
+          That lands in $(-3\pi, -\pi)$, outside $(-\pi, \pi)$. On this piece one turn is enough; $-4\pi$ is the shift for the piece $\tfrac{3\pi}{2} < \theta < 2\pi$.
+      - answer: ['2\theta', '+2\pi']
+        feedback: |
+          That lands in $(3\pi, 5\pi)$: a full turn in the wrong direction. $2\theta$ is already too large.
+    hint: Subtract the whole number of turns that brings $2\theta\in(\pi, 3\pi)$ into $(-\pi, \pi)$.
+    explanation: |
+      Check at $\theta = \pi$: $2\pi - 2\pi = 0$, and indeed $D(-1, 0) = (1, 0)$, where $\varphi = 0$. On all three pieces,
+      $$\varphi\circ D\circ\theta^{-1}(\theta) = \begin{cases} 2\theta, & 0 < \theta < \tfrac{\pi}{2} \\ 2\theta - 2\pi, & \tfrac{\pi}{2} < \theta < \tfrac{3\pi}{2} \\ 2\theta - 4\pi, & \tfrac{3\pi}{2} < \theta < 2\pi \end{cases}$$
+      Each value lies in $(-\pi, \pi)$, as it must.
+
+  - type: numeric
+    id: p5-slope
+    tag: Problem 5 · Doubling the circle
+    prompt: |
+      The doubling map $D\colon S^1\to S^1$ sends the point at angle $t$ to the point at angle $2t$. With the chart $\theta\in(0, 2\pi)$ at the source and $\varphi\in(-\pi, \pi)$ at the target, its representative on $\tfrac{\pi}{2} < \theta < \tfrac{3\pi}{2}$ is $\varphi\circ D\circ\theta^{-1}(\theta) = 2\theta - 2\pi$. What is its derivative at $\theta = \pi$?
+    answer: 2
+    wrong:
+      - value: 0
+        feedback: |
+          $0$ is the **value** of the representative at $\theta = \pi$ ($2\pi - 2\pi$). The derivative of $2\theta - 2\pi$ is $2$ everywhere.
+      - value: 1
+        feedback: |
+          Slope $1$ belongs to the transitions between angle charts, $\theta\mapsto\theta + c$. $D$ doubles angles, so the slope is $2$.
+    explanation: |
+      The derivative is $2$, and all higher ones vanish: the representative is $C^\infty$, also at $\theta = \pi$, the point the chart pair $(\theta, \theta)$ could not see. Every point of $S^1$ now lies in the domain of a $C^\infty$ representative: the pair $(\theta, \varphi)$ misses only $(1, 0)$, $(0, 1)$ and $(0, -1)$, all covered by $(\theta, \theta)$ or $(\varphi, \varphi)$. So $D$ is smooth, and by chart independence its representative in **any** pair of charts is $C^\infty$.
+
+  - type: numeric
+    id: p5-chart-change
+    tag: Problem 5 · Doubling the circle
+    prompt: |
+      The doubling map $D$ (angle $t\mapsto 2t$) on $S^1$ can be read with $\varphi\in(-\pi, \pi)$ on both sides by changing charts around the $\theta$-representative:
+      $$\begin{aligned}
+      \varphi\circ D\circ\varphi^{-1} &= (\varphi\circ\theta^{-1}) \\
+      &\quad\circ(\theta\circ D\circ\theta^{-1}) \\
+      &\quad\circ(\theta\circ\varphi^{-1}).
+      \end{aligned}$$
+      Use $\theta\circ\varphi^{-1}(\varphi) = \varphi + 2\pi$ for $\varphi\in(-\pi, 0)$; $\theta\circ D\circ\theta^{-1}(\theta) = 2\theta - 2\pi$ for $\theta\in(\pi, 2\pi)$; and $\varphi\circ\theta^{-1}(\theta) = \theta - 2\pi$ for $\theta\in(\pi, 2\pi)$. Start from $\varphi = -\tfrac{\pi}{4}$ and apply the three factors, right to left. The result is $c\,\pi$: enter $c$.
+    answer: -0.5
+    tolerance: 0.001
+    answerText: '-1/2'
+    wrong:
+      - value: 1.5
+        feedback: |
+          $\tfrac32\pi$ is the $\theta$-value after the middle factor. One factor remains: read it back with $\varphi$, subtracting $2\pi$.
+      - value: 1.75
+        feedback: |
+          $\tfrac74\pi$ is only the first step, $\theta\circ\varphi^{-1}(-\tfrac{\pi}{4})$. Then double and subtract $2\pi$, then convert back to $\varphi$.
+      - value: 3.5
+        feedback: |
+          $2\cdot\tfrac74\pi = \tfrac72\pi$ forgets the $-2\pi$ of the middle factor, and the last factor too. Complete both steps.
+    hint: 'First $-\tfrac{\pi}{4} + 2\pi = \tfrac74\pi$; then $2\cdot\tfrac74\pi - 2\pi$; then subtract $2\pi$.'
+    explanation: |
+      $$\begin{aligned}
+      -\tfrac{\pi}{4} &\mapsto -\tfrac{\pi}{4} + 2\pi = \tfrac{7\pi}{4} \\
+      &\mapsto \tfrac{7\pi}{2} - 2\pi = \tfrac{3\pi}{2} \\
+      &\mapsto \tfrac{3\pi}{2} - 2\pi = -\tfrac{\pi}{2}.
+      \end{aligned}$$
+      So $c = -\tfrac12$, and $-\tfrac{\pi}{2} = 2\cdot(-\tfrac{\pi}{4})$: in the chart $\varphi$ on both sides, $D$ is again $\varphi\mapsto 2\varphi$ near this point. The two outer factors are transition maps, $C^\infty$ because the atlas is smooth, and the middle one is $C^\infty$; their composition is $C^\infty$ by the chain rule. Changing charts cannot spoil smoothness.
+
+  - type: numeric
+    id: p5-preimage
+    tag: Problem 5 · Doubling the circle
+    prompt: |
+      The doubling map $D\colon S^1\to S^1$ sends the point at angle $t$ to the point at angle $2t$, $D(\cos t, \sin t) = (\cos 2t, \sin 2t)$. How many points $p\in S^1$ satisfy $D(p) = (1, 0)$?
+    answer: 2
+    wrong:
+      - value: 1
+        feedback: |
+          $p = (1, 0)$, at angle $0$, works. But so does $p = (-1, 0)$, at angle $\pi$: doubling gives $2\pi$, a full turn, the same point $(1, 0)$.
+      - value: 4
+        feedback: |
+          Angles $0$, $\pi$, $2\pi$, $3\pi$ all solve $2t\equiv 0$, but $2\pi$ and $3\pi$ name the same points as $0$ and $\pi$. Count points of the circle, not angles.
+    hint: Solve $2t = 0 + 2\pi k$ and count the distinct points of the circle.
+    explanation: |
+      $2t = 2\pi k$ gives $t = \pi k$: the two points $(1, 0)$ and $(-1, 0)$. In general, a point at angle $s$ has the two preimages at angles $\tfrac{s}{2}$ and $\tfrac{s}{2} + \pi$. So $D$ is surjective and two-to-one: **not injective**.
+
+  - type: mcq
+    id: p5-verdict
+    tag: Problem 5 · Doubling the circle
+    prompt: |
+      The doubling map $D\colon S^1\to S^1$ sends the point at angle $t$ to the point at angle $2t$. In every pair of angle charts its representative has slope $2$, and every point of $S^1$ has exactly two preimages. Which statement is correct?
+    options:
+      - text: '$D$ is smooth but not a diffeomorphism: it is not injective, so it has no inverse at all'
+        correct: true
+      - text: '$D$ is a diffeomorphism: the slope $2$ is never $0$, so $D$ is invertible near every point with a smooth inverse'
+        feedback: |
+          Near each point, yes: a short arc is sent one-to-one onto a short arc, undone by halving the angle. But a diffeomorphism needs one **global** inverse, and two different arcs, half a turn apart, land on the same image. Locally invertible everywhere does not mean invertible.
+      - text: '$D$ is not smooth: its $\theta$-representative jumps at $\theta = \pi$'
+        feedback: |
+          $\theta = \pi$ is not even in the domain of that representative; the jump is an artifact of the chart. In the pair $(\theta, \varphi)$ the point $\theta = \pi$ sits inside the piece where the representative is $2\theta - 2\pi$, which is $C^\infty$.
+      - text: '$D$ is a homeomorphism but not a diffeomorphism, because its inverse would have slope $\tfrac12$'
+        feedback: |
+          A slope $\tfrac12$ would be harmless, since $\theta\mapsto\tfrac12\theta$ is $C^\infty$. The real obstacle comes earlier: $D$ is not a bijection, so it is not even a homeomorphism.
+    explanation: |
+      A diffeomorphism is a smooth **bijection** with smooth inverse. $D$ passes every local test (smooth, slope $2$ everywhere) and fails the global one: it is two-to-one. Local information, like a non-zero slope, says nothing about how the pieces fit together, the same lesson as the line with two origins.
+
+  - type: mcq
+    id: p5-reflection
+    tag: Problem 5 · Doubling the circle
+    prompt: |
+      The reflection $R\colon S^1\to S^1$, $R(q_1, q_2) = (q_1, -q_2)$, sends the point at angle $t$ to the point at angle $-t$; in complex numbers, $q\mapsto\bar q$ (complex conjugate). Use the chart $\theta\in(0, 2\pi)$ on $S^1\setminus\{(1, 0)\}$. Is $R$ a diffeomorphism?
+    options:
+      - text: 'Yes: its $\theta$-representative is $\theta\mapsto 2\pi - \theta$ on all of $(0, 2\pi)$, and $R$ is its own inverse'
+        correct: true
+      - text: 'No: its slope is $-1$, so it reverses the direction of the circle'
+        feedback: |
+          Reversing direction is allowed: $t\mapsto -t$ on $\mathbb{R}$ is a diffeomorphism too. The definition asks only for a smooth bijection with smooth inverse.
+      - text: 'No: its $\theta$-representative is $\theta\mapsto -\theta$, which leaves $(0, 2\pi)$'
+        feedback: |
+          $-\theta$ names the right point but is not a $\theta$-value. Add one full turn: $2\pi - \theta$ lies in $(0, 2\pi)$, as for the doubling map, where a turn was subtracted.
+      - text: 'No: like the doubling map, it is not injective'
+        feedback: |
+          Reflecting twice gives back the starting point, $R(R(q)) = q$. So $R$ is a bijection, its own inverse.
+    explanation: |
+      $R$ fixes $(1, 0)$, so it maps the domain of $\theta$ onto itself, and
+      $$\theta\circ R\circ\theta^{-1}(\theta) = 2\pi - \theta,$$
+      $C^\infty$ on all of $(0, 2\pi)$. In $\varphi$ it is $\varphi\mapsto-\varphi$ on $(-\pi, \pi)$. These two cover every point, so $R$ is smooth; $R^{-1} = R$, so the inverse is smooth too. Same circle, two maps: $R$ is a diffeomorphism, $D$ only a smooth map.
+
+  # ---------------------------------------------------------------- Wrap-up
+  - type: text
+    id: wrap-up
+    title: What you now own
+    body: |
+      Problems 3, 4 and 5, part 2 of 2 of the level challenge. A smooth manifold is a Hausdorff, second countable space with a smooth atlas of charts; a map is smooth when its representatives in charts are $C^\infty$. The ideas to keep:
+
+      - **Structure versus manifold.** $x(p) = p$ and $y(p) = p^3$ give incompatible structures on $\mathbb{R}$, yet $\phi(p) = \sqrt[3]{p}$ is a diffeomorphism between them, while the identity is smooth only one way.
+      - **An atlas is not enough.** The line with two origins has a smooth atlas (transition $t\mapsto t$), yet $\tfrac1n$ converges to both origins. Charts control one point at a time; Hausdorff, a condition on pairs, must be demanded separately, and a space that fails it fits inside no $\mathbb{R}^d$.
+      - **Smooth is not diffeomorphic.** The doubling map of the circle has slope $2$ in every pair of charts, yet it is two-to-one, so it has no inverse. The reflection $q\mapsto\bar q$ is a diffeomorphism, its own inverse.
+
+      **Next: Level 4, Tangent Spaces.** Without the plane around the circle, what is a velocity on it? The answer: vectors at a point are velocities of curves through it, and they form a vector space $T_p\mathcal{M}$, where the slope $2$ of the doubling map will find its true meaning.
