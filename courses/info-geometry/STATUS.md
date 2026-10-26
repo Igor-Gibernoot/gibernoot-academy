@@ -1,19 +1,12 @@
 # Status
 
-Session start: read only **Current** (`sed -n '/^## Current (2026-10-26)
-
-- **State:** widgets `simplex-points`, `gauss-charts`, `bregman-gap` built; Level 1 built: `ch01-why` (19 cards), `ch01-manifold` (19), `ch01-divergence` (20), `ch01-bregman` (22), `ch01-legendre` (19), `ch01-legendre` (19, intro-style glosses, registered).
-- **Next unit:** `ch01-dually-flat` (source md 841-1006, section 1.5: affine/dual affine coordinates, metric as Hessian, dual bases, parallel transport). Decision: a picture of two coordinate grids on one manifold would help; consider a widget unit first (see Log). Then pythagoras, proof-pythagoras, alternating, map, review, challenge, exam-partial after Level 7.
-- **Verified:** Preface, Ch.1 opening; manifold (1.1)-(1.15) PDF pp.17-20; divergence (1.23)-(1.31) pp.22-24; convex/Bregman (1.35)-(1.50) pp.25-28; Legendre (1.59)-(1.79) pp.29-31; Pythagorean (2.70-2.71) p.54 (see `sources/VERIFIED.md`). md anchors drift from PDF later: search the PDF page.
-- **Paths:** lessons `courses/info-geometry/chNN/`, exams `exams/`, sources git-ignored.
-
-## Log/p' STATUS.md`), never the Log.
+Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/p' STATUS.md`), never the Log.
 
 ## Current (2026-10-26)
 
-- **State:** widgets `simplex-points`, `gauss-charts`, `bregman-gap` built; Level 1 built: `ch01-why` (19 cards), `ch01-manifold` (19), `ch01-divergence` (20, intro-style glosses).
-- **Next unit:** `ch01-dually-flat` (source md 841-1006, section 1.5: affine/dual affine coordinates, metric as Hessian, dual bases, parallel transport). Decision: a picture of two coordinate grids on one manifold would help; consider a widget unit first (see Log). Then pythagoras, proof-pythagoras, alternating, map, review, challenge, exam-partial after Level 7.
-- **Verified:** Preface, Ch.1 opening; manifold (1.1)-(1.15) PDF pp.17-20; divergence (1.23)-(1.31) PDF pp.22-24; Pythagorean (2.70-2.71) PDF p.54 (see `sources/VERIFIED.md`). md anchors drift from PDF later: search the PDF page.
+- **State:** widgets `simplex-points`, `gauss-charts`, `bregman-gap`, `dual-grids` built; Level 1 built: `ch01-why` (19 cards), `ch01-manifold` (19), `ch01-divergence` (20), `ch01-bregman` (22), `ch01-legendre` (19).
+- **Next unit:** `ch01-dually-flat` (widget `dual-grids` exists; presets grids, dual-basis, metric, coupled, bent; source md 841-1006, section 1.5: affine/dual affine coordinates, metric as Hessian, dual bases, parallel transport). Then pythagoras, proof-pythagoras, alternating, map, review, challenge, exam-partial after Level 7.
+- **Verified:** Preface, Ch.1 opening; manifold (1.1)-(1.15) PDF pp.17-20; divergence (1.23)-(1.31) pp.22-24; convex/Bregman (1.35)-(1.50) pp.25-28; Legendre (1.59)-(1.79) pp.29-31; Pythagorean (2.70-2.71) p.54 (see `sources/VERIFIED.md`). md anchors drift from PDF later: search the PDF page.
 - **Paths:** lessons `courses/info-geometry/chNN/`, exams `exams/`, sources git-ignored.
 
 ## Log
@@ -39,3 +32,4 @@ Built (20 cards): hook uphill/downhill, criteria mcq, half squared distance (num
 ### 2026-10-26 ch01-legendre
 Built (19 cards, over ~16 plan, max 25): hook (slope as name), guess, widget `bregman-gap` legendre preset (labels eta -> xi^*) twice, slope monotone, dual coordinate, xi*=ln4, dual potential, build, psi*(1)=e, max form, order proof of xi=grad psi*, curvature 4, dual of dual, intercept -2, traps (rescale 2.58, xi^3), D[3:1]=1.296 via (1.69). Choices: book writes dual coordinate xi* (not eta); n-dim only as formulas, no widget needed. Fixed md (1.69) D_c -> D_psi.
 Conventions fixed here: dual coordinate $\xi^*=\nabla\psi(\xi)$, $\psi^*(\xi^*)=\xi\cdot\xi^*-\psi$; $\psi=\xi\ln\xi-\xi$ gives $\psi^*=e^{\xi^*}$ (book's $\xi\log\xi$ gives $e^{\xi^*-1}$).
+- 2026-10-26 widget `dual-grids`: xi-plane and xi*-plane side by side (xi* = grad psi), draggable point in either, xi-lines (purple) and xi*-lines (orange) in both planes, arrows e_i (purple) and e*^j (orange), readouts G, G*, G G*, <e_i,e*^j>. Potentials: per-variable quad/negentropy/neglog, `coupled` (1/2 xi^T A xi, A given) and extra `softmax` (ln(1+e^xi1+e^xi2): truly bent grids; separable psi only gives rectangular, unevenly spaced grids). Existing widgets checked for overlap: simplex-points, gauss-charts, chart-basis (coordinate lines and basis of two charts, but no potential/Hessian/dual basis), parallel-transport, bregman-gap (1D only). Throwaway lesson (removed): 6 widget cards, smoke 254 mounts 0 errors, shots desktop+phone viewed, validate ok. Choices: G* from differentiating the inverse map (independent of G^-1), so G G* = I is a real check; arrows = true tangent vectors, one common factor per plane; log clamps 0.08 / 0.2. Conventions fixed here: none.

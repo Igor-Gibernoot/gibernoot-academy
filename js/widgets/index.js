@@ -47,6 +47,7 @@ import { hybridSaccade } from './hybrid-saccade.js';
 import { simplexPoints } from './simplex-points.js';
 import { gaussCharts } from './gauss-charts.js';
 import { bregmanGap } from './bregman-gap.js';
+import { dualGrids } from './dual-grids.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -90,6 +91,7 @@ const WIDGETS = {
   'simplex-points': simplexPoints,
   'gauss-charts': gaussCharts,
   'bregman-gap': bregmanGap,
+  'dual-grids': dualGrids,
 };
 
 export function mountWidget(name, el, config) {
