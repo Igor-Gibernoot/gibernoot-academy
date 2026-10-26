@@ -1,0 +1,310 @@
+id: ch01-divergence
+title: Divergence Between Two Points
+kind: concept
+own: |
+  - **Divergence.** Let $P$ and $Q$ be two points of a manifold, with coordinates $\xi_P$ and $\xi_Q$ (the lists of numbers naming them). A function $D[P:Q]$ of the two, differentiable, is a **divergence** ("degree of separation, from $P$ to $Q$") when
+    $$D[P:Q]\ge 0,$$
+    {{ $$D[P:Q]=0\iff P=Q,$$ }}
+    and, for a tiny step $d\xi$ (the change of coordinates from $P$ to a nearby $Q$, $\xi_Q=\xi_P+d\xi$), it is a positive-definite quadratic form to second order:
+    {{ $$\begin{aligned}D[\xi_P:\xi_P+d\xi]={}&\tfrac12\sum_{i,j}g_{ij}(\xi_P)\,d\xi_i\,d\xi_j\\&+O(|d\xi|^3).\end{aligned}$$ }}
+    Here $g_{ij}$ are numbers depending on $P$, forming a matrix $\mathbf{G}$ that gives a positive value for every nonzero step, and $O(|d\xi|^3)$ stands for terms too small to matter.
+  - **Not a distance.** In general
+    $$D[P:Q]\neq D[Q:P],$$
+    the triangle inequality fails, and $D$ has the dimension of a distance **squared**. Averaging the two directions gives the symmetrized $D_S[P:Q]=\tfrac12\big(D[P:Q]+D[Q:P]\big)$, but the asymmetry is what the theory uses.
+  - **Two examples.** In a Euclidean space with orthonormal cartesian coordinates $\xi_P=(\xi_{P1},\dots,\xi_{Pn})$ (perpendicular axes, same unit), half the squared distance is a (symmetric) divergence with $\mathbf{G}=$ identity:
+    $$D[P:Q]=\tfrac12\sum_i(\xi_{Pi}-\xi_{Qi})^2.$$
+    For two probability distributions $p=(p_i)$ and $q=(q_i)$ over the same outcomes, the **Kullback-Leibler divergence** is
+    {{ $$D_{KL}[p:q]=\sum_i p_i\ln\frac{p_i}{q_i}$$ }}
+    (for a continuous variable the sum becomes $\int p(x)\ln\frac{p(x)}{q(x)}\,dx$).
+  - **A ruler from a divergence.** For two nearby points, the square of their infinitesimal distance $ds$ is defined by
+    {{ $$ds^2=2D[\xi:\xi+d\xi]=\sum_{i,j}g_{ij}\,d\xi_i\,d\xi_j.$$ }}
+    A manifold carrying such a positive-definite $\mathbf{G}(\xi)$ is called **Riemannian**: every divergence gives the manifold a local ruler, even an asymmetric one.
+cards:
+  - type: text
+    id: hook
+    title: "Uphill and downhill"
+    body: |
+      Same rules as before: this level is a light tour, **guessing is the point**, and every technical word is explained when it first appears.
+
+      A hiker walks from the village $P$ up to a hut $Q$ on the mountain. The *effort* of going $P\to Q$ is large. Walking back $Q\to P$ is downhill: a different effort, often smaller. The straight-line distance between the two places is the same both ways, but **the cost of going from one to the other is not**.
+
+      Last time we met the same thing for beliefs: the number "from $p$ to $q$" differs from "from $q$ to $p$". Now we ask the careful question. If we want one number measuring how far *apart* two points are, **from the first to the second**, what should it satisfy? We call such a number a **divergence**, written $D[P:Q]$ (the colon just separates the two points, read "from $P$ to $Q$").
+
+  - type: mcq
+    id: must-have
+    prompt: |
+      We want a number $D[P:Q]$ that measures the separation between two points $P$ and $Q$ of some set. Which properties would you **insist on**? (Select all that apply.)
+    multiple: true
+    options:
+      - text: It is never negative.
+        correct: true
+      - text: It is $0$ when $P$ and $Q$ are the same point, and only then.
+        correct: true
+      - text: It gives the same number when $P$ and $Q$ are swapped.
+        feedback: |
+          Tempting, since an everyday distance does that. But the hiker's effort and the KL numbers (e.g. $0.144$ one way, $0.131$ the other, for two beliefs on two outcomes) are not symmetric, and we want to keep them. Symmetry is **not** required.
+      - text: 'Going through a third point $R$ is never cheaper: $D[P:Q]\le D[P:R]+D[R:Q]$.'
+        feedback: |
+          This "triangle inequality" holds for a true distance, but it is not required here, and we will see a very natural example where it fails.
+    explanation: |
+      Only two properties are demanded of the pair of points as a whole: **never negative**, and **zero exactly when the two points coincide**. A third demand, about what happens for *nearby* points, comes in a moment.
+
+  - type: text
+    id: euclid
+    title: "The model: half a squared distance"
+    body: |
+      The simplest example is the one you already know. Take a flat space with perpendicular axes and the same unit on all of them (an **orthonormal cartesian** system). A point $P$ is named by its numbers $\xi_P=(\xi_{P1},\dots,\xi_{Pn})$; the subscript $i$ is a label ("the $i$-th number"), not a power. Define
+      $$D[P:Q]=\tfrac12\sum_i(\xi_{Pi}-\xi_{Qi})^2.$$
+      This is **half of the squared Euclidean distance** (the distance being the Pythagorean one, $\sqrt{\sum_i(\xi_{Pi}-\xi_{Qi})^2}$). It is $\ge0$, it is $0$ only when every coordinate agrees, and it is symmetric. The factor $\tfrac12$ will pay off shortly.
+
+  - type: numeric
+    id: euclid-calc
+    prompt: |
+      In the plane with cartesian coordinates, $P$ is at $\xi_P=(1,2)$ and $Q$ at $\xi_Q=(4,6)$. Compute $D[P:Q]=\tfrac12\sum_i(\xi_{Pi}-\xi_{Qi})^2$.
+    answer: 12.5
+    tolerance: 0.001
+    answerText: '12.5'
+    wrong:
+      - value: 25
+        feedback: |
+          That is the full squared distance. The definition has the extra factor $\tfrac12$.
+      - value: 5
+        feedback: |
+          That is the plain distance $\sqrt{3^2+4^2}$. A divergence uses the square (with the $\tfrac12$): $\tfrac12\cdot25$.
+    hint: |
+      The differences are $1-4=-3$ and $2-6=-4$. Square each, add, halve.
+    explanation: |
+      $$\begin{aligned}D[P:Q]&=\tfrac12\big((-3)^2+(-4)^2\big)\\&=\tfrac12\cdot25=12.5\end{aligned}$$
+      Swapping $P$ and $Q$ changes the signs of the differences, not their squares: $D[Q:P]=12.5$ too.
+
+  - type: mcq
+    id: scale
+    prompt: |
+      Redraw the same two points on a map drawn at **double scale**: $\xi_P=(2,4)$, $\xi_Q=(8,12)$, every distance doubled. By what factor does $D[P:Q]=\tfrac12\sum_i(\xi_{Pi}-\xi_{Qi})^2$ grow?
+    options:
+      - text: $4$
+        correct: true
+      - text: $2$
+        feedback: |
+          That would be right for a plain distance. $D$ is built from squares of differences, and doubling a difference quadruples its square.
+      - text: It stays $12.5$.
+        feedback: |
+          Rescaling the map changes the numbers, hence changes $D$. Only the points stay the same.
+    explanation: |
+      New value: $\tfrac12(6^2+8^2)=50=4\times12.5$. A divergence has the dimension of a **distance squared**: double every length and it grows fourfold.
+
+  - type: mcq
+    id: triangle
+    prompt: |
+      On a line with one coordinate, take $P$ at $0$, $Q$ at $1$, $R$ at $2$, and $D[A:B]=\tfrac12(\xi_A-\xi_B)^2$. Compare the direct divergence $D[P:R]$ with the stopover total $D[P:Q]+D[Q:R]$.
+    options:
+      - text: 'The direct one is bigger: $2>\tfrac12+\tfrac12$. The triangle inequality fails.'
+        correct: true
+      - text: They are equal, since $Q$ lies exactly on the way from $P$ to $R$.
+        feedback: |
+          Equal for plain distances ($1+1=2$), yes. But squares do not add: $\tfrac12\cdot2^2=2$, while two half-steps cost only $\tfrac12\cdot1^2$ each.
+      - text: The direct one is smaller, as for any good measure.
+        feedback: |
+          Check by numbers: $D[P:R]=\tfrac12\cdot4=2$ and $D[P:Q]+D[Q:R]=\tfrac12+\tfrac12=1$.
+    explanation: |
+      Two short steps are cheaper than one long step: a square grows faster than the length. So even the **symmetric** model divergence breaks the triangle inequality. A divergence is a squared "distance" ($D$ itself is not a distance, and in general neither is $\sqrt D$).
+
+  - type: numeric
+    id: kl-calc
+    prompt: |
+      Two outcomes. The belief $p=(0.8,\,0.2)$ and the belief $q=(0.5,\,0.5)$. Compute the Kullback-Leibler divergence $D_{KL}[p:q]=\sum_i p_i\ln\frac{p_i}{q_i}$ in nats, to three decimals. ($\ln1.6\approx0.470$, $\ln0.4\approx-0.916$.)
+    answer: 0.1927
+    tolerance: 0.002
+    answerText: '0.193'
+    wrong:
+      - value: 0.2231
+        feedback: |
+          That is $D_{KL}[q:p]$: you weighted the logs by $q$. The first argument, $p$, gives the weights.
+    hint: |
+      Two terms: $0.8\ln\frac{0.8}{0.5}$ and $0.2\ln\frac{0.2}{0.5}$.
+    explanation: |
+      $$\begin{aligned}D_{KL}[p:q]&=0.8\ln1.6+0.2\ln0.4\\&\approx0.3760-0.1833\\&=0.193\end{aligned}$$
+      nats. Swapped, $D_{KL}[q:p]=0.5\ln\frac{0.5}{0.8}+0.5\ln\frac{0.5}{0.2}\approx0.223$: different again.
+
+  - type: mcq
+    id: blowup
+    prompt: |
+      You believe the two outcomes are $q=(0.99,\,0.01)$. Reality, the belief $p=(0.5,\,0.5)$, makes the second outcome happen half the time. Which direction costs more, $D_{KL}[p:q]$ ("the world is $p$, I believed $q$") or $D_{KL}[q:p]$? Guess first.
+    options:
+      - text: $D_{KL}[p:q]\approx1.61$ is much larger than $D_{KL}[q:p]\approx0.64$.
+        correct: true
+      - text: $D_{KL}[q:p]$ is larger, since $q$ is the more extreme belief.
+        feedback: |
+          It is the opposite here. In $D_{KL}[p:q]$ the logs are weighted by $p$, which gives half its weight to the outcome that $q$ thinks nearly impossible ($1\%$): that outcome contributes $0.5\ln\frac{0.5}{0.01}\approx1.96$.
+      - text: They are equal.
+        feedback: |
+          Swapping the arguments swaps the weights, and with a very unequal pair that changes the number a lot.
+    explanation: |
+      $$\begin{aligned}D_{KL}[p:q]&=0.5\ln\tfrac{0.5}{0.99}+0.5\ln\tfrac{0.5}{0.01}\\&\approx-0.34+1.96\approx1.61\end{aligned}$$
+      A belief that rules out something that does happen is punished heavily (the cost grows without limit as $q$'s probability goes to $0$ while $p$'s stays positive). That is the asymmetry at work, and it is useful: the number tells which mistake is the bad one.
+
+  - type: text
+    id: near
+    title: "Close points: the third requirement"
+    body: |
+      For far-apart points, divergences differ a lot. For **nearby** points something universal happens. Take the model $D=\tfrac12(\xi_P-\xi_Q)^2$ (one coordinate): if $Q$ sits at $\xi_P+d\xi$, where $d\xi$ is a **tiny step** in the coordinate, then $D=\tfrac12\,d\xi^2$ exactly. Halve the step: $D$ falls to a quarter.
+
+      The third requirement asks every divergence to behave like this near each point. Let us test it on KL, where the formula looks very different.
+
+  - type: numeric
+    id: near-kl
+    prompt: |
+      Two outcomes. Start from $p=(0.5,\,0.5)$ and move a little: $q=(0.6,\,0.4)$. Compute $D_{KL}[p:q]=\sum_i p_i\ln\frac{p_i}{q_i}$ in nats, to four decimals. ($\ln\frac{5}{6}\approx-0.18232$, $\ln\frac54\approx0.22314$.)
+    answer: 0.0204
+    tolerance: 0.0003
+    answerText: '0.0204'
+    hint: |
+      $0.5\ln\frac{0.5}{0.6}+0.5\ln\frac{0.5}{0.4}$.
+    explanation: |
+      $$\begin{aligned}D_{KL}[p:q]&=0.5(-0.18232)+0.5(0.22314)\\&\approx0.0204\end{aligned}$$
+      nats. The step in the first probability is $0.1$, and $2\times0.1^2=0.02$: already close to $0.0204$. Hold that thought.
+
+  - type: widget
+    id: close
+    widget: simplex-points
+    config:
+      outcomes: [a, b, c]
+      points:
+        - { name: p, p: [0.4, 0.3, 0.3] }
+        - { name: q, p: [0.5, 0.3, 0.2] }
+      showEuclid: true
+      segment: true
+    body: |
+      The triangle of three outcomes again (each point is a belief). The readout shows the straight-line distance $\lVert p-q\rVert$ and the two KL numbers with bars. (The symbols are the ones from before; watch the shapes.)
+
+      First look at the bars for the two nearby points: how different are $D_{KL}[p:q]$ and $D_{KL}[q:p]$? Then drag $q$ **far away** from $p$ (toward a corner) and look again. Then bring it back and drag it **closer** and closer to $p$.
+
+  - type: mcq
+    id: read-close
+    prompt: |
+      Close together, $D_{KL}[p:q]$ and $D_{KL}[q:p]$ are almost equal (for $p=(0.5,0.5)$, $q=(0.6,0.4)$: $0.0204$ and $0.0201$). Far apart they differ clearly (for $p=(0.6,0.3,0.1)$, $q=(0.2,0.3,0.5)$: $0.498$ and $0.585$). What is the pattern?
+    options:
+      - text: The asymmetry is a large-scale effect. For nearby points KL is very nearly symmetric and behaves like a half squared distance.
+        correct: true
+      - text: The asymmetry is the same size at every scale.
+        feedback: |
+          The numbers say otherwise: the gap between the two directions shrinks much faster than the divergences themselves as the points approach.
+      - text: KL is symmetric whenever the two points are within the same edge of the triangle.
+        feedback: |
+          Nothing special happens at an edge; what matters is how close the points are. Near an edge KL is even more lopsided (one belief can nearly rule out an outcome).
+    explanation: |
+      The difference between the two directions starts at the cubic order in the step, so it vanishes faster than the divergence itself. Locally, KL looks like **half a squared distance**, with a ruler that depends on where you are: the next card says how.
+
+  - type: numeric
+    id: quarter
+    prompt: |
+      From $p=(0.5,0.5)$ the step to $q=(0.6,0.4)$ gave $D_{KL}[p:q]\approx0.0204$. Now take **half** that step: $q=(0.55,0.45)$. Using that near points behave like $\tfrac12 g\,d\xi^2$, estimate $D_{KL}[p:q]$ (to four decimals).
+    answer: 0.0051
+    tolerance: 0.0004
+    answerText: '0.0051'
+    wrong:
+      - value: 0.0102
+        feedback: |
+          That halves $D$. But $D$ is quadratic in the step: half the step gives a quarter of $D$.
+    hint: |
+      $D\approx\tfrac12 g\,d\xi^2$: halving $d\xi$ divides $D$ by $2^2$.
+    explanation: |
+      $0.0204/4\approx0.0051$. The exact value is $0.0050$. Doing the same near $p=(0.5,0.5)$ for any small step, $D_{KL}\approx2\,d\xi^2$ (one coordinate, $\tfrac12 g=2$, so $g=4$). That number $g$ is the "stiffness" of the ruler at $p$.
+
+  - type: text
+    id: taylor
+    title: "The third requirement, in full"
+    body: |
+      Now the precise statement. Let the two points have coordinates $\xi_P$ and $\xi_Q=\xi_P+d\xi$, with $d\xi=(d\xi_1,\dots,d\xi_n)$ a tiny step. Rewriting $D$ near $\xi_P$ as a polynomial in the step (a **Taylor expansion**: constant term, then linear terms, then squares and products, and so on), the constant and linear terms vanish, and
+      $$\begin{aligned}D[\xi_P:\xi_P+d\xi]={}&\tfrac12\sum_{i,j}g_{ij}(\xi_P)\,d\xi_i\,d\xi_j\\&+O(|d\xi|^3).\end{aligned}$$
+      - $\sum_{i,j}$ adds over all pairs of labels $i,j$. With one coordinate it reads $\tfrac12\,g\,d\xi^2$.
+      - The numbers $g_{ij}$ depend on the base point $\xi_P$ and form a matrix $\mathbf{G}$; this sum is a **quadratic form** (every term has two factors of the step).
+      - $O(|d\xi|^3)$ means "terms with at least three factors of the step", negligible for tiny steps.
+      - $\mathbf{G}$ is **positive-definite**: the sum is positive for every nonzero step. Equivalently, $D>0$ for any tiny move away from $P$.
+
+      Definition: $D$ is a **divergence** when it is (1) $\ge0$, (2) $0$ only for $P=Q$, (3) of this local form, with $D$ differentiable in the coordinates. For the model, $g_{ij}=1$ if $i=j$ and $0$ otherwise (the identity matrix).
+
+  - type: mcq
+    id: posdef
+    prompt: |
+      Suppose a candidate $D$ had, at some point $P$, a step direction $d\xi\neq0$ along which the quadratic term $\tfrac12\sum_{i,j} g_{ij}\,d\xi_i\,d\xi_j$ is $0$. Which of the criteria would be in danger?
+    options:
+      - text: "(2): $D$ would be (nearly) $0$ for a tiny move to a different point, so $D=0$ would no longer mean $P=Q$."
+        correct: true
+      - text: "(1): $D$ would become negative."
+        feedback: |
+          A zero quadratic term does not make $D$ negative by itself. The trouble is the other direction: the separation is invisible along that step.
+      - text: "None: a zero quadratic term only means the points are far apart."
+        feedback: |
+          The step is tiny, so the points are close; a zero value there means $D$ cannot tell them apart to second order.
+    explanation: |
+      Positive-definite is the local version of "zero only at the same point": **every** direction of motion must register a positive separation. A strict and exact way to say that no direction is blind.
+
+  - type: mcq
+    id: which-div
+    prompt: |
+      Points on a line have one coordinate $\xi$; write $a=\xi_P-\xi_Q$. Which of these functions $D[P:Q]$ are divergences, i.e. satisfy (1), (2) and (3) with positive $g$? (Select all that apply.)
+    multiple: true
+    options:
+      - text: $\tfrac12a^2$
+        correct: true
+      - text: $3a^2$
+        correct: true
+      - text: $|a|$
+        feedback: |
+          It is $\ge0$ and zero only at $P=Q$, but for a tiny step it is $|d\xi|$, linear, not a quadratic form: requirement (3) fails (and it is not differentiable at $a=0$).
+      - text: $a$
+        feedback: |
+          It takes negative values (swap $P$ and $Q$ to flip its sign), so (1) fails.
+      - text: $a^4$
+        feedback: |
+          It passes (1) and (2), but for a tiny step it is $d\xi^4$: the quadratic term is $0$, so $g=0$ and $\mathbf{G}$ is not positive-definite.
+    explanation: |
+      $3a^2$ is a divergence with $g=6$ (a stiffer ruler, but still positive). The requirement (3) is what forces the "squared distance" character: near each point, a divergence **is** a positive quadratic form.
+
+  - type: text
+    id: ds
+    title: "From a divergence to a ruler"
+    body: |
+      Here is the payoff. For two nearby points define the **square of their infinitesimal distance** (the distance for a tiny step) by
+      $$ds^2=2D[\xi:\xi+d\xi]=\sum_{i,j}g_{ij}\,d\xi_i\,d\xi_j.$$
+      The $2$ undoes the $\tfrac12$: for the model, $ds^2=\sum_i(d\xi_i)^2$, the Pythagorean rule. A set where each point carries a positive-definite matrix $\mathbf{G}(\xi)$ giving the squared length of tiny steps is called **Riemannian**. So **every divergence turns its manifold into a Riemannian one**, even though $D$ itself is asymmetric. For KL on two outcomes, near $p=(0.5,0.5)$, we found $g=4$: the ruler there has "stiffness" $4$ (in the chart $\xi=p_1$).
+
+      One more tool. To get a symmetric number out of an asymmetric one, average the two directions. The **symmetrized divergence** is built from $D[P:Q]$ and $D[Q:P]$, each with the same weight $\tfrac12$.
+
+  - type: build
+    id: symmetrize
+    prompt: |
+      Assemble the symmetrized divergence $D_S[P:Q]$ from $D[P:Q]$ and $D[Q:P]$.
+    prefix: 'D_S[P:Q] ='
+    tiles: ['\tfrac12', '(', 'D[P:Q]', '+', 'D[Q:P]', ')', '-']
+    answers:
+      - ['\tfrac12', '(', 'D[P:Q]', '+', 'D[Q:P]', ')']
+      - ['\tfrac12', '(', 'D[Q:P]', '+', 'D[P:Q]', ')']
+    wrong:
+      - answer: ['\tfrac12', '(', 'D[P:Q]', '-', 'D[Q:P]', ')']
+        feedback: |
+          A difference would measure the asymmetry itself, change sign when $P,Q$ are swapped, and be $0$ for symmetric $D$. An average adds.
+    hint: |
+      "Average of two numbers" is half their sum.
+    explanation: |
+      $$D_S[P:Q]=\tfrac12\big(D[P:Q]+D[Q:P]\big).$$
+      It is symmetric by construction. It also keeps the criteria. But it throws away the direction, and the theory ahead needs the direction.
+
+  - type: numeric
+    id: sym-calc
+    prompt: |
+      Use $D_{KL}[p:q]\approx0.1438$ and $D_{KL}[q:p]\approx0.1308$ for $p=(\tfrac12,\tfrac12)$ and $q=(\tfrac14,\tfrac34)$. Compute the symmetrized $D_S=\tfrac12\big(D_{KL}[p:q]+D_{KL}[q:p]\big)$, to four decimals.
+    answer: 0.1373
+    tolerance: 0.0003
+    answerText: '0.1373'
+    hint: |
+      Add the two numbers and halve.
+    explanation: |
+      $\tfrac12(0.1438+0.1308)=0.1373$ nats. It sits between the two directions, and equals both only if they were equal.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      **Next:** where do such divergences come from? Many of them are one construction: take a **convex function** (a bowl-shaped curve) and measure the gap between the function and its tangent. That is the **Bregman divergence**, and it contains both $\tfrac12\sum(\xi_{Pi}-\xi_{Qi})^2$ and KL.
