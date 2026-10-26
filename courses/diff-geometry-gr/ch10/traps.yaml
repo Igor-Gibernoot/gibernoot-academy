@@ -1,5 +1,5 @@
 id: ch10-traps
-title: Relativity Traps
+title: Relativity Traps · Part 1
 kind: traps
 
 cards:
@@ -7,9 +7,9 @@ cards:
     id: intro
     title: Trap round
     body: |
-      Fast round: each question hides a tempting mistake from this level, from the sign of $g$ to the Schwarzschild radius. Answer quickly, then read the feedback, especially when you got it right for a shaky reason. The examples are new; the rules are the ones you built.
+      Fast round, part 1 of 2: each question hides a tempting mistake from this level's metric, observers and Lorentz matrices, from the sign of $g$ to the composition of speeds. Part 2 covers the Einstein equations and Schwarzschild. Answer quickly, then read the feedback, especially when you got it right for a shaky reason. The examples are new; the rules are the ones you built.
 
-      Notation used below. Spacetime has signature $(+,-,-,-)$: $\eta = \mathrm{diag}(1,-1,-1,-1)$. A non-zero vector $\mathcal{X}$ is **timelike** if $g(\mathcal{X},\mathcal{X}) > 0$, **lightlike** if $= 0$, **spacelike** if $< 0$. In a 1+1 chart with components $(X^0,X^1)$ (time first) in Minkowski space, $g(\mathcal{X},\mathcal{X}) = (X^0)^2 - (X^1)^2$. The **proper time** along a massive worldline $\gamma$ is $\int\sqrt{g(v_\gamma,v_\gamma)}\,d\lambda$, where $v_\gamma$ is the velocity. Lorentz matrices $\Lambda$ satisfy $\Lambda^T\eta\Lambda = \eta$. $\mathrm{Ric}$ is the Ricci tensor, $R$ its trace, $G = \mathrm{Ric} - \tfrac12 R\,g$, $T$ the energy-momentum tensor, $G_N$ Newton's constant, and the units are such that the speed of light is $1$.
+      Notation used below. Spacetime has signature $(+,-,-,-)$: $\eta = \mathrm{diag}(1,-1,-1,-1)$. A non-zero vector $\mathcal{X}$ is **timelike** if $g(\mathcal{X},\mathcal{X}) > 0$, **lightlike** if $= 0$, **spacelike** if $< 0$. In a 1+1 chart with components $(X^0,X^1)$ (time first) in Minkowski space, $g(\mathcal{X},\mathcal{X}) = (X^0)^2 - (X^1)^2$. The **proper time** along a massive worldline $\gamma$ is $\int\sqrt{g(v_\gamma,v_\gamma)}\,d\lambda$, where $v_\gamma$ is the velocity. Lorentz matrices $\Lambda$ satisfy $\Lambda^T\eta\Lambda = \eta$. Units are such that the speed of light is $1$.
 
   - type: mcq
     id: sign-spacelike
@@ -225,202 +225,16 @@ cards:
       With $\gamma = 1.25$ each, the product has $\Lambda^0_0 = \gamma^2(1 + u^2)$ and $\Lambda^1_0 = 2\gamma^2u$, so
       $$u_{\text{total}} = \frac{2u}{1+u^2} = \frac{1.2}{1.36} = \frac{15}{17}\approx0.882 < 1.$$
 
-  - type: mcq
-    id: ricci-flat-flat
-    title: Vacuum is flat?
-    prompt: |
-      In four dimensions, the vacuum Einstein equations $G = 0$ hold. Which statement is correct?
-    options:
-      - text: '$\mathrm{Ric} = 0$ but $\mathrm{Riem}$ may be non-zero: vacuum does not mean flat'
-        correct: true
-      - text: '$\mathrm{Riem} = 0$: with no matter, there is no curvature'
-        feedback: |
-          $\mathrm{Riem}$ has more components than $\mathrm{Ric}$; the equation only sets a trace of it to zero. Tides around a point mass (Schwarzschild) are vacuum curvature, and they stretch and squeeze.
-      - text: '$\mathrm{Ric}$ may be non-zero, only the scalar $R$ vanishes'
-        feedback: |
-          Taking the trace of $G = \mathrm{Ric} - \tfrac12R\,g = 0$ in four dimensions gives $R - 2R = -R = 0$. With $R = 0$ the equation becomes $\mathrm{Ric} = 0$.
-    explanation: |
-      $G = 0 \Rightarrow R = 0 \Rightarrow \mathrm{Ric} = 0$ in four dimensions, which are ten equations for $g$. The remaining curvature (tides, gravitational waves) is carried by components of $\mathrm{Riem}$ that these equations do not touch.
-
-  - type: mcq
-    id: density-forgotten
-    title: Why the square root?
-    prompt: |
-      Someone proposes the action $S = \kappa\int_{\mathcal{D}} R\;d^4x$, without the factor $\sqrt{-\det g}$. What goes wrong?
-    options:
-      - text: 'The integrand $R$ is a scalar but $d^4x$ is not invariant: under a change of chart the integral changes. $\sqrt{-\det g}\,d^4x$ is the invariant volume element'
-        correct: true
-      - text: 'Nothing: $R$ is already a scalar, so the integral is automatically chart independent'
-        feedback: |
-          A scalar function is chart independent, but $\int f\,d^4x$ is not: the coordinate volume $d^4x$ picks up a Jacobian determinant. Integrals need a volume form, and the metric supplies it as $\sqrt{-\det g}\,d^4x$.
-      - text: 'It only changes the overall constant $\kappa$'
-        feedback: |
-          $\sqrt{-\det g}$ depends on the point and on $g$, so it also changes the field equations: its variation, $\tfrac12\sqrt{-\det g}\,g^{ij}\text{ᛉ}_{ij}$, is what produces the $-\tfrac12R\,g$ term of $G$.
-    explanation: |
-      The density makes the action independent of the chart and gives $G = \mathrm{Ric} - \tfrac12R\,g$. Without it one would get only the first term, and the equations would not be covariant.
-
-  - type: mcq
-    id: palatini-tensor
-    title: Is a variation of Γ a tensor?
-    prompt: |
-      The Christoffel symbols $\Gamma^k_{ab}$ are not the components of a tensor. Is the difference $C^k_{ab} := \delta\Gamma^k_{ab}$ between the connection of $g$ and that of a nearby metric $g + \text{ᛊ}\text{ᛉ}$, to first order in $\text{ᛊ}$, a tensor?
-    options:
-      - text: 'Yes: the inhomogeneous terms of the transformation law cancel in the difference of two connections'
-        correct: true
-      - text: 'No: it is made of Christoffel symbols, which are never tensors'
-        feedback: |
-          A single $\Gamma$ transforms with an extra second-derivative term, but that term is the same for both connections in the same chart change. It cancels in $\Gamma' - \Gamma$, and $C$ is a $(1,2)$ tensor. This is what allows covariant derivatives in the Palatini identity.
-      - text: 'Only if the two metrics are equal at the point'
-        feedback: |
-          The cancellation is general and needs no equality of the metrics: any difference of two connections is a tensor.
-    explanation: |
-      Palatini's identity $\delta\mathrm{Ric}_{ab} = (\nabla_mC)^m_{ab} - (\nabla_bC)^m_{am}$ relies on this, and it is what makes $(g^{-1})^{ab}\delta\mathrm{Ric}_{ab}$ a total divergence that drops out of the variation.
-
-  - type: mcq
-    id: constant-lagrangian
-    title: A constant in the Lagrangian
-    prompt: |
-      In signature $(+,-,-,-)$, a matter Lagrangian density is the constant $\mathcal{L}_M = -\lambda$ with $\lambda > 0$, which gives $T_{ab} = \lambda\,g_{ab}$. Its energy density is $\rho = T_{00}$ and its pressure $p = T_{11}$ (at $g = \eta$). What is the relation between $p$ and $\rho$?
-    options:
-      - text: '$p = -\rho$: here $T_{00} = \lambda$ and $T_{11} = -\lambda$'
-        correct: true
-      - text: '$p = +\rho$, because $T_{ab}$ is proportional to $g_{ab}$ and all components share the factor $\lambda$'
-        feedback: |
-          The factor $\lambda$ is shared, but $g_{ab}$ is not: $\eta_{00} = +1$ while $\eta_{11} = -1$. The signs of the diagonal entries are what make the pressure negative.
-      - text: '$p = 0$: a constant has no dynamics, like dust'
-        feedback: |
-          Dust is $T = \rho\,u_au_b$ with no pressure, but a constant $\mathcal{L}_M$ varies with $g$ through the volume density $\sqrt{-\det g}$, which gives the term $-\mathcal{L}_M\,g^{-1}$ and hence a pressure.
-    explanation: |
-      $$T_{ab} = \lambda\,\mathrm{diag}(1,-1,-1,-1)_{ab},\qquad p = -\rho.$$
-      With $\mathrm{Ric}_{00} = -8\pi G_N\lambda < 0$, such a source repels: it behaves as a cosmological constant.
-
-  - type: numeric
-    id: scalar-field-density
-    title: Energy of a scalar field
-    prompt: |
-      A homogeneous scalar field with Lagrangian $\mathcal{L}_M = \tfrac12\dot\phi^2 - V$ (signature $(+,-,-,-)$, so $T_{00} = \dot\phi^2 - \mathcal{L}_M$) has at some instant $\dot\phi = 4$ and $V = 3$. Compute the energy density $\rho = T_{00}$.
-    answer: 11
-    wrong:
-      - { value: 5, feedback: 'That is $\tfrac12\dot\phi^2 - V = \mathcal{L}_M$, the Lagrangian. The potential contributes **positively** to the energy: $\rho = \tfrac12\dot\phi^2 + V$.' }
-      - { value: 19, feedback: 'You dropped the $\tfrac12$ of the kinetic term: $\dot\phi^2 = 16$ but the kinetic energy density is $\tfrac12\dot\phi^2 = 8$.' }
-    hint: |
-      $T_{00} = \dot\phi^2 - \mathcal{L}_M$ with $\mathcal{L}_M = 8 - 3$.
-    explanation: |
-      $$\rho = 16 - (8 - 3) = 11 = \tfrac12\dot\phi^2 + V.$$
-      The Lagrangian is kinetic minus potential; the energy is kinetic plus potential. The pressure $p = \tfrac12\dot\phi^2 - V = 5$ is the one that equals $\mathcal{L}_M$.
-
-  - type: numeric
-    id: em-density
-    title: Energy of an electromagnetic field
-    prompt: |
-      An electromagnetic field has electric field of magnitude $|\mathbf{e}| = 2$ and magnetic field of magnitude $|\mathbf{b}| = 6$ at a point, in the frame of an observer. In units where $T_{00} = \tfrac12(|\mathbf{e}|^2 + |\mathbf{b}|^2)$, find $T_{00}$.
-    answer: 20
-    wrong:
-      - { value: 40, feedback: 'You forgot the $\tfrac12$: $4 + 36 = 40$ is twice the energy density.' }
-      - { value: -16, feedback: 'The energy density of the field is a **sum** of squares, never a difference: $T_{00}\geq0$ for electromagnetism. The signs $(+,-,-,-)$ of $g$ do not appear in it.' }
-    hint: |
-      Both fields contribute with the same sign.
-    explanation: |
-      $$T_{00} = \tfrac12(4 + 36) = 20 \geq 0.$$
-      A positive $T_{00}$ makes $G_{00} = 8\pi G_N T_{00} > 0$: electromagnetic energy gravitates like any other energy, and since $T$ has zero trace in four dimensions, it leaves $R = 0$.
-
-  - type: mcq
-    id: conservation-extra
-    title: Is conservation an extra law?
-    prompt: |
-      The Einstein equations are $G_{ab} = 8\pi G_N T_{ab}$. A student says: "$\mathrm{div}\,T = 0$ is a separate assumption we must add by hand." Which reply is correct?
-    options:
-      - text: 'It follows: $\mathrm{div}\,G = 0$ (contracted Bianchi identity) forces $\mathrm{div}\,T = 0$, and the matter equations of motion guarantee it independently, because $S_M$ is chart independent'
-        correct: true
-      - text: 'It is an extra law, since the Bianchi identity concerns geometry and says nothing about matter'
-        feedback: |
-          The Bianchi identity is geometric, but the field equation sets $G$ equal to $8\pi G_NT$, so $\mathrm{div}\,T$ is $\mathrm{div}\,G$ divided by $8\pi G_N$, and the latter vanishes identically.
-      - text: 'It holds for any $T$ whatsoever, matter or not, because $T$ is symmetric'
-        feedback: |
-          Symmetry of $T$ plays no role. A tensor like $T = \lambda g$ with $\lambda$ **not** constant is symmetric, but $\mathrm{div}\,T = \mathrm{d}\lambda\neq0$. Conservation requires the matter equations to hold (or $\lambda$ constant).
-    explanation: |
-      Two independent arguments agree: the left side is automatically divergence free, and on solutions of the matter equations the right side is too. A source that violated conservation would make the Einstein equations inconsistent.
-
-  - type: numeric
-    id: radial-stretch
-    title: Radial distance in Schwarzschild
-    prompt: |
-      Schwarzschild: $g = f\,dt^2 - f^{-1}dr^2 - r^2d\Omega^2$ with $f = 1 - r_S/r$. Take $r_S = 2$. At $r = 4$, by what factor does a small radial coordinate step $\Delta r$ stretch into proper length, $\Delta\ell = (\text{factor})\,\Delta r$?
-    answer: 1.4142
-    tolerance: 0.001
-    wrong:
-      - { value: 1, feedback: 'The coordinate $r$ is defined by spheres of area $4\pi r^2$, not as a distance from the centre. The metric component $g_{rr} = -1/f$ stretches radial lengths.' }
-      - { value: 0.7071, feedback: 'You used $\sqrt f$, which is the factor of the *time* direction. The radial one is its inverse, $1/\sqrt f$.' }
-      - { value: 2, feedback: 'You used $1/f$. A length is the square root of $|g|$, so the factor is $1/\sqrt f$.' }
-    hint: |
-      At $r = 4$: $f = 1 - 2/4$.
-    explanation: |
-      $\begin{aligned}\Delta\ell &= \frac{\Delta r}{\sqrt f},\quad f = \tfrac12,\${B}frac{1}{\sqrt f} &= \sqrt2\approx1.4142.\end{aligned}$
-      $r$ is the **area radius**: a sphere at $r$ has area $4\pi r^2$. The true radial distance between two spheres is always larger than their difference in $r$.
-
-  - type: numeric
-    id: static-clock
-    title: A clock at rest in Schwarzschild
-    prompt: |
-      Schwarzschild with $r_S = 2$ and $f = 1 - r_S/r$. A clock sits at rest at $r = 4$ (constant $r$, $\vartheta$, $\varphi$) while the coordinate $t$ increases by $10$. What proper time does it record?
-    answer: 7.0711
-    tolerance: 0.001
-    wrong:
-      - { value: 10, feedback: 'The coordinate $t$ is not the reading of this clock. With $r$, $\vartheta$, $\varphi$ fixed, $g(v,v) = g_{tt} = f$, and $f = \tfrac12$ here.' }
-      - { value: 5, feedback: 'You multiplied by $f = 0.5$. The proper time is the integral of $\sqrt{g(v,v)}$, so the factor is $\sqrt f$.' }
-    hint: |
-      Parametrize by $t$: the velocity is $(1,0,0,0)$.
-    explanation: |
-      $$\tau = \int_0^{10}\sqrt{f}\,dt = 10\sqrt{\tfrac12}\approx7.0711.$$
-      Deeper in the field, clocks tick slower than the coordinate $t$.
-
-  - type: numeric
-    id: wrong-f
-    title: A tidier candidate for f
-    prompt: |
-      A student proposes $f = 1 - 1/r^2$ instead of $1 - r_S/r$, "since it also tends to $1$ far away". In the Schwarzschild form of the metric, $\mathrm{Ric}_{00} = \dfrac{f}{2r^2}\,(r^2f')'$ with $f' = df/dr$. Compute $\mathrm{Ric}_{00}$ at $r = 2$.
-    answer: -0.046875
-    tolerance: 0.0005
-    wrong:
-      - { value: 0, feedback: 'That is what $f = 1 - r_S/r$ gives: $r^2f'' = r_S$ is constant. For $1 - 1/r^2$, $r^2f'' = 2/r$ is not.' }
-      - { value: 0.046875, feedback: 'Sign: $r^2f'' = 2/r$ decreases, so $(r^2f'')'' = -2/r^2 < 0$.' }
-    hint: |
-      $f' = 2/r^3$, so $r^2f' = 2/r$.
-    explanation: |
-      $$\begin{aligned}(r^2f')' &= -\frac{2}{r^2},\\ \mathrm{Ric}_{00} &= \frac{f}{2r^2}\Big(-\frac{2}{r^2}\Big)\\ &= -\frac{f}{r^4}.\end{aligned}$$
-      At $r=2$: $f = \tfrac34$, so $\mathrm{Ric}_{00} = -\tfrac{3}{4\cdot16} = -0.046875\neq0$. Decaying to $1$ at infinity is not enough: vacuum forces $r^2f' = \text{const}$, hence $f = 1 - c/r$.
-
-  - type: mcq
-    id: tides-vacuum
-    title: Tides in vacuum
-    prompt: |
-      Near a point mass in Schwarzschild (vacuum, $\mathrm{Ric}_{00} = 0$), the three tidal components $\mathrm{Riem}^1{}_{010}$ (radial), $\mathrm{Riem}^2{}_{020}$ and $\mathrm{Riem}^3{}_{030}$ (transverse) are $-0.015625$, $0.0078125$ and $0.0078125$ at $r = 4$ with $r_S = 2$. A falling cloud of dust is then:
-    options:
-      - text: 'Stretched radially and squeezed transversally, with total volume change zero at first order, since the three components sum to $0$'
-        correct: true
-      - text: 'Squeezed in all three directions, as gravity pulls toward the centre'
-        feedback: |
-          The tidal equation $\ddot\eta^\alpha = -\mathrm{Riem}^\alpha{}_{0\beta0}\eta^\beta$ gives a positive radial acceleration of the separation (stretching) because $\mathrm{Riem}^1{}_{010} < 0$. A pull toward the centre alone would be a uniform field, which is removable in a falling chart.
-      - text: 'There are no tides: vacuum means $\mathrm{Riem} = 0$'
-        feedback: |
-          Vacuum means $\mathrm{Ric} = 0$, the sum of the three numbers. The numbers themselves are non-zero.
-    explanation: |
-      $-0.015625 + 0.0078125 + 0.0078125 = 0$: the trace is $\mathrm{Ric}_{00}$. Stretching in one direction is exactly compensated by squeezing in the other two.
-
   - type: text
     id: summary
     title: What you now own
     body: |
-      The traps, turned into rules. Notation: $g$ is the Lorentzian metric of the spacetime, $\mathcal{X}$ a tangent vector, $\text{ᛏ}$ the time-orientation vector field, $\gamma$ a massive worldline with parameter $\lambda$ and velocity $v_\gamma$, $\eta := \mathrm{diag}(1,-1,-1,-1)$, $G_N$ Newton's constant, $\mathcal{L}_M$ the matter Lagrangian density.
+      The traps, turned into rules. Notation: $g$ is the Lorentzian metric of the spacetime, $\mathcal{X}$ a tangent vector, $\text{ᛏ}$ the time-orientation vector field, $\gamma$ a massive worldline with parameter $\lambda$ and velocity $v_\gamma$, $\eta := \mathrm{diag}(1,-1,-1,-1)$.
 
       - Signature $(+,-,-,-)$: positive $g(\mathcal{X},\mathcal{X})$ is timelike, zero lightlike, negative spacelike; $g(\mathcal{X},\mathcal{X}) = (X^0)^2 - (X^1)^2$ in 1+1 ($X^0, X^1$ the components of $\mathcal{X}$; the upper index is a label). The light cone is a cone, not a subspace; $g$ does not know past from future, the time orientation $\text{ᛏ}$ does.
       - Proper time is the length of the path, not a coordinate:
       $$\tau = \int\sqrt{g(v_\gamma,v_\gamma)}\,d\lambda$$
       It is independent of the parametrization, zero for light, and **maximal** for the straight worldline (moving clock $8 < 10$, twin $6 < 10$: stay-at-home clock $10$ against a traveller who goes out and back).
       - Lorentz matrices $\Lambda$ ($4\times4$ real, $\Lambda^b_a$ with row $b$, column $a$) obey $\Lambda^T\eta\Lambda = \eta$; $\det\Lambda = \pm1$ is not enough; $\Lambda^0_0\geq1$ for orthochronous ones; a boost has $u = \Lambda^1_0/\Lambda^0_0$; two equal speeds $u$ compose as $\tfrac{2u}{1+u^2}$, never above $1$ (units $c=1$). They relate frames at an event, not coordinates of a curved spacetime.
-      - Einstein equations: the action needs $\sqrt{-\det g}$; $\delta\Gamma$ is a tensor; vacuum is $\mathrm{Ric} = 0$, not $\mathrm{Riem} = 0$. With $G_{ab} = 8\pi G_N T_{ab}$ and
-      $$\mathrm{div}\,T = 0\ \text{(automatic)}$$
-      A constant $\mathcal{L}_M$ gives pressure $p = -\rho$ (energy density); for a scalar field $\phi$ with potential $V$, $\rho = \tfrac12\dot\phi^2 + V$; $T_{00} = \tfrac12(|\mathbf{e}|^2 + |\mathbf{b}|^2) \geq 0$ for the electromagnetic field ($\mathbf{e},\mathbf{b}$ electric and magnetic fields).
-      - Schwarzschild (metric with $f(r)$ in front of $dt^2$ and $-1/f$ in front of $dr^2$, plus $-r^2$ times the unit-sphere metric): $r$ is the area radius, radial lengths stretch by $1/\sqrt f$, static clocks run at $\sqrt f$ of the coordinate time, $f = 1 - c/r$ ($c$ a constant) is forced by $\mathrm{Ric} = 0$ (Ricci tensor), and the tides are traceless.
 
-      **Next:** the content map of this level. You will rebuild the chain from the metric's signature through observers, the Lorentz group and the Einstein equations to the Schwarzschild solution, box by box, among decoys.
+      **Next:** Relativity Traps · Part 2 turns to the Einstein equations (vacuum is not flat, the volume density, the variation of the connection, constant Lagrangians, scalar and electromagnetic fields, conservation) and to Schwarzschild (what $r$ measures, static clocks, why $f = 1 - c/r$, vacuum tides).
