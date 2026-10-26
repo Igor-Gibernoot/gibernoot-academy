@@ -144,6 +144,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - Traps numbers: spring kappa=9, m=4 gives omega=1.5; generalized sync T(x)=1.5x+0.01x^3 gives T(4)=6.64; Q(up,down)=(.7,.3) gives q=(0,0.4); LV A=[[0,-2],[1,0]], v=(1,-0.5), x=(.5,.4) gives xdot_1=0.1.
 - Intuition-continuous numbers: LV x=(.4,.5), v=(1,-.5), A12=-2, A21=1 gives xdot_2=-0.05; Lorenz (2,1,5) gives xdot_3=-11.33; spring kappa=18, m=2 gives omega=3, period 2.09; Q=(.1,.5,.3,0,.1) over fixation/up/right/down/left gives q=(.2,.5), distance .539.
 - Challenge numbers (part 1): octopus v=8, mu=3.5, u=4.5, Pi_y=0.4/3; spring kappa=20, m=5 (accel 14 at x1=1.5, v=5), m=10 T=4.44, kappa=98.7 for T=2, b=2.83; LV v=(1,1,1), A=[[-.5,-1.5,.5],[.5,-.5,-1.5],[-1.5,.5,-.5]], x=(.5,.4,.2) gives xdot_3=.07 (peaks 1,2,3 ring, fixed point 2/3); Lorenz (-3,4,20) xdot_3=-65.33, rho=0.8.
+- Challenge numbers (part 2): P4 v=2, Pi_y=diag(3,1), Pi_x=diag(2,1), y~=(1.5,-.4), mu~=(1.2,.5), h=.1 gives mu~=(1.4,.42) (F .755 to .472); P5 Q=(.05,.15,.5,.05,.25) gives q=(.25,.10), distance .269.
 
 ## Chapter 9
 

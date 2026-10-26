@@ -16,7 +16,7 @@ cards:
       4. Generalized filtering: one numeric step of the belief update.
       5. A hybrid prior: from a discrete posterior to a continuous target.
 
-      This first part has problems 1 to 3.
+      Problems 1 to 3 come first, then 4 and 5.
 
   # ---------------------------------------------------------------- Problem 1
   - type: numeric
@@ -241,8 +241,179 @@ cards:
     explanation: |
       The origin is stable for $\rho<1$ and loses stability at $\rho=1$, where two fixed points appear (at $x_3=\rho-1$). Chaos appears much later, above $\rho\approx24.7$. A slow Lorenz level that changes $\rho$ can therefore switch a fast Lorenz level between decaying, settling and wandering.
 
+
+  # ---------------------------------------------------------------- Problem 4
   - type: text
-    id: part1-end
-    title: "Part 1 done: three problems"
+    id: p4-setting
+    tag: Problem 4 · A filtering step
+    title: "Generalized filtering"
     body: |
-      You have used action as a prediction, a spring with its rhythm and damping, and the signs of an interaction matrix and of a Lorenz state. Problems 4 and 5 will bring a numeric step of generalized filtering and a hybrid prior built from a discrete posterior.
+      **Problem 4.** A creature senses one quantity $y$ that reports a hidden state $x$ directly, $y=x$, and its model says the state relaxes toward a cause $v=2$:
+      $$\dot x=-x+v$$
+      It keeps two orders of each quantity: the data $\tilde y=(y,y')$ (value and velocity), and the belief $\tilde\mu=(\mu,\mu')$. The shift matrix is $D=\begin{pmatrix}0&1\\0&0\end{pmatrix}$, so $D\tilde\mu=(\mu',0)$. The precisions are
+      $$\tilde\Pi_y=\mathrm{diag}(3,\,1),\qquad \tilde\Pi_x=\mathrm{diag}(2,\,1)$$
+      The cause $v=2$ is treated as known. At this instant
+      $$\tilde y=(1.5,\,-0.4),\qquad \tilde\mu=(1.2,\,0.5)$$
+
+  - type: numeric
+    id: p4-epsy
+    tag: Problem 4 · A filtering step
+    prompt: |
+      What is the **second** entry (the velocity order) of the sensory prediction error $\tilde\epsilon_y$?
+    answer: -0.9
+    tolerance: 0.01
+    wrong:
+      - { value: 0.9, feedback: 'The sign is reversed. The error is data minus prediction, $\tilde y-\tilde g(\tilde\mu)$, so here $-0.4-0.5$.' }
+      - { value: -0.4, feedback: 'That is the observed velocity alone. The prediction of the velocity is the believed velocity $\mu''=0.5$ (because $g(x)=x$), and the error is the difference.' }
+    explanation: |
+      With $g(x)=x$ the prediction of every order is the belief of that order, so
+      $$\tilde\epsilon_y=\tilde y-\tilde\mu$$
+      $$=(1.5-1.2,\ -0.4-0.5)=(0.3,\ -0.9)$$
+
+  - type: numeric
+    id: p4-epsx
+    tag: Problem 4 · A filtering step
+    prompt: |
+      What is the **first** entry of the dynamics error $\tilde\epsilon_x$?
+    answer: -0.3
+    tolerance: 0.01
+    wrong:
+      - { value: 0.3, feedback: 'The sign is reversed. The belief''s own velocity $D\tilde\mu$ comes first and the model''s prediction $\tilde f$ is subtracted: $D\tilde\mu-\tilde f$.' }
+      - { value: 0.5, feedback: 'That is the believed velocity $\mu''$ alone. The model also predicts a velocity from the believed state, $f(\mu)=-\mu+v$, which must be subtracted.' }
+      - { value: 0.8, feedback: 'That is the model''s prediction $-\mu+v$ alone. The error compares it with the believed velocity $\mu''=0.5$.' }
+      - { value: -0.6, feedback: 'That is the error already multiplied by its precision, $2\times(-0.3)$. The question asks for the error itself.' }
+    explanation: |
+      The generalized prediction of the velocity of the state is $\tilde f=(-\mu+v,\ -\mu')=(0.8,\ -0.5)$, and the belief says its velocity is $D\tilde\mu=(0.5,\ 0)$. The mismatch is
+      $$\tilde\epsilon_x=D\tilde\mu-\tilde f$$
+      $$=(0.5-0.8,\ 0+0.5)=(-0.3,\ 0.5)$$
+      The belief changes more slowly than the model says it should (first entry negative).
+
+  - type: numeric
+    id: p4-step
+    tag: Problem 4 · A filtering step
+    prompt: |
+      The gradient of the free energy with respect to the belief is $\nabla_{\tilde\mu}F=(-1.5,\ 0.8)$. Take **one Euler step of size $0.1$** of the belief update, starting from $\tilde\mu=(1.2,\ 0.5)$. What is the new **first** entry $\mu$?
+    answer: 1.4
+    tolerance: 0.005
+    wrong:
+      - { value: 1.35, feedback: 'You moved only along the gradient. The belief also carries its own motion $D\tilde\mu=(0.5,\ 0)$ (the moving frame), so the rate is $D\tilde\mu-\nabla F=0.5+1.5=2$, not $1.5$.' }
+      - { value: 2, feedback: 'That is the rate of change $\dot\mu$, not the new belief. Multiply it by the step $0.1$ and add it to the old $\mu=1.2$.' }
+      - { value: 1.05, feedback: 'The gradient has the wrong sign: free energy is **minimized**, so the belief moves against the gradient. The negative gradient entry $-1.5$ pushes $\mu$ **up**.' }
+    explanation: |
+      The rate is $\dot{\tilde\mu}=D\tilde\mu-\nabla F=(0.5+1.5,\ 0-0.8)=(2.0,\ -0.8)$, so
+      $$\tilde\mu\to\tilde\mu+0.1\,\dot{\tilde\mu}$$
+      $$=(1.2+0.2,\ 0.5-0.08)=(1.4,\ 0.42)$$
+      The gradient comes from the errors above: with $\tilde\Pi_y\tilde\epsilon_y=(0.9,-0.9)$ and $\tilde\Pi_x\tilde\epsilon_x=(-0.6,0.5)$ it is $-\tilde\Pi_y\tilde\epsilon_y+D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x+\tilde\Pi_x\tilde\epsilon_x=(-1.5,\ 0.8)$ (the last term comes from $\nabla\tilde f=-I$). Free energy falls from $0.755$ to $0.472$ in this one step (checked by script).
+
+  - type: mcq
+    id: p4-frame
+    tag: Problem 4 · A filtering step
+    prompt: |
+      Suppose the creature has reached a belief where the gradient is exactly zero, $\nabla_{\tilde\mu}F=0$. What does the update do, and why is it written that way?
+    options:
+      - text: 'It keeps changing the belief by $\dot{\tilde\mu}=D\tilde\mu$: the belief is a trajectory with its own velocities, so with no error to resolve it still moves along the path it describes.'
+        correct: true
+      - text: 'It stops, $\dot{\tilde\mu}=0$: zero gradient means the best belief has been found and nothing needs to change.'
+        feedback: |
+          That is the answer for a **static** belief. Here the belief contains velocities, so a belief at rest would describe a world that is not moving, and would lag behind every moving signal.
+      - text: 'It resets the velocity entries to zero, because velocities are not directly observed.'
+        feedback: |
+          The velocity entries are part of the belief and are informed by $y'$. Nothing resets them; the shift $D$ moves each order into the one below it as time passes.
+      - text: 'It grows without bound, since the term $D\tilde\mu$ is never cancelled.'
+        feedback: |
+          $D\tilde\mu$ is not an extra force: it is the prediction of how the belief itself moves, and the gradient term corrects any difference between that motion and what the errors demand.
+    explanation: |
+      The update is $\dot{\tilde\mu}=D\tilde\mu-\nabla F$. A descent on $F$ alone would stop at the minimum; but the minimum of a trajectory belief keeps moving, so the update is written in a frame that moves with it. When the gradient vanishes the belief simply follows its own shift.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: numeric
+    id: p5-q
+    tag: Problem 5 · A hybrid prior
+    prompt: |
+      **Problem 5.** A gaze model has five discrete outcomes for where to look, with the continuous locations (in degrees) $\eta_o$: fixation $(0,0)$, up $(0,1)$, right $(1,0)$, down $(0,-1)$ and left $(-1,0)$. After the cue the discrete level holds the posterior $Q(o)$ over (fixation, up, right, down, left):
+      $$Q=(0.05,\ 0.15,\ 0.50,\ 0.05,\ 0.25)$$
+      The continuous level receives, as the prior mean of its cause, the average of the locations under this posterior. What is its **horizontal** component $q_x$?
+    answer: 0.25
+    tolerance: 0.005
+    wrong:
+      - { value: 0.5, feedback: 'That is the weight of "right" alone, as if the level had chosen the most probable outcome. The prior is the average over **all** outcomes: "left" (weight $0.25$, at $-1$) subtracts.' }
+      - { value: 0.75, feedback: 'The weight of "left" must be **subtracted**: its location is at $x=-1$, so it contributes $0.25\times(-1)$, not $+0.25$.' }
+      - { value: 0.2, feedback: 'Check the arithmetic: the horizontal components of the five locations are $0,0,1,0,-1$, so $q_x=0.50\cdot1+0.25\cdot(-1)=0.25$.' }
+    explanation: |
+      Weighting each location by its posterior probability gives
+      $$\mathbf q=\sum_oQ(o)\,\eta_o$$
+      $$=(0.50-0.25,\ 0.15-0.05)=(0.25,\ 0.10)$$
+      Fixation contributes nothing because its location is the origin.
+
+  - type: numeric
+    id: p5-dist
+    tag: Problem 5 · A hybrid prior
+    prompt: |
+      With $\mathbf q=(0.25,\ 0.10)$, how far from the origin (the fixation point), in degrees, is the point where the continuous level expects the eye to go? (Three decimals.)
+    answer: 0.269
+    tolerance: 0.002
+    wrong:
+      - { value: 0.35, feedback: 'That adds the two components. The distance from the origin is the length of the vector, $\sqrt{q_x^2+q_y^2}$.' }
+      - { value: 0.25, feedback: 'That is the horizontal component only. The point is also $0.10$ above the origin, which lengthens the distance a little.' }
+    explanation: |
+      $\sqrt{0.25^2+0.10^2}=\sqrt{0.0725}=0.269$. It is much less than the $1$ degree of the likeliest target ("right"): the prior hedges, pulling toward a point between the options, close to the centre.
+
+  - type: mcq
+    id: p5-hedge
+    tag: Problem 5 · A hybrid prior
+    prompt: |
+      The eye therefore heads to a point near the centre, though "right" is the most probable outcome. What does this tell us about how the discrete level talks to the continuous one?
+    options:
+      - text: 'It passes a **model average**: one prior mean, the posterior-weighted mean of the locations. A split belief gives a hedged target that no single outcome would choose.'
+        correct: true
+      - text: 'It passes a mixture of trajectories: the eye follows "right" a quarter of the time, "left" a quarter, and so on, switching among them.'
+        feedback: |
+          The average is taken over the **locations** before the movement, producing a single trajectory. No sampling or alternation takes place.
+      - text: 'It passes the most probable outcome only; the other four are ignored, so the eye goes to "right".'
+        feedback: |
+          Then the eye would go to $(1,0)$. The formula weights every outcome, so the unlikely ones pull the target away from the favourite.
+      - text: 'It passes the full posterior $Q(o)$, and the continuous level picks an outcome at random from it.'
+        feedback: |
+          The continuous level only receives the **mean** $\mathbf q$; it does not see the probabilities, and nothing is drawn at random.
+    explanation: |
+      The link is the Bayesian model average $\mathbf q=\sum_oQ(o)\eta_o$ as the prior mean of the continuous cause. A sharp posterior (one weight near $1$) sends the eye to a target; a split or flat posterior sends it to a compromise or to the centre.
+
+  - type: order
+    id: p5-order
+    tag: Problem 5 · A hybrid prior
+    prompt: |
+      Put in order the stages of a delayed-saccade trial, with the work each level does.
+    steps:
+      - 'Cue: a light flashes and the slow discrete level, which advances one step every few hundred milliseconds, updates its posterior over where to look.'
+      - 'Delay: the discrete belief still sends a prior mean at the centre, so the faster continuous level holds the eye at fixation.'
+      - 'Saccade: the discrete belief moves to the target, $\mathbf q$ moves with it, and the continuous level turns it into a smooth eye movement within one discrete step.'
+      - 'Fixate: the eye rests on the target; the prediction errors of the continuous level vanish.'
+    explanation: |
+      The two levels run on different timescales: the discrete level changes its belief once per step, while within a step the continuous level has time to move the eye all the way. The hybrid model is therefore how a slow decision becomes a fast, smooth movement.
+
+  - type: text
+    id: final-summary
+    title: "What you now own: moving, flowing, filtering, linking"
+    body: |
+      **Action as prediction.** A limb with position $x$ is sensed as $y=x$. The generative model has no action; it says the limb is attracted to a target $v$, $\dot x=v-x$, with belief $\mu$. The action fulfils that prediction:
+      $$u=v-\mu$$
+      For a spring (position $x_1$, velocity $x_2$, mass $m$, stiffness $\kappa$),
+      $$\dot x_1=x_2,\qquad \dot x_2=\frac{\kappa}{m}\,(v-x_1)$$
+      $$\omega=\sqrt{\kappa/m},\qquad T=\frac{2\pi}{\omega}$$
+      and the critical damping is $b=2\sqrt{\kappa/m}$.
+
+      **Dynamical systems as sequences.** Lotka-Volterra, for populations $x_i$ with growth rates $v_i$ and effects $A_{ij}$ of $j$ on $i$:
+      $$\dot x_i=x_i\Big(v_i+\sum_jA_{ij}x_j\Big)$$
+      Lorenz, with Rayleigh number $\rho$:
+      $$\dot x_1=\sigma(x_2-x_1)$$
+      $$\dot x_2=x_1(\rho-x_3)-x_2$$
+      $$\dot x_3=x_1x_2-\beta x_3$$
+      A slow Lorenz level that sets $\rho$ of a fast one gives birdsong and, with action, synchrony between two agents.
+
+      **Generalized filtering.** With $\tilde y,\tilde\mu$ the data and belief with their time derivatives, $D$ the shift matrix ($D\tilde\mu=(\mu',\mu'',\dots,0)$), $\tilde\epsilon_y=\tilde y-\tilde g(\tilde\mu)$, $\tilde\epsilon_x=D\tilde\mu-\tilde f(\tilde\mu)$ and precisions $\tilde\Pi$, belief and action follow
+      $$\dot{\tilde\mu}=D\tilde\mu-\nabla_{\tilde\mu}F,\qquad \dot u=-\nabla_uF$$
+      **Hybrid models.** The discrete posterior $Q(o)$ over outcomes with continuous locations $\eta_o$ gives the continuous level its prior mean
+      $$\mathbf q=\sum_oQ(o)\,\eta_o$$
+      so a slow decision becomes a smooth movement.
+
+      **Next:** the following chapter, *Model-Based Data Analysis*, turns the machinery around: instead of an agent modelling the world, you fit the same models to the behaviour and the brain data of subjects.
