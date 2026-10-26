@@ -2,7 +2,7 @@
 
 Session start: read only **Current** (`sed -n '/^## Current (2026-10-26)
 
-- **State:** widgets `simplex-points`, `gauss-charts`, `bregman-gap` built; Level 1 built: `ch01-why` (19 cards), `ch01-manifold` (19), `ch01-divergence` (20), `ch01-bregman` (22), `ch01-legendre` (19, intro-style glosses, registered).
+- **State:** widgets `simplex-points`, `gauss-charts`, `bregman-gap` built; Level 1 built: `ch01-why` (19 cards), `ch01-manifold` (19), `ch01-divergence` (20), `ch01-bregman` (22), `ch01-legendre` (19), `ch01-legendre` (19, intro-style glosses, registered).
 - **Next unit:** `ch01-dually-flat` (source md 841-1006, section 1.5: affine/dual affine coordinates, metric as Hessian, dual bases, parallel transport). Decision: a picture of two coordinate grids on one manifold would help; consider a widget unit first (see Log). Then pythagoras, proof-pythagoras, alternating, map, review, challenge, exam-partial after Level 7.
 - **Verified:** Preface, Ch.1 opening; manifold (1.1)-(1.15) PDF pp.17-20; divergence (1.23)-(1.31) pp.22-24; convex/Bregman (1.35)-(1.50) pp.25-28; Legendre (1.59)-(1.79) pp.29-31; Pythagorean (2.70-2.71) p.54 (see `sources/VERIFIED.md`). md anchors drift from PDF later: search the PDF page.
 - **Paths:** lessons `courses/info-geometry/chNN/`, exams `exams/`, sources git-ignored.
@@ -34,7 +34,7 @@ Conventions fixed here: $\ln$ for the book's $\log$; unit "nats"; points named $
 ### 2026-10-26 ch01-divergence
 Built (20 cards): hook uphill/downhill, criteria mcq, half squared distance (numeric, scale, triangle fails), KL numeric 0.193 and blow-up 1.61 vs 0.64, near points (0.0204, widget `simplex-points` close preset, quarter 0.0051), Taylor/quadratic form, positive-definite, which-is-divergence, ds^2=2D, symmetrized (build, 0.1373). No widget missing (`gauss-charts` not needed). Source (1.23)-(1.31) checked on PDF pp.22-24: no fixes. Conventions fixed here: criteria numbered (1)-(3); $D_S$ symmetrized; $g=4$ for KL at $(\tfrac12,\tfrac12)$ in chart $\xi=p_1$.
 
-- 2026-10-26 `ch01-bregman` (22 cards, over the ~16 plan: intro-style explicit steps; under max 25). Widgets `bregman-gap` presets chord, tangent (hide gap/x, showSlope), symmetric, kl-measures (negentropy), neglog; no new widget. Fixed md (1.35). Choices: one coordinate $\xi$ in pictures, n coordinates in summary; ex. 1.2 uses $D[\xi:\xi_0]$ (book primes the base point). Conventions fixed here: see CONVENTIONS Chapter 1.
+- 2026-10-26 `ch01-bregman` (22), `ch01-legendre` (19). Widgets `bregman-gap` presets chord, tangent (hide gap/x, showSlope), symmetric, kl-measures (negentropy), neglog; no new widget. Fixed md (1.35). Choices: one coordinate $\xi$ in pictures, n coordinates in summary; ex. 1.2 uses $D[\xi:\xi_0]$ (book primes the base point). Conventions fixed here: see CONVENTIONS Chapter 1.
 
 ### 2026-10-26 ch01-legendre
 Built (19 cards, over ~16 plan, max 25): hook (slope as name), guess, widget `bregman-gap` legendre preset (labels eta -> xi^*) twice, slope monotone, dual coordinate, xi*=ln4, dual potential, build, psi*(1)=e, max form, order proof of xi=grad psi*, curvature 4, dual of dual, intercept -2, traps (rescale 2.58, xi^3), D[3:1]=1.296 via (1.69). Choices: book writes dual coordinate xi* (not eta); n-dim only as formulas, no widget needed. Fixed md (1.69) D_c -> D_psi.
