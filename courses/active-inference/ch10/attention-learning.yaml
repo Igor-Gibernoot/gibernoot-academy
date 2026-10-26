@@ -1,0 +1,358 @@
+id: ch10-attention-learning
+title: "Attention, Rule Learning and Open Directions"
+kind: concept
+own: |
+  - **Attention is precision.** In a one-level model with hidden cause $x$ (belief $\mu$), prior mean $\eta$, data $y$ and prediction $g(\mu)$, the prediction errors are $\varepsilon_y=y-g(\mu)$ and $\varepsilon_v=\mu-\eta$, with precisions $\Pi_y$ and $\Pi_v$ and free energy $F=\tfrac12\Pi_y\varepsilon_y^2+\tfrac12\Pi_v\varepsilon_v^2$. Active inference defines **attention** as the precision of some sensory input, $\Pi_y$: a sensory channel inferred to be precise has more influence on belief updating (gain control). For $g(\mu)=\mu$ the belief that minimises $F$ is
+    {{ $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$$ }}
+    so raising $\Pi_y$ pulls $\mu^*$ towards the data. Attention is an attribute of **beliefs about sensory input**.
+  - **Salience is expected information gain.** For a policy $\pi$ with expected free energy $G$, **salience** is the epistemic value (expected information gain) component of $G$:
+    {{ $$\begin{aligned}G(\pi)={}&-\text{information gain}\\&-\text{pragmatic value}\end{aligned}$$ }}
+    where pragmatic value measures how well the expected outcomes fit the preferences $C$. Salience belongs to an **action or policy** (overt or covert orienting); expected information gain splits into **salience** (the potential to infer) and **novelty** (the potential to learn). Analogy: attention = choosing the best data among what was already measured; salience = designing the next experiment. They are often conflated because highly precise data are minimally ambiguous, so they deserve attention and the actions that acquire them are salient.
+  - **Learning structure, not only parameters.** Learning a generative model includes learning its **latent structure** (hidden regularities, such as a traffic-light rule that explains both why cars stop and why pedestrians walk), called **structure learning**. A hidden rule gives causal understanding, parsimonious inference (it abstracts from details such as car colour), generalisation to new situations and "learning to learn". The balance in the free energy,
+    {{ $$F=\text{complexity}-\text{accuracy}$$ }}
+    favours simpler models; **model reduction** (pruning parameters, for instance offline during sleep) helps to discover hidden rules. Parameter learning of a likelihood column adds counts when an outcome is seen, $a_{ij}\leftarrow a_{ij}+1$, giving the expected likelihood $a_{ij}/a_{0j}$ with $a_{0j}=\sum_i a_{ij}$.
+  - **Open directions.** (1) **Social and cultural dynamics**: many interacting active inference creatures, with emergent effects (self-organisation that resists dispersion, morphogenesis, turn taking, cognitive niches), from a science of individuals to a science of societies. (2) **Machine learning and robotics**: models such as the Helmholtz machine, variational autoencoders and generative adversarial networks learn connectionist generative models. The VAE objective, the evidence lower bound (ELBO), is equivalent to the variational free energy, so it also trades accuracy against complexity (the regulariser against overfitting):
+    {{ $$\text{ELBO}\ \widehat{=}\ -F=\text{accuracy}-\text{complexity}$$ }}
+    In robotics the key thing to learn is the forward mapping from actions to the next sensory feedback, by exploration, demonstration or a teacher.
+cards:
+  - type: text
+    id: hook
+    title: "A cluttered room"
+    body: |
+      You walk into a room full of clutter: books, cables, cups, a coat on a chair, a window with a bright street behind it. Your eyes do not scan everything evenly. They jump to a few places and stay.
+
+      Two different things are going on, and everyday language uses one word, "attention", for both. This lesson asks what each of them is in active inference, and then looks at the last topics of the course: how a creature learns **rules** and not only numbers, and where the theory goes next.
+
+      First, a guess.
+
+  - type: mcq
+    id: guess
+    prompt: |
+      You are looking for your keys in the cluttered room. Which description fits best what makes your eyes go to one place rather than another?
+    options:
+      - text: 'Two things combine: how much you trust the signal coming from a place (a clear, reliable view counts for more), and how much you expect to learn by looking there.'
+        correct: true
+      - text: 'Only brightness: the eyes always go to the brightest object.'
+        feedback: |
+          Bright things can catch the eyes, but when you search for keys you ignore a bright window. What you look at depends on what you expect to learn, not only on how bright it is.
+      - text: 'Chance: the eyes jump at random and the keys are found by luck.'
+        feedback: |
+          Random jumps would be a poor strategy. Active inference treats looking as an action chosen because it is expected to reduce uncertainty.
+    explanation: |
+      The two ingredients have names. Trusting a signal is **precision**, and active inference calls it **attention**. Expecting to learn from a place is **expected information gain**, and active inference calls it **salience**. The next cards define both.
+
+  - type: text
+    id: attention-def
+    title: "Attention as precision"
+    body: |
+      Words such as *attention* and *salience* have been redefined many times in psychology: sometimes they mean a **gain control** (some sensory channels count more than others), sometimes they mean **orienting** (moving the eyes or the mind to gain information). A formal theory avoids the ambiguity by naming the mathematics.
+
+      Active inference **defines attention as the precision of some sensory input**. Recall the one-level model: a hidden cause with belief $\mu$ and prior mean $\eta$, data $y$ and prediction $g(\mu)$. The two prediction errors are
+      $$\varepsilon_y=y-g(\mu),\qquad \varepsilon_v=\mu-\eta,$$
+      each weighted by its **precision** $\Pi$ (inverse variance: how much that source is trusted) in the free energy
+      $$F=\tfrac12\Pi_y\varepsilon_y^2+\tfrac12\Pi_v\varepsilon_v^2.$$
+      Sensory data inferred to be **precise** weigh more in belief updating than data inferred to be imprecise. That is gain control. It has been related to the classic *Posner paradigm*: responding to a stimulus at a location given higher precision is faster than responding elsewhere.
+
+  - type: widget
+    id: pc-widget
+    review: false
+    widget: predictive-coding
+    config:
+      mode: static
+      modes: [static]
+      g: { kind: gain, gain: 1 }
+      y: 3
+      eta: 0
+      Pi: { y: 1, v: 1 }
+      mu0: 0
+      range: [-1, 4]
+      presets:
+        - { label: 'attend (Pi_y = 8)', y: 3, eta: 0, Pi: { y: 8, v: 1 } }
+        - { label: 'equal (Pi_y = 1)', y: 3, eta: 0, Pi: { y: 1, v: 1 } }
+        - { label: 'ignore (Pi_y = 0.25)', y: 3, eta: 0, Pi: { y: 0.25, v: 1 } }
+    body: |
+      The square is the data $y=3$, the diamond the prior $\eta=0$, the dot the belief $\mu$ (with $g(\mu)=\mu$). Press *Descend* for each preset. Only $\Pi_y$, the precision of the sensory channel, changes: it plays the role of **attention** to that channel.
+
+  - type: mcq
+    id: attention-effect
+    prompt: |
+      One cause, data $y=3$, prior mean $\eta=0$, precision of the prior $\Pi_v=1$, and $g(\mu)=\mu$. The sensory precision $\Pi_y$ is raised from $1$ to $8$ (more attention to the data). What changes in where the belief settles?
+    options:
+      - text: 'The settled belief moves from the middle ($1.5$) towards the data, to $24/9\approx2.67$: the data count more in the compromise.'
+        correct: true
+      - text: 'The settled belief moves towards the prior $\eta=0$.'
+        feedback: |
+          Raising $\Pi_y$ makes the sensory error $\varepsilon_y$ costly, so the belief reduces it by moving **towards** the data. The prior pulls harder when $\Pi_v$ is the larger one.
+      - text: 'It does not move: precision only changes how fast the belief descends, not where it ends.'
+        feedback: |
+          Precisions are the weights of the two errors in $F$, so they change the **minimum**: $\mu^*=(\Pi_y y+\Pi_v\eta)/(\Pi_y+\Pi_v)$.
+    explanation: |
+      With $g(\mu)=\mu$ the minimum of $F$ is
+      $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}.$$
+      With $\Pi_y=\Pi_v=1$ it is $3/2$; with $\Pi_y=8$ it is $24/9\approx2.67$. Attention is a **weight on a sensory channel**.
+
+  - type: numeric
+    id: attention-numeric
+    prompt: |
+      One cause, data $y=3$, prior mean $\eta=0$, prior precision $\Pi_v=1$, prediction $g(\mu)=\mu$. With sensory precision $\Pi_y=3$, where does the belief settle (the $\mu$ that minimises $F=\tfrac12\Pi_y(y-\mu)^2+\tfrac12\Pi_v(\mu-\eta)^2$)?
+    answer: 2.25
+    tolerance: 0.01
+    answerText: '2.25'
+    hint: 'Set $dF/d\mu=0$: $-\Pi_y(y-\mu)+\Pi_v(\mu-\eta)=0$, then solve for $\mu$.'
+    wrong:
+      - { value: 1.5, feedback: 'That is the value for equal precisions $\Pi_y=\Pi_v=1$. Here the data are trusted three times as much as the prior.' }
+      - { value: 3, feedback: 'The belief would reach the data only if the prior had zero precision. With $\Pi_v=1$ it still pulls towards $\eta=0$.' }
+    explanation: |
+      $-3(3-\mu)+1\cdot\mu=0$ gives $4\mu=9$, so $\mu^*=9/4=2.25$. Weighted average: $(3\cdot3+1\cdot0)/(3+1)$.
+
+  - type: text
+    id: salience-def
+    title: "Salience as expected information gain"
+    body: |
+      Attention says how much to trust the data **already arriving**. A different question is **where to look next**. In active inference **salience** is the **expected information gain** (the epistemic value), a component of the expected free energy:
+      $$\begin{aligned}G(\pi)={}&-\text{information gain}\\&-\text{pragmatic value}\end{aligned}$$
+      Pragmatic value measures how well the expected outcomes fit the preferences $C$. Intuitively, something is salient when we expect it to **yield more information**.
+
+      Note the difference in what each one is about. **Attention** is an attribute of **beliefs about sensory input** (a precision). **Salience** is defined for an **action or policy**: it fits overt or covert orienting. Expected information gain also splits into **salience** (the potential to *infer*, to resolve uncertainty about states) and **novelty** (the potential to *learn*, to improve the model's parameters).
+
+  - type: widget
+    id: scorer-widget
+    review: false
+    widget: policy-scorer
+    config:
+      outcomes: ['keys visible', 'no keys visible']
+      C: [0.5, 0.5]
+      states: ['keys on the shelf', 'keys in the bag']
+      likelihood: [[0.9, 0.1], [0.1, 0.9]]
+      gamma: 4
+      gammaMax: 8
+      showRisk: true
+      showAmbiguity: true
+      showG: true
+      showPragmatic: true
+      showEpistemic: true
+      showProb: true
+      showGamma: true
+      policies:
+        - { name: 'look at the shelf', qx: [0.5, 0.5] }
+        - { name: 'look at the window', qx: [0.5, 0.5], likelihood: [[0.5, 0.5], [0.5, 0.5]] }
+    body: |
+      You do not know whether your keys are on the shelf or in your bag (belief $0.5$ each). You have no preference between seeing keys or not ($C=(0.5,0.5)$), so nothing pragmatic favours either look. **Looking at the shelf** shows keys if they are there ($0.9$) and no keys if not; **looking at the window** shows the same thing in both cases ($0.5$, $0.5$). Read the information gain and $G$ of each policy, then move $\gamma$.
+
+  - type: mcq
+    id: scorer-read
+    prompt: |
+      Two ways to look: at the shelf, where the view would tell the two hypotheses apart ($P(\text{keys visible})=0.9$ if the keys are there, $0.1$ if not), or at the window, where you would see the same thing whether the keys are on the shelf or in the bag. You have no outcome preference. Which has the lower expected free energy $G$, and why?
+    options:
+      - text: 'The shelf ($G\approx0.325$ against $0.693$ nats): both have the same pragmatic value, but looking at the shelf has an information gain of about $0.368$ nats and the window $0$.'
+        correct: true
+      - text: 'The window: it is easier, so its $G$ is lower.'
+        feedback: |
+          $G$ does not measure effort. With equal preferences, $G=-\text{information gain}-\text{pragmatic value}$ differs only through the information gain, and the window gives none.
+      - text: 'They tie: $G$ only depends on preferences, and the preferences are equal.'
+        feedback: |
+          $G$ also contains the epistemic term. The shelf resolves the uncertainty about where the keys are; the window does not.
+    explanation: |
+      Pragmatic value is $\ln 0.5=-0.693$ for both. The shelf: gain $=0.368$ (the entropy $0.693$ of the expected outcome minus the ambiguity $0.325$), so $G=-0.368+0.693=0.325$. The window: gain $0$, so $G=0.693$. Looking at the shelf is the **salient** action, chosen by the epistemic term alone. At $\gamma=4$ it gets probability $\approx0.81$.
+
+  - type: mcq
+    id: experiment
+    prompt: |
+      Active inference compares attention and salience to a scientific experiment. Which pairing is right?
+    options:
+      - text: 'Attention = picking the highest-quality data among what has already been measured, to test the hypothesis. Salience = designing the next experiment so that its data will be of the highest quality.'
+        correct: true
+      - text: 'Attention = designing the next experiment. Salience = analysing the data already measured.'
+        feedback: |
+          Reversed. Salience is defined for a **policy** (what to do next, such as where to look), so it is the design of the next measurement. Attention weights the data you already have.
+      - text: 'They are two names for the same precision.'
+        feedback: |
+          Only attention is a precision. Salience is the expected information gain of an action. They are conflated because precise data are minimally ambiguous, not because they are the same quantity.
+    explanation: |
+      Attention: a precision on current data (a belief about sensory input). Salience: expected information gain of a policy. The reason they are so often conflated: **highly precise data are minimally ambiguous**, so they deserve attention, and actions that acquire them are highly salient.
+
+  - type: text
+    id: structure
+    title: "Learning the rule, not only the numbers"
+    body: |
+      Humans and other animals infer **causes**, learn abstract concepts and generalise from **few examples**, where much current machine learning needs a great many. Active inference's answer is to learn **generative models** that capture the causal relations between actions, events and observations. Simple tasks (like the T-maze) need simple models. Complex situations need models that capture the **latent structure** of the environment: hidden regularities that let you generalise across apparently different situations. Learning that structure is called **structure learning**.
+
+      A **traffic intersection** is the example. A naive observer collects statistics about co-occurring events (a red car stops, a tall man crosses; an old woman stops, a big car passes), and most of them are useless. A recurring pattern does emerge: *pedestrians cross soon after all the cars stop*. That predicts when pedestrians will walk, but it is not understanding, and it can even give a wrong explanation, that **the cars stopping makes the pedestrians walk**.
+
+      The correct **hidden rule** is the traffic light: it causes the cars to stop and the pedestrians to walk. Such a rule gives better prediction, more **parsimonious** inference (it abstracts away from details such as the colour of the cars), and **generalisation** to other crossroads and cities where the details differ.
+
+  - type: mcq
+    id: causal
+    prompt: |
+      An observer at a crossroad notices that pedestrians start crossing just after all the cars have stopped. A model that only records this regularity concludes "the stopping cars make the pedestrians walk". What does a model with a hidden traffic-light rule say, and what does it add?
+    options:
+      - text: 'The light is a common cause of both events: it makes the cars stop and the pedestrians walk. The regularity was real but not causal, and the hidden rule also predicts what happens at other crossroads.'
+        correct: true
+      - text: 'The cars are the cause, and the light is only a decoration that happens to change at those times.'
+        feedback: |
+          That is the conclusion of a model with no hidden cause: pure pattern recognition. The point is that the regularity is also explained, with fewer assumptions and better generalisation, by a hidden rule.
+      - text: 'Nothing: the two models predict exactly the same, so they are equivalent.'
+        feedback: |
+          They may predict the pedestrians equally at this crossroad, but the hidden rule gives a causal understanding and generalises to other crossroads, with different cars and cities. Pattern statistics alone cannot even tell whether rain explains wet grass or wet grass explains rain.
+    explanation: |
+      The same limit appears in "rain and wet grass": statistics of co-occurrence do not tell the direction. A **model of the latent structure** can. The hidden rule also supports a **learning set** ("learning to learn"): at a crossroad where the light is off you cannot use the rule, but you may expect that *another similar hidden rule* is in play, such as the officer's gestures.
+
+  - type: widget
+    id: dirichlet-widget
+    review: false
+    widget: dirichlet-counts
+    config:
+      outcomes: ['pedestrians cross', 'pedestrians wait']
+      columns:
+        - { name: 'a crossroad with the light green for pedestrians', a: [1, 1], truth: [0.9, 0.1] }
+      editable: true
+      observe: true
+      sample: true
+      options:
+        - { name: 'watch the crossroad', s: [1] }
+      labels: { sample: 'Watch the {name}' }
+    body: |
+      Once the *kind* of model is fixed, its numbers are learned by **counting**. This crossroad starts with counts $(1,1)$ (one imaginary observation of each outcome): the believed chance of "cross" is $1/2$. Press *Watch* several times (the true chance is $0.9$) and see the counts and bars. The **expected likelihood** is $a_{ij}/a_{0j}$, with $a_{0j}=\sum_i a_{ij}$ the total of the column.
+
+  - type: numeric
+    id: counts
+    prompt: |
+      A column of a likelihood matrix has counts $(1,1)$ for (pedestrians cross, pedestrians wait) while the light is green. You then watch $7$ crossings and $1$ waiting; each observation adds $1$ to the count of the outcome seen. What is the expected likelihood $a_{1j}/a_{0j}$ of "cross"?
+    answer: 0.8
+    tolerance: 0.001
+    answerText: '0.8'
+    hint: 'New counts: $(1+7,\,1+1)$. The expected likelihood is the count divided by the column total.'
+    wrong:
+      - { value: 0.875, feedback: 'That is $7/8$, which forgets the imaginary count $1$ that each outcome started with.' }
+      - { value: 0.5, feedback: 'That is the value before any observation. The counts have changed.' }
+    explanation: |
+      Counts $(8,2)$, total $10$, so $8/10=0.8$. Learning a parameter is accumulation; learning that there is a *light* at all is learning structure, which no amount of counting inside a model without that hidden cause can reveal.
+
+  - type: mcq
+    id: complexity
+    prompt: |
+      Current machine learning often follows "the bigger the model, the better". What does active inference say about the model size, and how does this connect to learning hidden rules?
+    options:
+      - text: 'It stresses balancing the accuracy of a model with its complexity and favours simpler models. Model reduction (pruning unneeded parameters), for instance offline during sleep, is an effective way to find hidden rules.'
+        correct: true
+      - text: 'It says to maximise accuracy only: complexity does not enter the free energy.'
+        feedback: |
+          The free energy is $F=\text{complexity}-\text{accuracy}$: a model that fits every detail pays a complexity cost, and may not generalise.
+      - text: 'It says models should be as small as possible whatever the accuracy.'
+        feedback: |
+          The aim is the **balance**: accuracy against complexity, not minimal size by itself.
+    explanation: |
+      Pruning is not only saving resources: removing unnecessary parameters leaves the regularities that generalise. This is why the trade-off $F=\text{complexity}-\text{accuracy}$ appears again here.
+
+  - type: text
+    id: social
+    title: "Open direction 1: many creatures"
+    body: |
+      So far a single creature faced the world. **Social and cultural dynamics** need **several** active inference creatures that interact, physically (joint actions, such as team sports) or in more abstract ways (elections, social networks).
+
+      Simple simulations of identical interacting creatures already show emergent phenomena: **self-organisation** of simple life forms that resist dispersion, **morphogenesis** (acquiring and restoring a body form), and **mutual coordinated prediction and turn taking**. Other simulations let creatures extend their cognition to material artefacts and shape their **cognitive niches**.
+
+      These capture only a fraction of social and cultural life, but they show how active inference may grow from **a science of individuals to a science of societies**, and how cognition extends beyond the skull.
+
+  - type: mcq
+    id: social-q
+    prompt: |
+      Which of these is NOT something reported from simulations of several interacting active inference creatures?
+    options:
+      - text: 'A full account of elections and national culture, already reproduced in detail.'
+        correct: true
+      - text: 'Self-organisation of simple life forms that resist dispersion.'
+        feedback: |
+          This was reported for identical interacting organisms, so it is not the answer. Look for the claim that goes beyond what the simulations show.
+      - text: 'Mutual coordinated prediction and turn taking.'
+        feedback: |
+          This was reported, so it is not the answer.
+      - text: 'Creatures that extend their cognition into material artefacts and shape a cognitive niche.'
+        feedback: |
+          This was also reported in simulations, so it is not the answer.
+    explanation: |
+      The simulations capture **only a fraction** of social and cultural complexity; they illustrate the potential, and the full science of societies is an open direction.
+
+  - type: text
+    id: ml
+    title: "Open direction 2: machine learning and robotics"
+    body: |
+      The generative models and variational inference of this course are widely used in machine learning and robotics, where the emphasis is on **how to learn** (connectionist) generative models rather than on using them to act. They could help to **scale up** the models in this course, with the caveat that they may need very different process theories.
+
+      - The **Helmholtz machine** uses a recognition network and a generative network, closely related to the variational approach: it infers a distribution over hidden variables and samples from it to get fictive data.
+      - **Variational autoencoders** (VAEs) have as learning objective the **evidence lower bound** (ELBO), mathematically equivalent to variational free energy: it rewards an accurate description of the data (accuracy) and internal representations not too far from their priors (low complexity). The complexity term acts as a **regulariser** that helps to generalise and avoid overfitting.
+      - **Generative adversarial networks** (GANs) set a generative network against a discriminative network that tries to tell real from fictive data; the race improves the fidelity of the fictive data.
+
+      In **robotics** the main thing to learn is the **forward mapping** from actions to the sensory feedback (visual, proprioceptive) at the next time step, learned by exploration, demonstration, or a teacher guiding the robot's hands towards the goal.
+
+  - type: mcq
+    id: elbo
+    prompt: |
+      The learning objective of a variational autoencoder, the ELBO, is equivalent to the variational free energy. Which statement describes how it behaves?
+    options:
+      - text: 'It rewards an accurate description of the data and also favours internal representations close to their priors, so it trades accuracy against complexity; the complexity term acts as a regulariser against overfitting.'
+        correct: true
+      - text: 'It rewards accuracy only; the closeness to the prior is an extra added by hand.'
+        feedback: |
+          The closeness to the priors is part of the objective itself: it is the complexity term of $F=\text{complexity}-\text{accuracy}$.
+      - text: 'It rewards complexity: richer internal representations always score higher.'
+        feedback: |
+          The opposite: complexity is penalised, and that is what helps to generalise instead of overfitting.
+    explanation: |
+      Same trade-off as in the whole course: free energy is complexity minus accuracy, and minimising it (or maximising the ELBO, its negative) balances the two.
+
+  - type: mcq
+    id: trap-attention-salience
+    tag: "Trap"
+    prompt: |
+      A reader says: "Attention and salience are the same thing, just different words for how much a stimulus matters." What is the best correction?
+    options:
+      - text: 'Attention is the precision of a sensory input (a belief about sensory data); salience is the expected information gain of an action or policy. They are often conflated because precise data are minimally ambiguous.'
+        correct: true
+      - text: 'Both are precisions, one of the likelihood and one of the prior.'
+        feedback: |
+          Salience is not a precision: it is the epistemic part of expected free energy, defined for policies.
+      - text: 'Both are expected free energy terms, one pragmatic and one epistemic.'
+        feedback: |
+          Attention is not a term of $G$: it is a precision in the belief updating. Only salience (and novelty) are epistemic terms.
+    explanation: |
+      Precision for the data you receive, information gain for the actions you choose.
+
+  - type: mcq
+    id: trap-counting
+    tag: "Trap"
+    prompt: |
+      "With enough observations, accumulating counts in the likelihood will eventually discover the traffic-light rule." What is wrong with it?
+    options:
+      - text: 'Counting adjusts the numbers of a model whose structure is fixed. A hidden cause such as the light is part of the structure, so learning it needs structure learning (a richer generative model), balanced against complexity.'
+        correct: true
+      - text: 'Nothing: with enough counts any structure appears.'
+        feedback: |
+          Counts inside a model that has no hidden light can only record the co-occurrence of cars and pedestrians, which may lead to the wrong causal story.
+      - text: 'Counts cannot be used for learning at all in active inference.'
+        feedback: |
+          They can: Dirichlet counts learn the parameters of a likelihood. The issue is that parameters are not structure.
+    explanation: |
+      Parameter learning (counts) and structure learning (which hidden causes exist) are different jobs.
+
+  - type: mcq
+    id: trap-bigger
+    tag: "Trap"
+    prompt: |
+      "A bigger generative model always generalises better, because it has more parameters to capture the world." What does active inference answer?
+    options:
+      - text: 'The free energy balances accuracy against complexity, so a model that is bigger than needed pays a complexity cost and tends to generalise worse; pruning can help find the rule.'
+        correct: true
+      - text: 'Correct: accuracy is the only part of free energy that matters for generalising.'
+        feedback: |
+          Free energy is complexity minus accuracy; ignoring complexity leads to overfitting.
+      - text: 'Correct for biological creatures but false for machines.'
+        feedback: |
+          The same balance appears in the ELBO of machine learning models, which is equivalent to variational free energy.
+    explanation: |
+      Accuracy against complexity again: a regulariser is exactly a complexity term.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the content map of this level. You will rebuild, box by box, the map of the chapter: from the predictive brain through action, decision, rationality and emotion, to attention, rule learning and the open directions.
