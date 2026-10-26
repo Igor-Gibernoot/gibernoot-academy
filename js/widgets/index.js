@@ -44,6 +44,7 @@ import { attractorLab } from './attractor-lab.js';
 import { flowLab } from './flow-lab.js';
 import { coupledAgents } from './coupled-agents.js';
 import { hybridSaccade } from './hybrid-saccade.js';
+import { simplexPoints } from './simplex-points.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -84,6 +85,7 @@ const WIDGETS = {
   'flow-lab': flowLab,
   'coupled-agents': coupledAgents,
   'hybrid-saccade': hybridSaccade,
+  'simplex-points': simplexPoints,
 };
 
 export function mountWidget(name, el, config) {

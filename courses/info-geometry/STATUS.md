@@ -1,6 +1,13 @@
 # Status
 
-Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/p' STATUS.md`).
+Session start: read only **Current** (`sed -n '/^## Current (2026-10-26)
+
+- **State: set up; widget `simplex-points` built** (`js/widgets/simplex-points.js`, documented in `docs/LESSON_FORMAT.md`). No lesson built yet.
+- **Next unit:** `ch01-why`, light preview concept lesson (intro rules). Uses `simplex-points` (presets `picture`, `asymmetry`, `mix-vs-exp` in LESSON_FORMAT). Verified: Ch.1 opening PDF p.16.
+- (old) `ch01-why` Markdown converted (`sources/information_geometry_book.md`), offset +13 set. Each lesson session verifies its range against PDF pages and logs it in `sources/VERIFIED.md`.
+- **Paths:** lessons `courses/info-geometry/chNN/`, exams `exams/`, sources git-ignored.
+
+## Log/p' STATUS.md`).
 
 ## Current (2026-10-26)
 
@@ -14,3 +21,4 @@ Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/p' STATUS.
 Trail planned from the book's table of contents (planned lesson list is a draft: adjust as sections are read).
 
 - 2026-10-26: `ch01-why` session stopped before writing: needs widget `simplex-points` (no existing widget or preset shows distributions as points of a probability simplex; checked gaussian-fit, dirichlet-counts, belief-mixer, sphere). Opening range verified.
+- 2026-10-26 widget `simplex-points`: triangle simplex, 1-3 points (fixed/draggable), Euclid + KL both ways + midpoint KL with bars, segment, mixture/exponential/curve families, presets. Tested with a throwaway lesson (removed): smoke 0 errors, phone screenshot ok, validate ok. Choices: Euclid distance measured in p-space (side sqrt2); names are TeX; bars clamp at `barMax`=3 nats. Conventions fixed here: none.
