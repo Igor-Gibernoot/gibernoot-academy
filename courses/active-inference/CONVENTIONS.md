@@ -154,6 +154,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - PEB: second level theta_i ~ N(beta0+beta1 x_i, 1/Pi^(2)) (Pi^(2) precision); shrunk mean (Pi_i m_i+Pi^(2) l_i)/(Pi_i+Pi^(2)); widget peb-regression demo ids/numbers in LESSON_FORMAT.
 
 - PEB lesson numbers: demo 8 subjects, line (-0.5, 0.06, Pi2 3): predict x=40 -> 1.9; shrunk mean x=20 0.8712 (Pi_i 1.5625, l 0.7); ln E free -8.4994, slope 0 -10.0683, diff 1.5689 (BF 4.8); best fit diff ~3.03. Evidence uses flat priors on beta.
+- Analysis steps: u~ actions, o~ stimuli; preference scale e^theta (ours, preferences ~ e^{e^theta c}); L=sum_t ln P(u_t|...); theta=.7 -> 2.01; probs .8,.5,.9 -> L=-1.02; fictive data = face validity + parameter recovery.
 
 ## Chapter 10
 

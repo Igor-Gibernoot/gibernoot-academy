@@ -1,0 +1,241 @@
+id: ch09-analysis-steps
+title: "Instructions for Model-Based Analysis"
+kind: concept
+own: |
+  - **The pipeline, on a T-maze rat.** Setting: a rat in a T-maze, a reward in the left or right arm and an informative cue in the central arm; we record the arms it visits, $\tilde u$ (the actions), and the cues it sees, $\tilde o$ (the observations), over many trials and many rats. The scientist's goal is a parameter $\theta$ of the rat's own generative model $m$ (for example the **log** of the precision of its preferences) for each rat, then a comparison across rats. Six steps: collect data; build a POMDP that maps parameters to a model; specify the likelihood; specify priors; invert; do the group analysis.
+  - **Parameters in, model out; log scale.** The POMDP is a function $\theta\mapsto$ (a fully specified, unsolved POMDP). A positive scale such as the preference precision enters as $e^{\theta}$, so that $\theta$ may be any real number and a Gaussian prior centred on $0$ means "scale $1$":
+    {{ $$\text{preference scale}=e^{\theta}$$ }}
+  - **Likelihood.** For a given $\theta$, solve the POMDP (belief updating) to get the probability of each action; the likelihood of the observed actions is their product, so its log is a sum:
+    {{ $$\begin{aligned}L(\theta)&=\ln P(\tilde u\mid\theta,m,\tilde o)\\&=\sum_t\ln P(u_t\mid\theta,m,\tilde o)\end{aligned}$$ }}
+  - **Prior and inversion.** The prior is $P(\theta\mid m)=\mathcal{N}(\eta,\Pi_1^{-1})$ (mean $\eta$, precision $\Pi_1$, often $\eta=0$ with $\Pi_1$ fixing the plausible range). Bayes' rule then gives, for each rat, the posterior and the evidence $P(\tilde u\mid m,\tilde o)$:
+    {{ $$P(\theta\mid\tilde u,m,\tilde o)\propto P(\theta\mid m)\,P(\tilde u\mid\theta,\tilde o,m)$$ }}
+    Variational Laplace finds the posterior mode $\mu$ and precision $\Pi_{\text{post}}=\Pi_1-\nabla^2L(\mu)$, and the approximate log evidence ($\epsilon=\eta-\mu$)
+    {{ $$\begin{aligned}\ln P(\tilde u\mid m,\tilde o)\approx{}&L(\mu)\\&-\tfrac12\big(\epsilon^{\top}\Pi_1\epsilon+\ln|\Pi_{\text{post}}|\big)\end{aligned}$$ }}
+  - **Group level.** The fitted parameters of all rats (the vector $\theta$, one entry per rat) are treated as data of a second model, with explanatory variables $X$ (a column of ones, age, drug, ...), effect sizes $\beta$ and group precision $\Pi^{(2)}$:
+    {{ $$P(\theta\mid\beta,X)=\mathcal{N}\big(X\beta,\ \Pi^{(2)}\big)$$ }}
+    An alternative is an ordinary association test (e.g. canonical variates between questionnaire scores and the fitted parameters). Before real data: generate fictive data to check plausibility, and check **parameter recovery** (simulate with known $\theta$, invert, compare).
+cards:
+  - type: text
+    id: hook
+    title: "Does this rat know what it wants?"
+    body: |
+      A rat is placed in a T-maze. A reward (a food pellet) hides in the **left** or the **right** arm; an informative **cue** in the central arm tells where. The rat can run straight to an arm, or first visit the cue and then choose. An experimenter records, trial by trial, what the rat did:
+
+      | Trial | Reward was | First move | Second move |
+      |---|---|---|---|
+      | 1 | left | cue | left |
+      | 2 | right | cue | right |
+      | 3 | left | left | stay |
+      | 4 | right | cue | right |
+      | 5 | left | right | stay |
+
+      The scientific question is about the rat's **mind**: how strongly does it prefer the pellet over no pellet (the **precision of its preferences**)? Nobody can read that number off a table. Before any method, guess: what would you need, besides this table, to turn five trials into an estimate of one number inside the rat's head, and then to compare many rats?
+
+  - type: mcq
+    id: what-to-record
+    prompt: |
+      A lab wants to estimate the preference precision of each of 20 rats, some treated with a drug and some not. Which data must be collected?
+    options:
+      - text: 'The choices of each rat, the sensory input it received (where the cue pointed, whether a reward was found), and a group covariate for each rat (drug or not, age).'
+        correct: true
+      - text: 'Only the choices: the stimuli are the experimenter''s business, and the drug label can be added at the end by hand.'
+        feedback: |
+          The same choice means different things after different stimuli (going left after a "right" cue is a very different act from going left after a "left" cue). And the covariates are needed for the group question, so they must be recorded together with each rat.
+      - text: 'Only the final reward each rat earned, since preferences are about rewards.'
+        feedback: |
+          The total reward throws away the sequence of choices, and it is the sequence whose probability the model will predict. Two rats with the same reward can have different preferences.
+    explanation: |
+      The model will predict the **actions** of a rat given the **stimuli** it saw (a model of a rat that sees nothing predicts nothing). The covariates are for later: they are the explanatory variables of the group-level analysis.
+
+  - type: text
+    id: pomdp-function
+    title: "Step 2: the rat's model, as a function of parameters"
+    body: |
+      Recall the T-maze **POMDP**: a generative model, from the rat's own point of view, with hidden states (where the reward is, where the rat is), a likelihood $A$, transitions $B$, a prior over initial states $D$ and **preferences** $C$ (which outcomes it likes).
+
+      The scientist does not want one fixed model but a **family**: the model must be a *function* that takes parameters $\theta$ as input and returns a fully specified, but **not yet solved**, POMDP. "Not yet solved" means we have not yet asked what the rat would do under it.
+
+      Example: to ask how strongly the rat prefers the pellet, put a **log-scale parameter** in the preferences. If $c$ is the preference vector for $\theta=0$ (larger entries for the preferred outcomes), take preferences proportional to
+
+      $$e^{e^{\theta}c}\quad\text{(normalised)}.$$
+
+      A large $e^{\theta}$ makes the preference distribution sharply peaked on the pellet; a small one flattens it ("the rat does not care much"). This particular form is our own illustration; what matters is that one number rescales how peaky the preferences are.
+
+  - type: mcq
+    id: why-log
+    prompt: |
+      Why is the preference scale written as $e^{\theta}$, with the inversion run on $\theta$, rather than using the scale itself as the parameter?
+    options:
+      - text: 'A scale must be positive, and a Gaussian prior would put mass on negative values; $\theta$ can be any real number, and a Gaussian prior on $\theta$ centred on $0$ treats "twice as peaky" and "half as peaky" alike.'
+        correct: true
+      - text: 'Because $e^{\theta}$ is always larger than $\theta$, so the preferences become stronger.'
+        feedback: |
+          Strength is not the point: $e^{\theta}$ is smaller than $\theta$ for some values and, for negative $\theta$, it is a number between $0$ and $1$. The point is that it is always positive and that $\theta$ lives on an unbounded line where Gaussian priors and Laplace approximations work well.
+      - text: 'Because the POMDP solver can only accept logarithms.'
+        feedback: |
+          The solver accepts the scale; we apply $e^{\theta}$ before handing it over. The log is a convenience for the inference on the scientist's side.
+    explanation: |
+      Variational Laplace assumes a Gaussian over the parameter, and a Gaussian lives on the whole real line. A positive quantity is therefore reparametrised by its logarithm. With the prior centred on $\theta=0$, the scale $e^{0}=1$ is the prior guess, and $\theta=\pm0.7$ means "twice as" or "half as" peaky, symmetrically.
+
+  - type: numeric
+    id: exp-theta
+    prompt: |
+      The model uses the preference scale $e^{\theta}$. A rat is fitted with $\theta=0.7$. What is its preference scale? (Two decimals.)
+    answer: 2.01
+    tolerance: 0.01
+    wrong:
+      - { value: 0.7, feedback: 'That is $\theta$ itself. The scale is $e^{\theta}$.' }
+      - { value: 1.7, feedback: 'You added one: $e^{\theta}$ is the exponential, not $1+\theta$ (which is only a first-order approximation for small $\theta$).' }
+    hint: '$e^{0}=1$ and $e^{1}\approx2.72$.'
+    explanation: |
+      $e^{0.7}\approx2.01$: this rat's preferences are about twice as peaky as the reference ($\theta=0$, scale $1$). A rat with $\theta=-0.7$ would have scale $e^{-0.7}\approx0.50$, about half.
+
+  - type: text
+    id: likelihood
+    title: "Step 3: the likelihood function"
+    body: |
+      Now we need a way to score a parameter value against the recorded behaviour. Fix $\theta$. The POMDP is fully specified, so we can **solve** it: run the belief-update equations of the rat's model on the stimuli $\tilde o$ it actually received. At each step this gives the probability that the rat takes each action. The **likelihood** of the observed behaviour $\tilde u$ is the probability the model assigns to the actions the rat really took:
+
+      $$L(\theta)=\ln P(\tilde u\mid\theta,m,\tilde o)$$
+
+      Here $m$ is the scientist's model (the whole family of POMDPs), $\tilde o$ the stimuli, $\tilde u$ the sequence of actions (the tilde means "a sequence over time"). In practice this step *calls a POMDP solver* inside the likelihood: every evaluation of $L$ at a new $\theta$ re-solves the rat's problem.
+
+      If the actions at different steps are conditionally independent given the model's beliefs (each action's probability is already computed from the past by the solver), the probability of the sequence is a **product** of per-step probabilities, so its log is a **sum**.
+
+  - type: numeric
+    id: loglik
+    prompt: |
+      For a given $\theta$, the solved model assigns these probabilities to the three actions the rat **actually took** in a short episode: $0.8$, $0.5$ and $0.9$. What is the log likelihood $L(\theta)$ of the episode? (Natural log, two decimals.)
+    answer: -1.02
+    tolerance: 0.01
+    wrong:
+      - { value: 2.2, feedback: 'You added the probabilities. Independent steps multiply: $P=0.8\cdot0.5\cdot0.9$, and the log turns that product into a sum of logs.' }
+      - { value: 0.36, feedback: 'That is the probability of the sequence, $0.8\cdot0.5\cdot0.9$. The question asks for its logarithm.' }
+      - { value: -0.36, feedback: 'The log of the product is not minus the product; take $\ln0.36$ (or sum $\ln0.8+\ln0.5+\ln0.9$).' }
+    hint: 'Sum the logs of the three probabilities, or take the log of their product.'
+    explanation: |
+      $$\begin{aligned}L&=\ln0.8+\ln0.5+\ln0.9\\&\approx-0.223-0.693-0.105\\&=-1.02\end{aligned}$$
+
+      equivalently $\ln(0.8\cdot0.5\cdot0.9)=\ln0.36\approx-1.02$. A log likelihood is always $\le0$ here, and the closer to $0$, the better this $\theta$ explains the behaviour.
+
+  - type: mcq
+    id: prior-choice
+    prompt: |
+      Step 4 asks for prior beliefs about $\theta$ "in terms of expectations and precisions". A student proposes a prior with mean $0$ and a tiny precision (almost flat), another a mean $0$ and a precision so large the prior is a spike. Which statement is right?
+    options:
+      - text: 'The prior should be centred on a reference value ($0$, scale $1$) with a precision that reflects plausible ranges: too flat leaves parameters unidentifiable and the evidence uninformative; a spike ignores the data entirely.'
+        correct: true
+      - text: 'Priors are not needed: the likelihood alone gives the posterior.'
+        feedback: |
+          Without a prior there is no Bayes' rule: the posterior is the prior times the likelihood, and the evidence is what you get after averaging over the prior. Priors also tell the scientist what the model claims before seeing any rat.
+      - text: 'The prior should be centred on the value you hope the rats have, so that the result is confirmed.'
+        feedback: |
+          That would build the conclusion into the prior. A reference value with a plausible range is chosen before the data; the data then move the posterior away from it, or not.
+    explanation: |
+      Together with the likelihood, the prior completes the generative model **for behaviour from the scientist's point of view**: $P(\tilde u,\theta\mid m,\tilde o)=P(\tilde u\mid\theta,\tilde o,m)\,P(\theta\mid m)$. The mean and the precision of the prior are claims about which values of $\theta$ are plausible before measuring.
+
+  - type: text
+    id: inversion
+    title: "Step 5: invert the model, one rat at a time"
+    body: |
+      With data, likelihood and prior in hand, Bayes' rule gives each rat's **posterior** over $\theta$ and the **evidence** of the model:
+
+      $$P(\theta\mid\tilde u,m,\tilde o)\propto P(\theta\mid m)\,P(\tilde u\mid\theta,\tilde o,m)$$
+
+      The likelihood contains a POMDP solver, so no formula can be solved by hand: we use the **variational Laplace** scheme from before. It climbs to the posterior mode $\mu$ (the best $\theta$), and reports the posterior precision $\Pi_{\text{post}}=\Pi_1-\nabla^2L(\mu)$ (a sharper log likelihood means a more precise posterior) and the approximate log evidence
+
+      $$\begin{aligned}\ln P(\tilde u\mid m,\tilde o)\approx{}&L(\mu)\\&-\tfrac12\big(\epsilon^{\top}\Pi_1\epsilon+\ln|\Pi_{\text{post}}|\big)\end{aligned}$$
+
+      where $\eta$ and $\Pi_1$ are the prior mean and precision and $\epsilon=\eta-\mu$. The output for each rat is a Gaussian: a mean and an error bar for its $\theta$. Dependencies matter: the inversion needs the data, the likelihood and the prior.
+
+  - type: mcq
+    id: dependencies
+    prompt: |
+      In the analysis pipeline, which of the following orders is **impossible**?
+    options:
+      - text: 'Running the group (PEB) analysis before inverting the model for each rat.'
+        correct: true
+      - text: 'Specifying the priors before the data are collected.'
+        feedback: |
+          This is possible, and good practice: priors encode beliefs held before seeing the data, and they depend only on the model.
+      - text: 'Writing the POMDP model before collecting the data.'
+        feedback: |
+          Also possible: the model is a function of parameters and needs no data. Only the likelihood needs the stimuli $\tilde o$ and actions $\tilde u$ to be **evaluated**.
+    explanation: |
+      The group analysis treats each rat's posterior as its input, so it cannot start until every rat has been inverted. In the same way, the likelihood cannot be evaluated until the POMDP is defined. Data collection and model building are independent of each other; both are needed for the inversion.
+
+  - type: mcq
+    id: group-vs-tests
+    prompt: |
+      Twenty rats have fitted values $\theta_i$ (posterior means with error bars) and each has a drug label and an age. The question: does the drug change preference precision? Which approach uses the information of the first-level fits best?
+    options:
+      - text: 'A second-level model: the $\theta_i$ are treated as generated by a linear model $X\beta$ (a column of ones, drug, age) plus subject-to-subject scatter, so imprecise rats count for less and evidence for each effect can be compared.'
+        correct: true
+      - text: 'Average the posterior means of the treated rats and of the untreated rats, and compare the two numbers by eye.'
+        feedback: |
+          This ignores the error bars and the age covariate. A rat measured badly weighs as much as a rat measured well, and age could be the real cause of a difference.
+      - text: 'Fit a single rat only, since a group cannot be analysed with a subjective model.'
+        feedback: |
+          The whole point of the pipeline is to infer a parameter per animal and then ask group questions of those parameters.
+    explanation: |
+      That second-level model is the PEB analysis of the previous lesson. The text also mentions ordinary statistical tests of association between the fitted parameters and other measures (for example a **canonical variates** analysis between questionnaire scores and fitted parameters) as a simpler alternative that does not use the uncertainties.
+
+  - type: mcq
+    id: recovery
+    prompt: |
+      Before analysing real rats, a colleague generates fictive choice data from the model with a **known** preference parameter $\theta=0.7$, inverts the model on the fictive data, and the posterior mean is $-1.5$ with a small error bar. What does this tell us?
+    options:
+      - text: 'Parameter recovery fails: the pipeline (model, likelihood, priors or the parameter itself) cannot return the known value, so its estimates on real rats cannot be trusted.'
+        correct: true
+      - text: 'The rats must have negative preferences.'
+        feedback: |
+          There are no rats here: the data were simulated from $\theta=0.7$. The test checks the pipeline, not any animal.
+      - text: 'Nothing: the posterior is only a prior shifted by the data.'
+        feedback: |
+          The data were generated from a known value, so a trustworthy pipeline should put the posterior near $0.7$, within its error bar. A confident miss is a warning.
+    explanation: |
+      **Parameter recovery** (simulate with a known value, invert, compare) verifies that parameters, or combinations of them, are *identifiable*. A companion check of **face validity** asks whether fictive behaviour from the model looks qualitatively plausible for the task. Both come before the real data.
+
+  - type: mcq
+    id: traps
+    title: "Pipeline traps"
+    prompt: |
+      Which statement about the pipeline is **true**?
+    options:
+      - text: 'The group analysis uses each rat''s posterior (mean and precision), not just a point estimate, and the evidence from the first level lets us compare models.'
+        correct: true
+      - text: 'If the likelihood calls a POMDP solver, it is the preferences that are inferred by the solver, so no priors on $\theta$ are needed.'
+        feedback: |
+          The solver works for a fixed $\theta$ (it is the rat's inference). The scientist's inference over $\theta$ is a separate level and needs its own priors.
+      - text: 'Once each rat has a point estimate $\hat\theta_i$, the group step is an ordinary correlation of the $\hat\theta_i$ with the covariates.'
+        feedback: |
+          A correlation discards how well each rat was measured. The second-level model weights subjects by their precision.
+      - text: 'The rat has to solve the same variational Laplace problem as the scientist to choose its arm.'
+        feedback: |
+          Two levels, two inferences: the rat uses its belief updating on states and policies; the scientist uses variational Laplace on the rat's parameters.
+    explanation: |
+      Meta-Bayesian analysis separates the **subject's** model (the POMDP) from the **scientist's** model (likelihood and priors over $\theta$). Priors are needed at the scientist's level, the solver sits inside the likelihood, and the group level keeps the uncertainty of the first level.
+
+  - type: mcq
+    id: step-roles
+    prompt: |
+      Match the T-maze statement to the step it belongs to. "We simulate the rat's belief updating for $\theta=0.7$ and read off the probability of each arm it actually visited." Which step?
+    options:
+      - text: 'Step 3, specifying the likelihood function (the POMDP is solved inside it).'
+        correct: true
+      - text: 'Step 1, collecting data.'
+        feedback: |
+          Step 1 only records what the rat did and saw. Nothing is simulated.
+      - text: 'Step 6, the group-level analysis.'
+        feedback: |
+          Step 6 acts on fitted parameters of several rats. This statement concerns one rat and one value of $\theta$.
+      - text: 'Step 5, solving for the posterior.'
+        feedback: |
+          Step 5 uses the likelihood many times to find the posterior; evaluating it once at a given $\theta$ is step 3.
+    explanation: |
+      The six steps in order: (1) collect behaviour, stimuli and covariates; (2) formulate the POMDP as a function of parameters; (3) specify the likelihood, which solves it; (4) specify the priors; (5) invert to the posterior and evidence; (6) group analysis (PEB or another test).
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the same pipeline, applied to models whose beliefs go wrong: delusions, hallucinations, and other pathologies as **false inference**.
