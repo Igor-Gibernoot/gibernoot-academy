@@ -1,0 +1,284 @@
+id: ch09-false-inference
+title: "Models of False Inference"
+kind: concept
+own: |
+  - **Setting: one level, one hidden cause.** A hidden cause $v$ generates data $y$ through a mapping $g$ (here $g(\mu)=\mu$); the prior says $v$ is near $\eta$, with precision $\Pi_v$ (precision $=1/$variance); the sensor has precision $\Pi_y$; the belief is a Gaussian with mode $\mu$. The two prediction errors are $\epsilon_y=y-g(\mu)$ and $\epsilon_v=\mu-\eta$, and the free energy, minimised over $\mu$, is
+    {{ $$F=\tfrac12\Pi_y\epsilon_y^2+\tfrac12\Pi_v\epsilon_v^2$$ }}
+    Its minimum is the precision-weighted compromise
+    {{ $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$$ }}
+    so the percept sits at the data when $\Pi_y\gg\Pi_v$ and at the prior when $\Pi_v\gg\Pi_y$.
+  - **A disorder of inference is a flawed model, not a flawed rule.** The inference (minimising $F$, Bayes' rule) can run normally while the generative model carries **aberrant priors**: about states, about precisions, or structural priors about the form of the model. Pathology is then a consequence of aberrant priors, and the model-based analysis of the six steps can recover them.
+  - **Hallucination = imbalance of precisions, in either direction.** Likelihood precision too high against the prior: **overinterpretation** of noisy data, even when $y$ is spurious,
+    {{ $$\Pi_y\gg\Pi_v\;\Rightarrow\;\mu^*\approx y$$ }}
+    Prior precision too high: internally generated percepts resist conflicting data,
+    {{ $$\Pi_v\gg\Pi_y\;\Rightarrow\;\mu^*\approx\eta$$ }}
+    Precisions are linked to neuromodulators (cholinergic signalling impaired in Lewy body dementia, the dopaminergic system abnormal in schizophrenia), both with hallucinations.
+  - **Delusions and disconnection = beliefs too precise to update.** A delusion is a fixed, false belief: a precise posterior without supportive evidence, which stays fixed even against later contradictory evidence. An absent synapse cannot be modulated, like an extremely confident prior about a conditional probability: new data cannot change it, which also changes the information gain of policies.
+  - **Where the aberration can sit (policies).** Policy priors depend on the expected free energy $G$ (posterior beliefs, information gain, preferences $C$) and on a habit term $E$; disrupting each part gives abnormal choice (for example visual neglect from lesioned priors, addiction and apathy from preferences and habits).
+cards:
+  - type: text
+    id: hook
+    title: "A voice in the noise"
+    body: |
+      You are alone at night in a house with the radio off. The only sound is a faint hiss from the fridge. Yet a friend swears she **hears a voice** saying her name.
+
+      Nothing in the air carries a voice: the signal reaching her ears is the same hiss that you hear. Still, her brain delivers a percept (a voice) that the data do not contain.
+
+      Before any theory, guess: if perception is a compromise between what the senses report and what the brain **expects**, what would have to differ in her brain for the expectation to win over a weak signal?
+
+  - type: widget
+    id: prior-widget
+    review: false
+    widget: predictive-coding
+    config:
+      mode: static
+      modes: [static]
+      g: { kind: gain, gain: 1 }
+      y: 0
+      eta: 2
+      Pi: { y: 4, v: 1 }
+      mu0: 0
+      range: [-1, 3]
+      presets:
+        - { label: 'typical listener', y: 0, eta: 2, Pi: { y: 4, v: 1 } }
+        - { label: 'confident prior', y: 0, eta: 2, Pi: { y: 1, v: 16 } }
+    body: |
+      One cause $v$ on a line: $0$ means silence, $2$ means "a voice is there". The square $y=0$ is the data (the hiss: no voice), the diamond is the prior $\eta=2$ (the expectation of a voice), the dot is the percept $\mu$, found by *Descend*. $\Pi_y$ is the precision of the sensory data, $\Pi_v$ the precision of the prior.
+
+      Press *Descend* with the typical listener, then load *confident prior* and descend again. Then move $\Pi_v$ and $\Pi_y$ yourself and watch the dashed ring (the minimum).
+
+  - type: mcq
+    id: widget-q
+    prompt: |
+      In a one-level model the data are $y=0$ (no voice), the prior mean is $\eta=2$ (a voice is expected), and the percept $\mu$ minimises $F=\tfrac12\Pi_y\epsilon_y^2+\tfrac12\Pi_v\epsilon_v^2$. The prior precision $\Pi_v$ is raised from $1$ to $16$, with $\Pi_y=1$ fixed. What happens to the percept, and what did not change?
+    options:
+      - text: 'The percept moves from $\mu\approx1$ to $\mu\approx1.9$, near the prior $\eta=2$, although the data $y=0$ are exactly the same.'
+        correct: true
+      - text: 'The percept stays at $\mu=0$, because the data are what is really out there.'
+        feedback: |
+          Perception here is a compromise weighted by precision, never the data alone. A percept equal to the data would need the prior to have (almost) no precision.
+      - text: 'The percept moves toward the data, to $\mu\approx0.1$, because a more confident brain is more accurate.'
+        feedback: |
+          Confidence in the *prior* pulls toward the prior, not toward the data. Accuracy would need confidence in the sensors, i.e. a high $\Pi_y$.
+    explanation: |
+      With $g(\mu)=\mu$ the minimum is $\mu^*=\dfrac{\Pi_y y+\Pi_v\eta}{\Pi_y+\Pi_v}$. For $\Pi_v=1$: $\mu^*=\frac{0+2}{2}=1$; for $\Pi_v=16$: $\mu^*=\frac{32}{17}\approx1.88$. The data did not change; only the **balance of precisions** did.
+
+  - type: text
+    id: disorder-of-inference
+    title: "A disorder of inference is a flawed model"
+    body: |
+      Computational psychiatry asks what goes wrong when beliefs about the world are *false* and stay false. The hypothesis is that psychopathological conditions can be seen as **disorders of inference**, a failure of belief updating.
+
+      Notice the surprising part. A *disorder* does not require that the inference itself is broken. In the studies of this field, the inferential mechanism (minimising $F$, i.e. approximate Bayes' rule) works **normally**, but on a **flawed generative model**: a model equipped with **aberrant prior beliefs**. In the one-level example,
+      $$F=\tfrac12\Pi_y\epsilon_y^2+\tfrac12\Pi_v\epsilon_v^2$$
+      with $\epsilon_y=y-g(\mu)$ and $\epsilon_v=\mu-\eta$, the minimisation is the same for everyone; what differs is $\eta$, $\Pi_v$ or $\Pi_y$. Here $\eta$ is the prior mean, $\Pi$ a precision (inverse variance) and $\epsilon$ a prediction error, as before.
+
+      Aberrant priors may be about **states** (what is out there), about **precisions** (how reliable each source is) or **structural** (the form of the generative model itself). Since the same framework links behaviour (compulsions), false beliefs (psychological level) and neuromodulators (biological level), it addresses all three at once. And because the prior is a parameter of the model, the analysis steps of the previous lesson can **recover** it from data.
+
+  - type: mcq
+    id: flawed-model
+    prompt: |
+      A patient's brain applies Bayes' rule (minimises free energy) exactly as a typical brain does, but its generative model has a prior over the hidden cause with precision $\Pi_v=16$ where a typical brain uses $\Pi_v=1$. Which description matches the view of false inference?
+    options:
+      - text: 'The inference is normal and the generative model is aberrant: a different prior, hence a different posterior from the same data.'
+        correct: true
+      - text: 'The inference rule is broken: it no longer combines prior and likelihood correctly.'
+        feedback: |
+          Tempting, because the posterior is "wrong" for the world. But the posterior is exactly the correct one **for the model the brain has**. The error lies in the prior, not in the combination rule.
+      - text: 'The data reaching the brain are corrupted, and that alone explains the false belief.'
+        feedback: |
+          In the example the data are identical for both brains. The false percept comes from how the data are weighted against the prior.
+    explanation: |
+      "Disorder" does not mean the machinery fails: it means the model it runs is flawed. This is also why the framework is useful for research: the aberrant priors are parameters that the model-based analysis can estimate.
+
+  - type: numeric
+    id: prior-dominated
+    prompt: |
+      A one-level model has $g(\mu)=\mu$, data $y=0$ (silence), prior mean $\eta=2$ (a voice is expected), prior precision $\Pi_v=9$ and sensory precision $\Pi_y=1$. What is the percept $\mu^*$ that minimises $F=\tfrac12\Pi_y(y-\mu)^2+\tfrac12\Pi_v(\mu-\eta)^2$?
+    answer: 1.8
+    tolerance: 0.01
+    wrong:
+      - { value: 1, feedback: 'That is the plain average of $y$ and $\eta$, which would treat both as equally reliable. Here the prior has nine times the precision, so it gets nine times the weight.' }
+      - { value: 0.2, feedback: 'That is the weight the data would get if they were the *more* precise source. Check which one carries the larger precision.' }
+    hint: 'Weight each source by its precision: $\mu^*=(\Pi_y y+\Pi_v\eta)/(\Pi_y+\Pi_v)$.'
+    explanation: |
+      $$\mu^*=\frac{1\cdot0+9\cdot2}{1+9}=1.8$$
+
+      The percept is $90\%$ of the way from the data to the prior: nearly a "voice", although the data say silence. Setting the gradient of $F$ to zero, $-\Pi_y(y-\mu)+\Pi_v(\mu-\eta)=0$, gives the formula.
+
+  - type: numeric
+    id: likelihood-dominated
+    prompt: |
+      Now the opposite imbalance. Same model, but the prior says "nothing there", $\eta=0$ with $\Pi_v=1$, and the sensory precision is $\Pi_y=9$. The data are a spurious blip of noise, $y=1$. What is $\mu^*$?
+    answer: 0.9
+    tolerance: 0.01
+    wrong:
+      - { value: 0.5, feedback: 'That is the plain average, equal weights. The sensor has nine times the precision of the prior.' }
+      - { value: 0.1, feedback: 'You gave the prior the large weight. Here the sensory precision is the large one, so the percept is close to $y$.' }
+    hint: 'Same formula; now $\Pi_y$ is the large one.'
+    explanation: |
+      $$\mu^*=\frac{9\cdot1+1\cdot0}{9+1}=0.9$$
+
+      The percept follows the noisy blip almost completely: an unwarranted conclusion drawn from spurious data (**overfitting**). Both this and the previous card are imbalances of precision, in opposite directions.
+
+  - type: mcq
+    id: halluc-table
+    prompt: |
+      Simulations of hallucinations as false perceptual inference rest on imbalances between prior and likelihood precisions. Which statement fits both ways in which that balance can be disrupted?
+    options:
+      - text: 'Too much likelihood precision overinterprets noisy input; too much prior precision makes internally generated percepts resist conflicting input. Both are associated with hallucinations, and can coexist in hierarchical models.'
+        correct: true
+      - text: 'Only too much prior precision can hallucinate; too much likelihood precision would give a perfectly accurate percept.'
+        feedback: |
+          The sensory data are noisy. A model that trusts spurious data too much builds unwarranted percepts out of them (overfitting), as in the $\mu^*=0.9$ example.
+      - text: 'Hallucinations need a missing prior: with no prior the brain invents content.'
+        feedback: |
+          With no prior (zero prior precision) the percept simply equals the data. A hallucination is a percept the data do not support, which needs an over-weighted source, not a missing one.
+    explanation: |
+      Two mechanisms, one principle: the **balance** of precisions. In a hierarchical model they can coexist at different levels. This is why the same family of models speaks to several conditions.
+
+  - type: mcq
+    id: neuromodulators
+    prompt: |
+      Precisions have been linked to neuromodulatory chemicals. In Lewy body dementia cholinergic signalling is impaired; in schizophrenia the dopaminergic system is abnormal. Both present with hallucinatory phenomena. What does the inferential account say about this link?
+    options:
+      - text: 'It is plausible: if neuromodulators set precisions, impaired signalling disturbs the balance of precisions, which yields false perceptual inference.'
+        correct: true
+      - text: 'It is a coincidence: neuromodulators act on neurons, while precision is a purely mathematical quantity with no physical counterpart.'
+        feedback: |
+          The framework proposes that precisions (synaptic gains) have neural implementations, and that neuromodulators are where they are set. This is what lets one model link the biological level to false beliefs.
+      - text: 'Both conditions must reduce the precision of the prior, and nothing else.'
+        feedback: |
+          Different precisions are linked to different modulators, and the source states only that these conditions present with hallucinations. It does not say which single precision is lowered.
+    explanation: |
+      The pattern of the account: a biological abnormality (neuromodulation) changes a precision; the precision changes the percept; the percept is a false inference. One model covers the three levels.
+
+  - type: mcq
+    id: delusion
+    prompt: |
+      A delusion is described as a fixed, false belief. In the inferential account, which description fits?
+    options:
+      - text: 'A precise posterior belief held in the absence of supportive evidence; if precise enough, it stays fixed even against later contradictory evidence.'
+        correct: true
+      - text: 'A belief with a very low precision, which changes with every new observation.'
+        feedback: |
+          That describes a flexible, easily revised belief, the opposite of fixed. A fixed belief needs high precision.
+      - text: 'A belief that was never part of the generative model, so there is nothing to update.'
+        feedback: |
+          The belief is part of the model (it is a precise posterior distribution); it is the **precision** that blocks updating, not its absence.
+    explanation: |
+      Evidence moves a belief by an amount that depends on the ratio of precisions: with $\mu^*=\frac{\Pi_y y+\Pi_v\eta}{\Pi_y+\Pi_v}$, a huge $\Pi_v$ leaves $\mu^*$ almost at $\eta$ whatever $y$ is. The mechanisms behind particular delusions may differ; for example, failures of sensory attenuation may be central to delusions of agency.
+
+  - type: mcq
+    id: disconnection
+    prompt: |
+      Interpreting the parameters of a conditional probability as synaptic efficacies and the precisions as synaptic gains, an absent synapse cannot be modulated. Which prior belief does this resemble, and what follows?
+    options:
+      - text: 'An extremely confident prior about a conditional probability: new data cannot update that efficacy, which changes the potential information gain of policies (as used to model neglect).'
+        correct: true
+      - text: 'A prior with zero precision about the conditional probability: new data update it instantly.'
+        feedback: |
+          A zero-precision prior would be overwritten by data. A missing synapse is the reverse: it cannot be changed, which is the mark of a very precise prior.
+      - text: 'A prior over policies with a habit term, which changes the sensory precision.'
+        feedback: |
+          The habit term concerns preferences over policies. A missing connection concerns the probabilities of the model itself (its parameters), whose confidence decides how much can still be learned from data.
+    explanation: |
+      If a parameter cannot change, policies cannot gain information about it: that cuts the novelty term of the expected free energy for those policies. Disruptions of this kind give *disconnection syndromes*.
+
+  - type: mcq
+    id: neglect
+    prompt: |
+      Visual neglect (inattention to the left side of space) may be induced by several alternative **lesioned priors**. Which of these is *not* one of the alternatives described?
+    options:
+      - text: 'Making the sensory precision for the left side exactly zero, so that no light from the left is ever transduced.'
+        correct: true
+      - text: 'Increasing the Dirichlet parameters for the left side, which lowers the novelty of saccades to the left.'
+        feedback: |
+          This is one of the alternatives: with a high count of Dirichlet parameters the left is already well known, so looking left promises little information gain and the right is sampled instead.
+      - text: 'Setting preferences consistent with right-sided proprioceptive or visual outcomes.'
+        feedback: |
+          This is described as an alternative lesioned prior: the preferences (the term $C$ of the prior over policies) favour the right, so right-sided saccades are chosen.
+      - text: 'Increasing habitual engagement in right-sided saccades.'
+        feedback: |
+          This too is described: the habit term $E$ of the policy prior favours right-sided saccades, giving qualitatively similar behaviour.
+    explanation: |
+      All three listed alternatives are **priors over policies**, i.e. parts of the generative model (novelty from Dirichlet counts, preferences $C$, habits $E$). Different aberrant priors, same behavioural symptom.
+
+  - type: mcq
+    id: policy-parts
+    prompt: |
+      The prior over policies depends on the expected free energy $G$ (posterior beliefs, potential information gain, preferences $C$) and may include a fixed-form habit term $E$. A researcher wants to model **addictive habits** or **apathy**. Which parts of the policy prior does the account point to?
+    options:
+      - text: 'The preferences and the policy priors (including the habit term), which have a clear influence over behaviour.'
+        correct: true
+      - text: 'Only the likelihood precision of the senses.'
+        feedback: |
+          That balance matters for false *perception*. Habits and apathy are about which policies are chosen, which the preferences and policy priors set directly.
+      - text: 'None: pathological behaviour cannot be explained by priors, only by faulty action execution.'
+        feedback: |
+          The account claims the opposite: defective prior beliefs at various places in the generative model give a functional explanation of pathological behaviour.
+    explanation: |
+      Priors over policies are shaped by $G$ and $E$. Disrupting each part gives a different abnormal policy selection, from addiction or compulsion to apathy. Addiction can even be framed as optimal inference under the right sort of generative model.
+
+  - type: mcq
+    id: trap-broken
+    tag: Trap
+    prompt: |
+      True or false: "In this framework, a false belief shows that the brain's inference is broken, since it fails to compute the correct posterior."
+    options:
+      - text: 'False: the mechanism can be normal; the generative model (priors) is what is aberrant, and the posterior is correct for that model.'
+        correct: true
+      - text: 'True: any false belief means the free-energy minimisation has failed.'
+        feedback: |
+          A false belief is a posterior that does not match the world, but it is the *correct* posterior of a model with the wrong prior. For example, $\mu^*=1.8$ with $\Pi_v=9$ is an exact minimum of $F$.
+    explanation: |
+      The distinction between the inference rule and the model it runs is the central point. It is also why pathology is "a consequence of aberrant prior beliefs".
+
+  - type: mcq
+    id: trap-no-prior
+    tag: Trap
+    multiple: true
+    prompt: |
+      Select every statement that is correct about false perceptual inference as an imbalance of precisions.
+    options:
+      - text: 'A hallucinating brain may have too much confidence in a prior, so the percept resists data.'
+        correct: true
+      - text: 'A hallucinating brain may have too much likelihood precision against the prior, overinterpreting noisy data.'
+        correct: true
+      - text: 'A hallucinating brain has no prior: the percept is invented from nothing.'
+        feedback: |
+          A hallucination is not "no prior"; a missing prior would make the percept equal to the data. It is a prior that is **over-weighted** (or data that are).
+      - text: 'If the prior precision and the likelihood precision are both multiplied by $10$, the percept $\mu^*$ changes.'
+        feedback: |
+          Only the **ratio** matters in $\mu^*=\frac{\Pi_y y+\Pi_v\eta}{\Pi_y+\Pi_v}$. Multiplying both by $10$ leaves $\mu^*$ unchanged. (It does make the posterior itself narrower, i.e. more confident.)
+    explanation: |
+      Balance, not absolute size, sets the percept; and the imbalance can go in either direction.
+
+  - type: text
+    id: back-to-pipeline
+    title: "From false inference back to the pipeline"
+    body: |
+      Table 9.1 is a nonexhaustive sample of computational pathologies: addiction, impulsivity and compulsivity; delusions; hallucinations; interpersonal and personality disorders; oculomotor syndromes; pharmacotherapy; prefrontal syndromes; visual neglect; disorders of interoceptive inference (where imbalances between prior and likelihood precisions for, say, cardiac or gastric signals can cause false beliefs about the body and psychosomatic hallucinations). Some are discrete-time models (POMDPs) and some continuous-time ones. Each is a story of aberrant priors.
+
+      That is what makes the six steps useful here. Put the suspected aberration in a **parameter**: for example, write the prior precision as $\Pi_v=e^{\theta}$ so that $\theta$ is a real number, run the pipeline on each person's behaviour to get a posterior over $\theta$, and compare a patient group with controls in the group-level model (a column of ones for the mean, a covariate for the group). The result is a noninvasive estimate of aberrant priors in a subject's own generative model.
+
+  - type: mcq
+    id: pipeline-link
+    prompt: |
+      A lab suspects that patients treat their prior over a hidden cause as more precise than controls do. They record each subject's choices and stimuli. Following the six-step recipe, what is the sound way to test this?
+    options:
+      - text: 'Put the prior precision in the subject model as a parameter (e.g. $\Pi_v=e^{\theta}$), invert the model for each subject to get $\theta$, then compare patients and controls in a group-level regression on a group covariate.'
+        correct: true
+      - text: 'Compute the average percept of each group and compare the averages; the prior precision can be read off directly.'
+        feedback: |
+          A percept depends on both precisions and the data: $\mu^*$ is not the prior precision. The model must be inverted to separate the two.
+      - text: 'Give every subject the same fixed prior precision, so that differences are due to the data alone.'
+        feedback: |
+          This removes the very quantity of interest. The parameter must be free and estimated for each subject.
+    explanation: |
+      Aberrant priors are recovered by model inversion (the likelihood of the observed behaviour given $\theta$, a prior on $\theta$, variational Laplace), followed by group-level analysis of the fitted parameters.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a short round of traps on the whole chapter: fast questions, each built on a common misconception about subjective and objective models, the Laplace approximation, group-level analysis, the pipeline and false inference.
