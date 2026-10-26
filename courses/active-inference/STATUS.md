@@ -2,6 +2,8 @@
 
 Session start: read only **Current** (`sed -n '/^## Current/,/^## Log
 
+- 2026-10-25 ch10-predictive-processing (concept, 18 cards): hook whole iguana; guess cost of separate modules; predictive-coding static preset (y=3, eta=0, Pi 1/1, 8/1, 1/8, reused widget, no new one needed); sandwich model, two uses of predictions, PP broader than AI, Bayesian brain family, exact vs variational, action extension, pairing card (no match card type: used mcq), iguana return. Verified: 10.2-10.5.1 prose only (PDF pp. 211-212). Conventions fixed here: numbers y=3,eta=0 Pi(8,1)->2.67; y=4,eta=0 Pi(3,1)->3; F>=I(y) stated as surprise bound; no level numbers.
+
 - 2026-10-25 ch09-challenge part 1: intro + P1 Laplace fit (L=-1.5(th-2)^2, eta .5, Pi1 2), P2 card-game pipeline (e^theta scale), P3 eight-subject PEB. No widget (answers would be revealed). Choices: no 'continues' card (Ch.8 model has none); BF 2.8 chosen instead of 3.3 for freshness. Conventions fixed here: see Chapter 9 'Challenge numbers'.
 - 2026-10-25 ch09-map: 14 boxes (meta, pomdp, likelihood, bayes, laplace, evidence; recovery, glm, shrink, bf; precision, halluc, delusion, aberrant) with decoys for objective/subjective swap, sampler, max-likelihood evidence, correlation of point estimates, broken rule, no-prior. No archive map existed. No widget (a map uses the map engine; nothing in Level 9 needs more). Conventions fixed here: none new; Laplace evidence kept in minus form.
 
@@ -51,7 +53,7 @@ New shared widget `js/widgets/dirichlet-counts.js` (+ css `dc-*`, registry, LESS
 - **Notation:** $x$ hidden state, $y$ observation (Levels 2-4 start), $s$/$o$ only in the discrete POMDP lesson with a renaming card; $u$ active states, blanket $b=(u,y)$; surprise $\mathfrak{I}(y)=-\ln P(y)$; $P(\pi)=\sigma(-\gamma G)$; circulation matrix $\mathsf{Q}$ vs posterior $Q$; noise covariance $2\Gamma$. See CONVENTIONS.
 - **Level 9:** `ch09-meta-bayesian` (20 cards), `ch09-variational-laplace` (20), `ch09-peb` (18; peb-regression x3), `ch09-analysis-steps` (15, no widget), `ch09-false-inference` (18; predictive-coding static preset, no new widget), `ch09-analysis-traps` (17, no widget; no new formulas, nothing new to verify). Verified: 9.1-9.2, Eq 9.1, Fig 9.1 (PDF pp. 185-186); 9.3, Eq 9.2-9.4 (pp. 188-189); 9.4 Eq 9.5 + 9.5 six steps (pp. 190-191); 9.5 text + Fig 9.2 (pp. 191-193); 9.7 text + Table 9.1 (pp. 196-199; Markdown table incomplete, PDF used).
 - **Widget `peb-regression` built** (in LESSON_FORMAT). No more new widgets.
-- **Level 9 fully built:** map (`ch09/map.yaml`, 14 boxes) and `ch09/challenge.yaml` (25 cards: intro, problems 1-5, plain-text `final-summary`; no widget). Level 9 audited (2026-10-25). **Next unit:** `ch10-predictive-processing`. `exam-partial` already built; review automatic. **Rule:** after Level 10 the next unit is `exam-final`.
+- **Level 9 fully built:** map (`ch09/map.yaml`, 14 boxes) and `ch09/challenge.yaml` (25 cards: intro, problems 1-5, plain-text `final-summary`; no widget). Level 9 audited (2026-10-25). **Level 10 in progress:** `ch10-predictive-processing` built (18 cards; predictive-coding static preset, no new widget; prose only). **Next unit:** `ch10-action-theories` (10.6-10.6.3). `exam-partial` already built; review automatic. **Rule:** after Level 10 the next unit is `exam-final`.
 - **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
 
 ## Log

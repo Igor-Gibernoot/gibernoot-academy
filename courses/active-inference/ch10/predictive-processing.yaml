@@ -1,0 +1,265 @@
+id: ch10-predictive-processing
+title: "Predictive Brains and Perception"
+kind: concept
+own: |
+  - **One objective for the whole creature.** Instead of modelling perception, action, attention and memory as separate modules, active inference starts from one quantity, the variational free energy $F$, and derives them. For a creature with generative model $P$ (how hidden causes $x$ generate observations $y$) and approximate posterior $Q(x)$, $F$ is an upper bound on the surprise $\mathfrak{I}(y)=-\ln P(y)$:
+    {{ $$F\ge\mathfrak{I}(y)=-\ln P(y)$$ }}
+    with equality only when $Q$ is the exact posterior. The same $F$ can be lowered by changing the belief (perception) or by changing the world (action).
+  - **Predictive processing is broader than active inference.** A *predictive processing* theory says that prediction is central to brain and mind; it may borrow generative models, predictive coding, precision or Markov blankets from active inference, but it also uses constructs that active inference does not have (such as coupled inverse and forward models). Active inference creatures use predictions in two ways: to **compare them with data** (predictive coding) and to **enact them** to gather data (action).
+  - **Predictive coding, one level, one hidden cause.** A belief with mode $\mu$ sends down the prediction $g(\mu)$ of the data $y$; the prior says the cause is near $\eta$, with precisions $\Pi_y$ (data) and $\Pi_v$ (prior). The two prediction errors are $\epsilon_y=y-g(\mu)$ and $\epsilon_v=\mu-\eta$, and the belief descends the free energy:
+    {{ $$F=\tfrac12\Pi_y\epsilon_y^2+\tfrac12\Pi_v\epsilon_v^2$$ }}
+    {{ $$\dot\mu=-\frac{\partial F}{\partial\mu}=\Pi_y\,g'(\mu)\,\epsilon_y-\Pi_v\,\epsilon_v$$ }}
+    For $g(\mu)=\mu$ the resting point is the precision-weighted compromise $\mu^*=\dfrac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$.
+  - **Bayesian brain hypothesis.** Perception is inference: Bayes' rule inverts the generative model to give a belief about the hidden cause given the data (an idea going back to Helmholtz). Exact inference is often intractable, so active inference uses a {{ **variational approximation** }}, and the Bayesian brain label covers a family of proposals (computational, algorithmic, neural) that are not necessarily integrated. Active inference derives the idea from free energy minimisation, and the same imperative extends to {{ **action**, giving active perception }}, whereas in the Bayesian brain agenda action needs a separate imperative (Bayesian decision theory).
+cards:
+  - type: text
+    id: hook
+    title: "The whole iguana"
+    body: |
+      Psychology textbooks have chapters: *perception*, *attention*, *memory*, *decision-making*, *action*. Each chapter models one subsystem, usually as a box with its own job and its own theory.
+
+      The philosopher Dennett once complained that cognitive scientists spend too much effort on isolated subsystems whose boundaries are often arbitrary, and he proposed to model instead **"the whole iguana"**: a complete (maybe simple) creature together with the environmental niche it has to cope with.
+
+      Active inference takes that advice. It starts from **one** principle, minimising variational free energy $F$ (a quantity that measures how badly the creature's model fits its sensations), and asks what a creature that obeys it must do.
+
+  - type: mcq
+    id: cost-guess
+    prompt: |
+      Before any theory, guess. A scientist builds separate models of perception, of action and of attention for one creature, each with its own objective. What is the main risk of this approach, according to the "whole iguana" argument?
+    options:
+      - text: 'The boundaries between the modules may be arbitrary, so the pieces may not correspond to separate processes in the creature, and shared objectives are missed.'
+        correct: true
+      - text: 'There is no risk: splitting a creature into modules is always harmless, because the parts add up to the whole.'
+        feedback: |
+          It is tempting to think so, but the categories (perception, memory, attention...) come from early philosophical and psychological taxonomies. They have heuristic value, yet they may not match separate cognitive or neural processes, and then a model of each part misses what the parts share.
+      - text: 'The separate models would be impossible to simulate on a computer.'
+        feedback: |
+          Simulation is not the issue. The worry is conceptual: what to call a module, where its boundary lies, and whether it has its own objective at all.
+    explanation: |
+      The same free energy can serve perception and action, as this lesson shows. If both fulfil one objective, a theory with two unrelated objectives describes a distinction the creature does not have. Starting from the complete problem and **analysing** the solution is the alternative: the functions then come out as consequences.
+
+  - type: widget
+    id: pc-widget
+    review: false
+    widget: predictive-coding
+    config:
+      mode: static
+      modes: [static]
+      g: { kind: gain, gain: 1 }
+      y: 3
+      eta: 0
+      Pi: { y: 1, v: 1 }
+      mu0: 0
+      range: [-1, 4]
+      presets:
+        - { label: 'equal trust', y: 3, eta: 0, Pi: { y: 1, v: 1 } }
+        - { label: 'trust the data', y: 3, eta: 0, Pi: { y: 8, v: 1 } }
+        - { label: 'trust the prior', y: 3, eta: 0, Pi: { y: 1, v: 8 } }
+    body: |
+      One hidden cause on a line. The square is the data $y=3$, the diamond is the prior $\eta=0$, the dot is the belief $\mu$. The mismatches between the belief and each of them are **prediction errors**: $\epsilon_y$ (data minus what the belief predicts) and $\epsilon_v$ (belief minus prior). $\Pi_y$ and $\Pi_v$ are precisions (inverse variances, how much each source is trusted).
+
+      Press *Descend* for each preset and watch where the dot settles. Both errors cannot vanish at once: the belief ends where the total weighted error is smallest.
+
+  - type: mcq
+    id: widget-q
+    prompt: |
+      One cause, data $y=3$, prior mean $\eta=0$, and a belief $\mu$ that descends the free energy $F=\tfrac12\Pi_y\epsilon_y^2+\tfrac12\Pi_v\epsilon_v^2$ (with prediction $g(\mu)=\mu$). With $\Pi_y=8$ and $\Pi_v=1$, where does the belief settle, and what is still not zero?
+    options:
+      - text: 'Close to the data, at $\mu=8\cdot3/9\approx2.67$; both prediction errors stay non-zero, the prior error $\epsilon_v$ being the larger one in size.'
+        correct: true
+      - text: 'Exactly at the data $\mu=3$, so that no prediction error remains.'
+        feedback: |
+          At $\mu=3$ the data error vanishes, but the prior error $\epsilon_v=3$ is then as large as it can be here, so $F$ can still be lowered by moving slightly toward $\eta$.
+      - text: 'At the middle, $\mu=1.5$, because the brain averages data and prior.'
+        feedback: |
+          A plain average would hold only for equal precisions. Here the data are eight times as precise, so they get eight times the weight.
+    explanation: |
+      $\mu^*=\dfrac{8\cdot3+1\cdot0}{8+1}=\dfrac{24}{9}\approx2.67$. Then $\epsilon_y=3-2.67=0.33$ and $\epsilon_v=2.67$: both non-zero. Perception **is** this balancing of precision-weighted prediction errors.
+
+  - type: text
+    id: sandwich
+    title: "Not a sandwich"
+    body: |
+      A traditional picture of the brain is the **sandwich model**: stimuli come in, they are transformed feedforward into internal representations, and out come actions; everything in between is called "cognitive". The brain's job is to turn incoming stimuli into appropriate responses.
+
+      Active inference departs from this picture. Its creatures are **probabilistic inference machines** that continuously *generate predictions* from their generative model (the model of how hidden causes produce sensations). Self-evidencing creatures use these predictions in two ways:
+
+      1. they **compare** predictions with incoming data to validate their hypotheses (this is *predictive coding*) and, more slowly, revise the model itself (*learning*);
+      2. they **enact** predictions to guide how they gather data (this is *active inference* proper).
+
+      Doing so serves two imperatives: an **epistemic** one (look where salient information can resolve uncertainty) and a **pragmatic** one (move to where preferred observations, such as rewards, can be obtained).
+
+  - type: mcq
+    id: two-uses
+    prompt: |
+      A creature predicts what its retina will receive. Which of these is the use of a prediction that is called *predictive coding*, as opposed to the other use?
+    options:
+      - text: 'Comparing the prediction with the data that actually arrive, to validate or revise the hypothesis.'
+        correct: true
+      - text: 'Moving the eyes to a place where the prediction will come true, so that preferred sensations are secured.'
+        feedback: |
+          That is the second use: **enacting** a prediction to shape which data arrive (action, the pragmatic imperative). Predictive coding is the *comparison* of prediction and data.
+      - text: 'Storing the prediction in long-term memory, so that the creature never needs new data.'
+        feedback: |
+          Long-term memory develops by learning the parameters of the model, on a slower timescale. A prediction is not a substitute for data: it is checked against them.
+    explanation: |
+      Two directions of fit: change the **belief** to fit the data (perception, predictive coding), or change the **data** to fit the belief (action). The first is the subject of the rest of this lesson; the second returns in the next one.
+
+  - type: text
+    id: pc-text
+    title: "Predictions down, errors up"
+    body: |
+      Recall predictive coding. A belief $\mu$ about a hidden cause generates a **prediction** $g(\mu)$ of the data $y$. The mismatch is the **prediction error**
+      $$\epsilon_y=y-g(\mu)$$
+      Errors travel **up** the hierarchy, predictions travel **down**. With a prior mean $\eta$ for the cause, a second error $\epsilon_v=\mu-\eta$ compares the belief with the prior, and the free energy is a precision-weighted sum of squared errors,
+      $$F=\tfrac12\Pi_y\epsilon_y^2+\tfrac12\Pi_v\epsilon_v^2$$
+      Perception is the descent of $F$ by changing $\mu$:
+      $$\dot\mu=-\frac{\partial F}{\partial\mu}$$
+      (a dot is a time derivative: how fast $\mu$ changes).
+
+      Historically, predictive coding was proposed by Rao and Ballard as a theory of hierarchical perceptual processing, to explain top-down effects that feedforward architectures could not, and the known fact that sensory hierarchies have both forward (bottom-up) and backward (top-down) connections. It can also be **derived** from free energy minimisation, under assumptions such as the Laplace approximation (a Gaussian belief summarised by its mode).
+
+  - type: build
+    id: error-build
+    prompt: |
+      Build the sensory prediction error $\epsilon_y$: the data $y$, compared with the prediction $g(\mu)$ that the belief $\mu$ sends down.
+    prefix: '\epsilon_y ='
+    tiles: ['y', 'g(\mu)', '-', '\mu', '\eta']
+    answers:
+      - ['y', '-', 'g(\mu)']
+    wrong:
+      - { answer: ['g(\mu)', '-', 'y'], feedback: 'Sign flipped. The error is what the data contain that the prediction missed: data minus prediction. With this sign, $\epsilon_y>0$ means the data are larger than predicted, and the free energy descent moves $\mu$ up.' }
+      - { answer: ['\mu', '-', '\eta'], feedback: 'That is the *prior* prediction error $\epsilon_v$, which compares the belief with the prior mean, not with the data.' }
+    hint: 'Error = what arrived minus what was predicted.'
+    explanation: |
+      $\epsilon_y=y-g(\mu)$. The other error, $\epsilon_v=\mu-\eta$, compares the belief with the prior. Each is weighted by its precision in $F$.
+
+  - type: numeric
+    id: mu-star
+    prompt: |
+      One level, $g(\mu)=\mu$. The data are $y=4$, the prior mean is $\eta=0$, the sensory precision is $\Pi_y=3$ and the prior precision is $\Pi_v=1$. The belief descends $F=\tfrac12\Pi_y(y-\mu)^2+\tfrac12\Pi_v(\mu-\eta)^2$ until it stops. Where does it stop, $\mu^*$?
+    answer: 3
+    tolerance: 0.01
+    wrong:
+      - { value: 2, feedback: 'That is the plain average of $y$ and $\eta$, which treats them as equally reliable. The data have three times the precision of the prior.' }
+      - { value: 1, feedback: 'You gave the prior the larger weight. Check which source carries the larger precision.' }
+    hint: 'The resting point sets $\dot\mu=-\partial F/\partial\mu=\Pi_y(y-\mu)-\Pi_v(\mu-\eta)$ to zero.'
+    explanation: |
+      $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}=\frac{3\cdot4+1\cdot0}{3+1}=3$$
+
+      At rest, $\epsilon_y=1$ and $\epsilon_v=3$, and the weighted errors balance: $\Pi_y\epsilon_y=3=\Pi_v\epsilon_v$.
+
+  - type: order
+    id: loop-order
+    prompt: Put one cycle of predictive coding in order, starting from a current belief.
+    steps:
+      - 'The current belief $\mu$ generates a prediction $g(\mu)$ of the data'
+      - 'The data $y$ arrive and are compared with the prediction'
+      - 'The prediction error $\epsilon_y=y-g(\mu)$ is passed up, weighted by its precision'
+      - 'The belief $\mu$ moves down the gradient of $F$, which gives a new prediction'
+    hint: 'Prediction first, then error, then update.'
+    explanation: |
+      Predictions go down, errors go up, and the belief moves to reduce $F$: $\dot\mu=-\partial F/\partial\mu$. Repeating the cycle brings $\mu$ to its resting point. In a hierarchy the belief of one level is the prediction target of the level above.
+
+  - type: text
+    id: pp-vs-ai
+    title: "Predictive processing is a broader label"
+    body: |
+      This prediction-centred view of brain and mind inspired **predictive processing** (PP), an emerging framework in philosophy of mind and epistemology that sees prediction as central to brain and cognition ("predictive brains", "predictive minds").
+
+      PP theories sometimes use constructs of active inference (generative models, predictive coding, free energy, precision control, Markov blankets) and sometimes use others, such as coupled inverse and forward models, that are **not** part of active inference. So *predictive processing* is a broader, less constrained term than *active inference*. It has attracted philosophers because it promises to unify perception, action, learning and psychopathology, from simple organisms to social and cultural constructs, and it uses terms like *beliefs* and *surprise* (sometimes with technical meanings that differ from everyday use). Philosophers disagree about its implications: internalist, embodied or action-based, enactivist and non-representational readings all exist.
+
+  - type: mcq
+    id: pp-ai
+    prompt: |
+      Which statement about the relation between predictive processing (PP) and active inference is correct?
+    options:
+      - text: 'PP is a broader and less constrained framework: it may use constructs of active inference, but also others (such as coupled inverse and forward models) that active inference does not contain.'
+        correct: true
+      - text: 'PP and active inference are the same theory under two names.'
+        feedback: |
+          They overlap, and PP drew inspiration from active inference, but PP also appeals to constructs that are not part of active inference.
+      - text: 'PP is a fully specified mathematical theory with one agreed philosophical interpretation, while active inference is only a metaphor.'
+        feedback: |
+          The reverse is closer to the truth: active inference has an explicit formal definition (minimising $F$), while PP is a loose family, and philosophers interpret it in several competing ways.
+    explanation: |
+      Use "predictive processing" for the broad family of prediction-centred ideas, and "active inference" for the specific framework in which everything follows from minimising variational free energy.
+
+  - type: text
+    id: bayesian-brain
+    title: "Perception as inference"
+    body: |
+      Active inference treats **perception as an inferential process** based on a generative model of how observations arise. Bayes' rule *inverts* the model: from the likelihood of the data given a hidden state and a prior over states, it gives a **belief about the hidden state given the data**. This idea goes back to Helmholtz (unconscious inference) and came back in psychology, neuroscience and machine learning (for example, *analysis-by-synthesis*).
+
+      Its most prominent modern form is the **Bayesian brain hypothesis**. But it is a *family* of proposals, not one theory, and they often make different empirical predictions: at the computational level (the brain integrates the senses in a Bayes-optimal way), at the algorithmic level (it uses specific approximations of Bayesian inference, such as decision-by-sampling) and at the neural level (neurons encode probability distributions, for example as samples). The links between these levels are not straightforward.
+
+      Active inference adds a **normative foundation**: all these processes are derived from the single imperative of minimising variational free energy, and the process theory is a gradient descent on $F$, with clear neurophysiological implications.
+
+  - type: mcq
+    id: exact-bayes
+    prompt: |
+      A student says: "The Bayesian brain hypothesis in active inference means that the brain computes the exact posterior with Bayes' rule." What is the best correction?
+    options:
+      - text: 'Exact inference is often intractable, so active inference uses a variational approximation: a belief $Q$ chosen to minimise $F$, which bounds the surprise, $F\ge\mathfrak{I}(y)=-\ln P(y)$. Exact inference is a special case.'
+        correct: true
+      - text: 'Nothing to correct: free energy is just another name for the exact posterior probability.'
+        feedback: |
+          $F$ is a scalar function of the belief $Q$ (and the data). The exact posterior is the particular $Q$ that minimises it; in general the minimiser is only an approximation, because the family of allowed $Q$ is restricted.
+      - text: 'The brain does not compute probabilities at all, so the hypothesis is false.'
+        feedback: |
+          The hypothesis is not refuted by approximation: the claim is that perception behaves as inference, and Bayesian computations can even be realised without explicitly representing probability distributions.
+    explanation: |
+      Minimising $F$ over $Q$ gives the exact posterior only when $Q$ is allowed to be any distribution; with a restricted family (for instance a Gaussian summarised by its mode) it is an approximation. Because $F$ is an upper bound on surprise, lowering it also raises the model evidence $P(y)$.
+
+  - type: mcq
+    id: action-extension
+    prompt: |
+      Under the Bayesian brain agenda perception and action are modelled with different imperatives. How does active inference differ?
+    options:
+      - text: 'The same imperative, minimising variational free energy, covers perception and action, so active perception (sampling observations to test hypotheses) comes out naturally.'
+        correct: true
+      - text: 'Active inference models only perception; action is left to a separate theory.'
+        feedback: |
+          Active inference is precisely the extension of perception-as-inference to action control and planning. In continuous time it is a predictive coding agent equipped with motor reflexes.
+      - text: 'Active inference replaces the generative model by a lookup table of stimulus-response pairs.'
+        feedback: |
+          That is the sandwich model again. Active inference keeps the generative model and its predictions, and uses them also to guide action.
+    explanation: |
+      In the Bayesian brain agenda, action requires Bayesian decision theory as a second ingredient. In active inference, the error units that drive belief updating can also drive action: the next lesson shows how.
+
+  - type: mcq
+    id: pairing
+    prompt: |
+      Which pairing of idea and meaning is correct?
+    options:
+      - text: 'Predictive coding: predictions go down, prediction errors go up, and beliefs move to reduce them (it can be derived from free energy minimisation, under assumptions such as the Laplace approximation).'
+        correct: true
+      - text: 'Bayesian brain hypothesis: a single, fully specified theory with one algorithm and one neural implementation.'
+        feedback: |
+          It is a family of approaches at the computational, algorithmic and neural levels, with competing theories at each level.
+      - text: 'Predictive processing: the name for a specific equation, $F\ge\mathfrak{I}(y)$.'
+        feedback: |
+          That inequality is the free energy bound. Predictive processing is a broad philosophical and scientific framework centred on prediction.
+    explanation: |
+      Helmholtz's *unconscious inference* is the historical root of perception-as-inference; the Bayesian brain hypothesis is its modern family; predictive coding is the process model of perceptual inference in continuous time; predictive processing is the broad framework that these ideas inspired.
+
+  - type: mcq
+    id: iguana-resolve
+    prompt: |
+      Back to the iguana. A creature's generative model includes **prior preferences** for food-related sensations (it expects to sense food). Which consequence follows?
+    options:
+      - text: 'It can align expectation with sensation either by changing its belief (is there food here?) or by changing the world (acting to obtain food-related sensations): both are self-evidencing.'
+        correct: true
+      - text: 'Perception and action become independent modules with their own objectives.'
+        feedback: |
+          The point is the reverse: both serve one objective, evidence for the creature's own model.
+      - text: 'The creature stops predicting, since its preferences are already fixed.'
+        feedback: |
+          Preferences are themselves part of the generative model, as prior beliefs about preferred sensations; they shape the predictions rather than replace them.
+    explanation: |
+      Starting from the whole creature, one principle gives perception (change the belief) and action (change the world). The next lessons examine how action, decision-making, emotion and attention then appear in the same framework.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** perception is only half of the loop. In the next lesson we ask how a creature that predicts its sensations *makes them come true*, and compare the active inference answer with older theories of action control: ideomotor theory, cybernetics and optimal control.

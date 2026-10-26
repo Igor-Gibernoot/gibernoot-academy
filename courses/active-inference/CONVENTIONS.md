@@ -165,4 +165,4 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 ## Chapter 10
 
-- (none yet)
+- Predictive processing lesson: toy g(mu)=mu, y=3, eta=0, Pi(8,1) -> mu*=24/9=2.67 (eps_y .33, eps_v 2.67); y=4, eta=0, Pi(3,1) -> 3. mu-dot=-dF/dmu=Pi_y g' eps_y - Pi_v eps_v. PP is the broader label; Bayesian brain = family, not one theory.
