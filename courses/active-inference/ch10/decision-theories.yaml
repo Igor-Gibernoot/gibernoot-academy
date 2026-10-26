@@ -1,0 +1,329 @@
+id: ch10-decision-theories
+title: "Utility and Decision-Making"
+kind: concept
+own: |
+  - **Value functions and the Bellman equation.** In optimal control and reinforcement learning (RL) a policy is judged by a **value function** $V(s)$ of a state $s$: the sum of future (discounted) rewards collected by starting in $s$ and following the policy. The **Bellman equation** splits it into the immediate reward and the value of the rest of the problem, which allows the iterative procedure of dynamic programming (here $r$ is the reward obtained on the next step, $s'$ the state it leads to, and $0<\lambda<1$ a discount factor; the exact symbols are ours):
+    {{ $$V(s)=r+\lambda\,V(s')$$ }}
+  - **Active inference differs twice.** (1) It does not maximise utility alone but minimises expected free energy $G$, which also contains the epistemic terms. On a creature that predicts outcomes $\tilde y$ under a policy $\pi$ with states $\tilde x$, and has preferred outcomes $P(\tilde y\mid C)$, it is
+    {{ $$\begin{aligned}G(\pi)&=\mathbb{E}_{Q(\tilde x\mid\pi)}H[P(\tilde y\mid\tilde x)]\\&\quad+D_{KL}[Q(\tilde y\mid\pi)\,\|\,P(\tilde y\mid C)]\end{aligned}$$ }}
+    where the first term is the **ambiguity** and the second the **risk**,
+    and policies get the probability $P(\pi)=\sigma(-\gamma G(\pi))$ ($\sigma$ the softmax, $\gamma$ the precision over policies). Because free energies are functionals of beliefs, exploration and exploitation are traded off automatically. (2) The cost is absorbed into the **prior** (the preferences $C$ over observations): no value function and no Bellman equation are needed.
+  - **Priors are not value functions.** RL uses value functions {{ **of states** (or state-action pairs), sums of discounted future rewards }}; active inference uses priors over **observations**, which do not sum or discount. Something like the expected return appears only in $G$, the closest analogue, which is a functional of **beliefs** about states, not a function of states. Priors resembling state values can be built by **caching** $G$ computations.
+  - **Optimism and decision theory.** Preferences make the generative model {{ **optimistic**: it believes it will meet preferred outcomes, and plans are inferred from that belief }}; a failure of this optimism may correspond to apathy. Bayesian decision theory keeps probability of outcomes and utility as two streams; any utility function can be rewritten as a prior (more probable behaviour is, by design, higher utility), which is why the distinction is somewhat superficial.
+  - **RL versus active inference.** In RL a policy is a set of stimulus-response mappings to be learned; in active inference it is a {{ **sequence of control states of the generative model, to be inferred** }}. Habits arise by caching the results of goal-directed policies, as a prior value of policies, so goal-directed and habitual mechanisms cooperate. **Planning as inference** (infer the control sequence that fills the gap to a clamped desired future) is done with variational inference over policies, scored by $G$, which subsumes schemes such as KL control.
+cards:
+  - type: text
+    id: hook
+    title: "A hungry creature in a maze"
+    body: |
+      A creature stands at the entrance of a maze. Somewhere inside there is cheese: it is either in the **left** arm or in the **right** arm, and the creature does not know which. Near the entrance there is a well-lit junction where a sign points to the side with the cheese. Going straight into an arm is quick, but the arms are dark and murky.
+
+      The classical answer to "what should the creature do?" is **maximise utility**: give every outcome a number (cheese is good, wasted steps are bad) and pick the plan with the highest expected total. Economics, optimal control and reinforcement learning all work this way.
+
+      This lesson asks what active inference does differently, and where it agrees. First, a guess.
+
+  - type: mcq
+    id: guess
+    prompt: |
+      The creature does not know which arm holds the cheese. A sign that tells it is a short detour away. A pure utility maximiser scores plans only by the cheese they are expected to bring. What would you expect of it?
+    options:
+      - text: 'It may well skip the sign and gamble on an arm: looking at the sign yields no cheese by itself, so by cheese alone it has no value.'
+        correct: true
+      - text: 'It always checks the sign first, because knowledge is always worth more than cheese.'
+        feedback: |
+          Nothing in a reward-only score rewards knowledge. Information is worth something to a utility maximiser only if somebody adds that worth by hand (as a "bonus"). Here the sign gives no cheese, so it is not valued for itself.
+      - text: 'It stays at the entrance, because it cannot compute anything without knowing where the cheese is.'
+        feedback: |
+          It can compute expected utility under its uncertainty (say, half a chance of cheese in each arm). It simply cannot see any value in reducing that uncertainty.
+    explanation: |
+      This is the **exploration-exploitation** problem: gather information (explore) or collect reward now (exploit). A reward-only objective has no term for the first, so it is usually patched with extra "novelty bonuses" or "intrinsic rewards". The next two cards show where active inference gets such a term for free.
+
+  - type: widget
+    id: utility-widget
+    review: false
+    widget: policy-scorer
+    config:
+      outcomes: ['cheese', 'no cheese']
+      C: [0.8, 0.2]
+      showAmbiguity: false
+      showG: false
+      showProb: false
+      showGamma: false
+      policies:
+        - { name: 'dash into the dark left arm', qy: [0.7, 0.3], ambiguity: 0.6 }
+        - { name: 'read the sign at the lit junction', qy: [0.5, 0.5], ambiguity: 0.1 }
+    body: |
+      Two plans. The creature **prefers** cheese: $P(\text{cheese}\mid C)=0.8$. Each plan predicts how likely cheese is: the dash leans on a guess ($0.7$), reading the sign commits to nothing yet ($0.5$). (A toy: only the coming glimpse is scored.)
+
+      Only the **risk** bar is on: how far the predicted outcomes are from the preferred ones, the utility-like part of the score. Which plan looks better?
+
+  - type: mcq
+    id: missing
+    prompt: |
+      Scored by risk alone (the mismatch between predicted and preferred outcomes), the dash wins: risk $\approx0.03$ against $\approx0.22$ for reading the sign. What is missing from this score?
+    options:
+      - text: 'Any account of how clearly each plan lets the creature see: the dash ends in a murky arm where what it finds is hard to tell apart (high ambiguity), the sign is read in good light (low ambiguity).'
+        correct: true
+      - text: 'A larger preference for cheese, $P(\text{cheese}\mid C)$ close to $1$.'
+        feedback: |
+          Raising the preference changes both risks, but the risk-only score still never rewards seeing clearly. The missing term is not a stronger desire but a different kind of term.
+      - text: 'Nothing: the dash really is the better plan.'
+        feedback: |
+          It is the better plan for a score that ignores how well the creature will know what it is looking at. The next card adds that term.
+    explanation: |
+      The risk is $D_{KL}[Q(\tilde y\mid\pi)\,\|\,P(\tilde y\mid C)]$. For the dash it is $0.7\ln\frac{0.7}{0.8}+0.3\ln\frac{0.3}{0.2}=0.028$, for the sign $0.5\ln\frac{0.5}{0.8}+0.5\ln\frac{0.5}{0.2}=0.223$. A risk-only score is a (soft) utility, and utility says dash.
+
+  - type: widget
+    id: efe-widget
+    review: false
+    widget: policy-scorer
+    config:
+      outcomes: ['cheese', 'no cheese']
+      C: [0.8, 0.2]
+      gamma: 1
+      gammaMax: 8
+      policies:
+        - { name: 'dash into the dark left arm', qy: [0.7, 0.3], ambiguity: 0.6 }
+        - { name: 'read the sign at the lit junction', qy: [0.5, 0.5], ambiguity: 0.1 }
+    body: |
+      The same two plans, now with the **ambiguity** bar too (how uncertain what the creature would see is, even if it knew the true state) and the expected free energy $G=\text{ambiguity}+\text{risk}$. The lowest $G$ is the best plan; $P(\pi)=\sigma(-\gamma G)$ turns it into probabilities.
+
+      Which plan wins now, and does $\gamma$ change that?
+
+  - type: mcq
+    id: epistemic-appears
+    prompt: |
+      With ambiguity included, the dash has $G\approx0.63$ ($0.60+0.03$) and reading the sign has $G\approx0.32$ ($0.10+0.22$). Why does reading the sign now win?
+    options:
+      - text: 'Its much lower ambiguity (an epistemic term) outweighs its larger risk: a plan that resolves uncertainty is valued with no bonus added by hand.'
+        correct: true
+      - text: 'Its risk became smaller once ambiguity was switched on.'
+        feedback: |
+          The risk bars did not change: $0.03$ and $0.22$. A new term was added to the score, not a different risk.
+      - text: 'Because $G$ is maximised, and the sign plan has the larger $G$.'
+        feedback: |
+          $G$ is **minimised**, never maximised; $P(\pi)=\sigma(-\gamma G)$ gives more probability to lower $G$. The sign plan has the *smaller* $G$.
+    explanation: |
+      Two terms built from one quantity: $G$ contains both the preference-matching part (risk) and the part that favours plans giving clear observations (ambiguity). Exploring and exploiting are not two separate objectives to be balanced by hand: they are two parts of one $G$. Raising $\gamma$ only sharpens the preference for the lower-$G$ plan.
+
+  - type: text
+    id: value-functions
+    title: "Value functions and the Bellman equation"
+    body: |
+      First, the standard tool that active inference is compared with.
+
+      In optimal control, economics and **reinforcement learning (RL)**, a **cost** or **value function of states** is central. In a maze with rewards, the optimal policy maximises the (discounted) reward while minimising movement cost. These problems are often solved with the **Bellman equation** (the Hamilton-Jacobi-Bellman equation in continuous time): the value of a decision splits into two parts, **the immediate reward and the value of the remaining part of the problem**. In symbols (the exact form is the textbook one, not specific to active inference), with $s$ the current state, $r$ the reward on the next step, $s'$ the state it leads to and $0<\lambda<1$ a **discount factor** (future reward counts less):
+      $$V(s)=r+\lambda\,V(s')$$
+      This split allows the iterative procedure called **dynamic programming** (Bellman 1954): compute the value of states next to the goal first, then of states one step further, and so on backwards.
+
+  - type: numeric
+    id: bellman-num
+    prompt: |
+      A corridor leads to a goal. Stepping into the goal gives reward $10$; every other step gives $0$. Discount factor $\lambda=0.9$ per step. Using the rule "value of a state = reward on the next step + $\lambda\times$ value of the state it leads to", and the value of the goal itself taken as $0$ (nothing follows), what is the value of the state **three steps** from the goal?
+    answer: 8.1
+    tolerance: 0.001
+    wrong:
+      - { value: 10, feedback: 'This is the value one step from the goal (reward $10$, nothing after). Each earlier step multiplies by $\lambda$.' }
+      - { value: 7.29, feedback: 'That is $10\times0.9^3$: one discount too many. Two steps away is $0.9\times10=9$, three steps away is $0.9\times9$.' }
+    hint: 'Work backwards from the goal: one step away, two steps away, then three.'
+    explanation: |
+      One step away: $V=10+0.9\cdot0=10$. Two steps away: $V=0+0.9\cdot10=9$. Three steps away: $V=0+0.9\cdot9=8.1$. Each state's value is computed from its successor's, which is the dynamic-programming idea.
+
+  - type: mcq
+    id: twice
+    prompt: |
+      Active inference differs from this value-function approach in two main ways. Which pair is right?
+    options:
+      - text: 'It minimises expected free energy, which also contains epistemic imperatives (disambiguating the current state, seeking novelty), and the notion of cost is absorbed into the prior.'
+        correct: true
+      - text: 'It uses a bigger discount factor, and it solves the Bellman equation by sampling instead of dynamic programming.'
+        feedback: |
+          The difference is not in how the Bellman equation is solved: finding the optimal policy is recast as inference and does not require a value function or the Bellman equation (though a similar recursive logic can be appealed to).
+      - text: 'It maximises utility, but only over observations instead of states.'
+        feedback: |
+          It does not consider utility maximisation alone: the objective is the broader expected free energy. Priors over observations are part of the story (next cards), but not a version of utility maximisation.
+    explanation: |
+      Epistemic terms are sometimes added on to classical rewards as a "novelty bonus" or "intrinsic reward"; in active inference they **arise automatically**, which is how it resolves exploration-exploitation trade-offs. The reason is that free energies are **functionals of beliefs** (we optimise beliefs, not an external reward function), which is essential when success depends on resolving uncertainty. The preferred outcomes, or a trajectory to follow, are specified by the prior (prior preference), which may be more expressive than utilities.
+
+  - type: mcq
+    id: priors-vs-values
+    prompt: |
+      Which statements about **priors** in active inference and **value functions** in RL are correct? Select all that apply.
+    multiple: true
+    options:
+      - text: 'RL uses value functions of states (or of state-action pairs); active inference uses priors over observations.'
+        correct: true
+      - text: 'A value function is an expected return: the sum of future (discounted) rewards from starting in a state and then executing the policy.'
+        correct: true
+      - text: 'Priors in active inference do not usually sum future rewards, nor discount them.'
+        correct: true
+      - text: 'A prior preference in active inference is the discounted sum of future rewards from a state.'
+        feedback: |
+          That is the definition of a value function. A prior preference is a distribution over observations, with no summing over the future and no discounting.
+    explanation: |
+      Two differences: **what the object is defined on** (states against observations) and **what it contains** (an expected sum of discounted rewards against a plain preference). Something analogous to the expected return only emerges when the expected free energy of a policy is computed, which is the next card.
+
+  - type: mcq
+    id: closest-analogue
+    prompt: |
+      A reader asks: "What in active inference plays the role of the value function?" The best answer is:
+    options:
+      - text: 'The expected free energy $G$ of a policy is the closest analogue, but it is a functional of beliefs about states, not a function of states.'
+        correct: true
+      - text: 'The prior over observations $C$, since it is the numerical score attached to each state.'
+        feedback: |
+          $C$ is a preference over observations, not a score attached to states and not an expected return. The analogue of an expected return appears only once $G$ is computed from $C$ together with the beliefs.
+      - text: 'There is none: active inference has nothing comparable to a value function.'
+        feedback: |
+          Overstated: $G$ is the closest analogue (with the stated difference), and one can even construct priors that resemble value functions of states.
+    explanation: |
+      It is possible to build priors resembling value functions of states in RL, for example by **caching expected free energy calculations** in these states. Without the caching step, $G$ is computed from beliefs for each policy and is not stored as a number per state.
+
+  - type: mcq
+    id: optimism
+    prompt: |
+      Absorbing utility into the prior has a theoretical consequence: priors play the role of goals and render the generative model biased. In what sense?
+    options:
+      - text: 'Optimistic: the creature believes it will encounter preferred outcomes, and it is this optimism that underwrites inferred plans that achieve desired outcomes. A failure of it may correspond to apathy.'
+        correct: true
+      - text: 'Pessimistic: it expects the worst outcomes and plans to avoid them.'
+        feedback: |
+          The bias is toward the preferred outcomes being the expected ones; plans are inferred from the belief that they will occur.
+      - text: 'Unbiased: it weighs all outcomes equally and only the utility function adds a bias afterwards.'
+        feedback: |
+          That describes an approach that separates probability and utility. In active inference the preference sits in the prior itself, so the generative model is biased from the start.
+    explanation: |
+      If a creature stopped believing in preferred outcomes, its inferred plans would lose their pull: this could correspond to apathy. (The source flags this as a possibility, not a settled result.)
+
+  - type: text
+    id: bayesian-dt
+    title: "Bayesian decision theory"
+    body: |
+      **Bayesian decision theory** extends the Bayesian brain to decisions, sensorimotor control and learning. It has **two distinct processes**:
+
+      1. Bayesian computations predict the probability of future (action- or policy-dependent) outcomes.
+      2. A (fixed or learned) **utility or cost function** gives the preference over plans.
+
+      The final decision combines both streams and selects, with higher probability, the plan most likely to yield the higher reward. So it **separates the probability of events from their utility**. In active inference the prior directly signals what is valuable. Still, a parallel can be drawn: minimising variational free energy gives accurate beliefs about the world (stream 1), and the prior belief that expected free energy will be minimised by policy selection brings in the preferences (stream 2).
+
+  - type: mcq
+    id: deflation
+    prompt: |
+      Bayesian decision theory keeps probability and utility apart; active inference puts preferences in the prior. How different is this, really?
+    options:
+      - text: 'Somewhat superficial: a utility function can always be rewritten as encoding a prior belief, since behaviour that maximises utility is a priori (by design) more probable. In this deflationary view that is the definition of utility.'
+        correct: true
+      - text: 'Fundamental: priors and utilities can never be translated into each other.'
+        feedback: |
+          They can: any utility function can be rewritten as a prior. The complete class theorems say the converse side of the same coin: for any decisions and cost functions there exist prior beliefs that make the decisions Bayes optimal.
+      - text: 'Irrelevant: active inference has no preferences at all.'
+        feedback: |
+          Preferences are central, as the prior preference $C$ (and the expected free energy built from it).
+    explanation: |
+      The complete class theorems imply a duality or degeneracy: prior beliefs and cost functions cannot be told apart from the decisions alone. In one sense active inference resolves the degeneracy by absorbing utility or cost functions into prior beliefs in the form of preferences.
+
+  - type: text
+    id: rl
+    title: "Reinforcement learning"
+    body: |
+      RL learns a policy by **trial and error**: try actions (move left), receive positive or negative reinforcement (pole balanced or fallen). Active inference dispenses with the notions of reward, value function and Bellman optimality, and even the word **policy** means something different:
+
+      - in RL, a policy is a set of **stimulus-response mappings** to be learned;
+      - in active inference, a policy is **part of the generative model**: a sequence of control states that must be **inferred**.
+
+      RL has three families. **Model-free** methods learn value functions directly from experience (computing *reward* prediction errors, as in temporal-difference learning), with no transition model. **Model-based** methods learn a model of the task, plan with it by simulating, and update value functions from the simulated experience. **Policy gradient** methods optimise parameterised policies directly, without value functions, but to maximise long-term cumulative reward.
+
+      Active inference does use model-based planning, but planning means computing $G$ for each policy, not updating a value function. Its prediction errors are **state** prediction errors: there is no notion of reward.
+
+  - type: mcq
+    id: habits
+    prompt: |
+      In RL, goal-directed and habitual choices correspond to model-based and model-free learning, acquired in parallel and competing for control. How does active inference treat habits?
+    options:
+      - text: 'Habits come from repeatedly executing goal-directed policies and caching which ones succeed in which contexts; the cached information is a prior value of policies, so habit and deliberation (expected free energy) cooperate in the prior over policies.'
+        correct: true
+      - text: 'Habits are a separate model-free system, learned independently of goal-directed choice and competing with it.'
+        feedback: |
+          That is the RL picture. In active inference habits are acquired *by* repeatedly pursuing goal-directed policies, not independently of them.
+      - text: 'There are no habits: every choice is deliberated afresh from the expected free energy.'
+        feedback: |
+          Habits exist: a policy with a high prior value in a given context can be executed without deliberation ("I am the sort of creature that tends to do this").
+    explanation: |
+      The prior over policies depends on a habitual term (a prior value of policies) and a deliberative term (expected free energy), so the two mechanisms can cooperate. In model-based RL, actions are selected prospectively but controlled reactively (stimulus-response); in active inference they can also be controlled proactively, by fulfilling proprioceptive predictions.
+
+  - type: text
+    id: planning
+    title: "Planning as inference"
+    body: |
+      Perception can be cast as inference; so can control (Todorov 2008). In active inference, **planning is an inferential process: the inference of a sequence of control states of the generative model**. Related schemes: control-as-inference, planning-as-inference, risk-sensitive and KL control. They all infer a posterior over actions or action sequences, with a dynamic generative model linking states, actions and future states.
+
+      A concrete picture: **clamp** (fix) the desired future state in the model, then infer the sequence of actions most likely to fill the gap between the current state and that future state.
+
+      These schemes are **prospective**: they start from an explicit representation of future, to-be-observed states, not from stimulus-response rules. Active inference is distinct in three ways: it uses scalable **variational inference**; it infers a posterior over **control states** (action sequences or policies, not single actions); and it scores sequences by the **expected free energy**, which subsumes other planning-as-inference schemes (such as KL control) and can handle ambiguous situations.
+
+  - type: mcq
+    id: planning-q
+    prompt: |
+      In the maze, the creature fixes "I eat cheese" as its desired future and asks which sequence of moves most probably leads from here to there. What is this?
+    options:
+      - text: 'Planning as inference: the desired future is clamped in the generative model and the sequence of control states (a policy) is inferred.'
+        correct: true
+      - text: 'Model-free RL: the sequence is read off a cached value of each state.'
+        feedback: |
+          Model-free methods learn value functions from experience without a transition model. Here a model predicts the path from the present state to the desired one.
+      - text: 'Dynamic programming: the values of states are computed backwards from the goal.'
+        feedback: |
+          Dynamic programming computes state values with the Bellman equation. Planning as inference infers a posterior over control sequences instead.
+    explanation: |
+      The inferred object is a sequence of control states (a policy), not a single action and not a value table.
+
+  - type: mcq
+    id: traps
+    prompt: |
+      Which of these statements about reinforcement learning and active inference are correct? Select all that apply.
+    multiple: true
+    options:
+      - text: 'Model-free RL does not use a transition model that predicts future states; active inference does.'
+        correct: true
+      - text: 'In active inference, prediction errors are about states, since there is no notion of reward.'
+        correct: true
+      - text: 'In active inference, a policy is a sequence of control states to be inferred, not a stimulus-response mapping.'
+        correct: true
+      - text: 'In active inference, the prior preferences are the discounted sum of future rewards, as in an RL value function.'
+        feedback: |
+          Priors in active inference do not usually sum or discount future rewards; something like an expected return appears only in the expected free energy of a policy.
+      - text: 'In active inference, goal-directed and habitual mechanisms can only compete.'
+        feedback: |
+          They can cooperate: the prior over policies has a habitual term and a deliberative term (expected free energy).
+    explanation: |
+      Each wrong option projects an RL idea onto active inference: reward sums in the prior, and a competition between two separate systems.
+
+  - type: numeric
+    id: g-dash
+    prompt: |
+      A creature prefers outcomes $P(\text{cheese}\mid C)=P(\text{no cheese}\mid C)=\tfrac12$. Policy A (dash) predicts cheese for certain, $Q(\text{cheese}\mid\pi)=1$, and has ambiguity $0.2$ nats. Compute its expected free energy $G$ in nats (give $\ln2=0.693$ as known).
+    answer: 0.893
+    tolerance: 0.003
+    wrong:
+      - { value: 0.2, feedback: 'That is the ambiguity only. The risk is $D_{KL}[Q\,\|\,C]=1\cdot\ln\frac{1}{1/2}$, not $0$ (the prediction is not equal to the preference).' }
+      - { value: 0.493, feedback: 'You subtracted the risk. $G$ is ambiguity **plus** risk, minimised, with no sign flipped.' }
+    hint: 'Risk is the KL divergence from the preferences. With a certain outcome it has one term.'
+    explanation: |
+      Risk $=1\cdot\ln\frac{1}{1/2}+0=\ln2=0.693$ (the term with $Q=0$ contributes $0$). $G=\text{ambiguity}+\text{risk}=0.2+0.693=0.893$.
+
+  - type: numeric
+    id: g-look
+    prompt: |
+      Same preferences $(\tfrac12,\tfrac12)$. Policy B (look first) predicts $Q(\text{cheese}\mid\pi)=\tfrac12$ and has ambiguity $0.5$ nats. Compute its $G$ in nats. (Policy A above had $G=0.893$.)
+    answer: 0.5
+    tolerance: 0.002
+    wrong:
+      - { value: 1.193, feedback: 'You added a risk of $\ln 2$ that is not there: the predicted outcomes $(\frac12,\frac12)$ equal the preferences, so the KL divergence is $0$.' }
+    hint: 'Compare the predicted outcome distribution with the preferred one.'
+    explanation: |
+      The prediction equals the preference, so risk $=0$ and $G=0.5+0=0.5<0.893$. Policy B has the lower $G$ and hence the higher probability $\sigma(-\gamma G)$, even though A has the smaller ambiguity ($0.2$ against $0.5$). B wins through its zero risk. Which term decides depends on the numbers, which is why both are kept in $G$.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a creature must also choose *how well* to reason, and what its feelings are for. We will see how active inference describes behaviour that combines deliberative, perseverative and habitual components, and how emotion, valence, allostasis and interoception fit the same scheme.
