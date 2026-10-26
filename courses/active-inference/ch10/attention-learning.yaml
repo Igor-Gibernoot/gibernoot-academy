@@ -2,7 +2,7 @@ id: ch10-attention-learning
 title: "Attention, Rule Learning and Open Directions"
 kind: concept
 own: |
-  - **Attention is precision.** In a one-level model with hidden cause $x$ (belief $\mu$), prior mean $\eta$, data $y$ and prediction $g(\mu)$, the prediction errors are $\varepsilon_y=y-g(\mu)$ and $\varepsilon_v=\mu-\eta$, with precisions $\Pi_y$ and $\Pi_v$ and free energy $F=\tfrac12\Pi_y\varepsilon_y^2+\tfrac12\Pi_v\varepsilon_v^2$. Active inference defines **attention** as the precision of some sensory input, $\Pi_y$: a sensory channel inferred to be precise has more influence on belief updating (gain control). For $g(\mu)=\mu$ the belief that minimises $F$ is
+  - **Attention is precision.** In a one-level model with hidden cause $x$ (belief $\mu$), prior mean $\eta$, data $y$ and prediction $g(\mu)$, the prediction errors are $\epsilon_y=y-g(\mu)$ and $\epsilon_v=\mu-\eta$, with precisions $\Pi_y$ and $\Pi_v$ and free energy $F=\tfrac12\Pi_y\epsilon_y^2+\tfrac12\Pi_v\epsilon_v^2$. Active inference defines **attention** as the precision of some sensory input, $\Pi_y$: a sensory channel inferred to be precise has more influence on belief updating (gain control). For $g(\mu)=\mu$ the belief that minimises $F$ is
     {{ $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$$ }}
     so raising $\Pi_y$ pulls $\mu^*$ towards the data. Attention is an attribute of **beliefs about sensory input**.
   - **Salience is expected information gain.** For a policy $\pi$ with expected free energy $G$, **salience** is the epistemic value (expected information gain) component of $G$:
@@ -10,7 +10,7 @@ own: |
     where pragmatic value measures how well the expected outcomes fit the preferences $C$. Salience belongs to an **action or policy** (overt or covert orienting); expected information gain splits into **salience** (the potential to infer) and **novelty** (the potential to learn). Analogy: attention = choosing the best data among what was already measured; salience = designing the next experiment. They are often conflated because highly precise data are minimally ambiguous, so they deserve attention and the actions that acquire them are salient.
   - **Learning structure, not only parameters.** Learning a generative model includes learning its **latent structure** (hidden regularities, such as a traffic-light rule that explains both why cars stop and why pedestrians walk), called **structure learning**. A hidden rule gives causal understanding, parsimonious inference (it abstracts from details such as car colour), generalisation to new situations and "learning to learn". The balance in the free energy,
     {{ $$F=\text{complexity}-\text{accuracy}$$ }}
-    favours simpler models; **model reduction** (pruning parameters, for instance offline during sleep) helps to discover hidden rules. Parameter learning of a likelihood column adds counts when an outcome is seen, $a_{ij}\leftarrow a_{ij}+1$, giving the expected likelihood $a_{ij}/a_{0j}$ with $a_{0j}=\sum_i a_{ij}$.
+    favours simpler models; **model reduction** (pruning parameters, for instance offline during sleep) helps to discover hidden rules. Parameter learning of a likelihood column adds counts when outcome $i$ is seen in state $j$, $a_{ij}\leftarrow a_{ij}+1$, giving the expected likelihood $a_{ij}/a_{0j}$ with $a_{0j}=\sum_i a_{ij}$.
   - **Open directions.** (1) **Social and cultural dynamics**: many interacting active inference creatures, with emergent effects (self-organisation that resists dispersion, morphogenesis, turn taking, cognitive niches), from a science of individuals to a science of societies. (2) **Machine learning and robotics**: models such as the Helmholtz machine, variational autoencoders and generative adversarial networks learn connectionist generative models. The VAE objective, the evidence lower bound (ELBO), is equivalent to the variational free energy, so it also trades accuracy against complexity (the regulariser against overfitting):
     {{ $$\text{ELBO}\ \widehat{=}\ -F=\text{accuracy}-\text{complexity}$$ }}
     In robotics the key thing to learn is the forward mapping from actions to the next sensory feedback, by exploration, demonstration or a teacher.
@@ -48,9 +48,9 @@ cards:
       Words such as *attention* and *salience* have been redefined many times in psychology: sometimes they mean a **gain control** (some sensory channels count more than others), sometimes they mean **orienting** (moving the eyes or the mind to gain information). A formal theory avoids the ambiguity by naming the mathematics.
 
       Active inference **defines attention as the precision of some sensory input**. Recall the one-level model: a hidden cause with belief $\mu$ and prior mean $\eta$, data $y$ and prediction $g(\mu)$. The two prediction errors are
-      $$\varepsilon_y=y-g(\mu),\qquad \varepsilon_v=\mu-\eta,$$
+      $$\epsilon_y=y-g(\mu),\qquad \epsilon_v=\mu-\eta,$$
       each weighted by its **precision** $\Pi$ (inverse variance: how much that source is trusted) in the free energy
-      $$F=\tfrac12\Pi_y\varepsilon_y^2+\tfrac12\Pi_v\varepsilon_v^2.$$
+      $$F=\tfrac12\Pi_y\epsilon_y^2+\tfrac12\Pi_v\epsilon_v^2.$$
       Sensory data inferred to be **precise** weigh more in belief updating than data inferred to be imprecise. That is gain control. It has been related to the classic *Posner paradigm*: responding to a stimulus at a location given higher precision is faster than responding elsewhere.
 
   - type: widget
@@ -82,7 +82,7 @@ cards:
         correct: true
       - text: 'The settled belief moves towards the prior $\eta=0$.'
         feedback: |
-          Raising $\Pi_y$ makes the sensory error $\varepsilon_y$ costly, so the belief reduces it by moving **towards** the data. The prior pulls harder when $\Pi_v$ is the larger one.
+          Raising $\Pi_y$ makes the sensory error $\epsilon_y$ costly, so the belief reduces it by moving **towards** the data. The prior pulls harder when $\Pi_v$ is the larger one.
       - text: 'It does not move: precision only changes how fast the belief descends, not where it ends.'
         feedback: |
           Precisions are the weights of the two errors in $F$, so they change the **minimum**: $\mu^*=(\Pi_y y+\Pi_v\eta)/(\Pi_y+\Pi_v)$.
@@ -257,19 +257,19 @@ cards:
   - type: mcq
     id: social-q
     prompt: |
-      Which of these is NOT something reported from simulations of several interacting active inference creatures?
+      Simulations of several interacting active inference creatures were reported. Which statement describes correctly what they show?
     options:
-      - text: 'A full account of elections and national culture, already reproduced in detail.'
+      - text: 'They illustrate the potential of the framework (for example self-organisation, coordinated prediction and turn taking, cognitive niches) while capturing only a fraction of social and cultural complexity.'
         correct: true
-      - text: 'Self-organisation of simple life forms that resist dispersion.'
+      - text: 'They give a full account of elections and national culture, already reproduced in detail.'
         feedback: |
-          This was reported for identical interacting organisms, so it is not the answer. Look for the claim that goes beyond what the simulations show.
-      - text: 'Mutual coordinated prediction and turn taking.'
+          Too strong. The simulations capture only a fraction of social and cultural complexity; the full science of societies is an open direction.
+      - text: 'They show that interacting creatures cannot coordinate their predictions, so social behaviour lies outside the framework.'
         feedback: |
-          This was reported, so it is not the answer.
-      - text: 'Creatures that extend their cognition into material artefacts and shape a cognitive niche.'
+          The opposite: mutual coordinated prediction and turn taking were reported.
+      - text: 'They apply only to a single creature, because beliefs cannot extend into artefacts or other agents.'
         feedback: |
-          This was also reported in simulations, so it is not the answer.
+          Simulations reported creatures that extend their cognition into material artefacts and shape a cognitive niche, and groups of identical organisms that resist dispersion.
     explanation: |
       The simulations capture **only a fraction** of social and cultural complexity; they illustrate the potential, and the full science of societies is an open direction.
 
