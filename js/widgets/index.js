@@ -48,6 +48,7 @@ import { simplexPoints } from './simplex-points.js';
 import { gaussCharts } from './gauss-charts.js';
 import { bregmanGap } from './bregman-gap.js';
 import { dualGrids } from './dual-grids.js';
+import { altProjections } from './alt-projections.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -92,6 +93,7 @@ const WIDGETS = {
   'gauss-charts': gaussCharts,
   'bregman-gap': bregmanGap,
   'dual-grids': dualGrids,
+  'alt-projections': altProjections,
 };
 
 export function mountWidget(name, el, config) {

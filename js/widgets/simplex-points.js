@@ -47,17 +47,17 @@ const M = src => h('span', { html: mdInline(String(src)) });
 const T = src => h('span', { html: tex(String(src)) });
 const HUES = { vec: 'var(--vec)', covec: 'var(--covec)', basis: 'var(--basis)', gold: 'var(--gold)' };
 const DEF_HUES = ['vec', 'covec', 'basis'];
-const SIDE = 100, HGT = SIDE * Math.sqrt(3) / 2;
-const V = [[0, HGT], [SIDE, HGT], [SIDE / 2, 0]];           // svg coordinates of the vertices
+export const SIDE = 100, HGT = SIDE * Math.sqrt(3) / 2;
+export const V = [[0, HGT], [SIDE, HGT], [SIDE / 2, 0]];           // svg coordinates of the vertices
 
-const toXY = p => [p[0] * V[0][0] + p[1] * V[1][0] + p[2] * V[2][0], p[0] * V[0][1] + p[1] * V[1][1] + p[2] * V[2][1]];
-function toP([x, y]) {
+export const toXY = p => [p[0] * V[0][0] + p[1] * V[1][0] + p[2] * V[2][0], p[0] * V[0][1] + p[1] * V[1][1] + p[2] * V[2][1]];
+export function toP([x, y]) {
   const p3 = (HGT - y) / HGT;
   const p2 = (x - V[0][0] - p3 * (V[2][0] - V[0][0])) / SIDE;
   return [1 - p2 - p3, p2, p3];
 }
-const norm = p => { const t = p.reduce((a, b) => a + b, 0) || 1; return p.map(x => x / t); };
-const kl = (p, q) => p.reduce((a, pi, i) => a + (pi > 0 ? pi * Math.log(pi / q[i]) : 0), 0);
+export const norm = p => { const t = p.reduce((a, b) => a + b, 0) || 1; return p.map(x => x / t); };
+export const kl = (p, q) => p.reduce((a, pi, i) => a + (pi > 0 ? pi * Math.log(pi / q[i]) : 0), 0);
 const euclid = (p, q) => Math.hypot(...p.map((x, i) => x - q[i]));
 const mid = (p, q) => p.map((x, i) => (x + q[i]) / 2);
 const f2 = x => x.toFixed(2);
