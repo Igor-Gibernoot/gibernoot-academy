@@ -1,0 +1,261 @@
+id: ch06-christoffel-2
+title: Connection Coefficient Functions · Part 2
+kind: concept
+own: |
+  - **Notation**: $\mathcal{M}$ is a $d$-dimensional manifold with a connection $\nabla$; $\mathscr{X} = (\mathscr{X}^1,\dots,\mathscr{X}^d)$ and $\mathscr{Y}$ are charts with basis fields $\partial x_i$, $\partial y_i$; $\mathcal{X},\mathcal{Y}$ are vector fields with components $x^i$, $\tilde x^i$ in $\mathscr{X}$, $\mathsf{X}$ is a covector field with components $\mathtt{x}_i$, and $\mathcal{X}\lfloor g\rceil$ is the derivative of the function $g$ along $\mathcal{X}$. Sums over repeated indices are written implicitly (Einstein convention).
+  - **Coefficients and components recalled**: $\nabla_{\partial x_k}\partial x_j = (\Gamma_\mathscr{X})^i_{jk}\,\partial x_i$, and $(\nabla_\mathcal{X}\mathcal{Y})^k = \mathcal{X}\lfloor\tilde x^k\rceil + \Gamma^k_{ji}\,\tilde x^jx^i$.
+  - **Transformation law** (not a tensor):
+  {{ $$\begin{aligned}(\Gamma_\mathscr{Y})^i_{jk} &= \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^s}\frac{\partial^2\mathscr{X}^s}{\partial\mathscr{Y}^k\partial\mathscr{Y}^j}\\ &\quad + \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^l}\frac{\partial\mathscr{X}^s}{\partial\mathscr{Y}^j}\\ &\qquad\cdot\frac{\partial\mathscr{X}^m}{\partial\mathscr{Y}^k}\,(\Gamma_\mathscr{X})^l_{sm}\end{aligned}$$ }}
+  Differences of connections and the antisymmetric part {{ $\Gamma^i_{jk} - \Gamma^i_{kj}$ }} are tensors; the symmetric part can be removed at one point.
+  - **Removing $\Gamma$ at a point:** in the chart $\mathscr{Y}^i = \mathscr{X}^i + \tfrac12\Gamma^i_{(jk)}(p)\,\mathscr{X}^j\mathscr{X}^k$ (with $\mathscr{X}(p)=0$ and $\Gamma^i_{(jk)}$ the symmetric part in $j,k$) the symmetric part of the coefficients vanishes at $p$: {{ $(\Gamma_\mathscr{X})^i_{jk}(p) = \Gamma^i_{(jk)}(p) + (\Gamma_\mathscr{Y})^i_{jk}(p)$ }}; for symmetric $\Gamma$ all vanish at $p$, but not their derivatives (curvature).
+  - **The plane** (points $(a,b)$; $\mathscr{X}(a,b) = (a,b)$ cartesian; $\mathscr{Y} = (r,\theta)$ polar, $r = \sqrt{a^2+b^2}$, $\theta = \operatorname{atan2}(b,a)$; $\nabla^{\mathrm{E}}$ differentiates cartesian components, $\nabla^{\mathrm{P}}$ polar ones): $\Gamma^{\mathrm{E}}_\mathscr{X} = 0$, while in polar coordinates
+  {{ $$\begin{gathered}(\Gamma^{\mathrm{E}}_\mathscr{Y})^1_{22} = -r\\ (\Gamma^{\mathrm{E}}_\mathscr{Y})^2_{12} = (\Gamma^{\mathrm{E}}_\mathscr{Y})^2_{21} = \tfrac1r\end{gathered}$$ }}
+  and $\nabla^{\mathrm{P}}$ is the reverse: $\Gamma^{\mathrm{P}}_\mathscr{Y} = 0$, $\Gamma^{\mathrm{P}}_\mathscr{X}\neq0$.
+
+
+cards:
+  - type: text
+    id: recall-coefficients
+    tag: Recall
+    title: 'Recall: coefficients, components and the two plane connections'
+    body: |
+      Recall, from the lesson Connection Coefficient Functions · Part 1: a connection $\nabla$ on a $d$-dimensional manifold, in a chart $(\mathcal{U},\mathscr{X})$ with basis fields $\partial x_i$, has **coefficient functions** $(\Gamma_\mathscr{X})^i_{jk}$ (upper index: output component; first lower: the differentiated basis field; last lower: the direction),
+      $$\nabla_{\partial x_k}\partial x_j = (\Gamma_\mathscr{X})^i_{jk}\,\partial x_i,$$
+      and they give the covariant derivative of any field $\mathcal{Y} = \tilde x^j\partial x_j$ along $\mathcal{X} = x^i\partial x_i$ (sums over repeated indices):
+      $$(\nabla_\mathcal{X}\mathcal{Y})^k = \mathcal{X}\lfloor\tilde x^k\rceil + \Gamma^k_{ji}\,\tilde x^jx^i.$$
+      The Rules of a connection include linearity over functions in the direction slot ($\nabla_{f\mathcal{X}}\mathcal{Y} = f\,\nabla_\mathcal{X}\mathcal{Y}$) and the Leibniz rule in the differentiated slot ($\nabla_\mathcal{X}(g\mathcal{Y}) = \mathcal{X}\lfloor g\rceil\mathcal{Y} + g\,\nabla_\mathcal{X}\mathcal{Y}$). On the plane, $\nabla^{\mathrm{E}}$ differentiates cartesian components and $\nabla^{\mathrm{P}}$ polar ones; $\nabla^{\mathrm{E}}$ has all cartesian coefficients $0$, yet the polar basis fields turn and stretch.
+
+  - type: text
+    id: euclid-polar
+    title: ∇ᴱ in the polar chart
+    body: |
+      Back to the plane, points $(a,b)$, cartesian chart $\mathscr{X}$ and polar chart $\mathscr{Y} = (r,\theta)$, $r = \sqrt{a^2+b^2}$, $\theta = \operatorname{atan2}(b,a)\in(-\pi,\pi)$, on $\mathcal{V}$ = the plane minus $\{b = 0,\ a\le0\}$.
+
+      In the cartesian chart, $\nabla^{\mathrm{E}}_{\partial x_k}\partial x_j = 0$, so
+      $$(\Gamma^{\mathrm{E}}_\mathscr{X})^i_{jk} = 0$$
+      for all $i,j,k$, and the covariant derivative is just the derivative of the components.
+
+      In the polar chart the basis fields are, in cartesian components,
+      $$\begin{gathered}\partial y_1 = \tfrac ar\,\partial x_1 + \tfrac br\,\partial x_2\\ \partial y_2 = -b\,\partial x_1 + a\,\partial x_2\end{gathered}$$
+      ($\partial y_2$ is the swirl), and on functions of $(a,b)$, $\partial y_2$ acts as $-b\,\partial_a + a\,\partial_b$. To get the polar coefficients $(\Gamma^{\mathrm{E}}_\mathscr{Y})^i_{jk}$, compute $\nabla^{\mathrm{E}}_{\partial y_k}\partial y_j$ by differentiating cartesian components, then rewrite the result in the polar basis.
+
+  - type: numeric
+    id: gamma-r-thth
+    title: Around the circle, twice
+    prompt: |
+      On the plane, $\nabla^{\mathrm{E}}$ differentiates cartesian components. The polar basis fields are $\partial y_1 = \tfrac ar\,\partial x_1 + \tfrac br\,\partial x_2$ and $\partial y_2 = -b\,\partial x_1 + a\,\partial x_2$ ($r = \sqrt{a^2+b^2}$), and $\partial y_2$ acts on functions of $(a,b)$ as $-b\,\partial_a + a\,\partial_b$. The polar coefficient $(\Gamma^{\mathrm{E}}_\mathscr{Y})^1_{22}$ is the $\partial y_1$-component of $\nabla^{\mathrm{E}}_{\partial y_2}\partial y_2$. What is it at $p = (3,4)$?
+    answer: -5
+    wrong:
+      - { value: 0, feedback: 'Zero would follow if the coefficients were the same in every chart. They vanish in the **cartesian** chart only. Compute: $\partial y_2\lfloor -b\rceil = -a$ and $\partial y_2\lfloor a\rceil = -b$, so $\nabla^{\mathrm{E}}_{\partial y_2}\partial y_2 = -a\,\partial x_1 - b\,\partial x_2 = -r\,\partial y_1$, and $-r = -5$.' }
+      - { value: -3, feedback: '$-3$ is the **cartesian** $\partial x_1$-component of $-a\,\partial x_1 - b\,\partial x_2$. The coefficient asks for the $\partial y_1$-component: $-a\,\partial x_1 - b\,\partial x_2 = -r\,\partial y_1$, so $-5$.' }
+      - { value: 5, feedback: 'Check the sign: $\partial y_2\lfloor -b\rceil = -(-b\,\partial_a + a\,\partial_b)b = -a$, so the result points **inward**, $-r\,\partial y_1$.' }
+    hint: |
+      Apply $\partial y_2$ to the cartesian components $(-b, a)$ of $\partial y_2$ itself, then compare with $\partial y_1$.
+    explanation: |
+      $$\begin{aligned}\nabla^{\mathrm{E}}_{\partial y_2}\partial y_2 &= \partial y_2\lfloor -b\rceil\,\partial x_1 + \partial y_2\lfloor a\rceil\,\partial x_2\\ &= -a\,\partial x_1 - b\,\partial x_2\\ &= -r\,\partial y_1\end{aligned}$$
+      So $(\Gamma^{\mathrm{E}}_\mathscr{Y})^1_{22} = -r$ ($-5$ at $(3,4)$) and $(\Gamma^{\mathrm{E}}_\mathscr{Y})^2_{22} = 0$. Physically: going around a circle, the velocity $\partial y_2$ turns towards the centre, the centripetal pull.
+
+  - type: mcq
+    id: gamma-th-rth
+    title: Outward, the circle grows
+    prompt: |
+      On the plane, $\nabla^{\mathrm{E}}$ differentiates cartesian components. In the polar chart $(r,\theta)$, the basis field $\partial y_2$ has cartesian components $(-r\sin\theta,\ r\cos\theta)$, the polar components of $\partial y_2$ are $(0,1)$ everywhere, and $\partial y_1$ acts on functions of $(r,\theta)$ as $\partial/\partial r$. What is $\nabla^{\mathrm{E}}_{\partial y_1}\partial y_2$?
+    options:
+      - text: '$\frac1r\,\partial y_2$'
+        correct: true
+      - text: '$0$, since the polar components $(0,1)$ of $\partial y_2$ are constant'
+        feedback: |
+          That is what $\nabla^{\mathrm{P}}$ (the connection that differentiates **polar** components) would say. $\nabla^{\mathrm{E}}$ differentiates cartesian components: $\partial_r(-r\sin\theta, r\cos\theta) = (-\sin\theta,\cos\theta) \neq 0$.
+      - text: '$r\,\partial y_2$'
+        feedback: |
+          $\partial_r(-r\sin\theta, r\cos\theta) = (-\sin\theta, \cos\theta)$, a vector of length $1$, while $\partial y_2$ has length $r$. So the result is $\frac1r\,\partial y_2$, not $r\,\partial y_2$.
+      - text: '$\partial y_1$'
+        feedback: |
+          $(-\sin\theta,\cos\theta)$ is perpendicular to the radial direction $(\cos\theta,\sin\theta)$; it points around the circle, along $\partial y_2$, with factor $\frac1r$.
+    explanation: |
+      $\nabla^{\mathrm{E}}_{\partial y_1}\partial y_2 = (-\sin\theta,\cos\theta) = \frac1r\,\partial y_2$, so $(\Gamma^{\mathrm{E}}_\mathscr{Y})^2_{21} = \frac1r$. Similarly $\partial_\theta(\cos\theta,\sin\theta) = (-\sin\theta,\cos\theta)$ gives $\nabla^{\mathrm{E}}_{\partial y_2}\partial y_1 = \frac1r\,\partial y_2$, and $\partial_r(\cos\theta,\sin\theta) = 0$. All eight polar coefficients of $\nabla^{\mathrm{E}}$:
+      $$\begin{gathered}(\Gamma^{\mathrm{E}}_\mathscr{Y})^1_{22} = -r\\ (\Gamma^{\mathrm{E}}_\mathscr{Y})^2_{12} = (\Gamma^{\mathrm{E}}_\mathscr{Y})^2_{21} = \tfrac1r\end{gathered}$$
+      and the other five vanish.
+
+  - type: text
+    id: law-setup
+    title: How Γ changes chart
+    body: |
+      Is there a general rule linking the coefficients of one connection in two charts $(\mathcal{U},\mathscr{X})$ and $(\mathcal{V},\mathscr{Y})$? On $\mathcal{U}\cap\mathcal{V}$, recall
+      $$dy^i = \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^l}\,dx^l$$
+      $$\partial y_j = \frac{\partial\mathscr{X}^s}{\partial\mathscr{Y}^j}\,\partial x_s$$
+      Insert both into the definition. The direction $\partial y_k = \frac{\partial\mathscr{X}^m}{\partial\mathscr{Y}^k}\partial x_m$ sits in the direction slot, where functions pull out (Rule 4):
+      $$\begin{aligned}&(\Gamma_\mathscr{Y})^i_{jk} = dy^i\lceil\nabla_{\partial y_k}\partial y_j\rfloor\\ &= \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^l}\frac{\partial\mathscr{X}^m}{\partial\mathscr{Y}^k}\\ &\quad\cdot dx^l\Big\lceil\nabla_{\partial x_m}\Big(\frac{\partial\mathscr{X}^s}{\partial\mathscr{Y}^j}\,\partial x_s\Big)\Big\rfloor\end{aligned}$$
+      The differentiated field, however, is a function times a basis field.
+
+  - type: mcq
+    id: law-origin
+    title: Where the extra term comes from
+    prompt: |
+      To find how connection coefficients change between charts $\mathscr{X}$ and $\mathscr{Y}$, one computes
+      $$(\Gamma_\mathscr{Y})^i_{jk} = dy^i\lceil\nabla_{\partial y_k}\partial y_j\rfloor$$
+      after inserting $dy^i = \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^l}dx^l$, $\partial y_k = \frac{\partial\mathscr{X}^m}{\partial\mathscr{Y}^k}\partial x_m$ (direction) and $\partial y_j = \frac{\partial\mathscr{X}^s}{\partial\mathscr{Y}^j}\partial x_s$ (differentiated field). Which step produces a term **without** $\Gamma_\mathscr{X}$, made of second derivatives of the coordinate change?
+    options:
+      - text: 'The product rule on $\nabla_{\partial x_m}\big(\frac{\partial\mathscr{X}^s}{\partial\mathscr{Y}^j}\partial x_s\big)$, which differentiates the function $\frac{\partial\mathscr{X}^s}{\partial\mathscr{Y}^j}$'
+        correct: true
+      - text: 'Pulling $\frac{\partial\mathscr{X}^m}{\partial\mathscr{Y}^k}$ out of the direction slot'
+        feedback: |
+          The direction slot is linear over functions (Rule 4, applied point by point): $\nabla_{f\mathcal{X}}\mathcal{Y} = f\,\nabla_\mathcal{X}\mathcal{Y}$ with **no** extra term. Only the differentiated slot sees derivatives of functions.
+      - text: 'Expanding $dy^i$ in terms of $dx^l$'
+        feedback: |
+          $dy^i$ is only **fed** the vector $\nabla_{\partial y_k}\partial y_j$, which is linear algebra at each point; nothing is differentiated there.
+      - text: 'The term $\nabla_{\partial x_m}\partial x_s = (\Gamma_\mathscr{X})^l_{sm}\partial x_l$'
+        feedback: |
+          That term **contains** $\Gamma_\mathscr{X}$; it becomes the tensor-like part of the law. The extra term comes from the other half of the product rule.
+    explanation: |
+      $$\begin{aligned}&\nabla_{\partial x_m}\Big(\frac{\partial\mathscr{X}^s}{\partial\mathscr{Y}^j}\partial x_s\Big)\\ &= \partial x_m\Big\lfloor\frac{\partial\mathscr{X}^s}{\partial\mathscr{Y}^j}\Big\rceil\partial x_s\\ &\quad + \frac{\partial\mathscr{X}^s}{\partial\mathscr{Y}^j}\,\nabla_{\partial x_m}\partial x_s\end{aligned}$$
+      The first piece differentiates a Jacobian entry, so it brings second derivatives of the coordinate change. It is the same culprit as for "differentiate the components": the basis $\partial y_j$ itself varies.
+
+  - type: text
+    id: law
+    title: The transformation law
+    body: |
+      Finish the computation. With $dx^l\lceil\partial x_s\rfloor = \delta^l_s$, the first piece carries $\frac{\partial\mathscr{X}^m}{\partial\mathscr{Y}^k}\partial x_m = \partial y_k$ acting on a Jacobian entry:
+      $$\frac{\partial^2\mathscr{X}^s}{\partial\mathscr{Y}^k\partial\mathscr{Y}^j} := \partial y_k\Big\lfloor\frac{\partial\mathscr{X}^s}{\partial\mathscr{Y}^j}\Big\rceil.$$
+      This is an ordinary second partial derivative, $\partial_k\partial_j(\text{ᛖ}_{\mathcal{V}\mathcal{U}})^s$ at $\mathscr{Y}(p)$, of the transition map $\text{ᛖ}_{\mathcal{V}\mathcal{U}} := \mathscr{X}\circ\mathscr{Y}^{-1}$ (from $\mathscr{Y}$-coordinates to $\mathscr{X}$-coordinates; $\partial_k$ = derivative in the $k$-th slot). It is smooth, and symmetric in $j,k$ (Schwarz's theorem). The second piece gives $(\Gamma_\mathscr{X})^l_{sm}$. Altogether:
+      $$\begin{aligned}(\Gamma_\mathscr{Y})^i_{jk} &= \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^s}\frac{\partial^2\mathscr{X}^s}{\partial\mathscr{Y}^k\partial\mathscr{Y}^j}\\ &\quad + \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^l}\frac{\partial\mathscr{X}^s}{\partial\mathscr{Y}^j}\\ &\qquad\cdot\frac{\partial\mathscr{X}^m}{\partial\mathscr{Y}^k}\,(\Gamma_\mathscr{X})^l_{sm}\end{aligned}$$
+      The second term alone is the transformation law of a $(1,2)$-tensor field. The first, **inhomogeneous** term, built from second derivatives of the transition map, shows that the $\Gamma$'s are **not** the components of a tensor field.
+
+      It is the mirror of what broke "differentiate the components", where the extra term was $\partial_i\partial_j(\text{ᛖ}_{\mathcal{U}\mathcal{V}})^k$: the $\Gamma$'s change by exactly what is needed to cancel it, so that $\mathcal{X}\lfloor\tilde x^k\rceil + \Gamma^k_{ji}\tilde x^jx^i$ are the components of one chart-independent vector.
+
+  - type: numeric
+    id: law-polar
+    title: The law at work
+    prompt: |
+      On the plane, $\nabla^{\mathrm{E}}$ has all cartesian coefficients $(\Gamma^{\mathrm{E}}_\mathscr{X})^l_{sm} = 0$, so the transformation law leaves only
+      $$(\Gamma^{\mathrm{E}}_\mathscr{Y})^i_{jk} = \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^s}\frac{\partial^2\mathscr{X}^s}{\partial\mathscr{Y}^k\partial\mathscr{Y}^j}$$
+      for the polar chart $\mathscr{Y} = (r,\theta)$, where $\mathscr{X} = (r\cos\theta,\ r\sin\theta)$ and row $2$ of the Jacobian is
+      $$\frac{\partial\mathscr{Y}^2}{\partial\mathscr{X}^s} = \Big(-\frac{\sin\theta}r,\ \frac{\cos\theta}r\Big).$$
+      Compute $(\Gamma^{\mathrm{E}}_\mathscr{Y})^2_{12}$ at $p = (3,4)$, where $r = 5$, $\cos\theta = 0.6$, $\sin\theta = 0.8$.
+    answer: 0.2
+    answerText: '$0.2 = 1/r$'
+    wrong:
+      - { value: 0, feedback: 'The cartesian coefficients vanish, but the inhomogeneous term does not. With $\partial_r\partial_\theta(r\cos\theta) = -\sin\theta$ and $\partial_r\partial_\theta(r\sin\theta) = \cos\theta$: $(-0.16)(-0.8) + (0.12)(0.6) = 0.2$.' }
+      - { value: 0.056, feedback: 'Watch the sign of the first product: $(-\sin\theta/r)\cdot(-\sin\theta) = +\sin^2\theta/r$. Then $0.128 + 0.072 = 0.2$.' }
+      - { value: 5, feedback: '$5 = r$; the coefficient is $(\sin^2\theta + \cos^2\theta)/r = 1/r = 0.2$.' }
+    hint: |
+      You need the mixed second derivatives $\partial_r\partial_\theta$ of $r\cos\theta$ and $r\sin\theta$.
+    explanation: |
+      $\partial_r\partial_\theta(r\cos\theta) = -\sin\theta$ and $\partial_r\partial_\theta(r\sin\theta) = \cos\theta$, so
+      $$\begin{aligned}(\Gamma^{\mathrm{E}}_\mathscr{Y})^2_{12} &= \frac{\sin^2\theta}r + \frac{\cos^2\theta}r\\ &= \frac1r = 0.2\end{aligned}$$
+      the same as from $\nabla^{\mathrm{E}}_{\partial y_2}\partial y_1 = \frac1r\,\partial y_2$ directly. Likewise, with $\partial_\theta^2(r\cos\theta,\ r\sin\theta) = (-r\cos\theta,\ -r\sin\theta)$ and row $1$ $(\cos\theta,\sin\theta)$, the law gives $(\Gamma^{\mathrm{E}}_\mathscr{Y})^1_{22} = -r$. Two derivations, one table.
+
+  - type: mcq
+    id: what-is-tensor
+    title: What does transform as a tensor?
+    multiple: true
+    prompt: |
+      Connection coefficients change chart by
+      $$\begin{aligned}(\Gamma_\mathscr{Y})^i_{jk} &= \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^s}\frac{\partial^2\mathscr{X}^s}{\partial\mathscr{Y}^k\partial\mathscr{Y}^j}\\ &\quad + (\text{tensor-law term in }\Gamma_\mathscr{X})\end{aligned}$$
+      where the first, inhomogeneous term depends only on the charts and is symmetric in $j,k$. Select every quantity that transforms like the components of a $(1,2)$-tensor field (no inhomogeneous term).
+    options:
+      - text: '$\Gamma^i_{jk} - \Gamma^i_{kj}$, for one connection'
+        correct: true
+      - text: '$\Gamma^i_{jk} - \Gamma''^i_{jk}$, the difference of the coefficients of two connections in the same chart'
+        correct: true
+      - text: '$\Gamma^i_{jk}$ itself'
+        feedback: |
+          The inhomogeneous term is there whenever the transition map has nonzero second derivatives: $\nabla^{\mathrm{E}}$ has all cartesian coefficients $0$ but polar $(\Gamma^{\mathrm{E}}_\mathscr{Y})^1_{22} = -r$.
+      - text: '$\Gamma^i_{jk} + \Gamma^i_{kj}$, for one connection'
+        feedback: |
+          The inhomogeneous term is symmetric in $j,k$, so in the **sum** it appears twice instead of cancelling. Only the antisymmetric combination loses it.
+    explanation: |
+      The inhomogeneous term is the same for every connection (it only involves the charts) and symmetric in $j,k$. It cancels in the difference of two connections and in the antisymmetric part $\Gamma^i_{jk} - \Gamma^i_{kj}$. Both are therefore genuine tensor fields: the first says two connections differ by a $(1,2)$-tensor field, the second is (up to sign) the **torsion**, coming later in this level.
+
+  - type: text
+    id: normal-coords
+    title: Removing Γ at a point
+    body: |
+      The inhomogeneous term is also a tool: a clever chart can kill the symmetric part of the $\Gamma$'s at a chosen point $p$. Shift the chart so that $\mathscr{X}(p) = 0$ and define a new chart $\mathscr{Y}$ near $p$ by
+      $$\mathscr{Y}^i = \mathscr{X}^i + \tfrac12\,\Gamma^i_{(jk)}(p)\,\mathscr{X}^j\mathscr{X}^k$$
+      with $\Gamma^i_{(jk)} := \tfrac12(\Gamma^i_{jk} + \Gamma^i_{kj})$ the symmetric part (of $\Gamma_\mathscr{X}$). At $p$ the Jacobian is the identity (the quadratic term has zero first derivative at $0$), so it is a valid chart near $p$, and its second derivatives at $p$ are $\Gamma^i_{(jk)}(p)$. The transformation law, written from $\mathscr{Y}$ back to $\mathscr{X}$ and evaluated at $p$, gives
+      $$\begin{aligned}(\Gamma_\mathscr{X})^i_{jk}(p) &= \Gamma^i_{(jk)}(p) + (\Gamma_\mathscr{Y})^i_{jk}(p)\end{aligned}$$
+      so in the new chart only the antisymmetric part $\tfrac12(\Gamma^i_{jk} - \Gamma^i_{kj})(p)$ survives. For a connection with symmetric $\Gamma$'s, **all** coefficients vanish at $p$: near any event, physics looks like special relativity. This works at one point only; the derivatives of the $\Gamma$'s cannot be removed in general, which is where curvature will enter.
+
+  - type: numeric
+    id: euclid-check
+    title: Same vector, other chart
+    prompt: |
+      On the plane, $\nabla^{\mathrm{E}}$ has polar coefficients $(\Gamma^{\mathrm{E}}_\mathscr{Y})^1_{22} = -r$, $(\Gamma^{\mathrm{E}}_\mathscr{Y})^2_{12} = (\Gamma^{\mathrm{E}}_\mathscr{Y})^2_{21} = 1/r$, all others $0$ (last lower index = direction). Take the direction $\mathcal{X} = \partial x_2$, with polar components $(y^1, y^2) = (b/r,\ a/r^2)$, and the swirl $\mathcal{Y} = -b\,\partial x_1 + a\,\partial x_2 = \partial y_2$, with polar components $(\tilde y^1,\tilde y^2) = (0,1)$. Using $(\nabla_\mathcal{X}\mathcal{Y})^k = \mathcal{X}\lfloor\tilde y^k\rceil + \Gamma^k_{ji}\,\tilde y^j y^i$, find the polar component $(\nabla^{\mathrm{E}}_\mathcal{X}\mathcal{Y})^1$ at $p = (3,4)$.
+    answer: -0.6
+    wrong:
+      - { value: 0, feedback: 'The polar components $(0,1)$ of the swirl are constant, so the derivative term vanishes, but the correction does not: $\Gamma^1_{22}\,\tilde y^2\,y^2 = (-5)(1)(0.12) = -0.6$.' }
+      - { value: -5, feedback: 'Do not forget the direction''s component: the correction is $\Gamma^1_{22}\,\tilde y^2\,y^2$, with $y^2 = a/r^2 = 3/25 = 0.12$. So $-5\cdot0.12 = -0.6$.' }
+      - { value: -1, feedback: '$-1$ is the **cartesian** $\partial x_1$-component of $-\partial x_1$. In the polar chart, the $\partial y_1$-component is $\Gamma^1_{22}\,\tilde y^2 y^2 = -0.6$.' }
+    hint: |
+      Only $j = 2$ contributes ($\tilde y^1 = 0$). For $k = 1$ the only nonzero coefficient with $j = 2$ is $\Gamma^1_{22}$.
+    explanation: |
+      At $(3,4)$: $r = 5$, $(y^1,y^2) = (0.8,\ 0.12)$.
+      $$\begin{aligned}(\nabla^{\mathrm{E}}_\mathcal{X}\mathcal{Y})^1 &= \Gamma^1_{22}\,y^2 = -5\cdot0.12 = -0.6\\ (\nabla^{\mathrm{E}}_\mathcal{X}\mathcal{Y})^2 &= \Gamma^2_{21}\,y^1 = 0.2\cdot0.8 = 0.16\end{aligned}$$
+      In cartesian coordinates $\nabla^{\mathrm{E}}_{\partial x_2}\mathcal{Y} = \partial_b(-b)\,\partial x_1 + \partial_b(a)\,\partial x_2 = -\partial x_1$, whose polar components are $(-a/r,\ b/r^2) = (-0.6,\ 0.16)$. ✓ In cartesian coordinates the components vary and $\Gamma = 0$; in polar ones the components are constant and the $\Gamma$'s carry the whole answer. Same vector.
+
+  - type: mcq
+    id: trap-tensor
+    title: Zero here, zero everywhere?
+    prompt: |
+      On the plane, all cartesian coefficients of $\nabla^{\mathrm{E}}$ vanish, $(\Gamma^{\mathrm{E}}_\mathscr{X})^i_{jk} = 0$. A student argues: "Components that vanish in one chart vanish in every chart, so the polar coefficients vanish too, and in polar coordinates $\nabla^{\mathrm{E}}$ just differentiates the polar components." What is wrong?
+    options:
+      - text: 'The $\Gamma$''s are not tensor components: the law has an inhomogeneous term, so they can vanish in one chart and not in another'
+        correct: true
+      - text: 'Nothing; in polar coordinates $\nabla^{\mathrm{E}}$ does differentiate polar components'
+        feedback: |
+          "Differentiate the polar components" is a **different** connection, $\nabla^{\mathrm{P}}$. For $\nabla^{\mathrm{E}}$, $\nabla^{\mathrm{E}}_{\partial y_2}\partial y_2 = -r\,\partial y_1\neq0$, although $\partial y_2$ has constant polar components $(0,1)$.
+      - text: 'Tensor components that vanish in one chart can be nonzero in another'
+        feedback: |
+          No: tensor components transform linearly and homogeneously, $T' = (\text{Jacobians})\cdot T$, so zero goes to zero. The flaw is applying this to the $\Gamma$'s, which are not tensor components.
+      - text: 'The cartesian coefficients of $\nabla^{\mathrm{E}}$ are not actually zero'
+        feedback: |
+          They are: $\nabla^{\mathrm{E}}$ differentiates cartesian components, and $\partial x_j$ has constant cartesian components, so $\nabla^{\mathrm{E}}_{\partial x_k}\partial x_j = 0$.
+    explanation: |
+      The law
+      $$\Gamma_\mathscr{Y} = \frac{\partial\mathscr{Y}}{\partial\mathscr{X}}\frac{\partial^2\mathscr{X}}{\partial\mathscr{Y}^2} + (\text{terms in }\Gamma_\mathscr{X})$$
+      sends $\Gamma_\mathscr{X} = 0$ to the inhomogeneous term alone, here $(\Gamma^{\mathrm{E}}_\mathscr{Y})^1_{22} = -r$ and $(\Gamma^{\mathrm{E}}_\mathscr{Y})^2_{12} = (\Gamma^{\mathrm{E}}_\mathscr{Y})^2_{21} = 1/r$. "Is $\Gamma = 0$?" is a question about the chart, not about the connection.
+
+  - type: numeric
+    id: trap-polar-connection
+    title: ∇ᴾ in cartesian coordinates
+    prompt: |
+      On $\mathcal{V}$ (the plane minus the half-line $\{b = 0,\ a\le0\}$), the connection $\nabla^{\mathrm{P}}$ differentiates **polar** components, so all its polar coefficients vanish. The field $\partial x_1$ has polar components $(a/r,\ -b/r^2)$, $r = \sqrt{a^2+b^2}$, and $\partial x_2$ acts on functions as $\partial/\partial b$. At $p = (1,0)$, where $(\partial y_1)_p = (\partial x_1)_p$ and $(\partial y_2)_p = (\partial x_2)_p$, find the cartesian coefficient $(\Gamma^{\mathrm{P}}_\mathscr{X})^2_{12}$, the $\partial x_2$-component of $\nabla^{\mathrm{P}}_{(\partial x_2)_p}\partial x_1$.
+    answer: -1
+    wrong:
+      - { value: 0, feedback: 'Zero is what $\nabla^{\mathrm{E}}$ gives in the cartesian chart. $\nabla^{\mathrm{P}}$ differentiates the polar components: $\partial_b(-b/r^2) = -(r^2-2b^2)/r^4 = -1$ at $(1,0)$.' }
+      - { value: 1, feedback: 'Check the sign: $\partial_b(-b/r^2) = -(r^2 - 2b^2)/r^4$, which is $-1$ at $(1,0)$.' }
+    hint: |
+      $\partial_b(a/r) = -ab/r^3$ and $\partial_b(-b/r^2) = -(r^2-2b^2)/r^4$.
+    explanation: |
+      $$\begin{aligned}\nabla^{\mathrm{P}}_{(\partial x_2)_p}\partial x_1 &= 0\cdot(\partial y_1)_p - 1\cdot(\partial y_2)_p\\ &= -(\partial x_2)_p\end{aligned}$$
+      so $(\Gamma^{\mathrm{P}}_\mathscr{X})^2_{12} = -1$ at $(1,0)$. The roles swap: $\nabla^{\mathrm{E}}$ has $\Gamma = 0$ in cartesian and $\Gamma\neq0$ in polar coordinates; $\nabla^{\mathrm{P}}$ has $\Gamma = 0$ in polar and $\Gamma\neq0$ in cartesian ones. Each connection has a chart where its coefficients vanish, and they are different charts.
+
+  - type: mcq
+    id: trap-both-zero
+    title: Zero in both charts?
+    prompt: |
+      On the plane minus the half-line $\{b = 0,\ a\le0\}$, take the cartesian chart $\mathscr{X}$ and the polar chart $\mathscr{Y} = (r,\theta)$. Connection coefficients change by
+      $$\begin{aligned}(\Gamma_\mathscr{Y})^i_{jk} &= \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^s}\frac{\partial^2\mathscr{X}^s}{\partial\mathscr{Y}^k\partial\mathscr{Y}^j}\\ &\quad + (\text{tensor-law term in }\Gamma_\mathscr{X}).\end{aligned}$$
+      Is there a connection whose coefficients vanish in **both** charts?
+    options:
+      - text: 'No: if $\Gamma_\mathscr{X} = 0$, then $\Gamma_\mathscr{Y}$ equals the inhomogeneous term, which is not zero (e.g. $-r$ for $(\Gamma_\mathscr{Y})^1_{22}$)'
+        correct: true
+      - text: 'Yes, $\nabla^{\mathrm{E}}$, since it is the natural connection of the plane'
+        feedback: |
+          Natural or not, $\nabla^{\mathrm{E}}$ has $(\Gamma^{\mathrm{E}}_\mathscr{Y})^1_{22} = -r$: going around a circle, $\partial y_2$ turns inward, $\nabla^{\mathrm{E}}_{\partial y_2}\partial y_2 = -r\,\partial y_1$.
+      - text: 'Yes, the average of $\nabla^{\mathrm{E}}$ and $\nabla^{\mathrm{P}}$'
+        feedback: |
+          The average $\tfrac12(\nabla^{\mathrm{E}} + \nabla^{\mathrm{P}})$ is a connection, but its coefficients are averages too: in the cartesian chart $\tfrac12(0 + \Gamma^{\mathrm{P}}_\mathscr{X})$, nonzero wherever $\Gamma^{\mathrm{P}}_\mathscr{X}$ is (e.g. $-\tfrac12$ for $\Gamma^2_{12}$ at $(1,0)$).
+      - text: 'Yes, any connection whose $\Gamma$''s are symmetric in the lower indices'
+        feedback: |
+          Symmetry does not help: $\nabla^{\mathrm{E}}$ has symmetric coefficients and still $(\Gamma^{\mathrm{E}}_\mathscr{Y})^1_{22} = -r$. Symmetric $\Gamma$'s can be removed at **one point** by a special chart, not in two fixed charts at once.
+    explanation: |
+      With $\Gamma_\mathscr{X} = 0$ the polar coefficients are fixed to the inhomogeneous term, which depends only on the charts: $-r$ and $1/r$. So "$\Gamma = 0$ in the cartesian chart" and "$\Gamma = 0$ in the polar chart" are incompatible; they single out $\nabla^{\mathrm{E}}$ and $\nabla^{\mathrm{P}}$ respectively.
+
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      **Next:** a connection lets you carry a vector along a curve without "changing" it: **parallel transport**. And the curves that carry their own velocity along are the **autoparallels**, the straightest curves of an affine manifold; with the $\Gamma$'s above, the straight lines of the plane will reappear in polar coordinates.

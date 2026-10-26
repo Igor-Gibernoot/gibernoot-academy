@@ -1,5 +1,5 @@
 id: ch05-differentials
-title: "Guided Problem: Which Covector Fields Are Differentials?"
+title: "Guided Problem: Which Covector Fields Are Differentials? · Part 1"
 kind: guided
 
 cards:
@@ -321,151 +321,18 @@ cards:
       Following $\theta$ once around the origin it grows by $2\pi$; a single-valued function must jump back somewhere. Any smooth $f$ with $df = \mathsf{A}$ would satisfy $d(f - \theta) = 0$ on the connected set $\mathcal{V}$ (plane minus the cut), so $f = \theta + c$ there, and then $f$ would have to jump across the cut too. Local branches of the angle exist everywhere; they just cannot be glued into one function.
 
   - type: text
-    id: poincare
-    title: "Back to scale 2: closed is enough on a disc"
-    body: |
-      Is (S) also **sufficient** near each point? Take a chart whose image $\mathscr{X}(\mathcal{U})$ is a ball centred at $0\in\mathbb{R}^d$ (shift the chart if needed), and write $\bar{\mathtt{x}}_i := \mathtt{x}_i\circ\mathscr{X}^{-1}$ for the components as functions of the coordinates $\alpha = (\alpha^1,\dots,\alpha^d)$.
-
-      Idea: add up the field along the straight segment $t\mapsto t\alpha$, $t\in[0,1]$, from the centre to $\alpha$. Its velocity has components $\alpha^i$, so (Einstein summation over $i$)
-      $$F(\alpha) := \int_0^1\bar{\mathtt{x}}_i(t\alpha)\,\alpha^i\,dt,$$
-      and $f := F\circ\mathscr{X}$. The segment stays inside the ball, which is why the ball shape matters. Before proving that $df = \mathsf{X}$, try it.
-
-  - type: numeric
-    id: poincare-example
-    title: Build a potential
-    prompt: |
-      On $\mathbb{R}^2$ with cartesian coordinates $(a,b)$, the field $\mathsf{X} = 2ab\,dx^1 + a^2\,dx^2$ is closed ($\partial_b(2ab) = 2a = \partial_a(a^2)$). The straight-segment recipe is
-      $$F(\alpha) = \int_0^1\bar{\mathtt{x}}_i(t\alpha)\,\alpha^i\,dt.$$
-      Compute $F$ at $\alpha = (1, 2)$.
-    answer: 2
-    wrong:
-      - { value: 6, feedback: 'The integrand is $2(t)(2t)(1) + (t)^2(2) = 6t^2$, but you still have to integrate: $\int_0^1 6t^2\,dt = 2$.' }
-      - { value: 4, feedback: 'Both components get evaluated at the point $t\alpha = (t, 2t)$, so each carries $t^2$: integrand $4t^2 + 2t^2 = 6t^2$, integral $2$.' }
-    hint: |
-      At $t\alpha = (t, 2t)$: $\bar{\mathtt{x}}_1 = 2(t)(2t)$, $\bar{\mathtt{x}}_2 = t^2$. Multiply by $\alpha^1 = 1$ and $\alpha^2 = 2$, add, integrate in $t$.
-    explanation: |
-      Integrand $4t^2 + 2t^2 = 6t^2$, integral $2$. In general $F(\alpha) = 3(\alpha^1)^2\alpha^2\int_0^1t^2\,dt = (\alpha^1)^2\alpha^2$, i.e. $f = a^2b$, and indeed $d(a^2b) = 2ab\,dx^1 + a^2\,dx^2$.
-
-  - type: build
-    id: total-derivative
-    title: A total derivative in t
-    prompt: |
-      In the proof that the straight-segment function $F(\alpha) = \int_0^1\bar{\mathtt{x}}_i(t\alpha)\,\alpha^i\,dt$ has $\partial_jF = \bar{\mathtt{x}}_j$, a total $t$-derivative appears. By the product and chain rules (Einstein summation over $i$),
-      $$\frac{d}{dt}\big[t\,\bar{\mathtt{x}}_j(t\alpha)\big] = \ ?$$
-    prefix: '\bar{\mathtt{x}}_j(t\alpha) +'
-    tiles: ['t', '\alpha^i', '(\partial_i\bar{\mathtt{x}}_j)(t\alpha)', '(\partial_j\bar{\mathtt{x}}_i)(t\alpha)', 't^2']
-    answers:
-      - ['t', '\alpha^i', '(\partial_i\bar{\mathtt{x}}_j)(t\alpha)']
-      - ['\alpha^i', 't', '(\partial_i\bar{\mathtt{x}}_j)(t\alpha)']
-      - ['t', '(\partial_i\bar{\mathtt{x}}_j)(t\alpha)', '\alpha^i']
-    wrong:
-      - { answer: ['t', '\alpha^i', '(\partial_j\bar{\mathtt{x}}_i)(t\alpha)'], feedback: 'The chain rule differentiates $\bar{\mathtt{x}}_j$, so its own index $j$ stays on it: $\frac{d}{dt}\bar{\mathtt{x}}_j(t\alpha) = \alpha^i(\partial_i\bar{\mathtt{x}}_j)(t\alpha)$. Turning $\partial_i\bar{\mathtt{x}}_j$ into $\partial_j\bar{\mathtt{x}}_i$ is exactly what needs (S).' }
-    hint: |
-      Product rule: $\frac{d}{dt}t = 1$. Chain rule: the point $t\alpha$ moves with velocity $\alpha$, so $\frac{d}{dt}\bar{\mathtt{x}}_j(t\alpha) = \alpha^i(\partial_i\bar{\mathtt{x}}_j)(t\alpha)$.
-    explanation: |
-      $$\frac{d}{dt}\big[t\,\bar{\mathtt{x}}_j(t\alpha)\big] = \bar{\mathtt{x}}_j(t\alpha) + t\,\alpha^i(\partial_i\bar{\mathtt{x}}_j)(t\alpha).$$
-      Its integral over $[0,1]$ is $1\cdot\bar{\mathtt{x}}_j(\alpha) - 0 = \bar{\mathtt{x}}_j(\alpha)$.
-
-  - type: order
-    id: poincare-proof
-    title: The proof in order
-    prompt: |
-      Put in order the proof that $F(\alpha) = \int_0^1\bar{\mathtt{x}}_i(t\alpha)\,\alpha^i\,dt$ satisfies $\partial_jF(\alpha) = \bar{\mathtt{x}}_j(\alpha)$ when the field is closed. (Einstein summation over $i$.)
-    steps:
-      - 'Differentiate under the integral: $\partial_jF = \int_0^1[\bar{\mathtt{x}}_j(t\alpha) + t\alpha^i(\partial_j\bar{\mathtt{x}}_i)(t\alpha)]dt$.'
-      - 'Use (S), $\partial_j\bar{\mathtt{x}}_i = \partial_i\bar{\mathtt{x}}_j$, to swap the indices.'
-      - 'Recognize the integrand as $\frac{d}{dt}[t\,\bar{\mathtt{x}}_j(t\alpha)]$.'
-      - 'Fundamental theorem of calculus: the integral is $\bar{\mathtt{x}}_j(\alpha)$.'
-    hint: |
-      The first step only uses the product rule ($\partial_j\alpha^i = \delta^i_j$) and the chain rule (the point $t\alpha$ depends on $\alpha^j$ with factor $t$).
-    explanation: |
-      Differentiate, swap with (S), spot the total derivative, integrate. So $\mathtt{x}_j = \partial x_j\lfloor f\rceil$, i.e. $\mathsf{X}|_\mathcal{U} = df$. Every point has a chart whose image is a ball, so: **a covector field is a differential near every point if and only if it is closed.** This is the **Poincaré lemma** (in its general form: on any region that can be shrunk continuously to a point).
-
-  - type: mcq
-    id: z-recipe
-    title: Running the recipe without (S)
-    prompt: |
-      On $\mathbb{R}^2$ with cartesian coordinates $(a,b)$, apply the straight-segment recipe
-      $$F(\alpha) = \int_0^1\bar{\mathtt{x}}_i(t\alpha)\,\alpha^i\,dt$$
-      to the whirlpool $\mathsf{Z} = -b\,dx^1 + a\,dx^2$, which is **not** closed. What happens?
-    options:
-      - text: '$F = 0$, so $dF = 0 \ne \mathsf{Z}$: without (S) the recipe still outputs a function, but the wrong one'
-        correct: true
-      - text: 'The integral diverges'
-        feedback: |
-          The integrand is perfectly finite: $-t\alpha^2\cdot\alpha^1 + t\alpha^1\cdot\alpha^2 = 0$. So $F = 0$, a fine function, whose differential is simply not $\mathsf{Z}$.
-      - text: '$F$ is a potential for $\mathsf{Z}$ on a small disc around the origin'
-        feedback: |
-          The integrand vanishes, so $F = 0$ and $dF = 0$, not $\mathsf{Z}$. No function works for $\mathsf{Z}$ on any open set, since (S) fails everywhere.
-    explanation: |
-      The integrand is $-t\alpha^2\alpha^1 + t\alpha^1\alpha^2 = 0$. Pushing the whirlpool along a radial segment does no work, so $F = 0$. The step "use (S) to swap the indices" is where the proof needs closedness; without it the recipe produces a function whose differential is not the field.
-
-  - type: mcq
-    id: why-fails-globally
-    title: Where the disc proof breaks
-    prompt: |
-      The angle field $\mathsf{A}$ on the punctured plane is closed, and the straight-segment recipe builds a potential on any disc. Why can't the recipe build one potential on the whole punctured plane?
-    options:
-      - text: 'There is no base point from which every point is reached by a straight segment inside the punctured plane: the hole is in the way'
-        correct: true
-      - text: '(S) fails at some points of the punctured plane'
-        feedback: |
-          (S) holds at every point: $\partial x_1\lfloor\mathtt{a}_2\rceil = \partial x_2\lfloor\mathtt{a}_1\rceil = (b^2-a^2)/r^4$. The local condition is fine; the shape of the region is what goes wrong.
-      - text: 'The recipe needs cartesian coordinates, and the punctured plane has none'
-        feedback: |
-          The cartesian chart covers the whole punctured plane. What fails is the segments: from any base point $q_0$, the segment to the point $-q_0$ on the opposite side passes through the origin, which is missing.
-    explanation: |
-      On a disc (or any region where one point sees all others along segments) the recipe works. On the punctured plane every candidate base point has some segment blocked by the hole, and the loop integral $2\pi$ proves that no other construction can succeed. Whether **closed** implies **exact** depends on the **shape** of the manifold.
-
-  - type: mcq
-    id: traps
-    title: Closed and exact
-    multiple: true
-    prompt: |
-      A covector field $\mathsf{X}$ is **exact** if $\mathsf{X} = df$ for a smooth $f$ on all of $\mathcal{M}$, and **closed** if $\partial x_j\lfloor\mathtt{x}_i\rceil = \partial x_i\lfloor\mathtt{x}_j\rceil$ in every chart. Select all true statements.
-    options:
-      - text: 'Every exact field is closed'
-        correct: true
-      - text: 'On $\mathbb{R}^2$ (or any ball) every closed field is exact'
-        correct: true
-      - text: 'Every closed field is exact'
-        feedback: |
-          The angle field on the punctured plane is closed (both mixed partials are $(b^2-a^2)/r^4$) but integrates to $2\pi$ around the unit circle, so it is not $df$ for any smooth $f$.
-      - text: 'If $\mathsf{X}_p = (df_p)_p$ at every point $p$ (with $f_p$ depending on $p$), then $\mathsf{X}$ is exact'
-        feedback: |
-          That holds for **every** covector field, exact or not: at one point the components are numbers and $f_p = \mathtt{x}_i(p)\,\mathscr{X}^i$ works. The whirlpool $\mathsf{Z} = -b\,dx^1 + a\,dx^2$ is an example that is not exact anywhere.
-      - text: 'A field that fails (S) at one point can still be exact'
-        feedback: |
-          An exact field satisfies (S) at **every** point, by symmetry of second partials. One failing point already rules out $\mathsf{X} = df$, even near that point.
-    explanation: |
-      Exact $\Rightarrow$ closed always (Schwarz). Closed $\Rightarrow$ exact on a ball (straight-segment construction), but not on the punctured plane. Pointwise, every covector is a differential, which says nothing about fields.
-
-  - type: text
-    id: names
-    title: Three scales, and the names of things
-    body: |
-      - **At a point:** every covector is a differential, $\mathsf{X}_p = (df_p)_p$, because its components are numbers.
-      - **Near every point:** $\mathsf{X}$ is a differential if and only if it is **closed**, (S); the straight-segment construction is the **Poincaré lemma**.
-      - **On all of $\mathcal{M}$:** a closed field is **exact** if and only if its integral along every closed curve vanishes (then $f(p) := \int_\gamma\mathsf{X}$ along any curve from a fixed $p_0$ to $p$ is well defined; stated here with this sketch). On a ball this always holds; around a hole it can fail.
-
-      In the literature covector fields are **1-forms**, and (S) is written $d\mathsf{X} = 0$ with the **exterior derivative** $d$. The **first de Rham cohomology** collects closed fields up to exact ones; it is trivial for $\mathbb{R}^d$ and non-trivial for the punctured plane and the circle $S^1$: it detects one-dimensional holes. Topology shows up in calculus.
-
-  - type: text
     id: summary
     title: What you now own
     body: |
-      - **Setting:** $\mathsf{X}$ is a smooth covector field on a manifold $\mathcal{M}$, $f,g$ are smooth functions, and in a chart with coordinates $x^i$ the field has components $\mathtt{x}_i$ and $\partial x_j\lfloor\cdot\rceil$ is the derivative along the $j$-th coordinate direction.
-      - **Exact:** $\mathsf{X} = df$ on all of $\mathcal{M}$. **Closed:** in a chart, for all $i, j$,
+      - **Setting:** $\mathsf{X}$ is a smooth covector field on a manifold $\mathcal{M}$ with components $\mathtt{x}_i$ in a chart with coordinates $x^i$, $f,g$ are smooth functions, and $\partial x_j\lfloor\cdot\rceil$ is the derivative along the $j$-th coordinate direction. **Exact** means $\mathsf{X} = df$ on all of $\mathcal{M}$.
+      - **At a point** every covector is a differential, $\mathsf{X}_p = (df_p)_p$ with $f_p = \mathtt{x}_i(p)\,\mathscr{X}^i$, but gluing these $f_p$ fails because of the Leibniz rule:
+      $$g\,df = d(gf) - f\,dg.$$
+      - **Closed:** in a chart, for all $i, j$,
       $$\partial x_j\lfloor\mathtt{x}_i\rceil = \partial x_i\lfloor\mathtt{x}_j\rceil.$$
       Exact $\Rightarrow$ closed (mixed partials commute), and closedness does not depend on the chart.
-      - **The obstruction from Leibniz:**
-      $$g\,df = d(gf) - f\,dg.$$
-      - **Integral along a curve** $\gamma\colon[\lambda_a,\lambda_b]\to\mathcal{M}$ and its key property:
-      $$\int_\gamma df = f(\gamma(\lambda_b)) - f(\gamma(\lambda_a)).$$
-      - **Poincaré lemma** on a chart domain whose image is a ball centred at $0\in\mathbb{R}^d$: if $\mathsf{X}$ is closed, $f = F\circ\mathscr{X}$ with $\bar{\mathtt{x}}_i := \mathtt{x}_i\circ\mathscr{X}^{-1}$ (components as functions of the coordinates $\alpha\in\mathbb{R}^d$) and
-      $$F(\alpha) = \int_0^1\bar{\mathtt{x}}_i(t\alpha)\,\alpha^i\,dt.$$
-      - **Examples:** on the plane with coordinates $(a,b)$, $r=\sqrt{a^2+b^2}$ and polar angle $\theta$, $\mathsf{Z} = -b\,dx^1 + a\,dx^2$ is not closed; on the plane minus the origin, the angle field
+      - **Integral along a curve** $\gamma\colon[\lambda_a,\lambda_b]\to\mathcal{M}$: $\int_\gamma df = f(\gamma(\lambda_b)) - f(\gamma(\lambda_a))$, which is $0$ on a closed curve.
+      - **Examples:** on the plane with coordinates $(a,b)$ and $r=\sqrt{a^2+b^2}$, $\mathsf{Z} = -b\,dx^1 + a\,dx^2$ is not closed; on the plane minus the origin the angle field
       $$\mathsf{A} = -\frac{b}{r^2}dx^1 + \frac{a}{r^2}dx^2$$
-      is closed, equals $d\theta$ off a cut, and has $\int\mathsf{A} = 2\pi$ around the origin: not exact.
+      is closed, equals $d\theta$ off a cut, but $\int\mathsf{A} = 2\pi$ around the unit circle, so it is not exact.
 
-      Integration on manifolds in general is Level 8. **Next:** the field traps, a fast round on the misconceptions of this whole level.
+      **Next:** Part 2 proves the converse near every point (the Poincaré lemma: closed implies a differential on a ball), shows where the proof breaks around a hole, and names the three scales.
