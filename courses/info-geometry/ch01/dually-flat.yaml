@@ -1,0 +1,335 @@
+id: ch01-dually-flat
+title: Dually Flat Structure
+kind: concept
+own: |
+  - **Two flat structures.** Let $\psi(\xi)$ be a convex potential of the coordinates $\xi=(\xi^1,\dots,\xi^n)$ (the index is a label, not a power), and $\xi^*=\nabla\psi(\xi)$ the dual coordinates, with components $\xi^*_i$. A **geodesic** (a "straight line", not necessarily the shortest path) is a curve linear in $\xi$; a **dual geodesic** is linear in $\xi^*$:
+    {{ $$\xi(t)=at+b,\qquad\xi^*(t)=at+b.$$ }}
+    Here $t$ is the parameter and $a,b$ are constant vectors. Because $\xi\mapsto\xi^*$ is not linear in general, a geodesic is not a dual geodesic: there are two criteria of straightness, **primal** and **dual flatness**.
+  - **Metric as a Hessian.** The squared length of a small step $d\xi$ is
+    {{ $$\begin{aligned}ds^2&=2D_\psi[\xi:\xi+d\xi]\\&=g_{ij}\,d\xi^i d\xi^j,\end{aligned}$$ }}
+    $$g_{ij}=\frac{\partial^2\psi}{\partial\xi^i\partial\xi^j}.$$
+    Repeated indices, once up and once down, are summed (Einstein convention). The matrix $\mathbf G=(g_{ij})$ depends on the point.
+  - **Two bases.** At a point, $e_i$ (tangent to the coordinate curves of $\xi$) and $e^{*i}$ (tangent to those of $\xi^*$) are two bases of the tangent space. One vector has two lists of components,
+    $$A=A^ie_i=A_ie^{*i},$$
+    $$A_i=g_{ij}A^j,\qquad A^j=g^{*ji}A_i,$$
+    with $\mathbf G^*=(g^{*ij})=\mathbf G^{-1}$ and $g_{ij}=\langle e_i,e_j\rangle$, $\langle\cdot,\cdot\rangle$ the inner product of the metric.
+  - **Dual (reciprocal) bases.** Each $e^{*j}$ is orthogonal to every $e_i$ except $e_j$:
+    {{ $$\langle e_i,e^{*j}\rangle=\delta_i^j,\qquad e^{*i}=g^{*ij}e_j.$$ }}
+    Here $\delta_i^j=1$ if $i=j$ and $0$ otherwise (Kronecker delta).
+  - **Parallel transport.** Moving a vector to another point so that $A^i$ stays fixed is **parallel transport**; keeping $A_i$ fixed is **dual parallel transport**. Lengths change under each, but the pairing of a parallel-transported $A$ with a dual-transported $B$ does not:
+    {{ $$\langle A,B\rangle=A^iB_i=\text{constant}.$$ }}
+cards:
+  - type: text
+    id: hook
+    title: "Two ways to be straight"
+    body: |
+      Same rules as the rest of this level: a light tour, **guessing is the point**, and every technical word is explained when it first appears.
+
+      Last time one convex bowl $\psi(\xi)$ gave us **two names** for every point: the position $\xi$, and the slope of the tangent, $\xi^*=\nabla\psi(\xi)$ (the list of slopes). Two coordinate systems on the same set of points. Now ask a plain question: **what is a straight line?**
+
+      In the ordinary plane you would say "a line is a path that does not turn". But "does not turn" depends on how you label the points. If you relabel the points by $\xi^*$, a path that was straight in $\xi$ may look bent in $\xi^*$. So which labeling gets to decide what is "straight"?
+
+      A note on notation, from now on. The numbers of a point are written $\xi^1,\dots,\xi^n$ with the index **up** (a label, never a power: $\xi^2$ means "the second number"), and the dual numbers $\xi^*_1,\dots,\xi^*_n$ with the index **down**. The position of the index will tell which of the two systems we are in. It is the same $\xi_1,\xi_2,\dots$ as before, just placed differently.
+
+  - type: widget
+    id: grids-widget
+    widget: dual-grids
+    config:
+      psi: [negentropy, negentropy]
+      grid: both
+      x: [1.5, 2]
+    body: |
+      Two pictures of the same set of points, for $\psi=\sum_i(\xi^i\ln\xi^i-\xi^i)$. Left: the $\xi$-plane with the lines $\xi^1=$ const and $\xi^2=$ const (purple). Right: the $\xi^*$-plane, with the dual coordinates $\xi^*_i=\ln\xi^i$, and its own grid lines $\xi^*_i=$ const (orange). The gold point is the same point in both; **drag it** in either plane and look at how evenly the grid lines are spaced in each.
+
+  - type: mcq
+    id: spacing
+    prompt: |
+      Take $\psi=\sum_i(\xi^i\ln\xi^i-\xi^i)$, so $\xi^*_i=\ln\xi^i$. The lines $\xi^1=1,2,3,4$ are evenly spaced in the $\xi$-plane. Where do these same lines fall in the $\xi^*$-plane (as values of $\xi^*_1$)?
+    options:
+      - text: 'Evenly spaced as well: a grid is a grid.'
+        feedback: |
+          That would need $\xi^*_1$ to be a linear function of $\xi^1$ (like $2\xi^1+1$). Here $\xi^*_1=\ln\xi^1$ is not: $\ln1=0$, $\ln2=0.693$, $\ln3=1.099$, $\ln4=1.386$, with gaps $0.693,\,0.405,\,0.288$.
+      - text: 'Crowded closer and closer together as $\xi^1$ grows.'
+        correct: true
+      - text: 'Spread farther and farther apart as $\xi^1$ grows.'
+        feedback: |
+          The logarithm flattens out: each unit step of $\xi^1$ moves $\xi^*_1$ by less than the one before ($0.693,\ 0.405,\ 0.288,\dots$). That is crowding, not spreading.
+    explanation: |
+      The gaps between $\ln1,\ln2,\ln3,\ln4$ shrink. Even spacing in one coordinate system generally becomes **uneven** in the other: the two systems are related by a **nonlinear** map. Keep that in mind: it is the whole story of this lesson.
+
+  - type: text
+    id: affine
+    title: "Affine coordinates and geodesics"
+    body: |
+      Fix the coordinates $\xi$ and **declare** them to be **affine**: a coordinate system in which straight lines are exactly the curves that change at a constant rate. A curve is a point moving with time, written $\xi(t)$ with a parameter $t$. It is a **geodesic** of the affine structure when
+      $$\xi(t)=a\,t+b,$$
+      where $a$ and $b$ are constant vectors ($b$ is where you start, $a$ the constant velocity). Here "geodesic" just means "straight line"; it does **not** mean the shortest path.
+
+      The same words apply to any change $\xi'=\mathbf A\xi+b$ with $\mathbf A$ an invertible constant matrix (rotating, stretching, shifting): a line stays a line. But a **nonlinear** relabeling, like $\ln$, does not preserve lines.
+
+      Test it. Take $\psi=\sum_i(\xi^i\ln\xi^i-\xi^i)$ in two coordinates and the geodesic
+      $$\xi(t)=(1,1)+t\,(1,2).$$
+
+  - type: numeric
+    id: dual-of-geodesic
+    prompt: |
+      Take $\psi=\sum_i(\xi^i\ln\xi^i-\xi^i)$ on $\xi^1,\xi^2>0$, so $\xi^*_i=\ln\xi^i$. The geodesic is $\xi(t)=(1,1)+t(1,2)$. At $t=2$ the point is $\xi=(3,5)$. What is its second dual coordinate $\xi^*_2$? (Natural logarithm, three decimals.)
+    answer: 1.609
+    tolerance: 0.002
+    wrong:
+      - { value: 5, feedback: 'That is $\xi^2$ itself. The dual coordinate is the slope $\partial\psi/\partial\xi^2=\ln\xi^2$.' }
+      - { value: 1.099, feedback: 'That is $\ln3$, the **first** dual coordinate $\xi^*_1$. Here the question is about the second one, $\ln5$.' }
+    hint: |
+      $\partial\psi/\partial\xi^2=\ln\xi^2$, evaluated at $\xi^2=5$.
+    explanation: |
+      $$\xi^*_2=\ln5\approx1.609.$$
+      For comparison $t=0$ gives $\xi^*=(0,0)$, $t=1$ gives $\xi=(2,3)$ and $\xi^*=(0.693,1.099)$, $t=2$ gives $\xi^*=(1.099,1.609)$. Plot these three points: they do **not** lie on one straight line (the slope from the first to the second is $1.585$, from the second to the third $1.256$).
+
+  - type: widget
+    id: bent-widget
+    widget: dual-grids
+    config:
+      psi: softmax
+      grid: both
+      basis: both
+      x: [0.3, -0.5]
+    body: |
+      A second potential, $\psi=\ln(1+e^{\xi^1}+e^{\xi^2})$, whose grids really bend. Left: the $\xi$-plane, with purple lines $\xi^1=$ const, $\xi^2=$ const (straight there). Right: the $\xi^*$-plane, with orange lines $\xi^*_i=$ const (straight there). **Drag the gold point** and watch each family: straight in its own plane, bent in the other. (The arrows are explained a few cards later; for now ignore them.)
+
+  - type: text
+    id: dual-affine
+    title: "Dual affine coordinates, dual geodesics"
+    body: |
+      The dual coordinates $\xi^*=\nabla\psi(\xi)$ can be declared affine too: a curve is a **dual geodesic** when it is linear in $\xi^*$,
+      $$\xi^*(t)=a\,t+b.$$
+      Each axis of the $\xi^*$ system is a dual geodesic, just as each axis of $\xi$ is a geodesic. The map $\xi\mapsto\xi^*$ is **not linear** in general, so a curve straight in one system is bent in the other. We now have **two** notions of flatness on the same set of points:
+
+      - **primal flatness**: straight means linear in $\xi$;
+      - **dual flatness**: straight means linear in $\xi^*$.
+
+      A set of points with both is called **dually flat**. Both structures come from the single potential $\psi$.
+
+  - type: mcq
+    id: geodesic-vs-dual
+    prompt: |
+      Take $\psi=\sum_i(\xi^i\ln\xi^i-\xi^i)$, $\xi^*_i=\ln\xi^i$. The curve $\xi(t)=(1,1)+t(1,2)$ is a geodesic. Its image in the $\xi^*$-plane has the points $(0,0)$, $(0.693,1.099)$, $(1.099,1.609)$ at $t=0,1,2$. Which statement is right?
+    options:
+      - text: 'It is a geodesic but not a dual geodesic: the three points are not collinear, so $\xi^*(t)$ is not of the form $at+b$.'
+        correct: true
+      - text: 'It is also a dual geodesic: straight lines are straight in every coordinate system.'
+        feedback: |
+          Only for **linear** relabelings $\xi'=\mathbf A\xi+b$. The map $\xi\mapsto\xi^*=\ln\xi$ is not linear, and the numbers show it: the image points are not on one line.
+      - text: 'It is a dual geodesic but not a geodesic.'
+        feedback: |
+          It is given as $\xi(t)=at+b$, which is the definition of a geodesic. It is the **image** that fails the dual test.
+    explanation: |
+      A dual geodesic needs equal steps in $\xi^*$ for equal steps in $t$. Here the steps are $(0.693,1.099)$ and then $(0.405,0.511)$: not equal, not even parallel. In general "a geodesic is not a dual geodesic and vice versa". The exceptions are the coordinate axes when $\psi$ is a sum of one-variable functions (as in the first picture), and the quadratic case $\psi=\tfrac12\sum(\xi^i)^2$, where $\xi^*=\xi$ and the two notions agree.
+
+  - type: text
+    id: tangent
+    title: "Tangent vectors and two bases"
+    body: |
+      To measure lengths we need vectors. A **tangent vector** at a point is a small displacement from it; the **tangent space** is the set of all of them (a flat sheet touching the manifold there). The small step between neighbouring points is the **line element** $d\xi=\xi'-\xi$.
+
+      A **basis** is a set of vectors from which every other vector is built by scaling and adding. The natural one for the coordinate $\xi$: $e_i$ is the tangent vector along the $i$-th coordinate curve (the direction in which only $\xi^i$ changes, with unit speed). Since $\xi$ is affine, $e_i$ looks the same at every point. A vector $A$ is
+      $$A=A^i e_i\quad(\text{summed over }i),\qquad d\xi=d\xi^i\,e_i.$$
+      The numbers $A^i$ are its **components** in this basis.
+
+      **Summation convention.** An index that appears **twice in one term, once up and once down**, is summed from $1$ to $n$ automatically: $A^ie_i=\sum_iA^ie_i$.
+
+      Dually, $e^{*i}$ is the tangent vector along the $i$-th coordinate curve of $\xi^*$ (only $\xi^*_i$ changes). It has its own components, written with the index down, $A_i$, and
+      $$A=A^ie_i=A_ie^{*i},\qquad d\xi^*=d\xi^*_i\,e^{*i}.$$
+      Same vector, two bases, two lists of numbers, so **in general $A_i\neq A^i$**. We say $e_i$ with a lower index, $e^{*i}$ with an upper one, to remember which family is which.
+
+  - type: widget
+    id: dual-basis-widget
+    widget: dual-grids
+    config:
+      psi: [negentropy, negentropy]
+      grid: both
+      basis: both
+      x: [1.5, 2]
+    body: |
+      The same $\psi=\sum_i(\xi^i\ln\xi^i-\xi^i)$ with the two bases at the gold point: $e_1,e_2$ (purple) along the purple lines, and $e^{*1},e^{*2}$ (orange) along the orange lines. The arrows are drawn in each plane with one common length factor, so only their directions and relative lengths are meant. Drag the point: the purple arrows keep their shape in the left plane, the orange ones are the "other" basis of the same tangent space.
+
+  - type: text
+    id: metric
+    title: "The metric is the Hessian"
+    body: |
+      A **Riemannian metric** is a rule that gives the length of every small step. Recall: for a divergence $D$, a small step $d\xi$ from the point $\xi$ has
+      $$D_\psi[\xi:\xi+d\xi]=\tfrac12\,g_{ij}\,d\xi^i\,d\xi^j,$$
+      $$g_{ij}=\frac{\partial^2\psi}{\partial\xi^i\,\partial\xi^j}.$$
+      The matrix $g_{ij}$ is the **Hessian** of $\psi$ (the matrix of its second derivatives, here a positive-definite one, which is exactly convexity). We *define* the squared length of the step as twice this:
+      $$ds^2=2D_\psi[\xi:\xi+d\xi]=g_{ij}\,d\xi^i\,d\xi^j.$$
+      The factor $2$ cancels the $\tfrac12$. In the plane with $\psi=\tfrac12\sum(\xi^i)^2$, $g_{ij}=\delta_{ij}$ and $ds^2=\sum(d\xi^i)^2$: Pythagoras. For other potentials $g_{ij}$ **depends on the point**, so lengths change from place to place and the space is not Euclidean (not the ordinary flat plane).
+
+  - type: numeric
+    id: ds2
+    prompt: |
+      Take $\psi=\sum_i(\xi^i\ln\xi^i-\xi^i)$ with $\xi^i>0$, so $g_{ij}=\delta_{ij}/\xi^i$ (diagonal, $g_{ii}=1/\xi^i$). At the point $\xi=(2,4)$ take the small step $d\xi=(0.1,\,0.2)$. What is $ds^2=g_{ij}\,d\xi^id\xi^j$?
+    answer: 0.015
+    tolerance: 0.0003
+    wrong:
+      - { value: 0.05, feedback: 'That is $(d\xi^1)^2+(d\xi^2)^2$, the Euclidean $ds^2$ with $g_{ij}=\delta_{ij}$. Here each term carries a weight $g_{ii}=1/\xi^i$.' }
+      - { value: 0.0075, feedback: 'That is $D=\tfrac12 ds^2$. The question asks for $ds^2=2D$, so double it.' }
+    hint: |
+      Only the diagonal terms survive: $g_{11}(d\xi^1)^2+g_{22}(d\xi^2)^2$ with $g_{11}=\tfrac12$, $g_{22}=\tfrac14$.
+    explanation: |
+      $$\begin{aligned}ds^2&=\tfrac12(0.1)^2+\tfrac14(0.2)^2\\&=0.005+0.010=0.015.\end{aligned}$$
+      The divergence of this step is $D=ds^2/2=0.0075$, as it should be.
+
+  - type: widget
+    id: metric-widget
+    widget: dual-grids
+    config:
+      psi: [negentropy, neglog]
+      grid: xi
+      basis: primal
+      readout: [point, G, Gstar, product, inner]
+      x: [1.5, 1.5]
+    body: |
+      Now $\psi=\xi^1\ln\xi^1-\xi^1-\ln\xi^2$. The readout gives $\mathbf G=(g_{ij})$ at the gold point, the inverse matrix $\mathbf G^*$ (coming up) and the inner products of the basis vectors. **Drag the point**: how do $g_{11}$ and $g_{22}$ change? Where is $g_{11}$ large, and where small?
+
+  - type: mcq
+    id: metric-varies
+    prompt: |
+      One coordinate, $\psi=\xi\ln\xi-\xi$ for $\xi>0$, so $g=\psi''=1/\xi$. The same small step $d\xi=0.1$ is taken at $\xi=0.5$ and at $\xi=5$. How do the squared lengths $ds^2=g\,d\xi^2$ compare?
+    options:
+      - text: 'Equal: the step $d\xi=0.1$ is the same in both places.'
+        feedback: |
+          That would hold for $g=1$ (the ordinary ruler). Here the metric depends on the point: the same coordinate step has different lengths.
+      - text: 'At $\xi=0.5$ the squared length is $0.02$, ten times the $0.002$ at $\xi=5$.'
+        correct: true
+      - text: 'At $\xi=5$ the squared length is larger, because $\xi$ is larger.'
+        feedback: |
+          It is the opposite: $g=1/\xi$ shrinks as $\xi$ grows, so the step is **shorter** at $\xi=5$ ($ds^2=0.1^2/5=0.002$).
+    explanation: |
+      $ds^2=0.01/0.5=0.02$ versus $0.01/5=0.002$. Near $\xi=0$ small steps are "long": a probability near $0$ changing by $0.1$ is a much bigger change than near a large value.
+
+  - type: build
+    id: build-ds2
+    prompt: |
+      The squared length of the line element $d\xi=d\xi^i\,e_i$ is the inner product $\langle d\xi,d\xi\rangle$. Build its expansion, with the summation convention (each index appears once up, once down).
+    prefix: 'ds^2='
+    tiles: ['\langle e_i,e_j\rangle', 'd\xi^i', 'd\xi^j', 'd\xi_j', '\langle e_i,e^{*j}\rangle']
+    answers:
+      - ['\langle e_i,e_j\rangle', 'd\xi^i', 'd\xi^j']
+      - ['d\xi^i', '\langle e_i,e_j\rangle', 'd\xi^j']
+      - ['d\xi^i', 'd\xi^j', '\langle e_i,e_j\rangle']
+    wrong:
+      - answer: ['\langle e_i,e_j\rangle', 'd\xi^i', 'd\xi_j']
+        feedback: |
+          Here $i$ is up in $d\xi^i$ and **down** in $e_i$, so it is summed, but $j$ appears twice in the **lower** position ($e_j$ and $d\xi_j$): nothing says to sum it. The step has components $d\xi^j$ in the basis $e_j$.
+      - answer: ['\langle e_i,e^{*j}\rangle', 'd\xi^i', 'd\xi^j']
+        feedback: |
+          $\langle e_i,e^{*j}\rangle$ pairs a basis with the **other** basis; the length of a step expanded in $e_i$ alone uses $\langle e_i,e_j\rangle$.
+    hint: |
+      $\langle d\xi^ie_i,\ d\xi^je_j\rangle$: take the numbers out of the inner product.
+    explanation: |
+      $$ds^2=\langle d\xi^ie_i,\,d\xi^je_j\rangle=\langle e_i,e_j\rangle\,d\xi^i\,d\xi^j.$$
+      Comparing with $ds^2=g_{ij}d\xi^id\xi^j$ gives $g_{ij}=\langle e_i,e_j\rangle$: **the metric is the table of inner products of the basis vectors**, and it depends on the point.
+
+  - type: text
+    id: dual-metric
+    title: "The dual metric and the dual basis"
+    body: |
+      The same step has components $d\xi^*_i$ in the dual basis: $d\xi^*=d\xi^*_i\,e^{*i}$ and
+      $$ds^2=g^{*ij}\,d\xi^*_i\,d\xi^*_j,\qquad g^{*ij}=\langle e^{*i},e^{*j}\rangle.$$
+      Since $\xi^*=\nabla\psi(\xi)$, a small step changes it by $d\xi^*_i=\dfrac{\partial^2\psi}{\partial\xi^i\partial\xi^j}d\xi^j$:
+      $$d\xi^*_i=g_{ij}\,d\xi^j,\qquad d\xi^j=g^{*ji}\,d\xi^*_i.$$
+      Both formulas describe the same step, so the matrices are **inverse** to each other: $\mathbf G^*=\mathbf G^{-1}$. The bases follow the same rule:
+      $$e^{*i}=g^{*ij}\,e_j,\qquad e_i=g_{ij}\,e^{*j}.$$
+      Hence the key pairing, the inner product of one basis with the other:
+      $$\langle e_i,e^{*j}\rangle=\delta_i^j,$$
+      with $\delta_i^j=1$ if $i=j$ and $0$ otherwise (Kronecker delta). Neither basis is orthonormal on its own, but each $e^{*j}$ is orthogonal to all $e_i$ with $i\neq j$: we say the two bases are **dual** (or **reciprocal**).
+
+  - type: widget
+    id: coupled-widget
+    widget: dual-grids
+    config:
+      psi: coupled
+      A: [[2, 1], [1, 1]]
+      grid: both
+      basis: both
+      readout: [G, Gstar, product]
+      x: [0.6, 0.4]
+    body: |
+      A potential with the two coordinates coupled: $\psi=\tfrac12\xi^{\mathsf T}\mathbf A\xi$ with $\mathbf A=\begin{pmatrix}2&1\\1&1\end{pmatrix}$, so $\mathbf G=\mathbf A$ everywhere. The grids are straight but **skew**. The readout shows $\mathbf G$, $\mathbf G^*$ and their product. **Drag the point**: compare the angle between $e_1$ and $e^{*2}$, and between $e_1$ and $e^{*1}$.
+
+  - type: numeric
+    id: invert-G
+    prompt: |
+      At some point the metric matrix is $\mathbf G=\begin{pmatrix}3&1\\1&1\end{pmatrix}$. What is the off-diagonal entry $g^{*12}$ of the dual metric $\mathbf G^*=\mathbf G^{-1}$?
+    answer: -0.5
+    tolerance: 0.001
+    wrong:
+      - { value: 0.5, feedback: 'Right size, wrong sign. For a $2\times2$ matrix the inverse is $\tfrac1{\det}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}$: the off-diagonal entries change sign.' }
+      - { value: -1, feedback: 'That is $-g_{12}$ without dividing by $\det\mathbf G=3\cdot1-1\cdot1=2$.' }
+    hint: |
+      $\begin{pmatrix}a&b\\c&d\end{pmatrix}^{-1}=\dfrac1{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}$.
+    explanation: |
+      $$\begin{aligned}\det\mathbf G&=3\cdot1-1\cdot1=2,\\\mathbf G^{-1}&=\tfrac12\begin{pmatrix}1&-1\\-1&3\end{pmatrix}.\end{aligned}$$
+      So $g^{*12}=-\tfrac12$. Check: $\mathbf G\mathbf G^*=\mathbf I$, which is $\langle e_i,e^{*j}\rangle=\delta_i^j$ in matrix form.
+
+  - type: order
+    id: order-dual-pairing
+    prompt: |
+      Derive $\langle e_i,e^{*j}\rangle=\delta_i^j$ from $e^{*j}=g^{*jk}e_k$ and $g_{ik}=\langle e_i,e_k\rangle$. Put the steps in order.
+    steps:
+      - 'Start from the dual basis written with the first one: $e^{*j}=g^{*jk}e_k$.'
+      - 'Take the inner product with $e_i$ and pull out the numbers: $\langle e_i,e^{*j}\rangle=g^{*jk}\langle e_i,e_k\rangle$.'
+      - 'Use $\langle e_i,e_k\rangle=g_{ik}$: the right side is $g^{*jk}g_{ik}$.'
+      - 'Since $\mathbf G^*=\mathbf G^{-1}$, this product of a matrix with its inverse is $\delta_i^j$.'
+    hint: |
+      The numbers $g^{*jk}$ are just scalars: they come out of the inner product.
+    explanation: |
+      Written out: $\langle e_i,e^{*j}\rangle=g^{*jk}g_{ik}=\delta_i^j$. This is the whole reason for the two bases: the components of a vector are read off by pairing, $A^i=\langle A,e^{*i}\rangle$ and $A_i=\langle A,e_i\rangle$ (pair $A=A^je_j$ with $e^{*i}$ and use $\langle e_j,e^{*i}\rangle=\delta^i_j$). From $A_i=\langle A^je_j,e_i\rangle$ we also get $A_i=g_{ij}A^j$ and $A^j=g^{*ji}A_i$.
+
+  - type: text
+    id: transport
+    title: "Moving a vector to another point"
+    body: |
+      To compare vectors at different points we need a rule for carrying one along. **Parallel transport** carries a tangent vector $A=A^ie_i$ from the point $\xi$ to another point $\xi'$ **keeping its components $A^i$ fixed**. This makes sense here because $e_i$ is the same everywhere: the primal structure is flat. (In general curved spaces the rule is more involved; that comes much later.)
+
+      **Dual parallel transport** carries $A=A_ie^{*i}$ keeping $A_i$ fixed. The two transports are different, since $A_i=g_{ij}A^j$ and $g_{ij}$ depends on the point.
+
+      The squared length is $|A|^2=\langle A,A\rangle=g_{ij}A^iA^j=A^iA_i$. It changes under transport, because $g_{ij}$ does. In the example below, $\psi=\sum_i(\xi^i\ln\xi^i-\xi^i)$ again.
+
+  - type: numeric
+    id: length-changes
+    prompt: |
+      Take $\psi=\sum_i(\xi^i\ln\xi^i-\xi^i)$, so $g_{ii}=1/\xi^i$, diagonal. The vector $A$ has components $A^i=(3,2)$ at $\xi=(2,4)$, where $|A|^2=\tfrac12\cdot9+\tfrac14\cdot4=5.5$. It is parallel-transported (components fixed) to $\xi'=(3,6)$. What is $|A|^2$ there? (Three decimals.)
+    answer: 3.667
+    tolerance: 0.002
+    wrong:
+      - { value: 5.5, feedback: 'The components stay fixed, but the **length** is $g_{ij}A^iA^j$ and $g_{ij}$ changed with the point. Recompute with the new $g_{ii}=1/\xi''^i$.' }
+      - { value: 13, feedback: 'That is $(A^1)^2+(A^2)^2$, the Euclidean length with $g_{ij}=\delta_{ij}$. At $\xi''=(3,6)$ the weights are $\tfrac13$ and $\tfrac16$.' }
+    hint: |
+      $g_{11}=1/3$ and $g_{22}=1/6$ at $\xi'=(3,6)$.
+    explanation: |
+      $$\begin{aligned}|A|^2&=\tfrac13\cdot3^2+\tfrac16\cdot2^2\\&=3+\tfrac23\approx3.667.\end{aligned}$$
+      The components did not change, yet the length went from $5.5$ to $3.667$.
+
+  - type: mcq
+    id: trap-transport
+    prompt: |
+      A dually flat space with a point-dependent metric. $A$ is carried from $\xi$ to $\xi'$ by parallel transport (components $A^i$ fixed), $B$ by dual parallel transport (components $B_i$ fixed). Which statements are true? Select all that apply.
+    multiple: true
+    options:
+      - text: 'The pairing $\langle A,B\rangle=A^iB_i$ is the same at $\xi$ and at $\xi''$.'
+        correct: true
+      - text: 'If $A$ and $B$ are orthogonal at $\xi$, they are still orthogonal at $\xi''$.'
+        correct: true
+      - text: 'If **both** are parallel-transported, orthogonality at $\xi$ is kept at $\xi''$.'
+        feedback: |
+          Orthogonality is $g_{ij}A^iB^j=0$, and $g_{ij}$ changes between the two points while $A^i,B^j$ stay fixed. The sum generally becomes nonzero.
+      - text: 'Parallel transport keeps the length $|A|$ fixed.'
+        feedback: |
+          The components stay fixed, not the length: $|A|^2=g_{ij}A^iA^j$ and the metric depends on the point (see the numbers: $5.5\to3.667$).
+    explanation: |
+      The pairing $A^iB_i$ involves only the fixed components, so it is invariant: "dually coupled" transports keep inner products. With both transported the same way, the metric inside $g_{ij}A^iB^j$ changes and orthogonality is lost in general.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** with two flat structures and dual bases in hand, we can state when a divergence **adds up like squared lengths**: the generalized Pythagorean theorem, and why projecting a point onto a flat submanifold gives the closest point.
