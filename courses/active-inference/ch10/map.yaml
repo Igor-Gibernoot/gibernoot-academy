@@ -1,0 +1,372 @@
+id: ch10-map
+title: "Content Map: Theories and Open Directions"
+kind: map
+name: Level 10, active inference and other theories (prediction, action, decision, rationality, emotion, attention, learning)
+
+intro: |
+  A **content map** shows how the ideas of a level fit together. Each box is one idea. An arrow goes from an idea to one that builds on it, and its label says how: read it as a sentence, for example "the free energy *is replaced by* the expected free energy".
+
+  This level puts active inference next to the theories around it. The **left column** is perception and action: the Bayesian brain family, prediction errors, the precision-weighted percept, action as a prediction made true, and the older theories of control. The **middle column** is decision and rationality: value functions against expected free energy, policies and preferences, the three components of behaviour, and bounded rationality. The **right column** is emotion, the body and learning: valence, homeostasis, attention against salience, structure learning, and the open directions.
+
+  Running examples return: a **creature** with one hidden cause, a prior mean $\eta$ and data $y$ with precisions $\Pi_v$ and $\Pi_y$; an **arm** with sensed angle $y$ moved by an action $u$; a **thermostat-like body** with a set-point; and a **shelf or window** to look at.
+
+  For each glowing box, pick the card that belongs there. The other cards look alike, but each hides a classic mistake, and every wrong pick comes with a reason. Tap a finished box at any time to reread its card.
+
+cols: 3
+nodes:
+  - id: bayesbrain
+    title: Bayesian brain
+    row: 1
+    col: 1
+    body: |
+      Perception is **inference**: Bayes' rule inverts a generative model to give a belief about the hidden cause given the data. Exact inference is often intractable, so active inference uses a **variational approximation**. "Bayesian brain" names a **family** of proposals, not one integrated theory.
+    decoys:
+      - body: |
+          Perception is **inference**: Bayes' rule inverts a generative model to give a belief about the hidden cause given the data. Exact inference is always tractable, so the brain simply computes the **exact** posterior. "Bayesian brain" names **one** integrated theory.
+        feedback: |
+          Exact inference is usually intractable for realistic models, which is why a variational approximation is needed. And the label covers several proposals (computational, algorithmic, neural) that are not necessarily integrated.
+      - body: |
+          Perception is **inference**, and in the Bayesian brain agenda **action follows from the same imperative** as perception, so no separate theory of action is needed.
+        feedback: |
+          That is the active inference claim. In the Bayesian brain agenda action needs a separate imperative (Bayesian decision theory); free energy minimisation is what extends to action.
+    explanation: |
+      Predictive processing is broader still: it may borrow generative models or precision from active inference, but also uses constructs that active inference does not have.
+
+  - id: pc
+    title: Prediction errors
+    row: 2
+    col: 1
+    body: |
+      A belief with mode $\mu$ predicts the data as $g(\mu)$; the prior says the cause is near $\eta$. The prediction errors are $\epsilon_y=y-g(\mu)$ and $\epsilon_v=\mu-\eta$, with **precisions** $\Pi_y$, $\Pi_v$, and the belief **descends** the free energy:
+      $$F=\tfrac12\Pi_y\epsilon_y^2+\tfrac12\Pi_v\epsilon_v^2$$
+      $$\dot\mu=-\frac{\partial F}{\partial\mu}$$
+    decoys:
+      - body: |
+          A belief with mode $\mu$ predicts the data as $g(\mu)$; the prior says the cause is near $\eta$. The prediction errors are $\epsilon_y=y-g(\mu)$ and $\epsilon_v=\mu-\eta$, and the belief **ascends** the free energy:
+          $$F=\tfrac12\Pi_y\epsilon_y^2+\tfrac12\Pi_v\epsilon_v^2$$
+          $$\dot\mu=+\frac{\partial F}{\partial\mu}$$
+        feedback: |
+          Free energy is a cost: the belief moves to lower it, so $\dot\mu=-\partial F/\partial\mu$. Climbing would increase the prediction errors.
+      - body: |
+          A belief with mode $\mu$ predicts the data as $g(\mu)$; the prior says the cause is near $\eta$. The prediction errors are $\epsilon_y=y-g(\mu)$ and $\epsilon_v=\mu-\eta$, with **variances** $\Pi_y$, $\Pi_v$, and the belief descends the free energy:
+          $$F=\tfrac12\Pi_y\epsilon_y^2+\tfrac12\Pi_v\epsilon_v^2$$
+          $$\dot\mu=-\frac{\partial F}{\partial\mu}$$
+        feedback: |
+          In this form $\Pi$ multiplies the squared error, so it is a precision (an inverse variance): a larger $\Pi$ makes that error count more. With variances the weights would be reversed.
+    explanation: |
+      Toy: $g(\mu)=\mu$, $y=3$, $\eta=0$, $\Pi=(8,1)$ gives $\mu^*=24/9\approx2.67$, with $\epsilon_y\approx0.33$ and $\epsilon_v\approx2.67$.
+
+  - id: mustar
+    title: Precision-weighted compromise
+    row: 3
+    col: 1
+    body: |
+      For $g(\mu)=\mu$ the belief comes to rest at a **precision-weighted** average of the data $y$ and the prior mean $\eta$:
+      $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$$
+    decoys:
+      - body: |
+          For $g(\mu)=\mu$ the belief comes to rest at a precision-weighted average, with the **weights swapped**:
+          $$\mu^*=\frac{\Pi_v\,y+\Pi_y\,\eta}{\Pi_y+\Pi_v}$$
+        feedback: |
+          Then precise data would be ignored. A large $\Pi_y$ must pull $\mu^*$ towards $y$, so $y$ carries the weight $\Pi_y$.
+      - body: |
+          For $g(\mu)=\mu$ the belief comes to rest at the **data** once the prior is set aside:
+          $$\mu^*=y$$
+        feedback: |
+          That is only the limit $\Pi_y\gg\Pi_v$. With $y=3$, $\eta=0$, $\Pi=(3,1)$ the percept is $2.25$, not $3$: the prior always pulls.
+    explanation: |
+      With $y=3$, $\eta=0$, $\Pi_v=1$: $\Pi_y=1,3,8$ give $\mu^*=1.5,\,2.25,\,2.67$.
+
+  - id: action
+    title: Action as a fulfilled prediction
+    row: 4
+    col: 1
+    body: |
+      The descending signal is a **prediction**, not a command. With $g(\mu)=\mu$ and $\partial y/\partial u=1$, once the belief has settled, the reflex rate on the action $u$ is
+      $$\dot u=\Pi_v\,(\eta-\mu)$$
+      A **precise prior** (against $\Pi_y$) starts the movement; the reflex arc turns the sensory error into motion.
+    decoys:
+      - body: |
+          The descending signal is a **command** that the reflex arc simply relays. With $g(\mu)=\mu$ and $\partial y/\partial u=1$, the rate on the action $u$ is
+          $$\dot u=\Pi_v\,(\eta-\mu)$$
+          An **imprecise prior** starts the movement most easily.
+        feedback: |
+          The signal is a prediction, and an imprecise prior is simply revised by the senses, so nothing moves. Starting an action needs a precise prior (or a transient sensory attenuation, turning $\Pi_y$ down).
+      - body: |
+          The descending signal is a **prediction**, not a command. With $g(\mu)=\mu$ and $\partial y/\partial u=1$, the rate on the action $u$ is
+          $$\dot u=\Pi_v\,(\mu-\eta)$$
+        feedback: |
+          The sign is flipped: with $\mu<\eta$ the arm must move up towards the prediction. Toy: $\eta=5$, $\Pi_v=6$, $\mu=4.25$ gives $\dot u=+4.5$.
+    explanation: |
+      Perception changes $\mu$ and action changes $u$, both by descending the same $F$.
+
+  - id: cyber
+    title: Ideomotor and cybernetics
+    row: 5
+    col: 1
+    body: |
+      Action-effect links run both ways: **action to effect** generates sensory predictions, **effect to action** selects the movement for a desired sensation. In TOTE and perceptual control, action is driven by the **discrepancy from a goal**, a controlled **perceptual state**. Higher levels set the **reference points** (*what*) and leave the *how* to lower levels.
+    decoys:
+      - body: |
+          Action-effect links run in **one** direction only, from action to effect. In TOTE and perceptual control, action is a **stimulus-response rule**: a stimulus triggers a fixed movement, and the goal is not compared with the current state.
+        feedback: |
+          Both directions are used: effect to action is how a desired sensation selects a movement. And TOTE and perceptual control are driven by the discrepancy between a goal state and the current state, not by a fixed stimulus-response rule.
+      - body: |
+          Action-effect links run both ways. In perceptual control, higher levels fix the **movements** (*how*) of lower levels, and what is controlled is the **action** itself, not a sensed state.
+        feedback: |
+          The controlled quantity is a perceptual state (a sensed speed kept at a reference value against disturbances) while the actions are flexible. Higher levels set the *what*, leaving the *how* to lower levels.
+    explanation: |
+      Active inference adds precision control, sensory attenuation and feedforward (anticipatory) control from its generative model. In optimal control the motor command comes from inverse models; here the command is the prediction and the inverse model shrinks to a simple reflex.
+
+  - id: value
+    title: Value and the Bellman equation
+    row: 1
+    col: 2
+    body: |
+      In reinforcement learning a state $s$ has a **value** $V(s)$: the sum of discounted future rewards when following the policy. With the reward $r$ of the next step, the next state $s'$ and a discount $0<\lambda<1$, the Bellman equation splits it into the immediate reward and the value of the rest:
+      $$V(s)=r+\lambda\,V(s')$$
+    decoys:
+      - body: |
+          In reinforcement learning a state $s$ has a **value** $V(s)$: the reward expected on the next step only, with the reward $r$ of the next step:
+          $$V(s)=r$$
+        feedback: |
+          That ignores the future beyond one step. The value of a state includes what follows, and the Bellman equation expresses it through the value $V(s')$ of the next state. Toy: reward $10$ at the end and $\lambda=0.9$ gives $8.1$ one step before.
+      - body: |
+          In reinforcement learning a state $s$ has a **value** $V(s)$, a function of the **observations** the creature prefers. It is a prior that is not summed or discounted over time, and needs no Bellman equation.
+        feedback: |
+          That describes active inference's preferences $C$. Value functions in RL belong to states and sum discounted future rewards, which is what the Bellman equation exploits.
+    explanation: |
+      Dynamic programming iterates the Bellman equation.
+
+  - id: efe
+    title: Expected free energy
+    row: 2
+    col: 2
+    body: |
+      Active inference minimises the **expected free energy** $G$ of a policy $\pi$: **ambiguity** plus **risk** (a divergence from the preferred outcomes $P(\tilde y\mid C)$). Low $G$ makes a policy probable:
+      $$P(\pi)=\sigma(-\gamma G(\pi))$$
+      with $\sigma$ the softmax and $\gamma$ the precision over policies. It contains the epistemic terms, so exploration and exploitation trade off automatically.
+    decoys:
+      - body: |
+          Active inference minimises the **expected free energy** $G$ of a policy $\pi$, which contains only the **risk** (distance from the preferred outcomes). High $G$ makes a policy probable:
+          $$P(\pi)=\sigma(+\gamma G(\pi))$$
+        feedback: |
+          Two mistakes. $G$ is a cost, so the probability falls as $G$ grows: $\sigma(-\gamma G)$. And $G$ also contains the ambiguity term, which carries the epistemic value (information gain).
+      - body: |
+          Active inference maximises the **utility** of a policy $\pi$ and ignores the uncertainty of its outcomes, so exploration must be added by hand as a separate term:
+          $$P(\pi)=\sigma(-\gamma G(\pi))$$
+        feedback: |
+          The ambiguity part of $G$ is the epistemic term: exploration and exploitation are traded off automatically, because free energies are functionals of beliefs and so include uncertainty.
+    explanation: |
+      Toy: $C=(0.9,0.1)$, going to the shop has $G=0.144$ and walking home $G=1.858$; with $\gamma=2$ and $G=(0.5,1.5)$ the better policy gets $0.881$.
+
+  - id: policies
+    title: Policies and preferences
+    row: 3
+    col: 2
+    body: |
+      In RL a policy is a set of **stimulus-response mappings** to be learned; in active inference it is a **sequence of control states of the generative model, to be inferred**. The cost is absorbed into **preferences** $C$, priors over **observations**, which are not summed or discounted. Habits arise by **caching** results of goal-directed planning.
+    decoys:
+      - body: |
+          In RL a policy is a **sequence of control states to be inferred**; in active inference it is a set of **stimulus-response mappings** to be learned. Habits are a separate system that never uses planning.
+        feedback: |
+          The labels are swapped. RL learns stimulus-response mappings; in active inference the policy is a control sequence inferred by scoring with $G$, and habits are cached results of goal-directed policies, so the two cooperate.
+      - body: |
+          In active inference the preferences $C$ are **value functions of states**: **sums of discounted future rewards**, so a Bellman-like equation is needed to compute them.
+        feedback: |
+          $C$ is a prior over observations: it does not sum or discount. The nearest thing to an expected return is $G$, a functional of beliefs about states, not a function of states.
+    explanation: |
+      Priors resembling state values can be built by caching $G$ computations. Preferences also make the model optimistic: it believes it will meet preferred outcomes.
+
+  - id: three
+    title: Three components of behaviour
+    row: 4
+    col: 2
+    body: |
+      With $E$ the **habit prior** over policies, $F$ the free energy and $G$ the expected free energy, one scheme combines **habitual** ($E$), **perseverative** ($F$) and **deliberative** ($G$) behaviour:
+      $$P(\pi)=\sigma(\ln E-F-G)$$
+      They coexist; which dominates depends on experience and on the resources available for deliberation.
+    decoys:
+      - body: |
+          With $E$ the habit prior, $F$ the free energy and $G$ the expected free energy, one scheme combines the three:
+          $$P(\pi)=\sigma(\ln E+F+G)$$
+        feedback: |
+          The signs are flipped: $F$ and $G$ are costs, so a policy with a larger $F$ or $G$ must become less probable. The habit prior enters through $\ln E$, with a plus.
+      - body: |
+          Behaviour comes from **two separate systems**: a habitual one ($E$) and a deliberative one ($G$). Exactly one is active at a time, and the other is switched off.
+        feedback: |
+          That is a dual-systems theory. Here the components coexist inside one probability and are combined; perseveration ($F$) is a third part.
+    explanation: |
+      Which dominates is a matter of weighting, not of switching systems.
+
+  - id: bounded
+    title: Bounded rationality
+    row: 5
+    col: 2
+    body: |
+      A bounded rational agent balances the benefit of a good choice against the **cost of deliberating**. The Helmholtz free energy has **energy** (expected value, accuracy) and **entropy** (cost of making beliefs more precise, complexity). Active inference has the same trade-off:
+      $$F=\text{complexity}-\text{accuracy}$$
+    decoys:
+      - body: |
+          A bounded rational agent maximises the benefit of a choice and deliberation is **free**. The same trade-off appears in the free energy:
+          $$F=\text{complexity}+\text{accuracy}$$
+        feedback: |
+          Bounded rationality is exactly that deliberation is costly. And accuracy lowers $F$, so it enters with a minus.
+      - body: |
+          A bounded rational agent balances benefit against the cost of deliberating. The energy term is the cost of making beliefs precise, and the **entropy** term is the expected value of a choice.
+        feedback: |
+          The roles are swapped. Energy is the expected value (accuracy); entropy is the cost of more precise beliefs (complexity).
+    explanation: |
+      Under limited resources the habit $E$ wins more often than the costly deliberation through $G$.
+
+  - id: valence
+    title: Valence
+    row: 1
+    col: 3
+    body: |
+      Proposal: **valence**, the positive or negative character of an emotion, is read off the **rate of change** of the free energy:
+      $$\frac{dF}{dt}>0\ \Rightarrow\ \text{negative valence}$$
+      $$\frac{dF}{dt}<0\ \Rightarrow\ \text{positive valence}$$
+      **Relief** goes from low to high valence.
+    decoys:
+      - body: |
+          Proposal: valence is read off the rate of change of the free energy, but with the **opposite signs**: rising $F$ is positive valence and falling $F$ negative.
+        feedback: |
+          Rising free energy means the model is doing worse, which is the negative case. Falling $F$ (things improving) gives positive valence.
+      - body: |
+          Proposal: valence is read off the **level** of the free energy itself: a high $F$ is negative valence, a low $F$ positive, however $F$ is changing.
+        feedback: |
+          The proposal uses the **rate of change** $dF/dt$. Relief shows the difference: $F$ may still be high while it falls fast, and that feels good.
+    explanation: |
+      This is a proposal, not an established result. The precision over policies $\gamma$ has been linked to dopamine and motivation.
+
+  - id: homeo
+    title: Interoception and allostasis
+    row: 2
+    col: 3
+    body: |
+      The generative model covers the body too (**interoception**). A viable range, such as body temperature, enters as a **prior over interoceptive observations** (the set-point); the error $\varepsilon_y=y-g(\mu)$ is corrected by an **autonomic reflex**. **Allostasis** acts **before** an error appears and may shift the priors in advance.
+    decoys:
+      - body: |
+          The generative model covers only the outside world. A viable range, such as body temperature, enters as a **fixed reflex gain**. **Allostasis** is the reflex that acts **after** the value has left its range.
+        feedback: |
+          Interoception makes the body part of the model, and the viable range is a prior over interoceptive observations. Acting after the error is homeostasis; allostasis acts before.
+      - body: |
+          The generative model covers the body too. The set-point is a prior over interoceptive observations that **never changes**, and the error is corrected by a **motor reflex** moving the limbs.
+        feedback: |
+          Interoceptive errors are corrected by autonomic reflexes (vasodilation, say), as proprioceptive errors are by motor reflexes. And in allostasis the priors may change in advance, as when raising cardiac output before a long run.
+    explanation: |
+      Emotions can be part of the same model: hypotheses about the causes of interoceptive and exteroceptive signals.
+
+  - id: attention
+    title: Attention
+    row: 3
+    col: 3
+    body: |
+      **Attention** is the **precision of sensory input**, $\Pi_y$ (gain control): a channel inferred to be precise has more influence on belief updating. It is an attribute of **beliefs about sensory input**.
+      $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$$
+    decoys:
+      - body: |
+          **Attention** is the **precision of the prior**, $\Pi_v$: it makes the percept follow the data more. It is an attribute of beliefs about sensory input.
+          $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$$
+        feedback: |
+          Raising $\Pi_v$ pulls $\mu^*$ towards the prior, not the data. Attention is the sensory precision $\Pi_y$.
+      - body: |
+          **Attention** is the **expected information gain** of looking somewhere: it is an attribute of **actions**, and it is what $G$ rewards.
+        feedback: |
+          That is salience. Attention is the precision $\Pi_y$ of sensory input, a property of beliefs about it.
+    explanation: |
+      Toy: $y=3$, $\eta=0$, $\Pi_v=1$; raising $\Pi_y$ from $1$ to $8$ moves $\mu^*$ from $1.5$ to $2.67$.
+
+  - id: salience
+    title: Salience
+    row: 4
+    col: 3
+    body: |
+      **Salience** is the **expected information gain**, the epistemic part of $G$, and belongs to an **action or policy** (orienting). It splits into salience (potential to infer) and novelty (potential to learn).
+      $$\begin{aligned}G={}&-\text{information gain}\\&-\text{pragmatic value}\end{aligned}$$
+      Attention picks the best of the data already measured; salience designs the next experiment.
+    decoys:
+      - body: |
+          **Salience** is the **precision of sensory input**, a property of beliefs about it and not of actions. It splits into salience and novelty.
+          $$\begin{aligned}G={}&-\text{information gain}\\&-\text{pragmatic value}\end{aligned}$$
+        feedback: |
+          Precision of the input is attention. Salience is the information-gain term of $G$ and belongs to a policy.
+      - body: |
+          **Salience** is the expected information gain, and it enters $G$ with a **plus**, so informative policies are penalised:
+          $$\begin{aligned}G={}&+\text{information gain}\\&-\text{pragmatic value}\end{aligned}$$
+        feedback: |
+          $G$ is lowered by information gain, so the term is negative: gaining information makes a policy more probable. Toy: gazing at the shelf has $G=0.325$ against $0.693$ for the window.
+    explanation: |
+      The two are conflated because highly precise data are minimally ambiguous, so they deserve attention and the actions that acquire them are salient.
+
+  - id: structure
+    title: Structure and parameter learning
+    row: 5
+    col: 3
+    body: |
+      Learning a model includes its **latent structure**, a hidden rule such as a traffic light that explains both why cars stop and why pedestrians walk. The balance $F=\text{complexity}-\text{accuracy}$ favours **simpler** models. Parameter learning of a likelihood column adds a count, $a_{ij}\leftarrow a_{ij}+1$.
+    decoys:
+      - body: |
+          Learning a model means only adjusting its **parameters**: a hidden rule needs no separate learning. Since accuracy lowers $F$, the **bigger** model always wins.
+        feedback: |
+          Structure learning finds hidden regularities and gives causal understanding and generalisation. A bigger model pays more complexity, so a bigger model is not automatically better.
+      - body: |
+          Learning a model includes its latent structure. **Structure learning** is what adds a count $a_{ij}\leftarrow a_{ij}+1$ when an outcome is seen; parameters are not learned at all.
+        feedback: |
+          Adding counts is parameter learning, within a fixed structure. Structure learning asks which hidden causes and rules the model should contain at all.
+    explanation: |
+      Model reduction (pruning, for instance offline during sleep) helps discover hidden rules. Toy: counts $(1,1)$ plus $7$ and $1$ become $(8,2)$, expected probability $0.8$.
+
+  - id: open
+    title: Open directions
+    row: 6
+    col: 3
+    body: |
+      **Social and cultural dynamics**: many interacting active inference creatures, from a science of individuals to one of societies. **Machine learning and robotics**: the VAE objective, the ELBO, is the negative free energy:
+      $$\begin{aligned}\text{ELBO}\ \widehat{=}\ -F={}&\text{accuracy}\\&-\text{complexity}\end{aligned}$$
+    decoys:
+      - body: |
+          **Social dynamics** are just one creature repeated, with no emergent effects. **Machine learning**: the ELBO equals the free energy itself:
+          $$\begin{aligned}\text{ELBO}\ \widehat{=}\ F={}&\text{complexity}\\&-\text{accuracy}\end{aligned}$$
+        feedback: |
+          Interacting creatures show emergent effects (self-organisation, turn taking, cognitive niches). And the ELBO is something to maximise, so it equals $-F$, as accuracy minus complexity.
+      - body: |
+          **Machine learning**: the VAE objective has **no complexity term**, only accuracy. In robotics the key thing to learn is the cost function.
+        feedback: |
+          The ELBO trades accuracy against complexity, the complexity acting as a regulariser against overfitting. In robotics the key thing to learn is the forward mapping from actions to the next sensory feedback.
+    explanation: |
+      Helmholtz machines, variational autoencoders and generative adversarial networks learn connectionist generative models.
+
+edges:
+  - { from: bayesbrain, to: pc, label: specialised to }
+  - { from: pc, to: mustar, label: rests at }
+  - { from: mustar, to: action, label: extended by }
+  - { from: action, to: cyber, dashed: true }
+  - { from: value, to: efe, label: replaced by }
+  - { from: efe, to: policies, label: scores }
+  - { from: policies, to: three, label: extended to }
+  - { from: three, to: bounded, label: balanced by }
+  - { from: valence, to: homeo, label: extends to }
+  - { from: homeo, to: attention, dashed: true }
+  - { from: attention, to: salience, label: not the same as }
+  - { from: salience, to: structure, label: leads to }
+  - { from: structure, to: open, label: extends to }
+  - { from: three, to: salience, dashed: true }
+  - { from: bounded, to: structure, dashed: true }
+
+outroTitle: Level 10 in one picture
+outro: |
+  **Perception and action.** A creature with hidden cause $\mu$, prior mean $\eta$ and data $y$ weighs the data and the prior by their precisions; action is the same descent on $u$:
+
+  $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$$
+
+  $$\dot u=\Pi_v\,(\eta-\mu)$$
+
+  **Decision.** Not a value function but the expected free energy $G$ of each policy $\pi$, mixed with the habit prior $E$ and the free energy $F$:
+
+  $$P(\pi)=\sigma(\ln E-F-G)$$
+
+  **Attention, salience, learning.** Attention is the sensory precision $\Pi_y$; salience is the information gain inside $G$; and the trade-off is always
+
+  $$F=\text{complexity}-\text{accuracy}$$
