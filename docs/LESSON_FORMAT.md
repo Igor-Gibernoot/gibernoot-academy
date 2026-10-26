@@ -197,6 +197,8 @@ Each tile can be used once; list a tile twice if it is needed twice.
   body: |
     Instructions: what to drag and what to watch.
 ```
+**Widget design rule: everything a widget draws is optional.** Each visual part (arrows, rings, readout rows, labels) has a config option that hides it, so a card shows exactly what its text discusses. A card text must never say "ignore the ... arrows": add the option to the widget (header comment + this file) and set it in the card. Every option must be read in the widget's source (a config key the source never mentions is silently ignored). `node tools/validate.mjs` warns about both: a config key unused by the widget, and "ignore ..." wording around a widget card.
+
 Widgets live in `js/widgets/` (shared by all courses): one file per widget, named after it (`chart-basis.js`, its header comment lists its config), shared SVG helpers in `plane.js` (`s`, `fmt`, `P`, `line`, `arrow`, `label`, `planeSvg`, `draggable`, `placeHandle`, …), and the registry `WIDGETS` in `index.js` (import the new file and add one line). Follow a
 widget card with a question about what the reader observed.
 
@@ -344,6 +346,7 @@ On a phone the two panels stack.
 config:
   angle: 60                 # p, in degrees from (1,0) counterclockwise
   show: both                # both | A | B (one chart alone: no overlap, no graph)
+  rings: true               # false: no chart rings, angle arcs, θ/φ labels or chart readouts (only p)
   stereo: false             # chart B = stereographic projection from (0,1)
   snap: 5                   # degrees p snaps to (0 = free; keep a divisor of 90
                             # so p can land on the missing points)
@@ -668,6 +671,7 @@ config:
   forcesToggle: true          # the Forces button
   scale: 1                    # arrow length per unit of force
   velocity: true              # ẋ and ẏ arrows at the particle
+  components: true            # false: only ÿ, no Coriolis/centrifugal arrows
   ghost: false                # whole path, faint
   drag: true
   snap: 0.25

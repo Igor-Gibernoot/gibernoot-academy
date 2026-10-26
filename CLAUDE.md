@@ -179,7 +179,7 @@ courses, on what the subject is for).
 ### Widgets are shared
 
 Widgets live in `js/widgets/` and belong to the academy, not to a course.
-Before building a new one, check `docs/LESSON_FORMAT.md` (`grep -n '^####'`)
+**Everything a widget draws must be hideable by a config option** (arrows, rings, readout rows, labels), so a card shows exactly what its text discusses; a card never tells the reader to "ignore" part of a widget (add the option instead), and every option must be read in the widget's source. The validator warns on both (unused config key, "ignore the ..." near a widget). Before building a new one, check `docs/LESSON_FORMAT.md` (`grep -n '^####'`)
 for an existing widget that a preset could adapt. A new widget is a new
 file `js/widgets/<name>.js` (registered in `index.js`), built as a
 general tool (parameters in the preset, no course-specific text hard-coded),

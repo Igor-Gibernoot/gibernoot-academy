@@ -26,6 +26,8 @@ into the chapter's section of `CONVENTIONS.md`, not into Current.
   2026-10-24 say `content/…`, `docs/STATUS.md`, `js/widgets.js`: read as the new paths.
 
 ## Log
+
+- 2026-10-26 widget guardrails: cards no longer say "ignore ..." (ch03-circle: `rings: false` on circle-charts; ch09-pseudo-forces: `components: false, velocity: false` on rotating-grid). Validator now warns on unused widget config keys and "ignore ..." near a widget. Conventions fixed here: none.
 - 2026-10-25 `ch10-intuition-connections` (14 cards, after `ch10-intuition-einstein`, since Palatini in `ch10-einstein-hilbert` uses connection differences): torsion, compatibility, counting d³, Γ=Γ^LC+C, uniqueness. Verified: book 6.4 (torsion), 7.3 (7.2, 7.3, theorem), 6.2 remark (antisym part not removable). Conventions fixed here: Γ^i_{kj} = i-th component of ∇_{∂j}∂k (direction last, as the book), T^i_{jk}=Γ^i_{kj}−Γ^i_{jk} (the card plan had the opposite order).
 - 2026-10-25 `ch10-intuition-einstein` (16 cards, after `ch10-einstein-hilbert`): G=Ric−½Rg and the ½ (div Ric=½dR), div G=0 ⇒ div T=0, tr G=(1−d/2)R=−R, trace reversal Ric=κ(T−½Tg), vacuum/dust, sign trap, constant term λg. Verified: book 10.2 Statement (G, boxed), G=8πG_N T, B.18.10, Ricci scalar/G definitions (Ch7). Conventions fixed here: κ:=8πG_N; numerics in units κ=1 at g=η. Note: cards on radiation/constant term preview `ch10-matter`.
 

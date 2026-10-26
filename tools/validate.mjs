@@ -45,6 +45,20 @@ function checkText(where, text) {
 }
 
 // Self-contained check: review shows a question alone, weeks later.
+// Widget guardrails. A widget must not draw things the card has to apologise for:
+// hide them with a config option (or add one), never write "ignore the ...".
+const IGNORE_VISUAL = /\b(ignore|disregard|never mind|do not worry about|don't worry about)\b[^.\n]{0,70}\b(arrows?|lines?|curves?|dots?|points?|sliders?|buttons?|panels?|readouts?|numbers?|colou?rs?|labels?|parts? of the (widget|figure|picture))\b/i;
+const widgetSrc = (() => {
+  const idx = readFileSync(join(root, 'js/widgets/index.js'), 'utf8');
+  const fileOf = {};
+  for (const m of idx.matchAll(/import \{ (\w+) \} from '\.\/([\w-]+)\.js'/g)) fileOf[m[1]] = m[2];
+  const out = {};
+  for (const m of idx.matchAll(/^\s*(?:'([\w-]+)'|(\w+))(?::\s*(\w+))?,\s*$/gm)) {
+    const name = m[1] ?? m[2], fn = m[3] ?? m[2];
+    if (fileOf[fn] && existsSync(join(root, 'js/widgets', fileOf[fn] + '.js'))) out[name] = readFileSync(join(root, 'js/widgets', fileOf[fn] + '.js'), 'utf8');
+  }
+  return out;
+})();
 const BACKREF = /\b(previous|last) (card|step|lesson|question)|\bin the (last|previous) lesson|\bas (shown|seen) above/i;
 
 const KINDS = ['concept', 'intuition', 'guided', 'traps', 'map', 'review', 'challenge', 'exam'];
@@ -192,6 +206,17 @@ function checkLesson(file, lesson) {
         break;
       case 'widget':
         if (!c.widget) err(w, 'widget card needs widget');
+        else if (!widgetSrc[c.widget]) err(w, `unknown widget "${c.widget}" (not in js/widgets/index.js)`);
+        else {
+          // a config key that the widget's source never mentions is silently ignored: a typo or a missing option
+          for (const key of Object.keys(c.config ?? {})) {
+            if (!new RegExp(`\\b${key}\\b`).test(widgetSrc[c.widget])) warn(w, `config key "${key}" is not used by widget ${c.widget} (typo, or the widget needs this option: add it, never tell the reader to ignore what it draws)`);
+          }
+          for (const nb of [lesson.cards[n - 1], c, lesson.cards[n + 1]]) {
+            const t = nb && [nb.title, nb.body, nb.prompt, nb.hint].filter(Boolean).join(' ');
+            if (t && IGNORE_VISUAL.test(t)) warn(w, 'the text around this widget tells the reader to ignore part of it: hide that part with a config option (add one to the widget if needed) instead');
+          }
+        }
         break;
       case 'mcq':
       case 'mapstep': {

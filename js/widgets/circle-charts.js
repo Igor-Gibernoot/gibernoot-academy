@@ -13,6 +13,7 @@
 //   show:    both        both | A | B (one chart alone hides the transition)
 //   stereo:  false       chart B is stereographic projection instead of φ
 //   snap:    5           degrees p snaps to (0 = free)
+//   rings:   true        false hides the chart rings, angle arcs, θ/φ labels and the chart readouts (only p)
 //   presets: [{label, angle, show}]
 
 import { h } from '../dom.js';
@@ -20,7 +21,7 @@ import { tex, mdInline } from '../render.js';
 import { P, fmt, label, line, placeHandle, planeSvg, s } from './plane.js';
 
 export function circleCharts(el, cfg) {
-  const R = 2, stereo = !!cfg.stereo, sn = cfg.snap ?? 5;
+  const R = 2, noRings = cfg.rings === false, stereo = !!cfg.stereo, sn = cfg.snap ?? 5;
   const init = () => ({ deg: cfg.angle ?? 60, show: cfg.show ?? 'both' });
   let st = init();
   const missB = stereo ? 90 : 180;
@@ -133,14 +134,14 @@ export function circleCharts(el, cfg) {
     // domains: A outside the circle, B inside; hollow dots at the missing points
     L.circle.append(s('circle', { cx: 0, cy: 0, r: R, class: 'w-graph' }));
     const gap = 4;
-    if (showA) L.rings.append(s('path', { d: arc(gap, 360 - gap, R + 0.28), class: 'cc-ring a' }));
-    if (showB) L.rings.append(s('path', { d: arc(missB + gap, missB + 360 - gap, R - 0.28), class: 'cc-ring b' }));
+    if (!noRings && showA) L.rings.append(s('path', { d: arc(gap, 360 - gap, R + 0.28), class: 'cc-ring a' }));
+    if (!noRings && showB) L.rings.append(s('path', { d: arc(missB + gap, missB + 360 - gap, R - 0.28), class: 'cc-ring b' }));
     if (both) for (const [u, v] of stereo ? [[0, 90], [90, 360]] : [[0, 180], [180, 360]])
       L.circle.append(s('path', { d: arc(u + gap, v - gap), class: 'w-region-arc' }));
     if (showA) { const [cx, cy] = P(...at(0)); L.marks.append(s('circle', { cx, cy, r: 0.13, class: 'w-end cc-miss a' })); }
     if (showB) { const [cx, cy] = P(...at(missB)); L.marks.append(s('circle', { cx, cy, r: 0.13, class: 'w-end cc-miss b' })); }
-    if (showA) L.labels.append(label(at(225, R + 0.75), 'θ', 'vec'));
-    if (showB) L.labels.append(label(at(stereo ? 225 : 315, R - 0.75), stereo ? 'σ' : 'φ', 'covec'));
+    if (!noRings && showA) L.labels.append(label(at(225, R + 0.75), 'θ', 'vec'));
+    if (!noRings && showB) L.labels.append(label(at(stereo ? 225 : 315, R - 0.75), stereo ? 'σ' : 'φ', 'covec'));
     if (both && !stereo) {
       L.labels.append(label(at(90, R + 0.62), 'upper', 'gold small'));
       L.labels.append(label(at(270, R + 0.62), 'lower', 'gold small'));
@@ -148,8 +149,8 @@ export function circleCharts(el, cfg) {
     // how each chart reads p: angles from (1,0), or the projection from N
     L.angles.append(line([0, 0], [R, 0], 'w-axis'), line([0, 0], p, 'w-axis'));
     const th = thetaOf(d), b = bOf(d);
-    if (showA && th != null) L.angles.append(s('path', { d: arc(0, d, 0.55), class: 'cc-angle a' }));
-    if (showB && b != null && !stereo) {
+    if (!noRings && showA && th != null) L.angles.append(s('path', { d: arc(0, d, 0.55), class: 'cc-angle a' }));
+    if (!noRings && showB && b != null && !stereo) {
       const [d0, d1] = b >= 0 ? [0, d] : [d, 360];
       L.angles.append(s('path', { d: arc(d0, d1, 0.85), class: 'cc-angle b' }));
     }
@@ -168,13 +169,13 @@ export function circleCharts(el, cfg) {
 
     const [x, y] = [Math.cos(rad(d)), Math.sin(rad(d))];
     const rows = [h('div', { class: 'wide', html: tex(`p = (${fmt(x)}, ${fmt(y)})`) })];
-    if (showA) rows.push(h('div', { class: 'c-vec', html: th == null
+    if (!noRings && showA) rows.push(h('div', { class: 'c-vec', html: th == null
       ? mdInline('$\\theta(p)$ undefined: $p = (1,0) \\notin \\mathcal{U}$')
       : tex(`\\theta(p) = ${angTex(d)}`) }));
-    if (showB) rows.push(h('div', { class: 'c-covec', html: b == null
+    if (!noRings && showB) rows.push(h('div', { class: 'c-covec', html: b == null
       ? mdInline(`$${bName}(p)$ undefined: $p = ${stereo ? '(0,1)' : '(-1,0)'} \\notin \\mathcal{V}$`)
       : tex(stereo ? `\\sigma(p) = \\dfrac{x}{1-y} = ${fmt(b)}` : `\\varphi(p) = ${angTex(b * 180 / Math.PI)}`) }));
-    if (both) {
+    if (both && !noRings) {
       let msg;
       if (th == null || b == null) msg = `$p \\notin \\mathcal{U} \\cap \\mathcal{V}$: only one chart covers $p$, so there is nothing to translate.`;
       else if (stereo) msg = `$p \\in \\mathcal{U} \\cap \\mathcal{V}$: $\\sigma = \\dfrac{\\cos\\theta}{1-\\sin\\theta} = ${fmt(b)}$`;

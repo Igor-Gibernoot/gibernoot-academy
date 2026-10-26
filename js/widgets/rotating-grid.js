@@ -17,7 +17,7 @@
 // config:
 //   omega: 1, x0: [1, 0], v: [0, 0.5], t: 0, tmax: 6.28
 //   view: 'both' | 'inertial' | 'rotating', views: ['inertial', 'rotating', 'both']
-//   forces: true, forcesToggle: true, scale: 1 (arrow length per unit of
+//   forces: true, components: true (false: only ÿ, no Coriolis/centrifugal arrows), forcesToggle: true, scale: 1 (arrow length per unit of
 //   force), velocity: true, ghost: false (whole path faint), drag: true,
 //   snap: 0.25, box: { x: -4, y: -4, w: 8, h: 8 },
 //   presets: [{ label, omega, x0, v, t }]
@@ -176,8 +176,10 @@ export function rotatingGrid(el, cfg) {
     if (st.forces) {
       // the sum first and thicker, so a force along it stays visible on top
       arrowLbl(PR.L, y, sc(sum), 'ÿ', 'rg-sum');
-      arrowLbl(PR.L, y, sc(cor), 'Coriolis', 'rg-cor', 1);
-      arrowLbl(PR.L, y, sc(cf), 'centrifugal', 'rg-cf', -1);
+      if (cfg.components !== false) {
+        arrowLbl(PR.L, y, sc(cor), 'Coriolis', 'rg-cor', 1);
+        arrowLbl(PR.L, y, sc(cf), 'centrifugal', 'rg-cf', -1);
+      }
     }
     PR.L.marks.append(s('circle', { cx: P(...y)[0], cy: P(...y)[1], r: 0.13, class: 'rg-dot' }));
 
