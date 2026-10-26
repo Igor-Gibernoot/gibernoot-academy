@@ -1,0 +1,344 @@
+id: ch01-bregman
+title: Convex Functions and Bregman Divergence
+kind: concept
+own: |
+  - **Convex function.** A function $\psi(\xi)$ of a coordinate $\xi$ (or of several, $\xi=(\xi_1,\dots,\xi_n)$) is **convex** when every chord (straight segment joining two points of its graph) lies above the graph: for any two points $\xi_1,\xi_2$ and any $0\le\lambda\le1$,
+    {{ $$\begin{aligned}&\lambda\psi(\xi_1)+(1-\lambda)\psi(\xi_2)\\&\quad\ge\psi\big(\lambda\xi_1+(1-\lambda)\xi_2\big).\end{aligned}$$ }}
+    For a smooth $\psi$ this holds exactly when the Hessian (the matrix of second derivatives) is positive-definite (positive for every nonzero direction):
+    $$\mathbf H(\xi)=\Big(\frac{\partial^2\psi}{\partial\xi_i\,\partial\xi_j}\Big)$$
+    (positive-definite), which for one variable reads $\psi''>0$.
+  - **Tangent and gap.** The tangent (supporting) hyperplane of $\psi$ at $\xi_0$ is $z=\psi(\xi_0)+\nabla\psi(\xi_0)\cdot(\xi-\xi_0)$, where $\nabla\psi=(\partial\psi/\partial\xi_i)$ is the gradient (the list of slopes). A convex graph stays above it. The height of the graph over the tangent, at $\xi$, is the **Bregman divergence** of $\psi$:
+    {{ $$\begin{aligned}D[\xi:\xi_0]={}&\psi(\xi)-\psi(\xi_0)\\&-\nabla\psi(\xi_0)\cdot(\xi-\xi_0).\end{aligned}$$ }}
+    It is $\ge0$ and $0$ only at $\xi=\xi_0$, so it is a divergence, in general not symmetric.
+  - **Three examples** (sums over $i=1,\dots,n$). $\psi=\tfrac12\sum\xi_i^2$ gives half the squared Euclidean distance (symmetric):
+    {{ $$D[\xi:\xi_0]=\tfrac12|\xi-\xi_0|^2.$$ }}
+    $\psi=-\sum\ln\xi_i$ on positive numbers $\xi_i>0$ gives
+    $$D[\xi:\xi_0]=\sum_i\Big(\ln\frac{\xi_{0i}}{\xi_i}+\frac{\xi_i}{\xi_{0i}}-1\Big).$$
+    $\psi=\sum\xi_i\ln\xi_i$ gives the generalized Kullback-Leibler divergence
+    {{ $$D[\xi:\xi_0]=\sum_i\Big(\xi_i\ln\frac{\xi_i}{\xi_{0i}}-\xi_i+\xi_{0i}\Big),$$ }}
+    which is the KL divergence when $\sum\xi_i=\sum\xi_{0i}=1$ (adding a linear term to $\psi$ never changes $D$).
+cards:
+  - type: text
+    id: hook
+    title: "Bowls, hills and waves"
+    body: |
+      Same rules as before: this level is a light tour, **guessing is the point**, and every technical word is explained when it first appears.
+
+      Last time we asked what a good "separation number" $D[P:Q]$ should satisfy. Now we meet a machine that **manufactures** such numbers out of almost nothing: one curve.
+
+      Its raw material is a **convex** function. Here is the idea in pictures. Draw the graph of a function. Pick two points on the graph and join them by a straight segment, called a **chord** (think of a taut string between two pins stuck in the curve). A curve is convex when **every such string passes above the curve**, never through it or under it.
+
+  - type: mcq
+    id: guess-convex
+    prompt: |
+      Guess before any theory. Which of these curves is such that, for **every** pair of pins on it, the taut string between them stays strictly above the curve (except at the pins)?
+    options:
+      - text: A bowl, like $y=\xi^2$ (opens upwards).
+        correct: true
+      - text: A hill, like $y=-\xi^2$ (opens downwards).
+        feedback: |
+          On a hill the string between two pins cuts **under** the top of the hill, so the string passes below the curve. A hill is the opposite of a bowl.
+      - text: A wave, like $y=\sin\xi$.
+        feedback: |
+          A wave has bowl-shaped parts and hill-shaped parts. Pins on a hill part give a string below the curve, so not **every** string is above.
+      - text: A straight line, like $y=\xi$.
+        feedback: |
+          The string lies exactly **on** the line, not above it. A line is the borderline case: it is not strictly bowl-shaped (this is why only "nonlinear" convex functions count below).
+    explanation: |
+      The bowl. Bend a string between two pins on the inside of a bowl and it hangs across the opening, above the curve. This is **convexity**.
+
+  - type: widget
+    id: chord-widget
+    widget: bregman-gap
+    config:
+      psi: quartic
+      x0: -1
+      x: 1.2
+      showChord: true
+      showTangent: false
+      showGap: false
+      yRange: [-0.5, 3]
+    body: |
+      The curve is $y=\xi^4/4+\xi^2/2$, a bowl. The dashed segment is the chord (the string) between the two dots. **Drag both dots** to many places, near and far, left and right.
+
+  - type: mcq
+    id: chord-check
+    prompt: |
+      A bowl-shaped curve $y=\psi(\xi)$ and a chord joining two of its points. Dragging the two ends everywhere, where does the chord lie compared to the curve **between** the two ends?
+    options:
+      - text: Always above the curve (touching it only at the two ends).
+        correct: true
+      - text: Above on the left half, below on the right half.
+        feedback: |
+          That happens for a wave-shaped curve. For a bowl the bending always goes the same way, so the chord never crosses the curve.
+      - text: Below the curve, since the curve bulges outwards.
+        feedback: |
+          A bulge outwards (a hill) puts the chord below. In a bowl the curve **dips** between the two pins and the string stays above.
+    explanation: |
+      Always above: that is what we call convex.
+
+  - type: text
+    id: convex-def
+    title: "Convex, in one formula and one test"
+    body: |
+      Name the two pin positions $\xi_1$ and $\xi_2$ (the subscripts are labels, "first" and "second", not powers). A number $\lambda$ (Greek *lambda*) between $0$ and $1$ slides us from one pin to the other: the point
+      $$\xi_\lambda=\lambda\xi_1+(1-\lambda)\xi_2$$
+      is $\xi_2$ at $\lambda=0$, $\xi_1$ at $\lambda=1$, and in between at the fraction $\lambda$ of the way. Over $\xi_\lambda$ the **chord** has height $\lambda\psi(\xi_1)+(1-\lambda)\psi(\xi_2)$, the same mix of the two pin heights, while the **curve** has height $\psi(\xi_\lambda)$. So the function $\psi$ is convex when the chord height is at least the curve height.
+
+  - type: build
+    id: convex-build
+    prompt: |
+      Build the convexity inequality: the height of the **curve** at $\xi_\lambda=\lambda\xi_1+(1-\lambda)\xi_2$ compared to the **chord** height, for every $0\le\lambda\le1$.
+    prefix: '\psi(\xi_\lambda)'
+    tiles: ['\le', '\ge', '\lambda\psi(\xi_1)', '+', '(1-\lambda)\psi(\xi_2)', '\lambda\psi(\xi_2)']
+    answers:
+      - ['\le', '\lambda\psi(\xi_1)', '+', '(1-\lambda)\psi(\xi_2)']
+    wrong:
+      - answer: ['\ge', '\lambda\psi(\xi_1)', '+', '(1-\lambda)\psi(\xi_2)']
+        feedback: |
+          That says the curve is **above** the chord, the hill picture. A convex curve lies **below** its chords.
+    hint: |
+      The chord is above, the curve is below, and the chord height is the same mix $\lambda,\,1-\lambda$ of the two pin heights, matching the weights in $\xi_\lambda$.
+    explanation: |
+      $$\psi\big(\lambda\xi_1+(1-\lambda)\xi_2\big)\le\lambda\psi(\xi_1)+(1-\lambda)\psi(\xi_2)$$
+      Read it as "curve below chord". The weights must match: $\lambda$ goes with $\xi_1$ both in the position and in the height.
+
+  - type: text
+    id: second-derivative
+    title: "A test that needs no strings"
+    body: |
+      Testing every chord is impossible. For a smooth curve there is a shortcut. The **slope** $\psi'(\xi)$ (the derivative: how steeply the curve rises) of a bowl keeps **increasing** as you walk right: first downhill, flat at the bottom, then uphill, steeper and steeper. The rate at which the slope grows is the **second derivative** $\psi''$. So:
+      $$\psi \text{ convex}\iff\psi''\ge0.$$
+      Check on $\psi=\tfrac12\xi^2$: slope $\psi'=\xi$, second derivative $\psi''=1>0$. A bowl, as expected.
+
+      With several coordinates $\xi=(\xi_1,\dots,\xi_n)$ the same test uses the **Hessian**: the table of all second derivatives $\partial^2\psi/\partial\xi_i\partial\xi_j$ (differentiate with respect to $\xi_i$, then $\xi_j$), which must be **positive-definite**: positive in every nonzero direction, the many-variable version of "$\psi''>0$". We use one coordinate $\xi$ for the pictures.
+
+  - type: mcq
+    id: test-second
+    prompt: |
+      On positive numbers $\xi>0$, which of these functions are convex? Use $\psi''\ge0$. (Select all that apply.)
+    multiple: true
+    options:
+      - text: $-\ln\xi$
+        correct: true
+      - text: $\xi\ln\xi-\xi$
+        correct: true
+      - text: $\sqrt\xi$
+        feedback: |
+          $\psi'=\tfrac12\xi^{-1/2}$ **decreases** as $\xi$ grows, so $\psi''=-\tfrac14\xi^{-3/2}<0$: a hill, not a bowl.
+      - text: $\ln\xi$
+        feedback: |
+          $\psi'=1/\xi$ decreases, so $\psi''=-1/\xi^2<0$: a hill. Its negative, $-\ln\xi$, is the bowl.
+    hint: |
+      Recall $(\ln\xi)'=1/\xi$. For $\xi\ln\xi-\xi$, the slope is $\ln\xi+1-1=\ln\xi$.
+    explanation: |
+      $$\begin{aligned}(-\ln\xi)''&=\frac1{\xi^2}>0\\(\xi\ln\xi-\xi)''&=\frac1\xi>0\end{aligned}$$
+      The first slope is $-1/\xi$, which rises towards $0$; the second is $\ln\xi$, which rises forever. Both increase, so both are bowls. Neither $\ln\xi$ nor $\sqrt\xi$ is: their slopes shrink.
+
+  - type: widget
+    id: tangent-widget
+    widget: bregman-gap
+    config:
+      psi: quad
+      x0: 1
+      x: -1.5
+      readout: false
+      showSlope: true
+      hide: [gap, x]
+    body: |
+      The curve is $y=\tfrac12\xi^2$. The orange line is its **tangent** at the point $\xi_0$: the straight line that just touches the curve there and has the same slope as the curve. The dashed triangle (run $1$) shows the slope number $\psi'(\xi_0)$. **Drag $\xi_0$** along the curve and watch the line tilt.
+
+  - type: mcq
+    id: tangent-above
+    prompt: |
+      A convex (bowl-shaped) curve $y=\psi(\xi)$ and its tangent line at a point $\xi_0$. Away from the touching point, how does the curve compare to that tangent line?
+    options:
+      - text: The curve is above the line everywhere, touching it only at $\xi_0$.
+        correct: true
+      - text: The curve is below the line everywhere.
+        feedback: |
+          A line below a bowl would have to cut through it. Tilt the line in the picture: the curve curves **up and away** from it on both sides.
+      - text: The curve crosses the line at $\xi_0$, above on one side and below on the other.
+        feedback: |
+          That is the behaviour at an inflection (a point where bending changes direction, like $y=\xi^3$ at $0$). For a bowl the bending never changes, so the tangent never crosses.
+    explanation: |
+      Above everywhere: a bowl bends away from its tangent on both sides, because its slope keeps increasing. The tangent is a **supporting** line: the curve rests on it like a bowl on a ruler.
+
+  - type: text
+    id: gap-def
+    title: "The gap is a divergence"
+    body: |
+      The tangent at $\xi_0$ has height
+      $$z=\psi(\xi_0)+\psi'(\xi_0)(\xi-\xi_0)$$
+      at the position $\xi$. (With $n$ coordinates, $\psi'$ becomes the **gradient** $\nabla\psi=(\partial\psi/\partial\xi_i)$, the list of slopes, and the product a sum.) How high is the curve above that line at $\xi$? The vertical gap is
+      $$D[\xi:\xi_0]=\psi(\xi)-\psi(\xi_0)-\psi'(\xi_0)(\xi-\xi_0).$$
+      It depends on **two** points: where we read the gap ($\xi$) and where the tangent touches ($\xi_0$). It is $\ge0$ because the curve is above its tangent, and $0$ only at $\xi=\xi_0$ for a bowl. Never negative, zero only when the two points coincide: exactly the requirements of a divergence. This is the **Bregman divergence** of $\psi$.
+
+  - type: numeric
+    id: gap-calc
+    prompt: |
+      Take $\psi(\xi)=\tfrac12\xi^2$, so $\psi'(\xi)=\xi$. The tangent touches at $\xi_0=1$ and we read the gap at $\xi=3$. Compute $D[\xi:\xi_0]=\psi(\xi)-\psi(\xi_0)-\psi'(\xi_0)(\xi-\xi_0)$.
+    answer: 2
+    tolerance: 0.001
+    answerText: '2'
+    wrong:
+      - value: 4
+        feedback: |
+          That is $\psi(3)-\psi(1)=4.5-0.5$, the rise of the curve. The divergence is the height over the **tangent line**, so subtract $\psi'(1)\cdot(3-1)=2$ too.
+      - value: 4.5
+        feedback: |
+          That is only $\psi(3)$. Subtract $\psi(\xi_0)$ and the slope term $\psi'(\xi_0)(\xi-\xi_0)$.
+    hint: |
+      $\psi(3)=4.5$, $\psi(1)=0.5$, and $\psi'(1)=1$, with $\xi-\xi_0=2$.
+    explanation: |
+      $$\begin{aligned}D[3:1]&=4.5-0.5-1\cdot2\\&=2\end{aligned}$$
+      The tangent at $\xi_0=1$ has height $0.5+2=2.5$ over $\xi=3$, while the curve is at $4.5$: the gap is $2$.
+
+  - type: widget
+    id: symmetric-widget
+    widget: bregman-gap
+    config:
+      psi: quad
+      x0: 1
+      x: -1.5
+      readout: both
+    body: |
+      Same curve $y=\tfrac12\xi^2$. The gold gap is $D[\xi:\xi_0]$, and the readout also gives the swapped number $D[\xi_0:\xi]$ (tangent at $\xi$, gap read at $\xi_0$). **Drag the two dots** to many places and compare the two numbers.
+
+  - type: build
+    id: euclid-build
+    prompt: |
+      The two numbers always agree for $\psi(\xi)=\tfrac12\xi^2$. Build the formula for the gap, written with the difference $\xi-\xi_0$.
+    prefix: 'D[\xi:\xi_0]='
+    tiles: ['\tfrac12', '(\xi-\xi_0)^2', '(\xi-\xi_0)', '2']
+    answers:
+      - ['\tfrac12', '(\xi-\xi_0)^2']
+    wrong:
+      - answer: ['\tfrac12', '(\xi-\xi_0)']
+        feedback: |
+          That would change sign when the points are swapped, and be negative on one side. The gap is never negative, so the difference must be squared.
+    hint: |
+      Expand $D=\tfrac12\xi^2-\tfrac12\xi_0^2-\xi_0(\xi-\xi_0)$ and recognise a square.
+    explanation: |
+      $$\begin{aligned}D&=\tfrac12\xi^2-\tfrac12\xi_0^2-\xi_0\xi+\xi_0^2\\&=\tfrac12\big(\xi^2-2\xi\xi_0+\xi_0^2\big)\\&=\tfrac12(\xi-\xi_0)^2\end{aligned}$$
+      The first model divergence returns: **half the squared distance**, symmetric. With $n$ coordinates, $\psi=\tfrac12\sum\xi_i^2$ gives $D[\xi:\xi_0]=\tfrac12|\xi-\xi_0|^2$. So the Bregman recipe contains the Euclidean example. Check: $\xi=3,\xi_0=1$ gives $\tfrac12\cdot4=2$, as before.
+
+  - type: widget
+    id: kl-widget
+    widget: bregman-gap
+    config:
+      psi: negentropy
+      x0: 1
+      x: 3
+      readout: both
+      showReverse: true
+    body: |
+      A different bowl, $\psi(\xi)=\xi\ln\xi-\xi$ for $\xi>0$ ("$\ln$" is the natural logarithm; this is, up to the $-\xi$, the entropy with the opposite sign). Gold: the gap $D[\xi:\xi_0]$ over the tangent at $\xi_0$. Purple: the swapped one, $D[\xi_0:\xi]$. **Drag the points** and compare the two numbers. Is the symmetry of the last picture still there?
+
+  - type: numeric
+    id: kl-numeric
+    prompt: |
+      Take $\psi(\xi)=\xi\ln\xi-\xi$ with slope $\psi'(\xi)=\ln\xi$. The tangent touches at $\xi_0=1$ and we read the gap at $\xi=3$. Compute $D[3:1]=\psi(3)-\psi(1)-\psi'(1)(3-1)$ to three decimals. ($\ln3\approx1.0986$.)
+    answer: 1.2958
+    tolerance: 0.002
+    answerText: '1.296'
+    wrong:
+      - value: 0.9014
+        feedback: |
+          That is the **swapped** number $D[1:3]$ (tangent at $3$, gap read at $1$). The tangent must touch at $\xi_0=1$ and the gap is read at $\xi=3$.
+    hint: |
+      $\psi(3)=3\ln3-3$, $\psi(1)=1\cdot0-1=-1$, and $\psi'(1)=\ln1=0$.
+    explanation: |
+      $$\begin{aligned}D[3:1]&=(3\ln3-3)-(-1)-0\\&=3\ln3-2\approx1.296\end{aligned}$$
+      The swapped number is $D[1:3]=-1-(3\ln3-3)+2\ln3=2-\ln3\approx0.901$. The two directions **differ**: this divergence is not symmetric.
+
+      In general, for this $\psi$,
+      $$D[\xi:\xi_0]=\xi\ln\frac{\xi}{\xi_0}-\xi+\xi_0.$$
+      (Check: $3\ln3-3+1$.) Over several positive numbers it is a sum of such terms, the **generalized Kullback-Leibler divergence**, which is the KL divergence of the last lesson when $\sum\xi_i=\sum\xi_{0i}=1$. Adding any linear term (like $-\xi$) to $\psi$ would not change $D$: the tangent absorbs it.
+
+  - type: order
+    id: log-derive
+    prompt: |
+      A third bowl: $\psi(\xi)=-\ln\xi$ on $\xi>0$ (convex, as found above). Put the derivation of its Bregman divergence in order.
+    steps:
+      - 'Slope of $\psi$: $\psi''(\xi_0)=-1/\xi_0$.'
+      - 'Insert into $D=\psi(\xi)-\psi(\xi_0)-\psi''(\xi_0)(\xi-\xi_0)$: $D=-\ln\xi+\ln\xi_0+(\xi-\xi_0)/\xi_0$.'
+      - 'Split the last term: $(\xi-\xi_0)/\xi_0=\xi/\xi_0-1$.'
+      - 'Combine the logarithms: $\ln\xi_0-\ln\xi=\ln(\xi_0/\xi)$.'
+      - 'Result: $D[\xi:\xi_0]=\ln(\xi_0/\xi)+\xi/\xi_0-1$.'
+    hint: |
+      Start from the slope, put it in the definition, then tidy up.
+    explanation: |
+      $$\begin{aligned}D&=-\ln\xi+\ln\xi_0+\frac{\xi-\xi_0}{\xi_0}\\&=\ln\frac{\xi_0}{\xi}+\frac{\xi}{\xi_0}-1\end{aligned}$$
+      Here $-\psi(\xi_0)=+\ln\xi_0$ and $-\psi'(\xi_0)(\xi-\xi_0)=+(\xi-\xi_0)/\xi_0$: two minus signs become plus. Over positive numbers $\xi_i$, sum these terms over $i$: the **logarithmic divergence**.
+
+  - type: widget
+    id: neglog-widget
+    widget: bregman-gap
+    config:
+      psi: neglog
+      x0: 1
+      x: 2
+      readout: both
+      showReverse: true
+      xRange: [0.3, 3]
+      yRange: [-1.2, 1.8]
+    body: |
+      The curve is $y=-\ln\xi$ on $\xi>0$. Gold: $D[\xi:\xi_0]$; purple: the swapped one. Drag the points, in particular try $\xi$ small and $\xi_0$ large, then the reverse. Which direction is **bigger** when the first point is the small one?
+
+  - type: numeric
+    id: neglog-numeric
+    prompt: |
+      For $\psi(\xi)=-\ln\xi$ the divergence is $D[\xi:\xi_0]=\ln\frac{\xi_0}{\xi}+\frac{\xi}{\xi_0}-1$. Compute $D[\xi:\xi_0]$ for $\xi=2$ and $\xi_0=1$, to three decimals ($\ln2\approx0.6931$).
+    answer: 0.3069
+    tolerance: 0.002
+    answerText: '0.307'
+    wrong:
+      - value: 0.1931
+        feedback: |
+          That is the swapped number $D[1:2]=\ln2+\tfrac12-1$: you put $\xi$ and $\xi_0$ the wrong way round.
+      - value: 0.6931
+        feedback: |
+          That is $-\ln2$ with its sign and the rest dropped: you forgot the terms $\xi/\xi_0-1$, or got the log's sign wrong.
+    hint: |
+      $\ln(\xi_0/\xi)=\ln(1/2)=-\ln2$ and $\xi/\xi_0-1=1$.
+    explanation: |
+      $$\begin{aligned}D[2:1]&=\ln\tfrac12+2-1\\&=1-0.6931\approx0.307\end{aligned}$$
+      The swapped number is $D[1:2]=\ln2+\tfrac12-1\approx0.193$. Different again, though both are positive.
+
+  - type: mcq
+    id: trap-positive
+    prompt: |
+      Let $\psi$ be a bowl ($\psi''>0$). Take the tangent at $\xi_0$ and read the gap $D[\xi:\xi_0]$ at a point $\xi$ **on the other side** of $\xi_0$ than before. Which statement is true?
+    options:
+      - text: $D\ge0$ on both sides, and $D=0$ only at $\xi=\xi_0$.
+        correct: true
+      - text: $D$ turns negative on one side, since the slope term $\psi'(\xi_0)(\xi-\xi_0)$ changes sign there.
+        feedback: |
+          The slope term does change sign, but so does the rise of the curve. The curve stays above its tangent on both sides, so the gap is never negative.
+      - text: $D=0$ for every $\xi$, because the tangent touches the curve.
+        feedback: |
+          The tangent touches the curve only **at** $\xi_0$. Anywhere else a bowl is strictly above it. Only a straight line (a non-bowl, $\psi''=0$) would give $D\equiv0$.
+    explanation: |
+      This is exactly where convexity is used: a bowl lies above all its tangents, so $D\ge0$, with equality only at the touching point. That makes $D$ a legitimate divergence: never negative, zero only for $\xi=\xi_0$. For a straight line $\psi''=0$, $D\equiv0$: useless, so "nonlinear" convex functions are required.
+
+  - type: mcq
+    id: trap-distance
+    prompt: |
+      $D[\xi:\xi_0]\ge0$ and $D=0$ only when $\xi=\xi_0$. So is a Bregman divergence a **distance** (symmetric, obeys the triangle inequality)?
+    options:
+      - text: 'No. Only for $\psi=\tfrac12\xi^2$ is it symmetric (half a squared distance); in general $D[\xi:\xi_0]\ne D[\xi_0:\xi]$.'
+        correct: true
+      - text: 'Yes: being positive and zero only for equal points is what makes a distance.'
+        feedback: |
+          A distance needs also symmetry and the triangle inequality. Here $D[3:1]\approx1.296$ but $D[1:3]\approx0.901$ for $\psi=\xi\ln\xi-\xi$. And even half a squared distance breaks the triangle inequality.
+      - text: Yes, since the gap is measured on the same curve in both directions.
+        feedback: |
+          The two gaps use two **different** tangents (touching at $\xi_0$, or at $\xi$), so they are generally different numbers.
+    explanation: |
+      A Bregman divergence is a divergence, not a distance: what matters is the asymmetric shape of the curve. Keep this in mind: the asymmetry is the information the theory will use.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the slope $\psi'(\xi_0)$ of the tangent determined everything here. What if we use the **slope itself** as a new coordinate to name the point, instead of $\xi_0$? That change of coordinates, and the new curve that goes with it, is the **Legendre transformation**.

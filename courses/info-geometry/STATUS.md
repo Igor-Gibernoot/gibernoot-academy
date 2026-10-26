@@ -1,6 +1,13 @@
 # Status
 
-Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/p' STATUS.md`), never the Log.
+Session start: read only **Current** (`sed -n '/^## Current (2026-10-26)
+
+- **State:** widgets `simplex-points`, `gauss-charts`, `bregman-gap` built; Level 1 built: `ch01-why` (19 cards), `ch01-manifold` (19), `ch01-divergence` (20), `ch01-bregman` (22, intro-style glosses, registered).
+- **Next unit:** `ch01-legendre` (source md 736-840, section 1.4). Widget `bregman-gap` preset `legendre` (`showConjugate`, `showSlope`) fits; no new widget needed. Then dually-flat, pythagoras, proof-pythagoras, alternating, map, review, challenge; then the partial exam comes only after Level 7.
+- **Verified:** Preface, Ch.1 opening; manifold (1.1)-(1.15) PDF pp.17-20; divergence (1.23)-(1.31) pp.22-24; convex/Bregman (1.35)-(1.50) pp.25-28; Pythagorean (2.70-2.71) p.54 (see `sources/VERIFIED.md`). md anchors drift from PDF later: search the PDF page.
+- **Paths:** lessons `courses/info-geometry/chNN/`, exams `exams/`, sources git-ignored.
+
+## Log/p' STATUS.md`), never the Log.
 
 ## Current (2026-10-26)
 
@@ -26,3 +33,5 @@ Conventions fixed here: $\ln$ for the book's $\log$; unit "nats"; points named $
 
 ### 2026-10-26 ch01-divergence
 Built (20 cards): hook uphill/downhill, criteria mcq, half squared distance (numeric, scale, triangle fails), KL numeric 0.193 and blow-up 1.61 vs 0.64, near points (0.0204, widget `simplex-points` close preset, quarter 0.0051), Taylor/quadratic form, positive-definite, which-is-divergence, ds^2=2D, symmetrized (build, 0.1373). No widget missing (`gauss-charts` not needed). Source (1.23)-(1.31) checked on PDF pp.22-24: no fixes. Conventions fixed here: criteria numbered (1)-(3); $D_S$ symmetrized; $g=4$ for KL at $(\tfrac12,\tfrac12)$ in chart $\xi=p_1$.
+
+- 2026-10-26 `ch01-bregman` (22 cards, over the ~16 plan: intro-style explicit steps; under max 25). Widgets `bregman-gap` presets chord, tangent (hide gap/x, showSlope), symmetric, kl-measures (negentropy), neglog; no new widget. Fixed md (1.35). Choices: one coordinate $\xi$ in pictures, n coordinates in summary; ex. 1.2 uses $D[\xi:\xi_0]$ (book primes the base point). Conventions fixed here: see CONVENTIONS Chapter 1.
