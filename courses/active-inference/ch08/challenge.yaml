@@ -1,0 +1,248 @@
+id: ch08-challenge
+title: Level Challenge
+kind: challenge
+cards:
+  - type: text
+    id: intro
+    title: "Harder: the whole of Level 8 in five problems"
+    body: |
+      Five problems on **new systems** (not the reaching limb of the lessons, the three-species ring, the fixed Lorenz states, the two singers or the monkey's saccade). They combine what this level taught: how an agent **moves, follows continuous-time dynamics, filters and links a discrete decision to a continuous trajectory**. Every number can be checked by hand with a calculator, and every answer comes with the reason. No hint about which formula to use: you recall it.
+
+      The five problems:
+
+      1. Action and precision: a new creature that reaches a target.
+      2. A spring model: acceleration, rhythm and damping.
+      3. Reading dynamical systems: three interacting populations, then a Lorenz state.
+      4. Generalized filtering: one numeric step of the belief update.
+      5. A hybrid prior: from a discrete posterior to a continuous target.
+
+      This first part has problems 1 to 3.
+
+  # ---------------------------------------------------------------- Problem 1
+  - type: numeric
+    id: p1-action
+    tag: Problem 1 · An octopus arm
+    prompt: |
+      **Problem 1.** The tip of an octopus arm sits at a position $x$ (in cm along a line) that the animal senses through proprioception ($y=x$). Its generative model predicts that the tip is attracted to the target $v$ by the rule $\dot x=v-x$, and the target is $v=8$. At this moment the animal believes the tip is at $\mu=3.5$.
+
+      What is the action $u$ that the animal takes?
+    answer: 4.5
+    tolerance: 0.01
+    wrong:
+      - { value: 8, feedback: 'That is the target $v$. The action is not a position: it is the prediction about the **velocity** that the rule $\dot x=v-x$ gives at the believed position $\mu$.' }
+      - { value: -4.5, feedback: 'The sign is reversed. The tip is behind the target ($\mu<v$), so the prediction is a velocity **toward** the target, positive.' }
+    explanation: |
+      The action fulfils the model's prediction of the velocity at the believed position:
+      $$u=f(\mu,v)=v-\mu=8-3.5=4.5$$
+      The animal never computes a muscle force: the descending signal is a prediction, $v-\mu$, and the reflex arc makes the sensed motion match it.
+
+  - type: numeric
+    id: p1-rate
+    tag: Problem 1 · An octopus arm
+    prompt: |
+      The sensory precision of the arm is $\Pi_y=0.4$ (and the model's own precision on the dynamics is $1$). The tip approaches the target as an exponential decay, and with these precisions the **slowest** rate at which the distance $|v-x|$ shrinks is the smaller of the two precisions. At what rate (per unit time) does the distance shrink, at slowest?
+    answer: 0.4
+    tolerance: 0.01
+    wrong:
+      - { value: 1, feedback: 'That would be the rate if the sensory precision were large enough: the rate is capped by the model''s own rate $1$. Here $\Pi_y=0.4<1$ is the smaller number and it sets the pace.' }
+      - { value: 2.5, feedback: 'That is $1/\Pi_y$, a time scale, not a rate. A low precision makes the approach **slower**, never faster.' }
+    explanation: |
+      The approach is a combination of two exponentials, and the slowest one is $e^{-\min(1,\Pi_y)\,t}$. With $\Pi_y=0.4$ the distance shrinks at rate $0.4$, a time constant of $1/0.4=2.5$. A weakly trusted sense (low $\Pi_y$) means the animal moves cautiously.
+
+  - type: mcq
+    id: p1-double
+    tag: Problem 1 · An octopus arm
+    prompt: |
+      A second octopus has $\Pi_y=3$ and the same model $\dot x=v-x$. A researcher doubles its sensory precision to $\Pi_y=6$. What happens to how fast the arm reaches the target?
+    options:
+      - text: 'Almost nothing: the slowest rate is already $\min(1,3)=1$, set by the model''s own dynamics, and $\min(1,6)=1$ too.'
+        correct: true
+      - text: 'The arm moves twice as fast, because the rate is proportional to the precision.'
+        feedback: |
+          Only while $\Pi_y<1$. Above that, the rate is capped by the rate $1$ in $\dot x=v-x$: the model predicts a speed, and no sense can make the arm outrun the prediction.
+      - text: 'The arm becomes slower, because a high precision makes the animal cautious.'
+        feedback: |
+          High sensory precision makes the animal trust its senses, which does not slow the approach. The rate is $\min(1,\Pi_y)$, which never decreases when $\Pi_y$ grows.
+      - text: 'The arm overshoots the target, because large precisions produce oscillations.'
+        feedback: |
+          A first-order model $\dot x=v-x$ has no inertia, hence no overshoot at any precision. Overshoot needs a second-order model, the spring.
+    explanation: |
+      Precision speeds the approach only up to the limit the model itself sets. Once $\Pi_y\ge 1$ the speed is the model's, $\min(1,\Pi_y)=1$; the extra precision only makes the belief follow the data more tightly.
+
+  - type: mcq
+    id: p1-absent
+    tag: Problem 1 · An octopus arm
+    prompt: |
+      A student writes for the octopus the model $\dot x=v-x+u$ "so that the arm can move". What is wrong with putting the action $u$ in the generative **model**?
+    options:
+      - text: 'The model holds the animal''s beliefs about the world beyond its blanket. The action is something it does, so it lives in the **process** (the real world, where it changes $x$), and the model only predicts what the senses will report.'
+        correct: true
+      - text: 'Nothing is wrong: the model must contain every quantity that changes the world.'
+        feedback: |
+          The model contains what the animal **believes** about the causes of its data. If it also contained $u$, the animal would have to predict its own action as one more hidden quantity; the whole scheme works because action is chosen to make the data fulfil an existing prediction.
+      - text: 'The action is always zero at equilibrium, so it can be dropped from every equation.'
+        feedback: |
+          The action is zero only when the prediction is already true ($\mu=v$). Out of equilibrium it is $v-\mu\neq0$, and in the process it is what moves the arm.
+    explanation: |
+      Model: $\dot x=f(x,v)$ with $f=v-x$, no $u$. Process (the real tip): $\dot x=\mathbf f(x,u)$, where $u$ pushes the arm. The animal moves by choosing $u$ so that the sensed motion matches the model's prediction.
+
+  # ---------------------------------------------------------------- Problem 2
+  - type: numeric
+    id: p2-accel
+    tag: Problem 2 · A heavier limb
+    prompt: |
+      **Problem 2.** A robotic finger is modelled by a spring: a position $x_1$, a velocity $x_2$, a mass $m=5$, a spring constant $\kappa=20$ and a target $v=5$. At this moment the finger is at $x_1=1.5$.
+
+      What acceleration $\dot x_2$ does the model predict?
+    answer: 14
+    tolerance: 0.01
+    wrong:
+      - { value: 70, feedback: 'That is the force $\kappa(v-x_1)=70$. Acceleration is the force divided by the mass $m=5$.' }
+      - { value: 3.5, feedback: 'That is the distance $v-x_1$ alone. It still has to be multiplied by $\kappa/m=4$.' }
+    explanation: |
+      $\kappa/m=20/5=4$ and $v-x_1=3.5$, so
+      $$\dot x_2=\frac{\kappa}{m}(v-x_1)=4\cdot3.5=14$$
+      Hooke's law gives the force $\kappa(v-x_1)=70$; Newton's second law divides it by the mass.
+
+  - type: numeric
+    id: p2-period
+    tag: Problem 2 · A heavier limb
+    prompt: |
+      The finger now grips an object and its mass becomes $m=10$ (same $\kappa=20$, no damping). It oscillates about the target. What is the period $T=2\pi/\omega$ of the oscillation?
+    answer: 4.44
+    tolerance: 0.02
+    wrong:
+      - { value: 3.14, feedback: 'That is the period with $m=5$ (it is also what you get by forgetting the square root, $2\pi/(\kappa/m)$). The mass doubled, so the period must grow.' }
+      - { value: 6.28, feedback: 'That would be $\omega=1$. Compute $\omega=\sqrt{\kappa/m}=\sqrt2$ first.' }
+    explanation: |
+      $\omega=\sqrt{\kappa/m}=\sqrt{20/10}=\sqrt2=1.414$ and $T=2\pi/\sqrt2=4.44$. Doubling the mass multiplies the period by $\sqrt2$, not by $2$: a heavier limb is slower, but only as the square root.
+
+  - type: numeric
+    id: p2-kappa
+    tag: Problem 2 · A heavier limb
+    prompt: |
+      With the mass $m=10$, what spring constant $\kappa$ would make the undamped oscillation have a period of exactly $T=2$? (Give $\kappa$ to one decimal.)
+    answer: 98.7
+    tolerance: 0.2
+    wrong:
+      - { value: 31.4, feedback: 'That is $m\pi$. From $T=2$ you get $\omega=2\pi/T=\pi$, and the spring constant needs its **square**: $\kappa=m\omega^2$.' }
+      - { value: 20, feedback: 'That is the old $\kappa$, whose period is $4.44$. A shorter period needs a stiffer spring.' }
+    explanation: |
+      $\omega=2\pi/T=\pi$ and $\omega^2=\kappa/m$, so $\kappa=m\omega^2=10\pi^2=98.7$. Shortening the period from $4.44$ to $2$ needs a spring about $98.7/20\approx4.9$ times stiffer, since $\kappa\propto1/T^2$ at fixed mass.
+
+  - type: mcq
+    id: p2-damp
+    tag: Problem 2 · A heavier limb
+    prompt: |
+      The finger of mass $m=10$ and $\kappa=20$ must reach the target as fast as possible **without overshooting**. We add a brake to the model: a damping $b$ that subtracts $b\,x_2$ from the acceleration. Which choice is best? (Critical damping is $b=2\sqrt{\kappa/m}$.)
+    options:
+      - text: '$b=2.83$, the critical damping $2\sqrt2$.'
+        correct: true
+      - text: '$b=0$, because damping only slows the finger.'
+        feedback: |
+          Without damping the spring never loses energy: the finger swings back and forth about the target for ever and never settles.
+      - text: '$b=0.5$, a light damping.'
+        feedback: |
+          This is below the critical value, so the finger still overshoots and rings a few times before it settles.
+      - text: '$b=8$, a strong damping that surely avoids any overshoot.'
+        feedback: |
+          Above the critical value there is no overshoot, but the finger creeps toward the target more slowly than at $b=2\sqrt2$. The brake costs time.
+    explanation: |
+      Below $b=2\sqrt{\kappa/m}=2.83$ the finger overshoots, above it the approach is needlessly slow; at the critical value it is the fastest without overshoot. The damping $b$ is our addition to the model: the plain equation of the lesson has $b=0$.
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: text
+    id: p3-setting
+    tag: Problem 3 · Three cell types
+    title: "Reading dynamical systems"
+    body: |
+      **Problem 3.** Three populations of cells, $x=(x_1,x_2,x_3)$, follow the Lotka-Volterra rule
+      $$\dot x_i=x_i\Big(v_i+\sum_jA_{ij}\,x_j\Big)$$
+      with all intrinsic growth rates $v=(1,1,1)$ and the interaction matrix
+      $$\mathbf A=\begin{bmatrix}-0.5&-1.5&0.5\\0.5&-0.5&-1.5\\-1.5&0.5&-0.5\end{bmatrix}$$
+      Recall that $A_{ij}$ is the effect of population $j$ on the growth of population $i$.
+
+  - type: numeric
+    id: p3-lv
+    tag: Problem 3 · Three cell types
+    prompt: |
+      At the state $x=(0.5,\,0.4,\,0.2)$, what is the rate of change $\dot x_3$ of the third population?
+    answer: 0.07
+    tolerance: 0.002
+    wrong:
+      - { value: 0.35, feedback: 'That is the growth rate per cell, $v_3+\sum_jA_{3j}x_j=0.35$. The change is proportional to the number of cells: multiply by $x_3=0.2$.' }
+      - { value: 0.2, feedback: 'That is $v_3x_3$ alone. The interactions with all three populations (including its own, $A_{33}$) change the rate.' }
+    explanation: |
+      The bracket is $1+(-1.5)(0.5)+(0.5)(0.4)+(-0.5)(0.2)=1-0.75+0.2-0.1=0.35$, and $\dot x_3=0.2\cdot0.35=0.07$.
+
+  - type: mcq
+    id: p3-sign
+    tag: Problem 3 · Three cell types
+    prompt: |
+      Read the matrix: the entry $A_{31}=-1.5$ says that
+    options:
+      - text: 'population 1 **reduces** the growth of population 3.'
+        correct: true
+      - text: 'population 3 reduces the growth of population 1.'
+        feedback: |
+          The roles are swapped. $A_{ij}$ is the effect of $j$ **on** $i$, with $i$ the row. That reading belongs to $A_{13}=0.5$, which here is positive.
+      - text: 'population 3 declines at the constant rate $1.5$.'
+        feedback: |
+          $A_{31}$ multiplies $x_1$: the effect is proportional to how many cells of population 1 there are, and population 3 is only affected when population 1 is present.
+      - text: 'populations 1 and 3 cannot coexist.'
+        feedback: |
+          A negative entry weakens growth, it does not forbid coexistence. In this system all three populations stay positive and settle together.
+    explanation: |
+      The row is the affected population, the column the one that acts. So $A_{31}<0$: more of population 1 means slower growth of 3. The same reading gives $A_{12}=-1.5$ (2 hurts 1) and $A_{23}=-1.5$ (3 hurts 2), and the positive entries $A_{13},A_{21},A_{32}=0.5$ (a mild help).
+
+  - type: order
+    id: p3-order
+    tag: Problem 3 · Three cell types
+    prompt: |
+      Population 1 is the largest right now. Put in order the populations that become the largest next, following the interactions of $\mathbf A$ (a ring), until population 1 leads again.
+    steps:
+      - 'Population 1 is the largest.'
+      - 'Population 2 becomes the largest: it is helped by population 1 ($A_{21}>0$), while population 1 is held down by 2 ($A_{12}<0$).'
+      - 'Population 3 becomes the largest: it is helped by population 2, and population 2 is held down by 3 ($A_{23}<0$).'
+      - 'Population 1 is the largest again: it is helped by population 3, and population 3 is held down by 1 ($A_{31}<0$).'
+    explanation: |
+      Each population is suppressed by the previous one in the ring while it is helped by it: the lead is handed on $1\to2\to3\to1$. No clock is needed: "which one is highest" works as a discrete state that changes in a fixed order. (A simulation from $x=(0.6,0.2,0.3)$ shows the peaks in exactly this order; they shrink slowly because the three populations spiral toward a common value $2/3$.)
+
+  - type: numeric
+    id: p3-lorenz
+    tag: Problem 3 · Three cell types
+    prompt: |
+      Now a Lorenz system with $\sigma=10$, $\rho=28$, $\beta=8/3$. At the state $x=(-3,\,4,\,20)$, what is $\dot x_3$? (Two decimals.)
+    answer: -65.33
+    tolerance: 0.05
+    wrong:
+      - { value: -12, feedback: 'That is only the product $x_1x_2=-12$. The equation also subtracts $\beta x_3=\tfrac83\cdot20$.' }
+      - { value: -53.33, feedback: 'That is only $-\beta x_3=-53.33$. The product $x_1x_2=-12$ must be added.' }
+    explanation: |
+      $\dot x_3=x_1x_2-\beta x_3=(-3)(4)-\tfrac83\cdot20=-12-53.33=-65.33$. Notice that $\rho$ and $\sigma$ do not enter this component.
+
+  - type: mcq
+    id: p3-rho
+    tag: Problem 3 · Three cell types
+    prompt: |
+      A modeller sets $\rho=0.8$ (all else as before: $\sigma=10$, $\beta=8/3$) and starts the system at an arbitrary state. What does the long-run behaviour look like?
+    options:
+      - text: 'It decays to the origin, $x=(0,0,0)$: for $\rho<1$ the only attractor is that point, so nothing wanders.'
+        correct: true
+      - text: 'It is still chaotic, because the Lorenz equations are always chaotic.'
+        feedback: |
+          Chaos needs a large enough Rayleigh number $\rho$ (the familiar butterfly appears at $\rho=28$). Below $\rho=1$ there is no sustained convection at all.
+      - text: 'It is noisy: the state keeps jittering randomly around the origin.'
+        feedback: |
+          The equations are deterministic: no random term. Without noise and with $\rho<1$ the state converges exactly to the origin. Even chaos, for larger $\rho$, is deterministic rather than random.
+      - text: 'It settles on the fixed point $x_3=\rho-1=-0.2$.'
+        feedback: |
+          That fixed point exists only for $\rho>1$. For $\rho<1$ the formula would give a negative $x_3$, a point the system cannot reach; the origin is the only one left.
+    explanation: |
+      The origin is stable for $\rho<1$ and loses stability at $\rho=1$, where two fixed points appear (at $x_3=\rho-1$). Chaos appears much later, above $\rho\approx24.7$. A slow Lorenz level that changes $\rho$ can therefore switch a fast Lorenz level between decaying, settling and wandering.
+
+  - type: text
+    id: part1-end
+    title: "Part 1 done: three problems"
+    body: |
+      You have used action as a prediction, a spring with its rhythm and damping, and the signs of an interaction matrix and of a Lorenz state. Problems 4 and 5 will bring a numeric step of generalized filtering and a hybrid prior built from a discrete posterior.
