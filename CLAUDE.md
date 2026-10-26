@@ -180,6 +180,14 @@ courses, on what the subject is for).
     always too long. **Exams** (`kind: exam`) are exempt: an exam has as
     many cards as the original has sub-questions. `node tools/validate.mjs`
     warns on lessons over 25 and challenges over 32.
+    **Split lessons stand alone, and say where they lean on the part
+    before.** Part 2 and later open with a "Recall:" card (or two) that
+    restates, with formulas and defined symbols, what the previous part
+    established and this part uses (never "as we saw"). Any card that
+    cites an earlier result names the lesson that holds it by title
+    ("the lesson Volume Forms and Orientation"), never "earlier" or "the
+    previous lesson". Parts that need nothing from the part before
+    (e.g. independent challenge problems) need only the usual toolkit recall.
 12. **Displayed math.** A standalone equation, definition or chain goes on
     its own `$$...$$` line, phone-safe (`docs/QUICKREF.md`).
 13. **Theme-neutral wording.** Never "the black arrow": name things by label
