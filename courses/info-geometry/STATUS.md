@@ -1,19 +1,12 @@
 # Status
 
-Session start: read only **Current** (`sed -n '/^## Current (2026-10-26)
-
-- **State:** `simplex-points` widget built; **`ch01-why` built** (`ch01/why.yaml`, 19 cards, intro rules). Other Level 1 lessons planned.
-- **Next unit:** new widget `gauss-charts` (no lesson): the same Gaussian family drawn in $(\mu,\sigma)$ and $(\mu,\sigma^2)$ charts, draggable distribution, its density curve. Checked: `gaussian-fit` (fits q to a target, sliders only), `chart-basis` (plane charts, no densities) cannot do it with a preset. Then `ch01-manifold` (source md 345-520).
-- **Verified:** Preface and Ch.1 opening (PDF p.16); KL (1.30) PDF p.24; Pythagorean (2.70-2.71) PDF p.54 (see `sources/VERIFIED.md`). Note: the md page anchors drift from the PDF later in the book; locate a PDF page by searching, not by anchor+1.
-- **Paths:** lessons `courses/info-geometry/chNN/`, exams `exams/`, sources git-ignored.
-
-## Log/p' STATUS.md`).
+Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/p' STATUS.md`), never the Log.
 
 ## Current (2026-10-26)
 
-- **State: set up.** Folder, `course.yaml` (13 levels, planned nodes, `exam-partial` after Level 7, `exam-final` after Level 13), catalog entry, `CLAUDE.md`. No lesson built yet.
-- **Next unit:** widget `simplex-points` (then `ch01-why`, light preview concept lesson; its card 2 needs the widget). Verified: Ch.1 opening PDF p.16.
-- (old) `ch01-why` Markdown converted (`sources/information_geometry_book.md`), offset +13 set. Each lesson session verifies its range against PDF pages and logs it in `sources/VERIFIED.md`.
+- **State:** `simplex-points` widget built; **`ch01-why` built** (`ch01/why.yaml`, 19 cards, intro rules). Other Level 1 lessons planned.
+- **Next unit:** new widget `gauss-charts` (no lesson): the same Gaussian family drawn in $(\mu,\sigma)$ and $(\mu,\sigma^2)$ charts, draggable distribution, its density curve. Checked: `gaussian-fit` (fits q to a target, sliders only) and `chart-basis` (plane charts, no densities) cannot do it with a preset. Then `ch01-manifold` (source md 345-520).
+- **Verified:** Preface and Ch.1 opening (PDF p.16); KL (1.30) PDF p.24; Pythagorean (2.70-2.71) PDF p.54 (see `sources/VERIFIED.md`). The md page anchors drift from the PDF later in the book: locate a PDF page by searching, not by anchor+1.
 - **Paths:** lessons `courses/info-geometry/chNN/`, exams `exams/`, sources git-ignored.
 
 ## Log
