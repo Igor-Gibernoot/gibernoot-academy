@@ -1,0 +1,406 @@
+id: ch10-rationality-emotion
+title: "Bounded Rationality, Emotion and Homeostasis"
+kind: concept
+own: |
+  - **Three components of behaviour, one scheme.** For a creature choosing among policies $\pi$ (sequences of actions), with $F$ the variational free energy, $G$ the expected free energy and $E$ the **habit prior** (the prior probability of each policy before looking at the situation), the probability of a policy is
+    {{ $$P(\pi)=\sigma(\ln E-F-G)$$ }}
+    with $\sigma$ the softmax. $G$ gives the **deliberative** part (plans that reach preferred outcomes and reduce uncertainty), $F$ the **perseverative** part (observations that fit the current course of action make it persist), $E$ the **habitual** part (the usual plan). They coexist and are combined; this differs from "dual theories" with two separate systems, one rational and one intuitive. Which dominates depends on experience and on the cognitive resources available for deliberation.
+  - **Bounded rationality.** A bounded rational agent balances the benefit of a good choice against the cost of deliberating. In the free energy theory of bounded rationality (Helmholtz free energy) the trade-off has two components, **energy** (the expected value of a choice, an accuracy term) and **entropy** (the cost of making beliefs more precise, a complexity term). Active inference has the same trade-off, in the usual split of the variational free energy $F$ of beliefs $Q$:
+    {{ $$F=\text{complexity}-\text{accuracy}$$ }}
+  - **Valence as a rate of change.** Free energy need not be computed, only followed down its gradient; but a creature may monitor how its free energy changes in time. Proposal: **valence** (the positive or negative character of an emotion) is read off the rate of change of $F$:
+    {{ $$\frac{dF}{dt}>0\ \Rightarrow\ \text{negative valence}$$ }}
+    and the opposite sign gives positive valence:
+    {{ $$\frac{dF}{dt}<0\ \Rightarrow\ \text{positive valence}$$ }}
+    Second time-derivatives would give richer states: **relief** (from low to high valence), **disappointment** (from high to low). Fast changes of $F$ come from fast belief updating, whose speed is set by **precision** (the curvature of the free-energy landscape, inversely related to ambiguity); minimising expected free energy also favours precision. The **precision of beliefs about policies** (the $\gamma$ of $P(\pi)=\sigma(-\gamma G)$) is a surrogate for expected changes of $F$: a high value means a good policy has been found, and it has been linked to dopamine and to motivation.
+  - **Homeostasis and interoceptive inference.** The generative model of a creature also covers its body (**interoception** = sensing the inside of the body). The viable range of a physiological variable, such as body temperature, enters as a **prior over interoceptive observations** (the set-point). When the sensed value $y$ differs from the predicted one, the prediction error
+    {{ $$\varepsilon_y=y-g(\mu)$$ }}
+    ($\mu$ the belief, $g(\mu)$ the predicted observation) is corrected by an **autonomic reflex** (for instance vasodilation), as proprioceptive errors are corrected by motor reflexes.
+  - **Allostasis goes beyond homeostasis.** Homeostasis reacts after the sensed value leaves its range; **allostasis** acts **before** an error appears (finding shade before overheating) and may change the priors over interoceptive observations in advance (raising cardiac output before a long run). Emotions can be part of the same model: they are hypotheses about the causes of interoceptive and exteroceptive signals, so anxiety is the belief "I am anxious" that best explains them, with interoceptive predictions that adjust precisions and autonomic responses.
+cards:
+  - type: text
+    id: hook
+    title: "On the way to the shop"
+    body: |
+      A woman is walking to a shop close to her house. She knows the way, and she is thinking about something else.
+
+      When she reaches the shop, three things could happen: she could **stop and go in**, she could **walk on past it** without noticing, or she could **turn round and walk home**, as she has done a hundred times. Behaviour, the last stretch of this course, asks which of these is "rational", and what it costs a creature to be rational at all.
+
+      First, a guess.
+
+  - type: mcq
+    id: guess
+    prompt: |
+      She is distracted, so she does not deliberate about where she is going. Which of the three is the most likely thing she does when she reaches the shop?
+    options:
+      - text: 'Walk on past the shop, or take the usual way home: with no deliberation, what she was already doing, or what she usually does, takes over.'
+        correct: true
+      - text: 'Stop and go in: the shop is her goal, so she cannot miss it.'
+        feedback: |
+          Reaching the goal is what *deliberation* would use to stop her. If she is not deliberating, nothing in her head compares "where I am" with "where I wanted to be", so she may well miss it.
+      - text: 'Freeze: without deliberation she has no way to choose anything.'
+        feedback: |
+          Choosing does not need deliberation. Walking carries on by itself, and a well-practised route can be taken without thought; two other ingredients of behaviour fill the gap.
+    explanation: |
+      Active inference says that behaviour has several components that coexist. When deliberation is weak, the others show: she may carry on (**perseveration**) or take the usual way home (**habit**). The next card names them.
+
+  - type: text
+    id: components
+    title: "Deliberative, perseverative, habitual"
+    body: |
+      Behaviour in active inference **automatically combines three components**. Take the walk to the shop.
+
+      - **Deliberative.** If she predicts the consequences of her actions (turn left or right), she can plan well. This part comes from the **expected free energy** $G$, which is smallest for policies that reach **preferred observations** (being in the shop). It also contains a drive to **reduce uncertainty**: if she is unsure of the way, she can go to a vantage point from which the way is easy to see, even if the route is longer. Her plans have **epistemic affordance**.
+      - **Perseverative.** The **variational free energy** $F$ is smallest when she gathers observations that fit her current beliefs, including beliefs about what she is doing. What she senses (legs moving, the street passing) is evidence for "walking", so walking can **persist** when nothing deliberates.
+      - **Habitual.** The **prior probability of each policy**, written $E$ (the habit prior), can give high probability to a plan she has carried out many times, such as going home, **without thinking about it**.
+
+      All three enter one formula, which you met when habits were first added to the policy prior:
+      $$P(\pi)=\sigma(\ln E-F-G)$$
+      Here $\sigma$ is the softmax and $\pi$ a policy. The three coexist and are *combined*: one can even infer that, in a given situation, the habit is the most likely course of action.
+
+  - type: mcq
+    id: dual
+    prompt: |
+      Some "dual theories" say we are driven by two separate systems: one rational and deliberate, one intuitive and automatic. How does active inference differ?
+    options:
+      - text: 'Deliberative, perseverative and habitual aspects are terms of one scheme that coexist and combine; which one dominates depends on circumstances such as experience and the cognitive resources available.'
+        correct: true
+      - text: 'It keeps two systems but calls them $G$ and $E$.'
+        feedback: |
+          There are three components, and they are not separate systems that take turns: all three sit inside one policy probability $\sigma(\ln E-F-G)$ and add up.
+      - text: 'It says only the deliberative part exists and habits are mistakes.'
+        feedback: |
+          Habits are a legitimate part of the scheme: the prior value of policies, which can become dominant when it is not superseded by deliberation.
+    explanation: |
+      A single formula, $\sigma(\ln E-F-G)$, contains all three. The mixture is a matter of conditions: a well-learned situation lets the habit dominate, a novel one calls for deliberation, which may have a **high complexity cost**.
+
+  - type: mcq
+    id: distraction
+    prompt: |
+      A distracted walker "continues walking after reaching the shop" while another one "takes the usual way home without thinking". Which components of $P(\pi)=\sigma(\ln E-F-G)$ explain the first and the second?
+    options:
+      - text: 'First: $F$ (perseveration, the sensations keep confirming "walking"). Second: $E$ (habit, high prior on the usual plan).'
+        correct: true
+      - text: 'First: $E$. Second: $F$.'
+        feedback: |
+          Swapped. The prior over policies $E$ is *what she usually does*, here the way home; it is $F$ that makes the current activity persist because current observations fit it.
+      - text: 'Both are $G$: any behaviour is just expected free energy minimisation.'
+        feedback: |
+          $G$ is the part that looks ahead to preferred outcomes, and it is exactly what a distracted person is not using. Without it, what remains is $F$ (persisting) and $E$ (the usual plan).
+    explanation: |
+      Reduced deliberation leaves the other two terms visible: observations compatible with current beliefs give **perseveration**, and a high prior on a practised plan gives **habit**.
+
+  - type: widget
+    id: scorer-widget
+    review: false
+    widget: policy-scorer
+    config:
+      outcomes: ['at the shop', 'not at the shop']
+      C: [0.9, 0.1]
+      gamma: 4
+      gammaMax: 8
+      showRisk: true
+      showAmbiguity: true
+      policies:
+        - { name: 'go to the shop', qy: [0.8, 0.2], ambiguity: 0.1 }
+        - { name: 'walk home', qy: [0.1, 0.9], ambiguity: 0.1 }
+      presets:
+        - { label: "Confident (gamma 4)", gamma: 4 }
+        - { label: "Low precision (gamma 0.25)", gamma: 0.25 }
+    body: |
+      The deliberative part alone. The walker prefers to be at the shop, $P(\text{at the shop}\mid C)=0.9$. Going to the shop predicts she will be there with probability $0.8$, walking home only $0.1$. The score is $G$ (lowest is best), and the policies get $\sigma(-\gamma G)$, with $\gamma$ the **precision** of her beliefs about policies.
+
+      Drag the $\gamma$ slider from high to low and watch the probabilities.
+
+  - type: mcq
+    id: gamma-read
+    prompt: |
+      A planner scores two policies with $G=0.14$ and $G=1.86$, and picks with $P(\pi)=\sigma(-\gamma G)$. As $\gamma$ falls towards $0$, what happens to the two probabilities?
+    options:
+      - text: 'They approach each other, towards $\tfrac12$ each: $G$ matters less and less, so something other than $G$ (such as a habit prior or what the senses suggest) has to decide.'
+        correct: true
+      - text: 'The lower-$G$ policy becomes certain.'
+        feedback: |
+          That is the high-$\gamma$ limit. $\gamma$ multiplies $G$ inside the softmax, so a small $\gamma$ flattens the differences between policies instead of sharpening them.
+      - text: 'The higher-$G$ policy takes over, because $\sigma(-\gamma G)$ reverses its order.'
+        feedback: |
+          The order never reverses for $\gamma>0$: lower $G$ always has the higher probability. At $\gamma=0$ the order disappears (both $\tfrac12$).
+    explanation: |
+      With $G$ difference $1.72$: $\gamma=4$ gives $P\approx0.999$, $\gamma=1$ gives $0.85$, $\gamma=0.25$ gives $0.61$, $\gamma=0$ gives $\tfrac12$. In the full formula $\sigma(\ln E-F-\dots)$ the other terms are then the ones that tilt the choice. (This reading of a small $\gamma$ is our arithmetic on the formula, not a claim of the source.)
+
+  - type: text
+    id: bounded
+    title: "Bounded rationality"
+    body: |
+      A tidy question: should a creature always consider the consequences of every action in full? An **ideal rational agent** would. A **bounded rational agent** (the term is Herbert Simon's) cannot: deliberating costs **effort, time and information processing**, and a decision that arrives too late is no help. It has to balance the **costs of computation** against the quality of the choice.
+
+      This is why the mixture of the three components "plausibly depends on contextual conditions, such as the amount of experience and the amount of cognitive resources one can invest in deliberative processes that may have a high complexity cost".
+
+
+  - type: text
+    id: helmholtz
+    title: "Free energy theory of bounded rationality"
+    body: |
+      The cost of deliberation has been cast in terms of **Helmholtz free energy** minimisation: a thermodynamic quantity strictly related to the variational free energy of active inference. It splits the trade-offs of choosing with limited information processing into **two components of free energy**, **energy** and **entropy**:
+
+      - the **energy** is the **expected value of a choice**, an **accuracy** term;
+      - the **entropy** stands for the **cost of deliberation**, a **complexity** term. What is costly is *decreasing the entropy* of one's beliefs before a choice, to make them more precise.
+
+      Intuitively, a more precise belief gives a more accurate choice (potentially higher utility), but making beliefs more precise has a cost, so the bounded decision-maker settles on a **compromise by minimising free energy**. The same trade-off appears in active inference, in the form of $F$ as complexity minus accuracy:
+      $$F=\text{complexity}-\text{accuracy}$$
+      So active inference produces forms of bounded rationality: the best solution is a compromise between two complementary objectives, **accuracy and complexity**, which stem from one normative imperative (free energy minimisation), richer than classical **utility maximisation**.
+
+  - type: mcq
+    id: helmholtz-q
+    prompt: |
+      In the free energy theory of bounded rationality, which pairing is right?
+    options:
+      - text: 'Energy is the expected value of a choice (accuracy); entropy is the cost of deliberation, of making beliefs more precise (complexity).'
+        correct: true
+      - text: 'Energy is the cost of deliberation; entropy is the expected value of a choice.'
+        feedback: |
+          Swapped. Remember the direction: reducing the entropy of a belief (making it more precise) is what costs.
+      - text: 'Both are costs, and the best choice minimises their sum.'
+        feedback: |
+          Free energy is minimised, but the energy is the (expected) *value* of a choice, an accuracy term: it pulls towards good outcomes. Only the entropy side is a cost of deliberating.
+    explanation: |
+      Accuracy asks for precise beliefs and good choices; complexity charges for the precision. Minimising free energy is the compromise.
+
+  - type: text
+    id: valence
+    title: "Valence, emotion and motivation"
+    body: |
+      Active inference treats (negative) free energy as a measure of **fitness**: how well a creature realises its goals. Creatures act to minimise $F$, but they never *have* to compute it: following its **gradient** is enough, as one finds the top of a hill by following the slope without knowing the altitude.
+
+      Some suggest that creatures may nevertheless **model how their free energy changes in time**, and that this could characterise **valence** (the positive or negative character of an emotion), **emotion** and **motivation**. The proposal is:
+
+      - an **increase** of free energy over time gives a situation a **negative valence**;
+      - a **decrease** of free energy over time gives it a **positive valence**.
+
+      So valence is the **rate of change** (first time derivative) of $F$ in time. Looking at longer dynamics (second derivatives) could give richer emotional states: **relief**, passing from a phase of low valence to a phase of high valence, and **disappointment**, passing from high to low. Monitoring these dynamics may let a creature adapt its **behavioural strategies or learning rates** to long-term statistics of its environment.
+
+  - type: numeric
+    id: valence-num
+    prompt: |
+      A creature's free energy is $2.4$ nats at time $t=0$ and $1.8$ nats at time $t=2$ (in steps). Taking the average rate of change over those two steps, what is $dF/dt$ in nats per step?
+    answer: -0.3
+    tolerance: 0.001
+    wrong:
+      - { value: 0.3, feedback: 'Sign error. The change is $1.8-2.4=-0.6$ (a decrease), over $2$ steps.' }
+      - { value: -0.6, feedback: 'That is the total change. A rate divides by the elapsed time: $-0.6/2$.' }
+    hint: 'Rate of change = (final value minus initial value) divided by the time elapsed.'
+    explanation: |
+      $dF/dt\approx(1.8-2.4)/2=-0.3$ nats per step: free energy is **decreasing**, which on this proposal means **positive valence**.
+
+  - type: mcq
+    id: relief
+    prompt: |
+      A creature's free energy over five steps is $2,\ 3,\ 3.5,\ 2.5,\ 1.5$. It first rises, then falls. Using the proposal that valence is the rate of change of $F$, which description fits?
+    options:
+      - text: 'A phase of negative valence (F rising) followed by a phase of positive valence (F falling): a transition from low to high valence, which the proposal calls relief.'
+        correct: true
+      - text: 'Positive valence then negative valence: disappointment.'
+        feedback: |
+          Reversed. A *rising* $F$ is negative valence, so the first phase is the low one; the creature then moves to high valence, which is relief. Disappointment would be $F$ falling and then rising.
+      - text: 'Constant valence, because $F$ stays between $1.5$ and $3.5$.'
+        feedback: |
+          Valence is not the level of $F$ but its **rate of change**: the sign of the slope switches from up to down.
+    explanation: |
+      Slopes: $+1$, $+0.5$ (negative valence), then $-1$, $-1$ (positive valence). From low to high valence is **relief**.
+
+  - type: text
+    id: precision-valence
+    title: "Precision, ambiguity and motivation"
+    body: |
+      A second, less odd-looking way to read the proposal avoids a second model that monitors the first. Free energy is a **functional of beliefs**, so a rapid change in $F$ must come from **fast belief updating**. The key determinant of that speed is **precision**, which acts as a **time constant** in the dynamics of predictive coding. It is tied to higher derivatives of free energy, since precision measures the **curvature of the free-energy landscape**: a sharp valley means a precise belief.
+
+      Why associate precision with valence? Because precision is inversely related to **ambiguity**: the more precise something is, the less ambiguous its interpretation. Choosing a policy that minimises expected free energy also means **minimising ambiguity and so maximising precision**. This links higher derivatives of $F$, its rate of change, and **motivated behaviour**.
+
+      **Motivation.** Expectations about increases or decreases of $F$ may incentivise behaviour. In active inference a surrogate for such an expectation is the **precision of beliefs about policies**: the $\gamma$ of $P(\pi)=\sigma(-\gamma G)$. A highly precise belief signals that a good policy has been found, one that can be confidently expected to minimise free energy. This precision has been linked to **dopamine**: stimuli that increase the precision of beliefs about policies may trigger dopamine bursts, which may indicate their **incentive salience**, and this may help explain how expectations of reward raise attention and motivation.
+
+
+  - type: text
+    id: homeo-intro
+    title: "The creature's own body"
+    body: |
+      A generative model is not only about the outside world; perhaps even more importantly it is about the **internal milieu**. A model of the inside of the body (the **interoceptive schema**; **interoception** means sensing the body's inside: temperature, blood sugar, heartbeat) has a **dual role**: to explain how interoceptive sensations are generated, and to ensure the **correct regulation of physiological parameters**.
+
+      Cybernetic theories (feedback control, as in TOTE) assume that a central goal of living organisms is **homeostasis**: keeping physiological parameters within **viable ranges** (body temperature never too high).
+
+      In active inference this is achieved by specifying the viable ranges as **priors over interoceptive observations**: the creature expects its temperature to be in range. The simplest regulatory loop is an **autonomic reflex** (such as vasodilation) triggered when a parameter is, or is expected to be, out of range: **interoceptive inference**, active inference applied to interoceptive streams instead of proprioceptive ones. The generative model predicts the interoceptive streams, and the reflex **corrects the interoceptive prediction error**, just as motor reflexes correct proprioceptive errors.
+
+      Below is a toy (ours). The safe range is the green band; the creature's expectation is orange, the sensed body value blue, the room purple. **Belief** moves the expectation towards what is sensed; **Act** moves the body towards the expectation.
+
+  - type: widget
+    id: homeostat-widget
+    review: false
+    widget: homeostat
+    config:
+      range: [20, 44]
+      band: [36, 38]
+      expect: 37
+      body: 40
+      room: 40
+      drift: 0.08
+      beliefRate: 0.5
+      actRate: 0.8
+      unit: '°C'
+      decimals: 1
+      bandLabel: "Viable range (36 to 38 °C)"
+      labels:
+        body: "Your body"
+        sensed: "You sense"
+        expect: "You expect"
+        room: "Room"
+        mismatch: "Prediction error"
+        slider: "Expected temperature"
+        inBand: "Sensed value inside the viable range"
+        outBand: "Sensed value outside the viable range"
+        belief: "Update belief"
+        act: "Act (autonomic reflex)"
+        wait: "Wait"
+        reset: "Reset"
+        steps: "Steps"
+      presets:
+        - { label: "Fever: update belief only", body: 40, expect: 37, room: 40, script: [belief, belief, belief, belief, belief, belief] }
+        - { label: "Fever: act", body: 40, expect: 37, room: 40, script: [act, act, act, act, act, act] }
+    body: |
+      The body is at $40\,{}^\circ\text{C}$ (too hot), the creature expects $37\,{}^\circ\text{C}$, and the room is hot. Run the two presets: one only **updates the belief**, the other **acts**. Watch the prediction error and whether the sensed value ends inside the viable range.
+
+  - type: mcq
+    id: homeo-q
+    prompt: |
+      In the toy, updating the belief makes the prediction error vanish, yet the body stays out of the viable range, while acting brings it back. What does that say about homeostatic regulation as active inference?
+    options:
+      - text: 'The viable range is a prior that must stay put: the error is removed by changing the world (an autonomic action), not by letting the expectation slide to what is sensed.'
+        correct: true
+      - text: 'Removing the prediction error is enough, however it is done.'
+        feedback: |
+          The error also vanishes if the expectation follows the fever, yet the body is still too hot. A prior that gives in to the data no longer encodes a *viable range*.
+      - text: 'Acting is never needed: the generative model corrects the temperature by itself.'
+        feedback: |
+          A model that only predicts is not enough: the loop closes through **action** (a reflex), which changes the body so the sensation matches the prediction.
+    explanation: |
+      Interoceptive inference works like motor control: the prior fixes what should be sensed, and the autonomic reflex acts on the body until the error goes away. In symbols, the error is $\varepsilon_y=y-g(\mu)$ and the reflex follows $\dot u=-\frac{\partial y}{\partial u}\,\Pi_y\,\varepsilon_y$, the same action rule as for movement (the reflex $u$ changes the sensed $y$).
+
+  - type: text
+    id: allostasis
+    title: "Allostasis: acting before the error"
+    body: |
+      Active inference extends beyond simple autonomic loops: the same error (high body temperature) can be corrected in increasingly sophisticated ways. It can use **predictive, allostatic strategies** that go beyond homeostasis and **control physiology before** interoceptive prediction errors are triggered:
+
+      - **finding shade before overheating**;
+      - **mobilising resources before an expected excursion** from the set-point, such as raising cardiac output before a long run in anticipation of the oxygen demand. This requires **modifying the priors over interoceptive observations dynamically**, which goes beyond homeostasis;
+      - eventually, sophisticated **goal-directed strategies**, such as bringing cold water to the beach, which meet the same imperative (controlling body temperature) in a richer way.
+
+      In the toy, a reflex that waits for the error is homeostatic; one that starts early is anticipatory.
+
+  - type: widget
+    id: allostat-widget
+    review: false
+    widget: homeostat
+    config:
+      range: [30, 46]
+      band: [36, 38]
+      expect: 37
+      body: 37
+      room: 42
+      drift: 0.08
+      beliefRate: 0.5
+      actRate: 0.8
+      unit: '°C'
+      decimals: 1
+      bandLabel: "Viable range (36 to 38 °C)"
+      levers: [wait, act]
+      labels:
+        body: "Your body"
+        sensed: "You sense"
+        expect: "You expect"
+        room: "Room"
+        mismatch: "Prediction error"
+        slider: "Expected temperature"
+        inBand: "Sensed value inside the viable range"
+        outBand: "Sensed value outside the viable range"
+        act: "Act (cool down)"
+        wait: "Wait"
+        reset: "Reset"
+        steps: "Steps"
+      presets:
+        - { label: "Wait for the error", body: 37, expect: 37, room: 42, script: [wait, wait, wait, wait, wait, wait] }
+        - { label: "Act from the start", body: 37, expect: 37, room: 42, script: [act, act, act, act, act, act] }
+    body: |
+      Now the body starts **inside** the viable range ($37\,{}^\circ\text{C}$) in a hot room ($42\,{}^\circ\text{C}$), which slowly warms it. Compare waiting until it hurts with acting from the start.
+
+  - type: mcq
+    id: allo-q
+    prompt: |
+      Waiting lets the body slowly leave the range; acting from the start keeps it inside. Which statement matches the difference between homeostasis and allostasis?
+    options:
+      - text: 'Allostasis controls physiology pre-emptively, before an interoceptive prediction error appears (finding shade before overheating), and may change the interoceptive priors in advance.'
+        correct: true
+      - text: 'Allostasis means ignoring the set-point and letting the body drift.'
+        feedback: |
+          The opposite: the imperative is the same (keep the variable viable), but the regulation is **predictive**, based on expected excursions, not only on errors already felt.
+      - text: 'Homeostasis and allostasis are two names for an autonomic reflex.'
+        feedback: |
+          A reflex that corrects an error already present is homeostatic. Allostasis goes beyond it, by anticipating the error.
+    explanation: |
+      Anticipation needs a generative model that predicts what will happen to the body, which is why predictive brains can also develop goal-directed strategies (bringing cold water to the beach) for the same imperative.
+
+  - type: text
+    id: emotion-inference
+    title: "Interoception, affect and emotional inference"
+    body: |
+      Biological and interoceptive regulation may be crucial for **affect** and emotional processing. During situated interactions the brain's model predicts not just what will happen next but also **what the consequences are for interoception and allostasis**. Interoceptive streams that arise while perceiving external objects and events give them an **affective dimension**: a signal of how good or bad they are for the creature's allostasis and survival, which makes them "meaningful". If this is right, **disorders of interoceptive and allostatic processing** may engender emotional dysregulation and psychopathological conditions.
+
+      A newer companion of interoceptive inference is **emotional inference**: emotions are *part of the generative model*, one more hypothesis the brain uses to deploy **precision** in deep models. **Anxiety**, for example, is just a commitment to the belief "I am anxious" that best explains the prevailing sensory and interoceptive cues. On the acting side, the interoceptive predictions that follow augment or attenuate precisions (covert action) or **enslave autonomic responses** (overt action), which looks like arousal and confirms the hypothesis "I am anxious". Emotional inference usually assimilates information from interoceptive and exteroceptive streams, hence the close relation between emotion, interoception and attention.
+
+  - type: mcq
+    id: trap-valence
+    prompt: |
+      Trap: "On the proposal for valence, a creature with a *low* free energy has positive valence and one with a *high* free energy has negative valence." Is that right?
+    options:
+      - text: 'No: valence is the rate of change of $F$. A creature whose $F$ is high but falling has positive valence; one whose $F$ is low but rising has negative valence.'
+        correct: true
+      - text: 'Yes: $F$ is the measure of fitness, so its level is the valence.'
+        feedback: |
+          The level of $F$ speaks of fitness; the proposal reads valence off its **time derivative**. High and falling means things are getting better.
+      - text: 'No: valence is the second derivative of $F$ only.'
+        feedback: |
+          The *first* derivative gives valence; second derivatives help characterise richer states such as relief and disappointment.
+    explanation: |
+      The tempting mistake is to read valence off the **value** of $F$. It is the **slope**.
+
+  - type: mcq
+    id: trap-emotion
+    prompt: |
+      Trap: "In emotional inference an emotion such as anxiety is an extra mechanism outside the generative model, which reads the body." Which statement fits the source?
+    options:
+      - text: 'Emotions are considered part of the generative model: a hypothesis (such as "I am anxious") that explains interoceptive and exteroceptive signals and helps set precisions and autonomic responses.'
+        correct: true
+      - text: 'Emotions are separate from inference, so they cannot influence precision.'
+        feedback: |
+          The proposal says they deploy precision (augmenting or attenuating it) and can drive autonomic responses.
+      - text: 'Emotions are only the prediction errors of the body.'
+        feedback: |
+          The emotion is a *hypothesis* about causes, in the model with the other hypotheses; prediction errors are what the hypothesis tries to explain.
+    explanation: |
+      Anxiety is "just a commitment to the Bayesian belief that I am anxious": a belief like any other, with consequences for precision and for autonomic action.
+
+
+  - type: numeric
+    id: policy-num
+    prompt: |
+      Two policies, $G=0.5$ and $G=1.5$ nats, equal habit prior $E$ and the same $F$ for both, so only $-\gamma G$ distinguishes them: $P(\pi)=\sigma(-\gamma G)$. With precision $\gamma=2$, what is the probability of the policy with $G=0.5$? (Use $e^{-2}=0.135$.)
+    answer: 0.881
+    tolerance: 0.003
+    wrong:
+      - { value: 0.119, feedback: 'You gave the probability of the *worse* policy. $G$ is minimised: the lower $G$ gets the higher probability, $\sigma(-\gamma G)$.' }
+      - { value: 0.731, feedback: 'That is the value for $\gamma=1$. Here $\gamma=2$ doubles the difference in the exponent: $\gamma\Delta G=2$.' }
+    hint: 'With two policies the softmax is $1/(1+e^{-\gamma\,\Delta G})$ with $\Delta G=G_2-G_1$.'
+    explanation: |
+      $\Delta G=1.5-0.5=1$, so $\gamma\Delta G=2$. $P=\dfrac{e^{-1}}{e^{-1}+e^{-3}}=\dfrac{1}{1+e^{-2}}=\dfrac{1}{1.135}\approx0.881$. The signs matter: with $+\gamma G$ one would find $0.119$.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the last lesson of the chapter looks at **attention** and **salience**, at **learning rules** and **causal inference**, at social and machine-learning applications, and at open directions.
