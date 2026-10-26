@@ -45,6 +45,7 @@ import { flowLab } from './flow-lab.js';
 import { coupledAgents } from './coupled-agents.js';
 import { hybridSaccade } from './hybrid-saccade.js';
 import { simplexPoints } from './simplex-points.js';
+import { gaussCharts } from './gauss-charts.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -86,6 +87,7 @@ const WIDGETS = {
   'coupled-agents': coupledAgents,
   'hybrid-saccade': hybridSaccade,
   'simplex-points': simplexPoints,
+  'gauss-charts': gaussCharts,
 };
 
 export function mountWidget(name, el, config) {
