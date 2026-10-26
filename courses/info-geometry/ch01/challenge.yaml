@@ -1,0 +1,225 @@
+id: ch01-challenge
+title: Level Challenge
+kind: challenge
+
+cards:
+  - type: text
+    id: intro
+    title: Five problems on the geometry of divergence
+    body: |
+      This challenge mixes everything in the level. Keep pencil, paper and a calculator at hand: every answer can be checked by hand, and most need a few lines of work.
+
+      Recall the setting. A **divergence** $D[P:Q]$ measures how far a point $P$ is from a point $Q$ (it is $\ge0$, it is $0$ only if $P=Q$, and it is **not symmetric**). When it comes from a convex potential $\psi$, it is the Bregman divergence
+      $$\begin{aligned}D[P:Q]={}&\psi(\xi_P)-\psi(\xi_Q)\\&-\nabla\psi(\xi_Q)\cdot(\xi_P-\xi_Q),\end{aligned}$$
+      where $\xi=(\xi_1,\xi_2)$ are coordinates and the **dual coordinates** are $\xi^*=\nabla\psi(\xi)$. All logarithms are natural.
+
+      1. A metric from a potential with a cross term: lengths in $\xi$ and in $\xi^*$.
+      2. Dual coordinates, the dual potential, and the divergence in its forms, both orders.
+      3. A geodesic and a dual geodesic through the same two points.
+      4. The Pythagorean theorem on the simplex of beliefs.
+      5. Alternating projections between two sets.
+
+  # ---------------------------------------------------------------- Problem 1
+  - type: numeric
+    id: p1-taylor
+    tag: Problem 1 · Metric and lengths
+    prompt: |
+      On the plane with coordinates $\xi=(\xi_1,\xi_2)$, $\xi_1,\xi_2>0$, take the convex potential
+      $$\begin{aligned}\psi(\xi)={}&\xi_1\ln\xi_1+\xi_2\ln\xi_2\\&-\xi_1-\xi_2+\tfrac14(\xi_1+\xi_2)^2 .\end{aligned}$$
+      The metric $g_{ij}$ at a point is defined by the second-order expansion of the divergence of a nearby point: $D[\xi:\xi+d\xi]\approx\tfrac12\sum_{ij}g_{ij}\,d\xi_i\,d\xi_j$, and for a Bregman divergence $g_{ij}=\partial_i\partial_j\psi$ (second derivatives). At the point $\xi=(1,2)$ take the small step $d\xi=(0.2,-0.1)$. Estimate $D[\xi:\xi+d\xi]$ to second order.
+    answer: 0.025
+    tolerance: 0.0004
+    hint: |
+      Second derivatives: $\partial_1^2\psi=\frac1{\xi_1}+\frac12$, $\partial_2^2\psi=\frac1{\xi_2}+\frac12$, and the cross term $\partial_1\partial_2\psi=\frac12$ comes only from $\tfrac14(\xi_1+\xi_2)^2$. Then $\sum g_{ij}d\xi_id\xi_j=g_{11}d\xi_1^2+2g_{12}d\xi_1d\xi_2+g_{22}d\xi_2^2$.
+    wrong:
+      - { value: 0.0238, feedback: 'That is the **exact** value of the divergence; the question asks for the second-order estimate $\tfrac12 g_{ij}d\xi_id\xi_j$, which differs from it by terms of third order in the step.' }
+      - { value: 0.05, feedback: 'That is $ds^2=g_{ij}d\xi_id\xi_j$, the squared length, which is **twice** the divergence ($ds^2=2D$).' }
+      - { value: 0.027, feedback: 'You dropped the sign of the cross term. The step has $d\xi_1d\xi_2=-0.02<0$, so $2g_{12}d\xi_1d\xi_2=-0.02$ lowers the sum.' }
+    explanation: |
+      At $\xi=(1,2)$ the metric matrix is
+      $$G=\begin{pmatrix}3/2&1/2\\1/2&1\end{pmatrix}.$$
+      Then $g_{ij}d\xi_id\xi_j=1.5(0.04)+2(0.5)(-0.02)+1(0.01)=0.06-0.02+0.01=0.05$, so $D\approx0.025$. The exact divergence is $0.0238$; the gap is third order. The cross term makes the geometry **non-diagonal**: moving in $\xi_1$ and $\xi_2$ together is cheaper than the diagonal parts alone suggest here.
+
+  - type: numeric
+    id: p1-length
+    tag: Problem 1 · Metric and lengths
+    prompt: |
+      Same potential $\psi=\xi_1\ln\xi_1+\xi_2\ln\xi_2-\xi_1-\xi_2+\tfrac14(\xi_1+\xi_2)^2$. At the point $\xi=(1,2)$ the metric is $g_{11}=\tfrac32$, $g_{12}=g_{21}=\tfrac12$, $g_{22}=1$. A tangent vector $A$ has components $A^1=2$, $A^2=-1$ (written with upper indices: it is expanded in the coordinate basis, $A=A^1e_1+A^2e_2$). Compute its squared length $|A|^2=\sum_{ij}g_{ij}A^iA^j$.
+    answer: 5
+    hint: '$|A|^2=g_{11}(A^1)^2+2g_{12}A^1A^2+g_{22}(A^2)^2$.'
+    wrong:
+      - { value: 7, feedback: 'That drops the cross term. Because $g_{12}\ne0$, the two components talk to each other: $2g_{12}A^1A^2=2\cdot\tfrac12\cdot2\cdot(-1)=-2$.' }
+    explanation: |
+      $$\begin{aligned}|A|^2&=\tfrac32\cdot4+2\cdot\tfrac12\cdot2\cdot(-1)+1\\&=6-2+1=5 .\end{aligned}$$
+      The metric is **not** the identity (the plain sum of squares would be $4+1=5$ only by coincidence of these numbers), and a later card gets the same $5$ from the dual side.
+
+  - type: numeric
+    id: p1-dual-metric
+    tag: Problem 1 · Metric and lengths
+    prompt: |
+      At the point $\xi=(1,2)$ of the potential $\psi=\xi_1\ln\xi_1+\xi_2\ln\xi_2-\xi_1-\xi_2+\tfrac14(\xi_1+\xi_2)^2$ the metric matrix in the coordinates $\xi$ is
+      $$G=\begin{pmatrix}3/2&1/2\\1/2&1\end{pmatrix}.$$
+      The metric in the dual coordinates $\xi^*=\nabla\psi(\xi)$ is $G^*=\nabla^2\psi^*$, the matrix with entries $g^*{}^{ij}$. Compute its entry $g^{*}{}^{11}$.
+    answer: 0.8
+    hint: 'The two metrics are matrix inverses: $G^*=G^{-1}$. For a $2\times2$ matrix, $\begin{pmatrix}a&b\\b&d\end{pmatrix}^{-1}=\frac1{ad-b^2}\begin{pmatrix}d&-b\\-b&a\end{pmatrix}$.'
+    wrong:
+      - { value: 0.6667, feedback: 'That is $1/g_{11}=2/3$: inverting only the entry. The inverse of a non-diagonal matrix mixes all entries; use $\det G=g_{11}g_{22}-g_{12}^2=\tfrac54$.' }
+      - { value: 1, feedback: 'That is $g_{22}$ without dividing by the determinant $\det G=\tfrac54$.' }
+    explanation: |
+      $\det G=\tfrac32\cdot1-\tfrac14=\tfrac54$, so
+      $$G^{-1}=\frac45\begin{pmatrix}1&-1/2\\-1/2&3/2\end{pmatrix}=\begin{pmatrix}0.8&-0.4\\-0.4&1.2\end{pmatrix}.$$
+      The entry is $0.8$. Note $0.8>1/g_{11}=0.667$: the off-diagonal term matters for the inverse.
+
+  - type: numeric
+    id: p1-dual-comp
+    tag: Problem 1 · Metric and lengths
+    prompt: |
+      Same setting: metric $G=\begin{pmatrix}3/2&1/2\\1/2&1\end{pmatrix}$ at $\xi=(1,2)$, and inverse $G^*=G^{-1}=\begin{pmatrix}0.8&-0.4\\-0.4&1.2\end{pmatrix}$. The vector $A$ with upper components $A^1=2$, $A^2=-1$ has **dual components** (lower indices) $A_i=\sum_jg_{ij}A^j$. Compute $A_1$. (Then $|A|^2=\sum_{ij}g^{*ij}A_iA_j$ must agree with the value from $A^i$; check it.)
+    answer: 2.5
+    hint: '$A_1=g_{11}A^1+g_{12}A^2$.'
+    wrong:
+      - { value: 2, feedback: 'That is $A^1$ itself. Lowering the index multiplies by the metric, and $g_{12}\ne0$ adds the other component.' }
+      - { value: 3.5, feedback: 'The sign of the second term is wrong: $g_{12}A^2=\tfrac12\cdot(-1)=-\tfrac12$.' }
+    explanation: |
+      $A_1=\tfrac32\cdot2+\tfrac12\cdot(-1)=2.5$ and $A_2=\tfrac12\cdot2+1\cdot(-1)=0$. Then
+      $$|A|^2=g^{*11}A_1^2=0.8\cdot6.25=5,$$
+      the same $5$ as before: the length does not depend on which description, $A^i$ with $G$ or $A_i$ with $G^*=G^{-1}$, we use. A check that $G^*$ is really the inverse.
+
+  # ---------------------------------------------------------------- Problem 2
+  - type: build
+    id: p2-psistar
+    tag: Problem 2 · Dual potential and divergence
+    prompt: |
+      Take the convex potential $\psi(\xi)=-\ln\xi_1-2\ln\xi_2$ for $\xi_1,\xi_2>0$. Its dual coordinates are $\xi^*_1=-1/\xi_1$, $\xi^*_2=-2/\xi_2$ (both negative). The dual potential is $\psi^*(\xi^*)=\xi\cdot\xi^*-\psi(\xi)$ with $\xi$ written through $\xi^*$, i.e. $\xi_1=-1/\xi^*_1$ and $\xi_2=-2/\xi^*_2$. Assemble $\psi^*$.
+    prefix: '\psi^*='
+    tiles: ['-3', '+2\ln2', '-\ln(-\xi^*_1)', '-2\ln(-\xi^*_2)', '+\ln(-\xi^*_1)', '-3\ln2']
+    answers:
+      - ['-3', '+2\ln2', '-\ln(-\xi^*_1)', '-2\ln(-\xi^*_2)']
+      - ['-3', '-\ln(-\xi^*_1)', '+2\ln2', '-2\ln(-\xi^*_2)']
+      - ['-3', '-\ln(-\xi^*_1)', '-2\ln(-\xi^*_2)', '+2\ln2']
+      - ['-\ln(-\xi^*_1)', '-2\ln(-\xi^*_2)', '+2\ln2', '-3']
+    wrong:
+      - { answer: ['-3', '+2\ln2', '+\ln(-\xi^*_1)', '-2\ln(-\xi^*_2)'], feedback: 'The sign of the first log is wrong: $\ln\xi_1=\ln\!\big(-1/\xi^*_1\big)=-\ln(-\xi^*_1)$. Inverting inside a log flips its sign.' }
+    hint: |
+      $\xi\cdot\xi^*=\xi_1(-1/\xi_1)+\xi_2(-2/\xi_2)=-3$, and $-\psi=\ln\xi_1+2\ln\xi_2$. Now replace $\xi_1,\xi_2$ by their expressions in $\xi^*$.
+    explanation: |
+      $$\psi^*=-3+\ln\xi_1+2\ln\xi_2,$$
+      and with $\xi_1=-1/\xi^*_1$, $\xi_2=-2/\xi^*_2$:
+      $$\psi^*=-3-\ln(-\xi^*_1)+2\ln2-2\ln(-\xi^*_2).$$
+      The constant $2\ln2$ comes from the $2$ in $\xi^*_2=-2/\xi_2$. The result is convex in $\xi^*$ again, as it must be.
+
+  - type: numeric
+    id: p2-D
+    tag: Problem 2 · Dual potential and divergence
+    prompt: |
+      Potential $\psi(\xi)=-\ln\xi_1-2\ln\xi_2$, dual coordinates $\xi^*=(-1/\xi_1,-2/\xi_2)$ and dual potential $\psi^*(\xi^*)=\xi\cdot\xi^*-\psi(\xi)$. Two points: $P$ with $\xi_P=(1,2)$ and $Q$ with $\xi_Q=(2,4)$, so $\xi^*_Q=(-\tfrac12,-\tfrac12)$ and $\psi^*(\xi^*_Q)=0.4657$. Compute
+      $$D[P:Q]=\psi(\xi_P)+\psi^*(\xi^*_Q)-\xi_P\cdot\xi^*_Q .$$
+    answer: 0.5794
+    tolerance: 0.001
+    hint: '$\psi(\xi_P)=-\ln1-2\ln2=-1.3863$ and $\xi_P\cdot\xi^*_Q=1(-\tfrac12)+2(-\tfrac12)=-1.5$.'
+    wrong:
+      - { value: 2.4863, feedback: 'The last term enters with a minus sign: $-\xi_P\cdot\xi^*_Q=+1.5$, so the sum is $-1.3863+0.4657+1.5$. You subtracted $1.5$ instead of adding it.' }
+    explanation: |
+      $$\begin{aligned}D[P:Q]&=-1.3863+0.4657+1.5\\&=0.5794 .\end{aligned}$$
+      Check with the Bregman form $\psi(\xi_P)-\psi(\xi_Q)-\nabla\psi(\xi_Q)\cdot(\xi_P-\xi_Q)$: $\psi(\xi_Q)=-3.4657$ and $\nabla\psi(\xi_Q)=\xi^*_Q$, $\xi_P-\xi_Q=(-1,-2)$, so $-1.3863+3.4657-1.5=0.5794$. Same number: the three forms (Bregman, the Legendre form above, and the one with $\psi^*$ as the Bregman potential) are one divergence.
+
+  - type: numeric
+    id: p2-reverse
+    tag: Problem 2 · Dual potential and divergence
+    prompt: |
+      Same potential $\psi=-\ln\xi_1-2\ln\xi_2$, $\xi_P=(1,2)$, $\xi_Q=(2,4)$, with $\xi^*_P=(-1,-1)$, $\xi^*_Q=(-\tfrac12,-\tfrac12)$, $\psi(\xi_P)=-1.3863$, $\psi(\xi_Q)=-3.4657$. Now reverse the order: compute
+      $$D[Q:P]=\psi(\xi_Q)-\psi(\xi_P)-\xi^*_P\cdot(\xi_Q-\xi_P).$$
+    answer: 0.9206
+    tolerance: 0.001
+    hint: '$\xi_Q-\xi_P=(1,2)$, so $\xi^*_P\cdot(\xi_Q-\xi_P)=-1-2=-3$.'
+    wrong:
+      - { value: 0.5794, feedback: 'That is $D[P:Q]$, the other order. The base point (gradient) is now $P$, not $Q$.' }
+    explanation: |
+      $$D[Q:P]=-3.4657+1.3863+3=0.9206 .$$
+      So $D[P:Q]=0.579\ne D[Q:P]=0.921$. Their sum is a clean $1.5$: for any Bregman divergence $D[P:Q]+D[Q:P]=(\xi_Q-\xi_P)\cdot(\xi^*_Q-\xi^*_P)$, here $(1,2)\cdot(\tfrac12,\tfrac12)=1.5$.
+
+  - type: mcq
+    id: p2-forms
+    tag: Problem 2 · Dual potential and divergence
+    prompt: |
+      A convex potential $\psi$ with dual coordinates $\xi^*=\nabla\psi(\xi)$ and dual potential $\psi^*$ defines $D[P:Q]$. Which expression equals $D[P:Q]$ (the first slot is $P$)?
+    options:
+      - text: '$\psi(\xi_P)+\psi^*(\xi^*_Q)-\xi_P\cdot\xi^*_Q$'
+        correct: true
+      - text: '$\psi(\xi_Q)+\psi^*(\xi^*_P)-\xi_Q\cdot\xi^*_P$'
+        feedback: |
+          This is $D[Q:P]$: the roles of $P$ and $Q$ are swapped. In $D[P:Q]$ the potential $\psi$ is evaluated at the **first** point and $\psi^*$ at the **second**.
+      - text: '$\psi(\xi_P)+\psi^*(\xi^*_P)-\xi_Q\cdot\xi^*_P$'
+        feedback: |
+          Mixing: $\psi(\xi_P)+\psi^*(\xi^*_P)=\xi_P\cdot\xi^*_P$ (the Legendre identity at one point), so this would be $\xi_P\cdot\xi^*_P-\xi_Q\cdot\xi^*_P=(\xi_P-\xi_Q)\cdot\xi^*_P$, which can be negative: not a divergence.
+      - text: '$\psi^*(\xi^*_P)-\psi^*(\xi^*_Q)-\xi_Q\cdot(\xi^*_P-\xi^*_Q)$'
+        feedback: |
+          Close, and it is a divergence, but it is $D_{\psi^*}[P^*:Q^*]=D_\psi[Q:P]$: the dual potential **reverses** the order of the points.
+    explanation: |
+      The Legendre form $\psi(\xi_P)+\psi^*(\xi^*_Q)-\xi_P\cdot\xi^*_Q$ is nonnegative by the definition of $\psi^*$ as a maximum, and zero only when $\xi^*_Q=\nabla\psi(\xi_P)$, i.e. $P=Q$. Using the dual potential as the Bregman potential gives the same divergence with the points exchanged.
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: mcq
+    id: p3-straight
+    tag: Problem 3 · Geodesic and dual geodesic
+    prompt: |
+      Take the negentropy potential $\psi(\xi)=\xi_1\ln\xi_1+\xi_2\ln\xi_2-\xi_1-\xi_2$ on $\xi_1,\xi_2>0$, with dual coordinates $\xi^*=\nabla\psi=(\ln\xi_1,\ln\xi_2)$. Two points $P$ and $Q$ are given. Their **geodesic** is the curve that is a straight line in the coordinates $\xi$; their **dual geodesic** is the curve that is a straight line in the dual coordinates $\xi^*$. In the plane of the coordinates $\xi$, what do these two curves look like?
+    options:
+      - text: 'The geodesic is a straight segment; the dual geodesic is a **curved** arc (a straight line in $\xi^*=\ln\xi$ is a power-law curve in $\xi$).'
+        correct: true
+      - text: 'Both are straight segments, since a straight line stays straight under any change of coordinates.'
+        feedback: |
+          Only **affine** changes of coordinates keep straight lines straight. The map $\xi\mapsto\ln\xi$ is not affine, so a line in $\xi^*$ bends in $\xi$.
+      - text: 'The geodesic is curved and the dual geodesic is straight, because $\xi^*$ is the "natural" chart.'
+        feedback: |
+          Reversed. The geodesic is straight **by definition in $\xi$**; the dual geodesic is straight in $\xi^*$. Each curve is straight in exactly one of the two charts.
+    explanation: |
+      Geodesic: $\xi(t)=(1-t)\xi_P+t\xi_Q$. Dual geodesic: $\xi^*(t)=(1-t)\xi^*_P+t\xi^*_Q$, i.e. $\ln\xi_i(t)=(1-t)\ln\xi_{P,i}+t\ln\xi_{Q,i}$, so $\xi_i(t)=\xi_{P,i}^{\,1-t}\,\xi_{Q,i}^{\,t}$ (a weighted geometric mean). Both pass through $P$ at $t=0$ and $Q$ at $t=1$.
+
+  - type: numeric
+    id: p3-dualmid
+    tag: Problem 3 · Geodesic and dual geodesic
+    prompt: |
+      Negentropy potential $\psi=\xi_1\ln\xi_1+\xi_2\ln\xi_2-\xi_1-\xi_2$, dual coordinates $\xi^*=(\ln\xi_1,\ln\xi_2)$. Two points $P$ with $\xi_P=(1,9)$ and $Q$ with $\xi_Q=(4,1)$. The dual geodesic is $\xi^*(t)=(1-t)\xi^*_P+t\xi^*_Q$. The point at $t=\tfrac12$ is $N$. Find the second coordinate $\xi_2$ of $N$ (in the original coordinates). (For comparison, the geodesic midpoint is $M=(2.5,5)$.)
+    answer: 3
+    hint: 'Average the logarithms: $\ln\xi_2(N)=\tfrac12(\ln9+\ln1)$.'
+    wrong:
+      - { value: 5, feedback: 'That is the straight-line midpoint $M$ of the geodesic ($\tfrac{9+1}2$). The dual geodesic averages the **dual** coordinates $\ln\xi$.' }
+      - { value: 4.5, feedback: 'You averaged $\ln9$ and $\ln1$ and forgot to undo the log. The dual midpoint is $e^{\frac12(\ln9+\ln1)}$.' }
+    explanation: |
+      $\ln\xi_2(N)=\tfrac12(\ln9+0)=\ln3$, so $\xi_2=3=\sqrt{9\cdot1}$. Likewise $\xi_1=\sqrt{1\cdot4}=2$: $N=(2,3)$, the geometric mean, versus the arithmetic mean $M=(2.5,5)$. The two curves leave $P$ in different directions and meet again only at $Q$.
+
+  - type: numeric
+    id: p3-DM
+    tag: Problem 3 · Geodesic and dual geodesic
+    prompt: |
+      Negentropy potential $\psi=\xi_1\ln\xi_1+\xi_2\ln\xi_2-\xi_1-\xi_2$, so $D[A:B]=\sum_i\big(\xi_{A,i}\ln\frac{\xi_{A,i}}{\xi_{B,i}}-\xi_{A,i}+\xi_{B,i}\big)$. A third point $R$ has $\xi_R=(2,8)$. The geodesic midpoint of $\xi_P=(1,9)$ and $\xi_Q=(4,1)$ is $M=(2.5,5)$. Compute $D[R:M]$.
+    answer: 0.8137
+    tolerance: 0.002
+    hint: |
+      First coordinate: $2\ln\frac{2}{2.5}-2+2.5$. Second: $8\ln\frac85-8+5$.
+    wrong:
+      - { value: 0.7078, feedback: 'That is $D[M:R]$, with the points in the other order. Here $R$ is in the **first** slot.' }
+    explanation: |
+      $$\begin{aligned}&\big(2\ln0.8-2+2.5\big)\\+&\big(8\ln1.6-8+5\big)\\=&\,0.0537+0.7600=0.8137 .\end{aligned}$$
+      Each coordinate contributes a nonnegative term (the divergence of positive numbers is a sum of terms $a\ln\frac ab-a+b\ge0$).
+
+  - type: numeric
+    id: p3-DN
+    tag: Problem 3 · Geodesic and dual geodesic
+    prompt: |
+      Same potential, $\xi_R=(2,8)$. The dual-geodesic midpoint of $\xi_P=(1,9)$ and $\xi_Q=(4,1)$ is $N=(2,3)$. Compute $D[R:N]=\sum_i\big(\xi_{R,i}\ln\frac{\xi_{R,i}}{\xi_{N,i}}-\xi_{R,i}+\xi_{N,i}\big)$. Then compare with $D[R:M]=0.8137$ for $M=(2.5,5)$.
+    answer: 2.8466
+    tolerance: 0.003
+    hint: 'First coordinate: $2\ln1-2+2=0$. Second: $8\ln\frac83-8+3$.'
+    wrong:
+      - { value: 2.0575, feedback: 'That is $D[N:R]$, the other order. $R$ comes first.' }
+    explanation: |
+      $$0+\big(8\ln\tfrac83-5\big)=7.8466-5=2.8466 .$$
+      So $R$ is much farther (in this order) from the dual midpoint $N$ than from the geodesic midpoint $M$ ($0.814$): the "midpoint" depends on which kind of straightness we use. Here $R$ is close to the geodesic midpoint in the first coordinate-wise sense and far from the geometric-mean midpoint in the second coordinate ($8$ against $3$).
+
+  - type: text
+    id: part1-end
+    title: Halfway
+    body: |
+      Three problems done: a metric with a cross term, the dual potential with both orders of $D$, and the two kinds of straight curve through the same two points. Problems 4 and 5 (the Pythagorean theorem on beliefs, and alternating projections) follow.
