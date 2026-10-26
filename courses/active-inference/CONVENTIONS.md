@@ -149,17 +149,17 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 ## Chapter 9
 
 - Meta-Bayes: theta subject parameters, u observed choices (actions), m scientist's model, o~ stimuli; subjective model P(o~,s~,pi|theta,m) vs objective m. Toy: two levers Delta G = G_right-G_left = 0.8, P(left|gamma)=1/(1+e^{-gamma DG}); gamma grid .5/2/4 uniform prior, 8 left of 10: posterior (.259,.632,.109), evidence .00342. Widget policy-scorer preset (qy .5/.5, ambiguity .2/1.0, showRisk false).
-- Variational Laplace: L(theta)=ln P(u~|theta,m,o~); prior theta~N(eta,Pi1), Pi1 precision; eps=eta-mu; Pi_post=Pi1-Hessian L(mu); ln evidence ~ L(mu)-1/2(eps.Pi1 eps+ln|Pi_post|) (minus form); mu-dot=grad L+Pi1 eps. Lever toy with prior N(2,1): mode 1.867, sd .715, ln evidence -5.358 (exact -5.354, true mean 1.927). Quadratic toy L=-2(theta-3)^2, eta=1, Pi1=2: Pi_post 6, mu 7/3.
+- Variational Laplace: L(theta)=ln P(u~|theta,m,o~); prior theta~N(eta,Pi^(1)), Pi^(1) precision; eps=eta-mu; Pi^post=Pi^(1)-Hessian L(mu); ln evidence ~ L(mu)-1/2(eps.Pi^(1) eps+ln|Pi^post|) (minus form); mu-dot=grad L+Pi^(1) eps. Lever toy with prior N(2,1): mode 1.867, sd .715, ln evidence -5.358 (exact -5.354, true mean 1.927). Quadratic toy L=-2(theta-3)^2, eta=1, Pi^(1)=2: Pi^post 6, mu 7/3.
 
 - PEB: second level theta_i ~ N(beta0+beta1 x_i, 1/Pi^(2)) (Pi^(2) precision); shrunk mean (Pi_i m_i+Pi^(2) l_i)/(Pi_i+Pi^(2)); widget peb-regression demo ids/numbers in LESSON_FORMAT.
 
 - PEB lesson numbers: demo 8 subjects, line (-0.5, 0.06, Pi2 3): predict x=40 -> 1.9; shrunk mean x=20 0.8712 (Pi_i 1.5625, l 0.7); ln E free -8.4994, slope 0 -10.0683, diff 1.5689 (BF 4.8); best fit diff ~3.03. Evidence uses flat priors on beta.
 - Analysis steps: u~ actions, o~ stimuli; preference scale e^theta (ours, preferences ~ e^{e^theta c}); L=sum_t ln P(u_t|...); theta=.7 -> 2.01; probs .8,.5,.9 -> L=-1.02; fictive data = face validity + parameter recovery.
 - False inference: one-level toy g(mu)=mu, mu*=(Pi_y y+Pi_v eta)/(Pi_y+Pi_v); voice-in-noise y=0, eta=2: Pi (4,1) -> 0.4, (1,16) -> 1.88, (1,9) -> 1.8; spurious blip y=1, eta=0, Pi (9,1) -> 0.9. Pathology = aberrant priors, normal inference; only Table 9.1 claims used.
-- Analysis traps numbers: L(.6,.5,.8)=-1.43; evidence prior (.5,.3,.2) x lik (.02,.01,.1)=.033; L=-3(th-1)^2, Pi1=1 -> Pi_post 7; th=-.7 -> .50; shrink (m,Pi,l,Pi2)=(2,1,.4,3) -> .8; ln BF 3.3 -> 27.1; eta=3, Pi_v=100, y=0, Pi_y=1 -> 2.97.
+- Analysis traps numbers: L(.6,.5,.8)=-1.43; evidence prior (.5,.3,.2) x lik (.02,.01,.1)=.033; L=-3(th-1)^2, Pi^(1)=1 -> Pi^post 7; th=-.7 -> .50; shrink (m,Pi,l,Pi2)=(2,1,.4,3) -> .8; ln BF 3.3 -> 27.1; eta=3, Pi_v=100, y=0, Pi_y=1 -> 2.97.
 - Map: no new conventions; evidence formula shown in minus form split over two aligned lines (phone width).
 
-- Challenge numbers: L=-1.5(th-2)^2, eta .5, Pi1 2 -> mu 1.4, Pi_post 5, ln ev -2.15 (a=3: mu 1.625, Pi_post 8); theta .5, d .8: P(risky) .789, L(risky,risky,safe) -2.03; table 8 subjects, line .4+.2x, Pi2 2, x=5 m=1.9 sd .5 -> 1.733; ln BF 2.8 -> 16.4 (prob .94).
+- Challenge numbers: L=-1.5(th-2)^2, eta .5, Pi^(1) 2 -> mu 1.4, Pi^post 5, ln ev -2.15 (a=3: mu 1.625, Pi^post 8); theta .5, d .8: P(risky) .789, L(risky,risky,safe) -2.03; table 8 subjects, line .4+.2x, Pi2 2, x=5 m=1.9 sd .5 -> 1.733; ln BF 2.8 -> 16.4 (prob .94).
 
 - Challenge part 2: smell y=1, eta=4, Pi (3,1) -> 1.75, Pi_v=12 -> 3.4; eta=5, Pi_v=50, y=0, Pi_y=2 -> 4.81; patients/controls line .3+.8x, Pi2 4, m=1.6 sd .4 -> 1.405; ln BF 3.2 -> 24.5.
 

@@ -6,11 +6,11 @@ own: |
   - **Parameters in, model out; log scale.** The POMDP is a function $\theta\mapsto$ (a fully specified, unsolved POMDP). A positive scale such as the preference precision enters as $e^{\theta}$, so that $\theta$ may be any real number and a Gaussian prior centred on $0$ means "scale $1$":
     {{ $$\text{preference scale}=e^{\theta}$$ }}
   - **Likelihood.** For a given $\theta$, solve the POMDP (belief updating) to get the probability of each action; the likelihood of the observed actions is their product, so its log is a sum:
-    {{ $$\begin{aligned}L(\theta)&=\ln P(\tilde u\mid\theta,m,\tilde o)\\&=\sum_t\ln P(u_t\mid\theta,m,\tilde o)\end{aligned}$$ }}
-  - **Prior and inversion.** The prior is $P(\theta\mid m)=\mathcal{N}(\eta,\Pi_1^{-1})$ (mean $\eta$, precision $\Pi_1$, often $\eta=0$ with $\Pi_1$ fixing the plausible range). Bayes' rule then gives, for each rat, the posterior and the evidence $P(\tilde u\mid m,\tilde o)$:
+    {{ $$\begin{aligned}\mathcal{L}(\theta)&=\ln P(\tilde u\mid\theta,m,\tilde o)\\&=\sum_t\ln P(u_t\mid\theta,m,\tilde o)\end{aligned}$$ }}
+  - **Prior and inversion.** The prior is $P(\theta\mid m)=\mathcal{N}(\eta,\left(\Pi^{(1)}\right)^{-1})$ (mean $\eta$, precision $\Pi^{(1)}$, often $\eta=0$ with $\Pi^{(1)}$ fixing the plausible range). Bayes' rule then gives, for each rat, the posterior and the evidence $P(\tilde u\mid m,\tilde o)$:
     {{ $$P(\theta\mid\tilde u,m,\tilde o)\propto P(\theta\mid m)\,P(\tilde u\mid\theta,\tilde o,m)$$ }}
-    Variational Laplace finds the posterior mode $\mu$ and precision $\Pi_{\text{post}}=\Pi_1-\nabla^2L(\mu)$, and the approximate log evidence ($\epsilon=\eta-\mu$)
-    {{ $$\begin{aligned}\ln P(\tilde u\mid m,\tilde o)\approx{}&L(\mu)\\&-\tfrac12\big(\epsilon^{\top}\Pi_1\epsilon+\ln|\Pi_{\text{post}}|\big)\end{aligned}$$ }}
+    Variational Laplace finds the posterior mode $\mu$ and precision $\Pi^{\text{post}}=\Pi^{(1)}-\nabla^2\mathcal{L}(\mu)$, and the approximate log evidence ($\varepsilon=\eta-\mu$)
+    {{ $$\begin{aligned}\ln P(\tilde u\mid m,\tilde o)\approx{}&\mathcal{L}(\mu)\\&-\tfrac12\big(\varepsilon^{\top}\Pi^{(1)}\varepsilon+\ln|\Pi^{\text{post}}|\big)\end{aligned}$$ }}
   - **Group level.** The fitted parameters of all rats (the vector $\theta$, one entry per rat) are treated as data of a second model, with explanatory variables $X$ (a column of ones, age, drug, ...), effect sizes $\beta$ and group precision $\Pi^{(2)}$:
     {{ $$P(\theta\mid\beta,X)=\mathcal{N}\big(X\beta,\ \Pi^{(2)}\big)$$ }}
     An alternative is an ordinary association test (e.g. canonical variates between questionnaire scores and the fitted parameters). Before real data: generate fictive data to check plausibility, and check **parameter recovery** (simulate with known $\theta$, invert, compare).
@@ -96,16 +96,16 @@ cards:
     body: |
       Now we need a way to score a parameter value against the recorded behaviour. Fix $\theta$. The POMDP is fully specified, so we can **solve** it: run the belief-update equations of the rat's model on the stimuli $\tilde o$ it actually received. At each step this gives the probability that the rat takes each action. The **likelihood** of the observed behaviour $\tilde u$ is the probability the model assigns to the actions the rat really took:
 
-      $$L(\theta)=\ln P(\tilde u\mid\theta,m,\tilde o)$$
+      $$\mathcal{L}(\theta)=\ln P(\tilde u\mid\theta,m,\tilde o)$$
 
-      Here $m$ is the scientist's model (the whole family of POMDPs), $\tilde o$ the stimuli, $\tilde u$ the sequence of actions (the tilde means "a sequence over time"). In practice this step *calls a POMDP solver* inside the likelihood: every evaluation of $L$ at a new $\theta$ re-solves the rat's problem.
+      Here $m$ is the scientist's model (the whole family of POMDPs), $\tilde o$ the stimuli, $\tilde u$ the sequence of actions (the tilde means "a sequence over time"). In practice this step *calls a POMDP solver* inside the likelihood: every evaluation of $\mathcal{L}$ at a new $\theta$ re-solves the rat's problem.
 
       If the actions at different steps are conditionally independent given the model's beliefs (each action's probability is already computed from the past by the solver), the probability of the sequence is a **product** of per-step probabilities, so its log is a **sum**.
 
   - type: numeric
     id: loglik
     prompt: |
-      For a given $\theta$, the solved model assigns these probabilities to the three actions the rat **actually took** in a short episode: $0.8$, $0.5$ and $0.9$. What is the log likelihood $L(\theta)$ of the episode? (Natural log, two decimals.)
+      For a given $\theta$, the solved model assigns these probabilities to the three actions the rat **actually took** in a short episode: $0.8$, $0.5$ and $0.9$. What is the log likelihood $\mathcal{L}(\theta)$ of the episode? (Natural log, two decimals.)
     answer: -1.02
     tolerance: 0.01
     wrong:
@@ -114,7 +114,7 @@ cards:
       - { value: -0.36, feedback: 'The log of the product is not minus the product; take $\ln0.36$ (or sum $\ln0.8+\ln0.5+\ln0.9$).' }
     hint: 'Sum the logs of the three probabilities, or take the log of their product.'
     explanation: |
-      $$\begin{aligned}L&=\ln0.8+\ln0.5+\ln0.9\\&\approx-0.223-0.693-0.105\\&=-1.02\end{aligned}$$
+      $$\begin{aligned}\mathcal{L}&=\ln0.8+\ln0.5+\ln0.9\\&\approx-0.223-0.693-0.105\\&=-1.02\end{aligned}$$
 
       equivalently $\ln(0.8\cdot0.5\cdot0.9)=\ln0.36\approx-1.02$. A log likelihood is always $\le0$ here, and the closer to $0$, the better this $\theta$ explains the behaviour.
 
@@ -142,11 +142,11 @@ cards:
 
       $$P(\theta\mid\tilde u,m,\tilde o)\propto P(\theta\mid m)\,P(\tilde u\mid\theta,\tilde o,m)$$
 
-      The likelihood contains a POMDP solver, so no formula can be solved by hand: we use the **variational Laplace** scheme from before. It climbs to the posterior mode $\mu$ (the best $\theta$), and reports the posterior precision $\Pi_{\text{post}}=\Pi_1-\nabla^2L(\mu)$ (a sharper log likelihood means a more precise posterior) and the approximate log evidence
+      The likelihood contains a POMDP solver, so no formula can be solved by hand: we use the **variational Laplace** scheme from before. It climbs to the posterior mode $\mu$ (the best $\theta$), and reports the posterior precision $\Pi^{\text{post}}=\Pi^{(1)}-\nabla^2\mathcal{L}(\mu)$ (a sharper log likelihood means a more precise posterior) and the approximate log evidence
 
-      $$\begin{aligned}\ln P(\tilde u\mid m,\tilde o)\approx{}&L(\mu)\\&-\tfrac12\big(\epsilon^{\top}\Pi_1\epsilon+\ln|\Pi_{\text{post}}|\big)\end{aligned}$$
+      $$\begin{aligned}\ln P(\tilde u\mid m,\tilde o)\approx{}&\mathcal{L}(\mu)\\&-\tfrac12\big(\varepsilon^{\top}\Pi^{(1)}\varepsilon+\ln|\Pi^{\text{post}}|\big)\end{aligned}$$
 
-      where $\eta$ and $\Pi_1$ are the prior mean and precision and $\epsilon=\eta-\mu$. The output for each rat is a Gaussian: a mean and an error bar for its $\theta$. Dependencies matter: the inversion needs the data, the likelihood and the prior.
+      where $\eta$ and $\Pi^{(1)}$ are the prior mean and precision and $\varepsilon=\eta-\mu$. The output for each rat is a Gaussian: a mean and an error bar for its $\theta$. Dependencies matter: the inversion needs the data, the likelihood and the prior.
 
   - type: mcq
     id: dependencies

@@ -59,36 +59,36 @@ nodes:
     col: 1
     body: |
       For a given $\theta$, solve the POMDP to get the probability of each action. The likelihood of the observed actions is a product, so its **log** is a sum over time steps $t$:
-      $$L(\theta)=\sum_t\ln P(u_t\mid\theta,m,\tilde o)$$
+      $$\mathcal{L}(\theta)=\sum_t\ln P(u_t\mid\theta,m,\tilde o)$$
     decoys:
       - body: |
           For a given $\theta$, solve the POMDP to get the probability of each action. The likelihood of the observed actions is a product, so its **log** is a sum over time steps $t$, of the probabilities themselves:
-          $$L(\theta)=\sum_t P(u_t\mid\theta,m,\tilde o)$$
+          $$\mathcal{L}(\theta)=\sum_t P(u_t\mid\theta,m,\tilde o)$$
         feedback: |
           The log turns a product into a sum of **logs**. A sum of raw probabilities is not a probability of the whole sequence: with probabilities $.8,.5,.9$ the product is $.36$, not $2.2$.
       - body: |
           The likelihood is the probability of the **parameter** given the actions, summed over time steps $t$:
-          $$L(\theta)=\sum_t\ln P(\theta\mid u_t,m,\tilde o)$$
+          $$\mathcal{L}(\theta)=\sum_t\ln P(\theta\mid u_t,m,\tilde o)$$
         feedback: |
           That is a posterior, not a likelihood. The likelihood runs from the parameter to the data: how probable are the observed actions if the subject has parameter $\theta$.
     explanation: |
-      Probabilities $.8,.5,.9$ give $L=\ln.8+\ln.5+\ln.9\approx-1.02$.
+      Probabilities $.8,.5,.9$ give $\mathcal{L}=\ln.8+\ln.5+\ln.9\approx-1.02$.
 
   - id: bayes
     title: Prior and Bayes' rule
     row: 4
     col: 1
     body: |
-      The prior is Gaussian, $P(\theta\mid m)=\mathcal{N}(\eta,\Pi_1^{-1})$, with mean $\eta$ and **precision** $\Pi_1$. Bayes' rule gives the posterior, and the normalising constant is the model **evidence**:
+      The prior is Gaussian, $P(\theta\mid m)=\mathcal{N}(\eta,\left(\Pi^{(1)}\right)^{-1})$, with mean $\eta$ and **precision** $\Pi^{(1)}$. Bayes' rule gives the posterior, and the normalising constant is the model **evidence**:
       $$P(\theta\mid u,m)=\frac{P(u\mid\theta,m)\,P(\theta\mid m)}{P(u\mid m)}$$
     decoys:
       - body: |
-          The prior is Gaussian, $P(\theta\mid m)=\mathcal{N}(\eta,\Pi_1)$, with mean $\eta$ and **variance** $\Pi_1$. Bayes' rule gives the posterior, and the normalising constant is the model evidence:
+          The prior is Gaussian, $P(\theta\mid m)=\mathcal{N}(\eta,\Pi^{(1)})$, with mean $\eta$ and **variance** $\Pi^{(1)}$. Bayes' rule gives the posterior, and the normalising constant is the model evidence:
           $$P(\theta\mid u,m)=\frac{P(u\mid\theta,m)\,P(\theta\mid m)}{P(u\mid m)}$$
         feedback: |
-          In this notation $\Pi_1$ is a precision, an inverse covariance, so the covariance is $\Pi_1^{-1}$. Mixing the two makes a "very precise" prior wide.
+          In this notation $\Pi^{(1)}$ is a precision, an inverse covariance, so the covariance is $\left(\Pi^{(1)}\right)^{-1}$. Mixing the two makes a "very precise" prior wide.
       - body: |
-          The prior is Gaussian, $P(\theta\mid m)=\mathcal{N}(\eta,\Pi_1^{-1})$. Bayes' rule gives the posterior, and the normalising constant is the **maximum** of the likelihood:
+          The prior is Gaussian, $P(\theta\mid m)=\mathcal{N}(\eta,\left(\Pi^{(1)}\right)^{-1})$. Bayes' rule gives the posterior, and the normalising constant is the **maximum** of the likelihood:
           $$P(\theta\mid u,m)=\frac{P(u\mid\theta,m)\,P(\theta\mid m)}{\max_\theta P(u\mid\theta,m)}$$
         feedback: |
           The evidence is the likelihood averaged over the prior, $\sum_\theta P(u\mid\theta,m)P(\theta\mid m)$, not its peak. Averaging punishes models that spread prior weight on parameters that fit badly.
@@ -100,17 +100,17 @@ nodes:
     row: 5
     col: 1
     body: |
-      Approximate the posterior by a Gaussian at the **mode** $\mu$ of $L(\theta)-\tfrac12(\theta-\eta)\cdot\Pi_1(\theta-\eta)$, found by gradient ascent. Its precision is the prior precision plus the curvature of the log likelihood:
-      $$\Pi_{\text{post}}=\Pi_1-\nabla_{\mu\mu}L(\mu)$$
+      Approximate the posterior by a Gaussian at the **mode** $\mu$ of $\mathcal{L}(\theta)-\tfrac12(\theta-\eta)\cdot\Pi^{(1)}(\theta-\eta)$, found by gradient ascent. Its precision is the prior precision plus the curvature of the log likelihood:
+      $$\Pi^{\text{post}}=\Pi^{(1)}-\nabla_{\mu\mu}\mathcal{L}(\mu)$$
     decoys:
       - body: |
-          Approximate the posterior by a Gaussian at the **mode** $\mu$ of $L(\theta)-\tfrac12(\theta-\eta)\cdot\Pi_1(\theta-\eta)$, found by gradient ascent. Its precision is the prior precision plus the curvature:
-          $$\Pi_{\text{post}}=\Pi_1+\nabla_{\mu\mu}L(\mu)$$
+          Approximate the posterior by a Gaussian at the **mode** $\mu$ of $\mathcal{L}(\theta)-\tfrac12(\theta-\eta)\cdot\Pi^{(1)}(\theta-\eta)$, found by gradient ascent. Its precision is the prior precision plus the curvature:
+          $$\Pi^{\text{post}}=\Pi^{(1)}+\nabla_{\mu\mu}\mathcal{L}(\mu)$$
         feedback: |
-          At a peak the second derivative of $L$ is negative, so adding it would **lower** the precision below the prior's. The sign is minus: $\Pi_1-\nabla_{\mu\mu}L$ is larger than $\Pi_1$. For $L=-2(\theta-3)^2$ and $\Pi_1=2$ it gives $6$.
+          At a peak the second derivative of $\mathcal{L}$ is negative, so adding it would **lower** the precision below the prior's. The sign is minus: $\Pi^{(1)}-\nabla_{\mu\mu}\mathcal{L}$ is larger than $\Pi^{(1)}$. For $\mathcal{L}=-2(\theta-3)^2$ and $\Pi^{(1)}=2$ it gives $6$.
       - body: |
           Approximate the posterior by a Gaussian by **drawing samples** of $\theta$ from the prior and keeping the best ones. Its precision is the prior precision plus the curvature:
-          $$\Pi_{\text{post}}=\Pi_1-\nabla_{\mu\mu}L(\mu)$$
+          $$\Pi^{\text{post}}=\Pi^{(1)}-\nabla_{\mu\mu}\mathcal{L}(\mu)$$
         feedback: |
           Variational Laplace is not a sampler. It climbs to the mode with gradients (finite differences if needed) and reads the curvature there; sampling would require many costly POMDP solutions.
     explanation: |
@@ -122,16 +122,16 @@ nodes:
     col: 1
     body: |
       With $\varepsilon=\eta-\mu$ (mode against prior mean), the approximate log evidence rewards fit and penalises complexity:
-      $$\begin{aligned}\ln P(u\mid m)\approx\;&L(\mu)-\tfrac12\varepsilon\cdot\Pi_1\varepsilon\\&-\tfrac12\ln|\Pi_{\text{post}}|\end{aligned}$$
+      $$\begin{aligned}\ln P(u\mid m)\approx\;&\mathcal{L}(\mu)-\tfrac12\varepsilon\cdot\Pi^{(1)}\varepsilon\\&-\tfrac12\ln|\Pi^{\text{post}}|\end{aligned}$$
     decoys:
       - body: |
           With $\varepsilon=\eta-\mu$, the approximate log evidence is just the **best fit** of the data, the value of the log likelihood at the mode:
-          $$\ln P(u\mid m)\approx L(\mu)$$
+          $$\ln P(u\mid m)\approx \mathcal{L}(\mu)$$
         feedback: |
           That is maximum likelihood. It ignores how far the mode moved from the prior and how precisely it is pinned down, so a model with many free parameters would always win.
       - body: |
           With $\varepsilon=\eta-\mu$, the approximate log evidence rewards fit and **adds** the complexity terms:
-          $$\begin{aligned}\ln P(u\mid m)\approx\;&L(\mu)+\tfrac12\varepsilon\cdot\Pi_1\varepsilon\\&+\tfrac12\ln|\Pi_{\text{post}}|\end{aligned}$$
+          $$\begin{aligned}\ln P(u\mid m)\approx\;&\mathcal{L}(\mu)+\tfrac12\varepsilon\cdot\Pi^{(1)}\varepsilon\\&+\tfrac12\ln|\Pi^{\text{post}}|\end{aligned}$$
         feedback: |
           The sign is flipped. Moving far from the prior and having a sharp posterior are costs (Occam penalties), so they are subtracted.
     explanation: |
@@ -315,13 +315,13 @@ outroTitle: Level 9 in one picture
 outro: |
   **One subject.** From stimuli $\tilde o$ and choices $u$ we infer the parameters $\theta$ of the subject's own model. Build the POMDP from $\theta$, then the log likelihood is a sum over time steps:
 
-  $$L(\theta)=\sum_t\ln P(u_t\mid\theta,m,\tilde o)$$
+  $$\mathcal{L}(\theta)=\sum_t\ln P(u_t\mid\theta,m,\tilde o)$$
 
-  With the prior $\mathcal{N}(\eta,\Pi_1^{-1})$, variational Laplace finds the mode $\mu$ and the posterior precision (with $\varepsilon=\eta-\mu$):
+  With the prior $\mathcal{N}(\eta,\left(\Pi^{(1)}\right)^{-1})$, variational Laplace finds the mode $\mu$ and the posterior precision (with $\varepsilon=\eta-\mu$):
 
-  $$\Pi_{\text{post}}=\Pi_1-\nabla_{\mu\mu}L(\mu)$$
+  $$\Pi^{\text{post}}=\Pi^{(1)}-\nabla_{\mu\mu}\mathcal{L}(\mu)$$
 
-  $$\begin{aligned}\ln P(u\mid m)\approx\;&L(\mu)\\&-\tfrac12\big(\varepsilon\cdot\Pi_1\varepsilon+\ln|\Pi_{\text{post}}|\big)\end{aligned}$$
+  $$\begin{aligned}\ln P(u\mid m)\approx\;&\mathcal{L}(\mu)\\&-\tfrac12\big(\varepsilon\cdot\Pi^{(1)}\varepsilon+\ln|\Pi^{\text{post}}|\big)\end{aligned}$$
 
   **The group.** Subject parameters follow a regression with group precision $\Pi^{(2)}$, shrink toward the line, and a Bayes factor tests an effect:
 

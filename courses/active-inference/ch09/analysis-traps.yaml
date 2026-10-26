@@ -9,7 +9,7 @@ cards:
     body: |
       Fast round: each question hides a tempting mistake about **fitting and comparing models of behaviour**. Answer quickly, then read the feedback, especially when you were right for a shaky reason.
 
-      Recall the cast. A scientist records the **actions** $\tilde u$ of a subject who saw **stimuli** $\tilde o$, and wants the **parameters** $\theta$ of the subject's own generative model, within the scientist's model $m$. The **likelihood** is $P(\tilde u\mid\theta,m,\tilde o)$, with log $L(\theta)$. The prior is $\theta\sim\mathcal N(\eta,\Pi_1^{-1})$ ($\Pi_1$ = precision, inverse variance). **Variational Laplace** returns a Gaussian posterior with mode $\mu$ and precision $\Pi_{\text{post}}$, and an approximate log **evidence** $\ln P(\tilde u\mid m,\tilde o)$. A **group** model treats the subjects' $\theta_i$ as data, $\theta\sim\mathcal N(X\beta,\Pi^{(2)})$. In the last questions the perceptual toy is $\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$.
+      Recall the cast. A scientist records the **actions** $\tilde u$ of a subject who saw **stimuli** $\tilde o$, and wants the **parameters** $\theta$ of the subject's own generative model, within the scientist's model $m$. The **likelihood** is $P(\tilde u\mid\theta,m,\tilde o)$, with log $\mathcal{L}(\theta)$. The prior is $\theta\sim\mathcal N(\eta,\left(\Pi^{(1)}\right)^{-1})$ ($\Pi^{(1)}$ = precision, inverse variance). **Variational Laplace** returns a Gaussian posterior with mode $\mu$ and precision $\Pi^{\text{post}}$, and an approximate log **evidence** $\ln P(\tilde u\mid m,\tilde o)$. A **group** model treats the subjects' $\theta_i$ as data, $\theta\sim\mathcal N(X\beta,\Pi^{(2)})$. In the last questions the perceptual toy is $\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$.
 
   - type: mcq
     id: needs-stimuli
@@ -32,14 +32,14 @@ cards:
     id: sum-logs
     title: Sum of logs
     prompt: |
-      For a given $\theta$ the model gives the probabilities $0.6$, $0.5$, $0.8$ to the three actions a rat actually took (each given the rat's cues so far). A student adds the probabilities. Using the rule that the log likelihood is a sum of log probabilities, $L(\theta)=\sum_t\ln P(u_t\mid\theta,m,\tilde o)$, what is $L(\theta)$? (Natural log, two decimals.)
+      For a given $\theta$ the model gives the probabilities $0.6$, $0.5$, $0.8$ to the three actions a rat actually took (each given the rat's cues so far). A student adds the probabilities. Using the rule that the log likelihood is a sum of log probabilities, $\mathcal{L}(\theta)=\sum_t\ln P(u_t\mid\theta,m,\tilde o)$, what is $\mathcal{L}(\theta)$? (Natural log, two decimals.)
     answer: -1.43
     tolerance: 0.01
     answerText: '-1.43'
     wrong:
       - { value: 1.9, tolerance: 0.01, feedback: "That adds the probabilities. Independent events multiply, $0.6\\cdot0.5\\cdot0.8=0.24$; adding logs is the same as multiplying probabilities. A sum of probabilities has no meaning here." }
       - { value: 0.24, tolerance: 0.005, feedback: "That is the likelihood itself (the product). The question asks for its **log**, $\\ln 0.24$." }
-      - { value: -0.48, tolerance: 0.01, feedback: "That is the average of the log probabilities. $L$ is their sum: more data must give more total evidence." }
+      - { value: -0.48, tolerance: 0.01, feedback: "That is the average of the log probabilities. $\\mathcal{L}$ is their sum: more data must give more total evidence." }
     hint: $\ln 0.6+\ln 0.5+\ln 0.8$.
     explanation: |
       $\ln0.6+\ln0.5+\ln0.8=-0.511-0.693-0.223=-1.43=\ln0.24$. Logs turn the product over trials into a sum, which is easier to handle and to differentiate. Since probabilities are below $1$, every term is negative.
@@ -63,16 +63,16 @@ cards:
     id: post-precision
     title: Curvature adds to the prior
     prompt: |
-      A parameter has prior precision $\Pi_1=1$. Near its peak the log likelihood is $L(\theta)=-3(\theta-1)^2$, whose second derivative (Hessian) is $-6$ at the mode. A student writes $\Pi_{\text{post}}=\Pi_1+\nabla^2L=1-6=-5$. Using $\Pi_{\text{post}}=\Pi_1-\nabla^2L(\mu)$, what is $\Pi_{\text{post}}$?
+      A parameter has prior precision $\Pi^{(1)}=1$. Near its peak the log likelihood is $\mathcal{L}(\theta)=-3(\theta-1)^2$, whose second derivative (Hessian) is $-6$ at the mode. A student writes $\Pi^{\text{post}}=\Pi^{(1)}+\nabla^2\mathcal{L}=1-6=-5$. Using $\Pi^{\text{post}}=\Pi^{(1)}-\nabla^2\mathcal{L}(\mu)$, what is $\Pi^{\text{post}}$?
     answer: 7
     tolerance: 0.001
     answerText: '7'
     wrong:
-      - { value: -5, tolerance: 0.001, feedback: "A precision cannot be negative. The Hessian at a **peak** is negative, so subtracting it **adds** the curvature: the sharper the peak of $L$, the more precise the posterior." }
+      - { value: -5, tolerance: 0.001, feedback: "A precision cannot be negative. The Hessian at a **peak** is negative, so subtracting it **adds** the curvature: the sharper the peak of $\\mathcal{L}$, the more precise the posterior." }
       - { value: 6, tolerance: 0.001, feedback: "That is the data's curvature alone. The posterior precision is the sum of what the prior and the data each contribute." }
     hint: Minus a negative number.
     explanation: |
-      $\Pi_{\text{post}}=1-(-6)=7$, so the posterior standard deviation is $1/\sqrt7\approx0.378$. A narrow peak in $L$ means the data pin $\theta$ down; the prior adds its own precision on top.
+      $\Pi^{\text{post}}=1-(-6)=7$, so the posterior standard deviation is $1/\sqrt7\approx0.378$. A narrow peak in $\mathcal{L}$ means the data pin $\theta$ down; the prior adds its own precision on top.
 
   - type: mcq
     id: gaussian-where
@@ -80,11 +80,11 @@ cards:
     prompt: |
       A student says "variational Laplace assumes the subject's choices are Gaussian, and it draws many random samples of $\theta$ to build the posterior". Which statement is correct?
     options:
-      - text: 'The Gaussian is the form given to the **posterior over the parameters** $\theta$ (fitted by climbing $L$ to the mode and measuring the curvature there); the choices can follow any distribution the model assigns, such as a softmax.'
+      - text: 'The Gaussian is the form given to the **posterior over the parameters** $\theta$ (fitted by climbing $\mathcal{L}$ to the mode and measuring the curvature there); the choices can follow any distribution the model assigns, such as a softmax.'
         correct: true
       - text: 'Right: it is a sampler, and with enough draws it is exact for any posterior.'
         feedback: |
-          It is not a sampler. It follows the gradient of $L$ to a mode and reads the curvature, which takes few evaluations, and it is exact only if the posterior is Gaussian.
+          It is not a sampler. It follows the gradient of $\mathcal{L}$ to a mode and reads the curvature, which takes few evaluations, and it is exact only if the posterior is Gaussian.
       - text: 'The Gaussian is a prior on the observed actions $\tilde u$.'
         feedback: |
           Actions are discrete arm choices here. The Gaussian prior is on the parameter $\theta$, and the Gaussian posterior is a second-order approximation of the true posterior over $\theta$.
@@ -104,7 +104,7 @@ cards:
       - { value: 2.0, tolerance: 0.02, feedback: "That is $e^{+0.7}$. The sign was dropped: $\\theta<0$ gives a scale **below** $1$." }
     hint: $e^{-0.7}$.
     explanation: |
-      $e^{-0.7}=0.50$: the rat's preferences are half as strong as the reference scale $1$ (the value at $\theta=0$, the centre of a prior $\mathcal N(0,\Pi_1^{-1})$), still positive. The log parameterisation lets $\theta$ be any real number, as a Gaussian needs, while the scale it controls stays positive.
+      $e^{-0.7}=0.50$: the rat's preferences are half as strong as the reference scale $1$ (the value at $\theta=0$, the centre of a prior $\mathcal N(0,\left(\Pi^{(1)}\right)^{-1})$), still positive. The log parameterisation lets $\theta$ be any real number, as a Gaussian needs, while the scale it controls stays positive.
 
   - type: numeric
     id: shrunk
@@ -158,18 +158,18 @@ cards:
     id: more-parameters
     title: Better fit, better model?
     prompt: |
-      Adding two extra free parameters to the model raises the log likelihood at the best fit, $L(\mu)$. A student says "the evidence must also rise, since the model explains the actions better". What is wrong?
+      Adding two extra free parameters to the model raises the log likelihood at the best fit, $\mathcal{L}(\mu)$. A student says "the evidence must also rise, since the model explains the actions better". What is wrong?
     options:
-      - text: 'The approximate log evidence is $L(\mu)-\tfrac12(\epsilon^{\top}\Pi_1\epsilon+\ln|\Pi_{\text{post}}|)$: the second term is a **complexity penalty** that grows when parameters must move away from the prior ($\epsilon=\eta-\mu$) and when the posterior is sharp. A small gain in fit may not pay for it.'
+      - text: 'The approximate log evidence is $\mathcal{L}(\mu)-\tfrac12(\varepsilon^{\top}\Pi^{(1)}\varepsilon+\ln|\Pi^{\text{post}}|)$: the second term is a **complexity penalty** that grows when parameters must move away from the prior ($\varepsilon=\eta-\mu$) and when the posterior is sharp. A small gain in fit may not pay for it.'
         correct: true
       - text: 'Nothing: extra parameters always raise the evidence, because they can only fit better.'
         feedback: |
-          They can only raise the **fit** $L(\mu)$. The evidence also weighs how much the data forced the parameters away from their priors, so unneeded parameters lower it.
+          They can only raise the **fit** $\mathcal{L}(\mu)$. The evidence also weighs how much the data forced the parameters away from their priors, so unneeded parameters lower it.
       - text: 'Evidence ignores the fit and measures only how many parameters there are.'
         feedback: |
           The fit is the first term. The evidence is an accuracy-minus-complexity balance, not just a parameter count.
     explanation: |
-      Model comparison by evidence is automatic Occam's razor: accuracy $L(\mu)$ minus complexity. This is why we compare evidences instead of picking the model with the highest likelihood.
+      Model comparison by evidence is automatic Occam's razor: accuracy $\mathcal{L}(\mu)$ minus complexity. This is why we compare evidences instead of picking the model with the highest likelihood.
 
   - type: mcq
     id: recovery-truth
@@ -252,21 +252,21 @@ cards:
         feedback: |
           The observations arrive normally. The failure is in how the model weighs them: the inference is normal, the prior is aberrant.
     explanation: |
-      Pathology here is an aberrant prior, not a broken rule. A fixed conditional probability also changes which policies look informative, so the choices themselves change.
+      Pathology here is an aberrant prior, not a broken rule. A fixed conditional probability also affects the potential information gain of policies, so choices can change too.
 
   - type: text
     id: summary
     title: Corrections to carry
     body: |
-      Corrections (setup: a scientist's model $m$ of a subject whose own model has parameters $\theta$; actions $\tilde u$, stimuli $\tilde o$; Gaussian prior $\mathcal N(\eta,\Pi_1^{-1})$ on $\theta$; group line $\ell_i=\beta_0+\beta_1x_i$ with second-level precision $\Pi^{(2)}$; perceptual toy with data $y$, prior value $\eta$, precisions $\Pi_y,\Pi_v$):
+      Corrections (setup: a scientist's model $m$ of a subject whose own model has parameters $\theta$; actions $\tilde u$, stimuli $\tilde o$; Gaussian prior $\mathcal N(\eta,\left(\Pi^{(1)}\right)^{-1})$ on $\theta$; group line $\ell_i=\beta_0+\beta_1x_i$ with second-level precision $\Pi^{(2)}$; perceptual toy with data $y$, prior value $\eta$, precisions $\Pi_y,\Pi_v$):
 
       - The likelihood needs the stimuli and is a product over trials, so its log is a sum of log probabilities:
-        $$L(\theta)=\sum_t\ln P(u_t\mid\theta,m,\tilde o)$$
+        $$\mathcal{L}(\theta)=\sum_t\ln P(u_t\mid\theta,m,\tilde o)$$
         Probabilities $0.6,0.5,0.8$ give $-1.43$, not $1.9$.
       - Evidence averages over the prior, it does not maximise:
         $$P(\tilde u\mid m)=\sum_\theta P(\theta\mid m)\,P(\tilde u\mid\theta,m)$$
-        Priors $(0.5,0.3,0.2)$ and likelihoods $(0.02,0.01,0.1)$ give $0.033$, not $0.1$. It balances fit against complexity: $L(\mu)-\tfrac12(\epsilon^{\top}\Pi_1\epsilon+\ln|\Pi_{\text{post}}|)$.
-      - Variational Laplace puts a Gaussian on $\theta$ (not on the choices) and is not a sampler; $\Pi_{\text{post}}=\Pi_1-\nabla^2L(\mu)$ ($1-(-6)=7$). A positive scale enters as $e^{\theta}$, so $\theta=-0.7$ means $0.50$.
+        Priors $(0.5,0.3,0.2)$ and likelihoods $(0.02,0.01,0.1)$ give $0.033$, not $0.1$. It balances fit against complexity: $\mathcal{L}(\mu)-\tfrac12(\varepsilon^{\top}\Pi^{(1)}\varepsilon+\ln|\Pi^{\text{post}}|)$.
+      - Variational Laplace puts a Gaussian on $\theta$ (not on the choices) and is not a sampler; $\Pi^{\text{post}}=\Pi^{(1)}-\nabla^2\mathcal{L}(\mu)$ ($1-(-6)=7$). A positive scale enters as $e^{\theta}$, so $\theta=-0.7$ means $0.50$.
       - Shrinkage is a precision-weighted average and reduces spread:
         $$\hat m_i=\frac{\Pi_i m_i+\Pi^{(2)}\ell_i}{\Pi_i+\Pi^{(2)}}$$
         With $(m_i,\Pi_i,\ell_i,\Pi^{(2)})=(2,1,0.4,3)$ the result is $0.8$.
