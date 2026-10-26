@@ -157,6 +157,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - Analysis steps: u~ actions, o~ stimuli; preference scale e^theta (ours, preferences ~ e^{e^theta c}); L=sum_t ln P(u_t|...); theta=.7 -> 2.01; probs .8,.5,.9 -> L=-1.02; fictive data = face validity + parameter recovery.
 - False inference: one-level toy g(mu)=mu, mu*=(Pi_y y+Pi_v eta)/(Pi_y+Pi_v); voice-in-noise y=0, eta=2: Pi (4,1) -> 0.4, (1,16) -> 1.88, (1,9) -> 1.8; spurious blip y=1, eta=0, Pi (9,1) -> 0.9. Pathology = aberrant priors, normal inference; only Table 9.1 claims used.
 - Analysis traps numbers: L(.6,.5,.8)=-1.43; evidence prior (.5,.3,.2) x lik (.02,.01,.1)=.033; L=-3(th-1)^2, Pi1=1 -> Pi_post 7; th=-.7 -> .50; shrink (m,Pi,l,Pi2)=(2,1,.4,3) -> .8; ln BF 3.3 -> 27.1; eta=3, Pi_v=100, y=0, Pi_y=1 -> 2.97.
+- Map: no new conventions; evidence formula shown in minus form split over two aligned lines (phone width).
 
 ## Chapter 10
 

@@ -1,0 +1,332 @@
+id: ch09-map
+title: "Content Map: Model-Based Analysis"
+kind: map
+name: Level 9, meta-Bayesian methods (fitting a subject's model, the group level and false inference)
+
+intro: |
+  A **content map** shows how the ideas of a level fit together. Each box is one idea. An arrow goes from an idea to one that builds on it, and its label says how: read it as a sentence, for example "the likelihood *is fed to* Bayes' rule".
+
+  This level turns active inference on the **scientist's side**: from the choices $u$ of a subject we infer the parameters $\theta$ of the subject's own generative model. The **left column** is the single-subject pipeline: the two models, the likelihood, the prior with Bayes' rule, and the variational Laplace approximation with its evidence. The **middle column** is validation and the **group level**: parameter recovery, a second-level regression, shrinkage and a Bayes factor. The **right column** is **false inference**: the precision balance, hallucination, delusion, and the idea that a disorder is a set of aberrant priors that the pipeline can estimate.
+
+  Running examples return: a **rat** in a T-maze whose preference scale is $e^{\theta}$, a group of subjects with their **ages** $x_i$, and a **voice in the noise** with precisions $\Pi_y$ and $\Pi_v$.
+
+  For each glowing box, pick the card that belongs there. The other cards look alike, but each hides a classic mistake, and every wrong pick comes with a reason. Tap a finished box at any time to reread its card.
+
+cols: 3
+nodes:
+  - id: meta
+    title: Meta-Bayesian inference
+    row: 1
+    col: 1
+    body: |
+      The subject (a rat) has a **subjective** model: a generative model with parameters $\theta$ that produces its actions. We, the scientists, see the stimuli $\tilde o$ and the choices $u$, and use an **objective** model $m$, with a prior over $\theta$, to infer $\theta$: inference about an inferrer.
+    decoys:
+      - body: |
+          The subject (a rat) has a **subjective** model: a generative model with parameters $\theta$ that produces its actions. We, the scientists, see the choices $u$ and the rat's **hidden states** $s$, and infer $\theta$ directly from those states.
+        feedback: |
+          The hidden states $s$ belong to the subject and are never observed. We see only stimuli and choices, and must infer $\theta$ through a model of how $\theta$ produces those choices.
+      - body: |
+          The subject (a rat) has an **objective** model of the world. We, the scientists, use a **subjective** model with a prior over $\theta$ to infer what the rat does.
+        feedback: |
+          The labels are swapped. The rat's own model is the subjective one (it is inside the rat's head); the scientist's model $m$, which predicts the rat's choices, is the objective one.
+    explanation: |
+      Two inferences run at once: the rat infers states from stimuli, and we infer the rat's parameters from its choices.
+
+  - id: pomdp
+    title: Parameters in, POMDP out
+    row: 2
+    col: 1
+    body: |
+      The model-building step maps $\theta$ to a fully specified, unsolved POMDP. A positive scale such as the preference scale enters on a log scale, so $\theta$ may be any real number and $\theta=0$ means scale $1$:
+      $$\text{preference scale}=e^{\theta}$$
+    decoys:
+      - body: |
+          The model-building step maps $\theta$ to a fully **solved** POMDP: the policies and action probabilities are already decided before the likelihood is specified. A positive scale enters on a log scale:
+          $$\text{preference scale}=e^{\theta}$$
+        feedback: |
+          Solving the POMDP is the next step: for a given $\theta$, belief updating produces the action probabilities. The model-building step only specifies the model.
+      - body: |
+          The model-building step maps $\theta$ to a fully specified, unsolved POMDP. A positive scale such as the preference scale is set directly equal to the parameter:
+          $$\text{preference scale}=\theta$$
+        feedback: |
+          Then $\theta$ would be forced to be positive, and a Gaussian prior on it (which allows negative values) would be wrong. With $e^{\theta}$, any real $\theta$ gives a valid positive scale.
+    explanation: |
+      Fixing $\theta=0$ gives scale $e^0=1$; $\theta=0.7$ gives about $2.01$.
+
+  - id: likelihood
+    title: Likelihood
+    row: 3
+    col: 1
+    body: |
+      For a given $\theta$, solve the POMDP to get the probability of each action. The likelihood of the observed actions is a product, so its **log** is a sum over time steps $t$:
+      $$L(\theta)=\sum_t\ln P(u_t\mid\theta,m,\tilde o)$$
+    decoys:
+      - body: |
+          For a given $\theta$, solve the POMDP to get the probability of each action. The likelihood of the observed actions is a product, so its **log** is a sum over time steps $t$, of the probabilities themselves:
+          $$L(\theta)=\sum_t P(u_t\mid\theta,m,\tilde o)$$
+        feedback: |
+          The log turns a product into a sum of **logs**. A sum of raw probabilities is not a probability of the whole sequence: with probabilities $.8,.5,.9$ the product is $.36$, not $2.2$.
+      - body: |
+          The likelihood is the probability of the **parameter** given the actions, summed over time steps $t$:
+          $$L(\theta)=\sum_t\ln P(\theta\mid u_t,m,\tilde o)$$
+        feedback: |
+          That is a posterior, not a likelihood. The likelihood runs from the parameter to the data: how probable are the observed actions if the subject has parameter $\theta$.
+    explanation: |
+      Probabilities $.8,.5,.9$ give $L=\ln.8+\ln.5+\ln.9\approx-1.02$.
+
+  - id: bayes
+    title: Prior and Bayes' rule
+    row: 4
+    col: 1
+    body: |
+      The prior is Gaussian, $P(\theta\mid m)=\mathcal{N}(\eta,\Pi_1^{-1})$, with mean $\eta$ and **precision** $\Pi_1$. Bayes' rule gives the posterior, and the normalising constant is the model **evidence**:
+      $$P(\theta\mid u,m)=\frac{P(u\mid\theta,m)\,P(\theta\mid m)}{P(u\mid m)}$$
+    decoys:
+      - body: |
+          The prior is Gaussian, $P(\theta\mid m)=\mathcal{N}(\eta,\Pi_1)$, with mean $\eta$ and **variance** $\Pi_1$. Bayes' rule gives the posterior, and the normalising constant is the model evidence:
+          $$P(\theta\mid u,m)=\frac{P(u\mid\theta,m)\,P(\theta\mid m)}{P(u\mid m)}$$
+        feedback: |
+          In this notation $\Pi_1$ is a precision, an inverse covariance, so the covariance is $\Pi_1^{-1}$. Mixing the two makes a "very precise" prior wide.
+      - body: |
+          The prior is Gaussian, $P(\theta\mid m)=\mathcal{N}(\eta,\Pi_1^{-1})$. Bayes' rule gives the posterior, and the normalising constant is the **maximum** of the likelihood:
+          $$P(\theta\mid u,m)=\frac{P(u\mid\theta,m)\,P(\theta\mid m)}{\max_\theta P(u\mid\theta,m)}$$
+        feedback: |
+          The evidence is the likelihood averaged over the prior, $\sum_\theta P(u\mid\theta,m)P(\theta\mid m)$, not its peak. Averaging punishes models that spread prior weight on parameters that fit badly.
+    explanation: |
+      There is always a prior: even "no prior" is a very flat Gaussian. The three-grid toy gives evidence $.00342$ for 8 left choices of 10.
+
+  - id: laplace
+    title: Variational Laplace
+    row: 5
+    col: 1
+    body: |
+      Approximate the posterior by a Gaussian at the **mode** $\mu$ of $L(\theta)-\tfrac12(\theta-\eta)\cdot\Pi_1(\theta-\eta)$, found by gradient ascent. Its precision is the prior precision plus the curvature of the log likelihood:
+      $$\Pi_{\text{post}}=\Pi_1-\nabla_{\mu\mu}L(\mu)$$
+    decoys:
+      - body: |
+          Approximate the posterior by a Gaussian at the **mode** $\mu$ of $L(\theta)-\tfrac12(\theta-\eta)\cdot\Pi_1(\theta-\eta)$, found by gradient ascent. Its precision is the prior precision plus the curvature:
+          $$\Pi_{\text{post}}=\Pi_1+\nabla_{\mu\mu}L(\mu)$$
+        feedback: |
+          At a peak the second derivative of $L$ is negative, so adding it would **lower** the precision below the prior's. The sign is minus: $\Pi_1-\nabla_{\mu\mu}L$ is larger than $\Pi_1$. For $L=-2(\theta-3)^2$ and $\Pi_1=2$ it gives $6$.
+      - body: |
+          Approximate the posterior by a Gaussian by **drawing samples** of $\theta$ from the prior and keeping the best ones. Its precision is the prior precision plus the curvature:
+          $$\Pi_{\text{post}}=\Pi_1-\nabla_{\mu\mu}L(\mu)$$
+        feedback: |
+          Variational Laplace is not a sampler. It climbs to the mode with gradients (finite differences if needed) and reads the curvature there; sampling would require many costly POMDP solutions.
+    explanation: |
+      The Gaussian reports the mode, not the true mean, and cannot show skew or several peaks.
+
+  - id: evidence
+    title: Approximate log evidence
+    row: 6
+    col: 1
+    body: |
+      With $\varepsilon=\eta-\mu$ (mode against prior mean), the approximate log evidence rewards fit and penalises complexity:
+      $$\begin{aligned}\ln P(u\mid m)\approx\;&L(\mu)-\tfrac12\varepsilon\cdot\Pi_1\varepsilon\\&-\tfrac12\ln|\Pi_{\text{post}}|\end{aligned}$$
+    decoys:
+      - body: |
+          With $\varepsilon=\eta-\mu$, the approximate log evidence is just the **best fit** of the data, the value of the log likelihood at the mode:
+          $$\ln P(u\mid m)\approx L(\mu)$$
+        feedback: |
+          That is maximum likelihood. It ignores how far the mode moved from the prior and how precisely it is pinned down, so a model with many free parameters would always win.
+      - body: |
+          With $\varepsilon=\eta-\mu$, the approximate log evidence rewards fit and **adds** the complexity terms:
+          $$\begin{aligned}\ln P(u\mid m)\approx\;&L(\mu)+\tfrac12\varepsilon\cdot\Pi_1\varepsilon\\&+\tfrac12\ln|\Pi_{\text{post}}|\end{aligned}$$
+        feedback: |
+          The sign is flipped. Moving far from the prior and having a sharp posterior are costs (Occam penalties), so they are subtracted.
+    explanation: |
+      In the lever toy the approximation gives $-5.358$ against the exact $-5.354$.
+
+  - id: recovery
+    title: Validation
+    row: 2
+    col: 2
+    body: |
+      Before real data, **simulate fictive data** with a known $\theta$: do they look plausible (face validity)? Then invert them and check **parameter recovery**: the estimate should land near the $\theta$ that was used.
+    decoys:
+      - body: |
+          Before real data, **fit the real data** first. If the fit is good, the model has been validated, and the estimate is right whatever the true $\theta$ was.
+        feedback: |
+          With real data the true $\theta$ is unknown, so a good fit cannot show that the pipeline recovers anything. Recovery needs a known truth.
+      - body: |
+          Before real data, **simulate fictive data** with a known $\theta$: if they look plausible, the pipeline is validated, and no inversion is needed.
+        feedback: |
+          Plausible data show only face validity. You must also invert the fictive data and check that the estimate comes back near the known $\theta$.
+    explanation: |
+      Fictive data come first because their truth is known.
+
+  - id: glm
+    title: Second level
+    row: 4
+    col: 2
+    body: |
+      The fitted parameters of all subjects, one entry per subject, are treated as data of a **general linear model** with explanatory variables $X$ (a column of ones, age, ...), effect sizes $\beta$ and group **precision** $\Pi^{(2)}$:
+      $$P(\theta\mid\beta,X)=\mathcal{N}\big(X\beta,\ \Pi^{(2)}\big)$$
+    decoys:
+      - body: |
+          The fitted parameters of all subjects are treated as data of a **general linear model** with explanatory variables $X$, effect sizes $\beta$ and group **variance** $\Pi^{(2)}$:
+          $$P(\theta\mid\beta,X)=\mathcal{N}\big(X\beta,\ \Pi^{(2)}\big)$$
+        feedback: |
+          $\Pi^{(2)}$ is a precision, the inverse of the subject-to-subject variance. A larger $\Pi^{(2)}$ means subjects scatter **less** around the line.
+      - body: |
+          The fitted parameters of all subjects are first **averaged**, and the single average is treated as data of a general linear model with effect sizes $\beta$:
+          $$P(\bar\theta\mid\beta)=\mathcal{N}\big(\beta,\ \Pi^{(2)}\big)$$
+        feedback: |
+          Averaging throws away the covariates: with one number there is no slope against age. The model needs one row of $X$ per subject.
+    explanation: |
+      The first column of ones makes $\beta_0$ the group mean; a column of ages makes $\beta_1$ the slope.
+
+  - id: shrink
+    title: Shrinkage
+    row: 5
+    col: 2
+    body: |
+      Re-read subject $i$ (first-level mean $m_i$, precision $\Pi_i$) under the group prediction $\ell_i=\beta_0+\beta_1x_i$. The new mean is a precision-weighted average:
+      $$\hat m_i=\frac{\Pi_i\,m_i+\Pi^{(2)}\,\ell_i}{\Pi_i+\Pi^{(2)}}$$
+    decoys:
+      - body: |
+          Re-read subject $i$ (first-level mean $m_i$, precision $\Pi_i$) under the group prediction $\ell_i=\beta_0+\beta_1x_i$. The new mean is a precision-weighted average, with the weights swapped:
+          $$\hat m_i=\frac{\Pi^{(2)}\,m_i+\Pi_i\,\ell_i}{\Pi_i+\Pi^{(2)}}$$
+        feedback: |
+          Swapped weights would pull precisely measured subjects hardest toward the group. It is the reverse: a large $\Pi_i$ keeps $\hat m_i$ near $m_i$.
+      - body: |
+          Re-read subject $i$ (first-level mean $m_i$, precision $\Pi_i$) under the group prediction $\ell_i=\beta_0+\beta_1x_i$. The new mean is the plain **mean** of the two:
+          $$\hat m_i=\tfrac12\big(m_i+\ell_i\big)$$
+        feedback: |
+          Equal weights ignore how well each is known. The weights are the precisions: a subject measured imprecisely moves a lot, a precise one hardly.
+    explanation: |
+      With $m=2$, $\Pi_i=1$, $\ell=0.4$, $\Pi^{(2)}=3$ the shrunk mean is $0.8$.
+
+  - id: bf
+    title: Model reduction and Bayes factor
+    row: 6
+    col: 2
+    body: |
+      Does age matter? Compare the evidence for the model with $\beta_1$ free against one with a precise belief $\beta_1=0$, by **Bayesian model reduction** (no refitting). A positive log Bayes factor favours an effect:
+      $$\ln\frac{P(\text{data}\mid\beta_1\text{ free})}{P(\text{data}\mid\beta_1=0)}$$
+    decoys:
+      - body: |
+          Does age matter? Compare the **fit** of the model with $\beta_1$ free against one with $\beta_1=0$, after refitting every subject. A larger fit favours an effect:
+          $$\ln\frac{P(\text{data}\mid\hat\beta_1,\theta)}{P(\text{data}\mid\beta_1=0,\theta)}$$
+        feedback: |
+          A model with more free parameters always fits at least as well, so fit alone always favours the effect. The evidence includes the complexity cost, and model reduction avoids the refit.
+      - body: |
+          Does age matter? Check whether the **point estimates** $m_i$ correlate with age; if they do, the effect is real.
+        feedback: |
+          Raw estimates ignore each subject's precision, so noisy subjects add scatter that is treated as signal. The group model weights by precision and returns a Bayes factor.
+    explanation: |
+      A log Bayes factor of $3.3$ is a Bayes factor of about $27$.
+
+  - id: precision
+    title: Precision balance
+    row: 3
+    col: 3
+    body: |
+      One hidden cause $v$ with prior mean $\eta$ and precision $\Pi_v$, data $y$ with precision $\Pi_y$, and $g(\mu)=\mu$. Minimising $F$ gives a precision-weighted compromise:
+      $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$$
+    decoys:
+      - body: |
+          One hidden cause $v$ with prior mean $\eta$ and precision $\Pi_v$, data $y$ with precision $\Pi_y$, and $g(\mu)=\mu$. Minimising $F$ gives a compromise with the weights swapped:
+          $$\mu^*=\frac{\Pi_v\,y+\Pi_y\,\eta}{\Pi_y+\Pi_v}$$
+        feedback: |
+          Then precise data would be ignored. A large $\Pi_y$ must pull $\mu^*$ toward $y$, so $y$ carries the weight $\Pi_y$.
+      - body: |
+          One hidden cause $v$ with prior mean $\eta$ and precision $\Pi_v$, data $y$ with precision $\Pi_y$. Minimising $F$ gives the **data**, once the prior is ignored:
+          $$\mu^*=y$$
+        feedback: |
+          That holds only in the limit $\Pi_y\gg\Pi_v$. With a finite prior precision the percept is pulled toward $\eta$: for $y=0$, $\eta=2$, $\Pi=(4,1)$ it is $0.4$, not $0$.
+    explanation: |
+      There is no "no prior" perception: the prior is always part of the compromise.
+
+  - id: halluc
+    title: Hallucination
+    row: 4
+    col: 3
+    body: |
+      A hallucination is an **imbalance of precisions**, in either direction. If data are over-weighted, noise is overinterpreted; if the prior is over-weighted, an internally generated percept resists conflicting data:
+      $$\Pi_y\gg\Pi_v\Rightarrow\mu^*\approx y$$
+      and
+      $$\Pi_v\gg\Pi_y\Rightarrow\mu^*\approx\eta$$
+    decoys:
+      - body: |
+          A hallucination arises only from **too little prior precision**: the brain has no expectation, so it invents percepts from noise.
+        feedback: |
+          Too little prior is one direction (overinterpretation). A prior that is too precise produces the other: a voice that the data do not contain but that the data cannot remove.
+      - body: |
+          A hallucination is a **broken inference rule**: the brain no longer minimises free energy, so the percept is random.
+        feedback: |
+          The rule can run normally. With $y=0$, $\eta=2$, $\Pi=(1,16)$ it gives $\mu^*=1.88$: a normal minimisation of $F$ that returns a voice, because the prior is too precise.
+    explanation: |
+      Precisions are linked to neuromodulators; this is why the same symptom can come from either side.
+
+  - id: delusion
+    title: Delusion and disconnection
+    row: 5
+    col: 3
+    body: |
+      A delusion is a fixed, false belief: a **very precise** belief without supporting evidence, which stays fixed against contradictory data. An absent synapse likewise cannot be modulated, like an extremely confident prior about a conditional probability.
+    decoys:
+      - body: |
+          A delusion is a fixed, false belief: a belief with **very low precision**, so that it wanders and is easily replaced by whatever data arrive.
+        feedback: |
+          A low-precision belief is overwritten by data. A delusion is fixed, which is the mark of a posterior that is too precise to update.
+      - body: |
+          A delusion is a fixed, false belief: a very precise belief. An absent synapse, by contrast, is a prior with **zero precision**, so new data change it instantly.
+        feedback: |
+          An absent synapse cannot be changed at all, which is the confident-prior picture. A zero-precision prior would be rewritten by the first data, the opposite.
+    explanation: |
+      A parameter that cannot change cannot be learned about, which cuts the information gain of policies that would probe it.
+
+  - id: aberrant
+    title: Aberrant priors, estimated
+    row: 6
+    col: 3
+    body: |
+      A disorder is a flawed **model**, not a flawed rule: inference runs normally with aberrant priors. Put the suspected aberration in a parameter, for example $\Pi_v=e^{\theta}$, run the pipeline for each person, and compare patients with controls at the group level.
+    decoys:
+      - body: |
+          A disorder is a flawed **rule**: inference itself breaks. Put the suspected aberration in a parameter, for example $\Pi_v=e^{\theta}$, run the pipeline for each person, and compare patients with controls.
+        feedback: |
+          The account keeps the rule (minimise $F$, Bayes) and changes the priors. That is also what makes the pipeline usable: the aberration lives in a parameter $\theta$ that can be estimated.
+      - body: |
+          A disorder is a flawed **model**. Estimate it by fitting each person's parameter, averaging over all people, and reporting the **correlation** of the point estimates with the diagnosis.
+        feedback: |
+          Averaging and correlating point estimates loses each person's uncertainty. The group-level model uses each posterior, with shrinkage, and compares models by evidence.
+    explanation: |
+      Table-style pathologies (addiction, neglect, hallucinations) become parameters with a posterior and a group comparison.
+
+edges:
+  - { from: meta, to: pomdp, label: needs }
+  - { from: pomdp, to: likelihood, label: solved for }
+  - { from: likelihood, to: bayes, label: fed to }
+  - { from: bayes, to: laplace, label: approximated by }
+  - { from: laplace, to: evidence, label: also gives }
+  - { from: pomdp, to: recovery, dashed: true }
+  - { from: bayes, to: glm, dashed: true }
+  - { from: glm, to: shrink, label: gives }
+  - { from: shrink, to: bf, label: tested by }
+  - { from: evidence, to: bf, dashed: true }
+  - { from: precision, to: halluc, label: unbalanced gives }
+  - { from: halluc, to: delusion, label: pushed to }
+  - { from: delusion, to: aberrant, label: seen as }
+  - { from: bf, to: aberrant, dashed: true }
+
+outroTitle: Level 9 in one picture
+outro: |
+  **One subject.** From stimuli $\tilde o$ and choices $u$ we infer the parameters $\theta$ of the subject's own model. Build the POMDP from $\theta$, then the log likelihood is a sum over time steps:
+
+  $$L(\theta)=\sum_t\ln P(u_t\mid\theta,m,\tilde o)$$
+
+  With the prior $\mathcal{N}(\eta,\Pi_1^{-1})$, variational Laplace finds the mode $\mu$ and the posterior precision (with $\varepsilon=\eta-\mu$):
+
+  $$\Pi_{\text{post}}=\Pi_1-\nabla_{\mu\mu}L(\mu)$$
+
+  $$\begin{aligned}\ln P(u\mid m)\approx\;&L(\mu)\\&-\tfrac12\big(\varepsilon\cdot\Pi_1\varepsilon+\ln|\Pi_{\text{post}}|\big)\end{aligned}$$
+
+  **The group.** Subject parameters follow a regression with group precision $\Pi^{(2)}$, shrink toward the line, and a Bayes factor tests an effect:
+
+  $$P(\theta\mid\beta,X)=\mathcal{N}\big(X\beta,\ \Pi^{(2)}\big)$$
+
+  **False inference.** The percept is a precision-weighted compromise, and disorders are aberrant priors that the pipeline can estimate:
+
+  $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$$
