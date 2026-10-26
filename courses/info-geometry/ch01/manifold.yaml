@@ -1,0 +1,323 @@
+id: ch01-manifold
+title: Manifolds and Coordinates
+kind: concept
+own: |
+  - **Manifold and chart.** An $n$-dimensional **manifold** is a set of points where, near each point, you can move in $n$ independent directions, like in the flat space $\mathbb{R}^n$ (a curved surface is the two-dimensional case). A **coordinate system** (chart) names each point of a neighbourhood by $n$ numbers, uniquely:
+    $$\xi=(\xi_1,\dots,\xi_n).$$
+    The subscripts are labels ("the $i$-th number"), not powers.
+  - **Many charts, one set.** If $\xi$ and $\zeta$ are two charts of the same points, each point has both addresses, linked by a one-to-one, differentiable change of chart $f$ and its inverse:
+    $$\xi=f(\zeta),$$
+    $$\zeta=f^{-1}(\xi),$$
+    where $f$ and $f^{-1}$ are mutually inverse: {{ $\zeta=f^{-1}(\xi)$ }} undoes $\xi=f(\zeta)$.
+    A point does not change when its numbers do.
+  - **The plane.** On the flat plane $\mathbb{R}^2$ take the cartesian chart $\xi=(\xi_1,\xi_2)$ (distances along two perpendicular axes) and the polar chart $\zeta=(r,\theta)$ (distance from the origin, angle from the first axis). For $\xi_1>0$ they are related by
+    $$r=\sqrt{\xi_1^2+\xi_2^2},\qquad \theta=\tan^{-1}\frac{\xi_2}{\xi_1},$$
+    and back by {{ $\xi_1=r\cos\theta,\ \xi_2=r\sin\theta$ }}. The polar chart fails at the origin ($\theta$ undefined there).
+  - **The Gaussians.** The set of Gaussian distributions $N(\mu,\sigma^2)$ (bell curves with mean $\mu$ and variance $\sigma^2$, the density being $p(x;\mu,\sigma^2)=\frac{1}{\sqrt{2\pi}\,\sigma}e^{-(x-\mu)^2/2\sigma^2}$) is a two-dimensional manifold. One chart is $\xi=(\mu,\sigma)$ with $\sigma>0$; another is $(\mu,\sigma^2)$; a third is $(m_1,m_2)$ with the first two moments
+    $$m_1=\mu,$$
+    {{ $$m_2=\mu^2+\sigma^2.$$ }}
+    A segment straight in the $(\mu,\sigma)$ chart is bent in the $(\mu,\sigma^2)$ chart: straightness belongs to the chart, not yet to the set.
+  - **The simplex.** The distributions over the outcomes $0,1,\dots,n$ are the lists $p=(p_0,p_1,\dots,p_n)$ with $p_i>0$ and $\sum_i p_i=1$. They form an $n$-dimensional manifold $S_n$, the **probability simplex** (for $n=2$ the inside of a triangle). A chart is $\xi=(p_1,\dots,p_n)$, because the remaining number is not free:
+    {{ $$p_0=1-\sum_{i=1}^n\xi_i.$$ }}
+cards:
+  - type: text
+    id: hook
+    title: "One point, many names"
+    body: |
+      Same rules as before: this level is a light tour, **guessing is the point**, and every technical word is explained when it first appears.
+
+      Your home can be named by a **street address** ("12 Oak Street") or by **GPS numbers** (two numbers: latitude and longitude). Two completely different lists of symbols, one house. If the city renamed the streets, the house would not move.
+
+      Now the idea of this lesson: the things we study (a flat plane, the bell curves of statistics, the beliefs of the previous lesson) are **sets of points**, and each point can be *named by numbers* in more than one way. Before any definition, let us look at the same point named in two ways.
+
+  - type: widget
+    id: plane
+    widget: chart-basis
+    config:
+      charts: [cartesian, polar]
+      p: [3, 4]
+      v: [1, 0]
+      jacobian: false
+      snap: 0.25
+      view: { x: -1.5, y: -1.5, w: 8, h: 8 }
+    body: |
+      This is the flat **plane**. Solid lines: the lines of the **cartesian** numbers $(x,y)$ (how far right, how far up). Dashed lines: the lines of the **polar** numbers $(r,\theta)$: $r$ is the distance from the origin (circles) and $\theta$ is the angle measured from the right-pointing axis (rays; in radians, one full turn is $2\pi\approx6.28$).
+
+      Drag the gold point $p$ around. Watch the two pairs of numbers in the readout: both change, yet there is only **one point**. (Ignore the purple and blue arrows, they belong to a later lesson.)
+
+  - type: mcq
+    id: which-polar
+    prompt: |
+      On the flat plane, a point sits $2$ units straight above the origin: its cartesian numbers are $(x,y)=(0,2)$. Its polar numbers are $(r,\theta)$, where $r$ is the distance from the origin and $\theta$ is the angle from the right-pointing axis. Which pair names the same point?
+    options:
+      - text: $(r,\theta)=(2,\ \pi/2)$
+        correct: true
+      - text: $(r,\theta)=(0,\ 2)$
+        feedback: |
+          These are the cartesian numbers copied into the polar slots. The same pair of numbers means a different point in a different chart: $r=0$ is the origin itself.
+      - text: $(r,\theta)=(2,\ 0)$
+        feedback: |
+          The distance is right, but $\theta=0$ points along the right-pointing axis. Straight up is a quarter turn.
+      - text: $(r,\theta)=(\pi/2,\ 2)$
+        feedback: |
+          The two numbers are swapped. The first polar number is the distance, the second is the angle.
+    hint: |
+      A quarter of a full turn ($2\pi$) is the angle between "right" and "up".
+    explanation: |
+      The point is $2$ away from the origin, so $r=2$, and it lies a quarter turn from the right-pointing axis, so $\theta=\tfrac{2\pi}{4}=\tfrac{\pi}{2}$. The numbers $(0,2)$ and $(2,\pi/2)$ are two **names** of one point.
+
+  - type: numeric
+    id: to-polar
+    prompt: |
+      A point has cartesian numbers $(x,y)=(3,4)$. Its distance from the origin is $r=5$. Find its angle $\theta$ from the right-pointing axis, in **radians**. Give three decimals.
+    answer: 0.9273
+    tolerance: 0.003
+    answerText: '0.927'
+    wrong:
+      - { value: 1.3333, feedback: 'That is $y/x$, the *slope* ($\tan\theta$), not the angle itself. The angle is the number whose tangent is $4/3$: use the inverse tangent.' }
+      - { value: 0.6435, feedback: 'That is the angle with $\tan=3/4$, i.e. measured from the up-pointing axis. $\theta$ is measured from the right-pointing axis, where the side facing it has length $3$ and the opposite side $4$.' }
+      - { value: 53.13, tolerance: 0.1, feedback: 'That is the right angle but in **degrees**. Radians (one full turn $=2\pi$) are the unit of the polar chart.' }
+    hint: |
+      Draw the right triangle with legs $3$ (along the axis) and $4$ (up). Then $\tan\theta=\text{opposite}/\text{adjacent}$, so $\theta=\tan^{-1}(4/3)$.
+    explanation: |
+      $$r=\sqrt{3^2+4^2}=5,\qquad \theta=\tan^{-1}\frac43\approx0.927.$$
+      The way back must give the same point: $r\cos\theta=5\cdot0.6=3$ and $r\sin\theta=5\cdot0.8=4$. So $(3,4)$ and $(5,\,0.927)$ are one point under two names.
+
+  - type: text
+    id: define
+    title: "Manifold and coordinate system"
+    body: |
+      Now the words. A **manifold** is a set of points that, **near each point**, looks like flat space: around every point you can move in $n$ independent directions, and $n$ is the **dimension**. A flat plane is a manifold of dimension $2$. So is the surface of the Earth: curved, but a small piece looks like a flat map. (The whole Earth cannot be flattened into one map without cutting it, so one needs several overlapping maps. Remember this: *more than one chart may be needed.*)
+
+      A **coordinate system** (also called a **chart**) names the points near one point by $n$ numbers, each point by exactly one list:
+      $$\xi=(\xi_1,\dots,\xi_n).$$
+      Here $\xi$ is the Greek letter "xi", and **the subscripts are only labels**: $\xi_2$ means "the second number", never a power. (For the plane, $\xi=(\xi_1,\xi_2)$ is the cartesian pair $(x,y)$.)
+
+      The same points have **many** charts. If $\zeta=(\zeta_1,\dots,\zeta_n)$ is another one, the two lists of numbers of one point are linked by a one-to-one, differentiable rule, a **change of chart**:
+      $$\xi=f(\zeta),\qquad \zeta=f^{-1}(\xi).$$
+      $f$ is a function that turns $\zeta$-numbers into $\xi$-numbers, and $f^{-1}$ ("$f$ inverse") undoes it. For the plane, with $\zeta=(r,\theta)$:
+      $$r=\sqrt{\xi_1^2+\xi_2^2},\qquad \theta=\tan^{-1}\frac{\xi_2}{\xi_1},$$
+      $$\xi_1=r\cos\theta,\qquad \xi_2=r\sin\theta.$$
+      (The first line holds for $\xi_1>0$. The rule is smooth everywhere except at the origin.)
+
+  - type: widget
+    id: bell-hook
+    widget: gauss-charts
+    config:
+      chart: sigma
+      point: { mu: 0, sigma: 1 }
+      readout: false
+    body: |
+      Now a stranger set of points. A **bell curve** (a **Gaussian distribution**, a belief about a measured number $x$) has a **mean** $\mu$ (where the bell is centred) and a **standard deviation** $\sigma$ (how wide it is; always positive). Each bell curve is **one point**, and the pair $(\mu,\sigma)$ is its address on the left plane. The curve below shows its **density**: the area under the curve between two values of $x$ is the chance that the measured number falls between them.
+
+      Drag the point and watch the bell curve change. Where would you put the point of a bell that is **narrower** and **shifted to the right**?
+
+  - type: mcq
+    id: bell-guess
+    prompt: |
+      Bell curves are located by $(\mu,\sigma)$: $\mu$ across (where the bell is centred), $\sigma$ up (how wide it is). One bell curve has $(\mu,\sigma)=(0,1)$. A second bell curve is **narrower** and its centre is **to the right** of the first. Where is its point, compared with the first?
+    options:
+      - text: To the right and lower.
+        correct: true
+      - text: To the right and higher.
+        feedback: |
+          Higher means a larger $\sigma$, a **wider** bell. The second bell is narrower, so $\sigma$ is smaller.
+      - text: To the left and lower.
+        feedback: |
+          Narrower ($\sigma$ smaller, lower) is right, but moving the centre to the right increases $\mu$, which is the horizontal number.
+      - text: At the same place, since both are bell curves.
+        feedback: |
+          Same *shape family*, not the same point. Each different bell curve is a different point; only the **numbers** $(\mu,\sigma)$ tell them apart.
+    hint: |
+      Horizontal number $\mu$ = where the bell is centred; vertical number $\sigma$ = how wide.
+    explanation: |
+      A larger $\mu$ moves the point right; a smaller $\sigma$ moves it down. The set of all bell curves is a **two-dimensional** set of points (two numbers locate one), with $\sigma>0$: the upper half of a plane. The formula of the density, for the record, is
+      $$p(x;\mu,\sigma^2)=\frac{1}{\sqrt{2\pi}\,\sigma}\exp\Big\{-\frac{(x-\mu)^2}{2\sigma^2}\Big\}.$$
+      (Do not worry about it: only the two numbers matter today. The "$\exp$" is the exponential function $e^{(\cdot)}$.)
+
+  - type: widget
+    id: two-books
+    widget: gauss-charts
+    config:
+      point: { mu: 0.5, sigma: 1 }
+    body: |
+      Same bell curves, now with **two address books**. Left: $(\mu,\sigma)$. Right: $(\mu,\sigma^2)$, where $\sigma^2$ is the **variance** ($\sigma$ times itself, the width squared). Drag the point in either picture: it is the same bell curve, with the same density below. Only its two lists of numbers differ.
+
+      Try to move the point from $\sigma=1$ to $\sigma=2$, then to $\sigma=3$, and watch the right picture.
+
+  - type: mcq
+    id: uneven
+    prompt: |
+      A bell curve moves from $\sigma=1$ to $\sigma=2$ (a step of $1$ in $\sigma$), and another from $\sigma=2$ to $\sigma=3$ (also a step of $1$). Looking at the **variance** $\sigma^2$, which step is bigger?
+    options:
+      - text: 'The second step ($\sigma^2$ goes from $4$ to $9$, a step of $5$, against $3$).'
+        correct: true
+      - text: The first step.
+        feedback: |
+          Squaring makes larger numbers grow faster: the step from $4$ to $9$ is bigger than the step from $1$ to $4$.
+      - text: 'They are equal: a step of $1$ is a step of $1$.'
+        feedback: |
+          This holds in the $\sigma$ address book, but the change of chart $\sigma\mapsto\sigma^2$ is not a shift: equal steps of $\sigma$ become unequal steps of $\sigma^2$.
+    hint: |
+      Square the three numbers $1,2,3$.
+    explanation: |
+      $\sigma^2$ takes the values $1,4,9$, so the steps are $4-1=3$ and $9-4=5$. Equally spaced lines in one chart are unequally spaced in the other: charts are *stretchy rulers*. The change of chart here is $\sigma^2=(\sigma)^2$ and back $\sigma=\sqrt{\sigma^2}$, with the mean $\mu$ unchanged.
+
+  - type: widget
+    id: straight
+    widget: gauss-charts
+    config:
+      point: { name: p, mu: -1, sigma: 0.6 }
+      curves:
+        - { name: q, mu: 1, sigma: 1.6 }
+        - { segment: { from: [-1, 0.6], to: [1, 1.6], chart: sigma }, hue: gold }
+      grid: both
+    body: |
+      Two bell curves $p$ and $q$ (with their densities). The gold **segment** joins them *as drawn in the left address book*, $(\mu,\sigma)$: a straight ruler line there. The right picture shows the **same** gold family of bell curves in the $(\mu,\sigma^2)$ address book.
+
+      Blue lines: $\sigma$ constant. Orange lines: $\sigma^2$ constant. Compare how evenly spaced each kind of line is in the two pictures.
+
+  - type: mcq
+    id: straight-depends
+    prompt: |
+      A family of bell curves (the Gaussian distributions) forms a straight line when drawn in the $(\mu,\sigma)$ address book, with endpoints $(\mu,\sigma)=(-1,0.6)$ and $(1,1.6)$. In the $(\mu,\sigma^2)$ address book, the same family of bell curves is a **bent** curve. What does this tell us?
+    options:
+      - text: "\"Straight\" depends on the address book (the chart): it is not yet a property of the set of bell curves itself."
+        correct: true
+      - text: One of the two address books is wrong.
+        feedback: |
+          Both are fine: each bell curve has exactly one pair of numbers in each. They are just different rulers.
+      - text: The two address books describe different sets of bell curves.
+        feedback: |
+          Same set, same points. Only the numbers attached to them change.
+      - text: The bent curve contains different bell curves from the straight one.
+        feedback: |
+          Same bell curves: only the *drawing* differs. For instance the midpoint of the straight segment has $\sigma=1.1$, so it has variance $1.1^2=1.21$, and its address in the other chart is $(0,\,1.21)$, which is not on the straight segment of that chart (whose midpoint has variance $1.46$).
+    hint: |
+      Is the family of bell curves the same in both pictures?
+    explanation: |
+      The midpoint of the segment in the $(\mu,\sigma)$ chart is $(\mu,\sigma)=(0,1.1)$, whose variance is $1.21$. The midpoint of the straight segment in the $(\mu,\sigma^2)$ chart is $\big(0,\tfrac{0.36+2.56}{2}\big)=(0,1.46)$, i.e. $\sigma\approx1.208$. Two different bell curves. So "the straight line between two points" has no meaning until we say **in which coordinates**. A good geometry of probabilities must decide what "straight" means. That is the work of later lessons.
+
+  - type: numeric
+    id: moments
+    prompt: |
+      A third address book uses the **moments** $(m_1,m_2)$ of a bell curve: $m_1=\mu$ (the mean) and $m_2=\mu^2+\sigma^2$ (the average of $x^2$). A bell curve has $(\mu,\sigma)=(1,2)$. What is its $m_2$?
+    answer: 5
+    wrong:
+      - { value: 4, feedback: 'That is $\sigma^2$ alone: you forgot $\mu^2$.' }
+      - { value: 3, feedback: 'You added $\mu+\sigma$. The formula squares each: $\mu^2+\sigma^2$.' }
+      - { value: 2, feedback: 'That is $\sigma$, one of the coordinates of the first chart, not $m_2$.' }
+    hint: |
+      $m_2=\mu^2+\sigma^2$ with $\mu=1$ and $\sigma=2$.
+    explanation: |
+      $$m_2=1^2+2^2=5,\qquad\text{so }(m_1,m_2)=(1,5).$$
+      One bell curve, three names: $(\mu,\sigma)=(1,2)$, $(\mu,\sigma^2)=(1,4)$, $(m_1,m_2)=(1,5)$. And the way back: $\mu=m_1=1$, $\sigma^2=m_2-m_1^2=4$, so $\sigma=2$.
+
+  - type: widget
+    id: simplex
+    widget: simplex-points
+    config:
+      outcomes: ['0', '1', '2']
+      points:
+        - { name: p, p: [0.5, 0.3, 0.2] }
+      showKL: false
+      showComponents: false
+    body: |
+      A third manifold, already met: beliefs over **three outcomes**, numbered $0,1,2$. A belief is a list $p=(p_0,p_1,p_2)$ of three numbers (chances of the outcomes), each positive, **adding up to $1$**. (The subscripts are labels, not powers.) It is drawn as a point of the triangle: corner $i$ means "outcome $i$ is certain".
+
+      Drag $p$. Three numbers describe it, but notice how few of them you can move at once: pick any two, and the third is already decided.
+
+  - type: mcq
+    id: dim-simplex
+    prompt: |
+      A belief over three outcomes is a list $(p_0,p_1,p_2)$ with positive entries adding up to $1$, drawn as a point of a flat triangle. What is the **dimension** of this set of beliefs, the number of independent directions in which a point can move?
+    options:
+      - text: $2$, because once two of the numbers are chosen the third is fixed by "adds up to $1$".
+        correct: true
+      - text: $3$, because there are three numbers.
+        feedback: |
+          Three numbers are listed, but they are not independent: the rule "adds up to $1$" removes one degree of freedom. Moving $p_1$ forces a change in $p_0$ or $p_2$.
+      - text: $1$, because the numbers must add up to a single total.
+        feedback: |
+          The constraint removes **one** direction, not all but one. Starting from three numbers, one constraint leaves two: the triangle is a flat surface, with two directions.
+      - text: $0$, since the set is bounded (a triangle).
+        feedback: |
+          A bounded set can still be two-dimensional: the dimension counts directions of motion, not size. A small disc of the plane is bounded and has dimension $2$.
+    hint: |
+      How many numbers can you choose freely before the last one is forced?
+    explanation: |
+      With $n+1$ outcomes there are $n+1$ numbers but one rule, so the set of beliefs has dimension $n$. It is called the **probability simplex** and written $S_n$; here $n=2$, a triangle. A chart: $\xi=(p_1,p_2)$, two numbers, with the third computed as
+      $$p_0=1-\xi_1-\xi_2.$$
+
+  - type: numeric
+    id: third-number
+    prompt: |
+      In the chart $\xi=(p_1,p_2)$ of the beliefs over outcomes $0,1,2$, a point has $\xi=(0.3,\,0.45)$. What is the probability $p_0$?
+    answer: 0.25
+    tolerance: 0.001
+    wrong:
+      - { value: 0.75, feedback: 'That is $0.3+0.45$, the sum of the chart numbers. $p_0$ is what is *left* to reach $1$.' }
+      - { value: 0.15, feedback: 'That is the difference $0.45-0.3$. The three numbers must add up to $1$.' }
+    hint: |
+      The three numbers $p_0,p_1,p_2$ add up to $1$.
+    explanation: |
+      $$p_0=1-\xi_1-\xi_2=1-0.3-0.45=0.25.$$
+      So this one point of the triangle is named $(p_1,p_2)=(0.3,0.45)$ in this chart, and $(p_0,p_1,p_2)=(0.25,0.3,0.45)$ in full.
+
+  - type: mcq
+    id: trap-same-point
+    tag: "Trap"
+    prompt: |
+      Alice describes a bell curve by its mean and standard deviation: $(\mu,\sigma)=(1,2)$. Bob describes a bell curve by its mean and variance: $(\mu,\sigma^2)=(1,4)$. Do they describe the same bell curve?
+    options:
+      - text: 'Yes: $\sigma=2$ means $\sigma^2=4$. One point, two charts.'
+        correct: true
+      - text: 'No: the second numbers ($2$ and $4$) differ, so the bell curves differ.'
+        feedback: |
+          The numbers differ because the *address book* differs: $4$ is $2$ squared. A point and its coordinates are different things, and the same point has different coordinates in different charts.
+      - text: Only if we also know the units of $x$.
+        feedback: |
+          Units matter for the meaning of $\sigma$, but here both address books use the same $x$. The change of chart $\sigma\mapsto\sigma^2$ alone settles it.
+    explanation: |
+      Always ask first **which chart** a list of numbers belongs to. Two different lists in two charts can be one point, and one list in two charts is usually two different points: $(1,4)$ means the bell curve with $\sigma^2=4$ in the second chart, but the bell curve with $\sigma=4$ (a much wider one, variance $16$) in the first.
+
+  - type: mcq
+    id: trap-edge
+    tag: "Trap"
+    prompt: |
+      Beliefs over three outcomes $0,1,2$ form the inside of a triangle: all $p_i>0$ and $p_0+p_1+p_2=1$. Is the belief $(0.5,\,0.5,\,0)$ (outcome $2$ impossible) a point of this manifold?
+    options:
+      - text: 'No: it lies on the edge, where $p_2=0$ breaks the rule $p_i>0$.'
+        correct: true
+      - text: 'Yes: it adds up to $1$, which is the only rule.'
+        feedback: |
+          There are two rules: the entries add up to $1$ **and** each is positive. On an edge one entry is $0$.
+      - text: 'Yes: the edge is part of the triangle, so its points are beliefs of the manifold.'
+        feedback: |
+          The *closed* triangle includes the edges, but the manifold is the **inside**. From a point of the edge you cannot move in all directions (a step toward $p_2<0$ leaves the set), while around a point of the inside you can.
+    explanation: |
+      A manifold needs room to move in **every** direction around each of its points. At an edge or a corner a direction is blocked: an entry would go negative. So the simplex $S_2$ is the open inside of the triangle. (Beliefs of probability exactly $0$ or $1$ are extreme and also bring infinities into the divergence of the next lesson.)
+
+  - type: mcq
+    id: trap-origin
+    tag: "Trap"
+    prompt: |
+      The polar chart $(r,\theta)$ names plane points by distance and angle. Which polar numbers name the origin (the centre point, where $x=y=0$)?
+    options:
+      - text: '$r=0$, and $\theta$ can be anything: the origin has no single address, so the polar chart does not cover it well.'
+        correct: true
+      - text: $(r,\theta)=(0,0)$, and only that.
+        feedback: |
+          $(0,0)$ is one valid address, but $(0,\pi/2)$ and $(0,2)$ also give $r\cos\theta=r\sin\theta=0$: the same point. A chart must give each point **exactly one** list, so it fails here.
+      - text: 'There is none: the origin is not on the plane.'
+        feedback: |
+          It is. It is the cartesian point $(0,0)$. What breaks is the **polar chart** at that point, not the plane.
+    hint: |
+      With $r=0$, what do $r\cos\theta$ and $r\sin\theta$ give, whatever $\theta$ is?
+    explanation: |
+      $x=r\cos\theta=0$ and $y=r\sin\theta=0$ for every $\theta$ when $r=0$. So at the origin the polar numbers are not unique, and this chart does not cover the origin. The cartesian chart does. This is why a manifold is covered by **one or more** charts.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the sets are now clear (the plane, the bell curves, the simplex of beliefs) and each can be named by numbers in many ways. Next lesson: *how far apart* are two points? Distance on the plane is easy; for two bell curves or two beliefs it will turn out that the natural "distance" is **not symmetric**: going from $p$ to $q$ need not cost what going from $q$ to $p$ does. That is the **divergence**.

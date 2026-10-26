@@ -1,6 +1,14 @@
 # Status
 
-Session start: read only **Current** (`sed -n '/^## Current/,/^## Log/p' STATUS.md`), never the Log.
+Session start: read only **Current** (`sed -n '/^## Current (2026-10-26)
+
+- **State:** widgets `simplex-points`, `gauss-charts` built; `ch01-why` (19 cards) and `ch01-manifold` (19 cards, intro rules) built. Other Level 1 lessons planned.
+- **Next unit:** `ch01-divergence` (source md around 520-700; locate headings with grep: squared distance, KL, divergence definition). Widgets: `simplex-points` KL readouts (asymmetry preset); decide in the session whether a widget is needed.
+- **Verified:** Preface and Ch.1 opening (PDF p.16); manifold, coordinates, plane, Gaussians, discrete (1.1)-(1.15) PDF pp.17-20 (fixed (1.6)); KL (1.30) PDF p.24; Pythagorean (2.70-2.71) PDF p.54 (see `sources/VERIFIED.md`). md page anchors drift from the PDF later in the book: locate a PDF page by searching.
+- **Paths:** lessons `courses/info-geometry/chNN/`, exams `exams/`, sources git-ignored.
+
+## Log/- 2026-10-26 `ch01-manifold` built (19 cards): plane (chart-basis cartesian+polar, point (3,4): r=5, theta=0.927), Gaussians (gauss-charts sigma-only, both, two-points; midpoint sigma 1.1 -> 1.21 vs 1.46; moments (1,2)->(1,4)->(1,5)), simplex (p1,p2)=(0.3,0.45) -> p0=0.25; 3 traps; sphere only one line; Section D/E (measures, matrices) skipped. Source fix: (1.6) denominator. Conventions fixed here: subscripts as in the source (xi_1, p_0..p_n), simplex outcomes 0..n, chart (p_1..p_n).
+p' STATUS.md`), never the Log.
 
 ## Current (2026-10-26)
 
