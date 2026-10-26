@@ -1,0 +1,302 @@
+id: ch08-continuous-traps
+title: Continuous-Time Traps
+kind: traps
+
+cards:
+  - type: text
+    id: intro
+    title: Trap round
+    body: |
+      Fast round: each question hides a tempting mistake about **continuous-time active inference**. Answer quickly, then read the feedback, especially when you were right for a shaky reason.
+
+      Recall the cast. The **generative model** is the creature's belief, $y=g(x)+\omega_y$ and $\dot x=f(x,v)+\omega_x$, with hidden state $x$ and static cause $v$. The **generative process** is the real world, which also contains the action $u$. For a limb, the point attractor is $f=v-x$ and the action is $u=v-\mu$, with $\mu$ the belief about $x$. **Generalized coordinates** $\tilde\mu=(\mu,\mu',\mu'',\dots)$ stack a belief with its time derivatives, and the matrix $D$ shifts them up by one place. The **Lotka-Volterra** rule is $\dot x=x\circ(v+\mathbf Ax)$ and the **Lorenz** rule has three coupled components. A **hybrid model** puts a discrete layer on top of a continuous one.
+
+  - type: mcq
+    id: act-in-model
+    title: Where does the action live?
+    prompt: |
+      A student writes the model of a reaching arm as $\dot x=f(x,v,u)$, "because the arm moves when I send the action $u$". What is wrong with putting $u$ in the generative **model**?
+    options:
+      - text: 'The model holds the creature''s **beliefs** about the world outside its blanket; $u$ is something the creature does, so it appears in the **process** (the real world), not as a belief. In the model, the movement emerges from the prediction $f(x,v)$, for example $v-x$.'
+        correct: true
+      - text: 'Nothing: the model must include $u$, otherwise the creature could never move.'
+        feedback: |
+          The creature moves because action is chosen to make the data fulfil the model's prediction, $u=f(\mu,v)=v-\mu$. If the model also contained $u$ it would have to predict its own action as one more hidden quantity, and the whole point is that it does not need to.
+      - text: 'Actions have no effect on the world, so they are left out of every equation.'
+        feedback: |
+          Actions change the data a great deal; that is how they reduce free energy. They enter the process, $\dot x=u$ in the simplest case, just not the belief.
+    explanation: |
+      Model: $\dot x=f(x,v)$, no $u$. Process: $\dot x=\mathbf f(x,u)$. The action is the prediction error pushed back into the world; no extra "how to move" term needs to be believed.
+
+  - type: mcq
+    id: motor-command
+    title: What comes down from above?
+    prompt: |
+      A student says "the brain computes the forces each muscle must produce and sends them down as motor commands, so the spinal reflex only executes them". In this account of movement, what descends instead?
+    options:
+      - text: 'A **proprioceptive prediction** (where the limb is expected to be, the target $v$ in the model). The reflex arc compares it with the sensed position and moves the limb until the two agree; the forces arise from resolving that error.'
+        correct: true
+      - text: 'A prediction error, because the limb has not yet arrived.'
+        feedback: |
+          Prediction errors are formed where the data meet the prediction (data minus prediction) and they drive the action. What is sent down is the prediction itself.
+      - text: 'Exactly the sequence of muscle forces, but computed by an inverse model.'
+        feedback: |
+          That is the classical picture, and it needs an inverse model (from desired consequences to commands). Here only the forward mapping from states to predicted data is used, so no inverse model appears.
+    explanation: |
+      Movement is the **fulfilment of proprioceptive predictions by action**. The descending signal says where the limb should be believed to be; nothing specifies forces from above.
+
+  - type: numeric
+    id: belief-not-world
+    title: Action uses the belief
+    prompt: |
+      A limb has the point-attractor model $f=v-x$ with target $v=2$. The limb is truly at $x=2$ (on target), but the creature's belief, held up by a prior, is $\mu=2.5$. A student computes the action from the true position, $u=v-x$. Using the rule of the lesson, $u=v-\mu$, what is the action?
+    answer: -0.5
+    tolerance: 0.001
+    answerText: '-0.5'
+    wrong:
+      - { value: 0, tolerance: 0.001, feedback: "That is $v-x$ with the true position. The creature never sees $x$ directly: it only has the belief $\\mu$ and the data, so its action follows $\\mu$." }
+      - { value: 0.5, tolerance: 0.001, feedback: "The sign is reversed: $\\mu>v$, so the belief says the limb is past the target and the action must pull it back, negative." }
+    hint: Substitute the belief, not the true position.
+    explanation: |
+      $u=2-2.5=-0.5$: the creature moves a limb that is already on target, because it believes it is beyond it. Action is the belief's prediction error pushed back into the world. This is why the data must be trusted enough to keep the belief honest.
+
+  - type: numeric
+    id: precision-speed
+    title: Louder senses, faster limb?
+    prompt: |
+      In the first-order point-attractor model the distance to the target decays with two rates, $1$ (the model's own rate) and $\Pi_y$ (the sensory precision), and the slower one controls the late approach. A student says "with $\Pi_y=5$ the sense is five times more precise, so the limb is five times faster, time constant $1/5$". What is the time constant of the late approach (1 over the slowest rate)?
+    answer: 1
+    tolerance: 0.001
+    answerText: '1'
+    wrong:
+      - { value: 0.2, tolerance: 0.001, feedback: "That is $1/\\Pi_y$. The slowest rate is $\\min(1,\\Pi_y)=1$, which belongs to the model's own attractor." }
+      - { value: 5, tolerance: 0.001, feedback: "That is the rate $\\Pi_y$, not its inverse, and it is not the slowest rate anyway." }
+    hint: The slowest rate is $\min(1,\Pi_y)$.
+    explanation: |
+      The rates are $1$ and $5$; the slowest is $1$, so the time constant is $1$. **More sensory precision cannot make the limb move faster than the model's own attractor rate.** What precision changes is how well the belief stays tied to the data, so that the action starts at all. For small precision, say $\Pi_y=0.25$, the sense is the slow one and the time constant is $4$.
+
+  - type: numeric
+    id: spring-freq
+    title: Frequency of a spring model
+    prompt: |
+      An undamped spring model has stiffness $\kappa=9$ and mass $m=4$, so $\dot x_2=\tfrac{\kappa}{m}(v-x_1)$. A student says "the angular frequency of the oscillation is $\kappa/m$". What is the actual angular frequency $\sqrt{\kappa/m}$?
+    answer: 1.5
+    tolerance: 0.001
+    answerText: '1.5'
+    wrong:
+      - { value: 2.25, tolerance: 0.001, feedback: "That is $\\kappa/m=\\omega^2$. The equation $\\ddot x=-\\omega^2x$ has $\\omega^2=\\kappa/m$, so the frequency is the square root." }
+      - { value: 0.667, tolerance: 0.002, feedback: "That is the inverse. A stiffer spring or a lighter limb oscillates **faster**, so the frequency grows with $\\kappa/m$." }
+    hint: Take the square root of $\kappa/m=2.25$.
+    explanation: |
+      $\omega=\sqrt{9/4}=1.5$, period $2\pi/1.5\approx4.2$. The ratio $\kappa/m=\omega^2$ is an acceleration per unit distance. Without damping the limb overshoots $v$ and swings forever; a friction term is added in the model to stop it.
+
+  - type: mcq
+    id: orders-are-states
+    title: Are the orders separate states?
+    prompt: |
+      The belief in generalized coordinates is $\tilde\mu=(\mu,\mu',\mu'')$. A student says "these are three unrelated hidden states, each with its own equation, like three different species". What are they?
+    options:
+      - text: 'The **successive time derivatives of one trajectory**: position, velocity and acceleration of the same quantity (the first Taylor coefficients of its path). They are tied together by $D$: $\dot\mu=\mu^{\prime}$, $\dot\mu^{\prime}=\mu^{\prime\prime}$.'
+        correct: true
+      - text: 'Three copies of the state at three future times.'
+        feedback: |
+          They are not values at different times. They are the local description at **one** instant: where the quantity is, how fast it moves, how fast the speed changes.
+      - text: 'Three independent variables; the dynamics $f$ does not connect them.'
+        feedback: |
+          The model connects them: $D\tilde x=\tilde f(\tilde x,\tilde v)$ says each order is the rate of change of the one below, and $\tilde f$ stacks $f$ with its time derivatives.
+    explanation: |
+      Orders are not extra variables with their own world: they are one variable seen with more detail in time. That is why a belief that carries a velocity can anticipate the data.
+
+  - type: numeric
+    id: d-shift
+    title: Shift up, not down
+    prompt: |
+      Three orders $\tilde\mu=(2,\,-1,\,0.5)$ (position, velocity, acceleration). The shift matrix $D$ has ones just above the diagonal, so $D\tilde\mu$ is the stack of rates of change. What is the **first entry** of $D\tilde\mu$?
+    answer: -1
+    tolerance: 0.001
+    answerText: '-1'
+    wrong:
+      - { value: 2, tolerance: 0.001, feedback: "That is $\\mu$, the position itself. $D$ replaces each order with the next one up: the rate of change of the position is the velocity." }
+      - { value: 0, tolerance: 0.001, feedback: "That is the first entry of $D^{\\mathsf T}\\tilde\\mu=(0,2,-1)$, which shifts **down**. $D\\tilde\\mu$ shifts up and puts a zero at the bottom: $(-1,\\,0.5,\\,0)$." }
+    hint: $D\tilde\mu=(\mu',\mu'',0)$.
+    explanation: |
+      $D\tilde\mu=(-1,\,0.5,\,0)$: the first entry is the velocity $-1$. The last order has no known derivative, so a zero enters. In the gradient the transpose $D^{\mathsf T}$ appears (ones below the diagonal) and shifts the dynamics error down.
+
+  - type: numeric
+    id: eps-sign
+    title: Which way is the dynamics error?
+    prompt: |
+      Model $g(x)=x$, $f(x,v)=-x+v$ with $v=1$. The belief is $\tilde\mu=(0.5,\,0.1)$, so $D\tilde\mu=(0.1,\,0)$. A student takes the dynamics error as "what the dynamics say minus what the belief has". With the convention used here, $\tilde\epsilon_x=D\tilde\mu-\tilde f$, what is its **first entry**?
+    answer: -0.4
+    tolerance: 0.001
+    answerText: '-0.4'
+    wrong:
+      - { value: 0.4, tolerance: 0.001, feedback: "That is $\\tilde f-D\\tilde\\mu$, the opposite order. With the order $D\\tilde\\mu-\\tilde f$ a belief that moves **too slowly** gives a negative error, and the update then pushes it to speed up." }
+      - { value: 0.6, tolerance: 0.001, feedback: "That adds $D\\tilde\\mu=0.1$ and $-\\tilde f=0.5$; the error is a difference: $0.1-0.5$." }
+    hint: The first entry of $\tilde f$ is $-\mu+v=0.5$.
+    explanation: |
+      $0.1-(-0.5+1)=-0.4$: the belief says the state grows at $0.1$ while the dynamics prescribe $0.5$, a shortfall of $0.4$ in velocity. The three errors are "data minus prediction", "velocity the belief has minus velocity the dynamics prescribe" and "belief minus prior".
+
+  - type: numeric
+    id: moving-frame
+    title: Does the belief stop at the minimum?
+    prompt: |
+      A student says "at the minimum of free energy the gradient is zero, so the belief stops: $\dot{\tilde\mu}=0$". In generalized coordinates the update is $\dot{\tilde\mu}-D\tilde\mu=-\nabla F$. At a point where $\nabla F=0$ the belief is $\tilde\mu=(1,\,0.5,\,-0.2)$. What is the **first entry** of $\dot{\tilde\mu}$?
+    answer: 0.5
+    tolerance: 0.001
+    answerText: '0.5'
+    wrong:
+      - { value: 0, tolerance: 0.001, feedback: "That is the plain descent, $\\dot{\\tilde\\mu}=-\\nabla F$. But the belief already carries a velocity, and the frame of the descent moves with it." }
+      - { value: 1, tolerance: 0.001, feedback: "That is the position $\\mu$ itself, not its rate of change. The rate of the first entry is the second order, $\\mu'=0.5$." }
+    hint: With $\nabla F=0$, $\dot{\tilde\mu}=D\tilde\mu$.
+    explanation: |
+      $\dot{\tilde\mu}=D\tilde\mu=(0.5,\,-0.2,\,0)$: the belief keeps moving with the velocity it encodes. In this *moving frame* the minimum is a **moving** target, not a resting point; the gradient only corrects what is left. Without this term, the belief would lag a moving signal.
+
+  - type: mcq
+    id: attractor-rest
+    title: Does every attractor mean rest?
+    prompt: |
+      A student says "an attractor is where the state ends up, so if a system has an attractor it eventually stops moving". Which statement is right?
+    options:
+      - text: 'An attractor is what the trajectory does in the long run. It can be a **fixed point** (rest), a **limit cycle** (a regular loop) or **chaos** (bounded wandering that never repeats). The Lorenz system at $\rho=28$ has resting points but the trajectory never settles on them.'
+        correct: true
+      - text: 'Yes: an attractor is always a single point, and a system that does not stop has no attractor.'
+        feedback: |
+          Only the point attractor $f=v-x$ of the movement lesson is a single point. The Lotka-Volterra ring has a limit cycle, which is an attractor that keeps moving.
+      - text: 'Attractors exist only for systems with random noise.'
+        feedback: |
+          Attractors belong to the deterministic rule $\dot x=f(x)$. Noise can perturb the trajectory, but the cycle or the chaotic set is already there without it.
+    explanation: |
+      Long-run behaviour has three kinds: rest, a regular rhythm, or chaos. Active inference uses all of them: a point attractor for a reach, a cycle for repetitive sequences, itinerant chaos for songs.
+
+  - type: numeric
+    id: lv-reading
+    title: Who acts on whom?
+    prompt: |
+      Two populations obey $\dot x_i=x_i\big(v_i+\sum_jA_{ij}x_j\big)$ with $v=(1,\,-0.5)$ and $\mathbf A=\begin{pmatrix}0&-2\\1&0\end{pmatrix}$ (row $i$, column $j$). At $x=(0.5,\,0.4)$, what is $\dot x_1$? A student reads $A_{12}$ as the effect of population 1 on population 2.
+    answer: 0.1
+    tolerance: 0.001
+    answerText: '0.1'
+    wrong:
+      - { value: 0.7, tolerance: 0.001, feedback: "That uses $A_{21}=1$ in the first row, the transposed reading. $A_{ij}$ is the effect of $j$ on the growth of $i$, so row $1$ contains $A_{11}=0$ and $A_{12}=-2$." }
+      - { value: 0.2, tolerance: 0.001, feedback: "That is the bracket $v_1+A_{12}x_2=1-0.8$, the growth rate per individual. Multiply by $x_1=0.5$ to get the rate of change of the population." }
+    hint: 'Bracket first: $1+0\cdot0.5+(-2)\cdot0.4$.'
+    explanation: |
+      Bracket $=1-0.8=0.2$, so $\dot x_1=0.5\times0.2=0.1$. Population 2 hurts population 1 ($A_{12}=-2$) and population 1 helps population 2 ($A_{21}=+1$): a predator-prey pair. The same rule describes any sequence of stages, not only ecology.
+
+  - type: mcq
+    id: lorenz-noise
+    title: Chaos is not noise
+    prompt: |
+      A Lorenz system with $\rho=28$ is started twice from **exactly** the same state, with no noise anywhere. A student says "chaotic means unpredictable, so the two runs will look different". What happens?
+    options:
+      - text: 'The two runs are **identical**. Chaos is deterministic: the rule has no randomness. The trouble is only that an *imperfect* knowledge of the start (a difference of $10^{-6}$, say) is amplified exponentially, so long-term prediction from imperfect data fails.'
+        correct: true
+      - text: 'They differ, because chaotic systems contain hidden random kicks.'
+        feedback: |
+          There are no kicks in the equations. With the nudge set to $0$ the run is perfectly repeatable; the divergence of two nearby starts is produced by the dynamics itself.
+      - text: 'They differ because the numerical solver is unstable.'
+        feedback: |
+          The same solver gives the same trajectory when called twice with the same start. Sensitive dependence is a property of the equations, not an error of the code.
+    explanation: |
+      **Deterministic chaos** is sensitive dependence on initial conditions with no noise at all. For an agent tracking a chaotic system it means that beliefs must be corrected continually by fresh data.
+
+  - type: numeric
+    id: sync-map
+    title: Synchrony without equality
+    prompt: |
+      Two birds are generalized-synchronized: the second bird's variable is a fixed function of the first's, $y=T(x)=1.5x+0.01x^3$. A student says "if they are synchronized the values are equal, $y=x$". When the first bird is at $x=4$, what is $y$?
+    answer: 6.64
+    tolerance: 0.005
+    answerText: '6.64'
+    wrong:
+      - { value: 4, tolerance: 0.005, feedback: "That is identical synchronization, $y=x$, the special case $T=\\text{id}$. Generalized synchronization allows any fixed map." }
+      - { value: 6, tolerance: 0.005, feedback: "That drops the cubic term: $0.01\\cdot4^3=0.64$ is still to be added." }
+    hint: Compute $1.5\cdot4$ and $0.01\cdot64$.
+    explanation: |
+      $y=6+0.64=6.64$. The pair lives on the **curve** $y=T(x)$, a one-dimensional set inside the two-dimensional plane of joint values. Synchrony is the existence of a fixed relation between the states, not their equality; the line $y=x$ is the special case.
+
+  - type: mcq
+    id: silent-bird
+    title: Why does the listener stay silent?
+    prompt: |
+      Two birds with the same song model are in the dark. Bird A sings; bird B stays silent. A student says "B is silent because it does not know the song". What is the right reading?
+    options:
+      - text: 'B knows the song well: it predicts the notes, hears them, and so has no prediction error to remove by singing. When A stops, the predicted notes are missing, error appears, and B sings.'
+        correct: true
+      - text: 'B is silent because action requires first learning the song from A.'
+        feedback: |
+          B already has the model; that is why its predictions match what it hears. Learning each other's parameters is what makes the synchrony generalized, but silence itself comes from the absence of error.
+      - text: 'B is silent because singing at the same time would raise free energy by cancelling A.'
+        feedback: |
+          Nothing is cancelled. B simply has no error to resolve. Acting also needs the precision of the heard consequences to be turned down (attenuation), which fits listening and singing alternating.
+    explanation: |
+      Turn-taking falls out of the rule that action resolves prediction error: while the prediction is fulfilled by listening, no action is generated.
+
+  - type: numeric
+    id: hybrid-q
+    title: Averaging is not choosing
+    prompt: |
+      The discrete level believes the next eye location is up with probability $0.7$ and down with $0.3$ (others $0$). The points are up $(0,1)$ and down $(0,-1)$. A student says "the most probable outcome drives the eye, so aim at $(0,1)$". With the Bayesian model average $\mathbf q=\sum_oQ(o)\,\eta_o$, what is the **vertical coordinate** of $\mathbf q$?
+    answer: 0.4
+    tolerance: 0.001
+    answerText: '0.4'
+    wrong:
+      - { value: 1, tolerance: 0.001, feedback: "That is winner-take-all: only the largest belief counts. The average uses **all** beliefs." }
+      - { value: 0.7, tolerance: 0.001, feedback: "That ignores the down target. Its contribution is $0.3\\times(-1)=-0.3$, which pulls the average down." }
+    hint: '$0.7\cdot1+0.3\cdot(-1)$.'
+    explanation: |
+      $\mathbf q=(0,\,0.7-0.3)=(0,\,0.4)$: the eye aims between the targets, nearer to up. The model average does not choose a target; it hedges. In practice beliefs sharpen before the saccade, and then $\mathbf q$ sits on the chosen point.
+
+  - type: mcq
+    id: who-chooses
+    title: Who picks the target?
+    prompt: |
+      In a hybrid model of a saccade, a student says "the continuous level decides which of the four targets to look at, because that is where the eye actually moves". Which statement is right?
+    options:
+      - text: 'The **discrete** level holds the beliefs about which outcome (location) will come and passes a prior mean $\mathbf q$ down. The continuous level only turns that prior into a smooth trajectory, and its evidence about where the eye really is flows back up as a likelihood for the discrete beliefs.'
+        correct: true
+      - text: 'The continuous level picks the target from its trajectory and tells the discrete level afterwards.'
+        feedback: |
+          The continuous level has no categories: it has coordinates. Selecting among a finite set of alternatives is the job of the discrete level, whose posterior $Q(o)$ is averaged into $\mathbf q$.
+      - text: 'Neither: the two layers do not exchange messages, each runs on its own.'
+        feedback: |
+          Messages go both ways: priors descend (the mean $\mathbf q$ and its precision), evidence climbs (the continuous data explain which outcomes are consistent with what the eye is doing).
+    explanation: |
+      The pairing is a division of labour: categories and decisions above, smooth trajectories below. This is the same direction as in the deep discrete models: priors descend, evidence climbs.
+
+  - type: numeric
+    id: hybrid-timing
+    title: Is the movement fast enough?
+    prompt: |
+      A saccade takes a time proportional to $1/w$, with $w=\omega_0\sqrt{\Pi_v}$ the rate at which the eye is pulled to the prior mean. A student says "to make the saccade nine times faster, make the prior nine times more precise". If $\Pi_v$ is multiplied by $9$ (with $\omega_0$ unchanged), by what factor is the time to arrive multiplied?
+    answer: 0.333
+    tolerance: 0.002
+    answerText: '0.333'
+    wrong:
+      - { value: 0.111, tolerance: 0.002, feedback: "That would hold if time went as $1/\\Pi_v$. It goes as $1/\\sqrt{\\Pi_v}$, so the gain is only $\\sqrt9=3$." }
+      - { value: 3, tolerance: 0.002, feedback: "More precision is a **stiffer** pull and the eye arrives sooner, so the factor is below $1$." }
+    hint: $w$ is multiplied by $\sqrt9$, and time goes as $1/w$.
+    explanation: |
+      $w\to3w$, so the time becomes $1/3$ of its value. Precision buys speed only with a square root. The discrete step (about $250$ ms in our example) must also be long enough for the continuous movement to finish: the two layers run on **different timescales**, the discrete one slow, the continuous one fast.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      Corrections (setup: a continuous model $y=g(x)+\omega_y$, $\dot x=f(x,v)+\omega_x$ with hidden state $x$ and static cause $v$; a process that also contains the action $u$; belief $\mu$; sensory precision $\Pi_y$; generalized coordinates $\tilde\mu=(\mu,\mu',\mu'')$ with the shift matrix $D$; Lotka-Volterra and Lorenz rules; a hybrid model with a discrete posterior $Q(o)$ and outcome locations $\eta_o$):
+
+      - Action belongs to the process, not to the model, and it follows the **belief**. For the point attractor $f=v-x$:
+        $$u=v-\mu$$
+        The descending signal is a proprioceptive prediction, not a force list. With $v=2$, $\mu=2.5$ (limb on target) the action is $-0.5$.
+      - Precision does not speed up the limb: the late approach has rate $\min(1,\Pi_y)$, so $\Pi_y=5$ gives time constant $1$. A spring model has $\omega=\sqrt{\kappa/m}$ ($\kappa=9$, $m=4$ gives $1.5$, not $2.25$).
+      - Generalized coordinates are derivatives of **one** trajectory; $D$ shifts up and $D^{\mathsf T}$ shifts down:
+        $$\begin{aligned}D(2,-1,0.5)&=(-1,0.5,0)\\\tilde\epsilon_x&=D\tilde\mu-\tilde f\\\dot{\tilde\mu}-D\tilde\mu&=-\nabla F\end{aligned}$$
+        At $\nabla F=0$ the belief still moves with $D\tilde\mu$: the minimum is a moving target.
+      - An attractor can be rest, a cycle or chaos. In $\dot x_i=x_i(v_i+\sum_jA_{ij}x_j)$ the entry $A_{ij}$ is the effect of $j$ on $i$ ($\dot x_1=0.1$ in the example). Chaos is deterministic: the same start gives the same run, and only imperfect knowledge of the start is amplified.
+      - Generalized synchrony is a fixed map, not equality: $y=T(x)$ with $T(4)=6.64$ when $T(x)=1.5x+0.01x^3$. The listening bird is silent because it has no error to resolve.
+      - In a hybrid model the discrete level decides and averages, the continuous level realises:
+        $$\mathbf q=\sum_oQ(o)\,\eta_o$$
+        With $Q=(0.7,\,0.3)$ on up and down, $\mathbf q=(0,\,0.4)$, a hedge. Precision buys speed with a square root: $\Pi_v\times9$ shortens the saccade by $3$.
+
+      **Next:** a round of quick recall for the continuous-time equations: mnemonics, limit checks, and building each update from its pieces, with no formula given to you.
