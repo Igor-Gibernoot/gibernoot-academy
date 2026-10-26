@@ -1,6 +1,8 @@
 # Status
 
 Session start: read only **Current** (`sed -n '/^## Current/,/^## Log
+
+- 2026-10-25 ch09-challenge part 1: intro + P1 Laplace fit (L=-1.5(th-2)^2, eta .5, Pi1 2), P2 card-game pipeline (e^theta scale), P3 eight-subject PEB. No widget (answers would be revealed). Choices: no 'continues' card (Ch.8 model has none); BF 2.8 chosen instead of 3.3 for freshness. Conventions fixed here: see Chapter 9 'Challenge numbers'.
 - 2026-10-25 ch09-map: 14 boxes (meta, pomdp, likelihood, bayes, laplace, evidence; recovery, glm, shrink, bf; precision, halluc, delusion, aberrant) with decoys for objective/subjective swap, sampler, max-likelihood evidence, correlation of point estimates, broken rule, no-prior. No archive map existed. No widget (a map uses the map engine; nothing in Level 9 needs more). Conventions fixed here: none new; Laplace evidence kept in minus form.
 
 
@@ -49,7 +51,7 @@ New shared widget `js/widgets/dirichlet-counts.js` (+ css `dc-*`, registry, LESS
 - **Notation:** $x$ hidden state, $y$ observation (Levels 2-4 start), $s$/$o$ only in the discrete POMDP lesson with a renaming card; $u$ active states, blanket $b=(u,y)$; surprise $\mathfrak{I}(y)=-\ln P(y)$; $P(\pi)=\sigma(-\gamma G)$; circulation matrix $\mathsf{Q}$ vs posterior $Q$; noise covariance $2\Gamma$. See CONVENTIONS.
 - **Level 9:** `ch09-meta-bayesian` (20 cards), `ch09-variational-laplace` (20), `ch09-peb` (18; peb-regression x3), `ch09-analysis-steps` (15, no widget), `ch09-false-inference` (18; predictive-coding static preset, no new widget), `ch09-analysis-traps` (17, no widget; no new formulas, nothing new to verify). Verified: 9.1-9.2, Eq 9.1, Fig 9.1 (PDF pp. 185-186); 9.3, Eq 9.2-9.4 (pp. 188-189); 9.4 Eq 9.5 + 9.5 six steps (pp. 190-191); 9.5 text + Fig 9.2 (pp. 191-193); 9.7 text + Table 9.1 (pp. 196-199; Markdown table incomplete, PDF used).
 - **Widget `peb-regression` built** (in LESSON_FORMAT). No more new widgets.
-- **Level 9 map built:** `ch09/map.yaml` (14 boxes, 3 columns: pipeline / validation + group / false inference; no new formulas). **Next unit:** `ch09-challenge` part 1 (problems 1-3 plus intro), then part 2; review is automatic. **Rule:** after Level 10 the next unit is `exam-final`.
+- **Level 9 map built:** `ch09/map.yaml` (14 boxes, 3 columns: pipeline / validation + group / false inference; no new formulas). **Challenge part 1 built** (`ch09/challenge.yaml`, 16 cards: intro, problems 1-3; no widget: numbers by hand, peb-regression would reveal the shrunk means). **Next unit:** `ch09-challenge` part 2 (problems 4-5 plus final summary card, total <= 25), then `exam-partial` is already built; next level is Chapter 10; review is automatic. **Rule:** after Level 10 the next unit is `exam-final`.
 - **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
 
 ## Log

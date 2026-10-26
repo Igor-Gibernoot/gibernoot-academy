@@ -159,6 +159,8 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - Analysis traps numbers: L(.6,.5,.8)=-1.43; evidence prior (.5,.3,.2) x lik (.02,.01,.1)=.033; L=-3(th-1)^2, Pi1=1 -> Pi_post 7; th=-.7 -> .50; shrink (m,Pi,l,Pi2)=(2,1,.4,3) -> .8; ln BF 3.3 -> 27.1; eta=3, Pi_v=100, y=0, Pi_y=1 -> 2.97.
 - Map: no new conventions; evidence formula shown in minus form split over two aligned lines (phone width).
 
+- Challenge numbers: L=-1.5(th-2)^2, eta .5, Pi1 2 -> mu 1.4, Pi_post 5, ln ev -2.15 (a=3: mu 1.625, Pi_post 8); theta .5, d .8: P(risky) .789, L(risky,risky,safe) -2.03; table 8 subjects, line .4+.2x, Pi2 2, x=5 m=1.9 sd .5 -> 1.733; ln BF 2.8 -> 16.4 (prob .94).
+
 ## Chapter 10
 
 - (none yet)

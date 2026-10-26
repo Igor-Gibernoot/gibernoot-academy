@@ -1,0 +1,286 @@
+id: ch09-challenge
+title: Level Challenge
+kind: challenge
+cards:
+  - type: text
+    id: intro
+    title: "Harder: the whole of Level 9 in five problems"
+    body: |
+      Five problems on **new settings** (not the two levers, the T-maze rat, the eight-subject age line, the voice in noise or the spurious blip of the lessons). They combine what this level taught: how to **fit a model to a subject's behaviour**, compare models by their **evidence**, **pool a group**, and read **false inference** as normal inference with an odd prior. Every number can be checked by hand with a calculator, and every answer comes with the reason. No hint about which formula to use: you recall it.
+
+      The five problems:
+
+      1. A Laplace fit: mode, posterior precision and approximate log evidence.
+      2. Designing the analysis of a new experiment.
+      3. A group with shrinkage and a Bayes factor.
+      4. False inference: when a precise prior wins.
+      5. Estimating an aberrant prior in patients and controls.
+
+      Problems 1 to 3 come first, then 4 and 5.
+
+  # ---------------------------------------------------------------- Problem 1
+  - type: numeric
+    id: p1-mode
+    tag: Problem 1 · A Laplace fit
+    prompt: |
+      **Problem 1.** A scientist fits one parameter $\theta$ of a subject. The log likelihood of the observed choices, as a function of $\theta$, is
+      $$\mathcal{L}(\theta)=-1.5\,(\theta-2)^2$$
+      The prior on $\theta$ is Gaussian with mean $\eta=0.5$ and precision $\Pi^{(1)}=2$ (precision = inverse variance).
+
+      The Laplace approximation puts the posterior at the mode $\mu$ of $\mathcal{L}(\theta)+\ln P(\theta)$. What is $\mu$?
+    answer: 1.4
+    tolerance: 0.005
+    wrong:
+      - { value: 2, feedback: 'That is the peak of the likelihood alone. The prior pulls the mode toward $\eta=0.5$; $\mu$ is a compromise.' }
+      - { value: 1.25, feedback: 'That is the plain average of $2$ and $0.5$. The two pulls have different strengths: the likelihood has curvature $3$ and the prior has precision $2$, so the weights are $3$ and $2$, not equal.' }
+    explanation: |
+      At the mode the gradient of the likelihood balances the pull of the prior:
+      $$-3(\mu-2)+2(0.5-\mu)=0$$
+      so $5\mu=7$ and $\mu=1.4$. It is a precision-weighted average, $(3\cdot2+2\cdot0.5)/(3+2)$.
+
+  - type: numeric
+    id: p1-post
+    tag: Problem 1 · A Laplace fit
+    prompt: |
+      Same fit: $\mathcal{L}(\theta)=-1.5\,(\theta-2)^2$, prior precision $\Pi^{(1)}=2$. What is the posterior precision $\Pi^{\text{post}}$ of the Laplace Gaussian?
+    answer: 5
+    tolerance: 0.005
+    wrong:
+      - { value: 3, feedback: 'That is the curvature of $-\mathcal{L}$ alone: the data''s contribution. The prior adds its own precision.' }
+      - { value: -1, feedback: 'The sign is wrong. The Hessian of $\mathcal{L}$ is $-3$ and it is **subtracted**, so the data add $+3$ to the prior precision: $2-(-3)$.' }
+    explanation: |
+      $$\Pi^{\text{post}}=\Pi^{(1)}-\nabla_{\mu\mu}\mathcal{L}(\mu)=2-(-3)=5$$
+      Independent pieces of information add their precisions: the prior contributes $2$ and the data $3$. The posterior is sharper than either.
+
+  - type: numeric
+    id: p1-evidence
+    tag: Problem 1 · A Laplace fit
+    prompt: |
+      Use the mode $\mu=1.4$ and $\Pi^{\text{post}}=5$ of the same fit, with the prior mean $\eta=0.5$, $\Pi^{(1)}=2$ and $\mathcal{L}(\theta)=-1.5(\theta-2)^2$. Let $\varepsilon=\eta-\mu$. The approximate log evidence is
+      $$\mathcal{L}(\mu)-\tfrac12\big(\varepsilon\cdot\Pi^{(1)}\varepsilon+\ln|\Pi^{\text{post}}|\big)$$
+      Compute it (two decimals).
+    answer: -2.15
+    tolerance: 0.02
+    wrong:
+      - { value: -0.54, feedback: 'That is only $\mathcal{L}(\mu)$, the fit. The log evidence also pays for departing from the prior and for the sharpness of the posterior.' }
+      - { value: -0.74, feedback: 'You dropped one of the two penalties (or gave $\varepsilon\cdot\Pi^{(1)}\varepsilon$ the wrong sign). Both are subtracted: $\tfrac12\varepsilon\Pi^{(1)}\varepsilon=0.81$ and $\tfrac12\ln5=0.80$.' }
+    explanation: |
+      Three pieces:
+      $$\mathcal{L}(\mu)=-1.5\,(1.4-2)^2=-0.54$$
+      $$\tfrac12\varepsilon\cdot\Pi^{(1)}\varepsilon=\tfrac12\cdot2\cdot(-0.9)^2=0.81$$
+      $$\tfrac12\ln5=0.80$$
+      Total: $-0.54-0.81-0.80=-2.15$. Fit minus the cost of leaving the prior minus the Occam penalty.
+
+  - type: mcq
+    id: p1-sharper
+    tag: Problem 1 · A Laplace fit
+    prompt: |
+      The experiment is repeated with more trials, so the likelihood becomes $\mathcal{L}(\theta)=-3(\theta-2)^2$ (twice the curvature, same peak at $2$), and the prior is unchanged. What happens to $\mu$ and to $\Pi^{\text{post}}$?
+    options:
+      - text: '$\mu$ moves toward $2$ (it becomes $1.625$) and $\Pi^{\text{post}}$ grows (it becomes $8$).'
+        correct: true
+      - text: '$\mu$ stays at $1.4$ and only $\Pi^{\text{post}}$ changes.'
+        feedback: |
+          The mode balances the data's pull against the prior's. Doubling the data's strength changes that balance, so the mode moves toward the likelihood peak.
+      - text: '$\mu$ moves toward the prior mean $0.5$, because more data make the model more cautious.'
+        feedback: |
+          More data give the likelihood more weight, not the prior. The weights are the precisions $6$ and $2$ now, against $3$ and $2$ before.
+      - text: '$\Pi^{\text{post}}$ stays at $5$, because it only depends on the prior.'
+        feedback: |
+          $\Pi^{\text{post}}=\Pi^{(1)}-\nabla_{\mu\mu}\mathcal{L}$ includes the curvature of the likelihood, which doubled: $2+6=8$.
+    explanation: |
+      Now $-6(\mu-2)+2(0.5-\mu)=0$ gives $\mu=13/8=1.625$, and $\Pi^{\text{post}}=2+6=8$. More informative data pull the estimate to the likelihood peak and sharpen it.
+
+  # ---------------------------------------------------------------- Problem 2
+  - type: order
+    id: p2-steps
+    tag: Problem 2 · A new experiment
+    prompt: |
+      **Problem 2.** A lab studies how people choose between a **safe card** (always pays $1$) and a **risky deck** (pays $0$ or $4$). They want to know how strongly each participant weighs the payoffs, and whether this changes with the number of years of gambling experience.
+
+      Put the steps of the analysis in order.
+    steps:
+      - 'Collect each participant''s choices and their years of experience.'
+      - 'Formulate a generative model (POMDP) of the task.'
+      - 'Specify the likelihood of the choices given the model''s parameters.'
+      - 'Specify priors over the parameters.'
+      - 'Solve for the posteriors and the evidence of each participant (variational Laplace).'
+      - 'Run the group-level analysis (PEB) of the parameter against experience.'
+    hint: 'Data first, then the model, then how it produces choices, then what you believe beforehand, then the fit, last the group.'
+    explanation: |
+      The data come first because the model is built for the task that produced them. The likelihood needs the model, the posterior needs the likelihood and the priors, and the group analysis uses the individual posteriors.
+
+  - type: mcq
+    id: p2-prior
+    tag: Problem 2 · A new experiment
+    prompt: |
+      The model says the participant's preferences over outcomes are scaled by a **positive** number written $e^{\theta}$, and the fit is done on $\theta$. Which prior on $\theta$ is a sensible choice?
+    options:
+      - text: '$\theta\sim\mathcal{N}(0,1)$: it keeps the scale $e^{\theta}$ positive, centres it near $1$ and allows it to be a few times larger or smaller.'
+        correct: true
+      - text: 'A Gaussian prior on the scale $e^{\theta}$ itself, centred at $1$.'
+        feedback: |
+          A Gaussian puts mass on negative scales, which would reverse the participant's preferences. Fitting $\theta$ and writing the scale as $e^{\theta}$ is precisely what prevents that.
+      - text: '$\theta\sim\mathcal{N}(0,10^4)$, "so the prior has no influence".'
+        feedback: |
+          A very broad prior is not neutral for model comparison: the Occam penalty $\tfrac12\ln|\Pi^{\text{post}}|$ and the cost of departing from the prior grow when the posterior is much sharper than the prior. It also allows absurd scales like $e^{50}$.
+      - text: 'A prior sharply peaked at the value that fits the pilot data.'
+        feedback: |
+          The prior must be set before seeing the data to be fitted. A prior built on them double counts the data and inflates the evidence.
+    explanation: |
+      Positivity is built into the parametrisation, and a unit-variance prior on $\theta$ says that the scale is within a factor of about $e^{2}\approx7$ of $1$, which is plausible for a preference scale.
+
+  - type: numeric
+    id: p2-prob
+    tag: Problem 2 · A new experiment
+    prompt: |
+      Take a participant with $\theta=0.5$. The model says the probability of choosing the risky deck is
+      $$P(\text{risky})=\frac{1}{1+e^{-e^{\theta}d}}$$
+      where $d=0.8$ is how much the risky deck is preferred, before scaling. What is $P(\text{risky})$ (three decimals)?
+    answer: 0.789
+    tolerance: 0.002
+    wrong:
+      - { value: 0.69, feedback: 'You used the exponent $d=0.8$ without the scale: $1/(1+e^{-0.8})=0.69$. The scale is $e^{\theta}=e^{0.5}=1.649$, so the exponent is $1.319$.' }
+      - { value: 0.5, feedback: 'That is the probability for no preference ($d=0$). Here $d>0$ favours the risky deck.' }
+    explanation: |
+      $e^{0.5}=1.6487$, so the exponent is $1.6487\cdot0.8=1.319$ and
+      $$P(\text{risky})=\frac{1}{1+e^{-1.319}}=\frac{1}{1+0.267}=0.789$$
+
+  - type: numeric
+    id: p2-lik
+    tag: Problem 2 · A new experiment
+    prompt: |
+      The participant with $\theta=0.5$ has $P(\text{risky})=0.789$ on every trial (so $P(\text{safe})=0.211$). They are observed on three trials and choose **risky, risky, safe**. The log likelihood of the choices is the sum of the log probabilities of each choice, $\mathcal{L}=\sum_t\ln P(u_t\mid\theta)$. Compute it (two decimals).
+    answer: -2.03
+    tolerance: 0.02
+    wrong:
+      - { value: 0.131, feedback: 'That is the likelihood $0.789^2\cdot0.211$, not its log. The question asks for $\mathcal{L}=\ln$ of it, which is negative.' }
+      - { value: -1.556, feedback: 'That is the term of the safe choice alone. The two risky choices add $2\ln0.789=-0.474$.' }
+    explanation: |
+      $$\begin{aligned}\mathcal{L}&=2\ln0.789+\ln0.211\\&=2(-0.237)-1.556\\&=-2.03\end{aligned}$$
+      Equivalently, the likelihood is $0.789^2\cdot0.211=0.131$ and $\ln0.131=-2.03$.
+
+  - type: mcq
+    id: p2-recovery
+    tag: Problem 2 · A new experiment
+    prompt: |
+      Before using real participants, the lab simulates fictive choices with a known $\theta=0.5$, with only $4$ trials, and fits them. The posterior mean comes out at $0.03$ with a posterior standard deviation of $0.95$, almost the prior ($\mathcal{N}(0,1)$). What does this say?
+    options:
+      - text: 'With so few trials the data barely constrain $\theta$: the design cannot recover the parameter, so it needs more trials (or a more informative design) before real data are collected.'
+        correct: true
+      - text: 'The fit is correct, because $0.03$ lies within one posterior standard deviation of $0.5$.'
+        feedback: |
+          The posterior sd is almost the prior sd: the data have barely sharpened anything. Being "within one sd" of the truth is then guaranteed by the prior and shows nothing about the method.
+      - text: 'The model is wrong, because it did not return $0.5$.'
+        feedback: |
+          Recovery is judged against the posterior uncertainty, not the point value. Here the failure is not a wrong model but too little information: the posterior stayed at the prior.
+      - text: 'The participants'' real behaviour will be informative anyway, so recovery tests are unnecessary.'
+        feedback: |
+          Real participants run the same number of trials. If the design cannot recover a parameter with known truth, it cannot with unknown truth either.
+    explanation: |
+      Parameter recovery with fictive data is a check of the design: if a known parameter is recovered with a narrow posterior, the real estimates can be trusted; if the posterior equals the prior, nothing was learned.
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: text
+    id: p3-setting
+    tag: Problem 3 · A group of eight
+    body: |
+      **Problem 3.** The same experiment is run on eight participants. For each participant $i$ the first-level fit gave a posterior mean $m_i$ and a standard deviation of the preference-scale parameter $\theta_i$, with $x_i$ the years of experience:
+
+      | $i$ | $x_i$ | $m_i$ | sd |
+      |---|---|---|---|
+      | 1 | 1 | 0.3 | 0.5 |
+      | 2 | 2 | 0.9 | 0.4 |
+      | 3 | 3 | 0.4 | 1.0 |
+      | 4 | 5 | 1.9 | 0.5 |
+      | 5 | 6 | 1.2 | 0.8 |
+      | 6 | 8 | 2.0 | 0.4 |
+      | 7 | 9 | 2.6 | 0.7 |
+      | 8 | 11 | 2.1 | 1.25 |
+
+      The group model is $\theta_i\sim\mathcal{N}(\beta_0+\beta_1x_i,\;1/\Pi^{(2)})$, with $\beta_0=0.4$, $\beta_1=0.2$ and group precision $\Pi^{(2)}=2$. The first-level precision is $\Pi_i=1/\text{sd}^2$ and $\ell_i=\beta_0+\beta_1x_i$ is the group line's prediction.
+
+  - type: numeric
+    id: p3-shrunk
+    tag: Problem 3 · A group of eight
+    prompt: |
+      Participant $4$ has $x_4=5$ years, first-level mean $m_4=1.9$ and sd $0.5$ (so $\Pi_4=4$). The group line is $\ell=\beta_0+\beta_1x=0.4+0.2\cdot5$ and $\Pi^{(2)}=2$. The shrunk mean is
+      $$\hat m=\frac{\Pi_i\,m+\Pi^{(2)}\,\ell}{\Pi_i+\Pi^{(2)}}$$
+      What is $\hat m$ for this participant (three decimals)?
+    answer: 1.733
+    tolerance: 0.003
+    wrong:
+      - { value: 1.9, feedback: 'That is the unshrunk first-level mean. Re-reading it under the group prior pulls it toward the line.' }
+      - { value: 1.65, feedback: 'That is the plain average of $1.9$ and the line $1.4$. The weights are the precisions $4$ and $2$, not equal.' }
+    explanation: |
+      $\ell=1.4$, so
+      $$\hat m=\frac{4\cdot1.9+2\cdot1.4}{4+2}=\frac{10.4}{6}=1.733$$
+      The new precision is $\Pi_i+\Pi^{(2)}=6$. The estimate moved a third of the way toward the line, since the data had twice the weight of the group.
+
+  - type: mcq
+    id: p3-moves
+    tag: Problem 3 · A group of eight
+    prompt: |
+      With the table, the line $\ell=0.4+0.2x$ and $\Pi^{(2)}=2$, which of these participants has the estimate that **moves furthest** under shrinkage? (The shift is $\frac{\Pi^{(2)}}{\Pi_i+\Pi^{(2)}}\,|\ell-m|$.)
+    options:
+      - text: 'Participant 3 ($x=3$, $m=0.4$, sd $1.0$): the line predicts $1.0$, and the shift is $\tfrac{2}{3}\cdot0.6=0.40$.'
+        correct: true
+      - text: 'Participant 8 ($x=11$, $m=2.1$, sd $1.25$), the least precise of all: the shift is $\tfrac{2}{2.64}\cdot0.5=0.38$.'
+        feedback: |
+          Participant 8 is the least precise, so it has the largest fraction ($0.76$), but it lies only $0.5$ from the line. Participant 3 has a smaller fraction ($0.67$) but is $0.6$ away: the shift is fraction times distance.
+      - text: 'Participant 4 ($x=5$, $m=1.9$, sd $0.5$): it is the furthest from the line in relative terms.'
+        feedback: |
+          Its precision is high ($4$), so it keeps most of its value: the shift is $\tfrac{2}{6}\cdot0.5=0.17$.
+      - text: 'Participant 6 ($x=8$, $m=2.0$, sd $0.4$): it has the highest first-level precision.'
+        feedback: |
+          Participant 6 lies exactly on the line ($\ell=2.0$), so nothing moves, whatever its precision.
+    explanation: |
+      The shift is a product of two things: how little you trust the individual ($\Pi^{(2)}/(\Pi_i+\Pi^{(2)})$) and how far it is from the line. Participant 3 has a fraction $0.67$ and a distance $0.6$ (shift $0.40$); participant 8 has $0.76$ and $0.5$ (shift $0.38$).
+
+  - type: numeric
+    id: p3-bf
+    tag: Problem 3 · A group of eight
+    prompt: |
+      Now the group model is compared with and without the slope. The log evidence is $\ln E=-21.4$ for the model with the slope $\beta_1$ free, and $\ln E=-24.2$ for the model with $\beta_1=0$. What is the Bayes factor $E_{\text{slope}}/E_{\text{no slope}}$ (one decimal)?
+    answer: 16.4
+    tolerance: 0.2
+    wrong:
+      - { value: 2.8, feedback: 'That is the difference of log evidences, $\ln$ of the Bayes factor. The factor itself is its exponential.' }
+      - { value: 1.13, feedback: 'You divided the log evidences ($-21.4/-24.2$). Log evidences are subtracted, and the result exponentiated.' }
+    explanation: |
+      $$\ln\text{BF}=-21.4-(-24.2)=2.8$$
+      $$\text{BF}=e^{2.8}=16.4$$
+
+  - type: numeric
+    id: p3-post
+    tag: Problem 3 · A group of eight
+    prompt: |
+      Before looking at the data you gave the two models, with and without the slope, equal prior probability $\tfrac12$ each. The Bayes factor is $16.4$. What is the posterior probability of the model with the slope (two decimals)?
+    answer: 0.94
+    tolerance: 0.005
+    wrong:
+      - { value: 16.4, feedback: 'A probability cannot exceed $1$; $16.4$ is the ratio of the two models'' posterior probabilities.' }
+      - { value: 0.06, feedback: 'That is the posterior probability of the model **without** the slope.' }
+    explanation: |
+      With equal priors the posterior odds equal the Bayes factor, $16.4:1$, so
+      $$P(\text{slope})=\frac{16.4}{1+16.4}=0.94$$
+
+  - type: mcq
+    id: p3-read
+    tag: Problem 3 · A group of eight
+    prompt: |
+      The analysis found a Bayes factor of $16.4$ for the slope. Which conclusion is justified?
+    options:
+      - text: 'The data favour a model in which the parameter changes with experience, over one where it does not; the size of the slope is read from the posterior of $\beta_1$, not from the Bayes factor.'
+        correct: true
+      - text: 'Each year of experience raises $\theta$ by exactly $0.2$, since the fitted slope is $0.2$.'
+        feedback: |
+          The value $\beta_1=0.2$ was a given of the exercise; even for a fitted slope, the Bayes factor only says the slope model is better, and the estimate has its own uncertainty.
+      - text: 'There is a $16.4\%$ chance that the slope is real.'
+        feedback: |
+          A Bayes factor is a ratio of evidences, not a percentage. With equal prior odds it corresponds to $94\%$ for the slope model.
+      - text: 'The slope is important, so participants with more experience must all lie above the line.'
+        feedback: |
+          The group model says the *mean* of $\theta_i$ changes with $x_i$; individuals scatter around the line with precision $\Pi^{(2)}$.
+    explanation: |
+      Model comparison answers "which model explains the group data better, accounting for complexity", and parameter estimation answers "how large". PEB gives both: the evidence for the slope and its posterior.
