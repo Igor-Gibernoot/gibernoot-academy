@@ -2,6 +2,8 @@
 
 Session start: read only **Current** (`sed -n '/^## Current/,/^## Log
 
+- 2026-10-25 ch09-peb (18 cards, concept): hook (age vs preference precision, noisy per-subject fits), why not correlate, Eq 9.5 with X, beta, Pi^(2), build X beta, shrinkage numeric, model-reduction evidence readouts (log BF 1.5689, ~4.8; best slope ~3.0), misconception mcq, six-step order. Eq 9.5 checked on PDF p. 190 (matches Markdown; Pi^(2) is a precision). Choices: used widget's flat-prior evidence, said so in lesson (no Occam penalty on beta); summary is a text card with `own:`. Conventions fixed here: Pi^(2) precision, log Bayes factor = free minus slope 0.
+
 - 2026-10-25 widget `peb-regression` (no lesson). Dots m_i with +-1 sd bars vs covariate x; sliders beta0, beta1, Pi^(2); shrinkage toggle (shrunk mean (Pi_i m_i + Pi^(2) line)/(Pi_i+Pi^(2)), precision Pi_i+Pi^(2)); evidence readouts. Choices: ln E = sum_i ln N(m_i; beta0+beta1 x_i, 1/Pi_i+1/Pi^(2)); "slope free" uses slider betas, "slope 0" sets beta1=0 and refits beta0 by weighted mean (GLS) at current Pi^(2); difference = log Bayes factor, flat prior on beta (no Occam term on beta); buttons fit both / fit flat. Hand-checked in Python: demo (8 subjects) gives -8.4994, -10.0683, diff 1.5689; fit 0.4435/0.0496. Smoke 216 mounts OK, shots desktop+phone viewed. Conventions fixed here: second-level precision written Pi^(2) (book superscript style), group model theta ~ N(X beta, Pi^(2)).
 
 
@@ -37,9 +39,9 @@ New shared widget `js/widgets/dirichlet-counts.js` (+ css `dc-*`, registry, LESS
 - **Verified (Ch. 7):** 7.6 Figs 7.12-7.13 (PDF pp. 159-161); 7.5 Eq. 7.9-7.11, Box 7.2, B.10-B.12 (PDF pp. 153-155, 258); B.31-B.34 (PDF pp. 263-264, novelty exact + approx); B.2.5 B.21-B.30 (PDF pp. 261-263; fixed B.23, B.29, B.30 in the Markdown); 7.4 Eq. 7.8 full, Box 7.1, Fig. 7.8 (PDF pp. 146-149); 7.2 Eq. 7.1-7.3 (PDF pp. 137-139); 7.3 Eq. 7.4-7.7, Figs 7.4-7.6 (PDF pp. 141-146); B.2.2-B.2.4 (B.7-B.9, B.13 matched); B.1-B.4 (PDF pp. 255-256).
 - **Verified (Ch. 8):** 8.2 Eq. 8.1-8.5 (PDF pp. 164-166); 8.3 Eq. 8.6-8.7, Box 8.2, Fig 8.4 (pp. 169, 172-174); 8.4 Fig 8.5 (pp. 174-175); 8.5 Eq. 8.8 (pp. 178-179); Box 8.3 (p. 180); B.42-B.48 (pp. 266-268), A.59-A.60 (p. 253). Ours, flagged in lessons: spring damping b, reciprocal L(o), critically damped eye, D^T in the gradient.
 - **Notation:** $x$ hidden state, $y$ observation (Levels 2-4 start), $s$/$o$ only in the discrete POMDP lesson with a renaming card; $u$ active states, blanket $b=(u,y)$; surprise $\mathfrak{I}(y)=-\ln P(y)$; $P(\pi)=\sigma(-\gamma G)$; circulation matrix $\mathsf{Q}$ vs posterior $Q$; noise covariance $2\Gamma$. See CONVENTIONS.
-- **Level 9:** `ch09-meta-bayesian` (20 cards), `ch09-variational-laplace` (20 cards, gaussian-fit laplace preset reused, no new widget). Verified: 9.1-9.2, Eq 9.1, Fig 9.1 (PDF pp. 185-186); 9.3, Eq 9.2-9.4 (PDF pp. 188-189; Markdown fixed in Eq 9.2: sigma-tilde read for o-tilde).
-- **Widget `peb-regression` built** (in LESSON_FORMAT; config `subjects [{x,m,sd}]`, `beta0/beta1/pi2`, ranges, `shrink`, `labels`, presets `fit: both|flat`). No more new widgets.
-- **Next unit:** `ch09-peb` (concept, Ch. 9.4, Eq 9.5, no `file:` yet; verify Eq 9.5 on PDF pp. 189-190). **Rule:** after Level 10 the next unit is `exam-final`.
+- **Level 9:** `ch09-meta-bayesian` (20 cards), `ch09-variational-laplace` (20), `ch09-peb` (18; peb-regression used 3 times: line, shrinkage, evidence presets). Verified: 9.1-9.2, Eq 9.1, Fig 9.1 (PDF pp. 185-186); 9.3, Eq 9.2-9.4 (pp. 188-189); 9.4 Eq 9.5 + 9.5 six steps (pp. 190-191).
+- **Widget `peb-regression` built** (in LESSON_FORMAT). No more new widgets.
+- **Next unit:** `ch09-analysis-steps` (concept, 9.5, Fig 9.2, T-maze rat pipeline; no `file:` yet; verify Fig 9.2 on PDF pp. 191-193). Then `ch09-false-inference`. **Rule:** after Level 10 the next unit is `exam-final`.
 - **Paths:** lessons `courses/active-inference/chNN/`, sources git-ignored.
 
 ## Log
