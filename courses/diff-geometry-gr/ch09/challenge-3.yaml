@@ -1,0 +1,418 @@
+id: ch09-challenge-3
+title: Level Challenge · Part 3
+kind: challenge
+
+# Organization: intro, one block per problem (cards tagged "Problem N · …", ids
+# prefixed pN-), then wrap-up. The Level Challenge is split in 3 parts of at most
+# 32 cards; part 3 holds problems 4 and 5.
+
+cards:
+  - type: text
+    id: intro
+    title: Planet or merry-go-round
+    body: |
+      This challenge pushes each idea of the level to its edge. It comes in 3 parts; this is part 3 (problems 4 and 5). Keep pencil and paper at hand: every answer can be checked by hand.
+
+      Recall the toolkit. A Newtonian spacetime is a 4-dimensional manifold $\mathcal{M}$ of events with an **absolute time** $t\in C^\infty(\mathcal{M})$, $(dt)_p\neq0$, and a torsion-free connection $\nabla$ with $\nabla dt = 0$ (time flows uniformly). A vector $\mathcal{X}_p$ is future directed, spatial or past directed as $(dt)_p(\mathcal{X}_p)$ is positive, zero or negative. A chart is **stratified** if its time coordinate is $t$ itself, $x^0 = t$, and **inertial** if moreover all its connection coefficients vanish. Indices: Latin $i,j,k\in\{0,1,2,3\}$, Greek $\alpha,\beta,\delta\in\{1,2,3\}$, Einstein summation. In a stratified chart, Newton II for a worldline $\gamma$ of mass $m$ and force components $f^\alpha$ reads
+      $$\begin{aligned}m\ddot\gamma^\alpha = f^\alpha &- m\Gamma^\alpha_{\beta\delta}\dot\gamma^\beta\dot\gamma^\delta\\ &- 2m\Gamma^\alpha_{0\beta}\dot\gamma^\beta - m\Gamma^\alpha_{00},\end{aligned}$$
+      dots being derivatives with respect to $t$. Between two charts $\mathscr{X}$, $\mathscr{Y}$, when $\Gamma_\mathscr{X} = 0$ only the inhomogeneous term survives:
+      $$(\Gamma_\mathscr{Y})^i_{jk} = \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^s}\frac{\partial^2\mathscr{X}^s}{\partial\mathscr{Y}^k\partial\mathscr{Y}^j}.$$
+
+      4. A tunnel through a uniform planet: a fall that is harmonic for every amplitude, and tides with no egg.
+      5. Merry-go-round or gravity? Two charts with almost the same coefficients, and the curvature that tells them apart.
+
+  # ---------------------------------------------------------------- Problem 4
+  - type: text
+    id: p4-setup
+    tag: Problem 4 · A tunnel through a uniform planet
+    title: A planet of uniform density
+    body: |
+      Gravity is back. A planet of uniform density $\rho$ and radius $R$ sits at the origin of the **sources chart**: stratified, cartesian, non-rotating, origin at rest relative to the planet, coordinates $x^i$, $|x| := \sqrt{\sum_\beta(x^\beta)^2}$. Recall that there the only nonzero coefficients are $\Gamma^\alpha_{00} = \partial_\alpha\phi$, with $\partial_\alpha\phi := \partial x_\alpha\lfloor\phi\rceil$, and Poisson's equation reads $\Delta\phi := \sum_\alpha\partial_\alpha\partial_\alpha\phi = 4\pi G_N\rho$.
+
+      Inside the planet the potential is
+      $$\phi = \tfrac{2\pi}{3}G_N\rho\,|x|^2.$$
+      Write $k := \tfrac{4\pi}{3}G_N\rho$, so that
+      $$\phi = \tfrac k2\,|x|^2,$$
+      and choose units with $k = 1$ and $R = 1$. A straight frictionless tunnel is drilled along the $x^1$ axis, through the center.
+
+  - type: numeric
+    id: p4-gamma
+    tag: Problem 4 · A tunnel through a uniform planet
+    title: The pull inside
+    prompt: |
+      Inside a uniform planet, in the sources chart, the potential is $\phi = \tfrac k2|x|^2$ with $k = 1$ and $|x|^2 = \sum_\beta(x^\beta)^2$; the only nonzero coefficients are $\Gamma^\alpha_{00} = \partial_\alpha\phi$. Compute $\Gamma^1_{00}$ at the event with spatial coordinates $x = (0.5,\ 0,\ 0)$.
+    answer: 0.5
+    wrong:
+      - { value: -0.5, feedback: 'The coefficient is $+\partial_\alpha\phi$; the minus sign appears in the acceleration, $\ddot x^\alpha = -\Gamma^\alpha_{00}$, which points to the center.' }
+      - { value: 0.125, feedback: 'That is the potential itself, $\phi = \tfrac12(0.5)^2$. The coefficient is its derivative, $\partial_1\phi = k\,x^1$.' }
+      - { value: 1, feedback: 'That is $k$ alone. Differentiating $\tfrac k2(x^1)^2$ gives $k\,x^1 = 0.5$.' }
+    hint: Differentiate $\tfrac k2\big((x^1)^2 + (x^2)^2 + (x^3)^2\big)$ with respect to $x^1$.
+    explanation: |
+      $$\Gamma^\alpha_{00} = \partial_\alpha\phi = k\,x^\alpha,$$
+      so $\Gamma^1_{00} = 0.5$. A ball at rest there accelerates with $\ddot x^1 = -0.5$, toward the center. Inside the planet the pull grows **linearly** with the distance from the center, unlike the $1/|x|^2$ pull outside.
+
+  - type: numeric
+    id: p4-ric
+    tag: Problem 4 · A tunnel through a uniform planet
+    title: Does the potential fit the matter?
+    prompt: |
+      Inside a uniform planet, in the sources chart, $\phi = \tfrac k2|x|^2$ with $k = 1$, and the curvature is $\mathrm{Riem}^\alpha_{0\beta0} = \partial_\beta\partial_\alpha\phi$. Compute
+      $$\mathrm{Ric}_{00} = \sum_\alpha\mathrm{Riem}^\alpha_{0\alpha0}.$$
+    answer: 3
+    wrong:
+      - { value: 1, feedback: 'That is one diagonal component, $\mathrm{Riem}^1_{010} = k$. The trace sums over the three spatial axes.' }
+      - { value: 0, feedback: 'That is the vacuum value, true outside a point mass. Inside the planet there is matter, $\rho\neq0$, and $\mathrm{Ric}_{00} = 4\pi G_N\rho$.' }
+      - { value: -3, feedback: 'Each $\partial_\alpha\partial_\alpha\phi = +k$: the potential is a bowl, curving upward in every direction.' }
+    hint: '$\partial_\beta\partial_\alpha\phi = k\,\delta_{\alpha\beta}$, with $\delta_{\alpha\beta}$ the Kronecker delta ($1$ if $\alpha = \beta$, else $0$).'
+    explanation: |
+      $\mathrm{Riem}^\alpha_{0\beta0} = k\,\delta_{\alpha\beta}$, so
+      $$\mathrm{Ric}_{00} = 3k = 4\pi G_N\rho,$$
+      which is $3$ here. This is exactly Poisson's equation: the potential $\tfrac{2\pi}{3}G_N\rho|x|^2$ is the one a uniform density produces, and in units with $k = 1$, $4\pi G_N\rho = 3$.
+
+  - type: numeric
+    id: p4-period
+    tag: Problem 4 · A tunnel through a uniform planet
+    title: Through the planet and back
+    prompt: |
+      A uniform planet has, in the sources chart, the coefficients $\Gamma^\alpha_{00} = k\,x^\alpha$ ($k = 1$) and no others. A ball is dropped from rest at $x = (A,0,0)$, $0<A\le1$, into a frictionless tunnel along the $x^1$ axis, so Newton II gives
+      $$\ddot x^1 = -k\,x^1.$$
+      How long does a round trip take (to the far end and back)? Give three decimals.
+    answer: 6.283
+    tolerance: 0.002
+    answerText: '6.283 (= 2π)'
+    wrong:
+      - { value: 3.1416, feedback: 'That is the trip to the far end only, half a period. The round trip comes back to $x^1 = A$.' }
+      - { value: 1.5708, feedback: 'That is the time to reach the center, a quarter period.' }
+    hint: 'Try $x^1(t) = A\cos(\sqrt k\,t)$.'
+    explanation: |
+      $x^1(t) = A\cos(\sqrt k\,t)$ solves the equation with $x^1(0) = A$, $\dot x^1(0) = 0$. The period is
+      $$\frac{2\pi}{\sqrt k} = 2\pi\approx6.283.$$
+      The amplitude $A$ scales the motion but never enters the period.
+
+  - type: mcq
+    id: p4-amplitude
+    tag: Problem 4 · A tunnel through a uniform planet
+    title: Deeper start, longer fall?
+    prompt: |
+      In a frictionless tunnel through a uniform planet ($\Gamma^\alpha_{00} = k\,x^\alpha$, $k = 1$, sources chart, surface at $|x| = 1$), ball P is dropped from rest at the surface, $x = (1,0,0)$, and ball Q from rest halfway down, $x = (0.5,0,0)$. Which reaches the center first?
+    options:
+      - text: 'Both at the same time, $t = \pi/2$'
+        correct: true
+      - text: 'Q: it starts closer to the center'
+        feedback: |
+          Q is closer, but its pull is weaker too: the pull $k|x|$ halves when the distance halves. Since $\ddot x^1 = -kx^1$ is linear, halving the start halves the whole motion, $x^1 = A\cos t$, and leaves the timing unchanged.
+      - text: 'P: the stronger pull at the surface wins'
+        feedback: |
+          P is pulled twice as hard but has twice as far to go, and the two effects cancel exactly: $x^1 = A\cos t$ reaches $0$ at $t = \pi/2$ for every $A$.
+      - text: 'Q: P must fall twice as far, so it takes longer'
+        feedback: |
+          True for a constant pull, where the time grows like the square root of the distance. Here the pull grows with distance, $\ddot x^1 = -kx^1$, and every amplitude takes the same quarter period.
+    explanation: |
+      $x^1(t) = A\cos t$ for both, so both reach $x^1 = 0$ at $t = \pi/2\approx1.571$. The fall is **harmonic** for every amplitude: the period $2\pi/\sqrt k$ does not depend on where the ball starts.
+
+  - type: mcq
+    id: p4-riem-uniform
+    tag: Problem 4 · A tunnel through a uniform planet
+    title: Where are the tides strongest?
+    prompt: |
+      Inside a uniform planet, in the sources chart, $\phi = \tfrac k2|x|^2$ and the tidal curvature is $\mathrm{Riem}^\alpha_{0\beta0} = \partial_\beta\partial_\alpha\phi$. Where inside the planet are the tides strongest?
+    options:
+      - text: 'Nowhere in particular: $\mathrm{Riem}^\alpha_{0\beta0} = k\,\delta_{\alpha\beta}$ at every event inside'
+        correct: true
+      - text: 'At the surface, where the pull is strongest'
+        feedback: |
+          The pull $k|x|$ is largest at the surface, but tides measure how the pull **changes** from point to point, its derivative, and $\partial_\beta(k\,x^\alpha) = k\,\delta_{\alpha\beta}$ is the same everywhere.
+      - text: 'Nowhere at the center, where the pull vanishes'
+        feedback: |
+          Zero pull at one event is not zero curvature: $\Gamma^\alpha_{00} = 0$ at the center, yet $\mathrm{Riem}^\alpha_{0\beta0} = k\,\delta_{\alpha\beta}$ there too. Curvature comes from the derivatives of $\Gamma$.
+      - text: 'Only along the tunnel axis'
+        feedback: |
+          $k\,\delta_{\alpha\beta}$ treats all three axes alike: the tidal squeeze is the same in every direction.
+    explanation: |
+      $\mathrm{Riem}^\alpha_{0\beta0} = k\,\delta_{\alpha\beta}$: the same at every event and in every direction (Kronecker $\delta_{\alpha\beta}$: $1$ if $\alpha = \beta$, else $0$). Compare a point mass, where the components fall like $1/r^3$ and have eigenvalues $-2G_NM/r^3$ (radial stretch) and $G_NM/r^3$ (sideways squeeze).
+
+  - type: text
+    id: p4-falling-setup
+    tag: Problem 4 · A tunnel through a uniform planet
+    title: A falling chart inside the planet
+    body: |
+      Let a chart $(\mathcal{V},\mathscr{Y})$ fall with a free particle inside the planet: recall the falling chart
+      $$x^\alpha = y^\alpha + b^\alpha(t),$$
+      with origin path $b^\alpha$ obeying $\ddot b^\alpha = -\partial_\alpha\phi(t,b(t))$. Its only nonzero coefficients are
+      $$(\Gamma_\mathscr{Y})^\alpha_{00}(t,y) = \partial_\alpha\phi(t,b+y) + \ddot b^\alpha.$$
+      Near a point mass this had to be Taylor expanded, $\partial_\beta\partial_\alpha\phi\,y^\beta + \mathcal{O}(|y|^2)$. Inside the planet, $\partial_\alpha\phi = k\,x^\alpha$ is linear: there is nothing left to expand.
+
+  - type: numeric
+    id: p4-falling-gamma
+    tag: Problem 4 · A tunnel through a uniform planet
+    title: The falling chart's coefficient
+    prompt: |
+      Inside a uniform planet, $\partial_\alpha\phi(t,x) = k\,x^\alpha$ with $k = 1$. A falling chart has $x^\alpha = y^\alpha + b^\alpha(t)$, $\ddot b^\alpha = -\partial_\alpha\phi(t,b(t))$, and
+      $$(\Gamma_\mathscr{Y})^\alpha_{00}(t,y) = \partial_\alpha\phi(t,b+y) + \ddot b^\alpha.$$
+      At an instant when $b = (0.6,0,0)$, compute $(\Gamma_\mathscr{Y})^1_{00}$ at $y = (0.2,0,0)$.
+    answer: 0.2
+    wrong:
+      - { value: 0.8, feedback: 'That is the sources-chart value at $x = b + y$, $\partial_1\phi = 0.8$. The falling origin adds $\ddot b^1 = -0.6$.' }
+      - { value: 0, feedback: 'The falling chart removes gravity at its origin, $y = 0$, only. At $y = (0.2,0,0)$ a tidal coefficient remains.' }
+      - { value: 1.4, feedback: 'The origin falls toward the center: $\ddot b^1 = -\partial_1\phi(b) = -0.6$, so it subtracts.' }
+    hint: '$\partial_1\phi(t,b+y) = k(b^1 + y^1)$ and $\ddot b^1 = -k\,b^1$.'
+    explanation: |
+      $$\begin{aligned}(\Gamma_\mathscr{Y})^\alpha_{00} &= k(b^\alpha + y^\alpha) - k\,b^\alpha\\ &= k\,y^\alpha,\end{aligned}$$
+      here $0.2$. The result does not depend on $b$ or on $t$: every falling chart inside the planet sees the same exactly linear field.
+
+  - type: mcq
+    id: p4-exact
+    tag: Problem 4 · A tunnel through a uniform planet
+    title: How good is the tidal equation here?
+    prompt: |
+      In a falling chart inside a uniform planet, $(\Gamma_\mathscr{Y})^\alpha_{00} = k\,y^\alpha$ exactly, all other coefficients vanish, and $\mathrm{Riem}^\alpha_{0\beta0} = k\,\delta_{\alpha\beta}$. A free particle with falling-chart coordinates $\gamma^\alpha_\mathcal{V}$ obeys the tidal equation
+      $$\ddot\gamma^\alpha_\mathcal{V} = -\mathrm{Riem}^\alpha_{0\beta0}\gamma^\beta_\mathcal{V} + \mathcal{O}(|\gamma_\mathcal{V}|^2).$$
+      What is the $\mathcal{O}(|\gamma_\mathcal{V}|^2)$ term here (while the particle stays inside the planet)?
+    options:
+      - text: 'Exactly zero: the tidal equation is exact for every offset'
+        correct: true
+      - text: 'Small but nonzero, as near a point mass'
+        feedback: |
+          Near a point mass $\partial_\alpha\phi$ is not linear, and its Taylor expansion continues past the first order. Here $\partial_\alpha\phi = k\,x^\alpha$ is linear, so the expansion stops.
+      - text: 'Zero only for offsets along the tunnel'
+        feedback: |
+          $(\Gamma_\mathscr{Y})^\alpha_{00} = k\,y^\alpha$ holds for every direction of $y$: nothing singles out the tunnel.
+      - text: 'Of size $k^2|\gamma_\mathcal{V}|^2$'
+        feedback: |
+          Newton I gives $\ddot\gamma^\alpha_\mathcal{V} = -(\Gamma_\mathscr{Y})^\alpha_{00} = -k\,\gamma^\alpha_\mathcal{V}$ exactly, which is the linear term with nothing added.
+    explanation: |
+      $$\ddot\gamma^\alpha_\mathcal{V} = -k\,\gamma^\alpha_\mathcal{V} = -\mathrm{Riem}^\alpha_{0\beta0}\gamma^\beta_\mathcal{V},$$
+      with no remainder. A uniform planet is the one place where the linear tidal equation is the whole story.
+
+  - type: numeric
+    id: p4-cloud
+    tag: Problem 4 · A tunnel through a uniform planet
+    title: A cloud inside the planet
+    prompt: |
+      Inside a uniform planet ($k = 1$), a small cloud of free particles sits on a sphere of radius $0.2$ around the origin of a falling chart, all at rest relative to that chart at $t = 0$. In the falling chart each particle obeys exactly
+      $$\ddot\gamma^\alpha_\mathcal{V} = -k\,\gamma^\alpha_\mathcal{V}.$$
+      The particle starting at $\gamma_\mathcal{V}(0) = (0.2,0,0)$: compute $\gamma^1_\mathcal{V}$ at $t = \pi/3$.
+    answer: 0.1
+    wrong:
+      - { value: 0.32, feedback: 'That is $0.2\cosh(\pi/3)$, the stretching solution of a negative tidal component (radially, near a point mass). Here the component is $+k$: the offset oscillates, $0.2\cos t$.' }
+      - { value: 0.2, feedback: 'The falling chart removes gravity at its origin only; at the offset the tidal coefficient $k\,y^1$ pulls the particle in.' }
+      - { value: 0.1732, feedback: 'That is $0.2\sin(\pi/3)$, which starts at $0$. A particle starting at $0.2$ at rest follows $0.2\cos t$.' }
+    hint: Solve with $\gamma^1_\mathcal{V}(0) = 0.2$, $\dot\gamma^1_\mathcal{V}(0) = 0$.
+    explanation: |
+      $$\gamma_\mathcal{V}(t) = \gamma_\mathcal{V}(0)\cos(\sqrt k\,t),$$
+      so $\gamma^1_\mathcal{V}(\pi/3) = 0.2\cdot\tfrac12 = 0.1$. Every particle of the cloud follows the same law with its own starting offset.
+
+  - type: mcq
+    id: p4-no-egg
+    tag: Problem 4 · A tunnel through a uniform planet
+    title: No egg
+    prompt: |
+      Inside a uniform planet, every particle of a small cloud, at rest relative to a falling chart at $t = 0$, moves as $\gamma_\mathcal{V}(t) = \gamma_\mathcal{V}(0)\cos(\sqrt k\,t)$ in that chart. The cloud starts as a sphere. What shape does it take?
+    options:
+      - text: 'A sphere that shrinks, reaching a point at $t = \pi/(2\sqrt k)$'
+        correct: true
+      - text: 'An egg, stretched along the direction to the center'
+        feedback: |
+          That is the point mass, whose tidal curvature has eigenvalues $-2G_NM/r^3$ (radial stretch) and $G_NM/r^3$ (sideways squeeze). Here $\mathrm{Riem}^\alpha_{0\beta0} = k\,\delta_{\alpha\beta}$ squeezes all directions alike.
+      - text: 'A sphere of constant size: the falling chart removes gravity'
+        feedback: |
+          It removes gravity at its origin only. Each offset $\gamma_\mathcal{V}$ feels $-k\,\gamma_\mathcal{V}$, which pulls it in.
+      - text: 'A flattened pancake'
+        feedback: |
+          Flattening needs a direction squeezed harder than the others, unequal diagonal components. Here all three are $k$.
+    explanation: |
+      All offsets shrink by the same factor $\cos(\sqrt k\,t)$: the sphere stays a sphere and collapses to the falling origin at $t = \pi/2$, all particles together. Matter ($\rho>0$) focuses free particles; a point mass in vacuum only distorts them.
+
+  - type: numeric
+    id: p4-volume
+    tag: Problem 4 · A tunnel through a uniform planet
+    title: The volume law, checked
+    prompt: |
+      The volume law: a small cloud of free particles, at rest relative to each other at $t = 0$, has volume
+      $$V(t)\approx V_0\big(1 - \tfrac12\mathrm{Ric}_{00}\,t^2\big).$$
+      Inside a uniform planet, $\mathrm{Riem}^\alpha_{0\beta0} = k\,\delta_{\alpha\beta}$ with $k = 1$, and $\mathrm{Ric}_{00} = \sum_\alpha\mathrm{Riem}^\alpha_{0\alpha0}$. Compute $V(0.1)/V_0$ from the volume law.
+    answer: 0.985
+    tolerance: 0.0005
+    wrong:
+      - { value: 0.995, feedback: 'That uses $k = 1$ in place of $\mathrm{Ric}_{00}$. The trace adds three equal components: $\mathrm{Ric}_{00} = 3k$.' }
+      - { value: 0.97, feedback: 'The law carries a factor $\tfrac12$: $1 - \tfrac12\cdot3\cdot0.01$.' }
+      - { value: 1.015, feedback: 'Positive $\mathrm{Ric}_{00}$ makes the cloud shrink: the sign in the law is minus.' }
+    hint: '$\mathrm{Ric}_{00} = 3k = 3$.'
+    explanation: |
+      $$\frac{V(0.1)}{V_0}\approx1 - \tfrac12\cdot3\cdot0.01 = 0.985.$$
+      The exact motion confirms it: each side shrinks by $\cos t$, so the volume ratio is $\cos^3(0.1)\approx0.98509$, which agrees up to order $t^2$. Since $\mathrm{Ric}_{00} = 4\pi G_N\rho$, matter makes clouds shrink; in vacuum the egg keeps its volume to this order.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: text
+    id: p5-setup
+    tag: Problem 5 · Merry-go-round or gravity?
+    title: Two labs, two charts
+    body: |
+      Two sealed labs each send you a stratified chart, coordinates $y^i$ with $y^0 = t$, without saying how it was made. Both report the same velocity coefficients:
+      $$\Gamma^1_{02} = \Gamma^1_{20} = -1,$$
+      $$\Gamma^2_{01} = \Gamma^2_{10} = 1.$$
+      They differ in $\Gamma^\alpha_{00}$:
+      - **Lab A:** $\Gamma^1_{00} = -y^1$, $\Gamma^2_{00} = -y^2$, $\Gamma^3_{00} = 0$.
+      - **Lab B:** $\Gamma^1_{00} = \Gamma^2_{00} = 0$, $\Gamma^3_{00} = y^3$.
+
+      All other coefficients vanish in both. One lab rides a merry-go-round in empty space; the other is inside a planet. With no forces, Newton II reads
+      $$\ddot y^\alpha = -2\Gamma^\alpha_{0\beta}\dot y^\beta - \Gamma^\alpha_{00}.$$
+
+  - type: numeric
+    id: p5-origin
+    tag: Problem 5 · Merry-go-round or gravity?
+    title: A ball through the origin
+    prompt: |
+      Lab A's stratified chart has the coefficients $\Gamma^1_{02} = \Gamma^1_{20} = -1$, $\Gamma^2_{01} = \Gamma^2_{10} = 1$, $\Gamma^1_{00} = -y^1$, $\Gamma^2_{00} = -y^2$, and no others. A free ball passes the origin $y = (0,0,0)$ with velocity $\dot y = (0,1,0)$. Newton II: $\ddot y^\alpha = -2\Gamma^\alpha_{0\beta}\dot y^\beta - \Gamma^\alpha_{00}$. Compute $\ddot y^1$ there.
+    answer: 2
+    wrong:
+      - { value: -2, feedback: '$-2\Gamma^1_{02}\dot y^2 = -2(-1)(1) = +2$: two minus signs.' }
+      - { value: 1, feedback: 'The velocity term carries a factor $2$, from $\Gamma^1_{02}$ and $\Gamma^1_{20}$ both.' }
+      - { value: 0, feedback: '$\Gamma^1_{00}$ vanishes at the origin, but the ball moves, and the Coriolis-type term $-2\Gamma^1_{02}\dot y^2$ does not.' }
+    hint: At the origin $\Gamma^1_{00} = 0$; only the velocity term is left.
+    explanation: |
+      $$\ddot y^1 = -2\Gamma^1_{02}\dot y^2 - \Gamma^1_{00} = 2 - 0 = 2.$$
+      Lab B has the same velocity coefficients and also $\Gamma^\alpha_{00} = 0$ at the origin: the same ball gives the same $2$ there. At the origin event the two charts have **identical** coefficients, so no single free particle passing through it, at any velocity, can tell them apart.
+
+  - type: numeric
+    id: p5-neighbour
+    tag: Problem 5 · Merry-go-round or gravity?
+    title: A neighbour at rest
+    prompt: |
+      Lab A's stratified chart has $\Gamma^1_{02} = \Gamma^1_{20} = -1$, $\Gamma^2_{01} = \Gamma^2_{10} = 1$, $\Gamma^1_{00} = -y^1$, $\Gamma^2_{00} = -y^2$, and no others. A free ball is momentarily at rest at $y = (0.5,0,0)$. Newton II: $\ddot y^\alpha = -2\Gamma^\alpha_{0\beta}\dot y^\beta - \Gamma^\alpha_{00}$. Compute $\ddot y^1$.
+    answer: 0.5
+    wrong:
+      - { value: -0.5, feedback: 'The acceleration is $-\Gamma^1_{00} = -(-0.5) = +0.5$: outward, like a centrifugal push.' }
+      - { value: 0, feedback: 'At rest the velocity term vanishes, but $\Gamma^1_{00} = -y^1 = -0.5$ does not.' }
+    hint: At rest only $-\Gamma^1_{00}$ remains.
+    explanation: |
+      $\ddot y^1 = -\Gamma^1_{00} = 0.5$, outward. In lab B the same ball has $\ddot y = 0$, since $\Gamma^1_{00} = 0$ there. The labs now differ, but coefficients depend on the chart: a pseudo-force and gravity sit in the same slot $\Gamma^\alpha_{00}$. Only a tensor can decide which lab has gravity: the curvature.
+
+  - type: text
+    id: p5-riem-terms
+    tag: Problem 5 · Merry-go-round or gravity?
+    title: The term that came back
+    body: |
+      Recall the curvature components:
+      $$\begin{aligned}&\mathrm{Riem}^i_{jkm}\\ &= \partial x_k\lfloor\Gamma^i_{jm}\rceil - \partial x_m\lfloor\Gamma^i_{jk}\rceil\\ &\quad + \Gamma^i_{nk}\Gamma^n_{jm} - \Gamma^i_{nm}\Gamma^n_{jk}.\end{aligned}$$
+      Take $i = \alpha$, $j = 0$, $k = \beta$, $m = 0$. All $\Gamma^0$ vanish, so only spatial $n = \delta$ contributes:
+      $$\begin{aligned}\mathrm{Riem}^\alpha_{0\beta0} &= \partial_\beta\Gamma^\alpha_{00} - \partial_0\Gamma^\alpha_{0\beta}\\ &\quad + \Gamma^\alpha_{\delta\beta}\Gamma^\delta_{00} - \Gamma^\alpha_{\delta0}\Gamma^\delta_{0\beta}.\end{aligned}$$
+      In the sources chart only $\Gamma^\alpha_{00}$ was nonzero and both products vanished. In the labs, $\Gamma^\alpha_{\delta\beta} = 0$ kills the first product and the velocity coefficients are constant, so $\partial_0\Gamma^\alpha_{0\beta} = 0$; but the last product, velocity coefficient times velocity coefficient, survives.
+
+  - type: numeric
+    id: p5-quad
+    tag: Problem 5 · Merry-go-round or gravity?
+    title: The product term
+    prompt: |
+      A stratified chart has the velocity coefficients $\Gamma^1_{02} = \Gamma^1_{20} = -1$, $\Gamma^2_{01} = \Gamma^2_{10} = 1$, all other $\Gamma^\alpha_{0\delta}$ zero. Compute the product term of $\mathrm{Riem}^1_{010}$,
+      $$-\sum_\delta\Gamma^1_{\delta0}\Gamma^\delta_{01}.$$
+    answer: 1
+    wrong:
+      - { value: -1, feedback: 'The product $\Gamma^1_{20}\Gamma^2_{01} = (-1)(1) = -1$ comes with a leading minus sign: $-(-1) = +1$.' }
+      - { value: 0, feedback: 'The $\delta = 1$ term vanishes ($\Gamma^1_{10} = 0$), but $\delta = 2$ gives $\Gamma^1_{20}\Gamma^2_{01} = -1$.' }
+    hint: Only $\delta = 2$ contributes.
+    explanation: |
+      $$-\Gamma^1_{20}\Gamma^2_{01} = -(-1)(1) = 1.$$
+      Likewise $-\Gamma^2_{10}\Gamma^1_{02} = -(1)(-1) = 1$ for $\mathrm{Riem}^2_{020}$, and $0$ for the third axis. A rotation at rate $\omega$ gives $+\omega^2$ in each direction of its plane: turning twice by a quarter turn reverses a vector.
+
+  - type: numeric
+    id: p5-riem-a
+    tag: Problem 5 · Merry-go-round or gravity?
+    title: Lab A's curvature
+    prompt: |
+      Lab A's stratified chart has $\Gamma^1_{02} = \Gamma^1_{20} = -1$, $\Gamma^2_{01} = \Gamma^2_{10} = 1$, $\Gamma^1_{00} = -y^1$, $\Gamma^2_{00} = -y^2$, and no others. Using
+      $$\begin{aligned}\mathrm{Riem}^\alpha_{0\beta0} &= \partial_\beta\Gamma^\alpha_{00} - \partial_0\Gamma^\alpha_{0\beta}\\ &\quad + \Gamma^\alpha_{\delta\beta}\Gamma^\delta_{00} - \Gamma^\alpha_{\delta0}\Gamma^\delta_{0\beta},\end{aligned}$$
+      compute $\mathrm{Riem}^1_{010}$.
+    answer: 0
+    wrong:
+      - { value: -1, feedback: 'That is $\partial_1\Gamma^1_{00}$ alone. The product term $-\Gamma^1_{20}\Gamma^2_{01} = +1$ survives and cancels it.' }
+      - { value: 1, feedback: 'That is the product term alone; add $\partial_1\Gamma^1_{00} = -1$.' }
+    hint: '$\partial_1\Gamma^1_{00} = -1$ and $-\Gamma^1_{20}\Gamma^2_{01} = 1$.'
+    explanation: |
+      $$\mathrm{Riem}^1_{010} = -1 - 0 + 0 + 1 = 0.$$
+      The same happens for $\mathrm{Riem}^2_{020}$, and every other component of lab A vanishes as well. Riem is a tensor, so lab A's spacetime is flat: the outward push is centrifugal, and lab A is the **merry-go-round**.
+
+  - type: numeric
+    id: p5-riem-b
+    tag: Problem 5 · Merry-go-round or gravity?
+    title: Lab B's curvature
+    prompt: |
+      Lab B's stratified chart has $\Gamma^1_{02} = \Gamma^1_{20} = -1$, $\Gamma^2_{01} = \Gamma^2_{10} = 1$, $\Gamma^3_{00} = y^3$, and no others; in particular $\Gamma^1_{00} = 0$ everywhere. Using
+      $$\begin{aligned}\mathrm{Riem}^\alpha_{0\beta0} &= \partial_\beta\Gamma^\alpha_{00} - \partial_0\Gamma^\alpha_{0\beta}\\ &\quad + \Gamma^\alpha_{\delta\beta}\Gamma^\delta_{00} - \Gamma^\alpha_{\delta0}\Gamma^\delta_{0\beta},\end{aligned}$$
+      compute $\mathrm{Riem}^1_{010}$.
+    answer: 1
+    wrong:
+      - { value: 0, feedback: '$\Gamma^1_{00} = 0$ kills the derivative term, but the product $-\Gamma^1_{20}\Gamma^2_{01} = +1$ remains. Zero $\Gamma^\alpha_{00}$ does not mean zero curvature.' }
+      - { value: -1, feedback: 'The product term carries a minus sign in front of $\Gamma^1_{20}\Gamma^2_{01} = -1$: it gives $+1$.' }
+    hint: Only the product term contributes.
+    explanation: |
+      $$\mathrm{Riem}^1_{010} = 0 - 0 + 0 + 1 = 1.$$
+      Lab B has no outward push at all, yet its spacetime is curved: the curvature comes entirely from the velocity coefficients.
+
+  - type: numeric
+    id: p5-ric-b
+    tag: Problem 5 · Merry-go-round or gravity?
+    title: Weighing lab B's matter
+    prompt: |
+      Lab B's stratified chart has $\Gamma^1_{02} = \Gamma^1_{20} = -1$, $\Gamma^2_{01} = \Gamma^2_{10} = 1$, $\Gamma^3_{00} = y^3$, and no others. Its curvature components are $\mathrm{Riem}^1_{010} = \mathrm{Riem}^2_{020} = 1$ (from the velocity coefficients) plus whatever $\Gamma^3_{00}$ gives. Compute
+      $$\mathrm{Ric}_{00} = \sum_\alpha\mathrm{Riem}^\alpha_{0\alpha0}.$$
+    answer: 3
+    wrong:
+      - { value: 2, feedback: 'The third axis counts too: $\mathrm{Riem}^3_{030} = \partial_3\Gamma^3_{00} = 1$, with no product term since no velocity coefficient involves the third axis.' }
+      - { value: 1, feedback: 'That is one component. The trace adds $\mathrm{Riem}^1_{010}$, $\mathrm{Riem}^2_{020}$ and $\mathrm{Riem}^3_{030}$.' }
+    hint: '$\mathrm{Riem}^3_{030} = \partial_3\Gamma^3_{00}$.'
+    explanation: |
+      $$\mathrm{Ric}_{00} = 1 + 1 + 1 = 3 = 4\pi G_N\rho.$$
+      Lab B sits in matter of density $\rho = 3/(4\pi G_N)$: the density of a uniform planet with $k = \tfrac{4\pi}{3}G_N\rho = 1$. Lab A has $\mathrm{Ric}_{00} = 0$: empty space.
+
+  - type: text
+    id: p5-reveal
+    tag: Problem 5 · Merry-go-round or gravity?
+    title: Who the labs were
+    body: |
+      **Lab A** is a chart rotating at $\omega = 1$ in empty space: from an inertial chart, rotation adds $\Gamma^1_{02} = -\omega$, $\Gamma^2_{01} = \omega$ and $\Gamma^\alpha_{00} = -\omega^2y^\alpha$ in the plane of rotation.
+
+      **Lab B** rotates at the same rate inside the uniform planet ($k = 1$), starting from its sources chart, where $\Gamma^\alpha_{00} = k\,x^\alpha$. Rotation turns $k\,x^\alpha$ into $k\,y^\alpha$ and adds its own terms, so in the plane
+      $$\Gamma^\alpha_{00} = (k - \omega^2)\,y^\alpha = 0,$$
+      gravity and the centrifugal push cancelling exactly, while along the axis $\Gamma^3_{00} = k\,y^3$ remains. A ball at rest in lab B at $y = (0.5,0,0)$ is on a circular orbit of period $2\pi$: the same $2\pi/\sqrt k$ as the fall through the tunnel.
+
+  - type: mcq
+    id: p5-verdict
+    tag: Problem 5 · Merry-go-round or gravity?
+    title: Gravity or rotation?
+    prompt: |
+      Two stratified charts have identical connection coefficients at one event: one rotates in empty space, the other rotates inside a planet. Which measurements can tell gravity from rotation?
+    options:
+      - text: 'Not one free particle at that event; the relative motion of neighbouring free particles can, through Riem'
+        correct: true
+      - text: 'One free particle at that event, if its acceleration is measured precisely enough'
+        feedback: |
+          Its acceleration at the event is $-2\Gamma^\alpha_{0\beta}\dot y^\beta - \Gamma^\alpha_{00}$, built from the coefficients at that event, which are identical in both charts. Precision does not help.
+      - text: 'None: rotation and gravity are both pseudo-forces'
+        feedback: |
+          Rotation is: a chart with $\mathrm{Riem} = 0$ removes it. Non-uniform gravity is not: its curvature is a tensor, nonzero in every chart, and shows up in the tidal motion of neighbours.
+      - text: 'Checking whether $\Gamma^\alpha_{00}$ vanishes'
+        feedback: |
+          A chart rotating inside a uniform planet has $\Gamma^\alpha_{00} = 0$ in the plane of rotation and is still curved: velocity coefficients contribute $\omega^2$ to $\mathrm{Riem}^\alpha_{0\beta0}$.
+    explanation: |
+      Coefficients at one event can always be matched by another chart; curvature cannot. Neighbouring free particles measure $\mathrm{Riem}^\alpha_{0\beta0}$ through their tidal motion: zero for the merry-go-round, $k\,\delta_{\alpha\beta}$ for the planet.
+
+  # ---------------------------------------------------------------- Wrap-up
+  - type: text
+    id: wrap-up
+    title: What you now own
+    body: |
+      Problems 4 and 5, part 3 of 3 of the level challenge. The formulas to keep:
+
+      Notation: $t$ is the absolute time; $x^i$ are the coordinates of the sources chart (stratified, cartesian, at rest with the planet) and $y^i$ those of another stratified chart, with $x^0=y^0=t$ and $\alpha,\beta,\delta\in\{1,2,3\}$. $\Gamma^i_{jk}$ are the coefficients of the connection $\nabla$ and $\mathrm{Riem}$, $\mathrm{Ric}$ its curvature and Ricci tensor. $\phi$ is the gravitational potential, $\rho$ the mass density, $G_N$ Newton's constant, $\delta_{\alpha\beta}$ the Kronecker delta ($1$ if $\alpha=\beta$, else $0$), $k>0$ a constant, and dots are $d/dt$.
+
+      **4. A uniform planet**: $\Gamma^\alpha_{00} = k\,x^\alpha$, $\mathrm{Riem}^\alpha_{0\beta0} = k\,\delta_{\alpha\beta}$, $\mathrm{Ric}_{00} = 3k = 4\pi G_N\rho$; every fall has period $2\pi/\sqrt k$, the tidal equation is exact, and a cloud shrinks as a sphere.
+
+      **5. Merry-go-round or gravity**: velocity coefficients feed the curvature,
+      $$\begin{aligned}\mathrm{Riem}^\alpha_{0\beta0} &= \partial_\beta\Gamma^\alpha_{00}\\ &\quad - \Gamma^\alpha_{\delta0}\Gamma^\delta_{0\beta}\end{aligned}$$
+      when the coefficients are constant in time and $\Gamma^\alpha_{\delta\beta} = 0$: $0$ for a carousel, $k\,\delta_{\alpha\beta}$ inside a planet.
+
+      And the level in one line: absolute time $t$ → stratified charts ($x^0 = t$) → inertial charts ($\Gamma = 0$) → pseudo-forces of moving axes → gravity in the connection, $\Gamma^\alpha_{00} = \partial_\alpha\phi$ → curvature $\mathrm{Riem}^\alpha_{0\beta0} = \partial_\beta\partial_\alpha\phi$ → tides → the field equation
+      $$\mathrm{Ric} = 4\pi G_N\rho\;dt\otimes dt.$$
+
+      **Next: General Relativity (Level 10).** Absolute time is dropped: spacetime gets a Lorentzian metric $g$, gravity lives in its Levi-Civita connection, free particles follow its geodesics, and $\mathrm{Ric}_{00} = 4\pi G_N\rho$ becomes one part of the Einstein equations, which tie the curvature of $g$ to the matter it contains.

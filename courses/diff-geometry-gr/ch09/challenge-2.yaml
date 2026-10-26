@@ -1,0 +1,405 @@
+id: ch09-challenge-2
+title: Level Challenge · Part 2
+kind: challenge
+
+# Organization: intro, one block per problem (cards tagged "Problem N · …", ids
+# prefixed pN-), then wrap-up. The Level Challenge is split in 3 parts of at most
+# 32 cards; part 2 holds problems 2 and 3.
+
+cards:
+  - type: text
+    id: intro
+    title: Bent clocks and inertial charts
+    body: |
+      This challenge pushes each idea of the level to its edge. It comes in 3 parts; this is part 2 (problems 2 and 3). Keep pencil and paper at hand: every answer can be checked by hand.
+
+      Recall the toolkit. A Newtonian spacetime is a 4-dimensional manifold $\mathcal{M}$ of events with an **absolute time** $t\in C^\infty(\mathcal{M})$, $(dt)_p\neq0$, and a torsion-free connection $\nabla$ with $\nabla dt = 0$ (time flows uniformly). A vector $\mathcal{X}_p$ is future directed, spatial or past directed as $(dt)_p(\mathcal{X}_p)$ is positive, zero or negative. A chart is **stratified** if its time coordinate is $t$ itself, $x^0 = t$, and **inertial** if moreover all its connection coefficients vanish. Indices: Latin $i,j,k\in\{0,1,2,3\}$, Greek $\alpha,\beta,\delta\in\{1,2,3\}$, Einstein summation. In a stratified chart, Newton II for a worldline $\gamma$ of mass $m$ and force components $f^\alpha$ reads
+      $$\begin{aligned}m\ddot\gamma^\alpha = f^\alpha &- m\Gamma^\alpha_{\beta\delta}\dot\gamma^\beta\dot\gamma^\delta\\ &- 2m\Gamma^\alpha_{0\beta}\dot\gamma^\beta - m\Gamma^\alpha_{00},\end{aligned}$$
+      dots being derivatives with respect to $t$. Between two charts $\mathscr{X}$, $\mathscr{Y}$, when $\Gamma_\mathscr{X} = 0$ only the inhomogeneous term survives:
+      $$(\Gamma_\mathscr{Y})^i_{jk} = \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^s}\frac{\partial^2\mathscr{X}^s}{\partial\mathscr{Y}^k\partial\mathscr{Y}^j}.$$
+
+      2. A chart with bent clocks: a chart whose time coordinate is not absolute time.
+      3. Who else is inertial? Every chart that is inertial along with a given one, and a shearing grid that is not.
+
+  # ---------------------------------------------------------------- Problem 2
+  - type: text
+    id: p2-setup
+    tag: Problem 2 · A chart with bent clocks
+    title: Clocks that disagree
+    body: |
+      Same spacetime with no gravity: inertial chart $\mathscr{X}$, coordinates $x^i$, $x^0 = t$, $\Gamma_\mathscr{X} = 0$, and the free ball $\chi_\mathcal{U}(t) = (t,2,t,0)$.
+
+      New chart $(\mathcal{V},\mathscr{Y})$ on all of $\mathcal{M}$: copy the spatial coordinates, $y^\alpha = x^\alpha$, but bend the clocks,
+      $$y^0 = x^0 + \tfrac12(x^2)^2.$$
+      The inverse is $x^0 = y^0 - \tfrac12(y^2)^2$, $x^\alpha = y^\alpha$; both are smooth, so $\mathscr{Y}$ is a chart of the atlas. It is **not stratified**: $y^0\neq t$. The slices $y^0 = $ const are curved surfaces cutting across the absolute spaces $t = $ const. (Quadratic, because a transition linear in the coordinates has zero second derivatives and would create no coefficients at all.)
+
+  - type: build
+    id: p2-dt
+    tag: Problem 2 · A chart with bent clocks
+    title: Absolute time in the new chart
+    prompt: |
+      Absolute time is $t = x^0$, and a chart has $x^0 = y^0 - \tfrac12(y^2)^2$. Using
+      $$dt = dx^0 = \frac{\partial\mathscr{X}^0}{\partial\mathscr{Y}^j}\,dy^j,$$
+      build $dt$ in the coordinates $y^j$.
+    prefix: 'dt ='
+    tiles: ['dy^0', '-\,y^2\,dy^2', '+\,y^2\,dy^2', '-\,\tfrac12(y^2)^2', '-\,dy^2']
+    answers:
+      - ['dy^0', '-\,y^2\,dy^2']
+    wrong:
+      - { answer: ['dy^0', '+\,y^2\,dy^2'], feedback: 'That is the forward map $y^0 = x^0 + \tfrac12(x^2)^2$ differentiated. $dt = dx^0$ needs $x^0$ as a function of the $y$s: $\partial(y^0 - \tfrac12(y^2)^2)/\partial y^2 = -y^2$.' }
+      - { answer: ['dy^0'], feedback: 'That would make $dt = dy^0$, true only in a stratified chart. Here $x^0$ also depends on $y^2$.' }
+    hint: 'Differentiate $y^0 - \tfrac12(y^2)^2$ with respect to $y^0$ and to $y^2$.'
+    explanation: |
+      $$dt = dy^0 - y^2\,dy^2,$$
+      so its components $\mathtt{t}_k := \partial y_k\lfloor t\rceil$ are $\mathtt{t}_k = (1,\ 0,\ -y^2,\ 0)$. In a stratified chart they would be $(1,0,0,0)$.
+
+  - type: numeric
+    id: p2-time-content
+    tag: Problem 2 · A chart with bent clocks
+    title: A tilted coordinate line
+    prompt: |
+      In a chart with $y^\alpha = x^\alpha$, $y^0 = x^0 + \tfrac12(x^2)^2$, absolute time reads
+      $$dt = dy^0 - y^2\,dy^2.$$
+      Compute $dt(\partial y_2)$ at an event with $y^2 = 3$.
+    answer: -3
+    wrong:
+      - { value: 0, feedback: 'That assumes the coordinate line of $y^2$ stays in a slice of absolute time. It would in a stratified chart; here $dt$ has the component $-y^2$ along $dy^2$.' }
+      - { value: 3, feedback: 'The component of $dt$ along $dy^2$ is $-y^2$, so the value is $-3$.' }
+    hint: '$dt(\partial y_2)$ is the component of $dt$ along $dy^2$.'
+    explanation: |
+      $$dt(\partial y_2) = -y^2 = -3.$$
+      Moving along the coordinate line of $y^2$ (holding $y^0$ fixed) changes absolute time: the bent clocks force $t$ to drop to keep $y^0$ constant.
+
+  - type: mcq
+    id: p2-past
+    tag: Problem 2 · A chart with bent clocks
+    title: Spatial or not?
+    prompt: |
+      In a chart with $y^\alpha = x^\alpha$ and $y^0 = x^0 + \tfrac12(x^2)^2$, where $x^0 = t$, the coordinate vector $\partial y_2$ at an event with $y^2 = 3$ has $dt(\partial y_2) = -3$. What is its time content?
+    options:
+      - text: 'Past directed'
+        correct: true
+      - text: 'Spatial: $y^2$ is a spatial coordinate, so its coordinate line lies in a slice'
+        feedback: |
+          Tempting, since $y^2 = x^2$ as a function. But $\partial y_2$ is defined by holding $y^0, y^1, y^3$ fixed, not $t$: along it $t = y^0 - \tfrac12(y^2)^2$ changes. Time content is the sign of $dt$, here $-3$.
+      - text: 'Future directed: the clocks run ahead as $y^2$ grows'
+        feedback: |
+          The chart time $y^0$ is held fixed along $\partial y_2$; absolute time $t = y^0 - \tfrac12(y^2)^2$ then decreases as $y^2$ grows past $0$. Negative $dt$ means past directed.
+      - text: 'It depends on the chart'
+        feedback: |
+          Time content is the sign of $(dt)_p$ on a vector: a property of the vector, the same in every chart. What depends on the chart is which vector is called $\partial y_2$.
+    explanation: |
+      $dt(\partial y_2) = -3<0$: past directed. In coordinates, $\partial y_2 = \partial x_2 - y^2\,\partial x_0$, tilted backwards in time. Only at $y^2 = 0$ is it spatial. Coordinate names do not decide time content; $dt$ does.
+
+  - type: numeric
+    id: p2-gamma
+    tag: Problem 2 · A chart with bent clocks
+    title: The new coefficient
+    prompt: |
+      From an inertial chart ($\Gamma_\mathscr{X} = 0$) to the chart with $y^\alpha = x^\alpha$ and $y^0 = x^0 + \tfrac12(x^2)^2$, whose inverse is $x^0 = y^0 - \tfrac12(y^2)^2$, the law is
+      $$(\Gamma_\mathscr{Y})^i_{jk} = \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^s}\frac{\partial^2\mathscr{X}^s}{\partial\mathscr{Y}^k\partial\mathscr{Y}^j}.$$
+      Compute $(\Gamma_\mathscr{Y})^0_{22}$.
+    answer: -1
+    wrong:
+      - { value: 1, feedback: 'That uses $\partial^2\mathscr{Y}^0/\partial\mathscr{X}^2\partial\mathscr{X}^2 = +1$, the second derivative of the forward map. The law needs the inverse, $\partial^2\mathscr{X}^0/\partial\mathscr{Y}^2\partial\mathscr{Y}^2 = -1$.' }
+      - { value: 0, feedback: 'The transition is quadratic in $y^2$, so a second derivative survives: $\partial^2\mathscr{X}^0/\partial\mathscr{Y}^2\partial\mathscr{Y}^2 = -1$.' }
+    hint: 'The only nonzero second derivative is $\partial^2\mathscr{X}^0/\partial\mathscr{Y}^2\partial\mathscr{Y}^2$, and $\partial\mathscr{Y}^0/\partial\mathscr{X}^0 = 1$.'
+    explanation: |
+      $$\begin{aligned}(\Gamma_\mathscr{Y})^0_{22} &= \frac{\partial\mathscr{Y}^0}{\partial\mathscr{X}^0}\frac{\partial^2\mathscr{X}^0}{\partial\mathscr{Y}^2\partial\mathscr{Y}^2}\\ &= 1\cdot(-1) = -1.\end{aligned}$$
+      Every other second derivative vanishes, and $\partial\mathscr{Y}^\alpha/\partial\mathscr{X}^0 = 0$, so all other coefficients are $0$. An upper index $0$ with spatial lower indices: a kind of coefficient a stratified chart never has.
+
+  - type: mcq
+    id: p2-not-inertial
+    tag: Problem 2 · A chart with bent clocks
+    title: Almost inertial?
+    prompt: |
+      A chart with $y^\alpha = x^\alpha$ and $y^0 = x^0 + \tfrac12(x^2)^2$ (where $x^0 = t$, and $\mathscr{X}$ is inertial) has all coefficients zero except $(\Gamma_\mathscr{Y})^0_{22} = -1$. In particular every $(\Gamma_\mathscr{Y})^\alpha_{jk}$ with a spatial upper index vanishes. Is $\mathscr{Y}$ an inertial chart?
+    options:
+      - text: 'No: it is not even stratified, since $y^0\neq t$'
+        correct: true
+      - text: 'Yes: no spatial coefficient means no pseudo-force'
+        feedback: |
+          Inertial means stratified with all coefficients zero. $\mathscr{Y}$ fails both: $y^0\neq t$, and $\Gamma^0_{22} = -1$. Its spatial coordinates do see free balls move uniformly, but against chart time, not absolute time.
+      - text: 'Yes, but only on the plane $y^2 = 0$'
+        feedback: |
+          On that plane $dt = dy^0$ at each point, but the chart is not stratified on any open set, and $\Gamma^0_{22} = -1$ everywhere.
+    explanation: |
+      Being inertial needs $y^0 = t$ first. Here the spatial coordinates are inertial ones, but the clock is bent; that alone creates the coefficient $\Gamma^0_{22}$, which couples spatial velocity to the time component of acceleration.
+
+  - type: numeric
+    id: p2-nabla-dt
+    tag: Problem 2 · A chart with bent clocks
+    title: Does time still flow uniformly?
+    prompt: |
+      In a chart where $\mathtt{t}_k = (1,0,-y^2,0)$ and the only nonzero coefficient is $\Gamma^0_{22} = -1$, compute
+      $$(\nabla_{\partial y_2}dt)_2 = \partial y_2\lfloor\mathtt{t}_2\rceil - \Gamma^j_{22}\,\mathtt{t}_j.$$
+    answer: 0
+    wrong:
+      - { value: -1, feedback: 'That is $\partial y_2\lfloor\mathtt{t}_2\rceil = \partial y_2\lfloor-y^2\rceil$ alone. The connection term $-\Gamma^0_{22}\mathtt{t}_0 = -(-1)\cdot1 = +1$ cancels it.' }
+      - { value: -2, feedback: 'The connection term enters with a minus sign: $-\Gamma^0_{22}\mathtt{t}_0 = -(-1)(1) = +1$, so the total is $-1+1$.' }
+    hint: 'Only $j = 0$ contributes to the sum: $\Gamma^0_{22}\mathtt{t}_0$.'
+    explanation: |
+      $$\begin{aligned}(\nabla_{\partial y_2}dt)_2 &= -1 - (-1)\cdot1\\ &= 0.\end{aligned}$$
+      The other components vanish too: $\nabla dt = 0$, a tensor equation, true in every chart. The connection is the same; only its coefficients changed.
+
+  - type: mcq
+    id: p2-equivalence
+    tag: Problem 2 · A chart with bent clocks
+    title: Where the shortcut holds
+    prompt: |
+      In a stratified chart ($x^0 = t$), uniform flow of time $\nabla dt = 0$ is equivalent to $\Gamma^0_{ki} = 0$ for all $k,i$. In a chart with bent clocks, $y^0 = x^0 + \tfrac12(x^2)^2$, one finds $\nabla dt = 0$ but $\Gamma^0_{22} = -1$. What does this show?
+    options:
+      - text: 'The equivalence holds in stratified charts only, where $\mathtt{t}_k = \delta^0_k$'
+        correct: true
+      - text: 'Time does not flow uniformly in the bent chart'
+        feedback: |
+          $\nabla dt = 0$ is a statement about the connection and $t$, not about a chart: computed in the bent chart it still gives $0$. Only the coefficients look different.
+      - text: 'The connection changed when the chart changed'
+        feedback: |
+          The connection is fixed; its coefficients are chart-dependent. $\Gamma^0_{22} = -1$ is the same connection described with bent clocks.
+      - text: 'The equivalence holds in every chart, so there is a mistake'
+        feedback: |
+          The derivation used $\mathtt{t}_k = \delta^0_k$, true only when $y^0 = t$. Here $\mathtt{t}_2 = -y^2$ has a derivative, and it cancels the $\Gamma^0_{22}$ term.
+    explanation: |
+      $(\nabla_{\partial y_i}dt)_k = \partial y_i\lfloor\mathtt{t}_k\rceil - \Gamma^j_{ki}\mathtt{t}_j$. With $\mathtt{t}_k = \delta^0_k$ the first term vanishes and the second is $-\Gamma^0_{ki}$: that is the stratified shortcut. With bent clocks both terms are nonzero and cancel.
+
+  - type: numeric
+    id: p2-chart-time
+    tag: Problem 2 · A chart with bent clocks
+    title: Chart time along the ball
+    prompt: |
+      The free ball has $\chi_\mathcal{U}(t) = (t,2,t,0)$ in an inertial chart. A second chart has $y^\alpha = x^\alpha$ and $y^0 = x^0 + \tfrac12(x^2)^2$. Compute the ball's chart time $\chi^0_\mathcal{V}(t) := y^0(\chi(t))$ at absolute time $t = 2$.
+    answer: 4
+    wrong:
+      - { value: 2, feedback: 'That would be true in a stratified chart, $y^0 = t$. Here $y^0 = t + \tfrac12(x^2)^2$ and the ball has $x^2 = t = 2$.' }
+      - { value: 6, feedback: 'The correction is $\tfrac12(x^2)^2 = \tfrac12\cdot4 = 2$, not $(x^2)^2$.' }
+    hint: Substitute $x^0 = t$ and $x^2 = t$.
+    explanation: |
+      $$\chi^0_\mathcal{V}(t) = t + \tfrac12t^2,$$
+      so $\chi^0_\mathcal{V}(2) = 4$. Chart time runs ahead of absolute time and faster and faster: $\dot\chi^0_\mathcal{V} = 1+t$, $\ddot\chi^0_\mathcal{V} = 1$. The ball crosses the curved slices at an increasing rate.
+
+  - type: numeric
+    id: p2-rate
+    tag: Problem 2 · A chart with bent clocks
+    title: The parameter is still absolute time
+    prompt: |
+      In a chart with $\mathtt{t}_k = (1,0,-y^2,0)$, a free ball has
+      $$\chi_\mathcal{V}(t) = (t+\tfrac12t^2,\ 2,\ t,\ 0).$$
+      Compute $\mathtt{t}_k\dot\chi^k_\mathcal{V}$, the rate of absolute time along the ball, at $t = 2$.
+    answer: 1
+    wrong:
+      - { value: 3, feedback: 'That is $\dot\chi^0_\mathcal{V} = 1+t$ alone, the rate of chart time. $dt$ also has the component $\mathtt{t}_2 = -y^2 = -2$, contributing $-2\cdot\dot\chi^2_\mathcal{V} = -2$.' }
+      - { value: 5, feedback: 'The component $\mathtt{t}_2 = -y^2$ is negative: the sum is $3 - 2$, not $3 + 2$.' }
+    hint: 'At $t = 2$: $\dot\chi_\mathcal{V} = (3,0,1,0)$ and $y^2 = 2$.'
+    explanation: |
+      $$\begin{aligned}\mathtt{t}_k\dot\chi^k_\mathcal{V} &= 3\cdot1 + 1\cdot(-2)\\ &= 1,\end{aligned}$$
+      and the same for every $t$: $(1+t) - t\cdot1 = 1$. The worldline is still parametrized by absolute time, as Newton II demands in every chart. Chart time is not a valid parameter here: it does not grow uniformly.
+
+  - type: mcq
+    id: p2-autoparallel
+    tag: Problem 2 · A chart with bent clocks
+    title: The time component of Newton I
+    prompt: |
+      A free ball in a chart with $(\Gamma_\mathscr{Y})^0_{22} = -1$ (all other coefficients zero) has
+      $$\chi_\mathcal{V}(t) = (t+\tfrac12t^2,\ 2,\ t,\ 0),$$
+      so $\ddot\chi^0_\mathcal{V} = 1\neq0$. The time component of $\ddot\chi^i_\mathcal{V} + \Gamma^i_{jk}\dot\chi^j_\mathcal{V}\dot\chi^k_\mathcal{V} = 0$ is tested. What happens?
+    options:
+      - text: 'It holds: $\Gamma^0_{22}(\dot\chi^2_\mathcal{V})^2 = -1$ cancels $\ddot\chi^0_\mathcal{V} = 1$'
+        correct: true
+      - text: 'It fails: the ball needs a force with a time component'
+        feedback: |
+          Forces are spatial, and the ball is free in every chart: being free is a property of the worldline. The new coefficient supplies $\Gamma^0_{22}(\dot\chi^2_\mathcal{V})^2 = -1\cdot1^2 = -1$.
+      - text: 'It is automatically $0 = 0$, as in any chart'
+        feedback: |
+          In a stratified chart it is $0 = 0$, because $\ddot\chi^0 = \ddot t = 0$ and $\Gamma^0_{ki} = 0$. Here both terms are nonzero and only their sum vanishes.
+      - text: 'It holds only if the parameter is switched to the chart time $y^0$'
+        feedback: |
+          The parameter must stay absolute time; chart time grows like $t+\tfrac12t^2$, not uniformly. With $t$ as parameter the equation already holds.
+    explanation: |
+      $$\ddot\chi^0_\mathcal{V} + \Gamma^0_{22}(\dot\chi^2_\mathcal{V})^2 = 1 + (-1)(1)^2 = 0.$$
+      The spatial components read $0 = 0$ (all $\Gamma^\alpha_{jk} = 0$, $\ddot\chi^\alpha_\mathcal{V} = 0$). The ball is free here too: the speeding-up chart clock is exactly compensated by the new coefficient.
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: text
+    id: p3-setup
+    tag: Problem 3 · Who else is inertial?
+    title: Charts that agree there are no forces
+    body: |
+      Fix an inertial chart $(\mathcal{U},\mathscr{X})$: $x^0 = t$, $\Gamma_\mathscr{X} = 0$. Which other stratified charts $(\mathcal{V},\mathscr{Y})$, $y^0 = t$, are inertial too?
+
+      The level showed examples: a grid moving at constant velocity, $y^1 = x^1 - 2t$, is inertial; an accelerating grid and a rotating one are not. Here is the complete answer, with a surprise: the list is longer than "rotations, uniform motions and shifts", because a Newtonian spacetime has no notion of spatial length to preserve.
+
+  - type: order
+    id: p3-proof
+    tag: Problem 3 · Who else is inertial?
+    title: Inertial iff affine
+    prompt: |
+      Claim: if $\mathscr{X}$ is inertial and $\mathscr{Y}$ is stratified ($y^0 = x^0 = t$) on a connected domain, then $\mathscr{Y}$ is inertial iff
+      $$x^\alpha = A^\alpha_\beta y^\beta + v^\alpha t + c^\alpha$$
+      with constants $A^\alpha_\beta$ (an invertible matrix), $v^\alpha$, $c^\alpha$. Put the argument in order.
+    steps:
+      - 'Since $\Gamma_\mathscr{X} = 0$, the law keeps only $(\Gamma_\mathscr{Y})^i_{jk} = \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^s}\frac{\partial^2\mathscr{X}^s}{\partial\mathscr{Y}^k\partial\mathscr{Y}^j}$.'
+      - 'The Jacobian matrix $\partial\mathscr{Y}^i/\partial\mathscr{X}^s$ is invertible; multiplying by its inverse, $\Gamma_\mathscr{Y} = 0$ iff every $\partial^2\mathscr{X}^s/\partial\mathscr{Y}^k\partial\mathscr{Y}^j$ vanishes.'
+      - 'On a connected domain, a function with all second derivatives zero is affine: each $x^s$ is a constant plus constants times $y^0,\dots,y^3$.'
+      - 'With $y^0 = t$, this reads $x^\alpha = A^\alpha_\beta y^\beta + v^\alpha t + c^\alpha$; $A$ is invertible because the transition is.'
+    hint: Start from the transformation law, then kill the Jacobian, then integrate.
+    explanation: |
+      Both directions hold: an affine transition has zero second derivatives, so $\Gamma_\mathscr{Y} = 0$, and conversely. Here $A$ says how the axes are laid out, $v$ how fast the new origin moves, $c$ where it starts. The time coordinate cannot change at all: both charts must have $t$ itself as time coordinate.
+
+  - type: numeric
+    id: p3-count
+    tag: Problem 3 · Who else is inertial?
+    title: How many knobs?
+    prompt: |
+      Every inertial chart related to a given inertial one (on a connected domain) has
+      $$x^\alpha = A^\alpha_\beta y^\beta + v^\alpha t + c^\alpha,\quad x^0 = y^0 = t,$$
+      with $\alpha,\beta\in\{1,2,3\}$, $A$ a constant invertible matrix, $v$, $c$ constants. How many real numbers fix such a transition?
+    answer: 15
+    wrong:
+      - { value: 9, feedback: 'That counts $3$ rotation angles, $3$ velocities and $3$ shifts. But $A$ is any invertible $3\times3$ matrix: $9$ entries, not just the $3$ angles of a rotation.' }
+      - { value: 10, feedback: 'That is the Galilean count: rotations, boosts, spatial shifts and a time shift. Here time cannot be shifted ($y^0 = t$ exactly), and $A$ has $9$ free entries, not $3$.' }
+      - { value: 16, feedback: 'A shift of time would make $y^0 = t + $ const $\neq t$: not stratified. Count $9 + 3 + 3$.' }
+    hint: Count the entries of $A$, of $v$ and of $c$.
+    explanation: |
+      $$9 + 3 + 3 = 15,$$
+      subject only to $\det A\neq0$. Of the $9$ entries of $A$, only $3$ angles describe rotations; the other $6$ are stretches and shears.
+
+  - type: mcq
+    id: p3-which
+    tag: Problem 3 · Who else is inertial?
+    title: Rotations and boosts only?
+    multiple: true
+    prompt: |
+      $\mathscr{X}$ is inertial ($x^0 = t$, $\Gamma_\mathscr{X} = 0$). Each option defines a stratified chart $\mathscr{Y}$ with $y^0 = t$ and unlisted coordinates copied. Which are inertial? Select all that apply.
+    options:
+      - text: '$y^1 = 2x^1$'
+        correct: true
+      - text: '$y^1 = x^1 + 2x^2 - 3t$'
+        correct: true
+      - text: '$y^1 = x^1\cos1 + x^2\sin1$, $y^2 = -x^1\sin1 + x^2\cos1$'
+        correct: true
+      - text: '$y^1 = x^1 - t^2$'
+        feedback: |
+          The inverse $x^1 = y^1 + t^2$ is quadratic in $t$: $\partial^2\mathscr{X}^1/\partial\mathscr{Y}^0\partial\mathscr{Y}^0 = 2$, so $\Gamma^1_{00} = 2$, an accelerating grid.
+      - text: '$y^1 = x^1\cos t + x^2\sin t$, $y^2 = -x^1\sin t + x^2\cos t$'
+        feedback: |
+          A rotating grid: $t$ enters through $\cos t$ and $\sin t$, so mixed second derivatives such as $\partial^2\mathscr{X}^1/\partial\mathscr{Y}^0\partial\mathscr{Y}^2$ appear: Coriolis and centrifugal coefficients.
+    explanation: |
+      The test is whether the inverse transition is affine in $(y^\beta, t)$. A fixed rotation, a stretch $y^1 = 2x^1$ and a sheared, moving grid $y^1 = x^1 + 2x^2 - 3t$ all are. The tempting rule "only rotations and boosts" comes from Euclidean mechanics, where axes must keep lengths and angles; this level's spacetime has no spatial metric, only straightness, and straight lines stay straight under any constant invertible $A$. (Beyond the level, shown here: with a spatial metric added, demanding orthonormal axes cuts $A$ down to rotations.)
+
+  - type: numeric
+    id: p3-example
+    tag: Problem 3 · Who else is inertial?
+    title: A sheared grid in numbers
+    prompt: |
+      $\mathscr{X}$ is inertial, and $\mathscr{Y}$ has $y^0 = t$, $y^1 = x^1 + 2x^2 - 3t$, $y^2 = x^2$, $y^3 = x^3$. A free ball has $x(t) = (1,\ t,\ 0)$. Compute $\dot y^1$, its first velocity component in $\mathscr{Y}$.
+    answer: -1
+    wrong:
+      - { value: 1, feedback: 'Substitute: $y^1 = 1 + 2t - 3t = 1 - t$. The grid''s own motion $-3t$ outweighs $2x^2 = 2t$.' }
+      - { value: -3, feedback: 'That is the grid term alone. The ball also moves along $x^2$, and $2x^2 = 2t$ contributes $+2$.' }
+      - { value: 0, feedback: 'The ball has $\dot x^1 = 0$, but $y^1$ also depends on $x^2 = t$ and on $t$: $y^1 = 1 + 2t - 3t$.' }
+    hint: Substitute $x^1 = 1$, $x^2 = t$ into $y^1$.
+    explanation: |
+      $$y^1 = 1 + 2t - 3t = 1 - t,$$
+      so $\dot y^1 = -1$ and $\ddot y^1 = 0$. In $\mathscr{Y}$ the ball moves uniformly, as Newton I says it must in an inertial chart. Lengths along the slanted grid lines are not those of $\mathscr{X}$, but nothing in the level measures them.
+
+  - type: mcq
+    id: p3-time-shift
+    tag: Problem 3 · Who else is inertial?
+    title: Resetting the clocks
+    prompt: |
+      $\mathscr{X}$ is inertial, with $x^0 = t$. A chart $\mathscr{Y}$ copies the spatial coordinates, $y^\alpha = x^\alpha$, and resets the clock: $y^0 = x^0 + 5$. All its coefficients vanish. Is it an inertial chart?
+    options:
+      - text: 'No: $y^0 = t + 5\neq t$, so it is not stratified'
+        correct: true
+      - text: 'Yes: all coefficients vanish'
+        feedback: |
+          Zero coefficients are not enough: inertial means stratified with zero coefficients, and stratified means the time coordinate **is** absolute time. Absolute time is one fixed function $t$, including its zero.
+      - text: 'Yes: a time shift is part of the Galilean group'
+        feedback: |
+          In Euclidean mechanics time shifts are allowed because time has no preferred zero. Here absolute time is a given function $t$ on $\mathcal{M}$, and a stratified chart must use it as it is.
+    explanation: |
+      The chart is a perfectly good chart, free balls move uniformly in it, but its time coordinate is not $t$. That is why the count of inertial transitions is $15$, not $16$.
+
+  - type: text
+    id: p3-shear-setup
+    tag: Problem 3 · Who else is inertial?
+    title: A grid that shears with time
+    body: |
+      Now let the shear grow with time:
+      $$y^1 = x^1 + t\,x^2,$$
+      with $y^0 = t$ and $y^2 = x^2$, $y^3 = x^3$. The inverse is
+      $$x^1 = y^1 - y^0y^2,$$
+      not affine: the product $y^0y^2$ has a mixed second derivative. The grid does not rotate, but its lines of constant $y^1$ tilt more and more as time passes.
+
+  - type: numeric
+    id: p3-shear-gamma
+    tag: Problem 3 · Who else is inertial?
+    title: The shear's coefficient
+    prompt: |
+      From an inertial chart, $\mathscr{Y}$ has $y^0 = t$, $y^1 = x^1 + t\,x^2$, $y^2 = x^2$, $y^3 = x^3$, with inverse $x^1 = y^1 - y^0y^2$. Using
+      $$(\Gamma_\mathscr{Y})^i_{jk} = \frac{\partial\mathscr{Y}^i}{\partial\mathscr{X}^s}\frac{\partial^2\mathscr{X}^s}{\partial\mathscr{Y}^k\partial\mathscr{Y}^j},$$
+      compute $(\Gamma_\mathscr{Y})^1_{02}$.
+    answer: -1
+    wrong:
+      - { value: 1, feedback: 'That differentiates the forward map, $\partial^2\mathscr{Y}^1/\partial\mathscr{X}^0\partial\mathscr{X}^2 = +1$. The law uses the inverse: $\partial^2(y^1 - y^0y^2)/\partial y^0\partial y^2 = -1$.' }
+      - { value: 0, feedback: 'The grid does not rotate, but the term $-y^0y^2$ in $x^1$ has a mixed second derivative $-1$: that alone makes a coefficient.' }
+    hint: 'The only nonzero second derivative is $\partial^2\mathscr{X}^1/\partial\mathscr{Y}^0\partial\mathscr{Y}^2$; and $\partial\mathscr{Y}^1/\partial\mathscr{X}^1 = 1$.'
+    explanation: |
+      $$\begin{aligned}(\Gamma_\mathscr{Y})^1_{02} &= \frac{\partial\mathscr{Y}^1}{\partial\mathscr{X}^1}\frac{\partial^2\mathscr{X}^1}{\partial\mathscr{Y}^2\partial\mathscr{Y}^0}\\ &= 1\cdot(-1) = -1,\end{aligned}$$
+      and $\Gamma^1_{20} = -1$ by symmetry; all others vanish. A $\Gamma^\alpha_{0\beta}$ coefficient, the slot of the Coriolis term, without any rotation.
+
+  - type: numeric
+    id: p3-shear-ball
+    tag: Problem 3 · Who else is inertial?
+    title: A Coriolis-like push
+    prompt: |
+      In a chart with $y^0 = t$, $y^1 = x^1 + t\,x^2$, $y^2 = x^2$ (from an inertial chart), the only coefficients are $\Gamma^1_{02} = \Gamma^1_{20} = -1$. A free ball has $x(t) = (0,\ t,\ 0)$. Compute $\ddot y^1$.
+    answer: 2
+    wrong:
+      - { value: 0, feedback: 'The ball is free, but $\mathscr{Y}$ is not inertial. Substitute: $y^1 = 0 + t\cdot t = t^2$.' }
+      - { value: 1, feedback: 'That is half: $y^1 = t^2$ gives $\ddot y^1 = 2$. Equivalently, the term $-2\Gamma^1_{0\beta}\dot y^\beta$ carries a factor $2$ (from $\Gamma^1_{02}$ and $\Gamma^1_{20}$).' }
+      - { value: -2, feedback: 'Newton II with $f = 0$ gives $\ddot y^1 = -2\Gamma^1_{02}\dot y^2 = -2(-1)(1) = +2$; directly, $y^1 = t^2$.' }
+    hint: Substitute $x^1 = 0$, $x^2 = t$ into $y^1$.
+    explanation: |
+      $$y^1 = t^2,\quad\ddot y^1 = 2.$$
+      Newton II predicts it: $\ddot y^1 = -2\Gamma^1_{0\beta}\dot y^\beta = -2(-1)(1) = 2$, since $\dot y^2 = 1$. A velocity-dependent push, sideways to the motion like Coriolis, produced by a grid that shears instead of turning. (Beyond the level, shown here: a Coriolis-type term needs only a time-dependent $A$, not a rotation.)
+
+  - type: mcq
+    id: p3-curvature
+    tag: Problem 3 · Who else is inertial?
+    title: Inertial charts need flatness
+    prompt: |
+      A chart is inertial when it is stratified and all its coefficients vanish on its domain, an open set. Near a point mass, $\mathrm{Riem}^\alpha_{0\beta0}\neq0$ at every event off the mass's worldline. Can some chart be inertial on an open set there?
+    options:
+      - text: 'No: zero coefficients on an open set force $\mathrm{Riem} = 0$ there, and Riem is a tensor'
+        correct: true
+      - text: 'Yes: a freely falling chart removes all coefficients'
+        feedback: |
+          A falling chart removes them only along the falling worldline at its origin; elsewhere tidal coefficients remain, $(\Gamma_\mathscr{Y})^\alpha_{00}\approx\mathrm{Riem}^\alpha_{0\beta0}y^\beta$.
+      - text: 'Yes, if the chart rotates at the right rate'
+        feedback: |
+          Rotation adds coefficients but cannot cancel curvature: Riem is a tensor, so if it is nonzero in one chart it is nonzero in all, and a chart with $\Gamma = 0$ on an open set would give $\mathrm{Riem} = 0$.
+      - text: 'It depends on the chart chosen for computing Riem'
+        feedback: |
+          A tensor that is nonzero in one chart is nonzero in every chart: its components transform with Jacobians, which are invertible.
+    explanation: |
+      Riem is built from $\Gamma$ and its first derivatives; if $\Gamma = 0$ on an open set, Riem vanishes there. So inertial charts exist only where spacetime is flat, like the spacetime of this problem; there, the inertial charts are exactly the affine family with $15$ knobs. With gravity, gravity is curvature, and no chart removes it on an open set.
+
+  - type: text
+    id: wrap-up
+    title: What you now own
+    body: |
+      Problems 2 and 3, part 2 of 3 of the level challenge. The formulas to keep:
+
+      Notation: $t$ is the absolute time; $x^i$ are the coordinates of an inertial chart and $y^i$ those of another chart on the same spacetime, $x^0=t$, $\alpha,\beta\in\{1,2,3\}$; $\Gamma^i_{jk}$ are the coefficients of the connection $\nabla$ and $\mathrm{Riem}$ its curvature. In item 3, $A$ is an invertible $3\times3$ matrix ($9$ knobs), $v\in\mathbb{R}^3$ a constant velocity ($3$) and $c\in\mathbb{R}^3$ a constant shift ($3$).
+
+      **2. Bent clocks**: a time coordinate that is not $t$, $y^0 = x^0 + \tfrac12(x^2)^2$, gives
+      $$dt = dy^0 - y^2\,dy^2,$$
+      a coefficient $\Gamma^0_{22} = -1$, and still $\nabla dt = 0$.
+
+      **3. Who else is inertial**: exactly the affine family
+      $$x^\alpha = A^\alpha_\beta y^\beta + v^\alpha t + c^\alpha,$$
+      $15$ knobs; on an open set an inertial chart needs $\mathrm{Riem} = 0$.
+
+      **Next, part 3 of this challenge.** Gravity is back: a fall through a tunnel in a planet of uniform density, with tides and no egg; then two labs whose charts agree on the velocity coefficients, one on a merry-go-round and one inside a planet, told apart by the curvature.

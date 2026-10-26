@@ -1,0 +1,425 @@
+id: ch07-challenge-2
+title: Level Challenge · Part 2
+kind: challenge
+
+# Organization: intro, one block per problem (cards tagged "Problem N · …", ids
+# prefixed pN-), then wrap-up. The Level Challenge is split in 3 parts of at most
+# 32 cards; part 2 holds problems 2 and 3.
+
+cards:
+  - type: text
+    id: intro
+    title: Light rays and shortcuts
+    body: |
+      This challenge pushes each idea of the level to its edge. It comes in 3 parts; this is part 2 (problems 2 and 3). Keep pencil and paper at hand: every answer can be checked by hand. Einstein summation is on.
+
+      Recall the toolkit. In a chart $\mathscr{X}$ the metric $g$ has components $g_{ij}$ (symmetric, $\det(g_{ij})\neq0$), the inverse metric has components $(g^{-1})^{ij}$ with
+      $$g_{ij}\,(g^{-1})^{jk} = \delta^k_i,$$
+      and $\partial_k$ is the derivative in the $k$-th chart slot. The **Christoffel symbols** of the Levi-Civita connection $\nabla^{\mathrm{LC}}$ are $\Gamma^k_{ij} = (g^{-1})^{km}\,\Gamma_{mij}$, with
+      $$\begin{aligned}\Gamma_{mij} := \tfrac12\big(&\partial_ig_{mj} + \partial_jg_{mi}\\ &- \partial_mg_{ij}\big).\end{aligned}$$
+      A curve with components $\gamma^k(\lambda)$ (dot $= d/d\lambda$, speed $s_\gamma$) is a constant-speed geodesic when it solves
+      $$\ddot\gamma^k + \Gamma^k_{ij}\,\dot\gamma^i\dot\gamma^j = 0, \tag{G}$$
+      and a geodesic at any speed when the right-hand side is $(\dot s_\gamma/s_\gamma)\,\dot\gamma^k$ instead, equation (S).
+
+      2. A light ray in a medium: a variation computed by hand, twice, and an endpoint that moves.
+      3. Lowering an index through $\nabla$, and why the energy Lagrangian fixes the speed while the length does not.
+
+  # ---------------------------------------------------------------- Problem 2
+  - type: text
+    id: p2-setup
+    tag: Problem 2 · A light ray in a medium
+    title: Guess first
+    body: |
+      Light in a medium with refractive index $n$ takes the path of stationary **optical length** $\int n\,ds$ ($ds$ = Euclidean length element): Fermat's principle. So light rays are geodesics of the metric $n^2\times$(Euclidean).
+
+      Take the upper half-plane $\mathbb{H} := \{(u,w)\in\mathbb{R}^2\mid w > 0\}$ with the cartesian chart $\mathscr{X} = (u,w)$ and index $n = 1/w$, which falls with height. The metric has components
+      $$g_{ij} = \frac{\delta_{ij}}{w^2}.$$
+      Consider the horizontal path $\gamma(\lambda) = (\lambda,1)$, $\lambda\in[-1,1]$, from $(-1,1)$ to $(1,1)$.
+
+      **Before any computation, guess:** does the light ray between these two points follow the horizontal path, bow upward, or bow downward?
+
+  - type: mcq
+    id: p2-guess
+    tag: Problem 2 · A light ray in a medium
+    title: Which way does light bow?
+    prompt: |
+      On the upper half-plane $\{(u,w)\mid w>0\}$, the metric $g_{ij} = \delta_{ij}/w^2$ measures optical length in a medium of refractive index $n = 1/w$. Light from $(-1,1)$ to $(1,1)$ follows a curve of stationary length. Compared with the horizontal segment $w = 1$, the ray:
+    options:
+      - text: 'bows upward, into the region where $n$ is smaller, so each unit of Euclidean distance costs less'
+        correct: true
+      - text: 'follows the horizontal segment, by symmetry'
+        feedback: |
+          The left-right symmetry of the endpoints only says the ray is symmetric about $u = 0$. The medium is not symmetric up-down: $n = 1/w$ is smaller above, so a detour upward can pay for its extra Euclidean length.
+      - text: 'bows downward'
+        feedback: |
+          Below the segment $n = 1/w$ is **larger**: every unit of Euclidean distance costs more, and the detour is longer too. Both effects increase the optical length.
+    explanation: |
+      A slight upward bump costs extra Euclidean length only at second order (the bump's slope squared) but gains at first order from the lower index. The next cards make this precise: the first variation is negative for every upward bump.
+
+  - type: mcq
+    id: p2-lagrangian
+    tag: Problem 2 · A light ray in a medium
+    title: The Lagrangian
+    prompt: |
+      On the upper half-plane with chart $(u,w)$ and metric components $g_{ij} = \delta_{ij}/w^2$, the length Lagrangian is $\mathcal{L}_\mathscr{X}(\alpha;\beta) = \sqrt{g_{ij}\,\beta^i\beta^j}$ ($g_{ij}$ at the point with coordinates $\alpha = (\alpha^1,\alpha^2)$, velocity slots $\beta$; the metric is positive definite, so the sign rune is $1$). Which formula is it?
+    options:
+      - text: '$\dfrac{\sqrt{(\beta^1)^2+(\beta^2)^2}}{\alpha^2}$'
+        correct: true
+      - text: '$\dfrac{\sqrt{(\beta^1)^2+(\beta^2)^2}}{(\alpha^2)^2}$'
+        feedback: |
+          The factor $1/w^2$ sits **inside** the square root: $\sqrt{\beta\cdot\beta/(\alpha^2)^2} = \sqrt{\beta\cdot\beta}/\alpha^2$. Optical length is $n$ (not $n^2$) times Euclidean length.
+      - text: '$\dfrac{(\beta^1)^2+(\beta^2)^2}{(\alpha^2)^2}$'
+        feedback: |
+          That is $g_{ij}\beta^i\beta^j$ itself, twice the energy Lagrangian. The length Lagrangian has the square root, which makes the length independent of the parametrization.
+      - text: '$\sqrt{(\beta^1)^2+(\beta^2)^2}$'
+        feedback: |
+          That is the Euclidean Lagrangian. The metric $\delta_{ij}/w^2$ adds the index $n = 1/w$ evaluated at the position slot $\alpha^2$.
+    explanation: |
+      $\mathcal{L}_\mathscr{X}(\alpha;\beta) = \sqrt{\beta\cdot\beta}/\alpha^2$: Euclidean speed times $n = 1/w$. Along $\gamma(\lambda) = (\lambda,1)$, $\alpha = (\lambda,1)$ and $\beta = (1,0)$, so $\mathcal{L}_\mathscr{X} = 1$ and the length is $2$.
+
+  - type: numeric
+    id: p2-direct
+    tag: Problem 2 · A light ray in a medium
+    title: Bend it, directly
+    prompt: |
+      Upper half-plane, chart $(u,w)$, length Lagrangian $\mathcal{L}_\mathscr{X}(\alpha;\beta) = \sqrt{(\beta^1)^2+(\beta^2)^2}/\alpha^2$. Deform $\gamma(\lambda) = (\lambda,1)$, $\lambda\in[-1,1]$, with the knob $\text{ᛊ}$ and the shape $\text{ᛉ}(\lambda) = (0,\,1-\lambda^2)$ (zero at both ends):
+      $$\gamma_{\text{ᛊ}}(\lambda) = \big(\lambda,\ 1+\text{ᛊ}(1-\lambda^2)\big).$$
+      Its length is
+      $$L(\text{ᛊ}) = \int_{-1}^{1}\frac{\sqrt{1+4\text{ᛊ}^2\lambda^2}}{1+\text{ᛊ}(1-\lambda^2)}\,d\lambda.$$
+      Compute $\frac{dL}{d\text{ᛊ}}$ at $\text{ᛊ} = 0$ by differentiating under the integral.
+    answer: -1.33333
+    tolerance: 0.005
+    answerText: '-4/3'
+    wrong:
+      - { value: 1.33333, feedback: 'Sign: $\frac{d}{d\text{ᛊ}}\frac{1}{1+\text{ᛊ}h} = -h$ at $\text{ᛊ} = 0$. Lifting the path lowers the index $1/w$, so the length decreases.' }
+      - { value: 0, feedback: 'The numerator gives $0$: $\frac{d}{d\text{ᛊ}}\sqrt{1+4\text{ᛊ}^2\lambda^2} = 0$ at $\text{ᛊ} = 0$ (the extra Euclidean length is second order). The denominator does not: the index changes to first order.' }
+      - { value: -2, feedback: 'That is $-\int_{-1}^11\,d\lambda$. The integrand is $-(1-\lambda^2)$, the shape itself, whose integral is $2 - \tfrac23 = \tfrac43$.' }
+    hint: At $\text{ᛊ} = 0$ the numerator has zero derivative; the denominator gives $-(1-\lambda^2)$.
+    explanation: |
+      $$\frac{dL}{d\text{ᛊ}}\Big|_0 = -\int_{-1}^{1}(1-\lambda^2)\,d\lambda = -\tfrac43.$$
+      Negative: an upward bump shortens the optical path, as guessed. So the horizontal path is not a geodesic.
+
+  - type: mcq
+    id: p2-residual
+    tag: Problem 2 · A light ray in a medium
+    title: The Euler-Lagrange residual
+    prompt: |
+      Upper half-plane, $\mathcal{L}_\mathscr{X}(\alpha;\beta) = \sqrt{(\beta^1)^2+(\beta^2)^2}/\alpha^2$, curve $\gamma(\lambda) = (\lambda,1)$. Along the curve put $Q_m := \partial_m\mathcal{L}_\mathscr{X}$ (position slots), $P_m := \partial_{2+m}\mathcal{L}_\mathscr{X}$ (velocity slots), and $E_m := Q_m - \dot P_m$. What is $(E_1,E_2)$?
+    options:
+      - text: '$(0,-1)$'
+        correct: true
+      - text: '$(0,0)$: a straight line in the chart solves the equations'
+        feedback: |
+          Straight in the chart is not straight for the metric. $Q_2 = \partial_{\alpha^2}\big(\sqrt{\beta\cdot\beta}/\alpha^2\big) = -\sqrt{\beta\cdot\beta}/(\alpha^2)^2 = -1$ along the curve, and nothing cancels it.
+      - text: '$(0,1)$'
+        feedback: |
+          Sign: $\partial_w(1/w) = -1/w^2$, so $Q_2 = -1$. Also $P_2 = \beta^2/(\alpha^2\sqrt{\beta\cdot\beta}) = 0$, so $E_2 = Q_2 = -1$.
+      - text: '$(-1,0)$'
+        feedback: |
+          The horizontal slots are harmless: $\mathcal{L}_\mathscr{X}$ does not depend on $\alpha^1$ ($Q_1 = 0$), and $P_1 = \beta^1/(\alpha^2\sqrt{\beta\cdot\beta}) = 1$ is constant ($\dot P_1 = 0$). The trouble is vertical.
+    explanation: |
+      Along $\alpha = (\lambda,1)$, $\beta = (1,0)$: $Q_1 = 0$, $Q_2 = -1$, $P_1 = 1$, $P_2 = 0$, all constant. So $E = (0,-1)$: the curve fails the Euler-Lagrange equations in the vertical slot.
+
+  - type: text
+    id: p2-compare
+    tag: Problem 2 · A light ray in a medium
+    title: Two routes, one number
+    body: |
+      Recall the first variation: for a shape $\text{ᛉ}$ vanishing at both ends,
+      $$\frac{dL}{d\text{ᛊ}}\Big|_0 = \int E_m\,\text{ᛉ}^m\,d\lambda.$$
+      With $E = (0,-1)$ and $\text{ᛉ} = (0,1-\lambda^2)$:
+      $$\int_{-1}^{1}(-1)(1-\lambda^2)\,d\lambda = -\tfrac43,$$
+      the number found by differentiating the length directly. ✓
+
+      The residual is computed **once**; then every shape costs one integral. Since $E_2 = -1 < 0$ along the whole path, every upward bump ($\text{ᛉ}^2 \geq 0$, not identically zero) shortens it.
+
+  - type: numeric
+    id: p2-second-shape
+    tag: Problem 2 · A light ray in a medium
+    title: Another bump
+    prompt: |
+      Upper half-plane, metric $g_{ij} = \delta_{ij}/w^2$ in the chart $(u,w)$. Along $\gamma(\lambda) = (\lambda,1)$, $\lambda\in[-1,1]$, the Euler-Lagrange residual of the length is $E = (E_1,E_2) = (0,-1)$, and the first variation is $\frac{dL}{d\text{ᛊ}}\big|_0 = \int E_m\text{ᛉ}^m\,d\lambda$ for shapes vanishing at both ends. Compute it for the shape
+      $$\text{ᛉ}(\lambda) = \big(0,\ \cos\tfrac{\pi\lambda}{2}\big).$$
+    answer: -1.27324
+    tolerance: 0.005
+    answerText: '-4/π ≈ -1.273'
+    wrong:
+      - { value: 1.27324, feedback: 'Sign: $E_2 = -1$, and the shape is positive inside, so the integral is negative.' }
+      - { value: -0.63662, feedback: 'Antiderivative: $\int\cos\tfrac{\pi\lambda}{2}\,d\lambda = \tfrac{2}{\pi}\sin\tfrac{\pi\lambda}{2}$, which goes from $-\tfrac2\pi$ to $\tfrac2\pi$: total $\tfrac4\pi$.' }
+    hint: '$\int_{-1}^{1}\cos\tfrac{\pi\lambda}{2}\,d\lambda = \tfrac2\pi\big[\sin\tfrac{\pi\lambda}{2}\big]_{-1}^{1}$.'
+    explanation: |
+      $$-\int_{-1}^{1}\cos\tfrac{\pi\lambda}{2}\,d\lambda = -\tfrac{4}{\pi}\approx-1.273.$$
+      No new derivative of $\mathcal{L}_\mathscr{X}$ was needed: the residual did the work.
+
+  - type: numeric
+    id: p2-slide
+    tag: Problem 2 · A light ray in a medium
+    title: An endpoint that moves
+    prompt: |
+      Upper half-plane, chart $(u,w)$, length Lagrangian $\mathcal{L}_\mathscr{X}(\alpha;\beta) = \sqrt{(\beta^1)^2+(\beta^2)^2}/\alpha^2$. Along $\gamma(\lambda) = (\lambda,1)$, $\lambda\in[-1,1]$, the residual is $E = (0,-1)$. Now use the shape
+      $$\text{ᛉ}(\lambda) = \big(\tfrac{\lambda+1}{2},\ 0\big),$$
+      which is $0$ at $\lambda = -1$ but $(1,0)$ at $\lambda = 1$: the right endpoint slides to $(1+\text{ᛊ},1)$. Compute $\frac{dL}{d\text{ᛊ}}$ at $\text{ᛊ} = 0$.
+    answer: 1
+    tolerance: 0.001
+    wrong:
+      - { value: 0, feedback: 'That is $\int E_m\text{ᛉ}^m\,d\lambda = \int0\cdot\tfrac{\lambda+1}{2}\,d\lambda$, the formula for shapes that **vanish at both ends**. Integration by parts left the boundary term $\big[P_m\text{ᛉ}^m\big]_{-1}^{1}$, with $P_1 = 1$ along the curve: it gives $1\cdot1 - 1\cdot0 = 1$.' }
+      - { value: -1, feedback: 'Sign: sliding the right endpoint to the right, along the direction of motion, makes the path longer. Directly, $\gamma_{\text{ᛊ}} = \big(\lambda+\text{ᛊ}\tfrac{\lambda+1}{2},1\big)$ has $L = 2+\text{ᛊ}$.' }
+    hint: Compute the length directly ($w = 1$ stays fixed), or add the boundary term $\big[P_m\text{ᛉ}^m\big]_{-1}^{1}$ with $P_1 = 1$, $P_2 = 0$.
+    explanation: |
+      Directly: $\gamma_{\text{ᛊ}}(\lambda) = \big(\lambda+\text{ᛊ}\tfrac{\lambda+1}{2},\,1\big)$ has velocity $(1+\tfrac{\text{ᛊ}}{2},0)$ and $w = 1$, so $L = 2+\text{ᛊ}$ and the derivative is $1$. With the formula:
+      $$\frac{dL}{d\text{ᛊ}}\Big|_0 = \big[P_m\text{ᛉ}^m\big]_{-1}^{1} + \int E_m\text{ᛉ}^m\,d\lambda = 1 + 0.$$
+      The Euler-Lagrange equations know nothing about moving endpoints; the boundary term does.
+
+  - type: numeric
+    id: p2-lift-end
+    tag: Problem 2 · A light ray in a medium
+    title: Lift the endpoint instead
+    prompt: |
+      Upper half-plane, chart $(u,w)$, length Lagrangian $\mathcal{L}_\mathscr{X}(\alpha;\beta) = \sqrt{(\beta^1)^2+(\beta^2)^2}/\alpha^2$. Along $\gamma(\lambda) = (\lambda,1)$, $\lambda\in[-1,1]$: residual $E = (0,-1)$, velocity-slot derivatives $P = (1,0)$, and
+      $$\frac{dL}{d\text{ᛊ}}\Big|_0 = \big[P_m\text{ᛉ}^m\big]_{-1}^{1} + \int E_m\text{ᛉ}^m\,d\lambda.$$
+      Use the shape $\text{ᛉ}(\lambda) = \big(0,\ \tfrac{\lambda+1}{2}\big)$: the right endpoint is lifted to $(1,1+\text{ᛊ})$. Compute $\frac{dL}{d\text{ᛊ}}$ at $\text{ᛊ} = 0$.
+    answer: -1
+    tolerance: 0.001
+    wrong:
+      - { value: 0, feedback: 'The boundary term is $0$ here ($P_2 = 0$: the lift is perpendicular to the motion), but the interior is not: $\int_{-1}^{1}(-1)\tfrac{\lambda+1}{2}\,d\lambda = -1$.' }
+      - { value: 0.5, feedback: 'That adds a boundary term $\tfrac12$ that is not there: $P_2 = 0$, since the velocity $(1,0)$ has no vertical part. Only the interior integral $-1$ remains.' }
+    hint: '$P_2 = 0$, so only the integral survives: $\int_{-1}^{1}\tfrac{\lambda+1}{2}\,d\lambda = 1$.'
+    explanation: |
+      Boundary term $P_2\cdot1 - P_2\cdot0 = 0$; interior $-\int_{-1}^{1}\tfrac{\lambda+1}{2}\,d\lambda = -1$. Check directly: $\gamma_{\text{ᛊ}} = \big(\lambda,1+\text{ᛊ}\tfrac{\lambda+1}{2}\big)$ has $\mathcal{L}_\mathscr{X} = \sqrt{1+\text{ᛊ}^2/4}\,/\,\big(1+\text{ᛊ}\tfrac{\lambda+1}{2}\big)$, with $\text{ᛊ}$-derivative $-\tfrac{\lambda+1}{2}$ at $0$. ✓
+
+      In general $P_m = g_{mj}\dot\gamma^j/s_\gamma$: the boundary term is $g(\text{unit velocity},\ \text{endpoint shift})$. Sliding along the motion counts fully; lifting perpendicular to it counts zero.
+
+  - type: text
+    id: p2-shows
+    tag: Problem 2 · A light ray in a medium
+    title: What it shows
+    body: |
+      - Differentiating the length directly and integrating the residual $E_m = Q_m - \dot P_m$ against the shape give the same number ($-\tfrac43$): the residual measures, point by point, how much a curve fails to be a geodesic.
+      - One residual serves every shape: $-\tfrac4\pi$ for the cosine bump with no new derivative.
+      - If an endpoint moves, the boundary term returns:
+      $$\frac{dL}{d\text{ᛊ}}\Big|_0 = \big[P_m\text{ᛉ}^m\big] + \int E_m\text{ᛉ}^m\,d\lambda,$$
+      with $\big[P_m\text{ᛉ}^m\big]$ the metric component of the endpoint shift along the unit velocity.
+      - Light in a medium with $n = 1/w$ arcs upward, toward lower index. The metric $\delta_{ij}/w^2$ is the **hyperbolic half-plane**, whose geodesics are vertical lines and half-circles centered on $w = 0$.
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: text
+    id: p3-setup
+    tag: Problem 3 · Lowering through ∇, energy vs length
+    title: Guess first
+    body: |
+      Physicists lower indices inside derivatives without blinking: from a velocity $u^m$ they form $u_i := g_{im}u^m$ and write "$\nabla_ku_i = g_{im}\nabla_ku^m$". In our notation: is
+      $$\nabla_\mathcal{Z}\big(\flat(\mathcal{Y})\big) = \flat\big(\nabla_\mathcal{Z}\mathcal{Y}\big)$$
+      for all vector fields $\mathcal{Z}$, $\mathcal{Y}$? Recall $\flat(\mathcal{Y})_i = y^mg_{mi}$ and, for any connection with coefficients $\Gamma^i_{jk}$ (last lower index = direction), the component rules
+      $$(\nabla_{\partial x_k}\mathcal{Y})^m = \partial_ky^m + \Gamma^m_{jk}\,y^j,$$
+      $$(\nabla_{\partial x_k}\mathsf{X})_i = \partial_k\mathtt{x}_i - \Gamma^j_{ik}\,\mathtt{x}_j,$$
+      $$\begin{aligned}(\nabla_{\partial x_k}g)_{ij} = \partial_kg_{ij} &- \Gamma^m_{ik}\,g_{mj}\\ &- \Gamma^m_{jk}\,g_{im}.\end{aligned}$$
+      **Guess:** always, never, or only for some connections?
+
+  - type: mcq
+    id: p3-difference
+    tag: Problem 3 · Lowering through ∇, energy vs length
+    title: The difference
+    prompt: |
+      A connection $\nabla$ with coefficients $\Gamma^i_{jk}$ (last lower index = direction) acts on components as $(\nabla_{\partial x_k}\mathcal{Y})^m = \partial_ky^m + \Gamma^m_{jk}y^j$ and $(\nabla_{\partial x_k}\mathsf{X})_i = \partial_k\mathtt{x}_i - \Gamma^j_{ik}\mathtt{x}_j$. With $\flat(\mathcal{Y})_i = g_{im}y^m$, expand both sides and subtract (rename summed indices where needed). What is
+      $$\big(\nabla_{\partial x_k}\flat(\mathcal{Y})\big)_i - g_{im}(\nabla_{\partial x_k}\mathcal{Y})^m\ ?$$
+    options:
+      - text: '$(\nabla_{\partial x_k}g)_{im}\,y^m$, the covariant derivative of the metric fed $\mathcal{Y}$'
+        correct: true
+      - text: '$0$ for every connection'
+        feedback: |
+          The terms $g_{im}\partial_ky^m$ cancel, but three others remain: $(\partial_kg_{im} - \Gamma^n_{ik}g_{nm} - \Gamma^n_{mk}g_{in})\,y^m$. That bracket is $(\nabla_{\partial x_k}g)_{im}$, which vanishes only for some connections.
+      - text: '$(\partial_kg_{im})\,y^m$'
+        feedback: |
+          That forgets the two $\Gamma$ terms: one from the covector rule ($-\Gamma^n_{ik}g_{nm}y^m$) and one from the vector rule multiplied by $g_{im}$ ($-g_{in}\Gamma^n_{mk}y^m$ after renaming). With them, the bracket is the covariant derivative of $g$, a tensor; $\partial_kg_{im}$ alone is not.
+      - text: 'A torsion term, $(\Gamma^n_{ki} - \Gamma^n_{ik})\,g_{nm}y^m$'
+        feedback: |
+          Torsion would compare $\Gamma^n_{ik}$ with $\Gamma^n_{ki}$. Here both $\Gamma$ terms carry the direction $k$ in the last slot; what they build together with $\partial_kg_{im}$ is $(\nabla_{\partial x_k}g)_{im}$.
+    explanation: |
+      Left: $\partial_k(g_{im}y^m) - \Gamma^n_{ik}g_{nm}y^m$. Right: $g_{im}\partial_ky^m + g_{in}\Gamma^n_{mk}y^m$ (renamed $m\leftrightarrow n$). Subtracting:
+      $$\big(\partial_kg_{im} - \Gamma^n_{ik}g_{nm} - \Gamma^n_{mk}g_{in}\big)y^m,$$
+      which is $(\nabla_{\partial x_k}g)_{im}\,y^m$. So $\nabla$ and $\flat$ commute exactly when $\nabla g = 0$.
+
+  - type: mcq
+    id: p3-which
+    tag: Problem 3 · Lowering through ∇, energy vs length
+    title: Which connections?
+    multiple: true
+    prompt: |
+      On the Euclidean plane, $\big(\nabla_{\partial x_k}\flat(\mathcal{Y})\big)_i - g_{im}(\nabla_{\partial x_k}\mathcal{Y})^m = (\nabla_{\partial x_k}g)_{im}\,y^m$ for every connection. For which of these connections does lowering commute with differentiating, $\nabla_\mathcal{Z}\flat(\mathcal{Y}) = \flat(\nabla_\mathcal{Z}\mathcal{Y})$ for all $\mathcal{Z}$, $\mathcal{Y}$? Select all that apply.
+    options:
+      - text: '$\nabla^{\mathrm{E}}$: all cartesian coefficients zero (the Levi-Civita connection of the plane)'
+        correct: true
+      - text: '$\nabla^{\mathrm{W}}$: the unit radial and angular fields declared parallel (has torsion)'
+        correct: true
+      - text: '$\nabla^{\mathrm{P}}$: all polar coefficients zero (torsion free)'
+        feedback: |
+          Torsion free is not the point. $\nabla^{\mathrm{P}}$ keeps the polar components of $\partial y_2$ constant while its length $r$ grows: $(\nabla^{\mathrm{P}}_{\partial y_1}g)_{22} = \partial_rr^2 = 2r\neq0$. So lowering and differentiating disagree.
+    explanation: |
+      The test is metric compatibility, $\nabla g = 0$, nothing else. $\nabla^{\mathrm{E}}$ (the Levi-Civita connection) passes; $\nabla^{\mathrm{W}}$ passes too, despite its torsion, because it carries an orthonormal frame parallel; $\nabla^{\mathrm{P}}$ fails. Physicists may lower freely because they use $\nabla^{\mathrm{LC}}$, which is compatible.
+
+  - type: numeric
+    id: p3-p-numeric
+    tag: Problem 3 · Lowering through ∇, energy vs length
+    title: Where ∇ᴾ fails
+    prompt: |
+      Euclidean plane, polar chart $(r,\theta)$, $g = \mathrm{diag}(1,r^2)$, and $\nabla^{\mathrm{P}}$ with all polar coefficients zero. Take $\mathcal{Y} = \partial y_2$ (polar components $(0,1)$). Then $\nabla^{\mathrm{P}}_{\partial y_1}\mathcal{Y} = 0$, so $\flat(\nabla^{\mathrm{P}}_{\partial y_1}\mathcal{Y}) = 0$. Now lower first: $\flat(\mathcal{Y})$ has components $(0,r^2)$. Compute $\big(\nabla^{\mathrm{P}}_{\partial y_1}\flat(\mathcal{Y})\big)_2$ at $r = 3$.
+    answer: 6
+    tolerance: 0.001
+    wrong:
+      - { value: 0, feedback: 'That would mean lowering commutes with $\nabla^{\mathrm{P}}$. With all coefficients zero, the covector rule is just $\partial_r$ of the components: $\partial_r(r^2) = 2r$.' }
+      - { value: 9, feedback: 'That is the component $r^2$ itself, not its derivative. With zero coefficients, $(\nabla^{\mathrm{P}}_{\partial y_1}\flat(\mathcal{Y}))_2 = \partial_r(r^2) = 2r$.' }
+    hint: With all coefficients zero, the covector rule is $(\nabla_{\partial y_1}\mathsf{X})_i = \partial_r\mathtt{x}_i$.
+    explanation: |
+      $\partial_r(r^2) = 2r = 6$, against $0$ on the other side. The mismatch is $(\nabla^{\mathrm{P}}_{\partial y_1}g)_{22}\,y^2 = 2r\cdot1 = 6$, as the general difference formula predicts.
+
+  - type: numeric
+    id: p3-lc-numeric
+    tag: Problem 3 · Lowering through ∇, energy vs length
+    title: Where ∇ᴸᶜ agrees
+    prompt: |
+      Euclidean plane, polar chart $(r,\theta)$, $g = \mathrm{diag}(1,r^2)$, Levi-Civita Christoffel symbols $\Gamma^1_{22} = -r$, $\Gamma^2_{12} = \Gamma^2_{21} = \tfrac1r$. Take $\mathcal{Y} = \partial y_2$ (polar components $(0,1)$), so $\nabla^{\mathrm{LC}}_{\partial y_1}\mathcal{Y} = \Gamma^i_{21}\,\partial y_i = \tfrac1r\,\partial y_2$. Compute $\flat\big(\nabla^{\mathrm{LC}}_{\partial y_1}\mathcal{Y}\big)_2$ at $r = 3$.
+    answer: 3
+    tolerance: 0.001
+    wrong:
+      - { value: 0.33333, feedback: 'That is the vector component $\tfrac1r$ before lowering. Lowering multiplies by $g_{22} = r^2$: $\tfrac1r\cdot r^2 = r$.' }
+      - { value: 6, feedback: 'That is $\partial_r(r^2)$, the derivative of the lowered components without the connection term. The covector rule subtracts $\Gamma^2_{21}\cdot r^2 = r$, and either way the answer is $r$.' }
+    hint: Lower with $g_{22} = r^2$.
+    explanation: |
+      $\flat(\tfrac1r\partial y_2)_2 = \tfrac1r\cdot r^2 = r = 3$. Lowering first and then differentiating, the covector rule gives
+      $$\partial_r(r^2) - \Gamma^2_{21}\,r^2 = 2r - r = r,$$
+      also $3$. ✓ Same number both ways, because $\nabla^{\mathrm{LC}}g = 0$.
+
+  - type: text
+    id: p3-energy
+    tag: Problem 3 · Lowering through ∇, energy vs length
+    title: Energy versus length
+    body: |
+      Second half. Recall the **energy Lagrangian** and the length Lagrangian, in a chart with $d$ slots:
+      $$\mathcal{E}_\mathscr{X}(\alpha;\beta) := \tfrac12\,g_{ij}\,\beta^i\beta^j,$$
+      $$\mathcal{L}_\mathscr{X}(\alpha;\beta) = \sqrt{\text{ᛇ}_\gamma\,g_{ij}\,\beta^i\beta^j}.$$
+      The Euler-Lagrange equations of $\mathcal{E}_\mathscr{X}$,
+      $$\frac{d}{d\lambda}\big[\partial_{d+m}\mathcal{E}_\mathscr{X}\big] = \partial_m\mathcal{E}_\mathscr{X},$$
+      are exactly (G), with **no** assumption on the speed; those of $\mathcal{L}_\mathscr{X}$ give (S).
+
+      **Claim:** every solution of the energy equations automatically has constant $g(v_\gamma,v_\gamma)$, hence constant speed. The length equations promise nothing of the kind. The proof rests on one property of how each Lagrangian scales with the velocity $\beta$.
+
+  - type: mcq
+    id: p3-homog
+    tag: Problem 3 · Lowering through ∇, energy vs length
+    title: Feeding the velocity back
+    prompt: |
+      The energy Lagrangian $\mathcal{E}_\mathscr{X}(\alpha;\beta) = \tfrac12g_{ij}\beta^i\beta^j$ has velocity-slot derivatives $\partial_{d+m}\mathcal{E}_\mathscr{X} = g_{mj}\beta^j$. What is $\beta^m\,\partial_{d+m}\mathcal{E}_\mathscr{X}$ (sum over $m$)?
+    options:
+      - text: '$2\,\mathcal{E}_\mathscr{X}$'
+        correct: true
+      - text: '$\mathcal{E}_\mathscr{X}$'
+        feedback: |
+          $\beta^mg_{mj}\beta^j = g_{ij}\beta^i\beta^j$, which is twice $\tfrac12g_{ij}\beta^i\beta^j$. A function quadratic in $\beta$ returns twice itself; only a function of degree one in $\beta$, like the length Lagrangian, returns itself.
+      - text: '$0$'
+        feedback: |
+          $\beta^mg_{mj}\beta^j = g(\beta,\beta)$ is the squared length of the velocity, not zero in general.
+      - text: '$\tfrac12\mathcal{E}_\mathscr{X}$'
+        feedback: |
+          $\beta^mg_{mj}\beta^j = g_{ij}\beta^i\beta^j = 2\cdot\tfrac12g_{ij}\beta^i\beta^j$: the factor goes the other way.
+    explanation: |
+      $\beta^m\,g_{mj}\beta^j = 2\mathcal{E}_\mathscr{X}$. This is Euler's rule for homogeneous functions: if $f(c\beta) = c^nf(\beta)$, then $\beta^m\partial_mf = nf$. The energy has degree $n = 2$; the length Lagrangian $\sqrt{\ldots}$ has degree $n = 1$, so $\beta^m\partial_{d+m}\mathcal{L}_\mathscr{X} = \mathcal{L}_\mathscr{X}$.
+
+  - type: order
+    id: p3-constant-speed
+    tag: Problem 3 · Lowering through ∇, energy vs length
+    title: Energy solutions keep their speed
+    prompt: |
+      Let $\gamma$ solve the Euler-Lagrange equations $\frac{d}{d\lambda}[\partial_{d+m}\mathcal{E}_\mathscr{X}] = \partial_m\mathcal{E}_\mathscr{X}$ of the energy Lagrangian $\mathcal{E}_\mathscr{X} = \tfrac12g_{ij}\beta^i\beta^j$, all evaluated on $(\gamma^i;\dot\gamma^i)$. Prove that $\mathcal{E}_\mathscr{X}$ is constant along $\gamma$. Put the steps in order.
+    steps:
+      - 'Chain rule: $\frac{d}{d\lambda}\mathcal{E}_\mathscr{X} = \partial_m\mathcal{E}_\mathscr{X}\,\dot\gamma^m + \partial_{d+m}\mathcal{E}_\mathscr{X}\,\ddot\gamma^m$.'
+      - 'Replace $\partial_m\mathcal{E}_\mathscr{X}$ by $\frac{d}{d\lambda}[\partial_{d+m}\mathcal{E}_\mathscr{X}]$, using the equations.'
+      - 'Leibniz backwards: the sum is $\frac{d}{d\lambda}\big(\partial_{d+m}\mathcal{E}_\mathscr{X}\,\dot\gamma^m\big)$.'
+      - 'Degree two: $\dot\gamma^m\partial_{d+m}\mathcal{E}_\mathscr{X} = 2\mathcal{E}_\mathscr{X}$, so $\frac{d}{d\lambda}\mathcal{E}_\mathscr{X} = 2\frac{d}{d\lambda}\mathcal{E}_\mathscr{X}$.'
+      - 'Hence $\frac{d}{d\lambda}\mathcal{E}_\mathscr{X} = 0$: $g(v_\gamma,v_\gamma)$ is constant along $\gamma$.'
+    hint: Start with the chain rule, use the equations once, recognize a product rule, then feed the velocity back.
+    explanation: |
+      The equations turn $\frac{d}{d\lambda}\mathcal{E}$ into $\frac{d}{d\lambda}(2\mathcal{E})$, and only $0$ equals its own double. So $g(v_\gamma,v_\gamma) = 2\mathcal{E}_\mathscr{X}$ is constant: the speed $s_\gamma = \sqrt{\text{ᛇ}_\gamma g(v_\gamma,v_\gamma)}$ is constant, and the sign never changes along the curve.
+
+  - type: mcq
+    id: p3-length-tautology
+    tag: Problem 3 · Lowering through ∇, energy vs length
+    title: The same proof for the length
+    prompt: |
+      For the energy Lagrangian $\mathcal{E}_\mathscr{X} = \tfrac12g_{ij}\beta^i\beta^j$ (degree $2$ in $\beta$, so $\beta^m\partial_{d+m}\mathcal{E}_\mathscr{X} = 2\mathcal{E}_\mathscr{X}$), the chain rule, the Euler-Lagrange equations and Leibniz give $\frac{d}{d\lambda}\mathcal{E} = \frac{d}{d\lambda}(2\mathcal{E})$, so $\mathcal{E}$ is constant on solutions. Run the same steps for the length Lagrangian $\mathcal{L}_\mathscr{X} = \sqrt{\text{ᛇ}_\gamma g_{ij}\beta^i\beta^j}$, of degree $1$. What do you get?
+    options:
+      - text: '$\frac{d}{d\lambda}\mathcal{L} = \frac{d}{d\lambda}\mathcal{L}$: true for every curve, so no condition on the speed'
+        correct: true
+      - text: '$\frac{d}{d\lambda}\mathcal{L} = 0$: length solutions have constant speed too'
+        feedback: |
+          With degree $1$, $\dot\gamma^m\partial_{d+m}\mathcal{L}_\mathscr{X} = \mathcal{L}_\mathscr{X}$ (not $2\mathcal{L}_\mathscr{X}$), and the argument closes on itself. It cannot fix the speed: the length does not depend on the parametrization, so any reparametrization of a solution is again a solution.
+      - text: '$\frac{d}{d\lambda}\mathcal{L} = 2\frac{d}{d\lambda}\mathcal{L}$'
+        feedback: |
+          The factor $2$ came from the degree of the energy. The length Lagrangian has degree $1$: $\mathcal{L}_\mathscr{X}(\alpha;c\beta) = |c|\,\mathcal{L}_\mathscr{X}(\alpha;\beta)$, so $\beta^m\partial_{d+m}\mathcal{L}_\mathscr{X} = \mathcal{L}_\mathscr{X}$.
+    explanation: |
+      Degree $1$ makes the argument a tautology. That is the reparametrization freedom seen from the equations: the $d$ length equations leave the speed profile free, which is why (S) has the extra term $(\dot s_\gamma/s_\gamma)\dot\gamma^k$.
+
+  - type: numeric
+    id: p3-curve
+    tag: Problem 3 · Lowering through ∇, energy vs length
+    title: A curve that slows down
+    prompt: |
+      Upper half-plane, chart $(u,w)$, metric $g_{ij} = \delta_{ij}/w^2$. Its Christoffel symbols with upper index $2$ are $\Gamma^2_{11} = \tfrac1w$, $\Gamma^2_{22} = -\tfrac1w$, $\Gamma^2_{12} = 0$. Run up the vertical line $u = 0$ as $w(\lambda) = \lambda$, $\lambda\in[1,2]$. Compute the second component of (G) at $\lambda = 2$:
+      $$\ddot w + \Gamma^2_{ij}\,\dot\gamma^i\dot\gamma^j.$$
+    answer: -0.5
+    tolerance: 0.001
+    answerText: '-1/2'
+    wrong:
+      - { value: 0, feedback: 'The curve is straight in the chart and $\ddot w = 0$, but the $\Gamma$ term survives: $\Gamma^2_{22}\dot w^2 = -\tfrac1w\cdot1$. Uniform motion in the chart is not uniform for the metric.' }
+      - { value: 0.5, feedback: 'Sign: $\Gamma^2_{22} = \tfrac12(g^{-1})^{22}\partial_wg_{22} = \tfrac12w^2\cdot(-\tfrac{2}{w^3}) = -\tfrac1w$.' }
+    hint: '$\dot u = 0$, $\dot w = 1$, $\ddot w = 0$; only $\Gamma^2_{22}$ contributes.'
+    explanation: |
+      $0 + \Gamma^2_{22}\cdot1^2 = -\tfrac1w = -\tfrac12$ at $\lambda = 2$. So $w = \lambda$ fails (G), hence fails the energy equations. The first component, $\ddot u + 2\Gamma^1_{12}\dot u\dot w$, is $0$, since $\dot u = 0$.
+
+  - type: mcq
+    id: p3-curve-verdict
+    tag: Problem 3 · Lowering through ∇, energy vs length
+    title: Geodesic or not?
+    prompt: |
+      Upper half-plane, metric $g_{ij} = \delta_{ij}/w^2$. The curve $u = 0$, $w(\lambda) = \lambda$ ($\lambda\in[1,2]$) has speed $s_\gamma = \dot w/w = 1/\lambda$, and the second component of (G), $\ddot w + \Gamma^2_{ij}\dot\gamma^i\dot\gamma^j$, equals $-1/\lambda$ (the first is $0$). Which statement is right?
+    options:
+      - text: 'It solves (S) and the length equations but not the energy equations; it had to fail the latter, since $\mathcal{E} = \tfrac{1}{2\lambda^2}$ is not constant'
+        correct: true
+      - text: 'It is not a geodesic at all: it fails (G)'
+        feedback: |
+          (G) is the constant-speed form. (S) allows any speed: its right-hand side is $(\dot s_\gamma/s_\gamma)\dot w = (-\tfrac1\lambda)\cdot1 = -\tfrac1\lambda$, exactly the left-hand side. The image, the vertical line, is a geodesic; only the parametrization is not uniform.
+      - text: 'It solves every one of the equations, since it runs along a straight line'
+        feedback: |
+          Straight in the chart, yes, but its speed $1/\lambda$ falls, and the energy equations force constant speed. (G) fails with residual $-\tfrac1\lambda$.
+      - text: 'It solves the energy equations but not the length equations'
+        feedback: |
+          Backwards. The energy equations are (G), which fails here. The length equations are (S), which holds.
+    explanation: |
+      $\dot s_\gamma/s_\gamma = -\tfrac1\lambda$, so (S) holds: the vertical line is a geodesic, run at a falling speed. The energy $\mathcal{E}_\mathscr{X} = \tfrac12\dot w^2/w^2 = \tfrac{1}{2\lambda^2}$ is not constant, so by the constant-speed theorem the energy equations had to fail. Reparametrized at constant speed, $w = e^\mu$: then $\ddot w - \dot w^2/w = e^\mu - e^\mu = 0$, and (G) holds.
+
+  - type: text
+    id: p3-shows
+    tag: Problem 3 · Lowering through ∇, energy vs length
+    title: What it shows
+    body: |
+      - For any connection, lowering and differentiating differ by the derivative of the metric:
+      $$\begin{aligned}&\big(\nabla_{\partial x_k}\flat(\mathcal{Y})\big)_i - g_{im}(\nabla_{\partial x_k}\mathcal{Y})^m\\ &\quad= (\nabla_{\partial x_k}g)_{im}\,y^m.\end{aligned}$$
+      They commute exactly for metric-compatible connections: $\nabla^{\mathrm{LC}}$ (and $\nabla^{\mathrm{W}}$), not $\nabla^{\mathrm{P}}$ ($6$ against $0$ at $r = 3$). This is why physicists move indices freely inside $\nabla^{\mathrm{LC}}$.
+      - The energy Lagrangian has degree $2$ in the velocity, so its solutions keep $g(v_\gamma,v_\gamma)$ constant: (G) builds in the constant speed. The length has degree $1$, which leaves the speed free: (S).
+      - The energy also reaches the **null geodesics**, where $g(v_\gamma,v_\gamma) = 0$ and the square root of the length Lagrangian cannot be differentiated. The price: $\int\mathcal{E}$, unlike the length, depends on the parametrization.
+
+  - type: text
+    id: wrap-up
+    title: What you now own
+    body: |
+      Problems 2 and 3, part 2 of 3 of the level challenge. The formulas to keep:
+
+      Setting: a metric $g$ with chart components $g_{ij}$, $\flat(\mathcal{X})\lceil\mathcal{Y}\rfloor := g(\mathcal{X},\mathcal{Y})$, $\nabla$ a connection, $L$ the length of a curve $\gamma$, $\text{ᛊ}$ the deformation parameter and $\text{ᛉ}$ the shape of a deformation $\gamma_\text{ᛊ}$ of $\gamma$ (chart components $\gamma^i + \text{ᛊ}\,\text{ᛉ}^i$).
+
+      **2. A light ray in a medium**, the upper half-plane $\{(u,w)\in\mathbb{R}^2\mid w>0\}$ with $g_{ij} = \delta_{ij}/w^2$ (refractive index $n = 1/w$): with $P_m := \partial_{2+m}\mathcal{L}_\mathscr{X}$ and $E_m := \partial_m\mathcal{L}_\mathscr{X} - \dot P_m$ along $\gamma$ ($\mathcal{L}_\mathscr{X}$ the length Lagrangian), the first variation for free ends is
+      $$\big[P_m\text{ᛉ}^m\big] + \int E_m\text{ᛉ}^m\,d\lambda.$$
+
+      **3. Lowering through $\nabla$**:
+      $$\begin{aligned}&\big(\nabla_{\partial x_k}\flat(\mathcal{Y})\big)_i - g_{im}(\nabla_{\partial x_k}\mathcal{Y})^m\\ &\quad= (\nabla_{\partial x_k}g)_{im}\,y^m,\end{aligned}$$
+      zero for metric-compatible connections; the energy fixes the speed, the length does not.
+
+      **Next, part 3 of this challenge.** A geodesic is only stationary: is it a minimum, a maximum or a saddle? The second variation answers in the half-plane, in Minkowski spacetime and on the sphere. Then: why the Einstein curvature vanishes in two dimensions, and why it is still the divergence-free combination.

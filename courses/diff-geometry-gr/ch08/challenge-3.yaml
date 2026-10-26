@@ -1,0 +1,248 @@
+id: ch08-challenge-3
+title: Level Challenge · Part 3
+kind: challenge
+
+# Organization: intro, one block per problem (cards tagged "Problem N · …", ids
+# prefixed pN-), then wrap-up. The Level Challenge is split in 3 parts of at most
+# 32 cards; part 3 holds problem 5.
+
+cards:
+  - type: text
+    id: intro
+    title: Rescaling and the Möbius strip
+    body: |
+      This challenge pushes each idea of the level to its edge. It comes in 3 parts; this is part 3 (problem 5). Keep pencil and paper at hand: every answer can be checked by hand.
+
+      Recall the toolkit. On an oriented manifold $(\mathcal{M},\mathcal{O},\mathcal{A}^\uparrow)$ ($\mathcal{O}$ the topology, $\mathcal{A}^\uparrow$ an oriented atlas) a volume form $\Omega$ has, in each chart $(\mathcal{U},\mathscr{X})$, a **scalar density** $\omega_\mathscr{X}$, and between two charts
+      $$\omega_\mathscr{Y} = \det\Big(\frac{\partial\mathscr{X}^i}{\partial\mathscr{Y}^j}\Big)\,\omega_\mathscr{X}.$$
+      For an open region $\mathcal{D}\subseteq\mathcal{U}$ whose closure $\overline{\mathcal{D}}$ is compact and contained in $\mathcal{U}$, the one-chart integral of a smooth $f$ is
+      $$\begin{aligned}\int_\mathcal{D}\Omega f :=&\int_{\mathscr{X}(\mathcal{D})}d^d\alpha\,(\omega_\mathscr{X}\circ\mathscr{X}^{-1})(\alpha)\\ &\qquad\cdot(f\circ\mathscr{X}^{-1})(\alpha),\end{aligned}$$
+      with $d^d\alpha := d\alpha^1\cdots d\alpha^d$. A partition of unity $\{\text{ᚹ}_n\}$ (rune ᚹ, "wynn") glues such pieces into $\int_\mathcal{M}\Omega f$, and a metric $g$ picks the metric volume form $\Omega^g$, with density $\omega^g_\mathscr{X} = \sqrt{|\det g_\mathscr{X}|}$ in every chart of $\mathcal{A}^\uparrow$.
+
+      5. Rescaling and orientability: how $\Omega^g$ changes when lengths are rescaled, an infinite area in the hyperbolic half-plane, and the Möbius strip, which has no volume form.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: text
+    id: p5-setup
+    tag: Problem 5 · Rescaling and orientability
+    title: Stretch the ruler, change the volume
+    body: |
+      Let $(\mathcal{M},\mathcal{O},\mathcal{A}^\uparrow,g)$ be an oriented metric manifold of dimension $d$, and $\psi\in C^\infty(\mathcal{M})$ any smooth function. The **rescaled metric** (a conformal rescaling) is
+      $$\tilde g := e^{2\psi}g.$$
+      At each point it multiplies every squared length by $e^{2\psi}$, so lengths by $e^{\psi}$: a ruler whose unit changes from point to point.
+
+      Before computing: if every length is multiplied by $3$, a $d$-dimensional volume should be multiplied by $3^d$. Does the metric volume form agree?
+
+      Then two surfaces where volumes behave unexpectedly: the hyperbolic half-plane, where a region inside a bounded box has infinite area, and the Möbius strip, where no volume form exists at all.
+
+  - type: build
+    id: p5-det
+    tag: Problem 5 · Rescaling and orientability
+    title: The determinant after rescaling
+    prompt: |
+      On an oriented metric manifold of dimension $d$, take $\tilde g := e^{2\psi}g$ with $\psi$ a smooth function. In a chart $\mathscr{X}$, $(\tilde g_\mathscr{X})_{ij} = e^{2\psi}(g_\mathscr{X})_{ij}$. Build $\det\tilde g_\mathscr{X}$.
+    prefix: '\det\tilde g_\mathscr{X} ='
+    tiles: ['e^{2d\psi}', 'e^{2\psi}', 'e^{d\psi}', '\det g_\mathscr{X}', 'd']
+    answers:
+      - ['e^{2d\psi}', '\det g_\mathscr{X}']
+      - ['\det g_\mathscr{X}', 'e^{2d\psi}']
+    wrong:
+      - { answer: ['e^{2\psi}', '\det g_\mathscr{X}'], feedback: 'The determinant is not linear: scaling a $d\times d$ matrix by $c$ multiplies each of its $d$ rows by $c$, so the determinant by $c^d$. With $c = e^{2\psi}$: $e^{2d\psi}$.' }
+      - { answer: ['e^{d\psi}', '\det g_\mathscr{X}'], feedback: 'That is the factor for the square root, $\sqrt{|\det\tilde g|}$. The determinant itself gets $(e^{2\psi})^d = e^{2d\psi}$.' }
+    hint: 'Each of the $d$ rows of the matrix carries a factor $e^{2\psi}$, and the determinant is linear in each row.'
+    explanation: |
+      $$\det\tilde g_\mathscr{X} = e^{2d\psi}\det g_\mathscr{X}.$$
+      Taking $\sqrt{|\cdot|}$, with $e^{2d\psi}>0$:
+      $$\tilde\omega_\mathscr{X} = e^{d\psi}\,\omega^g_\mathscr{X},$$
+      so $\Omega^{\tilde g} = e^{d\psi}\,\Omega^g$, with the same orientation (the factor is positive).
+
+  - type: numeric
+    id: p5-ratio
+    tag: Problem 5 · Rescaling and orientability
+    title: Volumes in four dimensions
+    prompt: |
+      On a 4-dimensional oriented metric manifold, rescale $\tilde g := e^{2\psi}g$ with the constant $\psi = \ln2$, so every length doubles. By what factor is the metric volume density multiplied, $\tilde\omega_\mathscr{X}/\omega^g_\mathscr{X}$?
+    answer: 16
+    wrong:
+      - { value: 4, feedback: '$4 = e^{2\psi}$ is the factor on the metric components, squared lengths. The density gets $\sqrt{e^{2d\psi}} = e^{d\psi}$ with $d = 4$.' }
+      - { value: 256, feedback: '$256 = e^{2d\psi}$ is the factor on $\det g$. The density is its square root, $e^{d\psi} = 16$.' }
+      - { value: 2, feedback: '$2 = e^{\psi}$ is the factor on lengths. A 4-dimensional volume has four length directions: $2^4$.' }
+    hint: '$\tilde\omega = e^{d\psi}\omega^g$.'
+    explanation: |
+      $e^{4\ln2} = 2^4 = 16$: lengths double in four directions. The metric volume form confirms the guess $3^d$ (here $2^4$), and the formula $e^{d\psi}$ also holds when $\psi$ varies from point to point.
+
+  - type: numeric
+    id: p5-hyperbolic-density
+    tag: Problem 5 · Rescaling and orientability
+    title: The half-plane density
+    prompt: |
+      The upper half-plane $\mathbb{H} := \{(u,w)\mid w>0\}$ with the chart $\mathscr{X} = (u,w)$ (oriented by this chart) carries the hyperbolic metric $g_{ij} = \delta_{ij}/w^2$: a rescaling $e^{2\psi}\delta$ of the Euclidean metric with $\psi = -\ln w$. Compute the density $\omega^g_\mathscr{X}$ at a point with $w = \tfrac12$.
+    answer: 4
+    wrong:
+      - { value: 2, feedback: '$2 = 1/w = e^{\psi}$ is the length factor. In two dimensions the density is $e^{2\psi} = 1/w^2$.' }
+      - { value: 16, feedback: '$16 = 1/w^4$ is $\det g$. The density is its square root, $1/w^2$.' }
+    hint: '$\det g = 1/w^4$; take the square root.'
+    explanation: |
+      $$\omega^g_\mathscr{X} = \sqrt{\tfrac1{w^4}} = \tfrac1{w^2},$$
+      $4$ at $w = \tfrac12$. Near the edge $w = 0$ every coordinate square carries more and more area.
+
+  - type: numeric
+    id: p5-strip
+    tag: Problem 5 · Rescaling and orientability
+    title: A strip of the half-plane
+    prompt: |
+      On the upper half-plane $\{(u,w)\mid w>0\}$ with metric $g_{ij} = \delta_{ij}/w^2$ (density $1/w^2$ in the chart $(u,w)$), compute the area of the region $0<u<1$, $1<w<2$.
+    answer: 0.5
+    answerText: '\tfrac12'
+    wrong:
+      - { value: 1, feedback: '$1$ is the Euclidean area of the square. Here every point carries the density $1/w^2$, which is below $1$ for $w>1$.' }
+      - { value: 0.6931, feedback: '$\ln2$ comes from the density $1/w$, the length factor. In two dimensions the area density is $1/w^2$.' }
+      - { value: 0.2917, feedback: '$\tfrac7{24}$ comes from $1/w^4 = \det g$, without the square root.' }
+    hint: '$\int_1^2 w^{-2}\,dw = \big[-\tfrac1w\big]_1^2$.'
+    explanation: |
+      $$\int_0^1\!\!\int_1^2\frac{dw\,du}{w^2} = 1-\tfrac12 = \tfrac12.$$
+      The closure $[0,1]\times[1,2]$ is compact and lies inside $\mathbb{H}$, so the one-chart integral applies.
+
+  - type: numeric
+    id: p5-tower
+    tag: Problem 5 · Rescaling and orientability
+    title: Towards the edge
+    prompt: |
+      On the upper half-plane $\{(u,w)\mid w>0\}$ with metric $g_{ij} = \delta_{ij}/w^2$ (density $1/w^2$ in the chart $(u,w)$), compute the area of the region $0<u<1$, $\tfrac1{10}<w<1$.
+    answer: 9
+    wrong:
+      - { value: 0.9, feedback: '$0.9$ is the Euclidean area. Near $w = 0.1$ the density is $100$.' }
+      - { value: 2.3026, feedback: '$\ln10$ comes from the density $1/w$. The area density is $1/w^2$.' }
+      - { value: 10, feedback: '$10$ is $1/w$ at the lower limit only. The antiderivative is $-\tfrac1w$, and the upper limit $w = 1$ contributes $-1$: $-1+10 = 9$.' }
+    hint: '$\int_{1/n}^1 w^{-2}\,dw = n-1$.'
+    explanation: |
+      $$\int_0^1\!\!\int_{1/10}^1\frac{dw\,du}{w^2} = 10-1 = 9.$$
+      With $\tfrac1n<w<1$ the area is $n-1$, which grows without bound.
+
+  - type: mcq
+    id: p5-unbounded
+    tag: Problem 5 · Rescaling and orientability
+    title: A bounded box, infinite area
+    prompt: |
+      On the upper half-plane $\mathbb{H} = \{(u,w)\mid w>0\}$ with metric $g_{ij} = \delta_{ij}/w^2$, the regions $0<u<1$, $\tfrac1n<w<1$ have area $n-1$. Consider $\mathcal{D} := \{0<u<1,\ 0<w<1\}$, which fits in a bounded box. What is true?
+    options:
+      - text: 'Its area is infinite, and the one-chart integral excludes it: its closure in $\mathbb{H}$, $[0,1]\times(0,1]$, is not compact'
+        correct: true
+      - text: 'Its area is $1$, since the box is bounded'
+        feedback: |
+          Bounded coordinates do not mean finite area: the density $1/w^2$ blows up at the edge $w = 0$, and the areas $n-1$ of the growing strips are unbounded.
+      - text: 'Its closure is $[0,1]\times[0,1]$, which is compact, so the integral is allowed and finite'
+        feedback: |
+          The closure is taken in the manifold $\mathbb{H}$, which contains no point with $w = 0$. In $\mathbb{H}$ the closure is $[0,1]\times(0,1]$, not closed in $\mathbb{R}^2$, hence not compact.
+      - text: 'Its area is infinite because the metric is not smooth at $w = 0$'
+        feedback: |
+          $w = 0$ is not part of $\mathbb{H}$, and on $\mathbb{H}$ the metric is smooth. The integral fails because $\mathcal{D}$ reaches the edge of the manifold, where the compactness hypothesis is broken.
+    explanation: |
+      This is the "why the closure must be compact" story again, now with a metric: the density is bounded on every compact set of $\mathbb{H}$, but $\mathcal{D}$ reaches the missing edge. The hyperbolic plane has infinite total area, though in coordinates it looks like an ordinary half-plane.
+
+  - type: text
+    id: p5-mobius
+    tag: Problem 5 · Rescaling and orientability
+    title: The Möbius strip
+    body: |
+      Build the **Möbius strip** $\mathcal{M}$ from the band $\mathbb{R}\times(-1,1)$ with points $(\theta,s)$, by declaring the point a full turn further, flipped, to be the same point:
+      $$(\theta+2\pi,\,-s)\sim(\theta,s).$$
+      Give it the flat metric $d\theta^2+ds^2$; the flip $s\mapsto-s$ keeps it, so it is well defined.
+
+      Two charts cover it:
+      - $\mathscr{X} = (\theta,s)$, choosing the representative with $\theta\in(0,2\pi)$;
+      - $\mathscr{Y} = (\theta',s')$, choosing the representative with $\theta'\in(-\pi,\pi)$.
+
+      Their overlap has two pieces. On $0<\theta<\pi$ both pick the same representative: $\theta' = \theta$, $s' = s$. On $\pi<\theta<2\pi$, the $\mathscr{Y}$ representative is a full turn back, flipped: $\theta' = \theta-2\pi$, $s' = -s$.
+
+  - type: numeric
+    id: p5-mobius-jac
+    tag: Problem 5 · Rescaling and orientability
+    title: The flipped piece
+    prompt: |
+      Möbius strip: the band $\mathbb{R}\times(-1,1)$ with $(\theta+2\pi,-s)$ glued to $(\theta,s)$. Chart $\mathscr{X} = (\theta,s)$ uses $\theta\in(0,2\pi)$, chart $\mathscr{Y} = (\theta',s')$ uses $\theta'\in(-\pi,\pi)$. On the overlap piece $\pi<\theta<2\pi$, $\theta' = \theta-2\pi$ and $s' = -s$. Compute $\det(\partial\mathscr{Y}^i/\partial\mathscr{X}^j)$ there.
+    answer: -1
+    wrong:
+      - { value: 1, feedback: 'The shift $\theta-2\pi$ has derivative $1$, but $s'' = -s$ has derivative $-1$: the Jacobian is $\mathrm{diag}(1,-1)$.' }
+    hint: 'The Jacobian is diagonal.'
+    explanation: |
+      $$\det\begin{pmatrix}1&0\\0&-1\end{pmatrix} = -1,$$
+      while on the other piece $0<\theta<\pi$ the determinant is $+1$. One overlap, two signs: $\{\mathscr{X},\mathscr{Y}\}$ is not an oriented atlas.
+
+  - type: mcq
+    id: p5-mobius-flip
+    tag: Problem 5 · Rescaling and orientability
+    title: Flip a chart?
+    prompt: |
+      Möbius strip with charts $\mathscr{X} = (\theta,s)$, $\theta\in(0,2\pi)$, and $\mathscr{Y} = (\theta',s')$, $\theta'\in(-\pi,\pi)$. The Jacobian determinant $\det(\partial\mathscr{Y}^i/\partial\mathscr{X}^j)$ is $+1$ on the overlap piece $0<\theta<\pi$ and $-1$ on $\pi<\theta<2\pi$. Does replacing $\mathscr{Y}$ by its flipped version $(\theta',-s')$ give an oriented atlas?
+    options:
+      - text: 'No: the flip changes both signs, giving $-1$ on the first piece and $+1$ on the second'
+        correct: true
+      - text: 'Yes: the flip turns the $-1$ into $+1$'
+        feedback: |
+          Flipping a chart multiplies its Jacobian determinant by $-1$ on the **whole** overlap. The piece $0<\theta<\pi$ then gets $-1$. The trouble is the mixed signs, not one sign.
+      - text: 'Yes, if $\mathscr{X}$ is flipped too'
+        feedback: |
+          Flipping both charts multiplies the determinant by $(-1)^2 = 1$: back to $+1$ and $-1$.
+      - text: 'It does not matter: a determinant of $-1$ has absolute value $1$, which is all that integration needs'
+        feedback: |
+          Integrating a volume form uses the density law with the **signed** determinant, so the sign matters. Absolute values suffice only for a different kind of object, which measures unsigned area.
+    explanation: |
+      Flipping changes the sign everywhere on the overlap, so mixed signs stay mixed. This only shows that these two charts fail; that no choice at all works needs an argument that uses no charts.
+
+  - type: mcq
+    id: p5-no-form
+    tag: Problem 5 · Rescaling and orientability
+    title: No volume form on the strip
+    prompt: |
+      Möbius strip: the band $\mathbb{R}\times(-1,1)$ with points $(\theta,s)$ and $(\theta+2\pi,-s)$ glued. The gluing takes the band's vector $\partial/\partial s$ at $(\theta+2\pi,0)$ to $-\partial/\partial s$ at $(\theta,0)$. Suppose $\Omega$ were a volume form, and define for every $\theta\in\mathbb{R}$
+      $$F(\theta) := \Omega\Big(\frac{\partial}{\partial\theta},\frac{\partial}{\partial s}\Big)\Big|_{(\theta,0)}.$$
+      $F$ is continuous and $F(\theta+2\pi) = -F(\theta)$. Why is this a contradiction?
+    options:
+      - text: '$F(0)$ and $F(2\pi)$ have opposite signs, so the continuous $F$ vanishes in between; but $\Omega_p\neq0$ and the two vectors form a basis'
+        correct: true
+      - text: 'The flat metric forces $F$ to be constant, and a constant cannot change sign'
+        feedback: |
+          $\Omega$ is any volume form, not tied to the metric, so $F$ need not be constant. The argument uses only continuity: a continuous function that changes sign has a zero.
+      - text: '$F$ could vanish identically; the contradiction is that the strip has a boundary'
+        feedback: |
+          $F\equiv0$ would mean $\Omega$ vanishes on a basis, so $\Omega_p = 0$, which a volume form forbids. And this open strip, $s\in(-1,1)$, contains no boundary points.
+      - text: 'It only rules out $\Omega$ in the chart $\mathscr{X}$; another chart might allow it'
+        feedback: |
+          $F$ is defined from $\Omega$ and two vectors, with no chart: a volume form is a tensor field, and its values do not depend on charts.
+    explanation: |
+      By the intermediate value theorem, $F(\theta_0) = 0$ for some $\theta_0\in(0,2\pi)$, so $\Omega$ vanishes on a basis there: contradiction. The Möbius strip has **no volume form**. Since every oriented manifold has one (stated earlier without proof), it has no oriented atlas either: it is **not orientable**.
+
+  - type: numeric
+    id: p5-mobius-area
+    tag: Problem 5 · Rescaling and orientability
+    title: The area still exists
+    prompt: |
+      Möbius strip: the band $\mathbb{R}\times(-1,1)$ with $(\theta+2\pi,-s)$ glued to $(\theta,s)$, flat metric $d\theta^2+ds^2$. There is no volume form, but the chart values $\sqrt{|\det g_\mathscr{X}|}$ change between charts by the **absolute value** of the Jacobian determinant, and such an object can be integrated on any manifold, oriented or not (stated here without proof). In the chart $\mathscr{X} = (\theta,s)$, $\theta\in(0,2\pi)$, which misses only the line $\theta = 0$ (zero area), compute the area of the strip.
+    answer: 12.5664
+    tolerance: 0.01
+    answerText: '4\pi\approx12.57'
+    wrong:
+      - { value: 0, feedback: 'Nothing cancels: with the absolute value every piece of the strip counts positively. Cancellation would come from a signed density, which is exactly what the Möbius strip cannot have.' }
+      - { value: 6.2832, feedback: '$2\pi$ is the length of the core circle. The strip also has width $2$, from $s = -1$ to $s = 1$.' }
+    hint: 'Density $1$ on $(0,2\pi)\times(-1,1)$.'
+    explanation: |
+      $$\int_0^{2\pi}\!\!\int_{-1}^1 1\,ds\,d\theta = 4\pi.$$
+      A volume form gives **oriented** volumes and needs an orientation; the object built with $|\det|$ (also called a density, or the Riemannian measure) gives unsigned areas on any manifold. On an oriented manifold the two agree in the charts of $\mathcal{A}^\uparrow$.
+
+  # ---------------------------------------------------------------- Wrap-up
+  - type: text
+    id: wrap-up
+    title: What you now own
+    body: |
+      Problem 5, part 3 of 3 of the level challenge. The formulas to keep:
+
+      Setting: $(\mathcal{M},\mathcal{O},\mathcal{A}^\uparrow)$ is an oriented manifold of dimension $d$ with a metric $g$, $\Omega^g$ its metric volume form with density $\omega^g_\mathscr{X} = \sqrt{|\det g_\mathscr{X}|}$ in a chart $\mathscr{X}$ of $\mathcal{A}^\uparrow$, and $\psi$ a smooth function.
+
+      **5. Rescaling**: for a smooth function $\psi$, the metric $\tilde g := e^{2\psi}g$ gives
+      $$\Omega^{\tilde g} = e^{d\psi}\,\Omega^g;$$
+      the Möbius strip (the band $\mathbb{R}\times(-1,1)$ of points $(\theta,s)$ with $(\theta+2\pi,-s)\sim(\theta,s)$, metric $d\theta^2+ds^2$) has no volume form, yet $\sqrt{|\det g|}$ with $|\det|$ still measures its area, $4\pi$.
+
+      And the level in one formula, for a function $f$ of compact support, a partition of unity $\{\text{ᚹ}_n\}$ with $\mathrm{supp}\,\text{ᚹ}_n\subseteq\mathcal{U}_n$, charts $\mathscr{X}_n$ of $\mathcal{A}^\uparrow$ on $\mathcal{U}_n$ and a metric $g$ with components $g_{\mathscr{X}_n}$:
+      $$\begin{aligned}\int_\mathcal{M}f = \sum_n&\int d^d\alpha\,\sqrt{|\det g_{\mathscr{X}_n}|}\\ &\cdot\big((\text{ᚹ}_nf)\circ\mathscr{X}_n^{-1}\big).\end{aligned}$$
+      **Next, Level 9: Newton–Cartan theory.** A falling apple and a falling feather (in vacuum) follow the same path, whatever their masses. No other force does that, except the pseudo-forces of accelerated frames, which come from the chart. What if gravity is one of them, written into the connection of a 4-dimensional spacetime with an **absolute time**? The first lesson builds that spacetime.
