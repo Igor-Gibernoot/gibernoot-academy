@@ -161,6 +161,8 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 
 - Challenge numbers: L=-1.5(th-2)^2, eta .5, Pi1 2 -> mu 1.4, Pi_post 5, ln ev -2.15 (a=3: mu 1.625, Pi_post 8); theta .5, d .8: P(risky) .789, L(risky,risky,safe) -2.03; table 8 subjects, line .4+.2x, Pi2 2, x=5 m=1.9 sd .5 -> 1.733; ln BF 2.8 -> 16.4 (prob .94).
 
+- Challenge part 2: smell y=1, eta=4, Pi (3,1) -> 1.75, Pi_v=12 -> 3.4; eta=5, Pi_v=50, y=0, Pi_y=2 -> 4.81; patients/controls line .3+.8x, Pi2 4, m=1.6 sd .4 -> 1.405; ln BF 3.2 -> 24.5.
+
 ## Chapter 10
 
 - (none yet)

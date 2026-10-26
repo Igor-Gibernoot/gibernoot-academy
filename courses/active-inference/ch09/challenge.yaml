@@ -284,3 +284,169 @@ cards:
           The group model says the *mean* of $\theta_i$ changes with $x_i$; individuals scatter around the line with precision $\Pi^{(2)}$.
     explanation: |
       Model comparison answers "which model explains the group data better, accounting for complexity", and parameter estimation answers "how large". PEB gives both: the evidence for the slope and its posterior.
+
+  # ---------------------------------------------------------------- Problem 4
+  - type: numeric
+    id: p4-mu
+    tag: Problem 4 · A smell in the kitchen
+    prompt: |
+      **Problem 4.** A cook senses the strength of a smoky smell on a scale from $0$ (nothing) to $5$ (thick smoke). One-level model: the percept $\mu$ predicts the sensation, $g(\mu)=\mu$, and the cook expects, from the hour and the pan on the stove, a prior mean $\eta=4$. The nose delivers $y=1$. The sensory precision is $\Pi_y=3$ and the prior precision is $\Pi_v=1$.
+
+      Free-energy minimisation sets the percept $\mu^*$. What is it?
+    answer: 1.75
+    tolerance: 0.005
+    wrong:
+      - { value: 2.5, feedback: 'That is the plain average of $1$ and $4$. The two sources have different precisions, $3$ and $1$, so they are weighted differently.' }
+      - { value: 1, feedback: 'That is the sensation alone, which is what the percept would be with no prior at all ($\Pi_v=0$). Here the prior has precision $1$ and pulls the percept up.' }
+    explanation: |
+      The percept is the precision-weighted average of the sensation and the prior mean:
+      $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}=\frac{3\cdot1+1\cdot4}{3+1}=1.75$$
+      The nose is trusted three times more than the expectation, so the percept sits a quarter of the way from $y$ to $\eta$.
+
+  - type: numeric
+    id: p4-precise
+    tag: Problem 4 · A smell in the kitchen
+    prompt: |
+      Same cook, same nose ($y=1$, $\Pi_y=3$) and same expectation $\eta=4$, but after a night of worrying about fires the prior has become much more precise, $\Pi_v=12$. What is the percept $\mu^*$ now (one decimal)?
+    answer: 3.4
+    tolerance: 0.05
+    wrong:
+      - { value: 1.75, feedback: 'That is the earlier percept, with $\Pi_v=1$. The prior precision has changed, so the weights have changed.' }
+      - { value: 2.5, feedback: 'That is the plain average of $1$ and $4$. The weights are $3$ and $12$, and the larger one now belongs to the prior.' }
+    explanation: |
+      $$\mu^*=\frac{3\cdot1+12\cdot4}{3+12}=\frac{51}{15}=3.4$$
+      The sensation is unchanged and almost "smoke-free", yet the percept is close to the expected thick smoke. Only a precision changed, not the inference rule.
+
+  - type: mcq
+    id: p4-both
+    tag: Problem 4 · A smell in the kitchen
+    prompt: |
+      Keep $\eta=4$ for the prior mean, and let the prior be precise, $\Pi_v=12$, with $\Pi_y=3$. (a) The nose reports $y=1$ and the percept is $3.4$. (b) Now there really is a thick smoke, $y=4$, but suppose the prior mean had been $\eta=0$ ("nothing is burning"): the percept is $\mu^*=(3\cdot4+12\cdot0)/15=0.8$. What do (a) and (b) have in common?
+    options:
+      - text: 'In both the percept is dominated by the prior rather than by the senses: in (a) it invents smoke the nose barely reports, in (b) it hides smoke that the nose reports. Too precise a prior makes internally generated percepts resist conflicting input.'
+        correct: true
+      - text: 'In both the senses win, so the percept is accurate; the prior only matters when $\Pi_y=0$.'
+        feedback: |
+          With $\Pi_v=12$ against $\Pi_y=3$, the prior has four times the weight. The percepts $3.4$ and $0.8$ are far from the data $1$ and $4$.
+      - text: 'Only (a) is a false inference; in (b) the percept is simply the cautious, correct answer.'
+        feedback: |
+          In (b) there is a thick smoke ($y=4$) and the percept says almost nothing. That is as much a false inference as (a): the percept does not follow the evidence, because the prior is too strong.
+      - text: 'They show that the inference rule is broken: the precision-weighted average should never be used when the prior is precise.'
+        feedback: |
+          The rule is the same in both. What differs is the weights, and for a precise prior the rule correctly returns a percept close to the prior.
+    explanation: |
+      A hallucination as false perceptual inference can come from an imbalance of precisions in either direction: too much sensory precision overinterprets noisy input; too much prior precision makes the percept resist conflicting input, either by adding something the data do not show (a) or by hiding something they do (b).
+
+  - type: numeric
+    id: p4-delusion
+    tag: Problem 4 · A smell in the kitchen
+    prompt: |
+      A toy for a belief that resists evidence. A person holds a strong belief, with prior mean $\eta=5$ and prior precision $\Pi_v=50$ on the same scale. A fresh observation says $y=0$, with sensory precision $\Pi_y=2$. Using the same rule, what is the percept $\mu^*$ (two decimals)?
+    answer: 4.81
+    tolerance: 0.01
+    wrong:
+      - { value: 0, feedback: 'That would be believing the observation completely. With $\Pi_v=50$ against $\Pi_y=2$ the prior holds almost all the weight.' }
+      - { value: 2.5, feedback: 'That is the equal-weight average. The weights are $2$ and $50$.' }
+    explanation: |
+      $$\mu^*=\frac{2\cdot0+50\cdot5}{2+50}=\frac{250}{52}=4.81$$
+      The evidence moves the belief by only $0.19$ of the $5$ units it contradicts. The inference is perfectly normal; what is aberrant is the prior precision. This is the sense in which computational models describe such conditions: normal inference, aberrant priors.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: numeric
+    id: p5-shrunk
+    tag: Problem 5 · Patients and controls
+    prompt: |
+      **Problem 5.** A lab measures how precisely each participant holds a prior, through the parameter $\theta_i$ of their model ($\Pi_v=e^{\theta_i}$, so $\theta_i$ is a real number). There are $6$ patients and $6$ controls. The group variable is $x_i=1$ for a patient and $0$ for a control, and the group model is
+      $$\theta_i\sim\mathcal{N}(\beta_0+\beta_1x_i,\;1/\Pi^{(2)})$$
+      with $\beta_0=0.3$, $\beta_1=0.8$ and $\Pi^{(2)}=4$.
+      One patient has a first-level posterior mean $m=1.6$ with standard deviation $0.4$, so $\Pi_i=1/0.4^2=6.25$. Under the group model this patient is re-estimated as the precision-weighted combination of $m$ and the line value $\ell=\beta_0+\beta_1x$. What is the shrunk mean (three decimals)?
+    answer: 1.405
+    tolerance: 0.003
+    wrong:
+      - { value: 1.6, feedback: 'That is the unshrunk first-level mean. Under the group model it is pulled toward the line value.' }
+      - { value: 0.3, feedback: 'You used the line of the controls ($x=0$). This is a patient, $x=1$, so $\ell=0.3+0.8=1.1$.' }
+    explanation: |
+      For a patient $\ell=0.3+0.8\cdot1=1.1$, and
+      $$\hat m=\frac{\Pi_i\,m+\Pi^{(2)}\,\ell}{\Pi_i+\Pi^{(2)}}$$
+      $$=\frac{6.25\cdot1.6+4\cdot1.1}{6.25+4}=\frac{14.4}{10.25}=1.405$$
+      The patient is measured well, so the estimate moves only a little (by $0.195$) toward the patient line.
+
+  - type: numeric
+    id: p5-bf
+    tag: Problem 5 · Patients and controls
+    prompt: |
+      The group level is run twice on all twelve participants: with the group variable (model "group effect", $\beta_1$ free) and without it (model "no group effect", $\beta_1=0$). The difference of log evidences is
+      $$\ln E_{\text{group}}-\ln E_{\text{no group}}=3.2$$
+      What is the Bayes factor $E_{\text{group}}/E_{\text{no group}}$ (one decimal)?
+    answer: 24.5
+    tolerance: 0.1
+    wrong:
+      - { value: 3.2, feedback: 'That is the log of the Bayes factor. The factor is its exponential.' }
+      - { value: 0.96, feedback: 'That is the posterior probability of the group-effect model under equal prior odds, not the ratio.' }
+    explanation: |
+      $$\text{BF}=e^{3.2}=24.5$$
+      With equal prior odds that is a posterior probability of $24.5/25.5=0.96$ for the model with a group effect.
+
+  - type: mcq
+    id: p5-claim
+    tag: Problem 5 · Patients and controls
+    prompt: |
+      The Bayes factor is $24.5$ in favour of a group effect on the prior-precision parameter $\theta$ (patients higher). Which statement is supported by this analysis?
+    options:
+      - text: 'In this model of the task, the patients'' behaviour is better explained by a more precise prior than the controls'', accounting for model complexity. It is evidence for a difference in a parameter of the subject model, estimated without invasive measurement.'
+        correct: true
+      - text: 'The patients have a damaged brain region that holds the prior.'
+        feedback: |
+          The analysis only fits a parameter of a generative model to behaviour. It says nothing about which neural structure implements it, nor about damage.
+      - text: 'Every patient has a more precise prior than every control.'
+        feedback: |
+          The group model compares means: individuals scatter around the group line with precision $\Pi^{(2)}$, and a Bayes factor does not say there is no overlap.
+      - text: 'The result proves that the condition is caused by aberrant priors and could be treated by changing them.'
+        feedback: |
+          A better-fitting model is evidence for a description, not proof of cause, and it gives no treatment. It also depends on the task and on the model chosen.
+    explanation: |
+      Computational models of pathology are stories of aberrant priors, and the pipeline turns one into a testable estimate: a parameter per subject and a group comparison. The claim is bounded by the task, the model and the evidence; it is a hypothesis about the subject's own generative model.
+
+  - type: mcq
+    id: p5-pipeline
+    tag: Problem 5 · Patients and controls
+    prompt: |
+      A reviewer worries that the estimates of $\theta_i$ are unreliable. Which step of the analysis does the worry concern, and which check addresses it?
+    options:
+      - text: 'The inversion step (the fit of each subject). Check it with fictive data: simulate choices from the model with known $\theta$ and see whether the fit recovers it (parameter recovery), and whether the model produces sensible behaviour (face validity).'
+        correct: true
+      - text: 'The group-level step. Check it by adding more controls until the Bayes factor exceeds $100$.'
+        feedback: |
+          Collecting data until the evidence passes a threshold does not test the reliability of the individual estimates, which is a question about the first level.
+      - text: 'The data collection. Check it by asking the patients whether their prior is precise.'
+        feedback: |
+          The parameter belongs to the model of the behaviour and is not something a subject can report. The check is on the model, with simulated data of known truth.
+      - text: 'The choice of the prior of the group level. Check it by raising $\Pi^{(2)}$ until the shrunk means all lie on the line.'
+        feedback: |
+          Raising $\Pi^{(2)}$ forces the estimates onto the line and so hides the problem instead of testing it.
+    explanation: |
+      Reliability of the per-subject estimates is a property of the inversion with its priors and likelihood. Simulating with known parameters tests recovery; checking that the model makes sensible behaviour is face validity. Only then do the group comparisons mean something.
+
+  - type: text
+    id: final-summary
+    title: "What you now own: fitting models to behaviour"
+    body: |
+      **Variational Laplace.** A subject has parameters $\theta$ with prior $\mathcal{N}(\eta,\Pi^{(1)})$ (mean $\eta$, precision $\Pi^{(1)}$); the data are choices $\tilde u$, with log likelihood $\mathcal{L}(\theta)=\ln P(\tilde u\mid\theta,\tilde o,m)$. The posterior is Gaussian with the mode $\mu$ of $\mathcal{L}+\ln P(\theta)$ and precision
+      $$\Pi^{\text{post}}=\Pi^{(1)}-\nabla_{\mu\mu}\mathcal{L}(\mu)$$
+      With $\varepsilon=\eta-\mu$, the approximate log evidence (fit minus complexity) is
+      $$\ln P(\tilde u\mid m)\approx\mathcal{L}(\mu)-\tfrac12\big(\varepsilon\cdot\Pi^{(1)}\varepsilon+\ln|\Pi^{\text{post}}|\big)$$
+
+      **The pipeline.** Collect data; build a generative model (POMDP) of the task; write the likelihood of the choices; set the priors; invert the model for each subject (posterior and evidence); run the group level. Check it on fictive data: parameter recovery and face validity.
+
+      **Group level (PEB).** With $x_i$ a covariate (age, or a group variable), the subject parameters follow
+      $$\theta_i\sim\mathcal{N}(\beta_0+\beta_1x_i,\;1/\Pi^{(2)})$$
+      Each subject, measured with mean $m_i$ and precision $\Pi_i$, is shrunk toward the line value $\ell_i=\beta_0+\beta_1x_i$:
+      $$\hat m_i=\frac{\Pi_i\,m_i+\Pi^{(2)}\,\ell_i}{\Pi_i+\Pi^{(2)}}$$
+      A hypothesis such as "there is a group effect" is a Bayes factor of evidences,
+      $$\ln\text{BF}=\ln E_{\beta_1\text{ free}}-\ln E_{\beta_1=0}$$
+
+      **False inference.** In a one-level model with $g(\mu)=\mu$, sensation $y$ and prior mean $\eta$, the percept is
+      $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$$
+      Computational pathologies are told as aberrant priors with normal inference: an overly precise prior ($\Pi_v\gg\Pi_y$) makes percepts resist the data, and overly precise sensation overinterprets noise. The pipeline estimates such a precision as a parameter, such as $\Pi_v=e^{\theta}$, and compares groups.
+
+      **Next:** the final chapter, *Active Inference as a Unified Theory of Sentient Behavior*, steps back from the models to the whole: predictive processing, action, decision theories, rationality and emotion, attention and learning, seen as one account.
