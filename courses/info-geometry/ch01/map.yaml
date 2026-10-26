@@ -1,0 +1,237 @@
+id: ch01-map
+title: "Content Map: Divergences and Dually Flat Geometry"
+kind: map
+name: Level 1, Divergences and dually flat geometry (points, divergence, Bregman, Legendre, Pythagoras, alternating minimization)
+
+intro: |
+  A **content map** shows how the ideas of a level fit together. Each box is one idea. An arrow goes from an idea to one that builds on it, and its label says how: read it as a sentence, for example "the manifold *carries* a divergence".
+
+  The map runs top to bottom. First a **manifold** of points with coordinates, then a **divergence** that measures how far apart two points are (not symmetric). A convex **potential** $\psi$ produces a divergence (Bregman), its **Legendre dual** gives a second coordinate system, and together they make a **dually flat** space. There the **Pythagorean theorem** and the **projection theorem** hold, and they justify **alternating minimization**.
+
+  For each glowing box, pick the card that belongs there. The other cards look alike, but each hides a classic mistake, and every wrong pick comes with a reason. Tap a finished box at any time to reread its card.
+
+cols: 2
+nodes:
+  - id: manifold
+    title: Points and coordinates
+    row: 1
+    col: 1
+    span: 2
+    body: |
+      A **manifold** is a set of points; near each point, $n$ numbers $\xi=(\xi_1,\dots,\xi_n)$, a **chart**, name the point. Another chart $\zeta=\zeta(\xi)$ relabels the **same** points. On the plane, cartesian $(\xi_1,\xi_2)=(3,4)$ and polar $(r,\theta)=(5,0.927)$ are one point.
+
+      The open simplex $S_n$ (probabilities $p_0,\dots,p_n>0$ with sum $1$) has $n$ dimensions: chart $\xi=(p_1,\dots,p_n)$, and $p_0=1-\sum_i\xi_i$.
+    decoys:
+      - body: |
+          A **manifold** is a set of points; near each point, $n$ numbers $\xi=(\xi_1,\dots,\xi_n)$, a **chart**, name the point. Changing to polar $(r,\theta)$ moves the point: cartesian $(3,4)$ and polar $(5,0.927)$ are two different points.
+
+          The open simplex $S_n$ (probabilities $p_0,\dots,p_n>0$ with sum $1$) has $n$ dimensions: chart $\xi=(p_1,\dots,p_n)$, and $p_0=1-\sum_i\xi_i$.
+        feedback: |
+          A chart is only a naming of points, so a different chart gives different numbers for the **same** point. The point $(3,4)$ has radius $\sqrt{3^2+4^2}=5$ and angle $\arctan(4/3)=0.927$ rad in polar numbers.
+      - body: |
+          A **manifold** is a set of points; near each point, $n$ numbers $\xi=(\xi_1,\dots,\xi_n)$, a **chart**, name the point. Another chart $\zeta=\zeta(\xi)$ relabels the **same** points. On the plane, cartesian $(3,4)$ and polar $(5,0.927)$ are one point.
+
+          The open simplex $S_n$ (probabilities $p_0,\dots,p_n>0$ with sum $1$) has $n+1$ dimensions: chart $\xi=(p_0,\dots,p_n)$, all free.
+        feedback: |
+          The probabilities must add up to $1$, which removes one freedom: $p_0=1-\sum_i\xi_i$ is fixed by the others. $n+1$ outcomes give an $n$-dimensional simplex.
+    explanation: |
+      Everything below lives on a manifold; the divergence, the potentials and the dual coordinates are all functions of the points, written in some chart.
+
+  - id: divergence
+    title: Divergence
+    row: 2
+    col: 1
+    span: 2
+    body: |
+      A **divergence** $D[P:Q]$ between points $P,Q$ satisfies $D\ge0$ and $D=0$ exactly when $P=Q$. For nearby points, in a chart $\xi$,
+      $$D[\xi:\xi+d\xi]=\tfrac12\sum_{i,j}g_{ij}\,d\xi_i\,d\xi_j,$$
+      with $\mathbf G=(g_{ij})$ positive definite, so $ds^2=2D$. It need **not** be symmetric: for $p=(0.6,0.3,0.1)$, $q=(0.2,0.3,0.5)$ and $D_{KL}[p:q]=\sum_ip_i\ln(p_i/q_i)$, we get $D[p:q]=0.498$ but $D[q:p]=0.585$.
+    decoys:
+      - body: |
+          A **divergence** $D[P:Q]$ between points $P,Q$ satisfies $D\ge0$ and $D=0$ exactly when $P=Q$. For nearby points, in a chart $\xi$,
+          $$D[\xi:\xi+d\xi]=\tfrac12\sum_{i,j}g_{ij}\,d\xi_i\,d\xi_j,$$
+          with $\mathbf G=(g_{ij})$ positive definite, so $ds^2=2D$. It is **always symmetric**: for $p=(0.6,0.3,0.1)$, $q=(0.2,0.3,0.5)$ and $D_{KL}[p:q]=\sum_ip_i\ln(p_i/q_i)$, we get $D[p:q]=D[q:p]=0.498$.
+        feedback: |
+          Symmetry belongs to a distance, and only some divergences have it (half the squared ruler distance does). The Kullback-Leibler divergence does not: swapping the two beliefs gives $0.585$, not $0.498$.
+      - body: |
+          A **divergence** $D[P:Q]$ between points $P,Q$ satisfies $D\ge0$ and $D=0$ exactly when $P=Q$. For nearby points, in a chart $\xi$,
+          $$D[\xi:\xi+d\xi]=\sum_{i,j}g_{ij}\,d\xi_i\,d\xi_j,$$
+          with $\mathbf G=(g_{ij})$ positive definite, so $ds^2=D$. It need **not** be symmetric: for $p=(0.6,0.3,0.1)$, $q=(0.2,0.3,0.5)$ and $D_{KL}[p:q]=\sum_ip_i\ln(p_i/q_i)$, we get $D[p:q]=0.498$ but $D[q:p]=0.585$.
+        feedback: |
+          The factor $\tfrac12$ is missing. A divergence is a **squared**-distance-like quantity, so it equals half of $ds^2$: $ds^2=2D$ (for $D=\tfrac12\lVert d\xi\rVert^2$ this gives $ds^2=\lVert d\xi\rVert^2$).
+    explanation: |
+      The metric $\mathbf G$ is not extra data: it is read off from the divergence at short range.
+
+  - id: bregman
+    title: Bregman divergence
+    row: 3
+    col: 1
+    body: |
+      For a **convex** differentiable potential $\psi(\xi)$, the **Bregman divergence** is the gap between $\psi$ and its **tangent at the second slot** $\xi_0$:
+      $$\begin{aligned}D[\xi:\xi_0]=\;&\psi(\xi)-\psi(\xi_0)\\&-\nabla\psi(\xi_0)\cdot(\xi-\xi_0).\end{aligned}$$
+      $\psi=\tfrac12\lVert\xi\rVert^2$ gives $\tfrac12\lVert\xi-\xi_0\rVert^2$; $\psi=\xi\ln\xi-\xi$ gives $D[3:1]=1.296$.
+    decoys:
+      - body: |
+          For a **concave** differentiable potential $\psi(\xi)$, the **Bregman divergence** is the gap between $\psi$ and its **tangent at the second slot** $\xi_0$:
+          $$\begin{aligned}D[\xi:\xi_0]=\;&\psi(\xi)-\psi(\xi_0)\\&-\nabla\psi(\xi_0)\cdot(\xi-\xi_0).\end{aligned}$$
+          $\psi=\tfrac12\lVert\xi\rVert^2$ gives $\tfrac12\lVert\xi-\xi_0\rVert^2$; $\psi=\xi\ln\xi-\xi$ gives $D[3:1]=1.296$.
+        feedback: |
+          For a concave $\psi$ the graph lies **below** its tangent, so this gap is $\le0$ and cannot be a divergence. Convexity (graph above every tangent) is exactly what makes $D\ge0$. Both examples are convex.
+      - body: |
+          For a **convex** differentiable potential $\psi(\xi)$, the **Bregman divergence** is the gap between $\psi$ and its **tangent at the first slot** $\xi$:
+          $$\begin{aligned}D[\xi:\xi_0]=\;&\psi(\xi_0)-\psi(\xi)\\&-\nabla\psi(\xi)\cdot(\xi_0-\xi).\end{aligned}$$
+          $\psi=\tfrac12\lVert\xi\rVert^2$ gives $\tfrac12\lVert\xi-\xi_0\rVert^2$; $\psi=\xi\ln\xi-\xi$ gives $D[3:1]=1.296$.
+        feedback: |
+          The tangent is drawn at the **second** slot $\xi_0$ and the gap is measured at the first. This version is the divergence in the reverse order: for $\psi=\xi\ln\xi-\xi$ it gives $0.901$, which is $D[1:3]$, not $D[3:1]=1.296$. (For the symmetric $\tfrac12\lVert\xi\rVert^2$ you could not tell.)
+    explanation: |
+      A divergence of this kind is built from one convex function; the divergence of the previous box can be a Bregman one, in a good chart.
+
+  - id: legendre
+    title: Dual coordinates
+    row: 3
+    col: 2
+    body: |
+      The **dual coordinate** is the slope $\xi^*=\nabla\psi(\xi)$, and the **dual potential** is the Legendre transform
+      $$\begin{aligned}\psi^*(\xi^*)&=\xi\cdot\xi^*-\psi(\xi)\\&=\max_{\xi'}\{\xi'\cdot\xi^*-\psi(\xi')\}.\end{aligned}$$
+      The divergence is $D_\psi[P:Q]=\psi(\xi_P)+\psi^*(\xi^*_Q)-\xi_P\cdot\xi^*_Q$. For $\psi=\xi\ln\xi-\xi$: $\xi^*=\ln\xi$ and $\psi^*=e^{\xi^*}$.
+    decoys:
+      - body: |
+          The **dual coordinate** is the slope $\xi^*=\nabla\psi(\xi)$, and the **dual potential** is the Legendre transform
+          $$\begin{aligned}\psi^*(\xi^*)&=\xi\cdot\xi^*-\psi(\xi)\\&=\min_{\xi'}\{\xi'\cdot\xi^*-\psi(\xi')\}.\end{aligned}$$
+          The divergence is $D_\psi[P:Q]=\psi(\xi_P)+\psi^*(\xi^*_Q)-\xi_P\cdot\xi^*_Q$. For $\psi=\xi\ln\xi-\xi$: $\xi^*=\ln\xi$ and $\psi^*=e^{\xi^*}$.
+        feedback: |
+          For convex $\psi$ the bracket $\xi'\cdot\xi^*-\psi(\xi')$ is a **concave** function of $\xi'$: it has a top, found where the slope of $\psi$ equals $\xi^*$, and no bottom. The transform is a maximum.
+      - body: |
+          The **dual coordinate** is the slope $\xi^*=\nabla\psi(\xi)$, and the **dual potential** is the Legendre transform
+          $$\begin{aligned}\psi^*(\xi^*)&=\xi\cdot\xi^*-\psi(\xi)\\&=\max_{\xi'}\{\xi'\cdot\xi^*-\psi(\xi')\}.\end{aligned}$$
+          The divergence is $D_\psi[P:Q]=\psi(\xi_Q)+\psi^*(\xi^*_P)-\xi_Q\cdot\xi^*_P$. For $\psi=\xi\ln\xi-\xi$: $\xi^*=\ln\xi$ and $\psi^*=e^{\xi^*}$.
+        feedback: |
+          The roles of the slots are swapped. The first slot $P$ enters through $\psi(\xi_P)$ and its ordinary coordinate, the second slot $Q$ through its dual coordinate $\xi^*_Q$, as in $D[\xi:\xi_0]$ where the tangent slope is taken at $\xi_0$. Swapped, this is $D_\psi[Q:P]$.
+    explanation: |
+      The same divergence is now written with two coordinate systems of the same points: $\xi$ and $\xi^*$.
+
+  - id: duallyflat
+    title: Dually flat structure
+    row: 4
+    col: 1
+    span: 2
+    body: |
+      Two coordinate systems $\xi$ and $\xi^*$ of the same points, with bases $e_i=\partial/\partial\xi^i$ and $e^{*j}=\partial/\partial\xi^*_j$ and the pairing $\langle e_i,e^{*j}\rangle=\delta_i^j$ (components $\xi^i$ up, $\xi^*_i$ down).
+      $$g_{ij}=\partial_i\partial_j\psi=\langle e_i,e_j\rangle$$
+      and
+      $$\mathbf G^*=\mathbf G^{-1}.$$
+      A straight line $\xi(t)=at+b$ is a **geodesic**; a line $\xi^*(t)=at+b$ is a **dual geodesic**. Each coordinate system is flat for one of the two.
+    decoys:
+      - body: |
+          Two coordinate systems $\xi$ and $\xi^*$ of the same points, with bases $e_i=\partial/\partial\xi^i$ and $e^{*j}=\partial/\partial\xi^*_j$ and the pairing $\langle e_i,e^{*j}\rangle=\delta_i^j$ (components $\xi^i$ up, $\xi^*_i$ down).
+          $$g_{ij}=\partial_i\partial_j\psi=\langle e_i,e_j\rangle$$
+          and
+          $$\mathbf G^*=\mathbf G.$$
+          A straight line $\xi(t)=at+b$ is a **geodesic**; a line $\xi^*(t)=at+b$ is a **dual geodesic**. Each coordinate system is flat for one of the two.
+        feedback: |
+          The two metrics are **inverse** matrices, not equal. Since $\langle e_i,e^{*j}\rangle=\delta_i^j$, the dual basis undoes the Hessian: for negentropy $g_{ii}=1/\xi^i$ while $g^{*}_{ii}=\xi^i$.
+      - body: |
+          Two coordinate systems $\xi$ and $\xi^*$ of the same points, with bases $e_i=\partial/\partial\xi^i$ and $e^{*j}=\partial/\partial\xi^*_j$ and the pairing $\langle e_i,e^{*j}\rangle=\delta_i^j$ (components $\xi^i$ up, $\xi^*_i$ down).
+          $$g_{ij}=\partial_i\partial_j\psi=\langle e_i,e_j\rangle$$
+          and
+          $$\mathbf G^*=\mathbf G^{-1}.$$
+          A straight line $\xi^*(t)=at+b$ is a **geodesic**; a line $\xi(t)=at+b$ is a **dual geodesic**. Each coordinate system is flat for one of the two.
+        feedback: |
+          The names are swapped. A geodesic is a line straight in the coordinates $\xi$ of the potential $\psi$, and a dual geodesic is straight in $\xi^*$. A line straight in one system is generally curved in the other (the segment $(1,1)+t(1,2)$ in $\xi$ is not straight in $\xi^*=\ln\xi$).
+    explanation: |
+      "Dually flat" means flat in both ways at once, by the one potential: a geodesic and a dual geodesic through the same two points are different curves, and the divergence ties them together.
+
+  - id: pythagoras
+    title: Pythagorean theorem
+    row: 5
+    col: 1
+    body: |
+      If the **dual** geodesic from $P$ to $Q$ is orthogonal, at $Q$, to the **geodesic** from $Q$ to $R$ (orthogonal: $\sum_ia_ib^i=0$ for velocities $a_i$, $b^i$), then
+      $$D[R:P]=D[Q:P]+D[R:Q].$$
+      Proof: the gap $D[Q:P]+D[R:Q]-D[R:P]$ equals $(\xi_Q-\xi_R)\cdot(\xi^*_Q-\xi^*_P)$, which vanishes.
+    decoys:
+      - body: |
+          If the **dual** geodesic from $P$ to $Q$ is orthogonal, at $Q$, to the **geodesic** from $Q$ to $R$ (orthogonal: $\sum_ia_ib^i=0$ for velocities $a_i$, $b^i$), then
+          $$D[R:P]=D[P:Q]+D[Q:R].$$
+          Proof: the gap $D[Q:P]+D[R:Q]-D[R:P]$ equals $(\xi_Q-\xi_R)\cdot(\xi^*_Q-\xi^*_P)$, which vanishes.
+        feedback: |
+          The slots are reversed on the right. With the dual geodesic first and the geodesic second, the sum is $D[Q:P]+D[R:Q]$ (the new point comes first). The reversed sum $D[P:Q]+D[Q:R]$ pairs with the **mirrored** situation, a geodesic $PQ$ and a dual geodesic $QR$.
+      - body: |
+          If **both** curves, from $P$ to $Q$ and from $Q$ to $R$, are **geodesics** and orthogonal at $Q$, then
+          $$D[R:P]=D[Q:P]+D[R:Q].$$
+          Proof: the gap $D[Q:P]+D[R:Q]-D[R:P]$ equals $(\xi_Q-\xi_R)\cdot(\xi^*_Q-\xi^*_P)$, which vanishes.
+        feedback: |
+          Two curves of the same kind are not enough. The gap is a product of a $\xi$-difference along $QR$ and a $\xi^*$-difference along $PQ$, and its vanishing is the orthogonality of a **geodesic with a dual geodesic**. With two geodesics the gap is generally nonzero (for the simplex, $-0.165$ in one example).
+    explanation: |
+      For the plain squared distance $\xi=\xi^*$ and geodesic equals dual geodesic: this is the classical Pythagorean theorem.
+
+  - id: projection
+    title: Projection theorem
+    row: 5
+    col: 2
+    body: |
+      Let $S$ be **flat**: straight in $\xi$ (on the simplex, a mixture family). From a point $P$ draw the dual geodesic that meets $S$ orthogonally at $F$ (on the simplex, an exponential curve). Then $F$ is the unique minimizer
+      $$F=\arg\min_{R\in S}D[R:P],$$
+      with the point of $S$ in the **first** slot, and $D[R:P]=D[F:P]+D[R:F]$ for all $R\in S$.
+    decoys:
+      - body: |
+          Let $S$ be **flat**: straight in $\xi$ (on the simplex, a mixture family). From a point $P$ draw the dual geodesic that meets $S$ orthogonally at $F$ (on the simplex, an exponential curve). Then $F$ is the unique minimizer
+          $$F=\arg\min_{R\in S}D[P:R],$$
+          with the point of $S$ in the **second** slot, and $D[P:R]=D[P:F]+D[F:R]$ for all $R\in S$.
+        feedback: |
+          The theorem fixes the slot: the point $R$ of the flat $S$ sits in the **first** slot, because Pythagoras gives $D[R:P]=D[F:P]+D[R:F]$. Minimizing $D[P:R]$ over the same flat $S$ is a different problem that needs $S$ **dual** flat.
+      - body: |
+          Let $S$ be **flat**: straight in $\xi$ (on the simplex, a mixture family). From a point $P$ draw the **geodesic** that meets $S$ orthogonally at $F$. Then $F$ is the unique minimizer
+          $$F=\arg\min_{R\in S}D[R:P],$$
+          with the point of $S$ in the **first** slot, and $D[R:P]=D[F:P]+D[R:F]$ for all $R\in S$.
+        feedback: |
+          The projecting curve must be of the **other** kind than $S$: a dual geodesic for a flat $S$. A geodesic from $P$ is the straight line in $\xi$ and, being the same kind as $S$, does not give the orthogonality that Pythagoras needs.
+    explanation: |
+      Unique because the Pythagorean sum $D[F:P]+D[R:F]$ is strictly larger than $D[F:P]$ whenever $R\ne F$. For a curved $S$ there can be several local feet.
+
+  - id: alternating
+    title: Alternating minimization
+    row: 6
+    col: 1
+    span: 2
+    body: |
+      For two sets $K$ and $S$ the divergence between them is $D[K:S]=\min_{P\in K,\,Q\in S}D[P:Q]$. From $Q_0\in S$ repeat
+      $$\begin{aligned}P_t&=\arg\min_{P\in K}D[P:Q_t],\\Q_{t+1}&=\arg\min_{Q\in S}D[P_t:Q].\end{aligned}$$
+      $D$ never increases. With $K$ flat and $S$ dual flat, each foot is unique and the limit is $D[K:S]$ (**em algorithm**; e-projection onto $K$, m-projection onto $S$).
+    decoys:
+      - body: |
+          For two sets $K$ and $S$ the divergence between them is $D[K:S]=\min_{P\in K,\,Q\in S}D[P:Q]$. From $Q_0\in S$ repeat
+          $$\begin{aligned}P_t&=\arg\min_{P\in K}D[Q_t:P],\\Q_{t+1}&=\arg\min_{Q\in S}D[Q:P_t].\end{aligned}$$
+          $D$ never increases. With $K$ flat and $S$ dual flat, each foot is unique and the limit is $D[K:S]$ (**em algorithm**; e-projection onto $K$, m-projection onto $S$).
+        feedback: |
+          The slots are reversed: both steps must keep the order of $D[K:S]$, with the point of $K$ **first** and the point of $S$ **second**. The projection theorem for a flat set minimizes with the free point in the first slot.
+      - body: |
+          For two sets $K$ and $S$ the divergence between them is $D[K:S]=\min_{P\in K,\,Q\in S}D[P:Q]$. From $Q_0\in S$ repeat
+          $$\begin{aligned}P_t&=\arg\min_{P\in K}D[P:Q_t],\\Q_{t+1}&=\arg\min_{Q\in S}D[P_t:Q].\end{aligned}$$
+          $D$ never increases, and for **any** sets $K$ and $S$ it converges to the global minimum $D[K:S]$.
+        feedback: |
+          Monotone decrease is guaranteed (each step minimizes over a set that still contains the previous point), but the limit can be a **local** minimum. A mixture segment against a curved arc stalled at $D=0.0040$ while the true $D[K:S]=0$. Flat and dual flat sets are what make the feet unique.
+    explanation: |
+      Each half-step is a projection, so the algorithm is the projection theorem used again and again.
+
+edges:
+  - { from: manifold, to: divergence, label: carries }
+  - { from: divergence, to: bregman, label: special family }
+  - [bregman, legendre]
+  - { from: bregman, to: duallyflat, label: metric from }
+  - { from: legendre, to: duallyflat, label: dual chart for }
+  - { from: duallyflat, to: pythagoras, label: gives }
+  - { from: duallyflat, to: projection, label: gives }
+  - [pythagoras, projection]
+  - { from: projection, to: alternating, label: used by }
+  - { from: pythagoras, to: alternating, dashed: true, label: proves convergence }
+
+outroTitle: Level 1 in one picture
+outro: |
+  A divergence $D[P:Q]$ is a squared-distance-like gap between points of a manifold; its short-range form gives the metric, $ds^2=2D$.
+
+  A convex potential $\psi$ makes a Bregman divergence, and its Legendre transform $\psi^*$ gives the dual coordinates $\xi^*=\nabla\psi(\xi)$. Together they make a dually flat space: geodesics straight in $\xi$, dual geodesics straight in $\xi^*$, metrics $\mathbf G$ and $\mathbf G^*=\mathbf G^{-1}$.
+
+  There, a dual geodesic orthogonal to a geodesic gives
+  $$D[R:P]=D[Q:P]+D[R:Q],$$
+  hence a unique projection onto a flat set, and alternating projections between a flat and a dual flat set converge to $D[K:S]$.
