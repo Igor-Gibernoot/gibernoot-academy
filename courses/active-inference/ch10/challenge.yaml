@@ -289,3 +289,173 @@ cards:
       \pi_3&:\ -4.605-0.3-0.9=-5.805
       \end{aligned}$$
       so $P(\pi_1)=0.979$. The habit is an almost fixed prior: the agent sticks to the usual road however good the bridge is. The $F$ and $G$ terms still matter, but only a very large $G$ would break the rut.
+
+  # ---------------------------------------------------------------- Problem 4
+  - type: numeric
+    id: p4-error
+    tag: Problem 4 · A homeostat that anticipates
+    prompt: |
+      **Problem 4.** A desert tortoise senses its body water through interoception (sensing the inside of the body). Its viable range is a **prior over interoceptive observations** centred on a set-point of $70$ (percent of ideal hydration). Its belief is held at that set-point, $\mu=70$, and the model predicts the sensation as $g(\mu)=\mu$. After a dry week the sensed value is $y=62$. What is the interoceptive prediction error $\epsilon_y=y-g(\mu)$?
+    answer: -8
+    wrong:
+      - { value: 8, feedback: 'The magnitude is right but the sign is not: the error is $y-g(\mu)$, sensed minus predicted, and the tortoise is below its prediction.' }
+      - { value: 132, feedback: 'That adds the two numbers. A prediction error is a difference: sensed minus predicted.' }
+    explanation: |
+      $$\epsilon_y=y-g(\mu)=62-70=-8$$
+      The negative sign says the body is drier than predicted. An autonomic reflex (for instance seeking water, or conserving it) acts to cancel this error, as a motor reflex cancels a proprioceptive one.
+
+  - type: mcq
+    id: p4-allostasis
+    tag: Problem 4 · A homeostat that anticipates
+    prompt: |
+      The tortoise smells rain far away and walks to a burrow with a pool **before** its hydration drops, and its model raises the set-point it will defend after the trip. Which description fits, and why?
+    options:
+      - text: '**Allostasis**: it acts before an error appears, using predictions, and may change the prior over interoceptive observations in advance.'
+        correct: true
+      - text: '**Homeostasis**: the reflex corrects the error $\epsilon_y$ once the sensed value has left its range.'
+        feedback: |
+          Homeostasis reacts after the sensed value leaves its range. Here no error exists yet when the tortoise moves; it acts on a prediction.
+      - text: 'Neither: a prior over observations cannot change, only the sensed value $y$ changes.'
+        feedback: |
+          Priors over interoceptive observations are part of the generative model and can be adjusted in advance (as cardiac output is raised before a long run). That is the allostatic part.
+      - text: '**Allostasis**, because the tortoise has stopped minimising free energy while it travels.'
+        feedback: |
+          It is still descending free energy. Anticipating means the descent uses predicted error before the actual error is large, not that the descent stops.
+    explanation: |
+      Homeostasis is reactive (correct $\epsilon_y$ after it appears); allostasis is predictive (act, and adjust the interoceptive priors, before it appears).
+
+  - type: numeric
+    id: p4-dfdt
+    tag: Problem 4 · A homeostat that anticipates
+    prompt: |
+      Back at the dry moment, the sensory precision is $\Pi_y=0.25$ and the belief sits exactly at the set-point, so the free energy is $F=\tfrac12\Pi_y\,\epsilon_y^2$ with $\epsilon_y=-8$ (so $F=8$). The tortoise drinks for $5$ minutes; its sensation becomes $y=68$ (with $\mu=70$, $g(\mu)=\mu$). What is the average rate of change $dF/dt$ over those $5$ minutes, in units of $F$ per minute?
+    answer: -1.5
+    wrong:
+      - { value: -7.5, feedback: 'That is the total change $F_{\text{end}}-F_{\text{start}}$. A rate divides by the elapsed time.' }
+      - { value: 1.5, feedback: 'The size is right but $F$ fell, so the rate is negative.' }
+    explanation: |
+      With $\epsilon_y=68-70=-2$ the free energy is $\tfrac12\cdot0.25\cdot4=0.5$, so
+      $$\frac{dF}{dt}\approx\frac{0.5-8}{5}=-1.5$$
+      per minute.
+
+  - type: mcq
+    id: p4-valence
+    tag: Problem 4 · A homeostat that anticipates
+    prompt: |
+      With the rate $dF/dt=-1.5$ of the drinking tortoise, which statement follows from the **proposal** that valence is read off the rate of change of $F$?
+    options:
+      - text: 'Free energy is falling, so the proposal gives **positive** valence. If valence had been negative while it was dehydrated and rose to positive on drinking, the proposal names that change **relief** (from low to high valence).'
+        correct: true
+      - text: 'Free energy is falling, so valence is **negative**: lower free energy means a smaller reward.'
+        feedback: |
+          The proposal ties negative valence to $dF/dt>0$ (free energy rising), not to a low value of $F$. A falling $F$ gives positive valence.
+      - text: 'Valence is read off the value of $F$ itself: $F=0.5$ is small, so valence is zero.'
+        feedback: |
+          The proposal uses the **rate of change** of $F$, not its level. The same level can come with either sign, depending on whether $F$ is rising or falling.
+      - text: 'The proposal is a proven law: any creature with $dF/dt<0$ feels positive emotion.'
+        feedback: |
+          It is a proposal for how valence may be computed, not an established law. Richer states such as relief or disappointment would need second time-derivatives.
+    explanation: |
+      Proposal: $dF/dt>0$ gives negative valence and $dF/dt<0$ positive valence. Relief is a change from low to high valence; disappointment is the opposite change.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: numeric
+    id: p5-mu
+    tag: Problem 5 · Attention, salience and learning
+    prompt: |
+      **Problem 5.** A sailor judges the wind from the sails ($y=9$). Her prior mean is $\eta=3$ with precision $\Pi_v=2$, and the model predicts $g(\mu)=\mu$. With free energy $F=\tfrac12\Pi_y\epsilon_y^2+\tfrac12\Pi_v\epsilon_v^2$, the belief settles at the minimum of $F$. She first treats the sails as imprecise ($\Pi_y=1$), then attends to them ($\Pi_y=4$). By how much does the settled belief $\mu^*$ move toward the data?
+    answer: 2
+    wrong:
+      - { value: 7, feedback: 'That is $\mu^*$ after attending, not the shift. Subtract the value for $\Pi_y=1$ ($\mu^*=5$).' }
+      - { value: 3, feedback: 'That would be the move if she moved all the way to the data. The prior still counts with $\Pi_v=2$, so the belief stops short.' }
+    explanation: |
+      Attention is the precision of the sensory input, and
+      $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$$
+      gives $\mu^*=(9+6)/3=5$ for $\Pi_y=1$ and $\mu^*=(36+6)/6=7$ for $\Pi_y=4$. The belief moves by $2$ toward $y=9$.
+
+  - type: mcq
+    id: p5-salience
+    tag: Problem 5 · Attention, salience and learning
+    prompt: |
+      The sailor must now decide where to look next: the horizon or the sails. Which statement keeps **attention** and **salience** apart correctly?
+    options:
+      - text: 'Attention is the precision $\Pi_y$ she gives to a channel she already has (how much it weighs in updating $\mu$). Salience is the expected information gain of a **policy**, such as turning her gaze, a term inside $G$: $G=-\text{information gain}-\text{pragmatic value}$.'
+        correct: true
+      - text: 'Attention and salience are the same quantity: both are the precision $\Pi_y$.'
+        feedback: |
+          They are often conflated because precise data are unambiguous, so they deserve attention and the actions that obtain them are salient. But precision belongs to beliefs about input; information gain belongs to a policy.
+      - text: 'Salience is the pragmatic value in $G$: how well the outcome matches the preferences $C$.'
+        feedback: |
+          Pragmatic value is the other term of $G$. Salience is the epistemic term, the expected information gain.
+      - text: 'A policy with a larger information gain has a larger $G$, so it is less likely to be chosen.'
+        feedback: |
+          $G$ is minimised and the information gain enters it with a minus sign, so more gain makes $G$ smaller and the policy more probable, through $P(\pi)=\sigma(-\gamma G)$.
+    explanation: |
+      Attention: a precision on already-measured data (gain control). Salience: the information-gain term of $G$ for the action that will acquire new data. Analogy: attention picks the best of what was measured; salience designs the next experiment.
+
+  - type: numeric
+    id: p5-counts
+    tag: Problem 5 · Attention, salience and learning
+    prompt: |
+      The sailor learns the likelihood of a barometer reading $i$ given the hidden state $j$ = "a front is coming". The Dirichlet counts of that column, for the readings (falling, steady, rising), are $(a_{1j},a_{2j},a_{3j})=(3,1,2)$. She then sees the reading "rising" ($i=3$) in this state three more times, each time adding one to its count, $a_{ij}\leftarrow a_{ij}+1$. What is the expected likelihood $a_{3j}/a_{0j}$ of "rising" given a front, with $a_{0j}=\sum_i a_{ij}$? Give a decimal.
+    answer: 0.5556
+    tolerance: 0.001
+    wrong:
+      - { value: 0.3333, feedback: 'That is the value before learning ($2/6$). The counts changed: "rising" now has $5$ and the column total is $9$.' }
+      - { value: 0.625, feedback: 'That divides by $8$, forgetting that the total $a_{0j}$ grew by $3$ as well: the column is $(3,1,5)$ with total $9$.' }
+    explanation: |
+      The column becomes $(3,1,5)$ and $a_{0j}=9$, so
+      $$\frac{a_{3j}}{a_{0j}}=\frac59\approx0.556$$
+
+  - type: mcq
+    id: p5-structure
+    tag: Problem 5 · Attention, salience and learning
+    prompt: |
+      Adding counts to the columns of the likelihood of a **fixed** model is one kind of learning. Which of the following is instead **structure learning**?
+    options:
+      - text: 'Discovering a hidden rule that explains several observations at once (a latent cause), such as one weather front that explains both the barometer and the cloud pattern.'
+        correct: true
+      - text: 'Changing $a_{3j}$ from $2$ to $5$ after seeing a reading three times.'
+        feedback: |
+          That is parameter learning: the model keeps its structure and only the counts (the likelihood values) change.
+      - text: 'Raising $\Pi_y$ when the sails are inspected.'
+        feedback: |
+          That is attention, a change of precision within inference, not learning a new model.
+      - text: 'Lowering $\gamma$ after a bad outcome.'
+        feedback: |
+          That changes the precision of beliefs about policies, not the structure of the generative model.
+    explanation: |
+      Parameter learning fills in numbers in a given model. Structure learning finds the model: hidden regularities that give causal understanding, parsimony and generalisation. Pruning parameters (model reduction) helps to find them.
+
+  - type: text
+    id: final-summary
+    title: "What you now own: the whole of Level 10"
+    body: |
+      **Perception and action, one descent.** Hidden cause with belief $\mu$, prior mean $\eta$, observation $y$ and prediction $g(\mu)$. The errors are $\epsilon_y=y-g(\mu)$ (sensory) and $\epsilon_v=\mu-\eta$ (prior), with precisions $\Pi_y$ and $\Pi_v$, and
+      $$F=\tfrac12\Pi_y\epsilon_y^2+\tfrac12\Pi_v\epsilon_v^2$$
+      For $g(\mu)=\mu$ the settled belief is
+      $$\mu^*=\frac{\Pi_y\,y+\Pi_v\,\eta}{\Pi_y+\Pi_v}$$
+      Action $u$ (moving the sensation, $\partial y/\partial u=1$) descends the same $F$. At rest of the belief the reflex rate is
+      $$\dot u=\Pi_v\,(\eta-\mu)$$
+      Attention is the precision $\Pi_y$ of a sensory channel (a larger value pulls $\mu^*$ toward $y$).
+
+      **Choosing policies.** A policy $\pi$ is a sequence of control states. The expected free energy, minimised, splits as
+      $$G(\pi)=\text{risk}+\text{ambiguity}$$
+      where risk is $D_{KL}[Q(\tilde y\mid\pi)\,\|\,P(\tilde y\mid C)]$ ($Q$ predicted outcomes against the preferences $C$) and ambiguity is the expected entropy of the likelihood. Equivalently
+      $$\begin{aligned}G(\pi)={}&-\text{information gain}\\&-\text{pragmatic value}\end{aligned}$$
+      Salience is the information-gain term of a policy (attention belongs to beliefs, salience to policies). With softmax $\sigma$ and precision $\gamma$,
+      $$P(\pi)=\sigma(-\gamma G(\pi))$$
+
+      **Habit, perseveration, deliberation.** With habit prior $E$ and variational free energy $F$ of each policy,
+      $$P(\pi)=\sigma(\ln E-F-G)$$
+      where $G$ is deliberative, $F$ perseverative and $E$ habitual. The free energy trades off
+      $$F=\text{complexity}-\text{accuracy}$$
+
+      **Body and emotion.** The viable range of a physiological variable is a prior over interoceptive observations (the set-point); the interoceptive error $\epsilon_y=y-g(\mu)$ is cancelled by autonomic reflexes. Homeostasis reacts after an error; allostasis acts before it. Proposed: valence is read off the rate of change of $F$,
+      $$\frac{dF}{dt}>0\Rightarrow\text{negative},\qquad\frac{dF}{dt}<0\Rightarrow\text{positive}$$
+
+      **Learning.** Parameter learning of a likelihood column adds a count when outcome $i$ is seen in state $j$,
+      $$a_{ij}\leftarrow a_{ij}+1,\qquad \text{expected likelihood}=\frac{a_{ij}}{a_{0j}}$$
+      with $a_{0j}=\sum_i a_{ij}$. Structure learning finds hidden rules (latent causes) and favours simpler models.
+
+      **Next:** the review of Level 10 comes automatically; then the **final exam**, which covers Levels 6 to 10.
