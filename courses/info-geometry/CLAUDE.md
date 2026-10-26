@@ -10,7 +10,7 @@ in the root `CLAUDE.md` applies; this file adds what is specific to this course.
   `marker` (the PDF `sources/information_geometry_book.pdf`, 378 pages, is kept only for
   checking formulas; never read it as text). Find a section with
   `grep -nE '^#+ .*\b1\.4 ' sources/information_geometry_book.md`, then `sed -n` the range.
-  Heading levels may be inconsistent: check with `grep -n '^#' ... | head -80`.
+  Chapter titles are `# <span…>**Chapter N Title**` (find all: `grep -n '^# .*Chapter [0-9]'`; Ch. 1 at line 345, Ch. 2 1173, Ch. 3 1752, Ch. 4 2330, Ch. 5 3504); sections `#### **1.4 …**`, subsections `#### *1.5.2 …*`. Page anchors `<span id="page-K-0">` give the 0-based PDF page K.
 - Part I (Ch. 1-4): divergence, Bregman, Legendre, dually flat structure, Pythagorean theorem,
   exponential/mixture families, invariance and f-divergence, alpha-geometry. Readable without
   differential geometry. Part II (Ch. 5-6): differential geometry (metric, connection,
@@ -28,7 +28,7 @@ render the PDF pages (`pdftoppm -r 110 -f P -l P -png sources/information_geomet
 <scratchpad>/pg`, then view the PNGs), compare the formulas, boxes and numbers against the
 Markdown, fix the Markdown, and log the range in `sources/VERIFIED.md`
 (`ch/section, PDF pages, date, fixes`). Read `VERIFIED.md` first and skip logged ranges.
-PDF page (1-based) = book page + OFFSET (to be fixed in the first session: Ch. 1 is book p. 3).
+PDF page (1-based, for `pdftoppm`) = book page + 13 (Ch. 1 is book p. 3, anchor `page-15`, PDF p. 16).
 Check formulas and numbers, not prose. Watch for index placement (lower vs upper indices) and
 tilde/hat/star marks, which converters drop.
 
