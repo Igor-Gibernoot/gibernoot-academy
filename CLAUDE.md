@@ -166,9 +166,20 @@ courses, on what the subject is for).
     can revisit it to probe limits.
     **Lesson length:** never more than 25 cards, ideally under 20. A topic
     that needs more is split into two or three lessons, each with its own
-    hook or recall opening, `own:` summary and teaser. **This limit applies
-    only to lessons, not to exams** (`kind: exam`): an exam has as many
-    cards as the original has sub-questions.
+    hook or recall opening, `own:` summary and teaser. **Split at planning
+    time, not afterwards:** count the card plan before writing; if it
+    exceeds 25, do not trim questions or squeeze cards to fit. Stop and
+    split the unit along a natural seam (a result that stands on its own),
+    add the new node(s) to `course.yaml`, build only the first part this
+    session, and say so in the report and in the next-session prompt. If a
+    lesson already written ends up above 25, split it the same way before
+    committing. Never cut worked questions, traps or the summary to
+    stay under the limit. **Level challenges** (`kind: challenge`) may go
+    up to **32 cards** (ideally fewer); beyond that, split them the same
+    way (e.g. problems 1–3 and 4–5 as two challenge nodes); 40 or more is
+    always too long. **Exams** (`kind: exam`) are exempt: an exam has as
+    many cards as the original has sub-questions. `node tools/validate.mjs`
+    warns on lessons over 25 and challenges over 32.
 12. **Displayed math.** A standalone equation, definition or chain goes on
     its own `$$...$$` line, phone-safe (`docs/QUICKREF.md`).
 13. **Theme-neutral wording.** Never "the black arrow": name things by label

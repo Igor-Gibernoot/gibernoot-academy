@@ -187,6 +187,10 @@ function checkOwn(file, lesson) {
 function checkLesson(file, lesson) {
   const ids = new Set();
   if (!Array.isArray(lesson.cards) || !lesson.cards.length) return err(file, 'no cards');
+  if (lesson.kind !== 'exam') {
+    const max = lesson.kind === 'challenge' ? 32 : 25, n = lesson.cards.length;
+    if (n > max) warn(file, `${n} cards; ${lesson.kind === 'challenge' ? 'challenges' : 'lessons'} stay at ${max} or fewer: split it (CLAUDE.md, Lesson length)`);
+  }
   lesson.cards.forEach((c, n) => {
     cardsTotal++;
     const w = `${file} card ${n + 1}${c.id ? ` (${c.id})` : ''}`;
