@@ -1,0 +1,292 @@
+id: ch08-intuition-continuous
+title: "Intuition: Continuous-Time Update Equations"
+kind: intuition
+own: |
+  - **Model, process and action.** A hidden state $x$ produces data $y$; the generative model has a function $g$ (state to data), a function $f$ (the flow of $x$) and a static cause $v$ (a prediction, such as a target), and contains **no** action $u$. Only the process (the real world, bold $\mathbf f$) contains $u$. With belief $\mu$ about $x$, the action is the prediction error pushed into the world:
+    {{ $$u=v-\mu\quad(g(x)=x,\ f=v-x)$$ }}
+    In general, with $\tilde y$ the data with their derivatives, $\tilde\Pi_y$ the sensory precision and $\tilde\epsilon_y$ the sensory prediction error, action moves to reduce that error:
+    {{ $$\dot u=-\nabla_u\tilde y\cdot\tilde\Pi_y\tilde\epsilon_y$$ }}
+  - **Generalized update.** A belief $\tilde\mu=(\mu,\mu',\mu'',\dots)$ carries a state with its derivatives; $D$ shifts the entries up ($D\tilde\mu=(\mu',\mu'',\dots,0)$), $\tilde\Pi_x$ is the precision of the motion and $\tilde\epsilon_x=D\tilde\mu-\tilde f$ its error. The belief moves in a frame that travels with its own velocity, and the errors push it:
+    {{ $$\begin{aligned}\dot{\tilde\mu}_x={}&D\tilde\mu_x+\nabla\tilde g\,\tilde\Pi_y\tilde\epsilon_y\\&-D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x+\nabla\tilde f\,\tilde\Pi_x\tilde\epsilon_x\end{aligned}$$ }}
+    At $\nabla F=0$ it gives $\dot{\tilde\mu}=D\tilde\mu$; with $D=0$ it collapses to the static rule $\dot\mu=-\nabla F$.
+  - **Spring, predator-prey, convection.** A spring of stiffness $\kappa$ and mass $m$ oscillates with angular frequency (period $2\pi/\omega$):
+    $$\omega=\sqrt{\kappa/m}$$
+    Lotka-Volterra for populations $x$ with growth rates $v$ and interaction matrix $A$ ($A_{ij}$ = effect of population $j$ on the growth of population $i$; $\circ$ multiplies entry by entry):
+    $$\dot x=x\circ(v+Ax)$$
+    The Lorenz system (convection) with $\sigma=10$, $\rho=28$, $\beta=8/3$:
+    {{ $$\begin{aligned}\dot x_1&=\sigma(x_2-x_1)\\\dot x_2&=x_1(\rho-x_3)-x_2\\\dot x_3&=x_1x_2-\beta x_3\end{aligned}$$ }}
+  - **Hybrid prior.** A discrete level holds beliefs $Q(o)$ over outcomes $o$, each tied to a point $\tilde\eta_o$ of the continuous space (a target location). The continuous level receives one Gaussian prior centred on the belief-weighted average, which hedges between targets when the belief is split:
+    {{ $$\tilde{\mathbf q}=\sum_oQ(o)\,\tilde\eta_o$$ }}
+cards:
+  - type: text
+    id: open
+    title: One page of continuous-time rules
+    body: |
+      This lesson derives nothing. It trains quick recall of the continuous-time equations of the level:
+
+      1. **model, process and action** ($u$ lives only in the process);
+      2. the **generalized update** and its limits;
+      3. the three **dynamical systems** (spring, Lotka-Volterra, Lorenz);
+      4. the **hybrid prior** that links a discrete belief to a continuous target.
+
+      Recall: $F$ is the free energy and a tilde, as in $\tilde\mu$, means a quantity together with its time derivatives. In the numeric cards **you** supply the formula: the data are given, the law is not.
+
+  - type: mcq
+    id: no-u
+    prompt: |
+      Which pair of statements about the generative **model** (the agent's beliefs) and the **process** (the real world) is right?
+    options:
+      - text: 'The model $y=g(x)+\omega_y$, $\dot x=f(x,v)+\omega_x$ has **no** action $u$; the process $\dot x=\mathbf f(x,u)+\omega_x$ does, and the agent acts by making the data match the model.'
+        correct: true
+      - text: 'Both the model and the process contain $u$, because the agent must know what it is doing.'
+        feedback: |
+          Tempting, but the model holds a prediction $v$ (where the limb should be), not a command. Action enters only as the way free energy is lowered through the world.
+      - text: 'The process contains $v$ and the model contains $u$.'
+        feedback: |
+          Reversed. $v$ is the agent's prior prediction, so it belongs to the model; $u$ acts on the world, so it belongs to the process.
+      - text: 'Neither contains noise; the fluctuations $\omega$ are added only when the agent infers.'
+        feedback: |
+          The fluctuations $\omega_y$, $\omega_x$ are part of both pairs of equations; their precision is what the update weighs the errors with.
+    explanation: |
+      For a point attractor ($g(x)=x$, $f=v-x$):
+      $$u=v-\mu.$$
+      Mnemonic: **the model has no $u$; the action is the prediction error sent to the muscles**.
+
+  - type: mcq
+    id: action-signs
+    prompt: |
+      The action follows $\dot u=-\nabla_u\tilde y\cdot\tilde\Pi_y\tilde\epsilon_y$, where $\nabla_u\tilde y$ says how the data change when $u$ changes and $\tilde\epsilon_y$ is the sensory prediction error. Select **every** true statement.
+    multiple: true
+    options:
+      - text: 'The minus sign makes the action move so as to **reduce** the sensory prediction error.'
+        correct: true
+      - text: 'A larger sensory precision $\tilde\Pi_y$ makes the action respond faster to the same error.'
+        correct: true
+      - text: 'The action changes the data, never the belief directly.'
+        correct: true
+      - text: 'With no error, $\tilde\epsilon_y=0$, the action stops changing.'
+        correct: true
+      - text: 'The action is proportional to the data $\tilde y$ itself, whatever the belief predicts.'
+        feedback: |
+          Only the **difference** between data and prediction matters. If the data equal the prediction, there is nothing to correct.
+      - text: 'If the motor effect $\nabla_u\tilde y$ is negative, the action pushes the error up.'
+        feedback: |
+          The minus sign is in front of the whole product, effect included. Whatever the sign of the effect, $u$ moves in the direction that lowers $\tilde y-g(\tilde\mu)$.
+    explanation: |
+      $$\dot u=-\nabla_u\tilde y\cdot\tilde\Pi_y\tilde\epsilon_y.$$
+      Mnemonic: **minus (effect) times (precision) times (error)**: move against the error, harder for more precise senses.
+
+  - type: mcq
+    id: limits
+    prompt: |
+      Limit and scaling checks. Pick the **wrong** statement.
+    options:
+      - text: 'A spring that is four times stiffer ($\kappa\to4\kappa$) with the same mass oscillates twice as fast, because $\omega=\sqrt{\kappa/m}$.'
+        feedback: |
+          True: the square root turns a factor $4$ into a factor $2$.
+      - text: 'At $\nabla F=0$ the generalized update gives $\dot{\tilde\mu}=D\tilde\mu$: the belief stops moving altogether.'
+        correct: true
+      - text: 'With $D=0$ the generalized update collapses to the static rule $\dot\mu=-\nabla_\mu F$.'
+        feedback: |
+          True: with no derivatives carried, the moving frame is not moving.
+      - text: 'In the hybrid prior, a flat belief over opposite targets puts $\tilde{\mathbf q}$ halfway between them.'
+        feedback: |
+          True: the average of two opposite targets with equal weights lies in the middle.
+    explanation: |
+      The wrong one is the second. At a zero gradient the belief keeps its **own** velocity, $\dot{\tilde\mu}=D\tilde\mu$, which is what lets it follow a state that moves at constant speed; it is $D=0$ that gives a belief at rest. The other three are the standard checks: $\omega\propto\sqrt\kappa$, the static limit, and the hedge.
+
+  - type: build
+    id: build-update
+    prompt: |
+      Build the generalized update of the belief $\tilde\mu_x$ about a state and its derivatives. The belief moves in a frame with its own velocity $D\tilde\mu_x$ (with $D$ the shift matrix), and the data error and the dynamics error push it. Here $\nabla\tilde g$ and $\nabla\tilde f$ are the derivatives of $\tilde g$ and $\tilde f$ with respect to $\tilde\mu_x$, $\tilde\epsilon_y$ the sensory error and $\tilde\epsilon_x=D\tilde\mu-\tilde f$ the dynamics error.
+    prefix: '\dot{\tilde\mu}_x ='
+    tiles:
+      - 'D\tilde\mu_x'
+      - '+\nabla\tilde g\,\tilde\Pi_y\tilde\epsilon_y'
+      - '-D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x'
+      - '+\nabla\tilde f\,\tilde\Pi_x\tilde\epsilon_x'
+      - '-\nabla\tilde g\,\tilde\Pi_y\tilde\epsilon_y'
+      - '+D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x'
+    answers:
+      - ['D\tilde\mu_x', '+\nabla\tilde g\,\tilde\Pi_y\tilde\epsilon_y', '-D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x', '+\nabla\tilde f\,\tilde\Pi_x\tilde\epsilon_x']
+    wrong:
+      - answer: ['D\tilde\mu_x', '-\nabla\tilde g\,\tilde\Pi_y\tilde\epsilon_y', '-D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x', '+\nabla\tilde f\,\tilde\Pi_x\tilde\epsilon_x']
+        feedback: |
+          The update is the **negative** gradient, and the data term enters $F$ with a minus sign, so it appears here with a plus: the belief moves toward the data.
+      - answer: ['D\tilde\mu_x', '+\nabla\tilde g\,\tilde\Pi_y\tilde\epsilon_y', '+D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x', '+\nabla\tilde f\,\tilde\Pi_x\tilde\epsilon_x']
+        feedback: |
+          The $D^{\mathsf T}$ term comes from the error $D\tilde\mu$ itself and keeps the sign opposite to the $\nabla\tilde f$ term (which comes from $-\tilde f$).
+    hint: 'Mnemonic: own velocity, then data pushes, motion error pulls back through $D^{\mathsf T}$, and the flow pushes through $\nabla\tilde f$.'
+    explanation: |
+      $$\begin{aligned}\dot{\tilde\mu}_x={}&D\tilde\mu_x+\nabla\tilde g\,\tilde\Pi_y\tilde\epsilon_y\\&-D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x+\nabla\tilde f\,\tilde\Pi_x\tilde\epsilon_x.\end{aligned}$$
+      This is $\dot{\tilde\mu}-D\tilde\mu=-\nabla F$ written out; the transpose $D^{\mathsf T}$ is the convention used throughout this course.
+
+  - type: build
+    id: build-lv
+    prompt: |
+      Build the Lotka-Volterra flow for a vector $x$ of populations with growth rates $v$ and interaction matrix $A$, where $A_{ij}$ is the effect of population $j$ on the growth of population $i$, and $\circ$ multiplies two vectors entry by entry.
+    prefix: '\dot x ='
+    tiles:
+      - 'x\circ'
+      - '(v+Ax)'
+      - '(v+A^{\mathsf T}x)'
+      - 'x\circ v+Ax'
+    answers:
+      - ['x\circ', '(v+Ax)']
+    wrong:
+      - answer: ['x\circ', '(v+A^{\mathsf T}x)']
+        feedback: |
+          With $A_{ij}$ the effect of $j$ on $i$, the growth of $i$ sums $A_{ij}x_j$ over $j$: that is row $i$ of $A$ times $x$, $(Ax)_i$, not $A^{\mathsf T}x$.
+      - answer: ['x\circ v+Ax']
+        feedback: |
+          The interaction terms must also scale with the population itself: a species at zero stays at zero. The whole bracket is multiplied by $x$.
+    hint: 'Mnemonic: growth is proportional to the population itself, times (own rate plus what the others do to it).'
+    explanation: |
+      $$\dot x=x\circ(v+Ax),\qquad\dot x_i=x_i\Big(v_i+\sum_jA_{ij}x_j\Big).$$
+
+  - type: build
+    id: build-lorenz
+    prompt: |
+      Build the second Lorenz equation, the rate of $x_2$. The Lorenz system has constants $\sigma=10$, $\rho=28$, $\beta=8/3$, and a state $(x_1,x_2,x_3)$; $\rho$ is the Rayleigh number.
+    prefix: '\dot x_2 ='
+    tiles:
+      - 'x_1(\rho-x_3)'
+      - '-x_2'
+      - '+x_2'
+      - 'x_3(\rho-x_1)'
+    answers:
+      - ['x_1(\rho-x_3)', '-x_2']
+    wrong:
+      - answer: ['x_3(\rho-x_1)', '-x_2']
+        feedback: |
+          The roles of $x_1$ and $x_3$ are swapped. The driving term multiplies $x_1$ and is reduced by $x_3$; the third equation is the one that contains the product $x_1x_2$.
+      - answer: ['x_1(\rho-x_3)', '+x_2']
+        feedback: |
+          The $-x_2$ is a damping: without it, nothing would hold $x_2$ back. A plus sign would make it grow on its own.
+    hint: 'Family: the three equations are $\sigma(x_2-x_1)$, then $x_1(\rho-x_3)-x_2$, then $x_1x_2-\beta x_3$.'
+    explanation: |
+      $$\begin{aligned}\dot x_1&=\sigma(x_2-x_1)\\\dot x_2&=x_1(\rho-x_3)-x_2\\\dot x_3&=x_1x_2-\beta x_3.\end{aligned}$$
+
+  - type: build
+    id: build-q
+    prompt: |
+      A discrete level believes the outcome is $o$ with probability $Q(o)$, and each outcome is tied to a target point $\tilde\eta_o$. Build the centre $\tilde{\mathbf q}$ of the Gaussian prior that the continuous level receives.
+    prefix: '\tilde{\mathbf q} ='
+    tiles:
+      - '\sum_o'
+      - 'Q(o)'
+      - '\,\tilde\eta_o'
+      - '\max_o'
+    answers:
+      - ['\sum_o', 'Q(o)', '\,\tilde\eta_o']
+    wrong:
+      - answer: ['\max_o', 'Q(o)', '\,\tilde\eta_o']
+        feedback: |
+          Taking the largest term picks one target. The prior is the **belief-weighted average**, so every target counts in proportion to its probability.
+    hint: 'Mnemonic: an expectation of the target under the belief.'
+    explanation: |
+      $$\tilde{\mathbf q}=\sum_oQ(o)\,\tilde\eta_o=\mathbb E_{Q(o)}[\tilde\eta].$$
+      A confident belief puts $\tilde{\mathbf q}$ on one target; a split belief hedges between them.
+
+  - type: numeric
+    id: num-sensory
+    prompt: |
+      A model has $g(x)=x$ and $f(x,v)=-x+v$ with $v=1$. Its belief is $\tilde\mu=(0.6,\ 0.2)$ (position and velocity) and the data are $\tilde y=(1,\ 0.5)$, with sensory precision $\tilde\Pi_y=\operatorname{diag}(4,2)$. What is the **second** entry of the precision-weighted sensory error?
+    answer: 0.6
+    tolerance: 0.005
+    answerText: '0.6'
+    wrong:
+      - { value: 0.3, feedback: 'That is the error itself, $0.5-0.2$. It still has to be weighted by its precision.' }
+      - { value: 1.6, feedback: 'That is the first entry ($4\times0.4$). The second order has its own precision, $2$, and its own error.' }
+    hint: 'Family: prediction error times precision, order by order. The prediction is $g(\tilde\mu)$.'
+    explanation: |
+      The prediction is $\tilde g(\tilde\mu)=(0.6,0.2)$, so $\tilde\epsilon_y=(0.4,0.3)$. With $\tilde\Pi_y=\operatorname{diag}(4,2)$ the weighted error is $(1.6,\,0.6)$; its second entry is $2\times0.3=0.6$.
+
+  - type: numeric
+    id: num-step
+    prompt: |
+      Same model: $g(x)=x$, $f(x,v)=-x+v$, $v=1$, belief $\tilde\mu=(0.6,\ 0.2)$, data $\tilde y=(1,\ 0.5)$, precisions $\tilde\Pi_y=\operatorname{diag}(4,2)$ and $\tilde\Pi_x=I$. The shift matrix acts as $D(a,b)=(b,0)$, so $D^{\mathsf T}(a,b)=(0,a)$. The dynamics error is $\tilde\epsilon_x=(-0.2,\ 0.2)$. Take one Euler step of size $0.1$ of the belief's own update. What is the new **first** entry of $\tilde\mu$?
+    answer: 0.8
+    tolerance: 0.005
+    answerText: '0.8'
+    wrong:
+      - { value: 0.78, feedback: 'That drops the belief''s own velocity ($0.2$): $0.6+0.1\times1.8$. The frame moves with $D\tilde\mu$ on top of the push of the errors.' }
+      - { value: 0.62, feedback: 'That keeps only the own velocity and forgets the pushes of the errors.' }
+    hint: 'Family: the moving-frame rule. The first entry gets its own velocity, the data push, and the flow push; the $D^{\mathsf T}$ term has no first entry.'
+    explanation: |
+      First entry of the rate: own velocity $0.2$, data push $+1.6$, the $D^{\mathsf T}$ term $0$ (it moves errors into the second slot), the flow push $-\nabla\tilde f\to$ with $\nabla\tilde f=-I$ it is $(-1)(-0.2)=+0.2$. The sum is $0.2+1.6+0.2=2.0$, so $0.6+0.1\times2.0=0.8$. (The second entry goes $0.2\to0.26$.)
+
+  - type: numeric
+    id: num-action
+    prompt: |
+      An arm has a sensed angle $y=3u+\text{const}$, where $u$ is the action. The senses have precision $\Pi_y=2$ and the sensory prediction error is $\epsilon_y=-0.2$ (the arm is **short** of where the belief says it should be). At what rate $\dot u$ does the action change (zeroth order only)?
+    answer: 1.2
+    tolerance: 0.005
+    answerText: '1.2'
+    wrong:
+      - { value: -1.2, feedback: 'The sign is wrong. A negative error means the data are too low; the action must increase to raise them.' }
+      - { value: 0.4, feedback: 'That uses the precision and the error but leaves out the motor effect, $\partial y/\partial u=3$.' }
+    hint: 'Family: move against the error, scaled by how much the action matters and by the precision.'
+    explanation: |
+      $\dot u=-\dfrac{\partial y}{\partial u}\,\Pi_y\,\epsilon_y=-3\times2\times(-0.2)=+1.2$. The action rises until the error vanishes.
+
+  - type: numeric
+    id: num-lv
+    prompt: |
+      Two populations $x=(0.4,\ 0.5)$ have growth rates $v=(1,\ -0.5)$. Population $1$ is hurt by population $2$ ($A_{12}=-2$) and population $2$ is helped by population $1$ ($A_{21}=1$); there is no self-interaction ($A_{11}=A_{22}=0$). What is the rate of change $\dot x_2$ of the second population?
+    answer: -0.05
+    tolerance: 0.002
+    answerText: '-0.05'
+    wrong:
+      - { value: 0, feedback: 'That is $\dot x_1$: $0.4\,(1-2\times0.5)=0$. The question asks for population $2$.' }
+      - { value: -0.1, feedback: 'The effect of population $1$ on population $2$ is $A_{21}x_1=0.4$, and the whole bracket is multiplied by $x_2=0.5$, not by $1$.' }
+    hint: 'Family: growth rate times the population; the rate is the sum of its own rate and the effects of the others.'
+    explanation: |
+      The bracket for population $2$ is $v_2+A_{21}x_1=-0.5+0.4=-0.1$, and $\dot x_2=0.5\times(-0.1)=-0.05$. The second population is slowly dying: its own rate is negative and the help from population $1$ does not make up for it.
+
+  - type: numeric
+    id: num-lorenz
+    prompt: |
+      The Lorenz system has $\sigma=10$, $\rho=28$, $\beta=8/3$. At the state $(x_1,x_2,x_3)=(2,\ 1,\ 5)$, what is the rate of the **third** component, $\dot x_3$? Answer to two decimals.
+    answer: -11.33
+    tolerance: 0.01
+    answerText: '-11.33'
+    wrong:
+      - { value: -10, feedback: 'That is $\dot x_1=10(1-2)$. The third component is the one with the product $x_1x_2$ and the damping $\beta$.' }
+      - { value: 2, feedback: 'That is the product $x_1x_2$ alone. The damping $-\beta x_3$ is missing.' }
+    hint: 'Family: the third equation is a gain from the product of the first two, and a damping of itself.'
+    explanation: |
+      $\dot x_3=x_1x_2-\beta x_3=2-\tfrac83\times5=2-13.33=-11.33$. The component is shrinking fast, because it is large compared with the product feeding it.
+
+  - type: numeric
+    id: num-spring
+    prompt: |
+      A limb is modelled as an undamped spring pulled toward the target, with stiffness $\kappa=18$ and mass $m=2$ (SI units). How long is one full oscillation about the target, in seconds? Answer to two decimals.
+    answer: 2.09
+    tolerance: 0.01
+    answerText: '2.09'
+    wrong:
+      - { value: 3, feedback: 'That is the angular frequency $\omega$ in rad/s. The period is the time of one turn of $2\pi$.' }
+      - { value: 0.33, feedback: 'That is $1/\omega$. The period is $2\pi$ divided by the angular frequency.' }
+    hint: 'Family: oscillator. Frequency first, then the time of one cycle.'
+    explanation: |
+      $\omega=\sqrt{\kappa/m}=\sqrt{9}=3$ rad/s, so the period is $2\pi/\omega=2.094\approx2.09$ s. Doubling the mass would lengthen it by $\sqrt2$.
+
+  - type: numeric
+    id: num-q
+    prompt: |
+      A monkey's discrete level believes the cue is at one of five outcomes: fixation, up, right, down, left, with probabilities $Q=(0.1,\ 0.5,\ 0.3,\ 0,\ 0.1)$. The targets are at unit distance from fixation: up $=(0,1)$, right $=(1,0)$, down $=(0,-1)$, left $=(-1,0)$, fixation $=(0,0)$. How far from fixation is the centre of the prior that the continuous level receives? Answer to three decimals.
+    answer: 0.539
+    tolerance: 0.003
+    answerText: '0.539'
+    wrong:
+      - { value: 1, feedback: 'That is the distance of a single target. The centre is a weighted average of all five points, which lies closer to fixation.' }
+      - { value: 0.5, feedback: 'That is only the up component. Right and left do not cancel: $0.3$ against $0.1$ leaves $0.2$ on the horizontal axis.' }
+    hint: 'Family: expectation of a position under the belief; a distance needs both coordinates.'
+    explanation: |
+      Horizontal: $0.3\times1+0.1\times(-1)=0.2$. Vertical: $0.5\times1+0\times(-1)=0.5$. The centre is $(0.2,\,0.5)$, at distance $\sqrt{0.04+0.25}=0.539$ from fixation: mostly up, a little right, shorter than a full target because the belief hedges.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the **content map** of this level: you rebuild the whole picture, from model, process and action to the generalized update, the dynamical systems, synchrony and the hybrid prior.

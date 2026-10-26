@@ -142,6 +142,7 @@ Read only the section you need: `grep -n '^## ' courses/active-inference/CONVENT
 - Hybrid lesson: N(m,Pi) takes precision; Eq 8.8 with tildes; widget spring and upward evidence L(o) are ours, flagged in source notes; Box 8.3 mixture-of-Gaussians correspondence s_i<->o, eta<->eta_o.
 
 - Traps numbers: spring kappa=9, m=4 gives omega=1.5; generalized sync T(x)=1.5x+0.01x^3 gives T(4)=6.64; Q(up,down)=(.7,.3) gives q=(0,0.4); LV A=[[0,-2],[1,0]], v=(1,-0.5), x=(.5,.4) gives xdot_1=0.1.
+- Intuition-continuous numbers: LV x=(.4,.5), v=(1,-.5), A12=-2, A21=1 gives xdot_2=-0.05; Lorenz (2,1,5) gives xdot_3=-11.33; spring kappa=18, m=2 gives omega=3, period 2.09; Q=(.1,.5,.3,0,.1) over fixation/up/right/down/left gives q=(.2,.5), distance .539.
 
 ## Chapter 9
 
