@@ -1,0 +1,371 @@
+id: ch02-challenge
+title: 'Level Challenge: Design a bicycle from scratch'
+kind: challenge
+cards:
+  - type: text
+    id: hook
+    body: |
+      **Level challenge: design a bicycle from scratch.** Your client is a rider of $70$ kg (rider and bicycle together) who commutes on a hilly road. In this first part you size three things: the **gearing** for a $10\%$ hill, the **brakes** for a wet road, and the **frame** loads. The second part adds the lock and the helmet, then asks you to rebuild the whole bicycle.
+
+      The client's specification (typical, plausible numbers):
+
+      | Item | Value |
+      |---|---|
+      | Mass, rider and bicycle | $70$ kg |
+      | Hill | rises $1$ m for every $10$ m of road ($10\%$) |
+      | Wheel radius | $0.334$ m |
+      | Rider, crank torque available | $52.5$ N m |
+      | Rider, sustained power | $250$ W |
+      | Road, wet | $\mu = 0.4$ |
+      | Stopping spec | stop within $15$ m, with a $1$ s reaction |
+
+      Use $g = 9.8\ \mathrm{m/s^2}$. A $10\%$ slope is small enough to treat the pull along the road as $m g/10$.
+
+      **Guessing is the point.** If a step is unclear, guess, then check against the numbers.
+
+  - type: numeric
+    id: slope-force
+    prompt: |
+      **Problem 1: gearing for a 10% hill.** The rider and bicycle have a mass of $70$ kg. On the $10\%$ hill (up $1$ m per $10$ m of road) gravity pulls them back down the slope with a force of about $m g/10$. What force, in N, must the tyre push forward just to keep going at a steady speed? (Ignore air and rolling resistance.)
+    answer: 68.6
+    tolerance: 0.1
+    answerText: '68.6 N'
+    wrong:
+      - { value: 686, feedback: 'That is the full weight $m g$, which would be the force for a vertical wall. On a slope that rises $1$ m per $10$ m of road, only a tenth of it pulls along the road.' }
+      - { value: 7, feedback: 'You divided the mass by $10$ and forgot $g$. Force is mass times acceleration, so the weight $m g = 686$ N comes first, then the tenth.' }
+    hint: |
+      Weight is $m g$. Only the fraction $1/10$ of it points along the road.
+    explanation: |
+      $m g = 70 \times 9.8 = 686$ N, so the slope pulls back with $686/10 = 68.6$ N. (The lesson Guided Problem: Putting Numbers on It did the same for $90$ kg: $88.2$ N.)
+
+  - type: numeric
+    id: wheel-torque
+    prompt: |
+      To push with $68.6$ N at the tyre, the wheel (radius $0.334$ m) must turn with a torque $\tau = F r$. What torque, in N m, does the wheel need?
+    answer: 22.9
+    tolerance: 0.1
+    answerText: '22.9 N m'
+    wrong:
+      - { value: 205, feedback: 'You divided the force by the radius. Torque is **force times arm**: $\tau = F r$, as in the lesson Gears, Levers and Torque.' }
+    hint: |
+      Torque is force times the perpendicular arm, here the wheel radius.
+    explanation: |
+      $\tau = 68.6 \times 0.334 = 22.9$ N m.
+
+  - type: numeric
+    id: max-ratio
+    prompt: |
+      The rider gives a crank torque of $52.5$ N m. The chain and sprockets reduce it on the way to the wheel: the wheel torque is $52.5/s$, where the **gear ratio** $s = N_1/N_2$ is the chainring teeth over the cog teeth. The wheel needs $22.9$ N m. What is the **largest** ratio $s$ that still climbs the hill?
+    answer: 2.29
+    tolerance: 0.02
+    answerText: '2.29'
+    wrong:
+      - { value: 0.44, feedback: 'Upside down. The wheel torque is the crank torque **divided by** $s$: solve $52.5/s = 22.9$, so $s = 52.5/22.9$.' }
+    hint: |
+      Wheel torque $= 52.5/s$. Set it equal to $22.9$.
+    explanation: |
+      $52.5/s \ge 22.9$ gives $s \le 2.29$. A higher gear than that leaves too little force at the tyre: the rider cannot turn the pedals.
+
+  - type: widget
+    id: hill-gear
+    widget: tradeoff-curve
+    review: false
+    config:
+      param: { label: 'Gear ratio (chainring teeth / cog teeth)', range: [0.5, 5], value: 3, step: 0.1, decimals: 1 }
+      x: { label: 'Speed at 80 pedal turns/min', unit: m/s, a: 2.8, range: [0, 14], decimals: 1 }
+      y: { label: 'Pull at the tyre', unit: N, a: 157, k: -1, range: [0, 320], decimals: 0 }
+      needs: { xMin: 3, yMin: 68.6 }
+      show: { feasible: true, guides: true }
+      readouts: [design, x, y, range, verdict]
+      presets:
+        - { label: 'Flat (3.0)', value: 3 }
+        - { label: 'Hill (1.6)', value: 1.6 }
+    body: |
+      A check of your ratio. The curve shows speed and pull at the tyre when the rider pedals $80$ turns per minute with the best torque ($52.5$ N m), for each gear ratio (typical values). The green box asks for at least $68.6$ N (to climb) **and** at least $3$ m/s (below that a bicycle is hard to balance, see the lesson How a Bicycle Stays Up). Slide the ratio and read the range that works.
+
+  - type: mcq
+    id: range-ends
+    prompt: |
+      A bicycle needs speed at least $3$ m/s **and** pull at the tyre at least $68.6$ N. Pedalling at $80$ turns per minute, the speed is $2.8\,s$ m/s and the pull is $157/s$ N, with $s$ the gear ratio. The ratios that work run from about $1.07$ to $2.29$. Which need sets the **top** ratio, $2.29$?
+    shuffle: false
+    options:
+      - text: 'The pull need: above $2.29$ the force at the tyre drops below $68.6$ N.'
+        correct: true
+      - text: 'The speed need: above $2.29$ the bicycle is too slow.'
+        feedback: |
+          Reversed. A higher gear gives **more** speed ($2.8 s$ grows with $s$), so speed fails on the **low** side of the range.
+      - text: Both needs fail together at $2.29$.
+        feedback: |
+          At $s = 2.29$ the speed is $6.4$ m/s, comfortably above $3$ m/s. Only the pull is at its limit there.
+    explanation: |
+      Raising the gear gains speed and loses pull. The speed need ($2.8 s \ge 3$, so $s \ge 1.07$) sets the bottom of the range, and the pull need ($157/s \ge 68.6$, so $s \le 2.29$) sets the top. This is the tradeoff of the lesson Every Design Is a Compromise: no gear gives both without limit.
+
+  - type: numeric
+    id: sustained-speed
+    prompt: |
+      Pedalling at the best torque for long is too hard. The rider can sustain only $250$ W (the lesson Everything Costs Energy: power is force times speed, $P = F v$). Holding the $68.6$ N needed to climb, what is the steady climbing speed, in m/s?
+    answer: 3.64
+    tolerance: 0.03
+    answerText: '3.64 m/s'
+    wrong:
+      - { value: 0.27, feedback: 'You divided the force by the power. Power is force times speed, so the speed is **power divided by force**: $v = P/F$.' }
+      - { value: 6.4, feedback: 'That is the speed in the top gear that still climbs ($s = 2.29$) at the full torque, which needs about $440$ W, more than the rider can sustain.' }
+    hint: |
+      $P = F v$, so $v = P/F$.
+    explanation: |
+      $v = 250/68.6 = 3.64$ m/s, about $13$ km/h. It is above the $3$ m/s needed to stay balanced.
+
+  - type: numeric
+    id: ratio-for-speed
+    prompt: |
+      At $80$ pedal turns per minute the speed is $2.8\,s$ m/s for a gear ratio $s$. Which ratio $s$ gives the sustained climbing speed of $3.64$ m/s?
+    answer: 1.3
+    tolerance: 0.02
+    answerText: '1.3'
+    wrong:
+      - { value: 10.2, feedback: 'You multiplied $3.64$ by $2.8$. The speed is $2.8$ **times** $s$, so $s$ is the speed **divided by** $2.8$.' }
+    hint: |
+      Solve $2.8\,s = 3.64$.
+    explanation: |
+      $s = 3.64/2.8 = 1.30$. At this ratio the pull needed is $68.6$ N, so the crank torque is only $68.6 \times 0.334 \times 1.3 = 29.8$ N m, well below the best $52.5$ N m. The check: $\tau\omega = 29.8 \times (80 \times 2\pi/60) = 250$ W.
+
+  - type: numeric
+    id: climb-energy
+    prompt: |
+      The rider climbs $100$ m of road along the hill at a steady $68.6$ N of pull. How much **work** $W = F d$ does the pull do, in J? (Here $W$ is work in joules; the weight is $m g$.)
+    answer: 6860
+    tolerance: 10
+    answerText: '6860 J'
+    wrong:
+      - { value: 686, feedback: 'That is the weight $m g$ in newtons, not an energy. Multiply the pull $68.6$ N by the $100$ m of road.' }
+    hint: |
+      Work is force times distance along the force.
+    explanation: |
+      $W = 68.6 \times 100 = 6860$ J. Check with height: $100$ m of road rises $10$ m, and $m g h = 686 \times 10 = 6860$ J. The gear does not change this energy: it only sets how fast the rider supplies it. At $250$ W, $6860/250 = 27.4$ s, which matches $100\ \mathrm{m}/3.64\ \mathrm{m/s}$.
+
+  - type: numeric
+    id: stop-nodelay
+    prompt: |
+      **Problem 2: brakes on a wet road.** The brakes lock the wheels, so sliding friction $F = \mu m g$ with $\mu = 0.4$ does the stopping, and the stopping distance is $d = v^2/(2\mu g)$ (the lesson Brakes and Friction). The spec says the bicycle must stop within $15$ m. Ignoring reaction time for now, what is the greatest speed $v$, in m/s, that stops within $15$ m?
+    answer: 10.84
+    tolerance: 0.05
+    answerText: '10.84 m/s'
+    wrong:
+      - { value: 117.6, feedback: 'That is $v^2$. Take the square root to get the speed: $v = \sqrt{2\mu g d}$.' }
+      - { value: 7.61, feedback: 'That is the answer once the **reaction time** is included, which comes in the next step. For now there is no reaction.' }
+    hint: |
+      Solve $d = v^2/(2\mu g)$ for $v$: $v = \sqrt{2\mu g d}$.
+    explanation: |
+      $2\mu g = 2 \times 0.4 \times 9.8 = 7.84\ \mathrm{m/s^2}$, so $v^2 = 7.84 \times 15 = 117.6$ and $v = 10.84$ m/s, about $39$ km/h. The rider's mass cancelled: a heavier rider needs the same distance.
+
+  - type: numeric
+    id: reaction-total
+    prompt: |
+      A real rider needs $1$ s to react before the brakes start. During that second the bicycle keeps its speed. A rider going $10.84$ m/s: what is the **total** distance from the moment the hazard appears to the stop, in m? (Reaction distance plus braking distance.)
+    answer: 25.84
+    tolerance: 0.1
+    answerText: '25.84 m'
+    wrong:
+      - { value: 15, feedback: 'That is only the braking part. In the first second the bicycle still travels $10.84$ m before the brakes act.' }
+    hint: |
+      Reaction distance is speed times time: $10.84 \times 1$.
+    explanation: |
+      $10.84 + 15 = 25.84$ m. The reaction second adds almost as much distance as the braking itself: the spec of $15$ m is missed by a lot.
+
+  - type: numeric
+    id: max-speed
+    prompt: |
+      Now find the greatest speed $v$ (in m/s) for which the **total** distance, $1\ \mathrm{s}\times v$ for the reaction plus $v^2/7.84$ for the braking, is at most $15$ m. Try a few speeds, or solve $v + v^2/7.84 = 15$.
+    answer: 7.61
+    tolerance: 0.05
+    answerText: '7.61 m/s'
+    wrong:
+      - { value: 10.84, feedback: 'That ignores the reaction second. At $10.84$ m/s the reaction alone covers $10.84$ m and the total is $25.84$ m.' }
+      - { value: 7.5, feedback: 'Close, but check it: $7.5 + 7.5^2/7.84 = 14.7$ m, which still leaves room. The limit is slightly higher.' }
+    hint: |
+      Try $v = 8$ m/s: $8 + 64/7.84 = 16.2$ m, too much. Try a smaller speed.
+    explanation: |
+      Multiply by $7.84$: $v^2 + 7.84\,v - 117.6 = 0$, whose positive root is $v = 7.61$ m/s ($27.4$ km/h). Check: $7.61 + 57.9/7.84 = 7.61 + 7.39 = 15.0$ m. Allowing for a human reaction cuts the safe speed from $39$ to $27$ km/h.
+
+  - type: widget
+    id: wet-stop
+    widget: friction-stop
+    review: false
+    config:
+      mu: 0.4
+      v0: 7.6
+      mass: 70
+      distanceMax: 12
+      speedMax: 11
+      show: { heat: true, pin: false, grid: true }
+      readouts: [distance, time, energy, heat]
+    body: |
+      A check, not a new idea. The bicycle and rider ($70$ kg) slide to a stop from $7.6$ m/s on the wet road. The distance readout is the braking part only. Add the reaction distance $7.6 \times 1$ m and compare with the $15$ m spec. Note the heat at the end.
+
+  - type: numeric
+    id: abs-distance
+    prompt: |
+      A locked wheel slides with grip $\mu = 0.4$. A brake that keeps the tyre just below sliding (as ABS does, the lesson Brakes Turn Motion Into Heat) holds about $1.2$ times that grip (typical), so $\mu_\text{roll} = 0.48$. From $7.61$ m/s, what is the braking distance $v^2/(2\mu_\text{roll} g)$, in m?
+    answer: 6.16
+    tolerance: 0.05
+    answerText: '6.16 m'
+    wrong:
+      - { value: 7.39, feedback: 'That is the locked-wheel distance with $\mu = 0.4$. With the better grip $0.48$ the distance is shorter.' }
+    hint: |
+      Same formula, with $\mu = 0.48$ in place of $0.4$.
+    explanation: |
+      $2 \times 0.48 \times 9.8 = 9.41$, and $57.9/9.41 = 6.16$ m, against $7.39$ m locked. The total with the reaction second is $7.61 + 6.16 = 13.77$ m: ABS buys about $1.2$ m of margin on the spec. The wheel speed sensor and the valve form the loop of the lesson The Thermostat and Other Loops.
+
+  - type: mcq
+    id: bag-mass
+    prompt: |
+      The rider now carries a heavy bag, so the total mass is $20$ kg more. The same speed, the same wet road, the same brakes. What happens to the braking distance and to the heat released in the brakes?
+    shuffle: false
+    options:
+      - text: The distance is unchanged; the heat is larger, in proportion to the mass.
+        correct: true
+      - text: The distance is longer and the heat is larger, because the bicycle is heavier.
+        feedback: |
+          A heavier bicycle also has a proportionally larger friction force ($\mu m g$), so the deceleration $\mu g$ is the same. The mass cancels in $d = v^2/(2\mu g)$.
+      - text: The distance is unchanged and the heat is unchanged.
+        feedback: |
+          The distance is unchanged but there is more kinetic energy $\tfrac12 m v^2$ to remove, and all of it becomes heat.
+    explanation: |
+      The distance does not depend on mass (as in the lesson Brakes and Friction). The kinetic energy $\tfrac12 m v^2$ grows with $m$, so the heat grows too, and the brakes get hotter.
+
+  - type: numeric
+    id: brake-heat
+    prompt: |
+      How much heat $Q$, in J, do the brakes release when the $70$ kg bicycle and rider stop from $7.61$ m/s? (Kinetic energy $\tfrac12 m v^2$.)
+    answer: 2028
+    tolerance: 10
+    answerText: '2028 J'
+    wrong:
+      - { value: 266, feedback: 'You used $m v$ or left out the square. Kinetic energy is $\tfrac12 m v^2$, with $v$ squared.' }
+    hint: |
+      All the kinetic energy becomes heat.
+    explanation: |
+      $\tfrac12 \times 70 \times 7.61^2 = 2028$ J. Check by work: $F d = \mu m g\,d = 274.4 \times 7.39 = 2028$ J.
+
+  - type: numeric
+    id: disc-temp
+    prompt: |
+      The heat $2028$ J goes into $0.5$ kg of steel (rims or discs), with specific heat $c = 450\ \mathrm{J/(kg\,K)}$ (typical). By how many kelvin, $\Delta T = Q/(c\,m)$, does the steel warm?
+    answer: 9
+    tolerance: 0.1
+    answerText: '9 K'
+    wrong:
+      - { value: 4.5, feedback: 'You divided by $c$ but used a mass of $1$ kg. The steel is $0.5$ kg, so divide by $450 \times 0.5$.' }
+    hint: |
+      $\Delta T = Q/(c\,m)$ with $m = 0.5$ kg.
+    explanation: |
+      $2028/(450 \times 0.5) = 9.0$ K, about $9\,{}^\circ$C: harmless for one stop. A long descent repeats this many times, and then the brakes fade.
+
+  - type: numeric
+    id: pedal-torque
+    prompt: |
+      **Problem 3: frame loads.** A rider stands on one pedal with the whole weight $m g = 686$ N. The pedal is at the end of a crank arm $0.175$ m long, held horizontal. What torque, in N m, does the pedal put on the crank arm about the centre of the bottom bracket (the axle the cranks turn on)?
+    answer: 120.05
+    tolerance: 0.5
+    answerText: '120 N m'
+    wrong:
+      - { value: 3920, feedback: 'You divided the force by the arm. Torque is **force times arm**: $686 \times 0.175$.' }
+    hint: |
+      Torque is force times the perpendicular arm (the lesson Gears, Levers and Torque).
+    explanation: |
+      $\tau = 686 \times 0.175 = 120.05$ N m, higher than the $52.5$ N m of normal pedalling because the whole weight, not a push, acts on it.
+
+  - type: widget
+    id: crank-limit
+    widget: lever-balance
+    review: false
+    config:
+      start: -0.05
+      length: 0.3
+      snap: 0.005
+      pivotShape: bolt
+      pivot: { x: 0, fixed: true }
+      forceRange: [0, 1600]
+      forceStep: 10
+      forceSliders: true
+      torqueMax: 260
+      loads:
+        - { x: 0.175, F: 686, label: Pedal }
+        - { torque: 150, side: L, label: Crank limit, fixedF: true }
+      readouts: [torqueL, torqueR, verdict]
+      labels: { tipsLeft: Crank holds, tipsRight: Crank bends, torqueL: Crank limit, torqueR: Pedal torque }
+    body: |
+      A crank arm bends once the torque on it passes its limit, here $150$ N m (a typical value). The pedal acts at $0.175$ m from the axle with a force you can change. Try the $686$ N of a standing rider, then a hard landing at about twice the weight.
+
+  - type: numeric
+    id: crank-max-force
+    prompt: |
+      A crank arm of length $0.175$ m bends at a torque of $150$ N m. What is the greatest pedal force $F$, in N, that it holds? (Torque is $F \times 0.175$.)
+    answer: 857
+    tolerance: 3
+    answerText: '857 N'
+    wrong:
+      - { value: 26.25, feedback: 'You multiplied the torque by the arm. Torque is force times arm, so the force is the torque **divided by** the arm.' }
+    hint: |
+      Solve $F \times 0.175 = 150$.
+    explanation: |
+      $F = 150/0.175 = 857$ N, which is $857/9.8 = 87$ kg of weight. A $70$ kg rider has only a $25\%$ margin: standing on the pedal over a bump (about twice the weight) would bend the crank, so real cranks are designed for more than $150$ N m.
+
+  - type: numeric
+    id: frame-mass
+    prompt: |
+      A frame of mass $3$ kg suits the $70$ kg rider. For a taller rider the maker builds the same shape with **every length multiplied by $1.1$** (tubes longer, wider, thicker). With the same steel, what is the new frame mass, in kg? (The lesson How Big, How Fast, How Much? shows how size changes area and volume.)
+    answer: 3.99
+    tolerance: 0.03
+    answerText: '3.99 kg'
+    wrong:
+      - { value: 3.3, feedback: 'You scaled the mass by $1.1$, as if only one length grew. Mass follows volume: three lengths, so $1.1^3$.' }
+      - { value: 3.63, feedback: 'You used $1.1^2 = 1.21$, the factor for an **area**. Steel mass follows the **volume**.' }
+    hint: |
+      Mass scales with the cube of the length factor.
+    explanation: |
+      $1.1^3 = 1.331$, so $3 \times 1.331 = 3.99$ kg: a $10\%$ larger frame is $33\%$ heavier.
+
+  - type: numeric
+    id: frame-strength-per-kg
+    prompt: |
+      The strength of a tube is proportional to its cross-section, which scales like length squared. For the frame scaled by $1.1$ in every length, by what factor does the **strength per kilogram** change? (Give the new value divided by the old one.)
+    answer: 0.909
+    tolerance: 0.005
+    answerText: '0.909'
+    wrong:
+      - { value: 1.21, feedback: 'That is the strength factor alone ($1.1^2$). The frame also got heavier, by $1.1^3$, so divide by that.' }
+      - { value: 1.1, feedback: 'Going up is the wrong direction. Strength grows by $1.1^2$ but mass by $1.1^3$, so strength **per kilogram** shrinks.' }
+    hint: |
+      Strength per kilogram scales as $1.1^2/1.1^3$.
+    explanation: |
+      $1.1^2/1.1^3 = 1/1.1 = 0.909$. A bigger frame of the same shape is about $9\%$ weaker for its weight, the same effect that limits the size of every structure.
+
+  - type: mcq
+    id: frame-fix
+    prompt: |
+      The taller rider's frame must be at least as strong **per kilogram** as the small one, with the same steel. Which design idea can do that?
+    shuffle: false
+    options:
+      - text: Use thinner walls and a tube shape that puts the steel where the bending is largest, instead of just scaling every length.
+        correct: true
+      - text: Scale every length by the same factor, since the same shape and steel will do.
+        feedback: |
+          That is the scaling that loses: strength per kilogram falls as $1/1.1$. A different shape is needed.
+      - text: Make the tube walls much thicker for safety.
+        feedback: |
+          More steel adds strength, but the weight grows too, and the lesson Every Design Is a Compromise shows the weight need can then fail. Thicker is a compromise, not a free improvement.
+    explanation: |
+      Equal scaling cannot keep strength per weight. Real frames use tubes that are wide but thin-walled, so the steel sits far from the centre, where it resists bending best for its weight. Shape, not mass, is the lever.
+
+  - type: text
+    id: part1-results
+    title: Part 1 results
+    body: |
+      The bicycle so far, for a $70$ kg rider:
+
+      - **Gearing.** The $10\%$ hill needs $68.6$ N at the tyre, a wheel torque of $22.9$ N m, so a ratio $s \le 2.29$; the speed need $\ge 3$ m/s gives $s \ge 1.07$. A sustained $250$ W climbs at $3.64$ m/s with $s \approx 1.3$.
+      - **Brakes.** Wet road, $\mu = 0.4$, spec $15$ m with $1$ s reaction: $v \le 7.61$ m/s ($27$ km/h). Locked wheels take $7.39$ m, rolling grip $6.16$ m. The stop releases $2028$ J of heat.
+      - **Frame.** A standing rider puts $120$ N m on a $0.175$ m crank, so the crank must hold more than $150$ N m. Scaling a frame by $1.1$ gives $3.99$ kg and strength per kilogram $\times 0.909$.
+
+      **Next, in part 2:** a lock for the bicycle (how many keys, and how many get through when the pins are not exact), the helmet (the crumple distance that keeps the force on a head low), and finally the whole design, rebuilt from the specification.
