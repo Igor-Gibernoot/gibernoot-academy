@@ -31,6 +31,7 @@ import { leverBalance } from './lever-balance.js';
 import { frictionStop } from './friction-stop.js';
 import { pinTumbler } from './pin-tumbler.js';
 import { elevatorCounterweight } from './elevator-counterweight.js';
+import { crashImpulse } from './crash-impulse.js';
 import { freeEnergyBound } from './free-energy-bound.js';
 import { policyScorer } from './policy-scorer.js';
 import { blanketGraph } from './blanket-graph.js';
@@ -84,6 +85,7 @@ const WIDGETS = {
   'friction-stop': frictionStop,
   'pin-tumbler': pinTumbler,
   'elevator-counterweight': elevatorCounterweight,
+  'crash-impulse': crashImpulse,
   'free-energy-bound': freeEnergyBound,
   'policy-scorer': policyScorer,
   'blanket-graph': blanketGraph,

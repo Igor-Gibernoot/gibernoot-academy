@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-27 widget crash-impulse
+Built widget `crash-impulse` (no lesson): moving mass stopped by time or crumple length; force-time plot with fixed axes and shaded area, peak line, g bar with hidden injury band. Choices: `square` is an alias of `constant` (peak 1x); triangle is symmetric (peak 2x at t/2), so t = 2d/v0 holds for both; stop slider range 0.02-1 s or 0.05-2 m; dangerG default 30 (config, not a medical claim); axes fixed from shortest/longest reachable stop. Smoke test with a throwaway lesson (removed): 0 errors; validate clean. Conventions fixed here: J = m v0 in N s; F_avg = m v0 / t; stop by distance t = 2d/v0.
+
 - 2026-10-27 `ch02-elevator` (20 cards, not split). Hook guess 15.68 kW; widget without counterweight; W = mgh, P = Fv; counterweight F = (m-M)g; best M = empty + half max load; regeneration (sign of P); energy bookkeeping 29.4 kJ; efficiency 0.8; too-heavy trap; safety order card. Conventions fixed here: maximum load is 300 kg, so best counterweight 650 kg; weight written mg, W is work; motor efficiency 0.8 typical; regeneration = negative P; widget cards review: false.
 
 ## 2026-10-27 widget elevator-counterweight

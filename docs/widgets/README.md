@@ -57,3 +57,4 @@ and a new `docs/widgets/<name>.md` plus a line below.
 - `friction-stop`: A vehicle braking on a road with friction mu: stopping distance d = v0^2/(2 g mu) (mass cancels), speed-against-distance plot, kinetic energy turning into heat, optional slope and locked/rolling toggle
 - `pin-tumbler`: Cutaway pin-tumbler lock with N pins and a key of D cut depths: pins at the shear line turn green, the plug turns only if all match, D^N keys; optional picking mode
 - `elevator-counterweight`: A traction elevator: cabin and counterweight on a pulley, sliders for load, counterweight and speed, up/down; rope tensions, motor force F = (m - M) g, power P = F v (negative = regenerating), trip energy bar
+- `crash-impulse`: A mass stopped by a wall or bag: stop time or crumple length slider, force-time plot with the area (impulse = m v0) shaded, peak force, deceleration bar in g with optional injury band
