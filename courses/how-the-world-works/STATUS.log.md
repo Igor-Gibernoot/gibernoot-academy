@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-27 ch01-tour
+Built `ch01/tour.yaml` (17 cards: hook, 13 puzzles one per later level (fluids has mcq + numeric volume), closing table, summary with 5 blanks). No widget (puzzles are guessable text; a picture would give answers away). Choices: no card says "Level N" for later levels, names only; the paint-mixing analogy for key exchange; frontier puzzle is a pure mcq. Numbers checked by script. Validate and shots clean. Conventions fixed here: tour typical values (copied to CONVENTIONS.md).
+
 ## 2026-10-27 ch01-tradeoffs
 Built `ch01/tradeoffs.yaml` (22 cards: beam strength vs weight with tradeoff-curve, needs region, feasible range, bicycle speed vs force with P = F v, infeasible needs, order card, 3 trap cards, summary with 5 blanks). All numbers checked by script (160/360/640/1960 kN; weights 5/7/9/15; sqrt(10)=3.16; 5.5 cm; 40 N; 240 W). Choices: beam values stated as made-up but plausible typical values; weight = 2t+1 so doubling gives 1.8x (said "less than 2x"); the "what to do" card is multi-select; trap round of 3. Validate and shots clean; range/gear-needs presets viewed. Conventions fixed here: beam and gear numbers above (copied to CONVENTIONS.md).
 
