@@ -30,6 +30,7 @@ import { bikeBalance } from './bike-balance.js';
 import { leverBalance } from './lever-balance.js';
 import { frictionStop } from './friction-stop.js';
 import { pinTumbler } from './pin-tumbler.js';
+import { elevatorCounterweight } from './elevator-counterweight.js';
 import { freeEnergyBound } from './free-energy-bound.js';
 import { policyScorer } from './policy-scorer.js';
 import { blanketGraph } from './blanket-graph.js';
@@ -82,6 +83,7 @@ const WIDGETS = {
   'lever-balance': leverBalance,
   'friction-stop': frictionStop,
   'pin-tumbler': pinTumbler,
+  'elevator-counterweight': elevatorCounterweight,
   'free-energy-bound': freeEnergyBound,
   'policy-scorer': policyScorer,
   'blanket-graph': blanketGraph,
