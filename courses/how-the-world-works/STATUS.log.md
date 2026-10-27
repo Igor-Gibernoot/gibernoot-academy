@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-27 ch01-challenge part 1
+Built `ch01/challenge.yaml` (12 cards): electric bicycle (frame 3 kg, 0.8 m2 paint, battery 500 Wh, motor draws 250 W, 200 W useful, efficiency 0.8). P1 sizes: log-ruler guess (spoke, yearly distance), 5 m/s x 2400 s x 250 d = 3000 km, k=2 frame 24 kg, strength/weight 1/k. P2 energy: 500 Wh = 1.8 MJ, heat 50 W, efficiency-not-power trap (100 W 90% vs 250 W 80%). P3 tradeoff: tradeoff-curve gear preset (v = 2g, F = 100/g, P = 200 W), needs v>=3, F>=50 gives ratio 1.5 to 2.0; steeper hill 240 W useful needs 300 W drawn. Choices: no `own:` (validator warns for challenges); closing card is a plain text card "What you used on one bicycle" that part 2 replaces/extends; `feedback-loop` reserved for part 2. Conventions fixed here: e-bike numbers above.
+
 ## 2026-10-27 ch01-map
 Built `ch01/map.yaml` (14 boxes, 3 columns, 6 rows, 13 edges, 2 decoys each) from the own: summaries and the traps summary; no old map in archive. Choices: tour box last with a dashed edge from the feedback chain (no better parent); kwh box beside energy; P = F·v feeds energy, tradeoff curve feeds P = F·v; one decoy of the delay box is a misconception without formula. Notation checked against the lessons (e, T_set, T_sensed, E_useful, E_total, S = 40t^2, w = 2t+1). Conventions fixed here: map boxes are titled by concept, bodies restate the formulas with symbols defined.
 

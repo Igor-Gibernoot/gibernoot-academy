@@ -1,0 +1,187 @@
+id: ch01-challenge
+title: 'Level Challenge: The Electric Bicycle'
+kind: challenge
+cards:
+  - type: text
+    id: hook
+    body: |
+      **Level challenge: one machine, three puzzles.** The machine is an **electric bicycle**: a bicycle with a battery and a small motor that helps your legs. You will use what you met in this level: sizes, energy and tradeoffs.
+
+      Typical (made-up but plausible) numbers for this bike:
+
+      | Part | Value |
+      |---|---|
+      | Frame mass | $3$ kg |
+      | Frame paint area | $0.8\ \mathrm{m^2}$ |
+      | Battery | $500$ Wh |
+      | Motor, electric power drawn | $250$ W |
+      | Motor, useful power at the wheel | $200$ W |
+
+      **Guessing is the point.** If you do not know how to start, guess, then check your guess against the numbers. A wrong guess teaches more than no guess.
+
+  - type: widget
+    id: sizes-ruler
+    widget: log-ruler
+    review: false
+    config:
+      min: -4
+      max: 7
+      unit: m
+      decadeCount: true
+      items:
+        - { label: bike length, value: 1.8 }
+        - { label: spoke thickness, value: 2.0e-3, fixed: false }
+        - { label: distance ridden in a year, value: 3.0e6, fixed: false }
+    body: |
+      **Problem 1: sizes.** A ruler where each tick is ten times the one before. Place two guesses: the **thickness of one spoke** of the wheel (a spoke is one of the thin metal rods joining the hub to the rim) and the **total distance a commuter rides in a year**. Select a chip, drag it onto the ruler, then press Check.
+
+  - type: numeric
+    id: yearly-distance
+    prompt: |
+      A commuter rides the bicycle at $5$ m/s for $40$ minutes a day, on $250$ days a year. How far is that in a year, in **kilometres**?
+    answer: 3000
+    tolerance: 30
+    answerText: '3000'
+    wrong:
+      - { value: 50, feedback: 'That is in kilometres per day with the minutes not converted: $5 \times 40 \times 250$ mixes metres per second with minutes. Convert $40$ min to seconds first ($2400$ s).' }
+      - { value: 3000000, feedback: 'That is the right distance but in **metres**. The question asks for kilometres: divide by $1000$.' }
+    hint: |
+      Distance is speed times time. Put the time in seconds, multiply by the number of days, then convert metres to kilometres.
+    explanation: |
+      One day: $5\ \mathrm{m/s} \times 2400\ \mathrm{s} = 12\,000$ m $= 12$ km. A year: $12 \times 250 = 3000$ km. That is $3\times10^{6}$ m, about the width of a continent, from a modest daily ride.
+
+  - type: numeric
+    id: scaled-frame-mass
+    prompt: |
+      A bicycle frame made of steel tube has mass $3$ kg and a paint area of $0.8\ \mathrm{m^2}$. A giant version is built from the same steel with **every length doubled** (tube length, tube width, wall thickness). What is the giant frame's mass, in kg?
+    answer: 24
+    tolerance: 0.1
+    answerText: '24'
+    wrong:
+      - { value: 6, feedback: 'You doubled the mass, as if only one length grew. Doubling **every** length makes the frame $2$ times longer, $2$ times wider and $2$ times thicker: three factors of $2$.' }
+      - { value: 12, feedback: 'You used $2^2 = 4$, which is how an **area** grows (the paint). Mass follows the **volume** of steel, which grows by $2 \times 2 \times 2$.' }
+    hint: |
+      Mass is the amount of steel, so think about how a volume changes when each of its three lengths is doubled.
+    explanation: |
+      Volume (and with the same steel, mass) grows as $2\times2\times2 = 2^3 = 8$, so $3 \times 8 = 24$ kg. The paint area grows as $2^2 = 4$: $0.8 \times 4 = 3.2\ \mathrm{m^2}$.
+
+  - type: mcq
+    id: scaled-frame-why
+    prompt: |
+      A steel tube carries a load in proportion to its **cross-section** (the area of steel you would see if you cut it across). In the giant frame, with every length doubled, the cross-section is $4$ times larger but the mass is $8$ times larger. What does this say about the giant bike?
+    shuffle: false
+    options:
+      - text: It is twice as strong for its weight, because it is twice as big.
+        feedback: |
+          Bigger does not mean stronger for its weight. Strength grew by $4$, weight by $8$, so strength **per kilogram** went down, not up.
+      - text: It is the same strength for its weight, because the same steel is used.
+        feedback: |
+          The material is the same, but the shape is scaled: strength follows an area ($k^2$), weight follows a volume ($k^3$). They grow at different rates.
+      - text: It is only half as strong for its weight, so a very large frame eventually cannot carry itself.
+        correct: true
+    explanation: |
+      Strength per weight goes as $k^2/k^3 = 1/k$: doubling the size halves it. This is why ants carry many times their own weight and elephants cannot, and why big structures need cleverer shapes, not just more of the same.
+
+  - type: numeric
+    id: battery-megajoules
+    prompt: |
+      **Problem 2: energy.** The battery stores $500$ Wh (watt-hours; one watt-hour is the energy used by a $1$ W device running for one hour). How many **megajoules** (MJ; $1\ \mathrm{MJ} = 10^{6}$ J) is that?
+    answer: 1.8
+    tolerance: 0.01
+    answerText: '1.8'
+    wrong:
+      - { value: 0.5, feedback: 'You only changed the prefix. A watt-hour is a watt for **3600 seconds**, so convert the hour to seconds first.' }
+      - { value: 1800000, feedback: 'That is the right energy in **joules**, but the question asks for megajoules: divide by $10^{6}$.' }
+    hint: |
+      A device using $1$ W for $1$ s uses $1$ J. How many seconds are in an hour?
+    explanation: |
+      $500\ \mathrm{Wh} = 500 \times 3600\ \mathrm{J} = 1\,800\,000\ \mathrm{J} = 1.8$ MJ. For comparison, a $50$ g chocolate bar holds about $1.1$ MJ, so the battery holds less than two bars of food energy, and a bar costs far less.
+
+  - type: numeric
+    id: motor-heat
+    prompt: |
+      The motor takes $250$ W of electric power from the battery and pushes the bicycle with $200$ W of useful power at the wheel. The rest is **not destroyed**: energy is never destroyed. How many **watts** of heat does the motor release?
+    answer: 50
+    tolerance: 0.5
+    answerText: '50'
+    wrong:
+      - { value: 200, feedback: 'That is the **useful** part, the power that reaches the wheel. The question asks for the part that does *not* reach the wheel.' }
+      - { value: 20, feedback: 'You took $20\%$ of $100$, or mixed up the percentage with watts. Compare the two powers directly: what goes in minus what comes out as useful push.' }
+    hint: |
+      Energy in each second equals useful energy plus heat each second, so subtract.
+    explanation: |
+      $250 - 200 = 50$ W leaves as heat, warming the motor and wires. The **efficiency** is the fraction that is useful: $200/250 = 0.8$, or $80\%$.
+
+  - type: mcq
+    id: efficiency-not-power
+    prompt: |
+      Motor A takes $100$ W of electric power and is $90\%$ efficient. Motor B takes $250$ W and is $80\%$ efficient. Both are fitted to the same bicycle. Which one delivers more useful power to the wheel?
+    shuffle: false
+    options:
+      - text: Motor A, because $90\%$ is more efficient than $80\%$.
+        feedback: |
+          A high efficiency only says what **fraction** is useful, not how large the power is. A gets $0.9 \times 100 = 90$ W of useful power.
+      - text: Motor B, with $200$ W of useful power against $90$ W.
+        correct: true
+      - text: They deliver the same, since both turn most of the energy into push.
+        feedback: |
+          Fractions of different amounts give different amounts: $0.9\times100 = 90$ W and $0.8\times250 = 200$ W.
+    explanation: |
+      Useful power is efficiency times the power taken in. Efficiency is a **fraction** (a number between $0$ and $1$), not a power: a very efficient small motor can still be a weak one. It matters for how long the battery lasts, not for how hard the motor can push.
+
+  - type: widget
+    id: gear-hill
+    widget: tradeoff-curve
+    review: false
+    config:
+      param: { label: Gear ratio, range: [0.5, 5], value: 1, step: 0.1, decimals: 1 }
+      x: { label: Speed, unit: m/s, a: 2, range: [0, 11], decimals: 1 }
+      y: { label: Pull force, unit: N, a: 100, k: -1, range: [0, 220], decimals: 0 }
+      needs: { xMin: 3, yMin: 50 }
+      show: { feasible: true }
+      readouts: [x, y, range, verdict]
+    body: |
+      **Problem 3: tradeoffs.** The motor delivers $200$ W of useful power to the wheel. The **gear ratio** (a bigger number is a higher gear) picks the speed and the pulling force on the curve below. The rider is climbing a gentle hill and wants **speed at least $3$ m/s and pulling force at least $50$ N**. Slide the gear ratio, and read the readout **range**.
+
+  - type: mcq
+    id: hill-ends
+    prompt: |
+      A bicycle delivers $200$ W of useful power. A rider needs speed at least $3$ m/s **and** pulling force at least $50$ N. The gear ratios that work run from $1.5$ to $2.0$. Which need sets the **lowest** gear ratio ($1.5$) and which sets the **highest** ($2.0$)?
+    shuffle: false
+    options:
+      - text: the speed need sets the lowest ratio; the force need sets the highest
+        correct: true
+      - text: the force need sets the lowest ratio; the speed need sets the highest
+        feedback: |
+          Reversed. A higher gear gives more speed and less force, so in a low gear it is the speed that falls short, and in a high gear it is the force.
+      - text: the speed need sets both ends
+        feedback: |
+          Raising the gear only helps speed. The speed need can only fail on the low side, and the force need then takes over on the high side.
+    hint: |
+      In a high gear you go fast but pull weakly ($F = P/v$ with $P = 200$ W). Which need fails first at each end?
+    explanation: |
+      At ratio $1.5$ the speed is $3$ m/s and the force $200/3 \approx 67$ N: a lower gear and the speed drops below $3$ m/s. At ratio $2.0$ the speed is $4$ m/s and the force $200/4 = 50$ N: a higher gear and the force drops below $50$ N.
+
+  - type: numeric
+    id: battery-power-needed
+    prompt: |
+      A steeper hill needs speed at least $4$ m/s **and** pulling force at least $60$ N, which is $240$ W of useful power: more than the $200$ W the bicycle delivers. A stronger motor, $80\%$ efficient like the old one, is fitted to give exactly $240$ W of useful power. How many **watts** must it draw from the battery?
+    answer: 300
+    tolerance: 1
+    answerText: '300'
+    wrong:
+      - { value: 192, feedback: 'You multiplied by $0.8$, but efficiency makes the motor draw **more** than it delivers, never less. Only $80\%$ of what it takes in becomes useful.' }
+      - { value: 240, feedback: 'That is the useful power. The motor also wastes some as heat, so it must take in more than $240$ W.' }
+    hint: |
+      Useful power is $0.8$ of the power taken in. What power taken in gives $240$ W?
+    explanation: |
+      $0.8 \times P_{\text{in}} = 240$ W, so $P_{\text{in}} = 240/0.8 = 300$ W. The heat is $300 - 240 = 60$ W. The price: the $500$ Wh battery now lasts $500/300 \approx 1.7$ hours instead of the $2$ hours it gave at $250$ W.
+
+  - type: text
+    id: summary
+    body: |
+      **What you used on one bicycle.**
+
+      - **Scaling:** multiply every length by $k$; areas (paint, the cross-section that carries a load) grow by $k^2$, volumes and masses by $k^3$. Strength per weight goes as $1/k$.
+      - **Energy:** $1\ \mathrm{Wh} = 3600$ J; a battery of $E$ Wh feeding $P$ W lasts $E/P$ hours; useful power is $\text{efficiency} \times P_{\text{in}}$, and the rest is heat. Efficiency is a fraction, not a power.
+      - **Tradeoff:** at fixed useful power $P = F\cdot v$, a gear slides you along the curve $F = P/v$; if the needs region misses it, relax a need or raise $P$ (which draws more from the battery).
