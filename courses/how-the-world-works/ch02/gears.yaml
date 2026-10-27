@@ -1,0 +1,355 @@
+id: ch02-gears
+title: Gears, Levers and Torque
+kind: concept
+own: |
+  - **Torque** is the turning effect of a force. A force $F$ (newtons, N) pushing at a perpendicular distance $r$ (metres, m, the **arm**) from a pivot has torque
+    {{ $$\tau = F\,r$$ }}
+    in newton-metres (N m). A long arm turns a stubborn bolt: $100$ N at $0.3$ m gives $30$ N m, at $0.5$ m gives $50$ N m.
+  - **A lever balances** when the torques of the two sides about the pivot are equal. For forces $F_1, F_2$ at arms $r_1, r_2$ from the pivot:
+    {{ $$F_1\,r_1 = F_2\,r_2$$ }}
+    The small force sits on the long arm. A crowbar trades force for distance: it multiplies force but the hand moves farther than the load.
+  - **Torque is not force.** The same $30$ N m comes from $100$ N at $0.3$ m or from $50$ N at $0.6$ m. What turns the bolt is $F\,r$, not $F$.
+  - **A gear pair.** Gear 1 (the driver, $N_1$ teeth, turning at angular speed $\omega_1$ in rad/s, torque $\tau_1$) drives gear 2 ($N_2$ teeth, $\omega_2$, $\tau_2$). Their teeth push each other with one force, and the same number of teeth pass per second, so
+    {{ $$\tau_2 = \tau_1\,\frac{N_2}{N_1}$$ }}
+    {{ $$\omega_2 = \omega_1\,\frac{N_1}{N_2}$$ }}
+    A big gear driven by a small one turns slower with more torque; a small one driven by a big one turns faster with less torque.
+  - **Power is conserved, not torque.** The mechanical power of a turning shaft is
+    {{ $$P = \tau\,\omega$$ }}
+    in watts. For an ideal gear pair $\tau_2\omega_2 = \tau_1\omega_1$; a real one loses a few percent as heat (efficiency $= P_{\text{out}}/P_{\text{in}}$). Gears never give more power, only a different mix of torque and speed.
+  - **Bike gears.** With $N_1$ teeth on the chainring (at the pedals) and $N_2$ on the cog (at the rear wheel), one pedal turn turns the wheel $N_1/N_2$ times. For a wheel of circumference $C$ (m) and pedals at $f$ turns per second the speed is $v = f\,C\,N_1/N_2$, while the pull at the tyre falls as $N_2/N_1$. A high ratio gives speed, a low ratio gives pull on hills: a tradeoff.
+cards:
+  - type: text
+    id: hook
+    title: Before any theory, guess
+    body: |
+      A bolt is stuck. You push on a short spanner and nothing moves. You slide a long pipe over the handle, **push just as hard**, and the bolt gives way.
+
+      Your push (a **force**, in newtons, N) did not change. The distance between your hand and the bolt did. This lesson turns that into a rule, and the same rule explains levers, gears, and why a bicycle has gears.
+
+      Puzzles for this lesson:
+      - why does a longer handle help,
+      - what a gear really trades,
+      - why a bike needs a low gear for a hill and a high one for speed.
+
+  - type: mcq
+    id: guess-wrench
+    prompt: |
+      A stuck bolt will not turn when you push with $100$ N on a short spanner. You push with the same $100$ N on a spanner twice as long. What is the best explanation for why it may now turn?
+    shuffle: false
+    options:
+      - text: The longer spanner multiplies the force, so your hand now pushes with $200$ N.
+        feedback: |
+          Your hand still pushes with $100$ N. A tool cannot create force out of nothing. What grows is the turning effect, which depends on force **and** distance.
+      - text: Turning depends on the force and on how far from the bolt it is applied, and both count.
+        correct: true
+      - text: A longer spanner is lighter, so it is easier to lift.
+        feedback: |
+          Weight plays no part: a heavier long pipe works even better.
+      - text: The bolt does not care about the spanner; it only turns when the force is above a fixed value.
+        feedback: |
+          Then a short spanner and a long one would behave the same with the same push, and everyday experience says they do not.
+    hint: |
+      Think of pushing a door open near the hinge instead of near the handle.
+    explanation: |
+      Pushing a door near its hinge is hard; near the handle it is easy, with the same force. Turning effect grows with the **distance from the pivot**. The next cards make this exact with a plank on a pivot.
+
+  - type: widget
+    id: seesaw-try
+    widget: lever-balance
+    review: false
+    config:
+      length: 10
+      pivot: { x: 5 }
+      snap: 0.1
+      forceSliders: true
+      loads:
+        - { x: 2, F: 30, label: A }
+        - { x: 8, F: 30, label: B }
+      readouts: [torqueL, torqueR, ratio, verdict]
+      presets:
+        - { label: 'Equal forces, equal arms', pivot: { x: 5 }, loads: [{ x: 2, F: 30 }, { x: 8, F: 30 }] }
+        - { label: 'A heavier (30 N) than B (20 N)', pivot: { x: 5 }, loads: [{ x: 2, F: 30 }, { x: 8, F: 20 }] }
+    body: |
+      A plank rests on a pivot (the triangle) and two downward forces push on it. Try the presets, then **drag the pivot** and the two loads, and change a force with its slider. For the second preset (A pushes with $30$ N, B with $20$ N) look for a pivot position where the plank stays level.
+
+  - type: mcq
+    id: seesaw-after
+    prompt: |
+      A plank on a pivot carries a $30$ N push at A and a $20$ N push at B on opposite sides. To keep the plank level, where should the pivot sit?
+    shuffle: false
+    options:
+      - text: Exactly in the middle between A and B.
+        feedback: |
+          In the middle the arms are equal, so the bigger force wins and the plank tips towards A.
+      - text: Closer to A, the larger force.
+        correct: true
+      - text: Closer to B, the smaller force.
+        feedback: |
+          That gives the small force the short arm and the big force the long arm, so the turning effect of A is even larger than before.
+      - text: It cannot be balanced, the forces differ.
+        feedback: |
+          Unequal forces balance easily: a heavy child sits close to the middle of a seesaw, a light one far out.
+    hint: |
+      A small force needs a long lever to match a big force.
+    explanation: |
+      The large force gets the **short** arm and the small force the **long** arm. With A at $x = 2$ m and B at $x = 8$ m, the level position is a pivot at $4.4$ m: A has arm $2.4$ m, B has arm $3.6$ m, and $30 \times 2.4 = 20 \times 3.6 = 72$.
+
+  - type: text
+    id: torque-def
+    title: Torque
+    body: |
+      The quantity that decides which way the plank tips is the **torque**, the turning effect of a force. Take a force $F$ (in newtons, N) pushing at a perpendicular distance $r$ (in metres, m) from the pivot; $r$ is called the **arm**. The torque is
+
+      $$\tau = F\,r$$
+
+      where $\tau$ (Greek letter "tau") is measured in **newton-metres** (N m). Perpendicular means measured at right angles to the force's line: pushing along the handle, towards or away from the bolt, turns nothing.
+
+      The side with the larger torque goes down. Equal torques mean balance.
+
+  - type: build
+    id: build-torque
+    prompt: |
+      Build the torque of a force $F$ at an arm $r$ from the pivot.
+    prefix: '\tau ='
+    tiles: ['F', 'r', 'r^2', '\frac{F}{r}']
+    answers:
+      - ['F', 'r']
+      - ['r', 'F']
+    wrong:
+      - answer: ['F', 'r^2']
+        feedback: |
+          Doubling the arm doubles the torque (as the wrench showed), it does not quadruple it.
+      - answer: ['\frac{F}{r}']
+        feedback: |
+          This would make a longer handle worse. The torque **grows** with the arm.
+    hint: |
+      Double the force and the effect doubles; double the arm and it doubles too.
+    explanation: |
+      $\tau = F\,r$: doubling either factor doubles the torque, and doubling both quadruples it.
+
+  - type: build
+    id: build-balance
+    prompt: |
+      A lever balances on its pivot when the torque of the left side equals that of the right side. The left force is $F_1$ at arm $r_1$, the right force is $F_2$ at arm $r_2$. Build the balance condition.
+    tiles: ['F_1', 'r_1', '=', 'F_2', 'r_2', 'F_1 r_2']
+    answers:
+      - ['F_1', 'r_1', '=', 'F_2', 'r_2']
+      - ['F_2', 'r_2', '=', 'F_1', 'r_1']
+    wrong:
+      - answer: ['F_1', 'r_2', '=', 'F_2', 'r_1']
+        feedback: |
+          This pairs each force with the other side's arm. Each torque is a force with **its own** arm.
+    hint: |
+      Torque on the left, $F_1 r_1$, equals torque on the right.
+    explanation: |
+      $F_1 r_1 = F_2 r_2$. Rearranged, $F_1/F_2 = r_2/r_1$: the forces are in the **inverse** ratio of their arms, the small force on the long arm.
+
+  - type: numeric
+    id: balance-numeric
+    prompt: |
+      A seesaw balances. A child pushes down with $30$ N at an arm $2$ m on the left of the pivot. A second child pushes down with $20$ N on the right. At what arm (in m) from the pivot must the second child sit?
+    answer: 3
+    tolerance: 0.01
+    answerText: '3 m'
+    wrong:
+      - { value: 1.33, feedback: 'You divided the wrong way: $2 \times 20/30$. The smaller force needs the **longer** arm.' }
+      - { value: 2, feedback: 'Equal arms would balance only equal forces.' }
+    hint: |
+      Torque on the left: $30 \times 2$ in N m. The right torque must equal it.
+    explanation: |
+      Left torque $30 \times 2 = 60$ N m. Right: $20\,r = 60$, so $r = 3$ m. The lighter child sits farther out.
+
+  - type: widget
+    id: wrench-try
+    widget: lever-balance
+    review: false
+    config:
+      start: -0.1
+      length: 0.7
+      snap: 0.01
+      pivotShape: bolt
+      pivot: { x: 0, fixed: true }
+      forceRange: [0, 300]
+      forceSliders: true
+      loads:
+        - { x: 0.3, F: 100, label: Hand }
+        - { torque: 40, side: L, label: Bolt, fixedF: true }
+      labels: { tipsLeft: Bolt holds, tipsRight: Bolt turns }
+      presets:
+        - { label: 'Short spanner, 0.3 m', loads: [{ x: 0.3, F: 100 }] }
+        - { label: 'Long spanner, 0.5 m', loads: [{ x: 0.5, F: 100 }] }
+    body: |
+      The bolt (hexagon) resists turning with a torque of $40$ N m. Your hand pushes with $100$ N. **Drag the hand** along the spanner, and try the force slider. Note the lengths and the torque bars.
+
+  - type: numeric
+    id: wrench-torque
+    prompt: |
+      You push with $100$ N at a perpendicular distance $0.3$ m from a bolt. What torque do you apply, in N m?
+    answer: 30
+    tolerance: 0.01
+    answerText: '30 N m'
+    wrong:
+      - { value: 300, feedback: 'You multiplied $100$ by $3$; the arm is $0.3$ m, not $3$ m.' }
+      - { value: 333, feedback: 'You divided $100$ by $0.3$. Torque is force **times** arm.' }
+    hint: |
+      $\tau = F\,r$.
+    explanation: |
+      $\tau = 100 \times 0.3 = 30$ N m. A bolt that resists with $40$ N m holds.
+
+  - type: numeric
+    id: wrench-arm
+    prompt: |
+      A bolt turns only if the applied torque reaches $40$ N m. You can push with at most $100$ N. What is the shortest spanner (arm in m) that can turn it?
+    answer: 0.4
+    tolerance: 0.005
+    answerText: '0.4 m'
+    wrong:
+      - { value: 2.5, feedback: 'You divided $100$ by $40$. We need the arm $r = \tau / F$, that is $40/100$.' }
+    hint: |
+      You need $F\,r \ge 40$ with $F = 100$ N.
+    explanation: |
+      $r = \tau/F = 40/100 = 0.4$ m. With a $1$ m pipe the same push gives $100$ N m, which is why mechanics slip a pipe over the handle.
+
+  - type: build
+    id: build-crowbar
+    prompt: |
+      A crowbar lifts a rock of weight $W$ (N). The rock sits at an arm $r_{\text{rock}}$ from the pivot, your hand at an arm $r_{\text{hand}}$ on the other side. The lever is just balanced. Build the force $F_{\text{hand}}$ you need.
+    prefix: 'F_{\text{hand}} ='
+    tiles: ['W', '\frac{r_{\text{rock}}}{r_{\text{hand}}}', '\frac{r_{\text{hand}}}{r_{\text{rock}}}']
+    answers:
+      - ['W', '\frac{r_{\text{rock}}}{r_{\text{hand}}}']
+    wrong:
+      - answer: ['W', '\frac{r_{\text{hand}}}{r_{\text{rock}}}']
+        feedback: |
+          That says a longer hand arm needs **more** force. Equal torques: $F_{\text{hand}} r_{\text{hand}} = W r_{\text{rock}}$, so the hand arm divides.
+    hint: |
+      Write the torque of each side, set them equal, and solve for $F_{\text{hand}}$.
+    explanation: |
+      $F_{\text{hand}}\,r_{\text{hand}} = W\,r_{\text{rock}}$, so $F_{\text{hand}} = W\,r_{\text{rock}}/r_{\text{hand}}$. For a $600$ N rock at $0.2$ m and a hand at $1.0$ m, $F_{\text{hand}} = 120$ N. Moving the pivot closer to the rock (rock arm $0.1$ m) halves it to $60$ N, but your hand must then move twice as far for the same lift of the rock.
+
+  - type: mcq
+    id: trap-torque
+    prompt: |
+      Push A is $100$ N at an arm $0.3$ m from a bolt. Push B is $50$ N at an arm $0.6$ m from the same bolt, in the same direction of turning. Which pushes the bolt harder round?
+    shuffle: false
+    options:
+      - text: Push A, because the force is larger.
+        feedback: |
+          The tempting answer: force alone seems to count. But torque is force times arm, and B has the longer arm.
+      - text: Push B, because the arm is longer.
+        feedback: |
+          The mirror mistake: arm alone is not enough either, B's force is only half as big.
+      - text: Both turn it equally.
+        correct: true
+    hint: |
+      Compute $F\,r$ for each.
+    explanation: |
+      A: $100 \times 0.3 = 30$ N m. B: $50 \times 0.6 = 30$ N m. Torque is not force: the same torque comes from a big force on a short arm or a small force on a long arm.
+
+  - type: text
+    id: gears-intro
+    title: Gears are levers that go round
+    body: |
+      Two gears side by side, with teeth that mesh. The **driver** gear 1 has $N_1$ teeth ($N$ for number), turns at angular speed $\omega_1$ (omega, in radians per second, rad/s; one full turn is $2\pi \approx 6.28$ rad) and delivers a torque $\tau_1$. It drives gear 2 with $N_2$ teeth, $\omega_2$ and $\tau_2$.
+
+      **Torque.** At the contact the teeth push each other with one force $F$ (equal and opposite). Each gear's rim radius is proportional to its number of teeth (teeth have the same size), so $\tau_1 = F r_1$ and $\tau_2 = F r_2$ with $r_2/r_1 = N_2/N_1$:
+
+      $$\tau_2 = \tau_1\,\frac{N_2}{N_1}$$
+
+      **Speed.** The teeth pass the contact together, so in one second the same number of teeth go by on both gears: $N_1\omega_1 = N_2\omega_2$, that is
+
+      $$\omega_2 = \omega_1\,\frac{N_1}{N_2}$$
+
+      A gear pair is a lever that goes round: what you gain in torque you pay in speed.
+
+  - type: numeric
+    id: gear-torque
+    prompt: |
+      A gear with $N_1 = 20$ teeth delivers a torque $\tau_1 = 12$ N m and drives a gear with $N_2 = 60$ teeth. What torque $\tau_2$ (N m) does the big gear deliver, ignoring losses?
+    answer: 36
+    tolerance: 0.01
+    answerText: '36 N m'
+    wrong:
+      - { value: 4, feedback: 'You used $N_1/N_2$ on the torque. Driving a **bigger** gear multiplies the torque, by $N_2/N_1$.' }
+    hint: |
+      The big gear has three times the teeth of the small one.
+    explanation: |
+      $\tau_2 = 12 \times 60/20 = 36$ N m, three times the input torque.
+
+  - type: numeric
+    id: gear-speed
+    prompt: |
+      The same pair: $N_1 = 20$ teeth turning at $\omega_1 = 30$ rad/s drives $N_2 = 60$ teeth. At what angular speed $\omega_2$ (rad/s) does the big gear turn?
+    answer: 10
+    tolerance: 0.01
+    answerText: '10 rad/s'
+    wrong:
+      - { value: 90, feedback: 'You multiplied by $N_2/N_1$. The big gear is **slower**: the speed scales with $N_1/N_2$.' }
+    hint: |
+      Three times the torque must cost speed.
+    explanation: |
+      $\omega_2 = 30 \times 20/60 = 10$ rad/s, one third. Torque tripled, speed divided by three.
+
+  - type: text
+    id: power
+    title: What is conserved
+    body: |
+      The mechanical **power** $P$ of a turning shaft (energy per second, in watts, W) is the product of the torque and the angular speed:
+
+      $$P = \tau\,\omega$$
+
+      Check the pair above. Input: $12 \times 30 = 360$ W. Output: $36 \times 10 = 360$ W. A perfect gear pair gives out exactly the power it gets: the factor $N_2/N_1$ in the torque cancels the factor $N_1/N_2$ in the speed.
+
+      A real gear pair rubs, so a few percent of the power leaves as heat. As in the lesson Everything Costs Energy, the **efficiency** is $P_{\text{out}}/P_{\text{in}}$. Gears change the mix of torque and speed; they never create power.
+
+  - type: numeric
+    id: power-loss
+    prompt: |
+      A real gear pair receives $\tau_1 = 12$ N m at $\omega_1 = 30$ rad/s, and its efficiency is $95\%$ ($0.95$). What power does it deliver, in W?
+    answer: 342
+    tolerance: 0.01
+    answerText: '342 W'
+    wrong:
+      - { value: 360, feedback: 'That is the ideal pair. A real one loses $5\%$ as heat.' }
+      - { value: 18, feedback: 'You computed the $5\%$ **loss** ($0.05 \times 360$). The question asks for what is delivered.' }
+    hint: |
+      Input power is $\tau_1\omega_1$.
+    explanation: |
+      $P_{\text{in}} = 12 \times 30 = 360$ W; $P_{\text{out}} = 0.95 \times 360 = 342$ W; $18$ W becomes heat.
+
+  - type: widget
+    id: bike-gear
+    widget: tradeoff-curve
+    review: false
+    config:
+      param: { label: 'Gear ratio (chainring teeth / cog teeth)', range: [0.5, 5], value: 1, step: 0.1, decimals: 1 }
+      x: { label: 'Speed at 80 pedal turns/min', unit: m/s, a: 2.8, range: [0, 14], decimals: 1 }
+      y: { label: 'Pull at the tyre', unit: N, a: 157, k: -1, range: [0, 320], decimals: 0 }
+      needs: { xMin: 8, yMin: 60 }
+      show: { feasible: true, guides: true }
+      readouts: [design, x, y, verdict]
+      presets:
+        - { label: 'Hill (1.0)', value: 1 }
+        - { label: 'Flat (3.0)', value: 3 }
+    body: |
+      A bike with a wheel of circumference $2.1$ m, pedalled at $80$ turns per minute with a hard push (a torque of about $52$ N m on the crank). Slide the gear ratio $N_1/N_2$ and watch the speed and the pull at the tyre. The green box asks for both at least $8$ m/s **and** at least $60$ N. Typical values, not exact.
+
+  - type: numeric
+    id: bike-speed
+    prompt: |
+      A bike has $48$ teeth on the chainring (at the pedals) and $16$ teeth on the rear cog. The wheel has circumference $2.1$ m. The rider pedals at $80$ turns per minute. What is the speed in m/s?
+    answer: 8.4
+    tolerance: 0.01
+    answerText: '8.4 m/s'
+    wrong:
+      - { value: 2.8, feedback: 'That is the speed in gear ratio $1$. Here the wheel turns $48/16$ times per pedal turn.' }
+      - { value: 0.93, feedback: 'You divided by $3$ instead of multiplying. The small cog turns faster than the big chainring.' }
+    hint: |
+      The ratio is $N_1/N_2$. Pedal turns per second: $80/60$.
+    explanation: |
+      Ratio $48/16 = 3$: each pedal turn turns the wheel three times, rolling $3 \times 2.1 = 6.3$ m. With $80/60 = 1.33$ turns per second: $1.33 \times 6.3 = 8.4$ m/s. The pull at the tyre falls by the same factor $3$: that is the tradeoff.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a bike also has to stop. The lesson Brakes and Friction asks where the energy of a moving bike goes when you squeeze the lever.

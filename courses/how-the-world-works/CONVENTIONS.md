@@ -25,3 +25,4 @@ Read only the section you need: `grep -n '^## ' courses/how-the-world-works/CONV
 ## Chapter 2
 
 - Bike lesson: lean $\varphi$ from vertical; $a = v^2/r$ (derived by direction change); $\tan\varphi = a/g$ (5 m/s, r 10 m: 14.3 deg; 10 m/s: 45.6 deg); $r = l/\tan\delta$; bike loop: setpoint upright, error = lean, actuator = steering; lean time scale $\sqrt{h/g} \approx 0.3$ s; widget card `review: false`.
+- Gears lesson: torque $\tau = Fr$ (N m, $r$ the perpendicular arm); lever balance $F_1r_1 = F_2r_2$; gear pair driver $N_1,\omega_1,\tau_1$ to driven $N_2$: $\tau_2 = \tau_1N_2/N_1$, $\omega_2 = \omega_1N_1/N_2$; $P = \tau\omega$; bike running example: chainring 48, cog 16, ratio 3, wheel $C = 2.1$ m, 80 turns/min = 8.4 m/s, pull at tyre $157/s$ N.

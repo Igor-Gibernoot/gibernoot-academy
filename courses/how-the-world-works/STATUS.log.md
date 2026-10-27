@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-27 ch02-gears
+Built Gears, Levers and Torque (21 cards, no split needed): hook, wrench guess, seesaw widget, torque, balance builds/numerics, wrench widget, crowbar build, torque-not-force trap, gear pair derivation, power P = tau omega with efficiency (recalls Everything Costs Energy), bike gear tradeoff-curve (x = 2.8 s m/s at 80 rpm, C = 2.1 m; y = 157/s N; needs 8 m/s and 60 N, infeasible), 48/16 numeric, summary. Choices: no trap card on gears alone; crowbar weight written $W$ (clashes with work, doubt). lever-balance shots checked visually (seesaw fine). Conventions fixed here: torque tau = F r (N m), arm r perpendicular; gear ratio N1/N2 (driver/driven), tau2 = tau1 N2/N1, omega2 = omega1 N1/N2; bike: 48/16 ratio 3, 80 rpm, C 2.1 m = 8.4 m/s.
+
 ## 2026-10-27 Widget lever-balance
 Built `js/widgets/lever-balance.js` (registered, CSS `lb-`, docs/widgets/lever-balance.md, README line). Choices: torque = F x horizontal arm, net = right minus left, tilt 3 to 10 degrees by imbalance; a pure torque (bolt resistance) is a load with `torque` + `side`; wrench mode is a config (pivotShape bolt, fixed pivot, labels override verdict words), not a separate code path. Tested with a throwaway lesson (seesaw, wrench, all-hidden), 0 smoke errors, shots checked, throwaway removed (no lesson uses the widget yet, so smoke does not cover it until ch02-gears). Conventions fixed here: left/right torque colors blue/orange; units default m, N, N m.
 
