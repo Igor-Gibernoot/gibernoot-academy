@@ -57,11 +57,14 @@ for (const m of mounts) {
     for (const s of root.querySelectorAll('select')) for (const o of s.options) { s.value = o.value; s.dispatchEvent(new Event('change', { bubbles: true })); }
     for (const c of root.querySelectorAll('input[type=checkbox]')) { c.click(); c.click(); }
     for (const bt of root.querySelectorAll('button')) { bt.click(); await new Promise(r => setTimeout(r, 30)); }
+    const svg0 = root.querySelector('svg'), top0 = () => svg0 && svg0.getBoundingClientRect().top + scrollY;
+    const t0 = top0();
     for (const hd of root.querySelectorAll('.w-handle, [class*=handle], circle')) {
       const bx = hd.getBoundingClientRect(); if (!bx.width) continue;
       const x = bx.x + bx.width / 2, y = bx.y + bx.height / 2;
       fire(hd, 'pointerdown', x, y); fire(hd, 'pointermove', x + 15, y - 10); fire(window, 'pointermove', x + 25, y - 20); fire(hd, 'pointerup', x + 25, y - 20);
     }
+    if (svg0 && Math.abs(top0() - t0) > 0.5) throw new Error(`layout shift: first svg moved ${(top0() - t0).toFixed(1)}px while dragging`);
     for (const bt of root.querySelectorAll('button')) bt.click();
   });
   await p.waitForTimeout(400);

@@ -100,4 +100,26 @@ export function mountWidget(name, el, config) {
   const w = WIDGETS[name];
   if (!w) { el.textContent = `Unknown widget "${name}".`; return; }
   w(el, config);
+  steadyReadouts(el);
+}
+
+// Layout stability for every widget: a readout whose text changes height as the reader drags
+// (fractions, longer messages, wrapping) would push everything below it, and a centred page,
+// up and down. Each readout therefore keeps the tallest height it has had at the current width.
+function steadyReadouts(el) {
+  const peak = new WeakMap();
+  let width = el.clientWidth;
+  const fix = () => {
+    if (el.clientWidth !== width) { width = el.clientWidth; for (const r of el.querySelectorAll('.readout')) { r.style.minHeight = ''; peak.delete(r); } }
+    for (const r of el.querySelectorAll('.readout')) {
+      if (!r.offsetParent) continue;
+      r.style.minHeight = '';
+      const hgt = Math.max(peak.get(r) ?? 0, r.offsetHeight);
+      peak.set(r, hgt);
+      r.style.minHeight = hgt + 'px';
+    }
+  };
+  new MutationObserver(fix).observe(el, { childList: true, subtree: true });
+  new ResizeObserver(fix).observe(el);
+  fix();
 }
