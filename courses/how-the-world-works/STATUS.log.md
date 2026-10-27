@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-27 ch01-challenge part 2
+Added 14 cards (26 total). P4 feedback: `feedback-loop` reskinned as cruise control (unit m/s, target 5, slope pull-back slider as disturbance, leak 0.2, power 1.4, band 0.4; labels only), e = v_set - v_sensed, cards on error 1.5, hill share, too-strong correction, wrong sensor (0.9 reading, true 5.56 m/s). P5: hill range 4 m/s x 6000 s = 24 km at 300 W; battery lengths x1.2 = 864 Wh. Rebuild commuter e-bike: 40 km at 5 m/s needs 556 Wh at 250 W (500 Wh gives 36 km, honest infeasible), battery x1.1 = 665 Wh (x1.1 energy 550 still short), frame x1.5 = 10.125 kg (<12), climb needs 240 W useful, old 200 W motor fails it. Choices: no new widget; summary extended with feedback and designing bullets. Conventions fixed here: cruise-control reading of feedback-loop (v_set, v_sensed, e); e-bike commuter numbers above.
+
 ## 2026-10-27 ch01-challenge part 1
 Built `ch01/challenge.yaml` (12 cards): electric bicycle (frame 3 kg, 0.8 m2 paint, battery 500 Wh, motor draws 250 W, 200 W useful, efficiency 0.8). P1 sizes: log-ruler guess (spoke, yearly distance), 5 m/s x 2400 s x 250 d = 3000 km, k=2 frame 24 kg, strength/weight 1/k. P2 energy: 500 Wh = 1.8 MJ, heat 50 W, efficiency-not-power trap (100 W 90% vs 250 W 80%). P3 tradeoff: tradeoff-curve gear preset (v = 2g, F = 100/g, P = 200 W), needs v>=3, F>=50 gives ratio 1.5 to 2.0; steeper hill 240 W useful needs 300 W drawn. Choices: no `own:` (validator warns for challenges); closing card is a plain text card "What you used on one bicycle" that part 2 replaces/extends; `feedback-loop` reserved for part 2. Conventions fixed here: e-bike numbers above.
 
