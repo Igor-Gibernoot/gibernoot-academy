@@ -1,0 +1,303 @@
+id: ch02-guided
+title: 'Guided Problem: Putting Numbers on It'
+kind: guided
+cards:
+  - type: text
+    id: hook
+    title: One problem, six questions
+    body: |
+      An **e-bike** (a bicycle with a small electric motor) and its rider have a total mass of $90$ kg. They ride at $10$ m/s (36 km/h) on a **wet** road. A junction is $20$ m ahead, and the rider must stop before it. You will answer in steps, using what this level built: kinetic energy, friction, reaction time, gears and impulse.
+
+      Typical values: friction coefficient $\mu = 0.4$ for rubber on a wet road, and $g = 9.8$ m/s$^2$.
+
+      Guessing first is the point, then check with numbers.
+
+  - type: mcq
+    id: guess
+    prompt: |
+      An e-bike and rider (total $90$ kg) ride at $10$ m/s on a wet road and brake as hard as the tyres allow, with no skidding delay. A junction is $20$ m ahead. What is your first guess?
+    shuffle: false
+    options:
+      - text: It stops easily, well before the junction.
+        correct: true
+      - text: It stops just at the junction, with no room to spare.
+        feedback: |
+          Possible, but then the problem would be much harder than it looks. The numbers below show how much room there is.
+      - text: It cannot stop in time.
+        feedback: |
+          At 10 m/s on a wet road the stop is shorter than that, but only when braking starts at once. The reaction time, later, changes the story.
+    hint: |
+      A car at 15 m/s on a wet road stops in 28.7 m; the bike is slower and the road is shorter.
+    explanation: |
+      We will compute the braking distance and find a comfortable margin, then see how a late reaction eats it.
+
+  - type: numeric
+    id: kinetic
+    prompt: |
+      An e-bike and rider with total mass $m = 90$ kg move at $v = 10$ m/s. What is the kinetic energy $E_k = \tfrac12 m v^2$ that braking must remove? (Answer in J.)
+    answer: 4500
+    tolerance: 0.5
+    answerText: '4500 J'
+    wrong:
+      - { value: 9000, feedback: 'You forgot the factor $\tfrac12$: $m v^2 = 9000$ J is twice the kinetic energy.' }
+      - { value: 900, feedback: 'That is the momentum $m v = 900$ kg m/s, not the energy. The energy needs $v^2$ and a half.' }
+    hint: |
+      $v^2 = 100$ m$^2$/s$^2$, then multiply by $m$ and by $\tfrac12$.
+    explanation: |
+      $\tfrac12 \times 90 \times 10^2 = 4500$ J. The brakes must turn all of it into heat.
+
+  - type: numeric
+    id: friction
+    prompt: |
+      Wet road, friction coefficient $\mu = 0.4$. The bike and rider (total $90$ kg) brake and slide so that friction is $F = \mu\,m\,g$, where $m g$ is the weight pressing on the road and $g = 9.8$ m/s$^2$. What is $F$? (Answer in N.)
+    answer: 352.8
+    tolerance: 0.2
+    answerText: '352.8 N'
+    wrong:
+      - { value: 36, feedback: 'That is $\mu m$ without $g$: you used the mass as if it were the weight. The weight is $m g = 882$ N.' }
+      - { value: 882, feedback: 'That is the weight $m g$. Friction is only the fraction $\mu = 0.4$ of the weight.' }
+    hint: |
+      First the weight $m g = 90 \times 9.8$ N, then take $0.4$ of it.
+    explanation: |
+      $m g = 882$ N, so $F = 0.4 \times 882 = 352.8$ N. This is the pushing-back force on the bike during the whole stop.
+
+  - type: build
+    id: distance-formula
+    prompt: |
+      Friction $F = \mu\,m\,g$ acts over the braking distance $d$ and must do work $F\,d$ equal to the kinetic energy $\tfrac12 m v^2$. Build $d$.
+    prefix: 'd ='
+    tiles: ['\frac{v^2}{2\,\mu\,g}', '\frac{v^2}{\mu\,g}', '\frac{2\,v^2}{\mu\,g}', '\frac{m\,v^2}{2\,\mu\,g}']
+    answers:
+      - ['\frac{v^2}{2\,\mu\,g}']
+    wrong:
+      - answer: ['\frac{m\,v^2}{2\,\mu\,g}']
+        feedback: |
+          The mass appears on both sides of $\mu m g\,d = \tfrac12 m v^2$ and cancels: it must not be left in the answer.
+      - answer: ['\frac{v^2}{\mu\,g}']
+        feedback: |
+          The $\tfrac12$ of the kinetic energy turns into a $2$ in the denominator.
+    hint: |
+      Write $\mu\,m\,g\,d = \tfrac12 m v^2$ and divide both sides by $\mu\,m\,g$.
+    explanation: |
+      $\mu m g\,d = \tfrac12 m v^2$ gives $d = v^2/(2\mu g)$. Check the units: $(\text{m/s})^2/(\text{m/s}^2) = \text{m}$.
+
+  - type: numeric
+    id: distance
+    prompt: |
+      A bike and rider at $v = 10$ m/s brake on a wet road ($\mu = 0.4$, $g = 9.8$ m/s$^2$) with $d = v^2/(2\mu g)$. What is the braking distance $d$ in metres?
+    answer: 12.76
+    tolerance: 0.05
+    answerText: '12.8 m'
+    wrong:
+      - { value: 25.5, feedback: 'You left out the factor $2$ in the denominator. It comes from the $\tfrac12$ in the kinetic energy.' }
+      - { value: 51.0, feedback: 'That is the distance on ice ($\mu = 0.1$). Here $\mu = 0.4$.' }
+    hint: |
+      $v^2 = 100$ and $2\mu g = 2 \times 0.4 \times 9.8 = 7.84$.
+    explanation: |
+      $d = 100/7.84 = 12.76$ m. Check with the energy: $352.8 \text{ N} \times 12.76 \text{ m} = 4500$ J. There are $20 - 12.8 = 7.2$ m to spare.
+
+  - type: widget
+    id: wet-stop
+    widget: friction-stop
+    review: false
+    config:
+      mu: 0.4
+      v0: 10
+      mass: 90
+      show: { heat: true, pin: false, grid: true }
+      readouts: [distance, time, energy, heat]
+    body: |
+      This is a check, not a new idea. The bike of $90$ kg slides to a stop from $10$ m/s on the wet road. Watch the speed curve against distance and compare the stopping distance with your number. The heat at the end equals the kinetic energy you computed.
+
+  - type: mcq
+    id: mass-cancels
+    prompt: |
+      A bike and rider brake from $10$ m/s on a wet road ($\mu = 0.4$) and stop in $12.8$ m. Now the rider carries luggage and the total mass is $120$ kg, same speed, same road, same tyres. What happens to the braking distance?
+    shuffle: false
+    options:
+      - text: It stays $12.8$ m.
+        correct: true
+      - text: It grows to about $17$ m, in proportion to the mass.
+        feedback: |
+          The heavier bike does have more energy to remove ($\tfrac12 m v^2$ grows), but the friction force $\mu m g$ grows by the same factor, so the distance does not change.
+      - text: It shrinks, because more weight presses the tyres on the road.
+        feedback: |
+          More weight does press harder and gives more friction, but there is more energy to remove too. The two effects cancel exactly.
+    hint: |
+      Does $m$ appear in $d = v^2/(2\mu g)$?
+    explanation: |
+      The mass cancels: $d = v^2/(2\mu g)$ has no $m$. What changes with mass is the heat produced, $6000$ J instead of $4500$ J, but not the distance. (This was the lesson Brakes and Friction.)
+
+  - type: numeric
+    id: reaction-distance
+    prompt: |
+      The rider only starts braking after a reaction time of $t_r = 1$ s, during which the bike keeps its speed $v = 10$ m/s. How far does the bike travel before the brakes act? (Answer in m.)
+    answer: 10
+    tolerance: 0.05
+    answerText: '10 m'
+    wrong:
+      - { value: 5, feedback: 'The bike has not started to slow down yet, so its speed is the full $10$ m/s, not an average of $10$ and $0$.' }
+    hint: |
+      Constant speed: distance = speed $\times$ time.
+    explanation: |
+      $10 \text{ m/s} \times 1 \text{ s} = 10$ m. A reaction time is a stretch where nothing slows the bike down.
+
+  - type: numeric
+    id: total-stop
+    prompt: |
+      A bike at $10$ m/s travels $10$ m during the rider's reaction time and then brakes on a wet road with a braking distance of $12.76$ m. What is the total distance from the moment the rider sees the junction until the bike would stop? (Answer in m.)
+    answer: 22.76
+    tolerance: 0.05
+    answerText: '22.8 m'
+    hint: |
+      Add the two stretches: reaction, then braking.
+    explanation: |
+      $10 + 12.76 = 22.76$ m, more than the $20$ m available: the bike would stop $2.8$ m past the junction. The latest reaction time that works is $(20 - 12.76)/10 = 0.72$ s: a margin of $7.2$ m is only $0.72$ s of riding.
+
+  - type: numeric
+    id: junction-speed
+    prompt: |
+      Bike and rider ($90$ kg, $10$ m/s) react for $1$ s, so braking starts $10$ m before the junction. Wet-road friction $F = 352.8$ N acts over the remaining $10$ m. At what speed does the bike reach the junction? (Answer in m/s.) Hint: the work $F\times 10$ m removes part of the $4500$ J.
+    answer: 4.65
+    tolerance: 0.03
+    answerText: '4.65 m/s'
+    wrong:
+      - { value: 0, feedback: 'The bike needs $12.76$ m to stop, and only $10$ m remain, so it is still moving at the junction.' }
+      - { value: 21.6, feedback: 'That is $v^2$ in m$^2$/s$^2$; take the square root.' }
+    hint: |
+      Energy left $= 4500 - 352.8 \times 10$ J; then $\tfrac12 m v^2 = $ that.
+    explanation: |
+      Work done by friction: $352.8 \times 10 = 3528$ J. Energy left: $4500 - 3528 = 972$ J. Then $v^2 = 2 \times 972/90 = 21.6$ and $v = 4.65$ m/s (about 17 km/h), still fast enough to hurt. A late reaction turns a safe stop into a collision at a lower, but real, speed.
+
+  - type: numeric
+    id: hill-force
+    prompt: |
+      Later the rider climbs a road that rises $1$ m for every $10$ m of road length. Lifting the $90$ kg rider and bike by $1$ m costs the work $m g h$ with $h = 1$ m. The force along the slope needed just to hold the climb is that work divided by the $10$ m of road. What is this force? (Answer in N.)
+    answer: 88.2
+    tolerance: 0.1
+    answerText: '88.2 N'
+    wrong:
+      - { value: 882, feedback: 'That is the work $m g h$ in joules, over $1$ m. Spreading it over $10$ m of road divides it by $10$.' }
+    hint: |
+      $m g h = 90 \times 9.8 \times 1$ J, spread over $10$ m.
+    explanation: |
+      $882 \text{ J}/10 \text{ m} = 88.2$ N: a tenth of the weight, because the road rises by a tenth of its length. (Friction and air are ignored.)
+
+  - type: numeric
+    id: wheel-torque
+    prompt: |
+      To push with $88.2$ N at the tyre, the wheel of radius $R = 0.334$ m (circumference $2.1$ m) needs a torque $\tau = F R$. What torque is needed at the wheel? (Answer in N m.)
+    answer: 29.5
+    tolerance: 0.1
+    answerText: '29.5 N m'
+    hint: |
+      Torque = force $\times$ perpendicular arm, here the radius of the wheel.
+    explanation: |
+      $88.2 \times 0.334 = 29.5$ N m. This is the lesson Gears, Levers and Torque: a force at a radius gives a torque.
+
+  - type: numeric
+    id: max-ratio
+    prompt: |
+      A rider turns the crank with a torque of $52.5$ N m. The gear pair multiplies the crank torque by $N_2/N_1$ on the way to the wheel, where $s = N_1/N_2$ is the ratio (chainring teeth over cog teeth). The wheel needs $29.5$ N m. What is the largest ratio $s$ that gives enough torque at the wheel?
+    answer: 1.78
+    tolerance: 0.02
+    answerText: '1.78'
+    wrong:
+      - { value: 0.56, feedback: 'You divided the wrong way. The wheel torque is the crank torque divided by $s$, so $52.5/s = 29.5$ gives $s = 52.5/29.5$.' }
+    hint: |
+      Wheel torque $= 52.5/s$. Set it equal to $29.5$.
+    explanation: |
+      $52.5/s \ge 29.5$ gives $s \le 1.78$. Any ratio above that, such as $s = 3$ for flat roads, leaves too little force for the hill: it needs a **low gear**.
+
+  - type: widget
+    id: hill-gear
+    widget: tradeoff-curve
+    review: false
+    config:
+      param: { label: 'Gear ratio (chainring teeth / cog teeth)', range: [0.5, 5], value: 3, step: 0.1, decimals: 1 }
+      x: { label: 'Speed at 80 pedal turns/min', unit: m/s, a: 2.8, range: [0, 14], decimals: 1 }
+      y: { label: 'Pull at the tyre', unit: N, a: 157, k: -1, range: [0, 320], decimals: 0 }
+      needs: { xMin: 4, yMin: 88.2 }
+      show: { feasible: true, guides: true }
+      readouts: [design, x, y, verdict]
+      presets:
+        - { label: 'Flat (3.0)', value: 3 }
+        - { label: 'Hill (1.6)', value: 1.6 }
+    body: |
+      A check of your ratio. The curve shows speed and pull at the tyre for pedalling at $80$ turns per minute (typical values). The green box asks for at least $88.2$ N (to climb) **and** at least $4$ m/s (not to wobble). Slide the ratio and find where the marker turns green.
+
+  - type: mcq
+    id: gear-cost
+    prompt: |
+      A rider picks the low gear $s = 1.6$ to climb a hill at $80$ pedal turns per minute, instead of $s = 3$ on the flat. Compared with the flat gear, what is the tradeoff?
+    shuffle: false
+    options:
+      - text: More force at the tyre, but lower speed for the same pedalling rate.
+        correct: true
+      - text: More force at the tyre and more speed.
+        feedback: |
+          No gear gives both. The energy the rider supplies per second is fixed, and force times speed cannot exceed it: more force means less speed.
+      - text: Less force and less speed, because the rider is working less.
+        feedback: |
+          The rider works just as hard; a low gear changes how the work is split between force and speed, it does not reduce it.
+    hint: |
+      A bike in first gear on a hill: easy to push or fast?
+    explanation: |
+      Pull $157/1.6 = 98$ N and speed $2.8 \times 1.6 = 4.5$ m/s, against $52$ N and $8.4$ m/s at $s = 3$. The product is roughly the same: a gear trades force for speed.
+
+  - type: numeric
+    id: post-impulse
+    prompt: |
+      Back on the flat. Suppose the brakes had failed and the bike with rider ($90$ kg) hit a post at $10$ m/s and stopped completely. What impulse $J = m v$ does the post deliver? (Answer in N s.)
+    answer: 900
+    tolerance: 0.5
+    answerText: '900 N s'
+    wrong:
+      - { value: 4500, feedback: 'That is the kinetic energy in joules. The impulse is the change of momentum $m v$, no half and no square.' }
+    hint: |
+      The whole momentum $m v$ is removed.
+    explanation: |
+      $J = 90 \times 10 = 900$ N s, whatever the way it stops. Only the average force $F = J/\Delta t$ depends on the time (the lesson Airbags and Crumple Zones).
+
+  - type: numeric
+    id: post-force
+    prompt: |
+      A bike and rider ($90$ kg, $10$ m/s) hit a post wrapped in a padding that is crushed over $d_p = 0.5$ m while slowing them steadily to rest. The stop lasts $\Delta t = 2d_p/v = 0.1$ s. What is the average force $F = m v/\Delta t$ on them? (Answer in N.)
+    answer: 9000
+    tolerance: 5
+    answerText: '9000 N'
+    wrong:
+      - { value: 45000, feedback: 'That is the force for a bare post that stops them in only $0.02$ s. Here the pad gives $0.1$ s.' }
+      - { value: 352.8, feedback: 'That is the braking force from friction, which acts for $12.8$ m. The post stops the bike over $0.5$ m, so the force is far larger.' }
+    hint: |
+      Impulse $900$ N s divided by $0.1$ s.
+    explanation: |
+      $900/0.1 = 9000$ N. Check with energy: $F\,d_p = 9000 \times 0.5 = 4500$ J, the kinetic energy. The padding turns a $45\,000$ N hit (a bare stop in $0.02$ s) into $9000$ N, but the brakes did the same job with only $352.8$ N, because they spread the stop over $12.8$ m. The best safety is to stop over a long distance.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      - **Setting.** An e-bike with its rider, total mass $m = 90$ kg, rides at $v = 10$ m/s on a wet road ($\mu = 0.4$, with $g = 9.8$ m/s$^2$) towards a junction $20$ m ahead.
+      - **Energy and friction.** The kinetic energy to remove is
+
+        $$E_k = \tfrac12\,m\,v^2 = 4500\ \text{J}$$
+
+        Sliding friction pushes back with $F = \mu\,m\,g = 352.8$ N. It must do the work $F\,d = E_k$ over the braking distance $d$ (m), so
+
+        $$d = \frac{v^2}{2\,\mu\,g} = 12.8\ \text{m}$$
+
+        The mass cancels, so $d$ is the same for a light or a heavy rider.
+      - **Reaction time.** During a reaction time $t_r$ the bike still moves at $v$, so the whole stop takes $v\,t_r + d$. With $t_r = 1$ s that is $22.8$ m, more than $20$ m: the bike reaches the junction at $4.65$ m/s. The latest allowed reaction is $(20 - 12.8)/10 = 0.72$ s.
+      - **Gear for the hill.** On a slope that rises $1$ m per $10$ m of road, holding the bike needs a force $m g/10 = 88.2$ N along the slope. A rider with crank torque $\tau = 52.5$ N m, a gear ratio $s$ = (chainring teeth)/(cog teeth) and a wheel of radius $R = 0.334$ m gives a pull at the tyre of
+
+        $$F_{\text{tyre}} = \frac{\tau}{s\,R}$$
+
+        which is at least $88.2$ N only for $s \le 1.78$ (a low gear): the price is speed, about $2.8\,s \approx 5$ m/s at $80$ pedal turns per minute.
+      - **Hitting a post.** Stopping from $v$ over a distance $d_p$ takes $\Delta t = 2d_p/v$, and the impulse is $J = m v = 900$ N s whatever happens, so the average force is
+
+        $$F = \frac{m\,v}{\Delta t}$$
+
+        A $0.5$ m pad gives $\Delta t = 0.1$ s and $F = 9000$ N.
+
+      **Next:** a round of fast questions on the traps of this level: heavy cars, gyroscopes, gears and airbags.
