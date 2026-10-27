@@ -1,0 +1,349 @@
+id: ch01-tradeoffs
+title: Every Design Is a Compromise
+kind: concept
+own: |
+  - **A tradeoff** is a pair of qualities that cannot both be improved freely: improving one makes the other worse. The pairs a design can actually reach form a **curve of achievable pairs**. Setting: a steel beam of thickness $t$ (in cm), with typical (made-up but plausible) values: strength $S = 40\,t^2$ in kN and weight per metre $w = 2t + 1$ in kg/m. Strength grows as the **square** of the thickness, weight only roughly in proportion to it:
+    {{ $$S \propto t^2, \qquad w \approx \text{proportional to } t$$ }}
+    so doubling $t$ gives $4\times$ the strength but less than $2\times$ the weight. Thicker is stronger, but heavier.
+  - **Needs and feasibility.** The requirements (here: strength at least $400$ kN and weight at most $12$ kg/m) form a **needs region** on the plot of the two qualities. A design is **feasible** when {{ its point lies on the curve **and** inside the needs region }}. For the beam, feasible thicknesses run from about $3.2$ cm (the strength need sets the thin end) to $5.5$ cm (the weight need sets the thick end). If the region misses the curve, no design works.
+  - **Speed against force.** For a machine with fixed power $P$ (in W), pulling force $F$ (in N) and speed $v$ (in m/s) obey
+    {{ $$P = F\cdot v$$ }}
+    so at fixed power, high speed means low force: the curve is {{ $F = P/v$ }}. A bicycle delivering $200$ W cannot give both $4$ m/s and $60$ N, since that needs $240$ W.
+  - **When nothing is feasible** you can only {{ relax a need or change the machine }} (more power, a different design), which moves the curve. There is no free lunch, and the "best" design depends on the needs, not on the machine alone.
+cards:
+  - type: text
+    id: hook
+    title: Before any theory, guess
+    body: |
+      Remember: in Level 1 the **guess is the point**. Everything here can be answered from common sense; a wrong guess teaches more than a skipped question.
+
+      A bridge is held up by beams. Engineers would love a beam that is **very strong** (it carries a huge load without bending or breaking) and also **very light** (cheap to make, easy to lift into place).
+
+      Puzzles for this lesson:
+      - can a beam be both very strong and very light?
+      - what happens to strength and weight when you make a beam thicker?
+      - why can a bicycle not be easy to pedal and fast at the same time?
+      - what do you do when the demands cannot all be met?
+
+      The word for the common thread is **tradeoff**: a situation where improving one thing makes another thing worse. We will define it properly in a few cards; first, guess.
+
+  - type: mcq
+    id: guess-beam
+    prompt: |
+      A bridge beam is made thicker (same material, same length). What happens to its strength (the load it can carry) and to its weight?
+    shuffle: false
+    options:
+      - text: it gets stronger and heavier
+        correct: true
+      - text: it gets stronger and lighter, because more material fills the gaps
+        feedback: |
+          More material cannot weigh less. A thicker beam contains more steel, so it is heavier.
+      - text: it gets heavier but not stronger, because strength depends only on the material
+        feedback: |
+          Tempting, since the steel is the same. But a thicker beam spreads the load over more steel, so it carries more.
+    hint: |
+      Think of a thin ruler and a thick plank of the same wood. Which bends more easily? Which is heavier?
+    explanation: |
+      Thicker means more material: more weight, and also more strength. That is the heart of the problem: the thing that makes the beam strong is the same thing that makes it heavy. The next card lets you see how much.
+
+  - type: widget
+    id: beam-open
+    widget: tradeoff-curve
+    review: false
+    config:
+      param: { label: Thickness, unit: cm, range: [0.5, 8], value: 2, step: 0.1, decimals: 1 }
+      x: { label: Weight, unit: kg/m, a: 2, b: 1, range: [0, 20], decimals: 1 }
+      y: { label: Strength, unit: kN, a: 40, k: 2, range: [0, 2600], decimals: 0 }
+      show: { needs: false }
+      readouts: [x, y]
+      presets:
+        - { label: '2 cm', value: 2 }
+        - { label: '4 cm', value: 4 }
+    body: |
+      A steel beam. Drag the thickness slider (or press the buttons). The marker moves along the curve of what a beam of that thickness can do; the readouts give its **weight** per metre of length (in kg/m) and its **strength** (the load it can carry, in kN; these are typical, made-up but plausible values). Compare $2$ cm with $4$ cm.
+
+  - type: numeric
+    id: beam-strength
+    prompt: |
+      For this beam, strength in kN is $40\,t^2$ where $t$ is the thickness in cm. What is the strength of a beam $3$ cm thick, in kN?
+    answer: 360
+    tolerance: 0.5
+    answerText: '360'
+    wrong:
+      - { value: 120, feedback: 'You multiplied by $t$, not by $t^2$. Strength goes as the **square** of the thickness: $3^2 = 9$, not $3$.' }
+      - { value: 1440, feedback: 'You squared $3 \times 40$ instead of squaring $3$. Square the thickness first: $3^2 = 9$, then multiply by $40$.' }
+    hint: |
+      Strength grows as thickness squared: compute $3^2$, then multiply by $40$.
+    explanation: |
+      $$S = 40 \times 3^2 = 40 \times 9 = 360\ \text{kN}.$$
+      Why a square? A beam's strength comes from both its width of material and how far that material sits from the middle, and both grow with thickness, so the effect is multiplied twice.
+
+  - type: mcq
+    id: double-thickness
+    prompt: |
+      A beam has strength $S = 40\,t^2$ kN and weight $w = 2t + 1$ kg/m, with the thickness $t$ in cm. The thickness is doubled from $2$ cm to $4$ cm. What happens?
+    shuffle: false
+    options:
+      - text: strength doubles and weight doubles
+        feedback: |
+          Tempting: "twice as thick, twice as much of everything". But strength goes as $t^2$, so it grows faster than the thickness.
+      - text: strength becomes $4$ times larger; weight grows by less than a factor $2$
+        correct: true
+      - text: strength becomes $4$ times larger and weight also becomes $4$ times larger
+        feedback: |
+          Weight is the amount of steel, which grows roughly in proportion to the thickness, not its square.
+    hint: |
+      Compute both at $2$ cm and at $4$ cm and divide.
+    explanation: |
+      At $2$ cm: strength $160$ kN, weight $5$ kg/m. At $4$ cm: strength $640$ kN, weight $9$ kg/m. Strength grew by $640/160 = 4$; weight by $9/5 = 1.8$. Strength gains faster than weight, so thickening a beam is a good deal, but it is never free: every kN costs some kg.
+
+  - type: text
+    id: tradeoff-def
+    title: What a tradeoff is
+    body: |
+      A **tradeoff** is a situation where you cannot improve one quality without worsening another: more strength costs more weight. The pairs of values a design can actually reach (here, every (weight, strength) pair of a beam of some thickness) trace a **curve** in a plot of the two qualities. You can slide along the curve, but you cannot leave it.
+
+      Real designs must meet **needs**: requirements such as "carry at least $400$ kN" or "weigh at most $12$ kg/m". On the plot the needs are a rectangular **region**, and a design works only if its point is on the curve **and** inside the region.
+
+  - type: widget
+    id: beam-needs
+    widget: tradeoff-curve
+    review: false
+    config:
+      param: { label: Thickness, unit: cm, range: [0.5, 8], value: 2, step: 0.1, decimals: 1 }
+      x: { label: Weight, unit: kg/m, a: 2, b: 1, range: [0, 20], decimals: 1 }
+      y: { label: Strength, unit: kN, a: 40, k: 2, range: [0, 2600], decimals: 0 }
+      needs: { yMin: 400, xMax: 12 }
+      readouts: [x, y, verdict]
+      presets:
+        - { label: '2 cm', value: 2 }
+        - { label: '4 cm', value: 4 }
+        - { label: '7 cm', value: 7 }
+    body: |
+      The same beam, now with the **needs** drawn as a green region: strength at least $400$ kN and weight at most $12$ kg/m. The marker turns green when both needs are met. Slide the thickness and find where it turns green.
+
+  - type: mcq
+    id: which-thickness
+    prompt: |
+      A beam has strength $S = 40\,t^2$ kN and weight $w = 2t + 1$ kg/m ($t$ in cm). It must have strength at least $400$ kN **and** weight at most $12$ kg/m. Which thickness works?
+    shuffle: false
+    options:
+      - text: $2$ cm (strength $160$ kN, weight $5$ kg/m)
+        feedback: |
+          It is light enough, but $160$ kN is far below the $400$ kN needed.
+      - text: $4$ cm (strength $640$ kN, weight $9$ kg/m)
+        correct: true
+      - text: $7$ cm (strength $1960$ kN, weight $15$ kg/m)
+        feedback: |
+          Very strong, but $15$ kg/m is over the $12$ kg/m limit. More strength than needed is not a reward when the weight need fails.
+    hint: |
+      Check each option against both needs: one number at a time.
+    explanation: |
+      Only $4$ cm passes both tests. Too thin fails the strength need; too thick fails the weight need. The tradeoff leaves a **window** of good thicknesses, and the next card shows how wide it is.
+
+  - type: widget
+    id: beam-range
+    widget: tradeoff-curve
+    review: false
+    config:
+      param: { label: Thickness, unit: cm, range: [0.5, 8], value: 4, step: 0.1, decimals: 1 }
+      x: { label: Weight, unit: kg/m, a: 2, b: 1, range: [0, 20], decimals: 1 }
+      y: { label: Strength, unit: kN, a: 40, k: 2, range: [0, 2600], decimals: 0 }
+      needs: { yMin: 400, xMax: 12 }
+      show: { feasible: true }
+      readouts: [x, y, range, verdict]
+    body: |
+      Same beam and needs. The thick green part of the curve is the **feasible** part (the designs that meet both needs), and the readout **range** gives the thicknesses that work. Slide the marker to each end of the green part and watch which need turns red.
+
+  - type: mcq
+    id: ends-of-range
+    prompt: |
+      A beam needs strength at least $400$ kN and weight at most $12$ kg/m. The thicknesses that work run from about $3.2$ cm to $5.5$ cm. Which need sets the thin end ($3.2$ cm) and which sets the thick end ($5.5$ cm)?
+    shuffle: false
+    options:
+      - text: strength sets the thin end; weight sets the thick end
+        correct: true
+      - text: weight sets the thin end; strength sets the thick end
+        feedback: |
+          Reversed: thin beams are light, so they never break the weight limit; they break the strength limit. Thick beams are the opposite.
+      - text: strength sets both ends
+        feedback: |
+          More thickness only makes a beam stronger, so the strength need can only fail on the thin side.
+    hint: |
+      What goes wrong with a beam that is too thin? With one that is too thick?
+    explanation: |
+      Thinner than $3.2$ cm, strength $40\,t^2$ falls below $400$ kN (indeed $\sqrt{400/40} = \sqrt{10} \approx 3.16$ cm). Thicker than $5.5$ cm, weight $2t + 1$ rises above $12$ kg/m (indeed $(12 - 1)/2 = 5.5$ cm). One need pushes up, the other pushes down: the designer works in the gap between them.
+
+  - type: text
+    id: gear-intro
+    title: A second tradeoff, on a bicycle
+    body: |
+      Here is a different tradeoff. Anyone who rides a bicycle knows that a **low gear** makes pedalling easy on a hill but slow, while a **high gear** is fast on the flat but hard to push. A rider produces a roughly fixed **power** (power is energy per second, in watts, as in the lesson Everything Costs Energy). The gear only decides how that power is split between **speed** and **pulling force** (the push forward the bicycle gives the road, in newtons).
+
+      Guess first: with the same legs, can you have a lot of speed and a lot of force together?
+
+  - type: widget
+    id: gear-open
+    widget: tradeoff-curve
+    review: false
+    config:
+      param: { label: Gear ratio, range: [0.5, 5], value: 1, step: 0.1, decimals: 1 }
+      x: { label: Speed, unit: m/s, a: 2, range: [0, 11], decimals: 1 }
+      y: { label: Pull force, unit: N, a: 100, k: -1, range: [0, 220], decimals: 0 }
+      readouts: [x, y]
+      presets:
+        - { label: 'Low gear 0.5', value: 0.5 }
+        - { label: 'Gear 2', value: 2 }
+        - { label: 'High gear 5', value: 5 }
+    body: |
+      A rider of fixed power. The **gear ratio** (a bigger number means a higher gear) sets the speed in m/s and the pulling force in N (typical, made-up values). Slide it and watch: when the speed goes up, what does the force do?
+
+  - type: build
+    id: power-build
+    prompt: |
+      Power $P$ (in W) is the pulling force $F$ (in N) times the speed $v$ (in m/s). Build the formula.
+    prefix: 'P ='
+    tiles: ['F', 'v', '\cdot', '/']
+    answers:
+      - ['F', '\cdot', 'v']
+      - ['v', '\cdot', 'F']
+    wrong:
+      - { answer: ['F', '/', 'v'], feedback: 'Force divided by speed has no connection to energy per second. Power multiplies: a bigger force at the same speed means more work per second.' }
+    hint: |
+      Energy per second is (force times distance) per second, and distance per second is the speed.
+    explanation: |
+      Work is force times distance, so power (work per second) is force times distance per second: $P = F\cdot v$. At fixed $P$, if $v$ doubles then $F$ must halve. This is why the curve falls: a machine of fixed power trades pull for speed, never both.
+
+  - type: numeric
+    id: force-from-speed
+    prompt: |
+      A cyclist delivers a steady $200$ W to the road. Using $P = F\cdot v$, what pulling force, in N, does the bicycle give while moving at $5$ m/s?
+    answer: 40
+    tolerance: 0.01
+    answerText: '40'
+    wrong:
+      - { value: 1000, feedback: 'You multiplied $200 \times 5$. Power is force **times** speed, so the force is power **divided by** speed.' }
+    hint: |
+      Solve $P = F\cdot v$ for $F$.
+    explanation: |
+      $$F = \frac{P}{v} = \frac{200}{5} = 40\ \text{N}.$$
+      At $10$ m/s the same legs would give only $20$ N: twice the speed, half the force.
+
+  - type: widget
+    id: gear-needs
+    widget: tradeoff-curve
+    review: false
+    config:
+      param: { label: Gear ratio, range: [0.5, 5], value: 1, step: 0.1, decimals: 1 }
+      x: { label: Speed, unit: m/s, a: 2, range: [0, 11], decimals: 1 }
+      y: { label: Pull force, unit: N, a: 100, k: -1, range: [0, 220], decimals: 0 }
+      needs: { xMin: 4, yMin: 60 }
+      show: { feasible: true }
+      readouts: [x, y, range, verdict]
+    body: |
+      The same rider (the same power) now wants **speed at least $4$ m/s and pulling force at least $60$ N**. The green region is the needs. Slide the gear ratio anywhere you like and look at the readout **range**.
+
+  - type: mcq
+    id: what-to-do
+    prompt: |
+      A cyclist of fixed power $200$ W has the curve $F\cdot v = 200$ W. They want speed at least $4$ m/s **and** force at least $60$ N, but no gear ratio gives both (the green region misses the curve). Which of these can actually help? (Select all that apply.)
+    multiple: true
+    shuffle: false
+    options:
+      - text: relax a need, for example accept $3$ m/s or $50$ N
+        correct: true
+      - text: change the machine so the curve moves, for example an electric motor with more power
+        correct: true
+      - text: slide the gear ratio further, until both needs are met
+        feedback: |
+          Sliding only moves along the same curve, and the curve never enters the region. Another position on it cannot help.
+      - text: pedal the same but "try harder" at the same power
+        feedback: |
+          "Harder" at the same power just trades speed for force again. Only more power changes the curve.
+    hint: |
+      The marker can only move along the curve. So you must change either the region or the curve.
+    explanation: |
+      The designer has two real options: **move the region** (relax a need) or **move the curve** (change the machine). Moving the marker along the curve cannot work, because the curve misses the region.
+
+  - type: numeric
+    id: min-power
+    prompt: |
+      A bicycle must deliver speed $4$ m/s and pulling force $60$ N at the same time. What power, in W, must the rider (or a motor) provide at least?
+    answer: 240
+    tolerance: 0.01
+    answerText: '240'
+    wrong:
+      - { value: 200, feedback: '$200$ W is the rider we started with, and it misses the needs. Compute $F \cdot v$ for the demanded pair.' }
+      - { value: 15, feedback: 'You divided force by speed. Power is the product $F \cdot v$.' }
+    hint: |
+      Use $P = F\cdot v$ with the demanded $F$ and $v$.
+    explanation: |
+      $$P = F\cdot v = 60 \times 4 = 240\ \text{W}.$$
+      A $200$ W rider falls $40$ W short, so no gear can fix it; a $240$ W motor moves the curve far enough to touch the region. The tradeoff did not disappear, it moved.
+
+  - type: order
+    id: design-steps
+    prompt: |
+      Put the steps of a design decision in order.
+    steps:
+      - 'List the needs (what the design must do at least or at most)'
+      - 'Find the curve of designs that are actually possible'
+      - 'Check whether the needs region touches the curve'
+      - 'Pick a design in the feasible part, or relax a need / change the machine if there is none'
+    hint: |
+      You cannot judge a design before you know what it must do and what is possible.
+    explanation: |
+      Needs first, then what is possible, then the check, then the choice. When the check fails, the loop starts again with relaxed needs or a different machine.
+
+  - type: mcq
+    id: trap-free-lunch
+    prompt: |
+      A company advertises a beam "stronger than any other and lighter than any other". Which statement is most sensible?
+    shuffle: false
+    options:
+      - text: 'It is impossible for a beam with that material and shape: strength and weight are linked, and a better material or shape would be what changed.'
+        correct: true
+      - text: It is possible, if the engineers work hard enough on the same beam.
+        feedback: |
+          Effort does not change the curve. With the same material and shape, more strength costs more weight.
+      - text: It must be a lie, since no design can be improved.
+        feedback: |
+          Designs can improve by **moving the curve**: a better material or a smarter shape gives more strength for the same weight. What cannot be done is to beat the curve you are on.
+    explanation: |
+      A tradeoff is a property of a given material, shape or machine. A new material or a new shape moves the whole curve. But for any fixed design, there is no free lunch.
+
+  - type: mcq
+    id: trap-best
+    prompt: |
+      Two bridge beams: one is $3.5$ cm thick, another $5$ cm thick. Which is the "best" beam?
+    shuffle: false
+    options:
+      - text: the $5$ cm one, since it is stronger
+        feedback: |
+          Stronger is not best by itself: it is also heavier. "Best" requires the needs.
+      - text: the $3.5$ cm one, since it is lighter
+        feedback: |
+          Lighter is not best by itself: it is also weaker.
+      - text: 'it depends on the needs: each is best for a different job'
+        correct: true
+    explanation: |
+      Both are on the curve; neither beats the other in both qualities. Which one is best depends on what the bridge needs: a long span where weight hurts, or a heavy truck where strength matters most.
+
+  - type: mcq
+    id: trap-mistake
+    prompt: |
+      A bicycle in low gear is slow. A friend says: "the bicycle designer made a mistake". What is the right reply?
+    shuffle: false
+    options:
+      - text: Right, a good designer would have made it fast and easy at once.
+        feedback: |
+          With a fixed power, that is not possible for any designer: $P = F\cdot v$.
+      - text: 'No: speed and force are a tradeoff, the gear picks a point on the curve, and the rider can pick the point for the hill.'
+        correct: true
+    explanation: |
+      A tradeoff is not a flaw in the design, it is a fact about physics. A good design gives you a **choice** along the curve (that is what gears are for), not an impossible corner.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a tour of everyday machines: one guessing puzzle for each later level of the course, in the lesson A Puzzle for Every Level.

@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-27 ch01-tradeoffs
+Built `ch01/tradeoffs.yaml` (22 cards: beam strength vs weight with tradeoff-curve, needs region, feasible range, bicycle speed vs force with P = F v, infeasible needs, order card, 3 trap cards, summary with 5 blanks). All numbers checked by script (160/360/640/1960 kN; weights 5/7/9/15; sqrt(10)=3.16; 5.5 cm; 40 N; 240 W). Choices: beam values stated as made-up but plausible typical values; weight = 2t+1 so doubling gives 1.8x (said "less than 2x"); the "what to do" card is multi-select; trap round of 3. Validate and shots clean; range/gear-needs presets viewed. Conventions fixed here: beam and gear numbers above (copied to CONVENTIONS.md).
+
 ## 2026-10-27 widget tradeoff-curve
 Checked feedback-loop, log-ruler, bregman-gap: none draws a parametric two-quantity curve with a needs region. Built `tradeoff-curve` (quantities a*s^k+b of one slider; needs rectangle; feasible-part highlight, guides, readouts incl. feasible design range). CSS prefix `tc-` (`fl-` is taken). Smoke and validate pass; screenshots checked (phone, desktop). Choices: axis ranges default to curve extent; curve clamps at the axis range; marker turns green when all needs are met. Conventions fixed here: none (widget only).
 

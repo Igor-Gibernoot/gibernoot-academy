@@ -17,3 +17,4 @@ Read only the section you need: `grep -n '^## ' courses/how-the-world-works/CONV
 - Guess-is-the-point line is repeated in the hook of every Level 1 lesson.
 - log-ruler: guess ladder `reveal:false`; picture after its question `reveal:true, slider:false, readout:false`; widget cards `review: false`.
 - Feedback lesson: room heater +0.8 C/min, loss 0.04 C/min per degree above outside (always-on settles at outside + 20); error $e = T_{\text{set}} - T_{\text{sensed}}$, heater on iff $e>0$; band/hysteresis glossed; feedback-loop presets: plain-text labels (no math), `review: false`, onoff outsideRange [3,15].
+- Tradeoffs lesson: beam strength $S = 40t^2$ kN, weight $w = 2t+1$ kg/m ($t$ cm), needs $S\ge400$, $w\le12$, feasible $t\in[3.16, 5.5]$ (3.2 to 5.5 cm); bicycle $P = F\cdot v$, $v = 2s$ m/s, $F = 100/s$ N (P = 200 W), needs $v\ge4$, $F\ge60$ infeasible (needs 240 W); tradeoff-curve cards `review: false`, `range` only revealed in the resolving card.
