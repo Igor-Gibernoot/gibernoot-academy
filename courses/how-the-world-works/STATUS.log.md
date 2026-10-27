@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-27 Widget lever-balance
+Built `js/widgets/lever-balance.js` (registered, CSS `lb-`, docs/widgets/lever-balance.md, README line). Choices: torque = F x horizontal arm, net = right minus left, tilt 3 to 10 degrees by imbalance; a pure torque (bolt resistance) is a load with `torque` + `side`; wrench mode is a config (pivotShape bolt, fixed pivot, labels override verdict words), not a separate code path. Tested with a throwaway lesson (seesaw, wrench, all-hidden), 0 smoke errors, shots checked, throwaway removed (no lesson uses the widget yet, so smoke does not cover it until ch02-gears). Conventions fixed here: left/right torque colors blue/orange; units default m, N, N m.
+
 ## 2026-10-27 ch02-bike
 Built `ch02/bike.yaml` (19 cards): hook, guess, bike-balance preset card (3 presets), steering direction, why a lean grows, a = v^2/r (derived), builds, speed x4, order, gyroscope myth, tan phi = a/g, 14.3 and 45.6 deg, loop roles recall (by name, thermostat lesson), summary. Choices: ch01-review skipped (automatic); gyroscope experiments cited by decade only, unverified online. Conventions fixed here: $\varphi$ = lean from vertical; $a = v^2/r$; $\tan\varphi = a/g$; $r = l/\tan\delta$; bike loop: setpoint upright, error = lean, actuator = steering; lean time scale $\sqrt{h/g} \approx 0.3$ s.
 

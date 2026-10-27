@@ -53,3 +53,4 @@ and a new `docs/widgets/<name>.md` plus a line below.
 - `torus`: The exam figures
 - `worldline-clock`: A worldline and the clock it carries
 - `bike-balance`: A bicycle from behind as an inverted pendulum with steering feedback; lean-angle plot, speed and gain sliders, nudge
+- `lever-balance`: A plank on a pivot; drag pivot and loads, force arrows, dashed arms, a torque bar per side, tilt; `wrench` form (hand force vs a bolt's torque)

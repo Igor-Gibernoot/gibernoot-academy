@@ -27,6 +27,7 @@ import { sphereFigure } from './sphere.js';
 import { beliefMixer } from './belief-mixer.js';
 import { homeostat } from './homeostat.js';
 import { bikeBalance } from './bike-balance.js';
+import { leverBalance } from './lever-balance.js';
 import { freeEnergyBound } from './free-energy-bound.js';
 import { policyScorer } from './policy-scorer.js';
 import { blanketGraph } from './blanket-graph.js';
@@ -76,6 +77,7 @@ const WIDGETS = {
   'belief-mixer': beliefMixer,
   homeostat,
   'bike-balance': bikeBalance,
+  'lever-balance': leverBalance,
   'free-energy-bound': freeEnergyBound,
   'policy-scorer': policyScorer,
   'blanket-graph': blanketGraph,
