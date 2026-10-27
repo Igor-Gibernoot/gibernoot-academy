@@ -1,0 +1,321 @@
+id: ch02-elevator
+title: Elevators and Counterweights
+kind: concept
+own: |
+  - **Work and power to lift.** Lifting a mass $m$ (kg) at steady speed needs a force equal to its weight $mg$ (with $g = 9.8\ \mathrm{m/s^2}$). Over a height $h$ the motor does the work $W$ (joules), and moving at speed $v$ takes the power $P$ (watts):
+    {{ $$W = mgh$$ }}
+    {{ $$P = F\,v$$ }}
+    For a cabin and load of $m = 800$ kg raised $h = 20$ m at $v = 2$ m/s: $F = 7840$ N, $W = 156.8$ kJ, $P = 15.68$ kW.
+  - **Counterweight.** A counterweight of mass $M$ hangs on the other side of the pulley, so the rope pulls it down while the cabin goes up. The motor only supplies the imbalance, the force on the cabin side of the rope (up is positive):
+    {{ $$F = (m - M)\,g$$ }}
+    With $M = 650$ kg (cabin 500 kg plus half of the 300 kg maximum load) a full cabin ($m = 800$ kg) needs $F = 1470$ N and $P = 2.94$ kW, five times less than without it.
+  - **Best choice.** The counterweight should equal {{ the empty cabin plus half the maximum load }}, so the imbalance is $+150\,g$ when full and $-150\,g$ when empty: as small as possible in both cases.
+  - **Regeneration.** The sign of $P = Fv$ tells who does the work. If $P > 0$ the motor draws energy; if $P < 0$ (a full cabin going down, an empty cabin going up, with $M = 650$ kg) the motor is {{ braked by the load and can return energy to the grid }}: $P = -2.94$ kW.
+  - **Energy bookkeeping.** For a full cabin going up 20 m with $M = 650$ kg, the cabin gains $156.8$ kJ of height energy, the counterweight gives up $127.4$ kJ, and the motor supplies the difference $W = 29.4$ kJ. Real motors are less than 100% efficient, so the electrical power is $P/\text{efficiency}$.
+cards:
+  - type: text
+    id: hook
+    title: Before any theory, guess
+    body: |
+      An office lift carries a cabin of $500$ kg and up to $300$ kg of people, so $800$ kg in all, at a walking-fast speed of $2$ m/s. Yet the motor on the roof is not the size of a truck engine: it is about the size of a washing machine. How can a modest motor lift that much steel and people?
+
+      This lesson finds the trick. Guessing first is the point.
+
+  - type: mcq
+    id: guess-power
+    prompt: |
+      A rope must lift a full cabin ($800$ kg) straight up at a steady $2$ m/s, with **nothing** hanging on the other side. Power is energy per second, in watts (W); a kettle uses about $2$ kW. About how powerful must the motor be?
+    shuffle: false
+    options:
+      - text: About $1.6$ kW, like a kettle.
+        feedback: |
+          Too small. A kettle heats water; this motor must lift $800$ kg against gravity every second of the trip. The cards below compute it: it is ten times more.
+      - text: About $16$ kW.
+        correct: true
+      - text: About $160$ kW.
+        feedback: |
+          Too large: that is a sports car engine. The motor must lift the cabin, not accelerate it hard, and the power needed is ten times smaller.
+    hint: |
+      Lifting $800$ kg means pulling up with a force close to $8000$ N. Power is that force times how far it moves each second.
+    explanation: |
+      The exact value is $15.68$ kW, derived in the next cards.
+
+  - type: widget
+    id: no-counterweight
+    widget: elevator-counterweight
+    review: false
+    config:
+      cabin: 500
+      load: 300
+      counterweight: 0
+      speed: 2
+      dir: up
+      show:
+        counterweightSlider: false
+        powerBar: false
+        energy: false
+        directionToggle: false
+      readouts: [tension, motorForce, time]
+    body: |
+      This is a lift with a cabin of $500$ kg and a load you can change (people inside), hanging on a rope over a pulley turned by a motor. Nothing hangs on the other side. Press **Run** and watch the arrows: how hard does the rope pull on the cabin, and how hard must the motor pull on the rope? Try changing the load.
+
+  - type: mcq
+    id: constant-speed
+    prompt: |
+      A cabin and its load have mass $m = 800$ kg. A rope lifts it at a **constant** speed of $2$ m/s, with nothing on the other side. Which statement about the rope force $F$ on the cabin is right?
+    options:
+      - text: $F = mg$, the weight of the cabin and load.
+        correct: true
+      - text: $F > mg$, because the cabin is moving up.
+        feedback: |
+          Motion alone needs no extra force. Only a change of speed (acceleration) needs force beyond the weight. At constant speed the net force is zero.
+      - text: $F = 0$, because the speed is constant.
+        feedback: |
+          Constant speed means the net force is zero, not that the rope force is zero. The rope pulls up with $F$ and gravity pulls down with $mg$, and these cancel.
+    hint: |
+      Newton's first law: constant velocity means zero net force.
+    explanation: |
+      The pull up ($F$) and the pull down (weight $mg$) cancel, so $F = mg = 800\times9.8 = 7840$ N. Here weight is written $mg$; the letter $W$ is kept for work.
+
+  - type: text
+    id: work
+    title: Work to lift
+    body: |
+      **Work** $W$ is the energy a force delivers when it moves something: force times the distance moved along the force. Lifting steadily by a height $h$ with force $F = mg$:
+
+      $$W = F\,h = mgh$$
+
+      Here $m$ is in kg, $g = 9.8\ \mathrm{m/s^2}$, $h$ in metres, $W$ in joules (J). This is the height energy the cabin gains, the same energy idea as in the lesson Everything Costs Energy.
+
+  - type: numeric
+    id: work-num
+    prompt: |
+      The motor raises a full cabin and load of $m = 800$ kg through $h = 20$ m with no counterweight. How much work does it do, in kilojoules (kJ)? ($g = 9.8\ \mathrm{m/s^2}$)
+    answer: 156.8
+    tolerance: 0.005
+    answerText: '156.8'
+    wrong:
+      - { value: 16, feedback: 'That is about $800\times20$, forgetting $g$. Weight is $mg$, not $m$.' }
+      - { value: 7.84, feedback: 'That is the force in kilonewtons ($7.84$ kN). Work is force times the distance $20$ m.' }
+    hint: |
+      $W = mgh$ with $m = 800$, $g = 9.8$, $h = 20$; divide by $1000$ for kJ.
+    explanation: |
+      $W = 800\times9.8\times20 = 156\,800$ J $= 156.8$ kJ.
+
+  - type: text
+    id: power
+    title: From work to power
+    body: |
+      The trip of $20$ m at $2$ m/s lasts $20/2 = 10$ s. **Power** is work per time:
+
+      $$P = \frac{W}{t}$$
+
+      Since $W = Fh$ and $h = vt$, this is also
+
+      $$P = F\,v$$
+
+      with $F$ the force on the load and $v$ its speed. The unit is the watt (W): $1$ W $= 1$ J/s.
+
+  - type: numeric
+    id: power-num
+    prompt: |
+      The motor lifts $m = 800$ kg at a constant $v = 2$ m/s with no counterweight (force $F = mg$). What power does it need, in kilowatts (kW)? ($g = 9.8\ \mathrm{m/s^2}$)
+    answer: 15.68
+    tolerance: 0.005
+    answerText: '15.68'
+    wrong:
+      - { value: 7.84, feedback: 'That is the force in kN. Multiply it by the speed $2$ m/s to get power.' }
+      - { value: 15680000, feedback: 'The number is right but the unit is not: $15\,680$ W is $15.68$ kW.' }
+    hint: |
+      $P = Fv$ with $F = 7840$ N and $v = 2$ m/s, then divide by $1000$.
+    explanation: |
+      $P = 7840\times2 = 15\,680$ W $= 15.68$ kW. Check with the work: $156.8$ kJ in $10$ s is $15.68$ kW.
+
+  - type: text
+    id: idea
+    title: The counterweight idea
+    body: |
+      Almost all of that force just holds up the cabin's weight, which does not change from trip to trip. So hang on the other end of the rope a block of mass $M$, the **counterweight**. When the cabin goes up, the block goes down, and gravity pulls it down with force $Mg$, which helps lift the cabin.
+
+      The rope pulls the cabin up with $mg$ at constant speed, and the block's rope pulls down with $Mg$. The motor only has to supply the difference, the **imbalance**, with up positive:
+
+      $$F = (m - M)\,g$$
+
+      Here $m$ is the mass of cabin plus load and $M$ the counterweight. Same trip, same speed; only the force the motor adds shrinks.
+
+  - type: mcq
+    id: equal-masses
+    prompt: |
+      A cabin with its load has mass $m = 800$ kg. A counterweight of exactly $M = 800$ kg hangs on the other side of the pulley. Ignoring friction, what force must the motor supply to move the cabin at constant speed?
+    options:
+      - text: $F = 0$ (it only has to overcome friction in a real lift).
+        correct: true
+      - text: $F = 7840$ N, as without a counterweight.
+        feedback: |
+          That would be right if the other side were empty. Here the counterweight pulls down with its own weight $Mg = 7840$ N, which cancels the cabin's weight.
+      - text: The cabin cannot move at all.
+        feedback: |
+          A balanced see-saw moves with a tiny push. With the weights equal, any small force (or a tiny difference) sets it moving, and at constant speed it keeps going.
+    hint: |
+      $F = (m - M)g$.
+    explanation: |
+      $F = (800 - 800)\times9.8 = 0$. A balanced pair needs a motor only to start it, stop it and fight friction. But a lift is not always full, as the next cards show.
+
+  - type: widget
+    id: with-counterweight
+    widget: elevator-counterweight
+    review: false
+    config:
+      cabin: 500
+      load: 300
+      counterweight: 650
+      speed: 2
+      dir: up
+      presets:
+        - { label: Full cabin up, load: 300, dir: up }
+        - { label: Empty cabin up, load: 0, dir: up }
+        - { label: Full cabin down, load: 300, dir: down }
+        - { label: Empty cabin down, load: 0, dir: down }
+    body: |
+      Now a counterweight of $650$ kg hangs on the other side (cabin $500$ kg plus load $0$ to $300$ kg). Run the four trips with the buttons. Watch the motor force arrow and the **power bar**: orange means the motor draws energy, green means it is braked. Then drag the counterweight slider and look for the value that keeps the motor force small in both the full and the empty trip.
+
+  - type: numeric
+    id: force-num
+    prompt: |
+      A full cabin and load of $m = 800$ kg rises with a counterweight of $M = 600$ kg. What force must the motor supply on the cabin side of the rope, in newtons? ($g = 9.8\ \mathrm{m/s^2}$)
+    answer: 1960
+    tolerance: 0.005
+    answerText: '1960'
+    wrong:
+      - { value: 7840, feedback: 'That ignores the counterweight, as if the other side were empty. Use $F = (m - M)g$.' }
+      - { value: 200, feedback: 'That is the mass imbalance $m - M$ in kg. Multiply by $g$ to get a force in newtons.' }
+    hint: |
+      $F = (m - M)g$ with $m - M = 200$ kg.
+    explanation: |
+      $F = (800 - 600)\times9.8 = 1960$ N, a quarter of the $7840$ N needed without a counterweight.
+
+  - type: mcq
+    id: best-cw
+    prompt: |
+      A lift has an empty cabin of $500$ kg and carries a load anywhere from $0$ to $300$ kg. Which counterweight $M$ makes the **largest** imbalance $|m - M|$ as small as possible over all loads?
+    shuffle: false
+    options:
+      - text: $M = 500$ kg, equal to the empty cabin.
+        feedback: |
+          Then the empty cabin is perfectly balanced but the full cabin has an imbalance of $300$ kg, the worst case. Better to split the difference.
+      - text: $M = 650$ kg, the empty cabin plus half of the maximum load.
+        correct: true
+      - text: $M = 800$ kg, equal to the full cabin.
+        feedback: |
+          Then the full cabin is balanced but the empty cabin has an imbalance of $300$ kg the other way. Same worst case as $500$ kg.
+    hint: |
+      Compute $m - M$ for the empty and the full cabin and make the two imbalances equal in size.
+    explanation: |
+      With $M = 650$: empty gives $500 - 650 = -150$ kg, full gives $800 - 650 = +150$ kg. The worst imbalance is $150$ kg, half of the other choices. The motor force is at most $150\times9.8 = 1470$ N and the power at most $1470\times2 = 2.94$ kW, five times less than the $15.68$ kW without a counterweight.
+
+  - type: mcq
+    id: regen
+    prompt: |
+      A lift has a counterweight of $M = 650$ kg and a motor force $F$ (up positive) on the cabin side. A full cabin ($m = 800$ kg) goes **down** at constant speed. Power is $P = Fv$ with $v$ the cabin's velocity (up positive). What is the sign of $P$?
+    options:
+      - text: '$P > 0$: the motor must push the cabin down.'
+        feedback: |
+          Here the cabin is heavier than the counterweight, so gravity drives the trip. The motor force stays upward ($F = +1470$ N) to hold the cabin back, but the cabin moves down.
+      - text: '$P < 0$: the motor is braked by the load and can return energy.'
+        correct: true
+      - text: '$P = 0$: speed is constant so no power is needed.'
+        feedback: |
+          Constant speed means zero net force, not zero power. The motor force is $1470$ N and the speed is $2$ m/s, so $|P| = 2.94$ kW; only the sign is the question.
+    hint: |
+      $F$ is up and $v$ is down.
+    explanation: |
+      $F = +1470$ N and $v = -2$ m/s give $P = Fv = -2.94$ kW. Negative power means the load does work on the motor, which then acts as a generator (**regeneration**) and returns energy to the building.
+
+  - type: mcq
+    id: regen-trips
+    prompt: |
+      A lift has cabin $500$ kg, maximum load $300$ kg and a counterweight of $650$ kg. Which of these trips make the power $P = Fv$ **negative** (the motor regenerates)? Select all that apply.
+    multiple: true
+    options:
+      - text: Full cabin going down.
+        correct: true
+      - text: Empty cabin going up.
+        correct: true
+      - text: Full cabin going up.
+        feedback: |
+          Here the cabin is heavier than the counterweight and the motor lifts the difference: $F = +1470$ N and $v = +2$ m/s give $P = +2.94$ kW. The motor draws energy.
+      - text: Empty cabin going down.
+        feedback: |
+          The empty cabin is lighter, so the counterweight pulls it up and the motor holds it back ($F = -1470$ N). The cabin moves down ($v = -2$ m/s): $P = +2.94$ kW. The motor draws energy to push the lighter side down.
+    hint: |
+      Compare the signs of $F = (m - M)g$ and of the velocity $v$.
+    explanation: |
+      Regeneration happens when the heavier side goes down: a full cabin descending, or an empty cabin rising (the counterweight descends). Each gives $P = -2.94$ kW.
+
+  - type: numeric
+    id: bookkeeping
+    prompt: |
+      A full cabin ($m = 800$ kg) rises $h = 20$ m with a counterweight of $M = 650$ kg that falls the same $20$ m. The cabin gains $156.8$ kJ of height energy, and the counterweight loses $Mgh$. How much work must the motor supply, in kJ? ($g = 9.8\ \mathrm{m/s^2}$)
+    answer: 29.4
+    tolerance: 0.005
+    answerText: '29.4'
+    wrong:
+      - { value: 127.4, feedback: 'That is the energy given up by the counterweight, $Mgh$. The motor supplies what is missing: the cabin gain minus this.' }
+      - { value: 156.8, feedback: 'That is the cabin gain, as if the counterweight were absent.' }
+    hint: |
+      Cabin gain $-$ counterweight loss.
+    explanation: |
+      The counterweight loses $650\times9.8\times20 = 127.4$ kJ and the cabin gains $156.8$ kJ, so the motor supplies $156.8 - 127.4 = 29.4$ kJ. Check: $P t = 2.94$ kW $\times10$ s $= 29.4$ kJ. The counterweight is a battery that is charged on the way down and spent on the way up, never lost.
+
+  - type: numeric
+    id: efficiency
+    prompt: |
+      A lift motor (full cabin up, counterweight 650 kg) needs a mechanical power of $2.94$ kW. Its **efficiency** (useful power out divided by electrical power in, as in the lesson Everything Costs Energy) is $0.8$. What electrical power does it draw from the mains, in kW?
+    answer: 3.675
+    tolerance: 0.005
+    answerText: '3.675'
+    wrong:
+      - { value: 2.352, feedback: 'That multiplies by $0.8$. Efficiency is out divided by in, so the input is larger: divide by $0.8$.' }
+      - { value: 2.94, feedback: 'That ignores the losses. A real motor wastes part of what it draws as heat.' }
+    hint: |
+      Input = output / efficiency.
+    explanation: |
+      $2.94/0.8 = 3.675$ kW. Without a counterweight the same motor would draw $15.68/0.8 = 19.6$ kW, so the counterweight also saves the electricity bill and the heat to remove.
+
+  - type: mcq
+    id: too-heavy
+    prompt: |
+      A designer says: "A heavier counterweight always means a smaller motor." The empty cabin is $500$ kg, and the counterweight is $M = 1200$ kg. For the empty cabin, what is $|F| = |m - M|\,g$, compared with the $7840$ N of the full cabin without a counterweight?
+    options:
+      - text: '$|F| = 6860$ N, almost as big: too much counterweight is as bad as none.'
+        correct: true
+      - text: $|F| = 0$ N, because more counterweight means more help.
+        feedback: |
+          Help only counts up to the balance point. Beyond it the counterweight is the heavier side and the motor must hold it back, with a force of its own.
+      - text: $|F| = 700$ N, the mass imbalance.
+        feedback: |
+          $700$ kg is the imbalance in mass; multiply by $g$ to get a force.
+    hint: |
+      $|500 - 1200| = 700$ kg times $g$.
+    explanation: |
+      $700\times9.8 = 6860$ N. The imbalance should be small in **both** directions, which is why the best counterweight sits halfway.
+
+  - type: order
+    id: safety
+    prompt: |
+      A rope snaps. Put in order how a lift stops the falling cabin.
+    steps:
+      - The rope breaks and the cabin starts to fall faster and faster.
+      - A speed governor senses that the cabin is going much faster than allowed.
+      - The governor trips the safety gear on the cabin.
+      - Wedges clamp onto the steel guide rails and friction acts on them.
+      - Friction turns the cabin's motion into heat and the cabin stops.
+    hint: |
+      Sense, trigger, grip, stop: friction turns motion into heat, as in the lesson Brakes and Friction.
+    explanation: |
+      The safety gear does not need electricity or the motor: it is a purely mechanical brake that works exactly like friction brakes, converting the kinetic energy of the cabin into heat in the rails and wedges.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a lift is gentle. A car crash stops $1000$ kg in a fraction of a second, with forces a hundred times bigger. In *Airbags and Crumple Zones* you will see why giving the stop more time (or more distance) shrinks the force, with the idea of impulse.
