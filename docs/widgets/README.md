@@ -49,5 +49,6 @@ and a new `docs/widgets/<name>.md` plus a line below.
 - `sphere`: The final-exam figures
 - `steady-state-walk`: A 2D random walker over contours of surprise
 - `time-slices`: A 1+1 spacetime picture for absolute time
+- `tradeoff-curve`: A design slider moves a marker along a tradeoff curve between two quantities, with an optional needs region
 - `torus`: The exam figures
 - `worldline-clock`: A worldline and the clock it carries

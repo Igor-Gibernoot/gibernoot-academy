@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-27 widget tradeoff-curve
+Checked feedback-loop, log-ruler, bregman-gap: none draws a parametric two-quantity curve with a needs region. Built `tradeoff-curve` (quantities a*s^k+b of one slider; needs rectangle; feasible-part highlight, guides, readouts incl. feasible design range). CSS prefix `tc-` (`fl-` is taken). Smoke and validate pass; screenshots checked (phone, desktop). Choices: axis ranges default to curve extent; curve clamps at the axis range; marker turns green when all needs are met. Conventions fixed here: none (widget only).
+
 Newest first. Never read this file in a session; add an entry by `Edit`ing the `# Status log` line.
 
 - 2026-10-27 ch01-feedback (20 cards: hook, open-loop room, sense/compare/act, on/off room, error, open vs closed, delay overshoot, toilet, cruise, 3 traps). Chose a numeric for the open-loop equilibrium (25 C) and band 1 (calm) / band 2 + delay 8 (overshoot, swings about 16 to 23). Verified by script: equilibrium out+20 (0.8/0.04); heater duty 80% at 5 C and 30% at 15 C outside (21 C setpoint); outside range [3,15] for onoff so the heater can hold 21. Conventions fixed here: feedback-loop preset labels are plain text (math in a preset label renders as raw HTML); always-on room: heater +0.8 C/min, loss 0.04 C/min per degree above outside; error e = T_set - T_sensed, heater on iff e > 0.

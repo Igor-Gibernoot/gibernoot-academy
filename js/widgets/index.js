@@ -51,6 +51,7 @@ import { dualGrids } from './dual-grids.js';
 import { altProjections } from './alt-projections.js';
 import { logRuler } from './log-ruler.js';
 import { feedbackLoop } from './feedback-loop.js';
+import { tradeoffCurve } from './tradeoff-curve.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -98,6 +99,7 @@ const WIDGETS = {
   'alt-projections': altProjections,
   'log-ruler': logRuler,
   'feedback-loop': feedbackLoop,
+  'tradeoff-curve': tradeoffCurve,
 };
 
 export function mountWidget(name, el, config) {
