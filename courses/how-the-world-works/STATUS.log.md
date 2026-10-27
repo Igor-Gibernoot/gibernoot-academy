@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-27 Widget bike-balance
+Built `js/widgets/bike-balance.js` (registered, CSS `bb-` in app.css, docs/widgets/bike-balance.md). Model: phi'' = (g/h) phi - v^2/(h l) delta, delta = clip(gain (phi + 0.3 phi'), 0.6 rad), h = l = 1 m, dt 0.005 s, fall at 45 deg; chose steering on lean plus lean rate (the rate term gives damping) instead of a separate k v phi' term. Nudge = +0.8 rad/s so the plot is visible (0.3 gave peaks of 1 deg). Script checks (nudge at 0.5 s, 8 s): gain 0 falls at all speeds 0-10 m/s (1.08 s); gain 2: falls at 1 m/s (1.15 s), 2 m/s (1.70 s), recovers from 3 m/s (peak 6.0, 3.4, 2.2 deg at 3, 4, 5 m/s); gain 1.5 recovers from 3 m/s; condition v^2 gain > g l. Smoke: 0 errors; screenshot checked (phone, hands-off falls at 1.1 s). Tested with a throwaway lesson, removed. Conventions fixed here: lean positive to the right; steering angle delta, gain dimensionless; l = wheelbase, h = mass height, both 1 m in the widget defaults.
+
 ## 2026-10-27 Level 1 audit
 Fixed: scales ("plane-and-a-third" nonsense, force glossed); energy (lesson cross-reference by title, heat bullet defines symbols); feedback (delay explanation used a wrong 0.6 C/min rate: near 22 C the net rate is 0.12 C/min, simulated peak 22.8 C); challenge (hook said three puzzles and omitted feedback, "target" unified to "setpoint", "Level 2" reference replaced by name). Checked: widget presets and options real, no "the book"/section labels, tour table matches course.yaml level titles, every ch01 node has file: (review automatic), validate and shots clean. Conventions fixed here: feedback uses "setpoint" everywhere (challenge widget label Setpoint), e = set - sensed.
 

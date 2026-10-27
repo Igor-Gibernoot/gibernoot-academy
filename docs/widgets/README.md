@@ -52,3 +52,4 @@ and a new `docs/widgets/<name>.md` plus a line below.
 - `tradeoff-curve`: A design slider moves a marker along a tradeoff curve between two quantities, with an optional needs region
 - `torus`: The exam figures
 - `worldline-clock`: A worldline and the clock it carries
+- `bike-balance`: A bicycle from behind as an inverted pendulum with steering feedback; lean-angle plot, speed and gain sliders, nudge
