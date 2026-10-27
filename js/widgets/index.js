@@ -28,6 +28,7 @@ import { beliefMixer } from './belief-mixer.js';
 import { homeostat } from './homeostat.js';
 import { bikeBalance } from './bike-balance.js';
 import { leverBalance } from './lever-balance.js';
+import { frictionStop } from './friction-stop.js';
 import { freeEnergyBound } from './free-energy-bound.js';
 import { policyScorer } from './policy-scorer.js';
 import { blanketGraph } from './blanket-graph.js';
@@ -78,6 +79,7 @@ const WIDGETS = {
   homeostat,
   'bike-balance': bikeBalance,
   'lever-balance': leverBalance,
+  'friction-stop': frictionStop,
   'free-energy-bound': freeEnergyBound,
   'policy-scorer': policyScorer,
   'blanket-graph': blanketGraph,
