@@ -49,6 +49,7 @@ import { gaussCharts } from './gauss-charts.js';
 import { bregmanGap } from './bregman-gap.js';
 import { dualGrids } from './dual-grids.js';
 import { altProjections } from './alt-projections.js';
+import { logRuler } from './log-ruler.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -94,6 +95,7 @@ const WIDGETS = {
   'bregman-gap': bregmanGap,
   'dual-grids': dualGrids,
   'alt-projections': altProjections,
+  'log-ruler': logRuler,
 };
 
 export function mountWidget(name, el, config) {
