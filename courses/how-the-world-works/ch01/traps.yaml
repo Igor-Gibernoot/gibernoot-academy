@@ -1,0 +1,289 @@
+id: ch01-traps
+title: Traps
+kind: traps
+cards:
+  - type: text
+    id: hook
+    title: Before any theory, guess
+    body: |
+      Remember: in Level 1 the **guess is the point**. Everything here can be answered from common sense; a wrong guess teaches more than a skipped question.
+
+      This round is fast: one question per card, and each one is built on a mistake that many people make. Wrong answers are welcome here, because the feedback explains why each one is tempting.
+
+      The questions revisit sizes and units, energy, feedback and tradeoffs. If a question feels too easy, look for the catch.
+
+  - type: mcq
+    id: orders-ratio
+    prompt: |
+      A cable A is $10^{4}$ m long and a cable B is $10^{7}$ m long. How many times longer is B than A?
+    shuffle: false
+    options:
+      - text: '$3$ times longer'
+        feedback: |
+          You subtracted the exponents correctly ($7 - 4 = 3$) but then read the result as a **factor**. The exponent counts the *steps of ten*, not the factor itself.
+      - text: '$1000$ times longer'
+        correct: true
+      - text: '$11$ times longer'
+        feedback: |
+          You added the exponents. Adding exponents multiplies sizes ($10^4 \times 10^7$); to compare two sizes you divide them, which subtracts the exponents.
+      - text: '$1.75$ times longer'
+        feedback: |
+          You divided the exponents, $7/4$. The exponent is not the size: $10^{7}$ is vastly bigger than $10^{4}$.
+    explanation: |
+      $10^{7}/10^{4} = 10^{7-4} = 10^{3} = 1000$. Three steps of ten, each step a factor $10$: $10 \times 10 \times 10$.
+
+  - type: numeric
+    id: ms-to-kmh
+    prompt: |
+      A runner covers $4$ m/s. What is that speed in **kilometres per hour** (km/h)?
+    answer: 14.4
+    tolerance: 0.1
+    wrong:
+      - { value: 6.4, feedback: 'You multiplied by $1.6$, the number of kilometres in a **mile**. Here the conversion is between metres per second and kilometres per hour.' }
+      - { value: 1.11, feedback: 'You divided by $3.6$, which converts the other way (km/h into m/s). One hour is a long time, so the speed in km/h is the *bigger* number.' }
+    hint: |
+      In one hour ($3600$ s) the runner covers $3600$ times the metres of one second. Then turn metres into kilometres.
+    explanation: |
+      In one hour the runner covers $4 \times 3600 = 14\,400$ m, which is $14.4$ km. So $1\ \text{m/s} = 3.6\ \text{km/h}$ and $4 \times 3.6 = 14.4$ km/h.
+
+  - type: numeric
+    id: cube-mass
+    prompt: |
+      A solid cube of metal with edge $1$ cm has a mass of $2$ g. A cube of the same metal with edge $3$ cm has a mass of how many **grams**?
+    answer: 54
+    tolerance: 0.5
+    wrong:
+      - { value: 6, feedback: 'You multiplied by $3$, as if only one length changed. The cube is $3$ times bigger in length, width **and** height.' }
+      - { value: 18, feedback: 'You multiplied by $3^2 = 9$. That is how much the *surface* grows (two lengths). Mass follows the volume, which has three lengths.' }
+    hint: |
+      How many small cubes of edge $1$ cm fit inside the big cube?
+    explanation: |
+      The big cube holds $3 \times 3 \times 3 = 27$ small cubes, each of mass $2$ g: $27 \times 2 = 54$ g. If every length is multiplied by $k$, the volume (and the mass) is multiplied by $k^3$ and the surface by $k^2$.
+
+  - type: mcq
+    id: seconds-in-year
+    prompt: |
+      A machine does one job every second, without stopping, for a whole year. About how many jobs is that?
+    shuffle: false
+    options:
+      - text: about $10^{6}$ (a million)
+        feedback: |
+          A million seconds is only about $12$ days ($10^6 / 86\,400 \approx 11.6$ days). A year is $365$ days, about thirty times longer than that.
+      - text: about $3\times10^{7}$ (thirty million)
+        correct: true
+      - text: about $3\times10^{9}$ (three billion)
+        feedback: |
+          That is about a hundred years of seconds. A year has $365 \times 24 \times 3600$ seconds, far fewer.
+      - text: about $3\times10^{5}$ (three hundred thousand)
+        feedback: |
+          That is only about $3.5$ days of seconds. A day alone already has $86\,400$ seconds.
+    explanation: |
+      A day has $24 \times 3600 = 86\,400$ seconds, so a year has $365 \times 86\,400 \approx 3.15\times10^{7}$ seconds: about $3\times10^7$. A good rule of thumb: a year is about $\pi \times 10^7$ seconds.
+
+  - type: mcq
+    id: kwh-meaning
+    prompt: |
+      An electricity bill says a household used $300$ kWh this month. What kind of quantity is that, and why?
+    shuffle: false
+    options:
+      - text: A **power**, because "kilowatt" is a unit of power.
+        feedback: |
+          The unit is kilowatt-**hour**: a power (kW) multiplied by a time (h). A power times a time is an energy. The bill charges for the total amount drawn over the month, not for a rate.
+      - text: An **energy**, because it is a power multiplied by a time.
+        correct: true
+      - text: A **rate of using energy per hour**, because of the "h".
+        feedback: |
+          That reads "per hour", but the hour is multiplied, not divided: kW $\times$ h. Energy per hour would be a power (kW alone).
+    explanation: |
+      Energy $= P\,t$: a lamp of $1$ kW left on for $1$ h uses $1$ kWh. That is $1000\ \text{W} \times 3600\ \text{s} = 3.6\times10^{6}$ J. Power says how fast energy flows; the bill counts how much has flowed.
+
+  - type: mcq
+    id: where-energy-goes
+    prompt: |
+      A phone battery holds about $15$ Wh of energy. After a day of use it is empty. Where did that energy go?
+    shuffle: false
+    options:
+      - text: It was used up and no longer exists anywhere.
+        feedback: |
+          Energy is never destroyed. "Used up" really means moved to a form that is no longer useful to us.
+      - text: 'It was moved: mostly into heat in the phone and the air around it, plus a little light and sound.'
+        correct: true
+      - text: It stays in the phone as a hidden store, so a full battery weighs more than an empty one.
+        feedback: |
+          The energy left the phone to its surroundings. And the energy is not hidden in the phone: an empty phone is simply colder than a hot phone was.
+    explanation: |
+      The battery's energy ($15 \times 3600 = 54\,000$ J) went into the screen's light, the speaker's sound and, above all, warmth that spread into the room. The total stays the same: energy is **moved**, not used up. What runs out is the *useful* kind.
+
+  - type: mcq
+    id: power-vs-efficiency
+    prompt: |
+      Heater X takes $2000$ W from the socket and heater Y takes $1000$ W. A friend says: "X is the more efficient one, it is stronger". Is that right?
+    shuffle: false
+    options:
+      - text: 'Yes: more power in means more heat out, so more efficient.'
+        feedback: |
+          More power gives more heat in total, but **efficiency** is the useful fraction of the energy put in. A big machine can waste a large fraction; a small one can waste little.
+      - text: 'No: efficiency is useful energy out divided by energy in, so power alone says nothing about it.'
+        correct: true
+      - text: 'No: the machine taking the *least* power is always the more efficient one.'
+        feedback: |
+          Same mistake the other way round. Power taken from the socket does not fix the fraction that ends up useful.
+    explanation: |
+      Efficiency compares what you get with what you pay, so it is a fraction, not a size. A $2000$ W machine delivering $1800$ W of useful output has efficiency $0.9$; a $1000$ W machine delivering $500$ W has $0.5$.
+
+  - type: mcq
+    id: impossible-efficiency
+    prompt: |
+      An inventor says: "My electric motor takes $100$ W of electricity and delivers $120$ W of useful motion, so it is $120\%$ efficient." What is wrong?
+    shuffle: false
+    options:
+      - text: 'Nothing: a very good motor can give back more than it takes.'
+        feedback: |
+          Then it would create energy out of nothing. Even the best motor has some leftover heat, so its useful output is always **less** than its input.
+      - text: The numbers are fine, but $120\%$ is just a rounded way of saying $100\%$.
+        feedback: |
+          $120\%$ is a different number, and even $100\%$ is out of reach: some energy always leaves as heat.
+      - text: It would need energy to appear from nowhere, so the claim is impossible; efficiency is always below $1$.
+        correct: true
+    explanation: |
+      Efficiency $=$ useful out $/$ in $= 120/100 = 1.2$. Since energy cannot be created, the output cannot exceed the input, and some always leaves as heat, so the efficiency of a real machine is always between $0$ and $1$.
+
+  - type: mcq
+    id: open-or-closed
+    prompt: |
+      Which of these machines is a **closed loop**, one that measures its own result and uses it to decide what to do next?
+    shuffle: false
+    options:
+      - text: A toaster that runs for a fixed time set on its dial.
+        feedback: |
+          The timer ends after the set time whether the bread is pale or burnt. Nothing measures the toast.
+      - text: A ceiling fan with a speed dial, set to "3".
+        feedback: |
+          A dial *sets* an action, but the fan does not measure anything about the room. Having a setting is not the same as measuring the result.
+      - text: An electric iron that switches its heating off when a sensor says it has reached the chosen temperature.
+        correct: true
+      - text: A heater switched on and left on.
+        feedback: |
+          Nothing notices the room's temperature, so it follows the weather outside.
+    explanation: |
+      A closed loop needs a **sensor** that measures the result. The iron senses its own temperature; the toaster, the fan and the plain heater do not.
+
+  - type: mcq
+    id: swinging-room
+    prompt: |
+      A room with an on/off thermostat swings between $19$ °C and $23$ °C around a setpoint of $21$ °C, and the sensor reports the temperature a few minutes late. A visitor says: "the thermostat is broken". What is the most likely explanation?
+    shuffle: false
+    options:
+      - text: It is broken, since a working thermostat holds exactly $21$ °C.
+        feedback: |
+          No on/off thermostat holds the value exactly: it only decides on or off, so the room always moves a little around the setpoint.
+      - text: 'The delay: the heater stays on for minutes after the room is warm enough, so it overshoots, and the same thing happens in the cold direction.'
+        correct: true
+      - text: The heater is too weak.
+        feedback: |
+          A weak heater would make the room slow to warm up, but not swing past the setpoint.
+    explanation: |
+      The sensor reports old information. By the time it says "warm enough" the room is already past the setpoint and the heat is still coming. The swing is built into slow feedback; a good design reduces it, but cannot remove the delay.
+
+  - type: mcq
+    id: error-sign-trap
+    prompt: |
+      A thermostat computes the error $e = T_{\text{set}} - T_{\text{sensed}}$ (in °C) and switches the heater on exactly when $e > 0$. The setpoint is $20$ °C and the sensor reads $23$ °C. What is $e$ and what does the heater do?
+    shuffle: false
+    options:
+      - text: '$e = +3$ °C, heater on'
+        feedback: |
+          The sign is swapped. The error is setpoint **minus** sensed: $20 - 23 = -3$.
+      - text: '$e = -3$ °C, heater on, since it is a big error and needs a strong correction'
+        feedback: |
+          A big error does not mean "on". It is the **sign** that decides, and for this on/off rule only $e > 0$ switches the heater on.
+      - text: '$e = -3$ °C, heater off'
+        correct: true
+      - text: '$e = 0$ °C, heater off'
+        feedback: |
+          Zero would need the sensor to read exactly $20$ °C. It reads $3$ °C above.
+    explanation: |
+      $e = 20 - 23 = -3$ °C. A negative error means the room is too hot, so the heater stays off. The size $|e| = 3$ only tells how far off we are; the on/off rule uses the sign alone.
+
+  - type: mcq
+    id: beam-double
+    prompt: |
+      A beam of thickness $t$ (in cm) has strength $S = 40\,t^{2}$ kN and weight $w = 2t + 1$ kg/m. Its thickness is doubled from $3$ cm to $6$ cm. What happens?
+    shuffle: false
+    options:
+      - text: strength and weight both double
+        feedback: |
+          Strength follows $t^2$, so it grows faster than the thickness. Check: $360$ kN becomes $1440$ kN, not $720$ kN.
+      - text: strength becomes $4$ times larger, weight about $1.9$ times larger
+        correct: true
+      - text: strength becomes $4$ times larger, weight $4$ times larger
+        feedback: |
+          The weight per metre is the amount of steel, roughly proportional to $t$ (here $7$ kg/m becomes $13$ kg/m), not to $t^2$.
+    explanation: |
+      At $3$ cm: $S = 40 \times 9 = 360$ kN, $w = 2\times3+1 = 7$ kg/m. At $6$ cm: $S = 40\times36 = 1440$ kN, $w = 2\times6+1 = 13$ kg/m. Strength grows by $1440/360 = 4$, weight by $13/7 \approx 1.9$.
+
+  - type: mcq
+    id: power-speed-force
+    prompt: |
+      A cyclist delivers a steady $200$ W and speeds up from $4$ m/s to $8$ m/s, with the same power. What happens to the force the bicycle can push forward with?
+    shuffle: false
+    options:
+      - text: It doubles, since going faster takes more force.
+        feedback: |
+          Going faster takes more *power* when the force stays the same. With power fixed, the force has to give way.
+      - text: It stays the same, since the power is the same.
+        feedback: |
+          Power is the product of force and speed. With the same product, if one factor doubles the other must change.
+      - text: It halves ($50$ N becomes $25$ N).
+        correct: true
+    explanation: |
+      Power, force and speed obey $P = F\cdot v$, so $F = P/v$: $200/4 = 50$ N at $4$ m/s and $200/8 = 25$ N at $8$ m/s. At fixed power, speed and force trade against each other.
+
+  - type: numeric
+    id: heater-kwh
+    prompt: |
+      A heater takes $1500$ W from the socket and runs for $2$ hours. How much electrical energy did it use, in **kilowatt-hours** (kWh)?
+    answer: 3
+    tolerance: 0.01
+    wrong:
+      - { value: 3000, feedback: 'You multiplied $1500 \times 2$ and kept the watts: that is $3000$ **Wh**, not kWh. One kWh is $1000$ Wh.' }
+      - { value: 0.75, feedback: 'You divided $1500$ by $2$. Running longer uses **more** energy, so the time multiplies.' }
+    hint: |
+      Turn the watts into kilowatts first, then count the hours.
+    explanation: |
+      $1500\ \text{W} = 1.5$ kW and $1.5\ \text{kW} \times 2\ \text{h} = 3$ kWh. In joules that is $3 \times 3.6\times10^6 = 1.08\times10^{7}$ J.
+
+  - type: numeric
+    id: car-time
+    prompt: |
+      A car drives at a steady $54$ km/h. How many **seconds** does it take to cover $300$ m?
+    answer: 20
+    tolerance: 0.2
+    wrong:
+      - { value: 5.56, feedback: 'You divided $300$ by $54$ without converting: metres and km/h do not match. Turn the speed into m/s first.' }
+      - { value: 1.54, feedback: 'You multiplied the speed by $3.6$ instead of dividing it. A speed in m/s is a *smaller* number than the same speed in km/h.' }
+    hint: |
+      Change the speed into metres per second first, then ask how long it takes to cover the distance.
+    explanation: |
+      $54$ km/h $= 54/3.6 = 15$ m/s. Covering $300$ m at $15$ m/s takes $300/15 = 20$ s.
+
+  - type: text
+    id: summary
+    title: Traps to remember
+    body: |
+      - **Sizes and units.** Ten times bigger is one more **order of magnitude**, one step on the exponent: to compare $10^a$ with $10^b$ subtract the exponents:
+        $$\frac{10^{a}}{10^{b}} = 10^{a-b}$$
+        A speed in m/s becomes km/h by multiplying by $3.6$ ($1\ \text{m/s} = 3.6\ \text{km/h}$). A year is about $3\times10^{7}$ s, not $10^{6}$ s (which is only about $12$ days). If every length of an object is multiplied by $k$, its area is multiplied by $k^2$ and its volume (so its mass) by $k^3$.
+      - **Energy and power.** Power $P$ (in W) is a rate and energy $E$ (in J, or kWh) is an amount of it, over a time $t$ (in s):
+        $$E = P\,t$$
+        A kilowatt-hour is an energy, $1\ \text{kWh} = 3.6\times10^{6}$ J. Energy is never used up, only **moved**, mostly to heat. The **efficiency** of a machine is
+        $$\text{efficiency} = \frac{\text{useful energy out}}{\text{energy in}}$$
+        a number between $0$ and $1$ (never above $1$), and it is unrelated to how powerful the machine is.
+      - **Feedback.** A closed loop measures its own result with a sensor; a machine that acts on a dial or a timer without measuring is an open loop. For a thermostat in a room, with setpoint $T_{\text{set}}$ and sensed temperature $T_{\text{sensed}}$ (both in °C), the error is
+        $$e = T_{\text{set}} - T_{\text{sensed}}$$
+        and the heater is on exactly when $e > 0$: the **sign** decides, not the size. A room that swings around its setpoint is usually the sign of a **delay** between the heater acting and the sensor noticing, not of a broken thermostat.
+      - **Tradeoffs.** A tradeoff is a fact about physics, not a design mistake. For the example beam of thickness $t$ (in cm), strength $S = 40\,t^2$ (kN) and weight $w = 2t + 1$ (kg/m): doubling $t$ multiplies $S$ by $4$ but $w$ by less than $2$. For a machine of fixed power $P$, force $F$ and speed $v$,
+        $$P = F\cdot v$$
+        so doubling the speed at the same power halves the force.
+
+      **Next:** the **Content Map** of this level, where you rebuild the whole picture (scales, energy, feedback, tradeoffs) box by box among decoys.

@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-27 ch01-traps
+Built `ch01/traps.yaml` (17 cards: hook, 14 fast questions on scales/units, energy, feedback, tradeoffs with new numbers, summary). Choices: the closing card is a plain text card "Traps to remember" (no `own:`, the validator says `own:` is for concept and intuition lessons), so no Recap blanks; a few extra cards beyond the 14 planned (separate power-vs-efficiency and impossible-efficiency, beam 3 to 6 cm instead of 2 to 4). Conventions fixed here: traps lessons end with a plain summary text card, no `own:`.
+
 ## 2026-10-27 ch01-tour
 Built `ch01/tour.yaml` (17 cards: hook, 13 puzzles one per later level (fluids has mcq + numeric volume), closing table, summary with 5 blanks). No widget (puzzles are guessable text; a picture would give answers away). Choices: no card says "Level N" for later levels, names only; the paint-mixing analogy for key exchange; frontier puzzle is a pure mcq. Numbers checked by script. Validate and shots clean. Conventions fixed here: tour typical values (copied to CONVENTIONS.md).
 
