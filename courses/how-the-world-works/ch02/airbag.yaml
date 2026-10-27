@@ -1,0 +1,301 @@
+id: ch02-airbag
+title: Airbags and Crumple Zones
+kind: concept
+own: |
+  - **Momentum and impulse.** A mass $m$ (kg) moving at speed $v$ (m/s) has momentum $p$ (kg m/s, the same as N s). A force $F$ (N) acting for a time $\Delta t$ (s) delivers the impulse $J$ and changes the momentum:
+    {{ $$J = F\,\Delta t = \Delta p$$ }}
+    For a car of $m = 1200$ kg stopping from $v = 15$ m/s: $J = mv = 18\,000$ N s, whatever the way it stops.
+  - **Same stop, different force.** Stopping fixes $J$, so the average force is $F = J/\Delta t$:
+    {{ $$F = \frac{m\,v}{\Delta t}$$ }}
+    In $0.1$ s the car feels $180$ kN; in $0.5$ s only $36$ kN: five times more time, five times less force.
+  - **Time and distance.** While slowing steadily from $v$ to $0$ the average speed is $v/2$, so a stop over a distance $d$ takes
+    {{ $$\Delta t = \frac{2d}{v}$$ }}
+    A crumple zone of $d = 0.6$ m gives $\Delta t = 0.08$ s and $F = 225$ kN. A rigid car that stops in $0.01$ s feels $1800$ kN: the crumple zone is a way of buying stopping time.
+  - **Energy view.** The kinetic energy $E_k = \tfrac12 m v^2$ must be absorbed by the work $F\,d$ of the stopping force over the distance $d$:
+    {{ $$F\,d = \tfrac12 m v^2$$ }}
+    At twice the speed (30 m/s) the same $0.6$ m crumple zone needs four times the force, $900$ kN, because the energy is four times larger.
+  - **Protecting a person.** A seat belt and an airbag stretch the stop of the passenger over a longer time: a head of $5$ kg ($75$ kg m/s at $15$ m/s) stopped in $0.1$ s feels $750$ N, in $0.01$ s it would feel $7500$ N. The design is a compromise: the bag must {{ be ready in time and soft enough, but not so soft that the person hits the wheel through it }}.
+cards:
+  - type: text
+    id: hook
+    title: Before any theory, guess
+    body: |
+      A car of mass $1200$ kg drives at $15$ m/s (54 km/h) into a solid wall and stops. The car does not care about physics: it stops either way. But the **force** on it depends on how the stop happens. If the stop lasts $0.1$ s the car feels some force. If a clever design stretches the same stop to $0.5$ s, the force changes.
+
+      Guessing first is the point: no formulas yet.
+
+  - type: mcq
+    id: guess-force
+    prompt: |
+      The same car, from the same $15$ m/s to rest, stops in $0.1$ s in one design and in $0.5$ s in another. How do the average forces on the car compare?
+    shuffle: false
+    options:
+      - text: 'The same: it is the same car and the same speed.'
+        feedback: |
+          The car and the speed are the same, but the force also depends on how fast the speed disappears. A sudden stop needs a harder push than a gentle one.
+      - text: The $0.5$ s stop has about five times **less** force.
+        correct: true
+      - text: The $0.5$ s stop has about five times **more** force, because it lasts longer.
+        feedback: |
+          Lasting longer means the speed is taken away more gently, so the push can be gentler. A shorter stop is the violent one.
+    hint: |
+      Think of catching a fast ball: do you pull your hand back or hold it rigid?
+    explanation: |
+      The next cards turn this into numbers: $0.5/0.1 = 5$, so the long stop has one fifth of the force.
+
+  - type: widget
+    id: stop-slider
+    widget: crash-impulse
+    review: false
+    config:
+      mass: 1200
+      v0: 15
+      stopMode: time
+      stop: 0.1
+      shape: constant
+      show: { dangerBand: false }
+      readouts: [impulse, avgForce, time]
+      presets:
+        - { label: Hard stop, stop: 0.1 }
+        - { label: Gentle stop, stop: 0.5 }
+    body: |
+      A $1200$ kg car at $15$ m/s stops against a wall. The curve plots the **force** during the stop; the shaded area under it is the **impulse**. Drag the stopping-time slider and press the presets. What happens to the height of the force and to the shaded area as the stop gets longer?
+
+  - type: mcq
+    id: area-constant
+    prompt: |
+      A $1200$ kg car stops from $15$ m/s. Plotted as force against time, the stop is a rectangle: its height is the force and its width is the stopping time. Making the stop longer, what stays the same?
+    options:
+      - text: The area of the rectangle (force times time).
+        correct: true
+      - text: The height of the rectangle (the force).
+        feedback: |
+          The force is exactly what changes: a longer stop gives a lower rectangle.
+      - text: The width of the rectangle (the time).
+        feedback: |
+          The time is the thing the designer chooses, so it is what changes.
+    hint: |
+      The stop is the same, so whatever the area measures is the same.
+    explanation: |
+      The area is fixed by what the stop must achieve: remove all the motion of the car. Lower and longer, or higher and shorter, the area is the same.
+
+  - type: text
+    id: impulse
+    title: Momentum and impulse
+    body: |
+      Two new words. The **momentum** of a mass $m$ moving at speed $v$ is
+
+      $$p = m\,v$$
+
+      with $p$ in kg m/s. A force $F$ acting for a time $\Delta t$ (the Greek capital delta $\Delta$ means "change in" or "duration of") delivers an **impulse**
+
+      $$J = F\,\Delta t$$
+
+      in newton seconds (N s), where $1$ N s $= 1$ kg m/s. Newton's second law says that the impulse equals the change of momentum:
+
+      $$J = F\,\Delta t = \Delta p$$
+
+      For a stop to rest, $\Delta p = m v$ in size: the whole momentum has to be removed. That is the area of the rectangle on the plot: a number fixed by the car, not by the design.
+
+  - type: build
+    id: force-from-impulse
+    prompt: |
+      A mass $m$ moving at speed $v$ is brought to rest in a time $\Delta t$ by an average force $F$. Build the force from $J = F\,\Delta t = m v$.
+    prefix: 'F ='
+    tiles: ['\frac{m\,v}{\Delta t}', '\frac{\Delta t}{m\,v}', 'm\,v\,\Delta t', '\frac{m\,\Delta t}{v}']
+    answers:
+      - ['\frac{m\,v}{\Delta t}']
+    wrong:
+      - answer: ['m\,v\,\Delta t']
+        feedback: |
+          That multiplies by the time, but the impulse $m v$ is the force times the time, so the force is the impulse divided by the time.
+      - answer: ['\frac{\Delta t}{m\,v}']
+        feedback: |
+          Upside down: a longer time must give a smaller force, so the time is in the denominator.
+    hint: |
+      Divide both sides of $F\,\Delta t = m v$ by $\Delta t$.
+    explanation: |
+      $F\,\Delta t = m v$ gives $F = m v/\Delta t$. A bigger $\Delta t$ means a smaller $F$: that is the airbag.
+
+  - type: numeric
+    id: impulse-num
+    prompt: |
+      A car of $m = 1200$ kg is stopped from $v = 15$ m/s. What impulse $J$ must the stopping force deliver, in N s?
+    answer: 18000
+    tolerance: 0.005
+    answerText: '18000'
+    wrong:
+      - { value: 80, feedback: 'That is $1200/15$. Momentum is the mass **times** the speed.' }
+      - { value: 9000, feedback: 'That is $\tfrac12 m v$; the factor $\tfrac12$ belongs to kinetic energy, not to momentum.' }
+    hint: |
+      $J = \Delta p = m v$.
+    explanation: |
+      $J = 1200\times15 = 18\,000$ N s, whatever the design.
+
+  - type: numeric
+    id: force-hard
+    prompt: |
+      The impulse needed is $J = 18\,000$ N s. The car stops in $\Delta t = 0.1$ s. What average force acts on it, in kilonewtons (kN)?
+    answer: 180
+    tolerance: 0.005
+    answerText: '180'
+    wrong:
+      - { value: 1800, feedback: 'That is $18\,000\times0.1$: you multiplied instead of dividing. A short stop gives a **large** force, so divide by $0.1$.' }
+      - { value: 180000, feedback: 'The number is right but the unit is not: $180\,000$ N is $180$ kN.' }
+    hint: |
+      $F = J/\Delta t = 18\,000/0.1$ in newtons, then divide by $1000$.
+    explanation: |
+      $F = 18\,000/0.1 = 180\,000$ N $= 180$ kN. Compare the weight of the car, $mg = 11.8$ kN: the car feels about $15$ times its own weight.
+
+  - type: numeric
+    id: force-soft
+    prompt: |
+      Same car and same impulse $J = 18\,000$ N s, but the stop is stretched to $\Delta t = 0.5$ s. What average force acts on it, in kN?
+    answer: 36
+    tolerance: 0.005
+    answerText: '36'
+    wrong:
+      - { value: 180, feedback: 'That is the $0.1$ s answer. The time is now five times longer.' }
+      - { value: 9, feedback: 'That is $18\,000$ divided by $0.5$ and then by $4$ by mistake. Just divide $18\,000$ N s by $0.5$ s.' }
+    hint: |
+      $F = J/\Delta t = 18\,000/0.5$ N.
+    explanation: |
+      $F = 36\,000$ N $= 36$ kN, one fifth of $180$ kN: the same stop, a fifth of the force.
+
+  - type: text
+    id: crumple
+    title: Time from distance
+    body: |
+      A designer cannot simply order "stop in $0.5$ s". What a car can offer is **distance**: the front of the car crumples by a length $d$ while it stops. While the speed falls steadily from $v$ to $0$, the **average** speed is $v/2$, so the time is the distance divided by the average speed:
+
+      $$\Delta t = \frac{d}{v/2} = \frac{2d}{v}$$
+
+      Equivalently $d = \tfrac12 v\,\Delta t$. A crumple zone is a way of buying stopping time with metres of soft metal.
+
+  - type: numeric
+    id: crumple-time
+    prompt: |
+      The front of the $1200$ kg car crumples by $d = 0.6$ m while it slows steadily from $v = 15$ m/s to rest. How long does the stop last, in seconds?
+    answer: 0.08
+    tolerance: 0.01
+    answerText: '0.08'
+    wrong:
+      - { value: 0.04, feedback: 'That is $d/v$, using the starting speed. The car slows down, so the average speed is $v/2 = 7.5$ m/s.' }
+      - { value: 0.6, feedback: 'That is the distance in metres, not a time.' }
+    hint: |
+      $\Delta t = 2d/v$.
+    explanation: |
+      $\Delta t = 2\times0.6/15 = 0.08$ s.
+
+  - type: numeric
+    id: crumple-force
+    prompt: |
+      The stop lasts $\Delta t = 0.08$ s and needs the impulse $J = 18\,000$ N s. What average force acts on the car, in kN?
+    answer: 225
+    tolerance: 0.005
+    answerText: '225'
+    wrong:
+      - { value: 180, feedback: 'That is the force for $0.1$ s. This stop is shorter, $0.08$ s, so the force is a bit larger.' }
+      - { value: 1440, feedback: 'That multiplies $18\,000$ by $0.08$; divide instead.' }
+    hint: |
+      $F = J/\Delta t = 18\,000/0.08$ N.
+    explanation: |
+      $F = 225\,000$ N $= 225$ kN, about $19$ times the car's weight. That is a hard stop; a real car also has a rigid cabin and a seat belt that spreads the load over the passengers' bodies.
+
+  - type: mcq
+    id: rigid-trap
+    prompt: |
+      A very stiff car does not crumple at all: its front stops in $d = 0.075$ m, so the stop lasts $\Delta t = 2d/v = 0.01$ s at $15$ m/s. Why is such a rigid car **worse** for the people inside?
+    options:
+      - text: The impulse $J = 18\,000$ N s is the same, so the force is ten times larger than with a $0.1$ s stop ($1800$ kN).
+        correct: true
+      - text: A rigid car needs a larger impulse because it is stronger.
+        feedback: |
+          The impulse depends only on the mass and speed to remove, not on how strong the car is. Strength changes the time, and the time sets the force.
+      - text: A rigid car has more kinetic energy, so it hits harder.
+        feedback: |
+          The kinetic energy $\tfrac12 m v^2$ is the same for the same mass and speed. What differs is how quickly it is taken away.
+    hint: |
+      Same impulse, much shorter time: what does $F = J/\Delta t$ give?
+    explanation: |
+      $F = 18\,000/0.01 = 1\,800\,000$ N $= 1800$ kN. A strong car that does not crumple protects the car, not the people: the passengers decelerate with it.
+
+  - type: numeric
+    id: head-bag
+    prompt: |
+      A seat belt and airbag act on the person. Take the head of a passenger as $5$ kg (a typical value) moving at $15$ m/s. The airbag lets it stop over $\Delta t = 0.1$ s. What average force acts on the head, in newtons? (Without a bag, hitting the dashboard in $0.01$ s would give ten times more.)
+    answer: 750
+    tolerance: 0.005
+    answerText: '750'
+    wrong:
+      - { value: 7500, feedback: 'That is the force for $0.01$ s, the hard dashboard. The bag stretches the stop to $0.1$ s.' }
+      - { value: 75, feedback: 'That is the momentum $mv = 75$ kg m/s; divide by the time $0.1$ s to get the force.' }
+    hint: |
+      Momentum $5\times15 = 75$ kg m/s; then $F = 75/\Delta t$.
+    explanation: |
+      $F = 75/0.1 = 750$ N, about $15$ times the head's weight ($49$ N) and ten times less than the $7500$ N of the dashboard stop.
+
+  - type: text
+    id: energy
+    title: The same stop seen as energy
+    body: |
+      There is a second way to see the stop, from the lessons Brakes Turn Motion Into Heat and Brakes and Friction. The car carries **kinetic energy** $E_k = \tfrac12 m v^2$, and a force $F$ acting over a distance $d$ does work $F\,d$. To remove all the energy:
+
+      $$F\,d = \tfrac12 m v^2$$
+
+      For $m = 1200$ kg, $v = 15$ m/s: $E_k = 135\,000$ J. With $d = 0.6$ m, $F = 135\,000/0.6 = 225\,000$ N: the same $225$ kN as the impulse way. Impulse counts the **time** and momentum $mv$; work counts the **distance** and energy $\tfrac12 m v^2$. Both give the same force.
+
+  - type: numeric
+    id: fast-crash
+    prompt: |
+      The same car ($1200$ kg) hits the wall at twice the speed, $v = 30$ m/s, with the same crumple distance $d = 0.6$ m. Using $F\,d = \tfrac12 m v^2$, what average force acts on it, in kN?
+    answer: 900
+    tolerance: 0.005
+    answerText: '900'
+    wrong:
+      - { value: 450, feedback: 'That doubles the force, as if it were proportional to speed. The energy $\tfrac12 m v^2$ grows with the **square** of the speed: twice the speed, four times the energy.' }
+      - { value: 225, feedback: 'That is the force at $15$ m/s. The speed is now twice as large.' }
+    hint: |
+      $E_k = \tfrac12\times1200\times30^2$ J, then divide by $0.6$ m.
+    explanation: |
+      $E_k = 540\,000$ J and $F = 540\,000/0.6 = 900\,000$ N $= 900$ kN: four times the force. The impulse way agrees: $\Delta t = 2d/v = 0.04$ s and $J = 36\,000$ N s give $900$ kN. Speed is the dangerous variable.
+
+  - type: order
+    id: airbag-sequence
+    prompt: |
+      Put in order what an airbag does in a crash.
+    steps:
+      - A sensor detects a sudden, strong deceleration of the car.
+      - A controller decides it is a crash and ignites a small charge.
+      - Gas fills the bag within about $0.03$ s, before the person moves far.
+      - The person presses into the bag, which vents gas and slows them over a longer time.
+      - The bag deflates and the person is free.
+    hint: |
+      Sense, decide, inflate, absorb, release: a feedback loop in a few hundredths of a second.
+    explanation: |
+      The bag does nothing to the car: it gives the person a longer, softer stop, which by $F = J/\Delta t$ means a smaller force.
+
+  - type: mcq
+    id: tradeoff
+    prompt: |
+      An engineer tunes an airbag: how fast it inflates and how stiff (how little it vents). Which failure is a real danger of a bad choice?
+    multiple: true
+    options:
+      - text: 'Too stiff or too small: the person stops over a very short time, so the force is large (like the dashboard).'
+        correct: true
+      - text: 'Too slow to inflate: the person has already moved forward and hits the wheel before the bag is ready.'
+        correct: true
+      - text: 'Too soft and over-vented: the person sinks through the bag and still hits the wheel.'
+        correct: true
+      - text: 'An airbag can never be too big: more bag always means more safety.'
+        feedback: |
+          A larger bag inflating with more violence can injure a person close to it, and a bag that is too soft fails. As in the lesson Every Design Is a Compromise, no extreme is best.
+    hint: |
+      Three of the four are real failures: think about time, stiffness and softness.
+    explanation: |
+      The bag must be ready in time, then give a stop as long as the space allows, with a force low enough for the body. The seat belt works together with it: it holds the person in place so that the bag meets them at the right moment.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** you now have the tools for a full design problem. In *Guided Problem: Putting Numbers on It* an e-bike with its rider must stop on a wet road before a junction: you will chain kinetic energy, friction, braking distance, gears and impulse in one story.

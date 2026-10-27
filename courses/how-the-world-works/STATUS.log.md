@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-27 ch02-airbag (19 cards, not split)
+Concept lesson with crash-impulse widget (card 3, review: false). Chose head mass 5 kg (typical), dashboard stop 0.01 s vs bag 0.1 s, crumple 0.6 m. Conventions fixed here: $p = mv$, $J = F\Delta t = \Delta p$ (N s = kg m/s); $F = mv/\Delta t$; $\Delta t = 2d/v$; $F d = \tfrac12 m v^2$; car 1200 kg at 15 m/s: J 18000 N s, 180 kN (0.1 s), 36 kN (0.5 s), 225 kN (0.6 m, 0.08 s), 1800 kN rigid (0.01 s), 900 kN at 30 m/s; head 5 kg: 750 N / 7500 N.
+
 ## 2026-10-27 widget crash-impulse
 Built widget `crash-impulse` (no lesson): moving mass stopped by time or crumple length; force-time plot with fixed axes and shaded area, peak line, g bar with hidden injury band. Choices: `square` is an alias of `constant` (peak 1x); triangle is symmetric (peak 2x at t/2), so t = 2d/v0 holds for both; stop slider range 0.02-1 s or 0.05-2 m; dangerG default 30 (config, not a medical claim); axes fixed from shortest/longest reachable stop. Smoke test with a throwaway lesson (removed): 0 errors; validate clean. Conventions fixed here: J = m v0 in N s; F_avg = m v0 / t; stop by distance t = 2d/v0.
 
