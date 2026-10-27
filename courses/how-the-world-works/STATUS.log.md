@@ -1,5 +1,7 @@
 # Status log
 
+- **2026-10-27 ch02-traps** (20 cards, no widget): 16 questions (mcq, 6 numeric, multi-select, 1 order) on mass cancels, gyroscope, low speed, mu above 1, gears trade, torque not force, counterweight, airbag, locked wheels, speed squared, reaction distance, key count. Summary is a plain text card. Numbers by script. Conventions fixed here: reused lesson numbers only; new: van 2000 kg wet 15 m/s = 28.7 m; mu 1.2 = 9.57 m (text 9.6 m); gear pair 12 to 36 teeth, 12 N m at 30 rad/s, 95% gives 342 W; locked 65.6 m vs ABS 54.7 m from 30 m/s; e-bike reaction 1 s: 22.76 m.
+
 - **2026-10-27 ch02-guided** (19 cards): e-bike 90 kg, 10 m/s, wet mu 0.4, junction 20 m; friction-stop and tradeoff-curve widgets placed after the answer as checks (review: false). Summary is a plain text card (the validator accepts `own:` only for concept/intuition, so no blanks). Conventions fixed here: guided problem e-bike 90 kg at 10 m/s: E_k 4500 J, F 352.8 N, d 12.76 m, reaction 1 s gives 22.76 m and 4.65 m/s at the junction (latest reaction 0.72 s); hill 1 m per 10 m of road needs mg/10 = 88.2 N, wheel radius 0.334 m, crank torque 52.5 N m, max gear ratio 1.78 (tradeoff needs: speed at least 4 m/s); post: J 900 N s, 0.5 m pad gives 0.1 s and 9000 N.
 
 ## 2026-10-27 ch02-airbag (19 cards, not split)

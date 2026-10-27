@@ -1,0 +1,311 @@
+id: ch02-traps
+title: Traps
+kind: traps
+cards:
+  - type: text
+    id: hook
+    title: Fast questions, each with a catch
+    body: |
+      This round is fast: one question per card, each built on a mistake that many people make about bikes, gears, brakes, locks, elevators and airbags. Wrong answers are welcome, because the feedback explains why each one tempts.
+
+      Where a question gives numbers, the numbers are the ones of this level: $g = 9.8\ \mathrm{m/s^2}$, a dry road has friction coefficient $\mu = 0.7$ and a wet road $\mu = 0.4$ ($\mu$ is the unitless grip of the tyres on the road). If a question feels too easy, look for the catch.
+
+  - type: mcq
+    id: mass-cancels
+    prompt: |
+      Two cars brake hard on the same dry road with the same tyres, both starting at $15$ m/s. Car A has mass $1000$ kg and car B is fully loaded, $2000$ kg. Which one stops in the shorter distance?
+    shuffle: false
+    options:
+      - text: Car A, because it is lighter and has less to stop.
+        feedback: |
+          A heavier car does have more kinetic energy to remove, but the friction force that removes it is also larger: friction is $\mu m g$, proportional to the mass. Double the energy, double the force, same distance.
+      - text: Car B, because its heavier weight presses the tyres harder onto the road.
+        feedback: |
+          The tyres do press twice as hard, so the friction force doubles. But the car also has twice the mass to slow down, so the deceleration is the same. The extra grip is used up by the extra mass.
+      - text: Both stop in the same distance, because the mass cancels.
+        correct: true
+    explanation: |
+      Friction force $F = \mu m g$, so the deceleration is $a = F/m = \mu g$, with no $m$ left. The distance is $d = v^2/(2\mu g)$, the same for every mass. (In real life a heavy car has hotter brakes and different tyre loads, but the basic physics is mass-free.)
+
+  - type: numeric
+    id: mass-cancels-number
+    prompt: |
+      A fully loaded van of mass $2000$ kg brakes on a **wet** road ($\mu = 0.4$) from $15$ m/s, with all four wheels gripping. How many **metres** does it need to stop? Use $g = 9.8\ \mathrm{m/s^2}$.
+    answer: 28.7
+    tolerance: 0.2
+    wrong:
+      - { value: 57.4, feedback: 'You doubled the answer of the $1000$ kg car because the van is twice as heavy. The mass cancels: friction $\mu m g$ and the mass to stop both double.' }
+      - { value: 16.4, feedback: 'That is the distance on a **dry** road ($\mu = 0.7$). The question says wet.' }
+    hint: |
+      The stopping distance is $v^2/(2\mu g)$. Is there a mass in it?
+    explanation: |
+      $d = v^2/(2\mu g) = 15^2/(2 \times 0.4 \times 9.8) = 225/7.84 \approx 28.7$ m, for the van and for a $1000$ kg car alike.
+
+  - type: mcq
+    id: gyroscope-myth
+    prompt: |
+      Many people say a bicycle stays upright because its spinning wheels act as gyroscopes. Experimenters built a bike with extra wheels spinning the opposite way, so that the gyroscopic effect cancels. What happened?
+    shuffle: false
+    options:
+      - text: It fell immediately, because the gyroscopic effect is what holds a bike up.
+        feedback: |
+          That is the popular story, and it is the trap. Bikes with the gyroscopic effect cancelled out still roll along and balance themselves. The wheels' spin helps a little, but it is not the main mechanism.
+      - text: It still balanced itself, because the main mechanism is steering feedback.
+        correct: true
+      - text: It balanced even better, because spinning wheels always make a bike unstable.
+        feedback: |
+          Spinning wheels do not make a bike unstable. Cancelling them changes little, because the effect was small to begin with.
+    explanation: |
+      A bike leans, the steering (rider or the bike's own geometry) turns the front wheel toward the lean, and the wheels move back under the centre of mass. That is a **feedback loop**: setpoint upright, error = lean, actuator = steering. The gyroscopic effect of the wheels is only a minor helper.
+
+  - type: mcq
+    id: low-speed-fall
+    prompt: |
+      A bike is easy to balance at $5$ m/s and almost impossible at $1$ m/s. Why does a rider fall at low speed?
+    shuffle: false
+    options:
+      - text: The bike is lighter at low speed, so it tips more easily.
+        feedback: |
+          The weight does not depend on the speed. Mass does not change the falling time either: the lean grows at the same rate for a light or a heavy bike.
+      - text: Gravity pulls harder on a slow bike.
+        feedback: |
+          Gravity is the same for a bike at any speed.
+      - text: A lean grows in about $0.3$ s, and at $1$ m/s the bike moves too few metres in that time for steering to put the wheels back under it.
+        correct: true
+    explanation: |
+      The bike tips over in about $\sqrt{h/g} \approx 0.3$ s (with $h$ the height of the centre of mass). In $0.32$ s a bike at $1$ m/s travels $0.32$ m, but one at $5$ m/s travels $1.6$ m. A steering correction moves the wheels sideways by an amount that grows with the distance travelled, so a fast bike corrects a lean in time and a slow one does not.
+
+  - type: mcq
+    id: mu-above-one
+    prompt: |
+      A student says: "The friction coefficient $\mu$ is a fraction between $0$ and $1$, so a tyre can never have $\mu = 1.2$." Is that right?
+    shuffle: false
+    options:
+      - text: Yes, friction can never exceed the force pressing the surfaces together.
+        feedback: |
+          There is no such law. $F = \mu N$ is only a measured rule, and $\mu$ is the ratio $F/N$ of two forces. Nothing forces that ratio below $1$.
+      - text: No, $\mu$ is a ratio of forces and can exceed $1$ for sticky surfaces such as racing tyres.
+        correct: true
+      - text: No, because $\mu$ is measured in newtons.
+        feedback: |
+          $\mu$ has no unit: it is a force divided by a force. A value above $1$ simply means the friction force is larger than the load pressing the surfaces.
+    explanation: |
+      $\mu = F/N$ compares two forces. Typical values: rubber on dry road $0.7$, wet $0.4$, ice $0.1$; very sticky racing rubber can exceed $1$. A tyre with $\mu = 1.2$ stops from $15$ m/s in $15^2/(2 \times 1.2 \times 9.8) \approx 9.6$ m.
+
+  - type: mcq
+    id: gear-both
+    prompt: |
+      A small driver gear with $12$ teeth turns a large driven gear with $36$ teeth. A friend says: "A bigger gear gives more speed **and** more force at once." What really happens at the driven gear, compared with the driver?
+    shuffle: false
+    options:
+      - text: It turns $3$ times slower and delivers $3$ times the torque.
+        correct: true
+      - text: It turns $3$ times faster and delivers $3$ times the torque.
+        feedback: |
+          That would give more power out than in: power is torque times turning speed, $P = \tau\omega$, and the gear cannot create energy. A gain in torque costs speed.
+      - text: It turns $3$ times slower and delivers $3$ times *less* torque.
+        feedback: |
+          Then you would lose on both counts, which a gear does not need to do. Ideal gears give back in torque what they take in speed.
+    explanation: |
+      Ratio $N_2/N_1 = 36/12 = 3$: $\omega_2 = \omega_1 N_1/N_2$ (slower) and $\tau_2 = \tau_1 N_2/N_1$ (stronger). The product $\tau\omega$ is unchanged, so no gear gives both. That is the tradeoff.
+
+  - type: numeric
+    id: gear-power
+    prompt: |
+      A motor delivers $12$ N m at $30$ rad/s into a gear pair whose driver has $12$ teeth and whose driven gear has $36$ teeth. The gear pair is $95\%$ efficient. How many **watts** come out of the driven gear? (Power is torque times turning speed, in rad/s.)
+    answer: 342
+    tolerance: 1
+    wrong:
+      - { value: 1080, feedback: 'You multiplied the torque by $3$ but kept the speed. The speed drops by $3$ at the same time.' }
+      - { value: 360, feedback: 'That is the power going **in** ($12 \times 30$). The gear pair is $95\%$ efficient, so $5\%$ is lost as heat.' }
+    hint: |
+      Power in is $12 \times 30$ W. Out is the efficiency times that.
+    explanation: |
+      In: $12 \times 30 = 360$ W. Out: $0.95 \times 360 = 342$ W. Check: the driven gear has $36$ N m at $10$ rad/s, and $36 \times 10 = 360$ W, times $0.95$.
+
+  - type: mcq
+    id: torque-force
+    multiple: true
+    prompt: |
+      A bolt needs a torque of $40$ N m to turn. You push on a wrench with $100$ N. Torque is force times the perpendicular arm length. Select **all** the pushes that turn the bolt.
+    options:
+      - text: $100$ N at $0.5$ m from the bolt, perpendicular to the handle ($50$ N m)
+        correct: true
+      - text: $100$ N at $0.3$ m from the bolt, perpendicular to the handle
+        feedback: |
+          That is $100 \times 0.3 = 30$ N m, less than the $40$ N m needed. The force is large, but the arm is too short.
+      - text: $100$ N at $0.5$ m, pushing **along** the handle toward the bolt
+        feedback: |
+          A push along the handle has no perpendicular arm, so its torque is $0$. Torque is not a force: the direction and the distance matter.
+      - text: $50$ N at $0.5$ m, perpendicular to the handle
+        feedback: |
+          $50 \times 0.5 = 25$ N m, below $40$ N m. Half the force gives half the torque at the same arm.
+    explanation: |
+      Torque $\tau = F r$ with $r$ the perpendicular arm, in N m. Only $100$ N at $0.5$ m gives enough: $50 \geq 40$.
+
+  - type: mcq
+    id: counterweight-weight
+    prompt: |
+      An elevator cabin with its load has mass $800$ kg and hangs from a rope over a pulley, balanced by a counterweight of $650$ kg on the other side. Someone says: "The counterweight makes the cabin lighter." What is true?
+    shuffle: false
+    options:
+      - text: The cabin's weight is unchanged ($800$ kg $\times\, g$); the counterweight pulls the other end of the rope, so the motor only supplies the difference.
+        correct: true
+      - text: The counterweight cancels $650$ kg of the cabin's mass, so the cabin has only $150$ kg.
+        feedback: |
+          The mass of the cabin is not changed: it still needs a force $mg$ to be supported and a force $ma$ to accelerate. The counterweight adds an upward pull through the rope that supports most of that weight.
+      - text: The counterweight lets the motor run without any energy, because it balances the cabin.
+        feedback: |
+          Balance saves the force needed to hold the cabin, but the motor must still lift the extra load and overcome losses and the acceleration. A perfect balance cannot be reached for every load.
+    explanation: |
+      Motor force $F = (m - M)g = (800 - 650) \times 9.8 = 1470$ N, against $7840$ N with no counterweight. The weight is the same; the counterweight is a second rope pull that carries most of it.
+
+  - type: numeric
+    id: counterweight-power
+    prompt: |
+      The cabin and load of mass $800$ kg rise at a steady $2$ m/s, with a $650$ kg counterweight on the other end of the rope. What **power** in kilowatts must the motor supply? Use $g = 9.8\ \mathrm{m/s^2}$ and $P = Fv$, ignoring losses.
+    answer: 2.94
+    tolerance: 0.02
+    wrong:
+      - { value: 15.68, feedback: 'That is the power with **no** counterweight ($7840\ \text{N} \times 2\ \text{m/s}$). The counterweight carries most of the weight.' }
+      - { value: 0, feedback: 'The counterweight is lighter than the cabin and load, so the motor still has to pull with the difference.' }
+    hint: |
+      The motor force is the difference of weights, $(800 - 650)\,g$.
+    explanation: |
+      $F = 150 \times 9.8 = 1470$ N and $P = 1470 \times 2 = 2940$ W $= 2.94$ kW, a fifth of the $15.68$ kW without the counterweight.
+
+  - type: mcq
+    id: airbag-momentum
+    prompt: |
+      A car of mass $1200$ kg at $15$ m/s hits a wall and stops completely. A friend says: "An airbag works by reducing the momentum change of the person." What does the airbag really change?
+    shuffle: false
+    options:
+      - text: The momentum change, which becomes smaller with the bag.
+        feedback: |
+          To stop completely, the person's momentum must go from $mv$ to $0$, with or without the bag. That change $\Delta p$ is fixed by the mass and the speed.
+      - text: The time over which the momentum changes, which becomes longer, so the force is smaller.
+        correct: true
+      - text: The kinetic energy of the person, which becomes smaller with the bag.
+        feedback: |
+          The energy to remove is also fixed by the mass and the speed. The bag spreads the removal over a longer distance, so the force is smaller, but the energy removed is the same.
+    explanation: |
+      Impulse $J = F\Delta t = \Delta p$. For the car, $\Delta p = 1200 \times 15 = 18\,000$ N s whatever happens. The bag makes $\Delta t$ longer, so $F = \Delta p/\Delta t$ is smaller.
+
+  - type: numeric
+    id: airbag-force
+    prompt: |
+      A car of mass $1200$ kg at $15$ m/s stops completely. How many **kilonewtons** is the average force if the stop takes $0.5$ s instead of $0.1$ s?
+    answer: 36
+    tolerance: 0.2
+    wrong:
+      - { value: 180, feedback: 'That is the force for the $0.1$ s stop. Five times longer gives a force five times smaller.' }
+      - { value: 18, feedback: 'That is the impulse $18\,000$ N s written in thousands, but a force is the impulse divided by the time.' }
+    hint: |
+      The momentum change is $mv = 1200 \times 15$. Divide it by the time.
+    explanation: |
+      $F = \Delta p/\Delta t = 18\,000/0.5 = 36\,000$ N $= 36$ kN, against $180$ kN for $0.1$ s.
+
+  - type: order
+    id: airbag-order
+    prompt: Put the argument for why an airbag protects in order.
+    steps:
+      - 'To stop completely, the person''s momentum must change by $\Delta p = mv$, whatever the bag does.'
+      - 'The impulse needed is therefore fixed: $F\,\Delta t = \Delta p$.'
+      - 'The bag makes the stop last longer, so $\Delta t$ increases.'
+      - 'The average force $F = \Delta p/\Delta t$ decreases.'
+    hint: |
+      Start with what cannot change, then what the bag does change.
+    explanation: |
+      A fixed impulse shared over a longer time means a smaller force. The bag does not reduce the momentum change; it stretches it in time.
+
+  - type: mcq
+    id: locked-wheels
+    prompt: |
+      In an emergency stop, the driver stamps on the brake so hard that the wheels stop turning and skid ("lock"). Does this stop the car in the shortest distance?
+    shuffle: false
+    options:
+      - text: Yes, a locked wheel has the strongest braking, because it is stopped completely.
+        feedback: |
+          The brake holds the wheel still, but the car is stopped by the friction at the road. A skidding tyre slides on a thin melted layer of rubber and has a lower friction coefficient than a tyre that keeps rolling.
+      - text: No, a wheel that keeps turning just below locking grips better than a skidding one; that is what anti-lock brakes (ABS) aim for.
+        correct: true
+      - text: No, a locked wheel produces no friction at all.
+        feedback: |
+          A skidding tyre still has friction (sliding friction), only less than the grip of a rolling tyre. It does slow the car, just not as well.
+    explanation: |
+      Typical rolling grip is about $1.2$ times the sliding $\mu$. From $30$ m/s on a dry road: locked ($\mu = 0.7$) needs $30^2/(2 \times 0.7 \times 9.8) = 65.6$ m, rolling at the limit ($\mu = 0.84$) needs $54.7$ m. ABS keeps the wheel near that limit with a feedback loop (setpoint: a small slip; sensor: wheel speed; actuator: the brake valve).
+
+  - type: numeric
+    id: abs-distance
+    prompt: |
+      A car brakes from $30$ m/s on a dry road. Sliding friction is $\mu = 0.7$, and a wheel that keeps rolling just below locking grips $1.2$ times as well. How many **metres** does it need to stop with ABS (rolling grip)? Use $g = 9.8\ \mathrm{m/s^2}$.
+    answer: 54.7
+    tolerance: 0.3
+    wrong:
+      - { value: 65.6, feedback: 'That is the distance with locked wheels, sliding $\mu = 0.7$. With ABS the grip is $1.2$ times larger, so $\mu = 0.84$.' }
+      - { value: 78.7, feedback: 'You multiplied the distance by $1.2$ instead of dividing. More grip means a *shorter* stop.' }
+    hint: |
+      Use $\mu = 1.2 \times 0.7$ in $d = v^2/(2\mu g)$.
+    explanation: |
+      $\mu = 0.84$, so $d = 900/(2 \times 0.84 \times 9.8) = 900/16.46 \approx 54.7$ m.
+
+  - type: mcq
+    id: speed-dependence
+    prompt: |
+      A car brakes at full grip on a wet road ($\mu = 0.4$). A friend says: "Faster cars are braked by a larger force, so the distance grows in proportion to the speed." What is true?
+    shuffle: false
+    options:
+      - text: The braking force $\mu m g$ does not depend on the speed, and the distance grows as the **square** of the speed.
+        correct: true
+      - text: The braking force grows with the speed, and the distance grows in proportion to the speed.
+        feedback: |
+          Sliding friction is $\mu N$ with $N = mg$: it does not know the speed. A faster car just has more kinetic energy to remove with the same force.
+      - text: The braking force does not depend on the speed, so the distance is also the same.
+        feedback: |
+          The force is the same, but a faster car has more kinetic energy, $\tfrac12 m v^2$, to remove, and the work of the force is $F d$. So the distance must grow.
+    explanation: |
+      $\tfrac12 m v^2 = \mu m g\, d$ gives $d = v^2/(2\mu g)$. Doubling the speed multiplies the distance by $4$: from $15$ m/s to $30$ m/s on the wet road, $28.7$ m becomes $114.8$ m.
+
+  - type: numeric
+    id: reaction-distance
+    prompt: |
+      An e-bike and rider of mass $90$ kg ride at $10$ m/s on a wet road ($\mu = 0.4$). They see a hazard and brake at full grip, but only after a **reaction time** of $1$ s. How many **metres** do they travel from the moment they see the hazard until they stop? Use $g = 9.8\ \mathrm{m/s^2}$.
+    answer: 22.76
+    tolerance: 0.1
+    wrong:
+      - { value: 12.76, feedback: 'That is the braking distance alone. During the $1$ s reaction time the bike still rides at $10$ m/s and covers $10$ m before the brakes act.' }
+    hint: |
+      Reaction: constant speed for $1$ s. Then braking: $v^2/(2\mu g)$.
+    explanation: |
+      Reaction distance $10 \times 1 = 10$ m. Braking: $10^2/(2 \times 0.4 \times 9.8) = 12.76$ m. Total $22.76$ m.
+
+  - type: mcq
+    id: lock-keys
+    prompt: |
+      A pin-tumbler lock has $5$ pins, each cut to one of $6$ depths, so there are at most $6^5 = 7776$ different keys. A seller says: "Adding more depths makes the number of keys grow without limit, so the lock can be made as secure as you like." What is the catch?
+    shuffle: false
+    options:
+      - text: There is no catch; $D$ depths can be made as large as desired.
+        feedback: |
+          The formula $D^N$ is a maximum. Real keys have limits: if two depths differ by only a hair, normal wear and manufacturing tolerance makes them confusable.
+      - text: Depths must stay far enough apart to tell apart, so tolerance limits the usable $D$; for example only $4$ usable depths give $4^5 = 1024$ keys.
+        correct: true
+      - text: Adding depths does not change the number of keys at all.
+        feedback: |
+          It does: each pin multiplies the count by $D$. The catch is not that depths are useless, but that they cannot be packed without limit.
+    explanation: |
+      Keys at most $D^N$, but the usable $D$ is set by tolerance. With $D = 4$ and $N = 5$: $4^5 = 1024$. Adding pins is the safer route: each extra pin multiplies by $D$ ($6^6 = 46\,656$), but also makes a longer and more costly lock.
+
+  - type: text
+    id: summary
+    title: Traps to remember
+    body: |
+      - **Mass cancels in braking.** Friction is $\mu m g$, the mass to stop is $m$, so the stopping distance is $d = v^2/(2\mu g)$ for every mass. It grows as $v^2$, while the braking force does not depend on the speed.
+      - **Bikes balance by steering feedback**, not by gyroscopes; they fall at low speed because the lean ($\approx 0.3$ s) outruns the few metres of steering travel, not because they are light.
+      - **$\mu$ is a ratio of forces**, unitless and able to exceed $1$. Locked wheels slide with a lower $\mu$ than rolling tyres: ABS keeps the wheel near the limit.
+      - **Gears trade, never give both:** $\tau_2 = \tau_1 N_2/N_1$ and $\omega_2 = \omega_1 N_1/N_2$, so $\tau\omega$ is conserved (less losses). **Torque is not a force:** $\tau = F r$ with $r$ the perpendicular arm.
+      - **A counterweight does not lighten the cabin:** the motor force is $(m - M)g$, the difference of the weights.
+      - **An airbag does not change $\Delta p$:** $F = \Delta p/\Delta t$, it lengthens $\Delta t$.
+      - **Locks:** at most $D^N$ keys, but tolerance limits $D$.
+
+      **Next:** a quick recall of the formulas of this level, then the content map.
