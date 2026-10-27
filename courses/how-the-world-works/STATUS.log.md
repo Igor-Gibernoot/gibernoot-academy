@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-27 ch02-brakes-heat
+Built `ch02-brakes-heat` (18 cards, concept): hook with temperature guess, Recall cards (Brakes and Friction; Everything Costs Energy), Q = 1/2 m v^2 = 450 kJ, dT = Q/(c m_disc) = 200 K (5 kg steel, c 450), 50 K at 15 m/s, friction-stop with lockToggle (staticRatio 1.2, existing preset fields, no new widget needed), 54.7 m rolling vs 65.6 m locked, no steering on locked wheels (recall bike lesson), ABS as loop (order + roles), traps, summary. Choices: heat all stays in the discs (upper estimate); `^\circ` written `{}^\circ` for KaTeX. Conventions fixed here: specific heat $c$ steel 450 J/(kg K) typical; $\Delta T = Q/(c\,m_{\text{disc}})$; 5 kg discs, 1000 kg car at 30 m/s: 450 kJ, 200 K; rolling grip about 1.2 mu (typical): 54.7 m vs 65.6 m; ABS: setpoint slip, sensor wheel speed, actuator valve.
+
 ## 2026-10-27 ch02-brakes
 Built `ch02-brakes` (21 cards, under the 22 limit so NOT split; kinetic energy and the energy-to-heat bar are in it). Added planned node `ch02-brakes-heat` (no file) for disc temperature rise, locked vs rolling, ABS (feedback); the lesson teaser points to it. Friction-stop layout fixed: weight label moved beside the body, plot top lowered 10 px so the "speed" axis label no longer touches the road. Verified by script: 0.7x1000x9.8 = 6860 N; a = 6.86 and 3.92 m/s^2; 15 m/s mu 0.7 = 16.4 m, mu 0.4 = 28.7 m, mu 0.1 = 114.8 m; 30 to 60 km/h = 5.06 m to 20.2 m (x4); 1/2 x 1000 x 15^2 = 112500 J = 6860 x 16.4; 30 m/s mu 0.7 = 65.6 m. Smoke: 19 mounts, 0 errors. Conventions fixed here: mu (unitless) 0.7 dry, 0.4 wet, 0.1 ice; weight written mg (W is work); a = mu g; d = v^2/(2 mu g); kinetic energy E_k = 1/2 m v^2; running car 1000 kg at 15 m/s.
 

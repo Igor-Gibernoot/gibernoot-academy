@@ -1,0 +1,271 @@
+id: ch02-brakes-heat
+title: Brakes Turn Motion Into Heat
+kind: concept
+own: |
+  - **Heat from braking.** A car of mass $m$ (kg) at speed $v$ (m/s) has kinetic energy; stopping it turns all of it into heat $Q$ (joules, J), almost all in the brake discs:
+    {{ $$Q = \tfrac12\,m\,v^2$$ }}
+    For $m = 1000$ kg and $v = 30$ m/s, $Q = 450\,000$ J.
+  - **Temperature rise.** A body of mass $m_{\text{disc}}$ (kg) made of a material with **specific heat** $c$ (J per kg per kelvin; steel about $450\ \mathrm{J/(kg\,K)}$, a typical value) warms by $\Delta T$ (kelvin, K; a step of 1 K equals a step of $1\,{}^\circ$C) when it receives heat $Q$:
+    {{ $$\Delta T = \frac{Q}{c\,m_{\text{disc}}}$$ }}
+    With $5$ kg of disc steel, the $450\,000$ J of that stop gives $\Delta T = 200$ K. Halving the speed cuts $Q$, and so $\Delta T$, to a quarter (50 K).
+  - **Locked against rolling.** A **locked** wheel slides on the road and feels sliding friction $F = \mu m g$; a **rolling** wheel grips with static friction, typically about $1.2\mu$ (a typical ratio, not exact). On a dry road ($\mu = 0.7$) from $30$ m/s the stopping distance $d = v^2/(2\mu g)$ is $65.6$ m locked and
+    {{ $54.7$ m rolling, about $17\%$ shorter }}
+    A locked front wheel also cannot steer: a sliding tyre has little sideways grip left.
+  - **ABS is a feedback loop.** The **anti-lock braking system** keeps the wheel just short of locking. Setpoint: a small target slip of the tyre on the road. Measured value: the wheel speed from a sensor, compared with the car speed. Error: how far the slip is from the target. Actuator: a valve that releases or re-applies brake pressure, many times per second:
+    {{ wheel locking up (too much slip) $\Rightarrow$ release pressure; wheel free again $\Rightarrow$ apply pressure }}
+cards:
+  - type: text
+    id: hook
+    title: Before any theory, guess
+    body: |
+      Picture a car coming down a long mountain road, the driver on the brake pedal for minutes. At night you can see the brake discs (the steel plates that the brake pads squeeze) glowing dull red.
+
+      The previous brake lesson showed that friction turns the car's motion into **heat**. Here we ask how much heat that is, how hot it makes the metal, and what the best way is to use the grip of the tyres. Guessing first is the point.
+
+  - type: mcq
+    id: guess-temp
+    prompt: |
+      A $1000$ kg car travelling at $30$ m/s ($108$ km/h) brakes hard to a stop. All the heat goes into the brake discs, whose total mass is only about $5$ kg of steel. About how much does the disc temperature rise in that one stop?
+    shuffle: false
+    options:
+      - text: About $2$ K, barely noticeable.
+        feedback: |
+          A car is heavy and fast, and a few kilograms of steel is little metal to hold all that energy. The rise is much larger; the cards below compute it.
+      - text: About $200$ K, hot enough to burn a hand.
+        correct: true
+      - text: About $20\,000$ K, hotter than the surface of the Sun.
+        feedback: |
+          Tempting, since the energy is large. But steel would melt (about $1800$ K) long before; the real number is far below, as the cards below compute.
+    hint: |
+      A $1000$ kg car moving at $30$ m/s carries a few hundred thousand joules; a kilogram of steel needs about $450$ J to warm by $1$ K.
+    explanation: |
+      The rise is about $200$ K in a single stop. The next cards derive it.
+
+  - type: text
+    id: recall-friction
+    title: "Recall: friction and stopping distance"
+    body: |
+      From the lesson Brakes and Friction. A car of mass $m$ (kg) braking on a flat road with friction coefficient $\mu$ (a pure number: $0.7$ dry, $0.4$ wet, $0.1$ ice) feels the friction force
+
+      $$F = \mu\,m\,g$$
+
+      with $g = 9.8\ \mathrm{m/s^2}$. The deceleration is $\mu g$, so from speed $v$ (m/s) it stops in the distance
+
+      $$d = \frac{v^2}{2\,\mu\,g}$$
+
+      The mass cancels, and doubling the speed gives four times the distance.
+
+  - type: text
+    id: recall-energy
+    title: "Recall: kinetic energy becomes heat"
+    body: |
+      From the lesson Everything Costs Energy: energy is never destroyed, it only changes form. Motion carries **kinetic energy** (energy of motion), in joules (J):
+
+      $$E_k = \tfrac12\,m\,v^2$$
+
+      and braking friction does work $F\,d$ (force times distance, with $W$ reserved for work in general) that removes it. The energy does not vanish: it becomes **heat** $Q$, also in joules. So, for a full stop,
+
+      $$Q = \tfrac12\,m\,v^2$$
+
+  - type: numeric
+    id: heat-value
+    prompt: |
+      A car of mass $1000$ kg brakes from $30$ m/s to rest. How much heat $Q$ does the braking produce, in joules? (Use $Q = \tfrac12 m v^2$.)
+    answer: 450000
+    tolerance: 500
+    answerText: '450 000 J'
+    wrong:
+      - { value: 900000, feedback: 'The factor $\tfrac12$ is missing.' }
+      - { value: 30000, feedback: 'That is $m v$: the speed must be squared, and the $\tfrac12$ is there.' }
+    hint: |
+      $\tfrac12 \times 1000 \times 30^2$.
+    explanation: |
+      $\tfrac12 \times 1000 \times 900 = 450\,000$ J. That equals about $0.125$ kWh, the energy a $2000$ W kettle uses in four minutes, released here in a few seconds.
+
+  - type: text
+    id: specific-heat
+    title: How much heat warms a piece of steel?
+    body: |
+      Heat added to a solid raises its temperature $T$. The temperature rise $\Delta T$ ("delta T", a change) is measured in kelvin (K): a step of $1$ K is the same as a step of $1\,{}^\circ$C. Experiments show that $\Delta T$ is proportional to the heat $Q$ and inversely proportional to the mass $m_{\text{disc}}$ of the body (twice the metal, half the warming). The material enters through its **specific heat** $c$: the heat needed to warm $1$ kg by $1$ K, in $\mathrm{J/(kg\,K)}$. For steel $c \approx 450\ \mathrm{J/(kg\,K)}$ (a typical value; it varies with the alloy and the temperature).
+
+      $$Q = c\,m_{\text{disc}}\,\Delta T$$
+
+      Solved for the rise:
+
+      $$\Delta T = \frac{Q}{c\,m_{\text{disc}}}$$
+
+  - type: numeric
+    id: temp-rise
+    prompt: |
+      The $450\,000$ J of heat from the stop all goes into brake discs of total mass $5$ kg, with $c = 450\ \mathrm{J/(kg\,K)}$. By how many kelvin does their temperature rise, using $\Delta T = Q/(c\,m_{\text{disc}})$?
+    answer: 200
+    tolerance: 1
+    answerText: '200 K'
+    wrong:
+      - { value: 1000, feedback: 'That is $Q/c$ without dividing by the disc mass: it is the rise of a single kilogram.' }
+      - { value: 0.005, feedback: 'The ratio is upside down: the rise grows with $Q$ and shrinks with $c\,m_{\text{disc}}$.' }
+    hint: |
+      $c\,m_{\text{disc}} = 450 \times 5 = 2250$ J per kelvin.
+    explanation: |
+      $\Delta T = 450\,000/(450 \times 5) = 450\,000/2250 = 200$ K. From $20\,{}^\circ$C the discs reach about $220\,{}^\circ$C after one stop. In a long descent the stops repeat and the discs cannot cool in between, which is how they reach a glow. (Real discs lose some heat to the air during the stop, so this is an upper estimate for one stop.)
+
+  - type: numeric
+    id: half-speed
+    prompt: |
+      The same $1000$ kg car brakes from $15$ m/s instead of $30$ m/s, with the same $5$ kg of steel discs ($c = 450\ \mathrm{J/(kg\,K)}$). By how many kelvin do the discs warm?
+    answer: 50
+    tolerance: 0.5
+    answerText: '50 K'
+    wrong:
+      - { value: 100, feedback: 'That halves the rise as if heat were proportional to the speed. The heat is $\tfrac12 m v^2$, with $v$ squared: half the speed gives a quarter of the heat.' }
+    hint: |
+      Find $Q = \tfrac12 m v^2$ at $15$ m/s first.
+    explanation: |
+      $Q = \tfrac12 \times 1000 \times 225 = 112\,500$ J and $\Delta T = 112\,500/2250 = 50$ K: a quarter of $200$ K, because $Q \propto v^2$.
+
+  - type: widget
+    id: lock-try
+    widget: friction-stop
+    review: false
+    config:
+      mu: 0.7
+      v0: 30
+      mass: 1000
+      lockToggle: true
+      staticRatio: 1.2
+      sliders: [v0]
+      ranges: { v0: [5, 40, 1] }
+      show: { pin: true, forceArrows: true, energyBar: true, heat: true }
+      readouts: [distance, time, decel, heat]
+    body: |
+      A $1000$ kg car brakes from $30$ m/s on a dry road ($\mu = 0.7$). The two buttons choose how the wheels behave: **locked** (the wheels stop turning and slide, friction coefficient $\mu$) or **rolling** (the wheels keep turning while braking hard, grip about $1.2\mu$, a typical ratio). Try both; use **pin** to keep the first run as a ghost and compare. Watch the stopping distance and the heat.
+
+  - type: mcq
+    id: after-lock
+    prompt: |
+      A car brakes from $30$ m/s on a dry road once with locked wheels (friction coefficient $\mu$) and once with wheels that keep rolling (about $1.2\mu$). What do you expect, and why?
+    shuffle: false
+    options:
+      - text: The locked wheels stop shorter, because they are held completely still.
+        feedback: |
+          Holding the wheel still feels like the strongest brake, but the strength is set by the grip between tyre and road, and a sliding tyre grips less than a rolling one.
+      - text: The rolling wheels stop shorter, because rolling contact grips more than sliding.
+        correct: true
+      - text: They stop in the same distance, since the energy to remove is the same.
+        feedback: |
+          The energy is the same, but the distance is energy divided by the friction force, $d = \tfrac12 m v^2/F$. A larger force gives a shorter distance.
+    hint: |
+      The distance is the energy to remove divided by the friction force. Which wheel has the larger force?
+    explanation: |
+      The energy to remove is the same, but the rolling wheel can use a larger friction force, so it stops shorter.
+
+  - type: text
+    id: why-skid
+    title: Why a skid stops worse
+    body: |
+      Look at the patch of tyre touching the road. On a **rolling** wheel that patch is momentarily at rest relative to the road, like a foot on the ground while walking: the rubber grips the surface and the force is **static friction**, which can reach a maximum slightly higher than the sliding value. On a **locked** wheel the patch drags along the road: it is **sliding friction**, a bit weaker, and it also melts and wears the rubber, so the heat goes into the tyre instead of the brake disc.
+
+      With rolling contact at about $1.2\mu$ (a typical ratio, not exact, and it varies with tyre and surface) the deceleration is $1.2\mu g$ and the stopping distance is $d = v^2/(2 \times 1.2\,\mu g)$.
+
+  - type: numeric
+    id: rolling-dist
+    prompt: |
+      From $30$ m/s on a dry road ($\mu = 0.7$) a car with rolling wheels has an effective friction coefficient of $1.2 \times 0.7 = 0.84$. What is the stopping distance in metres, with $d = v^2/(2\mu_{\text{eff}} g)$ and $g = 9.8\ \mathrm{m/s^2}$? (The locked-wheel distance is $65.6$ m.)
+    answer: 54.7
+    tolerance: 0.3
+    answerText: '54.7 m'
+    wrong:
+      - { value: 65.6, feedback: 'That uses $\mu = 0.7$, the locked-wheel value. With rolling wheels the coefficient is $0.84$.' }
+      - { value: 78.7, feedback: 'The distance is divided by the factor $1.2$, not multiplied: more grip means a shorter stop.' }
+    hint: |
+      $900 / (2 \times 0.84 \times 9.8)$.
+    explanation: |
+      $d = 900/16.46 = 54.7$ m, which is $65.6/1.2$: about $11$ m (a car-length and a half more) saved just by not locking.
+
+  - type: mcq
+    id: no-steer
+    prompt: |
+      A driver slams the brake so hard that the front wheels lock, and turns the steering wheel to avoid an obstacle. The car carries on almost straight. Why?
+    shuffle: false
+    options:
+      - text: The steering wheel is disconnected when the wheels are locked.
+        feedback: |
+          The steering linkage still moves the wheels. What is missing is not the turning of the wheels but the force that the road can give them sideways.
+      - text: A sliding tyre has little sideways grip, so turning the wheel does not push the car sideways.
+        correct: true
+      - text: A locked wheel is heavier and the car cannot turn a heavier wheel.
+        feedback: |
+          The wheel is not heavier. Steering works through a sideways force from the road on the tyre, which a sliding tyre cannot provide well.
+    hint: |
+      Recall the lesson How a Bicycle Stays Up: to turn, a vehicle needs a sideways force from the road on the tyres, here friction.
+    explanation: |
+      A vehicle turns only if the road pushes its tyres sideways (the lesson How a Bicycle Stays Up used this force to make the bike lean and turn). A tyre already sliding forwards has used up most of its grip, and slides on in the direction it was going.
+
+  - type: text
+    id: abs-loop
+    title: The anti-lock system is a feedback loop
+    body: |
+      Recall from the lesson The Thermostat and Other Loops that a **feedback loop** has a **setpoint** (the target), a measured value, an **error** (target minus measured) and an **actuator** (the part that acts to shrink the error).
+
+      An **anti-lock braking system** (ABS) is such a loop. A sensor on each wheel measures its speed and the computer compares it with the speed of the car. If the wheel turns much slower than the car, the tyre is slipping and about to lock. The setpoint is a small **slip** (a few tens of percent of difference between car speed and wheel speed, typical), the error is the distance from it, and the actuator is a valve that lowers or raises the brake pressure. It repeats this about ten times per second or more, so the wheel hovers at the edge of locking, where the grip is greatest, and the pedal pulses under your foot.
+
+  - type: order
+    id: abs-steps
+    prompt: |
+      Put one cycle of an anti-lock braking system in order, starting from the moment the driver presses hard.
+    steps:
+      - 'The brake pressure rises and the wheel slows more than the car.'
+      - 'The sensor reports a wheel speed far below the car speed: too much slip.'
+      - 'A valve releases pressure and the wheel speeds up again.'
+      - 'The slip falls below the target, so the valve raises the pressure again.'
+    hint: |
+      The loop alternates between too much brake and too little brake.
+    explanation: |
+      Pressure up, wheel nearly locks (error), valve releases, wheel recovers, pressure goes up again. Like a thermostat switching a heater on and off, the system never rests exactly on the target but stays close to it.
+
+  - type: mcq
+    id: abs-roles
+    prompt: |
+      In an anti-lock braking system, which part plays the role of the **actuator** in the feedback loop (the part that acts to correct the error)?
+    shuffle: false
+    options:
+      - text: The wheel-speed sensor.
+        feedback: |
+          The sensor measures; it does not act on the brake. It plays the role of the thermometer in a thermostat.
+      - text: The valve that releases and re-applies brake pressure.
+        correct: true
+      - text: The target slip number stored in the computer.
+        feedback: |
+          That number is the setpoint: the value the loop tries to reach.
+    hint: |
+      In a thermostat the actuator is the heater switch, not the thermometer.
+    explanation: |
+      Sensor = measurement, stored target slip = setpoint, difference = error, valve = actuator.
+
+  - type: mcq
+    id: traps
+    prompt: |
+      Select **all** true statements about braking and heat.
+    multiple: true
+    options:
+      - text: Doubling the speed of a car multiplies the heat it must dump by $4$.
+        correct: true
+      - text: A brake disc of twice the mass warms half as much for the same stop.
+        correct: true
+      - text: A skid wastes the car's kinetic energy, so less heat is produced.
+        feedback: |
+          The same kinetic energy turns into heat either way. In a skid more of it ends up in the tyres and the road, and the stop is longer.
+      - text: Pressing the pedal harder always shortens the stop, even after the wheels lock.
+        feedback: |
+          Once the wheel is locked, the friction is set by the sliding grip, so more pedal force adds nothing. This is the reason for ABS.
+      - text: ABS makes the car able to steer while braking hard.
+        correct: true
+    hint: |
+      Use $Q = \tfrac12 m v^2$, $\Delta T = Q/(c\,m_{\text{disc}})$ and the idea that a locked wheel is sliding.
+    explanation: |
+      $Q \propto v^2$ gives the factor $4$; $\Delta T \propto 1/m_{\text{disc}}$ gives half; the energy ends up as heat in any case; a locked wheel has only its sliding grip; and a wheel that keeps rolling can still steer.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** from brakes to a different kind of mechanism: a tiny set of metal pins that a key must lift to exactly the right heights. How many different keys can a lock have, and how hard is it to guess? That is the pin-tumbler lock.
