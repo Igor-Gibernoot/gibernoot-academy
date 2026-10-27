@@ -16,3 +16,4 @@ Read only the section you need: `grep -n '^## ' courses/how-the-world-works/CONV
 - Energy lesson: $E = P\,t$ (J, W, s); 1 Wh = 3600 J, 1 kWh = 3.6e6 J; efficiency = useful/total (fraction, 0 to 1); typical: phone 5.4e4 J, chocolate bar 1.1e6 J, petrol 3.4e7 J/L, cyclist 400 W in / 100 W useful, filament bulb 50 W in / 5 W light. Heat is the usual leftover ("energy is moved, not used up").
 - Guess-is-the-point line is repeated in the hook of every Level 1 lesson.
 - log-ruler: guess ladder `reveal:false`; picture after its question `reveal:true, slider:false, readout:false`; widget cards `review: false`.
+- Feedback lesson: room heater +0.8 C/min, loss 0.04 C/min per degree above outside (always-on settles at outside + 20); error $e = T_{\text{set}} - T_{\text{sensed}}$, heater on iff $e>0$; band/hysteresis glossed; feedback-loop presets: plain-text labels (no math), `review: false`, onoff outsideRange [3,15].

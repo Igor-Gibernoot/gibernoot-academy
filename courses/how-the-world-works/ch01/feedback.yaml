@@ -1,0 +1,345 @@
+id: ch01-feedback
+title: The Thermostat and Other Loops
+kind: concept
+own: |
+  - **Feedback** is a machine measuring its own result and using it to decide its next action. A **closed loop** does this; an **open loop** acts without measuring (a toaster on a fixed timer). A closed loop has a **sensor** (measures the result), a **setpoint** (the value we want) and an **actuator** (the part that acts). Setting: a room with a heater, a thermostat and a sensor reading the room temperature $T_{\text{sensed}}$ (in °C), with a setpoint $T_{\text{set}}$ (in °C). The loop compares the two through the **error**
+    {{ $$e = T_{\text{set}} - T_{\text{sensed}}$$ }}
+    and acts on its sign.
+  - **The on/off rule.** The thermostat switches the heater on when the room is too cold and off when it is too hot:
+    {{ $$\text{heater on} \iff e > 0$$ }}
+    A small **band** around the setpoint (heater on a little below it, off a little above it) stops it flicking on and off all the time. This is why a thermostatted room sits near $T_{\text{set}}$ whether the outside is $5$ °C or $15$ °C: only the **fraction of time** the heater is on changes.
+  - **Open loop, for comparison.** A heater that adds $0.8$ °C per minute and a room that loses $0.04$ °C per minute for each degree it is warmer than the outside (outside temperature $T_{\text{out}}$ in °C), with the heater always on, settle where gain equals loss:
+    {{ $$T_{\text{room}} = T_{\text{out}} + \frac{0.8}{0.04} = T_{\text{out}} + 20$$ }}
+    a temperature nobody chose: it simply follows the weather.
+  - **A slow sensor makes the room overshoot.** If the sensor reports the temperature from several minutes ago, the heater stays on too long after the room is warm enough, and the room swings beyond the band.
+cards:
+  - type: text
+    id: hook
+    title: Before any theory, guess
+    body: |
+      Remember: in Level 1 the **guess is the point**. Everything here can be answered from common sense; a wrong guess teaches more than a skipped question.
+
+      Picture a small room with an electric heater that is simply switched on and left on. There is no thermostat, no dial, nobody watching. Outside the weather changes from mild to freezing.
+
+      Meanwhile, in the same house, a toilet cistern fills with water and stops by itself at the right level, and a car holds $100$ km/h up and down hills. Nobody keeps an eye on either. Something in each machine **watches its own result and corrects it**. That is what we will call **feedback**: using the measured result of a machine to decide what it does next.
+
+      Puzzles for this lesson:
+      - what temperature does a room with an always-on heater end up at,
+      - how does a thermostat hold one temperature on both mild and freezing days,
+      - why can a thermostat still overshoot?
+
+  - type: mcq
+    id: guess-open
+    prompt: |
+      A room has an electric heater that is switched on and never touched again. On a mild day the room settles at a warm temperature. The weather then turns much colder outside. After a few hours, the room is
+    shuffle: false
+    options:
+      - text: at the same temperature as before, because the heater has not changed
+        feedback: |
+          Tempting: the heater gives the same heat every minute. But the room also **loses** heat to the cold outside, and that loss is bigger on a cold day. Gain unchanged, loss bigger: the balance moves.
+      - text: colder than before
+        correct: true
+      - text: warmer than before, because the heater fights the cold harder
+        feedback: |
+          A plain heater cannot "fight harder": it gives the same heat whatever the weather. Nothing in it notices the cold.
+    hint: |
+      The room gains heat from the heater and loses heat through the walls. Which of the two changes when it gets colder outside?
+    explanation: |
+      The heater adds the same heat every minute, but the colder the outside, the faster the room loses heat. The two balance at a lower temperature. The heater has no way to notice and adapt; the next cards show this with numbers.
+
+  - type: widget
+    id: open-room
+    widget: feedback-loop
+    review: false
+    config:
+      mode: open
+      heater: on
+      outside: 5
+      temp0: 15
+      outsideRange: [0, 10]
+      sliders: [outside]
+      readouts: [room, outside]
+      showSetpoint: false
+      showSensed: false
+      heaterButton: false
+      presets:
+        - { label: 'Outside 5 °C', outside: 5 }
+        - { label: 'Outside 0 °C', outside: 0 }
+    body: |
+      A room that starts at $15$ °C with the heater **permanently on**. The blue line is the room temperature, the purple line the outside temperature. Press **Run**, wait until the blue line stops rising, then drag the outside slider to a colder value and let it run again.
+
+  - type: numeric
+    id: open-settle
+    prompt: |
+      A room has a heater that is always on. The heater adds $0.8$ °C every minute. The room loses $0.04$ °C every minute for **each degree** it is warmer than the outside. The outside is $5$ °C. At what room temperature, in °C, does the room stop changing (heat gained equals heat lost)?
+    answer: 25
+    tolerance: 0.01
+    answerText: '25'
+    wrong:
+      - { value: 20, feedback: 'That is how many degrees the room ends up *above* the outside. Add the outside temperature, $5$ °C.' }
+      - { value: 5, feedback: 'The outside temperature is where the room would settle with no heater at all. The heater lifts it higher.' }
+    hint: |
+      If the room is $d$ degrees warmer than the outside, it loses $0.04\,d$ °C per minute. Find the $d$ for which this equals $0.8$.
+    explanation: |
+      Loss equals gain when $0.04\,d = 0.8$, so $d = 0.8/0.04 = 20$ °C above the outside:
+      $$T_{\text{room}} = 5 + 20 = 25\ \text{°C}.$$
+      With the outside at $0$ °C the same heater gives $20$ °C, and at $10$ °C it gives $30$ °C. Nobody chose $25$: it is just where the two flows balance, and it follows the weather. A machine with no sensing like this is an **open loop**.
+
+  - type: text
+    id: loop-words
+    title: Sense, compare, act
+    body: |
+      To hold a temperature we want a machine that does three things, again and again:
+
+      1. **Sense**: a **sensor** measures the result (here, the room temperature).
+      2. **Compare**: the machine compares the measurement with the value we want, called the **setpoint** (here, the temperature set on the dial).
+      3. **Act**: depending on the comparison, an **actuator** (the part that acts, here the heater) is switched on or off.
+
+      The action changes the result, which is sensed again: the chain closes on itself, like a circle. That is a **closed loop**, and the measured result being fed back into the decision is **feedback**. A machine that acts without measuring (like the heater on the previous cards) is an **open loop**.
+
+  - type: order
+    id: loop-order
+    prompt: |
+      A thermostat keeps a room warm. Put one turn of its loop in order, starting from the moment the room temperature is measured.
+    steps:
+      - 'The sensor measures the room temperature'
+      - 'The thermostat compares the measurement with the setpoint'
+      - 'The heater is switched on or off'
+      - 'The room warms up or cools down, and the sensor measures again'
+    hint: |
+      Sense, then compare, then act, then the world changes and the loop starts over.
+    explanation: |
+      Sense, compare, act, and the result of the action is sensed again. Without the last step there would be no loop at all, only a chain.
+
+  - type: widget
+    id: onoff-room
+    widget: feedback-loop
+    review: false
+    config:
+      mode: onoff
+      setpoint: 21
+      outside: 5
+      temp0: 15
+      band: 1
+      outsideRange: [3, 15]
+      sliders: [outside]
+      readouts: [room, setpoint, heater]
+      showSensed: false
+      presets:
+        - { label: 'Outside 5 °C', outside: 5 }
+        - { label: 'Outside 12 °C', outside: 12 }
+    body: |
+      The same room and heater, but now with a **thermostat**: the orange dashed line is the setpoint, $21$ °C. The heater (gold shading) switches **on** when the room is a little below the setpoint (below $20.5$ °C) and **off** when it is a little above ($21.5$ °C). That small gap around the setpoint is called the **band**; it stops the heater from flicking on and off all the time (the technical name is **hysteresis**). Press **Run**, then drag the outside slider to different values and watch the blue line and the gold shading.
+
+  - type: mcq
+    id: cold-day
+    prompt: |
+      A room thermostat is set to $21$ °C. The heater always gives the same heat per minute when it is on. On a freezing day the room still reaches about $21$ °C, as on a mild day. What is different about the heater on the freezing day?
+    shuffle: false
+    options:
+      - text: it gives more heat per minute, because it works harder when it is cold
+        feedback: |
+          Tempting, but the heater is only on or off. It has one power, and it gives exactly that power whenever it is on.
+      - text: it is on for a larger share of the time
+        correct: true
+      - text: 'nothing: the thermostat makes the walls lose less heat'
+        feedback: |
+          The thermostat does not touch the walls. The room loses just as much heat as before; the heater simply replaces it more of the time.
+    hint: |
+      Watch the gold shading in the plot for a cold outside and for a mild outside.
+    explanation: |
+      On a cold day the room cools faster, so it falls to the lower edge of the band sooner and the heater is switched on again sooner. With the numbers of this room the heater is on about $80\%$ of the time at $5$ °C outside (it must replace $0.04 \times 16 = 0.64$ °C per minute of loss, out of $0.8$ available), but only about $30\%$ at $15$ °C ($0.04 \times 6 = 0.24$ per minute). The loop does not make the heater stronger; it changes **when** the heater is on. That is how one machine copes with every weather: it corrects its own mistakes.
+
+  - type: text
+    id: error-def
+    title: One number to decide
+    body: |
+      The thermostat does not need to "understand" cold or warm. It computes one number, the **error**:
+      $$e = T_{\text{set}} - T_{\text{sensed}}$$
+      where $T_{\text{set}}$ is the setpoint and $T_{\text{sensed}}$ is the temperature the sensor reports (both in °C).
+
+      If $e$ is positive, the room is **too cold** and the heater should be on. If $e$ is negative, the room is too hot and the heater should be off. The on/off rule is just the sign of the error:
+      $$\text{heater on} \iff e > 0$$
+      (the band of the previous card only adds a small margin around $e = 0$ so that the heater does not flick on and off).
+
+  - type: numeric
+    id: error-num
+    prompt: |
+      A thermostat has a setpoint of $21$ °C. Its sensor reports $17.5$ °C. The error is the setpoint minus the sensed temperature. What is the error, in °C?
+    answer: 3.5
+    tolerance: 0.01
+    answerText: '3.5'
+    wrong:
+      - { value: -3.5, feedback: 'You subtracted the other way round. The error is setpoint minus sensed: $21 - 17.5$. A positive error means too cold.' }
+    hint: |
+      Error = setpoint $-$ sensed.
+    explanation: |
+      $$e = 21 - 17.5 = 3.5\ \text{°C}.$$
+      The error is positive: the room is $3.5$ °C below where we want it, so the heater goes on.
+
+  - type: mcq
+    id: error-sign
+    prompt: |
+      A thermostat has a setpoint of $21$ °C and its sensor reports $23$ °C. The error is setpoint minus sensed. What are the error and the decision?
+    shuffle: false
+    options:
+      - text: $e = 2$ °C, so the heater is switched on
+        feedback: |
+          That is the size of the gap, but with the wrong sign. The error is $21 - 23$, which is negative: the room is already too warm.
+      - text: $e = -2$ °C, so the heater is switched off
+        correct: true
+      - text: $e = -2$ °C, so the heater is switched on, because a negative number means "more needed"
+        feedback: |
+          A negative error means the sensed value is **above** the setpoint. More heat is the last thing needed.
+    hint: |
+      Compute $21 - 23$, then use "heater on when the error is positive".
+    explanation: |
+      $$e = 21 - 23 = -2\ \text{°C}$$
+      is negative, so the room is too warm and the heater stays off until the room cools and the error turns positive again.
+
+  - type: mcq
+    id: open-closed
+    prompt: |
+      Which of these machines is a **closed loop** (it measures its own result and uses it to decide what to do next)?
+    shuffle: false
+    options:
+      - text: a toaster that heats for a fixed $2$ minutes, whatever the bread
+        feedback: |
+          The timer counts time, not toast. A thick slice and a thin one get the same heating, and nothing checks the colour: open loop.
+      - text: an oven whose temperature sensor switches the heating element on and off
+        correct: true
+      - text: a fan set to speed $2$ in a hot room
+        feedback: |
+          The fan runs at speed $2$ whatever the temperature, even when the room is already cool: open loop.
+    explanation: |
+      The oven senses its own temperature (the result) and uses it to switch the element, so the result is fed back: closed loop. The toaster timer and the fan setting never look at what they achieve. Open loops are simple and cheap, but they cannot correct a mistake, such as a cold draught or a thick slice of bread.
+
+  - type: widget
+    id: delay-room
+    widget: feedback-loop
+    review: false
+    config:
+      mode: onoff
+      setpoint: 21
+      outside: 5
+      temp0: 15
+      band: 2
+      delay: 8
+      sliders: []
+      readouts: [room, sensed, heater]
+      duration: 150
+    body: |
+      The same thermostat with a wider band ($2$ °C: the heater switches on below $20$ °C and off above $22$ °C), but a **slow sensor**: the dashed blue line is what the sensor reports, which is the room temperature from $8$ minutes ago. Press **Run** and compare the solid blue line with the $20$ to $22$ °C band.
+
+  - type: mcq
+    id: why-overshoot
+    prompt: |
+      A thermostat switches its heater off when its sensor reads $22$ °C. The sensor is slow: it reports the room temperature from $8$ minutes ago. The room then rises to about $23$ °C before it starts to cool. Why?
+    shuffle: false
+    options:
+      - text: the heater keeps giving heat for a while after it is switched off
+        feedback: |
+          Here the heater stops giving heat the moment it is off. The problem is in what the thermostat **knew**, not in the heater.
+      - text: 'the sensor lags: when it finally says $22$ °C, the room has already warmed more, and the heater was still on in the meantime'
+        correct: true
+      - text: the setpoint changes by itself as the room warms
+        feedback: |
+          The setpoint is whatever was set on the dial. It stays fixed.
+    hint: |
+      The thermostat acts on old information. How warm was the room by the time the sensor said $22$?
+    explanation: |
+      The room warms by about $0.6$ °C every minute while the heater is on, so by the time a sensor $8$ minutes behind reads $22$ °C the room is already several degrees warmer, and it keeps rising until the heater has really switched off. The same lag makes it too cold when heating restarts. This is the answer to the third puzzle: a loop acting on **old** measurements overshoots, and the slower the sensor, the bigger the swings.
+
+  - type: mcq
+    id: toilet
+    prompt: |
+      A toilet cistern refills after a flush. A float on an arm rides on the water surface. As the water rises the arm closes the inlet valve, and when the water is high enough the valve is shut. Which part plays the role of the **sensor**?
+    shuffle: false
+    options:
+      - text: the inlet valve
+        feedback: |
+          The valve is the part that **acts** on the water (it lets water in or shuts it): the actuator.
+      - text: the float and its arm
+        correct: true
+      - text: the flush handle
+        feedback: |
+          The handle starts the cycle by emptying the tank, but it does not measure anything about the water level during the refill.
+    hint: |
+      The sensor is the part that measures the result, here the water level.
+    explanation: |
+      The float measures the water level (sensor), the height at which the arm shuts the valve is the setpoint (you can bend the arm to change it), and the valve is the actuator. When the level is below the setpoint the valve stays open; when it reaches it, the valve closes. The same sense, compare, act loop as the thermostat, with no electricity and no electronics.
+
+  - type: mcq
+    id: cruise
+    prompt: |
+      You press the cruise-control button of a car at $100$ km/h. On a hill the car slows to $92$ km/h and the engine is given more fuel. Which quantity is the **setpoint**?
+    shuffle: false
+    options:
+      - text: the $100$ km/h you asked for
+        correct: true
+      - text: the $92$ km/h the car is doing now
+        feedback: |
+          That is the **sensed** value, the result the loop measures. The setpoint is what it is trying to reach.
+      - text: the amount of fuel given to the engine
+        feedback: |
+          Fuel is what the loop changes: the action of the actuator, not the target.
+    hint: |
+      The setpoint is the value we want the result to have.
+    explanation: |
+      Setpoint: $100$ km/h. Sensed value: $92$ km/h (from a wheel-speed sensor). Error: $100 - 92 = 8$ km/h, positive, so the loop gives the engine more fuel (actuator). When the road flattens the speed returns to $100$ km/h and the error goes to $0$. Same loop as the thermostat: a measured result, compared with a target, drives an action.
+
+  - type: mcq
+    id: trap-squeal
+    prompt: |
+      A friend says: "Feedback is that loud squeal a microphone makes when it is held near its speaker." In the sense of this lesson, which statement is closest to the truth?
+    shuffle: false
+    options:
+      - text: Feedback is always a squeal or noise.
+        feedback: |
+          The squeal is one example, but the idea is much wider: a thermostat has feedback and makes no sound.
+      - text: Feedback is any case where a result is measured and sent back to change what the machine does next; the squeal is one case of it.
+        correct: true
+      - text: Feedback only exists in electronic machines.
+        feedback: |
+          A toilet float is pure mechanics and is feedback too.
+    explanation: |
+      In the squeal, the speaker's sound enters the microphone and is amplified again and again. That loop also feeds back a result, but it **adds** to itself and runs away. A thermostat feeds back so as to **cancel** its error. Same loop, different effect; the word covers both.
+
+  - type: mcq
+    id: trap-dial
+    prompt: |
+      A room is at $15$ °C and its thermostat is a plain on/off one. Your friend says: "To warm up faster, I will set the dial to $30$ °C instead of $21$ °C." Will the room warm up faster?
+    shuffle: false
+    options:
+      - text: 'Yes: a higher setpoint makes the heater work harder.'
+        feedback: |
+          The heater is only on or off. At $15$ °C the error is positive in both cases, so the heater is fully on in both.
+      - text: 'No: the heater is fully on in both cases; the dial only decides when it switches off.'
+        correct: true
+      - text: 'No: the thermostat cannot be set above $21$ °C.'
+        feedback: |
+          Dials can be set higher; the point is that it does not speed anything up.
+    explanation: |
+      While the room is below both setpoints the error is positive and the heater is simply on, at its one power. The rate of warming is the same. The setpoint only decides **where** the room stops: with $30$ °C it keeps heating long after $21$ °C, and you waste energy.
+
+  - type: mcq
+    id: trap-heats
+    prompt: |
+      Which statement about the thermostat of a heated room is correct?
+    shuffle: false
+    options:
+      - text: The thermostat heats the room.
+        feedback: |
+          The thermostat only decides. Heat comes from the heater, the actuator.
+      - text: The thermostat is the decision-maker (compare and switch); the heater is the actuator that changes the temperature.
+        correct: true
+      - text: The thermostat is the sensor.
+        feedback: |
+          A thermostat usually contains a sensor, but the name covers the comparison and the switching too: the whole decision part.
+    explanation: |
+      Sensor, comparison with the setpoint, switch: that is the thermostat. The heater, which adds the heat, is a separate part. Keeping the roles apart is how you recognise the same loop in a cistern or a cruise control.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** nothing in a machine is free: a stronger heater costs more, a faster car burns more fuel. The next lesson is about why every design is a compromise.
