@@ -1,0 +1,321 @@
+id: ch02-intuition
+title: "Quick Recall"
+kind: intuition
+own: |
+  - **Circle.** A bike or car at speed $v$ (m/s) on a circle of radius $r$ (m) is accelerated towards the centre by
+    {{ $$a = \frac{v^2}{r}$$ }}
+    Doubling $v$ at the same $r$ makes $a$ four times larger.
+  - **Braking.** A car of mass $m$ (kg) at speed $v$ on a road with friction coefficient $\mu$ (a pure number: 0.7 dry, 0.4 wet) feels friction $\mu m g$ ($g = 9.8\ \mathrm{m/s^2}$), so it slows at $\mu g$ and stops over a distance
+    {{ $$d = \frac{v^2}{2\mu g}$$ }}
+    The mass cancels; doubling $v$ gives four times the distance. The 1000 kg car at 15 m/s on a dry road stops in 16.4 m.
+  - **Gears.** A driver gear with $N_1$ teeth and torque $\tau_1$ (N m) turns a driven gear with $N_2$ teeth, and
+    {{ $$\tau_2 = \tau_1\,\frac{N_2}{N_1}$$ }}
+    Ratio 3 (a 30-tooth gear driving a 90-tooth one) triples the torque and divides the speed by 3; the power $\tau\omega$ stays the same, apart from losses.
+  - **Impulse.** A force $F$ (N) acting for a time $\Delta t$ (s) changes the momentum $p = mv$ (kg m/s) by $\Delta p$, so
+    {{ $$F = \frac{\Delta p}{\Delta t}$$ }}
+    The 1200 kg airbag car stopping from 15 m/s has $\Delta p = 18\,000$ N s: stopping in five times the time means one fifth of the force.
+  - **Elevator.** A cabin with load of mass $m$ (kg) hangs against a counterweight of mass $M$ (kg). The motor force on the cabin side of the rope (up positive) is
+    {{ $$F = (m - M)\,g$$ }}
+    For the 800 kg full cabin with the 650 kg counterweight, $F = 1470$ N.
+  - **Counting keys.** A lock with $N$ pins, each cut at one of $D$ depths, has at most
+    {{ $$D^N$$ }}
+    different keys: 6 depths and 5 pins give 7776.
+
+cards:
+  - type: text
+    id: hook
+    title: Seven formulas, one habit
+    body: |
+      Level 2 gave you a handful of formulas: circles, braking, gears, impulse, elevators, locks. This lesson **derives nothing**. It trains one habit: *check a formula without redoing the derivation*, by asking "what happens if I double this, or push that to zero?"
+
+      Each card is quick. If one feels slow, that formula is the one to revisit.
+
+  - type: text
+    id: mnemonics
+    title: Say each one in words
+    body: |
+      A formula you can say in a sentence is hard to misremember.
+
+      | formula | in words |
+      |---|---|
+      | $a = v^2/r$ | tighter circle or faster pass: more sideways push, and speed counts **twice** |
+      | $d = v^2/(2\mu g)$ | grip $\mu g$ slows you; distance is speed squared over twice the slowing |
+      | $\tau_2 = \tau_1 N_2/N_1$ | the **bigger** gear gets the **bigger** torque (and turns slower) |
+      | $F = \Delta p/\Delta t$ | same momentum to lose: more time, less force |
+      | $F = (m - M)\,g$ | the motor pays only the **difference** of the two weights |
+      | $D^N$ | every extra pin multiplies the keys by $D$ |
+
+      In each, $v$ is speed (m/s), $r$ radius (m), $\mu$ the friction coefficient (a pure number), $N_1, N_2$ tooth counts, $\Delta p$ the change of momentum $mv$, $m$ the cabin plus load and $M$ the counterweight (kg), $D$ depths and $N$ pins.
+
+  - type: mcq
+    id: scale-speed-mass
+    prompt: |
+      A 1000 kg car stops from 15 m/s on a dry road in 16.4 m. A 2000 kg van on the same road starts at 30 m/s and brakes the same way. Compared with 16.4 m, its stopping distance is:
+    options:
+      - text: 'about $4$ times longer'
+        correct: true
+      - text: 'about $8$ times longer'
+        feedback: |
+          Doubling the speed gives a factor 4, and doubling the mass would add another 2 only if mass changed the stop. It does not: friction and inertia both scale with $m$ and cancel.
+      - text: 'about $2$ times longer'
+        feedback: |
+          That treats distance as proportional to speed. Doubling the speed also doubles the time to stop, and the average speed doubles too, so the distance grows by $2 \times 2$.
+      - text: 'about $2$ times shorter'
+        feedback: |
+          A heavier car has more to stop, but also more grip pushing back; neither makes the stop shorter.
+    explanation: |
+      Speed enters squared and mass not at all: $2^2 = 4$, so $4 \times 16.4 = 65.6$ m. This is the scaling test: double the input, see what the formula does.
+
+  - type: mcq
+    id: limit-mu
+    prompt: |
+      In $d = v^2/(2\mu g)$, let the friction coefficient $\mu$ shrink towards $0$ (a frictionless surface). What does the formula say about the stopping distance, and does that make sense?
+    options:
+      - text: 'It grows without limit: with no friction nothing slows the car'
+        correct: true
+      - text: 'It goes to zero: with no friction the car stops at once'
+        feedback: |
+          Friction is the only force that slows a car on a flat road. Take it away and the car keeps its speed. A $\mu$ in the denominator means smaller $\mu$, bigger $d$.
+      - text: 'It stays at $v^2/(2g)$: $\mu$ only matters on wet roads'
+        feedback: |
+          $\mu$ multiplies $g$ in the denominator on every road. Ice ($\mu \approx 0.1$) is already seven times worse than dry ($0.7$).
+    explanation: |
+      $d \to \infty$ as $\mu \to 0$, which matches the physics: no friction, no stop. A formula that fails this limit check is misremembered.
+
+  - type: mcq
+    id: limit-gear
+    prompt: |
+      A gear pair with $N_1 = N_2$ teeth (ratio $1$, same-size gears, ideal). The driver turns at 100 rad/s with torque 12 N m. What does the driven gear deliver?
+    options:
+      - text: '100 rad/s and 12 N m, the same as the driver'
+        correct: true
+      - text: '50 rad/s and 24 N m'
+        feedback: |
+          That is the answer for a driven gear **twice** as big. With equal gears nothing is traded.
+      - text: '100 rad/s and 0 N m'
+        feedback: |
+          Torque is passed through the teeth, not used up. An ideal pair loses no power, so torque cannot vanish while the speed stays.
+    explanation: |
+      Ratio $1$ means $\tau_2 = \tau_1$ and $\omega_2 = \omega_1$. The factor $N_2/N_1$ is the *amount of trading*; at $1$ you trade nothing.
+
+  - type: mcq
+    id: limit-time
+    prompt: |
+      A 1200 kg car must lose its momentum $\Delta p = 18\,000$ N s in a crash. The stopping time is doubled by a crumple zone. What happens to the average force?
+    options:
+      - text: 'It is halved'
+        correct: true
+      - text: 'It is doubled'
+        feedback: |
+          More time does not need more force. The momentum to remove is fixed; spread over twice the time, each moment carries half the push.
+      - text: 'It is unchanged: the momentum change is fixed'
+        feedback: |
+          The *impulse* $F\,\Delta t$ is fixed, not the force. A fixed product means that if $\Delta t$ doubles, $F$ halves.
+    explanation: |
+      $F\,\Delta t = \Delta p$ is a fixed product, so the force goes as $1/\Delta t$. In the limit $\Delta t \to 0$ (a wall), $F \to \infty$.
+
+  - type: mcq
+    id: limit-elevator
+    prompt: |
+      The motor force on the cabin side of the rope is $F = (m - M)\,g$. Which setting of the counterweight $M$ gives the **smallest** magnitude of $F$ for a cabin with load of $m = 800$ kg?
+    options:
+      - text: '$M = 800$ kg, the same as the cabin with load: $F = 0$'
+        correct: true
+      - text: '$M = 0$, no counterweight'
+        feedback: |
+          Then $F = mg = 7840$ N, the largest value. The counterweight is there to cancel part of the weight.
+      - text: '$M = 1600$ kg, twice the load'
+        feedback: |
+          Then $F = -mg$: the same size as with no counterweight, but pointing the other way. Too much is as bad as too little.
+    explanation: |
+      $F = 0$ at $M = m$ is the balance point, the limit check for this formula. In practice the load changes, so a real design picks $M$ in between (the empty cabin plus half the load, 650 kg here), which keeps $|F|$ small both full and empty.
+
+  - type: mcq
+    id: limit-keys
+    prompt: |
+      A lock has $N = 5$ pins with $D = 6$ depths each (7776 keys). A locksmith adds one more pin, keeping $D = 6$. How many keys now?
+    options:
+      - text: '$6$ times as many (46 656)'
+        correct: true
+      - text: '$7776 + 6 = 7782$'
+        feedback: |
+          That adds, but each new pin is chosen independently of all the others, so choices multiply.
+      - text: '$\tfrac{6}{5}$ times as many (9331)'
+        feedback: |
+          That treats the keys as growing in proportion to the number of pins, like $D \times N$ (which is only the number of tries needed to *pick* a lock). The count of keys is an exponential.
+    explanation: |
+      $D^{N+1} = D \cdot D^N$: one more pin multiplies by $D$. With $D = 1$ the formula gives $1^N = 1$ key: a lock with one depth has only one key.
+
+  - type: build
+    id: build-circle
+    prompt: |
+      A car travels at speed $v$ on a circle of radius $r$. Build its sideways acceleration $a$ towards the centre.
+    prefix: 'a ='
+    tiles: ['\frac{v^2}{r}', '\frac{v}{r^2}', '\frac{v^2}{2r}', 'v^2 r']
+    answers:
+      - ['\frac{v^2}{r}']
+    wrong:
+      - answer: ['\frac{v}{r^2}']
+        feedback: |
+          This has the powers swapped: speed counts twice, and a bigger radius is a gentler turn, so $r$ stays to the first power.
+      - answer: ['\frac{v^2}{2r}']
+        feedback: |
+          The $2$ belongs to $d = v^2/(2\mu g)$, where the speed *averages*. Here the direction turns at a steady rate, with no averaging.
+    hint: 'Scaling test: doubling $v$ must give four times the push; a bigger circle must give less.'
+    explanation: |
+      Speed twice, radius once in the denominator: $a = v^2/r$.
+
+  - type: build
+    id: build-stop
+    prompt: |
+      A car at speed $v$ on a road with friction coefficient $\mu$ slows at $\mu g$. Build the stopping distance $d$.
+    prefix: 'd ='
+    tiles: ['\frac{v^2}{2\mu g}', '\frac{v^2}{\mu g}', '\frac{v}{2\mu g}', '\frac{\mu v^2}{2g}']
+    answers:
+      - ['\frac{v^2}{2\mu g}']
+    wrong:
+      - answer: ['\frac{v^2}{\mu g}']
+        feedback: |
+          This forgets that the car is faster at the start than at the end: the average speed is $v/2$, and that is the origin of the $2$.
+      - answer: ['\frac{v}{2\mu g}']
+        feedback: |
+          This would double the distance when the speed doubles. It must go as $v^2$: longer time and faster average speed.
+      - answer: ['\frac{\mu v^2}{2g}']
+        feedback: |
+          More grip would then lengthen the stop. $\mu$ must be in the denominator: more grip, shorter stop.
+    hint: 'Check: speed squared on top, grip on the bottom, and a 2 from the average speed $v/2$.'
+    explanation: |
+      $d = v^2/(2\mu g)$, which gives $225/(2 \times 0.7 \times 9.8) = 16.4$ m for $15$ m/s on a dry road.
+
+  - type: build
+    id: build-gear
+    prompt: |
+      A driver gear with $N_1$ teeth and torque $\tau_1$ turns a driven gear with $N_2$ teeth. Build the torque $\tau_2$ on the driven shaft.
+    prefix: '\tau_2 ='
+    tiles: ['\tau_1', '\frac{N_2}{N_1}', '\frac{N_1}{N_2}', '\omega_1']
+    answers:
+      - ['\tau_1', '\frac{N_2}{N_1}']
+      - ['\frac{N_2}{N_1}', '\tau_1']
+    wrong:
+      - answer: ['\tau_1', '\frac{N_1}{N_2}']
+        feedback: |
+          That is the speed ratio ($\omega_2 = \omega_1 N_1/N_2$). Torque and speed are traded in opposite ways: the bigger gear turns slower and pushes harder.
+    hint: 'A big driven gear must give more torque. Which fraction is bigger than 1 then?'
+    explanation: |
+      $\tau_2 = \tau_1\,N_2/N_1$. The product $\tau\omega$ (power) is the same on both sides for an ideal pair.
+
+  - type: build
+    id: build-impulse
+    prompt: |
+      A force $F$ acts for a time $\Delta t$ and changes the momentum by $\Delta p$. Build $F$.
+    prefix: 'F ='
+    tiles: ['\frac{\Delta p}{\Delta t}', '\frac{\Delta t}{\Delta p}', '\Delta p\,\Delta t', '\frac{m\,\Delta t}{v}']
+    answers:
+      - ['\frac{\Delta p}{\Delta t}']
+    wrong:
+      - answer: ['\Delta p\,\Delta t']
+        feedback: |
+          The *product* $F\,\Delta t$ is the impulse; the force is the impulse divided by the time.
+      - answer: ['\frac{\Delta t}{\Delta p}']
+        feedback: |
+          Upside down: that would give less force for more momentum to lose.
+    hint: 'More time to stop must give less force.'
+    explanation: |
+      $F = \Delta p/\Delta t$, for the airbag car $18\,000 / 0.1 = 180\,000$ N.
+
+  - type: build
+    id: build-elevator
+    prompt: |
+      A cabin with load of mass $m$ hangs against a counterweight of mass $M$. Build the motor force on the cabin side of the rope (up positive).
+    prefix: 'F ='
+    tiles: ['(m - M)', '(m + M)', 'g', 'm\,g']
+    answers:
+      - ['(m - M)', 'g']
+      - ['g', '(m - M)']
+    wrong:
+      - answer: ['(m + M)', 'g']
+        feedback: |
+          The two weights pull in **opposite** directions around the pulley, so they subtract.
+      - answer: ['m\,g']
+        feedback: |
+          That is the force with **no** counterweight. The counterweight takes $Mg$ off it.
+    hint: 'The motor pays only the imbalance of the two weights.'
+    explanation: |
+      $F = (m-M)g$; $m = 800$, $M = 650$ gives $150 \times 9.8 = 1470$ N.
+
+  - type: build
+    id: build-keys
+    prompt: |
+      A lock has $N$ pins and each is cut at one of $D$ depths. Build the number of different keys $K$.
+    prefix: 'K ='
+    tiles: ['D^N', 'N^D', 'D\,N', '2^N']
+    answers:
+      - ['D^N']
+    wrong:
+      - answer: ['N^D']
+        feedback: |
+          The base is the number of **choices per pin** ($D$) and the exponent is the number of pins ($N$); with $D = 6$ and $N = 5$ that would give $5^6 = 15\,625$ instead of $6^5 = 7776$.
+      - answer: ['D\,N']
+        feedback: |
+          That is the number of *tries* a picker needs, setting the pins one at a time.
+    hint: 'One pin has $D$ choices; two pins together have $D \times D$.'
+    explanation: |
+      $K = D^N$, so $6^5 = 7776$.
+
+  - type: numeric
+    id: apply-stop
+    prompt: |
+      On a dry road a car stops from 15 m/s in 16.4 m. The same car on the same road is now doing 30 m/s. What stopping distance (m), to the nearest metre or so?
+    answer: 65.6
+    tolerance: 0.5
+    answerText: '65.6 m'
+    wrong:
+      - { value: 32.8, feedback: 'That doubles the distance with the speed. Stopping takes longer **and** the car covers more ground each second.' }
+    hint: 'Scaling test: what does the distance do when the speed is doubled?'
+    explanation: |
+      The distance goes as the speed squared, so doubling gives four times: $4 \times 16.4 = 65.6$ m. (Direct: $900 / (2 \times 0.7 \times 9.8) = 65.6$ m.)
+
+  - type: numeric
+    id: apply-gear
+    prompt: |
+      A gear with 30 teeth, delivering a torque of 12 N m, drives a gear with 90 teeth (ideal pair, no losses). What torque (N m) acts on the driven shaft?
+    answer: 36
+    answerText: '36 N m'
+    wrong:
+      - { value: 4, feedback: 'That is the torque the **small** gear would feel if the big one drove it. Here a small gear drives a big one, which pushes harder.' }
+    hint: 'The bigger gear trades speed for torque: by what factor is it bigger?'
+    explanation: |
+      The driven gear has three times the teeth, so it turns three times slower and carries three times the torque: $12 \times 3 = 36$ N m. The power $\tau\omega$ is unchanged.
+
+  - type: numeric
+    id: apply-crash
+    prompt: |
+      A 1200 kg car moving at 15 m/s is brought to rest in 0.25 s by a crumple zone. What is the average force (N) on it?
+    answer: 72000
+    tolerance: 500
+    answerText: '72 000 N'
+    wrong:
+      - { value: 18000, feedback: 'That is the momentum lost in N s, not a force. Divide by the time it took.' }
+      - { value: 4500000, feedback: 'That multiplies the momentum by the time. A longer stop must give a smaller force.' }
+    hint: 'Same family as the airbag cards: the momentum is fixed, the time is a design choice.'
+    explanation: |
+      The momentum to remove is $1200 \times 15 = 18\,000$ N s, spread over $0.25$ s: $18\,000 / 0.25 = 72\,000$ N. Compare 180 kN in $0.1$ s and 36 kN in $0.5$ s.
+
+  - type: numeric
+    id: apply-elevator
+    prompt: |
+      A cabin with its load has a total mass of 800 kg and hangs against a counterweight of 700 kg. Take $g = 9.8\ \mathrm{m/s^2}$. What force (N) must the motor supply to lift the cabin at steady speed?
+    answer: 980
+    tolerance: 5
+    answerText: '980 N'
+    wrong:
+      - { value: 7840, feedback: 'That is the force with no counterweight, the full weight of the cabin.' }
+      - { value: 14700, feedback: 'The two weights pull in opposite directions around the pulley; they do not add.' }
+    hint: 'The motor only pays the imbalance between the two sides.'
+    explanation: |
+      The cabin side is heavier by $800 - 700 = 100$ kg, so the motor supplies the weight of 100 kg: $100 \times 9.8 = 980$ N.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the content map of Level 2. Rebuild the whole chapter box by box, from balance feedback to the lock and the airbag.
