@@ -5,7 +5,7 @@ cards:
   - type: text
     id: hook
     body: |
-      **Level challenge: one machine, three puzzles.** The machine is an **electric bicycle**: a bicycle with a battery and a small motor that helps your legs. You will use what you met in this level: sizes, energy and tradeoffs.
+      **Level challenge: one machine, five problems.** The machine is an **electric bicycle**: a bicycle with a battery and a small motor that helps your legs. You will use what you met in this level: sizes, energy, tradeoffs and feedback.
 
       Typical (made-up but plausible) numbers for this bike:
 
@@ -203,7 +203,7 @@ cards:
       labels:
         room: Speed
         sensed: Sensed speed
-        setpoint: Target
+        setpoint: Setpoint
         outside: Slope pull-back
         error: Error
         heater: Motor
@@ -213,22 +213,22 @@ cards:
         - { label: Flat road, outside: 0 }
         - { label: Steep hill, outside: -1.5 }
     body: |
-      **Problem 4: feedback.** The motor assist works like a **cruise control**: a **sensor** on the wheel measures the speed, and the controller compares it with a **target** of $5$ m/s. As in a thermostat, it computes the **error**
+      **Problem 4: feedback.** The motor assist works like a **cruise control**: a **sensor** on the wheel measures the speed, and the controller compares it with a **setpoint** (the target value) of $5$ m/s. As in a thermostat, it computes the **error**
       $$e = v_{\text{set}} - v_{\text{sensed}}$$
-      and switches the motor **on** when $e$ is a little positive (too slow) and **off** when it is a little negative (too fast). The blue line is the speed, the orange dashed line the $5$ m/s target, the gold shading the motor being on. The slider is a **disturbance**: the stronger the pull-back, the more a slope tries to slow the bicycle. Press **Run** on the flat road, then pick **Steep hill** and run again.
+      and switches the motor **on** when $e$ is a little positive (too slow) and **off** when it is a little negative (too fast). The blue line is the speed, the orange dashed line the $5$ m/s setpoint, the gold shading the motor being on. The slider is a **disturbance**: the stronger the pull-back, the more a slope tries to slow the bicycle. Press **Run** on the flat road, then pick **Steep hill** and run again.
 
   - type: numeric
     id: cruise-error
     prompt: |
-      The cruise control has a target of $5$ m/s. Going up the hill, its sensor reports $3.5$ m/s. The error is the target minus the sensed speed. What is the error, in m/s?
+      The cruise control has a setpoint of $5$ m/s. Going up the hill, its sensor reports $3.5$ m/s. The error is the setpoint minus the sensed speed. What is the error, in m/s?
     answer: 1.5
     tolerance: 0.01
     answerText: '1.5'
     wrong:
-      - { value: -1.5, feedback: 'You subtracted the other way round. The error is target minus sensed, $5 - 3.5$. A positive error means **too slow**, so the motor should push.' }
+      - { value: -1.5, feedback: 'You subtracted the other way round. The error is setpoint minus sensed, $5 - 3.5$. A positive error means **too slow**, so the motor should push.' }
       - { value: 8.5, feedback: 'You added the two speeds. The error is the **gap** between what we want and what the sensor says, so subtract.' }
     hint: |
-      Error is target minus sensed, as for the room thermostat.
+      Error is setpoint minus sensed, as for the room thermostat.
     explanation: |
       $$e = 5 - 3.5 = 1.5\ \text{m/s}.$$
       The error is positive: the bicycle is $1.5$ m/s slower than the target, so the motor goes on.
@@ -455,4 +455,4 @@ cards:
         (positive means too slow, so push). It copes with disturbances such as a hill, swings if the correction is too strong or the sensor too slow, and holds the **sensed** value, so a wrong sensor gives a wrong speed.
       - **Designing:** write the needs as numbers, then power, energy, mass, and last the loop. Check every row of the table: in the commuter design the range needed $556$ Wh, the frame $1.5\times$ longer weighed $10.1$ kg and the climb needed $240$ W of useful power ($300$ W drawn).
 
-      Next: a review of everything in this level. Then Level 2 asks why a bicycle stays upright.
+      Next: a review of everything in this level. Then the level Forces and Motion asks why a bicycle stays upright.

@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-27 Level 1 audit
+Fixed: scales ("plane-and-a-third" nonsense, force glossed); energy (lesson cross-reference by title, heat bullet defines symbols); feedback (delay explanation used a wrong 0.6 C/min rate: near 22 C the net rate is 0.12 C/min, simulated peak 22.8 C); challenge (hook said three puzzles and omitted feedback, "target" unified to "setpoint", "Level 2" reference replaced by name). Checked: widget presets and options real, no "the book"/section labels, tour table matches course.yaml level titles, every ch01 node has file: (review automatic), validate and shots clean. Conventions fixed here: feedback uses "setpoint" everywhere (challenge widget label Setpoint), e = set - sensed.
+
 ## 2026-10-27 ch01-challenge part 2
 Added 14 cards (26 total). P4 feedback: `feedback-loop` reskinned as cruise control (unit m/s, target 5, slope pull-back slider as disturbance, leak 0.2, power 1.4, band 0.4; labels only), e = v_set - v_sensed, cards on error 1.5, hill share, too-strong correction, wrong sensor (0.9 reading, true 5.56 m/s). P5: hill range 4 m/s x 6000 s = 24 km at 300 W; battery lengths x1.2 = 864 Wh. Rebuild commuter e-bike: 40 km at 5 m/s needs 556 Wh at 250 W (500 Wh gives 36 km, honest infeasible), battery x1.1 = 665 Wh (x1.1 energy 550 still short), frame x1.5 = 10.125 kg (<12), climb needs 240 W useful, old 200 W motor fails it. Choices: no new widget; summary extended with feedback and designing bullets. Conventions fixed here: cruise-control reading of feedback-loop (v_set, v_sensed, e); e-bike commuter numbers above.
 
