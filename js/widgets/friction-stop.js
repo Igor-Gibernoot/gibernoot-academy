@@ -75,7 +75,7 @@ export function frictionStop(el, cfg) {
 
   // geometry (px)
   const W = 360, X0 = 24, LR = 312, RH = 86 + Math.round(LR * Math.sin(Math.min(maxSlope, 60) * Math.PI / 180)) + 8;
-  const PT = RH + 12, PH = 96, PL = 40, PR = 340;
+  const PT = RH + 22, PH = 96, PL = 40, PR = 340;
   const BY = show.speedPlot ? PT + PH + 38 : RH + 14, H = BY + (show.energyBar ? 38 : 0) + 4;
   const svg = s('svg', { viewBox: `0 0 ${W} ${show.energyBar ? H : BY}`, class: 'fs-svg', role: 'img', 'aria-label': Lb.road });
   let ghost = null, u = 0, raf = 0, t0 = 0;
@@ -191,7 +191,7 @@ export function frictionStop(el, cfg) {
   function arrowWeight(veh, wl) {
     veh.append(s('line', { x1: 0, y1: -17, x2: 0, y2: -17 + wl - 6, stroke: 'var(--muted)', 'stroke-width': 3, 'stroke-linecap': 'round' }),
       s('polygon', { fill: 'var(--muted)', points: `0,${-17 + wl} -4,${-17 + wl - 8} 4,${-17 + wl - 8}` }));
-    if (show.labels) veh.append(s('text', { x: 6, y: -17 + wl - 2, 'font-size': 10, fill: 'var(--muted)', 'font-weight': 650 }, Lb.weight));
+    if (show.labels) veh.append(s('text', { x: 18, y: -9, 'font-size': 10, fill: 'var(--muted)', 'font-weight': 650 }, Lb.weight));
   }
   const fmtSlider = key => key === 'mu' ? num(st.mu, 2) : key === 'v0' ? `${num(st.v0, 1)} ${U.speed}` : key === 'mass' ? `${num(st.mass, 0)} ${U.mass}` : `${num(st.slope, 0)}°`;
 

@@ -1,0 +1,335 @@
+id: ch02-brakes
+title: Brakes and Friction
+kind: concept
+own: |
+  - **Friction law.** Sliding friction on a flat road is a force $F$ (newtons, N) that opposes the motion and is proportional to the normal force $N$ (the push of the road on the car, which equals the weight $mg$ for a car of mass $m$ in kg, with $g = 9.8\ \mathrm{m/s^2}$). The **friction coefficient** $\mu$ (Greek "mu", a pure number with no unit) says how grippy the surfaces are:
+    {{ $$F = \mu N = \mu\,m\,g$$ }}
+    Typical values: dry road $\mu \approx 0.7$, wet road $0.4$, ice $0.1$. Contact area does not appear.
+  - **The mass cancels.** The deceleration is $a = F/m$, so
+    {{ $$a = \mu\,g$$ }}
+    A heavy car has more friction and more to stop, in exactly the same proportion: on dry road $a = 0.7 \times 9.8 = 6.86\ \mathrm{m/s^2}$ for any mass.
+  - **Stopping distance.** A car of initial speed $v$ (m/s) slows steadily at $a = \mu g$ to rest, so its average speed is $v/2$ and the stopping time is $v/a$. The distance $d$ (m) is
+    {{ $$d = \frac{v^2}{2\mu g}$$ }}
+    Energy gives the same result: friction does work $F\,d$ and must remove the kinetic energy $\tfrac12 m v^2$, so $\mu m g\,d = \tfrac12 m v^2$.
+  - **Speed is squared, load is not.** Doubling $v$ gives {{ $4$ times the stopping distance }} (30 to 60 km/h: about 5 m to 20 m on dry road); doubling the mass changes nothing. Halving $\mu$ doubles $d$: at $15$ m/s, $\mu = 0.7$ gives $16.4$ m and $\mu = 0.4$ (wet) gives $28.7$ m.
+  - **Where the energy goes.** The kinetic energy $\tfrac12 m v^2$ (joules, J) is not destroyed: friction turns it into heat. For $1000$ kg at $15$ m/s that is $112\,500$ J, and $F d$ over the $16.4$ m gives the same number.
+cards:
+  - type: text
+    id: hook
+    title: Before any theory, guess
+    body: |
+      You are driving on a dry road and you brake as hard as the tyres allow, without skidding wildly. Two things could make the car need more room to stop: you go **twice as fast**, or you carry **twice the load** (the car now has twice the mass).
+
+      This lesson uses the brake as the machine behind a simple law, **friction**, and answers a question every driver should be able to answer: what really decides the stopping distance?
+
+  - type: mcq
+    id: guess-which
+    prompt: |
+      A car brakes as hard as the tyres allow on a dry road. Which change makes the stopping distance grow the most?
+    shuffle: false
+    options:
+      - text: Doubling the speed.
+        correct: true
+      - text: Doubling the mass (a full load instead of an empty car).
+        feedback: |
+          It feels right, since a heavy car is harder to stop. But a heavy car is also pressed harder onto the road, so the road grips it harder. The next cards show the two effects exactly cancel.
+      - text: Both change it equally.
+        feedback: |
+          They are very different. One of them has no effect at all on the distance on a flat road; the cards below show which and why.
+    hint: |
+      Think of a loaded truck against a small car braking from the same speed on the same road.
+    explanation: |
+      Speed wins by a wide margin: doubling it makes the car need four times the distance, while doubling the mass changes nothing on a flat road. The rest of the lesson builds this from the friction law.
+
+  - type: widget
+    id: stop-try
+    widget: friction-stop
+    review: false
+    config:
+      mu: 0.7
+      v0: 10
+      mass: 1000
+      sliders: [mu, v0, mass]
+      show: { pin: true, forceArrows: true, energyBar: true, heat: true }
+      readouts: [distance, time, energy, heat]
+      presets:
+        - { label: Dry road, mu: 0.7 }
+        - { label: Wet road, mu: 0.4 }
+        - { label: Ice, mu: 0.1 }
+    body: |
+      A vehicle of mass $m$ slides to a stop on a flat road. Each change replays the braking run. Try the presets for the road, then the **speed** slider, then the **mass** slider: use **pin** to keep the previous speed curve as a ghost and compare. Watch the stopping distance, and the energy readout.
+
+  - type: mcq
+    id: after-widget
+    prompt: |
+      A vehicle brakes to a stop on a flat dry road. You change only its mass, from $1000$ kg to $2000$ kg, and keep the same starting speed and the same road. What happens to the stopping distance?
+    shuffle: false
+    options:
+      - text: It doubles.
+        feedback: |
+          The heavier vehicle does have twice the energy to get rid of, but the friction force on it is also twice as large. Both double, so the distance does not.
+      - text: It stays the same.
+        correct: true
+      - text: It halves.
+        feedback: |
+          More mass does not help the brakes. The friction force grows with the mass, but so does the inertia, so nothing is gained either.
+    hint: |
+      Two things grow with the mass: the energy to remove and the friction force that removes it.
+    explanation: |
+      The distance is the same. Energy to remove and friction doing the removing both scale with $m$. The next cards show this in symbols.
+
+  - type: text
+    id: friction-law
+    title: The friction law
+    body: |
+      When a tyre skids or a brake pad rubs, the surfaces push on each other and the rubbing creates a **friction force** $F$ (newtons, N) that opposes the motion. Experiments show two things: $F$ grows in proportion to how hard the surfaces are pressed together, and it hardly depends on the contact area.
+
+      The press is the **normal force** $N$: the push of the road on the car, at right angles to the road. On a flat road it holds the car up, so it equals the weight, $N = mg$, with $m$ the mass in kg and $g = 9.8\ \mathrm{m/s^2}$. The friction force is
+
+      $$F = \mu N$$
+
+      The number $\mu$ (Greek letter "mu") is the **friction coefficient**: it has no unit, and it describes the pair of surfaces. Typical values: rubber on dry road about $0.7$, wet road about $0.4$, ice about $0.1$.
+
+  - type: build
+    id: build-friction
+    prompt: |
+      Build the friction force on a car of mass $m$ braking on a flat road with friction coefficient $\mu$. (Use $N = mg$ already substituted.)
+    prefix: 'F ='
+    tiles: ['\mu', 'm', 'g', 'v', '\frac{1}{2}']
+    answers:
+      - ['\mu', 'm', 'g']
+      - ['m', '\mu', 'g']
+      - ['g', 'm', '\mu']
+      - ['m', 'g', '\mu']
+      - ['\mu', 'g', 'm']
+      - ['g', '\mu', 'm']
+    wrong:
+      - answer: ['\mu', 'm', 'v']
+        feedback: |
+          Sliding friction does not depend on the speed (to a good approximation). What presses the surfaces together is the weight $mg$.
+    hint: |
+      Friction is $\mu$ times the normal force, and on a flat road the normal force equals the weight.
+    explanation: |
+      $F = \mu N = \mu\,m\,g$. Heavier means pressed harder, hence more friction. Speed does not appear.
+
+  - type: numeric
+    id: friction-force
+    prompt: |
+      A car of mass $1000$ kg brakes on a flat dry road with $\mu = 0.7$ (take $g = 9.8\ \mathrm{m/s^2}$). What is the friction force on it, in newtons?
+    answer: 6860
+    tolerance: 10
+    answerText: '6860 N'
+    wrong:
+      - { value: 700, feedback: 'That is $\mu \times m$, which forgets $g$. The normal force is the weight $mg = 9800$ N, not the mass $1000$ kg.' }
+      - { value: 9800, feedback: 'That is the weight $mg$ alone. Friction is only the fraction $\mu = 0.7$ of the normal force.' }
+    hint: |
+      First the normal force $N = mg$, then multiply by $\mu$.
+    explanation: |
+      $N = mg = 1000 \times 9.8 = 9800$ N, so $F = 0.7 \times 9800 = 6860$ N. That is about the weight of a $700$ kg object: the brake is a strong push.
+
+  - type: text
+    id: mass-cancels
+    title: The mass cancels
+    body: |
+      The friction force is the only horizontal force on the braking car, so by Newton's second law ($F = ma$, force equals mass times acceleration) the car slows down with a deceleration $a$ (m/s$^2$) given by $F = ma$. Put in the friction law:
+
+      $$\mu\,m\,g = m\,a$$
+
+      The mass $m$ appears on both sides and cancels:
+
+      $$a = \mu\,g$$
+
+      On a dry road ($\mu = 0.7$) every car, empty or loaded, slows at $0.7 \times 9.8 = 6.86\ \mathrm{m/s^2}$. A heavy car has more friction pulling on it and more inertia resisting, in exactly the same proportion.
+
+  - type: mcq
+    id: loaded-car
+    prompt: |
+      On a flat dry road a car of mass $m$ brakes with deceleration $a = \mu g$. The same car now carries a load and has mass $2m$, with the same tyres and road. What is its deceleration?
+    shuffle: false
+    options:
+      - text: Half as large, because it is heavier.
+        feedback: |
+          Heavier means more inertia, yes, but also a friction force twice as large. The two cancel.
+      - text: Twice as large, because the friction force doubled.
+        feedback: |
+          The friction force doubled, but it now acts on twice the mass. Acceleration is force divided by mass.
+      - text: The same, $\mu g$.
+        correct: true
+    hint: |
+      Write $F = ma$ for the new mass, with the new friction force.
+    explanation: |
+      $F = \mu(2m)g$ and $a = F/(2m) = \mu g$: unchanged.
+
+  - type: numeric
+    id: decel-value
+    prompt: |
+      A road has friction coefficient $\mu = 0.4$ (wet). With $g = 9.8\ \mathrm{m/s^2}$, what deceleration can any braking car reach, in m/s$^2$?
+    answer: 3.92
+    tolerance: 0.02
+    answerText: '3.92 m/s^2'
+    wrong:
+      - { value: 24.5, feedback: 'That divides $g$ by $\mu$ instead of multiplying: a slippier road cannot give a larger deceleration.' }
+    hint: |
+      The result is $a = \mu g$ and does not need the mass.
+    explanation: |
+      $a = 0.4 \times 9.8 = 3.92\ \mathrm{m/s^2}$, well under the dry value $6.86\ \mathrm{m/s^2}$.
+
+  - type: text
+    id: distance-idea
+    title: How far does it go?
+    body: |
+      The deceleration is constant, $a = \mu g$, so the speed falls **steadily** from the starting speed $v$ (m/s) to $0$. Two facts follow:
+
+      - the time to stop is the speed divided by the deceleration: $t = v/a$,
+      - the **average** speed over the stop is half the starting speed, $v/2$.
+
+      Distance is average speed times time, which is the next question.
+
+  - type: order
+    id: order-distance
+    prompt: Put the derivation of the stopping distance $d$ in order.
+    steps:
+      - 'The car slows steadily from $v$ to $0$, so its average speed is $v/2$.'
+      - 'The time to stop is $t = v/a$.'
+      - 'The distance is average speed times time: $d = \frac{v}{2}\cdot\frac{v}{a} = \frac{v^2}{2a}$.'
+      - 'Replace the deceleration with $a = \mu g$ (the mass has cancelled).'
+      - 'The result is $d = \dfrac{v^2}{2\mu g}$.'
+    hint: |
+      First what the speed does, then the time, then the product, last the friction law.
+    explanation: |
+      Speed to average, average times time gives $d = v^2/(2a)$, and the friction law supplies $a = \mu g$.
+
+  - type: build
+    id: build-distance
+    prompt: |
+      Build the stopping distance $d$ of a car with starting speed $v$ on a flat road with friction coefficient $\mu$.
+    prefix: 'd ='
+    tiles: ['\frac{v^2}{2\mu g}', '\frac{v}{2\mu g}', '\frac{v^2}{\mu g}', '\frac{2v^2}{\mu g}']
+    answers:
+      - ['\frac{v^2}{2\mu g}']
+    wrong:
+      - answer: ['\frac{v}{2\mu g}']
+        feedback: |
+          This is the stopping **time** scale ($v/a$ with a factor $1/2$), not a distance. Distance carries $v^2$: average speed times time gives two factors of $v$.
+      - answer: ['\frac{v^2}{\mu g}']
+        feedback: |
+          This forgets the average: the car does not move at speed $v$ for the whole stop, only at $v/2$ on average, which brings the factor $1/2$ (the $2$ in the denominator).
+    hint: |
+      $d = v^2/(2a)$ with $a = \mu g$.
+    explanation: |
+      $d = \dfrac{v^2}{2\mu g}$. The mass is absent, the speed is squared, and a grippier road (larger $\mu$) shortens it.
+
+  - type: numeric
+    id: dist-value
+    prompt: |
+      A car travels at $15$ m/s (54 km/h) on a flat dry road, $\mu = 0.7$, and brakes as hard as the tyres allow ($g = 9.8\ \mathrm{m/s^2}$). How far does it travel before stopping, in metres?
+    answer: 16.4
+    tolerance: 0.1
+    answerText: '16.4 m'
+    wrong:
+      - { value: 32.1, feedback: 'That is $v^2/(\mu g) = 225/6.86$, which forgets the factor $2$ (the average speed is $v/2$).' }
+      - { value: 2.19, feedback: 'That is $v/a$, the **time** to stop in seconds, not the distance.' }
+    hint: |
+      $d = v^2/(2\mu g)$ with $v = 15$, $\mu = 0.7$.
+    explanation: |
+      $a = 0.7 \times 9.8 = 6.86\ \mathrm{m/s^2}$, so $d = 15^2/(2 \times 6.86) = 225/13.72 = 16.4$ m, about four car lengths. This is braking distance only: it does not include the distance travelled while the driver reacts.
+
+  - type: numeric
+    id: speed-factor
+    prompt: |
+      A car brakes as hard as the tyres allow from $30$ km/h and from $60$ km/h on the same dry road. How many times longer is the stopping distance from $60$ km/h?
+    answer: 4
+    tolerance: 0.05
+    answerText: '4'
+    wrong:
+      - { value: 2, feedback: 'The speed is doubled but $d$ contains $v^2$: doubling $v$ multiplies $d$ by $2^2 = 4$.' }
+    hint: |
+      In $d = v^2/(2\mu g)$ only $v$ changes.
+    explanation: |
+      $d \propto v^2$, so the ratio is $2^2 = 4$. Numbers: $30$ km/h $= 8.33$ m/s gives $5.06$ m and $60$ km/h gives $20.2$ m on dry road. The same rule says tripling the speed gives $9$ times the distance.
+
+  - type: numeric
+    id: wet-value
+    prompt: |
+      The same car goes at $15$ m/s but the road is now wet, with friction coefficient $\mu = 0.4$ ($g = 9.8\ \mathrm{m/s^2}$). How far does it travel before stopping, in metres?
+    answer: 28.7
+    tolerance: 0.1
+    answerText: '28.7 m'
+    wrong:
+      - { value: 16.4, feedback: 'That is the dry-road value with $\mu = 0.7$. The coefficient is in the denominator, so a smaller $\mu$ gives a longer distance.' }
+    hint: |
+      Same formula, $\mu = 0.4$.
+    explanation: |
+      $d = 225/(2 \times 0.4 \times 9.8) = 225/7.84 = 28.7$ m. The distance scales as $1/\mu$: from $0.7$ to $0.4$ it grows by $0.7/0.4 = 1.75$. On ice ($\mu = 0.1$) the same speed needs $114.8$ m.
+
+  - type: text
+    id: energy-view
+    title: Where does the energy go?
+    body: |
+      There is a second way to get the same distance, and it shows where the energy of the moving car goes. A moving mass $m$ at speed $v$ carries **kinetic energy** (energy of motion)
+
+      $$E_k = \tfrac12\,m\,v^2$$
+
+      in joules (J). Friction pushes backwards with force $F$ over the stopping distance $d$ and removes energy $F\,d$ (force times distance, the **work** $W$). The car stops when the work equals the kinetic energy:
+
+      $$\mu\,m\,g\,d = \tfrac12\,m\,v^2$$
+
+      The mass cancels again and we recover $d = v^2/(2\mu g)$. The energy is not destroyed (recall the lesson Everything Costs Energy): friction turns it into **heat** in the brake and the tyres.
+
+  - type: numeric
+    id: energy-value
+    prompt: |
+      A car of mass $1000$ kg has speed $15$ m/s. Its kinetic energy is $\tfrac12 m v^2$. How many joules must the brakes turn into heat to stop it?
+    answer: 112500
+    tolerance: 200
+    answerText: '112 500 J'
+    wrong:
+      - { value: 15000, feedback: 'That is $m v$ (with the $\tfrac12$ missing and the speed not squared). Kinetic energy has $v^2$.' }
+      - { value: 225000, feedback: 'The factor $\tfrac12$ is missing.' }
+    hint: |
+      $\tfrac12 \times 1000 \times 15^2$.
+    explanation: |
+      $\tfrac12 \times 1000 \times 225 = 112\,500$ J. Check against the friction: $6860$ N over $16.4$ m gives $112\,500$ J. Same number, two routes. A kettle of $2000$ W would need about a minute to produce this much heat; the brake produces it in about two seconds.
+
+  - type: numeric
+    id: hook-return
+    prompt: |
+      Back to the guess. A loaded vehicle of mass $2000$ kg travels at $30$ m/s (108 km/h) on a flat dry road, $\mu = 0.7$. How far does it travel before stopping, in metres? ($g = 9.8\ \mathrm{m/s^2}$)
+    answer: 65.6
+    tolerance: 0.3
+    answerText: '65.6 m'
+    wrong:
+      - { value: 32.8, feedback: 'That is half of the right value. Mass does not enter the formula at all. Compare with the $15$ m/s car, $16.4$ m: doubling the speed gives four times, so $65.6$ m.' }
+      - { value: 131, feedback: 'That doubles the distance for the mass, but mass cancels: the distance is the same as for a $1000$ kg car at this speed.' }
+    hint: |
+      Ignore the mass; compare with the $16.4$ m of a car at $15$ m/s.
+    explanation: |
+      $d = 30^2/(2 \times 0.7 \times 9.8) = 900/13.72 = 65.6$ m $= 4 \times 16.4$ m. The load did nothing; the speed made it four times longer. Speed, not load, decides the distance (a truck stops as short as a car only if its tyres and brakes can use the same grip).
+
+  - type: mcq
+    id: traps
+    prompt: |
+      Select **all** true statements about a car braking to a stop on a flat road.
+    multiple: true
+    options:
+      - text: On the same road, a car with a wide tyre has a larger stopping distance than one with a narrow tyre at the same $\mu$.
+        feedback: |
+          In the friction law the contact area does not appear: a wide tyre spreads the same weight over more area, so the pressure is smaller, and the two effects cancel. (Real wide tyres help in other ways, such as heat and wear.)
+      - text: Halving the speed divides the stopping distance by $4$.
+        correct: true
+      - text: Friction depends on the mass only through the weight, so the stopping distance does not depend on the mass.
+        correct: true
+      - text: A road with $\mu = 0.1$ needs seven times the distance of a road with $\mu = 0.7$ at the same speed.
+        correct: true
+      - text: The kinetic energy of the car is conserved, so it is stored in the brakes and is still there afterwards.
+        feedback: |
+          The energy is conserved, but not as kinetic energy: it has become heat, spread in the pads, the discs, the tyres and the air.
+    hint: |
+      Use $d = v^2/(2\mu g)$ for each statement: what does it contain, and what does it not contain?
+    explanation: |
+      $d \propto v^2/\mu$: halving $v$ gives $1/4$, $\mu$ from $0.7$ to $0.1$ gives $7\times$, and neither the mass nor the contact area appears.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** friction turned all that motion into heat. How hot does a brake get, why does a skidding wheel stop you worse than a rolling one, and what does an anti-lock system do about it? That is the next brake lesson.
