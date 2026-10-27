@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-27 widget pin-tumbler
+Built widget `pin-tumbler` (js/widgets/pin-tumbler.js, docs/widgets/pin-tumbler.md, css `pt-`). N 3 to 6 pins, D 2 to 9 depths, key drag or steppers, green at shear line, plug turns only if all match, D^N readout, optional picking mode (torque, one binding pin at a time, no course use planned beyond a later challenge). Checked by script: 4 of 5 matches does not turn; exhaustive over 3^5 keys turns only for the secret; 6^5 = 7776. Throwaway lesson used for smoke test and screenshot, removed. Choices: cut depth 0 = shallowest; pick mode starts all pins at the deepest level and a click lifts one step; mismatching pins red, key outline gold. Conventions fixed here: key cuts numbered 0 (shallowest) to D-1; 5 pins, 6 depths = 7776 keys (upper bound; real locks have fewer because of tolerances and rules on neighbouring cuts).
+
 ## 2026-10-27 ch02-brakes-heat
 Built `ch02-brakes-heat` (18 cards, concept): hook with temperature guess, Recall cards (Brakes and Friction; Everything Costs Energy), Q = 1/2 m v^2 = 450 kJ, dT = Q/(c m_disc) = 200 K (5 kg steel, c 450), 50 K at 15 m/s, friction-stop with lockToggle (staticRatio 1.2, existing preset fields, no new widget needed), 54.7 m rolling vs 65.6 m locked, no steering on locked wheels (recall bike lesson), ABS as loop (order + roles), traps, summary. Choices: heat all stays in the discs (upper estimate); `^\circ` written `{}^\circ` for KaTeX. Conventions fixed here: specific heat $c$ steel 450 J/(kg K) typical; $\Delta T = Q/(c\,m_{\text{disc}})$; 5 kg discs, 1000 kg car at 30 m/s: 450 kJ, 200 K; rolling grip about 1.2 mu (typical): 54.7 m vs 65.6 m; ABS: setpoint slip, sensor wheel speed, actuator valve.
 

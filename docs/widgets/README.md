@@ -55,3 +55,4 @@ and a new `docs/widgets/<name>.md` plus a line below.
 - `bike-balance`: A bicycle from behind as an inverted pendulum with steering feedback; lean-angle plot, speed and gain sliders, nudge
 - `lever-balance`: A plank on a pivot; drag pivot and loads, force arrows, dashed arms, a torque bar per side, tilt; `wrench` form (hand force vs a bolt's torque)
 - `friction-stop`: A vehicle braking on a road with friction mu: stopping distance d = v0^2/(2 g mu) (mass cancels), speed-against-distance plot, kinetic energy turning into heat, optional slope and locked/rolling toggle
+- `pin-tumbler`: Cutaway pin-tumbler lock with N pins and a key of D cut depths: pins at the shear line turn green, the plug turns only if all match, D^N keys; optional picking mode

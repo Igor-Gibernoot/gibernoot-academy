@@ -29,6 +29,7 @@ import { homeostat } from './homeostat.js';
 import { bikeBalance } from './bike-balance.js';
 import { leverBalance } from './lever-balance.js';
 import { frictionStop } from './friction-stop.js';
+import { pinTumbler } from './pin-tumbler.js';
 import { freeEnergyBound } from './free-energy-bound.js';
 import { policyScorer } from './policy-scorer.js';
 import { blanketGraph } from './blanket-graph.js';
@@ -80,6 +81,7 @@ const WIDGETS = {
   'bike-balance': bikeBalance,
   'lever-balance': leverBalance,
   'friction-stop': frictionStop,
+  'pin-tumbler': pinTumbler,
   'free-energy-bound': freeEnergyBound,
   'policy-scorer': policyScorer,
   'blanket-graph': blanketGraph,
