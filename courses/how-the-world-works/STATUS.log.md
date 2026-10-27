@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-27 ch02-challenge-2 (Part 2, 20 cards)
+Own file `ch02/challenge2.yaml` (part 1 had 24 cards); part 1 retitled "..., Part 1", its results card points to part 2 by title. Problems 4 (lock, pin-tumbler widget) and 5 (helmet, crash-impulse widget), rebuild-it (7 decisions), final-check, plain text summary. Autonomous. Conventions fixed here: challenge part 2 is `ch02-challenge-2`; max split pins for 1/1000 chance is k = 2 with D = 6 (8/7776 = 1/972 fails), k = 0 with D = 4 (1/1024); helmet: head 5 kg at 7.61 m/s, bare stop 0.002 s (not 0.01 s, which would make the foam look worse) gives 19025 N, foam 0.02 m gives 7239 N, 4000 N limit needs 0.0362 m, 4 cm gives 3619 N; final-check design fails on gear ratio 2.5 (pull 62.8 N); lesson has 20 cards (over the 12 to 16 asked, within the 32 limit).
+
 ## 2026-10-27 ch02-challenge part 1 (24 cards)
 Problems 1 (gearing, 10% hill), 2 (wet brakes, reaction, ABS, heat), 3 (crank torque, frame scaling). Autonomous. Conventions fixed here: challenge bike = 70 kg rider+bike, hill force mg/10 = 68.6 N, wheel r 0.334 m, crank torque 52.5 N m, sustained 250 W gives 3.64 m/s (s 1.3 at 80 rpm), tradeoff needs speed >= 3 m/s and pull >= 68.6 N (s 1.07 to 2.29); brake spec 15 m with 1 s reaction on mu 0.4 gives 7.61 m/s (7.39 m braking), ABS mu 1.2x gives 6.16 m, heat 2028 J, 0.5 kg steel 9 K; crank 0.175 m, limit 150 N m (typical) holds 857 N; frame 3 kg scaled 1.1 gives 3.99 kg, strength per kg x0.909; part 1 ends with a plain text results card.
 

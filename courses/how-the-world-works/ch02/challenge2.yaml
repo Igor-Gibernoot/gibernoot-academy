@@ -1,0 +1,338 @@
+id: ch02-challenge-2
+title: 'Level Challenge: Design a bicycle from scratch, Part 2'
+kind: challenge
+cards:
+  - type: text
+    id: recall
+    title: "Recall: the bicycle so far"
+    body: |
+      Part 1 of this challenge fixed the numbers of a bicycle for a $70$ kg rider (rider and bike together), and part 2 builds on them:
+
+      - **Hill and wheels.** A $10\%$ hill needs $mg/10 = 68.6$ N at the tyre; the wheel radius is $r = 0.334$ m, so the wheel torque is $22.9$ N m, the crank torque of a rider is $52.5$ N m, and the sustained power is $250$ W.
+      - **Brakes.** On a wet road ($\mu = 0.4$) the stopping spec is $15$ m including a $1$ s reaction, which allows at most $7.61$ m/s. With anti-lock brakes (ABS) the braking distance from $7.61$ m/s is $6.16$ m.
+      - **Frame.** The crank may carry up to $150$ N m (typical value); the frame weighs $3$ kg.
+
+      Part 2 adds a **lock** and a **helmet**, then rebuilds the whole bicycle from its specification. **Guess first**, then check.
+
+  - type: widget
+    id: lock-widget
+    widget: pin-tumbler
+    review: false
+    config:
+      pins: 5
+      depths: 6
+      secret: [3, 1, 4, 0, 2]
+      key: [3, 1, 4, 0, 1]
+      readouts: [matches, turns, combinations]
+      show: { count: true }
+    body: |
+      **Problem 4: the lock.** The bicycle needs a pin-tumbler lock with $N = 5$ pins, each cut to one of $D = 6$ depths. Drag a cut on the key, or use the steppers, and watch how many pins match. Only when **all** match does the plug turn, so the number of different keys is $D^N = 6^5 = 7776$.
+
+  - type: numeric
+    id: usable-keys
+    prompt: |
+      A pin-tumbler lock has $N = 5$ pins. Parts are made only to within a tolerance, so neighbouring cut depths must be spaced further apart, and only $D = 4$ depths stay usable on each pin. How many different keys can the lock have?
+    answer: 1024
+    answerText: '1024'
+    wrong:
+      - { value: 7776, feedback: 'That is $6^5$, with all six depths usable. The tolerance leaves only $4$ per pin, so the base of the power is $4$.' }
+      - { value: 20, feedback: 'You added $4 + 4 + 4 + 4 + 4$. Every choice for one pin combines with every choice for the others, so the count multiplies: $4^5$.' }
+    hint: |
+      The number of keys is the number of depths per pin, multiplied by itself once for each pin.
+    explanation: |
+      $$4^5 = 4\times4\times4\times4\times4 = 1024$$
+      Tolerance costs keys fast: from $7776$ down to $1024$, because the loss applies to every one of the $5$ pins.
+
+  - type: numeric
+    id: master-chance
+    prompt: |
+      A building uses **split pins** (a driver pin cut in two, so a pin can be opened by two depths) on all $k = 5$ pins of a lock with $D = 6$ depths and $N = 5$ pins. Then $2^5 = 32$ different keys open it. A random key of the $7776$ possible keys opens it with chance $1$ in how many?
+    answer: 243
+    answerText: '243'
+    wrong:
+      - { value: 7776, feedback: 'That is the chance for a lock with exactly one opening key. With $32$ opening keys, the chance is $32$ times better.' }
+      - { value: 32, feedback: 'That is the number of opening keys, not the odds. Divide the number of keys $7776$ by the $32$ that open.' }
+    hint: |
+      The chance is the number of opening keys divided by the number of all keys.
+    explanation: |
+      $$\frac{32}{7776} = \frac{1}{243}$$
+      The convenience of a master key is paid for in security: the odds of a random key working improve $32$ times.
+
+  - type: numeric
+    id: max-split
+    prompt: |
+      The bicycle lock has $D = 6$ and $N = 5$ ($7776$ keys), and $k$ split pins give $2^k$ opening keys. The designer wants the chance that a random key opens it to be **at most** $1$ in $1000$. What is the largest number $k$ of split pins allowed?
+    answer: 2
+    answerText: '2'
+    wrong:
+      - { value: 3, feedback: 'With $k = 3$ there are $8$ opening keys and the chance is $8/7776 = 1/972$, which is **more** than $1/1000$. The limit is crossed one pin earlier.' }
+      - { value: 7, feedback: 'You counted opening keys ($7.776$ at most), not split pins. The number of opening keys is $2^k$, so $k$ is its base-2 logarithm.' }
+    hint: |
+      The number of opening keys $2^k$ must be at most $7776/1000 = 7.776$. Try $k = 1, 2, 3$.
+    explanation: |
+      $$\begin{aligned}
+      k = 2:&\quad 4/7776 = 1/1944\\
+      k = 3:&\quad 8/7776 = 1/972
+      \end{aligned}$$
+      So $k = 2$ passes and $k = 3$ just misses. Each split pin doubles the opening keys and doubles the chance.
+
+  - type: mcq
+    id: tolerance-effect
+    prompt: |
+      Poor manufacturing tolerance leaves only $D = 4$ usable depths instead of $6$ on a lock with $N = 5$ pins and a **single** opening key. What happens to the chance that a random key opens it?
+    shuffle: false
+    options:
+      - text: It gets worse by about $7.6$ times, from $1/7776$ to $1/1024$.
+        feedback: |
+          Backwards: with fewer keys to choose from, a random key is **more** likely to hit the right one, not less.
+      - text: It improves by about $7.6$ times, from $1/7776$ to $1/1024$.
+        correct: true
+      - text: It does not change, since there is still one opening key.
+        feedback: |
+          The number of opening keys is the same, but the chance is that number divided by **all** keys, and the total fell from $7776$ to $1024$.
+    hint: |
+      Chance equals opening keys divided by all keys.
+    explanation: |
+      $1/1024$ against $1/7776$ is a factor $7776/1024 \approx 7.6$ more likely. The risk is that sloppy tolerance shrinks the key space, and so does a master key: both raise the chance that a stranger's key works. Picking is another route, needing only about $D\times N = 30$ tries instead of thousands.
+
+  - type: widget
+    id: helmet-widget
+    widget: crash-impulse
+    review: false
+    config:
+      mass: 5
+      v0: 7.61
+      stopMode: time
+      stop: 0.002
+      show: { car: false, stopSlider: true }
+      ranges: { time: [0.002, 0.05, 0.001], distance: [0.005, 0.08, 0.005] }
+      readouts: [impulse, avgForce, decel, time]
+      presets:
+        - { label: 'Bare head (0.002 s)', stopMode: time, stop: 0.002 }
+        - { label: 'Foam 0.02 m', stopMode: distance, stop: 0.02 }
+        - { label: 'Foam 0.04 m', stopMode: distance, stop: 0.04 }
+    body: |
+      **Problem 5: the helmet.** A head of about $5$ kg (typical) hits the road at the speed limit $7.61$ m/s. The widget shows the same impulse $J = mv$ delivered over different stopping times. Compare a bare head with foam of different thickness.
+
+  - type: numeric
+    id: bare-force
+    prompt: |
+      A head of $5$ kg moving at $7.61$ m/s hits the road bare and is stopped in $0.002$ s (a few millimetres of skin and skull give way). What is the average force, in newtons, using impulse $J = mv = F\,\Delta t$?
+    answer: 19025
+    tolerance: 100
+    answerText: '19025'
+    wrong:
+      - { value: 38.05, feedback: 'That is the impulse $J = mv$ in N s. The force is the impulse **divided** by the stopping time.' }
+      - { value: 144.8, feedback: 'That is the kinetic energy $\tfrac12 mv^2$ in joules, not a force. Use $F = mv/\Delta t$.' }
+    hint: |
+      First $J = mv$, then divide by the stopping time $\Delta t$.
+    explanation: |
+      $$\begin{aligned}
+      J &= mv = 5\times7.61 = 38.05\ \mathrm{N\,s}\\
+      F &= \frac{J}{\Delta t} = \frac{38.05}{0.002} \approx 19\,025\ \mathrm{N}
+      \end{aligned}$$
+      That is about $19$ kN, roughly $390$ times the weight of the head.
+
+  - type: numeric
+    id: foam-force
+    prompt: |
+      Now the head, $5$ kg at $7.61$ m/s, is stopped by foam that crushes **uniformly** by $d = 0.02$ m. Use energy: the force times the crush distance removes the kinetic energy, $F\,d = \tfrac12 mv^2$. What is the force, in newtons?
+    answer: 7239
+    tolerance: 40
+    answerText: '7239'
+    wrong:
+      - { value: 14478, feedback: 'You forgot the factor $\tfrac12$ in $\tfrac12 mv^2$. Kinetic energy is $144.8$ J here, so $F = 144.8/0.02$.' }
+      - { value: 19025, feedback: 'That is the bare-head force from the $0.002$ s stop. The foam spreads the stop over $0.02$ m, which takes longer.' }
+    hint: |
+      $F = \dfrac{\tfrac12 mv^2}{d}$.
+    explanation: |
+      $$\begin{aligned}
+      \tfrac12 mv^2 &= \tfrac12\times5\times7.61^2 \approx 144.8\ \mathrm{J}\\
+      F &= \frac{144.8}{0.02} \approx 7\,239\ \mathrm{N}
+      \end{aligned}$$
+      Same impulse, but a stop lasting $2d/v \approx 0.0053$ s instead of $0.002$ s: the force falls to $0.38$ of the bare value.
+
+  - type: numeric
+    id: design-crush
+    prompt: |
+      The helmet must keep the average force on the head below $4000$ N. A $5$ kg head hits at $7.61$ m/s and the foam crushes uniformly. What is the **least** crush distance, in metres?
+    answer: 0.0362
+    tolerance: 0.001
+    answerText: '0.036'
+    wrong:
+      - { value: 0.0724, feedback: 'You divided by $F$ without the factor $\tfrac12$ for the kinetic energy, or doubled it. Use $d = \tfrac12 mv^2/F$.' }
+      - { value: 0.0095, feedback: 'You used the impulse $38.05$ N s in place of the energy: $38.05/4000$ is a time, not a distance.' }
+    hint: |
+      Rearrange $F\,d = \tfrac12 mv^2$ to solve for $d$.
+    explanation: |
+      $$d = \frac{\tfrac12 mv^2}{F} = \frac{144.8}{4000} \approx 0.036\ \mathrm{m}$$
+      About $3.6$ cm of foam. A thicker liner lowers the force further, but is bulkier on the head: a tradeoff.
+
+  - type: text
+    id: rebuild-task
+    title: Rebuild it
+    body: |
+      **Rebuild it: a bicycle for a $70$ kg rider on a $10\%$ hill, with a $15$ m stopping spec on a wet road ($\mu = 0.4$, $1$ s reaction).** Make one decision per card, in the order a designer would: gearing, speed limit, brakes, crank, frame, lock, helmet. Every answer comes from numbers of this challenge.
+
+  - type: mcq
+    id: gear-range
+    prompt: |
+      The bicycle must climb a $10\%$ hill with a pull of at least $68.6$ N at the tyre and a speed of at least $3$ m/s. The pull at the tyre is $157/s$ N and the speed is $2.8\,s$ m/s, where $s$ is the gear ratio. Which range of $s$ meets both needs?
+    shuffle: false
+    options:
+      - text: $s \le 2.29$ only
+        feedback: |
+          That only checks the pull ($157/s \ge 68.6$). The speed need $2.8\,s \ge 3$ also sets a lower limit, $s \ge 1.07$.
+      - text: $1.07 \le s \le 2.29$
+        correct: true
+      - text: $s \ge 1.07$ only
+        feedback: |
+          That only checks the speed. A big ratio gives speed but loses pull, so the pull need $157/s \ge 68.6$ caps it at $s \le 2.29$.
+    hint: |
+      Two needs bound $s$ from opposite sides: speed from below, pull from above.
+    explanation: |
+      $$\begin{aligned}
+      2.8\,s &\ge 3 \ \Rightarrow\ s \ge 1.07\\
+      157/s &\ge 68.6 \ \Rightarrow\ s \le 2.29
+      \end{aligned}$$
+      The gearing is the tradeoff between speed and pull. Choose a ratio inside this window.
+
+  - type: numeric
+    id: speed-limit
+    prompt: |
+      The wet-road stopping spec is $15$ m **including** a $1$ s reaction, with locked-wheel friction $\mu = 0.4$ and $g = 9.8$ m/s$^2$. What is the highest allowed speed, in m/s?
+    answer: 7.61
+    tolerance: 0.05
+    answerText: '7.61'
+    wrong:
+      - { value: 10.84, feedback: 'That is the speed allowed with **no** reaction time, $\sqrt{2\mu g\cdot 15}$. A $1$ s reaction uses $v$ metres of the $15$ m before braking starts.' }
+      - { value: 15, feedback: 'That is the distance, not a speed. Solve $v\cdot 1 + v^2/(2\mu g) = 15$ for $v$.' }
+    hint: |
+      Total distance is $v\times1\ \text{s} + v^2/(2\mu g)$, and it must equal $15$ m.
+    explanation: |
+      $$v + \frac{v^2}{7.84} = 15$$
+      Solving the quadratic gives $v \approx 7.61$ m/s ($27$ km/h): $7.61$ m of reaction plus $7.39$ m of braking.
+
+  - type: mcq
+    id: brake-choice
+    prompt: |
+      The speed limit is $7.61$ m/s on a wet road. Locked wheels stop the bicycle in $7.39$ m and use up the whole $15$ m spec, while a rolling wheel grips about $1.2$ times better. Which brake choice gives a margin and keeps steering?
+    shuffle: false
+    options:
+      - text: Locked-wheel brakes, since they meet the spec exactly
+        feedback: |
+          They meet it with zero margin, and a skidding wheel cannot steer. A late reaction or a slippery patch means a crash.
+      - text: 'ABS, a loop that keeps the wheel just short of locking, stopping in $6.16$ m'
+        correct: true
+      - text: Bigger disc brakes, which grip the road more
+        feedback: |
+          The limit is the grip between tyre and road, $\mu mg$, not the strength of the brake. A bigger disc heats more slowly but cannot add grip.
+    hint: |
+      Friction of a rolling wheel is higher than a sliding one.
+    explanation: |
+      ABS is a feedback loop (setpoint: slip just below locking, sensor: wheel speed, actuator: valve). It stops in $6.16$ m, which leaves $1.23$ m of margin against the $7.39$ m of locked wheels, and the rider keeps steering.
+
+  - type: mcq
+    id: crank-choice
+    prompt: |
+      A standing rider puts $120$ N m on a crank of length $0.175$ m. Which crank rating is acceptable?
+    shuffle: false
+    options:
+      - text: a limit of $100$ N m, lighter and cheaper
+        feedback: |
+          Below the $120$ N m the rider applies, so the crank bends or breaks in a hard push.
+      - text: a limit of $150$ N m, above the $120$ N m the rider applies
+        correct: true
+      - text: the limit equal to the rider's pedal torque, $52.5$ N m
+        feedback: |
+          $52.5$ N m is the rider's torque in steady pedalling. A standing rider pushing hard applies much more, $120$ N m.
+    hint: |
+      A part must carry the largest load it will see, with a margin.
+    explanation: |
+      The crank must hold more than $120$ N m, so $150$ N m (typical) leaves a margin of $25\%$. Strength is checked against the worst load, not the average one.
+
+  - type: numeric
+    id: frame-final
+    prompt: |
+      The rider needs a frame $1.1$ times larger in every length than the $3$ kg frame, made of the same steel. What is its mass, in kg?
+    answer: 3.993
+    tolerance: 0.02
+    answerText: '3.99'
+    wrong:
+      - { value: 3.3, feedback: 'You scaled the mass by $1.1$, as if only one length grew. Mass follows volume: $1.1^3$.' }
+      - { value: 3.63, feedback: 'You used $1.1^2 = 1.21$, the rule for **areas**. Mass follows volume, so use $1.1^3$.' }
+    hint: |
+      Mass scales with the cube of the length factor.
+    explanation: |
+      $$3\times1.1^3 = 3\times1.331 \approx 3.99\ \mathrm{kg}$$
+      The strength per kilogram falls by the factor $1/1.1 = 0.909$, which is why a taller frame is built with thin-walled tubes.
+
+  - type: mcq
+    id: lock-choice
+    prompt: |
+      The lock has $N = 5$ pins and tolerance leaves $D = 4$ usable depths, so $4^5 = 1024$ keys exist. A split pin doubles the opening keys. The chance that a random key opens it should be at most $1$ in $1000$. Which design works?
+    shuffle: false
+    options:
+      - text: 'no split pins ($k = 0$): one opening key, chance $1/1024$'
+        correct: true
+      - text: '$k = 2$ split pins: $4$ opening keys, chance $1/256$'
+        feedback: |
+          With only $1024$ keys, $4$ opening keys give $4/1024 = 1/256$, much more than $1/1000$.
+      - text: '$k = 5$ split pins, $32$ opening keys, so every pin accepts two depths'
+        feedback: |
+          $32/1024 = 1/32$: a stranger's key works about once in $32$ tries.
+    hint: |
+      Chance equals $2^k$ divided by $1024$, and it must be at most $1/1000$.
+    explanation: |
+      Only $k = 0$ gives $1/1024 \le 1/1000$. With the full $D = 6$ depths ($7776$ keys) two split pins would have been allowed, but tolerance took that room away. Master keys and sloppy tolerance both cost security.
+
+  - type: numeric
+    id: helmet-final
+    prompt: |
+      Final design decision: the helmet liner, a $5$ kg head at $7.61$ m/s, a force limit of $4000$ N. A liner of **4 cm** crushes uniformly. What force does it give, in newtons?
+    answer: 3619
+    tolerance: 20
+    answerText: '3619'
+    wrong:
+      - { value: 7239, feedback: 'That is the force for a $2$ cm liner. Double the distance and the force halves.' }
+      - { value: 36190, feedback: 'The distance must be in metres: $4$ cm is $0.04$ m.' }
+    hint: |
+      $F = \tfrac12 mv^2/d$ with $d = 0.04$ m.
+    explanation: |
+      $$F = \frac{144.8}{0.04} \approx 3\,619\ \mathrm{N}$$
+      That is below $4000$ N, so a $4$ cm liner meets the limit with a small margin; the least thickness was $3.6$ cm.
+
+  - type: mcq
+    id: final-check
+    prompt: |
+      A proposed bicycle has: gear ratio $s = 2.5$, speed limit $7.61$ m/s, ABS brakes, a $150$ N m crank, a frame scaled by $1.1$ ($3.99$ kg), a lock with no split pins and a $4$ cm helmet liner. Which need does it still fail?
+    shuffle: false
+    options:
+      - text: the stopping spec, since ABS adds heat
+        feedback: |
+          ABS stops in $6.16$ m, within the $15$ m spec, and the heat of $2028$ J only warms $0.5$ kg of steel by $9$ K.
+      - text: the hill, since the pull at the tyre $157/2.5 = 62.8$ N is below the needed $68.6$ N
+        correct: true
+      - text: the lock, since no split pins means fewer opening keys
+        feedback: |
+          Fewer opening keys is exactly what the $1$ in $1000$ chance requires; the lock meets it.
+    hint: |
+      Check each row of the specification, using pull $= 157/s$ N.
+    explanation: |
+      $s = 2.5$ is outside $1.07 \le s \le 2.29$ because the pull at the tyre falls to $62.8$ N. With $s$ inside the window, say $s = 1.3$ for the $250$ W climb, every need is met.
+
+  - type: text
+    id: summary
+    title: The finished bicycle
+    body: |
+      **The specification, for a $70$ kg rider, a $10\%$ hill and a wet road.**
+
+      - **Gearing:** pull at the tyre $\ge 68.6$ N and speed $\ge 3$ m/s give gear ratio $1.07 \le s \le 2.29$ (about $1.3$ for the $250$ W climb).
+      - **Speed limit:** with the $15$ m spec and $1$ s reaction at $\mu = 0.4$, at most $7.61$ m/s ($27$ km/h).
+      - **Brakes:** ABS, stopping in $6.16$ m instead of $7.39$ m locked, releasing $2028$ J of heat as the stop.
+      - **Crank:** rated at $150$ N m or more, above the $120$ N m a standing rider applies.
+      - **Frame:** scaled by $1.1$, giving $3.99$ kg and strength per kilogram $\times 0.909$.
+      - **Lock:** keys number $D^N$ ($6^5 = 7776$, only $4^5 = 1024$ after tolerance); $k$ split pins give $2^k$ opening keys; with tolerance and a $1/1000$ limit, no split pins.
+      - **Helmet:** $F\,d = \tfrac12 mv^2$; for $5$ kg at $7.61$ m/s and $4000$ N, at least $3.6$ cm of crush ($4$ cm gives $3619$ N), against $19$ kN for a bare $0.002$ s stop.
+
+      Every line is a tradeoff: speed against pull, grip against margin, weight against strength, convenience against security, thickness against force. Next: a review of the whole level.
