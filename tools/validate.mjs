@@ -84,7 +84,7 @@ for (const c of catalog.courses ?? []) {
 // LESSON_FORMAT.md must not grow widget sections again (it is read in pieces, widgets live in docs/widgets/).
 {
   const reg = readFileSync(join(root, 'js/widgets/index.js'), 'utf8');
-  const names = [...reg.slice(reg.indexOf('const WIDGETS')).matchAll(/^\s*'([a-z0-9-]+)':/gm)].map(m => m[1]);
+  const names = [...reg.slice(reg.indexOf('const WIDGETS'), reg.indexOf('\n};', reg.indexOf('const WIDGETS'))).matchAll(/^\s*'?([a-zA-Z0-9-]+)'?\s*[:,]/gm)].map(m => m[1]);
   const idx = existsSync(join(root, 'docs/widgets/README.md')) ? readFileSync(join(root, 'docs/widgets/README.md'), 'utf8') : '';
   for (const n of names) {
     if (!existsSync(join(root, 'docs/widgets', n + '.md'))) err('docs/widgets', `widget "${n}" has no docs/widgets/${n}.md`);
