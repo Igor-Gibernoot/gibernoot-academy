@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-27 Level 2 audit
+Gears crowbar build now uses mass m and weight $mg$ (W stays work). "Stopping distance" defined as also called "braking distance" in Brakes and Friction. Previous-lesson reference in brakes-heat replaced by the title. Key numbers rechecked by script. Kooijman 2011 (Science 332, 339) verified; Jones 1970 not confirmed, lesson cites it only as "1970s". Conventions fixed here: weight is $mg$, W is work only.
+
 ## 2026-10-27 ch02-challenge-2 (Part 2, 20 cards)
 Own file `ch02/challenge2.yaml` (part 1 had 24 cards); part 1 retitled "..., Part 1", its results card points to part 2 by title. Problems 4 (lock, pin-tumbler widget) and 5 (helmet, crash-impulse widget), rebuild-it (7 decisions), final-check, plain text summary. Autonomous. Conventions fixed here: challenge part 2 is `ch02-challenge-2`; max split pins for 1/1000 chance is k = 2 with D = 6 (8/7776 = 1/972 fails), k = 0 with D = 4 (1/1024); helmet: head 5 kg at 7.61 m/s, bare stop 0.002 s (not 0.01 s, which would make the foam look worse) gives 19025 N, foam 0.02 m gives 7239 N, 4000 N limit needs 0.0362 m, 4 cm gives 3619 N; final-check design fails on gear ratio 2.5 (pull 62.8 N); lesson has 20 cards (over the 12 to 16 asked, within the 32 limit).
 
