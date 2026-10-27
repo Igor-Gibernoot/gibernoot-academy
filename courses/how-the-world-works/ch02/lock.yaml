@@ -1,0 +1,337 @@
+id: ch02-lock
+title: The Pin-Tumbler Lock and Its Key
+kind: concept
+own: |
+  - **How the lock decides.** A pin-tumbler lock has $N$ stacks of pins (here $N = 5$), each a driver pin pushed down by a spring on top of a key pin. The cylinder (the **plug**) can turn only if the gaps between driver and key pins all line up at the **shear line**, the boundary between plug and housing. The key has one **cut depth** per pin, chosen from $D$ possible depths (here $D = 6$), and
+    {{ the plug turns only if every one of the $N$ cuts matches its pin; one wrong pin blocks it }}
+  - **Counting keys.** Each of the $N$ cuts is chosen independently among $D$ depths, so the number of different keys is
+    {{ $$D^N$$ }}
+    For $D = 6$ and $N = 5$ that is $6^5 = 7776$ keys; one more pin multiplies it by $6$ ($46\,656$).
+  - **Fewer keys in practice.** Parts are made only to within a **tolerance** (a small allowed error), so neighbouring depths must be spaced further apart than that error. Fewer usable depths $D$ means fewer keys: with $D = 4$ and $N = 5$, $4^5 = 1024$.
+  - **Master key.** A **split pin** (a driver pin cut in two) gives a pin two depths at which the plug can turn. If $k$ of the $N$ pins are split, the number of keys that open the lock is
+    {{ $$2^k$$ }}
+    With $k = N = 5$, $2^5 = 32$ keys open it, so a random key succeeds with chance $32/7776 = 1/243$ instead of $1/7776$: convenience bought with security.
+  - **Picking.** With a little turning force on the plug, the pins bind one at a time, so a picker sets them one by one and needs at most about $D\times N$ tries ($6\times5 = 30$) instead of $D^N$ (7776).
+cards:
+  - type: text
+    id: hook
+    title: Before any theory, guess
+    body: |
+      You carry a small piece of metal, the **key**, that opens one door and no other. Nothing electronic is inside it, only a row of notches (**cuts**) of different depths. How can notches be a secret, and how many different secrets can there be?
+
+      This lesson opens up the most common lock in the world, the **pin-tumbler lock** (a cylinder with spring-loaded pins that only the right key can line up). Guessing first is the point.
+
+  - type: mcq
+    id: guess-keys
+    prompt: |
+      A lock has $5$ pins, and each pin can be set to one of $6$ different cut depths. About how many different keys could be cut for it?
+    shuffle: false
+    options:
+      - text: About $30$ keys, since $5 \times 6 = 30$.
+        feedback: |
+          Tempting: it adds up the choices. But the cuts are chosen together, and every choice for the first pin can be combined with every choice for the second, and so on. The count multiplies instead of adding up; the cards below show how.
+      - text: About $7800$ keys.
+        correct: true
+      - text: About $780$ million keys.
+        feedback: |
+          Far too many: there are only $5$ cuts, each with $6$ choices. Multiplying five sixes gives a few thousand, not hundreds of millions.
+    hint: |
+      Count the keys for one pin ($6$), then for two pins (each of the $6$ first cuts pairs with each of the $6$ second cuts).
+    explanation: |
+      The exact number is $6\times6\times6\times6\times6 = 7776$. The cards below derive it.
+
+  - type: widget
+    id: lock-try
+    widget: pin-tumbler
+    review: false
+    config:
+      pins: 5
+      depths: 6
+      secret: [3, 1, 4, 0, 2]
+      key: [0, 0, 0, 0, 0]
+      show: { count: true }
+      readouts: [matches, turns]
+    body: |
+      This is a cutaway of a lock with $5$ pins and $6$ possible cut depths (numbered $0$ to $5$). Its secret is hidden. Drag the cuts of the key up and down, or use the minus and plus buttons under each pin, and watch how many pins are **green** (matched) and whether the plug turns. Find the right key.
+
+  - type: mcq
+    id: after-widget
+    prompt: |
+      In a pin-tumbler lock with $5$ pins, a key matches the secret on $4$ pins and is wrong on the fifth. What happens when you try to turn it?
+    shuffle: false
+    options:
+      - text: The plug turns, because most of the pins are correct.
+        feedback: |
+          There is no majority rule. A single pin that is too high or too low sticks across the boundary between plug and housing, and that alone blocks the plug.
+      - text: The plug turns a little, in proportion to the fraction of correct pins.
+        feedback: |
+          The plug has no partial position. It is either free to rotate or blocked by at least one pin.
+      - text: The plug does not turn at all.
+        correct: true
+    hint: |
+      Think about what each pin must do at the boundary between plug and housing.
+    explanation: |
+      Every pin must be right at the same time. The plug turns only when all $5$ match, so $4$ of $5$ is as good as $0$ of $5$ for opening the door.
+
+  - type: text
+    id: mechanism
+    title: What is inside
+    body: |
+      The cylinder that turns when you turn the key is the **plug**; it sits inside a fixed **housing**. The boundary between them is the **shear line**. Along the plug there are $N$ vertical holes ($N = 5$ here), and in each hole a **stack** of two pins:
+
+      - the **key pin** (touches the key), and
+      - the **driver pin** above it, pushed down by a **spring**.
+
+      With no key, the springs push the drivers down so that each driver crosses the shear line and locks the plug to the housing. A key pushes each key pin up by a different amount, set by the **cut depth** at that position (a deeper cut lets the pin sit lower, a shallower cut pushes it higher). When the key is right, **every** gap between key pin and driver pin lands exactly at the shear line. Nothing crosses it, and the plug is free to turn.
+
+  - type: order
+    id: why-turns
+    prompt: |
+      Put in order the chain of events that lets the plug turn when the right key is pushed in.
+    steps:
+      - The right key is inserted; each cut sets how high one key pin sits.
+      - Each key pin lifts its driver pin against the spring.
+      - Every gap between key pin and driver pin lines up exactly at the shear line.
+      - No pin crosses the shear line, so nothing locks the plug to the housing.
+      - Turning the key now rotates the plug.
+    hint: |
+      Start from the key, end with the plug.
+    explanation: |
+      The key is only a set of heights. The lock does not "read" it: it simply lets the plug turn when all the heights are right, because then no pin straddles the shear line.
+
+  - type: text
+    id: counting
+    title: Counting the keys
+    body: |
+      How many different keys can the lock accept in principle? Each pin has $D$ possible cut depths, and the choice at one pin does not depend on the others. Take one pin: $D$ keys. Add a second pin: each of the $D$ first choices combines with each of the $D$ second choices, so $D\times D$. A third pin multiplies by $D$ again. For $N$ pins:
+
+      $$D \times D \times \cdots \times D = D^N$$
+
+      Here $D$ and $N$ are whole numbers: $D$ is the number of depths per pin, $N$ the number of pins.
+
+  - type: numeric
+    id: small-count
+    prompt: |
+      A toy lock has $N = 3$ pins and $D = 4$ possible cut depths per pin. How many different keys can be cut for it?
+    answer: 64
+    tolerance: 0
+    answerText: '64'
+    wrong:
+      - { value: 12, feedback: 'That is $3\times4$, which adds the choices up. The cuts combine: each choice at one pin pairs with every choice at the other pins.' }
+      - { value: 81, feedback: 'That is $3^4$, with the roles swapped. There are $D = 4$ choices at each of $N = 3$ pins, so the count is $D^N = 4^3$.' }
+    hint: |
+      $4\times4\times4$.
+    explanation: |
+      $D^N = 4^3 = 64$ keys.
+
+  - type: numeric
+    id: five-pin
+    prompt: |
+      Now the lock from the start: $N = 5$ pins and $D = 6$ depths. How many different keys can be cut, using $D^N$?
+    answer: 7776
+    tolerance: 0
+    answerText: '7776'
+    wrong:
+      - { value: 30, feedback: 'That is $5\times6$. The number of keys is a product of five sixes, not a sum.' }
+      - { value: 15625, feedback: 'That is $5^6$, with $D$ and $N$ swapped. There are $6$ depths at each of $5$ pins: $6^5$.' }
+    hint: |
+      $6\times6 = 36$, then $\times6 = 216$, and so on, five factors.
+    explanation: |
+      $6^5 = 7776$. Standing at the door, a person trying keys at random would need on average about $3900$ tries.
+
+  - type: numeric
+    id: one-more-pin
+    prompt: |
+      The lock maker adds one more pin: $N = 6$ pins, still $D = 6$ depths. How many keys can be cut now?
+    answer: 46656
+    tolerance: 0
+    answerText: '46 656'
+    wrong:
+      - { value: 9336, feedback: 'That adds one sixth, as if each new pin added a fixed amount. Each new pin multiplies the count by $D = 6$.' }
+      - { value: 7782, feedback: 'That adds $6$ keys. A new pin does not add keys, it multiplies the existing ones.' }
+    hint: |
+      One extra pin multiplies the previous answer, $7776$, by $D$.
+    explanation: |
+      $6^6 = 7776\times6 = 46\,656$. Every extra pin multiplies the number of keys by $6$: this is **exponential growth**, and it is why a few more pins make a big difference.
+
+  - type: text
+    id: tolerance
+    title: Real locks have fewer keys
+    body: |
+      $D^N$ is an upper limit. Real keys and pins are made by machines that cut metal only to within a **tolerance**: a small allowed error, typically a fraction of a millimetre (a typical value; it depends on the factory). Suppose neighbouring cut depths differ by about the tolerance. Then a key cut slightly off might jam the right lock, or open a lock it was not made for.
+
+      To avoid that, the maker leaves wider steps between depths and uses **fewer usable depths** $D$. A key cut a little off then still lands closest to the right depth. Fewer depths means fewer keys.
+
+  - type: numeric
+    id: tolerance-count
+    prompt: |
+      Because of tolerance, a manufacturer uses only $D = 4$ usable depths on a lock with $N = 5$ pins. How many different keys does that lock really have?
+    answer: 1024
+    tolerance: 0
+    answerText: '1024'
+    wrong:
+      - { value: 7776, feedback: 'That is the count with all $6$ depths. Only $4$ depths are usable here.' }
+      - { value: 20, feedback: 'That is $4\times5$, a sum of choices. The count is $4^5$.' }
+    hint: |
+      $4^5$: five factors of $4$.
+    explanation: |
+      $4^5 = 1024$ keys, about $7.6$ times fewer than $7776$. Real locks lose more keys to other rules, such as limits on how different neighbouring cuts may be, so the true number is lower still.
+
+  - type: mcq
+    id: tolerance-trap
+    prompt: |
+      A maker wants more keys, so it cuts $10$ depths per pin, with steps of $0.1$ mm, while its machines cut with an error of about $0.1$ mm. The count $10^5 = 100\,000$ looks huge. What is the problem?
+    shuffle: false
+    options:
+      - text: There is none, since $10^5$ is larger than $6^5$ and the keys are cut correctly.
+        feedback: |
+          The count assumes that every depth can be told apart. With an error as large as the step, a key can sit between two depths, and the count is not reached.
+      - text: Neighbouring depths cannot be told apart reliably, so some keys jam the right lock and some open the wrong ones; the usable number of keys is much smaller.
+        correct: true
+      - text: The lock gets weaker because more depths make the pins heavier.
+        feedback: |
+          The weight of a pin has nothing to do with it. The limit is the precision of the cuts, not the number printed on the drawing.
+    hint: |
+      Compare the step between depths with the error of the machine.
+    explanation: |
+      The steps must be clearly larger than the tolerance. A bigger $D$ needs finer machines, which cost more: more keys are paid for with precision.
+
+  - type: text
+    id: master
+    title: Master keys and split pins
+    body: |
+      A hotel wants each room key to open only its room, and the owner's key to open every room. The trick is the **split pin**: a driver pin cut in two pieces. The extra gap gives the pin **two** depths at which a gap lines up with the shear line, so two different cuts both let the plug turn.
+
+      If a lock has $k$ split pins (and $N - k$ ordinary ones), each split pin accepts $2$ cuts and each ordinary pin $1$. The number of different keys that open it is
+
+      $$2^k$$
+
+      One of them is the room key; another is the **master key**.
+
+  - type: numeric
+    id: master-count
+    prompt: |
+      A lock has $N = 5$ pins, of which $k = 5$ are split pins (every pin accepts two cuts). How many different keys open it?
+    answer: 32
+    tolerance: 0
+    answerText: '32'
+    wrong:
+      - { value: 10, feedback: 'That is $5\times2$, a sum. The two options at one pin combine with the two options at every other pin.' }
+      - { value: 25, feedback: 'That is $5^2$, with base and exponent swapped. It is $2$ choices at each of $5$ pins: $2^5$.' }
+    hint: |
+      $2\times2\times2\times2\times2$.
+    explanation: |
+      $2^5 = 32$ keys open this lock. Real master-key systems split only some pins (say $k = 1$ or $2$) so that fewer wrong keys work, but the cost is the same in kind.
+
+  - type: mcq
+    id: master-risk
+    prompt: |
+      A 5-pin, 6-depth lock normally has $7776$ possible keys and exactly one opens it. After every pin is split, $32$ different keys open it. By what factor did the chance that a random key opens the lock grow?
+    shuffle: false
+    options:
+      - text: By a factor of $5$.
+        feedback: |
+          That is the number of pins. Chance is the number of opening keys divided by the number of all keys, and the opening keys went from $1$ to $32$.
+      - text: By a factor of $32$, from $1/7776$ to $32/7776 = 1/243$.
+        correct: true
+      - text: It stayed the same, since the number of possible keys is still $7776$.
+        feedback: |
+          The total did not change, but the number of keys that succeed did. A random key now has $32$ ways to be right instead of $1$.
+    hint: |
+      The chance of success is (number of opening keys) divided by (number of all keys).
+    explanation: |
+      $32/7776 = 1/243$: $32$ times more likely than before. Convenience (one key opens many locks) is paid with security (more keys open each lock).
+
+  - type: mcq
+    id: tradeoff
+    prompt: |
+      From the lesson Every Design Is a Compromise: improving one property of a design usually costs another. Which pair describes the two lock decisions in this lesson?
+    shuffle: false
+    options:
+      - text: Using more depths per pin gives more keys, but demands tighter manufacturing (higher cost), and a master key gives convenience but lets more keys open the lock (less security).
+        correct: true
+      - text: Using more depths per pin gives more keys and costs nothing, since it is only a number on a drawing.
+        feedback: |
+          More depths mean finer steps, which must be larger than the tolerance of the machines. Precision costs money, or forces fewer usable depths.
+      - text: A master key adds both convenience and security at once, because it is a second key.
+        feedback: |
+          It adds convenience. But each extra opening cut raises the number of keys that work, which lowers security.
+    hint: |
+      For each decision ask: what is gained, and what is paid?
+    explanation: |
+      No choice is free. The designer picks $N$, $D$ and the number of split pins to balance security, cost and convenience.
+
+  - type: widget
+    id: pick-try
+    widget: pin-tumbler
+    review: false
+    config:
+      mode: pick
+      pins: 5
+      depths: 6
+      secret: [3, 1, 4, 0, 2]
+      show: { count: true, key: false }
+      readouts: [turns]
+    body: |
+      Now there is no key. A burglar uses two tools: a small turning force on the plug (**Apply torque**), and a thin pick that pushes one pin up at a time (click a pin column to lift it one step). Apply torque, then try the pins and watch which one is stuck, marked as binding. When it reaches the right height it is held there (green).
+
+  - type: mcq
+    id: pick-why
+    prompt: |
+      Under a small turning force on the plug, a pin-tumbler lock's pins do not all resist at once: only one pin is stuck at a time. Why does this make the lock easier to pick than to guess?
+    shuffle: false
+    options:
+      - text: The picker can set one pin at a time and feel when it is set, so the pins are tried separately instead of all together.
+        correct: true
+      - text: The torque makes the lock weaker, so any key turns it.
+        feedback: |
+          Torque does not change what the pins need. It only presses the plug so that one pin at a time is held, and the picker feels it.
+      - text: The picker must try the keys one after the other, but faster than a person.
+        feedback: |
+          Picking needs no key at all. It exploits the fact that the pins can be solved one by one.
+    hint: |
+      With one pin binding, a click that sets it gives feedback: yes or no for that pin alone.
+    explanation: |
+      Guessing needs all $N$ pins right at once. Picking turns one all-or-nothing problem into $N$ small problems with $D$ options each.
+
+  - type: numeric
+    id: pick-count
+    prompt: |
+      A picker sets the pins one at a time, trying at most all $D = 6$ heights for each of $N = 5$ pins. What is the greatest number of tries needed, $D\times N$?
+    answer: 30
+    tolerance: 0
+    answerText: '30'
+    wrong:
+      - { value: 7776, feedback: 'That is $D^N$, the number of keys to guess blindly. The picker handles one pin at a time and adds the tries, instead of multiplying them.' }
+    hint: |
+      Six tries for the first pin, six for the second, and so on.
+    explanation: |
+      $6\times5 = 30$ tries, against $7776$ for blind guessing. Adding a pin adds only $6$ tries to picking, but multiplies by $6$ for guessing. So more pins still help, but only if each pin is made hard to feel: real locks add tricky **security pins** for that reason.
+
+  - type: mcq
+    id: traps
+    prompt: |
+      Select **all** true statements about the pin-tumbler lock.
+    multiple: true
+    options:
+      - text: With $N$ pins and $D$ depths there are at most $D^N$ keys.
+        correct: true
+      - text: A key that matches $4$ of $5$ pins turns the plug partly.
+        feedback: |
+          There is no partial turning: one wrong pin blocks the plug.
+      - text: Tolerance in manufacturing reduces the number of usable depths, so real locks have fewer keys than $D^N$.
+        correct: true
+      - text: A master key system raises the number of keys that open one lock, which lowers its security.
+        correct: true
+      - text: Adding a pin multiplies the number of keys by $D$ but multiplies the picking effort the same way.
+        feedback: |
+          Picking effort grows roughly like $D\times N$ (adding a pin adds about $D$ tries), not like $D^N$.
+    hint: |
+      Use $D^N$, $2^k$ and $D\times N$.
+    explanation: |
+      $D^N$ is an upper limit on keys, tolerance lowers it, split pins raise the number of working keys to $2^k$, and picking costs about $D\times N$ because it works one pin at a time.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the lock's secret is a short list of numbers, and security comes from how many possible lists there are: a counting idea that returns, much bigger, in the later level Networks and Cryptography (cryptographic keys). First, a very different machine at the other end of the building: the elevator, where a weight on the other side of a rope lets a small motor lift a big load.

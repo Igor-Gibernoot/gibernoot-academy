@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-27 ch02-lock
+Built `ch02-lock` (22 cards, concept, exactly at the limit so NOT split): hook, guess 7776, pin-tumbler widget (hidden secret, matches/turns readouts), 4 of 5 does not turn, mechanism, order, D^N counting (64, 7776, 46656), tolerance (4^5 = 1024) and trap, split pins and master key (2^k, 32, chance 1/243), tradeoff recall (Every Design Is a Compromise), pick-mode widget (screenshot checked) with D x N = 30 tries, multi-select traps, summary teasing Networks and Cryptography (cryptographic keys) and the elevator. Choices: picking is taught as linear effort (honest) with security pins mentioned; all numbers by script. Conventions fixed here: lock has N pins and D depths, keys at most D^N (6^5 = 7776); tolerance lowers usable D (4^5 = 1024, typical); k split pins give 2^k opening keys (32, chance 1/243); picking about D x N tries (30).
+
 ## 2026-10-27 widget pin-tumbler
 Built widget `pin-tumbler` (js/widgets/pin-tumbler.js, docs/widgets/pin-tumbler.md, css `pt-`). N 3 to 6 pins, D 2 to 9 depths, key drag or steppers, green at shear line, plug turns only if all match, D^N readout, optional picking mode (torque, one binding pin at a time, no course use planned beyond a later challenge). Checked by script: 4 of 5 matches does not turn; exhaustive over 3^5 keys turns only for the secret; 6^5 = 7776. Throwaway lesson used for smoke test and screenshot, removed. Choices: cut depth 0 = shallowest; pick mode starts all pins at the deepest level and a click lifts one step; mismatching pins red, key outline gold. Conventions fixed here: key cuts numbered 0 (shallowest) to D-1; 5 pins, 6 depths = 7776 keys (upper bound; real locks have fewer because of tolerances and rules on neighbouring cuts).
 
