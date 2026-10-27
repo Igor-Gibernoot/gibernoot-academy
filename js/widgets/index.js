@@ -50,6 +50,7 @@ import { bregmanGap } from './bregman-gap.js';
 import { dualGrids } from './dual-grids.js';
 import { altProjections } from './alt-projections.js';
 import { logRuler } from './log-ruler.js';
+import { feedbackLoop } from './feedback-loop.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -96,6 +97,7 @@ const WIDGETS = {
   'dual-grids': dualGrids,
   'alt-projections': altProjections,
   'log-ruler': logRuler,
+  'feedback-loop': feedbackLoop,
 };
 
 export function mountWidget(name, el, config) {
