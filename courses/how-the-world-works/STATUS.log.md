@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-27 ch01-map
+Built `ch01/map.yaml` (14 boxes, 3 columns, 6 rows, 13 edges, 2 decoys each) from the own: summaries and the traps summary; no old map in archive. Choices: tour box last with a dashed edge from the feedback chain (no better parent); kwh box beside energy; P = F·v feeds energy, tradeoff curve feeds P = F·v; one decoy of the delay box is a misconception without formula. Notation checked against the lessons (e, T_set, T_sensed, E_useful, E_total, S = 40t^2, w = 2t+1). Conventions fixed here: map boxes are titled by concept, bodies restate the formulas with symbols defined.
+
 ## 2026-10-27 ch01-traps
 Built `ch01/traps.yaml` (17 cards: hook, 14 fast questions on scales/units, energy, feedback, tradeoffs with new numbers, summary). Choices: the closing card is a plain text card "Traps to remember" (no `own:`, the validator says `own:` is for concept and intuition lessons), so no Recap blanks; a few extra cards beyond the 14 planned (separate power-vs-efficiency and impossible-efficiency, beam 3 to 6 cm instead of 2 to 4). Conventions fixed here: traps lessons end with a plain summary text card, no `own:`.
 
