@@ -1,0 +1,311 @@
+id: ch02-bike
+title: How a Bicycle Stays Up
+kind: concept
+own: |
+  - **A lean grows by itself.** A bicycle leaning by an angle $\varphi$ from the vertical (rad or degrees, positive to the right) has its weight pulling it further over, like a pencil on its tip, in about $0.3$ s for a rider of height $h \approx 1$ m. The only cure is to move the wheels' contact points under the centre of mass, and a moving bike does it by **steering into the lean**.
+  - **A circle needs a sideways acceleration.** A bike travelling at speed $v$ (m/s) on a circle of radius $r$ (m) is accelerated towards the centre by
+    {{ $$a = \frac{v^2}{r}$$ }}
+    so for the same steering (same $r$), doubling $v$ makes $a$ four times larger. Steering by an angle $\delta$ with wheelbase $l$ (distance between the wheels) gives {{ $r = l/\tan\delta$ }}.
+  - **Why speed matters.** At $1$ m/s the same steering gives only $1/25$ of the correction it gives at $5$ m/s, too weak to catch a fall that takes about $0.3$ s. Spinning wheels (the **gyroscope** effect) are not required: bikes with cancelled gyroscopic effect still balance.
+  - **The lean in a steady turn.** For a bike of mass $m$ on a circle of radius $r$ at speed $v$, the ground pushes up with $mg$ and sideways with $ma$, and the resultant passes through the centre of mass, so
+    {{ $$\tan\varphi = \frac{a}{g} = \frac{v^2}{g\,r}$$ }}
+    with $g = 9.8\ \mathrm{m/s^2}$. At $5$ m/s on $r = 10$ m: $a = 2.5\ \mathrm{m/s^2}$ and $\varphi \approx 14^\circ$. Doubling $v$ quadruples $\tan\varphi$ (to $45.6^\circ$ here), it does not double the angle.
+  - **A bike is a feedback loop.** Using the setpoint, error and actuator of a closed loop: the setpoint is $\varphi = 0$ (upright), the sensor is the rider's sense of lean, the **error** is the lean $\varphi$ itself, and the actuator is the steering, which acts on the lean. A bike with no steering feedback (hands off, gain $0$) falls at every speed.
+cards:
+  - type: text
+    id: hook
+    title: Before any theory, guess
+    body: |
+      A bicycle standing still **falls over** the moment you let go. The same bicycle rolling along at $5$ m/s, pedalled by a rider who barely seems to do anything, **stays up**, even over bumps and gusts of wind.
+
+      What changed? The bike has the same weight, the same wheels, the same rider. Only one thing is different: it is moving.
+
+      Puzzles for this lesson:
+      - why does motion keep a bike up,
+      - which way must you steer when the bike starts to fall, and why,
+      - why do riders lean in a turn, and by how much?
+
+  - type: mcq
+    id: guess-why
+    prompt: |
+      A bicycle stays upright while it rolls at $5$ m/s but falls over when it stands still. What is the best explanation?
+    shuffle: false
+    options:
+      - text: The spinning wheels act as gyroscopes that hold the bike up.
+        feedback: |
+          The most popular answer. Spinning wheels do have a gyroscopic effect, but it is small, and bikes built to cancel it still balance. We test this later in the lesson.
+      - text: Moving makes gravity pull less on the bike.
+        feedback: |
+          Gravity pulls with the same force whether the bike moves or not.
+      - text: When the bike starts to fall, steering makes the wheels move under the bike, and this works only if the bike is moving fast enough.
+        correct: true
+      - text: Air pushing on the moving bike holds it up.
+        feedback: |
+          At $5$ m/s the sideways push of the air is tiny, and a bike balances just as well indoors.
+    hint: |
+      Think about what you do with the handlebar when you feel yourself starting to tip while riding slowly.
+    explanation: |
+      A bike cannot stand on its own, but it can **steer itself back under its own weight** while moving. The next cards show this by experiment and then by reasoning.
+
+  - type: widget
+    id: bike-try
+    widget: bike-balance
+    review: false
+    config:
+      speed: 5
+      gain: 0
+      sliders: [speed, gain]
+      readouts: [lean, speed, verdict]
+      presets:
+        - { label: 'Hands off, 5 m/s', speed: 5, gain: 0 }
+        - { label: 'Steering corrects, 5 m/s', speed: 5, gain: 2 }
+        - { label: 'Steering corrects, 1 m/s', speed: 1, gain: 2 }
+    body: |
+      A bike seen from behind (left) and from above (right), pushed sideways once by a small nudge. The graph shows its **lean angle**. The slider **Steer into the fall** sets how strongly the front wheel turns towards the side the bike is leaning to (zero means hands off, the wheel stays straight). Press the three presets in turn and watch the lean.
+
+  - type: mcq
+    id: bike-saw
+    prompt: |
+      In a simulation, a bike is pushed sideways once. Three runs: (a) hands off at $5$ m/s, (b) steering towards the lean at $5$ m/s, (c) steering towards the lean at $1$ m/s. Which runs stay upright?
+    shuffle: false
+    options:
+      - text: 'Only (a): a bike with nobody touching the handlebar balances itself.'
+        feedback: |
+          Without steering the bike falls at every speed, even $10$ m/s, in about a second. Speed alone does not do it.
+      - text: 'Only (b): steering towards the lean, at enough speed.'
+        correct: true
+      - text: '(b) and (c): steering is enough at any speed.'
+        feedback: |
+          At $1$ m/s the same steering is too weak and the bike still falls. Speed matters too.
+      - text: 'All three: any bike stays up after a small nudge.'
+        feedback: |
+          Two of the runs end with the bike on the ground.
+    explanation: |
+      Two ingredients are needed together: **steering into the lean** and **enough speed**. Hands off at $5$ m/s falls; steering at $1$ m/s falls; steering at $5$ m/s recovers. (A real bike can be built so that it even steers itself, but the lesson is about the mechanism.)
+
+  - type: mcq
+    id: steer-way
+    prompt: |
+      You are riding and the bike starts to tip to your **left**. Which way should the front wheel turn, to bring the bike back upright?
+    shuffle: false
+    options:
+      - text: To the right, away from the fall, to push yourself back up.
+        feedback: |
+          It feels natural: push against the fall. But turning right makes the bike curve away from the side it is tipping to, and it falls even faster. A spinning wheel is not a lever against the ground.
+      - text: To the left, into the fall.
+        correct: true
+      - text: Keep the wheel straight and shift your weight right.
+        feedback: |
+          A rider's body is part of the bike and rider system, so shifting it helps only a little. The effective cure is to move the wheels, not the weight.
+      - text: It does not matter which way, as long as you turn.
+        feedback: |
+          The direction is everything: one way catches the fall, the other makes it worse.
+    explanation: |
+      Steer **into the fall**: if the bike tips left, turn left. The wheels then run to the left, under the leaning weight. The next cards explain why this works.
+
+  - type: text
+    id: why-fall
+    title: Why a lean grows
+    body: |
+      Picture the bike from behind. Two contact points touch the ground (the two tyres, one behind the other, so from behind they look like one point). The weight of bike and rider acts at the **centre of mass**, a point about $h \approx 1$ m above the ground.
+
+      If the centre of mass is **directly above** the contact point, gravity's pull is exactly cancelled by the ground. If the bike leans by an angle $\varphi$ (measured from the vertical, in radians or degrees), the centre of mass sits to one side of the contact point and gravity **tips the bike further over**, the more the bigger the lean. This is a pencil balanced on its tip: a tiny lean grows quickly, in about $\sqrt{h/g} \approx 0.3$ s.
+
+      So the bike cannot stay up by being still. It must **move the contact point back under the centre of mass**, faster than the lean grows.
+
+  - type: text
+    id: circle
+    title: Steering moves the wheels sideways
+    body: |
+      Steering turns the bike onto a **circle** of some radius $r$ (in metres). A bike going round a circle is not moving in a straight line, so it must be **accelerated**: its velocity (speed and direction) changes all the time.
+
+      How big is this acceleration? Over a short time $\Delta t$ the bike travels a distance $v\,\Delta t$ along the circle, which turns its direction by the angle $v\,\Delta t / r$. The velocity (length $v$) changes by about $v \cdot v\,\Delta t / r$ towards the centre, so the acceleration towards the centre is
+      $$a = \frac{v^2}{r}.$$
+
+      The ground supplies the sideways force $m a$ that produces it. When the bike turns into its lean, this sideways force pushes the contact points **under** the leaning mass, so the fall is caught.
+
+  - type: build
+    id: build-a
+    prompt: |
+      A bike of speed $v$ (m/s) travels on a circle of radius $r$ (m). Assemble its acceleration $a$ towards the centre.
+    prefix: 'a ='
+    tiles: ['v^2', 'v', 'r', 'r^2', '\div']
+    answers:
+      - ['v^2', '\div', 'r']
+    wrong:
+      - { answer: ['v', '\div', 'r'], feedback: 'That is the turning rate (radians per second), not the acceleration. Acceleration carries one more factor $v$, the speed at which the direction is swept.' }
+      - { answer: ['v^2', '\div', 'r^2'], feedback: 'The radius appears only once: a tighter circle (smaller $r$) means a bigger acceleration, in proportion to $1/r$.' }
+    hint: |
+      The direction changes by the angle $v\,\Delta t/r$ and the velocity has length $v$.
+    explanation: |
+      $a = v^2/r$: the velocity of length $v$ turns at the rate $v/r$, so it changes at the rate $v \cdot v/r$. Check units: $(\mathrm{m/s})^2 / \mathrm{m} = \mathrm{m/s^2}$.
+
+  - type: numeric
+    id: num-a
+    prompt: |
+      A cyclist rides at $5$ m/s on a circle of radius $10$ m. What is the acceleration towards the centre, in $\mathrm{m/s^2}$?
+    answer: 2.5
+    tolerance: 0.01
+    answerText: '2.5'
+    wrong:
+      - { value: 0.5, feedback: 'That is $v/r$: you forgot to multiply by $v$ once more. Use $v^2$.' }
+      - { value: 25, feedback: 'That is $v^2$ alone: divide it by the radius, $10$ m.' }
+    hint: |
+      Square the speed, then divide by the radius.
+    explanation: |
+      $$a = \frac{5^2}{10} = 2.5\ \mathrm{m/s^2}.$$
+      Compare with gravity, $9.8\ \mathrm{m/s^2}$: about a quarter of it.
+
+  - type: numeric
+    id: num-speed
+    prompt: |
+      A bike's steering is held so that it follows a circle of radius $10$ m. At $3$ m/s it is accelerated sideways by $0.9\ \mathrm{m/s^2}$. At $6$ m/s, with the same steering, how many times larger is the acceleration?
+    answer: 4
+    tolerance: 0.01
+    answerText: '4'
+    wrong:
+      - { value: 2, feedback: 'The acceleration is not in proportion to $v$: it depends on $v^2$, so doubling the speed multiplies it by $2^2$.' }
+    hint: |
+      Same $r$. How does $a = v^2/r$ change when $v$ doubles?
+    explanation: |
+      $$\frac{a_{6}}{a_{3}} = \frac{6^2/10}{3^2/10} = \frac{3.6}{0.9} = 4.$$
+      Doubling the speed quadruples the correction that the same steering gives.
+
+  - type: order
+    id: loop-order
+    prompt: |
+      A bike tips to the right. Put in order how the moving bike catches itself.
+    steps:
+      - 'The bike leans to the right and gravity tips it further over'
+      - 'The front wheel is turned to the right, into the lean'
+      - 'The bike moves onto a circle curving to the right'
+      - 'The wheels run to the right, back under the centre of mass'
+      - 'The lean shrinks, and the steering returns to straight'
+    hint: |
+      Lean, steering, a curved path, wheels moving under the weight, and finally the lean getting smaller.
+    explanation: |
+      The correction runs through the circle: steering sets $r$, the path gives the sideways acceleration $v^2/r$, and that acceleration moves the wheels under the weight. The more the lean, the more you turn.
+
+  - type: mcq
+    id: why-speed
+    prompt: |
+      With the same steering angle, a bike is caught at $5$ m/s but not at $1$ m/s. Why?
+    shuffle: false
+    options:
+      - text: At $1$ m/s the sideways acceleration $v^2/r$ is $25$ times smaller, too weak to move the wheels under the lean before it grows.
+        correct: true
+      - text: At $1$ m/s the wheels cannot turn the handlebar.
+        feedback: |
+          The handlebar turns just as well. It is the effect of that turning that shrinks with speed.
+      - text: At $1$ m/s the bike is heavier.
+        feedback: |
+          The mass is the same. In $a = v^2/r$ mass does not appear at all.
+      - text: At $1$ m/s the sideways acceleration is only $5$ times smaller.
+        feedback: |
+          Speed enters squared: $(5/1)^2 = 25$, not $5$.
+    explanation: |
+      The correction is proportional to $v^2$. A lean doubles every fraction of a second, so the correction must be strong to be in time. At $1$ m/s it is $1/25$ of the correction at $5$ m/s. In the simulation, balance needs $v^2 \cdot (\text{steering strength})$ to be greater than $g \cdot (\text{wheelbase})$: with strength $2$ and wheelbase $1$ m, that is $v > 2.2$ m/s.
+
+  - type: mcq
+    id: gyro
+    prompt: |
+      Researchers built bikes with an extra wheel spinning backwards, cancelling the gyroscope effect of the real wheels (and others whose steering geometry removes another effect). These bikes still stayed upright when rolling. What does this show?
+    shuffle: false
+    options:
+      - text: Spinning wheels are what keep a bike up, and the extra wheel changed nothing.
+        feedback: |
+          If the gyroscopic effect of the wheels were what kept the bike up, cancelling it would let the bike fall.
+      - text: 'Gyroscopic effects help a little but are not needed: the steering explanation is enough.'
+        correct: true
+      - text: A bike can balance with no motion at all.
+        feedback: |
+          These bikes balanced only while rolling. The explanation is the one we have: steering into the lean at sufficient speed.
+      - text: Bikes balance by magic.
+        feedback: |
+          No magic: our simulation has no gyroscope in it at all and still balances.
+    explanation: |
+      The bike simulation uses only gravity, the steering and $a = v^2/r$, with **no spinning wheels**, and it balances. The gyroscopic effect is real but small for a bicycle; it adds some stability, it is not the cause. (The cancelled-gyroscope experiments were reported in the physics literature of the 1970s and in 2011.)
+
+  - type: text
+    id: lean-turn
+    title: Why riders lean in a turn
+    body: |
+      Now a steady turn: the bike moves on a circle of radius $r$ at speed $v$. The ground pushes on the contact point with a force that has two parts:
+      - an **upward** part, equal to the weight $mg$ (the bike does not rise or sink),
+      - a **sideways** part $ma$ with $a = v^2/r$, the force that bends the path.
+
+      The resultant of the two must pass through the centre of mass, otherwise it would tip the bike over. So the bike leans along the resultant, by the angle $\varphi$ from the vertical, and the tangent of that angle is the ratio of the sideways part to the upward part:
+      $$\tan\varphi = \frac{ma}{mg}.$$
+
+  - type: build
+    id: build-lean
+    prompt: |
+      A steady turn has sideways acceleration $a$ and gravity $g$. Assemble the tangent of the lean angle $\varphi$.
+    prefix: '\tan\varphi ='
+    tiles: ['a', 'g', 'm', '\div', 'v^2']
+    answers:
+      - ['a', '\div', 'g']
+    wrong:
+      - { answer: ['g', '\div', 'a'], feedback: 'Inverted: the lean from the vertical grows when the sideways force grows, so $a$ goes on top, upward $g$ below.' }
+    hint: |
+      Sideways part divided by upward part; the mass $m$ cancels.
+    explanation: |
+      $\tan\varphi = ma/(mg) = a/g$. With $a = v^2/r$ this is
+      $$\tan\varphi = \frac{v^2}{g\,r}.$$
+      A heavier rider leans no more: the mass cancels.
+
+  - type: numeric
+    id: num-lean
+    prompt: |
+      A cyclist rides at $5$ m/s on a circle of radius $10$ m, so that the sideways acceleration is $2.5\ \mathrm{m/s^2}$. Take $g = 9.8\ \mathrm{m/s^2}$. By what angle, in degrees, does the bike lean from the vertical?
+    answer: 14.3
+    tolerance: 0.3
+    answerText: '14.3'
+    wrong:
+      - { value: 0.255, feedback: 'That is the tangent of the angle. Take the inverse tangent (arctan) to get the angle itself.' }
+      - { value: 76, feedback: 'You have the angle from the horizontal, the complement. The lean is measured from the vertical: $\tan\varphi = a/g$.' }
+    hint: |
+      Divide the sideways acceleration by $g$, then take the arctangent. A calculator in degree mode helps.
+    explanation: |
+      $$\tan\varphi = \frac{2.5}{9.8} = 0.255,$$
+      so $\varphi = \arctan 0.255 \approx 14.3^\circ$. A gentle lean, as in a calm ride round a corner.
+
+  - type: numeric
+    id: num-double
+    prompt: |
+      The same cyclist, on the same circle of radius $10$ m, speeds up to $10$ m/s. By what angle, in degrees, does the bike now lean? (Use $g = 9.8\ \mathrm{m/s^2}$.)
+    answer: 45.6
+    tolerance: 0.5
+    answerText: '45.6'
+    wrong:
+      - { value: 28.6, feedback: 'You doubled the angle ($2 \times 14.3^\circ$). It is the **tangent** that is proportional to $v^2$, and the angle grows faster than the speed here.' }
+    hint: |
+      Find $a = v^2/r$ first, then divide by $g$ and take the arctangent.
+    explanation: |
+      $$a = \frac{10^2}{10} = 10\ \mathrm{m/s^2}, \qquad \tan\varphi = \frac{10}{9.8} = 1.02,$$
+      so $\varphi \approx 45.6^\circ$. Doubling the speed multiplied $\tan\varphi$ by $4$ ($0.255 \to 1.02$). Such a lean is near the limit of what tyres can grip, which is why racing riders slow down for tight corners.
+
+  - type: mcq
+    id: loop-roles
+    prompt: |
+      Recall the lesson The Thermostat and Other Loops: a closed loop has a sensor, a setpoint (the value wanted), an error (setpoint minus measured value) and an actuator (the part that acts). Matching them to a rider balancing a bike, which pairing is right?
+    shuffle: false
+    options:
+      - text: 'Setpoint: upright ($\varphi = 0$). Error: the lean $\varphi$. Actuator: the steering.'
+        correct: true
+      - text: 'Setpoint: the speed. Error: the steering angle. Actuator: the lean.'
+        feedback: |
+          Speed is a condition, not the quantity the loop holds. The loop holds the lean at zero by using the steering, and the steering is the actuator, not the error.
+      - text: 'Setpoint: the steering angle. Error: the speed. Actuator: gravity.'
+        feedback: |
+          Gravity causes the problem, it does not correct it. The actuator is the part that acts on the result.
+      - text: 'There is no loop: the bike balances open loop.'
+        feedback: |
+          A bike hands off has no steering feedback and falls. It is the feedback that keeps it up.
+    explanation: |
+      Upright is the setpoint, the lean is the error (the setpoint $0$ minus the measured lean, up to a sign), and steering into the lean is the actuator. It is the same loop as a thermostat, with one difference: the process here is **unstable**. Left alone, the error grows by itself (a lean grows, a cold room does not), so the loop must act fast.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the sideways force at the ground moves the wheels, but forces can also be traded: a small force over a long distance for a big force over a short one. The next lesson is about gears, levers and the torque that wrenches turn.
