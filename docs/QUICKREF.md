@@ -1,8 +1,8 @@
 # Lesson quick reference
 
 The short version of `docs/LESSON_FORMAT.md`, for lesson sessions. The full
-doc is the source of truth; open it only for a widget's own subsection
-(`grep -n '^####' docs/LESSON_FORMAT.md`), the map format, or widget work.
+doc is the source of truth; open it only for the map format or engine-level rules. A widget's config is
+in `docs/widgets/<name>.md` (index: `docs/widgets/README.md`).
 
 ## Registering (`courses/<course>/course.yaml`)
 
@@ -127,7 +127,7 @@ above"). Never name a theme-dependent colour; use labels or the fixed hues
     What to drag and what to watch.   # follow with a question on what was seen
 ```
 
-## Widgets (config details: `LESSON_FORMAT.md`, subsection `#### <name>`)
+## Widgets (config details: `docs/widgets/<name>.md`)
 
 - `basis-playground`: drag a new basis; watch a fixed vector's (and covector's) components.
 - `machine-playground`: tensor as a slot machine; drag input vectors, watch the output.

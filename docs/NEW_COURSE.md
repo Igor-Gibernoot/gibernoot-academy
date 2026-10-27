@@ -16,11 +16,19 @@ progress is stored, so pick a descriptive one. Renaming a studied course is poss
 courses/<id>/
   CLAUDE.md      course-specific rules (template below)
   course.yaml    the trail: title + one level per chapter, lessons as planned nodes
-  STATUS.md      short "## Current" block (state, next unit) and "## Log"
+  STATUS.md      short "## Current" block (state, next unit); the history goes in
+                  `STATUS.log.md` (never read in a session)
   CONVENTIONS.md "## General" then one "## Chapter N" section per chapter
   sources/       git-ignored: the main reference (Markdown), exams, PDFs
   archive/       optional: old exercise sheets, notes worth mining
 ```
+
+Create the two status files from these templates (the validator requires them):
+`STATUS.md` = `# Status`, a blank line, `## Current (<date>)` and a short
+state / next-unit list (nothing else, no Log); `STATUS.log.md` = `# Status log`
+and a line "Newest first. Never read this file in a session." Keep
+`CONVENTIONS.md` short and per chapter; if one grows past ~300 lines, split
+it into `conventions/general.md` and `conventions/chNN.md`.
 
 Put the sources in `sources/`: Igor copies them in, or gives a path or a
 link (copy or download them there). If none is given, look in
@@ -101,6 +109,6 @@ Igor the prompt for the first lesson (Level 1's first concept lesson).
 
 ## Widgets
 
-Reuse before building: `grep -n '^####' docs/LESSON_FORMAT.md` lists every
+Reuse before building: `docs/widgets/README.md` lists every
 widget. A new widget goes in `js/widgets/` as a general tool, documented in
-`docs/LESSON_FORMAT.md`, so every course can use it.
+`docs/widgets/<name>.md` (plus an index line), so every course can use it.

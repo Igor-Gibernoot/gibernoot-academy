@@ -4,7 +4,7 @@
 //     config: { ... }
 // Each widget lives in its own file (js/widgets/<name>.js, header = its config);
 // shared plane/SVG helpers are in plane.js. A new widget: add its file and one
-// line here, and document it in docs/LESSON_FORMAT.md.
+// line here, and document it in docs/widgets/<name>.md.
 
 import { basisPlayground } from './basis-playground.js';
 import { machinePlayground } from './machine-playground.js';

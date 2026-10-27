@@ -16,7 +16,7 @@ context stays small. Igor reviews the level on the live site at the end.
   in parallel), spawn one fresh agent whose prompt is the
   ready-to-paste unit prompt plus: "You are running autonomously: follow
   CLAUDE.md 'Building sessions' exactly, one unit only; you cannot ask Igor
-  questions, so make reasonable choices and record them in the Log entry.
+  questions, so make reasonable choices and record them in the `STATUS.log.md` entry.
   Do not view screenshot images unless shots.mjs flags a card or the unit
   uses a widget preset never used before. Run commands from the repo root
   without `cd … &&` prefixes. At the end, validate, run shots, update
@@ -41,7 +41,7 @@ context stays small. Igor reviews the level on the live site at the end.
   "Levels 4 and 5"), and PDF verification of every formula or symbol used.
   Agents report any deviation as a doubt *and* fix it before committing.
 - The coordinator also checks that `STATUS.md` Current matches the report
-  (`sed -n '/^## Current/,/^## Log/p'`), not only the commit.
+  (`STATUS.md`), not only the commit.
 - Between units the coordinator only reads that report: it checks that
   validate and shots were clean and the commit was pushed (`git log -1
   --oneline`), and passes the agent's next-unit prompt on, adding any

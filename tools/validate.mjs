@@ -80,21 +80,41 @@ for (const c of catalog.courses ?? []) {
   cid = '';
 }
 
-// STATUS.md must keep one header, one Current block (short) before one Log: agents' scripts corrupted it before.
+// Every registered widget needs docs/widgets/<name>.md and a line in docs/widgets/README.md;
+// LESSON_FORMAT.md must not grow widget sections again (it is read in pieces, widgets live in docs/widgets/).
+{
+  const reg = readFileSync(join(root, 'js/widgets/index.js'), 'utf8');
+  const names = [...reg.slice(reg.indexOf('const WIDGETS')).matchAll(/^\s*'([a-z0-9-]+)':/gm)].map(m => m[1]);
+  const idx = existsSync(join(root, 'docs/widgets/README.md')) ? readFileSync(join(root, 'docs/widgets/README.md'), 'utf8') : '';
+  for (const n of names) {
+    if (!existsSync(join(root, 'docs/widgets', n + '.md'))) err('docs/widgets', `widget "${n}" has no docs/widgets/${n}.md`);
+    if (!idx.includes('`' + n + '`')) err('docs/widgets/README.md', `widget "${n}" missing from the index`);
+  }
+  if (/^#### `/m.test(readFileSync(join(root, 'docs/LESSON_FORMAT.md'), 'utf8'))) err('docs/LESSON_FORMAT.md', 'widget sections belong in docs/widgets/<name>.md');
+}
+
+// STATUS.md must keep one header and one short Current block; the history lives in STATUS.log.md.
+// (agents' scripts corrupted these files before)
 function checkStatus(dir) {
   const f = join(dir, 'STATUS.md');
   if (!existsSync(f)) { err('STATUS.md', 'missing'); return; }
   const lines = readFileSync(f, 'utf8').split('\n');
   const at = re => lines.flatMap((l, i) => (re.test(l) ? [i] : []));
-  const [title, cur, log] = [at(/^# Status\s*$/), at(/^## Current\b/), at(/^## Log\s*$/)];
+  const [title, cur] = [at(/^# Status\s*$/), at(/^## Current\b/)];
   if (title.length !== 1) err('STATUS.md', `needs exactly one "# Status" header (found ${title.length})`);
   if (cur.length !== 1) err('STATUS.md', `needs exactly one "## Current" block (found ${cur.length})`);
-  if (log.length !== 1) err('STATUS.md', `needs exactly one "## Log" (found ${log.length})`);
-  if (title.length === 1 && cur.length === 1 && log.length === 1) {
-    if (!(title[0] < cur[0] && cur[0] < log[0])) err('STATUS.md', 'order must be "# Status", "## Current", "## Log"');
-    else if (log[0] - cur[0] > 45) warn('STATUS.md', `Current block is ${log[0] - cur[0]} lines (keep it under ~40)`);
+  if (at(/^## Log\s*$/).length) err('STATUS.md', 'the Log moved to STATUS.log.md; keep only the Current block here');
+  if (title.length === 1 && cur.length === 1) {
+    if (title[0] > cur[0]) err('STATUS.md', 'order must be "# Status", "## Current"');
+    else if (lines.length - cur[0] > 45) warn('STATUS.md', `Current block is ${lines.length - cur[0]} lines (keep it under ~40)`);
   }
   if (at(/^<{7}|^={7}$|^>{7}/).length) err('STATUS.md', 'merge-conflict markers');
+  const g = join(dir, 'STATUS.log.md');
+  if (!existsSync(g)) { err('STATUS.log.md', 'missing'); return; }
+  const gl = readFileSync(g, 'utf8').split('\n');
+  const n = gl.filter(l => /^# Status log\s*$/.test(l)).length;
+  if (n !== 1) err('STATUS.log.md', `needs exactly one "# Status log" header (found ${n})`);
+  if (gl.some(l => /^<{7}|^={7}$|^>{7}/.test(l))) err('STATUS.log.md', 'merge-conflict markers');
 }
 
 function checkCourse(course, dir) {
