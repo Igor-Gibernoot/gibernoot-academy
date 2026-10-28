@@ -1,0 +1,335 @@
+id: ch02-underdetermination
+title: "When Data Cannot Decide"
+kind: concept
+own: |
+  - **Setting.** A finite list of measurements (data points $(x,y)$) and a family of rival theories (curves, or whole physical theories) that all agree with them. **Underdetermination** means {{ the data alone do not single out one theory }}. Through $n$ points there passes a polynomial of degree $n-1$ exactly, and also infinitely many other curves, yet they disagree about new points.
+  - **Fit is not prediction.** Let $\hat y_i$ be a theory's prediction and $y_i$ the measured value at $m$ held-out points (points not used to build the theory). The typical error is
+  {{ $$\text{RMS}=\sqrt{\frac{1}{m}\sum_{i=1}^{m}(\hat y_i-y_i)^2}$$ }}
+  A wiggly curve can have error $0$ on the data used to build it and a large RMS on held-out points (this is **overfitting**); a simple curve fits the old points slightly worse but often predicts new ones better.
+  - **Duhem and Quine.** According to Pierre Duhem (1861-1916), a theory $T$ meets observation only together with auxiliary assumptions $A$: {{ a clash with data refutes only the bundle $T\wedge A$ }}, not $T$ alone. According to W. V. O. Quine (1908-2000), pushed further, beliefs form a web touched by experience only at its edges, so in principle any belief can be kept if enough others are revised (a strong claim, much debated).
+  - **Two strengths.** *Weak* underdetermination: with the finite data we have, several theories fit, and more data may separate them. *Strong* underdetermination: for two theories that agree on **all possible** observations, no data ever separates them. Whether any real pair of theories is strongly underdetermined is a live debate.
+  - **Bayes link.** For rival theories $T_1,T_2$ and data $E$ they predict equally well, the likelihood ratio is $1$:
+  {{ $$\frac{P(T_1\mid E)}{P(T_2\mid E)}=\frac{P(T_1)}{P(T_2)}$$ }}
+  so $E$ leaves the odds at their prior values. Whatever breaks the tie must enter through the prior, or through further evidence.
+  - **What breaks the tie: two views.** Candidate virtues are simplicity, scope, coherence and fruitfulness (the list Kuhn gives). According to the **truth-tracking** view (Occam's razor, defended by many scientists and statisticians), simple theories are more likely true or predict better, as in overfitting. According to the **pragmatic** view (van Fraassen, among others), simplicity is {{ a virtue of usefulness and beauty, not a sign of truth }}: it makes a theory easier to use, not more likely to be right.
+  - **Where thoughtful people part ways.** Whether a theory's extra virtues are evidence of truth (realists, who say science describes reality) or only reasons to use it (instrumentalists, who say science is a tool for prediction); and whether strong underdetermination ever really occurs. Layers: the curve-fitting facts are established; the weight of simplicity is a live debate; realism or instrumentalism is a metaphysical commitment.
+cards:
+  - type: widget
+    id: hook
+    title: "Five points, which curve?"
+    widget: curve-fit-lab
+    config:
+      points: [[1, 0.2], [3, 1.1], [5, 0.9], [7, 2.1], [9, 1.8]]
+      xRange: [0, 10.5]
+      yRange: [-3, 5]
+      degree: 1
+      degreeRange: [1, 4]
+      holdout: null
+      edit: false
+      show:
+        curves: false
+        readout: false
+        legend: false
+        slider: false
+        buttons: false
+        holdout: false
+    body: |
+      Five measurements: some quantity $y$ recorded at five values of $x$. Before any theory, **guess**: you must now predict $y$ at $x=10$, which was not measured. How many different smooth curves could pass through (or close to) all five dots?
+    review: false
+
+  - type: mcq
+    id: hook-q
+    title: "How many curves?"
+    prompt: |
+      Five measured points $(x,y)$ are given. How many different smooth curves pass exactly through all five?
+    options:
+      - text: 'Exactly one.'
+        feedback: |
+          Tempting: five points seem to "determine" a curve. But a particular *kind* of curve (a polynomial of degree 4) is determined by five points; other kinds also pass through them.
+      - text: 'A few, no more than ten.'
+        feedback: |
+          There is no small limit: add any bump that vanishes at the five measured $x$ values and the curve still passes through all five dots.
+      - text: 'Infinitely many.'
+        correct: true
+    explanation: |
+      Take any curve through the points and add a wiggle that is zero at the five measured $x$ values and nonzero elsewhere (for example a sine that crosses zero there, with any size you like). The result still passes through every dot. All these curves **agree on the data and disagree elsewhere**. This is the situation philosophers call **underdetermination**: the data do not decide which theory to hold.
+
+  - type: widget
+    id: lab
+    title: "Raise the degree"
+    widget: curve-fit-lab
+    config:
+      points: [[1, 0.2], [3, 1.1], [5, 0.9], [7, 2.1], [9, 1.8]]
+      xRange: [0, 10.5]
+      yRange: [-3, 5]
+      degree: 1
+      degreeRange: [1, 4]
+      compare: [4]
+      holdout: null
+      edit: false
+      show:
+        residuals: true
+        holdout: false
+        buttons: false
+    body: |
+      The **degree** is the highest power of $x$ in the curve (degree 1 is a straight line, degree 2 a parabola, and so on). Drag the slider from 1 up to 4 and watch the curve and the **RMS** (the typical vertical gap between curve and dots, in the readout). What happens to the gap, and to the shape of the curve?
+    review: false
+
+  - type: mcq
+    id: lab-q
+    title: "A perfect fit"
+    prompt: |
+      Five measured points are fitted by a polynomial of degree 1 (a straight line, small gaps to the dots) and by one of degree 4 (zero gap at every dot, but wiggling between and beyond them). Which statement is correct?
+    options:
+      - text: 'The degree-4 curve is better because its error on the data is zero.'
+        feedback: |
+          Zero error on the data is guaranteed: with five free numbers a degree-4 curve can always hit five dots, whatever they are, even pure noise. A success that could not have failed says little.
+      - text: 'The error on the data alone cannot tell us which curve will predict a new point better.'
+        correct: true
+      - text: 'The straight line is better because simple curves are always true.'
+        feedback: |
+          No curve is guaranteed. A line can be badly wrong too (if the true relation bends). The point is that fit to old data does not settle the question, not that simplicity always wins.
+      - text: 'The two curves make the same prediction at $x=10$.'
+        feedback: |
+          They agree at the five dots but need not agree elsewhere; the next card puts a number on the disagreement.
+    explanation: |
+      Fit to the data in hand is cheap for a flexible curve. What matters for a theory is **prediction of new data**, and the fit alone does not rank the two. Statisticians call a curve that chases the noise **overfitted**.
+
+  - type: widget
+    id: holdout
+    title: "A point held back"
+    widget: curve-fit-lab
+    config:
+      points: [[1, 0.2], [3, 1.1], [5, 0.9], [7, 2.1], [9, 1.8]]
+      xRange: [0, 10.5]
+      yRange: [-3, 5]
+      degree: 1
+      degreeRange: [1, 4]
+      compare: [4]
+      holdout: 10
+      edit: false
+      show:
+        slider: false
+        buttons: false
+    body: |
+      The dashed vertical line is a **held-out** value, $x=10$: no measurement there yet. Read each curve's prediction at the line. Do the simple line and the degree-4 curve agree there? Which would you bet on, and what would you want to know first?
+    review: false
+
+  - type: mcq
+    id: holdout-q
+    title: "What a held-out point shows"
+    prompt: |
+      Two curves agree on all five measured points but give different values at a sixth, unmeasured $x$. A sixth measurement is then taken. What does it show?
+    options:
+      - text: 'Which of the two curves is closer to the truth at that $x$ (and it may still miss the truth).'
+        correct: true
+      - text: 'That the curve nearer to it is the true law.'
+        feedback: |
+          One point can favour a curve without proving it: a third curve may fit all six points. Evidence ranks theories, it does not usually crown one.
+      - text: 'Nothing, since both curves already fit the first five points.'
+        feedback: |
+          That is the whole value of new data: the curves *tie* on the old points, so only a new point can separate them.
+    explanation: |
+      New data that the rivals disagree on is what breaks a tie among them. This is **weak underdetermination**: with the data we have, several theories fit; more data may decide. Notice how much of science is the search for such separating observations.
+
+  - type: text
+    id: duhem
+    title: "Duhem: theories never meet data alone"
+    body: |
+      Curves are a toy. The same problem appears for real theories, and the first person to see it clearly was the French physicist and philosopher **Pierre Duhem** (1861-1916). Recall from the lesson on falsification that a theory $T$ predicts an observation $O$ only together with **auxiliary assumptions** $A$ (that the instrument works, that nothing else disturbs the system, that the calculation is right):
+
+      $$(T\wedge A)\Rightarrow O$$
+
+      If $O$ fails, logic only tells us that $T\wedge A$ is false: something in the bundle is wrong, but **not which part**. According to Duhem, there is no purely logical rule to say whether to blame the theory or an auxiliary assumption; that takes judgement (he called it *bon sens*, "good sense").
+
+  - type: mcq
+    id: duhem-q
+    title: "Mercury misbehaves"
+    prompt: |
+      Newton's gravity plus the assumption "the known planets are all there is" predicts Mercury's orbit; the observed orbit differs slightly. According to Duhem's point, which responses are logically open? (Select all that apply.)
+    multiple: true
+    options:
+      - text: 'Reject Newton''s gravity.'
+        correct: true
+      - text: 'Reject the auxiliary assumption by supposing an unseen planet pulls on Mercury.'
+        correct: true
+      - text: 'Reject the data, perhaps through an observational error.'
+        correct: true
+      - text: 'Logic alone forces us to reject Newton''s gravity.'
+        feedback: |
+          Only the bundle (theory plus auxiliaries plus data) is refuted. Logic does not say which strand to cut.
+    explanation: |
+      All three are open to logic. Historically, an unseen planet was tried for Uranus (it worked: Neptune, 1846) and for Mercury (it failed: the proposed planet Vulcan was never found); Mercury was in the end explained by a new theory, general relativity (1915). Which response is rational depends on prior plausibility and on what each response risks, not on logic alone.
+
+  - type: text
+    id: quine
+    title: "Quine: a web of belief"
+    body: |
+      The American philosopher **W. V. O. Quine** (1908-2000), in a famous essay of 1951, took Duhem's point much further. According to Quine, our beliefs form a **web**: physics, logic, everyday facts, all linked. Experience touches the web only at the edges, and when a prediction fails we may revise *any* strand: a physical law, an auxiliary assumption, even (he suggested) a law of logic, if that makes the whole web fit best.
+
+      Two readings of this are common. A **mild** reading: scientists always have several ways to repair a theory, so judgement is unavoidable. A **radical** reading: *any* belief can be kept, come what may, so evidence never forces anything. Critics reply that the radical reading ignores how costly some repairs are (a patch may make everything else in the web worse), and Quine himself stressed that we revise as little as we can.
+
+  - type: mcq
+    id: kinds
+    title: "Two strengths"
+    prompt: |
+      Philosophers distinguish **weak** underdetermination (with the data available *so far*, several theories fit) from **strong** underdetermination (two theories agree on *every possible* observation, past and future). Which case below is strong?
+    options:
+      - text: 'Two models of a new virus both fit this year''s case counts, and next year''s counts will tell them apart.'
+        feedback: |
+          This is weak: the rivals predict different future data, so more observation can separate them.
+      - text: 'Two theories that differ in their words and their story but make the same prediction for every possible measurement.'
+        correct: true
+      - text: 'Two curves through five points that disagree at $x=10$.'
+        feedback: |
+          Weak again: a measurement at $x=10$ separates them.
+    explanation: |
+      Weak underdetermination is an everyday fact of science and is usually temporary. Strong underdetermination is a claim that some theory pairs can *never* be separated by observation; whether real pairs exist (or whether such pairs are merely one theory in two disguises) is a live debate. Quine's radical reading would make it universal; most philosophers regard that as too strong.
+
+  - type: mcq
+    id: bayes
+    title: "Ties and the posterior"
+    prompt: |
+      Two theories $T_1$ and $T_2$ have prior odds of $3$ to $2$ in favour of $T_1$ (prior $60\%$ against $40\%$). Both predicted the observed data $E$ with the same probability. What is the odds ratio after the data?
+    options:
+      - text: '$3$ to $2$: unchanged.'
+        correct: true
+      - text: '$1$ to $1$: a tie.'
+        feedback: |
+          The data tie on *fit*, but the odds also include the priors. A likelihood ratio of $1$ multiplies the odds by $1$, so the prior odds survive.
+      - text: '$3$ to $4$: reduced because neither theory gained.'
+        feedback: |
+          Neither gained relative to the other, so the ratio does not move; there is no force that shifts it.
+    explanation: |
+      In the odds form of Bayes' rule, the likelihood ratio is $P(E\mid T_1)/P(E\mid T_2)=1$, so
+
+      $$\frac{P(T_1\mid E)}{P(T_2\mid E)}=1\cdot\frac{3}{2}.$$
+
+      Underdetermination in Bayesian words: data that both theories predict equally cannot move the odds. Any preference must come from the priors (where do those come from?) or from other evidence.
+
+  - type: mcq
+    id: virtues
+    title: "What breaks the tie?"
+    prompt: |
+      When two theories fit the data equally well, scientists in practice appeal to **theoretical virtues**: simplicity, scope (how much it explains), coherence with other accepted theories, fruitfulness (how many new predictions and questions it opens). According to Kuhn, these values guide choice but do not fix it. Why not?
+    options:
+      - text: 'Because scientists may weigh the values differently, and one value may favour one theory while another favours its rival.'
+        correct: true
+      - text: 'Because the values are random.'
+        feedback: |
+          They are far from random: they are shared and stable across centuries. The point is that they are not a precise algorithm.
+      - text: 'Because the values are never used in practice.'
+        feedback: |
+          They are constantly used; the historical record is full of arguments from simplicity and scope.
+    explanation: |
+      A simpler theory may explain less; a broader one may clash with accepted ideas. Two reasonable people can weight the values differently and so disagree rationally. This is Kuhn's view; defenders of stronger rules reply that the values can be made precise (some of them are, as the next cards show).
+
+  - type: mcq
+    id: simplicity
+    title: "Why prefer simple?"
+    prompt: |
+      Two views on why a simpler theory should be preferred when the fit is equal. **Truth-tracking:** simple theories are more likely to be true or to predict well. **Pragmatic:** simplicity is a virtue of use (easier to calculate, to teach, more beautiful), with no link to truth. Which observation from the curve-fitting lab best supports the *truth-tracking* view?
+    options:
+      - text: 'Simple curves are prettier.'
+        feedback: |
+          That supports the pragmatic (aesthetic) view, since beauty is not a sign of correctness.
+      - text: 'In noisy data, a flexible curve fits the noise and predicts new points worse than a simple one.'
+        correct: true
+      - text: 'A degree-4 curve fits five points exactly.'
+        feedback: |
+          That is exactly what a flexible curve can always do, whether or not it is true; it does not favour simplicity.
+    explanation: |
+      Truth-tracking defenders (many statisticians; the medieval *Occam's razor*, "do not multiply entities beyond need", is the slogan) point to overfitting: extra flexibility fits the noise. Pragmatists (such as Bas van Fraassen, b. 1941) reply that this shows simple *models* predict better in noisy data, a fact about method, and does not show that nature is simple; and that for whole theories of the world the argument does not obviously apply. A live debate (layer 2).
+
+  - type: numeric
+    id: rms
+    title: "Measuring the miss"
+    prompt: |
+      Three held-out measurements are $y=2.4,\ 2.6,\ 2.9$. A wiggly curve predicts $3.4,\ 0.9,\ 5.1$. Compute the **RMS error** of the wiggly curve, $\sqrt{\tfrac13\sum(\hat y-y)^2}$ (round to 2 decimals).
+    answer: 1.71
+    tolerance: 0.02
+    answerText: '1.71'
+    wrong:
+      - { value: 1.633, feedback: 'You averaged the signed errors or the absolute errors (the mean of $1,\,1.7,\,2.2$ is $1.63$). RMS squares each error first, so large misses count more.' }
+      - { value: 2.91, feedback: 'That is the mean of the squares; take its square root.' }
+    hint: |
+      Errors are $\hat y-y=1.0,\ -1.7,\ 2.2$. Square each, average, then take the square root.
+    explanation: |
+      Squares: $1+2.89+4.84=8.73$. Mean over three points: $2.91$. Square root:
+
+      $$\sqrt{2.91}\approx 1.71.$$
+
+      A simple curve predicting $2.2,\ 2.5,\ 2.8$ for the same three points has errors $0.2,\ 0.1,\ 0.1$ and RMS $\sqrt{0.02}\approx0.14$: about twelve times smaller. Perfect fit on the old points, large miss on the new ones: that is overfitting in numbers.
+
+  - type: mcq
+    id: trap
+    title: "A tempting conclusion"
+    prompt: |
+      A claim: "If two theories fit the data equally well, neither is better than the other." Which reply is most accurate?
+    options:
+      - text: 'True: equal fit means equal standing.'
+        feedback: |
+          Fit is only one criterion. Theories can differ in simplicity, scope, coherence and fruitfulness, which many scientists count as reasons (though how much they count is debated).
+      - text: 'False: equal fit does not mean equal standing, but whether the other virtues are signs of truth is disputed.'
+        correct: true
+      - text: 'False: the simpler theory is always the true one.'
+        feedback: |
+          Nothing guarantees this. Simplicity may guide prediction in noisy data (truth-tracking view) or only convenience (pragmatic view); neither says "always true".
+    explanation: |
+      The slip is to treat fit as the only measure. Realists and instrumentalists agree that the theories can differ in virtues; they part on what the virtues *mean*, which is the topic of the next lesson.
+
+  - type: mcq
+    id: steelman
+    title: "Two readings of the lesson"
+    prompt: |
+      **Realist** (science describes a mind-independent reality): "Underdetermination is a thin worry. Wild rivals that merely mimic the data are made up on the spot; real theories earn belief by explaining and predicting many things at once, and the best explanation is likely true." **Instrumentalist** (science is a tool for predicting): "Since data never fix the theory, belief in the unobservable parts goes beyond the evidence; accept a theory as a good instrument, not as a picture of reality." Which question actually divides them?
+    options:
+      - text: 'Whether the virtues of a theory (explanation, simplicity) are evidence that it is true about unobservable things.'
+        correct: true
+      - text: 'Whether data fit the theories at all.'
+        feedback: |
+          Both agree on the fit. They disagree on what, beyond fit, a successful theory tells us.
+      - text: 'Whether science is useful.'
+        feedback: |
+          Both agree that it is. The dispute is about what its success shows about reality.
+    explanation: |
+      The best realist argument ("no miracles": the success of science would be a miracle if its theories were not roughly true) and the best instrumentalist reply (a false theory can succeed; the history of science is full of once-successful theories later dropped) are the topic of the next lesson. Neither view is forced by logic; each rests on a commitment about what evidence can show (layer 3).
+
+  - type: mcq
+    id: layers
+    title: "Three layers"
+    prompt: |
+      Label each claim by layer. "Through any five points pass infinitely many curves" is...
+    options:
+      - text: 'Established fact (layer 1: it follows by mathematics).'
+        correct: true
+      - text: 'Live debate (layer 2).'
+        feedback: |
+          No: this is a mathematical fact. The live debate is about how far it carries over to real scientific theories.
+      - text: 'Metaphysical commitment (layer 3).'
+        feedback: |
+          No commitment is needed to accept it; commitments enter when we decide what to conclude about reality from it.
+    explanation: |
+      Layer 1: curves through points; overfitting in noisy data. Layer 2: whether strong underdetermination really occurs, and whether simplicity tracks truth. Layer 3: whether science describes reality (realism) or is a tool (instrumentalism).
+
+  - type: mcq
+    id: return
+    title: "Back to the five points"
+    prompt: |
+      Five points were measured and you must predict $y$ at $x=10$. Which strategy is most defensible, according to this lesson?
+    options:
+      - text: 'Take the exact degree-4 curve: it hits every point.'
+        feedback: |
+          It cannot fail on the data, so it earns nothing from them; it is the most flexible and the most overfitted.
+      - text: 'Compare simple and flexible curves on held-out data, state the spread of their predictions, and gather the measurement that would separate them.'
+        correct: true
+      - text: 'Refuse to predict, since infinitely many curves fit.'
+        feedback: |
+          Underdetermination does not forbid prediction; it asks for care. Some curves are more plausible and the spread of rival predictions tells you how uncertain you are.
+    explanation: |
+      Hold back data, weigh the virtues openly (and say which view of simplicity you are using), report how far rivals disagree, and seek the observation that separates them. That is what scientists do, and it is what keeps underdetermination from becoming paralysis.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** if data and virtues never settle which theory is *true*, what are we doing when we believe our best theories? The next lesson, *Is Science Describing Reality?*, lays out realism and instrumentalism, the best argument for each, and the history of dropped theories that keeps the question open.
