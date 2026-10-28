@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-28 ch02-map (12 cards, 10 boxes)
+Boxes: Hume's problem (root, span 3); falsification, paradigms, Bayes odds; pseudo, Duhem, underdetermination; limits, three layers, realism. Decoys from traps (affirming the consequent, LR vs posterior, prosecutor's fallacy, Popper/Kuhn swap, zero-error overfit). Content checked against the ch02 `own:` bullets; no new facts. Duhem formula uses gathered form (phone overflow fixed). Conventions fixed here: none new.
+
 ## 2026-10-28 ch02-intuition (Quick Recall, 21 cards)
 Built autonomously, no widget. Mnemonic mcq (four replies B-V-R-E), tollens, Duhem order card; 4 build cards (Bayes, odds, Laplace, 30C); 3 scaling checks; 5 distinction cards (weak/strong, realist trio, naturalisms, is-ought, three kinds); 3 data-only numerics (two positives 50.3%, RMS 1.71, 7 results); layers multi-select; plain summary card (no own:). Choice: 21 cards (above the ~18 plan, under 25) to keep all requested items. Conventions fixed here: mnemonic B-V-R-E for the four replies to Hume; numeric cards give data only (two positives at 1% prior, LR 10 each = 100:99 = 50.3%); layers card marks metaphysical naturalism and strong scientism as layer 3, realism vs instrumentalism as live debate.
 
