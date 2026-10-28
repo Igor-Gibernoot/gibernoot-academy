@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-10-28 ch01-map (9 cards: intro, 7 nodes, outro)
+Autonomous choices: 7 boxes in a 3-column grid (honest question root; inherited beliefs, four lenses, kinds of reason; origin is not truth, shortcuts that fail; where views part). "Selection effect" was not taught in Level 1, so the traps box uses vivid story, cherry-picking, circular, "rare therefore planned" (lottery). Decoys: strawman/"everyone knows", wrong attachments (genetic fallacy called cherry-picking), "only one lens right". No widget. Validate and shots clean; map viewed once (arrows clear).
+Conventions fixed here: map box titles are short plain phrases; decoys are wrong attachments or half-truths, never untaught jargon.
+
 ## 2026-10-28 ch01-traps built (15 cards)
 Welcome + 13 mcq traps (vivid story, genetic fallacy, strawman, "all the same", "science proved God", trust=proof, cherry-picking, circular, sincere=right, experience worthless/conclusive, "only an opinion", lottery/rarity, disagreement=no answer) + summary text card (no own:, traps kind). No widget, no new facts or numbers; dates reused (Reid, Hume). Choices made autonomously: all mcq, correct options carry the two-views framing; fine-tuning only previewed in the lottery trap. Conventions fixed here: trap ids are topic slugs (story-vs-data, genetic, strawman, all-same, science-god, trust-evidence, hits-misses, circle, sincere, experience, only-opinion, lottery, disagree); "genetic fallacy" and "perennialist" shown as glossed terms.
 
