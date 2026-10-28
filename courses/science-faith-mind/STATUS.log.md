@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-28 ch03-idealism (16 cards, concept)
+Built from plan; no widget. Web search unavailable/skipped: facts from memory, Berkeley s.3/s.23 paraphrased. Hook marks the common-sense answer correct (validator needs one correct option). Concept lesson with embedded Berkeley proof (not proof:true). Conventions fixed here: idealism kinds subjective/transcendental/absolute/analytic; Berkeley proof P1-P3 + C; idealist supervenience = physical supervenes on mental; "mental" has its own Hempel-style dilemma.
+
 ## 2026-10-28 ch03-materialism (15 cards)
 Hook Wöhler/vitalism; physicalism defined; supervenience (worlds test); successes (anaesthesia, Gage); radio objection; Kim closure proof P1-P3 with critic question; Hempel dilemma with two replies; layers; return to vitalism. No widget (conceptual, nothing to manipulate). Chose supervenience as the precise form, Hempel's dilemma for "physical". Conventions fixed here: physicalism preferred to materialism; supervenience = no mental difference without a physical one; Kim closure P1-P3; Hempel horns false/empty; replies structure-and-dynamics and via negativa; Wöhler 1828, Kim 1934-2019, Hempel 1905-1997.
 

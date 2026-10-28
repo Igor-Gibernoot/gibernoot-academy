@@ -39,4 +39,6 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 
 ## Chapter 3
 
+- Idealism lesson: kinds subjective (Berkeley 1685-1753), transcendental (Kant 1724-1804), absolute (Hegel 1770-1831), analytic (Kastrup b.1966); Berkeley proof P1 only ideas perceived, P2 ideas in minds, P3 sensible things = what we perceive, C; unthought tree: God vs phenomenalist (Mill); idealist supervenience = physical supervenes on mental, with a Hempel-style dilemma for "mental".
+
 - Materialism lesson: "physicalism" preferred name; supervenience = no two possible worlds alike physically but different mentally; Kim closure proof P1 closure, P2 mental causes, P3 no overdetermination; Hempel 1905-1997 dilemma (current physics false, ideal physics empty), replies structure-and-dynamics and via negativa; Wöhler 1828, Kim 1934-2019. Glossed: physicalism, supervenience, vitalism, causal closure, overdetermination, epiphenomenalism, eliminativist.
