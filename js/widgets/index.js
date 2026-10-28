@@ -25,6 +25,7 @@ import { areaCell } from './area-cell.js';
 import { torusFigure } from './torus.js';
 import { sphereFigure } from './sphere.js';
 import { beliefMixer } from './belief-mixer.js';
+import { sequenceSampler } from './sequence-sampler.js';
 import { homeostat } from './homeostat.js';
 import { bikeBalance } from './bike-balance.js';
 import { leverBalance } from './lever-balance.js';
@@ -79,6 +80,7 @@ const WIDGETS = {
   torus: torusFigure,
   sphere: sphereFigure,
   'belief-mixer': beliefMixer,
+  'sequence-sampler': sequenceSampler,
   homeostat,
   'bike-balance': bikeBalance,
   'lever-balance': leverBalance,

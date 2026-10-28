@@ -12,6 +12,7 @@ and a new `docs/widgets/<name>.md` plus a line below.
 - `ball-probe`: Is a set open? The reader drags a point p and sets the radius r with a
 - `basis-playground`: A fixed vector X
 - `belief-mixer`: Prior and evidence combine into a belief
+- `sequence-sampler`: A seeded stream of observations from a hidden rule (always the same, a change at a step, or a rate p); tally, run, claim flag, surprise marker
 - `blanket-graph`: A small graph of coupled sets of states
 - `blanket-sync`: Synchrony of two sets that are independent given a third value
 - `bregman-gap`: A convex function
