@@ -2,7 +2,7 @@
 
 Igor's course on the philosophy of science, theology and the study of mind and religion: reality,
 knowledge, God, consciousness, sacred texts and the major traditions. **There is no main book**:
-the spine is `course.yaml` (24 levels) and the references are in `REFERENCES.md`. Everything in
+the spine is `course.yaml` (25 levels) and the references are in `REFERENCES.md`. Everything in
 the root `CLAUDE.md` applies; this file adds what is specific to this course.
 
 ## Purpose and stance (the heart of the course)
@@ -57,14 +57,14 @@ what was checked in the `Verified` line of `STATUS.md` (compact). If Igor later 
 
 ## Trail
 
-`course.yaml`: 24 levels in three parts. Part I (1-7): knowing, reality, mathematics, origins and
+`course.yaml`: 25 levels in three parts. Part I (1-7): knowing, reality, mathematics, origins and
 the arguments about God. Part II (8-13): nature of God, science and religion, mind, altered states,
-experience, why humans believe. Part III (14-24): Judaism and the Torah, Christianity and the Gospels, Islam and the Qur'an, Hindu,
-Buddhist, other and Spiritist traditions, the cosmic perspective, faith and knowledge, philosophies of
+experience, why humans believe. Part III (14-25): Judaism and the Torah, Christianity and the Gospels, Islam and the Qur'an, Hindu,
+Buddhist, other and Spiritist traditions, the cosmic perspective, language and religious language, faith, knowledge and public life, philosophies of
 life, meaning, ethics and death.
 **Three exams (course-specific, replaces the root two-exam rule):** `exam-partial1` after Level 7
-(covers 2-7), `exam-partial2` after Level 13 (covers 8-13), `exam-final` after Level 24 (covers
-14-24). All original (no professor's exam). The next unit after Level 7, 13 or 24 is its exam.
+(covers 2-7), `exam-partial2` after Level 13 (covers 8-13), `exam-final` after Level 25 (covers
+14-25). All original (no professor's exam). The next unit after Level 7, 13 or 25 is its exam.
 Status: `STATUS.md`. Build Levels 1 to 3 first, then review the tone with Igor.
 
 ## Notation and conventions
