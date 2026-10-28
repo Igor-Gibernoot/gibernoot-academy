@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-28 ch02-challenge part 1 (17 cards)
+Problems 1-3 after a toolkit-recall card: remedy claims (A testable, B and C escape clauses), clinic grid (9/98, second LR-10 positive 50.3%), Uranus bundle and two patches (progressive vs degenerating, 20% prior LR 16 gives 80%), six-point curve lab (line 0.345 vs degree 5 zero, month 10 gives 4.7 vs 10.6), held-out RMS 0.41, realist vs constructive empiricist tie-break; each problem ends with a layers card. Chose 17 cards (part 2 should stay at or under 15 to keep the total under 32). No new widget. Conventions fixed here: Neptune/Uranus is the patch example (Vulcan the failed twin); clinic improvement-score six points (1,0.8),(2,1.9),(4,2.0),(6,3.3),(8,3.4),(9,4.6), holdout 10, tolerance 0.4.
+
 ## 2026-10-28 ch02-map (12 cards, 10 boxes)
 Boxes: Hume's problem (root, span 3); falsification, paradigms, Bayes odds; pseudo, Duhem, underdetermination; limits, three layers, realism. Decoys from traps (affirming the consequent, LR vs posterior, prosecutor's fallacy, Popper/Kuhn swap, zero-error overfit). Content checked against the ch02 `own:` bullets; no new facts. Duhem formula uses gathered form (phone overflow fixed). Conventions fixed here: none new.
 

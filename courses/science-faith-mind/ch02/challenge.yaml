@@ -1,0 +1,325 @@
+id: ch02-challenge
+title: "Level Challenge: Is It Science? (1)"
+kind: challenge
+
+cards:
+  - type: text
+    id: welcome
+    title: "Challenge, part 1: judge the claim"
+    body: |
+      Each problem gives a real-flavoured claim to judge in three steps: **is it testable**, **is it supported**, and **by how much**. The problems are independent, so here is the toolkit from Level 2, restated.
+
+      - **Falsifiable** (according to Popper): a claim is testable if some possible observation would count against it. A claim that survives every imaginable result says nothing about the world.
+      - **Duhem's point**: a prediction comes from a theory $T$ *plus* auxiliary assumptions $A$ (about instruments, background, other objects). A failed prediction refutes the bundle $T \wedge A$; it does not say which part to drop.
+      - **Bayes, odds form**: evidence moves belief by the likelihood ratio.
+
+      $$\frac{P(H\mid E)}{P(\neg H\mid E)}=\frac{P(E\mid H)}{P(E\mid \neg H)}\cdot\frac{P(H)}{P(\neg H)}$$
+
+      A ratio of $1$ moves nothing; a large ratio moves a lot, from the prior you started with.
+      - **Overfitting**: a flexible curve can match the data it was fitted to perfectly and still miss new data. Compare fits on **held-out** points.
+      - **Layers**: label each claim as (1) established fact, (2) scholarly consensus or live debate, or (3) faith or metaphysical commitment.
+
+      Three problems here. Problems 4 and 5 come in part 2.
+
+  - type: mcq
+    id: p1-claim
+    title: "Problem 1 · A natural remedy"
+    prompt: |
+      **Problem 1.** Three sellers each describe a natural remedy. Which claim can a fair study actually put at risk?
+      - **Seller A:** "Ginger extract shortens a common cold by about a day, on average."
+      - **Seller B:** "My tincture works through a subtle vital energy. It works for everybody, no instrument can detect the energy, and if a study shows nothing, that only proves the energy was blocked."
+      - **Seller C:** "The cure works for people of the right energy type. You are the right type exactly when the cure works for you."
+    options:
+      - text: Only A. A study can measure cold length with and without ginger, and a clear null result would count against it.
+        correct: true
+      - text: A and B. Both predict that people will feel better.
+        feedback: |
+          B has an escape clause for every outcome: success shows the energy works, failure shows it was blocked. A claim that no result can embarrass is not put at risk by any study, however well run.
+      - text: A and C. Both are about who gets better.
+        feedback: |
+          C defines "the right type" by the cure working, so it can never fail: anyone it does not help simply was not the right type. The claim is true by the way it is defined, not by the way the world is.
+      - text: All three. Any claim can be tested if you collect enough people.
+        feedback: |
+          More people cannot help when no outcome would count against the claim. The problem in B and C is the logic of the claim, not the size of the study.
+    explanation: |
+      According to Popper, what matters is whether some possible result would count *against* the claim. A does stick its neck out. B and C are **unfalsifiable** as stated, which is different from being false: a believer in B can reply that the energy might be real, and a fair reply is "then say what it would change that a trial could see". Nothing here says the sellers are dishonest, only that their claims, as worded, cannot be checked.
+
+  - type: mcq
+    id: p1-refute
+    title: "What would refute A?"
+    prompt: |
+      Seller A claims ginger extract shortens a common cold by about a day on average. Which result would count **against** that claim?
+    options:
+      - text: A blinded, randomized trial (people are assigned by chance and do not know whether they got ginger or a look-alike) with hundreds of people per group finds no difference in cold length beyond what chance gives.
+        correct: true
+      - text: A friend took the extract and still had a cold for seven days.
+        feedback: |
+          The claim is about an average. Colds vary by days from person to person, so one case is compatible with a day's saving and with none. It is also a single case, with no comparison group.
+      - text: A lab finds that no chemical in ginger kills the cold virus in a dish.
+        feedback: |
+          The claim is about the outcome in people, not about one mechanism. Ginger could shorten a cold through the body's response without killing the virus in a dish, so this does not decide it (though it may lower the prior, as a reason to expect an effect).
+      - text: No scientist has tested it yet.
+        feedback: |
+          Absence of a test is neither support nor refutation. It tells us we have no evidence either way.
+    explanation: |
+      A clear, well-powered null result is the kind of evidence that counts against an average-effect claim. Even then, Duhem's point applies: a critic can ask about the dose, the extract, the type of cold (the auxiliary assumptions). That is a reason to run more trials, not to make the claim unfalsifiable.
+
+  - type: widget
+    id: p1-grid
+    title: "A clinic sells the remedy to anyone who tests positive"
+    widget: frequency-grid
+    config:
+      N: 1000
+      prior: 0.01
+      sens: 0.9
+      fpr: 0.09
+      sliders:
+        prior: { fixed: true }
+        sens: { fixed: true }
+        fpr: { fixed: true }
+      show: { posterior: false }
+      reset: false
+      labels:
+        prior: "Has the condition"
+        sens: "Positive if ill"
+        fpr: "Positive if healthy"
+        tp: "Ill and positive"
+        fn: "Ill, negative"
+        fp: "Healthy, positive"
+        tn: "Healthy, negative"
+        posterior: "Ill, given positive"
+    body: |
+      A clinic tests for a condition that 1 person in 100 has, and sells its remedy to everyone who tests positive. The test comes out positive for 90% of ill people and for 9% of healthy people. Here are 1000 people. Count the green and red dots (positives).
+
+  - type: numeric
+    id: p1-post
+    prompt: |
+      A condition affects 1 person in 100. A test is positive for 90% of ill people and for 9% of healthy people. Out of 1000 people, 10 are ill and 990 are healthy; 9 ill and 89 healthy people test positive. What percentage of the people who test **positive** are actually ill?
+    answer: 9.2
+    tolerance: 0.2
+    answerText: '9/98 ≈ 9.2%'
+    wrong:
+      - { value: 90, feedback: "That is the chance of a positive given illness (sensitivity), not the chance of illness given a positive. Most positives come from the much larger healthy group." }
+      - { value: 9, feedback: "9 is the number of true positives. The question asks for the share among all 98 positives (9 ill plus 89 healthy)." }
+    hint: Count everyone who tests positive, then ask what fraction of them are ill.
+    explanation: |
+      $$\frac{9}{9+89}=\frac{9}{98}\approx 9.2\%$$
+      Even a test that catches 90% of ill people gives mostly false alarms when the condition is rare. A clinic that sells the remedy to all positives is mostly selling it to healthy people, and a "cured" testimonial from them proves nothing, since they were never ill.
+
+  - type: numeric
+    id: p1-lr
+    prompt: |
+      A condition has prior odds of $10:99$ for a person who just tested positive (about 9%). The test has likelihood ratio $\frac{0.9}{0.09}=10$ (a positive is ten times more likely if ill than if healthy). The person takes a second, independent test of the same kind and it is also positive. What is the probability of illness now, in percent?
+    answer: 50.3
+    tolerance: 0.2
+    answerText: '100/199 ≈ 50.3%'
+    wrong:
+      - { value: 90, feedback: "90% is the sensitivity again. The posterior comes from the odds, not from one of the test's own rates." }
+      - { value: 91, feedback: "91% is what a single positive gives from a 50% prior. Here the prior is only about 9% before the second positive." }
+    hint: Multiply the odds by the likelihood ratio, then turn odds $a:b$ into $a/(a+b)$.
+    explanation: |
+      The odds go from $10:99$ to $10\cdot 10:99 = 100:99$, so the probability is
+      $$\frac{100}{100+99}=\frac{100}{199}\approx 50.3\%.$$
+      A test with LR $10$ is strong evidence, yet from a 1% start it takes two positives to reach even odds. According to Bayesians, this is how "supported" and "by how much" get a number. A critic of the method replies that the prior and the independence of the two tests are themselves assumptions.
+
+  - type: mcq
+    id: p1-layers
+    title: "Layers"
+    prompt: |
+      Classify: "The remedy works because it restores the body's vital energy, which no instrument can measure." Which description fits best?
+    options:
+      - text: 'A metaphysical commitment (layer 3) as stated. It becomes layer 1 or 2 only if it predicts something a study could see, such as a measurable effect that differs from a look-alike.'
+        correct: true
+      - text: 'Established fact (layer 1): many people report feeling better.'
+        feedback: |
+          Reports of feeling better are data, and worth studying, but they do not show *why*; people feel better after inert pills too. The claim about vital energy goes beyond the reports.
+      - text: 'Scholarly consensus (layer 2): the medical community accepts the idea.'
+        feedback: |
+          It is the other way round: the energy as described is not accepted in mainstream medicine. Some traditions hold it, and that is a commitment of those traditions, to be described as such.
+    explanation: |
+      Layer 3 is not an insult: according to the traditions that teach it, the energy is real and is known through practice. The honest label says what *kind* of claim it is. Held as a faith or worldview, it is not tested by trials; offered as medicine, it should accept the standard of medicine, which is a test that could come out against it.
+
+  - type: mcq
+    id: p2-bundle
+    title: "Problem 2 · A theory survives a failed prediction"
+    prompt: |
+      **Problem 2.** In the 1840s astronomers computed the orbit of Uranus from Newton's theory of gravity $T$, plus the assumption $A$ that the Sun and the seven known planets are the only significant masses. The prediction failed: Uranus drifted from its computed path. Which description is best?
+    options:
+      - text: The failure refutes the bundle $T \wedge A$. Logic alone cannot say whether to drop $T$ or to revise $A$ (by adding a mass).
+        correct: true
+      - text: The failure refutes Newton's theory $T$ at once, because $T$ made the prediction.
+        feedback: |
+          The prediction came from $T$ and $A$ together. If $A$ is false (an unseen planet pulls on Uranus), $T$ can be fine. Choosing which to blame needs reasons beyond the failed prediction.
+      - text: The failure shows nothing, since all predictions fail sometimes.
+        feedback: |
+          A systematic drift is information: something in the bundle is wrong. The question is where, not whether.
+      - text: The failure refutes the assumption $A$ only, because $T$ is a law.
+        feedback: |
+          Being a law does not make a theory immune; laws too can be refuted. History kept Newton here, but Mercury's orbit later showed the same type of failure that was not fixed by adding a planet.
+    explanation: |
+      This is Duhem's point in a real case: what meets experience is the bundle. In 1845 to 1846, Le Verrier (1811-1877) and Adams blamed $A$ and computed where an eighth planet would have to be. Others could have blamed $T$. Both moves were logically open.
+
+  - type: mcq
+    id: p2-patch
+    title: "Two patches"
+    prompt: |
+      Two patches are offered after a theory's prediction fails.
+      - **Patch 1** (Uranus): "An unseen eighth planet is pulling on it; it should be in this part of the sky, with this brightness. Look there."
+      - **Patch 2** (a different theory): "The effect fails whenever skeptics are in the room, because their doubt disturbs it." The theory predicts nothing else.
+      According to Lakatos (1922-1974), which is progressive and which is degenerating?
+    options:
+      - text: Patch 1 is progressive, because it makes a new, risky prediction. Patch 2 is degenerating, because it only explains away the failure and adds nothing a test could catch.
+        correct: true
+      - text: 'Both are degenerating: any patch added after a failure is ad hoc.'
+        feedback: |
+          Timing alone is not the mark. A patch added after a failure can be excellent if it predicts something new and survives. Patch 1 did: the planet was found in 1846, within about one degree of the predicted place.
+      - text: 'Both are progressive: each saved the theory.'
+        feedback: |
+          Saving the theory is cheap; any theory can be saved by an escape clause. According to Lakatos the question is whether the patch gains **new** content that can be tested.
+      - text: Patch 2 is progressive, because it is harder to refute.
+        feedback: |
+          Being hard to refute is the opposite of the virtue. A patch that makes the theory immune to the failure, and to any other result, has bought safety by giving up content.
+    explanation: |
+      A patch that only absorbs the failure is **ad hoc**: it covers a gap and says nothing more. A patch with a new prediction is a risk taken. Fairness to the other side: a patch is not bad *because* it protects a theory. Defenders of an older theory are right that giving up a well-tested theory at the first anomaly would be unwise (Kuhn's normal science); the test of the patch is what it predicts next. The same patch form failed for Mercury: a planet "Vulcan" was proposed to explain its orbit, never found, and the anomaly was resolved in 1915 by a different theory (general relativity).
+
+  - type: numeric
+    id: p2-bayes
+    prompt: |
+      A theory plus a patch has prior probability $20\%$. The patch predicts something new and risky that would turn up with probability $0.8$ if the patched theory is right, and only $0.05$ if it is wrong. The prediction is checked and comes true. What is the probability of the patched theory now, in percent?
+    answer: 80
+    tolerance: 0.5
+    answerText: '80%'
+    wrong:
+      - { value: 20, feedback: "20% is the answer for a patch whose success was already known, where the likelihood ratio is 1 and nothing moves. Here the result was new and risky, so the ratio is large." }
+      - { value: 94, feedback: "94% is $0.8/(0.8+0.05)$, which forgets the prior. The prior odds are $1:4$ and must be multiplied by the ratio." }
+    hint: The ratio is $0.8/0.05$; the prior odds are $20:80$.
+    explanation: |
+      The likelihood ratio is $\frac{0.8}{0.05}=16$ and the prior odds are $1:4$, so
+      $$\text{odds}=16\cdot\frac14=4:1$$
+      so
+      $$P=\frac{4}{5}=80\%.$$
+      Compare a patch built only to match data already known (no new prediction): then $P(E\mid H)=P(E\mid\neg H)$ for that data, the ratio is $1$ and the belief stays at $20\%$. In the Bayesian reading, "progressive" is the patch that earns a large ratio; "ad hoc" is the one that earns none. Critics add that how much a patch earns depends on the prior you gave it, which is not fixed by logic.
+
+  - type: mcq
+    id: p2-layers
+    title: "Layers"
+    prompt: |
+      Classify: "The discovery of Neptune shows that Newton's gravity is approximately true of reality, not just useful for calculation." Which layer is the claim?
+    options:
+      - text: 'A live debate (layer 2). That Neptune was found where predicted in 1846 is established fact (layer 1); what that success shows about reality is disputed between realists and instrumentalists.'
+        correct: true
+      - text: 'Established fact (layer 1): the planet was found.'
+        feedback: |
+          The planet being found is layer 1, but the sentence says more: that the success shows approximate *truth*. That step is the contested part.
+      - text: 'A faith commitment (layer 3): no scientific claim can be about reality.'
+        feedback: |
+          Realists hold that science does speak about reality, and give arguments for it (such as the success of predictions); instrumentalists give arguments against. It is a debate with reasons on both sides, not a bare commitment.
+    explanation: |
+      According to realists, a theory that predicts a new planet would be a miracle if it were not approximately true. According to instrumentalists, success shows the theory is a good tool, and the history of discarded successful theories (caloric, ether) warns against the inference. Newton's own theory is now known to be approximate: general relativity corrects it.
+
+  - type: widget
+    id: p3-fit
+    title: "Problem 3 · Six measurements, three curves"
+    widget: curve-fit-lab
+    config:
+      points: [[1, 0.8], [2, 1.9], [4, 2.0], [6, 3.3], [8, 3.4], [9, 4.6]]
+      xRange: [0, 10.5]
+      yRange: [-5, 11]
+      degree: 1
+      degreeRange: [1, 5]
+      compare: [2, 5]
+      tolerance: 0.4
+      holdout: 10
+      edit: false
+      show:
+        simplest: true
+        tolerance: false
+    body: |
+      **Problem 3.** A clinic records an improvement score (vertical) after $x$ months on a programme (horizontal), for six clients. The curves are polynomial fits of different degrees (degree = highest power of $x$; degree 1 is a straight line). Drag the degree slider and watch the fits and the vertical dashed line at month 10, a visit not yet measured.
+
+  - type: mcq
+    id: p3-perfect
+    prompt: |
+      Six clients' scores are fitted by a straight line (error about $0.35$, in score units) and by a degree-5 curve that passes through all six points (error $0$). At month 10 the line predicts about $4.7$ and the degree-5 curve about $10.6$. Which statement is best?
+    options:
+      - text: 'The perfect fit proves little: with six points a degree-5 curve can match any six numbers. To compare the two, test on new visits not used in the fitting.'
+        correct: true
+      - text: The degree-5 curve is best, because its error on the data is zero.
+        feedback: |
+          Zero error on the data used for fitting is what a curve with six free numbers gets for free. It does not show that the curve captures the pattern rather than the noise.
+      - text: The line is best, because simple always wins.
+        feedback: |
+          Simplicity is a reason to prefer a curve in many views, but "always" is too strong. If new visits followed the wiggly curve, the line would be the wrong choice. The data can overrule simplicity.
+      - text: Neither can be judged, because the data cannot be repeated.
+        feedback: |
+          Repeating is exactly what can be done: more months, more clients. Held-out data give a fair comparison even when the first six points cannot discriminate.
+    explanation: |
+      This is **overfitting**: matching noise along with the pattern. The data fit all three curves about equally well in the sense that matters (none is refuted by the six points), yet the curves disagree about month 10, so the data **underdetermine** the choice. What breaks the tie is new evidence or a reason to prefer one curve.
+
+  - type: numeric
+    id: p3-rms
+    prompt: |
+      The degree-5 curve fits its six training points with error $0$. Three new clients are then measured, and the curve misses their scores by $0.3$, $0.4$ and $0.5$ (in score units). What is the root-mean-square (RMS) error on these three held-out points, to two decimals?
+    answer: 0.41
+    tolerance: 0.01
+    answerText: '$\sqrt{0.5/3}\approx 0.41$'
+    wrong:
+      - { value: 0.4, feedback: "0.4 is the plain average of the three gaps. RMS squares first, so the larger gap counts more; it comes out slightly above the mean." }
+      - { value: 0, feedback: "0 is the error on the training points. The question is about the held-out ones, where it is generally larger." }
+    hint: Square each gap, average the squares, then take the square root.
+    explanation: |
+      Add the squares, divide by 3, take the root:
+      $$0.09+0.16+0.25=0.50$$
+      $$\text{RMS}=\sqrt{\tfrac{0.50}{3}}\approx 0.41$$
+      A curve with training error $0$ and held-out error $0.41$ has overfitted; a line with training error $0.35$ and held-out error near $0.4$ has not. Comparing the training and held-out errors is how we separate a pattern from noise.
+
+  - type: mcq
+    id: p3-tie
+    title: "What breaks the tie?"
+    prompt: |
+      Suppose two curves both fit the six clients equally well and, so far, new clients cannot tell them apart. Two views on choosing: **realists** (according to those who hold that theories aim at truth) say simplicity is evidence that a curve tracks the world; **constructive empiricists** such as van Fraassen (born 1941) say simplicity is a convenience and only agreement with observable data counts. Which statement is fair to both?
+    options:
+      - text: Both agree that new, discriminating observations decide between the curves when they come. They differ on whether, while the tie lasts, preferring the simpler curve is a guide to truth or only to convenience.
+        correct: true
+      - text: Realists say simple curves are always true; empiricists say they are always false.
+        feedback: |
+          Neither says that. Realists treat simplicity as a fallible guide, and empiricists simply decline to count it as evidence about unobservables.
+      - text: Empiricists say the tie cannot be broken even in principle, so science is arbitrary.
+        feedback: |
+          Empiricists accept new data as decisive about what is observable. What they refuse is a *truth* claim from simplicity alone; they still choose the simpler curve for practical reasons.
+      - text: Realists say the data decide and simplicity is irrelevant.
+        feedback: |
+          This reverses the realist position as described: realists use simplicity as a reason beyond the data, which is what the empiricist declines to do.
+    explanation: |
+      Notice how much the two views share: the same data, the same preference for the simpler curve in practice, the same readiness to change if month-10 data disagree. The disagreement is over what the preference *means*: a clue about reality (according to realists) or a choice that works (according to constructive empiricists). A third view, Quine's, adds that no single claim is tested alone, so choices between curves are also choices about the rest of our web of belief.
+
+  - type: mcq
+    id: p3-layers
+    title: "Layers"
+    prompt: |
+      Classify: "Nature itself is simple, so the simplest curve that fits is probably the true one." Which layer is the claim?
+    options:
+      - text: 'A metaphysical commitment (layer 3). Using the simplest fit as a practical rule is common ground; that nature is simple is a view about reality that data cannot prove, though science has often rewarded it.'
+        correct: true
+      - text: 'Established fact (layer 1): science has shown nature is simple.'
+        feedback: |
+          Some laws are strikingly simple, but others are messy, and what counts as simple depends on the description. The track record is evidence, not proof that nature is simple.
+      - text: 'Settled consensus (layer 2): philosophers agree.'
+        feedback: |
+          They do not. Whether simplicity is a guide to truth or only a convenience is one of the debates of this problem.
+    explanation: |
+      The same sentence mixes a practical rule (layer 2 debate on its justification) and a claim about the world (layer 3). Separating them keeps both honest: you can keep the rule while holding the claim loosely, and a theist, an atheist and an agnostic scientist can all use it for their own reasons.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Testable or not**: a claim is put at risk only if some possible result would count against it. Escape clauses ("it only works when it works") remove the risk, and that is a flaw of the claim, not proof it is false.
+      - **Supported by how much**: evidence moves belief by the likelihood ratio, in odds form $\frac{P(H\mid E)}{P(\neg H\mid E)}=\frac{P(E\mid H)}{P(E\mid \neg H)}\cdot\frac{P(H)}{P(\neg H)}$. A test with ratio $10$ from a 1% start gives 9.2% after one positive and 50.3% after two.
+      - **Patches**: a failed prediction refutes the bundle $T \wedge A$. A patch is progressive when it predicts something new and risky (Neptune), degenerating when it only absorbs the failure.
+      - **Overfitting and underdetermination**: a perfect fit to the data used for fitting proves little; compare on held-out data, and recognise that equal fits can still diverge where no data exist.
+      - **Layers**: facts, live debates and commitments stay labelled in every problem.
+
+      What stays open: whether simplicity tracks truth, and what a successful patch shows about reality.
+
+      **Next:** part 2 has problems 4 and 5. Problem 4 asks how realistic a claim of science is (what the success of a theory shows), and problem 5 asks where science's limits lie, with Gould's NOMA and the three kinds of question.
