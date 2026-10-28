@@ -14,4 +14,5 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 - Toy worldviews are "View A/B/C" (never real traditions) in `belief-mixer`; mixer evidence for the mild case is $0.5,0.6,0.55$; prior "born among A" is $0.8,0.1,0.1$.
 - Glossed in Level 1 (do not re-gloss at length later): worldview, belief, evidence, testimony, fallacy (genetic), steelman, strawman. Testimony: Hume (track record) vs Reid (default trust). Origin vs truth: strict view vs qualified (debunking) view, a live debate.
 - Lenses lesson: four lenses (science, philosophy, theology, lived experience); universe ~13.8 billion years (Planck 2018, model-dependent); glossed there: universe, science, philosophy, argument, premise, theology, theist, principle of sufficient reason. Disagreements named as premise / value / kind of evidence.
+- Reasons lesson: glossed there: reason, evidence, argument, premise, conclusion, testimony, experience, trust, cherry-picking, circular argument. Mixer with two claims, labels "Trust"/"Evidence": trust $0.9,0.1$, fit $0.4,0.6$ gives $86\%$ for claim 1.
 - Intro welcome card states "guessing is the point" for all Level 1 lessons.
