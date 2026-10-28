@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-28 ch03-dualism (17 cards)
+Concept lesson; no widget (conceptual). Choices: doubt argument as P1-P3 with Leibniz's law critique (Lois Lane example), divisibility reply, Chalmers property dualism, Elisabeth 1643 paraphrased, Kim closure recalled by lesson title, four replies in one matching card, supervenience contrast. No web search; dates from memory, paraphrased where unsure. Conventions fixed here: dualism = substance (Descartes) vs property (Chalmers); doubt proof P1 doubt body, P2 cannot doubt thinking, P3 Leibniz's law, C; replies: interactionism drops closure, epiphenomenalism drops P2, parallelism/occasionalism deny direct causation; dualists deny supervenience.
+
 ## 2026-10-28 ch03-idealism (16 cards, concept)
 Built from plan; no widget. Web search unavailable/skipped: facts from memory, Berkeley s.3/s.23 paraphrased. Hook marks the common-sense answer correct (validator needs one correct option). Concept lesson with embedded Berkeley proof (not proof:true). Conventions fixed here: idealism kinds subjective/transcendental/absolute/analytic; Berkeley proof P1-P3 + C; idealist supervenience = physical supervenes on mental; "mental" has its own Hempel-style dilemma.
 
