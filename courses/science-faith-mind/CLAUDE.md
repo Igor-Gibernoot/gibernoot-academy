@@ -2,7 +2,7 @@
 
 Igor's course on the philosophy of science, theology and the study of mind and religion: reality,
 knowledge, God, consciousness, sacred texts and the major traditions. **There is no main book**:
-the spine is `course.yaml` (20 levels) and the references are in `REFERENCES.md`. Everything in
+the spine is `course.yaml` (24 levels) and the references are in `REFERENCES.md`. Everything in
 the root `CLAUDE.md` applies; this file adds what is specific to this course.
 
 ## Purpose and stance (the heart of the course)
@@ -25,6 +25,14 @@ the root `CLAUDE.md` applies; this file adds what is specific to this course.
 - **Questions that test understanding, not allegiance.** Cards ask "what does this argument
   assume?", "which reply answers this objection?", "what would count as evidence against it?",
   never "is God real?". Wrong options encode real misunderstandings (feedback explains the slip).
+- **Always say "according to".** Every claim is taught *according to* someone or something: this
+  sacred book, this thinker, this tradition, this argument, this experiment, this school of
+  historians. Name the source in the sentence, so the limit of the answer is visible (not "the soul
+  survives death" but "according to the Phaedo...", "according to Spiritism...", "according to
+  physicalists..."). Questions use the same frame ("According to Hume, why...").
+- **Offer two or more views whenever possible.** Show how the same thing can be seen in several ways:
+  at least two readings of a text, two interpretations of a result, two replies to an objection.
+  A card that asks for one view should have the rival view in its feedback or the card after.
 - **Respect for living traditions.** Describe a tradition as its adherents do ("Christians hold...",
   "the Qur'an states..."), then give the scholarly view as scholarly ("historians conclude..."),
   and keep the two visible. Use the tradition's own terms with a plain gloss.
@@ -49,13 +57,14 @@ what was checked in the `Verified` line of `STATUS.md` (compact). If Igor later 
 
 ## Trail
 
-`course.yaml`: 20 levels in three parts. Part I (1-7): knowing, reality, mathematics, origins and
+`course.yaml`: 24 levels in three parts. Part I (1-7): knowing, reality, mathematics, origins and
 the arguments about God. Part II (8-13): nature of God, science and religion, mind, altered states,
-experience, why humans believe. Part III (14-20): sacred texts, Hindu, Buddhist and Spiritist
-thought, the cosmic perspective, faith and knowledge, meaning.
+experience, why humans believe. Part III (14-24): Judaism and the Torah, Christianity and the Gospels, Islam and the Qur'an, Hindu,
+Buddhist, other and Spiritist traditions, the cosmic perspective, faith and knowledge, philosophies of
+life, meaning, ethics and death.
 **Three exams (course-specific, replaces the root two-exam rule):** `exam-partial1` after Level 7
-(covers 2-7), `exam-partial2` after Level 13 (covers 8-13), `exam-final` after Level 20 (covers
-14-20). All original (no professor's exam). The next unit after Level 7, 13 or 20 is its exam.
+(covers 2-7), `exam-partial2` after Level 13 (covers 8-13), `exam-final` after Level 24 (covers
+14-24). All original (no professor's exam). The next unit after Level 7, 13 or 24 is its exam.
 Status: `STATUS.md`. Build Levels 1 to 3 first, then review the tone with Igor.
 
 ## Notation and conventions
