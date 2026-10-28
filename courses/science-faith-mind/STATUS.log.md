@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-10-28 ch02-pseudo (19 cards, concept, no widget)
+Hook three claims; demarcation toolbox (Popper, Kuhn, Lakatos); four marks each a case card; astrology and Carlson 1985 (web search: 28 astrologers, Nature 318:419, chance result; "one in three" kept qualitative, 116-subject figure not used); homeopathy 30C arithmetic and fair reply; fair-test order; Bayes numeric; sharp line vs cluster (Laudan 1983); Wegener; traps multi-select; layers. Choices: Mark cards kept separate; 19 cards.
+Conventions fixed here: four marks as a cluster; Carlson 1985 28 astrologers about 1 in 3; 30C = 10^60 gives 6e-37 molecules; prior 1% LR 3 gives 2.9%; Laudan 1983, Wegener 1912, Lakatos 1922-1974; glossed words listed in CONVENTIONS Chapter 2.
+
 ## 2026-10-28 ch02-realism (17 cards, concept, no widget)
 Hook caloric; realism vs instrumentalism; no-miracles P1/P2/C (critic rejects P2; circularity card); pessimistic meta-induction (Laudan 1981; ether order card); selective and structural realism (Worrall 1989); van Fraassen steelman; observable line (Hacking b.1936 as second realist view); virtues link; traps multi-select; layers; hook return. Choices: no numbers, so no script; names/dates from memory (Putnam 1926-2016, Laudan b.1941, van Fraassen b.1941, Hacking b.1936), "Psillos" objection phrased loosely. Conventions fixed here: Putnam 1926-2016 (1975), Laudan b.1941 (1981), Worrall 1989, Hacking b.1936; $S$ = success, $R$ = approximate truth; glossed: scientific realism, instrumentalism, approximately true, inference to the best explanation, meta-induction, caloric, phlogiston, ether, constructive empiricism, empirically adequate.
 
