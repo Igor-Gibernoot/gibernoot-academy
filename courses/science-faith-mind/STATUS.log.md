@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-10-28 ch01-challenge-2 (16 cards)
+Built `ch01/challenge-2.yaml`: Recall card (kinds, lenses, method), Problem 4 (Old Street car ban debate, invented numbers: fact+value mix, attack on the person, straw man, history vs purpose, lens multi-select, where views part, order of a fair reply), Problem 5 (can a computer think / is it wrong to switch it off: words, split, kind+lens, evidence, premise parting), plain summary + Level 2 teaser. Autonomous choices: no numeric or widget card; "how vs why" became "origin vs purpose" (fits the debate). Checked part-1 facts: STEP 2006 (Benson, 1,802 patients, 52% vs 51% complications) confirmed by web search; Singer b.1946 and Genesis 9:3 are standard, kept; Jainism non-harm standard; no fix needed.
+Conventions fixed here: debate cards name speakers and invent numbers (said so); disagreements are named as premise, value or evidence, never a winner.
+
 ## 2026-10-28 ch01-challenge part 1 (16 cards)
 Built `ch01/challenge.yaml` (problems 1-3: kind of answer, lens choice incl. prayer and eating meat, splitting a dream question, how-vs-why, method order). Structure decision: two lesson nodes, `ch01-challenge` (built) and `ch01-challenge-2` (planned, no file); part 1 depends on nothing from part 2. No widget, no `own:`. Checked: STEP trial 2006 (~1,800 patients, no benefit; memory), Genesis 9:3, Singer b.1946, toy 10,000 x 1/1000 = 10. Conventions fixed here: four kinds of answer (measurable fact, conceptual, faith commitment, value); method order clarify, split, classify, choose lens, attribute "according to" and where views part (premise, value, evidence).
 
