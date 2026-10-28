@@ -1,6 +1,24 @@
 id: ch07-geodesic-equation-2
-title: "Guided Problem: Deriving the Geodesic Equation · Part 2"
+title: "Guided Proof: Deriving the Geodesic Equation · Part 2"
 kind: guided
+proof: true
+
+own: |
+  - **Setting.** $(\mathcal{M},g)$ is a metric manifold of dimension $d$ with a chart, metric components $g_{ij} = g_{ji}$ and inverse components $(g^{-1})^{km}$. A curve $\gamma$ has velocity components $\dot\gamma^i$ (a dot is $d/d\lambda$), sign $\text{ᛇ}_\gamma := \mathrm{sgn}\,g(v_\gamma,v_\gamma)\neq0$ and speed $s_\gamma := \sqrt{\text{ᛇ}_\gamma\,g(v_\gamma,v_\gamma)}$. The coefficients of the metric are
+    $$\begin{aligned}\Gamma^k_{ij} = \tfrac12(g^{-1})^{km}\big(&\partial_i g_{mj} + \partial_j g_{mi}\\ &- \partial_m g_{ij}\big),\end{aligned}$$
+    symmetric in $i,j$, and a curve of stationary length (a geodesic) at constant speed obeys $\ddot\gamma^k + \Gamma^k_{ij}\,\dot\gamma^i\dot\gamma^j = 0$.
+  - **Polar test.** On the Euclidean plane with polar chart $(r,\theta)$ (slot 1 is $r$, slot 2 is $\theta$) and $g_{ij} = \mathrm{diag}(1,r^2)$, the only nonzero coefficients are
+    {{ $$\Gamma^1_{22} = -r,\qquad \Gamma^2_{12} = \Gamma^2_{21} = \tfrac1r$$ }}
+    so the constant-speed geodesic equation reads
+    {{ $$\ddot r - r\,\dot\theta^2 = 0,\qquad \ddot\theta + \tfrac2r\,\dot r\,\dot\theta = 0.$$ }}
+    The factor $\tfrac2r$ counts both $(i,j) = (1,2)$ and $(2,1)$. Radial lines at unit speed and the horizontal line $(\lambda,1)$ pass; the circle $r = 1$ fails.
+  - **Any speed.** A straight segment run at changing speed, such as $r = \lambda^2$, $\theta = 0$, fails the constant-speed equation, yet it is a geodesic: being a geodesic does not depend on the parametrization. For a curve with nonzero sign, at any speed,
+    {{ $$\ddot\gamma^k + \Gamma^k_{ij}\,\dot\gamma^i\dot\gamma^j = \frac{\dot s_\gamma}{s_\gamma}\,\dot\gamma^k,$$ }}
+    where the right side is a multiple of the velocity: the curve may speed up or slow down along its own direction, never turn.
+  - **Constant speed costs nothing.** Reparametrizing by the length run so far,
+    {{ $$\mu = L_{[a,\lambda]}[\gamma] = \int_a^\lambda s_\gamma\,d\lambda'$$ }}
+    gives a curve of speed $1$, which obeys the constant-speed equation.
+  - **Energy.** With the energy Lagrangian $\mathcal{E}(\alpha;\beta) = \tfrac12\,g_{ij}\,\beta^i\beta^j$ (no square root; $\alpha$ position slots, $\beta$ velocity slots), the Euler-Lagrange equations are $\frac{d}{d\lambda}(g_{mj}\dot\gamma^j) - \tfrac12(\partial_mg_{ij})\dot\gamma^i\dot\gamma^j = 0$, i.e. {{ the constant-speed equation $\ddot\gamma^k + \Gamma^k_{ij}\dot\gamma^i\dot\gamma^j = 0$ with no assumption on the speed }}.
 
 cards:
   - type: text
@@ -8,7 +26,7 @@ cards:
     tag: Recall
     title: 'Recall: the geodesic equation in a chart'
     body: |
-      Recall, from the lesson Guided Problem: Deriving the Geodesic Equation · Part 1: on a metric manifold $(\mathcal{M},g)$ of dimension $d$ with a chart, with metric components $g_{ij}$ and inverse $(g^{-1})^{km}$, define the coefficients (symmetric in $i,j$, not a tensor)
+      Recall, from the lesson Guided Proof: Deriving the Geodesic Equation · Part 1: on a metric manifold $(\mathcal{M},g)$ of dimension $d$ with a chart, with metric components $g_{ij}$ and inverse $(g^{-1})^{km}$, define the coefficients (symmetric in $i,j$, not a tensor)
       $$\begin{aligned}\Gamma^k_{ij} = \tfrac12(g^{-1})^{km}\big(&\partial_i g_{mj} + \partial_j g_{mi}\\ &- \partial_m g_{ij}\big).\end{aligned}$$
       A curve $\gamma$ (components $\gamma^k(\lambda)$, dot $= d/d\lambda$) of constant speed $s_\gamma = \sqrt{|g(v_\gamma,v_\gamma)|}$ and nonzero sign has stationary length if and only if
       $$\ddot\gamma^k + \Gamma^k_{ij}\,\dot\gamma^i\dot\gamma^j = 0.\tag{G}$$
@@ -230,14 +248,4 @@ cards:
     id: summary
     title: What you now own
     body: |
-      **The puzzle, resolved.** The polar equations of the Euclidean plane in the chart $(r,\theta)$, $\ddot r - r\dot\theta^2 = 0$, $\ddot\theta + \tfrac2r\dot r\dot\theta = 0$ are the geodesic equation of the Euclidean plane. The circle fails because it bends; $r = \lambda^2$ fails only because its speed changes.
-
-      - **Setting**: $(\mathcal{M},g)$ a metric manifold of dimension $d$ with a chart, $g_{ij}$ the components of $g$, $(g^{-1})^{km}$ the inverse matrix, $\gamma$ a curve with components $\dot\gamma^i$ of its velocity, sign $\text{ᛇ}_\gamma := \mathrm{sgn}\,g(v_\gamma,v_\gamma)$, speed $s_\gamma := \sqrt{\text{ᛇ}_\gamma\,g(v_\gamma,v_\gamma)}$.
-      - **Geodesic equation**, constant speed, nonzero sign, with $\Gamma^k_{ij} = \tfrac12(g^{-1})^{km}(\partial_i g_{mj} + \partial_j g_{mi} - \partial_m g_{ij})$:
-      $$\ddot\gamma^k + \Gamma^k_{ij}\,\dot\gamma^i\dot\gamma^j = 0\tag{G}$$
-      - **Any speed**:
-      $$\ddot\gamma^k + \Gamma^k_{ij}\,\dot\gamma^i\dot\gamma^j = \frac{\dot s_\gamma}{s_\gamma}\,\dot\gamma^k\tag{S}$$
-      and the arc length $\mu := \int_a^\lambda s_\gamma\,d\lambda'$ as parameter always gives speed $1$.
-      - **Polar check**: on the Euclidean plane, $g_{ij} = \mathrm{diag}(1,r^2)$ in the chart $(r,\theta)$: $\Gamma^1_{22} = -r$, $\Gamma^2_{12} = \Gamma^2_{21} = \tfrac1r$, exactly the coefficients of the Euclidean connection $\nabla^{\mathrm{E}}$ (cartesian components constant) written in polar components.
-
-      **Next: "The Levi-Civita Connection · Part 1".** (G) has the shape of the autoparallel equation of a connection. Is there a connection whose coefficients are exactly these $\Gamma^k_{ij}$, so that geodesics (stationary length) and autoparallels (straightest curves) coincide? Yes, exactly one that is torsion free and respects the metric: the Levi-Civita connection.
+      **Next: "The Levi-Civita Connection · Part 1".** The geodesic equation has the shape of the autoparallel equation of a connection. Is there a connection whose coefficients are exactly these $\Gamma^k_{ij}$, so that geodesics (stationary length) and autoparallels (straightest curves) coincide? Yes, exactly one that is torsion free and respects the metric: the Levi-Civita connection.

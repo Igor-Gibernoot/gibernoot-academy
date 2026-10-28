@@ -1,6 +1,22 @@
 id: ch05-differentials
-title: "Guided Problem: Which Covector Fields Are Differentials? · Part 1"
+title: "Guided Proof: Which Covector Fields Are Differentials? · Part 1"
 kind: guided
+proof: true
+
+own: |
+  - **Setting.** $\mathsf{X}$ is a smooth covector field on a manifold $\mathcal{M}$; in a chart $(\mathcal{U},\mathscr{X})$ with coordinate functions $\mathscr{X}^i$ it has component functions $\mathtt{x}_i$, so $\mathsf{X} = \mathtt{x}_i\,dx^i$ (sum over $i$). The symbol $\partial x_j\lfloor\cdot\rceil$ is the derivative along the $j$-th coordinate direction, and $df$ is the differential of a smooth function $f$, $df\lceil\mathcal{X}\rfloor = \mathcal{X}\lfloor f\rceil$. $\mathsf{X}$ is **exact** if $\mathsf{X} = df$ for one $f$.
+  - **Closed.** If $\mathsf{X} = df$ on a chart domain, then $\mathtt{x}_i = \partial x_i\lfloor f\rceil$ are partials of one function, so for all $i,j$
+    {{ $$\partial x_j\lfloor\mathtt{x}_i\rceil = \partial x_i\lfloor\mathtt{x}_j\rceil$$ }}
+    because mixed partials commute. A field obeying this is **closed**: exact implies closed, and closedness does not depend on the chart, since the second-derivative term of the transition map is symmetric in $i,j$ and drops out.
+  - **Why pointwise potentials do not glue.** At one point every covector is a differential, but for smooth functions $g,f$ the Leibniz rule gives
+    {{ $$g\,df = d(gf) - f\,dg$$ }}
+    so $g\,df$ is in general not a differential: the extra term $-f\,dg$ comes from the varying coefficient. Example: on $\mathbb{R}^2$ with cartesian chart $(a,b)$, $\mathsf{Z} = -b\,dx^1 + a\,dx^2$ has $\partial x_1\lfloor\mathtt{z}_2\rceil = 1 \ne -1 = \partial x_2\lfloor\mathtt{z}_1\rceil$, so it is not closed, hence not $df$ on any open set.
+  - **Integral along a curve.** For a smooth curve $\gamma\colon[\lambda_a,\lambda_b]\to\mathcal{M}$ with velocity $\dot\gamma$, $\int_\gamma\mathsf{X} := \int_{\lambda_a}^{\lambda_b}\mathsf{X}_{\gamma(\lambda)}(\dot\gamma(\lambda))\,d\lambda$. Since $\mathsf{X}_{\gamma}(\dot\gamma) = (f\circ\gamma)'$ when $\mathsf{X} = df$,
+    {{ $$\int_\gamma df = f(\gamma(\lambda_b)) - f(\gamma(\lambda_a))$$ }}
+    which is $0$ on a closed curve ($\gamma(\lambda_b) = \gamma(\lambda_a)$).
+  - **Closed but not exact.** On the punctured plane $\mathbb{R}^2\setminus\{0\}$ with cartesian chart $(a,b)$ and $r = \sqrt{a^2+b^2}$, the angle field
+    $$\mathsf{A} = -\frac{b}{r^2}\,dx^1 + \frac{a}{r^2}\,dx^2$$
+    is closed and equals $d\theta$ (polar angle) near every point, but along the unit circle {{ $\int_\gamma\mathsf{A} = 2\pi \ne 0$ }}, so no single smooth $f$ has $df = \mathsf{A}$ on the whole punctured plane.
 
 cards:
   - type: text
@@ -324,15 +340,4 @@ cards:
     id: summary
     title: What you now own
     body: |
-      - **Setting:** $\mathsf{X}$ is a smooth covector field on a manifold $\mathcal{M}$ with components $\mathtt{x}_i$ in a chart with coordinates $x^i$, $f,g$ are smooth functions, and $\partial x_j\lfloor\cdot\rceil$ is the derivative along the $j$-th coordinate direction. **Exact** means $\mathsf{X} = df$ on all of $\mathcal{M}$.
-      - **At a point** every covector is a differential, $\mathsf{X}_p = (df_p)_p$ with $f_p = \mathtt{x}_i(p)\,\mathscr{X}^i$, but gluing these $f_p$ fails because of the Leibniz rule:
-      $$g\,df = d(gf) - f\,dg.$$
-      - **Closed:** in a chart, for all $i, j$,
-      $$\partial x_j\lfloor\mathtt{x}_i\rceil = \partial x_i\lfloor\mathtt{x}_j\rceil.$$
-      Exact $\Rightarrow$ closed (mixed partials commute), and closedness does not depend on the chart.
-      - **Integral along a curve** $\gamma\colon[\lambda_a,\lambda_b]\to\mathcal{M}$: $\int_\gamma df = f(\gamma(\lambda_b)) - f(\gamma(\lambda_a))$, which is $0$ on a closed curve.
-      - **Examples:** on the plane with coordinates $(a,b)$ and $r=\sqrt{a^2+b^2}$, $\mathsf{Z} = -b\,dx^1 + a\,dx^2$ is not closed; on the plane minus the origin the angle field
-      $$\mathsf{A} = -\frac{b}{r^2}dx^1 + \frac{a}{r^2}dx^2$$
-      is closed, equals $d\theta$ off a cut, but $\int\mathsf{A} = 2\pi$ around the unit circle, so it is not exact.
-
       **Next:** Part 2 proves the converse near every point (the Poincaré lemma: closed implies a differential on a ball), shows where the proof breaks around a hole, and names the three scales.

@@ -1,6 +1,17 @@
 id: ch02-J-invertible
-title: "Guided Problem: Why the Change of Basis Is Invertible"
+title: "Guided Proof: Why the Change of Basis Is Invertible"
 kind: guided
+proof: true
+
+own: |
+  - **Setup.** $V$ is a $d$-dimensional vector space with two bases $\{\hat{x}_i\}$ (old) and $\{\hat{y}_i\}$ (new). Each old vector has unique components in the new basis, which defines the change-of-basis matrix $J$ ($d\times d$, entries $J_i^j$):
+    $$\hat{x}_i = \sum_{j=1}^d J_i^j\,\hat{y}_j .$$
+  - **$J$ is square and invertible**, because both sets are bases (spanning gives the matrices, linear independence gives uniqueness of components). Its inverse writes new in terms of old:
+    {{ $$\hat{y}_i = \sum_{j=1}^d (J^{-1})_i^j\,\hat{x}_j$$ }}
+  - **Two-sided inverse**, with $\delta_i^k$ the Kronecker delta ($1$ if $i=k$, else $0$):
+    {{ $$\begin{aligned}\sum_{j=1}^d J_i^j\,(J^{-1})_j^k &= \delta_i^k\\ \sum_{j=1}^d (J^{-1})_i^j\,J_j^k &= \delta_i^k\end{aligned}$$ }}
+  - **Why**: write old in new and then new in old; the round trip must return $\hat{x}_i$, and {{ uniqueness of components in a basis }} turns this into $JK=\mathbb{1}$, where $K=J^{-1}$ (the numbers in $\hat{y}_j=\sum_k K_j^k\,\hat{x}_k$). The round trip the other way gives $KJ=\mathbb{1}$.
+  - **Square**: all bases of $V$ have {{ the same number of elements, $d=\dim V$ }}, so $J$ is a $d\times d$ matrix.
 
 cards:
   - type: text
@@ -206,13 +217,6 @@ cards:
       The number of elements in a basis is the dimension, the same for every basis. So $J$ is always a square $d\times d$ matrix, as the bijection picture requires: a translation between two descriptions that loses nothing and misses nothing.
 
   - type: text
-    id: wrap
-    title: Problem solved
+    id: summary
     body: |
-      For any two bases of $V$, with $\hat{x}_i = \sum_j J_i^j\,\hat{y}_j$, the matrix $J$ is invertible and its inverse writes new in terms of old:
-      $$\hat{y}_i = \sum_{j=1}^d (J^{-1})_i^j\,\hat{x}_j ,$$
-      $$\sum_{j=1}^d J_i^j\,(J^{-1})_j^k = \delta_i^k = \sum_{j=1}^d (J^{-1})_i^j\,J_j^k .$$
-
-      **The proof in one line:** go old $\to$ new $\to$ old and you must come back where you started; uniqueness of components turns that into $JK = \mathbb{1}$, and the round trip the other way gives $KJ = \mathbb{1}$.
-
       **Next:** the dual bases $\{\hat{\mathfrak{x}}^i\}$ and $\{\hat{\mathfrak{y}}^i\}$ are also related by a matrix. Is it $J$, $J^{-1}$, or something new?

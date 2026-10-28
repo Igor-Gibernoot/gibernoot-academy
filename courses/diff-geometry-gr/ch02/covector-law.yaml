@@ -1,6 +1,18 @@
 id: ch02-covector-law
-title: "Guided Problem: Do Covectors Transform the Same Way?"
+title: "Guided Proof: Do Covectors Transform the Same Way?"
 kind: guided
+proof: true
+own: |
+  - **Setup.** $V$ is a $d$-dimensional vector space with two bases $\{\hat{x}_i\}$ and $\{\hat{y}_i\}$ related by an invertible matrix $J$. A vector $\mathcal{X}\in V$ has components $x^i$ and $y^i$; a covector $\mathsf{X}\in V^*$ (a linear map $V\to\mathbb{R}$) has components $\mathtt{x}_i=\mathsf{X}(\hat{x}_i)$ and $\mathtt{y}_i=\mathsf{X}(\hat{y}_i)$, the components in the dual bases.
+    $$\begin{aligned}\hat{x}_i &= \sum_{j=1}^d J_i^j\cdot\hat{y}_j\\ \Longleftrightarrow\quad \hat{y}_j &= \sum_{i=1}^d (J^{-1})_j^i\cdot\hat{x}_i\end{aligned}$$
+  - **Vector components** are contravariant:
+    {{ $$y^j = \sum_{i=1}^d J_i^j\, x^i$$ }}
+  - **Covector components** are covariant (same matrix and index pattern as the basis vectors):
+    {{ $$\mathtt{y}_j = \sum_{i=1}^d (J^{-1})_j^i\,\mathtt{x}_i \quad\Longleftrightarrow\quad \mathtt{x}_j = \sum_{i=1}^d J^i_j\,\mathtt{y}_i$$ }}
+    Proof: plug $\hat{y}_j=\sum_i (J^{-1})_j^i\,\hat{x}_i$ into $\mathtt{y}_j=\mathsf{X}(\hat{y}_j)$ and use linearity.
+  - **The pairing is basis independent**: the opposite laws make $J$ and $J^{-1}$ cancel, because $\sum_j J_k^j\,(J^{-1})_j^i=\delta_k^i$:
+    {{ $$\mathsf{X}(\mathcal{X}) = \sum_i \mathtt{x}_i\, x^i = \sum_j \mathtt{y}_j\, y^j$$ }}
+  - **Two upper indices do not cancel**: {{ $\sum_i x^i x^i$ }} changes with the basis (for $\hat{y}_i=2\hat{x}_i$ and $(x^1,x^2)=(6,4)$, it goes from $52$ to $13$). Only up-down contractions are safe, until a metric is given.
 
 cards:
   - type: text
@@ -240,14 +252,6 @@ cards:
       Two **upper** indices transform the same way, so nothing cancels: "the sum of squares of the components" is **not** a property of the vector. Turning two vectors into a basis-independent number needs extra structure, a **metric**, which arrives in Level 7. Until then, only up-down contractions are safe.
 
   - type: text
-    id: wrap
-    title: Problem solved
+    id: summary
     body: |
-      For bases $\{\hat{x}_i\}$, $\{\hat{y}_i\}$ of $V$ with $\hat{x}_i = \sum_j J_i^j\,\hat{y}_j$, a covector $\mathsf{X}\in V^*$ has components $\mathtt{x}_i$, $\mathtt{y}_i$ in the dual bases, and a vector $\mathcal{X}\in V$ has components $x^i$, $y^i$:
-
-      **(a)** Covector components transform covariantly, with the same matrix and index pattern as the basis vectors:
-      $$\mathtt{y}_j = \sum_i (J^{-1})_j^i\,\mathtt{x}_i \quad\Longleftrightarrow\quad \mathtt{x}_j = \sum_i J^i_j\,\mathtt{y}_i .$$
-      **(b)** As a consequence, the pairing does not depend on the basis:
-      $$\mathsf{X}(\mathcal{X}) = \sum_i \mathtt{x}_i\, x^i = \sum_j \mathtt{y}_j\, y^j .$$
-
       **Why this matters for GR.** A particle's velocity is a vector and the gradient of a field is a covector. Their pairing is the rate at which the field changes along the particle's path, and every observer must agree on it. Opposite transformation laws are what guarantee that. In Chapter 4, $J$ becomes the Jacobian of a coordinate change and these become the transformation laws of tensor calculus.

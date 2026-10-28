@@ -1,6 +1,20 @@
 id: ch04-velocity-operations
-title: 'Guided Problem: Adding Velocities with Curves'
+title: 'Guided Proof: Adding Velocities with Curves'
 kind: guided
+proof: true
+
+own: |
+  - **Setting.** On a smooth manifold $\mathcal{M}$ (general, any dimension $d$; the charts of $\mathbb{R}^2$ in the lesson are only a playground), a smooth curve $\gamma$ with $\gamma(\lambda_0)=p$ has velocity acting on scalar fields $f\in C^\infty(\mathcal{M})$ by
+    {{ $$v_{\gamma,p}(f) := (f\circ\gamma)'(\lambda_0)$$ }}
+    and $T_p\mathcal{M}$ is the set of all such velocities. Sum and scaling are defined field by field, with no chart, for $\alpha\in\mathbb{R}$:
+    {{ $$\begin{aligned}(v\oplus_T w)(f) &:= v(f)+w(f),\\ (\alpha\odot_T v)(f) &:= \alpha\,v(f).\end{aligned}$$ }}
+  - **Closure under $\oplus_T$.** Let $\gamma_1(\lambda_1)=\gamma_2(\lambda_2)=p$ and let $\mathscr{X}$ be any chart around $p$ (a map from an open set of $\mathcal{M}$ to $\mathbb{R}^d$). The curve $\sigma$ defined near $\lambda=0$ by
+    {{ $$\begin{aligned}(\mathscr{X}\circ\sigma)(\lambda) := {}&(\mathscr{X}\circ\gamma_1)(\lambda_1+\lambda)\\ &+ (\mathscr{X}\circ\gamma_2)(\lambda_2+\lambda)\\ &- \mathscr{X}(p)\end{aligned}$$ }}
+    passes through $p$ at $\lambda=0$ and has velocity $v_{\sigma,p}=v_{\gamma_1,p}\oplus_T v_{\gamma_2,p}$. Proof: chain rule forwards through $F=f\circ\mathscr{X}^{-1}$, components add, chain rule backwards.
+  - **Closure under $\odot_T$.** For $\gamma(\lambda_0)=p$, the reparametrized curve (no chart needed)
+    $$\sigma(\lambda) := \gamma(\lambda_0+\alpha\lambda)$$
+    has velocity $\alpha\odot_T v_{\gamma,p}$; $\alpha=0$ gives the constant curve, the zero vector.
+  - So {{ $T_p\mathcal{M}$ is a real vector space }}. The sum **curve** depends on the chart (on $\mathbb{R}^2$ two charts gave two different curves), the **vector** does not: the right-hand side $v_{\gamma_1,p}(f)+v_{\gamma_2,p}(f)$ mentions no chart.
 
 cards:
   - type: text
@@ -379,14 +393,6 @@ cards:
       Points cannot be added, so combining two different curves needs a chart to add their coordinates. Defining the sum vector, and scaling a single curve, need none.
 
   - type: text
-    id: wrap-up
-    title: What you now own
+    id: summary
     body: |
-      - **Setting:** $v_{\gamma,p}(f) := (f\circ\gamma)'(\lambda_0)$ is the velocity of a smooth curve $\gamma$ through $p$ at $\lambda_0$ on a scalar field $f$; $(v\oplus_T w)(f) := v(f)+w(f)$ and $(\alpha\odot_T v)(f) := \alpha\,v(f)$.
-      - **Closure under $\oplus_T$:** for curves with $\gamma_1(\lambda_1) = \gamma_2(\lambda_2) = p$ and any chart $\mathscr{X}$ around $p$, the curve with
-      $$\begin{aligned}\mathscr{X}\circ\sigma(\lambda) = {}&\mathscr{X}\circ\gamma_1(\lambda_1 + \lambda)\\ &+ \mathscr{X}\circ\gamma_2(\lambda_2 + \lambda)\\ &- \mathscr{X}(p)\end{aligned}$$
-      has velocity $v_{\gamma_1,p}\oplus_T v_{\gamma_2,p}$. Proof: chain rule forwards, add components, chain rule backwards.
-      - **Closure under $\odot_T$:** $\sigma(\lambda) = \gamma(\lambda_0 + \alpha\lambda)$, no chart needed; $\alpha = 0$ gives the constant curve, the zero vector.
-      - So $T_p\mathcal{M}$ is a real vector space. The **curves** realizing the operations depend on the chart; the **vectors** do not.
-
       **Next:** velocities have components $(\mathscr{X}^i\circ\gamma)'(\lambda_0)$ in every chart, and in this lesson they simply added. Which vectors play the role of a basis, and how do the components change from chart $\mathscr{X}$ to chart $\mathscr{Y}$? Coordinate bases and the Jacobian.
