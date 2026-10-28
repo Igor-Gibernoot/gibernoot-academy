@@ -39,6 +39,8 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 
 ## Chapter 3
 
+- Emergence lesson: reduction = higher-level fact deducible from parts; weak emergence (Bedau; Life glider, Conway 1937-2020) = deducible in principle, found by running; strong (Broad 1887-1971) = not deducible + downward causation, rejects closure P1; temperature $\tfrac12 m\langle v^2\rangle=\tfrac32kT$, 5 He atoms give 278 K; emergentist brute law vs panpsychist "there from start".
+
 - Panpsychism lesson: panpsychism = basic, simplest-form experience (not thought); structure/dynamics vs intrinsic nature (chess rules vs pieces); proof P1 physics gives only structure, P2 hard problem, P3 intrinsic nature experiential, C; neutral monism (Spinoza 1632-1677 attributes, Russell 1872-1970, 1927); panprotopsychism; combination problem (James 1890); replies constitutive, integrated information (Tononi b.1960), cosmopsychism. Goff b.1981, Strawson b.1952.
 
 - Idealism lesson: kinds subjective (Berkeley 1685-1753), transcendental (Kant 1724-1804), absolute (Hegel 1770-1831), analytic (Kastrup b.1966); Berkeley proof P1 only ideas perceived, P2 ideas in minds, P3 sensible things = what we perceive, C; unthought tree: God vs phenomenalist (Mill); idealist supervenience = physical supervenes on mental, with a Hempel-style dilemma for "mental".

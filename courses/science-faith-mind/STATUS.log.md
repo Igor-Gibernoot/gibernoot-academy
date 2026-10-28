@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-28 ch03-emergence (18 cards)
+Concept lesson, widget `cellular-automaton` (glider preset, step/reset, screenshot viewed OK). Choices: worked example = temperature of 5 helium atoms (<v^2>=1.73e6, T=277.7 K ~ 278, script); Bedau b.1952, Conway 1937-2020 (1970), Broad 1887-1971 (1925), Chalmers b.1966 from memory, no web search; hook marks the scientific answer correct as a start, not a verdict; "hard to predict" Life claim kept qualitative (Life is computation-universal). Conventions fixed here: emergent = whole has property no part has; reduction = nothing over and above, deducible; weak (deducible in principle, only by running) vs strong (not deducible + downward causation, rejects closure P1); temperature by identification (1/2 m<v^2> = 3/2 kT); glider = pattern no rule mentions; emergentist (brute law at complexity) vs panpsychist (there from start).
+
 ## 2026-10-28 ch03-panpsychism (17 cards)
 Concept lesson with guided-proof P1-P3 inside, no widget. Choices: no web search (attributions from memory, paraphrased; Chalmers 2013 and James 1890 kept as approximate "set out"/"saw it"); hook marks the panpsychist option correct as the lesson's focus, stated as not a verdict. Conventions fixed here: panpsychism = basic experience, simplest form, not thought; structure/dynamics vs intrinsic nature (chess rules vs pieces); neutral monism (Spinoza attributes, Russell); panpsychism vs panprotopsychism; combination problem replies: constitutive, integrated information, cosmopsychism.
 
