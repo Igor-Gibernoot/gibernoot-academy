@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-10-28 ch02-falsification (18 cards)
+Built `ch02/falsification.yaml` (plan said ~20; merged the bold/safe, Duhem and objection cards into 18): hook, sequence-sampler swans (rate p=0.03, seed 4, streak hidden), asymmetry, Popper text, modus tollens order, falsifiable mcq, bold vs safe, Popper's examples (1919 eclipse, Marxism/psychoanalysis steelmanned with reply), Duhem text (Uranus/Neptune 1846, Mercury/Vulcan/1915), two Duhem mcqs, objection text (probabilistic, exists claims, meaningfulness), two objection mcqs, layers, return to swans, summary with Kuhn teaser. Web search checked Vlamingh 10 Jan 1697 (Antonie Caen saw black swans 1636, so wording says "not the first"); other dates from standard knowledge. No new numbers. Choice: no numeric card (geometric mean ambiguous).
+Conventions fixed here: modus tollens form $T\Rightarrow O$, not $O$, so not $T$; Duhem form with $T\wedge A$ (A = auxiliary assumptions); swans toy = rate 0.03 seed 4; Popper contrasts steelmanned with the defenders' reply; Popper separates science from meaning (positivists equate); dates Eddington 1882-1944, Le Verrier 1811-1877, Duhem 1861-1916.
+
 ## 2026-10-28 ch02-induction (24 cards)
 Built `ch02/induction.yaml`: hook, sequence-sampler (Sun, change at 37), Hume's P1-P4/C with order card, critic card, Russell's chicken, four replies (Popper, Reichenbach, Laplace numeric + objection, best explanation), grue and bleen, Hume's own custom/habit, layers card, return to the Sun, summary. Autonomous choices: kept to 24 cards, no web search (all names/dates standard knowledge, quotes paraphrased, none quoted); Laplace numbers by script (11/12, 1,826,214:1). Sampler card viewed once, fine.
 Conventions fixed here: Sun as running example with sampler change at 37; Laplace n=10 gives 11/12; four-replies frame (bypass, vindicate, reshape, explain away); dates as listed in CONVENTIONS Chapter 2.
