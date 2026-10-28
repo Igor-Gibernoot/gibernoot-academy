@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-28 ch01-challenge part 1 (16 cards)
+Built `ch01/challenge.yaml` (problems 1-3: kind of answer, lens choice incl. prayer and eating meat, splitting a dream question, how-vs-why, method order). Structure decision: two lesson nodes, `ch01-challenge` (built) and `ch01-challenge-2` (planned, no file); part 1 depends on nothing from part 2. No widget, no `own:`. Checked: STEP trial 2006 (~1,800 patients, no benefit; memory), Genesis 9:3, Singer b.1946, toy 10,000 x 1/1000 = 10. Conventions fixed here: four kinds of answer (measurable fact, conceptual, faith commitment, value); method order clarify, split, classify, choose lens, attribute "according to" and where views part (premise, value, evidence).
+
 ## 2026-10-28 ch01-map (9 cards: intro, 7 nodes, outro)
 Autonomous choices: 7 boxes in a 3-column grid (honest question root; inherited beliefs, four lenses, kinds of reason; origin is not truth, shortcuts that fail; where views part). "Selection effect" was not taught in Level 1, so the traps box uses vivid story, cherry-picking, circular, "rare therefore planned" (lottery). Decoys: strawman/"everyone knows", wrong attachments (genetic fallacy called cherry-picking), "only one lens right". No widget. Validate and shots clean; map viewed once (arrows clear).
 Conventions fixed here: map box titles are short plain phrases; decoys are wrong attachments or half-truths, never untaught jargon.
