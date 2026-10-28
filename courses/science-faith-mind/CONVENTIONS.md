@@ -18,3 +18,9 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 - Tour lesson: puzzle card ids `p-<topic>`; each explanation names the later level by title; Hindu and Buddhist levels share `p-self` (chariot, anatta vs atman). Glossed there: selection effect, dualist, materialist, hedonism, perennialism, constructivist, analogy, fallibilist.
 - Traps lesson: ids are topic slugs; lottery trap previews fine-tuning ("rare, therefore planned"); perennialism glossed there.
 - Intro welcome card states "guessing is the point" for all Level 1 lessons.
+
+## Chapter 2
+
+- Argument cards use P1.. and C; thinkers' dates at first use: Hume 1711-1776 (Treatise 1739, Enquiry 1748), Russell 1872-1970 (chicken), Popper 1902-1994, Reichenbach 1891-1953, Laplace 1749-1827, Goodman 1906-1998 (1955).
+- Induction lesson: running example is the Sun; hidden-rule toy `sequence-sampler` rule `change`, changeAt 37, symbols sun/new moon. Laplace rule $(n+1)/(n+2)$: $n=10$ gives $11/12$; 5000 years ~ 1,826,213 days gives odds 1,826,214 to 1. Glossed there: deductive, inductive, uniformity principle, circular (vicious), corroborated, grue/bleen.
+- Four replies to Hume (bypass, vindicate, reshape, explain away), each with its best objection; layers card (fact / debate / commitment) closes the lesson.

@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-10-28 ch02-induction (24 cards)
+Built `ch02/induction.yaml`: hook, sequence-sampler (Sun, change at 37), Hume's P1-P4/C with order card, critic card, Russell's chicken, four replies (Popper, Reichenbach, Laplace numeric + objection, best explanation), grue and bleen, Hume's own custom/habit, layers card, return to the Sun, summary. Autonomous choices: kept to 24 cards, no web search (all names/dates standard knowledge, quotes paraphrased, none quoted); Laplace numbers by script (11/12, 1,826,214:1). Sampler card viewed once, fine.
+Conventions fixed here: Sun as running example with sampler change at 37; Laplace n=10 gives 11/12; four-replies frame (bypass, vindicate, reshape, explain away); dates as listed in CONVENTIONS Chapter 2.
+
 ## 2026-10-28 ch01-challenge-2 (16 cards)
 Built `ch01/challenge-2.yaml`: Recall card (kinds, lenses, method), Problem 4 (Old Street car ban debate, invented numbers: fact+value mix, attack on the person, straw man, history vs purpose, lens multi-select, where views part, order of a fair reply), Problem 5 (can a computer think / is it wrong to switch it off: words, split, kind+lens, evidence, premise parting), plain summary + Level 2 teaser. Autonomous choices: no numeric or widget card; "how vs why" became "origin vs purpose" (fits the debate). Checked part-1 facts: STEP 2006 (Benson, 1,802 patients, 52% vs 51% complications) confirmed by web search; Singer b.1946 and Genesis 9:3 are standard, kept; Jainism non-harm standard; no fix needed.
 Conventions fixed here: debate cards name speakers and invent numbers (said so); disagreements are named as premise, value or evidence, never a winner.
