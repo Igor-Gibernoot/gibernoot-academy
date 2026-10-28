@@ -1,0 +1,359 @@
+id: ch02-intuition
+title: Quick Recall
+kind: intuition
+
+cards:
+  - type: text
+    id: welcome
+    title: "Quick recall: how science learns, tests and weighs"
+    body: |
+      This round **derives nothing**. It is for fast recall of the main ideas of the level: the replies to Hume, the logic of testing, Bayes' rule, the pictures of what theories are, and the limits of method.
+
+      Four kinds of card: **mnemonics** (the shape of an idea), **build cards** (assemble a formula), **checks** (does the formula behave sensibly at the extremes?) and **distinctions** (who says what). Then small applied cases give you data only: choose the right tool yourself.
+
+      As always, answers are given *according to* a thinker or a rule. Nothing here asks whether any religion is true.
+
+  - type: mcq
+    id: four-replies
+    title: "Four replies to Hume"
+    prompt: |
+      Hume (1711-1776) argued that induction (reasoning from seen cases to unseen ones) cannot be justified without going in a circle. Which pairing of a reply with its core idea is right?
+    options:
+      - text: Bypass (Popper) means science never needs induction, only bold conjectures tested by deduction; vindicate (Reichenbach) means that if any method works, induction works, so it is the best bet.
+        correct: true
+      - text: Bypass (Reichenbach) means science never needs induction; vindicate (Popper) means induction is proved correct by its past success.
+        feedback: |
+          The names are swapped, and "proved by past success" is exactly the circle Hume pointed at. Popper (1902-1994) is the one who bypasses; Reichenbach (1891-1953) offers the pragmatic vindication.
+      - text: Reshape means induction gives certainty after enough cases; explain away means the problem is real and unsolvable.
+        feedback: |
+          Reshape means giving up certainty and asking only for probabilities (Bayesian style); explain away means describing, as psychology, why we form such habits. Neither promises certainty.
+      - text: All four replies agree that induction is logically valid, and differ only in the examples used.
+        feedback: |
+          They accept that induction is not deductively valid. They differ in what to do about it: skip it, defend it pragmatically, weaken the goal, or explain the habit.
+    explanation: |
+      Mnemonic: **B-V-R-E**: *bypass* (Popper), *vindicate* (Reichenbach), *reshape* (probability instead of certainty), *explain away* (a fact about human minds). Each has a best objection; none gives certainty.
+
+  - type: mcq
+    id: tollens
+    title: "Which direction is valid?"
+    prompt: |
+      A theory $T$ predicts an observation $O$, so $T \Rightarrow O$. Which inference is valid?
+    options:
+      - text: "$T \\Rightarrow O$ and not-$O$, so not-$T$ (modus tollens)."
+        correct: true
+      - text: "$T \\Rightarrow O$ and $O$, so $T$ (affirming the consequent)."
+        feedback: |
+          Other theories can predict the same $O$, so seeing $O$ cannot prove $T$. It can raise its probability, which is a different, weaker claim.
+      - text: "$T \\Rightarrow O$ and not-$T$, so not-$O$ (denying the antecedent)."
+        feedback: |
+          $O$ can be true for other reasons even if $T$ is false.
+      - text: Both of the first two are valid.
+        feedback: |
+          Only the first. Mnemonic: a failed prediction can refute; a successful one cannot prove.
+    explanation: |
+      Refutation is deductive; confirmation is not. Real tests add auxiliary assumptions, which is the next card.
+
+  - type: order
+    id: duhem-chain
+    title: "The Duhem chain"
+    prompt: |
+      Put in order the reasoning when a prediction fails, according to Duhem (1861-1916). Here $T$ is a theory, $A$ the auxiliary assumptions (instruments work, nothing else interferes) and $O$ the predicted observation.
+    steps:
+      - "Together, $T$ and $A$ imply $O$: $(T \\wedge A) \\Rightarrow O$."
+      - "The experiment shows not-$O$."
+      - "By modus tollens, the conjunction $T \\wedge A$ is false."
+      - "So at least one of $T$ or $A$ is false; the logic alone does not say which."
+    hint: Prediction first, then the result, then what modus tollens hits, then what is left open.
+    explanation: |
+      The valid inference lands on the bundle. Blaming $A$ (Neptune, 1846) can be good science; blaming $A$ every time with no independent check is ad hoc.
+
+  - type: build
+    id: bayes-rule
+    title: "Build Bayes' rule"
+    prompt: |
+      Assemble the posterior probability of a hypothesis $H$ given evidence $E$: the probability of $E$ if $H$ is true, times the prior of $H$, divided by the overall probability of $E$.
+    prefix: 'P(H\mid E)='
+    tiles: ['P(E\mid H)', 'P(H)', 'P(E)', 'P(H\mid E)', '\times', '\div']
+    answers:
+      - ['P(E\mid H)', '\times', 'P(H)', '\div', 'P(E)']
+      - ['P(H)', '\times', 'P(E\mid H)', '\div', 'P(E)']
+    wrong:
+      - answer: ['P(H\mid E)', '\times', 'P(H)', '\div', 'P(E)']
+        feedback: |
+          That uses the posterior to define itself. The numerator needs the likelihood $P(E\mid H)$, the chance of the evidence if $H$ were true.
+    hint: Likelihood times prior, over the probability of the evidence.
+    explanation: |
+      $P(H)$ is the prior, $P(E\mid H)$ the likelihood, $P(E)$ the total chance of the evidence over all hypotheses, and $P(H\mid E)$ the posterior.
+
+  - type: build
+    id: odds-form
+    title: "Build the odds form"
+    prompt: |
+      Two hypotheses $H_1$ and $H_2$ compete for the same evidence $E$. Assemble how the odds update.
+    prefix: '\text{posterior odds}='
+    tiles: ['\text{LR}', '\text{prior odds}', '\times', '+', '\div']
+    answers:
+      - ['\text{LR}', '\times', '\text{prior odds}']
+      - ['\text{prior odds}', '\times', '\text{LR}']
+    wrong:
+      - answer: ['\text{LR}', '+', '\text{prior odds}']
+        feedback: |
+          Evidence multiplies the odds, it does not add to them. A likelihood ratio of 1 must change nothing, and adding 1 would change the odds.
+    hint: Here LR is the likelihood ratio $P(E\mid H_1)/P(E\mid H_2)$.
+    explanation: |
+      $\text{LR} = P(E\mid H_1)/P(E\mid H_2)$ measures how much better $H_1$ predicted $E$ than $H_2$ did. Odds of $a$ to $b$ turn into probability $a/(a+b)$.
+
+  - type: build
+    id: laplace
+    title: "Build Laplace's rule"
+    prompt: |
+      After $n$ trials, all successes, Laplace (1749-1827) gave the probability of success on the next trial, starting from complete ignorance. Assemble it.
+    prefix: '\Pr(\text{next})='
+    tiles: ['\dfrac{n+1}{n+2}', '\dfrac{n}{n+1}', '\dfrac{n}{n+2}', '\dfrac{n+1}{n}']
+    answers:
+      - ['\dfrac{n+1}{n+2}']
+    wrong:
+      - answer: ['\dfrac{n}{n+1}']
+        feedback: |
+          Tempting (it also tends to 1), but it gives zero after zero trials. Complete ignorance should give one half at $n=0$.
+    hint: At $n=0$ the answer must be one half, and it must climb toward 1 but never reach it.
+    explanation: |
+      For $n=0$ it gives $1/2$; for $n=10$ it gives $11/12$. It never reaches 1, which is the probabilistic face of Hume's point.
+
+  - type: build
+    id: dilution
+    title: "Build a 30C dilution"
+    prompt: |
+      In homeopathic preparation (Hahnemann, 1755-1843), "30C" means 30 successive dilutions, each by a factor of 100. Assemble the total dilution factor.
+    prefix: '\text{factor}='
+    tiles: ['100^{30}', '30^{100}', '100\times30', '10^{30}']
+    answers:
+      - ['100^{30}']
+    wrong:
+      - answer: ['100\times30']
+        feedback: |
+          Repeated dilutions multiply: 100 times 100, thirty times. A single product of 100 and 30 would be the factor of only a couple of steps.
+    hint: Each step multiplies the dilution by the same factor.
+    explanation: |
+      $100^{30} = 10^{60}$. A mole holds about $6\times10^{23}$ molecules, so on average far less than one molecule of the original substance remains in a dose.
+
+  - type: mcq
+    id: lr-one
+    title: "Check: a likelihood ratio of 1"
+    prompt: |
+      Hypotheses $H_1$ and $H_2$ are at odds 3 to 2. New evidence $E$ is exactly as likely under $H_1$ as under $H_2$. What should the odds be afterwards?
+    options:
+      - text: 3 to 2, unchanged.
+        correct: true
+      - text: Higher for $H_1$, since $E$ was observed and $H_1$ is the leading hypothesis.
+        feedback: |
+          Evidence only favours a hypothesis that predicted it better than the rival did. If both predicted it equally, it does not discriminate.
+      - text: Even odds, 1 to 1.
+        feedback: |
+          Nothing in the update pulls toward even odds. A neutral result leaves the prior where it was.
+    explanation: |
+      Scaling check: LR $=1$ leaves the odds fixed. This is why a "safe" prediction that every rival makes too confirms nothing in particular.
+
+  - type: mcq
+    id: rare-prior
+    title: "Check: a rare condition"
+    prompt: |
+      A condition affects 1 person in 100. A test is fairly accurate (it flags 90% of sick people and 9% of healthy ones). Someone tests positive once. Without computing, what should you expect about the chance they are sick?
+    options:
+      - text: Still well below one half, because most positives come from the many healthy people.
+        correct: true
+      - text: About 90%, the accuracy of the test.
+        feedback: |
+          That confuses $P(\text{positive}\mid\text{sick})$ with $P(\text{sick}\mid\text{positive})$. When the condition is rare, the healthy majority produces more positives than the sick minority.
+      - text: About 50%, since the test either flags or does not.
+        feedback: |
+          Two outcomes do not make two equal chances; the prior of 1% pulls the answer down.
+    explanation: |
+      Scaling check: a small prior keeps the posterior low unless the evidence is very strong. In the 1000-person picture, 9 sick positives face 89 healthy ones, so 9 of 98.
+
+  - type: mcq
+    id: many-repeats
+    title: "Check: small prior, weak evidence"
+    prompt: |
+      A hypothesis starts at a prior of 1%. Each independent confirming result multiplies its odds by the same modest factor of 3. Which expectation is right?
+    options:
+      - text: Several repeated results are needed before it becomes likely, since each only multiplies the small starting odds by 3.
+        correct: true
+      - text: One result is enough to make it likely, since any confirmation counts.
+        feedback: |
+          One result takes the odds from about 1 to 99 to about 3 to 99, around 3%. Each result helps, but the starting hole is deep.
+      - text: No number of repeated results can ever make it likely.
+        feedback: |
+          Odds multiplied again and again grow without bound, so enough independent results do win. The point is how many, not whether.
+    explanation: |
+      Scaling check: the odds grow like the factor to the power of the number of results, so small priors need many repeats, or one result with a very large ratio.
+
+  - type: mcq
+    id: weak-strong
+    title: "Weak and strong underdetermination"
+    prompt: |
+      Which pair of statements correctly separates the two kinds of underdetermination of theory by data?
+    options:
+      - text: Weak means the data so far fit several theories, and more data could separate them; strong means that even all possible data would fit rival theories.
+        correct: true
+      - text: Weak means the data fit one theory only; strong means they fit none.
+        feedback: |
+          Both kinds concern more than one theory fitting. The difference is whether *more data* could in principle decide.
+      - text: Weak is about religion, strong is about physics.
+        feedback: |
+          Both appear in any field. Strong underdetermination is a philosophical claim (Quine, 1908-2000, in a radical reading), not a topic.
+      - text: Weak means the theories are wrong, strong means they are right.
+        feedback: |
+          Neither is a verdict on truth; both describe how well data pin down a theory.
+    explanation: |
+      Weak is routine science (collect more data). Strong is contested: critics say simplicity and other values break the tie, and disagree on whether those track truth or only convenience.
+
+  - type: mcq
+    id: realist-trio
+    title: "Realist, instrumentalist, constructive empiricist"
+    prompt: |
+      On a theory that predicts well about invisible things such as electrons, which description is right?
+    options:
+      - text: The realist says it is approximately true; the instrumentalist says it is a useful tool, with no claim about truth; the constructive empiricist (van Fraassen, b.1941) says its aim is only to be empirically adequate, true about what is observable, while staying open about the rest.
+        correct: true
+      - text: The realist says it is only a tool; the instrumentalist says it is approximately true.
+        feedback: |
+          Reversed. Realists take success as a sign of approximate truth (the no-miracles argument, Putnam, 1926-2016).
+      - text: The constructive empiricist says electrons certainly do not exist.
+        feedback: |
+          That is denial, which van Fraassen does not assert. He suspends belief about the unobservable.
+      - text: All three agree on the truth of unobservable claims and differ only on mathematics.
+        feedback: |
+          They differ exactly on what to believe about the unobservable.
+    explanation: |
+      Realists cite success; the pessimistic meta-induction (Laudan, b.1941) replies that past successful theories were dropped. Structural realists (Worrall, 1989) keep the structure, as Fresnel's equations survived in Maxwell's theory.
+
+  - type: mcq
+    id: naturalisms
+    title: "Two naturalisms"
+    prompt: |
+      Which statement correctly separates methodological from metaphysical naturalism?
+    options:
+      - text: Methodological naturalism is a rule of method (explain with natural causes inside science); metaphysical naturalism is a claim that nothing exists beyond nature, which science alone does not establish.
+        correct: true
+      - text: They are the same thesis in two vocabularies.
+        feedback: |
+          A method can be adopted by a believer and an atheist alike; the metaphysical claim is exactly what they dispute.
+      - text: Methodological naturalism claims God does not exist.
+        feedback: |
+          That is the metaphysical claim, or atheism. The methodological rule only says what counts as a scientific explanation.
+      - text: Metaphysical naturalism is the scientific method.
+        feedback: |
+          The method does not by itself entail a verdict on everything that exists.
+    explanation: |
+      Keeping them apart avoids two slips: treating the method as a proof of atheism, and treating the method as hostile to belief. Gould (1941-2002) proposed that science and religion cover separate magisteria (NOMA); critics reply that religions also make factual claims.
+
+  - type: mcq
+    id: is-ought
+    title: "The is-ought gap"
+    prompt: |
+      According to Hume (Treatise, 1739), what is wrong with moving from "this is how things are" to "so this is what we ought to do"?
+    options:
+      - text: A conclusion about what ought to be needs at least one premise about values; facts alone do not supply it.
+        correct: true
+      - text: Nothing; facts always entail values.
+        feedback: |
+          Hume's observation is that authors slip from "is" to "ought" without noticing the missing value premise. Others reply that some facts about wellbeing bear on values.
+      - text: Facts are irrelevant to ethics.
+        feedback: |
+          Too far. Facts matter a lot (what actions cause), but they do not decide the value premise on their own.
+    explanation: |
+      Science can tell what a drug does; whether to take it also depends on values. Some thinkers contest the gap, so it is a live debate, not a settled fact.
+
+  - type: mcq
+    id: three-kinds
+    title: "Three kinds of question"
+    prompt: |
+      Sort the question "Is it right to withhold a drug from a control group in a trial?" into one of three kinds: empirical (what is the case), normative (what ought to be) or metaphysical (what ultimately exists).
+    options:
+      - text: Normative, a question about what we ought to do; science informs it but does not alone settle it.
+        correct: true
+      - text: Empirical, since a trial is an experiment.
+        feedback: |
+          The trial design is empirical, but whether it is right to withhold is about values.
+      - text: Metaphysical, about what ultimately exists.
+        feedback: |
+          Nothing here asks what exists; it asks what should be done.
+    explanation: |
+      Many hard questions mix the three; sorting them tells you which kind of evidence applies.
+
+  - type: numeric
+    id: two-positives
+    title: "Two positives"
+    prompt: |
+      A condition affects 1% of a population. A test flags 90% of sick people and 9% of healthy people. Someone tests positive twice, on two independent runs of the test. What is the chance, in percent, that they are sick?
+    answer: 50.25
+    tolerance: 0.5
+    answerText: '50.3%'
+    wrong:
+      - { value: 9.18, feedback: "That is the chance after a single positive. A second independent positive is further evidence and should raise it." }
+      - { value: 90, feedback: "That is the test's sensitivity, not the chance of being sick given the results." }
+    hint: Work with odds and with how much better "sick" predicts a positive than "healthy" does; think of the family "repeated independent evidence".
+    explanation: |
+      Prior odds are 1 to 99. Each positive has likelihood ratio $0.90/0.09=10$ for "sick", so two give $100$, and the odds become $100$ to $99$, a probability of $100/199 \approx 50.3\%$. One positive gave only $9.2\%$; the second more than quintuples the chance.
+
+  - type: numeric
+    id: rms
+    title: "How far off is the curve?"
+    prompt: |
+      A curve misses three data points by $1.0$, $1.7$ and $2.2$ (errors in the same units). Give the root-mean-square (RMS) error of the curve on these points, to two decimals.
+    answer: 1.71
+    tolerance: 0.01
+    answerText: '1.71'
+    wrong:
+      - { value: 1.63, feedback: "That is the plain average of the three errors. RMS squares each error first, which weights the large ones more." }
+    hint: RMS is a "typical size" built from squares; the sign of an error does not matter.
+    explanation: |
+      Square the errors: $1.00$, $2.89$, $4.84$. Their mean is $8.73/3=2.91$ and its square root is about $1.71$. A fit that goes through the points much more closely (RMS about $0.14$ in the lesson's toy) can still do worse on held-out data: overfitting.
+
+  - type: numeric
+    id: repeats
+    title: "How many confirmations?"
+    prompt: |
+      A hypothesis starts at a prior of 1%. Each new independent result is three times as likely if the hypothesis is true as if it is false. What is the smallest number of results after which its probability exceeds 95%?
+    answer: 7
+    tolerance: 0.01
+    answerText: '7'
+    wrong:
+      - { value: 6, feedback: "Six results reach only about 88%. Check the probability, not just the odds." }
+    hint: Each result scales the odds by the same factor; find where the odds pass 19 to 1 (95% as odds).
+    explanation: |
+      Prior odds are $1$ to $99$. After $k$ results the odds are $3^k/99$. For $k=6$ that is $7.36$, or $88.0\%$; for $k=7$ it is $22.1$, or $95.7\%$. So 7 results.
+
+  - type: mcq
+    id: layers
+    title: "Which layer?"
+    multiple: true
+    prompt: |
+      This level separates three layers of any claim: established fact, scholarly debate, and faith or metaphysical commitment. Select **all** the claims below that belong to the third layer.
+    options:
+      - text: Nothing exists beyond nature (metaphysical naturalism).
+        correct: true
+      - text: Only the methods of science give real knowledge (strong scientism).
+        correct: true
+      - text: In a 1985 double-blind test, astrologers matched birth charts to personality profiles no better than chance.
+        feedback: |
+          That is a documented result (Carlson, *Nature*, 1985): established fact, though one study is not the whole story.
+      - text: Whether successful scientific theories are approximately true (realism versus instrumentalism).
+        feedback: |
+          That is live scholarly debate with serious arguments on each side, not a faith commitment; each side offers reasons from the history of science.
+    explanation: |
+      The first two go beyond what any experiment can show, so they are commitments, and critics of each can state the strongest objection. Mixing the layers, in either direction, is the common slip.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Hume's problem and four replies:** induction cannot be justified without circularity; Popper bypasses it, Reichenbach vindicates it, probabilists reshape it, naturalists explain it away.
+      - **Testing:** modus tollens refutes, affirming the consequent does not prove; real tests refute the bundle $T\wedge A$ (Duhem).
+      - **Bayes:** posterior is proportional to likelihood times prior; odds update by multiplying by the likelihood ratio; LR $=1$ changes nothing; small priors need strong or many results.
+      - **What theories are:** weak vs strong underdetermination; realist, instrumentalist, constructive empiricist; Kuhn's cycle and Lakatos on progress.
+      - **Limits:** methodological vs metaphysical naturalism; is-ought; empirical, normative, metaphysical questions.
+      - **Layers:** fact, debate, commitment, always labelled.
+
+      **Next:** the content map, where you rebuild this level's concept map box by box.

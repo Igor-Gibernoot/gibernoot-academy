@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-28 ch02-intuition (Quick Recall, 21 cards)
+Built autonomously, no widget. Mnemonic mcq (four replies B-V-R-E), tollens, Duhem order card; 4 build cards (Bayes, odds, Laplace, 30C); 3 scaling checks; 5 distinction cards (weak/strong, realist trio, naturalisms, is-ought, three kinds); 3 data-only numerics (two positives 50.3%, RMS 1.71, 7 results); layers multi-select; plain summary card (no own:). Choice: 21 cards (above the ~18 plan, under 25) to keep all requested items. Conventions fixed here: mnemonic B-V-R-E for the four replies to Hume; numeric cards give data only (two positives at 1% prior, LR 10 each = 100:99 = 50.3%); layers card marks metaphysical naturalism and strong scientism as layer 3, realism vs instrumentalism as live debate.
+
 ## ch02-traps (2026-10-28)
 18 cards: welcome, 14 traps (sun certain, failed prediction/Duhem, affirming the consequent, Kuhn not opinion, base rate numeric 9.2%, LR 1, old evidence, equal fit, success vs pessimistic induction, instrumentalism, unproven vs pseudoscience, homeopathy tested, method vs worldview, is-ought, scientism self-reference), layers multi-select, summary. No widget. Choices: one numeric card only (base rate); layers card as multi-select mcq. Conventions fixed here: trap ids are topic slugs; base-rate trap uses 1000 people (10 sick, 9 true positive, 89 false positive, 9/98 = 9.2%).
 
