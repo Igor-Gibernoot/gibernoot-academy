@@ -1,5 +1,8 @@
 # Status log
 
+## ch02-traps (2026-10-28)
+18 cards: welcome, 14 traps (sun certain, failed prediction/Duhem, affirming the consequent, Kuhn not opinion, base rate numeric 9.2%, LR 1, old evidence, equal fit, success vs pessimistic induction, instrumentalism, unproven vs pseudoscience, homeopathy tested, method vs worldview, is-ought, scientism self-reference), layers multi-select, summary. No widget. Choices: one numeric card only (base rate); layers card as multi-select mcq. Conventions fixed here: trap ids are topic slugs; base-rate trap uses 1000 people (10 sick, 9 true positive, 89 false positive, 9/98 = 9.2%).
+
 ## ch02-limits (2026-10-28)
 17 cards: hook (A electron charge, B lying, C why something), three kinds of question + check, two naturalisms + check, Gould NOMA + critique check, Hume is-ought + check, what science can say about religious claims (multi-select), limits of the method, scientism + self-reference check, lens matching, traps multi-select, layers, summary. No widget; no sort card type exists, so the sort card is a multi-select mcq. Choices: no web search (all facts standard or from earlier lessons); no numeric card (no number carries the argument); planned "Level 2 claim" wording avoided. Conventions fixed here: three kinds of question = empirical / normative / metaphysical; methodological vs metaphysical naturalism; Gould 1941-2002 NOMA 1997 (Rocks of Ages 1999); Hume Treatise 3.1.1 is-ought gap (value premise needed); STEP trial = narrow test of intercessory prayer; scientism strong vs modest with the self-reference objection.
 
