@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-28 ch01-tour built (25 cards)
+Welcome + 23 puzzles (Levels 2-25; Hindu and Buddhist share one "chariot" puzzle to stay at 25 cards) + summary with table. All mcq except one numeric (aliens). Widget decision: none; no puzzle is geometric (hotel, chariot, dominoes are told in words), so no preset needed. Checked belief-mixer preset of ch01-reasons via shots at phone and desktop: looks fine, no change. Conventions fixed here: puzzle ids `p-<topic>`; one puzzle per level, level named by title in explanation; Hindu/Buddhist share `p-self`.
+
 ## 2026-10-28 ch01-reasons built
 15 cards: welcome, tea hook (anecdote vs controlled comparison), five kinds of reason, bundle and testimony questions, "every kind can fail" with cherry-pick, circular (with the view that all checking is somewhat circular), honest-witness cards, belief-mixer (2 claims, trust vs fit, toggle off, no "Bayes", 3 presets) plus numeric 86%, Hume vs Reid on trust, single-case trap, two views on experience as evidence. Autonomous choices: mixer kept (card count under 20); experience debate left open, deferred to Religious Experience level. Conventions fixed here: mixer in Level 1 may use two claims with "Trust" and "Evidence" labels (trust 0.9/0.1, fit 0.4/0.6); five kinds of reason glossed: evidence, argument, premise, conclusion, testimony, experience, trust.
 
