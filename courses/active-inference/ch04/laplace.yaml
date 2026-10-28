@@ -1,6 +1,17 @@
 id: ch04-laplace
-title: "Guided Problem: The Laplace Approximation"
+title: "Guided Proof: The Laplace Approximation"
 kind: guided
+proof: true
+own: |
+  - **Setup.** A one-dimensional hidden state $x$ and data $y$ have joint density $p(y,x)$ (the generative model). The approximate posterior is a Gaussian $q(x)=\mathcal N(\mu,\Sigma)$ with centre $\mu$ and variance $\Sigma$ (so $\Sigma^{-1}$ is the precision), and the free energy is $F=\mathbb E_{q(x)}[\ln q(x)-\ln p(y,x)]$.
+  - **Laplace approximation.** The log of a Gaussian is a quadratic, so expand $\ln p$ to second order around its mode $\mu$ (where the slope is zero): the density is Gaussian with its centre at the mode, and its precision is minus the curvature there:
+    {{ $$\Sigma^{-1}=-\partial_x^{2}\ln p(y,x)\big|_{x=\mu}$$ }}
+  - **Laplace free energy.** Expanding both logs to second order around $\mu$ and averaging over $q$ (using $\mathbb E_q[x-\mu]=0$ and $\mathbb E_q[(x-\mu)^2]=\Sigma$) gives
+    {{ $$\begin{aligned}F&=-\tfrac12\ln(2\pi e\,\Sigma)\\&\quad-\ln p(y,\mu)\\&\quad-\tfrac12\Sigma\,\partial_x^{2}\ln p(y,x)\big|_{x=\mu}\end{aligned}$$ }}
+    For a $k$-dimensional $x$, $-\tfrac12\ln(2\pi e)^{k}|\Sigma|$ replaces the first term and the last becomes a trace, $-\tfrac12\mathrm{tr}[\Sigma\,\nabla\nabla^{\!\top}\ln p(y,x)|_{\mu}]$.
+  - **Optimal width.** Setting $\partial_\Sigma F=0$ returns the same precision $\Sigma^{-1}$ as above, so the width is {{ a function of the mode }} and need not be optimised separately.
+  - **Inference is mode search.** Of all the terms in $F$, the only one that depends on $\mu$ is {{ $-\ln p(y,\mu)$ }}, so minimising $F$ over $\mu$ means maximising $\ln p(y,\mu)$: finding the mode (a MAP estimate).
+  - **Limits.** Exact for Gaussian posteriors and good for sharp peaks, but poor for several humps or long tails: it sees only the curvature at one peak.
 cards:
   - type: text
     id: intro
@@ -310,19 +321,4 @@ cards:
     id: summary
     title: "What you now own"
     body: |
-      **Setup.** A hidden state $x$ (here one-dimensional) and data $y$ have joint density $p(y,x)$. We approximate the posterior by a Gaussian $q(x)=\mathcal N(\mu,\Sigma)$ with centre $\mu$ and variance $\Sigma$ (precision $\Sigma^{-1}$).
-
-      - **Taylor.** Near a point $a$, with $\varepsilon=x-a$:
-        $$f(x)\approx f(a)+\varepsilon f'(a)+\tfrac12\varepsilon^{2}f''(a)$$
-      - **Laplace approximation.** The log of a Gaussian is a quadratic, so expand $\ln p$ at its mode $\mu$, where the slope is zero:
-        $$\ln p(x)\approx\ln p(\mu)+\tfrac12(x-\mu)^{2}\,\partial_x^{2}\ln p(\mu)$$
-        so the density is Gaussian with centre at the mode and precision minus the curvature:
-        $$\Sigma^{-1}=-\partial_x^{2}\ln p(y,x)\big|_{x=\mu}$$
-      - **Laplace free energy** (for $F=\mathbb E_q[\ln q-\ln p(y,x)]$):
-        $$\begin{aligned}F&=-\tfrac12\ln(2\pi e\,\Sigma)\\&\quad-\ln p(y,\mu)\\&\quad-\tfrac12\Sigma\,\partial_x^{2}\ln p(y,x)\big|_{\mu}\end{aligned}$$
-        For a $k$-dimensional $x$: $-\tfrac12\ln(2\pi e)^{k}|\Sigma|-\ln p(y,\mu)-\tfrac12\mathrm{tr}[\Sigma\,\nabla\nabla^{\!\top}\ln p(y,x)|_\mu]$.
-      - **Optimal width.** Setting $\partial_\Sigma F=0$ returns the same $\Sigma^{-1}$ as above, so the width is a function of the mode, and the only term that depends on $\mu$ is $-\ln p(y,\mu)$: inference is a search for the mode.
-      - **Example.** For $\ln p(y,x)=3\ln x-2x-\ln 3!$: mode $1.5$, precision $4/3$, variance $0.75$, $F=2.80$ (true surprise $2.77$; true posterior mean $2$).
-      - **Limits.** Exact for Gaussian posteriors, good for sharp peaks, poor for several humps or long tails.
-
       **Next:** the continuous-time model has Gaussian noise everywhere, so this $F$ is a sum of precision-weighted squared prediction errors. We build a network that descends it.

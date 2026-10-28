@@ -1,6 +1,22 @@
 id: ch07-efe-derivation
-title: "Guided Problem: The Expected Free Energy of a Policy"
+title: "Guided Proof: The Expected Free Energy of a Policy"
 kind: guided
+proof: true
+own: |
+  - **Setup.** A creature has beliefs $Q$, a generative model $P$, policies $\pi$, and at a future step $\tau$ hidden states $s_\tau$ and outcomes $o_\tau$; $C$ denotes its preferences, so $P(s_\tau\mid C)$ is the preferred distribution over states. Require that its predicted states, averaged over policies, equal the preferred ones, $Q(s_\tau)=P(s_\tau\mid C)$, and assume (named, not proved) $\alpha=1$: the spread of behaviour $H[Q(\pi\mid s_\tau)]$ in a state equals the spread of outcomes $H[P(o_\tau\mid s_\tau)]$ in that state. The policy distribution $Q(\pi)$ is then chosen so that
+    {{ $$\begin{aligned}\ln Q(\pi)=&-\mathbb E_{Q(s_\tau\mid\pi)}H[P(o_\tau\mid s_\tau)]\\&-D_{KL}\big[Q(s_\tau\mid\pi)\,\|\,P(s_\tau\mid C)\big]\end{aligned}$$ }}
+    the first term is the expected ambiguity, the second the risk on states: a policy is the more probable the less ambiguous and the less risky it is.
+  - **Expected free energy.** With preferences on outcomes, $P(o_\tau\mid C)=\mathbf C$ (a probability vector over outcomes),
+    {{ $$\begin{aligned}G(\pi)=&\ \mathbb E_{Q(s_\tau\mid\pi)}H[P(o_\tau\mid s_\tau)]\\&+D_{KL}\big[Q(o_\tau\mid\pi)\,\|\,P(o_\tau\mid C)\big]\end{aligned}$$ }}
+    Adding and subtracting $\mathbb E\ln P(o\mid s)$ turns the state risk into a divergence of joints, and the chain rule for divergences splits it, so that ambiguity plus state risk is an upper bound on $G$:
+    {{ $$\begin{aligned}&\mathbb E_{Q(s_\tau\mid\pi)}H[P(o_\tau\mid s_\tau)]\\&\ +D_{KL}\big[Q(s_\tau\mid\pi)\,\|\,P(s_\tau\mid C)\big]\\&=G(\pi)+\mathbb E_{Q(o_\tau\mid\pi)}\\&\quad D_{KL}\big[Q(s_\tau\mid o_\tau,\pi)\,\|\,P(s_\tau\mid o_\tau,C)\big]\\&\ge G(\pi)\end{aligned}$$ }}
+    The gap is a nonnegative divergence and vanishes when the posterior over states given each outcome equals the preferred one.
+  - **Equal forms of $G$.** Epistemic value (information gain about states) is $H[Q(o\mid\pi)]-\mathbb E_{Q(s\mid\pi)}H[P(o\mid s)]$, and
+    {{ $$\begin{aligned}G(\pi)=&-H[Q(o\mid\pi)]\\&+\mathbb E_{Q(s\mid\pi)}H[P(o\mid s)]\\&-\mathbb E_{Q(o\mid\pi)}\ln P(o\mid C)\end{aligned}$$ }}
+    minus epistemic value minus pragmatic value; with flat preferences only the information-seeking part remains.
+  - **Vector form.** Let $\mathbf A$ be the likelihood matrix (rows = outcomes, columns = states) and $\mathbf s_{\pi\tau}$ the predicted state vector at step $\tau$ under $\pi$. Then $\mathbf o_{\pi\tau}=\mathbf A\mathbf s_{\pi\tau}$, the ambiguity vector $\mathbf H=-\operatorname{diag}(\mathbf A^{\mathsf T}\ln\mathbf A)$ holds the entropy of each column of $\mathbf A$, and
+    {{ $$\mathbf G_{\pi\tau}=\mathbf H\cdot\mathbf s_{\pi\tau}+\mathbf o_{\pi\tau}\cdot\big(\ln\mathbf o_{\pi\tau}-\ln\mathbf C_\tau\big)$$ }}
+    with $\mathbf G_\pi=\sum_\tau\mathbf G_{\pi\tau}$.
 cards:
   - type: text
     id: hook
@@ -333,19 +349,4 @@ cards:
     id: summary
     title: "What you now own"
     body: |
-      - **Where ambiguity plus risk comes from.** Take a creature with beliefs $Q$, a model $P$, policies $\pi$, states $s_\tau$ and outcomes $o_\tau$ at a future step $\tau$. Ask that its predicted state distribution, averaged over policies, equals its preferred one, $Q(s_\tau)=P(s_\tau\mid C)$, and assume $\alpha=1$ (equal spread of behaviour and of outcomes in a state: a named assumption, in the "current thinking" spirit). Then $Q(\pi)$ is chosen to satisfy
-        $$\begin{aligned}\ln Q(\pi)=&-\underbrace{\mathbb E_{Q(s_\tau\mid\pi)}H[P(o_\tau\mid s_\tau)]}_{\text{ambiguity}}\\&-\underbrace{D_{KL}\big[Q(s_\tau\mid\pi)\,\|\,P(s_\tau\mid C)\big]}_{\text{risk}}\end{aligned}$$
-        so a policy is more probable the less ambiguous and the less risky it is.
-      - **The expected free energy, and its relation to that score.** With preferences on outcomes, $P(o_\tau\mid C)=\mathbf C$:
-        $$\begin{aligned}G(\pi)=&\ \mathbb E_{Q(s_\tau\mid\pi)}H[P(o_\tau\mid s_\tau)]\\&+D_{KL}\big[Q(o_\tau\mid\pi)\,\|\,P(o_\tau\mid C)\big]\end{aligned}$$
-        and, adding and subtracting $\mathbb E\ln P(o\mid s)$, merging into a divergence of joints and using the chain rule for divergences,
-        $$\begin{aligned}&\text{ambiguity}+D_{KL}\big[Q(s_\tau\mid\pi)\,\|\,P(s_\tau\mid C)\big]\\&\quad\ge\ G(\pi)\end{aligned}$$
-        with the gap equal to $\mathbb E_{Q(o_\tau\mid\pi)}D_{KL}[Q(s_\tau\mid o_\tau,\pi)\,\|\,P(s_\tau\mid o_\tau,C)]\ge0$. Example: $\mathbf A=\begin{pmatrix}.9&.2\\.1&.8\end{pmatrix}$, $Q(s)=(.7,.3)$, $P(s\mid C)=(.3,.7)$ gives $.717\ge.537$, gap $.179$.
-      - **Three equal forms of $G$:** ambiguity plus risk, and epistemic plus pragmatic value,
-        $$\begin{aligned}G=&\underbrace{\mathbb E_{Q(s\mid\pi)}H[P(o\mid s)]-H[Q(o\mid\pi)]}_{-\mathcal I(\pi)\ \text{(minus epistemic value)}}\\&\underbrace{-\,\mathbb E_{Q(o\mid\pi)}\ln P(o\mid C)}_{-\text{pragmatic value}}\end{aligned}$$
-        where $\mathcal I(\pi)$ is the epistemic value (information gain about states).
-      - **Vector form.** For each step $\tau$ of a policy, $\mathbf o_{\pi\tau}=\mathbf A\mathbf s_{\pi\tau}$, $\mathbf H=-\operatorname{diag}(\mathbf A^{\mathsf T}\ln\mathbf A)$ (the entropy of each column of $\mathbf A$), and
-        $$\begin{aligned}\mathbf G_{\pi\tau}&=\mathbf H\cdot\mathbf s_{\pi\tau}\\&\quad+\mathbf o_{\pi\tau}\cdot\big(\ln\mathbf o_{\pi\tau}-\ln\mathbf C_\tau\big)\\\mathbf G_\pi&=\sum_\tau\mathbf G_{\pi\tau}\end{aligned}$$
-        Door ($\mathbf A=\begin{pmatrix}.8&.2\\.2&.8\end{pmatrix}$, $\mathbf C=(.2,.8)$, $\mathbf D=(.9,.1)$): one step after push $\mathbf G=.535$, after wait $\mathbf G=1.065$; with flat $\mathbf C$, $G=\ln2-\mathcal I$.
-
       **Next:** so far the likelihood $\mathbf A$ was fixed. If the creature also **learns** $\mathbf A$ from experience, a third term joins ambiguity and risk in $G$: **novelty**, the information to gain about the model itself. That is the next lesson.

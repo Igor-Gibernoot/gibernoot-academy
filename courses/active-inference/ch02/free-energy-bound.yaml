@@ -1,6 +1,20 @@
 id: ch02-free-energy-bound
-title: "Guided Problem: Free Energy Bounds Surprise"
+title: "Guided Proof: Free Energy Bounds Surprise"
 kind: guided
+proof: true
+own: |
+  - **Setup.** A generative model over a hidden state $x$ and an observation $y$ has the joint $P(y,x)=P(x)\,P(y\mid x)$, the evidence $P(y)=\sum_x P(y,x)$ and the exact posterior $P(x\mid y)$. A guess about $x$ is an approximate posterior $Q(x)$ (a probability distribution, $\sum_x Q(x)=1$). Its **variational free energy**, in nats, is
+    {{ $$F[Q,y]=\mathbb{E}_{Q(x)}\big[\ln Q(x)-\ln P(y,x)\big]$$ }}
+  - **Divergence plus evidence.** Splitting $\ln P(y,x)=\ln P(x\mid y)+\ln P(y)$ and using that $\ln P(y)$ does not depend on $x$, so $\mathbb{E}_{Q(x)}[\ln P(y)]=\ln P(y)$:
+    {{ $$F=D_{KL}[Q(x)\,\|\,P(x\mid y)]-\ln P(y)$$ }}
+    where $D_{KL}[Q\,\|\,P]=\mathbb{E}_{Q}[\ln Q-\ln P]$ is the KL divergence.
+  - **Why the divergence is never negative.** With $\ln u\le u-1$ (equality only at $u=1$) applied to $u=P(x\mid y)/Q(x)$:
+    $$\begin{aligned}-D_{KL}&=\sum_x Q\ln\frac{P(x\mid y)}{Q}\\&\le\sum_x Q\Big(\frac{P(x\mid y)}{Q}-1\Big)\\&=1-1=0.\end{aligned}$$
+    So {{ $D_{KL}[Q\,\|\,P(x\mid y)]\ge0$ }}, using only that both distributions add to $1$.
+  - **The bound.** Hence for every guess $Q$,
+    {{ $$F[Q,y]\ge-\ln P(y)$$ }}
+    where $-\ln P(y)$ is the surprise, with equality {{ only when $Q(x)=P(x\mid y)$ }}. The gap $F-(-\ln P(y))$ is exactly $D_{KL}[Q\,\|\,P(x\mid y)]$.
+  - **Use.** $F$ needs only $Q$ and the joint $P(y,x)$, never $P(y)$ or $P(x\mid y)$, so it can be computed and lowered: lowering $F$ shrinks the divergence from the exact posterior. Check on a two-route example: compute $F$, subtract the surprise, and compare with the divergence taken directly from its definition.
 cards:
   - type: text
     id: problem
@@ -242,17 +256,5 @@ cards:
 
   - type: text
     id: summary
-    title: "What you now own"
     body: |
-      - **Setup.** A generative model over a hidden state $x$ and an observation $y$ has the joint $P(y,x)=P(x)\,P(y\mid x)$, the evidence $P(y)=\sum_x P(y,x)$ and the exact posterior $P(x\mid y)$. A guess about $x$ is an approximate posterior $Q(x)$. Its **variational free energy** (minimised) is
-        $$F[Q,y]=\mathbb{E}_{Q(x)}\big[\ln Q(x)-\ln P(y,x)\big].$$
-      - **Divergence plus evidence.** Splitting $\ln P(y,x)=\ln P(x\mid y)+\ln P(y)$ and using $\sum_x Q(x)=1$ (the term $\ln P(y)$ does not depend on $x$):
-        $$F=D_{KL}[Q(x)\,\|\,P(x\mid y)]-\ln P(y)$$
-      - **Why the divergence is never negative.** With $\ln u\le u-1$ (equality only at $u=1$) applied to $u=P(x\mid y)/Q(x)$:
-        $$\begin{aligned}-D_{KL}&=\sum_x Q\ln\frac{P(x\mid y)}{Q}\\&\le\sum_x Q\Big(\frac{P(x\mid y)}{Q}-1\Big)\\&=1-1=0\end{aligned}$$
-      - **The bound.** Hence for every guess $Q$,
-        $$F\ge-\ln P(y)$$
-        with equality **only** when $Q(x)=P(x\mid y)$. The gap $F-(-\ln P(y))$ is exactly $D_{KL}[Q\,\|\,P(x\mid y)]$.
-      - **Example and use.** In the garden (cat/dog/fox, prior $0.6/0.3/0.1$, rustle likelihood $0.2/0.5/0.9$, $P(y)=0.36$) the guess "all on the fox" has $F=-\ln0.09\approx2.41$ nats, surprise $1.02$, gap $1.39=\ln4$, since the exact posterior gives the fox $0.25$. $F$ needs only $Q$ and the joint, never $P(y)$ or $P(x\mid y)$, so it can be computed and lowered.
-
       **Next:** a fast traps round on surprise, free energy and approximate posteriors.

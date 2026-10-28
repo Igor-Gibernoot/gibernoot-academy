@@ -1,6 +1,20 @@
 id: ch02-efe-decomposition
-title: "Guided Problem: Splitting the Expected Free Energy"
+title: "Guided Proof: Splitting the Expected Free Energy"
 kind: guided
+proof: true
+own: |
+  - **Setup.** A creature compares policies $\pi$. It predicts hidden states $\tilde{x}$ and outcomes $\tilde{y}$ with beliefs $Q(\tilde{x}\mid\pi)$ and likelihood $P(\tilde{y}\mid\tilde{x})$, so $Q(\tilde{x},\tilde{y}\mid\pi)=Q(\tilde{x}\mid\pi)\,P(\tilde{y}\mid\tilde{x})$ and $Q(\tilde{y}\mid\pi)=\sum_{\tilde{x}}Q(\tilde{x}\mid\pi)P(\tilde{y}\mid\tilde{x})$ is the predicted outcome distribution. Preferences $C$ define $P(\tilde{y}\mid C)$, and $H[p]=-\sum p\ln p$ is the entropy. The expected free energy $G(\pi)$ is minimised, never negated:
+    {{ $$\begin{aligned}G(\pi)=\;&-\,\text{information gain}\\&-\text{pragmatic value}\end{aligned}$$ }}
+    with pragmatic value $\mathbb{E}_{Q(\tilde{y}\mid\pi)}\ln P(\tilde{y}\mid C)$.
+  - **Key step.** The product rule $Q(\tilde{x}\mid\tilde{y},\pi)\,Q(\tilde{y}\mid\pi)=Q(\tilde{x}\mid\pi)\,P(\tilde{y}\mid\tilde{x})$, after taking logs, trades the hard posterior for quantities the creature already has:
+    {{ $$\begin{aligned}&\ln Q(\tilde{x}\mid\tilde{y},\pi)-\ln Q(\tilde{x}\mid\pi)\\&=\ln P(\tilde{y}\mid\tilde{x})-\ln Q(\tilde{y}\mid\pi)\end{aligned}$$ }}
+  - **Information gain.** Averaging that log-ratio under $Q(\tilde{x},\tilde{y}\mid\pi)$ gives the expected KL divergence from prior to posterior beliefs about states:
+    {{ $$\begin{aligned}\text{information gain}=\;&H[Q(\tilde{y}\mid\pi)]\\&-\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]\end{aligned}$$ }}
+    predicted outcome entropy minus the average entropy of the outcomes each state produces.
+  - **Ambiguity plus risk.** Merging $\mathbb{E}\ln Q(\tilde{y}\mid\pi)$ with the pragmatic value turns the two terms into one KL divergence:
+    {{ $$\begin{aligned}G(\pi)=\;&\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]\\&+D_{KL}[Q(\tilde{y}\mid\pi)\,\|\,P(\tilde{y}\mid C)]\end{aligned}$$ }}\n    the first term is the ambiguity, the second the risk,
+    where $D_{KL}[Q\,\|\,P]=\mathbb{E}_Q[\ln Q-\ln P]$. Both forms are the same number for every policy.
+  - **Special cases.** With no preferences only the information gain decides; with no ambiguity $G=\text{risk}$; with neither, $G=\ln n-H[Q(\tilde{y}\mid\pi)]$ for $n$ outcomes. Even flat preferences leave a risk, $\ln n-H[Q(\tilde{y}\mid\pi)]$.
 cards:
   - type: text
     id: problem
@@ -286,16 +300,5 @@ cards:
 
   - type: text
     id: summary
-    title: "What you now own"
     body: |
-      - **Setup.** A creature compares policies $\pi$. It predicts hidden states $\tilde{x}$ and outcomes $\tilde{y}$ through $Q(\tilde{x}\mid\pi)$ and the likelihood $P(\tilde{y}\mid\tilde{x})$, so $Q(\tilde{x},\tilde{y}\mid\pi)=Q(\tilde{x}\mid\pi)P(\tilde{y}\mid\tilde{x})$ and $Q(\tilde{y}\mid\pi)$ is the predicted outcome distribution. Preferences $C$ define $P(\tilde{y}\mid C)$. $H[\cdot]=-\sum p\ln p$ is the entropy. The expected free energy $G$ is minimised, never negated.
-      - **The two forms are one number.** With $\ln Q(\tilde{x}\mid\tilde{y},\pi)-\ln Q(\tilde{x}\mid\pi)=\ln P(\tilde{y}\mid\tilde{x})-\ln Q(\tilde{y}\mid\pi)$ (product rule) the information gain becomes
-        $$\begin{aligned}\text{information gain}=\;&H[Q(\tilde{y}\mid\pi)]\\&-\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]\end{aligned}$$
-        and merging $\mathbb{E}\ln Q(\tilde{y}\mid\pi)$ with the pragmatic value $\mathbb{E}_{Q(\tilde{y}\mid\pi)}\ln P(\tilde{y}\mid C)$ gives
-        $$\begin{aligned}G(\pi)&=-\text{information gain}\\&\quad-\text{pragmatic value}\\&=\mathbb{E}_{Q(\tilde{x}\mid\pi)}H[P(\tilde{y}\mid\tilde{x})]\\&\quad+D_{KL}[Q(\tilde{y}\mid\pi)\,\|\,P(\tilde{y}\mid C)].\end{aligned}$$
-        The first term of the last line is the ambiguity and the second the risk.
-      - **Third line.** With preferences on states, $G\le\text{ambiguity}+D_{KL}[Q(\tilde{x}\mid\pi)\,\|\,P(\tilde{x}\mid C)]$, which rearranges to expected energy minus entropy, $-\mathbb{E}\ln P(\tilde{y},\tilde{x}\mid C)-H[Q(\tilde{x}\mid\pi)]$; it needs the state space known in advance.
-      - **Pond and orchard** (frog or apple, $P(\text{jumps}\mid\text{frog})=0.9$, $P(\text{jumps}\mid\text{apple})=0.1$, preferences $(0.8,\,0.2)$ for jumps and still). Pond ($80\%$ frog): ambiguity $0.325$, risk $0.011$, $G=0.336=-0.248+0.584$. Orchard ($10\%$ frog): $0.325+0.889=1.214=-0.146+1.360$. With $\gamma=1$, $P(\pi)=\sigma(-\gamma G)$ gives $0.706$ against $0.294$.
-      - **Special cases.** No preferences: only the information gain decides (Bayesian surprise, intrinsic motivation). No ambiguity: $G=\text{risk}$ (risk-sensitive or KL control). Neither: $G=\ln n-H[Q(\tilde{y}\mid\pi)]$, maximum entropy (uncertainty sampling). Only the pragmatic value: expected utility theory. A flat $C$ still leaves a risk, $\ln n-H[Q(\tilde{y}\mid\pi)]$.
-
       **Next:** an intuition lesson on the free-energy formulas of this level: recall of the main formulas, limit checks and small numeric cards, without being given the formula.

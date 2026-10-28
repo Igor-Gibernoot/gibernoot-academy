@@ -1,6 +1,18 @@
 id: ch04-mean-field
-title: "Guided Problem: Mean-Field Variational Bayes"
+title: "Guided Proof: Mean-Field Variational Bayes"
 kind: guided
+proof: true
+own: |
+  - **Setup.** Two hidden variables $x_1,x_2$ and an observation $y$ (fixed); the model gives the joint $p(y,x_1,x_2)$. The mean-field approximate posterior is a product of independent beliefs:
+    {{ $$q(x)=q_1(x_1)\,q_2(x_2)$$ }}
+  - **What is minimised.** The free energy of $q$ is the distance to the exact posterior $p(x\mid y)$ plus a constant that no $q$ can change:
+    {{ $$F[q]=D_{\mathrm{KL}}\bigl[q\,\|\,p(x\mid y)\bigr]-\ln p(y)$$ }}
+    where $F[q]=\mathbb E_q\bigl[\ln q(x)-\ln p(y,x)\bigr]$, so minimising $F$ over products finds the closest product to the posterior. We optimise one factor at a time, the other held fixed.
+  - **Update rule.** With $q_2$ fixed, set the derivative of $F$ with respect to $q_1$ to zero (a multiplier enforces $\sum_{x_1}q_1(x_1)=1$). With $\mathbb E_{q_{\setminus i}}$ the average over all factors except $q_i$:
+    {{ $$\ln q_i(x_i)=\mathbb E_{q_{\setminus i}}\bigl[\ln p(y,x)\bigr]+\text{const}$$ }}
+    So $q_i$ is a softmax of the expected log joint. Each update is a minimum and lowers $F$ or leaves it unchanged.
+  - **Locality.** In $\mathbb E_{q_{\setminus i}}\ln p(y,x)$ every factor of the model that does not contain $x_i$ is a constant, so {{ only the factors of $p$ that contain $x_i$ survive: its Markov blanket (parents, children and co-parents) }}. The update becomes message passing on the graph.
+  - **Limit.** The product family may not contain $p(x\mid y)$. When the true posterior is correlated, {{ the mean-field factors are overconfident (narrower than the exact marginals) }}. Example: a Gaussian with covariance $\Sigma$ and precision $\Lambda=\Sigma^{-1}$ gives factors of variance $1/\Lambda_{ii}$, below the true marginal variance.
 cards:
   - type: text
     id: intro
@@ -318,14 +330,4 @@ cards:
     id: summary
     title: "What you now own"
     body: |
-      - **Setup.** Two hidden variables $x_1,x_2$ and data $y$ (fixed); the model gives the joint $p(y,x_1,x_2)$. The approximate posterior is a **product** (mean-field family) $q(x)=q_1(x_1)\,q_2(x_2)$, and we minimise the free energy
-        $$\begin{aligned}F[q]&=\mathbb E_q\big[\ln q-\ln p(y,x)\big]\\&=D_{KL}\big[q\,\|\,p(x\mid y)\big]-\ln p(y)\end{aligned}$$
-        One factor at a time, the other held fixed.
-      - **Update rule.** With $q_2$ fixed, $F$ is a function of $q_1$ alone, $\sum_{x_1}q_1(x_1)\,[\ln q_1(x_1)-\mathbb E_{q_2}\ln p(y,x_1,x_2)]$ plus a constant. Setting its derivative to zero, with a multiplier for $\sum q_1=1$, gives
-        $$\ln q_1(x_1)=\mathbb E_{q_2}\big[\ln p(y,x_1,x_2)\big]+\text{const}$$
-        so $q_1$ is a **softmax of the expected log joint**. It is a minimum: $F$ equals $D_{KL}[q_1\,\|\,\tilde q_1]$ plus terms free of $q_1$, where $\tilde q_1\propto\exp\mathbb E_{q_2}\ln p$.
-      - **Locality (variational message passing).** In $\mathbb E_{q_{\setminus i}}\ln p(y,x)$ every factor of the model that does not contain $x_i$ is a constant, so only the factors that contain $x_i$ survive: the Markov blanket (parents, children and co-parents of $x_i$). Example: if $p=p(y\mid x_1)\,p(x_1\mid x_2,x_3)\,p(x_3)\,p(x_2\mid x_4)\,p(x_4)$, then
-        $$\begin{aligned}\ln q(x_2)={}&\mathbb E_{q(x_1)q(x_3)}\big[\ln p(x_1\mid x_2,x_3)\big]\\&+\mathbb E_{q(x_4)}\big[\ln p(x_2\mid x_4)\big]+\text{const}\end{aligned}$$
-      - **Limits.** Each update lowers $F$ (never raises it), but the product family may not contain $p(x\mid y)$: when the true posterior has correlation, the gap $D_{KL}[q\,\|\,p(x\mid y)]$ stays positive and $q$ is **overconfident**. For a Gaussian posterior with precision matrix $\Lambda$, each mean-field factor has variance $1/\Lambda_{ii}$, smaller than the true marginal variance.
-
       **Next:** back to the whole generative-model picture: the next round of questions tests the common misconceptions about likelihoods, priors, states, policies and approximate posteriors.

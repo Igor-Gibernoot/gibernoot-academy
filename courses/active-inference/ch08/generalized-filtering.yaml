@@ -1,6 +1,21 @@
 id: ch08-generalized-filtering
-title: "Guided Problem: Generalized Filtering"
+title: "Guided Proof: Generalized Filtering"
 kind: guided
+proof: true
+own: |
+  - **Setup.** A hidden state $x$ obeys $\dot x=f(x,v)+w$, a hidden cause $v$ has prior mean $\eta$, and the data are $y=g(x,v)+w$ (noises $w$ Gaussian). A tilde marks a variable together with its time derivatives, $\tilde x=(x,x',x'',\dots)$ with $x'=\dot x$; $\tilde\mu_x,\tilde\mu_v$ are the beliefs about $\tilde x,\tilde v$; $\tilde\Pi$ denotes precisions (inverse covariances) over the orders; $D$ is the shift matrix (ones just above the diagonal), so $D\tilde\mu=(\mu',\mu'',\dots,0)$ is the belief's own velocity entries moved up one place.
+  - **Free energy in generalized coordinates.** Under the Laplace approximation only $-\ln p(\tilde y,\tilde\mu)$ depends on $\tilde\mu$, giving a sum of precision-weighted squared prediction errors:
+    {{ $$F=\tfrac12\tilde\epsilon_y\cdot\tilde\Pi_y\tilde\epsilon_y+\tfrac12\tilde\epsilon_x\cdot\tilde\Pi_x\tilde\epsilon_x+\tfrac12\tilde\epsilon_v\cdot\tilde\Pi_v\tilde\epsilon_v$$ }}
+    with the errors (data minus prediction; velocity the belief has minus velocity the dynamics prescribe; belief minus prior)
+    {{ $$\begin{aligned}\tilde\epsilon_y&=\tilde y-\tilde g(\tilde\mu_x,\tilde\mu_v)\\\tilde\epsilon_x&=D\tilde\mu_x-\tilde f(\tilde\mu_x,\tilde\mu_v)\\\tilde\epsilon_v&=\tilde\mu_v-\tilde\eta\end{aligned}$$ }}
+  - **Generalized precision.** For smooth Gaussian noise of unit variance with autocorrelation $\rho(h)=e^{-\lambda h^2/2}$ (roughness $\lambda$), the precision over (position, velocity, acceleration) is the inverse of the covariance matrix below, so the velocity precision is {{ $1/\lambda$ }}:
+    $$\begin{pmatrix}1&0&-\lambda\\0&\lambda&0\\-\lambda&0&3\lambda^2\end{pmatrix}$$
+  - **The update, in a moving frame.** Plain descent $\dot{\tilde\mu}=-\nabla F$ would stop moving at the minimum, although the belief carries velocities. So descend relative to $D\tilde\mu$ ($\nabla_{\tilde\mu_x}\tilde g$ is the matrix of derivatives of $\tilde g$ with respect to $\tilde\mu_x$, and similarly for the others):
+    {{ $$\begin{aligned}\dot{\tilde\mu}_x-D\tilde\mu_x&=\nabla_{\tilde\mu_x}\tilde g\,\tilde\Pi_y\tilde\epsilon_y-D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x\\&\quad+\nabla_{\tilde\mu_x}\tilde f\,\tilde\Pi_x\tilde\epsilon_x\end{aligned}$$ }}
+    At zero gradient $\dot{\tilde\mu}=D\tilde\mu$: the belief keeps moving, which removes the lag of plain descent. The equation for $\tilde\mu_v$ has the same form with $-\tilde\Pi_v\tilde\epsilon_v$ in place of the $D^{\mathsf T}$ term.
+  - **Action.** With action $u$, only the data $\tilde y(u)$ depend on $u$, so
+    {{ $$\dot u=-\nabla_u\tilde y(u)\cdot\tilde\Pi_y\tilde\epsilon_y$$ }}
+    moves so as to cancel the sensory prediction error. With no motion ($D=0$) and one order, the update reduces to the one-level predictive-coding rule, whose fixed point is the precision-weighted average $\mu^*=(\Pi_yy+\Pi_v\eta)/(\Pi_y+\Pi_v)$ for $g(x)=x$.
 cards:
   - type: text
     id: hook
@@ -312,15 +327,4 @@ cards:
     id: summary
     title: "What you now own"
     body: |
-      - **Free energy in generalized coordinates.** For a state $x$ driven by $\dot x=f(x,v)+w$, a cause $v$ with prior mean $\eta$, and data $y=g(x,v)+w$, write $\tilde x=(x,x',x'',\dots)$ for the state with its time derivatives, $\tilde\mu_x,\tilde\mu_v$ for the beliefs, and $D$ for the shift matrix (ones above the diagonal, so $D\tilde\mu=(\mu',\mu'',\dots,0)$). Under the Laplace approximation only $-\ln p(\tilde y,\tilde\mu)$ depends on $\tilde\mu$, and
-        $$F=\tfrac12\tilde\epsilon_y\cdot\tilde\Pi_y\tilde\epsilon_y+\tfrac12\tilde\epsilon_x\cdot\tilde\Pi_x\tilde\epsilon_x+\tfrac12\tilde\epsilon_v\cdot\tilde\Pi_v\tilde\epsilon_v$$
-        with $\tilde\epsilon_y=\tilde y-\tilde g(\tilde\mu_x,\tilde\mu_v)$, $\tilde\epsilon_x=D\tilde\mu_x-\tilde f(\tilde\mu_x,\tilde\mu_v)$, $\tilde\epsilon_v=\tilde\mu_v-\tilde\eta$.
-      - **Generalized precision.** For smooth Gaussian noise with $\rho(h)=e^{-\lambda h^2/2}$ and unit variance, the precision over (position, velocity, acceleration) is the inverse of $\begin{pmatrix}1&0&-\lambda\\0&\lambda&0\\-\lambda&0&3\lambda^2\end{pmatrix}$; the velocity precision is $1/\lambda$.
-      - **The update, in a moving frame.** Gradient descent on $F$ that keeps moving with the velocity the belief carries:
-        $$\begin{aligned}\dot{\tilde\mu}_x-D\tilde\mu_x&=\nabla_{\tilde\mu_x}\tilde g\,\tilde\Pi_y\tilde\epsilon_y-D^{\mathsf T}\tilde\Pi_x\tilde\epsilon_x\\&\quad+\nabla_{\tilde\mu_x}\tilde f\,\tilde\Pi_x\tilde\epsilon_x\\\dot{\tilde\mu}_v-D\tilde\mu_v&=\nabla_{\tilde\mu_v}\tilde g\,\tilde\Pi_y\tilde\epsilon_y+\nabla_{\tilde\mu_v}\tilde f\,\tilde\Pi_x\tilde\epsilon_x\\&\quad-\tilde\Pi_v\tilde\epsilon_v\end{aligned}$$
-        At zero gradient $\dot{\tilde\mu}=D\tilde\mu$: the belief keeps moving, which removes the lag of plain descent. (Worked example: $\tilde\mu=(0.6,0.2)\to(0.8,0.26)$ in one step of $0.1$, $F$ from $0.45$ to $0.173$.)
-      - **Action.** Only the data $\tilde y(u)$ depend on the action $u$, so
-        $$\dot u=-\nabla_u\tilde y(u)\cdot\tilde\Pi_y\tilde\epsilon_y$$
-        move to cancel the sensory prediction error. With no motion ($D=0$) and one order, the update reduces to the one-level predictive-coding rule: $\mu^*=(\Pi_yy+\Pi_v\eta)/(\Pi_y+\Pi_v)$ for $g(x)=x$.
-
       **Next:** a single agent infers a world that moves. What if the "world" it infers is **another agent** doing the same inference on it? That is generalized synchrony, the next lesson.

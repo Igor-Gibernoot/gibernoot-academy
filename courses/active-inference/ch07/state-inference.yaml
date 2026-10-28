@@ -1,6 +1,20 @@
 id: ch07-state-inference
-title: "Guided Problem: Deriving the State Update"
+title: "Guided Proof: Deriving the State Update"
 kind: guided
+proof: true
+own: |
+  - **The free energy of a policy.** Take a policy $\pi$ and a model with hidden states $s_\tau$ at steps $\tau=1,\dots,T$, outcomes $o_\tau$ (one-hot vectors: a $1$ at the observed outcome, $0$ elsewhere), likelihood matrix $\mathbf A$ (rows = outcomes, columns = states), transition matrix $\mathbf B_{\pi\tau}$ (rows = next state, columns = current state) and initial prior $\mathbf D$. With one belief vector $\mathbf s_{\pi\tau}$ per step (a mean-field factorisation over time), the free energy of the policy is
+    {{ $$\begin{aligned}\mathbf F_\pi=&\ \mathbf s_{\pi1}\cdot\big(\ln\mathbf s_{\pi1}-\ln\mathbf A\cdot o_1\\&\qquad-\ln\mathbf D\big)\\&+\sum_{\tau=2}^{T}\mathbf s_{\pi\tau}\cdot\big(\ln\mathbf s_{\pi\tau}\\&\qquad-\ln\mathbf A\cdot o_\tau\\&\qquad-\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}\big)\end{aligned}$$ }}
+    each step is belief times (log belief minus log likelihood minus log prior), the prior of step $\tau\ge2$ being the prediction $\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}$.
+  - **Evidence and planning.** Let $\tilde o=(o_1,\dots,o_T)$ be the outcomes seen, $\mathbf G$ the expected free energy and $\sigma$ the softmax (flat habit prior). Minimising over the beliefs makes the free energy approximate the log evidence of the policy, and the policy posterior uses it, so states must be inferred before policies are compared:
+    {{ $$F_\pi\approx-\ln P(\tilde o\mid\pi)$$ }}
+    {{ $$\boldsymbol\pi=\sigma(-\mathbf F-\mathbf G)$$ }}
+  - **State inference is a descent with three messages.** Write $\mathbf s_{\pi\tau}=\sigma(\mathbf v_{\pi\tau})$ ($\mathbf v$ = log posterior, which keeps the beliefs positive and normalised) and $\dot{\mathbf v}_{\pi\tau}=-\nabla_{\mathbf s_{\pi\tau}}\mathbf F_\pi$. In the middle of the chain, with $\oslash$ the element-wise division,
+    {{ $$\begin{aligned}\dot{\mathbf v}_{\pi\tau}=&\ \ln\mathbf A\cdot o_\tau+\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}\\&+\mathbf B_{\pi\tau}^{\mathsf T}\big(\mathbf s_{\pi,\tau+1}\oslash\mathbf B_{\pi\tau}\mathbf s_{\pi\tau}\big)-\ln\mathbf s_{\pi\tau}\end{aligned}$$ }}
+    the likelihood from the data, the prior message from the past, the backward message from the future (absent at the last step; at the first step $\ln\mathbf D$ replaces the past).
+  - **Last step and its limits.** With no future, the fixed point is exact Bayes:
+    {{ $$\mathbf s_{\pi T}=\sigma\big(\ln\mathbf A\cdot o_T+\ln\mathbf B_{\pi,T-1}\mathbf s_{\pi,T-1}\big)$$ }}
+    For longer chains the descent treats neighbouring steps as independent, so its fixed point is more confident than the exact posterior. Marginal message passing averages the log-messages from the past and the future with weight $\tfrac12$ each, giving more conservative beliefs.
 cards:
   - type: text
     id: hook
@@ -338,18 +352,4 @@ cards:
     id: summary
     title: "What you now own"
     body: |
-      - **The free energy of a policy.** Take a policy $\pi$ and a model with hidden states $s_\tau$ at steps $\tau=1,\dots,T$, outcomes $o_\tau$ (written as one-hot vectors: a $1$ at the observed outcome, $0$ elsewhere), likelihood matrix $\mathbf A$ (rows = outcomes, columns = states), transition matrix $\mathbf B_{\pi\tau}$ (rows = next state, columns = current state) and initial prior $\mathbf D$. With one belief vector $\mathbf s_{\pi\tau}$ per step (a mean-field factorisation over time),
-        $$\begin{aligned}\mathbf F_\pi=&\ \mathbf s_{\pi1}\cdot\big(\ln\mathbf s_{\pi1}-\ln\mathbf A\cdot o_1\\&\qquad-\ln\mathbf D\big)\\&+\sum_{\tau=2}^{T}\mathbf s_{\pi\tau}\cdot\big(\ln\mathbf s_{\pi\tau}\\&\qquad-\ln\mathbf A\cdot o_\tau\\&\qquad-\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}\big)\end{aligned}$$
-        and minimising it over the beliefs makes it an approximation of the log evidence of the policy, which is why perception must come before planning:
-        $$F_\pi\approx-\ln P(\tilde o\mid\pi)$$
-        and the policy posterior uses it:
-        $$\boldsymbol\pi=\sigma(-\mathbf F-\mathbf G)$$
-        where $\tilde o=(o_1,\dots,o_T)$ is the sequence of outcomes, $\mathbf G$ the expected free energy and $\sigma$ the softmax (flat habit prior).
-      - **State inference is a descent with three messages.** Write $\mathbf s_{\pi\tau}=\sigma(\mathbf v_{\pi\tau})$ ($\mathbf v$ = log posterior, which keeps the beliefs positive and normalised) and $\dot{\mathbf v}_{\pi\tau}=-\nabla_{\mathbf s_{\pi\tau}}\mathbf F_\pi$. In the middle of the chain, with $\oslash$ the element-wise division,
-        $$\begin{aligned}\dot{\mathbf v}_{\pi\tau}=&\ \ln\mathbf A\cdot o_\tau+\ln\mathbf B_{\pi,\tau-1}\mathbf s_{\pi,\tau-1}\\&+\mathbf B_{\pi\tau}^{\mathsf T}\big(\mathbf s_{\pi,\tau+1}\oslash\mathbf B_{\pi\tau}\mathbf s_{\pi\tau}\big)-\ln\mathbf s_{\pi\tau}\end{aligned}$$
-        likelihood from the data, prior message from the past, backward message from the future (absent at the last step; at the first step $\ln\mathbf D$ replaces the past). At the last step, with no future, the fixed point is exact Bayes, $\mathbf s_{\pi T}=\sigma\big(\ln\mathbf A\cdot o_T+\ln\mathbf B\mathbf s_{\pi,T-1}\big)$.
-      - **Door example** (states closed/open; outcomes looks closed/looks open; $\mathbf A=\begin{pmatrix}.8&.2\\.2&.8\end{pmatrix}$, $\mathbf D=(.9,.1)$): pushing from $\mathbf D$ and seeing *looks closed* gives
-        $$\begin{aligned}\mathbf s_{\pi2}&=\sigma\big(\ln\mathbf A\cdot o_2\\&\qquad+\ln\mathbf B_{\text{push}}\mathbf D\big)\\&=(0.476,\,0.524)\end{aligned}$$
-        over (closed, open). For longer chains the descent treats neighbouring steps as independent, so its fixed point is **more confident than the exact posterior**: for the plan wait, wait and data (closed, open, open) it ends with $\mathbf s_3(\text{open})=0.901$ against the exact $0.715$. A modified scheme, **marginal message passing**, averages the log-messages from the past and from the future with weight $\tfrac12$ each, giving more conservative beliefs.
-
       **Next:** the policy posterior $\boldsymbol\pi=\sigma(-\mathbf F-\mathbf G)$ is half built: we now know where $\mathbf F$ comes from. The other half, the expected free energy $\mathbf G$, hides the way the creature *seeks information*: why it goes to the cue before the arm. That is the next lesson.

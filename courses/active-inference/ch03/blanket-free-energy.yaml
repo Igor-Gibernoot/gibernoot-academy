@@ -1,6 +1,18 @@
 id: ch03-blanket-free-energy
-title: "Guided Problem: From Steady State to Free Energy"
+title: "Guided Proof: From Steady State to Free Energy"
 kind: guided
+proof: true
+own: |
+  - **Setup.** A system has a state $x$ (a vector) that moves by an average flow $f(x)$ plus random kicks $\omega$ of mean zero, with noise covariance $2\Gamma$ ($\Gamma$ a positive matrix; $\nabla_x\cdot$ is the divergence). Its density $p(x)$ obeys the Fokker-Planck equation, and a steady state is where $p$ no longer changes with time $\tau$:
+    {{ $$\begin{aligned}\partial_\tau p(x)&=0\\\Rightarrow\;\nabla_x\cdot\bigl(\Gamma\nabla_x p(x)&-f(x)\,p(x)\bigr)=0\end{aligned}$$ }}
+  - **Result.** The surprise of the state is
+    {{ $$\mathfrak{I}(x)=-\ln p(x)$$ }}
+    and every steady-state flow has the form
+    {{ $$f(x)=-(\Gamma-\mathsf{Q}(x))\,\nabla_x\mathfrak{I}(x)$$ }}
+    where $\mathsf{Q}(x)$ is an antisymmetric circulation matrix (not the approximate posterior) with $\nabla_x\cdot(\mathsf{Q}\nabla_x p)=0$. The part $-\Gamma\nabla_x\mathfrak{I}$ goes down the surprise; the part $\mathsf{Q}\nabla_x\mathfrak{I}$ runs along the contours of $\mathfrak{I}$ and changes nothing in surprise. So systems that persist descend their own surprise on average: self-evidencing.
+  - **Free energy.** A creature with sensations $y$, external states $x$, generative model $P$ and belief $Q(x)$ cannot evaluate the surprise $\mathfrak{I}(y)=-\ln P(y)$ directly, but free energy $F$ bounds it from above, and the gap is a divergence the internal states can shrink:
+    {{ $$F-\mathfrak{I}(y)=D_{\mathrm{KL}}\bigl[Q(x)\,\|\,P(x\mid y)\bigr]\ge 0$$ }}
+    Internal states reduce the gap, active states reduce the surprise.
 cards:
   - type: text
     id: intro
@@ -287,15 +299,4 @@ cards:
     id: summary
     title: "What you now own"
     body: |
-      - **Setup.** A system with state $x$ (a vector) moves by an average flow $f(x)$ plus random kicks $\omega$ of mean zero. Its density $p(x)$ obeys the Fokker-Planck equation, and the steady state is where $p$ no longer changes:
-        $$\partial_\tau p(x)=\nabla_x\cdot\bigl(\Gamma\nabla_x p(x)-f(x)\,p(x)\bigr)=0$$
-        Here $\Gamma$ is a positive matrix (the size of the kicks, noise covariance $2\Gamma$) and $\nabla_x\cdot$ is the divergence.
-      - **Result.** With the surprise $\mathfrak{I}(x)=-\ln p(x)$ and a circulation matrix $\mathsf{Q}(x)$ (antisymmetric, so that $\nabla_x\cdot(\mathsf{Q}\nabla_x p)=0$; not the approximate posterior), every steady-state flow has the form
-        $$f(x)=-(\Gamma-\mathsf{Q}(x))\,\nabla_x\mathfrak{I}(x)$$
-        The part $-\Gamma\nabla_x\mathfrak{I}$ goes down the surprise; the part $\mathsf{Q}\nabla_x\mathfrak{I}$ runs along the contours of $\mathfrak{I}$ and changes nothing in surprise.
-      - **Meaning.** Systems that persist (keep a steady-state density) must, on average, descend their own surprise: this is self-evidencing, derived here from physics alone.
-      - **Free energy.** A creature cannot evaluate $\mathfrak{I}(y)=-\ln P(y)$ itself, but free energy bounds it from above, and the gap is a divergence that the internal states can shrink:
-        $$F-\mathfrak{I}(y)=D_{\mathrm{KL}}\bigl[Q(x)\,\|\,P(x\mid y)\bigr]\ge 0$$
-        Internal states reduce the gap, active states reduce the surprise: descending $F$ is how a creature descends surprise.
-
       **Next:** a creature does not only react: it has a model of how its own **policies** (sequences of actions) will play out. Next we see what a policy and a trajectory are, and why the model must include them.
