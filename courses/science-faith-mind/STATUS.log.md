@@ -1,5 +1,8 @@
 # Status log
 
+## ch02-limits (2026-10-28)
+17 cards: hook (A electron charge, B lying, C why something), three kinds of question + check, two naturalisms + check, Gould NOMA + critique check, Hume is-ought + check, what science can say about religious claims (multi-select), limits of the method, scientism + self-reference check, lens matching, traps multi-select, layers, summary. No widget; no sort card type exists, so the sort card is a multi-select mcq. Choices: no web search (all facts standard or from earlier lessons); no numeric card (no number carries the argument); planned "Level 2 claim" wording avoided. Conventions fixed here: three kinds of question = empirical / normative / metaphysical; methodological vs metaphysical naturalism; Gould 1941-2002 NOMA 1997 (Rocks of Ages 1999); Hume Treatise 3.1.1 is-ought gap (value premise needed); STEP trial = narrow test of intercessory prayer; scientism strong vs modest with the self-reference objection.
+
 ## 2026-10-28 ch02-pseudo (19 cards, concept, no widget)
 Hook three claims; demarcation toolbox (Popper, Kuhn, Lakatos); four marks each a case card; astrology and Carlson 1985 (web search: 28 astrologers, Nature 318:419, chance result; "one in three" kept qualitative, 116-subject figure not used); homeopathy 30C arithmetic and fair reply; fair-test order; Bayes numeric; sharp line vs cluster (Laudan 1983); Wegener; traps multi-select; layers. Choices: Mark cards kept separate; 19 cards.
 Conventions fixed here: four marks as a cluster; Carlson 1985 28 astrologers about 1 in 3; 30C = 10^60 gives 6e-37 molecules; prior 1% LR 3 gives 2.9%; Laudan 1983, Wegener 1912, Lakatos 1922-1974; glossed words listed in CONVENTIONS Chapter 2.
