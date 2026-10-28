@@ -61,6 +61,7 @@ import { altProjections } from './alt-projections.js';
 import { logRuler } from './log-ruler.js';
 import { feedbackLoop } from './feedback-loop.js';
 import { tradeoffCurve } from './tradeoff-curve.js';
+import { cellularAutomaton } from './cellular-automaton.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -118,6 +119,7 @@ const WIDGETS = {
   'log-ruler': logRuler,
   'feedback-loop': feedbackLoop,
   'tradeoff-curve': tradeoffCurve,
+  'cellular-automaton': cellularAutomaton,
 };
 
 export function mountWidget(name, el, config) {
