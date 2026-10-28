@@ -27,6 +27,7 @@ import { sphereFigure } from './sphere.js';
 import { beliefMixer } from './belief-mixer.js';
 import { sequenceSampler } from './sequence-sampler.js';
 import { frequencyGrid } from './frequency-grid.js';
+import { curveFitLab } from './curve-fit-lab.js';
 import { homeostat } from './homeostat.js';
 import { bikeBalance } from './bike-balance.js';
 import { leverBalance } from './lever-balance.js';
@@ -83,6 +84,7 @@ const WIDGETS = {
   'belief-mixer': beliefMixer,
   'sequence-sampler': sequenceSampler,
   'frequency-grid': frequencyGrid,
+  'curve-fit-lab': curveFitLab,
   homeostat,
   'bike-balance': bikeBalance,
   'lever-balance': leverBalance,
