@@ -1,6 +1,22 @@
 id: ch01-proof-pythagoras
 title: Proof of the Pythagorean Theorem
 kind: guided
+proof: true
+
+own: |
+  - **Setting.** A space with coordinates $\xi$ (the index is a label, not a power), a convex potential $\psi$, dual coordinates $\xi^*=\nabla\psi(\xi)$ and the Legendre dual $\psi^*$. For points $A,B$ the divergence is
+    {{ $$D[A:B]=\psi(\xi_A)+\psi^*(\xi^*_B)-\xi_A\cdot\xi^*_B,$$ }}
+    and at a single point $Q$ the Legendre relation gives $\psi(\xi_Q)+\psi^*(\xi^*_Q)=\xi_Q\cdot\xi^*_Q$.
+  - **Three-point identity** (any three points $P,Q,R$ of that space, no right angle needed):
+    {{ $$\begin{aligned}&D[Q:P]+D[R:Q]-D[R:P]\\&=(\xi_Q-\xi_R)\cdot(\xi^*_Q-\xi^*_P).\end{aligned}$$ }}
+    The proof expands the three divergences: $\psi(\xi_R)$ and $\psi^*(\xi^*_P)$ cancel, the Legendre relation turns $\psi(\xi_Q)+\psi^*(\xi^*_Q)$ into $\xi_Q\cdot\xi^*_Q$, and four dot products remain that factor.
+  - **Why it is an angle.** The dual geodesic $\xi^*(t)=(1-t)\xi^*_P+t\xi^*_Q$ from $P$ to $Q$ (straight in $\xi^*$) has dual velocity $\xi^*_Q-\xi^*_P$; the geodesic $\xi(t)=(1-t)\xi_Q+t\xi_R$ from $Q$ to $R$ (straight in $\xi$) has velocity $\xi_R-\xi_Q$. The right side above is minus the inner product of these two velocities.
+  - **Pythagorean theorem.** If the dual geodesic $PQ$ is orthogonal at $Q$ to the geodesic $QR$, the gap vanishes:
+    {{ $$D[R:P]=D[Q:P]+D[R:Q].$$ }}
+  - **Projection.** Let $S$ be a flat set (linear in $\xi$) and $F\in S$ the foot of the dual geodesic from a point $P$, orthogonal to $S$. Then for every $R\in S$
+    {{ $$\begin{aligned}D[R:P]&=D[F:P]+D[R:F]\\&\ge D[F:P],\end{aligned}$$ }}
+    so $F$ minimizes $D[R:P]$ over $R\in S$.
+
 cards:
   - type: text
     id: goal
@@ -223,15 +239,4 @@ cards:
     id: summary
     title: "What you now own"
     body: |
-      - **Setting.** On a space with coordinates $\xi$ (the index is a label, not a power), a convex potential $\psi$, its dual coordinates $\xi^*=\nabla\psi(\xi)$ and Legendre dual $\psi^*$, the divergence is
-        $$D[A:B]=\psi(\xi_A)+\psi^*(\xi^*_B)-\xi_A\cdot\xi^*_B,$$
-        and each point obeys the Legendre relation $\psi(\xi_Q)+\psi^*(\xi^*_Q)=\xi_Q\cdot\xi^*_Q$.
-      - **Three-point identity** (for any three points $P,Q,R$ of that space, no right angle needed):
-        $$\begin{aligned}&D[Q:P]+D[R:Q]-D[R:P]\\&=(\xi_Q-\xi_R)\cdot(\xi^*_Q-\xi^*_P).\end{aligned}$$
-        The proof expands the three divergences: $\psi(\xi_R)$ and $\psi^*(\xi^*_P)$ cancel, the Legendre relation turns $\psi(\xi_Q)+\psi^*(\xi^*_Q)$ into $\xi_Q\cdot\xi^*_Q$, and four products remain that factor.
-      - **Why it is an angle.** The dual geodesic $\xi^*(t)=(1-t)\xi^*_P+t\xi^*_Q$ from $P$ to $Q$ has dual velocity $\xi^*_Q-\xi^*_P$; the geodesic $\xi(t)=(1-t)\xi_Q+t\xi_R$ from $Q$ to $R$ has velocity $\xi_R-\xi_Q$. Hence
-        $$\begin{aligned}&D[Q:P]+D[R:Q]-D[R:P]\\&=-\langle\text{velocity}_{PQ},\text{velocity}_{QR}\rangle,\end{aligned}$$
-        and when the two curves are orthogonal at $Q$: $D[R:P]=D[Q:P]+D[R:Q]$.
-      - **Mirror and projection.** Applying the identity to $\psi^*$ (whose divergence is $D_{\psi^*}[A:B]=D_\psi[B:A]$) gives $D[P:Q]+D[Q:R]-D[P:R]=(\xi^*_Q-\xi^*_R)\cdot(\xi_Q-\xi_P)$. For a flat $S$ and the foot $F$ of the dual geodesic from $P$: $D[R:P]=D[F:P]+D[R:F]\ge D[F:P]$ for every $R\in S$.
-
       **Next:** one projection finds the closest point of one flat set. With **two** flat sets, project back and forth: the algorithm of alternating minimization, in a worked case.

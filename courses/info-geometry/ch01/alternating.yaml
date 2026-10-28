@@ -1,6 +1,21 @@
 id: ch01-alternating
 title: Divergence Between Two Sets of Beliefs
 kind: guided
+proof: true
+
+own: |
+  - **Setting.** Beliefs are probability vectors over outcomes $a,b,c$; $D[P:Q]$ is the divergence from belief $P$ to belief $Q$ (zero only when $P=Q$, and not symmetric). $K$ and $S$ are two sets of beliefs. The divergence between the sets (first slot from $K$, second from $S$) is
+    {{ $$D[K:S]=\min_{P\in K,\;Q\in S}D[P:Q]=D[\bar P:\bar Q],$$ }}
+    where $(\bar P,\bar Q)$ is the **closest pair**. It is $0$ exactly when the sets share a belief, and $D[K:S]\ne D[S:K]$ in general.
+  - **Alternating minimization.** Start from any $Q_0\in S$ ($t$ counts steps; it is not a component) and repeat
+    {{ $$\begin{aligned}P_t&=\arg\min_{P\in K}D[P:Q_t],\\Q_{t+1}&=\arg\min_{Q\in S}D[P_t:Q].\end{aligned}$$ }}
+    The first step frees the first slot, the second step frees the second slot.
+  - **Monotone decrease.** Each step minimizes over a set that still contains the previous point, so
+    {{ $$\begin{aligned}D[P_{t-1}:Q_t]&\ge D[P_t:Q_t]\\&\ge D[P_t:Q_{t+1}]\\&\ge D[K:S]\ge0,\end{aligned}$$ }}
+    and the procedure converges.
+  - **Uniqueness.** If $K$ is flat (a mixture line or plane of beliefs) and $S$ is dual flat (an exponential curve or surface, straight in $\ln p$), the Pythagorean theorem makes each foot unique and {{ the limit independent of the start }}. Otherwise the zigzag can stop at a **local** minimum (a segment against an arc stopped at $D=0.0040$ while the true $D[K:S]=0$).
+  - **Names.** The projection onto $K$ along an exponential curve is the **e-projection**; the projection onto $S$ along a mixture segment is the **m-projection**; alternating them is the **em algorithm**.
+
 cards:
   - type: text
     id: hook
@@ -243,18 +258,5 @@ cards:
 
   - type: text
     id: summary
-    title: "What you now own"
     body: |
-      - **Divergence between two sets** of beliefs $K$ and $S$ (first slot from $K$, second from $S$):
-        $$D[K:S]=\min_{P\in K,\;Q\in S}D[P:Q]=D[\bar P:\bar Q],$$
-        where $(\bar P,\bar Q)$ is the **closest pair**. It is $0$ exactly when the sets share a belief, and it is not symmetric.
-      - **Alternating minimization.** Start from any $Q_0\in S$ and repeat
-        $$\begin{aligned}P_t&=\arg\min_{P\in K}D[P:Q_t],\\Q_{t+1}&=\arg\min_{Q\in S}D[P_t:Q].\end{aligned}$$
-        The first step frees the first slot, the second step frees the second slot ($t$ counts steps; it is not a component).
-      - **Monotone decrease.** Each step minimizes over a set that still contains the previous point, so
-        $$\begin{aligned}D[P_{t-1}:Q_t]&\ge D[P_t:Q_t]\\&\ge D[P_t:Q_{t+1}]\\&\ge D[K:S]\ge0,\end{aligned}$$
-        and the procedure converges.
-      - **Uniqueness.** With $K$ flat (a mixture line or plane) and $S$ dual flat (an exponential curve or surface) the Pythagorean theorem makes each foot unique and the limit independent of the start. Otherwise the zigzag can stop at a **local** minimum (a segment against an arc stopped at $D=0.0040$ while the true $D[K:S]=0$).
-      - **Names.** The projection onto $K$ along an exponential curve is the **e-projection**; the projection onto $S$ along a mixture segment is the **m-projection**; alternating them is the **em algorithm**.
-
       **Next:** the content map of this level, to rebuild the whole chapter box by box. The em algorithm returns in the chapter on statistical inference, where $K$ is "the data" and $S$ is "the model".
