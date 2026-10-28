@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-28 ch02-bayes-proof (guided proof, 18 cards)
+Built autonomously. Re-ran validate and shots on ch02-bayes first: clean. Widgets belief-mixer (2 theories, 5 presets) and frequency-grid (sens = fpr locked, LR 1). Choices: abstract toy numbers, Mercury/1915 as the old-evidence case; Glymour 1980 and Le Verrier 1859 from memory (standard, not web-checked). Popper bold conjectures read via LR, with his own rejection of probabilities noted. Conventions fixed here: Bayes-proof lesson: P1 odds identity (order card), P2 rational beliefs obey probability (the premise critics reject), P3 likelihoods differ; toy numbers prior 0.3/0.7 with likelihoods 0.8/0.2 gives 12/19 = 63.2%; risky prediction 10% prior, 0.9 vs 0.02 gives 5/6 = 83.3%; safe prediction ratio 1 stays 10%; 1% prior with ratio 3 needs 7 results (95.7%; 6 gives 88.0%). Old evidence (Glymour 1980, Le Verrier 1859, GR 1915) with replies counterfactual prior and explanatory fit. Glossed: likelihood ratio again, Dutch book, corroboration, old evidence.
+
 ## 2026-10-28 ch02-bayes (concept, 14 cards)
 Built autonomously. Widget frequency-grid twice (fixed sliders with posterior hidden, then prior slider). Choices: DNA example is invented (1 in 5,000,000, country of 5,000,000, posterior 1/6) not a real case; two scientists use LR 10 with priors 50% and 5%; subjective vs objective Bayesians plus frequentists as a third voice. Numbers by script. Conventions fixed here: hook test 90%/9%/1 in 100 gives 9/98 = 9.18% (grid counts 9, 1, 89, 901); odds example 20% with LR 6 gives 60%; priors 50% and 5% with LR 10 give 91% and 34%; Bayes 1701-1761 (pub. 1763); glossed: prior, likelihood, posterior, odds, likelihood ratio, prosecutor's fallacy, subjective/objective Bayesian, frequentist.
 
