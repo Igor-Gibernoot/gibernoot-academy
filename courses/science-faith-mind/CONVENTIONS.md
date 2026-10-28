@@ -39,6 +39,8 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 
 ## Chapter 3
 
+- Panpsychism lesson: panpsychism = basic, simplest-form experience (not thought); structure/dynamics vs intrinsic nature (chess rules vs pieces); proof P1 physics gives only structure, P2 hard problem, P3 intrinsic nature experiential, C; neutral monism (Spinoza 1632-1677 attributes, Russell 1872-1970, 1927); panprotopsychism; combination problem (James 1890); replies constitutive, integrated information (Tononi b.1960), cosmopsychism. Goff b.1981, Strawson b.1952.
+
 - Idealism lesson: kinds subjective (Berkeley 1685-1753), transcendental (Kant 1724-1804), absolute (Hegel 1770-1831), analytic (Kastrup b.1966); Berkeley proof P1 only ideas perceived, P2 ideas in minds, P3 sensible things = what we perceive, C; unthought tree: God vs phenomenalist (Mill); idealist supervenience = physical supervenes on mental, with a Hempel-style dilemma for "mental".
 
 - Dualism lesson: substance (Descartes 1596-1650) vs property (Chalmers b.1966); doubt proof P1 doubt body, P2 cannot doubt thinking, P3 Leibniz's law, C; Kim's closure P1-P3 reused; replies: interactionism drops closure, epiphenomenalism drops P2, parallelism (Leibniz)/occasionalism (Malebranche) deny direct causation; dualists deny supervenience; Elisabeth 1643.

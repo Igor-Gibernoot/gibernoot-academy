@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-28 ch03-panpsychism (17 cards)
+Concept lesson with guided-proof P1-P3 inside, no widget. Choices: no web search (attributions from memory, paraphrased; Chalmers 2013 and James 1890 kept as approximate "set out"/"saw it"); hook marks the panpsychist option correct as the lesson's focus, stated as not a verdict. Conventions fixed here: panpsychism = basic experience, simplest form, not thought; structure/dynamics vs intrinsic nature (chess rules vs pieces); neutral monism (Spinoza attributes, Russell); panpsychism vs panprotopsychism; combination problem replies: constitutive, integrated information, cosmopsychism.
+
 ## 2026-10-28 ch03-dualism (17 cards)
 Concept lesson; no widget (conceptual). Choices: doubt argument as P1-P3 with Leibniz's law critique (Lois Lane example), divisibility reply, Chalmers property dualism, Elisabeth 1643 paraphrased, Kim closure recalled by lesson title, four replies in one matching card, supervenience contrast. No web search; dates from memory, paraphrased where unsure. Conventions fixed here: dualism = substance (Descartes) vs property (Chalmers); doubt proof P1 doubt body, P2 cannot doubt thinking, P3 Leibniz's law, C; replies: interactionism drops closure, epiphenomenalism drops P2, parallelism/occasionalism deny direct causation; dualists deny supervenience.
 
