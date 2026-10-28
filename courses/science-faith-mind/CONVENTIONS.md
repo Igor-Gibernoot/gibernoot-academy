@@ -36,3 +36,7 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 - Intuition lesson: mnemonic B-V-R-E for the four replies to Hume; numerics give data only (two positives at 1% prior, LR 10 each, 100:99 = 50.3%; RMS 1.71; 7 results for 95%); layers card marks metaphysical naturalism and strong scientism as layer 3, realism vs instrumentalism as live debate.
 - Challenge (part 1): patch example is Uranus/Neptune 1846 (Vulcan the failed twin); patched theory prior 20%, LR 16 (0.8 vs 0.05) gives 80%; clinic points (1,0.8),(2,1.9),(4,2.0),(6,3.3),(8,3.4),(9,4.6), holdout 10 (line 4.7, degree 5 10.6), held-out gaps 0.3/0.4/0.5 give RMS 0.41. Part 2 covers problems 4 (realism) and 5 (limits, NOMA).
 - Challenge (part 2): realism example is Fresnel/Maxwell, $R=\big(\frac{n-1}{n+1}\big)^2$ at normal incidence (water $n=1.33$ gives 2.0%); limits example is "prayer is pointless, so stop funding chaplains" split into empirical / metaphysical / normative; method order: testable, bundle, support, held-out, layers.
+
+## Chapter 3
+
+- Materialism lesson: "physicalism" preferred name; supervenience = no two possible worlds alike physically but different mentally; Kim closure proof P1 closure, P2 mental causes, P3 no overdetermination; Hempel 1905-1997 dilemma (current physics false, ideal physics empty), replies structure-and-dynamics and via negativa; Wöhler 1828, Kim 1934-2019. Glossed: physicalism, supervenience, vitalism, causal closure, overdetermination, epiphenomenalism, eliminativist.

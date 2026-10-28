@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-28 ch03-materialism (15 cards)
+Hook Wöhler/vitalism; physicalism defined; supervenience (worlds test); successes (anaesthesia, Gage); radio objection; Kim closure proof P1-P3 with critic question; Hempel dilemma with two replies; layers; return to vitalism. No widget (conceptual, nothing to manipulate). Chose supervenience as the precise form, Hempel's dilemma for "physical". Conventions fixed here: physicalism preferred to materialism; supervenience = no mental difference without a physical one; Kim closure P1-P3; Hempel horns false/empty; replies structure-and-dynamics and via negativa; Wöhler 1828, Kim 1934-2019, Hempel 1905-1997.
+
 ## 2026-10-28 ch02-challenge-2 (15 cards)
 Problems 4-5. P4: Fresnel ether optics kept in Maxwell (no-miracles, meta-induction, numeric R for water 2.0%, structural realism, fair summary, layers). P5: compound claim "prayer pointless so stop funding chaplains" split into empirical/metaphysical/normative, is-ought gap, STEP as narrow test, NOMA critique, strong vs modest scientism, layers; order card for a method; summary with what stays open. Choice: new examples only (no part-1 reuse); no widget. Conventions fixed here: Challenge part 2 example is Fresnel/Maxwell with R=((n-1)/(n+1))^2 (water n=1.33 gives 2.0%); compound claim is the chaplain-funding sentence.
 
