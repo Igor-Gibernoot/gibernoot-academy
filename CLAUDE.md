@@ -60,7 +60,13 @@ Static web app on GitHub Pages (laptop and phone). Deploy = commit + push to
    cannot yet solve, build the concept, return and resolve it.
 2. **Guided problem** (`guided`): one substantial problem in steps, each a
    question. Prefer results the source states without proof and its
-   appendix proofs (course `CLAUDE.md` says where).
+   appendix proofs (course `CLAUDE.md` says where). Two flavours, decided
+   at planning time and stated in the node's `summary:`:
+   - **Guided problem**: one specific case with its own numbers. No `own:`,
+     no Recap; it closes with a plain "what you now own" text card (method,
+     teaser).
+   - **Guided proof** (`proof: true` in the lesson file): ends in a general
+     result or law. It takes `own:` (with Recap blanks) like a concept lesson.
 3. **Traps** (`traps`): fast questions, each built on a common misconception.
 4. **Intuition** (`intuition`): derives nothing; quick recall of the main
    formulas of the concept lessons (mnemonics, limit/scaling checks, build

@@ -189,7 +189,7 @@ function checkMap(file, m) {
 function checkOwn(file, lesson) {
   const w = `${file} own`;
   if (typeof lesson.own !== 'string') return err(w, 'own must be a Markdown string (use a | block)');
-  if (!['concept', 'intuition'].includes(lesson.kind)) warn(w, 'own: is meant for concept and intuition lessons');
+  if (!['concept', 'intuition'].includes(lesson.kind) && !(lesson.kind === 'guided' && lesson.proof === true)) warn(w, 'own: is meant for concept and intuition lessons and for guided proofs (proof: true); a guided problem has no summary');
   checkText(w, lesson.own);
   const { parts, errors } = ownParts(lesson.own);
   for (const e of errors) err(w, e);

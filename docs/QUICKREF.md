@@ -25,7 +25,13 @@ cards:
     id: hook          # unique; never rename a played card's id
 ```
 
-### `own:` (concept lessons: the "what you now own" summary)
+### `own:` (concept lessons and guided proofs: the "what you now own" summary)
+
+A **guided proof** (`kind: guided` plus `proof: true` in the lesson file) ends in a
+general result, so it takes `own:` and enters Recap like a concept lesson. A
+**guided problem** (no `proof`) solves one specific case with its own numbers: no
+`own:`, no Recap; close with a plain text card (method used, teaser). Say which one a
+planned node is in its `summary:`.
 
 ```yaml
 own: |
