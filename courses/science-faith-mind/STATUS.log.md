@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-28 ch02-challenge-2 (15 cards)
+Problems 4-5. P4: Fresnel ether optics kept in Maxwell (no-miracles, meta-induction, numeric R for water 2.0%, structural realism, fair summary, layers). P5: compound claim "prayer pointless so stop funding chaplains" split into empirical/metaphysical/normative, is-ought gap, STEP as narrow test, NOMA critique, strong vs modest scientism, layers; order card for a method; summary with what stays open. Choice: new examples only (no part-1 reuse); no widget. Conventions fixed here: Challenge part 2 example is Fresnel/Maxwell with R=((n-1)/(n+1))^2 (water n=1.33 gives 2.0%); compound claim is the chaplain-funding sentence.
+
 ## 2026-10-28 ch02-challenge part 1 (17 cards)
 Problems 1-3 after a toolkit-recall card: remedy claims (A testable, B and C escape clauses), clinic grid (9/98, second LR-10 positive 50.3%), Uranus bundle and two patches (progressive vs degenerating, 20% prior LR 16 gives 80%), six-point curve lab (line 0.345 vs degree 5 zero, month 10 gives 4.7 vs 10.6), held-out RMS 0.41, realist vs constructive empiricist tie-break; each problem ends with a layers card. Chose 17 cards (part 2 should stay at or under 15 to keep the total under 32). No new widget. Conventions fixed here: Neptune/Uranus is the patch example (Vulcan the failed twin); clinic improvement-score six points (1,0.8),(2,1.9),(4,2.0),(6,3.3),(8,3.4),(9,4.6), holdout 10, tolerance 0.4.
 
