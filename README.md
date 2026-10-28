@@ -26,6 +26,7 @@ synced through an optional Google sign-in ([`docs/ACCOUNTS.md`](docs/ACCOUNTS.md
 | Active Inference | [`courses/active-inference/`](courses/active-inference/) |
 | Information Geometry and Its Applications | [`courses/info-geometry/`](courses/info-geometry/) |
 | How the World Works | [`courses/how-the-world-works/`](courses/how-the-world-works/) |
+| Science, Faith and Mind | [`courses/science-faith-mind/`](courses/science-faith-mind/) |
 
 ## Layout
 
