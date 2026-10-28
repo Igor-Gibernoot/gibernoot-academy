@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-28 ch01-traps built (15 cards)
+Welcome + 13 mcq traps (vivid story, genetic fallacy, strawman, "all the same", "science proved God", trust=proof, cherry-picking, circular, sincere=right, experience worthless/conclusive, "only an opinion", lottery/rarity, disagreement=no answer) + summary text card (no own:, traps kind). No widget, no new facts or numbers; dates reused (Reid, Hume). Choices made autonomously: all mcq, correct options carry the two-views framing; fine-tuning only previewed in the lottery trap. Conventions fixed here: trap ids are topic slugs (story-vs-data, genetic, strawman, all-same, science-god, trust-evidence, hits-misses, circle, sincere, experience, only-opinion, lottery, disagree); "genetic fallacy" and "perennialist" shown as glossed terms.
+
 ## 2026-10-28 ch01-tour built (25 cards)
 Welcome + 23 puzzles (Levels 2-25; Hindu and Buddhist share one "chariot" puzzle to stay at 25 cards) + summary with table. All mcq except one numeric (aliens). Widget decision: none; no puzzle is geometric (hotel, chariot, dominoes are told in words), so no preset needed. Checked belief-mixer preset of ch01-reasons via shots at phone and desktop: looks fine, no change. Conventions fixed here: puzzle ids `p-<topic>`; one puzzle per level, level named by title in explanation; Hindu/Buddhist share `p-self`.
 
