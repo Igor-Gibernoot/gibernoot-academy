@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-28 ch02-bayes (concept, 14 cards)
+Built autonomously. Widget frequency-grid twice (fixed sliders with posterior hidden, then prior slider). Choices: DNA example is invented (1 in 5,000,000, country of 5,000,000, posterior 1/6) not a real case; two scientists use LR 10 with priors 50% and 5%; subjective vs objective Bayesians plus frequentists as a third voice. Numbers by script. Conventions fixed here: hook test 90%/9%/1 in 100 gives 9/98 = 9.18% (grid counts 9, 1, 89, 901); odds example 20% with LR 6 gives 60%; priors 50% and 5% with LR 10 give 91% and 34%; Bayes 1701-1761 (pub. 1763); glossed: prior, likelihood, posterior, odds, likelihood ratio, prosecutor's fallacy, subjective/objective Bayesian, frequentist.
+
 ## 2026-10-28 ch02-paradigms (12 cards)
 Built `ch02/paradigms.yaml`: hook (Mercury), Kuhn text, normal science, anomalies (Uranus), cycle order card, gestalt (duck-rabbit in words), incommensurability (two views), relativism reply (shared values), Popper vs Kuhn, layers, return to Mercury, summary with Bayes teaser. Autonomous choices: no widget; 12 cards (plan said ~18, one idea per card, nothing cut); no web search (standard dates); Kuhn's reply paraphrased, no quotes. Fixed an own: display overflow with gathered lines.
 Conventions fixed here: Kuhn 1922-1996, *Structure* 1962; cycle normal science, anomalies, crisis, revolution, new normal science; values list accuracy, scope, simplicity, consistency, fruitfulness; Mercury ~43 arcsec/century; incommensurability presented as Kuhn vs critics (Popper, Lakatos); glossed: paradigm, normal science, anomaly, gestalt, incommensurable.

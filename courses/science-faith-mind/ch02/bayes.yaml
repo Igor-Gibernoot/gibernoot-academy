@@ -1,0 +1,264 @@
+id: ch02-bayes
+title: "Evidence as Updating Belief"
+kind: concept
+own: |
+  - **Setting.** A hypothesis $H$ (for example "this person has the condition") and a piece of evidence $E$ (for example "the test came out positive"). $P(H)$ is the **prior**: {{ how probable $H$ was before the evidence }}. $P(E\mid H)$ is the **likelihood**: how probable the evidence is if $H$ is true. $P(H\mid E)$ is the **posterior**: how probable $H$ is after seeing $E$.
+  - **Bayes' rule** (according to Thomas Bayes, 1701-1761, published 1763, and Laplace) turns the likelihood into the posterior:
+  {{ $$P(H\mid E)=\frac{P(E\mid H)\,P(H)}{P(E)}$$ }}
+  Counting cases in a crowd gives the same answer: of everyone who shows $E$, the fraction who also have $H$. A test with $P(E\mid H)=0.9$ on a $1\%$ condition and a $9\%$ false-positive rate leaves only about $9\%$ after a positive result, because the false positives outnumber the true ones.
+  - **Not the same question.** $P(E\mid H)$ and $P(H\mid E)$ are different numbers; confusing them is {{ the prosecutor's fallacy (ignoring the prior, or base rate) }}.
+  - **Odds form.** For two rival hypotheses $H_1$, $H_2$ and evidence $E$:
+  {{ $$\frac{P(H_1\mid E)}{P(H_2\mid E)}=\frac{P(E\mid H_1)}{P(E\mid H_2)}\cdot\frac{P(H_1)}{P(H_2)}$$ }}
+  The middle factor is the **likelihood ratio**: how much more expected the evidence is under $H_1$ than under $H_2$. Evidence helps $H_1$ exactly when this ratio is above $1$; at $1$ the evidence changes nothing.
+  - **Priors matter: two views.** The same evidence moves different priors to different posteriors (a likelihood ratio of $10$ takes a prior of $50\%$ to $91\%$ but a prior of $5\%$ to $34\%$). According to **subjective Bayesians**, a prior is a personal degree of belief, constrained only by coherence, and shared evidence pulls disagreeing people together over time. According to **objective Bayesians**, principles (such as indifference or maximum entropy) should fix the prior. Critics of both ask where a first prior can come from at all, a live debate (layer 2).
+  - **Where thoughtful people part ways.** Whether a prior for a grand claim (a whole worldview, a theory of everything) can be given a number at all; whether rational people must converge; and whether Bayes' rule models how scientists really weigh whole frameworks (as Kuhn describes) or only an idealised version of it.
+cards:
+  - type: mcq
+    id: hook
+    title: "A positive test"
+    prompt: |
+      A medical test is positive for 90% of people who have a certain condition, and also (wrongly) positive for 9% of people who do not. The condition is rare: 1 person in 100 has it. You test positive. Before any theory, **guess**: roughly how likely is it that you have the condition?
+    options:
+      - text: 'About 90%.'
+        feedback: |
+          This is the most common answer: the test "is 90% accurate". But 90% is how often *ill* people test positive, not how often *positive* people are ill. These are different questions, and the lesson is about the gap between them.
+      - text: 'About 50%.'
+        feedback: |
+          A tempting middle guess, but nothing in the numbers puts it at one half. Keep it in mind and we will count carefully.
+      - text: 'About 9%.'
+        correct: true
+      - text: 'About 1%.'
+        feedback: |
+          Too low: the positive result is real evidence, so your chance rises above the starting 1%. By how much is the question.
+    explanation: |
+      About 9%: far lower than most people guess, even though the test sounds reliable. The reason is the rarity of the condition, which we will see by counting people. This simple case contains the whole idea of **updating belief on evidence**, which philosophers of science use to ask what it means for evidence to support a theory.
+
+  - type: widget
+    id: grid
+    widget: frequency-grid
+    config:
+      N: 1000
+      prior: 0.01
+      sens: 0.9
+      fpr: 0.09
+      sliders:
+        prior: { fixed: true }
+        sens: { fixed: true }
+        fpr: { fixed: true }
+      show: { posterior: false }
+      reset: false
+      labels:
+        prior: "Has the condition"
+        sens: "Positive if ill"
+        fpr: "Positive if healthy"
+        tp: "Ill and positive"
+        fn: "Ill, negative"
+        fp: "Healthy, positive"
+        tn: "Healthy, negative"
+        posterior: "Ill, given positive"
+    body: |
+      Each dot is one of 1,000 people. **Green**: ill and positive. **Blue**: ill but negative. **Red**: healthy but positive. **Grey**: healthy and negative. Look only at the people who tested positive (green and red). How do the greens compare with the reds?
+    review: false
+
+  - type: text
+    id: words
+    title: "Three names"
+    body: |
+      Let $H$ be a **hypothesis** (here: "this person has the condition") and $E$ the **evidence** (here: "the test is positive"). **Probability** is written $P(\cdot)$, a number from 0 (impossible) to 1 (certain). The vertical bar reads "given":
+
+      - $P(H)$ is the **prior**: how probable $H$ is *before* the evidence. Here $0.01$.
+      - $P(E\mid H)$ is the **likelihood**: how probable the evidence is *if $H$ is true*. Here $0.9$.
+      - $P(H\mid E)$ is the **posterior**: how probable $H$ is *after* seeing the evidence. This is what we want.
+
+      The word "Bayesian" refers to the 18th-century minister and mathematician Thomas Bayes (1701-1761), whose result was published after his death in 1763, and to Laplace (1749-1827), who developed it. The idea: belief should **update** on evidence by a fixed rule.
+
+  - type: numeric
+    id: posterior-count
+    title: "Counting the positives"
+    prompt: |
+      Of 1,000 people, 10 have a condition (1%). Of these 10, 9 test positive. Of the 990 healthy people, 89 also test positive (about 9%). Among everyone who tests positive, what **percentage** actually has the condition? (Give a number, such as 12.5.)
+    answer: 9.18
+    tolerance: 0.1
+    answerText: '9/98, about 9.2%'
+    wrong:
+      - { value: 90, feedback: 'That is $P(E\mid H)$: the share of *ill* people who test positive. We want the share of *positive* people who are ill.' }
+      - { value: 9, feedback: 'You divided the 9 true positives by 100 (or took the false-positive rate). The people who test positive are 9 true plus 89 false, 98 in all, so divide by 98.' }
+    hint: |
+      How many people test positive in total (true positives plus false positives)? Then take the fraction of those who are ill.
+    explanation: |
+      Positives: $9 + 89 = 98$. Ill among them: $9$.
+      $$\frac{9}{98}\approx 9.2\%$$
+      The 89 healthy people who test positive outnumber the 9 ill ones, because a small error rate applied to 990 people produces many more cases than a high detection rate applied to 10.
+
+  - type: build
+    id: bayes-rule
+    title: "Bayes' rule, as a product"
+    prompt: |
+      Counting positives gives the identity "(share of all people who are ill and positive) = (share who are positive) times (share of positives who are ill)", and also "= (share who are ill) times (share of ill who are positive)". Equating the two, build the right-hand side of Bayes' rule in product form, with $P(E)$ the probability of a positive result.
+    prefix: 'P(H\mid E)\,P(E)='
+    tiles: ['P(E\mid H)', 'P(H)', 'P(H\mid E)', 'P(E)', 'P(E\mid \neg H)']
+    answers:
+      - ['P(E\mid H)', 'P(H)']
+      - ['P(H)', 'P(E\mid H)']
+    wrong:
+      - { answer: ['P(H\mid E)', 'P(H)'], feedback: 'That uses the posterior itself on both sides. The identity must express it through the likelihood $P(E\mid H)$ and the prior $P(H)$.' }
+      - { answer: ['P(E\mid \neg H)', 'P(H)'], feedback: '$P(E\mid\neg H)$ (the false-positive rate, "$\neg H$" meaning "not $H$") is used to find $P(E)$, but the ill-and-positive share is the likelihood times the prior.' }
+    hint: |
+      The share of everyone who is ill and positive is the share who are ill times the share of those who are positive.
+    explanation: |
+      Both products count the same group, the people who have $H$ and show $E$. Dividing by $P(E)$ gives **Bayes' rule**:
+      $$P(H\mid E)=\frac{P(E\mid H)\,P(H)}{P(E)}$$
+      In the test: $P(E)=0.9\cdot0.01+0.09\cdot0.99=0.0981$, so $P(H\mid E)=0.009/0.0981\approx 9.2\%$, as counted.
+
+  - type: mcq
+    id: prosecutor
+    title: "Two different questions"
+    prompt: |
+      A forensic test matches a random innocent person's DNA with probability 1 in 5,000,000. In a country of 5,000,000 people one culprit left a sample, and a suspect, picked out by nothing except this test, matches. A speaker says: "There is only a one-in-five-million chance that he is innocent." Which reading is correct?
+    options:
+      - text: '1 in 5,000,000 is $P(\text{match}\mid\text{innocent})$. The chance of innocence *given* a match must also count the other innocent people expected to match (about 5 of them): the suspect is the culprit with probability about $1/6$.'
+        correct: true
+      - text: 'It is correct: a match with probability 1 in 5,000,000 under innocence means innocence has probability 1 in 5,000,000.'
+        feedback: |
+          This swaps $P(E\mid H)$ for $P(H\mid E)$, called the **prosecutor's fallacy**. The rarity of a match among innocent people is not the rarity of innocence among matched people.
+      - text: 'The test is useless, because 5 innocent people would match.'
+        feedback: |
+          Overcorrected. A match raises the suspect from 1 in 5,000,000 to about 1 in 6, a huge update. It is strong evidence, but not by itself proof.
+    explanation: |
+      Among 5,000,000 people, about $5{,}000{,}000\times\frac{1}{5{,}000{,}000}=5$ innocents match, plus the culprit: 6 matches, 1 guilty.
+      $$P(\text{guilty}\mid\text{match})\approx\frac{1}{6}\approx 17\%$$
+      Courts care about this: other evidence (the prior) must supply the rest. Two views on the lesson: Bayesians say the prior must be stated openly; critics of this view say courts should not put numbers on guilt. Both agree the two conditional probabilities must not be swapped.
+
+  - type: mcq
+    id: priors
+    title: "Same evidence, different starting points"
+    prompt: |
+      Two scientists see the same new result $E$, which is 10 times more probable if a theory $T$ is true than if it is false. Scientist A started at $P(T)=50\%$, scientist B at $P(T)=5\%$. After updating by Bayes' rule, what happens?
+    options:
+      - text: 'Both rise, to about 91% for A and 34% for B. They still disagree, though less than before in ratio terms.'
+        correct: true
+      - text: 'Both arrive at the same number, since the evidence is the same.'
+        feedback: |
+          The evidence is shared, but the posterior depends on the evidence *and* the prior. Here A reaches 91% and B only 34%.
+      - text: 'B gets exactly 10 times 5%, so 50%.'
+        feedback: |
+          Multiplying the probability by 10 is wrong. It is the **odds** that get multiplied: B's odds $1:19$ become $10:19$, which is $10/29\approx 34\%$.
+    explanation: |
+      A: odds $1:1\to 10:1$, which is $10/11\approx 91\%$. B: odds $1:19\to 10:19$, which is $10/29\approx 34\%$. According to Kuhn, scientists weigh a theory against a whole framework of values and background commitments, so their starting points differ; a Bayesian can describe this as differing priors. The same result then pushes both the same way (up) without making them agree at once. Many Bayesians add that with repeated shared evidence the priors wash out; critics reply that this needs the priors to be not too extreme (a prior of exactly 0 never moves).
+
+  - type: widget
+    id: grid-prior
+    widget: frequency-grid
+    config:
+      N: 1000
+      prior: 0.01
+      sens: 0.9
+      fpr: 0.09
+      sliders:
+        sens: { fixed: true }
+        fpr: { fixed: true }
+        prior: { value: 0.01, min: 0.01, max: 0.9, step: 0.01 }
+      show: { bar: true, formula: true }
+      labels:
+        prior: "Has the condition"
+        sens: "Positive if ill"
+        fpr: "Positive if healthy"
+        tp: "Ill and positive"
+        fn: "Ill, negative"
+        fp: "Healthy, positive"
+        tn: "Healthy, negative"
+        posterior: "Ill, given positive"
+    body: |
+      Same test, same result, but now drag the **prior** (the share who have the condition). Watch the posterior as the prior grows from 1% to 50% and beyond.
+    review: false
+
+  - type: mcq
+    id: lr
+    title: "How much does evidence help?"
+    prompt: |
+      Evidence $E$ has probability 0.8 if hypothesis $H_1$ is true and 0.2 if the rival $H_2$ is true. The ratio $P(E\mid H_1)/P(E\mid H_2)$ is $4$. Which statement is right?
+    options:
+      - text: '$E$ makes $H_1$ more probable than before relative to $H_2$: the odds $H_1:H_2$ are multiplied by 4.'
+        correct: true
+      - text: '$E$ proves $H_1$, since $0.8$ is high.'
+        feedback: |
+          A high likelihood is not proof. What matters is the comparison with the rival ($0.2$) and the prior. With prior odds $1:99$ against $H_1$, odds after $E$ are $4:99$, still about 4%.
+      - text: '$E$ has no effect, because both likelihoods are below 1.'
+        feedback: |
+          Likelihoods are almost always below 1. What counts is their ratio; a ratio of 1 would mean no effect.
+    explanation: |
+      Evidence **favours** the hypothesis that made it more expected. A ratio above 1 raises $H_1$ against $H_2$, below 1 lowers it, exactly 1 leaves it unchanged. This is the heart of the next lesson, a guided proof that evidence favours the theory that predicted it.
+
+  - type: numeric
+    id: odds
+    title: "Odds form"
+    prompt: |
+      Before the evidence, hypothesis $H_1$ has probability 20% and its only rival $H_2$ has 80%. The evidence is 6 times as probable under $H_1$ as under $H_2$. **Odds** are one chance against another, so prior odds are $20:80=1:4$. After the evidence, what is the probability of $H_1$? (Give a number from 0 to 1.)
+    answer: 0.6
+    tolerance: 0.005
+    answerText: '0.6'
+    wrong:
+      - { value: 0.5, feedback: 'That would be odds $1:1$. Multiply the prior odds by 6: $1:4$ becomes $6:4$, which is $3:2$.' }
+      - { value: 0.67, feedback: 'That would be odds $2:1$. The odds are $\frac14\times6=\frac32$, that is $3:2$, so the probability is $3/5$.' }
+    hint: |
+      Multiply the prior odds ($1/4$) by 6, then turn odds $a:b$ into the probability $a/(a+b)$.
+    explanation: |
+      Posterior odds = likelihood ratio times prior odds:
+      $$\frac{P(H_1\mid E)}{P(H_2\mid E)}=6\cdot\frac14=\frac32$$
+      Odds $3:2$ mean probability $3/(3+2)=0.6$. The odds form is the same Bayes' rule, with the awkward $P(E)$ cancelled out.
+
+  - type: mcq
+    id: priors-source
+    title: "Where does the first prior come from?"
+    prompt: |
+      Bayes' rule tells you how to update, but a calculation needs a starting prior. Two Bayesian schools answer in different ways. Which pairing of view and claim is right?
+    options:
+      - text: 'Subjective Bayesians: a prior is a person''s own degree of belief, limited only by coherence (the probabilities must obey the rules); objective Bayesians: some principle, such as indifference or maximum entropy, should fix it.'
+        correct: true
+      - text: 'Subjective Bayesians say any prior is as good as any other even after unlimited evidence; objective Bayesians say evidence is not needed.'
+        feedback: |
+          A caricature of both. Subjectivists usually argue that, with enough shared evidence, differing priors converge (unless one is exactly 0 or 1). Objectivists still update on evidence.
+      - text: 'Bayes'' rule itself determines the prior, so the dispute is over arithmetic.'
+        feedback: |
+          Bayes' rule is a theorem about how probabilities relate; it has no way to produce a prior from nothing. The dispute is exactly about what supplies it.
+    explanation: |
+      Steelman of the subjective view: our starting beliefs are shaped by experience and cannot be dictated, and honesty requires admitting them. Steelman of the objective view: science needs shared standards, so priors should not be arbitrary. A third voice, **frequentists**, say probability only describes long-run frequencies of repeatable events and refuse priors for single hypotheses. For grand claims (a worldview, a theory of the universe) all three face a hard question: a prior for what?
+
+  - type: mcq
+    id: layers
+    title: "Three layers"
+    prompt: |
+      Which statement is **established fact** (layer 1), not live debate or commitment?
+    options:
+      - text: 'If the prior, the likelihood and the false-positive rate are given, Bayes'' rule fixes the posterior (a theorem).'
+        correct: true
+      - text: 'A prior for a hypothesis about the whole universe can be given an objective number.'
+        feedback: |
+          This is a **live debate** (layer 2): objective Bayesians say yes in principle; subjectivists and frequentists disagree.
+      - text: 'Science as actually practised always updates in the Bayesian way.'
+        feedback: |
+          A **live debate** (layer 2). Some philosophers use Bayes as a model of good reasoning; others (including those following Kuhn) say real scientific change involves more than updating numbers.
+    explanation: |
+      The rule is mathematics; the ranges and numbers we put into it, and whether it describes real minds, are philosophy. Keeping the layers apart is the habit of this course.
+
+  - type: mcq
+    id: hook-return
+    title: "Back to the positive test"
+    prompt: |
+      A test is positive for 90% of ill people and for 9% of healthy people, and 1 in 100 has the condition. Why is the posterior only about 9% and not 90%?
+    options:
+      - text: 'Because the condition is rare, the many healthy people with the 9% false-positive rate outnumber the few ill people detected; the prior pulls the result down.'
+        correct: true
+      - text: 'Because the test is bad.'
+        feedback: |
+          A test positive for 90% of the ill is quite good. The same test on a population where half are ill would give about 91%. The result depends on the prior as well as the test.
+      - text: 'Because probabilities cannot exceed their prior.'
+        feedback: |
+          No such rule; a positive result raised 1% to about 9%. Priors can rise as far as 100% with enough evidence.
+    explanation: |
+      Prior $1\%$, likelihood ratio $0.9/0.09=10$: odds $1:99\to 10:99$, a probability of about $9.2\%$. Evidence multiplies the odds; it does not replace the prior. That is why "how likely is this theory given the data?" cannot be answered by the data alone, the point behind the Bayesian view of science and the objections to it.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the guided proof "Evidence Favours the Theory That Predicted It" derives the likelihood-ratio law from Bayes' rule, and faces two objections: evidence we already knew (old evidence), and the dependence on priors.
