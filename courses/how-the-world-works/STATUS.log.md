@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-29 Level 2 web audit batch B (gears, lock, elevator)
+Fixed: master keys use a master wafer (extra spacer pin), not a "split pin" (lock, challenge2, map); "most common lock" softened; picking "ideal case"; gear loss "roughly 1 to 3%", cheater-pipe safety; elevator hook (motor size dropped, real 630 kg lifts noted), counterweight 40-50% of rated load, regeneration to the building. No numbers changed. Conventions fixed here: master wafer stacks ("wafer stacks" = k in 2^k); elevator counterweight half-load is a typical choice (40 to 50%).
+
 ## 2026-10-29 Level 1 stale-level sweep
 Grepped ch01 lessons, map, challenge, REFERENCES.md, CONVENTIONS.md for "Level N", level names, "later levels", teasers: no stale number or old 14-level text found (REFERENCES already lists 19; map tour box and teasers name no level numbers). No change needed. Conventions fixed here: none.
 

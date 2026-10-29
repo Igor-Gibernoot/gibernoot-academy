@@ -8,10 +8,10 @@ own: |
     {{ $$D^N$$ }}
     For $D = 6$ and $N = 5$ that is $6^5 = 7776$ keys; one more pin multiplies it by $6$ ($46\,656$).
   - **Fewer keys in practice.** Parts are made only to within a **tolerance** (a small allowed error), so neighbouring depths must be spaced further apart than that error. Fewer usable depths $D$ means fewer keys: with $D = 4$ and $N = 5$, $4^5 = 1024$.
-  - **Master key.** A **split pin** (a driver pin cut in two) gives a pin two depths at which the plug can turn. If $k$ of the $N$ pins are split, the number of keys that open the lock is
+  - **Master key.** A **master wafer** (a thin extra pin placed between the key pin and the driver pin) gives that pin stack two places where it can separate at the shear line, so two cuts let the plug turn. If $k$ of the $N$ stacks have a wafer, the number of keys that open the lock is
     {{ $$2^k$$ }}
     With $k = N = 5$, $2^5 = 32$ keys open it, so a random key succeeds with chance $32/7776 = 1/243$ instead of $1/7776$: convenience bought with security.
-  - **Picking.** With a little turning force on the plug, the pins bind one at a time, so a picker sets them one by one and needs at most about $D\times N$ tries ($6\times5 = 30$) instead of $D^N$ (7776).
+  - **Picking.** With a little turning force on the plug, the pins bind one at a time, so a picker sets them one by one and needs in the ideal case at most about $D\times N$ tries ($6\times5 = 30$) instead of $D^N$ (7776).
 cards:
   - type: text
     id: hook
@@ -19,7 +19,7 @@ cards:
     body: |
       You carry a small piece of metal, the **key**, that opens one door and no other. Nothing electronic is inside it, only a row of notches (**cuts**) of different depths. How can notches be a secret, and how many different secrets can there be?
 
-      This lesson opens up the most common lock in the world, the **pin-tumbler lock** (a cylinder with spring-loaded pins that only the right key can line up). Guessing first is the point.
+      This lesson opens up one of the most common locks in the world, the **pin-tumbler lock** (a cylinder with spring-loaded pins that only the right key can line up). Guessing first is the point.
 
   - type: mcq
     id: guess-keys
@@ -198,11 +198,11 @@ cards:
 
   - type: text
     id: master
-    title: Master keys and split pins
+    title: Master keys and master wafers
     body: |
-      A hotel wants each room key to open only its room, and the owner's key to open every room. The trick is the **split pin**: a driver pin cut in two pieces. The extra gap gives the pin **two** depths at which a gap lines up with the shear line, so two different cuts both let the plug turn.
+      A building manager wants each tenant's key to open only that door, and the manager's key to open every door. The trick is the **master wafer**: a thin extra pin put in some pin stacks, between the key pin and the driver pin. The stack can now separate at the shear line in **two** places (between driver and wafer, or between wafer and key pin), so two different cuts both let the plug turn.
 
-      If a lock has $k$ split pins (and $N - k$ ordinary ones), each split pin accepts $2$ cuts and each ordinary pin $1$. The number of different keys that open it is
+      If a lock has $k$ stacks with a wafer (and $N - k$ ordinary ones), each wafer stack accepts $2$ cuts and each ordinary stack $1$. The number of different keys that open it is
 
       $$2^k$$
 
@@ -211,7 +211,7 @@ cards:
   - type: numeric
     id: master-count
     prompt: |
-      A lock has $N = 5$ pins, of which $k = 5$ are split pins (every pin accepts two cuts). How many different keys open it?
+      A lock has $N = 5$ pins, of which $k = 5$ have a master wafer (every pin accepts two cuts). How many different keys open it?
     answer: 32
     tolerance: 0
     answerText: '32'
@@ -221,12 +221,12 @@ cards:
     hint: |
       $2\times2\times2\times2\times2$.
     explanation: |
-      $2^5 = 32$ keys open this lock. Real master-key systems split only some pins (say $k = 1$ or $2$) so that fewer wrong keys work, but the cost is the same in kind.
+      $2^5 = 32$ keys open this lock. Real master-key systems put wafers in only some stacks so that fewer wrong keys work, but the cost is the same in kind: more ways to open the lock, so more ways to attack it.
 
   - type: mcq
     id: master-risk
     prompt: |
-      A 5-pin, 6-depth lock normally has $7776$ possible keys and exactly one opens it. After every pin is split, $32$ different keys open it. By what factor did the chance that a random key opens the lock grow?
+      A 5-pin, 6-depth lock normally has $7776$ possible keys and exactly one opens it. After every stack gets a wafer, $32$ different keys open it. By what factor did the chance that a random key opens the lock grow?
     shuffle: false
     options:
       - text: By a factor of $5$.
@@ -259,7 +259,7 @@ cards:
     hint: |
       For each decision ask: what is gained, and what is paid?
     explanation: |
-      No choice is free. The designer picks $N$, $D$ and the number of split pins to balance security, cost and convenience.
+      No choice is free. The designer picks $N$, $D$ and the number of wafer stacks to balance security, cost and convenience.
 
   - type: widget
     id: pick-try
@@ -329,7 +329,7 @@ cards:
     hint: |
       Use $D^N$, $2^k$ and $D\times N$.
     explanation: |
-      $D^N$ is an upper limit on keys, tolerance lowers it, split pins raise the number of working keys to $2^k$, and picking costs about $D\times N$ because it works one pin at a time.
+      $D^N$ is an upper limit on keys, tolerance lowers it, master wafers raise the number of working keys to $2^k$, and picking costs about $D\times N$ because it works one pin at a time.
 
   - type: text
     id: summary

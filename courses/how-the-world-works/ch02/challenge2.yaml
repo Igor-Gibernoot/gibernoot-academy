@@ -46,7 +46,7 @@ cards:
   - type: numeric
     id: master-chance
     prompt: |
-      A building uses **split pins** (a driver pin cut in two, so a pin can be opened by two depths) on all $k = 5$ pins of a lock with $D = 6$ depths and $N = 5$ pins. Then $2^5 = 32$ different keys open it. A random key of the $7776$ possible keys opens it with chance $1$ in how many?
+      A building uses **master wafers** (a thin extra pin in a stack, so that stack can be opened by two depths) on all $k = 5$ pin stacks of a lock with $D = 6$ depths and $N = 5$ pins. Then $2^5 = 32$ different keys open it. A random key of the $7776$ possible keys opens it with chance $1$ in how many?
     answer: 243
     answerText: '243'
     wrong:
@@ -61,12 +61,12 @@ cards:
   - type: numeric
     id: max-split
     prompt: |
-      The bicycle lock has $D = 6$ and $N = 5$ ($7776$ keys), and $k$ split pins give $2^k$ opening keys. The designer wants the chance that a random key opens it to be **at most** $1$ in $1000$. What is the largest number $k$ of split pins allowed?
+      The bicycle lock has $D = 6$ and $N = 5$ ($7776$ keys), and $k$ wafer stacks give $2^k$ opening keys. The designer wants the chance that a random key opens it to be **at most** $1$ in $1000$. What is the largest number $k$ of wafer stacks allowed?
     answer: 2
     answerText: '2'
     wrong:
       - { value: 3, feedback: 'With $k = 3$ there are $8$ opening keys and the chance is $8/7776 = 1/972$, which is **more** than $1/1000$. The limit is crossed one pin earlier.' }
-      - { value: 7, feedback: 'You counted opening keys ($7.776$ at most), not split pins. The number of opening keys is $2^k$, so $k$ is its base-2 logarithm.' }
+      - { value: 7, feedback: 'You counted opening keys ($7.776$ at most), not wafer stacks. The number of opening keys is $2^k$, so $k$ is its base-2 logarithm.' }
     hint: |
       The number of opening keys $2^k$ must be at most $7776/1000 = 7.776$. Try $k = 1, 2, 3$.
     explanation: |
@@ -74,7 +74,7 @@ cards:
       k = 2:&\quad 4/7776 = 1/1944\\
       k = 3:&\quad 8/7776 = 1/972
       \end{aligned}$$
-      So $k = 2$ passes and $k = 3$ just misses. Each split pin doubles the opening keys and doubles the chance.
+      So $k = 2$ passes and $k = 3$ just misses. Each master wafer doubles the opening keys and doubles the chance.
 
   - type: mcq
     id: tolerance-effect
@@ -270,21 +270,21 @@ cards:
   - type: mcq
     id: lock-choice
     prompt: |
-      The lock has $N = 5$ pins and tolerance leaves $D = 4$ usable depths, so $4^5 = 1024$ keys exist. A split pin doubles the opening keys. The chance that a random key opens it should be at most $1$ in $1000$. Which design works?
+      The lock has $N = 5$ pins and tolerance leaves $D = 4$ usable depths, so $4^5 = 1024$ keys exist. A master wafer doubles the opening keys. The chance that a random key opens it should be at most $1$ in $1000$. Which design works?
     shuffle: false
     options:
-      - text: 'no split pins ($k = 0$): one opening key, chance $1/1024$'
+      - text: 'no master wafers ($k = 0$): one opening key, chance $1/1024$'
         correct: true
-      - text: '$k = 2$ split pins: $4$ opening keys, chance $1/256$'
+      - text: '$k = 2$ wafer stacks: $4$ opening keys, chance $1/256$'
         feedback: |
           With only $1024$ keys, $4$ opening keys give $4/1024 = 1/256$, much more than $1/1000$.
-      - text: '$k = 5$ split pins, $32$ opening keys, so every pin accepts two depths'
+      - text: '$k = 5$ wafer stacks, $32$ opening keys, so every pin accepts two depths'
         feedback: |
           $32/1024 = 1/32$: a stranger's key works about once in $32$ tries.
     hint: |
       Chance equals $2^k$ divided by $1024$, and it must be at most $1/1000$.
     explanation: |
-      Only $k = 0$ gives $1/1024 \le 1/1000$. With the full $D = 6$ depths ($7776$ keys) two split pins would have been allowed, but tolerance took that room away. Master keys and sloppy tolerance both cost security.
+      Only $k = 0$ gives $1/1024 \le 1/1000$. With the full $D = 6$ depths ($7776$ keys) two wafer stacks would have been allowed, but tolerance took that room away. Master keys and sloppy tolerance both cost security.
 
   - type: numeric
     id: helmet-final
@@ -305,7 +305,7 @@ cards:
   - type: mcq
     id: final-check
     prompt: |
-      A proposed bicycle has: gear ratio $s = 2.5$, speed limit $7.61$ m/s, ABS brakes, a $150$ N m crank, a frame scaled by $1.1$ ($3.99$ kg), a lock with no split pins and a $4$ cm helmet liner. Which need does it still fail?
+      A proposed bicycle has: gear ratio $s = 2.5$, speed limit $7.61$ m/s, ABS brakes, a $150$ N m crank, a frame scaled by $1.1$ ($3.99$ kg), a lock with no master wafers and a $4$ cm helmet liner. Which need does it still fail?
     shuffle: false
     options:
       - text: the stopping spec, since ABS adds heat
@@ -313,7 +313,7 @@ cards:
           ABS stops in $6.16$ m, within the $15$ m spec, and the heat of $2028$ J only warms $0.5$ kg of steel by $9$ K.
       - text: the hill, since the pull at the tyre $157/2.5 = 62.8$ N is below the needed $68.6$ N
         correct: true
-      - text: the lock, since no split pins means fewer opening keys
+      - text: the lock, since no master wafers means fewer opening keys
         feedback: |
           Fewer opening keys is exactly what the $1$ in $1000$ chance requires; the lock meets it.
     hint: |
@@ -332,7 +332,7 @@ cards:
       - **Brakes:** ABS, stopping in $6.16$ m instead of $7.39$ m locked, releasing $2028$ J of heat as the stop.
       - **Crank:** rated at $150$ N m or more, above the $120$ N m a standing rider applies.
       - **Frame:** scaled by $1.1$, giving $3.99$ kg and strength per kilogram $\times 0.909$.
-      - **Lock:** keys number $D^N$ ($6^5 = 7776$, only $4^5 = 1024$ after tolerance); $k$ split pins give $2^k$ opening keys; with tolerance and a $1/1000$ limit, no split pins.
+      - **Lock:** keys number $D^N$ ($6^5 = 7776$, only $4^5 = 1024$ after tolerance); $k$ wafer stacks give $2^k$ opening keys; with tolerance and a $1/1000$ limit, no master wafers.
       - **Helmet:** $F\,d = \tfrac12 mv^2$; for $5$ kg at $7.61$ m/s and $4000$ N, at least $3.6$ cm of crush ($4$ cm gives $3619$ N), against $19$ kN for a bare $0.002$ s stop.
 
       Every line is a tradeoff: speed against pull, grip against margin, weight against strength, convenience against security, thickness against force. Next: a review of the whole level.
