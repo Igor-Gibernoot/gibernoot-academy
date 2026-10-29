@@ -1,0 +1,352 @@
+id: ch03-quake
+title: Earthquakes and Safe Buildings
+kind: concept
+own: |
+  - **Waves and warning time.** A fault slip sends out fast **P waves** (about $v_P = 6$ km/s in the crust, they arrive first) and slower, shaking **S waves** (about $v_S = 3.5$ km/s; they cannot cross liquid). At a distance $d$ the S wave lags the P wave by
+    {{ $$\Delta t = d\left(\frac{1}{v_S}-\frac{1}{v_P}\right)$$ }}
+    which is about $12$ s for $d = 100$ km: the gap gives a few seconds of warning and tells how far away the quake is.
+  - **Which buildings sway the most.** A building swaying as one mass $m$ (kg) on a sway stiffness $k$ (N/m) has natural frequency
+    {{ $$f_0 = \frac{1}{2\pi}\sqrt{\frac{k}{m}}$$ }}
+    and period $T = 1/f_0$. A rough rule for ordinary buildings with $N$ storeys is
+    {{ $$T \approx 0.1\ \mathrm{s}\times N$$ }}
+    so a 5-storey building has $T \approx 0.5$ s ($f_0 = 2$ Hz) and a 40-storey one $T \approx 4$ s ($f_0 = 0.25$ Hz). Shaking at a frequency close to $f_0$ is amplified (resonance); with damping ratio $\zeta$ and $D$ the sway under a steady push of the same size, the peak is about $D/(2\zeta)$. Short-period shaking fades quickly with distance, long-period shaking travels far and hits tall buildings.
+  - **Soft soil.** A layer of soft soil of thickness $H$ (m) and shear-wave speed $v_s$ (m/s) over hard rock has its own natural period
+    {{ $$T_{\mathrm{soil}} \approx \frac{4H}{v_s}$$ }}
+    and it amplifies shaking near that period. A building whose period matches the soil's is shaken hardest.
+  - **Stiffer is not safer; ductile is.** Making $k$ larger raises $f_0$ and can move a building into the shaking's band (here $k \times 4$ takes $1$ Hz to $2$ Hz). A **ductile** member (steel, or concrete confined by closely spaced hoops) bends and yields while still carrying load, absorbing energy; a **brittle** member cracks suddenly and drops its load, and a failed column can bring the floors above down.
+  - **Base isolation.** Put flexible bearings (rubber and steel layers, often with a lead core that absorbs energy as heat) between the foundation and the building, so the horizontal stiffness $k$ becomes much smaller. For $m = 2\times10^{6}$ kg and $k$ falling from $3.2\times10^{8}$ to $1.28\times10^{7}$ N/m (25 times smaller), $f_0$ falls from $2.01$ Hz to $0.40$ Hz (period $0.5$ s to $2.5$ s), well below most of the shaking. A tuned mass damper instead keeps $f_0$ and removes energy near the resonance. Isolation needs room to move (about $0.3$ m or more), suits medium-rise buildings on hard soil, and does not make a building earthquake-proof.
+cards:
+  - type: mcq
+    id: hook
+    prompt: |
+      An earthquake shakes a city. Two buildings of very different height stand side by side. The tall one sways for a minute and is undamaged; the short one cracks and is badly damaged. **Guess before any theory.** What is the most likely reason?
+    shuffle: false
+    options:
+      - text: Tall buildings are always safer, because they are heavier.
+        feedback: |
+          Not always: in other earthquakes the tall buildings are the ones that suffer and the short ones stand. Weight alone does not decide it.
+      - text: Short buildings are always weaker, because they are made of cheaper materials.
+        feedback: |
+          Height does not tell the materials. Two buildings with the same materials and quality can still behave very differently, as the next cards show.
+      - text: Each building sways at its own natural rate, and the shaking pushes harder near one of those rates than near the other.
+        correct: true
+      - text: It is pure luck, and nothing about the building can be predicted.
+        feedback: |
+          Engineers can predict a lot, and that is the point of the lesson: the building's own swing rate and the rates present in the shaking can both be estimated.
+    explanation: |
+      A building is like a child on a swing: it has a natural frequency, and pushes near that frequency build up a large motion (resonance). Taller buildings sway more slowly, shorter ones faster, and the shaking of an earthquake contains some rates much more strongly than others. Which building is hurt depends on where those fall. This lesson builds that picture and then shows two ways to protect a building: make it bend without breaking, or unplug it from the ground.
+
+  - type: text
+    id: recall
+    body: |
+      **Recall (from the lesson Skyscrapers and Tuned Mass Dampers).** A building swaying as one lump of mass $m$ (kg) on a spring of sway stiffness $k$ (newtons of push per metre of sway) has a **natural frequency**
+      $$f_0 = \frac{1}{2\pi}\sqrt{\frac{k}{m}}$$
+      in hertz (swings per second), and a period $T = 1/f_0$. Pushes repeated near $f_0$ add up: that is **resonance**. With damping ratio $\zeta$ (the fraction of swing energy lost each cycle, a few percent or less for buildings) and $D$ the sway under a steady push of the same size, the sway at resonance is about
+      $$x_{\max} \approx \frac{D}{2\zeta}.$$
+      More damping lowers the peak.
+
+  - type: text
+    id: waves
+    body: |
+      **Where the shaking comes from.** Rock on both sides of a fault is slowly squeezed and bent, storing elastic energy like a bent stick. Friction holds the fault until the strain wins; then the fault slips, the rock snaps back, and the released energy travels away as **seismic waves**.
+
+      Three kinds matter:
+      - **P waves** (primary): push and pull the rock along the direction of travel. They are the fastest and arrive first. In the crust, about $6$ km/s is a typical speed.
+      - **S waves** (secondary): shake the rock sideways, at right angles to travel. They are slower, about $3.5$ km/s, and cannot travel through liquid.
+      - **Surface waves**: travel along the ground surface. Their ground motion is larger than that of the other two, so they tend to cause more damage.
+
+      The two speeds are typical values in the ranges measured for crustal rock (we use $v_P = 6$ km/s and $v_S = 3.5$ km/s as round settings; real values vary with the rock). Because the waves travel at different speeds, they separate with distance.
+
+  - type: numeric
+    id: sp-gap
+    prompt: |
+      An earthquake starts $100$ km from a seismometer. P waves travel at $6$ km/s and S waves at $3.5$ km/s. How many seconds after the P wave does the S wave arrive?
+    answer: 11.9
+    tolerance: 0.3
+    answerText: '11.9'
+    wrong:
+      - { value: 16.7, feedback: 'That is the P wave''s travel time, $100/6$. The question asks for the **gap** between the two arrivals.' }
+      - { value: 28.6, feedback: 'That is the S wave''s travel time, $100/3.5$. Subtract the P wave''s travel time to get the gap.' }
+    hint: Each wave takes time $d/v$. Subtract the earlier arrival from the later one.
+    explanation: |
+      The S wave takes $100/3.5 = 28.6$ s and the P wave $100/6 = 16.7$ s, so the gap is $11.9$ s:
+      $$\Delta t = d\left(\frac{1}{v_S}-\frac{1}{v_P}\right).$$
+      With these speeds each second of gap means about $8.4$ km of distance. Seismologists use the gap to find how far away a quake is, and warning systems use the fact that the fast P wave arrives before the stronger shaking.
+
+  - type: widget
+    id: sweep
+    widget: oscillator-lab
+    review: false
+    config:
+      system: tower
+      f0: 1
+      damping: 0.05
+      driveFrequency: 0.3
+      ampMax: 12
+      units: { length: 'x D' }
+      ranges: { damping: [0.02, 0.3, 0.005] }
+      readouts: [natural, drive, amplitude]
+      show: { damper: false, damperToggle: false, systemToggle: false, presets: false, handles: true, trace: true, dampingSlider: true, freqSlider: true }
+    body: |
+      A building of about 10 storeys (natural frequency $f_0 = 1$ Hz) shaken by the ground at frequency $f$ (the **drive**). To keep the model simple, the shaking acts like a push of fixed size, and the curve shows the sway in units of $D$ (the sway under a steady push of that size). Drag the drive frequency from low to high and watch where the sway peaks. Then raise the damping.
+
+  - type: mcq
+    id: sweep-q
+    prompt: |
+      A building has natural frequency $f_0 = 1$ Hz and damping ratio $\zeta = 0.05$. The ground shakes it with a steady push at a frequency $f$ that you can choose. For which $f$ is the sway largest?
+    shuffle: false
+    options:
+      - text: The lowest possible frequency, because slow shaking moves the ground the most.
+        feedback: |
+          Very slow shaking moves the building as if pushed steadily: the sway is just $D$, the steady value. There is no build-up.
+      - text: A frequency close to $1$ Hz.
+        correct: true
+      - text: The highest possible frequency, because fast shaking delivers the most pushes.
+        feedback: |
+          Pushes much faster than the building can respond mostly cancel: the building barely moves, and the sway goes down toward zero.
+      - text: The sway is the same at every frequency.
+        feedback: |
+          It is not: the curve rises to a tall peak near $f_0$ and falls on both sides.
+    explanation: |
+      The sway peaks near $f_0$, to about $D/(2\zeta) = 10\,D$ for $\zeta = 0.05$, and is small far above $f_0$. So a building is not simply "strong" or "weak": what matters is whether the shaking contains energy near its own natural frequency.
+
+  - type: numeric
+    id: f0-40
+    prompt: |
+      A rough rule for ordinary buildings is that the natural period is about $0.1$ s per storey: $T \approx 0.1\ \mathrm{s}\times N$ for $N$ storeys. What is the natural **frequency** $f_0$, in hertz, of a 40-storey building?
+    answer: 0.25
+    tolerance: 0.01
+    answerText: '0.25'
+    wrong:
+      - { value: 4, feedback: 'That is the period $T = 4$ s. The frequency is its inverse, $1/T$.' }
+      - { value: 2, feedback: 'That is the frequency of a **5**-storey building ($T = 0.5$ s). Check the number of storeys.' }
+    hint: First $T = 0.1\times 40$ seconds, then $f_0 = 1/T$.
+    explanation: |
+      $T \approx 0.1\times40 = 4$ s, so $f_0 = 1/4 = 0.25$ Hz. A 5-storey building has $T \approx 0.5$ s and $f_0 \approx 2$ Hz: eight times faster. This is a rough rule for ordinary buildings; the real value depends on the structure (stiff walls, flexible frame), and supertall towers are more flexible than the rule suggests. For comparison, Taipei 101 (101 floors) has a period of about $6.7$ s, not $10$ s.
+
+  - type: mcq
+    id: far-quake
+    prompt: |
+      An earthquake strikes hundreds of kilometres away. On the way, the short-period (fast-shaking) part of the wave energy fades quickly with distance, while the long-period (slow-shaking) part travels much farther. Which buildings in the distant city are affected most?
+    shuffle: false
+    options:
+      - text: Low, stiff buildings (period about $0.3$ s), because they are closest to the ground.
+        feedback: |
+          They respond to fast shaking, and that part has mostly faded by the time the waves arrive.
+      - text: Tall, flexible buildings (period of several seconds), because their natural period matches the long-period shaking that remains.
+        correct: true
+      - text: All buildings equally, because the same energy reaches all of them.
+        feedback: |
+          The energy at each period is different, and each building responds mainly to the periods near its own.
+      - text: No buildings, because the waves are too weak after hundreds of kilometres.
+        feedback: |
+          Long-period energy can still be strong enough to sway tall buildings far from the source.
+    explanation: |
+      Tall buildings are affected more by long-period energy, and shorter buildings more by short-period energy. That is why a distant quake can sway skyscrapers while low buildings feel little: a $40$-storey building has $T \approx 4$ s, a $5$-storey one $T \approx 0.5$ s.
+
+  - type: mcq
+    id: soft-soil
+    prompt: |
+      In the 1985 Mexico City earthquake the epicentre was more than $350$ km away, yet the damage in the city was severe. Much of the city stands on soft lake-bed clay and silt over hard rock. The buildings most damaged had 6 to 15 storeys, and the soft layer shook with a natural period of about $2.5$ s. Why does a soft layer over hard rock make shaking worse?
+    shuffle: false
+    options:
+      - text: Soft soil is heavier, so it pushes the buildings down harder.
+        feedback: |
+          The issue is not weight. It is how the soft layer moves when waves enter it.
+      - text: 'The soft layer has its own natural period and amplifies waves near that period, so the shaking at the surface is larger than in the rock below.'
+        correct: true
+      - text: Soft soil absorbs all the shaking, so buildings on it are safe.
+        feedback: |
+          The opposite happened: soft layers can amplify shaking, and the worst damage was on the soft lake bed.
+      - text: Hard rock under the soil reflects P waves away from the city.
+        feedback: |
+          Nothing so special: the main effect is that waves slow down and build up in the soft layer above the hard rock.
+    explanation: |
+      A soft layer on hard rock traps and amplifies waves, and, like a building, has a natural period. The shaking in the lake bed was strong near a period of about $2.5$ s, and buildings in the 6 to 15 storey range suffered the most. Our simple rule gives such buildings shorter periods, but real periods depend on the structure, and damage lengthens them; the lesson is not the exact match but the principle: soil and building each have a natural period, and shaking is worst where they meet.
+
+  - type: numeric
+    id: soil-period
+    prompt: |
+      A layer of soft soil is $H = 40$ m thick over hard rock, and shear (S) waves travel through it at $v_s = 100$ m/s (a made-up soft soil). The layer resonates when its thickness is a quarter of a wavelength, so its natural period is $T = 4H/v_s$. What is $T$, in seconds?
+    answer: 1.6
+    tolerance: 0.05
+    answerText: '1.6'
+    wrong:
+      - { value: 0.4, feedback: 'That is $H/v_s$, the time for a wave to cross the layer once. Resonance needs a wavelength of $4H$, so multiply by $4$.' }
+    hint: The wavelength is $\lambda = 4H$, and a wave of speed $v_s$ takes $\lambda/v_s$ to move one wavelength.
+    explanation: |
+      $\lambda = 4H = 160$ m, and the period is the time for the wave to travel one wavelength:
+      $$T = \frac{\lambda}{v_s} = \frac{4H}{v_s} = \frac{160}{100} = 1.6\ \mathrm{s}.$$
+      A thicker or softer layer (smaller $v_s$) has a longer period. A building of about that period, roughly 15 storeys by our rough rule, stands on the layer's resonance. This is a first estimate: real soils have layers, and strong shaking softens soil and lengthens the period.
+
+  - type: mcq
+    id: trap-stiffer
+    prompt: |
+      A building has natural frequency $f_0 = 1$ Hz. The shaking at its site is strongest near $2$ Hz. Engineers quadruple its sway stiffness $k$ (same mass). A colleague says: "Stiffer is always safer." What does $f_0 = \frac{1}{2\pi}\sqrt{k/m}$ say?
+    shuffle: false
+    options:
+      - text: The frequency doubles to $2$ Hz, right at the strongest shaking, so stiffening made resonance worse here.
+        correct: true
+      - text: The frequency quadruples to $4$ Hz, far from the shaking, so the building is safe.
+        feedback: |
+          $k$ sits under a square root: four times the stiffness gives only **twice** the frequency, which lands on the strongest shaking.
+      - text: The frequency stays $1$ Hz, because stiffness does not change it.
+        feedback: |
+          Stiffness is in the formula: a stiffer building springs back faster, so $f_0$ rises.
+      - text: The frequency halves to $0.5$ Hz, which is always better.
+        feedback: |
+          A stiffer spring swings faster, not slower. And lower is not automatically better either.
+    explanation: |
+      $\sqrt{4k/m} = 2\sqrt{k/m}$, so $f_0$ doubles from $1$ to $2$ Hz. Stiffness is one tool: it moves $f_0$, and whether that helps depends on where the shaking energy is. It also does nothing about **how** the building fails if it is overloaded, which is the next question.
+
+  - type: mcq
+    id: ductility
+    prompt: |
+      Two columns carry the same load, and the earthquake pushes both far beyond their strength. The first is **brittle**: it cracks suddenly and drops its load. The second is **ductile**: it bends and yields but keeps carrying load. Why is the ductile column safer?
+    shuffle: false
+    options:
+      - text: Ductile columns are always stronger, so they never reach their limit.
+        feedback: |
+          Ductility is not strength. A ductile column can even be weaker, but when it reaches its limit it deforms instead of snapping.
+      - text: It deforms a lot without losing its ability to carry load, and the deformation absorbs energy from the shaking, so the building does not collapse suddenly.
+        correct: true
+      - text: It does not bend at all, so the floors above stay in place.
+        feedback: |
+          The reverse: a ductile member bends a lot. Its safety comes from bending without breaking.
+      - text: It stops the ground from moving.
+        feedback: |
+          No structure stops the ground; the structure must survive the motion.
+    explanation: |
+      Engineers design so that a structure can undergo large deformations beyond its yield point in a stable way and dissipate the energy of the shaking, rather than fail suddenly. Concrete by itself is brittle; closely spaced steel hoops (stirrups) around the bars hold the concrete's core in and let it take much more strain before it fails. A common design rule is to make beams yield first and keep columns stronger: losing a beam is local, losing a column endangers the whole structure.
+
+  - type: order
+    id: chain
+    prompt: Put the chain of events in order, from the fault to a failed brittle column.
+    steps:
+      - 'Stress stored in the rock on both sides of a fault is suddenly released as the fault slips.'
+      - 'Seismic waves (P, S and surface waves) spread out from the slip.'
+      - 'The waves reach the site, where soft soil may amplify the shaking.'
+      - 'The ground shaking pushes the building''s base sideways and the building sways.'
+      - 'A brittle column cracks in shear without bending first and loses its load.'
+      - 'The floors it carried can no longer be held up and may come down.'
+    hint: Source first, then waves, then ground, then building, then the weak element.
+    explanation: |
+      Every link is a place to intervene: choose the site (soil), keep the building's period away from the shaking's (stiffness and mass), make the elements ductile so that cracking does not drop the load, or cut the link between ground and building (base isolation, below).
+
+  - type: widget
+    id: damping
+    widget: oscillator-lab
+    review: false
+    config:
+      system: tower
+      f0: 1
+      damping: 0.02
+      driveFrequency: 1
+      ampMax: 30
+      units: { length: 'x D' }
+      ranges: { damping: [0.02, 0.2, 0.005] }
+      readouts: [natural, drive, amplitude]
+      show: { damper: false, damperToggle: false, systemToggle: false, presets: false, handles: false, trace: true, dampingSlider: true, freqSlider: false }
+    body: |
+      The same 1 Hz building, shaken exactly at its natural frequency. The **damping** slider sets how much energy the building loses each cycle (devices such as lead dampers turn the sway into heat, like a car's shock absorbers). Start at $\zeta = 0.02$, then raise it to $0.1$ and watch the curve and the sway.
+
+  - type: numeric
+    id: damp-peak
+    prompt: |
+      A building is shaken at exactly its natural frequency. A steady push of the same size would sway it by $D = 0.01$ m. Its damping ratio is raised from $\zeta = 0.02$ to $\zeta = 0.10$ by adding dampers. At resonance the sway is about $D/(2\zeta)$. What is the sway now, in metres?
+    answer: 0.05
+    tolerance: 0.002
+    answerText: '0.05'
+    wrong:
+      - { value: 0.25, feedback: 'That is the sway before the dampers ($0.01/(2\times0.02)$). Use the new $\zeta = 0.10$.' }
+      - { value: 0.1, feedback: 'Check the factor: it is $D/(2\zeta) = 0.01/0.20$, not $D/\zeta$.' }
+    hint: $D/(2\zeta)$ with $D = 0.01$ m and $\zeta = 0.10$.
+    explanation: |
+      $0.01/(2\times0.10) = 0.05$ m, five times smaller than the $0.25$ m before. Damping cuts the peak without changing $f_0$, so it helps for any shaking near $f_0$, but it needs devices and cost, and it does not remove the energy that is already in the shaking.
+
+  - type: text
+    id: isolation
+    body: |
+      **Unplugging the building from the ground.** The other idea is to change $f_0$ so much that the shaking no longer matches it. **Base isolation** puts flexible bearings between the foundation and the building. A common type, the lead rubber bearing, is made of layers of rubber and steel with a lead core:
+      - the **rubber** is flexible sideways, so the horizontal stiffness $k$ of the whole building is much smaller, and it slowly returns the building to its place;
+      - the **steel layers** keep the bearing stiff vertically, so it carries the weight;
+      - the **lead core** is deformed by the motion and turns the energy into heat.
+
+      Because $f_0 = \frac{1}{2\pi}\sqrt{k/m}$, a smaller $k$ lowers $f_0$ and lengthens the period. Isolated designs commonly have periods of two seconds or more, well beyond a typical fixed-base building of about half a second. The building then rides on its bearings while the ground moves under it, a little like a car on its suspension. The price: the building can move about $0.3$ m or more relative to the ground, so it needs a gap around it and flexible pipes.
+
+  - type: widget
+    id: isolate
+    widget: oscillator-lab
+    review: false
+    config:
+      system: tower
+      mass: 2
+      stiffness: 320
+      damping: 0.05
+      driveFrequency: 1
+      ampMax: 12
+      units: { mass: 'kt', stiffness: 'MN/m', length: 'x D' }
+      ranges: { mass: [1, 4, 0.1], stiffness: [5, 400, 1], damping: [0.02, 0.3, 0.005] }
+      readouts: [natural, period, drive, amplitude]
+      show: { damper: false, damperToggle: false, systemToggle: false, presets: false, handles: false, trace: true, dampingSlider: false, freqSlider: false, massSlider: false, stiffnessSlider: true }
+    body: |
+      A building of mass $2\times10^{6}$ kg (2 kt) shaken at $1$ Hz, the strongest part of the shaking. Its fixed-base sway stiffness is $320$ MN/m (note: $1$ MN/m $= 10^{6}$ N/m). Drag the **stiffness** slider down towards $12.8$ MN/m, as if flexible bearings had been added, and watch $f_0$, the marker and the curve. The picture is simplified (the shaking acts like a push of fixed size), but the key point is where the marker sits relative to the peak.
+
+  - type: numeric
+    id: iso-f0
+    prompt: |
+      A building of mass $m = 2\times10^{6}$ kg has a fixed-base sway stiffness $k = 3.2\times10^{8}$ N/m, so $f_0 = 2.01$ Hz. Flexible bearings make the horizontal stiffness $25$ times smaller: $k = 1.28\times10^{7}$ N/m. What is the new natural frequency $f_0$, in hertz?
+    answer: 0.403
+    tolerance: 0.01
+    answerText: '0.40'
+    wrong:
+      - { value: 0.0805, feedback: 'You divided the frequency by $25$. But $k$ is under a square root, so $f_0$ drops by $\sqrt{25} = 5$, not $25$.' }
+      - { value: 2.01, feedback: 'That is the fixed-base value. The smaller stiffness changes the frequency.' }
+    hint: $f_0 = \frac{1}{2\pi}\sqrt{k/m}$ with the new $k$; or divide $2.01$ Hz by $\sqrt{25}$.
+    explanation: |
+      $k/m = 1.28\times10^{7}/2\times10^{6} = 6.4\ \mathrm{s^{-2}}$, so $\sqrt{k/m} = 2.53$ rad/s and $f_0 = 2.53/(2\pi) = 0.403$ Hz, a period of $2.5$ s (from $0.5$ s). The frequency fell by $\sqrt{25} = 5$. The shaking at $1$ Hz is now well above the building's own frequency, so the marker sits far down the right side of the curve instead of near the peak.
+
+  - type: mcq
+    id: iso-vs-tmd
+    prompt: |
+      A tuned mass damper (a heavy swinging mass in the upper floors) and base isolation are both used to protect buildings. What is the main difference in how they work?
+    shuffle: false
+    options:
+      - text: A tuned mass damper keeps $f_0$ and removes energy near resonance; base isolation lowers $f_0$ so the shaking no longer matches it.
+        correct: true
+      - text: Both work by making the building stronger, so that it never bends.
+        feedback: |
+          Neither makes the structure stronger. They change how much of the shaking reaches it or how much energy it keeps.
+      - text: Both work by raising $f_0$ far above the shaking.
+        feedback: |
+          Isolation lowers $f_0$, and the damper leaves it alone.
+      - text: Base isolation absorbs the earthquake energy as heat in the roof; the damper decouples the ground.
+        feedback: |
+          Reversed: the isolation sits at the base and decouples; the damper sits high up and swings against the sway. (Isolation bearings, such as a lead core, also dissipate some energy.)
+    explanation: |
+      A tuned mass damper is tuned to the building's own frequency and swings out of step with it, so it is most useful for wind and for motion near $f_0$. Base isolation moves $f_0$ far from the main frequencies of the ground motion and limits the force passed to the building. "Stronger" is a third thing: it raises the load the structure can take, but does nothing about where $f_0$ sits or what happens when the load is exceeded. Real buildings combine ideas: ductile frames, damping devices, and sometimes isolation.
+
+  - type: mcq
+    id: iso-limits
+    prompt: |
+      A city proposes base isolation for a $60$-storey tower on very soft ground and says "isolation makes any building earthquake-proof". Which statement is correct?
+    shuffle: false
+    options:
+      - text: Isolation does not make a building earthquake-proof; it suits medium-rise buildings on hard soil best, needs room to move, and a tall tower on soft ground is a poor fit.
+        correct: true
+      - text: It is correct, and isolated buildings cannot be damaged by any earthquake.
+        feedback: |
+          No design is earthquake-proof. Isolators can fail, the building can bump against its surround, and very long-period shaking can resonate with a very flexible isolated building.
+      - text: Isolation works best on the tallest towers, because they are the heaviest.
+        feedback: |
+          The bearings handle pulling poorly, and a tall narrow building can tip, so tall towers are a poor fit. Lighter, medium-rise buildings are the usual case.
+      - text: Isolation needs soft soil to work, because it copies the soil's softness.
+        feedback: |
+          The reverse: isolation is best suited to hard soil. A soft layer shakes with long periods, which can resonate with a building isolated at several seconds (this worried engineers after Mexico City in 1985).
+    explanation: |
+      Isolation lowers $f_0$ and so moves it into the range where long-period shaking from a soft site can matter. It also leaves a building that moves $0.3$ m or more, needs service connections that can bend, and handles tall buildings badly. That is why the lesson ends with a toolbox, not a single fix: site, period, ductility, damping, and isolation, each with a cost.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the next lesson, Guided Problem: Putting Numbers on It, takes one design from this level and works it through step by step, with every number checked.

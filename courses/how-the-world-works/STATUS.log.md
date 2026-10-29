@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-10-29 ch03-quake (concept, 21 cards)
+Built autonomously, oscillator-lab x3 (drive sweep, damping, isolation stiffness slider), no new widget. Choices: ground shaking modelled as a fixed-size push (stated as a simplification in the cards); speeds 6 and 3.5 km/s as round settings inside sourced ranges; "S waves most damaging" dropped (unsupported), surface waves said to tend to cause more damage; 0.1 s per storey kept as a rough rule with Taipei 101 exception; Mexico City period 2.5 s and 6-15 storeys told without forcing a match with the rule; 4H/vs soil card uses a made-up soil; isolation limits (0.3 m, hard soil, not tall) from a New Zealand source. Level 3 cards: 21 (one over the ideal of 20, under 25). No screenshots viewed (shots 0 problems; oscillator-lab presets already used).
+Conventions fixed here: fixed-base example m 2e6 kg, k 3.2e8 N/m (f0 2.01 Hz, T 0.5 s), isolated k 1.28e7 (f0 0.403 Hz, T 2.5 s); S-P gap formula with vP 6, vS 3.5 km/s; T about 0.1 s x N storeys; T_soil = 4H/v_s.
+
 ## 2026-10-29 ch03-flutter (concept, 18 cards)
 Built autonomously, flutter-lab x4 (forced, walk-through presets, flutter vs forced, Uc slider), no new widget. Choices: 35 mph kept as a labelled model Uc, real collapse wind told as about 42 mph; no real critical speed claimed; forced card starts from rest, limit 3 deg; slot claim hedged ("some angles"); investigators' conclusion paraphrased (vortex resonance improbable, no single cause), flutter as best-supported account. Fixed YAML colon quoting.
 Conventions fixed here: lesson shows twist theta in degrees, z_eff = z_s(1 - U/Uc), Uc 70 mph stiffened example (z_eff 0.01 at 52.5), 12 cycles/min = 0.2 Hz, 42 mph about 68 km/h.
