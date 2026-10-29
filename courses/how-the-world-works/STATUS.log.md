@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-29 Widget track-ride (no lesson)
+Built `js/widgets/track-ride.js` (+ doc, README line, registered). Choices: tracks are generated, not free-form: hill-hill, crest, circle loop, clothoid (teardrop) loop, or draggable control points (vertical drag, cosine-eased so tangents are level); loop circle is exact (entry and exit at the same point), crest top radius exact; friction = constant energy loss per metre as a fraction of weight (simplification, stated in the doc); felt g = v^2 kappa/g + cos(phi); airtime = felt g < 0; stall where v^2 = 0. No tolerance numbers in the widget (a lesson passes `tolerance`; web-check them then). Checked by script (loop top 3.00 g felt at h0 40, R 10; crest -1.38; loop limit h0 = 2.5 R) and headless run (drag, play, sliders, presets, no page errors). Conventions fixed here: felt g = N/mg signed; default loop 20 m high, start 40 m; clothoid ratio 3.
+
 ## 2026-10-29 Level 2 web audit batch C (airbag, guided, traps, intuition, challenge, challenge2, map)
 Fixed: removed unsupported "melted layer of rubber" (traps); reaction time 1 s flagged as an alert rider (road design uses 2.5 s) in guided, traps, challenge; crumple distance 0.6 m tied to NHTSA 0.5-0.6 m crush; head 4.5-5 kg; crank 150 N m and helmet 4000 N limits relabelled as problem values, real helmet standards 250-300 g noted; 250 W flagged as fit-amateur power. STATUS Current block compressed. No numbers changed. Conventions fixed here: reaction time 1 s = alert rider; 250 W = fit amateur; head 5 kg (4.5 to 5).
 
