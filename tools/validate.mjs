@@ -109,7 +109,15 @@ function checkStatus(dir) {
     else if (lines.length - cur[0] > 45) warn('STATUS.md', `Current block is ${lines.length - cur[0]} lines (keep it under ~40)`);
   }
   if (at(/^<{7}|^={7}$|^>{7}/).length) err('STATUS.md', 'merge-conflict markers');
-  const g = join(dir, 'STATUS.log.md');
+  // Courses with the mandatory web-check rule: Verified must not rely on memory.
+  const cmd = join(dir, 'CLAUDE.md');
+  if (existsSync(cmd) && /Web check is mandatory/.test(readFileSync(cmd, 'utf8'))) {
+    for (const i of at(/^- \*\*Verified:\*\*/)) {
+      const hits = new Set((lines[i].match(/UNVERIFIED|\bmemory\b|standard knowledge|\(standard\)|, standard\b/gi) ?? []).map(s => s.toLowerCase()));
+      if (hits.size) warn('STATUS.md', `Verified line has items not web-checked (${[...hits].join(', ')}); check them by web and mark "web: <source>" (course CLAUDE.md, Web check)`);
+    }
+  }
+  const g =join(dir, 'STATUS.log.md');
   if (!existsSync(g)) { err('STATUS.log.md', 'missing'); return; }
   const gl = readFileSync(g, 'utf8').split('\n');
   const n = gl.filter(l => /^# Status log\s*$/.test(l)).length;

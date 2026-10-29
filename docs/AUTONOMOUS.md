@@ -17,6 +17,11 @@ context stays small. Igor reviews the level on the live site at the end.
   ready-to-paste unit prompt plus: "You are running autonomously: follow
   CLAUDE.md 'Building sessions' exactly, one unit only; you cannot ask Igor
   questions, so make reasonable choices and record them in the `STATUS.log.md` entry.
+  If the course `CLAUDE.md` has a "Web check is mandatory" rule: every
+  external fact (names, dates, works, studies, numbers, attributions,
+  quotations) must be web-checked in this session, and the Verified line
+  needs `web: <source>` per item. If you cannot search, or an item stays
+  unconfirmed, do not commit: report 'UNVERIFIED: <items>' instead.
   Do not view screenshot images unless shots.mjs flags a card or the unit
   uses a widget preset never used before. Run commands from the repo root
   without `cd … &&` prefixes. At the end, validate, run shots, update
@@ -42,6 +47,12 @@ context stays small. Igor reviews the level on the live site at the end.
   Agents report any deviation as a doubt *and* fix it before committing.
 - The coordinator also checks that `STATUS.md` Current matches the report
   (`STATUS.md`), not only the commit.
+- **Web-check gate** (courses with that rule): the report must say the facts
+  were web-checked and list no UNVERIFIED items; `validate` must show no
+  "not web-checked" warning for the Verified line. Otherwise send the same
+  agent back (SendMessage) to finish the check before the next unit. The
+  coordinator copies the unit's web-check sentence into every spawn prompt
+  even when it has not read the course `CLAUDE.md`.
 - Between units the coordinator only reads that report: it checks that
   validate and shots were clean and the commit was pushed (`git log -1
   --oneline`), and passes the agent's next-unit prompt on, adding any
@@ -72,6 +83,12 @@ context stays small. Igor reviews the level on the live site at the end.
   6. **Intro-level rules** (Level 1 only): every technical word glossed at
      first use, guessing line in each opening card, cards guessable.
   7. `node tools/validate.mjs` and shots stay clean after the fixes.
+  8. **Fact spot-check** (courses with a web-check rule; no book to check
+     against): for each lesson, pick 5 to 8 external facts at random (dates,
+     works, attributions, quotations, statistics), re-check each by
+     WebSearch/WebFetch independently of the Verified line, and compare with
+     the lesson text; fix mismatches, soften what cannot be confirmed. Also
+     confirm every Verified item carries `web: <source>`.
   The agent fixes each problem itself (small `Edit`s), then reports a list
   of what it found and fixed, plus anything it could not decide.
 - **Efficiency rules** (CLAUDE.md "Building sessions" → "Token efficiency")
