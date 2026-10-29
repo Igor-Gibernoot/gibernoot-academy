@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-29 Level 1 stale-level sweep
+Grepped ch01 lessons, map, challenge, REFERENCES.md, CONVENTIONS.md for "Level N", level names, "later levels", teasers: no stale number or old 14-level text found (REFERENCES already lists 19; map tour box and teasers name no level numbers). No change needed. Conventions fixed here: none.
+
 ## 2026-10-29 ch01-tour updated for 19 levels
 Added 6 cards (sway, grid, mountain, body-watts, poll, poll-size): 17 to 23 cards. Table now "Level N: name" for Levels 2-19; own: has bullets for the five new levels (new blank: poll error 1/sqrt(n)). All five new web-checked (see Verified ch01-tour). Conventions fixed here: poll error about 1/sqrt(n), 1000 people about 3 points; body about 100 W from 2000 kcal/day (1 kcal = 4184 J); lapse rate 6.5 C/km.
 
