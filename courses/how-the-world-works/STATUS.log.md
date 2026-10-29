@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-29 Trail restructure (14 to 19 levels, three exams)
+Root exam rule changed to "no exam covers more than 6 chapter levels". Added Levels 3 (Structures and Materials), 7 (Energy Sources and the Grid), 9 (Atmosphere, Weather and Climate), 11 (The Body as a Machine), 16 (Chance, Choice and Trust); extra lessons: roller coasters (2), pressure cooker (4), ships (5), magnets in everyday objects (6), noise-cancelling (8), emulsions (10), clocks (18). Electronic voting moved to Level 16. Exams: exam-partial1 after 7, exam-partial2 after 13, exam-final after 19. Only Levels 1-2 had files, so later ids were renumbered. Conventions fixed here: resonance is first taught in Level 3 (skyscraper damper), recalled in Level 8; Tacoma Narrows is told as wind flutter, not plain resonance.
+
 ## 2026-10-27 Level 2 audit
 Gears crowbar build now uses mass m and weight $mg$ (W stays work). "Stopping distance" defined as also called "braking distance" in Brakes and Friction. Previous-lesson reference in brakes-heat replaced by the title. Key numbers rechecked by script. Kooijman 2011 (Science 332, 339) verified; Jones 1970 not confirmed, lesson cites it only as "1970s". Conventions fixed here: weight is $mg$, W is work only.
 

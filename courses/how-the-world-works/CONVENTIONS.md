@@ -38,3 +38,7 @@ Read only the section you need: `grep -n '^## ' courses/how-the-world-works/CONV
 - Intuition lesson: recalls running examples (1000 kg car 15 m/s 16.4 m, ratio 3 = 30 to 90 teeth, 1200 kg airbag car 18000 N s, 800/650 kg elevator 1470 N, 6^5 = 7776); new numbers: 30 to 90 teeth with 12 N m gives 36 N m, 1200 kg stopped in 0.25 s gives 72 kN, 800 kg vs 700 kg counterweight gives 980 N; closing card is a short teaser after `own:`.
 - Challenge part 1: bike 70 kg rider+bike, hill force mg/10 = 68.6 N, wheel r 0.334 m, crank torque 52.5 N m, sustained 250 W gives 3.64 m/s (s 1.3 at 80 rpm); needs speed >= 3 m/s, pull >= 68.6 N (s 1.07 to 2.29); brake spec 15 m with 1 s reaction, mu 0.4: 7.61 m/s (7.39 m braking), ABS 1.2 mu: 6.16 m, heat 2028 J, 0.5 kg steel 9 K; crank 0.175 m, limit 150 N m (typical) holds 857 N; frame 3 kg x1.1 scale = 3.99 kg, strength per kg x0.909; part 1 ends with plain text "Part 1 results".
 - Challenge part 2 (`ch02-challenge-2`, own file): max split pins for 1/1000 chance is k = 2 (D = 6; 8/7776 = 1/972 fails), k = 0 (D = 4, 1/1024); helmet head 5 kg at 7.61 m/s, bare stop 0.002 s gives 19025 N, foam 0.02 m gives 7239 N, 4000 N limit needs 0.0362 m, 4 cm gives 3619 N; final-check fails on gear ratio 2.5 (pull 62.8 N); ends with plain text summary of the specification.
+
+## Chapter 3
+
+- Resonance is first taught here (`ch03-skyscraper`: natural frequency, tuned mass damper); Level 8 recalls it by name. Tacoma Narrows (`ch03-flutter`) is told as wind flutter, not plain resonance.

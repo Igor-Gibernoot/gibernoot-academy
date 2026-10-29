@@ -11,7 +11,7 @@ context stays small. Igor reviews the level on the live site at the end.
   `/effort`; pass it as `effort` on every spawn; if you cannot tell which it
   is, ask Igor once before starting); never pick another model or effort.
   **Igor's standing choice: `effort: medium` on every spawn** (no need to ask).
-- The exams are units too: after the last level of the first half and after the last chapter, the next unit is `exam-partial` / `exam-final` (root `CLAUDE.md`, Exam), built by one agent (widgets for its figures first), before the next level starts.
+- The exams are units too: after the last level of each exam block (at most 6 levels) and after the last chapter, the next unit is that `exam-partial*` / `exam-final` (root `CLAUDE.md`, Exam), built by one agent (widgets for its figures first), before the next level starts.
 - For each unit, in `course.yaml` order and **strictly sequentially** (never
   in parallel), spawn one fresh agent whose prompt is the
   ready-to-paste unit prompt plus: "You are running autonomously: follow

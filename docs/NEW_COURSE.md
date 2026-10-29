@@ -59,8 +59,9 @@ the light intro level), each with planned lesson nodes (no `file:`): concept
 lessons in the order the source builds them, guided problems from proofs
 and worked examples, a traps round, an intuition round where formulas pile
 up, then map, review and challenge. Exams get their own levels: plan
-`exam-partial` right after the last level of the first half (level
-⌈N/2⌉) and `exam-final` after the last chapter (planned nodes, no `file:`),
+partial exams (`exam-partial`, or `exam-partial1`, `exam-partial2`, …) so no
+exam covers more than 6 chapter levels, and `exam-final` after the last
+chapter (planned nodes, no `file:`; rule in root `CLAUDE.md`, Exam),
 with or without a professor's exam (root `CLAUDE.md`, Exam). Copy the
 header comment of `courses/diff-geometry-gr/course.yaml` for the format.
 

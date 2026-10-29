@@ -86,12 +86,17 @@ Static web app on GitHub Pages (laptop and phone). Deploy = commit + push to
    later, and in Recap with blanks. Re-state the setup of any example you
    recall; never "the book" or its labels.
 6. **Exam** (`exam`, own level, played by `js/exam.js`; format in
-   `docs/LESSON_FORMAT.md`). **Every course has a partial and a final
-   exam.** Partial = the unit right after the **last level of the first
-   half** (level ⌈N/2⌉ of N chapter levels; its map, review, challenge come
-   first), covering Levels 2 to ⌈N/2⌉ (Level 1 is the intro). Final = right
-   after the **last chapter level**, covering the second half. Both are
-   planned in `course.yaml` from the start (levels `exam-partial`,
+   `docs/LESSON_FORMAT.md`). **No exam covers more than 6 chapter
+   levels** (Level 1, the intro, is never covered). With N chapter levels a
+   course has E = max(2, ⌈(N-1)/6⌉) exams: partial exams after the last
+   level of each block (its map, review, challenge come first) and the
+   **final** right after the **last chapter level**. Pick block boundaries
+   at planning time, as even as the topics allow, each ≤ 6 levels (N ≤ 13:
+   one partial after ⌈N/2⌉ covering Levels 2 to ⌈N/2⌉, the final covering
+   the rest; N = 14 to 19: two partials and a final, e.g. after Levels 7,
+   13, 19). Each exam covers the levels since the previous one. All are
+   planned in `course.yaml` from the start (levels `exam-partial`, or
+   `exam-partial1`, `exam-partial2`, … when there are several, and
    `exam-final`; no `file:` until built). **The next unit after such a level
    is always its exam**, before the next chapter's first lesson; Current
    blocks and next-session prompts must say so. Built from the professor's

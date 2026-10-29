@@ -1,7 +1,7 @@
 # Course `how-the-world-works`: How the World Works
 
 Igor's course on the physics and engineering of everyday technology. **There is no main
-book**: the course's own spine is `course.yaml` (14 levels, easy to advanced) and the
+book**: the course's own spine is `course.yaml` (19 levels, easy to advanced) and the
 reference list is `REFERENCES.md`. Everything in the root `CLAUDE.md` applies; this file
 adds what is specific to this course.
 
@@ -57,11 +57,35 @@ If Igor later adds a book to `sources/` (git-ignored), follow the root workflow 
 
 ## Trail
 
-`course.yaml`: 14 levels in four stages: classical world (1-7: forces, heat, fluids,
-electricity, waves, matter), signals (8-9: radio, information), computing (10-12: chips,
-networks and cryptography, large software), frontier (13-14: space, quantum and nano).
-Exams: `exam-partial` after Level 7 (covers Levels 2-7), `exam-final` after Level 14
-(covers Levels 8-14). Both original. Status: `STATUS.md`. Build Levels 1 to 3 first.
+`course.yaml`: 19 levels in five stages (restructured 2026-10-29; only Levels 1-2 had lessons,
+so ids of later levels were renumbered freely):
+- Classical world (1-7): intro, forces and motion, **structures and materials**, heat, fluids,
+  electricity and magnets, **energy sources and the grid** (grid balance, fission, radiation,
+  half-life, wind, solar farms and storage).
+- Waves, matter, body (8-11): waves/sound/light, **atmosphere, weather and climate**, matter and
+  chemistry, **the body as a machine**.
+- Signals (12-13): radio, information.
+- Computing and society (14-17): chips, networks and cryptography, **chance, choice and trust**
+  (noise, polls, voting systems, fairness, electronic voting, blockchain), large software.
+- Space and frontier (18-19).
+
+Exams (root rule: none covers over 6 levels): `exam-partial1` after Level 7 (covers 2-7),
+`exam-partial2` after Level 13 (covers 8-13), `exam-final` after Level 19 (covers 14-19). All
+original. The next unit after Level 7, 13 or 19 is its exam. Status: `STATUS.md`.
+
+Placement notes for the new levels:
+- **Resonance** is first taught in Level 3 (`ch03-skyscraper`: natural frequency, tuned mass damper),
+  not Level 8. `ch03-flutter` corrects the "Tacoma Narrows was plain resonance" myth (web-check the
+  account). Level 8 (strings, pipes) recalls resonance by name.
+- **Solar farm** (`ch07-solarfarm`) treats the panel as a black box (capacity, capacity factor,
+  storage); the physics of the cell is `ch14-solar`. Say so in the lesson.
+- **Voting** is all in Level 16 (`ch16-voting`, `ch16-fairness`, `ch16-evoting`); hashing it needs
+  is in Level 15. Polls and noise there support error correction (Level 13) and learning (Level 17).
+- **Cooking and kitchen threads:** pressure cooker (Level 4), emulsions (Level 10), induction
+  cooktop (Level 6, magnets). Ships (Level 5), roller coasters (Level 2), noise cancelling (Level 8),
+  clocks before GPS (Level 18).
+- **Follow-up unit:** `ch01-tour` and `ch01-map` still list the old 14 levels and need puzzles for
+  Levels 3, 7, 9, 11, 16 and the new level numbers (see `STATUS.md`).
 
 ## Notation and conventions
 
