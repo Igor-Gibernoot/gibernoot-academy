@@ -1,0 +1,222 @@
+id: ch03-guided
+title: "Guided Problem: Putting Numbers on It"
+kind: guided
+cards:
+  - type: text
+    id: setting
+    title: Retrofit a 10-storey office block
+    body: |
+      **The problem.** An office block with **10 storeys** stands on a soft-soil site. You are the engineer asked to make it safer. Every number below is the problem's own data (made up for this exercise), and we keep them for the whole lesson.
+
+      - **The building** swings sideways as one lump: mass $m = 2\times10^{6}$ kg and sway stiffness $k = 7.9\times10^{7}$ N/m (newtons of push per metre of sway). Its damping ratio is $\zeta = 0.02$.
+      - **The soil:** a soft layer over rock, with a natural period of $1.6$ s (that is a frequency of $0.625$ Hz). It amplifies shaking near that frequency.
+      - **The shaking** has two strong bands: a **1 Hz** component and a slow, **long-period** one at **0.4 Hz** (a period of $2.5$ s, close to the soil's own period, so the soil makes it strong).
+
+      **How we measure the response.** Let $D = 0.01$ m be the sway the building would show under a steady push of the shaking's size, and keep it the same for every design so they can be compared (a simplification: the ground really moves, but the key point is where the shaking sits relative to $f_0$). With $r = \dfrac{\text{shaking frequency}}{f_0}$, the sway is $D$ times
+      $$\frac{1}{\sqrt{(1-r^2)^2+(2\zeta r)^2}}.$$
+      At $r = 1$ this becomes the resonance peak $\dfrac{1}{2\zeta}$.
+
+      We will test three ideas against both bands: **stiffen**, **add dampers**, **isolate**.
+
+  - type: numeric
+    id: f0-block
+    prompt: |
+      A building has mass $m = 2\times10^{6}$ kg and sway stiffness $k = 7.9\times10^{7}$ N/m. Its natural frequency is $f_0 = \frac{1}{2\pi}\sqrt{k/m}$. What is $f_0$, in hertz?
+    answer: 1.0
+    tolerance: 0.02
+    answerText: '1.0'
+    wrong:
+      - { value: 6.28, feedback: 'That is $\sqrt{k/m} = 6.28$ rad/s, an angular frequency. Divide by $2\pi$ to get swings per second (hertz).' }
+      - { value: 0.159, feedback: 'You divided twice by $2\pi$, or used $1/(2\pi)$ alone. Take $\sqrt{k/m}$ first, then divide by $2\pi$.' }
+    hint: $k/m = 39.5\ \mathrm{s^{-2}}$. Take the square root, then divide by $2\pi$.
+    explanation: |
+      $k/m = 7.9\times10^{7}/2\times10^{6} = 39.5\ \mathrm{s^{-2}}$, so $\sqrt{k/m} = 6.28$ rad/s and $f_0 = 6.28/(2\pi) = 1.00$ Hz, a period $T = 1.0$ s. That agrees with the rough rule for ordinary buildings, $T \approx 0.1\ \mathrm{s}\times N = 1$ s for 10 storeys, which is why $k$ was chosen this way.
+
+  - type: mcq
+    id: near-what
+    prompt: |
+      The bare building has $f_0 = 1.0$ Hz ($T = 1.0$ s). The soil's natural period is $1.6$ s ($0.625$ Hz) and the strong shaking bands are at $1$ Hz and $0.4$ Hz. Which match makes the **building itself** ring hardest?
+    shuffle: true
+    options:
+      - text: 'The $1$ Hz band: it equals the building''s own $f_0$.'
+        correct: true
+      - text: 'The soil: its period ($1.6$ s) is close to the building''s ($1.0$ s).'
+        feedback: |
+          The soil matters for the **shaking**, not as a second resonance of the building. And $1.6$ s against $1.0$ s is not a match: the soil's frequency is $0.625$ Hz, so $r = 0.625/1.0$ and the response is only about $1.6\,D$ (check with the formula), against $25\,D$ for an exact match.
+      - text: 'The $0.4$ Hz band: low frequencies are the dangerous ones.'
+        feedback: |
+          Danger comes from a match with $f_0$, not from being low. At $0.4$ Hz, $r = 0.4$ and the response is about $1.19\,D$: the building follows the slow shaking almost like a steady push.
+      - text: 'None: the soil period and the bands are all different from $1.0$ Hz.'
+        feedback: 'The $1$ Hz band is exactly $1.0$ Hz, the same as $f_0$. The soil period is a different number, but one band matches.'
+    explanation: |
+      Resonance is a match between the shaking frequency and $f_0$. Here the $1$ Hz band meets $f_0 = 1.0$ Hz exactly ($r = 1$). The soil's $0.625$ Hz is not near enough to matter much for the building, but it tells us the **long-period** $0.4$ Hz band will be strong, which will matter when we choose a design.
+
+  - type: numeric
+    id: bare-peak
+    prompt: |
+      The bare building ($f_0 = 1.0$ Hz, $\zeta = 0.02$) is shaken at exactly $1$ Hz. A steady push of the same size would sway it by $D = 0.01$ m. At resonance the sway is about $D/(2\zeta)$. How large is the sway, in metres?
+    answer: 0.25
+    tolerance: 0.01
+    answerText: '0.25'
+    wrong:
+      - { value: 0.5, feedback: 'You used $D/\zeta$. The peak is $D/(2\zeta) = 0.01/0.04$.' }
+      - { value: 0.01, feedback: 'That is the steady-push sway $D$. At resonance the push is repeated in step and the sway builds up to a multiple of it.' }
+    hint: $2\zeta = 0.04$, then $D$ divided by that.
+    explanation: |
+      $0.01/(2\times0.02) = 0.25$ m: the sway is $25$ times the steady-push value. A quarter of a metre sideways, back and forth, is far beyond what the walls and columns of a 10-storey block can take.
+
+  - type: widget
+    id: bare-view
+    widget: oscillator-lab
+    review: false
+    config:
+      system: tower
+      mass: 2
+      stiffness: 79
+      damping: 0.02
+      driveFrequency: 1
+      fMax: 2
+      ampMax: 30
+      units: { mass: 'kt', stiffness: 'MN/m', length: 'x D' }
+      readouts: [natural, period, drive, amplitude]
+      show: { damper: false, damperToggle: false, systemToggle: false, presets: false, handles: false, trace: true, dampingSlider: false, freqSlider: false, massSlider: false, stiffnessSlider: false }
+    body: |
+      The bare building (mass $2$ kt, stiffness $79$ MN/m, where $1$ MN/m $= 10^{6}$ N/m) shaken at $1$ Hz. The curve shows the sway against the shaking frequency; the marker is the $1$ Hz band. Watch how far it sits from the peak at $f_0$, and the size of the sway.
+
+  - type: numeric
+    id: stiffen
+    prompt: |
+      Idea 1, **stiffen**: new shear walls make the sway stiffness $4$ times larger, so $f_0$ doubles (because $k$ sits under a square root) to $2.0$ Hz. The building keeps $\zeta = 0.02$ and is shaken at $1$ Hz, so $r = 1/2.0 = 0.5$. With the steady-push sway $D = 0.01$ m, the sway is $D/\sqrt{(1-r^2)^2+(2\zeta r)^2}$. What is it, in metres?
+    answer: 0.0133
+    tolerance: 0.0005
+    answerText: '0.0133'
+    wrong:
+      - { value: 0.25, feedback: 'That is the bare building at resonance. After stiffening, $f_0 = 2.0$ Hz and $r = 0.5$, not $1$.' }
+      - { value: 0.01, feedback: 'That is exactly $D$. Close, but the formula gives a little more: $1/(1-r^2) = 1/0.75$ with $r = 0.5$.' }
+    hint: '$1 - r^2 = 0.75$ and $2\zeta r = 0.02$; the second term is tiny.'
+    explanation: |
+      $(1-0.25)^2 = 0.5625$ and $(2\times0.02\times0.5)^2 = 0.0004$, so the square root is $0.7500$ and the factor is $1.333$. The sway is $0.01\times1.333 = 0.0133$ m instead of $0.25$ m, almost $19$ times smaller. Moving $f_0$ away from the band works, because the building now follows the $1$ Hz shaking slowly instead of being driven in step.
+
+  - type: mcq
+    id: not-enough
+    prompt: |
+      After stiffening, the sway at both bands is tiny ($0.0133$ m at $1$ Hz, $0.0104$ m at $0.4$ Hz). Why might stiffening still not be the best retrofit?
+    shuffle: true
+    options:
+      - text: 'A stiff building rides almost together with the ground, so its floors, people and contents still feel about the ground''s full acceleration, and the force in the walls grows with the stiffness; the new walls must also be ductile.'
+        correct: true
+      - text: 'Stiffening does not move $f_0$ at all, because mass alone sets the natural frequency.'
+        feedback: |
+          Both set it: $f_0 = \frac{1}{2\pi}\sqrt{k/m}$. Quadrupling $k$ doubled $f_0$ (we just used it), which is why the response fell.
+      - text: 'The stiffened building ($2.0$ Hz) now resonates with the soil, whose frequency is $0.625$ Hz.'
+        feedback: 'A frequency of $2.0$ Hz is more than three times the soil''s $0.625$ Hz, far from a match. If anything, stiffening moved the building further from the soil and from both bands.'
+      - text: 'The response formula says a stiffer building always sways more.'
+        feedback: 'The opposite: here the sway fell from $25D$ to $1.33D$. Moving $f_0$ above the shaking makes $r$ small, and the response approaches $D$.'
+    explanation: |
+      Sway is not the only danger. When $f_0$ is well above the shaking ($r$ small), the building simply moves with the ground, so the floors accelerate about as the ground does (here $1.33$ times at $1$ Hz): contents fall and the forces in columns are not reduced. Stiffening a concrete building also adds weight and concentrates force in new, possibly brittle, elements, so they must be detailed to be ductile. The next ideas try to reduce the shaking that reaches the floors.
+
+  - type: numeric
+    id: dampers
+    prompt: |
+      Idea 2, **dampers**: devices turn the sway into heat and raise the damping ratio from $\zeta = 0.02$ to $\zeta = 0.10$, without changing $f_0 = 1.0$ Hz. At the $1$ Hz band ($r = 1$) with $D = 0.01$ m, the sway is $D/(2\zeta)$. How large is it now, in metres?
+    answer: 0.05
+    tolerance: 0.002
+    answerText: '0.05'
+    wrong:
+      - { value: 0.25, feedback: 'That is the sway before the dampers. Use $\zeta = 0.10$.' }
+      - { value: 0.1, feedback: 'The peak is $D/(2\zeta) = 0.01/0.20$, not $D/\zeta$.' }
+    hint: $D/(2\times0.10)$.
+    explanation: |
+      $0.01/0.20 = 0.05$ m, five times smaller than $0.25$ m. Dampers keep the building in resonance with the $1$ Hz band but make the resonance weak. A sway of $0.05$ m is much better, yet still $5$ times larger than the steady-push value, and the floors are still shaken at full rhythm.
+
+  - type: numeric
+    id: iso-f0
+    prompt: |
+      Idea 3, **isolate**: flexible bearings (layers of rubber and steel with a lead core) between the foundation and the building make the horizontal stiffness $16$ times smaller, with the mass unchanged. The bare building has $f_0 = 1.0$ Hz. What is the new natural frequency, in hertz?
+    answer: 0.25
+    tolerance: 0.005
+    answerText: '0.25'
+    wrong:
+      - { value: 0.0625, feedback: 'You divided $f_0$ by $16$. But $k$ is under a square root, so $f_0$ falls by $\sqrt{16} = 4$.' }
+      - { value: 1.0, feedback: 'That is the bare building. The smaller stiffness lowers $f_0$.' }
+    hint: Divide $1.0$ Hz by $\sqrt{16}$.
+    explanation: |
+      $f_0 \propto \sqrt{k}$, so $f_0 = 1.0/\sqrt{16} = 0.25$ Hz. The period is $T = 1/f_0 = 4.0$ s (from $1.0$ s). That is a long isolated period: many real isolated buildings are designed for about $2$ to $3$ s. We pick $16$ here because this site has strong long-period shaking, and soft bearings mean a large movement, which we will have to pay for.
+
+  - type: numeric
+    id: ratio-04
+    prompt: |
+      The isolated building has $f_0 = 0.25$ Hz. The slow shaking band is at $0.4$ Hz. What is the ratio $r = \text{shaking frequency}/f_0$ for this band?
+    answer: 1.6
+    tolerance: 0.02
+    answerText: '1.6'
+    wrong:
+      - { value: 0.625, feedback: 'You inverted it. $r$ is the shaking frequency divided by $f_0$: $0.4/0.25$.' }
+      - { value: 4, feedback: 'That is $r$ for the **1 Hz** band ($1.0/0.25$). The slow band is at $0.4$ Hz.' }
+    hint: $0.4$ divided by $0.25$.
+    explanation: |
+      $r = 0.4/0.25 = 1.6$. For the $1$ Hz band, $r = 4$, far to the right of the peak. For the slow band, $r = 1.6$ is also on the right of the peak but much closer: isolation protects less against slow shaking than against fast shaking. The peak is at $r = 1$.
+
+  - type: mcq
+    id: band-meaning
+    prompt: |
+      An isolated design has bearings with damping ratio $\zeta = 0.15$ (a setting; lead-core bearings can reach this and more). With $f_0 = 0.25$ Hz the response is about $0.07\,D$ at the $1$ Hz band and $0.61\,D$ at the $0.4$ Hz band. What does the $0.4$ Hz band tell us about choosing the isolation here?
+    shuffle: true
+    options:
+      - text: 'The isolated $f_0$ must stay well below $0.4$ Hz; a milder isolation with $f_0$ near $0.4$ Hz (about $2.5$ s) would land on the band and resonate, since $r = 1$ gives $1/(2\times0.15) = 3.3\,D$.'
+        correct: true
+      - text: 'The $0.4$ Hz band is the safest: it is lower than $1$ Hz, so isolation removes it completely.'
+        feedback: 'Isolation removes shaking only when the shaking is well above $f_0$. At $r = 1.6$ the response is $0.61\,D$, about $9$ times the $1$ Hz value; and for $f_0$ near $0.4$ Hz it would be amplified.'
+      - text: 'Isolation is useless on this site, because the soil period is $1.6$ s.'
+        feedback: 'The soil period ($1.6$ s) is far from the isolated period ($4.0$ s). The soil makes the $0.4$ Hz band strong, which limits how mild the isolation can be, but a soft enough design still works.'
+      - text: 'It does not matter: the response at the $0.4$ Hz band is already below $D$.'
+        feedback: 'Below $D$ is good, but it depends on the design. The same bearing with an isolated $f_0$ of $0.4$ Hz would give $3.3\,D$. The value is low only because we chose $f_0$ well below the band.'
+    explanation: |
+      Isolation lowers $f_0$ below the shaking. A typical isolated period of $2$ to $3$ s would put $f_0$ at about $0.33$ to $0.5$ Hz: right where this soil sends its strong $0.4$ Hz band. That is why soft sites are a caution for isolation (long-period shaking can resonate with the isolated building), and why we went all the way to $4$ s here.
+
+  - type: numeric
+    id: gap
+    prompt: |
+      The price of soft bearings is movement. Suppose the ground in the slow $0.4$ Hz band moves back and forth by $0.3$ m (a made-up design value; very close to a fault the displacement can be far larger). The bearings must stretch by the ground's displacement times
+      $$\frac{r^2}{\sqrt{(1-r^2)^2+(2\zeta r)^2}}$$
+      with $r = 1.6$ and $\zeta = 0.15$. By how many metres do the bearings stretch?
+    answer: 0.47
+    tolerance: 0.01
+    answerText: '0.47'
+    wrong:
+      - { value: 0.3, feedback: 'That is the ground displacement alone. At $r = 1.6$ the building has not yet stopped moving with the slow ground: the factor is above $1$ (about $1.57$).' }
+      - { value: 0.18, feedback: 'You used the response factor $0.61$ (without $r^2$). The stretch of the bearings is the building''s motion relative to the ground, which carries the extra $r^2$.' }
+    hint: '$r^2 = 2.56$; $(1-r^2)^2 = 2.4336$; $(2\zeta r)^2 = 0.2304$. The square root of their sum is $1.632$.'
+    explanation: |
+      The factor is $2.56/1.632 = 1.57$, so the stretch is $0.3\times1.57 = 0.47$ m. The building needs a clear gap (a moat) around it larger than this, and flexible pipes and stairs that can move that much. Codes size the gap from the largest quake considered, so it also has to hold for stronger shaking. For the $1$ Hz band the factor is about $1.06$: well isolated, the building stays nearly still and the bearings simply follow the ground.
+
+  - type: mcq
+    id: choose
+    prompt: |
+      Choose the retrofit. The neighbour's wall allows a gap of at most $0.6$ m around the block. The owner wants people and contents safe, not only the structure. The options (all with the soil and bands above):
+    shuffle: true
+    options:
+      - text: 'Isolate with $k$ reduced $16$ times ($f_0 = 0.25$ Hz, bearings $\zeta = 0.15$) and a $0.6$ m gap: response $0.07D$ at $1$ Hz, $0.61D$ at $0.4$ Hz, bearings stretch about $0.47$ m.'
+        correct: true
+      - text: 'Stiffen $4$ times: response $1.33D$ at $1$ Hz and $1.04D$ at $0.4$ Hz, no gap needed.'
+        feedback: 'Cheapest and the sway is small, but the floors move with the ground (accelerations about $1.3$ times the ground''s), so contents and people are not protected. It is a fair choice if no gap or budget were available, not the best one here.'
+      - text: 'Add dampers to $\zeta = 0.10$ only: response $5D$ at $1$ Hz.'
+        feedback: 'The $1$ Hz resonance remains, only weaker: $5D$ against $0.07D$. Dampers do help isolation (they limit the stretch) but alone they leave the building in step with the band.'
+      - text: 'Isolate with a milder $k/6.25$ ($f_0 = 0.40$ Hz, $T = 2.5$ s) and the same $0.6$ m gap.'
+        feedback: 'A period of $2.5$ s is a usual isolated value, but here it equals the $0.4$ Hz band: $r = 1$, response $3.3D$, and the bearings would stretch about $1.0$ m, more than the $0.6$ m gap. On soft soil with strong long-period shaking, the isolation must be softer or not used.'
+    explanation: |
+      We checked each idea against both bands and against the site's limit. Only the $k/16$ isolation reduces the response at both bands to well below $D$ (so floors are protected too) and fits in the gap ($0.47$ m $< 0.6$ m). Its price: soft bearings, a $4$ s period, flexible utilities. In a real project the numbers would come from the site's measured shaking and detailed models; this exercise shows the method.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      **The method.** To retrofit a building against a quake, (1) find its natural frequency $f_0 = \frac{1}{2\pi}\sqrt{k/m}$, (2) list the shaking bands of the site (the soil's period shows which are strong), (3) for each idea compute the ratio $r$ of each band to the new $f_0$ and the response, (4) check the cost of the idea (floors still shaken, gap needed, ductility) against the constraints.
+
+      **Numbers of this case.**
+      - Bare: $f_0 = 1.0$ Hz, peak $25D = 0.25$ m at the $1$ Hz band.
+      - Stiffen $\times4$: $f_0 = 2.0$ Hz, $1.33D$, but floors ride with the ground.
+      - Dampers $\zeta = 0.10$: peak $5D$.
+      - Isolate $k/16$: $f_0 = 0.25$ Hz, $T = 4$ s, $r = 1.6$ at the slow band, $0.61D$, bearings stretch $0.47$ m. A milder isolation near $0.4$ Hz would resonate with the soil's strong long-period shaking.
+
+      **Next:** the lesson Traps for this level: fast questions, each built on a misconception about resonance, stiffness, damping and the safety of buildings.
