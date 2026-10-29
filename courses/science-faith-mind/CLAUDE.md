@@ -78,9 +78,10 @@ the arguments about God. Part II (8-13): nature of God, science and religion, mi
 experience, why humans believe. Part III (14-25): Judaism and the Torah, Christianity and the Gospels, Islam and the Qur'an, Hindu,
 Buddhist, other and Spiritist traditions, the cosmic perspective, language and religious language, faith, knowledge and public life, philosophies of
 life, meaning, ethics and death.
-**Three exams (root rule: none covers over 6 levels; the final here covers 12, so consider a fourth exam):** `exam-partial1` after Level 7
-(covers 2-7), `exam-partial2` after Level 13 (covers 8-13), `exam-final` after Level 25 (covers
-14-25). All original (no professor's exam). The next unit after Level 7, 13 or 25 is its exam.
+**Four exams (root rule: none covers over 6 levels):** `exam-partial1` after Level 7
+(covers 2-7), `exam-partial2` after Level 13 (covers 8-13), `exam-partial3` after Level 19 (covers
+14-19: the traditions), `exam-final` after Level 25 (covers 20-25). All original (no professor's
+exam). The next unit after Level 7, 13, 19 or 25 is its exam.
 Status: `STATUS.md`. Build Levels 1 to 3 first, then review the tone with Igor.
 
 ## Notation and conventions

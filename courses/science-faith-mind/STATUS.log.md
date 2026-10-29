@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-29 exam trail restructured
+Root rule (no exam over 6 levels): added `exam-partial3` after Level 19 (covers 14-19); `exam-final` now covers 20-25. Partial 1 and 2 unchanged. No content built. Conventions fixed here: none.
+
 ## 2026-10-28 web-audit batch 3 (ch01, 8 lessons)
 Web-checked every name, date, work, study and attribution in ch01 (see Verified line). One fix: Muhammad "c. 570". Quotes kept only where confirmed (Russell "there"); Wittgenstein and Epicurus stay paraphrased. Conventions fixed here: none.
 
