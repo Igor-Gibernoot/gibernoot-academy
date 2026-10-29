@@ -1,0 +1,367 @@
+id: ch03-truss
+title: Beams, Trusses and Triangles
+kind: concept
+own: |
+  - **Bending.** A beam resting on two supports (span $L$, in m) with a load $P$ (kN) at its middle bends like a smile. The bending moment at the middle is the load's turning effect there, $M = P\,L/4$ (kN m). The top fibres are squeezed (compression), the bottom fibres are stretched (tension), and one layer between them, the **neutral axis**, keeps its length and carries no stress.
+  - **Stress in a beam.** A fibre at height $y$ (m) from the neutral axis feels a stress proportional to $y$. For a cross-section with second moment of area $I$ (m$^4$), the bending stress is
+    {{ $$\sigma = \frac{M\,y}{I}$$ }}
+    where $I = \int y^2\,dA$ adds up each bit of area $dA$ weighted by the square of its distance from the neutral axis. A rectangle of width $b$ and depth $h$ (m) has
+    {{ $$I = \frac{b\,h^3}{12}$$ }}
+    Doubling the depth multiplies $I$ by $8$, and a plank on edge is far stiffer than the same plank flat.
+  - **I-beam.** Material near the neutral axis has a tiny $y$, so it adds almost nothing to $I$. An I-shape puts the material in two wide flanges far from the axis, joined by a thin web: for the same area $0.03$ m$^2$ a solid $0.1\times0.3$ m bar has $I = 2.25\times10^{-4}$ m$^4$ and an I-shape $0.4$ m deep has $I \approx 7.06\times10^{-4}$ m$^4$. It is strong only in its deep direction: turned on its side it is weak.
+  - **Triangles.** A frame of straight bars pinned at joints keeps its shape only if its bars form triangles: a triangle cannot change shape without a bar stretching or shortening. With $j$ joints, a plane frame needs at least
+    {{ $$m = 2\,j - 3$$ }}
+    bars to be rigid. A square of four bars has $m = 4 < 5$ and collapses sideways; one diagonal fixes it.
+  - **Truss.** Every bar of a pin-jointed truss carries only a pull (tension) or a push (compression) along its length. In a bridge truss of depth $h$ (m) the top bars are squeezed and the bottom bars stretched, like the fibres of a beam; the two chords act as the flanges, and where the bending moment at a cut is $M$ the chord force is
+    {{ $$F = \frac{M}{h}$$ }}
+    The slanted bars (diagonals) carry the shear. For a triangle of span $4$ m, height $3$ m and a $12$ kN load at the top, each leg carries $7.21$ kN of compression and the bottom tie carries $4$ kN of tension.
+cards:
+  - type: mcq
+    id: hook
+    prompt: |
+      Two steel beams have the same length, the same material and the same mass (so the same cross-section area). They rest on two supports and carry a heavy load in the middle. One is a **solid square bar**. The other is an **I-shape**: two wide thin flat plates (top and bottom) joined by a thin vertical wall. **Guess before any theory.** Which one bends less?
+    shuffle: false
+    options:
+      - text: The solid square bar, because it is one compact piece of steel with no gaps.
+        feedback: |
+          Compactness feels strong, but it is not what resists bending. The same mass is simply arranged differently, and where the steel sits turns out to matter a great deal.
+      - text: The I-shape, because it puts its steel far from the middle of the beam.
+        correct: true
+      - text: They bend equally, because the same steel in the same mass must give the same strength.
+        feedback: |
+          Same material and same mass give the same *amount* of steel, not the same *arrangement*. Strength in bending depends on both. This is why steel mills do not roll all beams as solid bars.
+      - text: The I-shape bends more, because its thin web is weak.
+        feedback: |
+          The web is thin, but it does a different job (it holds the plates apart and carries sideways forces). The plates do the main work against bending.
+    explanation: |
+      The I-shape wins by a factor of about three in stiffness at the same mass. The cards ahead show why: when a beam bends, the steel near the middle hardly works, and steel far from the middle works hardest.
+
+  - type: text
+    id: bend
+    body: |
+      Rest a ruler on two supports and press the middle: it curves like a smile.
+
+      - On a smile-shaped curve the **lower side** lies on a longer arc than the **upper side**. So the lower fibres are **stretched** (tension) and the upper fibres are **squeezed** (compression).
+      - Somewhere between them is a layer that keeps its length. It is the **neutral axis**: it feels neither push nor pull.
+
+      This is the beam version of the last lesson: a stone slab laid across a gap cracks from underneath because its lower face is pulled.
+
+      **Words used here.** The **span** $L$ is the distance between the supports, $P$ the load in the middle, and the **bending moment** $M$ at the middle is the turning effect of the forces on one half of the beam about that point. Each support holds up $P/2$, a distance $L/2$ from the middle, so
+      $$M = \frac{P}{2}\cdot\frac{L}{2} = \frac{P\,L}{4}.$$
+
+  - type: order
+    id: why-bottom
+    prompt: Put the argument in order. Why does the underside of a loaded beam get stretched?
+    steps:
+      - The load pushes the middle of the beam down while the supports hold the ends up.
+      - So the beam curves into a smile, with the lower side on the outside of the curve.
+      - The outside of a curve lies on a longer arc than the inside.
+      - So the lower fibres lengthen (tension) and the upper fibres shorten (compression).
+      - A layer between them keeps its length: the neutral axis.
+    hint: Start with the load, then the shape, then the lengths.
+    explanation: |
+      Shape first, then lengths. Bend a sponge and you can see the lower side open up and the upper side crowd together.
+
+  - type: widget
+    id: solid-widget
+    widget: beam-section
+    review: false
+    config:
+      section: solid
+      sections: [solid]
+      span: 4
+      load: 100
+      readouts: [moment, Imom, maxstress]
+      ranges: { load: [0, 200, 5] }
+      show: { selector: false, rebar: false, crack: false, prestress: false, loadSlider: true }
+    body: |
+      A solid beam $0.1$ m wide and $0.3$ m deep rests on supports $4$ m apart. The picture on the right is its cross-section at the middle; the arrows show the **stress** (force per area) in each fibre: blue is compression, orange is tension. Drag the load or use the slider and watch the stress arrows, especially at the top, the middle and the bottom.
+
+  - type: mcq
+    id: neutral-read
+    prompt: |
+      A solid rectangular beam carries a load in the middle. In the middle cross-section, where is the material stressed **least**?
+    shuffle: false
+    options:
+      - text: At the top edge, because that is where the load is applied.
+        feedback: |
+          The top edge is where the squeeze is largest, not smallest. The load acts on the beam as a whole, but the stress comes from the bending of the fibres, and the outermost fibres bend most.
+      - text: Along the middle layer, the neutral axis, where the stress is zero.
+        correct: true
+      - text: At the bottom edge, because steel is stronger when pulled.
+        feedback: |
+          The bottom edge is where the stretch is largest. The material's strength does not change the stress; it only decides whether the beam survives it.
+      - text: Equally everywhere, because the same load passes through every layer.
+        feedback: |
+          A uniform stress would come from pulling a bar along its length. Bending is different: each fibre is stretched or squeezed in proportion to how far it is from the neutral axis.
+    explanation: |
+      The stress grows in a straight line from zero at the neutral axis to its largest value at the top (squeeze) and at the bottom (stretch). The middle fibres barely work: that is the waste an I-shape removes.
+
+  - type: text
+    id: formula
+    body: |
+      Make it exact. Keep the cross-section flat while the beam bends. A fibre at height $y$ from the neutral axis changes length in proportion to $y$, and for an elastic material the stress is proportional to the change in length. So the stress is a straight line in $y$:
+      $$\sigma = k\,y$$
+      for some constant $k$ (the symbol $\sigma$, "sigma", is stress in Pa; MPa means millions of pascals). The forces must also add up to the moment $M$, which gives $k = M/I$ with
+      $$I = \int y^2\,dA,$$
+      the **second moment of area** (m$^4$): the sum over all small bits of area $dA$ of the bit's area times the square of its distance from the neutral axis. So
+      $$\sigma = \frac{M\,y}{I}.$$
+      For a rectangle of width $b$ and depth $h$, doing the integral gives
+      $$I = \frac{b\,h^3}{12}.$$
+      Notice the square: a bit of area twice as far from the axis counts four times as much.
+
+  - type: numeric
+    id: i-solid
+    prompt: |
+      The solid beam is $b = 0.1$ m wide and $h = 0.3$ m deep. Using $I = b\,h^3/12$, what is its second moment of area, in units of $10^{-4}$ m$^4$?
+    answer: 2.25
+    tolerance: 0.01
+    answerText: '2.25'
+    wrong:
+      - { value: 0.75, feedback: 'That is $b\,h^3/36$: the factor is $1/12$. (Also check that the depth is cubed: $0.3^3 = 0.027$.)' }
+      - { value: 6.75, feedback: 'That is $b\,h^3/4$: the factor is $1/12$, not $1/4$.' }
+    hint: '$0.1 \times 0.3^3 / 12$, then express in $10^{-4}$.'
+    explanation: |
+      $0.3^3 = 0.027$, times $0.1$ is $0.0027$, divided by $12$ is $2.25\times10^{-4}$ m$^4$.
+
+  - type: numeric
+    id: sigma-solid
+    prompt: |
+      That solid beam has span $4$ m and a $100$ kN load in the middle. The moment is $M = P L/4 = 100$ kN m, and $I = 2.25\times10^{-4}$ m$^4$. The extreme fibre is $y = 0.15$ m from the neutral axis (half the depth). What is the stress there, in MPa?
+    answer: 66.7
+    tolerance: 0.5
+    answerText: '66.7'
+    wrong:
+      - { value: 66700, feedback: 'The number is right but the units are not: $66.7\times10^6$ Pa is $66.7$ MPa.' }
+      - { value: 133.3, feedback: 'That uses the full depth $y = 0.3$ m. The stress at the edge uses the distance from the neutral axis, which is half the depth.' }
+    hint: 'Convert $M$ to N m: $100$ kN m $= 10^5$ N m. Then $\sigma = M y / I$ is in Pa; divide by $10^6$ for MPa.'
+    explanation: |
+      $\sigma = 10^5 \times 0.15 / (2.25\times10^{-4}) = 6.67\times10^7$ Pa $= 66.7$ MPa: tension at the bottom edge and compression at the top edge.
+
+  - type: widget
+    id: shape-widget
+    widget: beam-section
+    review: false
+    config:
+      section: solid
+      sections: [solid, I]
+      span: 4
+      load: 100
+      readouts: [area, Imom, maxstress, deflection]
+      ranges: { load: [0, 200, 5] }
+      show: { rebar: false, crack: false, prestress: false, loadSlider: true }
+    body: |
+      Two cross-sections of the **same area** ($0.03$ m$^2$, so the same mass of steel): the solid bar and an I-shape ($0.4$ m deep, $0.2$ m wide flanges, $0.03$ m thin web). Switch between them with the buttons at the same load. Watch the **second moment of area**, the **largest stress** and the **sag** (drawn exaggerated).
+
+  - type: numeric
+    id: sigma-i
+    prompt: |
+      The I-shape (area $0.03$ m$^2$, depth $0.4$ m) has $I \approx 7.06\times10^{-4}$ m$^4$. Under the same moment $M = 100$ kN m, what is the largest stress at the outer edge of a flange, $y = 0.2$ m from the neutral axis? Answer in MPa.
+    answer: 28.3
+    tolerance: 0.3
+    answerText: '28.3'
+    wrong:
+      - { value: 66.7, feedback: 'That is the solid bar. The I-shape has a bigger $I$, which lowers the stress, although its edge is further out ($y = 0.2$ m).' }
+      - { value: 14.2, feedback: 'You used half of the right distance. The edge of the flange is half the depth, $0.4/2 = 0.2$ m, from the axis.' }
+    hint: '$\sigma = M y / I$ with $M = 10^5$ N m, $y = 0.2$ m, $I = 7.06\times10^{-4}$ m$^4$.'
+    explanation: |
+      $\sigma = 10^5 \times 0.2 / (7.06\times10^{-4}) \approx 2.83\times10^7$ Pa $= 28.3$ MPa, about $2.4$ times smaller than the solid bar's $66.7$ MPa, with the same steel. The sag falls by the full factor $I$ gains, $3.1$.
+
+  - type: mcq
+    id: why-edges
+    prompt: |
+      In the formula $I = \int y^2\,dA$, why does moving steel from near the neutral axis out to two flanges raise $I$ so much?
+    shuffle: false
+    options:
+      - text: Steel far from the axis has a large $y$, and $y$ is squared, so each bit of area counts much more there.
+        correct: true
+      - text: There is more steel in the I-shape, so there is simply more material to resist the load.
+        feedback: |
+          Both shapes have the same area $0.03$ m$^2$. The I-shape gains because of where the steel sits, not how much there is.
+      - text: Steel near the axis is stretched and steel far from it is squeezed, so they cancel.
+        feedback: |
+          Squeeze and stretch occur on opposite sides of the axis, but the integral uses $y^2$, which is positive on both sides: they add, never cancel.
+      - text: The thin web carries the load by itself while the flanges only decorate the shape.
+        feedback: |
+          Backwards: the flanges carry most of the bending, and the web mainly holds them apart and carries the shear (the sideways cutting force).
+    explanation: |
+      Weight each bit of steel by $y^2$: the middle layers, with $y$ near zero, add almost nothing, and the flanges, with the largest $y$, add the most. This is why real structural beams are rolled in I and H shapes, with the flanges carrying most of the bending and the web carrying the shear.
+
+  - type: numeric
+    id: depth-cubed
+    prompt: |
+      A rectangular beam has width $b = 0.1$ m and depth $h = 0.3$ m. You make it twice as deep, $h = 0.6$ m, keeping $b$. By what factor does $I$ grow?
+    answer: 8
+    tolerance: 0.01
+    answerText: '8'
+    wrong:
+      - { value: 2, feedback: 'That would be $I \propto h$. The formula has $h^3$, so doubling $h$ multiplies $I$ by $2^3$.' }
+      - { value: 4, feedback: 'That would be $I \propto h^2$. The formula $I = b h^3/12$ has the depth cubed.' }
+    hint: 'Compute $I$ before and after with $I = b h^3 / 12$ and divide.'
+    explanation: |
+      The beam has twice the area but $8$ times the $I$. Depth is the cheapest way to make a beam stiff: one factor of $h$ is the area and two more are the lever arm squared.
+
+  - type: mcq
+    id: trap-flat
+    prompt: |
+      A builder has a $0.1$ m wide, $0.3$ m deep wooden beam. To fit a low ceiling she lays it on its side: now $0.3$ m wide and $0.1$ m deep, the same wood. "Same wood, same load," she says, "the strength in bending is unchanged." How does $I$ change?
+    shuffle: false
+    options:
+      - text: It is unchanged, because the area is the same.
+        feedback: |
+          The area is the same but $I$ is not an area: it weights each bit by $y^2$. Putting the wood close to the neutral axis wastes it.
+      - text: It drops to a third, since the depth drops to a third.
+        feedback: |
+          That treats $I$ as proportional to the depth. It goes with the depth *cubed*, and the width enters only once.
+      - text: It drops by a factor of $9$ (to $2.5\times10^{-5}$ m$^4$ from $2.25\times10^{-4}$ m$^4$).
+        correct: true
+      - text: It grows, because a wider beam is thicker and thicker means stronger.
+        feedback: |
+          The tempting rule "thicker is stronger" ignores the direction of the load. Only the size measured along the load direction (the depth) counts cubed.
+    explanation: |
+      $I_{\text{flat}} = 0.3\times0.1^3/12 = 2.5\times10^{-5}$ m$^4$ against $2.25\times10^{-4}$ m$^4$: a factor $(h/b)^2 = 9$. The same holds for an I-beam: it is strong in its deep direction and weak turned on its side (a general fact of the shape: it has reduced capacity in the sideways direction).
+
+  - type: widget
+    id: square-widget
+    widget: truss-frame
+    review: false
+    config:
+      shape: square
+      span: 4
+      height: 3
+      loads: [{ node: top, fx: 10 }]
+      units: { length: m, force: kN }
+      readouts: [status]
+      show: { ghost: true }
+      presets:
+        - { label: Add a diagonal, shape: braced }
+    body: |
+      A square frame of four bars joined by pins (pins turn freely) sits on the ground and is pushed sideways at the top by $10$ kN. Try it. Then press **Add a diagonal**. The colours show tension (orange) and compression (blue).
+
+  - type: order
+    id: why-triangle
+    prompt: Put the argument in order. Why can a triangle of bars joined by pins not change shape?
+    steps:
+      - Three bars of fixed length are joined at three pins.
+      - Any shape that keeps the three lengths is the same triangle (only turned or moved).
+      - So changing the shape would require a bar to get longer or shorter.
+      - A bar under load barely changes length, so the triangle holds its shape.
+    hint: Count what is fixed (three lengths), then what could still change.
+    explanation: |
+      Three sides fix a triangle completely. A square has four sides but they do not fix its angles, so it leans over with no bar changing length. A diagonal splits the square into two triangles.
+
+  - type: numeric
+    id: count-bars
+    prompt: |
+      A plane frame has $j$ joints. A rule of thumb for a rigid pin-jointed frame is $m = 2j - 3$ bars (two numbers fix each joint's position, minus three for moving and turning the whole frame). A triangle has $j = 3$ and $m = 3$, and the braced square $j = 4$ and $m = 5$. How many bars make a rigid frame of $j = 6$ joints (a hexagon with its inside braced)?
+    answer: 9
+    tolerance: 0.01
+    answerText: '9'
+    wrong:
+      - { value: 6, feedback: 'Six bars around the outside form a hexagon, which is a mechanism: it can fold. It needs bracing.' }
+      - { value: 12, feedback: 'That counts $2j$ without subtracting the three motions of the whole frame.' }
+    hint: '$2 \times 6 - 3$.'
+    explanation: |
+      $m = 2\times6 - 3 = 9$. Six bars form the outline and three more brace it into triangles. The rule is a necessary count, and the bars must still be placed so that they form triangles.
+
+  - type: numeric
+    id: leg-force
+    prompt: |
+      A triangular frame has feet $4$ m apart on a left pin and a right roller, and its apex $3$ m above the middle. A $12$ kN load pushes down on the apex, so each foot pushes up with $6$ kN. At the apex joint, each of the two legs must supply half of the $12$ kN as a vertical push. A leg runs $2$ m across and $3$ m up (length $\sqrt{13}$ m). What force does each leg carry, in kN (compression)?
+    answer: 7.21
+    tolerance: 0.03
+    answerText: '7.21'
+    wrong:
+      - { value: 6, feedback: 'That is only the vertical part. The leg is slanted, so the force along it is larger than its vertical part: force times $3/\sqrt{13}$ must equal $6$.' }
+      - { value: 4, feedback: 'That is the horizontal part, the tie force. The leg force along the bar is larger than either of its parts.' }
+    hint: 'The vertical part of the leg force is the force times $\text{rise}/\text{length} = 3/\sqrt{13}$. Set it equal to $6$ kN.'
+    explanation: |
+      $F\cdot 3/\sqrt{13} = 6$, so $F = 6\sqrt{13}/3 = 7.21$ kN. It pushes along the leg, so the leg is in compression. Solving a joint by balancing its forces is the **method of joints**.
+
+  - type: numeric
+    id: tie-force
+    prompt: |
+      Same triangle: each leg pushes with $7.21$ kN along its length, a leg runs $2$ m across and $3$ m up (length $\sqrt{13}$ m). The right foot sits on a roller, which cannot push sideways. The leg's horizontal push on the foot must be balanced by the bottom bar (the tie). How large is the tie force, in kN?
+    answer: 4
+    tolerance: 0.03
+    answerText: '4'
+    wrong:
+      - { value: 7.21, feedback: 'That is the force along the leg. The tie is horizontal and carries only the leg force''s horizontal part.' }
+      - { value: 6, feedback: 'That is the vertical reaction at the foot. The tie balances the horizontal part of the leg force, not the vertical one.' }
+    hint: 'Horizontal part $= F\times\text{run}/\text{length} = 7.21\times 2/\sqrt{13}$.'
+    explanation: |
+      $7.21\times 2/\sqrt{13} = 4$ kN. The legs try to spread the feet apart, so the tie is stretched (tension). It is exactly the tie rod of an arch from the last lesson, found here by hand: the same $H$, now carried inside the frame.
+
+  - type: widget
+    id: warren-widget
+    widget: truss-frame
+    review: false
+    config:
+      shape: warren
+      span: 16
+      height: 3
+      panels: 4
+      loads: [{ node: mid, fy: -40 }]
+      units: { length: m, force: kN }
+      readouts: [status, maxtension, maxcompression, member]
+    body: |
+      A **Warren truss**, a bridge girder made of equal triangles: span $16$ m, depth $3$ m, a $40$ kN load at the bottom middle. Orange bars are in tension, blue bars in compression; thicker bars carry more. Click bars to read their force. Which bars are blue, which orange, and where are the largest forces?
+
+  - type: mcq
+    id: warren-read
+    prompt: |
+      A Warren truss of depth $3$ m and span $16$ m carries a heavy load at the middle of its bottom chord. Which bars are squeezed (compression) and which are stretched (tension)?
+    shuffle: false
+    options:
+      - text: The top chord bars are squeezed and the bottom chord bars are stretched, like the top and bottom fibres of a bent beam.
+        correct: true
+      - text: The top chord is stretched and the bottom chord is squeezed, because the load pulls the bottom down.
+        feedback: |
+          Sagging a beam squeezes the top and stretches the bottom. Pulling down the bottom chord at the middle makes the bottom chord stretch, like a cable.
+      - text: All bars are stretched, because the load pulls the whole truss down.
+        feedback: |
+          Some bars must push: the top chord is shortened as the truss sags in a smile, so it is squeezed. Only the bottom chord and some diagonals are in tension.
+      - text: All bars are squeezed, because the truss is held up from below.
+        feedback: |
+          Supports from below put the truss in bending, which stretches the bottom. The bottom chord is a tie, like the bottom of a beam.
+    explanation: |
+      The truss is a beam with its web cut open: the top chord is the top flange (squeezed), the bottom chord is the bottom flange (stretched), and the slanted bars carry the shear. A truss is therefore the I-beam idea with the middle removed. The Warren truss is named after James Warren, who patented it in 1848 with Willoughby Monzani.
+
+  - type: numeric
+    id: chord-force
+    prompt: |
+      In a truss of depth $h = 3$ m, the chords form a pair of forces that together resist the bending moment $M$: $F = M/h$. The span is $16$ m and the $40$ kN load is at the middle, so each support holds up $20$ kN and the moment at the middle is $M = 20\times 8 = 160$ kN m. What force does the top chord carry at the middle, in kN?
+    answer: 53.33
+    tolerance: 0.1
+    answerText: '53.33'
+    wrong:
+      - { value: 40, feedback: 'That is the force in the bottom bars at a cut where the moment is only $120$ kN m. The middle top bar sits where the moment is largest, $160$ kN m.' }
+      - { value: 160, feedback: 'That is the moment, not the force. A force in kN is the moment in kN m divided by the lever arm in m.' }
+    hint: 'Divide the moment by the depth: $160/3$.'
+    explanation: |
+      $F = M/h = 160/3 = 53.3$ kN. The chord forces are largest in the middle where the moment is largest, so the middle top bars are the most squeezed. Deepening the truss lowers every chord force: this is the $y$ in $\sigma = My/I$ at work again, with the steel gathered in two chords a distance $h$ apart.
+
+  - type: mcq
+    id: trap-diagonals
+    prompt: |
+      A student looks at the Warren truss and says: "The slanted bars hardly carry the bridge's weight, because the weight is carried by the top and bottom bars. Remove the diagonals and save steel." What happens?
+    shuffle: false
+    options:
+      - text: Nothing important, because the chords already carry the load.
+        feedback: |
+          The chords carry the bending, but with no slanted bars the quadrilaterals between them are squares of bars, which fold sideways. The load can no longer be passed to the supports.
+      - text: The truss turns into a chain of squares that fold over, so with no triangles it is a mechanism and cannot carry the load.
+        correct: true
+      - text: The chords simply take a bit more force and the truss still stands.
+        feedback: |
+          Without diagonals nothing links the top chord to the bottom one in the vertical direction, so the load cannot be passed to the supports at all.
+      - text: The truss stands and becomes stronger, because lighter bridges are stronger.
+        feedback: |
+          Lighter is cheaper, not stronger. The diagonals carry the shear, the sideways cutting force between neighbouring parts of the girder; take them away and the girder loses its rigidity.
+    explanation: |
+      Each diagonal closes a triangle. Remove them and the truss is a chain of unbraced squares like the plain square frame: it shears over under the smallest load. In a beam the web does this job.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** steel is strong both ways, but concrete is not. The next lesson, Concrete, Steel and Why Both, shows why engineers pour concrete around steel bars, and where in a beam they put them.

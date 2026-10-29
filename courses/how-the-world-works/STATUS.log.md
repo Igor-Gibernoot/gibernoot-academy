@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-29 ch03-truss (concept, 23 cards)
+Built `ch03/truss.yaml` (hook I-beam vs solid, neutral axis, sigma = My/I, I = bh^3/12, I-beam, depth cubed, flat-beam trap, square/braced frame, triangle rigidity, m = 2j-3, method of joints, Warren truss, M/h, diagonals trap). Choices: no real strengths or bridges quoted (only I-beam flange/web roles, triangle rigidity, Warren patent 1848, all web-checked); real-device facts kept minimal; the I-beam "weak on its side" claim is qualitative; 9x flat-beam number is the lesson's own setting. Conventions fixed here: beam $L$, $P$, $M = PL/4$, $I$ in m^4, 0.1x0.3 solid and I-shape A 0.03 (I 7.06e-4), $F = M/h$, triangle span 4 height 3 load 12, Warren 16 m, 3 m, 40 kN.
+
 ## 2026-10-29: widgets truss-frame and beam-section (no lesson)
 Beam mode was split into its own file (`beam-section`) as allowed. Choices: frame solver = rank test of the joint-equilibrium matrix, mechanism shown by null-space motion of A^T when the load does work; redundant frames use the minimum-norm split; rebar steel force is the simplified T = M/(0.9 d) estimate (profile stays elastic); stress scale shared by the three sections so the I-shape shows smaller stress. Throwaway lesson used for shots and smoke (47 mounts, 0 errors), removed.
 Conventions fixed here: tension orange, compression blue, reactions purple; joints named A, B, C...; I-shape H 0.4, bf 0.2, tw 0.03 and hollow 0.15 x 0.3 at A = 0.03 m2 against solid 0.1 x 0.3.
