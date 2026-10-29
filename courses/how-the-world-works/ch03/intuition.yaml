@@ -1,0 +1,345 @@
+id: ch03-intuition
+title: "Quick Recall"
+kind: intuition
+own: |
+  - **Arch and cable.** A span of length $L$ (m) with rise $h$ (m) under a uniform load $w$ (kN per metre of horizontal span) pushes sideways on each support with the thrust
+    {{ $$H = \frac{w\,L^2}{8\,h}$$ }}
+    Doubling the span makes $H$ four times larger; halving the rise doubles it. For $w = 10$ kN/m, $L = 50$ m, $h = 10$ m: $H = 312.5$ kN.
+  - **Beam section.** A rectangular cross-section of width $b$ and depth $h$ (m) has second moment of area
+    {{ $$I = \frac{b\,h^3}{12}$$ }}
+    Doubling the depth makes $I$ eight times larger, so a plank on edge is far stiffer than the same plank flat.
+  - **Truss.** A plane pin-jointed frame with $j$ joints needs at least $m = 2j - 3$ bars to keep its shape. Top chords of a bridge truss are squeezed (compression), bottom chords stretched (tension).
+  - **Stress.** A bar carrying force $F$ (N) over a cross-section of area $A$ (m$^2$) feels
+    {{ $$\sigma = \frac{F}{A}$$ }}
+    Concrete pulls only about a tenth of what it carries squeezed.
+  - **Natural frequency.** A tower of effective mass $m$ (kg) on a sway stiffness $k$ (N/m) rocks at
+    {{ $$f_0 = \frac{1}{2\pi}\sqrt{\frac{k}{m}}$$ }}
+    Four times the stiffness doubles $f_0$; four times the mass halves it. With damping ratio $\zeta$ and $D$ the sway under a steady push, the resonance peak is $D/(2\zeta)$, and a tuned mass damper with mass ratio $\mu$ is tuned just below $f_0$, at $f_0/(1+\mu)$.
+  - **Soil period.** A soft layer of thickness $H$ (m) and shear-wave speed $v_s$ (m/s) over rock has natural period
+    {{ $$T_{\mathrm{soil}} \approx \frac{4H}{v_s}$$ }}
+    and an ordinary building with $N$ storeys has roughly $T \approx 0.1\ \mathrm{s} \times N$. Matching periods mean the strongest shaking.
+
+cards:
+  - type: text
+    id: hook
+    title: Recall, don't derive
+    body: |
+      Level 3 gave you formulas for arches, beams, trusses, materials, towers and soil. This lesson **derives nothing**. It trains one habit: *check a formula without redoing the derivation*, by asking "what happens if I double this, or push that to zero?"
+
+      Each card is quick. If one feels slow, that formula is the one to revisit.
+
+  - type: text
+    id: mnemonics
+    title: Say each one in words
+    body: |
+      | formula | in words |
+      |---|---|
+      | $H = wL^2/(8h)$ | long spans push **sideways** hard (span squared); a flat arch (small rise) pushes harder |
+      | $I = bh^3/12$ | depth counts **three times**, width once |
+      | $m = 2j - 3$ | two bars per joint, minus three for the whole frame |
+      | $\sigma = F/A$ | the same force on a thinner bar hurts more |
+      | $f_0 = \frac{1}{2\pi}\sqrt{k/m}$ | stiff and light: fast; soft and heavy: slow |
+      | $T_{\mathrm{soil}} = 4H/v_s$ | a deep, soft layer is slow: long period |
+
+      Here $w$ is the load per metre of span (kN/m), $L$ the span and $h$ the rise (m), $b$ and $h$ the width and depth of a rectangular section (m), $j$ the number of joints, $m$ the number of bars, $F$ a force (N), $A$ an area (m$^2$), $k$ a sway stiffness (N/m), $m$ a mass (kg), $H$ the soil thickness (m) and $v_s$ the shear-wave speed (m/s).
+
+  - type: mcq
+    id: limit-rise
+    prompt: |
+      An arch or cable of span $L$ carries a uniform load $w$ and has thrust $H = wL^2/(8h)$, with $h$ its rise. Let the rise $h$ shrink towards $0$ (a perfectly flat line). What does the formula say, and does it make sense?
+    options:
+      - text: 'The thrust grows without limit: a flat line needs an infinite sideways push to carry a load'
+        correct: true
+      - text: 'The thrust goes to zero: a flat line has no curve to push sideways'
+        feedback: |
+          $h$ is in the **denominator**. A flat line cannot carry load by pointing downwards at all, so the supports must pull or push enormously along the line. Small rise, big thrust.
+      - text: 'The thrust stays $wL^2/8$: the rise does not matter'
+        feedback: |
+          The rise is exactly what sets the lever arm of the vertical forces about the crown; halving it doubles $H$.
+    explanation: |
+      $H \to \infty$ as $h \to 0$. The moment balance of the half span about the crown has the vertical forces acting over a lever arm $h$, so a smaller $h$ needs a bigger horizontal force. A tight cable is a dangerous cable.
+
+  - type: mcq
+    id: scale-arch
+    prompt: |
+      An arch with span $L$, rise $h$ and load $w$ has thrust $H = wL^2/(8h)$. The bridge is rebuilt with **twice** the span, the **same** rise and the same $w$. Compared with before, the thrust is:
+    options:
+      - text: '$4$ times larger'
+        correct: true
+      - text: '$2$ times larger'
+        feedback: |
+          That treats $H$ as proportional to $L$. The load on the span grows with $L$, and the lever arm of its resultant grows with $L$ too: two factors of $L$.
+      - text: '$8$ times larger'
+        feedback: |
+          That is $L^3$, the cubic of the beam-section formula. For the arch, $L$ appears squared.
+      - text: '$2$ times smaller'
+        feedback: |
+          A longer span cannot be easier to hold with the same rise: the thrust only falls if the rise grows.
+    explanation: |
+      $2^2 = 4$. Scaling test: double the input, see what the formula does. To get the thrust back down you would need to double the rise as well to $2h$, which halves it to $2$ times the original.
+
+  - type: mcq
+    id: scale-section
+    prompt: |
+      A rectangular beam has width $b$ and depth $h$ and second moment of area $I = bh^3/12$. A second beam of the same width and **twice** the depth uses twice the material. Its $I$ is:
+    options:
+      - text: '$8$ times larger'
+        correct: true
+      - text: '$2$ times larger'
+        feedback: |
+          That is what the **area** does. Stiffness in bending is not proportional to the area: material far from the neutral axis counts with the square of its distance.
+      - text: '$4$ times larger'
+        feedback: |
+          Depth appears **cubed**, not squared: the extra factor comes from the area (one $h$) times the squared distance of that area from the middle (two more $h$).
+      - text: '$16$ times larger'
+        feedback: |
+          That would be $h^4$. Width is only to the first power in $I$, and it did not change.
+    explanation: |
+      $2^3 = 8$: twice the material, eight times the bending stiffness. This is why floor joists stand on edge and why deep I-beams carry bridges.
+
+  - type: mcq
+    id: truss-count
+    prompt: |
+      A pin-jointed plane frame has $j$ joints. A hexagon of 6 bars has $j = 6$. How many bars does it need to be rigid, and what is the fix?
+    options:
+      - text: '$2j - 3 = 9$ bars: add 3 diagonals, which splits it into triangles'
+        correct: true
+      - text: '$6$ bars are enough: a closed shape is rigid'
+        feedback: |
+          A hexagon of 6 bars folds like a hinged picture frame. Only triangles keep their shape, because three side lengths fix the angles.
+      - text: '$2j = 12$ bars: two bars per joint'
+        feedback: |
+          Two per joint over-counts: the whole frame may still move and rotate as one rigid body, which uses up 3 of the counted constraints. Subtract 3.
+    explanation: |
+      $m = 2j - 3 = 9$, so 3 more bars than the hexagon has. A hexagon with three diagonals from one corner is four triangles. The count is a minimum: it does not say where to put the bars, and a bad layout can leave a part loose.
+
+  - type: mcq
+    id: scale-frequency
+    prompt: |
+      A tower has natural frequency $f_0 = \frac{1}{2\pi}\sqrt{k/m}$. A renovation makes the sway stiffness $k$ four times larger **and** adds weight so the effective mass $m$ is four times larger too. What happens to $f_0$?
+    options:
+      - text: 'It is unchanged'
+        correct: true
+      - text: 'It is multiplied by $4$'
+        feedback: |
+          That counts only the stiffness, and without the square root. $k$ and $m$ appear as a ratio, and both changed.
+      - text: 'It is divided by $4$'
+        feedback: |
+          Only $m$ would do that, and again without the square root. The stiffer structure cancels the heavier one.
+      - text: 'It is multiplied by $2$'
+        feedback: |
+          That is the answer for $k$ four times larger with $m$ unchanged: $\sqrt{4} = 2$. Here the mass grew too.
+    explanation: |
+      $f_0 \propto \sqrt{k/m}$ and $k/m$ did not change. If only $k$ is multiplied by $4$, $f_0$ doubles; if only $m$ is multiplied by $4$, $f_0$ halves. A taller version of the same building changes both, which is why period grows with storeys.
+
+  - type: mcq
+    id: scale-peak
+    prompt: |
+      A tower driven at its natural frequency swings with an amplitude of about $D/(2\zeta)$, where $D$ is the sway under a steady push of the same size and $\zeta$ the damping ratio. The dampers are upgraded from $\zeta = 0.02$ to $\zeta = 0.10$. The resonance peak, in units of $D$, goes from $25$ to:
+    options:
+      - text: '$5$'
+        correct: true
+      - text: '$125$'
+        feedback: |
+          That multiplies by the ratio of the dampings instead of dividing. More damping must lower the peak.
+      - text: '$12.5$'
+        feedback: |
+          That halves the peak, as if five times more damping only did half the work. The peak is inversely proportional to $\zeta$, so five times the damping is a fifth of the peak.
+      - text: '$24.9$'
+        feedback: |
+          That mixes it up with the small correction of the oscillation frequency, which barely changes. Damping lowers the **peak**, a lot, and leaves $f_0$ almost where it is.
+    explanation: |
+      $1/(2 \times 0.10) = 5$, a fifth of the peak. Limit check: $\zeta \to 0$ gives an infinite peak, as in a swing pushed in time with nothing to take the energy away.
+
+  - type: mcq
+    id: tuning-direction
+    prompt: |
+      A tuned mass damper with mass ratio $\mu$ (damper mass divided by the building's effective mass) is added to a building with natural frequency $f_0$. The best tuning of the damper's own frequency $f_d$ is:
+    options:
+      - text: 'Slightly below $f_0$, at $f_d \approx f_0/(1+\mu)$'
+        correct: true
+      - text: 'Exactly $f_0$'
+        feedback: |
+          It sounds right, and for a very small $\mu$ it is almost right. But the damper's mass also changes the combined system, and the classic best tuning sits a little lower, by the factor $1+\mu$.
+      - text: 'Slightly above $f_0$, at $f_d \approx f_0(1+\mu)$'
+        feedback: |
+          The direction is reversed: the mass of the damper lowers the modes of the pair, so the matching tuning is a little below $f_0$.
+      - text: 'Far from $f_0$, so that the damper never resonates'
+        feedback: |
+          A damper far from the building's frequency barely moves and does nothing; the point is that it swings out of step and takes the energy.
+    explanation: |
+      For $\mu = 0.05$ and $f_0 = 0.15$ Hz this gives $0.143$ Hz, just a bit below. The tuning is delicate: a detuned damper (here $0.8 f_0$) leaves a much higher peak.
+
+  - type: build
+    id: build-thrust
+    prompt: |
+      A uniformly loaded arch of span $L$, rise $h$ and load $w$ per metre of horizontal span. Build its horizontal thrust $H$ at each support.
+    prefix: 'H ='
+    tiles: ['\frac{wL^2}{8h}', '\frac{wL}{8h}', '\frac{wL^2}{2h}', '\frac{wL^2}{8h^2}']
+    answers:
+      - ['\frac{wL^2}{8h}']
+    wrong:
+      - answer: ['\frac{wL}{8h}']
+        feedback: |
+          Here $wL$ is already a force (kN) and dividing by $h$ leaves kN per metre: the units fail. The span must appear squared, so that $L^2/h$ is a length.
+      - answer: ['\frac{wL^2}{2h}']
+        feedback: |
+          The denominator has an $8$, not a $2$: the moment of the half-span load $wL/2$ acting at a quarter of the span, $\tfrac{wL}{2}\cdot\tfrac{L}{4}$, is $wL^2/8$. A $2$ would make the thrust four times too large.
+      - answer: ['\frac{wL^2}{8h^2}']
+        feedback: |
+          The rise is to the first power: halving it doubles the thrust, not quadruples.
+    hint: 'Scaling test: doubling the span must give four times the thrust; doubling the rise must halve it.'
+    explanation: |
+      $H = wL^2/(8h)$: span squared on top (load times lever arm), the rise below, and an $8$ from the half-span moment, with the vertical reaction $wL/2$ at the support balancing the half-span load $wL/2$ acting a quarter span away: net $wL^2/8$ over the lever arm $h$.
+
+  - type: build
+    id: build-section
+    prompt: |
+      A rectangular cross-section of width $b$ and depth $h$ (the direction of the load). Build its second moment of area $I$.
+    prefix: 'I ='
+    tiles: ['\frac{b\,h^3}{12}', '\frac{b\,h^2}{12}', '\frac{b^3\,h}{12}', '\frac{b\,h^3}{3}']
+    answers:
+      - ['\frac{b\,h^3}{12}']
+    wrong:
+      - answer: ['\frac{b\,h^2}{12}']
+        feedback: |
+          Area $bh$ times a squared distance $h^2$ gives the cube $h^3$, not $h^2$. Check the units: $I$ is in m$^4$.
+      - answer: ['\frac{b^3\,h}{12}']
+        feedback: |
+          The roles are swapped: that is the beam laid flat. Depth in the load direction is the one that is cubed.
+      - answer: ['\frac{b\,h^3}{3}']
+        feedback: |
+          $bh^3/3$ is the value about the **bottom edge**. About the middle (neutral axis) it is $bh^3/12$.
+    hint: 'Check: units m$^4$, and doubling the depth must multiply it by $8$.'
+    explanation: |
+      $I = bh^3/12$: one power of width and three of depth, with the $12$ from integrating $y^2$ over the section from $-h/2$ to $h/2$.
+
+  - type: build
+    id: build-stress
+    prompt: |
+      A bar carries a force $F$ over a cross-section of area $A$. Build the stress $\sigma$.
+    prefix: '\sigma ='
+    tiles: ['\frac{F}{A}', '\frac{A}{F}', 'F A', '\frac{F}{A^2}']
+    answers:
+      - ['\frac{F}{A}']
+    wrong:
+      - answer: ['\frac{A}{F}']
+        feedback: |
+          Upside down: a larger force must give a **larger** stress, and a bigger area a smaller one.
+      - answer: ['F A']
+        feedback: |
+          A thicker bar would then feel more stress. The same force spread over more area is gentler.
+      - answer: ['\frac{F}{A^2}']
+        feedback: |
+          The force is shared by the area, not the square of it. Units: N/m$^2$ = Pa.
+    hint: 'Same force on a thinner bar must hurt more.'
+    explanation: |
+      $\sigma = F/A$, in pascals. A steel bar squeezed by $F$ over twice the area carries half the stress.
+
+  - type: build
+    id: build-frequency
+    prompt: |
+      A tower with effective mass $m$ and sway stiffness $k$ swings freely. Build its natural frequency $f_0$ in hertz.
+    prefix: 'f_0 ='
+    tiles: ['\frac{1}{2\pi}\sqrt{\frac{k}{m}}', '\frac{1}{2\pi}\sqrt{\frac{m}{k}}', '\frac{1}{2\pi}\,\frac{k}{m}', '\sqrt{\frac{k}{m}}']
+    answers:
+      - ['\frac{1}{2\pi}\sqrt{\frac{k}{m}}']
+    wrong:
+      - answer: ['\frac{1}{2\pi}\sqrt{\frac{m}{k}}']
+        feedback: |
+          Upside down: stiffer must swing faster, so $k$ goes on top.
+      - answer: ['\frac{1}{2\pi}\,\frac{k}{m}']
+        feedback: |
+          The root is missing: quadrupling $k$ would then quadruple the frequency. In fact it only doubles it.
+      - answer: ['\sqrt{\frac{k}{m}}']
+        feedback: |
+          This is the angular frequency in radians per second. The frequency in swings per second divides by $2\pi$, the angle of one full turn.
+    hint: 'Stiffer is faster, heavier is slower, and doubling the stiffness must NOT double the frequency.'
+    explanation: |
+      $f_0 = \frac{1}{2\pi}\sqrt{k/m}$, and $T = 1/f_0$ is the period.
+
+  - type: build
+    id: build-soil
+    prompt: |
+      A soft soil layer of thickness $H$ with shear-wave speed $v_s$ lies over rock. Build its natural period $T_{\mathrm{soil}}$.
+    prefix: 'T_{\mathrm{soil}} ='
+    tiles: ['\frac{4H}{v_s}', '\frac{v_s}{4H}', '\frac{H}{4v_s}', '4H v_s']
+    answers:
+      - ['\frac{4H}{v_s}']
+    wrong:
+      - answer: ['\frac{v_s}{4H}']
+        feedback: |
+          That is a frequency (per second), and it is inverted. A deeper layer must give a **longer** period.
+      - answer: ['\frac{H}{4v_s}']
+        feedback: |
+          The $4$ belongs on top: a wave goes down, bounces and returns to the top, needing a quarter of a cycle to cover the depth once.
+      - answer: ['4H v_s']
+        feedback: |
+          A faster wave would then give a longer period. Faster waves cross the layer sooner, so the period shrinks.
+    hint: 'Units must be seconds: metres divided by metres per second. Deeper and softer gives slower.'
+    explanation: |
+      $T_{\mathrm{soil}} = 4H/v_s$: the travel time $H/v_s$ down the layer, times $4$ for a quarter cycle.
+
+  - type: numeric
+    id: apply-tower
+    prompt: |
+      A concrete tower is modelled as one effective mass of $1.0\times10^{6}$ kg on a sway stiffness of $1.0\times10^{8}$ N/m. What is its natural frequency, in Hz?
+    answer: 1.59
+    tolerance: 0.02
+    answerText: '1.59 Hz'
+    wrong:
+      - { value: 10, feedback: 'That is the angular frequency in rad/s. Convert to swings per second by dividing by $2\pi$.' }
+      - { value: 0.628, feedback: 'That is the period in seconds, not the frequency.' }
+      - { value: 100, feedback: 'That is $k/m$ without the root and the $2\pi$.' }
+    hint: 'Same family as the skyscraper cards: stiffness over mass, with a root and a conversion to hertz.'
+    explanation: |
+      $k/m = 10^8 / 10^6 = 100$, the root is $10$ rad/s, and $10/(2\pi) = 1.59$ Hz (period $0.63$ s).
+
+  - type: numeric
+    id: apply-soil
+    prompt: |
+      A $25$ m layer of soft soil, with shear waves travelling at $125$ m/s, lies over rock. What is the layer's natural period, in seconds?
+    answer: 0.8
+    tolerance: 0.01
+    answerText: '0.8 s'
+    wrong:
+      - { value: 0.2, feedback: 'That is the travel time down the layer, $25/125$. The natural period is the time of a full cycle, four times as much.' }
+      - { value: 1.25, feedback: 'That is the frequency in Hz, the inverse of the period.' }
+    hint: 'Same family as the quake cards: a travel time, scaled for the quarter-cycle rule.'
+    explanation: |
+      Down and up the layer takes $25/125 = 0.2$ s each way, and four such times fit in one cycle: $4 \times 25 / 125 = 0.8$ s. A building of about 8 storeys by the rough rule shares this period: the dangerous match.
+
+  - type: numeric
+    id: apply-damping
+    prompt: |
+      A tower with a damping ratio of $0.04$ is shaken at its natural frequency by a push whose steady-push sway would be $D = 0.02$ m. About how far does it swing, in metres?
+    answer: 0.25
+    tolerance: 0.005
+    answerText: '0.25 m'
+    wrong:
+      - { value: 0.02, feedback: 'That is the steady sway $D$. Resonance multiplies it by a large factor.' }
+      - { value: 12.5, feedback: 'That is the factor on $D$ (in units of $D$), not metres. Multiply by $D$.' }
+      - { value: 0.0016, feedback: 'That multiplies $D$ by the damping ratio instead of dividing. Less damping, bigger swing.' }
+    hint: 'Same family as the resonance cards: the peak is a multiple of $D$ set by the damping.'
+    explanation: |
+      The peak is $D/(2\zeta) = 0.02/(0.08) = 0.25$ m, which is $12.5$ times the steady sway.
+
+  - type: numeric
+    id: apply-arch
+    prompt: |
+      A footbridge arch spans $50$ m with a rise of $10$ m and carries a uniform load of $8$ kN per metre of horizontal span. What horizontal push (kN) must each abutment resist?
+    answer: 250
+    tolerance: 2
+    answerText: '250 kN'
+    wrong:
+      - { value: 200, feedback: 'That is the vertical reaction, $wL/2$. The abutment must also resist the sideways push.' }
+      - { value: 1000, feedback: 'That leaves out the factor from the half-span lever arm. Check with the scaling test.' }
+      - { value: 20, feedback: 'The horizontal push is much larger than the vertical one for a shallow arch: the rise is only a fifth of the span.' }
+    hint: 'Same family as the arch cards: the thrust grows with the span squared and falls with the rise.'
+    explanation: |
+      The load on the span is $8 \times 50 = 400$ kN, so each support carries $200$ kN vertically. The half-span moment gives $H = 8 \times 50^2/(8 \times 10) = 250$ kN, larger than the vertical force because the rise is small.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the content map of Level 3. Rebuild the whole chapter box by box, from arches and trusses to resonance and earthquakes.

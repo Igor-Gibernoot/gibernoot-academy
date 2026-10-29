@@ -1,5 +1,7 @@
 # Status log
 
+- **2026-10-29 ch03-intuition** (Quick Recall, 19 cards, no widget): own: summary of six formulas (H, I, m=2j-3, sigma, f0 with peak and damper tuning, T_soil). 7 mcq (limit h to 0, scalings, truss count, peak, tuning direction), 5 builds, 4 numerics with data only (tower 1.59 Hz, soil 0.8 s, damping 0.25 m, arch 250 kN). Choices: no widget; tuning card asks direction only (new numbers not stated). No external facts added, web check not needed (reused Verified). Conventions fixed here: recall numbers m 1e6 kg, k 1e8 N/m; soil 25 m, 125 m/s; arch 50 m, 10 m rise, 8 kN/m.
+
 ## 2026-10-29 ch03-traps (traps, 14 cards)
 12 traps (flat arch, width vs depth, pentagon 2j-3, concrete pull, prestress cracking load, mass vs f0, damping vs f0, TMD tuning, compounding negative damping, isolation moves motion, soil period, tall vs matching). Choices: no widget; Tacoma 1 Hz-shedding trap dropped because flutter already has trap-more-wind; stiffening-always-safe dropped (trap-stiffer exists twice). Conventions fixed here: prestress example beam bottom pull 2/3 MPa per kN, cracks at 3 MPa; damping changes the peak 1/(2 zeta), not f0 (f0 sqrt(1-zeta^2), 0.5% at 0.10); TMD example mu 0.05 on 0.15 Hz gives 0.1429 Hz.
 
