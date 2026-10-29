@@ -84,8 +84,6 @@ Placement notes for the new levels:
 - **Cooking and kitchen threads:** pressure cooker (Level 4), emulsions (Level 10), induction
   cooktop (Level 6, magnets). Ships (Level 5), roller coasters (Level 2), noise cancelling (Level 8),
   clocks before GPS (Level 18).
-- **Follow-up unit:** `ch01-tour` and `ch01-map` still list the old 14 levels and need puzzles for
-  Levels 3, 7, 9, 11, 16 and the new level numbers (see `STATUS.md`).
 
 ## Notation and conventions
 

@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-29 ch01-tour updated for 19 levels
+Added 6 cards (sway, grid, mountain, body-watts, poll, poll-size): 17 to 23 cards. Table now "Level N: name" for Levels 2-19; own: has bullets for the five new levels (new blank: poll error 1/sqrt(n)). All five new web-checked (see Verified ch01-tour). Conventions fixed here: poll error about 1/sqrt(n), 1000 people about 3 points; body about 100 W from 2000 kcal/day (1 kcal = 4184 J); lapse rate 6.5 C/km.
+
 ## 2026-10-29 Trail restructure (14 to 19 levels, three exams)
 Root exam rule changed to "no exam covers more than 6 chapter levels". Added Levels 3 (Structures and Materials), 7 (Energy Sources and the Grid), 9 (Atmosphere, Weather and Climate), 11 (The Body as a Machine), 16 (Chance, Choice and Trust); extra lessons: roller coasters (2), pressure cooker (4), ships (5), magnets in everyday objects (6), noise-cancelling (8), emulsions (10), clocks (18). Electronic voting moved to Level 16. Exams: exam-partial1 after 7, exam-partial2 after 13, exam-final after 19. Only Levels 1-2 had files, so later ids were renumbered. Conventions fixed here: resonance is first taught in Level 3 (skyscraper damper), recalled in Level 8; Tacoma Narrows is told as wind flutter, not plain resonance.
 
