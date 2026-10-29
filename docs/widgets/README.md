@@ -66,3 +66,4 @@ and a new `docs/widgets/<name>.md` plus a line below.
 - `arch-thrust`: Cable, arch or dome under load: span, rise, uniform and point loads, thrust H = wL^2/(8h), reactions, tension/compression arrows, thrust line with middle-third band, dome meridian and hoop force
 - `truss-frame`: Pin-jointed frame (square, braced, triangle, Warren, Pratt) with draggable joints and load, bar forces by method of joints (tension orange, compression blue), rigid / mechanism indicator
 - `beam-section`: Simply supported beam, solid / I / hollow section of equal area, second moment I, bending stress profile, optional rebar, prestress, crack marker, deflection
+- `oscillator-lab`: Driven mass on a spring or swaying tower: frequency, damping, live resonance curve with marker, optional tuned second mass (Den Hartog tuning, mass ratio), time trace, f = (1/2pi) sqrt(k/m), phase

@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-10-29 widget oscillator-lab
+Built autonomously (widget only, no lesson). Choices: x-axis in Hz (f0 or mass+stiffness give f0 = sqrt(k/m)/2pi, optional sliders), drive amplitude = static displacement D, curve clipped at ampMax x D, animation runs animPeriod (2.4 s) per natural period while readouts show real units, undamped resonance kept finite by a 1e-9 floor; second-mass damping defaults to the Den Hartog optimum. Tested: node checks of response/RK4, throwaway mounts (spring, tower, no-curve) with sliders, buttons, handle drag, widget-smoke (0 errors), validate. Web: tuning 1/(1+mu) confirmed (PMC11351443 Table 1); the damping formula appeared flattened there, confirmed numerically by script instead (best z2 0.086 vs 0.084 formula).
+Conventions fixed here: widget `oscillator-lab` (docs/widgets/oscillator-lab.md); presets can use `driveRatio` (drive/f0); curve y unit = D (static displacement), mu 0.02 optimal nu 0.9804, z2 0.0841.
+
 ## 2026-10-29 ch03-materials (concept, 20 cards)
 Built autonomously. No new widget (beam-section plain/rebar/prestress, tradeoff-curve depth vs steel). Choices: dropped cost/CO2-per-kg claims (no source), kept the 8% cement CO2 line with the 4-8% caveat; tradeoff is beam depth vs steel area and concrete volume (a setting). Removed unverified density and price claims. Conventions fixed here: stress sigma = F/A, strain eps = dL/L; concrete pull about a tenth of squeeze (3 MPa); beam 0.1 x 0.3, 4 m: P 12 kN gives 8 MPa at the bottom, prestress 6 MPa leaves 2; M 100 kN m, d 0.26, As 12 cm2: T 427 kN, 356 MPa; alpha steel 12e-6, concrete 10e-6 per K.
 

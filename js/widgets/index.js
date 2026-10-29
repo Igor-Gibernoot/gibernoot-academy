@@ -36,6 +36,7 @@ import { pinTumbler } from './pin-tumbler.js';
 import { elevatorCounterweight } from './elevator-counterweight.js';
 import { crashImpulse } from './crash-impulse.js';
 import { trackRide } from './track-ride.js';
+import { oscillatorLab } from './oscillator-lab.js';
 import { archThrust } from './arch-thrust.js';
 import { trussFrame } from './truss-frame.js';
 import { beamSection } from './beam-section.js';
@@ -98,6 +99,7 @@ const WIDGETS = {
   'elevator-counterweight': elevatorCounterweight,
   'crash-impulse': crashImpulse,
   'track-ride': trackRide,
+  'oscillator-lab': oscillatorLab,
   'arch-thrust': archThrust,
   'truss-frame': trussFrame,
   'beam-section': beamSection,
