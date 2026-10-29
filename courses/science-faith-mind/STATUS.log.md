@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-28 web-audit batch 3 (ch01, 8 lessons)
+Web-checked every name, date, work, study and attribution in ch01 (see Verified line). One fix: Muhammad "c. 570". Quotes kept only where confirmed (Russell "there"); Wittgenstein and Epicurus stay paraphrased. Conventions fixed here: none.
+
 ## 2026-10-28 · Web-audit batch 2 (ch02, 14 lessons) + Hegel/Mill
 Re-checked ch02 names, dates, works and studies by web (SEP, Wikipedia, Britannica, REP, ADS). Fixed: Laudan was b.1941, died 2022; Hacking was b.1936, died 2023; Bayes essay was read to the Royal Society in 1763 (printed 1764), not "published 1763"; Logik der Forschung written 1934, imprint 1935; Mercury excess was ~38" in 1859, refined to ~43"; Carlson "expected at least half" dropped (unconfirmed); NHMRC 2015 wording softened (no reliable evidence, standards disputed); Wegener rejection softened. Hegel 1770-1831 and Mill "permanent possibility of sensation" (Examination of Hamilton, 1865) confirmed. Not web-fetched: Principia 1687 (standard). Conventions fixed here: living-person birth years kept only if confirmed alive (van Fraassen b.1941, Glymour b.1942).
 
