@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-29 ch03-materials (concept, 20 cards)
+Built autonomously. No new widget (beam-section plain/rebar/prestress, tradeoff-curve depth vs steel). Choices: dropped cost/CO2-per-kg claims (no source), kept the 8% cement CO2 line with the 4-8% caveat; tradeoff is beam depth vs steel area and concrete volume (a setting). Removed unverified density and price claims. Conventions fixed here: stress sigma = F/A, strain eps = dL/L; concrete pull about a tenth of squeeze (3 MPa); beam 0.1 x 0.3, 4 m: P 12 kN gives 8 MPa at the bottom, prestress 6 MPa leaves 2; M 100 kN m, d 0.26, As 12 cm2: T 427 kN, 356 MPa; alpha steel 12e-6, concrete 10e-6 per K.
+
 ## 2026-10-29 ch03-truss (concept, 23 cards)
 Built `ch03/truss.yaml` (hook I-beam vs solid, neutral axis, sigma = My/I, I = bh^3/12, I-beam, depth cubed, flat-beam trap, square/braced frame, triangle rigidity, m = 2j-3, method of joints, Warren truss, M/h, diagonals trap). Choices: no real strengths or bridges quoted (only I-beam flange/web roles, triangle rigidity, Warren patent 1848, all web-checked); real-device facts kept minimal; the I-beam "weak on its side" claim is qualitative; 9x flat-beam number is the lesson's own setting. Conventions fixed here: beam $L$, $P$, $M = PL/4$, $I$ in m^4, 0.1x0.3 solid and I-shape A 0.03 (I 7.06e-4), $F = M/h$, triangle span 4 height 3 load 12, Warren 16 m, 3 m, 40 kN.
 
