@@ -1,0 +1,406 @@
+id: ch03-arch
+title: Bridges, Arches and Domes
+kind: concept
+own: |
+  - **Squeezing and pulling.** A force that squeezes a material is **compression**; one that stretches it is **tension**. Stone and concrete resist squeezing far better than pulling: granite carries roughly $100$ to $200$ MPa squeezed but only about $7$ to $25$ MPa pulled, and concrete pulls only about a tenth of what it carries squeezed. So a stone structure must keep every part in compression.
+  - **Cable and arch.** Take a span of length $L$ (m), a rise $h$ (m) at the middle (a cable's sag, an arch's height), and a uniform load $w$ (kN per metre of horizontal span). The shape that carries the load with a single line of force is a parabola. Each support gets a vertical push and a horizontal push $H$ (kN), the **thrust**, found from a moment balance of half the span about the crown:
+    {{ $$H = \frac{w\,L^2}{8\,h}$$ }}
+    {{ $$V = \frac{w\,L}{2}$$ }}
+    A cable hangs in tension and an arch of the same shape stands upside down in compression, the same numbers. The force along the line is largest at the supports, $N = \sqrt{H^2 + V^2}$: for $w = 10$ kN/m, $L = 40$ m, $h = 5$ m it is $H = 400$ kN, $V = 200$ kN, $N \approx 447$ kN.
+  - **Flat means a big thrust.** $H$ grows as $1/h$: halving the rise doubles the thrust (here $800$ kN), and a perfectly flat line would need an infinite one. The supports (abutments) must push back with $H$: a buttress of heavy masonry, or a tie rod that carries $H$ as tension between the two feet.
+  - **Where the line of force runs.** The line of thrust is the path of the compressive force through the arch ring. If it stays inside the {{ **middle third** }} of the stone thickness, every joint is fully in compression. A point load pulls the line away from the arch's centre line; when it reaches the outer edge of the stone, hinges form, and with enough hinges the arch becomes a mechanism and collapses.
+  - **Domes.** A dome of radius $a$ (m) carrying its own weight $w$ (kN per square metre) is a ring of arches. The force along each meridian (a line from the crown down) is always compression, $-w a/(1+\cos\varphi)$ with $\varphi$ the angle from the crown. The force around a horizontal ring (the hoop force) is compression near the top, but turns into tension below
+    {{ $$\varphi \approx 51.8^\circ$$ }}
+    (where $\cos\varphi\,(1+\cos\varphi) = 1$). Masonry cracks along meridians there, so domes get tension rings (iron bands, buttress rings) or a more pointed profile.
+  - **Suspension bridge.** The deck load is uniform along the span, so the main cable is a parabola of sag $h$ with the same $H = wL^2/(8h)$. The towers are squeezed (compression) and the anchorages at both ends pull back with $H$.
+cards:
+  - type: mcq
+    id: hook
+    prompt: |
+      Stone can be squeezed with enormous force: granite carries roughly $100$ to $200$ MPa before it crushes. But pull it apart and it fails at only about $7$ to $25$ MPa, roughly ten times less. **Guess before any theory.** You must span a river with stone blocks and no steel. Which shape keeps the stone squeezed instead of stretched?
+    shuffle: false
+    options:
+      - text: A flat slab laid across, resting on a bank at each end.
+        feedback: |
+          Tempting, because it is the simplest. But a long slab sags under its own weight, and the lower face stretches. Stone is ten times weaker when stretched, so a long slab cracks from underneath. (Why a sagging beam stretches its underside is the subject of the next lesson.)
+      - text: A curved arch, bulging upward between the banks.
+        correct: true
+      - text: A straight stack of blocks leaning from one bank to the other.
+        feedback: |
+          A leaning stack would topple or slide: nothing holds the blocks against sliding sideways. The blocks need to push on each other along the curve of a shape, not along a straight diagonal with no support at the top.
+      - text: A bowl-shaped curve sagging downward between the banks.
+        feedback: |
+          A hanging shape suits a rope, which is happy being pulled. A stone bowl would be pulled apart along its length, which is exactly what stone cannot take.
+    explanation: |
+      An arch turns the weight into pushes along its curve: every block presses on the next one, so the stone is squeezed. The cards ahead show why that curve works and how much it pushes sideways on its supports.
+
+  - type: text
+    id: words
+    body: |
+      Two words that run through this whole level.
+
+      **Compression** is a force that squeezes a material shorter. **Tension** is a force that stretches it longer.
+
+      - A rope can only be pulled: it works in tension and goes limp when pushed.
+      - Stone and concrete are the opposite. Granite is roughly $100$ to $200$ MPa when squeezed, about $7$ to $25$ MPa when pulled. Ordinary concrete pulls only about a tenth (10 to 15 %) of what it carries squeezed.
+
+      The goal of a stone bridge is therefore to make every part of it be **squeezed, never stretched**.
+
+  - type: mcq
+    id: rope-vs-stone
+    prompt: |
+      A chain of identical stone blocks is hung from a beam, and separately the same blocks are stacked in a tall column. Stone is much stronger squeezed than stretched. Which statement is right?
+    shuffle: false
+    options:
+      - text: The hanging chain is easy for the stone, because its links are pulled (tension) and pulling is what stone does well.
+        feedback: |
+          Backwards. Stone is the one that does not like being pulled; the joints between blocks have almost no pulling strength at all.
+      - text: The column is easy for the stone, because the weight squeezes the blocks together (compression).
+        correct: true
+      - text: Both are equally hard, since the same weight acts on both.
+        feedback: |
+          The weight is the same but its effect is not: it stretches the hanging chain and squeezes the column. Stone treats those two very differently, about a factor of ten.
+      - text: 'Neither works: stone is too brittle to carry any load.'
+        feedback: |
+          Stone carries huge squeezing loads: stone cathedrals and pyramids stand because of it. It is only the pulling that it resists poorly.
+    explanation: |
+      Hung from above, the blocks are pulled apart (tension). Stacked, they are pressed together (compression). Stone wants the second.
+
+  - type: widget
+    id: cable-widget
+    widget: arch-thrust
+    review: false
+    config:
+      mode: cable
+      modes: [cable]
+      span: 40
+      rise: 5
+      load: 10
+      readouts: [thrust, vertical, maxforce]
+      show: { ghost: false, band: false, stone: false, modeToggle: false }
+      units: { length: m, force: kN, load: kN/m, area: kN/m2, line: kN/m }
+    body: |
+      A cable is hung between two supports $40$ m apart and carries a uniform load (a deck) of $10$ kN per metre of horizontal span. Orange arrows show tension. Drag the **middle** of the cable or the **rise** slider: how deep it sags. Watch the **horizontal thrust** at the supports and the **largest force** in the cable as the sag shrinks.
+
+  - type: mcq
+    id: cable-read
+    prompt: |
+      A cable spans $40$ m and carries a uniform load of $10$ kN per metre of horizontal span. When you made the sag smaller (a flatter cable), what happened to the pull at the supports?
+    shuffle: false
+    options:
+      - text: 'It grew: the flatter cable pulls much harder sideways on its supports.'
+        correct: true
+      - text: 'It shrank: a flatter cable is shorter, so it carries less.'
+        feedback: |
+          The cable is indeed shorter, but a shorter cable has to hold the same load. A nearly straight cable can only support a downward load by pulling very hard, because the steepness that lifts the load is small.
+      - text: 'It stayed the same: the load is the same.'
+        feedback: |
+          The load is the same, but the cable direction at the support changes. A flatter cable has a smaller upward part for the same pull, so the pull must grow. The cards ahead make this exact.
+    explanation: |
+      Each support must hold up half the load, a fixed vertical pull. The flatter the cable leaves the support, the more of its pull points sideways, so the sideways part must grow without limit as the cable gets flatter.
+
+  - type: widget
+    id: flip-widget
+    widget: arch-thrust
+    review: false
+    config:
+      mode: cable
+      modes: [cable, arch]
+      span: 40
+      rise: 5
+      load: 10
+      readouts: [thrust, vertical, maxforce]
+      show: { ghost: true, band: false, stone: false }
+      units: { length: m, force: kN, load: kN/m, area: kN/m2, line: kN/m }
+    body: |
+      Same span, rise and load. Press **Arch**: the shape flips upside down (the faint copy is the other mode). Look at the arrow colours: orange is tension, blue is compression. Compare the **thrust** and **largest force** readouts in both modes.
+
+  - type: mcq
+    id: flip-read
+    prompt: |
+      A cable of span $40$ m, sag $5$ m and uniform load $10$ kN per metre is flipped upside down into an arch of rise $5$ m with the same load. What changes?
+    shuffle: false
+    options:
+      - text: The forces keep the same size and the same shape of line, but tension becomes compression.
+        correct: true
+      - text: The forces are smaller, because an arch is stronger than a cable.
+        feedback: |
+          Strength is a property of the material, not of the force. The force needed to carry a load along that line is the same either way; the arch simply is built from a material that likes the squeezing.
+      - text: 'The arch needs a different curve: a flipped cable would be a triangle.'
+        feedback: |
+          Mirror the hanging curve and you get the arch curve. Upside down a cable is still a parabola, just bulging up.
+      - text: Nothing changes at all; tension and compression are the same thing.
+        feedback: |
+          The size of the force is the same but the sign is not: tension stretches and compression squeezes, and stone treats them very differently.
+    explanation: |
+      Turn the picture upside down and every force reverses direction but keeps its size. That is why a stone arch (compression) can have exactly the shape of a hanging cable (tension). An arch whose shape matches this curve is squeezed everywhere.
+
+  - type: text
+    id: setup
+    body: |
+      Now the numbers. Take a span $L$ (m), a rise $h$ (m) and a uniform load $w$ (kN per metre of horizontal span). The total load is $wL$ and by symmetry each support holds half of it: the **vertical reaction** is
+      $$V = \frac{w\,L}{2}.$$
+      Each support also pushes sideways with a **horizontal thrust** $H$ (kN), the same on both sides. We find $H$ by cutting the arch at the crown (its top) and balancing the turning effect (moment) of the left half about the crown. At the crown the only force is a horizontal one, so it passes through the crown and has no moment about it.
+
+  - type: numeric
+    id: vertical
+    prompt: |
+      A uniform load of $w = 10$ kN per metre of horizontal span acts on an arch of span $L = 40$ m. By symmetry each support carries half of the total load. What is the vertical reaction $V$ at one support, in kN?
+    answer: 200
+    wrong:
+      - { value: 400, feedback: 'That is the total load $wL$. Each of the two supports carries half.' }
+    hint: |
+      Total load $= wL$. Divide by two.
+    explanation: |
+      Total load $= 10 \times 40 = 400$ kN, so $V = 400/2 = 200$ kN at each support.
+
+  - type: build
+    id: moment-build
+    prompt: |
+      Cut the arch at the crown, a horizontal distance $L/2$ from the left support and at height $h$ above it. On the left half the forces are: the vertical reaction $V = wL/2$ at the support, the load $wL/2$ of the half span acting at its middle, a distance $L/4$ from the left support, and the thrust $H$ at the support, a height $h$ below the crown. Balance moments about the crown: build the moment of the thrust $H h$ as the vertical reaction's moment minus the load's moment.
+    prefix: 'H\,h ='
+    tiles: ['\tfrac{wL}{2}\cdot\tfrac{L}{2}', '-', '\tfrac{wL}{2}\cdot\tfrac{L}{4}', '+', '\tfrac{wL}{2}\cdot\tfrac{L}{8}']
+    answers:
+      - ['\tfrac{wL}{2}\cdot\tfrac{L}{2}', '-', '\tfrac{wL}{2}\cdot\tfrac{L}{4}']
+    wrong:
+      - { answer: ['\tfrac{wL}{2}\cdot\tfrac{L}{2}', '+', '\tfrac{wL}{2}\cdot\tfrac{L}{4}'], feedback: 'The load pushes down on the left half and turns it the opposite way from the upward reaction. So the two moments subtract.' }
+    hint: |
+      The reaction acts a distance $L/2$ from the crown (horizontally), the half-span load a distance $L/2 - L/4 = L/4$ from it.
+    explanation: |
+      Moment of $V$ about the crown: $\tfrac{wL}{2}\cdot\tfrac{L}{2} = \tfrac{wL^2}{4}$. The half-span load $\tfrac{wL}{2}$ acts a distance $L/2 - L/4 = L/4$ from the crown, giving $\tfrac{wL^2}{8}$ the other way. Their difference is $\tfrac{wL^2}{8}$, and it is balanced by $H h$.
+
+  - type: numeric
+    id: thrust
+    prompt: |
+      Balancing the moment gives $H\,h = \dfrac{w L^2}{8}$, so $H = \dfrac{w L^2}{8 h}$. For $w = 10$ kN/m, $L = 40$ m and $h = 5$ m, what is the thrust $H$ in kN?
+    answer: 400
+    wrong:
+      - { value: 200, feedback: 'You divided by $16 h$, or used $wL/2$ (the vertical reaction). Compute $10 \times 40^2 = 16000$, then divide by $8 \times 5 = 40$.' }
+    hint: |
+      $10 \times 1600 = 16000$, and $8 h = 40$.
+    explanation: |
+      $H = 16000/40 = 400$ kN, twice the vertical reaction of $200$ kN.
+
+  - type: numeric
+    id: max-force
+    prompt: |
+      At a support the force along the arch has a vertical part $V = 200$ kN and a horizontal part $H = 400$ kN. These are the two sides of a right triangle: what is the force along the arch there, in kN? Round to the nearest kN.
+    answer: 447
+    tolerance: 1
+    wrong:
+      - { value: 600, feedback: 'You added the two parts. They point in different directions (one up, one sideways), so combine them as the sides of a right triangle: $\sqrt{V^2 + H^2}$.' }
+    hint: |
+      $\sqrt{200^2 + 400^2} = \sqrt{200000}$.
+    explanation: |
+      $N = \sqrt{200^2 + 400^2} = \sqrt{200000} \approx 447$ kN. It is the largest force in the arch: at the crown only $H = 400$ kN remains.
+
+  - type: widget
+    id: flat-widget
+    widget: arch-thrust
+    review: false
+    config:
+      mode: arch
+      modes: [arch]
+      span: 40
+      rise: 5
+      load: 10
+      readouts: [thrust, vertical, maxforce]
+      show: { ghost: false, band: false, stone: false }
+      ranges: { rise: [2, 15, 0.5] }
+      presets:
+        - { label: Rise 5 m, rise: 5 }
+        - { label: Rise 2.5 m, rise: 2.5 }
+        - { label: Rise 2 m, rise: 2 }
+      units: { length: m, force: kN, load: kN/m, area: kN/m2, line: kN/m }
+    body: |
+      The same arch ($40$ m span, $10$ kN/m). Use the presets, or drag the crown, and read the **thrust**. Make the arch flatter and flatter: what happens to the thrust, and what does the **vertical** reaction do?
+
+  - type: numeric
+    id: flat-thrust
+    prompt: |
+      Using $H = \dfrac{w L^2}{8 h}$ with $w = 10$ kN/m and $L = 40$ m, what is the thrust $H$ if the rise is halved to $h = 2.5$ m? Answer in kN.
+    answer: 800
+    wrong:
+      - { value: 200, feedback: 'The rise is in the denominator. A smaller rise gives a bigger thrust, not a smaller one.' }
+    hint: |
+      $16000 / (8 \times 2.5)$.
+    explanation: |
+      $H = 16000/20 = 800$ kN: half the rise, double the thrust. The vertical reaction stays $200$ kN, so the force at the supports is now $\sqrt{800^2 + 200^2} \approx 825$ kN.
+
+  - type: mcq
+    id: flat-limit
+    prompt: |
+      Take the thrust law $H = wL^2/(8h)$ and let the rise $h$ shrink towards zero, for a fixed load and span. What does it say about a perfectly flat, straight arch or cable?
+    shuffle: false
+    options:
+      - text: It would need an infinite thrust, so a flat line cannot carry a load by pure pushing or pulling.
+        correct: true
+      - text: 'The thrust goes to zero: a flat line pushes on nothing.'
+        feedback: |
+          $h$ is in the denominator, so shrinking it makes $H$ larger. The picture: the support must give a sideways force while the line has no upward slope to carry the weight.
+      - text: The thrust stays at $wL/2$, the vertical reaction.
+        feedback: |
+          $H$ and $V$ are different forces; $V = wL/2$ does not depend on the rise, but $H$ does.
+      - text: It says nothing; the formula is only valid for tall arches.
+        feedback: |
+          The formula is exact for the parabola at any rise. It is the real thing that fails when $h \to 0$: no practical support can give an infinite force.
+    explanation: |
+      As $h \to 0$, $H \to \infty$. A flat slab does not carry load by a line of pure push or pull but by bending, which is the next lesson. The bigger the rise, the smaller the thrust, which is why bridges with high arches push less on their feet.
+
+  - type: mcq
+    id: abutments
+    prompt: |
+      An arch of span $40$ m pushes outward on each support with $H = 400$ kN. Which are **real ways** to make the supports take it? Select all that apply.
+    multiple: true
+    options:
+      - text: A heavy masonry buttress or a solid rock bank beside each foot, which pushes back.
+        correct: true
+      - text: A tie rod between the two feet that carries $H$ as tension.
+        correct: true
+      - text: Make the arch lighter, so that $H$ is smaller.
+        correct: true
+      - text: Nothing, the vertical reaction already balances $H$.
+        feedback: |
+          $V$ holds the weight up; $H$ is sideways and needs its own answer. If a foot has nothing to push against, the arch spreads and drops.
+      - text: A single thin pole under the crown holding it up.
+        feedback: |
+          A pole under the crown would take the load vertically, but then it is not an arch any more, and it is no help to the feet, which still need to resist $H$ in the arch above.
+    explanation: |
+      The foot of an arch pushes outward, so something must push back: a bank of rock or a heavy abutment, a buttress, or a tie rod between the feet when the ground is soft. A lighter structure also shrinks $H$, since $H$ is proportional to $w$.
+
+  - type: widget
+    id: band-widget
+    widget: arch-thrust
+    review: false
+    config:
+      mode: arch
+      modes: [arch]
+      span: 40
+      rise: 5
+      load: 10
+      thickness: 2
+      points: []
+      readouts: [thrust, check]
+      show: { ghost: false, band: true, stone: true, pointHandles: true, loadSlider: false }
+      presets:
+        - { label: Uniform only, load: 10, points: [] }
+        - { label: Add 20 kN, load: 10, points: [{ x: 0.25, P: 20 }] }
+        - { label: Add 60 kN, load: 10, points: [{ x: 0.25, P: 60 }] }
+        - { label: Heavy point load, load: 4, points: [{ x: 0.25, P: 150 }] }
+      units: { length: m, force: kN, load: kN/m, area: kN/m2, line: kN/m }
+    body: |
+      The arch is now a ring of stone $2$ m thick. The dashed line is the **line of thrust**: where the compressive force actually runs. The shaded band is the **middle third** of the stone thickness. Use the presets, which put a point load at a quarter of the span on top of the $10$ kN/m. Watch the line and the message.
+
+  - type: mcq
+    id: band-read
+    prompt: |
+      An arch ring is $2$ m thick. Under its own weight, the line of thrust runs along its centre line. A heavy load on one side pulls the line off the centre, towards the edge of the stone. Why is this dangerous?
+    shuffle: false
+    options:
+      - text: If the line leaves the middle third, a joint starts to open on one side (tension on stone that cannot take it); at the edge of the ring, a hinge forms.
+        correct: true
+      - text: The thrust grows without limit once the line moves.
+        feedback: |
+          The thrust changes by a modest amount. The danger is where the compression sits in the joint, not the size of $H$.
+      - text: A stone is stronger when squeezed off-centre, so the line moving is safe.
+        feedback: |
+          Off-centre squeezing concentrates the force on one edge of the joint, where the stone may crush, and opens the other side. That is why the line is kept near the centre.
+    explanation: |
+      If the line of thrust is inside the middle third, the force squeezes the whole joint. If it moves outside, one side of the joint would need to be pulled, but there is no glue worth the name between blocks, so that side opens. If the line reaches the very edge of the stone, a hinge forms there. Engineers used the middle-third rule as a conservative design margin; modern limit analysis shows the arch can survive with the line anywhere inside the thickness, until enough hinges form.
+
+  - type: order
+    id: collapse-order
+    prompt: Put the story of a masonry arch under a growing load in order.
+    steps:
+      - 'A load grows, and the line of thrust moves away from the arch centre line.'
+      - 'The line leaves the middle third: a joint starts to open on one side.'
+      - 'The line touches the outer edge of the stone: a hinge forms there.'
+      - 'Enough hinges have formed (four for a simple arch): the arch becomes a mechanism.'
+      - 'The arch collapses.'
+    hint: |
+      From small effect to large: the line moves, a joint opens, a hinge forms, the arch swings free.
+    explanation: |
+      The arch fails by shape, not by crushing: with four hinges it can swing like a linkage. This is why the stone just has to stay in compression.
+
+  - type: widget
+    id: dome-widget
+    widget: arch-thrust
+    review: false
+    config:
+      mode: dome
+      modes: [dome]
+      domeRadius: 20
+      domeLoad: 5
+      domeAngle: 90
+      probe: 40
+      readouts: [meridian, hoop, switch]
+      show: { ghost: false, band: false }
+      units: { length: m, force: kN/m, load: kN/m, area: kN/m2, line: kN/m }
+    body: |
+      A **dome** of radius $20$ m carrying its own weight ($5$ kN per square metre of surface). Think of it as arches turned about the vertical axis. The **meridian** force runs from the top down along a slice. The **hoop** force runs around a horizontal ring. Drag the probe from the crown downwards and watch the hoop force and its colour.
+
+  - type: mcq
+    id: dome-hoop
+    prompt: |
+      A thin stone dome of radius $a$ carrying only its own weight has a meridian force that is compression all the way down. Its hoop force (around a horizontal ring) starts as compression at the crown and, past about $51.8^\circ$ from the crown, turns into tension. What does this predict for a masonry dome, and what is the cure?
+    shuffle: false
+    options:
+      - text: 'Cracks along meridians in the lower dome, where the stone is pulled around the ring; cure: a tension ring (iron bands or buttress ring) or a more pointed profile.'
+        correct: true
+      - text: 'Cracks around the crown, where the load is highest; cure: a thicker cap.'
+        feedback: |
+          At the crown both forces are compression, and equal. The sign change is lower down.
+      - text: No cracks, since a dome is always in compression.
+        feedback: |
+          The meridian force is compression everywhere, but the ring force is not. Below about $51.8^\circ$ the lower dome wants to spread outward, pulling the rings apart.
+      - text: Cracks at the base only because of earthquakes.
+        feedback: |
+          The tension in the lower dome exists with no earthquake at all, just from weight. Cracks along meridians in old domes are known and are expected from this force.
+    explanation: |
+      The lower dome tries to spread like a barrel: the hoop force is tension, up to $+w a$ at the equator. Hoop tension is $w a\left(\frac{1}{1+\cos\varphi} - \cos\varphi\right)$; it vanishes when $\cos\varphi\,(1+\cos\varphi) = 1$, which gives $\varphi \approx 51.8^\circ$. In the Roman Pantheon the cracks in the lower dome are seen to this day. A ring of iron or heavy masonry at the base takes the tension; so does a pointed shape.
+
+  - type: numeric
+    id: dome-equator
+    prompt: |
+      The hoop force at an angle $\varphi$ from the crown is $w a\left(\dfrac{1}{1+\cos\varphi} - \cos\varphi\right)$ (positive = tension), with $w = 5$ kN/m$^2$ and $a = 20$ m. What is it at the equator ($\varphi = 90^\circ$), in kN per metre of height? A negative answer means compression.
+    answer: 100
+    wrong:
+      - { value: -50, feedback: 'That is the crown value, $-wa/2$. At the equator $\cos\varphi = 0$.' }
+    hint: |
+      $\cos 90^\circ = 0$, so the bracket is $1/(1+0) - 0$.
+    explanation: |
+      $w a \cdot 1 = 5 \times 20 = 100$ kN/m, tension, while at the crown it is $-wa/2 = -50$ kN/m, compression.
+
+  - type: mcq
+    id: keystone-trap
+    prompt: |
+      Complete the sentence: **"The keystone, the wedge at the top, holds the whole arch up."** What is true about a real stone arch?
+    shuffle: false
+    options:
+      - text: Every stone is squeezed by its neighbours; the keystone is the last one in, and the arch stands because the whole curve carries the thrust.
+        correct: true
+      - text: Remove the keystone and the rest still stands without any support at all.
+        feedback: |
+          Without the top stone the two halves lean on each other with nothing at the crown, so the thrust $H$ cannot be passed across. Also the arch is only stable once complete.
+      - text: The keystone alone carries the load, and the other stones are decoration.
+        feedback: |
+          The load is carried along the entire line of thrust, by every stone. The keystone is no stronger than the others.
+    explanation: |
+      The keystone is the last stone placed, and it is needed to close the ring (while building, the arch is held on temporary wooden centring). But the weight is carried by the whole ring, with the force passing from stone to stone. Take away any piece in the middle and the line of thrust is broken.
+
+  - type: numeric
+    id: suspension
+    prompt: |
+      A suspension bridge deck carries a uniform load of $w = 100$ kN per metre of horizontal span, hanging from a main cable whose span between the towers is $L = 400$ m and whose sag is $h = 40$ m. A cable under a uniform load is a parabola, so use $H = wL^2/(8h)$. What horizontal pull must each anchorage resist, in MN? (1 MN = 1000 kN.)
+    answer: 50
+    wrong:
+      - { value: 5, feedback: 'Check the units: $100 \times 400^2 = 1.6\times10^7$, and $8 h = 320$. That gives kN, then divide by $1000$ for MN.' }
+    hint: |
+      $100 \times 160000 / 320$ in kN.
+    explanation: |
+      $H = 100 \times 160000 / 320 = 50000$ kN $= 50$ MN. The main cable is in tension, the towers carry the cable's downward push (compression), and the anchorages must resist $H$ at each end: that is why they are massive blocks of concrete or rock.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a flat stone slab sagged and cracked from underneath. The next lesson, *Beams, Trusses and Triangles*, finds out why, and why an I-beam beats a solid bar and a triangle is the one shape that cannot be squashed sideways.

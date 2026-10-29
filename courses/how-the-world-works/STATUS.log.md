@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-29: ch03-arch (concept, 25 cards)
+Built autonomously with arch-thrust (cable, flip, flat presets, middle-third band presets, dome). Choices: no bridge dates or Roman examples (Pont du Gard dating disputed, not needed); middle-third rule presented as conservative (Heyman); dome formulas web-confirmed in lecture notes (meridian, hoop, 51.8 deg). Order card uses four hinges. Conventions fixed here: V = wL/2, H = wL^2/(8h), N = sqrt(H^2+V^2); ring thickness 2 m; suspension example 50 MN. Next: widget truss-frame, then ch03-truss.
+
 ## 2026-10-29 Widget arch-thrust (no lesson)
 Built `js/widgets/arch-thrust.js`, registered, documented. Choices (Igor not asked): arch thrust line is pinned at supports and crown (H = M0(L/2)/h), cable takes the funicular shape; stone check compares the thrust line with the parabolic centre line (+-t/6 band, +-t/2 stone); dome = spherical membrane under own weight (meridian -wa/(1+cos), hoop wa(1/(1+cos) - cos), sign change 51.83 deg); supports drawn at mid-height so the flip cable/arch is visible, one fixed arrow scale. Tested with a throwaway lesson (removed), screenshots viewed, widget-smoke 0 errors, validate clean.
 Conventions fixed here: H = wL^2/(8h); arch compression blue, cable tension orange, reactions purple; hoop switches at 51.8 deg from the crown (dome).

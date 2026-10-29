@@ -44,3 +44,4 @@ Read only the section you need: `grep -n '^## ' courses/how-the-world-works/CONV
 ## Chapter 3
 
 - Resonance is first taught here (`ch03-skyscraper`: natural frequency, tuned mass damper); Level 8 recalls it by name. Tacoma Narrows (`ch03-flutter`) is told as wind flutter, not plain resonance.
+- Arch lesson (`ch03-arch`): span $L$, rise $h$, uniform load $w$ (kN per m of horizontal span); $V = wL/2$, $H = wL^2/(8h)$ (moment of the half span about the crown), $N = \sqrt{H^2+V^2}$; 40 m, 5 m, 10 kN/m: H 400, V 200, N 447 kN; h 2.5: 800; stone ring 2 m thick (middle third +-0.33 m); dome a 20 m, w 5 kN/m2, hoop sign change 51.8 deg, equator +100 kN/m; suspension 100 kN/m, 400 m, 40 m: 50 MN; strengths: granite about 100-200 MPa squeezed, 7-25 MPa pulled, concrete tensile about a tenth; widget cards `review: false`.
