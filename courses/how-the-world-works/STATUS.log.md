@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-29 Level 2 web audit batch C (airbag, guided, traps, intuition, challenge, challenge2, map)
+Fixed: removed unsupported "melted layer of rubber" (traps); reaction time 1 s flagged as an alert rider (road design uses 2.5 s) in guided, traps, challenge; crumple distance 0.6 m tied to NHTSA 0.5-0.6 m crush; head 4.5-5 kg; crank 150 N m and helmet 4000 N limits relabelled as problem values, real helmet standards 250-300 g noted; 250 W flagged as fit-amateur power. STATUS Current block compressed. No numbers changed. Conventions fixed here: reaction time 1 s = alert rider; 250 W = fit amateur; head 5 kg (4.5 to 5).
+
 ## 2026-10-29 Level 2 web audit batch B (gears, lock, elevator)
 Fixed: master keys use a master wafer (extra spacer pin), not a "split pin" (lock, challenge2, map); "most common lock" softened; picking "ideal case"; gear loss "roughly 1 to 3%", cheater-pipe safety; elevator hook (motor size dropped, real 630 kg lifts noted), counterweight 40-50% of rated load, regeneration to the building. No numbers changed. Conventions fixed here: master wafer stacks ("wafer stacks" = k in 2^k); elevator counterweight half-load is a typical choice (40 to 50%).
 
