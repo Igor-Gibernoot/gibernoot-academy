@@ -1,0 +1,373 @@
+id: ch02-coaster
+title: Roller Coasters and g-Forces
+kind: concept
+own: |
+  - **Energy on a track.** A cart of mass $m$ (kg) released at rest on a frictionless track and dropped through a height $\Delta h$ (m) turns height energy $m g \Delta h$ into motion energy $\tfrac12 m v^2$, with $g = 9.8\ \mathrm{m/s^2}$. The mass cancels:
+    {{ $$v = \sqrt{2\,g\,\Delta h}$$ }}
+    A $40$ m drop gives $28$ m/s (about $100$ km/h). The cart can only climb back to the height it started from, and friction (a force along the track) turns some of the energy into heat, so it climbs less.
+  - **Felt g.** The track (or seat) pushes on the rider with a normal force $N$ (N); the weight is $m g$. What the body feels, in units of $g$, is
+    {{ $$\text{felt } g = \frac{N}{m g}$$ }}
+    At rest it is $1$; a rider of $60$ kg ($588$ N) pushed with $1500$ N feels $2.55\,g$. If the track cannot push, $N$ would be negative: the rider leaves the seat ("airtime").
+  - **Bottom of a loop.** On a circular curve of radius $r$ (m) at speed $v$ (m/s) the net force towards the centre must be $m v^2/r$. At the bottom the centre is above, the track pushes up and gravity pulls down:
+    {{ $$N = m g + \frac{m v^2}{r}$$ }}
+    A loop of $r = 10$ m entered from a $30$ m start has $v = 24.2$ m/s at the bottom and a felt $7\,g$. A teardrop (clothoid) loop, tighter at the slow top and wider at the fast bottom, keeps the peak near $4.7\,g$ for the same start; a circular loop is hard on the body because speed is highest where the bend is tightest.
+  - **Top of a loop.** At the top the centre is below the rider, so gravity and the track both pull towards it:
+    {{ $$N = \frac{m v^2}{r} - m g$$ }}
+    $N \ge 0$ needs $v \ge \sqrt{g r}$. With the top at height $2r$ this means a start height of at least $2r + r/2 = 2.5\,r$ (for $r = 10$ m: $25$ m). A rider at the top with $N = 0$ is weightless; a faster rider is pressed into the seat, not dropped.
+  - **Crest of a hill.** Over a hill top of radius $r$ the centre is below, so the same balance applies with the track pushing up:
+    {{ $$\text{felt } g = 1 - \frac{v^2}{g r}$$ }}
+    It becomes negative (airtime) when $v^2 > g r$: for $r = 25$ m and $v = 20$ m/s the felt value is $-0.63\,g$.
+cards:
+  - type: mcq
+    id: hook
+    prompt: |
+      A roller-coaster cart is released from rest at the top of a hill and rolls down a smooth track to a point $40$ m lower. Ignore friction and air. **Guess before any formula.** How fast is it going at the bottom?
+    shuffle: false
+    options:
+      - text: About $40$ km/h, the speed of a car in town.
+        feedback: |
+          Too slow. A fall of $40$ m is like dropping from a 13-storey building: if you fell straight down you would be much faster than a town car. The track guides the fall but does not take away its energy.
+      - text: About $100$ km/h, the speed of a car on a motorway.
+        correct: true
+      - text: About $200$ km/h, the speed of a fast train.
+        feedback: |
+          Too fast. That would need a fall of about $150$ m. Speed grows with the square root of the height, so doubling the speed needs four times the drop.
+      - text: It depends on how heavy the cart is, and on how many people sit in it.
+        feedback: |
+          Gravity pulls a heavy cart harder, but a heavy cart is also harder to speed up: the two cancel exactly, just as a heavy and a light stone fall together. We will see this in the next cards.
+    explanation: |
+      A fall of $40$ m ends at $\sqrt{2 \times 9.8 \times 40} = 28$ m/s, which is $100.8$ km/h. The next cards show where this comes from.
+
+  - type: widget
+    id: drop-widget
+    widget: track-ride
+    review: false
+    config:
+      profile: { type: hill-hill, h2: 30 }
+      startHeight: 40
+      readouts: [height, speed]
+      show: { heightSlider: true, gMeter: false, gPlot: false, normalArrow: false, weightArrow: false, energyBar: true }
+      ranges: { height: [20, 60, 1] }
+      presets:
+        - { label: Start 40 m, startHeight: 40 }
+        - { label: Start 20 m, startHeight: 20 }
+    body: |
+      A cart is released at rest at the start height and rolls on a smooth track. Press play, or drag the position slider, and read the **speed** at the lowest point. Then change the start height. The bar shows **height energy** turning into **motion energy**. What does the speed at the bottom depend on?
+
+  - type: build
+    id: build-v
+    prompt: |
+      A cart of mass $m$ (kg) starts at rest and falls through a height $\Delta h$ (m) on a smooth track. Its height energy $m g \Delta h$ becomes motion energy $\tfrac12 m v^2$ (with $v$ the speed in m/s and $g = 9.8\ \mathrm{m/s^2}$). Solve $\tfrac12 m v^2 = m g \Delta h$: build the square of the speed.
+    prefix: 'v^2 ='
+    tiles: ['2', 'g', '\Delta h', 'm', '\div', '\tfrac12']
+    answers:
+      - ['2', 'g', '\Delta h']
+      - ['2', '\Delta h', 'g']
+      - ['g', '2', '\Delta h']
+      - ['g', '\Delta h', '2']
+      - ['\Delta h', '2', 'g']
+      - ['\Delta h', 'g', '2']
+    wrong:
+      - { answer: ['2', 'g', '\Delta h', '\div', 'm'], feedback: 'The mass cancels: it is in both $m g \Delta h$ and $\tfrac12 m v^2$. Divide both sides by $m$ and it disappears.' }
+      - { answer: ['g', '\Delta h'], feedback: 'The factor $\tfrac12$ on the motion energy moves to the other side as a $2$: $v^2 = 2 g \Delta h$.' }
+    hint: |
+      Divide both sides by $m$, then multiply both sides by $2$.
+    explanation: |
+      $\tfrac12 m v^2 = m g \Delta h$ gives $v^2 = 2 g \Delta h$, so $v = \sqrt{2 g \Delta h}$. There is no $m$: a heavy cart and a light cart reach the same speed. The shape of the track does not appear either, only the height difference.
+
+  - type: numeric
+    id: speed-40
+    prompt: |
+      A cart is released at rest and drops through $\Delta h = 40$ m on a smooth track. Using $v = \sqrt{2 g \Delta h}$ with $g = 9.8\ \mathrm{m/s^2}$, what is its speed at the bottom, in m/s?
+    answer: 28
+    tolerance: 0.1
+    wrong:
+      - { value: 392, feedback: 'You forgot the square root: $2 g \Delta h = 784$ is $v^2$, in $\mathrm{m^2/s^2}$. Take the root.' }
+      - { value: 20, feedback: 'That is $\sqrt{g \Delta h} = \sqrt{392}$: you dropped the factor $2$ of $v^2 = 2 g \Delta h$.' }
+    hint: |
+      $2 \times 9.8 \times 40 = 784$. Then take the square root.
+    explanation: |
+      $v = \sqrt{2 \times 9.8 \times 40} = \sqrt{784} = 28$ m/s, which is $28 \times 3.6 = 100.8$ km/h.
+
+  - type: widget
+    id: second-hill
+    widget: track-ride
+    review: false
+    config:
+      profile: { type: hill-hill, h2: 30 }
+      startHeight: 40
+      readouts: [height, speed]
+      show: { heightSlider: true, gMeter: false, gPlot: false, normalArrow: false, weightArrow: false, energyBar: true }
+      ranges: { height: [20, 60, 1] }
+      presets:
+        - { label: Start 40 m, startHeight: 40 }
+        - { label: Start 25 m, startHeight: 25 }
+    body: |
+      The track now has a second hill whose top is $30$ m high. Press play with the start at $40$ m, and read the **speed** at the top of the second hill. Then try a start at $25$ m: the cart stops short. Find the lowest start height that still reaches the top.
+
+  - type: numeric
+    id: speed-top
+    prompt: |
+      A cart is released at rest at a height of $40$ m on a smooth track. It climbs a second hill whose top is $30$ m high. What is its speed at the top of that hill, in m/s? ($g = 9.8\ \mathrm{m/s^2}$)
+    answer: 14
+    tolerance: 0.1
+    wrong:
+      - { value: 28, feedback: 'That is the speed after a $40$ m drop. At the second hilltop the cart is only $10$ m below its start, so only a $10$ m drop of height is turned into speed.' }
+      - { value: 0, feedback: 'The cart would stop if the hill were $40$ m high. The hill is $30$ m, $10$ m lower, so it still has the energy of a $10$ m drop.' }
+    hint: |
+      What matters is the height difference between the start and the place you ask about: $\Delta h = 40 - 30$.
+    explanation: |
+      Only the height difference counts: $\Delta h = 10$ m, so $v = \sqrt{2 \times 9.8 \times 10} = 14$ m/s. A cart can never rise above its start height (it would have negative $v^2$): a second hill higher than the start is out of reach.
+
+  - type: widget
+    id: friction-widget
+    widget: track-ride
+    review: false
+    config:
+      profile: { type: hill-hill, h2: 38 }
+      startHeight: 40
+      friction: 0
+      readouts: [speed, lost]
+      show: { frictionSlider: true, gMeter: false, gPlot: false, normalArrow: false, weightArrow: false, energyBar: true }
+      ranges: { friction: [0, 0.012, 0.001] }
+      presets:
+        - { label: No friction, friction: 0 }
+        - { label: Friction 0.012, friction: 0.012 }
+    body: |
+      The second hill is now $38$ m high, only $2$ m below the start at $40$ m. Slide **friction** from $0$ to $0.012$ (friction force as a fraction of the weight, a simple constant loss) and press play. Watch the bar of energy **lost** grow along the way. Does the cart reach the second hilltop?
+
+  - type: numeric
+    id: friction-loss
+    prompt: |
+      A cart of mass $m$ rolls on a track where friction is $0.012$ of its weight, $F_{\text{fr}} = 0.012\,m g$, all along a path of length $150$ m. The work lost is $F_{\text{fr}} \times 150$ m. To which **height of fall** (in m) is that lost energy equal? (Height energy is $m g h$.)
+    answer: 1.8
+    tolerance: 0.02
+    wrong:
+      - { value: 150, feedback: 'You used the path length. The lost energy $0.012\,m g \times 150$ equals $m g h$ for a much smaller $h$: the friction is only $1.2\%$ of the weight.' }
+      - { value: 0.0012, feedback: 'Check the multiplication: $0.012 \times 150 = 1.8$. The mass and $g$ cancel from both sides, so $h = 0.012 \times 150$.' }
+    hint: |
+      Set $0.012\,m g \times 150 = m g h$ and cancel $m g$.
+    explanation: |
+      $h = 0.012 \times 150 = 1.8$ m. So $150$ m of rolling "costs" the same energy as climbing $1.8$ m, and it does not come back: friction between wheels and rail, and air drag, turn it into heat (and some sound). A cart with only $2$ m to spare on the second hill runs out before the top, which is why real coasters always start from the highest point.
+
+  - type: widget
+    id: loop-compare
+    widget: track-ride
+    review: false
+    config:
+      profile: loop-circle
+      startHeight: 30
+      readouts: [speed, g]
+      tolerance: { low: 0, high: 5 }
+      labels: { low: 'airtime: below 0', high: 'about 5 g: most people black out' }
+      show: { tolerance: true, gMeter: true, gPlot: true, normalArrow: false, weightArrow: false, energyBar: false }
+      presets:
+        - { label: Circle loop, profile: loop-circle }
+        - { label: Teardrop loop, profile: loop-clothoid }
+    body: |
+      A cart starts $30$ m up and enters a loop $20$ m high. The meter shows the **felt g**: how many times its own weight the rider is pushed into the seat. The plot shows it along the track. Play the **circle** loop, then the **teardrop** loop (tighter at the top, wider at the bottom). The marked bands are the limits used later in this lesson. Compare the peak of the two plots.
+
+  - type: mcq
+    id: why-not-circle
+    prompt: |
+      In a loop the cart is fastest at the bottom and slowest at the top. A bend of radius $r$ at speed $v$ gives the rider an acceleration $v^2/r$. Why do real coaster loops use a teardrop shape (wide at the bottom, tight at the top) instead of a circle?
+    shuffle: false
+    options:
+      - text: Because a circle is harder to build.
+        feedback: |
+          Shape is not about construction effort. The reason is in the rider's body: at the bottom of a circle the bend is as tight as at the top but the cart is much faster.
+      - text: A wide bend where the cart is fast and a tight bend where it is slow keeps $v^2/r$ moderate everywhere, so the peak g on the rider is lower.
+        correct: true
+      - text: Because a teardrop makes the cart go faster at the top, so nobody can fall.
+        feedback: |
+          The speed at the top is set by the energy, i.e. the start height, not by the shape. The teardrop changes the radius, not the speed.
+    explanation: |
+      On a circle $r$ is the same everywhere, but $v^2$ is large at the bottom, so the acceleration $v^2/r$ peaks there. A teardrop makes $r$ big at the bottom and small at the top, so $v^2/r$ is evened out. In the widget, a $30$ m start gives a peak of about $7\,g$ on the circle and about $4.7\,g$ on the teardrop. Reported history: an early circular looping ride, the Flip Flap Railway, injured riders' necks with its tight loop, and the teardrop "clothoid" loop, designed by Werner Stengel, was first used on The New Revolution (1976).
+
+  - type: widget
+    id: felt-g-widget
+    widget: track-ride
+    review: false
+    config:
+      profile: loop-circle
+      startHeight: 30
+      position: 0.2
+      readouts: [speed, g]
+      show: { gMeter: true, gPlot: false, normalArrow: true, weightArrow: true, energyBar: false, tolerance: false }
+    body: |
+      The **weight arrow** is the pull of gravity, $m g$ (always the same, $1\,g$ long). The **normal arrow** is the push $N$ of the track on the cart and rider (dashed if it would be negative). The meter reads $N/(m g)$, the push in units of the weight. Slide the position to the bottom of the loop and to the top, and compare the two arrows.
+
+  - type: numeric
+    id: felt-g-number
+    prompt: |
+      A rider of mass $m = 60$ kg ($m g = 588$ N) is pushed up by the seat with a normal force $N = 1500$ N. The felt g is $N/(m g)$. What is it, as a plain number (in units of $g$)?
+    answer: 2.55
+    tolerance: 0.02
+    wrong:
+      - { value: 1500, feedback: 'That is the force $N$ in newtons. The felt g divides it by the weight $m g$ to get a pure number.' }
+      - { value: 0.39, feedback: 'Upside down: the push is divided by the weight, not the weight by the push. Bigger push, bigger felt g.' }
+    hint: |
+      Divide the push by the weight, $588$ N.
+    explanation: |
+      $1500/588 = 2.55$: the rider feels about $2.55$ times their own weight. At rest on level ground $N = m g$, so the felt g is $1$; a negative value means the track would have to pull, which it cannot (airtime).
+
+  - type: build
+    id: build-bottom
+    prompt: |
+      A cart of mass $m$ passes the **bottom** of a circular curve of radius $r$ at speed $v$. The net force towards the centre (upwards) must equal $m v^2/r$. The track pushes up with $N$ and gravity pulls down with $m g$. Build $N$.
+    prefix: 'N ='
+    tiles: ['m\,g', 'm\,v^2', '\div', 'r', '+', '-']
+    answers:
+      - ['m\,g', '+', 'm\,v^2', '\div', 'r']
+      - ['m\,v^2', '\div', 'r', '+', 'm\,g']
+    wrong:
+      - { answer: ['m\,v^2', '\div', 'r', '-', 'm\,g'], feedback: 'That is the top of the loop. At the bottom the centre is above, so $N$ must also hold up the weight: $N - m g = m v^2/r$, hence a plus.' }
+      - { answer: ['m\,v^2', '\div', 'r'], feedback: 'That is only the part that bends the path. The track must also carry the weight $m g$.' }
+    hint: |
+      Net force towards the centre = push up minus weight down = $m v^2/r$.
+    explanation: |
+      $N - m g = m v^2/r$, so $N = m g + m v^2/r$ and the felt g is $1 + v^2/(g r)$. The rider is pressed harder into the seat than at rest. For $r = 10$ m and $v = 24.2$ m/s this is $7\,g$: the circular bottom of the widget.
+
+  - type: numeric
+    id: bottom-number
+    prompt: |
+      A cart of mass $60$ kg (rider included) passes the bottom of a curved dip of radius $r = 20$ m at $v = 20$ m/s. How large is the normal force $N = m g + m v^2/r$, in newtons? ($g = 9.8\ \mathrm{m/s^2}$)
+    answer: 1788
+    tolerance: 2
+    wrong:
+      - { value: 588, feedback: 'That is only the weight $m g$: you left out the extra push that bends the path.' }
+      - { value: 1200, feedback: 'That is only $m v^2/r = 60 \times 400/20$. Add the weight $m g = 588$ N that the track also carries.' }
+    hint: |
+      $m v^2/r = 60 \times 400/20$. Add $m g$.
+    explanation: |
+      $N = 60 \times 9.8 + 60 \times 400/20 = 588 + 1200 = 1788$ N, which is $1788/588 = 3.04$ times the weight: $3\,g$ at the bottom of the dip.
+
+  - type: build
+    id: build-top
+    prompt: |
+      The same cart passes the **top** of a loop upside down, on the circle of radius $r$, with speed $v$. The track is above the rider and can only push downwards with $N$. Both $N$ and the weight $m g$ point towards the centre (down), so their sum is $m v^2/r$. Build $N$.
+    prefix: 'N ='
+    tiles: ['m\,g', 'm\,v^2', '\div', 'r', '+', '-']
+    answers:
+      - ['m\,v^2', '\div', 'r', '-', 'm\,g']
+    wrong:
+      - { answer: ['m\,v^2', '\div', 'r', '+', 'm\,g'], feedback: 'That is the bottom formula. At the top, gravity already pulls towards the centre and supplies part of the force, so the track has to add less.' }
+      - { answer: ['m\,g', '-', 'm\,v^2', '\div', 'r'], feedback: 'The sign is reversed: at higher speed the track must push more, not less.' }
+    hint: |
+      $N + m g = m v^2/r$, then solve for $N$.
+    explanation: |
+      $N + m g = m v^2/r$ gives $N = m v^2/r - m g$ and felt $g = v^2/(g r) - 1$. Gravity is doing part of the bending for free. The track can only push, so $N \ge 0$, which needs $v^2 \ge g r$. For $r = 10$ m this is $v_{\min} = \sqrt{9.8 \times 10} = 9.9$ m/s.
+
+  - type: numeric
+    id: min-start
+    prompt: |
+      A circular loop has radius $r = 10$ m, so its top is $2r = 20$ m above the bottom. At the top the cart needs at least $v^2 = g r$ to stay pressed on the track. The cart starts at rest at height $H$ above the bottom. Using $v^2 = 2 g \Delta h$ with $\Delta h = H - 20$ m, what is the lowest start height $H$, in m?
+    answer: 25
+    tolerance: 0.1
+    wrong:
+      - { value: 20, feedback: 'A start at the height of the top leaves no motion energy at all there ($v = 0$), but the cart needs $v^2 = g r$ to stay on the track.' }
+      - { value: 5, feedback: 'That is only the extra height $\Delta h = r/2$ above the top. Add the height of the top, $2r = 20$ m.' }
+    hint: |
+      $2 g \Delta h = g r$ gives $\Delta h = r/2$. Add the height of the top.
+    explanation: |
+      $2 g (H - 2r) = g r$ gives $H = 2r + r/2 = 2.5\,r = 25$ m. It does not depend on $g$ or on the mass. In the widget a $25$ m start just stays on the track at the top (felt $g \approx 0$); a $30$ m start gives felt $g = 1$ there. Real loops sit above this limit because the cart also loses some energy to friction.
+
+  - type: widget
+    id: crest-widget
+    widget: track-ride
+    review: false
+    config:
+      profile: crest
+      startHeight: 40
+      position: 0.4
+      readouts: [speed, g]
+      tolerance: { low: 0, high: 5 }
+      labels: { low: 'airtime: below 0' }
+      show: { gMeter: true, gPlot: true, normalArrow: true, weightArrow: true, tolerance: true, heightSlider: true, energyBar: false }
+      ranges: { height: [15, 45, 1] }
+    body: |
+      Now a hump in the track: a crest whose top has radius $25$ m and is $10$ m high. Slide over the top of the hump and watch the **normal arrow** and the felt g. Then lower the start height until the airtime warning disappears. What changes at the top when the cart is faster?
+
+  - type: numeric
+    id: crest-number
+    prompt: |
+      A cart passes the top of a crest of radius $r = 25$ m at $v = 20$ m/s. At the top the centre of the curve is **below**, so $m g - N = m v^2/r$ and the felt g is $1 - v^2/(g r)$. What is the felt g? ($g = 9.8\ \mathrm{m/s^2}$; the answer may be negative.)
+    answer: -0.63
+    tolerance: 0.02
+    wrong:
+      - { value: 0.63, feedback: 'The sign is lost. $v^2/(g r) = 1.63$ is more than $1$, so $1 - 1.63$ is negative: the rider would need to be pulled down.' }
+      - { value: 1.63, feedback: 'That is $v^2/(g r)$ alone. Over a crest it is *subtracted* from the $1\,g$ of the weight: $1 - 1.63$.' }
+    hint: |
+      $v^2/(g r) = 400/(9.8 \times 25)$.
+    explanation: |
+      $1 - 400/245 = -0.63$. A negative value means the track would have to pull the rider down. It cannot, so the rider leaves the seat: this is **airtime**, which a lap bar or restraint catches. The limit is $v^2 = g r$ ($v = 15.7$ m/s for $r = 25$ m).
+
+  - type: numeric
+    id: g-limit
+    prompt: |
+      A designer keeps the felt g at the bottom of a dip of radius $r = 20$ m at or below $4\,g$ (the felt g is $1 + v^2/(g r)$). Large coasters often exceed $4\,g$, family rides reach about $3\,g$, and most people lose consciousness near $5\,g$ if it lasts. What is the greatest speed at the bottom, in m/s? ($g = 9.8\ \mathrm{m/s^2}$)
+    answer: 24.2
+    tolerance: 0.2
+    wrong:
+      - { value: 28, feedback: 'You set $v^2/(g r) = 4$, forgetting the $1\,g$ from the weight: the formula is $1 + v^2/(g r) = 4$, so $v^2/(g r) = 3$.' }
+      - { value: 588, feedback: 'That is $v^2$. Take the square root.' }
+    hint: |
+      $1 + v^2/(g r) = 4$ gives $v^2 = 3 g r$.
+    explanation: |
+      $v^2 = 3 \times 9.8 \times 20 = 588$, so $v = 24.2$ m/s. A taller start gives more speed, hence more g at the bottom: a designer chooses the height and the radius together. Limits are reported as about $2\,g$ for children's rides, about $3\,g$ for family rides, often over $4\,g$ for large coasters, and around $5\,g$ is where an ordinary person loses consciousness; negative g is tolerated much less than positive g.
+
+  - type: mcq
+    id: trap-speed
+    prompt: |
+      A friend says: "A coaster at $100$ km/h on a straight, level stretch makes you feel $3\,g$, because $g$ measures how fast you go." Is that right?
+    shuffle: false
+    options:
+      - text: Yes, faster means more g.
+        feedback: |
+          Speed alone gives no push. On a straight level track at a steady $100$ km/h (or at rest) the seat pushes with exactly your weight: $1\,g$.
+      - text: 'No: felt g is $N/(m g)$. It changes only when the path bends or the speed changes ($v^2/r$), not with the speed itself.'
+        correct: true
+      - text: No, you feel $0\,g$ at a steady speed.
+        feedback: |
+          At a steady speed on level ground the seat still holds you up against gravity, with $N = m g$: $1\,g$, as when sitting still.
+    explanation: |
+      Felt g compares the push of the seat with your weight. With no acceleration, $N = m g$ and you feel $1\,g$ whatever the speed.
+
+  - type: mcq
+    id: trap-fall
+    prompt: |
+      A cart enters a loop and slows down as it climbs. A passenger says: "At the top I am upside down, so I must fall out unless something holds me." The loop's top has radius $10$ m and the cart arrives at $14$ m/s. What does the track do?
+    shuffle: false
+    options:
+      - text: It pushes the cart downwards into the seat; the rider presses on the seat and does not fall out.
+        correct: true
+      - text: Nothing, the cart is in free fall and the rider floats.
+        feedback: |
+          The rider would float only at exactly $v = \sqrt{g r} = 9.9$ m/s. At $14$ m/s $N = m(v^2/r - g) = m(19.6 - 9.8) > 0$.
+      - text: The rider falls out unless the restraint holds them.
+        feedback: |
+          The rider is pushed **into** the seat: a track that bends the path faster than gravity alone would is pushing down. The restraint is for safety, but the physics keeps the rider in.
+    explanation: |
+      $N = m(v^2/r - g) = m(19.6 - 9.8) = 9.8\,m$, a felt $1\,g$ towards the seat. Falling out would need $v < \sqrt{g r}$, which a designer excludes by starting high enough ($2.5\,r$ at least).
+
+  - type: mcq
+    id: trap-weightless
+    prompt: |
+      "Upside down means weightless." At the top of a loop, which statement is correct?
+    shuffle: false
+    options:
+      - text: Upside down you are always weightless, whatever the speed.
+        feedback: |
+          Weightless means $N = 0$, i.e. exactly $v = \sqrt{g r}$. At the top with a faster cart you feel the seat pushing you down, up to a felt $1\,g$ or more.
+      - text: You are weightless only at exactly $v = \sqrt{g r}$ ($N = 0$); a faster cart presses you into the seat, a slower one cannot stay on the track.
+        correct: true
+      - text: You feel exactly $2\,g$ upside down.
+        feedback: |
+          There is no universal number: the felt g at the top is $v^2/(g r) - 1$, which depends on the speed and the radius.
+    explanation: |
+      Felt g at the top is $v^2/(g r) - 1$. It is $0$ at $v^2 = g r$, positive above and the track cannot hold the cart below. In our $30$ m start loop the rider is upside down and feels $1\,g$.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a cart on a track needs the track to be strong. In *Guided Problem: Putting Numbers on It* you will chain energy, friction and impulse in one design. Later, in Level 3, the forces that structures such as arches and cables must carry become the subject.
