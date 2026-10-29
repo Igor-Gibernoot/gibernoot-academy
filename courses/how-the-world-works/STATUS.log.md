@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-29 ch03-traps (traps, 14 cards)
+12 traps (flat arch, width vs depth, pentagon 2j-3, concrete pull, prestress cracking load, mass vs f0, damping vs f0, TMD tuning, compounding negative damping, isolation moves motion, soil period, tall vs matching). Choices: no widget; Tacoma 1 Hz-shedding trap dropped because flutter already has trap-more-wind; stiffening-always-safe dropped (trap-stiffer exists twice). Conventions fixed here: prestress example beam bottom pull 2/3 MPa per kN, cracks at 3 MPa; damping changes the peak 1/(2 zeta), not f0 (f0 sqrt(1-zeta^2), 0.5% at 0.10); TMD example mu 0.05 on 0.15 Hz gives 0.1429 Hz.
+
 ## 2026-10-29 ch03-guided (guided problem, 14 cards)
 Built autonomously, oscillator-lab x1 (bare building view), no new widget. Choices: the brief's k 3.2e8 gives f0 2 Hz, which contradicts a 10-storey block (0.1 s x 10 = 1 s) and the "stiffen x4 -> 2 Hz" story, so k was set to 7.9e7 N/m (f0 1.0 Hz, T 1.0 s), mass kept at 2e6 kg; isolation reduces k by 16 (f0 0.25 Hz, T 4 s) instead of 25, so the slow 0.4 Hz band sits at r 1.6 (k/25 would give 2.0); isolators zeta 0.15 (setting); stiffening is shown to work for sway but not for floor accelerations (building rides with ground), not claimed to fail; the honest twist is that a usual 2.5 s isolation would resonate with the 0.4 Hz band on this soil; shaking kept as a fixed-size push D = 0.01 m, with a base-motion factor r^2/sqrt(...) given in the gap card for the bearing stretch (0.47 m, ground 0.3 m made up, gap 0.6 m). Final design card tests four options against both bands and the gap. Conventions fixed here: block m 2e6 kg, k 7.9e7 N/m, soil 1.6 s, bands 1 and 0.4 Hz, D 0.01 m; isolation k/16 f0 0.25 Hz zeta 0.15, bearing stretch 0.47 m.
 

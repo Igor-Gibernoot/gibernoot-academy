@@ -1,0 +1,198 @@
+id: ch03-traps
+title: Traps
+kind: traps
+cards:
+  - type: text
+    id: hook
+    title: Fast questions, each with a catch
+    body: |
+      This round is fast: one question per card, each built on a mistake that many people make about arches, beams, trusses, concrete, resonance, dampers, wind and earthquakes. Wrong answers are welcome, because the feedback explains why each one tempts.
+
+      Numbers are the ones of this level: concrete squeezes at about $30$ MPa and pulls at about a tenth of that ($3$ MPa); a tower's natural frequency is $f_0 = \frac{1}{2\pi}\sqrt{k/m}$. If a question feels too easy, look for the catch.
+
+  - type: numeric
+    id: trap-flat-arch
+    prompt: |
+      An arch must span $L = 60$ m and carry a uniform load of $w = 10$ kN per metre of span. With a rise (height of the crown) of $h = 8$ m, each support must resist a sideways push $H = wL^2/(8h) = 562.5$ kN. A designer flattens it to $h = 4$ m "to make it lighter and so safer". How many **kN** must each support now resist sideways?
+    answer: 1125
+    tolerance: 1
+    wrong:
+      - { value: 281.25, feedback: 'You halved the push because the arch is half as tall. The rise sits in the **denominator**: halving $h$ doubles $H$.' }
+      - { value: 562.5, feedback: 'The load and span did not change, but the rise did. The push depends on the rise.' }
+    hint: |
+      $H = wL^2/(8h)$: what happens to a fraction when its denominator halves?
+    explanation: |
+      $H = 10\times 60^2/(8\times 4) = 36000/32 = 1125$ kN. A flat arch pushes its supports outward much harder; in the limit of a straight beam the push would be infinite, which is why flat arches need strong abutments or tie rods.
+
+  - type: numeric
+    id: trap-width-depth
+    prompt: |
+      A rectangular beam of width $b$ and depth $h$ has second moment of area $I = bh^3/12$; the stiffer it is the less it sags. Doubling the **width** doubles $I$. By what **factor** must the **depth** be multiplied to get the same doubling of $I$ (width unchanged)? Give the factor to 2 decimals.
+    answer: 1.26
+    tolerance: 0.01
+    wrong:
+      - { value: 2, feedback: 'Doubling the depth multiplies $I$ by $2^3 = 8$, not $2$. Depth counts cubed.' }
+      - { value: 1.41, feedback: 'That is $\sqrt2$, as if $I$ went with $h^2$. In $bh^3/12$ the depth is cubed.' }
+    hint: |
+      Solve $x^3 = 2$ for the depth factor $x$.
+    explanation: |
+      $I \propto h^3$, so $x^3 = 2$ and $x = 2^{1/3} \approx 1.26$. A $26\%$ deeper beam is as stiff as one twice as wide: depth is the cheap way to buy stiffness, width the expensive one.
+
+  - type: numeric
+    id: trap-pentagon
+    prompt: |
+      A pin-jointed frame (bars joined by hinges) shaped like a pentagon has $j = 5$ joints and $5$ bars along its outline. A student says: "It is a closed shape, so it holds." The rule for a plane frame to be rigid with no spare bar is $m = 2j - 3$ bars. How many bars must the pentagon have in total to be rigid?
+    answer: 7
+    wrong:
+      - { value: 5, feedback: 'A closed outline is not enough: with only the outline the pentagon folds like a parallelogram. Count with the rule.' }
+      - { value: 6, feedback: 'One diagonal braces only part of the shape: the pentagon is cut into a triangle and a square, and the square still folds. A pentagon needs two diagonals.' }
+    hint: |
+      $2\times 5 - 3 = ?$
+    explanation: |
+      $m = 2j-3 = 7$: the $5$ outline bars plus $2$ diagonals, which cut the pentagon into $3$ triangles. Triangles are the only shapes made of hinged bars that cannot fold.
+
+  - type: numeric
+    id: trap-concrete-pull
+    prompt: |
+      A short square post of plain concrete, $0.3\ \mathrm{m}\times 0.3\ \mathrm{m}$, carries $2700$ kN of squeeze at its limit ($30$ MPa $\times 0.09\ \mathrm{m^2}$). A student says: "A material that takes $2700$ kN in squeeze takes about as much in pull." Using concrete's tensile strength of about $3$ MPa, how many **kN** can the same post carry when pulled?
+    answer: 270
+    tolerance: 1
+    wrong:
+      - { value: 2700, feedback: 'Concrete is the reverse of what you assumed: strong in squeeze, weak in pull. Its tensile strength is only about a tenth of its compressive strength.' }
+      - { value: 27, feedback: 'Too small by a factor $10$: $3$ MPa $= 3000$ kN/m$^2$, times $0.09\ \mathrm{m^2}$.' }
+    hint: |
+      Force $=$ stress $\times$ area, with $3$ MPa $= 3000$ kN/m$^2$.
+    explanation: |
+      $F = 3000\ \mathrm{kN/m^2}\times 0.09\ \mathrm{m^2} = 270$ kN, a tenth of the squeeze capacity. That gap is why steel bars are put where the concrete would be pulled.
+
+  - type: numeric
+    id: trap-prestress
+    prompt: |
+      A concrete beam under a midspan load $P$ has a pull stress at its bottom face of $8$ MPa for $P = 12$ kN, proportional to $P$ (so $2/3$ MPa per kN). Concrete cracks in pull at $3$ MPa. A prestress cable squeezes the whole beam by $6$ MPa. A student says: "Prestress only adds strength, it cannot change **where** the crack appears". How large a load $P$ in **kN** cracks the bottom face of the prestressed beam?
+    answer: 13.5
+    tolerance: 0.1
+    wrong:
+      - { value: 4.5, feedback: 'That is the cracking load of the beam **without** prestress ($3$ MPa $\div\ \tfrac23$). The $6$ MPa squeeze must be subtracted from the pull first.' }
+      - { value: 9, feedback: 'You added $3 + 6 = 9$ and read it as a load in kN. $9$ is a stress in MPa; convert with $\tfrac23$ MPa per kN.' }
+    hint: |
+      Net pull at the bottom $= \tfrac23 P - 6$. Set it equal to $3$ and solve for $P$.
+    explanation: |
+      $\tfrac23 P - 6 = 3$ gives $P = 13.5$ kN, three times the $4.5$ kN of the plain beam. Prestress does not make the concrete stronger in pull; it starts the pull-side with a squeeze, so the load must first cancel the squeeze.
+
+  - type: numeric
+    id: trap-heavy-f0
+    prompt: |
+      A tower of mass $2.5\times10^7$ kg and sway stiffness $k = 2.2\times10^7$ N/m has $f_0 = 0.149$ Hz. A new owner adds equipment so the tower becomes **four times heavier**, the stiffness unchanged. A colleague says: "Heavier means more inertia, so it vibrates faster." What is the new natural frequency, in **Hz**?
+    answer: 0.0746
+    tolerance: 0.001
+    wrong:
+      - { value: 0.597, feedback: 'You multiplied the frequency by $4$. The mass sits **under** the root, so more mass gives a **lower** frequency.' }
+      - { value: 0.0373, feedback: 'You divided by $4$, but the mass is under a square root: the factor is $1/\sqrt4 = 1/2$.' }
+    hint: |
+      $f_0 = \frac{1}{2\pi}\sqrt{k/m}$: $m\to 4m$ puts $\sqrt{4}$ in the denominator.
+    explanation: |
+      $f_0 \to f_0/\sqrt4 = 0.149/2 \approx 0.0746$ Hz. A heavier object is slower to speed up, so it swings more slowly. This is why a longer, heavier building sways more slowly than a short, light one.
+
+  - type: mcq
+    id: trap-damping-f0
+    prompt: |
+      A tower has natural frequency $f_0 = 0.15$ Hz and damping ratio $\zeta = 0.01$. Dampers raise $\zeta$ to $0.10$. A student says: "Damping slows the motion, so now the tower's natural frequency is much lower, and resonance moves to a new frequency." What is the best reply?
+    shuffle: false
+    options:
+      - text: 'Correct: the new frequency is roughly half of $f_0$.'
+        feedback: |
+          Damping slows the **amplitude** (it dies away), not the rate of the swing in any big way. Nothing in $\sqrt{k/m}$ changed.
+      - text: 'The frequency barely moves: it changes by a factor $\sqrt{1-\zeta^2}\approx 0.995$. What damping changes is the **height** of the resonance peak, from about $1/(2\zeta) = 50$ to $5$ times the static sway.'
+        correct: true
+      - text: 'Damping removes the resonance completely, so the peak is gone.'
+        feedback: |
+          At $\zeta = 0.10$ the peak is still $1/(2\zeta) = 5$ times the static sway. Damping lowers the peak; only very heavy damping flattens it.
+    explanation: |
+      For light damping the frequency of the free swing is $f_0\sqrt{1-\zeta^2}$, which at $\zeta = 0.10$ is $0.5\%$ below $f_0$. The resonance is still at (almost exactly) $f_0$, but the peak $D/(2\zeta)$ falls tenfold. A damper changes how high, not where.
+
+  - type: numeric
+    id: trap-tmd-tuning
+    prompt: |
+      A tower has $f_0 = 0.15$ Hz. A tuned mass damper with a mass ratio $\mu = 0.05$ (its mass is $5\%$ of the tower's) is added. A colleague says: "Tune the damper exactly to the tower's $0.15$ Hz, since that is the frequency that must be cancelled." The best tuning is $f_d = f_0/(1+\mu)$. What damper frequency in **Hz**, to 4 decimals?
+    answer: 0.1429
+    tolerance: 0.0003
+    wrong:
+      - { value: 0.15, feedback: 'The damper sits on the tower and changes the pair: the two together have two new resonances, one on each side of $f_0$. Tuning slightly **below** $f_0$ puts the two peaks at equal height.' }
+      - { value: 0.1575, feedback: 'You multiplied by $1.05$: the best tuning is **below** $f_0$, not above. Divide by $(1+\mu)$.' }
+    hint: |
+      $0.15/1.05$.
+    explanation: |
+      $f_d = 0.15/1.05 \approx 0.1429$ Hz. The heavier the damper (larger $\mu$), the further **below** $f_0$ it is tuned, not above.
+
+  - type: numeric
+    id: trap-small-negative
+    prompt: |
+      A bridge deck twists at $0.2$ Hz in a wind where the net damping ratio has turned slightly **negative**, $\zeta_{\mathrm{eff}} = -0.02$ (a model value). The twist grows by a factor $e^{2\pi\,0.02} = 1.134$ every period. A student says: "Only $13\%$ per swing is negligible." By what factor is the twist larger after $2$ minutes ($24$ periods)? Give the answer to the nearest whole number.
+    answer: 20
+    tolerance: 1
+    wrong:
+      - { value: 4.2, feedback: 'That adds $13.4\%$ twenty-four times ($1 + 0.134	imes24$). Growth compounds: each swing multiplies the **current** size, so the factor is $1.134^{24}$.' }
+    hint: |
+      $1.134^{24}$: use the exponent, $e^{2\pi\cdot0.02\cdot 24}$.
+    explanation: |
+      $1.134^{24} = e^{3.016} \approx 20$. A small push in the wrong direction, repeated, compounds: a $0.5^\circ$ twist becomes about $10^\circ$ in two minutes. This is what happened in the wind on the Tacoma Narrows deck: a steady wind with no beat at all can feed the motion.
+
+  - type: mcq
+    id: trap-isolation-ground
+    prompt: |
+      A building stands on rubber bearings (base isolation) with period $T = 4$ s. During an earthquake the ground shakes at $1$ Hz. A visitor says: "Isolation works because the bearings stop the ground from moving." What actually happens?
+    shuffle: false
+    options:
+      - text: The ground still moves as before; the bearings let the building above stay almost still, so the **bearings** take up the stretch.
+        correct: true
+      - text: The bearings absorb the ground motion, so the ground stops moving under the building.
+        feedback: |
+          The ground belongs to the Earth; nothing in the building changes it. The motion is moved into the bearings, which must be built with room to stretch (a gap around the building).
+      - text: The bearings make the building so stiff that it moves with the ground as one piece.
+        feedback: |
+          The opposite: isolation makes the building **softer** at its base (lower $f_0$), so the shaking at $1$ Hz is far above $f_0$ and the building cannot follow.
+    explanation: |
+      With $f_0 = 0.25$ Hz and shaking at $1$ Hz, the ratio is $r = 4$, deep in the region where the response is much smaller than the shaking. The ground still moves; the difference is taken up by the bearings, so the gap around the building must be large enough.
+
+  - type: numeric
+    id: trap-soil
+    prompt: |
+      A soft layer of depth $H = 30$ m has shear-wave speed $v_s = 120$ m/s, so it rings with period $T = 4H/v_s = 1.0$ s. After heavy rain the layer becomes softer and $v_s$ drops to $60$ m/s. A student says: "Slower waves means faster shaking, so the period gets shorter." What is the new period in **seconds**?
+    answer: 2
+    tolerance: 0.02
+    wrong:
+      - { value: 0.5, feedback: 'You shortened the period. Slower waves take **longer** to travel up and down the layer, so the period grows: $T$ goes as $1/v_s$.' }
+    hint: |
+      $T = 4H/v_s$ with $v_s = 60$.
+    explanation: |
+      $T = 4\times 30/60 = 2.0$ s. A softer, slower soil has a **longer** period and a lower frequency ($0.5$ Hz instead of $1$ Hz), which moves the shaking toward the natural frequencies of taller buildings.
+
+  - type: mcq
+    id: trap-tall-worst
+    prompt: |
+      A soft soil layer rings at about $1$ s. Three buildings are nearby, with periods roughly $T \approx 0.1\ \mathrm{s}\times N$ for $N$ storeys: a $3$-storey, a $10$-storey and a $30$-storey. A colleague says: "The tallest tower will suffer the most." Which building is in most danger from this soil?
+    shuffle: false
+    options:
+      - text: The $30$-storey tower, because it has the most to fall.
+        feedback: |
+          Danger comes from matching, not from size. The $30$-storey tower has $T \approx 3$ s, far from the soil's $1$ s, so it is not driven near resonance.
+      - text: The $10$-storey building, because its period is about $1$ s, the same as the soil's.
+        correct: true
+      - text: The $3$-storey building, because it is the stiffest.
+        feedback: |
+          It is stiff, but its period is about $0.3$ s, too short to match the soil's $1$ s. The rule is **match**: the building closest to the shaking period resonates.
+    explanation: |
+      $T \approx 0.1\times N$: $0.3$ s, $1$ s, $3$ s. The $10$-storey building matches the soil's $1$ s and is driven near resonance. Height alone does not decide; the match between the building's period and the shaking's does.
+
+  - type: text
+    id: summary
+    title: Traps to remember
+    body: |
+      - **A flat arch is not lighter-safe:** $H = wL^2/(8h)$, halving the rise doubles the sideways push (lesson Bridges, Arches and Domes).
+      - **Depth beats width:** $I = bh^3/12$, so doubling depth gives $8\times$ and $26\%$ more depth equals twice the width; a rigid plane frame of $j$ joints needs $2j-3$ bars (lesson Beams, Trusses and Triangles).
+      - **Concrete is strong in squeeze, weak in pull** (a tenth), and prestress cancels pull rather than strengthening it (lesson Concrete, Steel and Why Both).
+      - **Resonance:** $f_0 = \frac{1}{2\pi}\sqrt{k/m}$, so mass **lowers** $f_0$; damping lowers the **peak**, not $f_0$; a damper is tuned **below** $f_0$ at $f_0/(1+\mu)$ (lesson Skyscrapers and Tuned Mass Dampers).
+      - **Small negative damping compounds**: $1.134^{24}\approx 20$ in two minutes (lesson Tacoma Narrows: The Bridge That Danced).
+      - **Isolation moves the motion into the bearings**; the ground still moves. **Slower soil rings slower**, $T = 4H/v_s$, and the danger is the **match** of periods, not height (lesson Earthquakes and Safe Buildings).
+
+      **Next:** a quick recall of the formulas of this level, then the content map.
