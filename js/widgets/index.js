@@ -37,6 +37,7 @@ import { elevatorCounterweight } from './elevator-counterweight.js';
 import { crashImpulse } from './crash-impulse.js';
 import { trackRide } from './track-ride.js';
 import { oscillatorLab } from './oscillator-lab.js';
+import { flutterLab } from './flutter-lab.js';
 import { archThrust } from './arch-thrust.js';
 import { trussFrame } from './truss-frame.js';
 import { beamSection } from './beam-section.js';
@@ -100,6 +101,7 @@ const WIDGETS = {
   'crash-impulse': crashImpulse,
   'track-ride': trackRide,
   'oscillator-lab': oscillatorLab,
+  'flutter-lab': flutterLab,
   'arch-thrust': archThrust,
   'truss-frame': trussFrame,
   'beam-section': beamSection,

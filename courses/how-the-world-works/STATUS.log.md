@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-10-29 widget flutter-lab
+Built autonomously (widget only, no lesson). Choices: linear model z_eff = z_s (1 - U/Uc) with Uc an input (damping slider only changes growth rate), one mode, no nonlinear saturation: reaching `limit` deg freezes the deck as "limit reached"; forced mode = push D cos(t) at the natural frequency proportional to U with fixed z_s (amplitude D/(2 z_s)); animPeriod 1 s per period so growth to the limit takes about 27 s at 1.5 Uc. Tested: node checks of RK4 vs formulas, throwaway lesson (full, trimmed forced, damping plot only; phone and desktop shots viewed), widget-smoke (0 errors), validate. Web: see Verified line (flutter not resonance; 42 mph, 0.2 Hz).
+Conventions fixed here: widget `flutter-lab` (docs/widgets/flutter-lab.md); z_s 0.04, Uc 35 (mph), f0 0.2 Hz, limit 15 deg, kick 0.5 deg; growth factor per period exp(-2 pi z_eff).
+
 ## 2026-10-29 ch03-skyscraper
 Built autonomously (concept, 19 cards, widgets oscillator-lab x5 with presets, no new widget). Choices: model tower m 25 kt, k 22 MN/m (T 6.7 s, matching Taipei 101's measured 0.15 Hz); sway units "x D"; z = 0.01; real cable lengths and building mass not claimed; tuning example uses Taipei's reported 7% period growth only "in our model"; trap card on stiffness (k x4 halves T). Next unit: widget for flutter (negative effective damping vs wind speed), then ch03-flutter.
 Conventions fixed here: model tower m 2.5e7 kg, k 2.2e7 N/m, f0 0.149 Hz, T 6.7 s; D = steady-push sway, peak D/(2 z), z 0.01 gives 50 D; damper mu 0.02, nu 0.9804, bare 50 D to 8.7 D; mu 1/2/4/8% peaks 11.6/8.7/6.5/4.8 D; f_d = f0/(1+mu); pendulum L = 11.1 m for 6.7 s.
