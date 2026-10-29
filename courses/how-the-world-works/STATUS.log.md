@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-10-29: widgets truss-frame and beam-section (no lesson)
+Beam mode was split into its own file (`beam-section`) as allowed. Choices: frame solver = rank test of the joint-equilibrium matrix, mechanism shown by null-space motion of A^T when the load does work; redundant frames use the minimum-norm split; rebar steel force is the simplified T = M/(0.9 d) estimate (profile stays elastic); stress scale shared by the three sections so the I-shape shows smaller stress. Throwaway lesson used for shots and smoke (47 mounts, 0 errors), removed.
+Conventions fixed here: tension orange, compression blue, reactions purple; joints named A, B, C...; I-shape H 0.4, bf 0.2, tw 0.03 and hollow 0.15 x 0.3 at A = 0.03 m2 against solid 0.1 x 0.3.
+
 ## 2026-10-29: ch03-arch (concept, 25 cards)
 Built autonomously with arch-thrust (cable, flip, flat presets, middle-third band presets, dome). Choices: no bridge dates or Roman examples (Pont du Gard dating disputed, not needed); middle-third rule presented as conservative (Heyman); dome formulas web-confirmed in lecture notes (meridian, hoop, 51.8 deg). Order card uses four hinges. Conventions fixed here: V = wL/2, H = wL^2/(8h), N = sqrt(H^2+V^2); ring thickness 2 m; suspension example 50 MN. Next: widget truss-frame, then ch03-truss.
 

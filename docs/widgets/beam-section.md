@@ -1,0 +1,16 @@
+# `beam-section`
+A simply supported beam with a midspan load and the bending stress over the midspan cross-section (`js/widgets/beam-section.js`, plain SVG + HTML, words from the config). SI inside: m, kN, MPa, E in GPa.
+Three sections of the SAME area: `solid` (b x h), `I` (depth H, flange width bf, web tw, flange thickness solved from the area), `hollow` (box B x H, wall solved from the area). `I = sum w [(y1-yc)^3 - (y0-yc)^3]/3` over stacked rectangles (solid: b h^3/12).
+M = P L/4; stress `sigma(y) = -M y/I` (compression above the neutral axis, tension below; tension positive); deflection `P L^3/(48 E I)` (drawn exaggerated, factor `exaggeration`, auto 10 px at the initial largest).
+Prestress `sp`: uniform compression added to the profile (`sigma - sp`). Crack marker: tension beyond `tensileLimit` (dashed line in the profile; red cracks on the section and the beam, height from the bottom edge up to sigma = limit).
+Rebar: `count` bars at the tension side (cover `cover`, total `area`); readout `steel` = cracked-section estimate T = M/z, z = 0.9 d, d = H - cover, steel stress T/As (a simplified rule, not a full cracked-section analysis; the concrete profile stays elastic).
+Stress diagram uses one scale for all three sections (`stressScale`), so the I-shape visibly has smaller stress.
+web: M = PL/4 and delta = PL^3/(48EI) for midspan load, rectangle I = bh^3/12 (Wikipedia List of second moments of area, steelcalculator beam-formulas reference, physicsforums thread); lever arm z about 0.9d is a preliminary design value, precise z = d - 0.4x (redcrab steel-area calculator, infralens lever arm, SCIA help).
+Exported for script checks: `sectionRects(kind, dims, area)`, `sectionProps(rects)` -> `{A, yc, I, top, bot, W}`, `beamModel({L, P, E, I, A, top, bot, prestress, ft, rebarArea, depth, cover})` -> `{M, sTop, sBot, delta, cracked, crackH, T, steel}`.
+Script check: A = 0.03 m2: solid 0.1 x 0.3 I = 2.25e-4 m4; I-shape H 0.4, bf 0.2, tw 0.03 (tf 0.0529) I = 7.06e-4 (3.1x); hollow 0.15 x 0.3 (wall 0.0407) I = 2.78e-4; L 4 m, P 100 kN: M 100 kN m, sigma 66.7 MPa (solid), E 30 GPa: delta 19.75 mm; prestress 5 MPa: bottom +61.7 MPa.
+Config: `section`, `sections`, `span: 4`, `load: 100`, `E: 30`, `tensileLimit: 3`, `prestress: 0`, `dims`, `area`, `rebar: {on, area, cover, count}`, `ranges: {load, prestress}`, `stressScale`, `exaggeration`, `units: {length, force, stress}`,
+`readouts` (area, Imom, modulus, moment, maxstress, deflection, crack, steel), `labels` (solid, I, hollow, area, Imom, modulus, moment, maxstress, deflection, crack, steel, tension, compression, neutral, none, reset, load, prestress, rebar, limit, span),
+`show: {selector, beam, supports, loadArrow, section, stressDiagram, neutralAxis, stressValues, rebar, prestress, crack, momentDiagram, readouts, deflection, handles, loadSlider, prestressSlider, rebarToggle, presets, labels, legend, dimensions}`
+(all true except momentDiagram, loadSlider, prestressSlider, rebarToggle; `prestress` off also ignores `prestress` in the numbers), `presets: [{label, section, load, prestress, rebar, span}]`. Reports nothing to the card.
+
+Example: `{section: solid, load: 60, readouts: [Imom, maxstress], show: {rebar: false, crack: false, prestress: false}}`.

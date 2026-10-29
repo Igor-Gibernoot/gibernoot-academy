@@ -37,6 +37,8 @@ import { elevatorCounterweight } from './elevator-counterweight.js';
 import { crashImpulse } from './crash-impulse.js';
 import { trackRide } from './track-ride.js';
 import { archThrust } from './arch-thrust.js';
+import { trussFrame } from './truss-frame.js';
+import { beamSection } from './beam-section.js';
 import { freeEnergyBound } from './free-energy-bound.js';
 import { policyScorer } from './policy-scorer.js';
 import { blanketGraph } from './blanket-graph.js';
@@ -97,6 +99,8 @@ const WIDGETS = {
   'crash-impulse': crashImpulse,
   'track-ride': trackRide,
   'arch-thrust': archThrust,
+  'truss-frame': trussFrame,
+  'beam-section': beamSection,
   'free-energy-bound': freeEnergyBound,
   'policy-scorer': policyScorer,
   'blanket-graph': blanketGraph,
