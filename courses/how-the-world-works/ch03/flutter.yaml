@@ -1,0 +1,323 @@
+id: ch03-flutter
+title: "Tacoma Narrows: The Bridge That Danced"
+kind: concept
+own: |
+  - **Setting.** A bridge deck, held by hanger cables, can **twist** about its length. Call the twist angle $\theta$ and its natural frequency $f_0$ (twists per second, hertz); for the 1940 Tacoma Narrows Bridge the destructive twisting was about $12$ cycles per minute, $f_0 \approx 0.2$ Hz, in a steady wind of about $42$ mph (about $68$ km/h). Wind that blows steadily has no beat at that rate.
+  - **Not forced resonance.** If a push of static size $D$ were repeated at exactly $f_0$ and the structure has damping ratio $\zeta$ (the share of the swing energy lost per cycle), the twist would settle at
+    {{ $$\theta_{\max} \approx \frac{D}{2\zeta}$$ }}
+    and stay there. Whirls of air shed behind a deck (vortices) come at about $1$ Hz here, five times faster than the twist, so they could not drive it, and a steady wind has no beat at all.
+  - **Flutter.** The twist itself changes the wind's force on the deck, and that force pushes the twist further. This acts like a **negative damping** that grows with the wind speed $U$. In our model (a simple caricature, not a bridge fact) the effective damping ratio is
+    {{ $$\zeta_{\text{eff}} = \zeta_s\left(1 - \frac{U}{U_c}\right)$$ }}
+    with $\zeta_s$ the structure's own damping ratio and $U_c$ the **critical wind speed** (model values $\zeta_s = 0.04$, $U_c = 35$ mph). Below $U_c$ a kick dies away; at $U_c$ it neither dies nor grows; above $U_c$, $\zeta_{\text{eff}} < 0$ and every twist period multiplies the amplitude by
+    {{ $$\text{growth per period} = e^{-2\pi\,\zeta_{\text{eff}}}$$ }}
+    For $U = 52.5$ mph, $\zeta_{\text{eff}} = -0.02$ and the factor is $1.134$ per period: no matching frequency is needed, a tiny kick grows until something gives.
+  - **Design.** Forced resonance saturates at $D/(2\zeta)$; flutter does not saturate in the model. So engineers raise $U_c$ well above the strongest wind the bridge will see: a deeper, stiffer, more streamlined deck, shapes tested in a wind tunnel, and for a deck stiffened to $U_c = 70$ mph the model gives $\zeta_{\text{eff}} = 0.01 > 0$ at $52.5$ mph.
+cards:
+  - type: mcq
+    id: hook
+    prompt: |
+      In November 1940 the Tacoma Narrows Bridge in Washington state, a suspension bridge with a 2800 ft (about 850 m) main span, twisted wildly in a steady wind and then collapsed. It was filmed. **Guess before any theory.** What drove the twisting?
+    shuffle: false
+    options:
+      - text: Gusts that came at exactly the rate the deck likes to twist, so each push added to the last (resonance).
+        feedback: |
+          This is the version many textbooks tell, and it is the most tempting guess. But a steady wind has no beat of its own, and the next cards show that even the rhythmic part of the wind was at the wrong rate.
+      - text: Whirls of air (vortices) peeling off the deck in a regular rhythm, which kicked it like a child on a swing.
+        feedback: |
+          Vortices do form and do push, but investigators found their rate was far from the rate of the twisting that destroyed the bridge. That is a second tempting but incomplete story.
+      - text: The twisting itself changed how the wind pushed on the deck, so the wind kept feeding energy into the motion.
+        correct: true
+      - text: The wind was so strong that it simply tore the cables apart.
+        feedback: |
+          The wind was about 42 mph, a strong breeze but far below what such a bridge should carry as a plain load. What went wrong was a growing motion, not a single huge push.
+    explanation: |
+      The best-supported account today is **aeroelastic flutter**: the motion of the structure changes the air force on it, and that force feeds the motion (a feedback loop). The details are still discussed by researchers, but the gust-resonance and vortex-resonance stories do not fit the numbers. We build the flutter picture step by step and keep a simple model, a caricature that shows the idea.
+
+  - type: text
+    id: recall
+    body: |
+      **Recall (from the lesson Skyscrapers and Tuned Mass Dampers).**
+
+      A structure modelled as one mass $m$ on a spring of stiffness $k$ has a natural frequency
+
+      $$f_0 = \frac{1}{2\pi}\sqrt{\frac{k}{m}}$$
+
+      (swings per second, hertz). A push repeated at a rate close to $f_0$ builds up the motion: **resonance**. Let $D$ be the motion under a steady push of the same size and $\zeta$ the **damping ratio** (the share of energy lost per cycle; a few percent or less for real structures). At $f = f_0$ the motion reaches about
+
+      $$x_{\max} \approx \frac{D}{2\zeta}.$$
+
+      Here the "motion" is a **twist**: the bridge deck turns about its own length like a rolling pin, with hanger cables on each side. We call the twist angle $\theta$, in degrees, and use the same ideas for it. **Guessing is still the point:** answer each card from intuition first.
+
+  - type: widget
+    id: forced
+    widget: flutter-lab
+    review: false
+    config:
+      mode: forced
+      wind: 35
+      ucrit: 35
+      f0: 0.2
+      damping: 0.04
+      forceStatic: 0.1
+      initial: 0
+      limit: 3
+      units: { speed: 'mph' }
+      readouts: [natural, damping, angle]
+      show: { windSlider: false, ucritSlider: false, dampingSlider: true, modeToggle: false, presets: false, damping: false, marker: false, ucritMark: false }
+    body: |
+      A deck cross-section on its hanger cables, pushed at **exactly** its natural twisting rate ($f_0 = 0.2$ Hz) by a steady push of static size $D = 0.1$ degrees. This is forced resonance, as in the swing. Let it run and watch the twist angle in the trace, then drag the **damping** slider and watch how the final size changes.
+
+  - type: numeric
+    id: forced-amp
+    prompt: |
+      The deck is pushed at exactly its natural frequency. The twist under a steady push of the same size would be $D = 0.1^\circ$, and the damping ratio is $\zeta = 0.04$. About how large does the twist grow, in degrees? Use $\theta_{\max} \approx D/(2\zeta)$.
+    answer: 1.25
+    tolerance: 0.02
+    answerText: '1.25'
+    wrong:
+      - { value: 2.5, feedback: 'That is $D/\zeta$. The resonance peak is $D/(2\zeta)$ with a 2 in the denominator.' }
+      - { value: 0.1, feedback: 'That is only the steady-push twist $D$. Repeated pushes at the natural frequency add up to $12.5$ times that.' }
+    hint: Divide $D$ by twice the damping ratio.
+    explanation: |
+      $\theta_{\max} = 0.1/(2\times0.04) = 1.25^\circ$. Notice what the widget showed: the twist **grows and then stops** at this size, because at that size the damping removes as much energy per cycle as each push adds. Forced resonance is limited by damping.
+
+  - type: mcq
+    id: why-not
+    prompt: |
+      The forced picture needs a push repeating at the deck's twisting rate, about $0.2$ Hz (one twist every 5 seconds). At the wind speed of the collapse, the whirls of air peeling off the deck (vortex shedding) came at about $1$ Hz, and the wind itself was steady. What does this say about the forced-resonance explanation?
+    shuffle: false
+    options:
+      - text: It fits well, because $1$ Hz is a multiple of $0.2$ Hz.
+        feedback: |
+          Not an exact multiple that works here: the shedding rate is about five times the twist rate, and a push at five times the natural frequency does not build up the motion; most pushes fall in the wrong half of the swing.
+      - text: It fails, because the vortices come at about five times the twisting rate and a steady wind has no beat at all.
+        correct: true
+      - text: It fits, because any rhythmic push eventually causes resonance.
+        feedback: |
+          Resonance needs the push rate close to the natural rate. A rate five times higher is off the peak of the resonance curve by a large factor.
+      - text: Nothing can be said without measuring the damping.
+        feedback: |
+          Damping sets the height of the peak, not where it is. The rates already differ by a factor of about five, far outside the peak.
+    explanation: |
+      Studies of the collapse put the shedding rate at about $1$ Hz against about $0.2$ Hz (12 cycles a minute) for the destructive twist. The investigating board also found resonance with alternating vortices improbable. So something else must have fed the twist: the twist itself.
+
+  - type: mcq
+    id: predict
+    prompt: |
+      Our model deck has its own damping ratio $\zeta_s = 0.04$ and, in our model, a **critical wind speed** $U_c = 35$ mph (a value chosen for the model, not a measurement). There is **no** rhythmic push: the wind blows steadily. In a steady wind **above** $U_c$, the deck gets one tiny kick. **Guess:** what does the twist do?
+    shuffle: false
+    options:
+      - text: It dies away, because the wind has no rhythm to feed it.
+        feedback: |
+          That would hold for a force that does not depend on the motion. Here the force depends on the twist, which can change the story.
+      - text: It settles at a small, steady size, as in forced resonance.
+        feedback: |
+          Settling needs a balance between damping and a push of fixed size. If the push grows with the twist, there is no fixed balance point.
+      - text: It grows larger and larger.
+        correct: true
+      - text: It oscillates up and down in size but never grows.
+        feedback: |
+          That happens exactly at $U_c$ in the model, not above it.
+    explanation: |
+      The wind's force depends on the twist. Above $U_c$ the energy the wind adds per cycle exceeds the energy damping removes, so the twist grows even though nothing pushes at the deck's own rate. Test it in the widget next.
+
+  - type: widget
+    id: flutter
+    widget: flutter-lab
+    review: false
+    config:
+      mode: flutter
+      wind: 10
+      ucrit: 35
+      f0: 0.2
+      damping: 0.04
+      initial: 0.5
+      limit: 15
+      units: { speed: 'mph' }
+      readouts: [wind, damping, growth, angle]
+      show: { ucritSlider: false, modeToggle: false }
+      presets:
+        - { label: 'Calm (10 mph)', wind: 10 }
+        - { label: 'At critical (35 mph)', wind: 35 }
+        - { label: 'Storm (55 mph)', wind: 55 }
+    body: |
+      The same deck, now in a **steady** wind with only a small kick at the start ($0.5^\circ$). The middle plot shows the **effective damping** against wind speed (the red dot is the current wind). Try the three presets, then drag the wind slider across the critical speed and watch the trace. The model is a linear caricature: the real bridge's numbers differ.
+
+  - type: numeric
+    id: z-eff
+    prompt: |
+      In our model $\zeta_{\text{eff}} = \zeta_s\,(1 - U/U_c)$ with $\zeta_s = 0.04$ and $U_c = 35$ mph. What is $\zeta_{\text{eff}}$ in a wind of $U = 52.5$ mph? (A negative number means the wind feeds the twist more than damping removes.)
+    answer: -0.02
+    tolerance: 0.001
+    answerText: '-0.02'
+    wrong:
+      - { value: 0.02, feedback: 'That is the value at $U = 17.5$ mph, half of $U_c$. At $52.5$ mph the wind is $1.5$ times $U_c$, so the bracket $(1 - 1.5)$ is negative.' }
+      - { value: 0.04, feedback: 'That is the structure''s own damping, with no wind. The wind subtracts from it.' }
+    hint: $52.5/35 = 1.5$.
+    explanation: |
+      $\zeta_{\text{eff}} = 0.04\times(1 - 1.5) = -0.02$. A negative damping ratio means the system takes energy out of the wind each cycle instead of losing it. At $U = 17.5$ mph the same formula gives $+0.02$ (damped); at $U = 35$ mph it gives $0$ (the boundary).
+
+  - type: order
+    id: energy-order
+    prompt: Put the flutter argument in order, from a tiny kick to collapse.
+    steps:
+      - 'A tiny kick twists the deck a little.'
+      - 'The twisted deck sits at a new angle to the wind, so the air force on it changes.'
+      - 'Part of that changed force pushes along with the twist, adding energy each cycle.'
+      - 'Above the critical wind speed this added energy exceeds the energy damping removes.'
+      - 'The twist grows each cycle, and keeps growing until something fails.'
+    hint: Motion, then force change, then energy in, then comparison with damping, then growth.
+    explanation: |
+      This is a **feedback loop**: the output (the twist) changes the input (the wind force). Compare a microphone near its speaker: no one sings at the right note, a small noise is simply amplified. The wind supplies the energy from outside; the deck supplies only the pattern.
+
+  - type: numeric
+    id: growth
+    prompt: |
+      At $\zeta_{\text{eff}} = -0.02$ each twist period multiplies the amplitude by $e^{-2\pi\,\zeta_{\text{eff}}}$. By what factor does the twist grow in **one** period? (Give the factor, for example $1.5$ means 50 percent bigger.)
+    answer: 1.134
+    tolerance: 0.005
+    answerText: '1.13'
+    wrong:
+      - { value: 0.8819, feedback: 'You used $+0.02$. With the minus sign of $\zeta_{\text{eff}}$ the exponent is positive and the factor exceeds 1.' }
+      - { value: 1.02, feedback: 'The growth is not $1 + |\zeta_{\text{eff}}|$; it is an exponential with the $2\pi$ for a full period: $e^{2\pi\cdot0.02}$.' }
+    hint: $2\pi\times0.02 = 0.1257$, then take the exponential.
+    explanation: |
+      $e^{0.1257} = 1.134$: about $13$ percent larger every period. It sounds slow, but it compounds: after $27$ periods (about $2$ minutes at $0.2$ Hz) the amplitude is multiplied by about $1.134^{27} \approx 30$, from half a degree to the order of fifteen. Compare this with the real film: swaying began around 9:45 and the collapse came around 11:00.
+
+  - type: widget
+    id: contrast
+    widget: flutter-lab
+    review: false
+    config:
+      mode: flutter
+      wind: 52
+      ucrit: 35
+      f0: 0.2
+      damping: 0.04
+      initial: 0.5
+      limit: 15
+      forceStatic: 0.1
+      units: { speed: 'mph' }
+      readouts: [wind, mode, damping, angle]
+      show: { windSlider: false, ucritSlider: false, dampingSlider: false, damping: false, marker: false, ucritMark: false }
+      presets:
+        - { label: 'Flutter', mode: 'flutter', wind: 52 }
+        - { label: 'Forced at f0', mode: 'forced', wind: 52 }
+    body: |
+      The **same** wind speed ($52$ mph), the same small kick, in two pictures. **Flutter**: the wind force depends on the twist. **Forced**: a push of fixed size repeated at exactly the natural frequency. Press each preset and compare what happens to the twist.
+
+  - type: mcq
+    id: contrast-q
+    prompt: |
+      At the same wind speed, in the widget, one picture settled and the other went on to the limit. Which, and why?
+    shuffle: false
+    options:
+      - text: Flutter settled; forced resonance went on growing.
+        feedback: |
+          It is the other way round. Forced resonance has a fixed push, so the damping eventually removes as much energy as is added: the twist settles at $D/(2\zeta)$.
+      - text: Forced resonance settled at $D/(2\zeta)$; flutter kept growing, because the energy it adds grows with the twist.
+        correct: true
+      - text: Both settle, only at different sizes.
+        feedback: |
+          In the linear model flutter has no such size: each period multiplies the twist by the same factor above $1$. (A real bridge stops being linear at large twists, and then it fails.)
+      - text: Both grow without limit.
+        feedback: |
+          Forced resonance has a fixed push, so damping balances it at a finite size, $D/(2\zeta)$.
+    explanation: |
+      The forced push does not care how big the twist is, so damping can catch up. In flutter the **feedback** makes the added energy proportional to the twist itself, just as damping is; whichever is bigger wins, and above $U_c$ it is the wind. That is the difference between a bridge that shakes and a bridge that breaks.
+
+  - type: mcq
+    id: trap-more-wind
+    prompt: |
+      A student says: "To make a bridge twist violently the wind must reach the exact frequency of the bridge, so a bridge in a smooth steady wind is safe." Which is the best reply?
+    shuffle: false
+    options:
+      - text: 'Right: a steady wind has no frequency, so it cannot do anything.'
+        feedback: |
+          A steady wind has no beat, yet it can still feed a motion that is already there, through the feedback between motion and force.
+      - text: 'Wrong: in flutter the bridge''s own motion sets the timing, so a steady wind above the critical speed is enough.'
+        correct: true
+      - text: 'Wrong: any wind at all, however slow, eventually makes the twist grow.'
+        feedback: |
+          Below the critical speed the damping wins and a kick dies away. The danger starts at $U_c$.
+      - text: 'Right: but only because the bridge was badly built.'
+        feedback: |
+          The mechanism does not need bad construction: any deck has a critical speed. What matters is whether the speed is above the winds it will see.
+    explanation: |
+      The timing comes from the structure itself: the wind force follows the twist, so it is automatically in step. That is why a steady wind can drive it, and why the question for a designer is "is the critical speed above the strongest wind?", not "does some frequency match?".
+
+  - type: widget
+    id: raise-uc
+    widget: flutter-lab
+    review: false
+    config:
+      mode: flutter
+      wind: 52
+      ucrit: 35
+      f0: 0.2
+      damping: 0.04
+      initial: 0.5
+      limit: 15
+      units: { speed: 'mph' }
+      ranges: { ucrit: [20, 100, 1] }
+      readouts: [wind, ucrit, damping, growth]
+      show: { ucritSlider: true, dampingSlider: false, modeToggle: false, presets: false, deck: false, trace: false, windSlider: false }
+    body: |
+      The effective damping against wind speed. The red dot is a wind of $52$ mph. Drag the **critical speed** slider (a stiffer, deeper or better-shaped deck has a higher $U_c$) and watch where the dot lies relative to the negative, tinted region.
+
+  - type: numeric
+    id: stiffened
+    prompt: |
+      The deck is redesigned and, in our model, its critical speed becomes $U_c = 70$ mph (with $\zeta_s = 0.04$ as before). What is $\zeta_{\text{eff}}$ in a $52.5$ mph wind?
+    answer: 0.01
+    tolerance: 0.0005
+    answerText: '0.01'
+    wrong:
+      - { value: -0.02, feedback: 'That is the old deck, $U_c = 35$ mph. The new $U_c$ is in the denominator.' }
+      - { value: 0.0, feedback: 'The effective damping is zero only when $U = U_c$; here $52.5 < 70$.' }
+    hint: $52.5/70 = 0.75$.
+    explanation: |
+      $\zeta_{\text{eff}} = 0.04\times(1 - 0.75) = 0.01 > 0$. The deck now damps a kick in this wind. The same wind that made the old deck flutter is below the new critical speed. Design rule in the model: choose $U_c$ well above the strongest wind the bridge will meet, with a safety margin.
+
+  - type: mcq
+    id: design
+    prompt: |
+      Which of these are what engineers actually do to keep a bridge below its flutter limit? Select all that apply.
+    multiple: true
+    shuffle: false
+    options:
+      - text: Test a scale model of the deck shape in a wind tunnel.
+        correct: true
+      - text: Make the deck deeper and stiffer or give it a more streamlined shape.
+        correct: true
+      - text: Test with a range of wind angles, and try features such as a slot in the middle of the deck.
+        correct: true
+      - text: Rely on structural damping alone, with no model testing.
+        feedback: |
+          In our model the structural damping only sets how fast things grow or fade; the critical speed comes from the shape and stiffness. Real designs also test, because the air force depends strongly on shape.
+      - text: Assume the wind will never blow as hard as the design speed.
+        feedback: |
+          Hope is not a design margin: the bridge must stay below its critical speed for the strongest wind expected.
+    explanation: |
+      After 1940, wind-tunnel testing of deck shapes became standard for long-span bridges. The replacement Tacoma bridge (opened 1950) used a stiffening truss about 33 ft (10 m) deep, more than four times the depth of the old 8 ft plate girders, and was checked in a wind tunnel before it was built. Studies of slotted decks show a central slot can raise the critical speed at some wind angles but lower it at others, which is why shapes are tested over a range of angles.
+
+  - type: numeric
+    id: frequency
+    prompt: |
+      Stopwatch measurements of the film show the destructive twist of the original bridge repeating about $12$ times per minute. What is that in hertz (cycles per second)?
+    answer: 0.2
+    tolerance: 0.005
+    answerText: '0.2'
+    wrong:
+      - { value: 12, feedback: 'That is cycles per **minute**. Divide by $60$ seconds.' }
+      - { value: 5, feedback: 'That is the period in seconds, $60/12$. The frequency is its inverse.' }
+    hint: There are 60 seconds in a minute.
+    explanation: |
+      $12/60 = 0.2$ Hz, a period of $5$ s. This slow rate (about five seconds per twist) is why the film looks so languid. The footage was shot by two Tacoma camera-shop owners, Barney Elliott and Harbine Monroe, and many copies play too fast because of mismatched film speeds. The rate matched the twisting mode of the deck, not the faster vortex rate.
+
+  - type: text
+    id: summary
+    body: |
+      **What you now own.** A deck that twists about its length has a natural frequency $f_0$ and a damping ratio $\zeta$. Forced resonance needs a push at that frequency and saturates at $D/(2\zeta)$. Tacoma Narrows in 1940 was different: in a steady wind of about 42 mph the deck twisted at about 0.2 Hz, while vortices came at about 1 Hz. The best-supported account is **flutter**: the twist changes the air force, which feeds the twist (negative damping $\zeta_{\text{eff}} = \zeta_s(1 - U/U_c)$ in our model), growing by $e^{-2\pi\zeta_{\text{eff}}}$ per period above the critical speed $U_c$. Designers raise $U_c$ by shape and stiffness and test in wind tunnels.
+
+      **Next:** wind is not the only thing that shakes a building. When the ground itself moves in an earthquake, what makes one building ride it out and another crack? The next lesson, Earthquakes and Safe Buildings, uses the same resonance ideas.

@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-10-29 ch03-flutter (concept, 18 cards)
+Built autonomously, flutter-lab x4 (forced, walk-through presets, flutter vs forced, Uc slider), no new widget. Choices: 35 mph kept as a labelled model Uc, real collapse wind told as about 42 mph; no real critical speed claimed; forced card starts from rest, limit 3 deg; slot claim hedged ("some angles"); investigators' conclusion paraphrased (vortex resonance improbable, no single cause), flutter as best-supported account. Fixed YAML colon quoting.
+Conventions fixed here: lesson shows twist theta in degrees, z_eff = z_s(1 - U/Uc), Uc 70 mph stiffened example (z_eff 0.01 at 52.5), 12 cycles/min = 0.2 Hz, 42 mph about 68 km/h.
+
 ## 2026-10-29 widget flutter-lab
 Built autonomously (widget only, no lesson). Choices: linear model z_eff = z_s (1 - U/Uc) with Uc an input (damping slider only changes growth rate), one mode, no nonlinear saturation: reaching `limit` deg freezes the deck as "limit reached"; forced mode = push D cos(t) at the natural frequency proportional to U with fixed z_s (amplitude D/(2 z_s)); animPeriod 1 s per period so growth to the limit takes about 27 s at 1.5 Uc. Tested: node checks of RK4 vs formulas, throwaway lesson (full, trimmed forced, damping plot only; phone and desktop shots viewed), widget-smoke (0 errors), validate. Web: see Verified line (flutter not resonance; 42 mph, 0.2 Hz).
 Conventions fixed here: widget `flutter-lab` (docs/widgets/flutter-lab.md); z_s 0.04, Uc 35 (mph), f0 0.2 Hz, limit 15 deg, kick 0.5 deg; growth factor per period exp(-2 pi z_eff).
