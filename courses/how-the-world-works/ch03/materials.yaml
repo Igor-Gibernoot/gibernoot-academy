@@ -1,0 +1,327 @@
+id: ch03-materials
+title: Concrete, Steel and Why Both
+kind: concept
+own: |
+  - **Stress and strain.** A bar carrying a force $F$ (N) over a cross-section of area $A$ (m$^2$) feels a stress
+    {{ $$\sigma = \frac{F}{A}$$ }}
+    in pascals (MPa = million pascals). If its length $L$ changes by $\Delta L$, its **strain** is $\varepsilon = \Delta L / L$ (no units). A material fails when the stress passes its strength.
+  - **Concrete is lopsided.** Ordinary concrete is typically about $20$ to $40$ MPa strong when squeezed, but only about
+    {{ $$\sigma_{\text{pull}} \approx \tfrac{1}{10}\,\sigma_{\text{squeeze}}$$ }}
+    when pulled. Steel is strong both ways (typical reinforcing bars yield near $400$ to $500$ MPa). In a loaded beam (span $4$ m, cross-section $0.1\times0.3$ m, bending moment $M$) the bottom fibres are stretched, so plain concrete **cracks at the bottom** first.
+  - **Reinforced concrete.** Put steel bars (area $A_s$) near the bottom, the tension side. After the concrete cracks, the bars carry the pull. With $d$ the depth from the top to the bars and a lever arm $z \approx 0.9\,d$ (a simplified rule), the bar force and stress are
+    {{ $$T = \frac{M}{z}, \qquad \sigma_s = \frac{T}{A_s}$$ }}
+    For $M = 100$ kN m, $d = 0.26$ m and $A_s = 12$ cm$^2$ this gives $T \approx 427$ kN and $\sigma_s \approx 356$ MPa. The steel adds pull strength; it does not make concrete stronger when squeezed.
+  - **Prestress.** Squeeze the concrete in advance with stretched high-strength steel. If the prestress is $\sigma_p$ (compression), the stress at the bottom fibre is
+    {{ $$\sigma_{\text{bottom}} = \sigma_{\text{load}} - \sigma_p$$ }}
+    with $\sigma_{\text{load}}$ the tension from the load alone. For a load giving $8$ MPa of tension at the bottom, $\sigma_p = 6$ MPa leaves $2$ MPa, under the concrete's pull strength, so no crack opens.
+  - **Why the pair works.** Concrete and steel expand with temperature by nearly the same amount per degree (about $10$ and $12$ millionths per kelvin), so they do not tear apart when it heats or cools. Cracks in a reinforced beam are normal; the design keeps them narrow, and the steel does the pulling.
+  - **A tradeoff.** For a fixed moment $M$ the steel needed falls as the beam gets deeper ($A_s \propto 1/d$), but the concrete used grows with the depth: more steel or more concrete, never both small.
+cards:
+  - type: mcq
+    id: hook
+    prompt: |
+      Almost every modern concrete building has **steel bars** buried inside the concrete. **Guess before any theory.** Why pour concrete around steel bars?
+    shuffle: false
+    options:
+      - text: To make the concrete stronger when it is squeezed, like a fibre-glass boat.
+        feedback: |
+          It sounds natural, but concrete is already good at being squeezed. A bar inside does not change that much. The weakness lies in another direction.
+      - text: Because concrete is weak when pulled apart, and the steel carries the pulling.
+        correct: true
+      - text: Because steel is cheaper than concrete, so the bars save money.
+        feedback: |
+          The bars are there for a reason of strength, not to save money. The question is which kind of strength concrete lacks.
+      - text: To make the building lighter, since steel weighs less than concrete.
+        feedback: |
+          Bars add material and do not make the beam lighter. They are there to supply a missing strength.
+    explanation: |
+      Concrete is strong when squeezed but weak when pulled. Steel is strong both ways. In a bending beam the bottom is pulled, so that is where the bars go. The cards ahead build this up with numbers.
+
+  - type: text
+    id: stress-strain
+    body: |
+      Two words before the numbers.
+
+      **Stress** is force spread over area: a force $F$ (newtons, N) on a cross-section of area $A$ (m$^2$) gives
+      $$\sigma = \frac{F}{A}.$$
+      The unit is the pascal (Pa, one newton per square metre); engineers use **MPa**, millions of pascals, so $1$ MPa $= 1$ N per mm$^2$. A material **fails** when the stress passes its **strength**.
+
+      **Strain** is how much a length changes compared with the length it had: for a bar of length $L$ that stretches by $\Delta L$,
+      $$\varepsilon = \frac{\Delta L}{L}.$$
+      It has no unit. A $2$ m rod that stretches $1$ mm has $\varepsilon = 0.001/2 = 0.0005$.
+
+  - type: build
+    id: sigma-build
+    prompt: |
+      A square post $0.2$ m by $0.2$ m is squeezed by a force $F$. Build the stress $\sigma$ in the post from the force $F$ and the area $A$.
+    prefix: '\sigma ='
+    tiles: ['F', 'A', '\dfrac{F}{A}', '\dfrac{A}{F}', 'F \cdot A']
+    answers:
+      - ['\dfrac{F}{A}']
+    wrong:
+      - { answer: ['\dfrac{A}{F}'], feedback: 'Upside down. A bigger area spreads the force thinner, so the stress goes **down** with area: $F/A$.' }
+      - { answer: ['F \cdot A'], feedback: 'Multiplying would make a wider post feel more stress. Spreading the same force over more area gives less stress each.' }
+    hint: Stress is force per area.
+    explanation: |
+      Stress is force divided by area. For the post, $A = 0.2\times0.2 = 0.04$ m$^2$, so $400$ kN gives $\sigma = 400\,000/0.04 = 10$ MPa.
+
+  - type: numeric
+    id: pull-capacity
+    prompt: |
+      The $0.2\times0.2$ m post ($A = 0.04$ m$^2$) is made of concrete that crushes at $\sigma = 30$ MPa when squeezed, and fails in tension at about **one tenth** of that stress. How large a **pulling** force can the post carry before it fails, in kN? (Squeezed, it would carry $1200$ kN.)
+    answer: 120
+    tolerance: 0.01
+    answerText: '120'
+    wrong:
+      - { value: 1200, feedback: 'That is the squeezing capacity. Pulled, concrete fails at only about a tenth of the stress.' }
+      - { value: 12, feedback: 'A tenth of the force is $120$ kN, not $12$: $0.1\times1200 = 120$.' }
+    hint: Tension strength $\approx 3$ MPa; force $=\sigma A$.
+    explanation: |
+      Tension strength is about $3$ MPa, so the force is $3\times10^6\ \mathrm{Pa}\times0.04\ \mathrm{m^2} = 120$ kN, a tenth of the $1200$ kN when squeezed. Ordinary concrete is typically about $20$ to $40$ MPa in compression, and the pull strength is typically around a tenth of that (a bit less for the strongest mixes).
+
+  - type: widget
+    id: plain-beam
+    widget: beam-section
+    review: false
+    config:
+      section: solid
+      sections: [solid]
+      span: 4
+      load: 12
+      tensileLimit: 3
+      readouts: [moment, maxstress, crack]
+      labels: { limit: 'concrete pull strength' }
+      ranges: { load: [0, 40, 1] }
+      show: { selector: false, rebar: false, prestress: false, loadSlider: true }
+    body: |
+      A plain concrete beam, $0.1$ m wide and $0.3$ m deep, spans $4$ m. Its pull strength is set to $3$ MPa (dashed line). Drag the load from $0$ upward and watch the bottom of the beam: where the stretch passes the dashed line, red cracks appear.
+
+  - type: mcq
+    id: crack-where
+    review: false
+    prompt: |
+      In the plain concrete beam, the load is raised until cracks open. Where do they appear, and how far do they climb?
+    shuffle: false
+    options:
+      - text: At the top, because that is where the load pushes down.
+        feedback: |
+          The top is squeezed, and concrete takes squeezing well. Cracks come from stretching, and the top is not stretched.
+      - text: At the bottom, climbing upward only as far as the stress there exceeds the concrete's pull strength.
+        correct: true
+      - text: In the middle layer, because it carries the most load.
+        feedback: |
+          The middle (neutral) layer feels no stress at all, so nothing there can crack from bending.
+      - text: Everywhere at once, because concrete is brittle.
+        feedback: |
+          Brittle means it breaks suddenly, not everywhere at once. Only fibres whose stress passes about $3$ MPa crack, and those are the lowest ones.
+    explanation: |
+      Stress grows in a straight line from zero at the neutral axis to its maximum at the bottom. With load $12$ kN the bottom stress is $8$ MPa, above $3$ MPa, so the lowest $9$ cm crack (the fibres above that point feel less than $3$ MPa).
+
+  - type: order
+    id: rebar-logic
+    prompt: Put the argument in order. Why do the steel bars go in the **bottom** of a simply supported beam?
+    steps:
+      - Under a load in the middle the beam bends into a smile.
+      - The bottom fibres lengthen, so the bottom is in tension.
+      - Concrete cracks there at only about a tenth of its squeezing strength.
+      - Steel bars laid along the bottom are strong in tension, so they take over the pull.
+      - The top, being squeezed, is left to the concrete.
+    hint: Shape, then which side stretches, then the weakness, then the fix.
+    explanation: |
+      Put steel where the pull is. A beam supported at its ends has its tension on the underside. (Over the support of a beam that runs continuously across two spans the bending turns the other way and the bars move to the top.)
+
+  - type: widget
+    id: rebar-beam
+    widget: beam-section
+    review: false
+    config:
+      section: solid
+      sections: [solid]
+      span: 4
+      load: 100
+      tensileLimit: 3
+      rebar: { on: true, area: 0.0012, cover: 0.04, count: 3 }
+      readouts: [moment, crack, steel]
+      labels: { steel: 'Bar force, stress', limit: 'concrete pull strength' }
+      ranges: { load: [0, 150, 5] }
+      show: { selector: false, prestress: false, loadSlider: true, rebarToggle: true }
+    body: |
+      The same beam, now with three steel bars (total area $12$ cm$^2$, $4$ cm of cover below the lowest fibre) near the bottom. The checkbox turns the bars on and off. The row "Bar force, stress" shows the pull in the bars and the stress in them. The picture of the concrete's stress is a simple elastic estimate; the real cracked beam hands the pull to the bars, as the readout does.
+
+  - type: numeric
+    id: steel-stress
+    prompt: |
+      A reinforced beam carries a bending moment $M = 100$ kN m. The bars lie $d = 0.26$ m below the top and their total area is $A_s = 12$ cm$^2$ $= 0.0012$ m$^2$. Use the simplified rule: the bars carry a force $T = M/z$ with lever arm $z = 0.9\,d$. What stress is in the steel, in MPa? (Typical reinforcing bars yield near $400$ to $500$ MPa.)
+    answer: 356
+    tolerance: 0.01
+    answerText: '356'
+    wrong:
+      - { value: 427, feedback: 'That is the bar **force** $T = 427$ kN. Divide by the bar area to get the stress.' }
+      - { value: 320, feedback: 'You used $z = d$ instead of $0.9\,d$. The lever arm is a bit shorter than the depth to the bars.' }
+    hint: '$z = 0.9\times0.26 = 0.234$ m; $T = M/z$; then $\sigma_s = T/A_s$.'
+    explanation: |
+      $z = 0.9\times0.26 = 0.234$ m, so $T = 100/0.234 \approx 427$ kN. The stress is $\sigma_s = 427\,000/0.0012 \approx 356$ MPa, safely below a typical yield of $400$ to $500$ MPa. Without the bars, the concrete at the bottom would face $67$ MPa, about twenty times its pull strength.
+
+  - type: text
+    id: prestress-idea
+    body: |
+      There is a second way to deal with weak tension. Cracks open when the bottom is **stretched** past about $3$ MPa. So **squeeze the concrete before the load comes**, so that the load's stretch first cancels the squeeze.
+
+      A **prestressed** beam holds high-strength steel cables (tendons) that are pulled tight and anchored against the ends of the concrete. The cables want to shorten, so they push the concrete together all along its length: a built-in compression, the **prestress** $\sigma_p$. Later, the load adds its own stretch at the bottom, and the net stress there is
+      $$\sigma_{\text{bottom}} = \sigma_{\text{load}} - \sigma_p$$
+      with tension positive.
+
+      The French engineer Eugène Freyssinet filed his first patent on prestressed concrete in 1928. He had found that only a **high-strength** steel stretched hard keeps a lasting squeeze in the concrete (a low stress is lost as the concrete slowly shrinks and creeps).
+
+  - type: mcq
+    id: prestress-why
+    prompt: |
+      A concrete beam is built with a squeeze of $6$ MPa already in it. Which statement is correct?
+    shuffle: false
+    options:
+      - text: The squeeze adds to the load's pull at the bottom, so the bottom is worse off.
+        feedback: |
+          Signs matter: the load stretches the bottom, the prestress squeezes it. They have opposite signs and partly cancel.
+      - text: The squeeze means the load must first undo $6$ MPa of compression before the bottom is stretched at all.
+        correct: true
+      - text: The squeeze makes the concrete's pull strength $6$ MPa higher.
+        feedback: |
+          The material is just as weak in tension as before. What changed is the starting point: the bottom begins compressed, so there is more room before the stress turns into tension.
+      - text: The squeeze only helps at the top of the beam.
+        feedback: |
+          The tendons squeeze the section along its length, and the stretched underside is exactly where the benefit matters.
+    explanation: |
+      Prestress shifts the whole stress picture towards compression. The tension from the load first has to cancel the squeeze, and only the remainder can crack the concrete.
+
+  - type: widget
+    id: prestress-beam
+    widget: beam-section
+    review: false
+    config:
+      section: solid
+      sections: [solid]
+      span: 4
+      load: 12
+      prestress: 0
+      tensileLimit: 3
+      readouts: [maxstress, crack]
+      labels: { limit: 'concrete pull strength' }
+      ranges: { load: [0, 40, 1], prestress: [0, 15, 0.5] }
+      show: { selector: false, rebar: false, loadSlider: true, prestressSlider: true }
+    body: |
+      The plain beam again, now with a **prestress** slider and a load of $12$ kN (with no prestress its bottom is at $8$ MPa and cracked). Raise the prestress slowly and watch the stress diagram slide towards compression until the cracks close.
+
+  - type: numeric
+    id: prestress-bottom
+    prompt: |
+      Under a load of $12$ kN, the bottom fibre of the beam feels a tension of $\sigma_{\text{load}} = 8$ MPa. The beam is prestressed with a uniform compression $\sigma_p = 6$ MPa. What is the net stress at the bottom, in MPa (positive = tension)? Is it below the pull strength of $3$ MPa?
+    answer: 2
+    tolerance: 0.01
+    answerText: '2'
+    wrong:
+      - { value: 14, feedback: 'You added them. The prestress is a **compression** and the load''s bottom stress a **tension**, so they subtract.' }
+      - { value: -2, feedback: 'The sign is flipped: the load''s $8$ MPa of tension is larger than the $6$ MPa squeeze, so the net is still a small tension.' }
+    hint: '$\sigma_{\text{bottom}} = \sigma_{\text{load}} - \sigma_p$.'
+    explanation: |
+      $8 - 6 = +2$ MPa, a small tension, below $3$ MPa, so the bottom does not crack. At the top the same prestress adds to the load's squeeze: $-8 - 6 = -14$ MPa of compression, which concrete handles easily.
+
+  - type: widget
+    id: tradeoff
+    widget: tradeoff-curve
+    review: false
+    config:
+      param: { label: 'Beam depth to the bars', unit: cm, range: [20, 80], value: 25, step: 1, decimals: 0 }
+      x: { label: 'Concrete per metre of beam', unit: m³, a: 0.003, range: [0, 0.25], decimals: 3 }
+      y: { label: 'Steel area needed', unit: cm², a: 264.55, k: -1, range: [0, 14], decimals: 1 }
+      needs: { yMax: 8, xMax: 0.15 }
+      show: { guides: true, feasible: true }
+      readouts: [design, x, y, range, verdict]
+    body: |
+      A tradeoff with numbers chosen for this problem (a setting, not real prices): a beam $0.3$ m wide must carry $M = 100$ kN m with steel of $420$ MPa strength (a common reinforcing grade) and lever arm $0.9$ times the depth, so the steel needed is $A_s = M/(420\ \text{MPa}\times0.9\,d)$. Slide the depth. Goal: at most $8$ cm$^2$ of steel and at most $0.15$ m$^3$ of concrete per metre of beam.
+
+  - type: mcq
+    id: tradeoff-read
+    review: false
+    prompt: |
+      A beam $0.3$ m wide must carry $M = 100$ kN m. Its steel area needed is $A_s \approx 264.55/d$ (in cm$^2$, with the depth $d$ in cm) and the concrete per metre of beam is $0.003\,d$ m$^3$. Making the beam **deeper**:
+    shuffle: false
+    options:
+      - text: Needs less steel but more concrete.
+        correct: true
+      - text: Needs less of both, because a deeper beam is stronger.
+        feedback: |
+          A deeper beam is stronger *per kilogram of steel*, so less steel is needed. But it also contains more concrete. Only one side shrinks.
+      - text: Needs more steel, because the load now acts over a longer lever.
+        feedback: |
+          The longer lever arm between the squeezed top and the steel makes the bars' job easier, so less force $T = M/z$ is needed, not more.
+      - text: Changes nothing; steel and concrete amounts are independent of depth.
+        feedback: |
+          The steel force is $T = M/z$ with $z\approx0.9\,d$, so depth matters directly, and the concrete volume is width times depth.
+    explanation: |
+      Steel falls like $1/d$ and concrete grows like $d$. At $d = 40$ cm, $A_s = 264.55/40 \approx 6.6$ cm$^2$ and the concrete is $0.12$ m$^3$ per metre. Cement making alone has been put at about $8\%$ of the world's CO$_2$ by one widely cited 2018 report (other estimates are lower, roughly $4$ to $8\%$), so saving concrete matters too: that is why engineers use prestress and strong steel to make beams slimmer.
+
+  - type: text
+    id: thermal
+    body: |
+      One more reason the pair works. When temperature changes, a metal bar and the concrete around it both expand or shrink. If they did so by very different amounts, the bond would be torn and the concrete would crack on a hot day. A bar of length $L$ heated by $\Delta T$ lengthens by
+      $$\Delta L = \alpha\,L\,\Delta T,$$
+      where $\alpha$ is the **coefficient of thermal expansion** (per kelvin). Steel has $\alpha \approx 12\times10^{-6}$ per kelvin. Concrete depends on its stones but is typically in the range $7$ to $13\times10^{-6}$ per kelvin (design codes use $10\times10^{-6}$). A lucky coincidence: they are nearly equal.
+
+  - type: numeric
+    id: thermal-num
+    prompt: |
+      A $20$ m long beam warms by $30$ K. Take $\alpha_{\text{steel}} = 12\times10^{-6}$ and $\alpha_{\text{concrete}} = 10\times10^{-6}$ per kelvin. By how many **mm** would the steel lengthen more than the concrete if both were free? (This mismatch is tiny, which is why the bond survives.)
+    answer: 1.2
+    tolerance: 0.02
+    answerText: '1.2'
+    wrong:
+      - { value: 7.2, feedback: 'That is the **steel**''s total lengthening. The question asks for the difference between steel and concrete.' }
+      - { value: 6, feedback: 'That is the concrete''s total lengthening. We want the difference of the two.' }
+    hint: 'Difference $= (\alpha_s - \alpha_c)\,L\,\Delta T$.'
+    explanation: |
+      Steel: $12\times10^{-6}\times20\times30 = 7.2\times10^{-3}$ m $= 7.2$ mm. Concrete: $6.0$ mm. The difference is $1.2$ mm over $20$ m, a strain mismatch of only $6\times10^{-5}$.
+
+  - type: mcq
+    id: trap-compression
+    prompt: |
+      **Trap.** A builder says: "These steel bars in the bottom of the beam make the concrete itself stronger when it is squeezed." What is wrong?
+    shuffle: false
+    options:
+      - text: Nothing; steel inside always strengthens concrete in every way.
+        feedback: |
+          The bars do a specific job: they carry pull. The concrete's own squeezing strength comes from the mix and is unchanged by bars in the tension zone.
+      - text: The bars sit on the stretched side and take the **pull**. The concrete on the squeezed side still crushes at the same stress as before.
+        correct: true
+      - text: Steel is weaker than concrete, so the bars make the beam worse.
+        feedback: |
+          Steel is far stronger than concrete in tension (around $400$ to $500$ MPa against about $3$ MPa). That is why it is used.
+      - text: The bars are only there to hold the shape of the concrete while it sets.
+        feedback: |
+          Bars may help during building, but their main job in a beam is to carry tension in service.
+    explanation: |
+      The reinforced beam is stronger because a missing ability (pulling) was added, not because the squeezing strength was raised. Bars help in a column too, by sharing the compression, but that is a different design.
+
+  - type: mcq
+    id: trap-cracks
+    prompt: |
+      **Trap.** A reinforced concrete beam in a building shows fine hairline cracks along its bottom. Does this mean it is about to fail?
+    shuffle: false
+    options:
+      - text: 'Yes: any crack means the concrete has failed and the beam is unsafe.'
+        feedback: |
+          Not for a reinforced beam. The tension side is expected to crack; the steel bars were put there to carry the pull after the concrete lets go.
+      - text: 'Not necessarily: fine bending cracks are normal, and the steel carries the pull across them. Wide or growing cracks need an engineer.'
+        correct: true
+      - text: No, because properly built concrete never cracks.
+        feedback: |
+          Concrete cracks at only about a tenth of its squeezing strength in tension, so under service loads reinforced beams commonly show fine cracks. Design aims to keep them narrow, not to prevent every one.
+      - text: Yes, but only if the cracks are on the top.
+        feedback: |
+          Hairline cracks on the stretched side are the expected kind. Cracks in the squeezed zone or crushing there would be a different and more worrying sign.
+    explanation: |
+      Cracking is built into how reinforced concrete works: the concrete cracks, the bars take the pull. Design codes limit the width to keep the steel from corroding, for example a default of $0.3$ mm in the European concrete code. A prestressed beam goes further and keeps the concrete in compression so that cracks stay closed in normal use.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a tall building is also a beam, standing up, and wind makes it sway. Why does it sway back and forth at one steady rhythm of its own, and how can a hanging block of steel calm it? That is the lesson Skyscrapers and Tuned Mass Dampers.
