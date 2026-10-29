@@ -19,7 +19,8 @@ context stays small. Igor reviews the level on the live site at the end.
   questions, so make reasonable choices and record them in the `STATUS.log.md` entry.
   If the course `CLAUDE.md` has a "Web check is mandatory" rule: every
   external fact (names, dates, works, studies, numbers, attributions,
-  quotations) must be web-checked in this session, and the Verified line
+  quotations; in physics-style courses also constants, material properties,
+  typical real-world values and how a real device works) must be web-checked in this session, and the Verified line
   needs `web: <source>` per item. If you cannot search, or an item stays
   unconfirmed, do not commit: report 'UNVERIFIED: <items>' instead.
   Do not view screenshot images unless shots.mjs flags a card or the unit
@@ -85,7 +86,7 @@ context stays small. Igor reviews the level on the live site at the end.
   7. `node tools/validate.mjs` and shots stay clean after the fixes.
   8. **Fact spot-check** (courses with a web-check rule; no book to check
      against): for each lesson, pick 5 to 8 external facts at random (dates,
-     works, attributions, quotations, statistics), re-check each by
+     works, attributions, quotations, statistics, constants, typical values, device mechanisms), re-check each by
      WebSearch/WebFetch independently of the Verified line, and compare with
      the lesson text; fix mismatches, soften what cannot be confirmed. Also
      confirm every Verified item carries `web: <source>`.

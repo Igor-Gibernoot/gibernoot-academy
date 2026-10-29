@@ -112,8 +112,8 @@ function checkStatus(dir) {
   // Courses with the mandatory web-check rule: Verified must not rely on memory.
   const cmd = join(dir, 'CLAUDE.md');
   if (existsSync(cmd) && /Web check is mandatory/.test(readFileSync(cmd, 'utf8'))) {
-    for (const i of at(/^- \*\*Verified:\*\*/)) {
-      const hits = new Set((lines[i].match(/UNVERIFIED|\bmemory\b|standard knowledge|\(standard\)|, standard\b/gi) ?? []).map(s => s.toLowerCase()));
+    for (const i of at(/^- \*\*Verified\b/)) {
+      const hits = new Set((lines[i].match(/UNVERIFIED|\bmemory\b|standard knowledge|\(standard\)|, standard\b|not re-fetched|typical values?\b(?![^;.]*web:)/gi) ?? []).map(s => s.toLowerCase()));
       if (hits.size) warn('STATUS.md', `Verified line has items not web-checked (${[...hits].join(', ')}); check them by web and mark "web: <source>" (course CLAUDE.md, Web check)`);
     }
   }

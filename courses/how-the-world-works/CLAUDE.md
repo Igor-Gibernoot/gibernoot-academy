@@ -28,10 +28,31 @@ adds what is specific to this course.
 ## Sources and verification
 
 No `sources/` book. `REFERENCES.md` lists the trusted books per level. Igor does not need to
-supply them: formulas and constants are checked by (1) deriving them in the lesson,
-(2) a script for every number, and (3) a cross-check against the level's references when a
-formula is not derived (use `WebSearch`/`WebFetch` for a standard value if needed). Log what
-was checked in the `Verified` line of `STATUS.md` (compact: formula or constant, reference).
+supply them. Claims are checked by (1) deriving them in the lesson, (2) a script for every
+number, and (3) a web check of every external fact (below). A script only proves the arithmetic
+agrees with the formula, not that the formula, constant or real-world value is right. Log what
+was checked in the `Verified` line of `STATUS.md` (compact: item, `web: <source>`).
+
+**Web check is mandatory, not "from memory".** Every external fact in a lesson is checked with
+WebSearch/WebFetch (NIST, Wikipedia for orientation only, Britannica, textbook or manufacturer
+pages, journal or museum pages) *in the session that writes the lesson*, before committing.
+External facts are: physical constants and material properties (specific heat, density,
+friction coefficients, strengths), typical real-world values (car mass, petrol energy density,
+battery capacity, efficiencies, speeds, stopping distances, safety figures), how a real
+device works (lock, airbag, elevator, shower, ...), and every historical claim, named person,
+experiment, date and institution. Not needed: numbers the lesson derives or invents itself
+(the setting's data) and their scripted arithmetic.
+- "Typical", "standard knowledge" or "memory" never counts as verified. The Verified line says
+  `web: <source>` per item; an item without it is marked `UNVERIFIED` and the unit is not done.
+- Typical values may be rounded in the lesson, but must lie inside the range the source gives;
+  say "about" or "typically".
+- A claim about how a real device works is checked for the mechanism, not only a number.
+- Attributions are checked for what the person actually did or argued. Quotation marks only for
+  text confirmed verbatim; otherwise paraphrase.
+- If a search cannot confirm a claim, drop it or soften it; never keep a guess. An agent that
+  skips the web check has not finished the unit; report it, don't commit.
+- Briefs to agents must repeat this rule. If Igor asked for a specific check, do exactly that.
+
 If Igor later adds a book to `sources/` (git-ignored), follow the root workflow for it.
 
 ## Trail
