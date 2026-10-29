@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-10-29 Widget arch-thrust (no lesson)
+Built `js/widgets/arch-thrust.js`, registered, documented. Choices (Igor not asked): arch thrust line is pinned at supports and crown (H = M0(L/2)/h), cable takes the funicular shape; stone check compares the thrust line with the parabolic centre line (+-t/6 band, +-t/2 stone); dome = spherical membrane under own weight (meridian -wa/(1+cos), hoop wa(1/(1+cos) - cos), sign change 51.83 deg); supports drawn at mid-height so the flip cable/arch is visible, one fixed arrow scale. Tested with a throwaway lesson (removed), screenshots viewed, widget-smoke 0 errors, validate clean.
+Conventions fixed here: H = wL^2/(8h); arch compression blue, cable tension orange, reactions purple; hoop switches at 51.8 deg from the crown (dome).
+
 ## 2026-10-29 Lesson ch02-coaster (23 cards, over the "under 20" ideal, under 25)
 Built `ch02/coaster.yaml` (added `file:` in course.yaml): hook guess, drop widget, build v^2 = 2 g dh, 28 m/s, second hill (14 m/s), friction widget (h2 38, f 0.012 stalls at 178 m, just short of the top at 181 m; friction slider range 0 to 0.012 because the flat start stalls the cart at f >= 0.015), 1.8 m lost, circle vs teardrop widget with tolerance {0, 5}, why not circle, felt-g arrows, 2.55 g, build N bottom/top, 1788 N, min start 25 m, crest widget, -0.63 g, 4 g limit speed 24.2, three traps, own summary. Choices: tolerance band high = 5 g (typical blackout), low = 0 (airtime); ASTM F2291 figures dropped (unconfirmed). Widget presets not viewed (shots flagged nothing; widget previously smoke-tested). Conventions fixed here: felt g = N/(mg); bottom 1 + v^2/(g r), top v^2/(g r) - 1, crest 1 - v^2/(g r); loop r 10 m, start 30 m (circle 7.06 g, teardrop 4.68 g); minimum start 2.5 r; dip r 20, v 20, 60 kg = 1788 N.
 
