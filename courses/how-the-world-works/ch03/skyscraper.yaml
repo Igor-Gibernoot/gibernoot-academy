@@ -1,0 +1,338 @@
+id: ch03-skyscraper
+title: Skyscrapers and Tuned Mass Dampers
+kind: concept
+own: |
+  - **Natural frequency.** A swaying tower, modelled as one lump of effective mass $m$ (kg) on a spring of sway stiffness $k$ (newtons of push per metre of sway), rocks back and forth on its own at
+    {{ $$f_0 = \frac{1}{2\pi}\sqrt{\frac{k}{m}}$$ }}
+    in hertz (swings per second); its period is $T = 1/f_0$. Stiffer means a higher $f_0$ (shorter period), heavier means lower. The model tower $m = 2.5\times10^{7}$ kg, $k = 2.2\times10^{7}$ N/m has $f_0 \approx 0.149$ Hz, $T \approx 6.7$ s. A hanging mass (a pendulum of length $L$) has period $T = 2\pi\sqrt{L/g}$, independent of its mass.
+  - **Resonance.** A push repeated at a frequency $f$ close to $f_0$ adds to the swing every cycle. Let $D$ be the sway under a steady push of the same size, and $\zeta$ the damping ratio (how much of the swing energy is lost per cycle; a few percent or less for buildings). At $f = f_0$ the sway reaches about
+    {{ $$x_{\max} \approx \frac{D}{2\zeta}$$ }}
+    For $D = 0.01$ m and $\zeta = 0.01$ this is $0.5$ m, fifty times the steady sway. More damping lowers and widens the peak.
+  - **Tuned mass damper.** Hang a second mass $m_d = \mu\,m$ (mass ratio $\mu$, here $0.02$) on its own spring or cable. If its natural frequency is tuned to the building's, it swings out of step with the building and its force on the structure opposes the motion; dampers then turn that motion into heat. The single tall peak splits into two much lower ones: for $\zeta = 0.01$, $\mu = 0.02$ the peak falls from $50\,D$ to about $8.7\,D$. The classic best tuning is slightly below the building's frequency,
+    {{ $$f_d \approx \frac{f_0}{1+\mu}$$ }}
+  - **Tradeoffs.** A bigger damper mass lowers the peak further but with diminishing returns (peak $11.6\,D$, $8.7\,D$, $6.5\,D$, $4.8\,D$ for $\mu = 1,2,4,8\%$) and costs weight and space. A damper tuned off the building's frequency (here $0.8\,f_0$ instead of $0.98\,f_0$) leaves a peak of $26.8\,D$, so the building's period must stay close to what the damper was tuned for.
+cards:
+  - type: mcq
+    id: hook
+    prompt: |
+      Taipei 101, a 508 m tower with 101 floors, has a steel ball about 5.5 m across hanging inside its upper floors. Its mass is about 660 tonnes. **Guess before any theory.** What is the ball for?
+    shuffle: false
+    options:
+      - text: It is a decoration, with no effect on the building.
+        feedback: |
+          Nobody hangs 660 tonnes from the top floors for decoration; the extra weight and the supports cost a lot. The ball has a mechanical job.
+      - text: It is extra weight at the top to press the building down and keep it from tipping over.
+        feedback: |
+          A building does not tip over in wind; the foundation and the structure prevent that. And the ball hangs freely and swings, which a plain weight would not need to do.
+      - text: It swings against the building's sway in wind, so the tower moves less.
+        correct: true
+      - text: It stores water to fight fires on the top floors.
+        feedback: |
+          A solid ball of steel plates stores nothing. Its job is about motion, not water.
+    explanation: |
+      Tall buildings sway in wind, slowly and a little, and people on the upper floors can feel it. The ball is a **tuned mass damper**: a big mass that swings so as to push against the building's motion. It is reported to cut the tower's movement by up to about 40 percent. The next cards build up why a hanging mass can do this.
+
+  - type: widget
+    id: sway
+    widget: oscillator-lab
+    review: false
+    config:
+      system: tower
+      mass: 25
+      stiffness: 22
+      damping: 0.01
+      units: { mass: 'kt', stiffness: 'MN/m' }
+      ranges: { mass: [10, 50, 1], stiffness: [10, 50, 1] }
+      readouts: [natural, period]
+      show: { curve: false, marker: false, f0Line: false, driver: false, freqSlider: false, dampingSlider: false, systemToggle: false, damperToggle: false, presets: false, massSlider: true, stiffnessSlider: true, trace: true }
+    body: |
+      A tower modelled as one mass (in thousands of tonnes, kt) on a spring of sway stiffness $k$ (MN of push per metre of sway). Pushed once, it rocks to and fro at a rate of its own. Drag the **mass** and the **stiffness** sliders and watch the number of swings per second ($f_0$, hertz) and the period (seconds per swing).
+
+  - type: mcq
+    id: faster
+    prompt: |
+      A tower sways to and fro with a natural frequency $f_0$ of its own. Which change makes it sway **faster**, that is, raises $f_0$?
+    shuffle: false
+    options:
+      - text: Making it heavier, with the same stiffness.
+        feedback: |
+          More mass is harder to get moving and to turn around, so it swings more slowly: $f_0$ goes down.
+      - text: Making it stiffer, with the same mass.
+        correct: true
+      - text: 'Neither, a tower''s frequency does not depend on its mass or stiffness.'
+        feedback: |
+          It does: both appear in $f_0 = \frac{1}{2\pi}\sqrt{k/m}$, so changing either one changes the frequency.
+      - text: Making it taller, with everything else the same.
+        feedback: |
+          Height by itself is not a variable in the model: only mass and stiffness are. (A taller tower is usually more flexible, so it is slower, but through its stiffness.)
+    explanation: |
+      A stiffer spring pulls back harder for the same sway, so the swing turns around sooner and $f_0$ rises. A heavier mass is harder to turn around, so $f_0$ falls. The next card puts numbers on this.
+
+  - type: build
+    id: f-build
+    prompt: |
+      A mass $m$ (kg) on a spring of stiffness $k$ (N/m) rocks at its natural frequency $f_0$ (swings per second, Hz). Build the formula. Recall: the stiffer the spring, the faster the swing; the heavier the mass, the slower.
+    prefix: 'f_0 ='
+    tiles: ['\dfrac{1}{2\pi}', '2\pi', '\sqrt{\dfrac{k}{m}}', '\sqrt{\dfrac{m}{k}}', '\dfrac{k}{m}']
+    answers:
+      - ['\dfrac{1}{2\pi}', '\sqrt{\dfrac{k}{m}}']
+    wrong:
+      - { answer: ['\dfrac{1}{2\pi}', '\sqrt{\dfrac{m}{k}}'], feedback: 'Upside down: it would make a heavier mass swing **faster**. Mass belongs under the root, stiffness on top.' }
+      - { answer: ['2\pi', '\sqrt{\dfrac{k}{m}}'], feedback: 'The $2\pi$ turns radians per second into swings per second, so it divides: $\sqrt{k/m}$ is an angular rate, about $6.28$ times bigger than the number of swings per second.' }
+    hint: The root $\sqrt{k/m}$ is a rate in radians per second; one swing is $2\pi$ radians.
+    explanation: |
+      Push a mass sideways by $x$ and the spring pulls back with force $kx$, so the acceleration is $a = -(k/m)\,x$. That is the equation of a swing at the angular rate $\sqrt{k/m}$ (radians per second). One full swing is $2\pi$ radians, so
+      $$f_0 = \frac{1}{2\pi}\sqrt{\frac{k}{m}}.$$
+
+  - type: numeric
+    id: period
+    prompt: |
+      A model tower has effective mass $m = 2.5\times10^{7}$ kg and sway stiffness $k = 2.2\times10^{7}$ N/m. What is its natural **period** $T = 1/f_0$, in seconds?
+    answer: 6.7
+    tolerance: 0.05
+    answerText: '6.7'
+    wrong:
+      - { value: 0.149, feedback: 'That is the frequency $f_0$ in hertz (swings per second). The period is its inverse.' }
+      - { value: 1.07, feedback: 'You used $\sqrt{k/m} = 0.938$ as a frequency in hertz. It is an angular rate in radians per second; divide by $2\pi$ first to get $f_0$.' }
+    hint: First $f_0 = \frac{1}{2\pi}\sqrt{k/m}$ in hertz, then $T = 1/f_0$.
+    explanation: |
+      $k/m = 0.88\ \mathrm{s^{-2}}$, so $\sqrt{k/m} = 0.938$ rad/s and $f_0 = 0.938/(2\pi) = 0.149$ Hz. Then $T = 1/0.149 \approx 6.7$ s. For comparison, measurements of Taipei 101 give a fundamental frequency of about $0.15$ Hz, so a swing of about $6.7$ s. Our model tower was chosen to match; its mass and stiffness are settings, not the real building's values.
+
+  - type: mcq
+    id: swing-push
+    prompt: |
+      You push a child on a swing. **Guess:** what pattern of pushes builds up the **biggest** swing for the same effort in each push?
+    shuffle: false
+    options:
+      - text: Push as often as you can, much faster than the swing moves.
+        feedback: |
+          Most of those pushes arrive while the swing is moving toward you and fight it. They cancel instead of adding.
+      - text: One push per swing, each time the swing is moving away from you.
+        correct: true
+      - text: Push at random moments.
+        feedback: |
+          Random pushes sometimes help and sometimes oppose the motion, so on average they build little.
+      - text: Push very slowly, once every several swings.
+        feedback: |
+          Between pushes the swing keeps moving by itself and loses a little energy each cycle, so each push starts nearly from scratch.
+    explanation: |
+      A push adds energy when it moves with the motion. Pushing once per swing, at the right moment, adds a little every cycle and the swing grows. This is **resonance**: pushes repeated at the swing's own natural frequency build a large motion from small forces.
+
+  - type: widget
+    id: resonance
+    widget: oscillator-lab
+    review: false
+    config:
+      system: tower
+      f0: 0.15
+      damping: 0.05
+      driveFrequency: 0.06
+      ampMax: 25
+      units: { length: 'x D' }
+      ranges: { damping: [0.02, 0.3, 0.005] }
+      readouts: [natural, drive, amplitude, phase]
+      show: { damper: false, damperToggle: false, systemToggle: false, presets: false, handles: true, trace: true, dampingSlider: true, freqSlider: true }
+    body: |
+      A tower pushed back and forth by wind gusts at frequency $f$ (the **drive**). The curve shows how large the sway gets (in units of $D$, the sway under a steady push of the same size) for each drive frequency; the marker is the current one. Drag the marker, or the frequency slider, from far below $f_0$ to far above it, and watch the sway and the dashed line at $f_0$. Then lower the **damping** and look again.
+
+  - type: numeric
+    id: peak
+    prompt: |
+      Wind pushes a tower with a force that repeats exactly at its natural frequency $f_0$. A steady push of the same size would bend it by only $D = 0.01$ m. The tower's damping ratio $\zeta$ is $0.01$ (1 percent, typical for a very slim building), and at resonance the sway reaches about $D/(2\zeta)$. How large is the sway, in metres?
+    answer: 0.5
+    tolerance: 0.01
+    answerText: '0.5'
+    wrong:
+      - { value: 0.01, feedback: 'That is the sway under a steady push. At resonance the repeated pushes add up cycle after cycle, limited only by damping.' }
+      - { value: 1, feedback: 'Check the factor: it is $D/(2\zeta) = 0.01/0.02$, not $D/\zeta$.' }
+    hint: $D/(2\zeta)$ with $D = 0.01$ m and $\zeta = 0.01$.
+    explanation: |
+      $0.01/(2\times0.01) = 0.5$ m, fifty times the steady sway. The smaller the damping, the taller the peak. Real winds are not perfectly regular and real towers have extra damping, so real sway is smaller, but the lesson stands: a lightly damped tower is very sensitive to pushes near $f_0$.
+
+  - type: mcq
+    id: damping-effect
+    prompt: |
+      A tower's sway is plotted against the frequency of a repeated wind push. The tower's damping is then **increased** (more energy lost per cycle). How does the resonance peak change?
+    shuffle: false
+    options:
+      - text: It gets lower and wider.
+        correct: true
+      - text: It gets lower, but just as narrow.
+        feedback: |
+          More damping also makes the tower respond less sharply to the exact frequency: the peak spreads out. Try the damping slider in the widget again, watching the width.
+      - text: It gets higher, because losing energy makes the sway larger.
+        feedback: |
+          Losing energy each cycle limits how large the sway can grow, so the peak falls.
+      - text: It moves to a different frequency, far from $f_0$.
+        feedback: |
+          Strong damping shifts the peak only a little. The natural frequency is set mainly by $k$ and $m$.
+    explanation: |
+      Damping drains energy every cycle, which caps the sway, so the peak is lower ($D/(2\zeta)$ shrinks as $\zeta$ grows). It also makes the response less picky about the exact frequency, so the peak widens. Buildings have very little damping of their own, on the order of 1 percent or less, which is why engineers add some.
+
+  - type: widget
+    id: damper
+    widget: oscillator-lab
+    review: false
+    config:
+      system: tower
+      f0: 0.15
+      damping: 0.01
+      damper: true
+      massRatio: 0.02
+      driveFrequency: 0.15
+      ampMax: 55
+      units: { length: 'x D' }
+      show: { ghost: true, damperDampingSlider: false, presets: false, systemToggle: false, handles: true, trace: true }
+      readouts: [natural, drive, amplitude, damperAmp]
+    body: |
+      The same tower with very light damping ($\zeta = 0.01$), pushed by wind at frequency $f$. Switch the **second mass** on: a small mass (2 percent of the tower's) hung on its own spring and tuned to the tower. The dashed curve is the tower alone. Drag the drive frequency across the peak and watch the tower, and the little mass, with the damper on and off.
+
+  - type: mcq
+    id: split-peak
+    prompt: |
+      A very lightly damped tower has one tall resonance peak at its natural frequency $f_0$. A small second mass, tuned to $f_0$ and hung from the tower on its own spring, is added. What happens to the plot of the tower's sway against push frequency?
+    shuffle: false
+    options:
+      - text: The tall peak splits into two lower peaks, with a much smaller sway between them, at $f_0$.
+        correct: true
+      - text: The tall peak stays and a second peak appears next to it.
+        feedback: |
+          Adding a peak would only add sway. The damper takes motion out of the tower right where it was largest.
+      - text: The peak simply moves to a higher frequency with the same height.
+        feedback: |
+          The heights change a lot: the whole point is that the damper lowers the worst sway, not just shifts it.
+      - text: 'Nothing, a mass of 2 percent is too small to matter.'
+        feedback: |
+          The mass is small but it swings with the tower's rhythm, and a resonant system responds strongly to small pushes. That is why a small mass can have a big effect.
+    explanation: |
+      Exactly at $f_0$, where the bare tower would sway most, the damper mass swings hard, and its pull on the tower opposes the motion. The result is a dip at $f_0$ with two lower peaks on each side. In our model the highest peak falls from $50\,D$ to about $8.7\,D$.
+
+  - type: order
+    id: how-damper
+    prompt: Put the sequence in order, how a tuned mass damper takes motion out of a swaying tower.
+    steps:
+      - 'Wind gusts push the tower and it starts to sway at about its natural frequency.'
+      - 'The damper mass hangs free, so it is carried along only by the tower''s motion through its spring or cable, and it lags behind the tower.'
+      - 'Because it lags, the damper mass moves against the tower for a good part of each cycle, and its force on the tower opposes the tower''s motion.'
+      - 'Dampers between the mass and the structure turn that relative motion into heat, so the energy of the sway drains away.'
+    hint: Cause first (wind), then the lag, then the opposing force, then where the energy goes.
+    explanation: |
+      The damper does not push on its own: it responds to the tower, lagging behind it because it is free to swing. The opposing force, together with friction or fluid dampers that convert the relative motion into heat, removes the energy that the wind keeps adding. This needs the damper's natural frequency to match the tower's: the next cards test that.
+
+  - type: numeric
+    id: pendulum-length
+    prompt: |
+      A hanging mass (a pendulum) of length $L$ has period $T = 2\pi\sqrt{L/g}$, independent of its mass, with $g = 9.8\ \mathrm{m/s^2}$. To tune a hanging ball to the model tower's period $T = 6.7$ s, how long must the pendulum be, in metres?
+    answer: 11.1
+    tolerance: 0.1
+    answerText: '11.1'
+    wrong:
+      - { value: 6.7, feedback: 'The length is not the period in numbers. Solve $T = 2\pi\sqrt{L/g}$ for $L$.' }
+      - { value: 1.78, feedback: 'You forgot to square: $\sqrt{L/g} = T/(2\pi)$, so $L = g\,(T/2\pi)^2$.' }
+    hint: $L = g\,(T/2\pi)^2$.
+    explanation: |
+      $T/(2\pi) = 6.7/6.283 = 1.066$ s, so $L = 9.8\times1.066^2 = 11.1$ m. Because mass does not appear, a heavy ball is tuned by its length alone, which is why a giant hanging ball can be used as a damper. (We only use this to show the idea; we do not claim the real damper's cable length.)
+
+  - type: widget
+    id: mass-ratio
+    widget: oscillator-lab
+    review: false
+    config:
+      system: tower
+      f0: 0.15
+      damping: 0.01
+      damper: true
+      massRatio: 0.02
+      driveFrequency: 0.15
+      ampMax: 55
+      units: { length: 'x D' }
+      readouts: [natural, drive, amplitude, damperAmp]
+      show: { ghost: true, presets: false, systemToggle: false, damperToggle: false, tuningSlider: false, massRatioSlider: true, handles: true, trace: false }
+    body: |
+      Same tower and damper, now with the **mass ratio** $\mu = m_d/m$ (damper mass over tower mass) as the slider, each time with the best tuning. Try about $1\%$, $2\%$, $4\%$ and $8\%$ and read the height of the highest peak (in units of $D$) for each.
+
+  - type: mcq
+    id: more-mass
+    prompt: |
+      A tower with a tuned damper of mass ratio $\mu = 2\%$ has a highest peak of about $8.7\,D$ (without the damper, $50\,D$). The damper mass is **quadrupled** to $\mu = 8\%$, still best-tuned. By roughly how much does the highest peak fall?
+    shuffle: false
+    options:
+      - text: By about 25 percent.
+        feedback: |
+          More than that: at 8 percent the peak is about $4.8\,D$, which is a bit under half of $8.7\,D$.
+      - text: By about 45 percent, to about $4.8\,D$.
+        correct: true
+      - text: By about 75 percent, in proportion to the mass.
+        feedback: |
+          Four times the mass does not give four times less sway. The returns shrink with every extra tonne.
+      - text: 'Not at all, the damper''s mass makes no difference once it is tuned.'
+        feedback: |
+          Mass matters: a larger damper has a stronger pull on the tower and lowers the peak further.
+    explanation: |
+      For $\zeta = 0.01$ the best-tuned peaks are about $11.6\,D$, $8.7\,D$, $6.5\,D$ and $4.8\,D$ for $\mu = 1, 2, 4, 8\%$. Quadrupling the mass from $2\%$ to $8\%$ cuts the peak by $1 - 4.8/8.7 \approx 45\%$. That is a **tradeoff**: a heavier damper helps with diminishing returns while its weight, its supports and the floor space it takes keep growing. Real dampers use a small mass fraction (sources give a few percent of the building's effective mass or less).
+
+  - type: widget
+    id: detune
+    widget: oscillator-lab
+    review: false
+    config:
+      system: tower
+      f0: 0.15
+      damping: 0.01
+      damper: true
+      massRatio: 0.02
+      driveFrequency: 0.15
+      ampMax: 55
+      units: { length: 'x D' }
+      readouts: [natural, drive, amplitude, damperAmp]
+      show: { ghost: true, tuningSlider: true, massRatioSlider: false, systemToggle: false, damperToggle: false, handles: true, trace: false }
+      presets:
+        - { label: 'Tuned', tuning: 0.9804 }
+        - { label: 'Detuned (0.8)', tuning: 0.8 }
+    body: |
+      Same tower, damper fixed at $\mu = 2\%$. The **tuning** slider sets the damper's own natural frequency as a fraction of the tower's. Start at $0.98$ (the best tuning), then drag it down to $0.8$ and up to $1.2$, watching the highest peak of the curve.
+
+  - type: mcq
+    id: detuned
+    prompt: |
+      A tower with a $\mu = 2\%$ damper tuned to $0.98\,f_0$ has a highest peak of $8.7\,D$. Measurements show that Taipei 101's fundamental period grew by up to 7 percent during a strong typhoon, probably because the structure got slightly less stiff. In our model, the tower's frequency drops by about 6.5 percent (so the damper is tuned about 5 percent too high) and the peak rises to about $15\,D$. What does this teach?
+    shuffle: false
+    options:
+      - text: A damper works best when its frequency matches the structure's; if the structure's frequency drifts, the damper loses much of its benefit.
+        correct: true
+      - text: A damper is useless unless it is tuned exactly, to the last decimal.
+        feedback: |
+          Too strong: even a damper off by 5 percent still reduces the peak from $50\,D$ to about $15\,D$. Tuning matters, but the effect degrades gradually.
+      - text: Since the building changes, the damper should be removed.
+        feedback: |
+          The drift is small, and the damper still does a lot of the work. The lesson is to design for it (damping in the damper, a frequency range), not to remove it.
+      - text: Frequency does not matter for a damper, only its mass.
+        feedback: |
+          Both matter. Tuning to the structure's frequency is what makes the mass swing against the motion at the right moment.
+    explanation: |
+      In our model, a $0.8\,f_0$ damper leaves a peak of $26.8\,D$ and a $1.2\,f_0$ one $31.2\,D$, close to the bare tower. Slightly off, as at $1.05\,f_0$, the peak is about $15.2\,D$: worse than the tuned $8.7\,D$ but still far below $50\,D$. Real designs therefore tune carefully, give the damper its own damping to widen the range, and check the building's actual frequency. The best tuning for a damper on an undamped tower is slightly below $f_0$, $f_d \approx f_0/(1+\mu)$, a classical result of Den Hartog.
+
+  - type: mcq
+    id: trap-stiffer
+    prompt: |
+      Engineers stiffen a tower so that its sway stiffness $k$ becomes **four times** larger, with the same mass. A colleague says: "Same building, so it will sway with the same period as before." What does $f_0 = \frac{1}{2\pi}\sqrt{k/m}$ say?
+    shuffle: false
+    options:
+      - text: The period stays the same, because mass sets the period and the mass did not change.
+        feedback: |
+          Mass does not set the frequency alone: stiffness is under the same root. Four times the stiffness means $\sqrt{4} = 2$ times the frequency.
+      - text: The period is halved, because $f_0$ doubles.
+        correct: true
+      - text: The period is quartered, because $k$ is four times larger.
+        feedback: |
+          $k$ is under a square root: four times the stiffness gives twice the frequency, not four times. The period is halved.
+      - text: The period doubles, because a stiffer tower is harder to move.
+        feedback: |
+          Harder to push, yes, but also quicker to spring back. A stiffer spring swings faster, so the period shortens.
+    explanation: |
+      $\sqrt{4k/m} = 2\sqrt{k/m}$, so $f_0$ doubles and $T$ halves: for the model tower $6.7$ s becomes about $3.35$ s. That is also why a damper is tuned to a particular building: changing the building changes the frequency to tune to.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a bridge in 1940 swayed and twisted until it broke. It is often told as "wind at the bridge's resonant frequency", but that story is wrong in an important way. The next lesson, Tacoma Narrows, looks at what really fed energy into the bridge.

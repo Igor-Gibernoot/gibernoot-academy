@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-10-29 ch03-skyscraper
+Built autonomously (concept, 19 cards, widgets oscillator-lab x5 with presets, no new widget). Choices: model tower m 25 kt, k 22 MN/m (T 6.7 s, matching Taipei 101's measured 0.15 Hz); sway units "x D"; z = 0.01; real cable lengths and building mass not claimed; tuning example uses Taipei's reported 7% period growth only "in our model"; trap card on stiffness (k x4 halves T). Next unit: widget for flutter (negative effective damping vs wind speed), then ch03-flutter.
+Conventions fixed here: model tower m 2.5e7 kg, k 2.2e7 N/m, f0 0.149 Hz, T 6.7 s; D = steady-push sway, peak D/(2 z), z 0.01 gives 50 D; damper mu 0.02, nu 0.9804, bare 50 D to 8.7 D; mu 1/2/4/8% peaks 11.6/8.7/6.5/4.8 D; f_d = f0/(1+mu); pendulum L = 11.1 m for 6.7 s.
+
 ## 2026-10-29 widget oscillator-lab
 Built autonomously (widget only, no lesson). Choices: x-axis in Hz (f0 or mass+stiffness give f0 = sqrt(k/m)/2pi, optional sliders), drive amplitude = static displacement D, curve clipped at ampMax x D, animation runs animPeriod (2.4 s) per natural period while readouts show real units, undamped resonance kept finite by a 1e-9 floor; second-mass damping defaults to the Den Hartog optimum. Tested: node checks of response/RK4, throwaway mounts (spring, tower, no-curve) with sliders, buttons, handle drag, widget-smoke (0 errors), validate. Web: tuning 1/(1+mu) confirmed (PMC11351443 Table 1); the damping formula appeared flattened there, confirmed numerically by script instead (best z2 0.086 vs 0.084 formula).
 Conventions fixed here: widget `oscillator-lab` (docs/widgets/oscillator-lab.md); presets can use `driveRatio` (drive/f0); curve y unit = D (static displacement), mu 0.02 optimal nu 0.9804, z2 0.0841.
