@@ -52,7 +52,23 @@ No `sources/` book. `REFERENCES.md` lists trusted works per level. Each lesson's
 checked by (1) deriving or arguing them in the lesson, (2) a script for every number, and (3) a
 cross-check against the level's references (use WebSearch/WebFetch for dates, quotations,
 figures). Quotations and attributions must be accurate: if unsure, paraphrase and say so. Log
-what was checked in the `Verified` line of `STATUS.md` (compact). If Igor later adds a book to
+what was checked in the `Verified` line of `STATUS.md` (compact).
+
+**Web check is mandatory, not "from memory".** Every external fact in a lesson (person's name,
+birth/death years, work title and year, institution, study, statistic, event date, and every
+attributed claim or quotation) is checked with WebSearch/WebFetch (SEP, IEP, Britannica,
+publisher or journal pages) *in the session that writes the lesson*, before committing. Rules:
+- "Standard knowledge" or "memory" never counts as verified. The Verified line must say
+  `web: <source>` per item; an item without it is marked `UNVERIFIED` and the lesson is not done.
+- Attributions are checked for *what the person actually argued*, not only dates (e.g. Berkeley's
+  s.3 and s.23, Elisabeth's objection, Chalmers's positions). Quotation marks only for text
+  confirmed verbatim in a source; otherwise paraphrase and say "in essence".
+- If a search cannot confirm a claim, drop it or soften it ("argued roughly that"); never keep a
+  guess. An agent that skips the web check has not finished the unit; report it, don't commit.
+- Briefs to agents must repeat this rule. If Igor
+  asked for a specific check, do exactly that check.
+
+If Igor later adds a book to
 `sources/` (git-ignored), follow the root workflow.
 
 ## Trail
