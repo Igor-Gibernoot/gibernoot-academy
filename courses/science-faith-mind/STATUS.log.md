@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-30 ch03-challenge-2 (17 cards)
+Problems 4 (combination counts 15/66, reply matching, conceivability step, stalactite God vs phenomenalist, idealist supervenience, physical-duplicate question) and 5 (what would count against each view, Bayes 30% -> 79.4% with LR 9, layers, closure order card, where people part). No widget, no new external facts. Also fixed ch03/challenge.yaml chsh-lab card: `sliders: false` (free preset showed sliders despite draggable false); viewed render, fine. Conventions fixed here: none new.
+
 ## 2026-10-30 ch03-challenge part 1 (challenge, 21 cards, problems 1-3)
 Closure (Kim P1-P3 assigned to interactionism, epiphenomenalism, strong emergence; panpsychism and idealism marked as "our reading": they change what physical/mental mean rather than dropping a premise), 4-He temperature 239 K (k=1.38e-23), Born 36% and 25/169=14.8%, local sheet s=-2, chsh-lab free preset at 0/90/30/120 (S=-2.732), Bell matching, no-signalling trap; f_sim N_I=9000 for 90%, null update 0.9/1.9=47.4%, Fresnel n=1.5 R=4.0%, Newman 2^16=65536. No new external facts (all reused from audited ch03 lessons). Numbers by script. Added planned node ch03-challenge-2. Conventions fixed here: none new.
 
