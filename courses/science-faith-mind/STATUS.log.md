@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-30 ch03-map (map, 13 cards, 11 boxes, cols 4)
+Built autonomously. No new external facts (all reused from web-audited Level 3 lessons), no new search. Choices: 4 columns so the four views sit in one row; only structure->layers goes to the bottom box (all-to-layers arrows would cross boxes), the outro says the layers cover every box; Kim's closure premises drive the dualism decoys. Conventions fixed here: none new.
+
 ## 2026-10-30 ch03-intuition (intuition, 25 cards)
 Built autonomously. No new external facts (all reused from web-audited Level 3 lessons), so no new search. Choices: replaced the planned Fresnel limit card by a hint/explanation (n=1 gives 0) to stay at 25 cards; CHSH build uses a prefix `S=E(a,b)` plus 3 sign-tiles; summary is a text card (no `own:`), formulas displayed. No widget (formula/build/numeric items; chsh-lab would give answers away). Conventions fixed here: none new.
 
