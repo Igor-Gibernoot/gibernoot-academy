@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-29 ch03-quantum (22 cards)
+Built autonomously. Hook (spin 50/50), recipe (state, Born rule), two numeric cards, settled-vs-interpretation, measurement problem (order card), four interpretations each with a question and its price, side-by-side table (3 columns, phone-safe), agreement, consciousness overreach, open questions. No widget (text/numeric enough; no spin preset exists). Choices: Born's dates and Bell given only as 1964 (next lesson); Heisenberg dates from Wikipedia only; Schrodinger cat date from bookseller listings of the 1935 paper; no survey figures; consciousness-collapse proposals kept anonymous ("minority position"). Conventions fixed here: spin state $a|{\uparrow}\rangle+b|{\downarrow}\rangle$, Born rule $P=|a|^2$, running example $0.6,0.8$ giving $0.36,0.64$; four interpretations and their prices (Copenhagen: device/system line; many worlds: probability; pilot wave: nonlocality; QBism: what the world is).
+
 ## 2026-10-29 exam trail restructured
 Root rule (no exam over 6 levels): added `exam-partial3` after Level 19 (covers 14-19); `exam-final` now covers 20-25. Partial 1 and 2 unchanged. No content built. Conventions fixed here: none.
 
