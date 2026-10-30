@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-30 ch03-challenge part 1 (challenge, 21 cards, problems 1-3)
+Closure (Kim P1-P3 assigned to interactionism, epiphenomenalism, strong emergence; panpsychism and idealism marked as "our reading": they change what physical/mental mean rather than dropping a premise), 4-He temperature 239 K (k=1.38e-23), Born 36% and 25/169=14.8%, local sheet s=-2, chsh-lab free preset at 0/90/30/120 (S=-2.732), Bell matching, no-signalling trap; f_sim N_I=9000 for 90%, null update 0.9/1.9=47.4%, Fresnel n=1.5 R=4.0%, Newman 2^16=65536. No new external facts (all reused from audited ch03 lessons). Numbers by script. Added planned node ch03-challenge-2. Conventions fixed here: none new.
+
 ## 2026-10-30 ch03-map (map, 13 cards, 11 boxes, cols 4)
 Built autonomously. No new external facts (all reused from web-audited Level 3 lessons), no new search. Choices: 4 columns so the four views sit in one row; only structure->layers goes to the bottom box (all-to-layers arrows would cross boxes), the outro says the layers cover every box; Kim's closure premises drive the dualism decoys. Conventions fixed here: none new.
 
