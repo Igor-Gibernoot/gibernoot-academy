@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-30 ch03-traps (traps, 21 cards, 19 traps)
+Built autonomously. Deliberately used no external fact beyond those already web-audited in the Level 3 lessons (no new names or dates), so no new web search was needed. Choices: Bell trap numeric uses the local sheet s=A(B-B')+A'(B+B') with all +1 (s=2, not 4); "energy refutes dualism" trap phrased around causal closure, no conservation-law specifics; Copenhagen and Bohr/Heisenberg wording kept to "not one doctrine". No widget (questions are conceptual). Conventions fixed here: none new.
+
 ## 2026-10-29 ch03-structure (concept, 17 cards)
 Built autonomously. Web-checked Worrall 1989, Ladyman 1998, Ladyman & Ross 2007, Newman 1928, Fresnel/Maxwell dates. No widget: checked none fits (conceptual comparison plus one formula). Choices: "Worrall quote" kept (SEP gives it verbatim, 1989:117); Redhead quote and Psillos attribution omitted (not rechecked); OSR motivation stated only as "current physics does not fit self-standing individuals" (SEP). Quantum/Bayes comparisons marked as readings ("one could read"). Conventions fixed here: $R=\big(\tfrac{n-1}{n+1}\big)^2$ water 2.0%; epistemic vs ontic structural realism; Newman $2^{n^2}$, 512 for n=3.
 
