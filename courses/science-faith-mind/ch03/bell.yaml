@@ -1,0 +1,361 @@
+id: ch03-bell
+title: "Guided Problem: Bell's Inequality with Numbers"
+kind: guided
+cards:
+  - type: mcq
+    id: hook
+    title: "Two particles, one pattern"
+    multiple: true
+    prompt: |
+      Guess before any theory. A source emits pairs of particles, one flying left to Alice and one flying right to Bob, far apart. Each particle has a property called **spin**, which Alice and Bob each measure along a direction they choose, getting exactly one of two results, called $+1$ and $-1$. They find: whenever both pick the **same** direction, their results are always **opposite** (one $+1$, the other $-1$), yet each single result looks like a fair coin toss.
+
+      Which explanations fit this observation by itself? (Select all that apply.)
+    options:
+      - text: 'The pair left the source with the answers already fixed, like two sealed envelopes, one saying $+1$ and one saying $-1$, opened at the measurement.'
+        correct: true
+      - text: 'When Alice measures, something travels instantly to Bob and fixes his result as the opposite of hers.'
+        correct: true
+      - text: 'Each particle flips its own independent coin, and the opposite results are a coincidence that happens every time.'
+        feedback: |
+          Independent coins agree half of the time. Opposite results on every one of thousands of pairs are not luck.
+    explanation: |
+      The first story is called a **local hidden variable** picture (the answers are hidden in the pair, and nothing travels). The second is **nonlocal**. With one direction alone, they cannot be told apart. The point of this lesson is that **different directions** can tell them apart, and the difference can be put into numbers. The question is whether the envelopes can always reproduce what quantum mechanics predicts. According to John Bell (1928-1990), they cannot.
+
+  - type: text
+    id: setup
+    title: "The experiment, in numbers"
+    body: |
+      Here is the setup, with one case worked out.
+
+      - The source emits pairs prepared in the **singlet** state (a two-particle quantum state in which the total spin is zero, so the two spins are always opposite along any common direction).
+      - Alice chooses a direction in a plane, given by an angle (in degrees), and Bob chooses another. Alice's result is $A=\pm1$ and Bob's is $B=\pm1$.
+      - The **correlation** $E$ is the average of the product $AB$ over many pairs. Equal results contribute $+1$, opposite results $-1$, so
+      $$E = P(\text{same}) - P(\text{opposite})$$
+      where $P$ is the fraction of pairs with that outcome.
+      - Quantum mechanics predicts, for Alice's angle $x$ and Bob's angle $y$,
+      $$E(x,y) = -\cos(x-y)$$
+
+      Check: the same direction gives $E=-\cos 0^\circ=-1$ (always opposite), as in the hook. Perpendicular directions give $E=-\cos 90^\circ=0$ (same and opposite equally often).
+
+  - type: numeric
+    id: opposite
+    title: "From E to a probability"
+    prompt: |
+      Alice and Bob's directions differ by $60^\circ$. The singlet correlation is $E=-\cos 60^\circ=-0.5$, and $E = P(\text{same}) - P(\text{opposite})$ with $P(\text{same})+P(\text{opposite})=1$. What fraction of pairs gives **opposite** results?
+    answer: 0.75
+    tolerance: 0.005
+    wrong:
+      - { value: 0.5, feedback: 'That would be $E=0$ (perpendicular directions). Here $E=-0.5$ is below zero, so opposite results win.' }
+      - { value: 0.25, feedback: 'That is $P(\text{same})$. Solve $P_s - P_o = -0.5$ with $P_s + P_o = 1$: $P_o = 0.75$.' }
+    hint: 'Add and subtract the two equations: $2P_o = 1 - E$.'
+    explanation: |
+      From $P_s+P_o=1$ and $P_s-P_o=E$ we get
+      $$P_{\text{opposite}} = \frac{1-E}{2} = \frac{1+0.5}{2} = 0.75$$
+      so $75\%$ opposite and $25\%$ same.
+
+  - type: widget
+    id: curve
+    widget: chsh-lab
+    review: false
+    config:
+      preset: curve
+    body: |
+      The solid curve is the quantum prediction $E=-\cos(\text{angle difference})$. The dashed straight line is the correlation of one simple local model (envelopes that depend on the angle in a straightforward way). Look at where the two meet and where they part. A test of hidden variables should use angle differences where they part.
+
+  - type: mcq
+    id: curve-q
+    title: "Where the curves part"
+    prompt: |
+      The quantum curve $E=-\cos\theta$ ($\theta$ = difference of the two directions) and a straight-line local model agree at some angle differences and differ at others. Which pairs of angle differences are the only ones where they agree on this plot?
+    options:
+      - text: '$0^\circ$, $90^\circ$ and $180^\circ$ (where $E=-1$, $0$, $+1$); between them the cosine bends away from the line.'
+        correct: true
+      - text: 'They agree at every angle difference.'
+        feedback: |
+          If they agreed everywhere there would be nothing to test. The cosine curves while the line is straight, so they differ between the meeting points.
+      - text: 'They agree only at $45^\circ$ and $135^\circ$.'
+        feedback: |
+          At $45^\circ$ the cosine gives $E\approx-0.71$ and the line gives $E=-0.5$. These are the angles where the gap is large, which is why they will be used.
+    explanation: |
+      At $0^\circ$, $90^\circ$ and $180^\circ$ every model must give $-1$, $0$, $+1$ (same direction: always opposite; perpendicular: no pattern; reversed: always equal), so those angles test nothing. The gap is largest near $45^\circ$ and $135^\circ$. One line is only one local model, though; the next steps show a bound that holds for **all** of them.
+
+  - type: text
+    id: lhv
+    title: "What a local hidden-variable theory says"
+    body: |
+      A **local hidden-variable theory** says: each pair leaves the source carrying a hidden label $\lambda$ (a list of properties, unknown to us, that may differ from pair to pair). Then:
+
+      - **Instruction sheet.** The label fixes the answer for every direction that could be chosen. For two directions on Alice's side, $a$ and $a'$, her results are $A(a,\lambda)=\pm1$ and $A(a',\lambda)=\pm1$; for Bob's two directions $b$ and $b'$, $B(b,\lambda)=\pm1$ and $B(b',\lambda)=\pm1$.
+      - **Locality.** $A$ depends on Alice's own direction and on $\lambda$ only, never on Bob's direction (and the other way round). Nothing travels between the two sides.
+      - **Free choice.** Alice and Bob choose their directions independently of $\lambda$.
+
+      The correlation is then the average of $AB$ over the pairs. (Theories where the sheet only fixes the *probabilities* of $\pm1$ lead to the same bound; the deterministic case is easier to count.)
+
+  - type: text
+    id: chsh
+    title: "The CHSH combination"
+    body: |
+      Each side picks one of two directions: Alice $a$ or $a'$, Bob $b$ or $b'$. The **CHSH quantity** (named for Clauser, Horne, Shimony and Holt, 1969) combines four correlations:
+      $$S = E(a,b) - E(a,b') + E(a',b) + E(a',b')$$
+
+      For one pair with its sheet, write $A,A',B,B'$ for the four values ($\pm1$ each). Its contribution is
+      $$s = AB - AB' + A'B + A'B'$$
+      Group the terms by $A$ and $A'$:
+      $$s = A\,(B-B') + A'\,(B+B')$$
+
+  - type: mcq
+    id: s-values
+    title: "What can one sheet give?"
+    prompt: |
+      For one instruction sheet, $s = A(B-B') + A'(B+B')$ with $A,A',B,B'$ each $+1$ or $-1$. Which values can $s$ take?
+    options:
+      - text: 'Only $+2$ or $-2$.'
+        correct: true
+      - text: 'Any value from $-4$ to $4$, since there are four terms of size 1.'
+        feedback: |
+          Four terms of size 1 could reach $\pm4$ only if all four had the same sign, but that cannot happen with the four values being reused in each term.
+      - text: 'It can also be $0$, when the two brackets cancel.'
+        feedback: |
+          The two brackets cannot both be zero: $B-B'=0$ means $B=B'$, which makes $B+B'=\pm2$. So one bracket vanishes and the other is $\pm2$.
+    explanation: |
+      Since $B,B'=\pm1$: if $B=B'$ then $B-B'=0$ and $B+B'=\pm2$, so $s=\pm2A'$. If $B=-B'$ then $B+B'=0$ and $B-B'=\pm2$, so $s=\pm2A$. Either way $s=\pm2$.
+
+  - type: numeric
+    id: count
+    title: "Counting the sheets"
+    prompt: |
+      There are $2\times2\times2\times2=16$ possible sheets (values of $A,A',B,B'$). For how many of them is $s=+2$? (The rest give $-2$.)
+    answer: 8
+    tolerance: 0.001
+    wrong:
+      - { value: 16, feedback: 'Then every sheet would give $+2$. Flipping all four signs turns $s$ into $-s$, so the sheets come in pairs, one giving $+2$, the other $-2$.' }
+      - { value: 4, feedback: 'Count again: $B=B'' $ gives 4 sheets with $s=+2$, and $B=-B''$ gives 4 more.' }
+    hint: |
+      Flipping the signs of all four values turns $s$ into $-s$. Or count by hand: for $B=B'$, $s=2A'B$; for $B=-B'$, $s=2AB$.
+    explanation: |
+      If $B=B'$ (4 sheets in each sign pattern: $B=\pm1$ and $A$ free), $s=2A'B=+2$ needs $A'=B$: 2 choices of $B$, 2 of $A$, so 4 sheets. If $B=-B'$, $s=2AB=+2$ needs $A=B$: 2 choices of $B$, 2 of $A'$, so 4 sheets. Total $8$, and the other $8$ give $-2$ (checked by a script).
+
+  - type: order
+    id: proof
+    title: "The bound, step by step"
+    prompt: Put the argument that a local hidden-variable theory obeys $|S|\le2$ in order.
+    steps:
+      - 'Each pair carries a sheet fixing $A,A'',B,B''$ (each $\pm1$), independent of the later choices of directions.'
+      - 'For one sheet, $s = A(B-B'') + A''(B+B'')$.'
+      - 'One bracket is $0$ and the other is $\pm2$, so $s=\pm2$ and $|s|=2$ for every sheet.'
+      - 'The measured $S$ is the average of $s$ over all pairs (each correlation is an average over the same set of pairs).'
+      - 'An average of numbers of size $2$ cannot exceed $2$ in size: $|S|\le 2$.'
+    hint: 'Sheet first, then one sheet, then the average.'
+    explanation: |
+      Each of the four terms in $S$ is measured on a different run, but each is an average over pairs drawn from the same source, which is what lets them be combined into one average of $s$. This is where free choice enters: the settings must not secretly depend on $\lambda$.
+
+  - type: numeric
+    id: mix
+    title: "Averaging sheets"
+    prompt: |
+      A source makes pairs whose sheets give $s=+2$ for three out of every four pairs and $s=-2$ for the fourth. What is the CHSH value $S$ (the average of $s$)?
+    answer: 1
+    tolerance: 0.001
+    wrong:
+      - { value: 2, feedback: 'That would be the case where every sheet gives $+2$. Here a quarter of the pairs pull the average down.' }
+      - { value: 1.5, feedback: 'The average is $\tfrac34(+2)+\tfrac14(-2)$, which is $1$, not $1.5$.' }
+    explanation: |
+      $$S=\tfrac34(+2)+\tfrac14(-2)=1.5-0.5=1$$
+      Mixing sheets only gives averages between $-2$ and $+2$. The best a local theory can do is have all sheets give the same sign, and $|S|=2$.
+
+  - type: text
+    id: quantum-setup
+    title: "Now the quantum prediction"
+    body: |
+      Choose these directions (in degrees, in the plane of the measurements):
+
+      - Alice: $a=0^\circ$ and $a'=90^\circ$.
+      - Bob: $b=45^\circ$ and $b'=135^\circ$.
+
+      Use $E(x,y)=-\cos(x-y)$. The next three questions give the four correlations and $S$.
+
+  - type: numeric
+    id: eab
+    title: "A first correlation"
+    prompt: |
+      For the singlet, $E(x,y)=-\cos(x-y)$. Alice's direction is $a=0^\circ$ and Bob's is $b=45^\circ$. What is $E(a,b)$? Give a decimal to two places.
+    answer: -0.7071
+    tolerance: 0.01
+    wrong:
+      - { value: 0.7071, feedback: 'Do not drop the minus sign in $E=-\cos(x-y)$. At a difference of $45^\circ$, $\cos 45^\circ=+0.71$, and $E=-0.71$.' }
+      - { value: -0.5, feedback: 'That is the straight-line local model at $45^\circ$. The quantum value is $-\cos 45^\circ\approx-0.71$.' }
+    explanation: |
+      $$\begin{aligned}E(a,b)&=-\cos(0^\circ-45^\circ)\\&=-\cos45^\circ\approx-0.71\end{aligned}$$
+      (the cosine is even, so the sign of the difference does not matter).
+
+  - type: numeric
+    id: eabp
+    title: "The term with the minus sign"
+    prompt: |
+      Alice's direction is $a=0^\circ$ and Bob's second direction is $b'=135^\circ$. What is $E(a,b')=-\cos(a-b')$? Give a decimal to two places.
+    answer: 0.7071
+    tolerance: 0.01
+    wrong:
+      - { value: -0.7071, feedback: 'The difference is $135^\circ$, past $90^\circ$, where $\cos$ is **negative** ($\cos135^\circ\approx-0.71$). With the leading minus sign, $E$ becomes $+0.71$.' }
+    explanation: |
+      $$E(a,b')=-\cos135^\circ\approx+0.71$$
+      At differences above $90^\circ$ the results tend to be the same rather than opposite. In $S$ this term enters with a minus sign, so it contributes $-0.71$ to the total, in the same direction as the other three terms.
+
+  - type: numeric
+    id: s-quantum
+    title: "The CHSH value"
+    prompt: |
+      With $a=0^\circ$, $a'=90^\circ$, $b=45^\circ$, $b'=135^\circ$ the correlations are $E(a,b)=-0.71$, $E(a,b')=+0.71$, $E(a',b)=-0.71$, $E(a',b')=-0.71$ (each $\pm\tfrac{1}{\sqrt2}$). Compute
+      $$S = E(a,b) - E(a,b') + E(a',b) + E(a',b')$$
+      to two decimal places.
+    answer: -2.83
+    tolerance: 0.01
+    wrong:
+      - { value: 2.83, feedback: 'The size is right but the sign is not: all four terms contribute $-0.71$, so $S=-2.83$. Only $|S|$ matters for the bound.' }
+      - { value: -1.41, feedback: 'You may have taken $E(a,b'')$ with the wrong sign: the term is $-E(a,b'')=-0.71$, the same sign as the others.' }
+    explanation: |
+      $$\begin{aligned}S &= 4\cdot(-0.71)\\&= -\tfrac{4}{\sqrt2} = -2\sqrt2\\&\approx-2.83\end{aligned}$$
+      So $|S|=2\sqrt2\approx2.83>2$. Quantum mechanics predicts a value no local sheet-average can reach (all numbers checked by script).
+
+  - type: widget
+    id: free
+    widget: chsh-lab
+    review: false
+    config:
+      preset: free
+      angles: { a: 0, aP: 0, b: 0, bP: 90 }
+    body: |
+      Two dials show Alice's directions $a$, $a'$ and Bob's directions $b$, $b'$. Drag the arrows (or use the sliders) and watch the four correlations, $S$ and the gauge for $|S|$. Start from this setting, which sits exactly on the local bound, and try to push $|S|$ as high as you can, and also to find settings that stay below $2$.
+
+  - type: mcq
+    id: free-q
+    title: "What did you find?"
+    prompt: |
+      For the singlet pair, with the correlations $E=-\cos(\text{difference})$, which statement about $|S|$ is right?
+    options:
+      - text: '$|S|$ exceeds $2$ for some choices of the four directions (not all), and never exceeds $2\sqrt2\approx2.83$.'
+        correct: true
+      - text: '$|S|$ exceeds $2$ for every choice of directions.'
+        feedback: |
+          Not for every choice: all four directions equal give $S=-1+1-1-1=-2$, exactly on the local bound. Only well-chosen angles beat it.
+      - text: '$|S|$ can reach $4$, since four correlations of size $1$ add up to $4$.'
+        feedback: |
+          Four correlations can each be near $1$ in size only if they are mutually consistent, and the cosine form forbids it. The quantum cap is $2\sqrt2$ (called the Tsirelson bound); $4$ would need stronger correlations than quantum mechanics allows.
+    explanation: |
+      So there are three zones: $|S|\le2$ (anything local can do it), $2<|S|\le2\sqrt2$ (quantum mechanics can, local sheets cannot), and above $2\sqrt2$ (neither).
+
+  - type: mcq
+    id: assumptions
+    title: "What was assumed?"
+    multiple: true
+    prompt: |
+      The experiments find $|S|$ above $2$. The bound $|S|\le 2$ was derived from several assumptions. Which of these went into it? (Select all that apply.)
+    options:
+      - text: 'Locality: Alice''s result does not depend on the direction Bob chooses (and vice versa).'
+        correct: true
+      - text: 'Hidden values: each pair carries properties $\lambda$ that fix the outcomes (or their probabilities) for the possible directions before they are chosen.'
+        correct: true
+      - text: 'Free choice: the directions are chosen independently of $\lambda$.'
+        correct: true
+      - text: 'Each run has one single outcome for Alice and one for Bob.'
+        correct: true
+      - text: 'The particles are in the singlet state.'
+        feedback: |
+          The bound uses no quantum mechanics at all; the singlet only enters when we compute the quantum value that violates it.
+    explanation: |
+      Some philosophers call the first two together "local realism". When the bound fails, at least one of the assumptions fails, and physics alone does not say which. The Stanford Encyclopedia of Philosophy lists the assumptions in much this way, and notes that the derivation needs no perfect correlation.
+
+  - type: mcq
+    id: signal
+    title: "No messages"
+    prompt: |
+      Suppose a nonlocal influence links the two sides. Bob repeatedly switches his direction between $b$ and $b'$. Alice looks only at her own list of results (no contact with Bob). What does she see?
+    options:
+      - text: 'A random-looking sequence of $+1$ and $-1$, about half each, whichever direction Bob uses; the correlations appear only when the two lists are brought together and compared.'
+        correct: true
+      - text: 'A change in her sequence each time Bob switches, so Bob can send her a message.'
+        feedback: |
+          Quantum mechanics predicts that Alice's own results are $50/50$ whatever Bob does. The pattern lives only in the comparison, which needs an ordinary message at no more than light speed.
+      - text: 'Nothing, because the particles do not interact.'
+        feedback: |
+          It is not that they do not interact; it is that the correlation is a feature of the pairs, visible only in the joint list.
+    explanation: |
+      This is why the result is said not to allow **faster-than-light signalling**, even though it excludes local hidden variables with free choice. According to the Stanford Encyclopedia, the pilot-wave theory has a direct influence between the sides and still permits no signalling.
+
+  - type: mcq
+    id: views
+    title: "Four views, one result"
+    prompt: |
+      According to which view does each theory (as met in the lesson What Quantum Mechanics Does and Does Not Say) escape the bound? Choose the pairing that is fair to each.
+    options:
+      - text: 'Pilot wave: gives up locality (a particle''s motion depends on distant settings, with no signalling). Many worlds: gives up one single outcome per run (all outcomes occur in branches). QBism: sees the correlations as patterns among each agent''s experiences, with no nonlocal influence.'
+        correct: true
+      - text: 'Pilot wave: gives up the Born rule. Many worlds: gives up the singlet state. QBism: gives up measurement.'
+        feedback: |
+          All four views reproduce the quantum predictions, including the Born rule and the singlet statistics. The differences are in which of the bound''s assumptions they decline.
+      - text: 'All four views agree that a faster-than-light signal passes between Alice and Bob.'
+        feedback: |
+          Only the pilot wave has a direct influence between the sides, and it cannot be used to send messages. Many worlds and QBism do not have one at all.
+    explanation: |
+      A Copenhagen-style view, as taught in that lesson, offers no picture of what would have happened in unmeasured settings, so it declines to write a sheet for them (our reading of the view; defenders differ on the details). A further minority route, called **superdeterminism**, denies the free-choice assumption instead. Whether to accept any of these is a live debate and a metaphysical choice, not a result of the numbers.
+
+  - type: text
+    id: experiments
+    title: "From the idea to the tests"
+    body: |
+      - **Bell, 1964.** John Bell (1928-1990), a physicist at CERN, published "On the Einstein Podolsky Rosen Paradox" in *Physics Physique Fizika* (vol. 1, no. 3, pp. 195-200). Einstein, Podolsky and Rosen had argued that quantum mechanics is incomplete and should be supplemented by extra variables; Bell showed that no local hidden-variable theory can reproduce all the quantum predictions.
+      - **CHSH, 1969.** John Clauser, Michael Horne, Abner Shimony and Richard Holt (*Physical Review Letters* 23, 880) gave the inequality of this lesson, which does not need perfect correlations, so that real experiments could test it.
+      - **Freedman and Clauser, 1972.** Photon pairs from calcium atoms: the correlations violated the restrictions of local hidden-variable theories and agreed with quantum mechanics.
+      - **Aspect, Dalibard and Roger, 1982.** The analyser settings were switched while the photons were in flight (*Physical Review Letters* 49, 1804); the results agreed with quantum mechanics and exceeded the bound by about five standard deviations.
+      - **2015.** Hensen and colleagues (entangled electron spins 1.3 km apart, *Nature*), Giustina and colleagues and Shalm and colleagues (entangled photons, *Physical Review Letters*) reported the first tests that closed, at once, the two main **loopholes**: the *locality loophole* (settings fixed too early, so a signal could cross) and the *detection loophole* (many pairs undetected, so the sample might be biased).
+      - **2022.** The Nobel Prize in Physics went to Alain Aspect, John Clauser and Anton Zeilinger for experiments with entangled photons that established the violation of Bell inequalities and pioneered quantum information science.
+
+  - type: mcq
+    id: loophole
+    title: "Why switch while flying?"
+    prompt: |
+      Why did the 1982 experiment of Aspect, Dalibard and Roger change the analyser settings **while the photons were in flight**?
+    options:
+      - text: 'So that no signal at or below light speed could carry one side''s setting to the other before the results were recorded, which closes the way for a local explanation based on such a signal (the locality loophole).'
+        correct: true
+      - text: 'To make the photons more strongly entangled.'
+        feedback: |
+          The entanglement is set at the source. Late switching only changes what can be said about the settings.
+      - text: 'To detect more of the photon pairs.'
+        feedback: |
+          Detecting more pairs is a different problem (the detection loophole), which was closed only in 2015, together with the locality loophole.
+    explanation: |
+      If the settings are fixed long before, a local mechanism could in principle pass them to the particles and mimic the quantum result. Switching late removes that gap. The 1982 test still left others open, which the 2015 tests addressed.
+
+  - type: mcq
+    id: layers
+    title: "Fact, debate, commitment"
+    prompt: |
+      Sort the claims. Which one belongs to **established fact** (data), rather than to a contested interpretation?
+    options:
+      - text: 'Measured polarisation and spin correlations violate $|S|\le2$ and agree with the quantum prediction, in tests that closed the two main loopholes.'
+        correct: true
+      - text: 'Therefore nature is nonlocal, and every hidden-variable theory is ruled out.'
+        feedback: |
+          Too strong: the result excludes theories obeying all the assumptions (locality, hidden values, free choice, one outcome). The pilot wave is a hidden-variable theory that survives by being nonlocal.
+      - text: 'Therefore many worlds is the correct view, because it keeps locality.'
+        feedback: |
+          Many worlds is one way out; it declines the single-outcome assumption. The data do not choose it over the pilot wave or QBism.
+    explanation: |
+      Layer 1 (data): the violation. Layer 2 (live debate): which assumption to drop. Layer 3 (metaphysical commitment): what the world is like given that choice.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      **The method.** We took one concrete case, the singlet pair, and computed it from the ground up:
+
+      - For any local instruction sheet with free choice, each pair gives $s=\pm2$, so the CHSH combination obeys
+      $$|S|\le 2$$
+      - For the singlet pair with $E(x,y)=-\cos(x-y)$ and directions $a=0^\circ$, $a'=90^\circ$, $b=45^\circ$, $b'=135^\circ$,
+      $$|S| = 2\sqrt2\approx2.83$$
+      - Experiments from 1972 to 2015, rewarded by the 2022 Nobel Prize, agree with the second value.
+
+      **What it rules out and what it does not.** It excludes theories that satisfy all of: locality, hidden values fixed in advance, free choice, one outcome per run. It does not show which assumption fails, does not allow messages faster than light, and does not by itself select Copenhagen, many worlds, the pilot wave or QBism. Those remain a live debate.
+
+      **Next:** the lesson Are We in a Simulation? turns from physics to a probability argument about what reality could be made of.
