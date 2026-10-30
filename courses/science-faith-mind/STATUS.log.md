@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-29 ch03-structure (concept, 17 cards)
+Built autonomously. Web-checked Worrall 1989, Ladyman 1998, Ladyman & Ross 2007, Newman 1928, Fresnel/Maxwell dates. No widget: checked none fits (conceptual comparison plus one formula). Choices: "Worrall quote" kept (SEP gives it verbatim, 1989:117); Redhead quote and Psillos attribution omitted (not rechecked); OSR motivation stated only as "current physics does not fit self-standing individuals" (SEP). Quantum/Bayes comparisons marked as readings ("one could read"). Conventions fixed here: $R=\big(\tfrac{n-1}{n+1}\big)^2$ water 2.0%; epistemic vs ontic structural realism; Newman $2^{n^2}$, 512 for n=3.
+
 ## 2026-10-29 ch03-simulation (21 cards)
 Built autonomously (concept, own: with 4 blanks). Hook mcq (counting), old ideas (Descartes, Putnam, Matrix), what is new, trilemma, "not a claim" mcq, counting derivation, build f_sim, two numeric, premises, two critic mcqs (substrate, compute), indifference, even credence 1/3, null-test update 0.286, comparisons with idealism/dualism/quantum, Chalmers mcq, lattice test, null result, layers, summary. Widget decision: none. Checked README: tradeoff-curve (only a s^k + b curves, cannot draw X/(X+1)), frequency-grid (Bayes dots, not a count of observers), simplex-points; a slider plot adds little over the two numeric cards, so no "needs widget". Choices: Bostrom's birth year dropped (unverified); Matrix as Metaphysics date not used (unconfirmed); Hossenfelder critique skipped (only secondary summary). Bostrom quotation marks not used in cards (paraphrase). Conventions fixed here: f_sim = X/(X+1), X = f_P f_I N_I; the 1/3 and 0.286 numbers; null lattice test barely moves odds.
 
