@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-30 ch04-godel (concept, 19 cards)
+Built autonomously. No widget (a proof system has no useful picture; the prime-coding numeric card carries the idea). Choices: Lucas-Penrose shown as live debate (no "consensus" claim, IEP gives none); Lucas page range omitted (sources conflict 112-127/112-137); intuitionist reading paraphrased from Brouwer's mind-construction view. Conventions fixed here: F, F |- A, G_F, Prov_F, Con(F), \ulcorner G_F \urcorner; truth = truth of the standard natural numbers; prime coding 2^a1 3^a2 5^a3 (600 for 3,1,2).
+
 ## 2026-10-30 ch04-diagonal (guided proof, 21 cards)
 Built autonomously, web-checked (see Verified). Choices: widget diagonal-list twice (table only, then stepReveal); 21 cards, no split; power set teaser kept short with the diagonal subset idea stated, not proved; Kronecker motives marked debated; Brouwer reading hedged ("in Brouwer's tradition"); Hilbert paradise quote not used. Conventions fixed here: P1-P4 premises, x_{kk} diagonal digit, list 31415..., d=0.48834, |P(S)|=2^n.
 

@@ -1,0 +1,301 @@
+id: ch04-godel
+title: "Godel and the Limits of Proof"
+kind: concept
+own: |
+  - **Setting.** A **formal system** $F$ is a fixed list of axioms and rules, checkable by a mechanical procedure, from which proofs are built. "$F \vdash A$" means "$F$ proves $A$". **Consistent** means $F$ never proves both a statement and its negation. **Complete** means $F$ proves, for every statement $A$ of its language, $A$ or $\lnot A$. "True" here means true of the ordinary natural numbers $0, 1, 2, \dots$
+  - **First incompleteness theorem** (Godel, 1931). If $F$ is consistent, effectively axiomatised and contains enough arithmetic, there is an arithmetical sentence $G_F$ with
+  $$F \nvdash G_F$$
+  and {{ $G_F$ is true (provided $F$ is consistent) }}. So such an $F$ is incomplete. The theorem is about particular systems, not about truth being unprovable in any absolute sense.
+  - **How:** a coding of sentences by numbers lets arithmetic talk about proofs, and the diagonal trick builds $G_F$ with
+  $$G_F \leftrightarrow \lnot\,\mathrm{Prov}_F(\ulcorner G_F \urcorner)$$
+  where $\mathrm{Prov}_F(n)$ says "$n$ codes a proof in $F$" and $\ulcorner G_F \urcorner$ is the code of $G_F$. Loosely, $G_F$ "says" {{ that it is not provable in $F$ }}; this is a heuristic, not a literal meaning.
+  - **Second incompleteness theorem.** Under the same conditions, with $\mathrm{Con}(F)$ the arithmetical sentence "$F$ is consistent",
+  $$F \nvdash \mathrm{Con}(F)$$
+  {{ if $F$ is consistent }}. So {{ a system cannot prove its own consistency }}, which is a serious problem for Hilbert's programme of securing mathematics by a finitary consistency proof.
+  - **Limits of the theorems.** They do not apply to weak systems such as Presburger arithmetic (addition only, complete), say nothing about science, God or relativism, and do not by themselves show that minds beat machines (Lucas-Penrose is a live debate).
+  - **Where people part ways.** Platonists read it as {{ truth outrunning proof }}; formalists as the original aim failing; intuitionists deny that truth outruns constructive proof.
+cards:
+  - type: mcq
+    id: hook
+    title: "A perfect proof machine?"
+    prompt: |
+      Guess before any theory. Imagine a machine that starts from clearly true basic facts about the whole numbers $0, 1, 2, \dots$ and applies only clearly valid steps of logic, forever and without mistakes. Could it, given enough time, prove every true statement about whole-number arithmetic?
+    options:
+      - text: 'Yes: if a statement about numbers is true, some chain of valid steps must reach it, and the machine would find it eventually.'
+        feedback: |
+          This is the natural first guess, and it is what many mathematicians hoped around 1900. The lesson shows it fails for any machine of this kind.
+      - text: 'No: however the machine is set up, there will be true statements about numbers it never proves.'
+        correct: true
+        feedback: |
+          That is the surprising verdict of 1931, with exact conditions that the lesson builds up.
+      - text: 'The question is meaningless because numbers do not exist.'
+        feedback: |
+          Whether numbers exist is the Platonism dispute, but the question here is about proofs from rules, and it has a precise answer whichever school you belong to.
+    explanation: |
+      Your guess is not graded, but note what is at stake: the statement "every true statement about the whole numbers is provable by some fixed mechanical system" sounds modest, and it is false. The lesson says exactly which systems and which statements.
+
+  - type: text
+    id: recall
+    title: "Recall: three threads"
+    body: |
+      **Recall 1, formalism.** David Hilbert (1862-1943) held that mathematics could be treated as a game of symbols and rules. His programme (early 1920s) asked for a **finitary** proof, using only simple, uncontroversial reasoning about finite strings of symbols, that the whole system is **consistent**: it never proves both a statement and its negation.
+
+      **Recall 2, the diagonal argument.** Cantor's argument shows that no list of real numbers contains every real: from any list, build a number that differs from the $n$-th entry in the $n$-th digit, so it is on the list nowhere. Its core idea is to take a list and *use the list's own entries against it*.
+
+      **Recall 3, Platonism and intuitionism.** Platonists say mathematical truth is independent of us. Intuitionists (Brouwer) say a statement is true when we can construct a proof of it.
+
+      Kurt Godel (1906-1978) combined the first two threads, a precise notion of proof and a diagonal trick, into one of the best-known results of twentieth-century logic.
+
+  - type: text
+    id: formal
+    title: "What a formal system is"
+    body: |
+      A **formal system** $F$ has three parts.
+
+      - A precise **language** (symbols and the sentences that can be formed from them).
+      - A list of **axioms**: sentences accepted as starting points.
+      - **Rules of inference**: mechanical rules for turning accepted sentences into new ones.
+
+      A **proof** in $F$ is a finite chain of sentences, each an axiom or obtained from earlier ones by a rule. We write $F \vdash A$ ("$F$ proves $A$") when such a chain ends in $A$. Because a proof is a finite chain checkable step by step, **checking a proof is mechanical**, and the same holds for the axioms in the cases below: we call such a system **effectively axiomatised** (a program could decide whether a given sentence is an axiom).
+
+      Now the crucial separation. **Provable** is about chains of symbols in $F$. **True** is about numbers: a statement such as "there are infinitely many primes" is true or false of the ordinary natural numbers $0, 1, 2, \dots$, whatever any system says. Hilbert hoped the two would coincide for arithmetic. Godel showed they cannot.
+
+  - type: mcq
+    id: provable-true
+    title: "Provable versus true"
+    prompt: |
+      According to the definitions above, which statement correctly separates "provable in $F$" from "true"?
+    options:
+      - text: '"Provable in $F$" is a fact about chains of symbols built from the axioms and rules of $F$; "true" is a fact about the natural numbers themselves. A system could, in principle, fail to prove some true statement.'
+        correct: true
+      - text: '"Provable" and "true" are two words for the same thing, so a true statement is by definition one some proof reaches.'
+        feedback: |
+          That identification is a substantive position (roughly the intuitionist's, for constructive proof), not a definition shared by all. Used as a definition for a *fixed formal system* it would make the lesson's question trivial and, as the theorem shows, it is not what holds for arithmetic.
+      - text: '"True" means accepted by most mathematicians, while "provable" means proved by a computer.'
+        feedback: |
+          Neither: truth here is not a vote, and "provable" does not mean "a computer found it" but "a chain of allowed steps in $F$ exists", whether or not anyone has found it.
+    explanation: |
+      Keeping the two ideas apart is the whole game. If they were the same word, incompleteness could not even be stated.
+
+  - type: mcq
+    id: cons-comp
+    title: "Consistent or complete?"
+    prompt: |
+      A formal system $F$ is **consistent** if it never proves both a statement and its negation, and **complete** if for every statement $A$ in its language it proves $A$ or proves $\lnot A$. Which description is right?
+    options:
+      - text: 'A system that proves nothing at all is consistent but far from complete; a system that proves every statement is complete but inconsistent.'
+        correct: true
+      - text: 'Consistency and completeness are the same property: a system that never contradicts itself must settle every question.'
+        feedback: |
+          The system that proves nothing never contradicts itself and settles nothing. The two properties are independent; the theorem says that for arithmetic you cannot have both under its conditions.
+      - text: 'A complete system must be inconsistent, because settling every question forces a contradiction somewhere.'
+        feedback: |
+          Complete and consistent systems exist: Presburger arithmetic (addition only) is both. The theorem is about systems rich enough to express a certain amount of arithmetic.
+    explanation: |
+      Hilbert wanted a system for arithmetic that is **consistent** (safe) and **complete** (settles everything). The first theorem says that under its conditions a consistent system cannot be complete.
+
+  - type: text
+    id: first
+    title: "The first incompleteness theorem"
+    body: |
+      **Godel's first incompleteness theorem.** The result appeared in Godel's 1931 paper "Uber formal unentscheidbare Satze der Principia Mathematica und verwandter Systeme I" (*Monatshefte fur Mathematik und Physik* 38, 173-198; in English, "On formally undecidable propositions of Principia Mathematica and related systems I"). In modern form, according to the Stanford Encyclopedia of Philosophy:
+
+      Let $F$ be a formal system that is **consistent**, **effectively axiomatised**, and **contains a certain amount of elementary arithmetic**. Then there is an arithmetical sentence $G_F$ with
+      $$F \nvdash G_F$$
+      and, provided $F$ is consistent, $G_F$ is **true** of the natural numbers.
+
+      So $F$ is **incomplete**: a true statement it cannot prove. (A technical note: Godel's own proof needed a slightly stronger assumption than consistency, called omega-consistency; Rosser in 1936 removed it, so consistency suffices.)
+
+      **Layers.** Established: the theorem, as a result of mathematical logic. Careful reading: it speaks of *particular formal systems*, not of truth being unprovable "in any absolute sense". Add a stronger or different system, and $G_F$ may become provable there, though that new system has its own unprovable sentence.
+
+  - type: numeric
+    id: coding
+    title: "Arithmetic can talk about proofs"
+    prompt: |
+      The key trick is to code finite strings of symbols as single numbers, so statements about symbols become statements about numbers. One standard coding (in the spirit of Godel's, which used products of prime powers): give each symbol a positive whole number, and code the string with symbol numbers $a_1, a_2, a_3$ as
+      $$2^{a_1}\cdot 3^{a_2}\cdot 5^{a_3}$$
+      using the first primes. Which number codes the string with symbol numbers $a_1 = 3,\ a_2 = 1,\ a_3 = 2$?
+    answer: 600
+    hint: 'Compute $2^3$, then $3^1$, then $5^2$, and multiply.'
+    wrong:
+      - { value: 6, feedback: 'You multiplied the symbol numbers $3\cdot1\cdot2$. The coding uses them as *exponents* of the primes 2, 3, 5.' }
+      - { value: 30, feedback: 'You multiplied the primes $2\cdot3\cdot5$ and forgot the exponents.' }
+    explanation: |
+      $2^3\cdot3^1\cdot5^2 = 8\cdot3\cdot25 = 600$. Why this is a good coding: by unique prime factorisation, from 600 you recover exponents $3, 1, 2$, hence the string. So *every* string, and every chain of strings (a proof), gets its own number, and "this number codes a valid proof in $F$" becomes a statement of arithmetic that $F$ itself can express.
+
+  - type: text
+    id: selfref
+    title: "The self-reference idea"
+    body: |
+      With codes, a sentence can mention *the code of a sentence*, including its own. The **diagonal lemma** (the same use-the-list-against-itself idea as Cantor's, now applied to sentences and their codes) says: for any property $A(x)$ expressible in arithmetic there is a sentence $D$ with
+      $$F \vdash D \leftrightarrow A(\ulcorner D \urcorner)$$
+      where $\ulcorner D \urcorner$ is the code of $D$. Take for $A$ the property "the sentence coded by $x$ has no proof in $F$", written $\lnot\,\mathrm{Prov}_F(x)$. The result is the **Godel sentence** $G_F$:
+      $$G_F \leftrightarrow \lnot\,\mathrm{Prov}_F(\ulcorner G_F \urcorner)$$
+      Loosely, $G_F$ "says": *I am not provable in $F$*. (The survey warns this is a heuristic: what the lemma gives is a provable equivalence, not a sentence that literally means this.)
+
+      Then the argument is short. Suppose $F$ proved $G_F$. Then $F$ would prove that $G_F$ has no proof, while also exhibiting one: $F$ would be inconsistent. So if $F$ is consistent it does not prove $G_F$, which is exactly what $G_F$ asserts, so $G_F$ is true. (The cost for the other half, that $F$ does not prove $\lnot G_F$ either, is the extra assumption mentioned above.)
+
+  - type: order
+    id: structure
+    title: "The shape of the argument"
+    prompt: |
+      Put the main steps of the proof of the first theorem in order.
+    steps:
+      - 'Code sentences and proofs of the system $F$ by numbers, so arithmetic can express "this number codes a proof in $F$".'
+      - 'By the diagonal trick, build a sentence $G_F$ equivalent to "$G_F$ is not provable in $F$".'
+      - 'Assume $F$ is consistent. If $F$ proved $G_F$, it would also show $G_F$ unprovable: a contradiction, so $F \nvdash G_F$.'
+      - 'Since $G_F$ says exactly that it is unprovable, and it is, $G_F$ is true: a true statement that $F$ cannot prove.'
+    hint: 'First make arithmetic able to talk about proofs, then build the sentence, then reason about it.'
+    explanation: |
+      Notice the structure: coding, self-reference, then an argument by contradiction. It is not "this statement is false" (the liar paradox, which has no truth value): "I am not provable" can be true without any contradiction, because *provable* and *true* are different notions.
+
+  - type: mcq
+    id: liar
+    title: "The liar versus the Godel sentence"
+    prompt: |
+      The liar sentence says "this sentence is false" and leads to a contradiction. Why does "this sentence is not provable in $F$" behave differently?
+    options:
+      - text: 'Because "not provable in $F$" is a precise, checkable property of chains of symbols, which can be coded in arithmetic, and it may be true without contradiction; "false" is a property of truth itself, which cannot be defined in the system this way.'
+        correct: true
+      - text: 'Because the Godel sentence is not really self-referential, it is just an ordinary arithmetic statement about 600.'
+        feedback: |
+          It is an ordinary arithmetic sentence, but built by the diagonal trick so that it is equivalent to a claim about its own code. The self-reference is real (if indirect); the point is that provability, unlike truth, is definable inside arithmetic.
+      - text: 'Because Godel proved that the liar paradox is harmless.'
+        feedback: |
+          No: his proof uses provability in place of truth precisely to avoid the paradox. The liar remains a puzzle about truth, solved by other means.
+    explanation: |
+      Replacing "false" by "not provable in $F$" turns a paradox into a theorem: a precise assertion about proofs, which can be true while $F$ cannot reach it.
+
+  - type: text
+    id: second
+    title: "The second theorem and Hilbert"
+    body: |
+      The argument for $G_F$ ("if $F$ is consistent, then $G_F$ is not provable") can itself be carried out inside arithmetic. Let $\mathrm{Con}(F)$ be the arithmetical sentence "there is no proof of a contradiction in $F$". The reasoning gives $F \vdash \mathrm{Con}(F) \to G_F$. If $F$ also proved $\mathrm{Con}(F)$, it would prove $G_F$, which the first theorem forbids. Hence:
+
+      **Godel's second incompleteness theorem.** Under the same conditions, if $F$ is consistent, then
+      $$F \nvdash \mathrm{Con}(F)$$
+      A (consistent, effectively axiomatised) system containing enough arithmetic **cannot prove its own consistency**.
+
+      **Link to Hilbert's programme.** Hilbert wanted a finitary proof that arithmetic is consistent. Finitary reasoning was supposed to be a modest part of arithmetic, so it should be formalisable inside the system. The second theorem says the system cannot prove its own consistency, so, on the usual reading, the original aim is out of reach. According to the survey, the theorems "pose, at least prima facie, serious problems" for it. The theorem is about proof *within* $F$: it does not say consistency cannot be established by other means, only that such means are not available inside $F$.
+
+  - type: mcq
+    id: hilbert
+    title: "What the second theorem does and does not say"
+    prompt: |
+      A student says: "The second theorem shows that arithmetic is inconsistent." What is the correct reply?
+    options:
+      - text: 'No. It says that *if* the system is consistent, it cannot prove that fact itself. It gives no reason to think arithmetic is inconsistent; consistency may be established by stronger methods outside the system.'
+        correct: true
+      - text: 'Yes: a system that cannot prove its own consistency must be inconsistent.'
+        feedback: |
+          That reverses the theorem. An inconsistent system would prove everything, including its own consistency; the theorem says a consistent one does *not*. So the failure to prove $\mathrm{Con}(F)$ is what you expect from a consistent system.
+      - text: 'It shows no consistency proof is possible by any means.'
+        feedback: |
+          Too strong. It is about proof inside the system. Proofs from stronger systems exist; their own consistency is then the open question, the same problem one level up.
+    explanation: |
+      The theorem has the form "if $F$ is consistent then $F \nvdash \mathrm{Con}(F)$". It is a limit on self-certification, not a discovery of contradiction.
+
+  - type: mcq
+    id: applicability
+    title: "Which systems does it apply to?"
+    prompt: |
+      The first theorem needs three conditions: consistent, effectively axiomatised, and containing enough arithmetic. **Peano arithmetic** (the standard first-order axioms for addition and multiplication of the natural numbers) meets them. **Presburger arithmetic**, which has addition only and no multiplication, does not contain enough, and it is known to be complete. What does this teach?
+    options:
+      - text: 'Incompleteness needs enough arithmetic (addition together with multiplication is enough); a weaker system can be complete, but then it cannot express all of arithmetic.'
+        correct: true
+      - text: 'It applies to every logical system whatsoever, including Presburger arithmetic.'
+        feedback: |
+          Presburger arithmetic is a counterexample: it is complete (and even decidable). The conditions are essential, not decoration.
+      - text: 'It applies only to Peano arithmetic and nothing else.'
+        feedback: |
+          Far wider: any consistent, effectively axiomatised system containing enough arithmetic, including much weaker systems than Peano arithmetic (Robinson arithmetic suffices for the first theorem) and much stronger ones such as the usual axioms of set theory.
+    explanation: |
+      The theorem is a family of results with a precise hypothesis. Drop effective axiomatisation and it fails too: the set of all sentences true of the natural numbers is a consistent, complete theory, but no program can list its axioms.
+
+  - type: mcq
+    id: misuse1
+    title: "Truth is relative?"
+    prompt: |
+      According to someone using the theorem in an essay: "Godel proved that there are statements no one can ever prove, so truth is relative." What is wrong with this?
+    options:
+      - text: 'The theorem does not say truth is relative. It concerns provability inside a given formal system, and the unprovable sentence is *true* in the ordinary numbers; a stronger system may prove it. The notion of arithmetical truth stays fixed.'
+        correct: true
+      - text: 'Nothing: that is exactly what the theorem says.'
+        feedback: |
+          The theorem presupposes that arithmetical sentences are true or false of the numbers, and then shows a system cannot prove them all. If anything it separates truth from proof; it does not make truth depend on viewpoint.
+      - text: 'It is wrong because Godel was a relativist who said so himself.'
+        feedback: |
+          The reverse: Godel was a Platonist about mathematics (recall the earlier lesson on his perception analogy for set theory), and read his results with truth independent of proof.
+    explanation: |
+      According to the survey, reading the first theorem as showing truths unprovable in an *absolute* sense is a standard error: the theorem is about particular systems.
+
+  - type: mcq
+    id: misuse2
+    title: "Science is impossible? God exists?"
+    multiple: true
+    prompt: |
+      Select every claim that Godel's two incompleteness theorems **do** support.
+    options:
+      - text: 'Any consistent, effectively axiomatised system containing enough arithmetic leaves some arithmetical sentence unproved.'
+        correct: true
+      - text: 'Science is impossible, since a theory cannot prove everything.'
+        feedback: |
+          Science does not claim to prove every truth from a formal system; empirical theories are tested against data. The theorems are about formal deduction in arithmetic-rich systems, and say nothing against measurement or testing.
+      - text: 'Mathematics rests on faith or, by extension, God must exist to supply the missing proofs.'
+        feedback: |
+          The survey notes that arguments from the theorems to mysticism or to God's existence rest on misunderstandings. A missing proof in $F$ is just a sentence needing stronger assumptions; nothing in the theorems mentions God, for or against.
+      - text: 'A consistent system of that kind cannot prove its own consistency.'
+        correct: true
+    explanation: |
+      The two supported claims are the two theorems. The others are extrapolations: the theorems say that formal systems of a certain kind have limits, not that reason, science or mathematics is arbitrary or that a divine source is needed. A thoughtful believer or atheist can accept both theorems without either conclusion following.
+
+  - type: text
+    id: machines
+    title: "Do the theorems show that minds beat machines?"
+    body: |
+      This is the one popular use with a serious philosophical literature, and it is a **live debate** (layer 2), not settled and not a mere mistake.
+
+      **The argument (Lucas 1961, Penrose 1989 and 1994).** J. R. Lucas, in "Minds, Machines and Godel" (*Philosophy*, 1961), argued roughly: a machine is a formal system; for any such consistent system, a human mind can *see* that its Godel sentence is true, which the system cannot prove; so the mind is not a machine. The physicist Roger Penrose revived a version in *The Emperor's New Mind* (1989) and *Shadows of the Mind* (1994).
+
+      **The main replies (according to the survey and the Internet Encyclopedia of Philosophy).** To see that $G_F$ is true we must know that $F$ is *consistent*. By the second theorem the system cannot show this about itself, and it is far from clear that a human can for a system as complicated as their own mind, or that human minds are consistent at all. The entry calls the argument "very controversial" with "numerous objections". Godel himself drew only a cautious either/or in his 1951 Gibbs lecture: either the human mind infinitely surpasses finite machines, or there exist absolutely unsolvable problems of a certain kind.
+
+      So: the theorems **do not by themselves** show that minds are not machines; the argument needs extra premises about our access to our own consistency.
+
+  - type: mcq
+    id: machines-q
+    title: "The weak link of the argument"
+    prompt: |
+      In the Lucas-Penrose argument, the mind is said to "see" that the Godel sentence $G_F$ of a machine's system $F$ is true. According to the standard objection, what must the mind know to justify that, and why is it a problem?
+    options:
+      - text: 'That $F$ is consistent. The second theorem says $F$ cannot show this itself, and it is doubtful that we can establish it for a system as complex as our own reasoning, or that we are consistent at all.'
+        correct: true
+      - text: 'That $F$ has fewer than a million axioms. A small system is easy to inspect.'
+        feedback: |
+          The size of $F$ is not what matters. The theorem works for any effectively axiomatised system, however large; what the argument needs is the *consistency* of the system.
+      - text: 'That $G_F$ is false. If it were false, the machine would prove it.'
+        feedback: |
+          Under the theorem's conditions $G_F$ is true if $F$ is consistent, so the issue is not falsity but whether the mind can know the consistency on which its truth depends.
+    explanation: |
+      Truth of $G_F$ is conditional on $\mathrm{Con}(F)$. Lucas and Penrose reply that the mind can grasp this; critics say that is exactly the unargued step. Reasonable people still part ways here.
+
+  - type: mcq
+    id: schools
+    title: "Three readings"
+    prompt: |
+      Match the school to its natural reading of the first theorem, each in the form its defenders would accept.
+    options:
+      - text: 'Platonist: truth outruns proof, since $G_F$ is true although $F$ cannot prove it. Formalist: the original aim (a complete, provably consistent formal system for arithmetic) fails. Intuitionist: truth *is* constructive provability, so there is no gap, and no single formal system captures all constructive proof.'
+        correct: true
+      - text: 'Platonist: the theorem refutes Platonism. Formalist: it confirms formalism. Intuitionist: it confirms Platonism.'
+        feedback: |
+          Scrambled: Platonists welcome the gap between truth and proof; it is formalism's original aim that is damaged; and an intuitionist would not endorse Platonism.
+      - text: 'All three schools agree the theorem shows mathematics is unreliable.'
+        feedback: |
+          None draws that conclusion. The theorem is a proved result of mathematics, which each school accommodates in its own way.
+    explanation: |
+      Layers: the theorem is established mathematics (layer 1); which reading is right is a metaphysical commitment (layer 3). Godel himself held the Platonist reading. The intuitionist reply, in the spirit of Brouwer's idea that mathematics is a mental construction rather than a formal system, rejects the picture in which truth is something *beyond* every possible proof. These readings are the starting point for the next lesson: why mathematics works so well on the world.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the theorems limit what formal proof can do inside mathematics. The puzzle from Wigner's essay is about something else: why mathematics worked out for its own sake describes the physical world so well. The next lesson, Explanations of the Effectiveness, lays out the main attempts to explain or dissolve it, from evolution and selection bias to shared structure and design.
