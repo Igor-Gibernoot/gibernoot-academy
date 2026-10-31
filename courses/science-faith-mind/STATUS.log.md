@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-31 ch04-challenge-2 (22 cards, problems 4-5)
+P4 two invented civilisations: sum of first n odd numbers = n^2 (n=10: 100), 2^n subsets (n=6: 64), constructive witness sqrt2^(2 log2 3)=3, three readings of agreement, order card for the agreement argument (attack on P2), selection/evolution as rivals. P5 MUH stress test: observers, toy measure 50/N (0.005% at N=1e6, factor 1000 to N=1e9), Godel/CUH cost, testability (LR near 1), structural realism and map-territory, verdicts per school, parting. No new external facts (all reused from Level 4 lessons); no web search needed, none run. Choice: Schmidhuber's simpler-structures rule mentioned as in ch04-universe (secondary-sourced there). Conventions fixed here: none new.
+
 ## 2026-10-31 ch04-challenge part 1 (25 cards, problems 1-3)
 P1 Moon test as selection case (invented flat spread 1e-3..1e-2, window +-1.5%: 0.91% single, 84% in 200 tries, 1/r rival off by ~60); P2 diagonal-list widget on 6 rows (d=0.858364, 7^6=117,649 choices); P3 Godel with S1 Presburger / S2 / S3 all-truths system, relativity of unprovability, code 1500, Con(F+), CUH cost. No new external facts: every name, date and theorem statement reused from the Level 4 lessons (web-verified there). Choices: closing summary is a plain text card like ch03 challenge (no `own:`, challenges have no Recap); S3 "complete but not checkable" derived in the lesson, not cited. Conventions fixed here: invented window numbers 0.91% / 84%; diagonal list rows 718281, 141592, 577215, 414213, 732050, 618033.
 
