@@ -42,6 +42,21 @@ context stays small. Igor reviews the level on the live site at the end.
   then sends the lesson agent back. A lesson agent never drops a planned
   widget card silently, and never writes "no widget fits" without naming the
   widgets it checked.
+- **Every lesson-building unit prompt also says**: "consider images per CLAUDE.md
+  'Images' and `docs/IMAGES.md` (people introduced, experiments or scenarios
+  described, real objects; max 4, intro level 8; free licenses via
+  `tools/fetch-image.mjs`; skip when none fits); `validate` must show no image error; view the first image card's
+  screenshot once. Log the images added (and `none: <why>`) in the STATUS.log entry."
+  The level audit checks that each concept/guided/intro lesson was considered
+  (a person or experiment named in the text with no image and no logged reason is a miss).
+- **Image retrofit mode** (existing lessons, e.g. "add images to <course> chapter N"): one fresh agent per **chapter**
+  (all its lessons: concept, guided, traps, intuition; not exams unless the original has a figure), strictly sequential. The
+  agent follows `docs/IMAGES.md` ("Retrofitting"): lists candidates per lesson, keeps those that
+  earn their place, fetches, edits only `image:` blocks (no other lesson text, never renames a card id,
+  never changes `own:` blanks), validates, shots (view only the first image card of the session), updates the
+  course `STATUS.log.md` (an "Images, chapter N" entry; `STATUS.md` Current unchanged) and commits and pushes. Report at most 10 lines:
+  images added per lesson with file name, skipped candidates and why. The coordinator reads only that report. Web-check courses:
+  the caption's facts (dates, names, attributions) are external facts: check them by web like any other.
 - **Every unit prompt that writes `own:` says**: "follow QUICKREF `own:` (Shape and
   Self-contained rule), model `diff-geometry-gr/ch03/atlases.yaml`; before committing, reread each
   bullet: setting stated, main formula displayed, every symbol defined, no source labels;

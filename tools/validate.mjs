@@ -8,7 +8,7 @@
 // Usage: node tools/validate.mjs            all courses in courses/catalog.yaml
 //        node tools/validate.mjs <course>   one course (exit code 1 on any error)
 
-import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -25,6 +25,7 @@ console.warn = (...args) => {
   if (!String(args[0]).startsWith('No character metrics')) consoleWarn(...args);
 };
 
+let introLevel = false; // the course's first level (the intro) may use more images
 const errors = [];
 const warnings = [];
 let cid = ''; // course being checked: messages start with its folder
@@ -159,9 +160,46 @@ for (const level of course.levels ?? []) {
     if (lesson.id !== meta.id) err(meta.file, `id "${lesson.id}" does not match course.yaml id "${meta.id}"`);
     if (lesson.kind === 'map') checkMap(meta.file, lesson);
     if (lesson.own != null) checkOwn(meta.file, lesson);
+    introLevel = level === course.levels[0];
     checkLesson(meta.file, expandLesson(lesson));
+    checkImages(meta.file, lesson, dir);
   }
 }
+}
+
+// Card images (docs/IMAGES.md): file present and light, alt + caption + credit (+ link unless our own),
+// at most 4 per lesson (8 in the intro level), and a ledger entry for every file.
+function checkImages(file, lesson, dir) {
+  const MAX = introLevel ? 8 : 4;
+  const ledgerPath = join(dir, 'img/credits.yaml');
+  const ledger = existsSync(ledgerPath) ? (yaml.load(readFileSync(ledgerPath, 'utf8')) ?? {}) : {};
+  let count = 0;
+  for (const c of lesson.cards ?? []) {
+    for (const im of [c.image].flat().filter(Boolean)) {
+      count++;
+      const w = `${file} card ${c.id} image`;
+      if (!im.src) { err(w, 'needs src'); continue; }
+      const path = join(dir, im.src);
+      if (!existsSync(path)) err(w, `file not found: ${im.src}`);
+      else {
+        const kb = statSync(path).size / 1024;
+        if (kb > 400) err(w, `${im.src} is ${Math.round(kb)} KB (max 400; fetch-image resizes)`);
+        else if (kb > 200) warn(w, `${im.src} is ${Math.round(kb)} KB (aim for under 150)`);
+        if (!im.src.startsWith('img/')) warn(w, 'images live in courses/<id>/img/');
+        if (!ledger[im.src.replace(/^img\//, '')]) err(w, `${im.src} has no entry in img/credits.yaml (use tools/fetch-image.mjs, or add the entry for your own drawing)`);
+      }
+      if (!im.alt || im.alt.length < 8) err(w, 'needs alt text (what the picture shows, for screen readers)');
+      if (!im.caption) err(w, 'needs a caption (one sentence that teaches something)');
+      else if (im.caption.length > 260) warn(w, `caption is ${im.caption.length} characters; keep it to one or two short sentences`);
+      checkText(w, im.caption);
+      const own = /^Gibernoot Academy/.test(im.credit ?? '');
+      if (!im.credit) err(w, 'needs credit (author, license; "Gibernoot Academy" for our own drawing)');
+      if (!own && im.credit && !/^https?:\/\//.test(im.link ?? '')) err(w, 'needs link (the source page of the file)');
+      if (im.place && !['top', 'bottom'].includes(im.place)) err(w, 'place must be top or bottom');
+      if (BACKREF.test(`${im.caption} ${im.alt}`)) warn(w, 'caption refers to a previous card; keep it self-contained');
+    }
+  }
+  if (count > MAX) warn(file, `${count} images; at most ${MAX} per lesson${introLevel ? '' : ' (the intro level may use 8)'}`);
 }
 
 function checkMap(file, m) {

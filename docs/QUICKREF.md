@@ -139,6 +139,13 @@ above"). Never name a theme-dependent colour; use labels or the fixed hues
     What to drag and what to watch.   # follow with a question on what was seen
 ```
 
+## Images (full rules: `docs/IMAGES.md`)
+
+Any card takes `image:` (one object or a list): `src` (in `courses/<id>/img/`), `alt`, one-sentence `caption` that teaches
+something, `credit`, `link` (source page), optional `place: bottom`, `mat: true`. Max 4 per lesson (8 in the intro level),
+free licenses only, fetched with `node tools/fetch-image.mjs search|get` (it resizes and writes `img/credits.yaml`).
+Use for people introduced, described experiments and scenarios, real objects; never a decoration, never the answer.
+
 ## Widgets (config details: `docs/widgets/<name>.md`)
 
 - `basis-playground`: drag a new basis; watch a fixed vector's (and covector's) components.

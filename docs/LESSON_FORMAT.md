@@ -89,6 +89,8 @@ review deck are keyed by `<lessonId>/<cardId>`.
 
 ## Card types
 
+Any card also takes `image:` (a captioned, credited picture): see `docs/IMAGES.md`.
+
 Shared optional fields: `title` (heading), `tag` (small label above the card).
 Question cards also take `explanation` (shown after a correct answer or
 "Show answer") and `review: false` (keep out of the spaced-repetition deck:

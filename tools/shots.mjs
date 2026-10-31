@@ -3,7 +3,7 @@
 //   <lessonFile> is relative to courses/, so it starts with the course folder:
 //   e.g. node tools/shots.mjs diff-geometry-gr/ch03/hausdorff.yaml ch03-hausdorff /tmp/shots
 // Prints one line per problem (formula overflow at phone/desktop width, page
-// errors) and saves PNGs of widget cards (plus build/order and phone `$$`
+// errors, broken card images) and saves PNGs of widget and image cards (plus build/order and phone `$$`
 // cards with --all). Setup once: npm install --prefix tools
 import { chromium } from 'playwright-core';
 import { readFileSync, mkdirSync, existsSync } from 'node:fs';
@@ -24,7 +24,7 @@ const lesson = expandLesson(yaml.load(readFileSync(`${repo}/courses/${file}`, 'u
 mkdirSync(out, { recursive: true });
 
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css',
-  '.yaml': 'text/yaml', '.json': 'application/json', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.png': 'image/png' };
+  '.yaml': 'text/yaml', '.json': 'application/json', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.png': 'image/png', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg' };
 const server = createServer((req, res) => {
   let p = decodeURIComponent(req.url.split('?')[0]);
   if (p.endsWith('/')) p += 'index.html';
@@ -58,11 +58,13 @@ for (const [w, hgt, tag] of [[390, 844, 'phone'], [1280, 860, 'desk']]) {
       const main = bad(document);
       const ex = [];
       for (const t of extras) { const d = document.createElement('div'); d.className = 'prose'; d.innerHTML = md(t); stage.append(d); ex.push(...bad(d)); d.remove(); }
-      return { main, ex, wide: document.documentElement.scrollWidth > window.innerWidth };
+      await Promise.all([...document.querySelectorAll('.card-image img')].map(i => i.decode().catch(() => {})));
+      const broken = [...document.querySelectorAll('.card-image img')].filter(i => !i.naturalWidth).map(i => i.getAttribute('src'));
+      return { main, ex, broken, wide: document.documentElement.scrollWidth > window.innerWidth };
     }, extras);
-    if (res.main.length || res.ex.length || res.wide) { problems++; console.log(tag, n + 1, c.id, JSON.stringify(res)); }
+    if (res.main.length || res.ex.length || res.broken.length || res.wide) { problems++; console.log(tag, n + 1, c.id, JSON.stringify(res)); }
     const hasDisplay = JSON.stringify(c).includes('$$');
-    if (shotTypes.has(c.type) || (all && tag === 'phone' && hasDisplay)) {
+    if (shotTypes.has(c.type) || c.image || (all && tag === 'phone' && hasDisplay)) {
       await p.screenshot({ path: `${out}/${tag}-${String(n + 1).padStart(2, '0')}-${c.id}.png`, fullPage: true }); shots++;
     }
     // The fixed footer covers the readouts in full-page shots: also save the widget alone, footer hidden.

@@ -16,6 +16,7 @@
 import { h, shuffle } from './dom.js';
 import { md, mdInline, tex } from './render.js';
 import { mountWidget } from './widgets/index.js';
+import { courseId } from './course.js';
 
 export function renderCard(card, el) {
   const render = RENDERERS[card.type];
@@ -27,7 +28,31 @@ const RENDERERS = { text, widget, mcq, numeric, build, order, mapstep, mapview }
 
 function header(card, el) {
   if (card.title) el.append(h('div', { class: 'prose' }, h('h2', { html: mdInline(card.title) })));
+  images(card, el, 'top');
   if (card.type !== 'text') figure(card, el);
+}
+
+// `image:` (one object or a list) on any card: a captioned, credited picture from courses/<id>/img/.
+// Shown under the title, above the body/prompt; `place: bottom` puts it after the body (text cards).
+// `mat: true` gives transparent diagrams a light backing (dark theme). Tap to enlarge.
+function images(card, el, place) {
+  const list = [card.image].flat().filter(Boolean).filter(im => (im.place ?? 'top') === place);
+  for (const im of list) {
+    const src = /^(https?:|\/)/.test(im.src) ? im.src : `courses/${courseId()}/${im.src}`;
+    const img = h('img', { src, alt: im.alt ?? '', loading: 'lazy', decoding: 'async', class: im.mat ? 'mat' : null });
+    const credit = im.credit && (im.link
+      ? h('a', { href: im.link, target: '_blank', rel: 'noopener noreferrer' }, im.credit)
+      : im.credit);
+    const cap = h('figcaption', {},
+      h('span', { class: 'cap-text', html: im.caption ? mdInline(im.caption) : '' }),
+      credit ? h('span', { class: 'cap-credit' }, 'Image: ', credit) : null);
+    img.addEventListener('click', () => {
+      const big = h('div', { class: 'lightbox', role: 'dialog', 'aria-label': im.alt ?? 'Image', onclick: () => big.remove() },
+        h('img', { src, alt: im.alt ?? '', class: im.mat ? 'mat' : null }));
+      document.body.append(big);
+    });
+    el.append(h('figure', { class: 'card-image' }, img, cap));
+  }
 }
 
 // `figure: { widget, config }` on any card: a display-only widget above the prompt (below the body on text cards)
@@ -47,6 +72,7 @@ function emitter() {
 function text(card, el) {
   header(card, el);
   el.append(h('div', { class: 'prose', html: md(card.body) }));
+  images(card, el, 'bottom');
   figure(card, el);
   return { kind: 'info' };
 }

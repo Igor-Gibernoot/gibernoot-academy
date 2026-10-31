@@ -15,6 +15,9 @@ Static site, no build step, served by GitHub Pages from the repo root.
   spaced repetition), `main.js` (router), `render.js` (Markdown + KaTeX; short
   inline math keeps trailing punctuation on its line).
 - `vendor/`: KaTeX, js-yaml, marked. No CDN, so the app works offline.
+- Card images (`image:` on any card, `docs/IMAGES.md`): `cards.js` `images()` draws a captioned, credited `<figure>` from
+  `courses/<id>/img/` (tap = lightbox); the same renderer serves lessons, review and exams. `tools/fetch-image.mjs`
+  fetches free Commons images and keeps `img/credits.yaml`; `validate` checks alt, caption, credit, link, ledger, size, count.
 - Player: back button, progress bar, synthesized feedback sounds
   (`js/sound.js`, toggle in the player header and settings), varied
   encouraging messages and "N in a row" streaks.

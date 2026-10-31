@@ -206,6 +206,7 @@ for).
     4–5); 40+ is always too long. **Exams** are exempt (as many cards as
     the original has sub-questions). `node tools/validate.mjs` warns over
     25 / 32.
+    **Images count as no card** (they ride on a card), but each adds scroll: keep to the limits above.
     **Split lessons stand alone.** Part 2+ opens with a "Recall:" card (or
     two) restating, with formulas and defined symbols, what the previous
     part established and this part uses (never "as we saw"). A card citing
@@ -220,6 +221,23 @@ for).
     orange).
 14. **Tables.** Plain Markdown only; house style is `.prose table` in
     `css/app.css`. Never style a table per lesson.
+
+### Images (`docs/IMAGES.md`)
+
+Widgets are not the only visuals: a lesson may carry **pictures** on any card
+(`image:` with `alt`, a one-sentence `caption` that teaches something, `credit`
+and `link`), where they make something concrete: **a person when first
+introduced** (portrait), **an experiment or scenario described in words**
+(apparatus, pattern, place), **a real object or data image**. Max 4 per lesson
+(intro level up to 8); most lessons need 0 to 2; never decorative, never the
+answer to a question, never a copyrighted figure or anything from `sources/`.
+Only **free licenses** (public domain, CC0, CC BY, CC BY-SA), fetched from
+Wikimedia Commons by `node tools/fetch-image.mjs search|get` (resizes, writes
+the credit ledger `courses/<id>/img/credits.yaml`, prints the card block).
+Ask in every concept/guided/intro lesson plan: "is there a person, experiment
+or object here worth a picture?"; if yes and a free image exists, add it; if
+none exists, skip (never a placeholder or a non-free image). Read
+`docs/IMAGES.md` once when a lesson gets an image. Images show in review too.
 
 ### Widgets are shared
 
