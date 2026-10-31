@@ -1,5 +1,7 @@
 # Status log
 
+- 2026-10-31 own: audit: fixed ch01/tour (displayed formulas) and ch03/guided (last card); bike, lock, ch02/guided already fine.
+
 - **2026-10-29 ch03-intuition** (Quick Recall, 19 cards, no widget): own: summary of six formulas (H, I, m=2j-3, sigma, f0 with peak and damper tuning, T_soil). 7 mcq (limit h to 0, scalings, truss count, peak, tuning direction), 5 builds, 4 numerics with data only (tower 1.59 Hz, soil 0.8 s, damping 0.25 m, arch 250 kN). Choices: no widget; tuning card asks direction only (new numbers not stated). No external facts added, web check not needed (reused Verified). Conventions fixed here: recall numbers m 1e6 kg, k 1e8 N/m; soil 25 m, 125 m/s; arch 50 m, 10 m rise, 8 kN/m.
 
 ## 2026-10-29 ch03-traps (traps, 14 cards)

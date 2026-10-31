@@ -1,5 +1,7 @@
 # Status log
 
+- 2026-10-31 own: audit: 14 lessons scanned; fixed expected-free-energy, models-policies, inference-dynamics, model-form, model-setup (defined symbols, displayed formulas); rest already fine.
+
 Newest first. Never read this file in a session; add an entry by `Edit`ing the `# Status log` line.
 ### 2026-10-26 — final exam (`exam-final`)
 Built `exams/final.yaml` (original, Levels 6-10, 90 min, 10 points, 26 cards, no widget, static text/tables only), node `exam-final` now has `file:`. Numbers checked twice by script (scratchpad chk.py/chk2.py); validate 0/0, shots 0 problems, headless run (intro, answering, submit, time-up with faked clock, results, review, exit) clean. No new formulas, nothing new to verify in the source. Conventions fixed here: exam settings tern (catch .8/.1, C=(.75,.25), policies A/B/C Q(fish) .7/.4/.1), mole E/F/G, eye y=2 eta=-4 Pi(5,3).

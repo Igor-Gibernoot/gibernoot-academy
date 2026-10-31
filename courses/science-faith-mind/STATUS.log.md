@@ -1,5 +1,7 @@
 # Status log
 
+- 2026-10-31 own: audit: fixed ch02/intuition, ch02/falsification (modus tollens line breaks), ch03/simulation (displayed odds form); the other conceptual summaries already fine.
+
 ## 2026-10-31: ch05-entropy (concept, 24 cards)
 Built autonomously, web-checked (see Verified). Widget microstate-counter used twice (N=10 shuffle with histogram; N=100 auto-run drift), shots viewed at phone and desktop, no problems; widget-smoke 25 mounts, 0 errors. Choices: 24 cards (under 25), no split; Penrose number paraphrased with measure caveat, no quotation; fourth "trap" in the multi-select is a fair caution, not a mistake; replies card lists measure problem, multiverse/anthropic (Carroll-Chen), new law/bounce (CCC), brute fact. Conventions fixed here: $S=k_B\ln W$, $W=\binom{N}{k}$ (N=100: k=50 gives 1.009e29, S/k_B=66.8; 2^100=1.27e30); Penrose "1 part in $10^{10^{123}}$" order of magnitude; Past Hypothesis (Albert 2000); smooth gravitating = low entropy.
 

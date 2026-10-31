@@ -1,5 +1,7 @@
 # Status log
 
+- 2026-10-31 own: audit: summaries of ch02-ch10 (about 50 lessons, guided problems' last card included) rewritten to show the math as displayed formulas; ch10 mostly already fine. Some Recap blanks became displayed, so their progress resets.
+
 Newest first. Never read this file in a session; add an entry by `Edit`ing the `# Status log` line.
 
 ### 2026-10-26: last four oversized lessons split (autonomous)
