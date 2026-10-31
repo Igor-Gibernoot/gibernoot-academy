@@ -1,5 +1,10 @@
 # Status log
 
+## Images, chapter 2 (retrofit)
+6 images: falsification/popper (black swan, Charles J. Sharp CC BY-SA 4.0), falsification/examples (1919 eclipse negative, Sobral, PD), falsification/duhem (Duhem c.1900 PD); paradigms/kuhn (Kuhn 1977, PD-US), paradigms/gestalt (duck-rabbit, Fliegende Blatter 1892, PD); underdetermination/quine (Quine 1935, CC0). Skipped: Bayes (disputed portrait), Hume/Popper (already in ch01), Le Verrier, Michelson-Morley diagrams (not needed), Putnam (CC BY-SA photo, no card needing it).
+web: Commons file pages (Kuhn 1977, Quine 1935, eclipse negative, Duhem c.1900, Kaninchen und Ente) for subject/author/date/license; Wikipedia Eddington experiment + search (eclipse 29 May 1919, Dyson/Eddington/Davidson 1920 Phil. Trans.); search on Vlamingh (Swan River 10 Jan 1697); Wikipedia Rabbit-duck illusion (Fliegende Blatter 23 Oct 1892); Wikipedia Two Dogmas (Phil. Review 1951); Duhem La theorie physique 1906 (secondary sources).
+UNVERIFIED: Quine birth/death 1908-2000 and Kuhn 1922-1996, Duhem 1861-1916 are in existing lesson text, not re-confirmed this session (not used in new Quine caption; Kuhn and Duhem captions repeat them).
+
 ## Images, chapter 1 (retrofit)
 7 images: bubble/testimony (Hume, Reid portraits), tour/p-science (Popper), p-math (Hilbert), p-spirit (Kardec), p-quran (Topkapi Qur'an folio), p-death (Epicurus bust). Lenses, reasons, traps: none (no person/object worth a picture; Hume/Reid portraits already used in bubble). Skipped: Frank Jackson (Commons "morph" image, identity unclear), Nozick (cover scan, license doubtful), P52 papyrus (tangential to the four-witnesses puzzle).
 web: Britannica search (Popper 1902-1994, Logik der Forschung 1934); SEP Hume (1711-1776), SEP Reid (1710-1796); Wikipedia/mirrors (Kardec 1804-1869, Spirits' Book 1857, pen name of Rivail); Commons pages (Hilbert photo 1907, Epicurus bust British Museum Roman copy, Kardec Gallica photo, Topkapi folio); Topkapi date softened to "roughly 8th century" (Wikipedia; Commons says c. 800). Epicurus bust caption avoids dates (sources differ 270/271 BCE). Hilbert dates not put in caption (not confirmed; Britannica 403).
