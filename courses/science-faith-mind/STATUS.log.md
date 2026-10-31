@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-31 Level 4 audit
+Checked level references, widget cards, file: registration, own: blocks, validate and shots (clean). Fixed: Ellis/Kirchner/Stoeger name and year (2004), Schmidhuber/Tegmark measure wording from primary sources, stray qquad and "Level 4" self-reference in challenge-2. Earlier levels use no conflicting Level 4 terms. Conventions fixed here: none new.
+
 ## 2026-10-31 ch04-challenge-2 (22 cards, problems 4-5)
 P4 two invented civilisations: sum of first n odd numbers = n^2 (n=10: 100), 2^n subsets (n=6: 64), constructive witness sqrt2^(2 log2 3)=3, three readings of agreement, order card for the agreement argument (attack on P2), selection/evolution as rivals. P5 MUH stress test: observers, toy measure 50/N (0.005% at N=1e6, factor 1000 to N=1e9), Godel/CUH cost, testability (LR near 1), structural realism and map-territory, verdicts per school, parting. No new external facts (all reused from Level 4 lessons); no web search needed, none run. Choice: Schmidhuber's simpler-structures rule mentioned as in ch04-universe (secondary-sourced there). Conventions fixed here: none new.
 
