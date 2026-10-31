@@ -48,6 +48,12 @@ cards:
 **Self-contained rule:** a summary is read alone (and as Recap blanks), so define in it every symbol, chart, map,
 connection and example it recalls, with its type ("$\nabla^P$ = the polar-chart connection on $\mathbb{R}^2$"). State the setup before the formula that uses it. Check each bullet: could someone who skipped the lesson read it?
 
+**Shape (model: `courses/diff-geometry-gr/ch03/atlases.yaml`):** open with the setting (space, charts, objects); then each
+bullet = a bold name, one line of words, and its main formula on its own displayed `$$…$$` line (split long ones into
+phone-safe pieces; line breaks are `\\`, never `\ `). Runes as `\text{ᛖ}`. Never "the book" or source section labels (C.3).
+Use the source's notation exactly. A guided problem's last text card lists the method and the formulas it used.
+`validate` warns when under a third of the bullets with math display a formula, or a source label appears.
+
 The Recap button hides some `{{ … }}` spans and asks the learner to recall
 them; only marked spans are ever hidden. Each blank is a spaced-repetition
 item keyed by a hash of its text: **editing a blank resets its progress**,

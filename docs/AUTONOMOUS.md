@@ -42,6 +42,10 @@ context stays small. Igor reviews the level on the live site at the end.
   then sends the lesson agent back. A lesson agent never drops a planned
   widget card silently, and never writes "no widget fits" without naming the
   widgets it checked.
+- **Every unit prompt that writes `own:` says**: "follow QUICKREF `own:` (Shape and
+  Self-contained rule), model `diff-geometry-gr/ch03/atlases.yaml`; before committing, reread each
+  bullet: setting stated, main formula displayed, every symbol defined, no source labels;
+  `validate` shows no `own:` warning."
 - **The unit prompt must carry the source rules**: the book's sign and
   symbols (no flipped signs), later material referred to by *name* (never
   "Levels 4 and 5"), and PDF verification of every formula or symbol used.

@@ -209,6 +209,10 @@ function checkOwn(file, lesson) {
   const n = new Set(blanks.map(b => b.key)).size;
   if (n < 2) err(w, `needs at least 2 distinct {{ }} blanks (has ${n})`);
   else if (n < 3 || n > 6) warn(w, `${n} blanks; aim for 3–6`);
+  if (/\bthe book\b|\b(?:section|Section) [A-E]\.\d|\([A-E]\.\d+\)/.test(lesson.own)) warn(w, 'mentions "the book" or a section label (e.g. C.3); summaries are self-contained');
+  const mathBullets = lesson.own.split(/\n(?=- )/).filter(b => b.includes('$') && /[=\\]/.test(b));
+  const shown = mathBullets.filter(b => b.includes('$$')).length;
+  if (mathBullets.length >= 3 && shown * 3 < mathBullets.length) warn(w, `only ${shown} of ${mathBullets.length} bullets with math display a $$…$$ formula; restate each bullet's main formula on its own line`);
   if (lesson.cards?.at(-1)?.type !== 'text') err(w, 'the last card must be a text card: it shows the summary (its body, if any, follows as the teaser)');
 }
 
