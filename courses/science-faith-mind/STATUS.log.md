@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-31: ch04-intuition (Quick Recall, 20 cards)
+Built autonomously. Mnemonics (puzzle, three marks, three prices), build cards (Moon acceleration, excluded middle, diagonal digit rule, second incompleteness theorem), numerics with data only (Moon 2.72e-3, witness x^y=3, 2^6=64, hit rate 0.25%), Godel and MUH distinctions, measure problem, summary with formulas. No widget (verbal/logical level; diagonal-list already covers the diagonal; an intuition lesson derives nothing). Choices: Moon numeric asks in units of 1e-3 m/s^2 with r=3.84e8 m, T=27.3 d; hit-rate numbers invented and flagged. No new external facts, so no new web check (all reused from audited Level 4 lessons). Conventions fixed here: none new.
+
 ## 2026-10-31: ch04-traps (Traps, 20 cards)
 Built autonomously. 18 traps across the six Level 4 lessons (4 numeric, 14 mcq), welcome and summary. No widget (verbal misconceptions). No new external facts: only items already web-verified in earlier Level 4 entries, so no new web search was run. Cut from the plan: 0.999... trap, Presburger card (merged into the Godel context), Moon-test-versus-MUH card, to stay near 20. Conventions fixed here: toy numbers 30 of 12,000 = 0.25%, |P(S)|=2^5=32, Moon gap 1.1%.
 

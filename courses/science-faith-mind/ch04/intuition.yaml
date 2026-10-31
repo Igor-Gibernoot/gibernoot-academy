@@ -1,0 +1,359 @@
+id: ch04-intuition
+title: Quick Recall
+kind: intuition
+
+cards:
+  - type: text
+    id: welcome
+    title: "Quick recall: why does mathematics fit the world?"
+    body: |
+      This round **derives nothing**. It is for fast recall of the main ideas of the level: Wigner's puzzle and its replies, the three schools about what mathematics is (Platonism, formalism, intuitionism), Cantor's diagonal argument, Godel's theorems, and the claim that the universe is mathematics.
+
+      Four kinds of card: **mnemonics** (the shape of an idea), **build cards** (assemble a formula), **checks** (does it behave sensibly?) and **distinctions** (who says what). Small applied cases give you data only: choose the right tool yourself.
+
+      As always, answers are given *according to* a thinker or a view. Nothing here asks which view of mathematics is true.
+
+  - type: mcq
+    id: puzzle
+    title: "Wigner's puzzle in one line"
+    prompt: |
+      According to the physicist Eugene Wigner (1902-1995), the effectiveness of mathematics in physics is "bordering on the mysterious". Which sentence states the puzzle correctly?
+    options:
+      - text: Structures made for their own sake (beauty, logic, curiosity) keep turning out to fit, and even to predict, the physical world.
+        correct: true
+      - text: Mathematics is useful, and nobody can explain why anything is useful.
+        feedback: |
+          The puzzle is not that mathematics is useful in general. It is the fit of mathematics that was developed *without* the application in mind.
+      - text: Physicists choose the mathematics that fits their data, so the fit proves nothing.
+        feedback: |
+          That is one reply to the puzzle (selection), not the puzzle. The puzzle says the fit is surprising, including when it predicts something new.
+      - text: Mathematics is true in every possible world, so it must be true in ours.
+        feedback: |
+          That is a different issue (necessity of mathematical truths). The puzzle is about a surprising match between made-for-itself structures and nature.
+    explanation: |
+      Mnemonic: **made for itself, fits, and predicts**. Whether it needs an explanation at all is a live debate.
+
+  - type: mcq
+    id: marks
+    title: "Three marks of the cases"
+    prompt: |
+      In the cases that fuel the puzzle (conic sections and Kepler's orbits, non-Euclidean geometry and general relativity, Dirac's equation and the positron), which marks do they share? Select **all** that apply.
+    multiple: true
+    options:
+      - text: The mathematics was developed without the application in mind.
+        correct: true
+      - text: It was later found to fit nature.
+        correct: true
+      - text: It often predicted something new.
+        correct: true
+      - text: It was invented to describe the measurements that later confirmed it.
+        feedback: |
+          That is exactly the opposite of the first mark. If the mathematics had been built to fit those data, the fit would be no surprise.
+    explanation: |
+      Mnemonic: **developed apart, found to fit, predicted**. The third mark is the hardest for the deflationary replies to absorb.
+
+  - type: build
+    id: moon-build
+    title: "The Moon's acceleration"
+    prompt: |
+      The Moon moves on a circle of radius $r$ with period $T$. Assemble its acceleration toward the Earth.
+    prefix: 'a ='
+    tiles: ['4\pi^2', 'r', 'T^2', 'T', '2\pi']
+    answers:
+      - ['4\pi^2', 'r', 'T^2']
+    wrong:
+      - answer: ['4\pi^2', 'r', 'T']
+        feedback: |
+          Check the dimensions: $r/T$ is a speed. An acceleration is a length divided by a time *squared*.
+    hint: Speed $v = 2\pi r/T$, and circular motion has acceleration $v^2/r$.
+    explanation: |
+      $v = 2\pi r/T$ and $a = v^2/r$ give $a = 4\pi^2 r/T^2$. Newton compared this with the inverse-square prediction from surface gravity.
+
+  - type: numeric
+    id: moon-numeric
+    title: "The Moon's numbers"
+    prompt: |
+      The Moon orbits at radius $3.84\times10^{8}$ m with a period of $27.3$ days (one day is $86{,}400$ s). What is its acceleration toward the Earth, in units of $10^{-3}$ m/s$^2$? Give two decimals.
+    answer: 2.72
+    tolerance: 0.01
+    answerText: '2.72'
+    hint: Convert the period to seconds first; circular motion at constant speed.
+    explanation: |
+      $T = 27.3 \times 86{,}400 \approx 2.359\times10^{6}$ s, and the centripetal acceleration is $4\pi^2 r/T^2 \approx 2.72\times10^{-3}$ m/s$^2$. An inverse-square law with surface gravity $9.81$ m/s$^2$ and $r/R_E \approx 60.3$ gives $2.69\times10^{-3}$: agreement to about 1%, the precision that made the fit striking.
+
+  - type: mcq
+    id: prices
+    title: "The three prices"
+    prompt: |
+      Each school about the nature of mathematics has a best argument and a hardest question. Which pairing is right?
+    options:
+      - text: Platonism pays in access (how do we know abstract objects?); formalism in application (why does a symbol game fit the world?); intuitionism in how much classical mathematics survives.
+        correct: true
+      - text: Platonism pays in application; formalism in access; intuitionism in how much survives.
+        feedback: |
+          Swapped. Application (Frege's objection) is the formalist's problem, since on that view mathematics is only a game with symbols. Access (Benacerraf) is the Platonist's: abstract objects cause nothing in us.
+      - text: Platonism pays in how much survives; intuitionism in access; formalism in application.
+        feedback: |
+          "How much survives" belongs to the intuitionist, who gives up the law of excluded middle and so some classical results. Platonists keep all of classical mathematics.
+      - text: All three pay the same price, since none can prove mathematics is consistent.
+        feedback: |
+          Godel's second theorem is a result about particular formal systems, and it hurts the original formalist programme most. It is not the shared price of the three schools.
+    explanation: |
+      Mnemonic: **access, application, how much survives** (Platonist, formalist, intuitionist).
+
+  - type: build
+    id: excluded-middle
+    title: "The law of excluded middle"
+    prompt: |
+      Classical logic accepts that every statement $A$ is either true or false. Assemble this law.
+    prefix: ''
+    tiles: ['A', '\lor', '\land', '\lnot A']
+    answers:
+      - ['A', '\lor', '\lnot A']
+    wrong:
+      - answer: ['A', '\land', '\lnot A']
+        feedback: |
+          That says $A$ and its negation are both true, a contradiction. The law says at least one of them holds.
+    hint: "$\\lor$ reads 'or', $\\land$ reads 'and'."
+    explanation: |
+      $A \lor \lnot A$, "$A$ or not $A$". Brouwer's intuitionism does not accept it for every $A$: for an open problem we may hold neither a proof of $A$ nor a refutation.
+
+  - type: numeric
+    id: witness
+    title: "A witness for rational powers"
+    prompt: |
+      Take the irrational numbers $x = \sqrt2$ and $y = 2\log_2 3$ (here $\log_2 3$ is the power to which $2$ must be raised to give $3$). What is the number $x^y$?
+    answer: 3
+    tolerance: 0.001
+    answerText: '3'
+    wrong:
+      - { value: 2, feedback: "That is the value from the classical proof by cases when $x^{\\sqrt2}$ is irrational, with $y = \\sqrt2$; here $y$ is different." }
+    hint: Write $x = 2^{1/2}$ and multiply the exponents.
+    explanation: |
+      $x^y = (2^{1/2})^{2\log_2 3} = 2^{\log_2 3} = 3$, a rational number from two irrational ones, and this time with the pair named. The classical proof by cases only shows a pair exists, using excluded middle; an intuitionist asks for this kind of construction.
+
+  - type: mcq
+    id: same-size
+    title: "Same size without counting"
+    prompt: |
+      Cantor says two collections, finite or infinite, have the same size. What is the test?
+    options:
+      - text: A one-to-one matching pairs every element of one with exactly one element of the other, with none left over.
+        correct: true
+      - text: One collection is contained in the other.
+        feedback: |
+          The even numbers are contained in the naturals, yet $n \mapsto 2n$ matches them one to one. Being part of another set does not make a set smaller when the sets are infinite.
+      - text: Both can be written down completely.
+        feedback: |
+          Infinite sets cannot be written out in full. The test uses the pairing rule, not a complete list.
+      - text: Both contain numbers of the same kind.
+        feedback: |
+          The naturals and the real numbers are both numbers, but the diagonal argument shows no matching exists between them.
+    explanation: |
+      Mnemonic: **same size = a perfect matching**. A set matched with $1, 2, 3, \dots$ is countable.
+
+  - type: build
+    id: diagonal-rule
+    title: "The diagonal digit rule"
+    prompt: |
+      A list claims to contain every real number in $(0,1)$; $x_{kk}$ is digit $k$ of the $k$-th number on the list. To build a number $d$ missing from the list, choose digit $d_k$ (from $1$ to $8$) so that:
+    prefix: ''
+    tiles: ['d_k', '\ne', '=', 'x_{kk}', 'x_{k1}']
+    answers:
+      - ['d_k', '\ne', 'x_{kk}']
+    wrong:
+      - answer: ['d_k', '=', 'x_{kk}']
+        feedback: |
+          Then $d$ would agree with the $k$-th number in digit $k$, and could be on the list. The point is to *differ* from it.
+      - answer: ['d_k', '\ne', 'x_{k1}']
+        feedback: |
+          The first digit of the $k$-th number is the wrong one. Differing along the diagonal, in digit $k$ of number $k$, makes $d$ differ from every number somewhere.
+    hint: The new number must differ from number $k$ in digit $k$.
+    explanation: |
+      Then $d$ differs from every $x_k$ in digit $k$, so it is not on the list and no list is complete: the reals in $(0,1)$ are uncountable. Digits $0$ and $9$ are avoided because $0.0999\ldots = 0.1000\ldots$ gives one number two expansions.
+
+  - type: mcq
+    id: diagonal-says
+    title: "What the diagonal argument proves"
+    prompt: |
+      What exactly does Cantor's diagonal argument (1891) establish?
+    options:
+      - text: No matching exists between the natural numbers and the real numbers in $(0,1)$; "bigger infinity" is the name of that fact.
+        correct: true
+      - text: Physical space contains more points than there are atoms.
+        feedback: |
+          It is a theorem about mathematical sets. It measures nothing in physical space.
+      - text: Every infinite set is the same size as the naturals.
+        feedback: |
+          The opposite. The evens and the fractions are countable, but the argument shows the reals are not.
+      - text: The list of reals can be completed if we add the new number $d$.
+        feedback: |
+          Adding $d$ and repeating the construction produces yet another missing number. No list ever works.
+    explanation: |
+      Platonists read it as discovering a larger totality; formalists as a theorem of the symbol game; intuitionists keep the construction but not the picture of finished infinite totalities ranked by size.
+
+  - type: numeric
+    id: power-set
+    title: "Counting subsets"
+    prompt: |
+      A set has $6$ elements. How many subsets does it have, counting the empty subset and the whole set itself?
+    answer: 64
+    tolerance: 0.001
+    answerText: '64'
+    wrong:
+      - { value: 36, feedback: "Squaring counts ordered pairs of elements, not subsets. For each element ask: in the subset or not?" }
+      - { value: 12, feedback: "That doubles the number of elements. Each of the elements has two choices (in or out), and the choices multiply." }
+    hint: Each element is either in the subset or out of it, independently.
+    explanation: |
+      Two choices for each of six elements: $2^6 = 64$. For a set $S$ with $n$ elements, $|\mathcal{P}(S)| = 2^n$, always more than $n$. Cantor's theorem says the strict growth persists for infinite sets, so there is no largest infinity.
+
+  - type: mcq
+    id: godel-first
+    title: "The first incompleteness theorem"
+    prompt: |
+      Let $F$ be a consistent formal system, checkable by a mechanical procedure, that contains enough arithmetic. According to Godel (1931), what does the sentence $G_F$ do?
+    options:
+      - text: $F$ does not prove $G_F$, yet $G_F$ is true of the ordinary natural numbers (given that $F$ is consistent).
+        correct: true
+      - text: $F$ proves both $G_F$ and its negation.
+        feedback: |
+          Then $F$ would be inconsistent, which the hypothesis excludes. $G_F$ is a sentence $F$ cannot decide.
+      - text: $G_F$ is a true statement that no system whatever can ever prove.
+        feedback: |
+          The theorem is relative to the system $F$. A stronger system may prove $G_F$ (and has its own undecidable sentence). It is not an absolute claim about unprovable truths.
+      - text: $G_F$ shows that human minds can see truths no machine can.
+        feedback: |
+          That is the Lucas-Penrose argument, a live and very controversial debate. The theorem alone does not show it.
+    explanation: |
+      Mnemonic: **true but unprovable here**. Loosely, $G_F$ "says" it is not provable in $F$; this is a heuristic, not a literal meaning.
+
+  - type: build
+    id: godel-second
+    title: "The second incompleteness theorem"
+    prompt: |
+      Let $\mathrm{Con}(F)$ be the arithmetical sentence "$F$ is consistent". For a consistent, mechanically checkable $F$ containing enough arithmetic, assemble what the second theorem says ($\vdash$ means "proves", $\nvdash$ "does not prove").
+    prefix: ''
+    tiles: ['F', '\vdash', '\nvdash', '\mathrm{Con}(F)']
+    answers:
+      - ['F', '\nvdash', '\mathrm{Con}(F)']
+    wrong:
+      - answer: ['F', '\vdash', '\mathrm{Con}(F)']
+        feedback: |
+          That would be the hoped-for result of Hilbert's programme. The second theorem shows it fails: a system cannot prove its own consistency (if it is consistent).
+    hint: A system that proves its own consistency would settle Hilbert's hope.
+    explanation: |
+      A serious problem for Hilbert's programme of securing mathematics by a finitary consistency proof. It says nothing against mathematics being consistent.
+
+  - type: mcq
+    id: godel-limits
+    title: "Where the theorems do not reach"
+    prompt: |
+      Select **all** the claims that Godel's theorems do support.
+    multiple: true
+    options:
+      - text: Presburger arithmetic (addition only) is not covered, and it is in fact complete.
+        correct: true
+      - text: Consistent, mechanically checkable systems containing enough arithmetic cannot prove all arithmetical truths.
+        correct: true
+      - text: Science cannot reach the truth about the world.
+        feedback: |
+          The theorems concern formal systems for arithmetic. They say nothing about empirical science, God or relativism.
+      - text: Every statement is merely a matter of opinion.
+        feedback: |
+          Nothing in the theorems says so. They distinguish provability in a given system from truth about the natural numbers.
+    explanation: |
+      Mnemonic: **specific systems, enough arithmetic, mechanical rules**. Outside those conditions, no incompleteness follows.
+
+  - type: mcq
+    id: replies
+    title: "Which premise does each reply attack?"
+    prompt: |
+      Wigner's puzzle rests on P1 (much mathematics is developed for internal reasons), P2 (a substantial share of it later describes nature accurately) and P3 (such a fit would be improbable without some explanation). Which pairing of reply and target is right?
+    options:
+      - text: Selection (we keep what fits) targets P2; abstraction from experience (Mill) targets P1; evolved minds targets P3.
+        correct: true
+      - text: Selection targets P1; abstraction from experience targets P3.
+        feedback: |
+          Swapped. Selection says the successes are fewer than they look (P2). Mill says the mathematics was not developed for internal reasons but drawn from the world (P1).
+      - text: Design (the world was made mathematical) rejects P1.
+        feedback: |
+          Design accepts all three premises and answers P3 by a designer. That is a faith or metaphysical commitment, not a result.
+      - text: Evolved minds targets P2, since our minds produce only the mathematics that fits.
+        feedback: |
+          That is closer to selection. The evolutionary reply says brains shaped by this world find its regularities natural, which targets P3 (the fit is not improbable). Its limit: curved spacetime and quantum fields lie far from anything our ancestors met.
+    explanation: |
+      Mnemonic: **selection P2, Mill P1, evolution P3**.
+
+  - type: numeric
+    id: selection
+    title: "A hit rate"
+    prompt: |
+      Over the centuries, $6$ of $2400$ mathematical structures that people tried turned out to fit some part of nature. (The numbers are invented for the exercise.) What percentage of tried structures fit?
+    answer: 0.25
+    tolerance: 0.01
+    answerText: '0.25'
+    wrong:
+      - { value: 4, feedback: "That inverts the ratio ($2400/6 = 400$ structures per hit) or misplaces the decimal point. Divide the hits by the total." }
+    hint: Divide the number that fit by the number tried, then convert to percent.
+    explanation: |
+      $6/2400 = 0.25\%$. A small hit rate makes the success of the few famous cases less surprising, which is what the selection reply says. It does not explain why any structure fits, nor why one chosen for other reasons predicted something new.
+
+  - type: mcq
+    id: describes-is
+    title: "Describes or is?"
+    prompt: |
+      Galileo (1623) wrote that the book of nature is written in the language of mathematics. Tegmark's Mathematical Universe Hypothesis (MUH) says the physical world *is* a mathematical structure. What separates the two claims?
+    options:
+      - text: Galileo's is modest (mathematics describes the world, as a map describes a territory); Tegmark's is bold (nothing but structure exists, so nothing is left over).
+        correct: true
+      - text: Galileo says the world is mathematics; Tegmark says mathematics only describes it.
+        feedback: |
+          Reversed. The MUH is the claim of identity; Galileo's remark is compatible with a physical world that mathematics describes.
+      - text: The MUH is a result of experiments; Galileo's is a metaphor.
+        feedback: |
+          No experiment has confirmed the MUH. It is a metaphysical commitment, and one that needs something like Platonism.
+      - text: They are the same claim in different words.
+        feedback: |
+          The difference is the whole debate: the map-territory objection says a perfect description is not the thing described, which the MUH answers by saying no extra "thing" remains.
+    explanation: |
+      Mnemonic: **describes versus is**. The MUH needs structures to exist independently of us, so a formalist or an intuitionist rejects it at the first step.
+
+  - type: mcq
+    id: measure
+    title: "The measure problem"
+    prompt: |
+      If every mathematical structure exists, there are infinitely many. Suppose each of $N$ structures gets equal weight $1/N$ and we let $N$ grow without end. What goes wrong?
+    options:
+      - text: Equal weights cannot be normalised to total probability $1$, so "typical" needs some extra rule for weighting the structures.
+        correct: true
+      - text: The weights become larger than $1$.
+        feedback: |
+          Each weight $1/N$ shrinks toward $0$ as $N$ grows. The sum $N \cdot (1/N) = 1$ holds for each finite $N$, but no equal assignment works in the limit.
+      - text: Godel's theorems forbid counting structures.
+        feedback: |
+          Godel is a different objection to the MUH (some structures cannot be captured by a system), answered by Tegmark with the Computable Universe Hypothesis. The measure problem is about weighting infinitely many options.
+      - text: Nothing goes wrong, because infinite sets have a natural uniform probability.
+        feedback: |
+          There is no uniform probability over a countably infinite set: a fixed equal weight must be $0$ (total $0$) or positive (total infinite).
+    explanation: |
+      Mnemonic: **equal weights, $1/N$, never normalise**. Together with the observer, Godel and testability objections, it is the cost of the boldest reading.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Wigner's puzzle:** structures made for their own sake keep fitting, and predicting, the physical world. Moon test, with $r$ the orbital radius and $T$ the period:
+        $$a = \frac{4\pi^2 r}{T^2} \approx 2.72\times10^{-3}\ \text{m/s}^2$$
+        against $g/(r/R_E)^2 \approx 2.69\times10^{-3}$ m/s$^2$ from an inverse-square law (agreement to about 1%). Replies: selection (P2), Mill's abstraction (P1), evolved minds (P3); design is a commitment.
+      - **Three schools:** Platonism pays in access, formalism in application, intuitionism in how much survives. Intuitionists do not accept, for every statement $A$,
+        $$A \lor \lnot A$$
+        and want a witness: $x=\sqrt2$, $y = 2\log_2 3$ give $x^y = 3$.
+      - **Cantor:** same size means a one-to-one matching. Differing from the $k$-th number in digit $k$,
+        $$d_k \ne x_{kk}$$
+        builds a real number missing from any list, so the reals in $(0,1)$ are uncountable. A set of $n$ elements has $2^n$ subsets.
+      - **Godel:** for a consistent, mechanically checkable system $F$ with enough arithmetic, there is a sentence $G_F$ true but with
+        $$F \nvdash G_F, \qquad F \nvdash \mathrm{Con}(F)$$
+        where $\mathrm{Con}(F)$ says "$F$ is consistent". It does not reach Presburger arithmetic, science or God.
+      - **The universe as mathematics:** Galileo's mathematics *describes*; Tegmark's MUH says the world *is* structure. Costs: observers, Godel, testability, and the measure problem (equal weights $1/N$ cannot be normalised as $N \to \infty$).
+
+      **Next:** the content map, where you rebuild this level's concept map box by box.
