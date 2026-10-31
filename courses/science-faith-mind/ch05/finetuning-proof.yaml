@@ -1,0 +1,335 @@
+id: ch05-finetuning-proof
+title: "Guided Proof: Bayes and Fine-Tuning"
+kind: guided
+proof: true
+own: |
+  - **Setting.** A *dial* is a physical constant (a number the laws take as input), with a *possible range* of length $L$ and a *life-permitting window* of width $w$ inside it. $E$ is the evidence "the dial lies in the window". Rival hypotheses: $H_1$ = chance (the value was drawn without regard to life), $H_2$ = design (a designer who wanted life set it), $H_3$ = multiverse (many universes with different values). $P(E\mid H)$ is the likelihood, $P(H)$ the prior.
+  - **The law used.** Posterior odds equal likelihood ratio times prior odds, so design beats chance exactly when the product exceeds $1$:
+  {{ $$\frac{P(H_2\mid E)}{P(H_1\mid E)}=\frac{P(E\mid H_2)}{P(E\mid H_1)}\cdot\frac{P(H_2)}{P(H_1)}$$ }}
+  - **The argument (according to Collins and others).** P1: the window is narrow in the possible range. P2: so under chance, with a uniform prior on the range,
+  {{ $$P(E\mid H_1)=\frac{w}{L}\ \text{(small)}$$ }}
+  P3: $P(E\mid H_2)$ is not small, since a designer might want life. P4: the prior odds $P(H_2)/P(H_1)$ are not tiny. C: the posterior odds favour design over chance. The form is valid; the premises are disputed.
+  - **Objection 1: normalisation.** On an unbounded range ($0$ to $\infty$) a uniform prior cannot sum to $1$, and every finite window gets
+  {{ probability $0$, so $P(E\mid H_1)$ is undefined or zero and the ratio has no meaning }}
+  Replies: theory bounds the range (for example at the Planck scale), or the prior is not uniform, but then its shape needs an argument.
+  - **Objection 2: measure.** The same window of $10$ to $20$ in the range $1$ to $1000$ gets $\approx1.0\%$ under a uniform prior on the value and $\log_{10}2/3\approx10\%$ under a uniform prior on its power of ten. The likelihood depends on the measure chosen.
+  - **Objection 3: the multiverse.** With $N$ universes, each life-permitting with probability $p$, at least one is life-permitting with probability
+  {{ $$P(\text{some}\mid H_3)=1-(1-p)^N$$ }}
+  but *this* universe still works with probability $p$. The inference "we see a life-permitting universe, so there are many" is called the *inverse gambler's fallacy* by Hacking and White; Leslie and others reply that the right evidence is "some life-permitting universe exists", which our existence entails.
+  - **Where people part ways.** On the measure (P2), on what a designer would want (P3), on the prior cost of a multiverse or a designer (P4), and on which evidence to condition on: {{ "this universe works" or "some universe works" }}.
+cards:
+  - type: mcq
+    id: hook
+    title: "Guess: which is more surprising?"
+    prompt: |
+      A dial inside the laws of physics could take any value in a long range, but only a thin slice of it (1 part in 1000) allows stars and chemistry. The dial is found inside the thin slice. Before any formula, **guess**: compared with the story "the value was set by blind chance", how does the story "someone who wanted a life-friendly universe set it" fare?
+    options:
+      - text: 'The find is far less surprising if someone aimed at the slice than if the value landed there by blind chance.'
+        correct: true
+      - text: 'Equally surprising: any single value is just as unlikely as any other.'
+        feedback: |
+          Any exact value is unlikely, true. But the slice is special because it is picked out in advance by the demand for life, as a bullseye is picked out before the dart is thrown. The comparison is between hitting the picked-out region by chance and by aim.
+      - text: 'More surprising under design: a designer would not leave the choice so narrow.'
+        feedback: |
+          This is a live objection, and the lesson returns to it: what a designer would want is hard to know. But it is a claim about the designer's motives, not about how narrow the slice is; narrowness alone hurts blind chance, not aim.
+    explanation: |
+      Your guess is the heart of the **fine-tuning argument**. This lesson turns the guess into numbered premises, tests each one, and then faces the objections of both sides. According to its defenders (such as Robin Collins) the argument is a likelihood comparison; according to its critics, some of its premises have no clear meaning. Both readings are fair, and the aim is to see exactly where they part.
+
+  - type: text
+    id: recall
+    title: "Recall: Bayes' rule and the odds form"
+    body: |
+      **Recall.** $H$ is a hypothesis and $E$ the evidence. $P(H)$ is the **prior** (how probable $H$ is before $E$), $P(E\mid H)$ the **likelihood** (how probable $E$ is if $H$ is true) and $P(H\mid E)$ the **posterior** (after $E$). For two rivals $H_1$ and $H_2$ the odds form of Bayes' rule is
+      $$\frac{P(H_1\mid E)}{P(H_2\mid E)}=\frac{P(E\mid H_1)}{P(E\mid H_2)}\cdot\frac{P(H_1)}{P(H_2)}$$
+      In words: posterior odds = likelihood ratio × prior odds. A ratio above $1$ favours $H_1$. The identity is a theorem; whether to give numbers to grand hypotheses at all is disputed.
+
+  - type: text
+    id: setup
+    title: "The setting"
+    body: |
+      A **physical constant** is a number that the laws of physics take as an input and that current theory does not compute. Think of it as a **dial** with a **possible range** of length $L$ (the values we are willing to consider) and a **life-permitting window** of width $w$ inside it (the values for which stars, atoms and chemistry can exist).
+
+      Let $E$ be the evidence: **"the dial lies in the life-permitting window."** The rival hypotheses are:
+
+      - $H_1$, **chance**: the value was fixed without regard to life, like a dart thrown at the whole range.
+      - $H_2$, **design**: a designer who wanted a life-friendly universe set it (whose designer, and whether theistic, is left open).
+      - $H_3$, **multiverse**: there are many universes with different values, and ours is one. This one comes in at the objections.
+
+      All numbers in this lesson are made-up toy values, chosen to be checked by hand.
+
+  - type: text
+    id: argument
+    title: "The argument, with numbered premises"
+    body: |
+      According to **Robin Collins** (in his 2009 chapter "The Teleological Argument: An Exploration of the Fine-Tuning of the Universe"), the argument rests on a *likelihood principle*: evidence favours the hypothesis that made it more probable. Set out in steps:
+
+      - **P1.** The life-permitting window is narrow compared with the possible range: $w \ll L$.
+      - **P2.** So under chance, $P(E\mid H_1)$ is small.
+      - **P3.** Under design, $P(E\mid H_2)$ is not small.
+      - **P4.** The prior odds $P(H_2)/P(H_1)$ are not extremely small.
+      - **C.** The posterior odds favour design over chance: $\dfrac{P(H_2\mid E)}{P(H_1\mid E)}>1$.
+
+      Note what C does *not* say: that design is probable overall, or that a God exists. It compares two rivals only.
+
+  - type: mcq
+    id: critic-p1
+    title: "Which premise would a critic reject? (1)"
+    prompt: |
+      P1 says the window is narrow compared with the possible range, $w \ll L$. Physicists such as Barnes report that for some dials the window is very narrow and for others it is wide, and that results change when one dial is varied alone or several together. What is the fairest assessment of P1?
+    options:
+      - text: 'P1 is an empirical claim about physics that holds for some dials and is disputed for others; it also depends on what $L$ means, which P2 and the objections below probe.'
+        correct: true
+      - text: 'P1 is a theorem of probability and cannot be disputed.'
+        feedback: |
+          Probability does not tell us the window of a dial. P1 comes from calculations in nuclear and stellar physics, whose limits are still debated.
+      - text: 'P1 is a pure matter of faith, with no physics behind it.'
+        feedback: |
+          The windows come from physics calculations (for example for carbon production in stars). Faith enters later, in what the narrowness means. Calling P1 faith ignores the layer of established calculation.
+    explanation: |
+      Layer by layer: that some changes would alter nuclear and stellar physics is *established*; how wide the window is for each dial is a *live debate*; what the narrowness means is a *commitment*. A critic of P1 usually attacks the width or the one-dial-at-a-time method, not the logic.
+
+  - type: mcq
+    id: critic-p3
+    title: "Which premise would a critic reject? (2)"
+    prompt: |
+      P3 says $P(E\mid H_2)$, the chance of a life-permitting value given design, is not small. A critic argues roughly that "a designer" is so open that it predicts nothing: with no stated aim, $P(E\mid H_2)$ has no value. What would a defender of P3 reply?
+    options:
+      - text: 'A designer with the aim of making life-permitting beings is what the hypothesis says, and many traditions describe such an aim independently of fine-tuning; so $P(E\mid H_2)$ is moderate, not tiny.'
+        correct: true
+      - text: 'P3 does not matter, since the argument only needs the chance likelihood to be small.'
+        feedback: |
+          A likelihood ratio needs both likelihoods: $P(E\mid H_1)$ small gives a large ratio only if $P(E\mid H_2)$ is not small as well. If both are tiny the ratio can be near $1$.
+      - text: 'A designer must by definition pick the window with certainty, so $P(E\mid H_2)=1$.'
+        feedback: |
+          Certainty is not needed and is itself disputed: a designer might prefer other goals or other ways of making life. The argument only needs $P(E\mid H_2)$ to be well above $P(E\mid H_1)$.
+    explanation: |
+      Defenders hold that independent reasons for the designer's aims (a point where Collins appeals to independent motivation for theism) keep the likelihood from being arbitrary. Critics such as Paul Draper argue, in essence, that a generic design hypothesis says too little about motives to give a likelihood. Both sides agree this is a premise, not a theorem.
+
+  - type: mcq
+    id: critic-p4
+    title: "Which premise would a critic reject? (3)"
+    prompt: |
+      P4 says the prior odds of design against chance are not extremely small. An atheist and a theist both accept P1 to P3 with likelihood ratio $1000$ for design. The atheist's prior odds are $1:10{,}000{,}000$, the theist's $1:5$. Whose posterior odds favour design?
+    options:
+      - text: 'Only the theist (posterior odds $200:1$); the atheist stays at $1:10{,}000$ against.'
+        correct: true
+      - text: 'Both: a likelihood ratio of $1000$ settles it whatever the prior.'
+        feedback: |
+          The ratio multiplies the prior odds, it does not replace them: $1000\times 1/10{,}000{,}000=1/10{,}000$, still against design.
+      - text: 'Neither: priors are meaningless so no posterior exists.'
+        feedback: |
+          That is the position of some critics of Bayesian reasoning about theories (see the lesson Evidence Favours the Theory That Predicted It), but here we take the Bayesian frame as given; inside it the posteriors are well defined.
+    explanation: |
+      Theist: $1000\times\tfrac15=200$, so odds $200:1$. Atheist: $1000\times 10^{-7}=10^{-4}$, odds $1:10{,}000$. The evidence moves both by the same factor but they start apart, and what the prior should be for a grand hypothesis is where thoughtful people most part ways.
+
+  - type: build
+    id: validity
+    title: "Validity: build the step from P1-P4 to C"
+    prompt: |
+      Assemble the posterior odds of design $H_2$ against chance $H_1$ after $E$, from the likelihood ratio and the prior odds.
+    prefix: '\dfrac{P(H_2\mid E)}{P(H_1\mid E)}='
+    tiles:
+      - '\dfrac{P(E\mid H_2)}{P(E\mid H_1)}'
+      - '\cdot'
+      - '\dfrac{P(H_2)}{P(H_1)}'
+      - '\dfrac{P(E\mid H_1)}{P(E\mid H_2)}'
+      - '\dfrac{P(H_1)}{P(H_2)}'
+    answers:
+      - ['\dfrac{P(E\mid H_2)}{P(E\mid H_1)}', '\cdot', '\dfrac{P(H_2)}{P(H_1)}']
+      - ['\dfrac{P(H_2)}{P(H_1)}', '\cdot', '\dfrac{P(E\mid H_2)}{P(E\mid H_1)}']
+    wrong:
+      - answer: ['\dfrac{P(E\mid H_1)}{P(E\mid H_2)}', '\cdot', '\dfrac{P(H_2)}{P(H_1)}']
+        feedback: 'The likelihood ratio is upside down: it must be the likelihood under design over the likelihood under chance, to match the posterior odds of design over chance.'
+    hint: |
+      Same order on both sides: design on top, chance below.
+    explanation: |
+      $$\frac{P(H_2\mid E)}{P(H_1\mid E)}=\frac{P(E\mid H_2)}{P(E\mid H_1)}\cdot\frac{P(H_2)}{P(H_1)}$$
+      This step is a theorem. **Validity** asks only whether C follows if P1 to P4 hold, and it does once "small" and "not extremely small" are read as numbers whose product exceeds $1$. It is a separate question whether those premises are *true*.
+
+  - type: numeric
+    id: toy
+    title: "A toy run of the argument"
+    prompt: |
+      Toy values: under chance the dial lands in the window with probability $P(E\mid H_1)=0.001$; under design $P(E\mid H_2)=0.1$. The prior odds of design against chance are $1:50$. What is the posterior probability of design, as a **percentage**, if design and chance are the only two hypotheses?
+    answer: 66.67
+    tolerance: 0.2
+    answerText: '2/3, about 66.7%'
+    wrong:
+      - { value: 10, feedback: 'That is the design likelihood $0.1$, not a posterior. The ratio $0.1/0.001=100$ must multiply the prior odds.' }
+      - { value: 2, feedback: 'That is the posterior odds $2:1$ in design''s favour, not yet a probability. Turn odds $2:1$ into $2/(2+1)$.' }
+    hint: |
+      Likelihood ratio, then prior odds, then odds to probability.
+    explanation: |
+      Likelihood ratio $0.1/0.001=100$; posterior odds $100\times\tfrac1{50}=2$, that is $2:1$; probability $2/(2+1)=\tfrac23\approx66.7\%$. With the same likelihoods and prior odds of $1:5000$ the result would be $100/5000=1/50$, odds against. The numbers are toys: the fight is over what the real ones are.
+
+  - type: text
+    id: objections
+    title: "Objection 1: normalisation"
+    body: |
+      P2 hides a step: "the chance of landing in the window is $w/L$" needs a probability that spreads evenly over the range. **Colyvan, Garfield and Priest** (*Synthese* 2005) press the point that, if the dial could take any value from $0$ to $\infty$, no even spread exists.
+
+      A probability must add up to $1$ over all possibilities (it must be **normalised**). A constant density $c$ over an endless range adds up to $0$ if $c=0$ and to infinity otherwise. So with a uniform spread over an unbounded range, every finite window gets probability $0$, and the likelihood $P(E\mid H_1)$ is not a usable number.
+
+  - type: mcq
+    id: normalisation
+    title: "Which reply answers the normalisation objection?"
+    prompt: |
+      The objection: a uniform probability on an unbounded range cannot be normalised, so $P(E\mid H_1)$ is undefined. Which of these is a real reply a defender might give, and what does it cost?
+    options:
+      - text: 'Say that theory limits the possible range (for example by the Planck scale or a landscape of allowed values), or use a non-uniform prior. The cost: the range or the shape of the prior now needs its own justification.'
+        correct: true
+      - text: 'Say that infinity is large, so a window of width $w$ has a tiny but fixed probability.'
+        feedback: |
+          Over an unbounded range with a uniform spread the probability is not tiny but undefined (zero for every finite window and not a distribution at all). Large is not the same as normalisable.
+      - text: 'Say that the objection proves the dial was designed.'
+        feedback: |
+          A failed likelihood does not turn into evidence for a rival: if $P(E\mid H_1)$ is undefined, the comparison is blocked for *both* sides, so the objection is no argument for design either.
+    explanation: |
+      Defenders (and some physicists) answer that a good theory fixes the allowed values of its constants, so a range is part of the theory. Critics answer that without an independent argument for the shape of the spread, the choice begs the question. The argument survives only when a bounded range and a measure are both defended.
+
+  - type: text
+    id: measure
+    title: "Objection 2: the choice of measure"
+    body: |
+      Even on a bounded range, "evenly" needs a rule. Take a dial between $1$ and $1000$ with a window from $10$ to $20$.
+
+      - **Even in the value:** every unit of the value counts the same. The window has width $10$ out of about $999$.
+      - **Even in the power of ten (logarithm):** every factor of ten counts the same. The range covers $3$ powers of ten, and the window covers $\log_{10}2\approx0.301$ of one.
+
+      The lessons Fine-Tuning: The Numbers and The Multiverse and the Measure Problem showed the same issue: counting universes depends on a rule that cuts off and weights an endless ensemble. Here it hits P2 directly.
+
+  - type: numeric
+    id: log-measure
+    title: "Same window, other measure"
+    prompt: |
+      A dial ranges from $1$ to $1000$, and the life-permitting window runs from $10$ to $20$. Under a prior that is even in the value, $P(E)$ is about $10/999\approx1.0\%$. What is the probability, as a **percentage**, under a prior that is even in $\log_{10}$ of the value (each factor of ten equally likely)?
+    answer: 10.03
+    tolerance: 0.3
+    answerText: 'log10(2)/3, about 10.0%'
+    wrong:
+      - { value: 1, feedback: 'That is the answer for the prior even in the value. Here every factor of ten counts the same.' }
+      - { value: 30.1, feedback: 'The window covers $\log_{10}2\approx0.301$ powers of ten, but the whole range is $3$ powers; divide by $3$.' }
+    hint: |
+      Measure lengths in powers of ten: the range is $\log_{10}1000-\log_{10}1=3$.
+    explanation: |
+      Window: $\log_{10}20-\log_{10}10=\log_{10}2\approx0.301$. Range: $3$. Probability $0.301/3\approx0.1003$, that is $10.0\%$, ten times the other answer. Neither measure is forced by logic. Defenders say that for a dial like a coupling strength the log scale is natural and the conclusion survives; critics say a factor of ten in the likelihood shows that the premise rests on a choice, and that real dials have windows far smaller than here, so the two measures can differ by many orders of magnitude.
+
+  - type: text
+    id: multiverse
+    title: "Objection 3: the multiverse reply, and two kinds of evidence"
+    body: |
+      The multiverse reply: if there are $N$ universes with values spread over the range, a life-permitting one is no longer a miracle. Suppose each universe is life-permitting with probability $p$, independently. Then **some** universe is life-permitting with probability
+      $$P(\text{some works})=1-(1-p)^N$$
+      But the probability that **this particular** universe is life-permitting is still $p$: other universes do not change the dice of ours.
+
+      So there are two candidate pieces of evidence:
+
+      - $E_{\text{this}}$: "**this** universe has a life-permitting value."
+      - $E_{\text{some}}$: "**some** universe has a life-permitting value" (which our existence entails).
+
+      Which one is the right evidence is a central dispute.
+
+  - type: numeric
+    id: some
+    title: "At least one works"
+    prompt: |
+      Toy values: $N=1000$ universes, each independently life-permitting with probability $p=0.001$. What is the probability, as a **percentage**, that at least one of the $1000$ is life-permitting?
+    answer: 63.23
+    tolerance: 0.2
+    answerText: '1 - 0.999^1000, about 63.2%'
+    wrong:
+      - { value: 100, feedback: 'That is the expected number of working universes times $1$, which is $1$, not a probability of 100%. Several can work, and sometimes none does.' }
+      - { value: 0.1, feedback: 'That is $p$, the chance for a single universe. The question is about at least one among $1000$.' }
+    hint: |
+      Find the chance that none works: $(1-p)^N$. Then subtract from $1$.
+    explanation: |
+      Chance that none works: $0.999^{1000}\approx0.368$. So at least one works with probability $1-0.368\approx63.2\%$. With the single-universe chance $0.1\%$ and the design likelihood $10\%$ of the toy, a multiverse of $1000$ makes $E_{\text{some}}$ more probable (63.2%) than design does (10%), at a price in the prior (a very large, unseen ensemble). For $E_{\text{this}}$ it gives only $0.1\%$, the same as one universe.
+
+  - type: mcq
+    id: gambler
+    title: "Trap: the inverse gambler"
+    prompt: |
+      A man walks into a casino and sees a pair of dice land double six (probability $1/36$ per roll). He concludes: "the dice must have been rolled many times before I came in." **According to Ian Hacking** (*Mind*, 1987), who named this error the *inverse gambler's fallacy*, what is wrong with the inference?
+    options:
+      - text: 'The chance that the roll he just saw is a double six is $1/36$ whether it was the first roll or the thousandth; seeing one roll gives no evidence about how many came before.'
+        correct: true
+      - text: 'Nothing: many rolls make a double six more likely, so seeing one proves many rolls.'
+        feedback: |
+          Many rolls make it likely that *a* double six occurs *somewhere*, but the roll he saw is a single roll. Its chance of being double six does not depend on how many other rolls happened.
+      - text: 'He should conclude instead that the dice are loaded.'
+        feedback: |
+          One double six is far too common ($1/36$) to show loading. The error is in the inference to many past rolls, not in a missing alternative.
+    explanation: |
+      Hacking aimed this at an inference from our universe's fine-tuning to an earlier series of universes (John Wheeler's oscillating universe). **Roger White** (*Noûs*, 2000) pressed a general form against multiverse replies: fine-tuning supports a multiverse only if evidence is "some universe works", not "this one works". **John Leslie** (*Mind*, 1988) replied that, in cosmology, the right evidence is that a life-permitting universe exists at all, and that this does favour many universes. The lesson is a question of which proposition we condition on.
+
+  - type: mcq
+    id: selection
+    title: "Objection 4: we exist, so of course"
+    prompt: |
+      A critic says: "We could only observe a life-permitting universe. So given that we are here, $P(E\mid H_1)=1$, just as for design, and the likelihood ratio is $1$." Which reply do defenders of the argument give (John Leslie's firing-squad analogy, *Universes*, 1989)?
+    options:
+      - text: 'A prisoner facing a squad of fifty marksmen who all miss still has something to explain, even though he could only observe his survival: the evidence is that the squad missed, not just that he is here.'
+        correct: true
+      - text: 'The reply is that observers are rare, so existing counts as evidence by rarity alone.'
+        feedback: |
+          Rarity is not the point. The point is which proposition is the evidence: "I am alive and observing" (certain under every hypothesis) or "the setting of the dial fell in the window" (which differs under chance and design).
+      - text: 'The reply is that the critic is correct and the argument is therefore dead.'
+        feedback: |
+          Some philosophers do accept the critic (an observation-selection effect removes the surprise), but defenders have a standard reply, the firing squad, which keeps the argument alive.
+    explanation: |
+      The two views, fairly: **critics** (the selection-effect reading, in the spirit of the lesson The Anthropic Principle and Selection Effects) hold that conditioning on our existence removes any evidence for design. **Defenders** hold that our existence is the observation, but that the fact explained, the setting of the dial, is not guaranteed by it, as the prisoner's survival is not guaranteed by his being able to wonder. Which condition is fair is a philosophical dispute, not a calculation.
+
+  - type: order
+    id: argument-order
+    title: "Order the argument, and its repair"
+    prompt: |
+      Put in order the steps of the fine-tuning argument as a Bayesian comparison, ending with the moves that critics make.
+    steps:
+      - 'State the evidence $E$ (the dial is in the narrow life-permitting window) and the rivals chance and design.'
+      - 'Argue that $P(E\mid\text{chance})$ is small (needs a bounded range and a measure) and $P(E\mid\text{design})$ is not small.'
+      - 'Form the likelihood ratio and multiply it by the prior odds to get the posterior odds.'
+      - 'Conclude that design is favoured over chance, if the product exceeds $1$.'
+      - 'Critics: add a multiverse rival, whose likelihood for "some universe works" may be larger.'
+    hint: |
+      Evidence and rivals first; the two likelihoods; the product; the verdict; then the rival added by critics.
+    explanation: |
+      The order shows where each dispute sits: the measure and range in step 2, the priors in step 3, the choice of rival and of $E_{\text{this}}$ versus $E_{\text{some}}$ in step 5. The conclusion is only as good as the weakest premise.
+
+  - type: mcq
+    id: parting
+    title: "Where thoughtful people part ways"
+    prompt: |
+      Match the disagreement to the premise or step it attacks. A physicist doubts that anyone can say what the probability of a dial value is, since no known theory gives the allowed values and their spread. Which step is mainly under attack?
+    options:
+      - text: 'P2: the likelihood under chance needs a range and a measure (the normalisation and measure problems).'
+        correct: true
+      - text: 'P4: the prior odds of design against chance.'
+        feedback: |
+          Priors matter in this dispute, but the physicist's doubt is about the chance likelihood $w/L$ itself, which comes before any prior.
+      - text: 'The validity of the odds form.'
+        feedback: |
+          The odds form is a theorem. The doubt is whether the numbers that go into it exist.
+    explanation: |
+      Reasonable people can hold any of these positions: accept the argument (P1 to P4 plausible), reject P2 (no measure), reject P3 (designer's motives unknown), reject P4 (a designer or a multiverse costs too much), or accept the multiverse while disputing the evidence. Some also hold that the argument cannot be settled by the dials alone. What stays open is which numbers are well defined at all.
+
+  - type: mcq
+    id: layers
+    title: "Three layers"
+    prompt: |
+      Which assignment of layers is right?
+    options:
+      - text: 'That some changes of the constants would alter stars and chemistry: established. The width of the windows and the measure: live debate. Whether the narrowness points to design, a multiverse or nothing needing explanation: faith or metaphysical commitment.'
+        correct: true
+      - text: 'That the universe is designed: established. The width of the windows: live debate. The odds form: faith.'
+        feedback: |
+          Design is not established by physics, and the odds form is a theorem. The layers are reversed.
+      - text: 'All three: established, since the calculations are done by physicists.'
+        feedback: |
+          Calculations establish the dependence of nuclei and stars on the constants, not the measure that turns a window into a probability, nor what the result means.
+    explanation: |
+      The course keeps the three layers visible: the physics is solid where it is calculated, the translation into probabilities is debated, and the final reading depends on commitments that the dials alone do not supply.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** "Traps". Fast questions, each built on a common misconception of this level: confusing a large number with a probability, reading a window as a tolerance, treating a multiverse as an explanation without a measure, and the fallacies above.
