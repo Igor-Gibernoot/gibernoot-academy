@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-31: ch05-entropy (concept, 24 cards)
+Built autonomously, web-checked (see Verified). Widget microstate-counter used twice (N=10 shuffle with histogram; N=100 auto-run drift), shots viewed at phone and desktop, no problems; widget-smoke 25 mounts, 0 errors. Choices: 24 cards (under 25), no split; Penrose number paraphrased with measure caveat, no quotation; fourth "trap" in the multi-select is a fair caution, not a mistake; replies card lists measure problem, multiverse/anthropic (Carroll-Chen), new law/bounce (CCC), brute fact. Conventions fixed here: $S=k_B\ln W$, $W=\binom{N}{k}$ (N=100: k=50 gives 1.009e29, S/k_B=66.8; 2^100=1.27e30); Penrose "1 part in $10^{10^{123}}$" order of magnitude; Past Hypothesis (Albert 2000); smooth gravitating = low entropy.
+
 ## 2026-10-31 ch05-something (20 cards, concept, no widget)
 Cards: hook (what counts as an answer), recall, Leibniz/PSR, two senses of nothing (Krauss/Albert), order ladder of nothings, Casimir text + numeric (1.30 mPa), Krauss vs Albert, necessary/contingent + classify, traps (multi-select), argument P1/P2/C, validity, Hume/Russell critic, Rowe reply, three exits + match, layers, summary. Choices: concept lesson (not proof) with the argument as cards; "God" never given a verdict; Russell cited via SEP, Leibniz line paraphrased; no widgets in docs/widgets/README.md fit (conceptual; one number). Conventions fixed here: Casimir ideal-plate pressure and 1 um value 1.30 mPa (d^-4 scaling); P1/P2/C wording of the argument from contingency; necessary/contingent definitions; the ladder of five "nothings".
 
