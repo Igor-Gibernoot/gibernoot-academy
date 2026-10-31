@@ -1,5 +1,8 @@
 # Status log
 
+## Images audit (chapters 1-5)
+Ledger vs image blocks consistent (no missing, unused or absent files); counts within limits; validate clean. Dates confirmed: Hilbert 1862-1943, Kuhn 1922-1996, Duhem 1861-1916, Weinberg 1933, Bohr/Copenhagen institute, Bostrom at Oxford 2003 (postdoc from 2002/early 2003), Leibniz "around 1695" (EGO Trier, Commons title; older sources say c. 1700). Fixed: Gödel caption "at the age of 25" (born April 1906, paper early 1931) now "in his mid-twenties". Kuhn, Wigner, Dirac photos: Commons tags them Public domain (Kuhn: 1977 Princeton bulletin, US basis), accepted by docs/IMAGES.md; kept.
+
 ## Images, chapter 5 (retrofit)
 6 images: bigbang/lemaitre (Lemaitre and Eddington 1938, lemaitre.webp), bigbang/cmb (Holmdel horn, holmdel-horn.webp), beginning/theorems (Penrose 1978, penrose.webp), something/leibniz (Francke portrait, leibniz.webp), entropy/boltzmann (Fenzl 1898 lithograph, boltzmann.webp), anthropic/weinberg (weinberg.webp).
 web: Commons file pages (Lemaitre-Eddington 1938 on ship from Stockholm after IAU assembly, CC BY-SA 4.0; Penrose 1978 Berkeley, Bergman, CC BY-SA 4.0; Holmdel horn, Dunham, CC BY-SA 3.0; Fenzl 1867-1908 lithograph 1898); nobelprize.org (Penrose 2020 citation via news summaries; Weinberg 1979 with Glashow and Salam, d. 2021); atlasobscura/physics.it.com (formula on tomb in Vienna Zentralfriedhof); EGO Mainz/Braunschweig museum (Francke Leibniz c. 1695, Herzog Anton Ulrich Museum).
