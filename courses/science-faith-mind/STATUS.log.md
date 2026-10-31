@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-30: ch04-universe (Is Reality Mathematics?, concept, 20 cards)
+Built autonomously. Plan ~18; 20 after a toy measure numeric and an order card. No widget (philosophical claims). Choices: Pythagoras taught as "according to Aristotle, the Pythagoreans" (SEP: ratios only via Xenocrates, no writings); Tegmark's details taken from the arXiv abstract plus Wikipedia (secondary) and kept "in essence"; Tegmark's 1998 paper and Korzybski's 1931 date left out (unconfirmed); MUH labelled layer 3. Four objections (observers, Godel with CUH reply, measure, testability), rivals (structural realism, map-territory). Conventions fixed here: MUH/ERH/CUH wording, Level IV; "described by" (modest) vs "is" (bold); toy measure 2/8 = 25%.
+
 ## 2026-10-30: ch04-explaining (Explanations of the Effectiveness, concept, 21 cards)
 Built autonomously. Plan was ~18 cards; 21 after adding a numeric selection card, a premises order card and two premise-matching cards (under 25). No widget (verbal argument; no existing widget fits). Choices: puzzle recast as P1-P3, C, and each reply mapped to the premise it rejects (empiricism P1, selection P2, evolution and structure P3, design accepts all); Kepler 1596 solids as the failed-mathematics counter-example; Hamming's four labels follow Wikipedia's account. Dropped as unconfirmed: Kepler "God's thoughts" line, Galileo triangles-and-circles wording. Conventions fixed here: puzzle premises P1 (internal origin), P2 (substantial fit), P3 (improbable without explanation), C; selection example 20 of 10,000 = 0.2% (invented).
 
