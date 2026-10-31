@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-31 ch04-map (12 cards, 10 boxes, cols 3)
+Built Level 4 map: puzzle, Moon test, replies, Platonism, formalism, intuitionism, diagonal, Godel, MUH, objections; 2 decoys each (wrong price to wrong school, stretched theorem, swapped premise targets). No archive map, no new external facts (web-verified earlier in the level). Choice: no new widget. Conventions fixed here: none new (map reuses Level 4 `own:` wording).
+
 ## 2026-10-31: ch04-intuition (Quick Recall, 20 cards)
 Built autonomously. Mnemonics (puzzle, three marks, three prices), build cards (Moon acceleration, excluded middle, diagonal digit rule, second incompleteness theorem), numerics with data only (Moon 2.72e-3, witness x^y=3, 2^6=64, hit rate 0.25%), Godel and MUH distinctions, measure problem, summary with formulas. No widget (verbal/logical level; diagonal-list already covers the diagonal; an intuition lesson derives nothing). Choices: Moon numeric asks in units of 1e-3 m/s^2 with r=3.84e8 m, T=27.3 d; hit-rate numbers invented and flagged. No new external facts, so no new web check (all reused from audited Level 4 lessons). Conventions fixed here: none new.
 
