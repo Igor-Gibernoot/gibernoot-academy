@@ -1,5 +1,9 @@
 # Status log
 
+## Images, chapter 1 (retrofit)
+7 images: bubble/testimony (Hume, Reid portraits), tour/p-science (Popper), p-math (Hilbert), p-spirit (Kardec), p-quran (Topkapi Qur'an folio), p-death (Epicurus bust). Lenses, reasons, traps: none (no person/object worth a picture; Hume/Reid portraits already used in bubble). Skipped: Frank Jackson (Commons "morph" image, identity unclear), Nozick (cover scan, license doubtful), P52 papyrus (tangential to the four-witnesses puzzle).
+web: Britannica search (Popper 1902-1994, Logik der Forschung 1934); SEP Hume (1711-1776), SEP Reid (1710-1796); Wikipedia/mirrors (Kardec 1804-1869, Spirits' Book 1857, pen name of Rivail); Commons pages (Hilbert photo 1907, Epicurus bust British Museum Roman copy, Kardec Gallica photo, Topkapi folio); Topkapi date softened to "roughly 8th century" (Wikipedia; Commons says c. 800). Epicurus bust caption avoids dates (sources differ 270/271 BCE). Hilbert dates not put in caption (not confirmed; Britannica 403).
+
 ## 2026-10-31 ch05-traps (21 cards, no widget)
 19 traps (bang explosion, redshift as motion, singularity as object, theorems, vacuum nothing, contingent/unlikely, 2^20 coins, ratio vs tolerance, tuning checklist (multi), anthropic vs spread, survivors 30/270=11.1%, inflation, bubble measure 75% vs 37.5%, odds build, 25% numeric, inverse gambler, flat prior 3/L, chance/design (multi), layers (multi)). Choices: merged Penrose with coin count; card 9 as checklist multi-select to avoid repeating the constants lesson. Conventions fixed here: none new.
 
