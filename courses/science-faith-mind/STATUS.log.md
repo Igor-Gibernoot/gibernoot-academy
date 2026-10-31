@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-30: ch04-explaining (Explanations of the Effectiveness, concept, 21 cards)
+Built autonomously. Plan was ~18 cards; 21 after adding a numeric selection card, a premises order card and two premise-matching cards (under 25). No widget (verbal argument; no existing widget fits). Choices: puzzle recast as P1-P3, C, and each reply mapped to the premise it rejects (empiricism P1, selection P2, evolution and structure P3, design accepts all); Kepler 1596 solids as the failed-mathematics counter-example; Hamming's four labels follow Wikipedia's account. Dropped as unconfirmed: Kepler "God's thoughts" line, Galileo triangles-and-circles wording. Conventions fixed here: puzzle premises P1 (internal origin), P2 (substantial fit), P3 (improbable without explanation), C; selection example 20 of 10,000 = 0.2% (invented).
+
 ## 2026-10-30 ch04-godel (concept, 19 cards)
 Built autonomously. No widget (a proof system has no useful picture; the prime-coding numeric card carries the idea). Choices: Lucas-Penrose shown as live debate (no "consensus" claim, IEP gives none); Lucas page range omitted (sources conflict 112-127/112-137); intuitionist reading paraphrased from Brouwer's mind-construction view. Conventions fixed here: F, F |- A, G_F, Prov_F, Con(F), \ulcorner G_F \urcorner; truth = truth of the standard natural numbers; prime coding 2^a1 3^a2 5^a3 (600 for 3,1,2).
 
