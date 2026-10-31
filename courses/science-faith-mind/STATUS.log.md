@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-30 ch04-wigner (concept, 19 cards)
+Built autonomously. Web-checked every name/date/work (see Verified). Choices: no widget (plain cards suffice; Moon test by numeric cards); summary is the `own:` card; Hamming named only for date/title (four partial explanations), not quoted; Einstein paraphrased not quoted; Dirac priority nuance stated. Doubts: Hertz date varies by source (lesson says late 1880s); Riemann and Dirac details from secondary pages. Conventions fixed here: Moon test a=4pi^2 r/T^2=2.72e-3 vs g/60.34^2=2.69e-3 m/s^2; three families of answers (Platonist / mind-made / structural) previewed for next lesson.
+
 ## 2026-10-30 ch03-challenge-2 (17 cards)
 Problems 4 (combination counts 15/66, reply matching, conceivability step, stalactite God vs phenomenalist, idealist supervenience, physical-duplicate question) and 5 (what would count against each view, Bayes 30% -> 79.4% with LR 9, layers, closure order card, where people part). No widget, no new external facts. Also fixed ch03/challenge.yaml chsh-lab card: `sliders: false` (free preset showed sliders despite draggable false); viewed render, fine. Conventions fixed here: none new.
 
