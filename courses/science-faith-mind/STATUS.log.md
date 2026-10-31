@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-30 ch04-platonism (concept, 20 cards)
+Built autonomously, web-checked (see Verified). Choices: no widget (plain cards); hook has two "reasonable" options marked correct (a guess card); three schools only (logicism named and set aside); Heyting and the Hilbert "paradise" quote dropped as unconfirmed; Frege paraphrased; Godel perception analogy attributed to the 1964 revision. Cards: hook, Wigner recall with formulas, families, Platonism, objectivity, indispensability order, Benacerraf, Godel reply, "Plato's heaven" trap, formalism, symbol game (3 moves), applicability, intuitionism, excluded middle, sqrt2^sqrt2, witness numeric, answers to Wigner, evidence, prices, summary. Conventions fixed here: three prices = access (Platonism), application (formalism), how much classical mathematics survives (intuitionism); symbol-game strings a, b with moves a->ab, b->bb; witness x=sqrt2, y=2 log2 3 gives 3.
+
 ## 2026-10-30 ch04-wigner (concept, 19 cards)
 Built autonomously. Web-checked every name/date/work (see Verified). Choices: no widget (plain cards suffice; Moon test by numeric cards); summary is the `own:` card; Hamming named only for date/title (four partial explanations), not quoted; Einstein paraphrased not quoted; Dirac priority nuance stated. Doubts: Hertz date varies by source (lesson says late 1880s); Riemann and Dirac details from secondary pages. Conventions fixed here: Moon test a=4pi^2 r/T^2=2.72e-3 vs g/60.34^2=2.69e-3 m/s^2; three families of answers (Platonist / mind-made / structural) previewed for next lesson.
 

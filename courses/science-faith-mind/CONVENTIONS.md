@@ -60,3 +60,4 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 ## Chapter 4
 
 - Wigner lesson (19 cards): Wigner 1902-1995, essay 1960 (CPAM 13), "bordering on the mysterious", no rational explanation; puzzle = math made for other reasons fits and predicts. Moon test: a=4pi^2 r/T^2=2.72e-3 vs g/60.34^2=2.69e-3 m/s^2; Mars T=1.524^1.5=1.88 yr. Cases: conics/Kepler 1609, Dirac 1928/1931/Anderson 1932, non-Euclidean (Riemann 1854)/GR 1915, Maxwell 1865/Hertz late 1880s, Hardy 1940/RSA 1978. Replies: selection, physics-first, Hamming 1980; Einstein 1921 split; families Platonist / mind-made / structural.
+- Platonism lesson (20 cards): three prices = access (Platonism, Benacerraf 1973), application (formalism, Frege), how much classical mathematics survives (intuitionism, Brouwer); symbol game a->ab, b->bb; constructive witness x=sqrt2, y=2 log2 3, x^y=3.
