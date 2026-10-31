@@ -71,3 +71,4 @@ and a new `docs/widgets/<name>.md` plus a line below.
 - `chsh-lab`: CHSH test, singlet pair: draggable analyser angles a, a', b, b' on two dials, E = -cos(x-y) curve with the local straight-line model, S and its four correlations, |S| gauge against 2 and 2.83; presets best / free / curve
 
 - `diagonal-list`: Cantor's diagonal table: N rows of K-digit decimals (click/arrow spinner per digit), highlighted diagonal cells, diagonal number d built from a rule that never gives 0 or 9 (presets add1, five, or custom map), check column "d differs from row k in digit k", live readout, optional step-reveal and display-only modes
+- `scale-factor`: Schematic cosmic scale factor a(t) for Big Bang / bounce / eternal / emergent pasts, model selector, draggable cursor reading a, T = T0/a and rho ~ a^-3 or a^-4, optional breakdown and unknown-physics bands (not Einstein solutions)

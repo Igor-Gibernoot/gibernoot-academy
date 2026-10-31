@@ -70,6 +70,7 @@ import { feedbackLoop } from './feedback-loop.js';
 import { tradeoffCurve } from './tradeoff-curve.js';
 import { cellularAutomaton } from './cellular-automaton.js';
 import { chshLab } from './chsh-lab.js';
+import { scaleFactor } from './scale-factor.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -136,6 +137,7 @@ const WIDGETS = {
   'tradeoff-curve': tradeoffCurve,
   'cellular-automaton': cellularAutomaton,
   'chsh-lab': chshLab,
+  'scale-factor': scaleFactor,
 };
 
 export function mountWidget(name, el, config) {
