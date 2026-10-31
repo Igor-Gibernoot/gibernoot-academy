@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-31 ch05-beginning (21 cards, concept, widget scale-factor in cards 3 and 15)
+Built from the card plan: hook, recall of a(t), T=T0/a, rho_rad ~ a^-4, singularity gloss, Penrose/Hawking-Penrose with assumptions, BGV, Hartle-Hawking and Vilenkin as proposals, eternal inflation, bounce/cyclic, four-pasts widget, traps, meanings of "beginning", layers, two views, summary. Web-checked (see Verified). Choices: no verdict on God, no kalam argument; widget 1 shows only the bang model (selector hidden), widget 2 all four; Steinhardt/Vilenkin eternal-inflation years left out (sources conflict); Carroll/Guth remarks hedged as reported. Shots viewed (phone, desktop) for both widget cards: fine. widget-smoke run. Conventions fixed here: a(t) with a=1 today, T=T0/a, rho_rad ~ a^-4 (a=1/1000 gives 2725 K, 1e12); H_av>0 in BGV; five meanings of "beginning" (first moment, edge of a description, smooth rounding, edge of one inflating region, no first moment).
+
 ## 2026-10-31 ch05-bigbang (21 cards, concept)
 Built Level 5 opener. No widget card: no existing preset shows expansion (checked docs/widgets/README.md: log-ruler, flow-lab, tradeoff-curve, none fit); an expansion widget is recommended later. Choices: Hubble-Lemaitre law with H0=70, Hubble time 14.0 Gyr, T=T0(1+z), helium Y=2x/(1+x) with x=1/7; quotes avoided (paraphrase); Lemaitre/Pius XII 1951 as reported by Wikipedia, worded "reportedly". Conventions fixed here: H0=70 km/s/Mpc (Planck 67.4, local ~73), c=3.0e5 km/s, T0=2.725 K, z~1100 => ~3000 K at ~380,000 yr, n/p=1/7 => Y=0.25, age 13.8 Gyr; Hubble-Lemaitre spelled without accent in YAML like "Lemaitre".
 

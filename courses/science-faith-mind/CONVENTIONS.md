@@ -71,3 +71,4 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 ## Chapter 5
 
 - Big Bang lesson (21 cards): H0=70 km/s/Mpc (Planck 67.4, local ~73, "Hubble tension"), c=3.0e5 km/s, v=H0 d, z=0.02 -> 85.7 Mpc, 1/H0=14.0 Gyr; T=T0(1+z), T0=2.725 K, z~1100 -> ~3000 K at ~380,000 yr; n/p=1/7 -> Y=2x/(1+x)=0.25; Lemaitre (1894-1966), Pius XII 1951 "reportedly"; spelled "Lemaitre" without accent.
+- Beginning lesson (21 cards): scale factor $a(t)$, $a=1$ today, $1+z=1/a$, $T=T_0/a$, $\rho_{\text{rad}}\propto a^{-4}$ ($a=10^{-3}$: 2725 K, $10^{12}$); $H=\dot a/a$, BGV premise $H_{\text{av}}>0$ (classical); singularity = where equations stop giving answers; five meanings of "beginning" (first moment, edge of a description, smooth rounding-off, edge of one inflating region, no first moment); physics "nothing" vs philosophy's is left to the next lesson.
