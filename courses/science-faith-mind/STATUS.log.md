@@ -1,5 +1,7 @@
 # Status log
 
+- 2026-10-31 ch05-constants (22 cards, concept, widget `log-ruler` once for the vacuum-energy guess; no new widget needed). Plan: hook guess, cosmological constant (ruler, gap, two distinct statements), gravity vs EM (ratio, measure dispute, trap), carbon/Hoyle (order, sensitivity, trap), np difference (Stenger criticism), Higgs window, established-sort, one-at-a-time, measure numeric, trap all-equal, summary. Choices: used Barnes PASA 2012 as main web-checked source since its text was fetchable; omitted Stenger publisher and Monte Carlo details, diproton and electron mass (unconfirmed); Hoyle year given as 1953-54; Bayes only teased. Conventions fixed here: rho_L/rho_P ~ 1e-123 (quoted 1e-120), F_e/F_g = 1.2e36, carbon windows 0.5% strong / 4% Coulomb, v/m_Pl ~ 2e-17 window 0.78 to 3.3e-17.
+
 - 2026-10-31 own: audit: fixed ch02/intuition, ch02/falsification (modus tollens line breaks), ch03/simulation (displayed odds form); the other conceptual summaries already fine.
 
 ## 2026-10-31: ch05-entropy (concept, 24 cards)
