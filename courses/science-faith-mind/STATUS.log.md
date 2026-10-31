@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-31: ch04-traps (Traps, 20 cards)
+Built autonomously. 18 traps across the six Level 4 lessons (4 numeric, 14 mcq), welcome and summary. No widget (verbal misconceptions). No new external facts: only items already web-verified in earlier Level 4 entries, so no new web search was run. Cut from the plan: 0.999... trap, Presburger card (merged into the Godel context), Moon-test-versus-MUH card, to stay near 20. Conventions fixed here: toy numbers 30 of 12,000 = 0.25%, |P(S)|=2^5=32, Moon gap 1.1%.
+
 ## 2026-10-30: ch04-universe (Is Reality Mathematics?, concept, 20 cards)
 Built autonomously. Plan ~18; 20 after a toy measure numeric and an order card. No widget (philosophical claims). Choices: Pythagoras taught as "according to Aristotle, the Pythagoreans" (SEP: ratios only via Xenocrates, no writings); Tegmark's details taken from the arXiv abstract plus Wikipedia (secondary) and kept "in essence"; Tegmark's 1998 paper and Korzybski's 1931 date left out (unconfirmed); MUH labelled layer 3. Four objections (observers, Godel with CUH reply, measure, testability), rivals (structural realism, map-territory). Conventions fixed here: MUH/ERH/CUH wording, Level IV; "described by" (modest) vs "is" (bold); toy measure 2/8 = 25%.
 
