@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-31 ch04-challenge part 1 (25 cards, problems 1-3)
+P1 Moon test as selection case (invented flat spread 1e-3..1e-2, window +-1.5%: 0.91% single, 84% in 200 tries, 1/r rival off by ~60); P2 diagonal-list widget on 6 rows (d=0.858364, 7^6=117,649 choices); P3 Godel with S1 Presburger / S2 / S3 all-truths system, relativity of unprovability, code 1500, Con(F+), CUH cost. No new external facts: every name, date and theorem statement reused from the Level 4 lessons (web-verified there). Choices: closing summary is a plain text card like ch03 challenge (no `own:`, challenges have no Recap); S3 "complete but not checkable" derived in the lesson, not cited. Conventions fixed here: invented window numbers 0.91% / 84%; diagonal list rows 718281, 141592, 577215, 414213, 732050, 618033.
+
 ## 2026-10-31 ch04-map (12 cards, 10 boxes, cols 3)
 Built Level 4 map: puzzle, Moon test, replies, Platonism, formalism, intuitionism, diagonal, Godel, MUH, objections; 2 decoys each (wrong price to wrong school, stretched theorem, swapped premise targets). No archive map, no new external facts (web-verified earlier in the level). Choice: no new widget. Conventions fixed here: none new (map reuses Level 4 `own:` wording).
 

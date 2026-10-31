@@ -1,0 +1,404 @@
+id: ch04-challenge
+title: "Level Challenge: Invented or Discovered? (1)"
+kind: challenge
+
+cards:
+  - type: text
+    id: welcome
+    title: "Challenge, part 1: the same puzzles for every school"
+    body: |
+      Each problem puts the schools of this level (Platonism, formalism, intuitionism) and the replies to Wigner's puzzle (selection, evolution, abstraction from experience, design, shared structure) in front of the same case, with numbers. The problems are independent, so here is the toolkit, restated.
+
+      - **Wigner's puzzle** (Eugene Wigner, 1960): mathematics built for its own reasons keeps fitting nature. Model case, the Moon test: with $r$ the Moon's orbital radius, $T$ its period, $R_E$ the Earth's radius and $g = 9.81$ m/s$^2$ the surface gravity,
+      $$a = \frac{4\pi^2 r}{T^2} \approx 2.72\times10^{-3}\ \text{m/s}^2$$
+      from the orbit, against $g/(r/R_E)^2 \approx 2.69\times10^{-3}$ m/s$^2$ from an inverse-square law, with $r/R_E \approx 60.3$.
+      - **Cantor's diagonal argument** (1891): from any list of reals in $(0,1)$ build $d$ with digit $d_k \in \{1,\dots,8\}$ and $d_k \ne x_{kk}$, the diagonal digit. Then $d$ is on no row of the list.
+      - **Godel's theorems** (1931): for a consistent, effectively axiomatised formal system $F$ containing enough arithmetic, there is a sentence $G_F$ with $F \nvdash G_F$, and $F \nvdash \mathrm{Con}(F)$.
+      - **Layers**: label each claim as (1) established fact, (2) live debate, or (3) metaphysical commitment.
+
+      Three problems here. Problems 4 and 5 come in part 2.
+
+  # ---------------- Problem 1 ----------------
+  - type: text
+    id: p1-recall
+    title: "Problem 1 · The Moon test as a selection case"
+    body: |
+      **Recall.** *Selection* (Hamming's reply): we keep the mathematics that fits and forget the rest, so a fit is less surprising than the famous hits suggest. It targets the premise that a substantial share of mathematics fits. *Evolution*, *abstraction from experience*, *design* and *shared structure* target other premises.
+
+      **Problem 1.** Invented numbers. A researcher wants to know how surprising it is that a law reproduces the Moon's acceleration $a = 2.72\times10^{-3}$ m/s$^2$ to within $\pm1.5\%$. Suppose a "candidate law" predicts a value that, before the check, could lie anywhere between $1\times10^{-3}$ and $1\times10^{-2}$ m/s$^2$ with equal chance (a flat spread).
+
+  - type: numeric
+    id: p1-window
+    title: "The window"
+    prompt: |
+      A candidate law predicts a value spread evenly between $1\times10^{-3}$ and $1\times10^{-2}$ m/s$^2$. It counts as a fit if it lands within $\pm1.5\%$ of $2.72\times10^{-3}$ m/s$^2$. What is the probability, in percent, that one such candidate fits by luck alone?
+    answer: 0.91
+    tolerance: 0.03
+    answerText: '$\dfrac{2\times0.015\times2.72\times10^{-3}}{9\times10^{-3}} \approx 0.91\%$'
+    wrong:
+      - { value: 1.5, feedback: 'That is half the window width as a percentage of the target, not of the whole range. The range is wide ($9\times10^{-3}$) and the window is narrow ($8.2\times10^{-5}$), so the chance is the ratio of the two.' }
+      - { value: 3, feedback: 'That is the full window as a percentage of the target ($\pm1.5\%$ is $3\%$ wide). The chance depends on the window relative to the whole range of possible predictions, not to the target.' }
+    hint: Chance = window width divided by range width. The window is $2\times0.015\times2.72\times10^{-3}$ wide.
+    explanation: |
+      $$\text{window} = 2\times0.015\times2.72\times10^{-3}$$
+      $$\text{window} = 8.16\times10^{-5}$$
+      $$\frac{8.16\times10^{-5}}{9\times10^{-3}} \approx 0.0091 = 0.91\%$$
+      So a single law fixed in advance that lands in the window is a roughly one-in-a-hundred event.
+
+  - type: numeric
+    id: p1-many
+    title: "Two hundred tries"
+    prompt: |
+      Now suppose the researcher tries $200$ independent candidate laws and keeps any that fits. Each has a $0.91\%$ chance of landing in the window (more exactly $0.009067$). What is the probability, in percent, that at least one of the $200$ fits by luck?
+    answer: 84
+    tolerance: 1
+    answerText: '$1-(1-0.009067)^{200} \approx 83.8\%$'
+    wrong:
+      - { value: 1.8, feedback: 'That is the *expected number* of lucky fits ($200\times0.009067 \approx 1.8$), not a probability in percent. Having an expected $1.8$ hits makes at least one hit very likely.' }
+      - { value: 181, feedback: 'A probability cannot exceed $100\%$. Multiplying $200\times0.91\%$ overcounts: the chances overlap. Use the chance that *all* fail, $(1-0.009067)^{200}$, and subtract from $1$.' }
+    hint: The chance that all $200$ miss is $(1-0.009067)^{200}$.
+    explanation: |
+      $$P(\text{all miss}) = (1-0.009067)^{200} \approx 0.162$$
+      $$P(\text{at least one fit}) = 1 - 0.162 \approx 83.8\%$$
+      This is the heart of selection: a fit found among many tries is no surprise.
+
+  - type: mcq
+    id: p1-surprise
+    title: "What counts as surprising?"
+    prompt: |
+      Case A: a researcher fixes one law (an inverse-square law with $g$ and $r/R_E$ as measured on Earth) *before* comparing with the Moon, and it lands within $1.5\%$. Case B: a researcher compares $200$ laws with the Moon and reports the one that lands within $1.5\%$. With the numbers above, which statement is right?
+    options:
+      - text: 'A is surprising (about a $1\%$ chance by luck); B is not (an $84\%$ chance that some law fits by luck). What matters is how many tries preceded the fit, and whether the law was fixed in advance.'
+        correct: true
+      - text: 'Both are equally surprising, since in both cases a law matched the Moon to within $1.5\%$.'
+        feedback: |
+          The match is the same, the history is not. Probability depends on how many chances there were: in B the same event was very likely to happen somewhere.
+      - text: 'Neither is surprising, since every law is fixed by nature and luck plays no role.'
+        feedback: |
+          The question is about our evidence for a law, not about nature. If we only report winners among many tries, the match tells us little about the law.
+    explanation: |
+      A fit counts as surprising when it was unlikely given how it was obtained. In the Moon test the law was not tuned to the Moon: no free parameter was adjusted, which is why defenders say selection explains less here than in a case of many tries. Selection answers the *hit rate* of mathematics overall; it does not by itself explain a prediction made in advance.
+
+  - type: mcq
+    id: p1-which
+    title: "Which reply does this test?"
+    prompt: |
+      The two cases above vary how many candidate laws were tried. Which of the five replies to Wigner's puzzle (selection, evolution, abstraction from experience, design, shared structure) does that variable test most directly, and which premise of the puzzle does it target?
+    options:
+      - text: 'Selection, aimed at the premise that a substantial share of mathematics fits nature (the hit rate): if many structures are tried, some fit by chance.'
+        correct: true
+      - text: 'Evolution, aimed at the premise that the fit is improbable without explanation: brains tuned to the world will find fitting laws.'
+        feedback: |
+          Evolution is about the minds that do the trying, not about how many candidates were tried. The counting of tries belongs to selection.
+      - text: 'Design, which answers the counting question by saying the world was made mathematical.'
+        feedback: |
+          Design accepts the premises and adds a designer; it does not depend on how many candidate laws were checked. It is a metaphysical commitment, not tested by this counting.
+    explanation: |
+      Selection targets the "substantial share" premise by asking what share of all tried structures fits. In the course's earlier toy case, $20$ fits among $10{,}000$ structures was a hit rate of $0.2\%$; here, $200$ tries give an $84\%$ chance of at least one fit by luck. Both are invented numbers that show the logic, not measured rates.
+
+  - type: numeric
+    id: p1-rival
+    title: "A rival law"
+    prompt: |
+      A rival law says the pull falls as $1/r$ (not $1/r^2$). Starting from $g = 9.81$ m/s$^2$ at the Earth's surface and using $r/R_E = 60.3$, it predicts the Moon's acceleration as $g/60.3$. By what factor is this larger than the observed $2.72\times10^{-3}$ m/s$^2$?
+    answer: 60
+    tolerance: 1
+    answerText: '$\dfrac{9.81/60.3}{2.72\times10^{-3}} \approx 59.8$'
+    wrong:
+      - { value: 1, feedback: 'A factor of $1$ would mean a perfect fit. The $1/r$ law gives $0.163$ m/s$^2$, far above $2.72\times10^{-3}$.' }
+      - { value: 3600, feedback: '$3600 = 60^2$ is the factor by which the *inverse-square* law reduces the pull. The $1/r$ law reduces it only by $60$.' }
+    hint: Compute $9.81/60.3$ first, then divide by the observed value.
+    explanation: |
+      $$\frac{g}{60.3} = 0.163\ \text{m/s}^2$$
+      $$\frac{0.163}{2.72\times10^{-3}} \approx 59.8$$
+      The test discriminates sharply: a wrong law misses by a factor of about $60$, not by a percent. That is what makes a $1\%$ agreement of the right law informative.
+
+  - type: mcq
+    id: p1-replies
+    title: "Evolution and abstraction on the Moon test"
+    prompt: |
+      Take the Moon test as a case for two replies. *Evolution* (Quine, Hamming): our minds were shaped by medium-sized things at ground level. *Abstraction from experience* (Mill): mathematics was drawn from the world. Which is the best description of the strain the Moon test puts on them?
+    options:
+      - text: 'The test extends a law checked on falling bodies to a body $60$ Earth radii away, and the mathematics involved (calculus, inverse-square force) goes far beyond anything our ancestors met; both replies explain the starting point more easily than the extension.'
+        correct: true
+      - text: 'Both replies are refuted, since the Moon is too far for anyone to see.'
+        feedback: |
+          Nothing is refuted by distance alone. Defenders answer that laws and methods learned at ground level can extend by good reasoning; the question is how far they explain the fit.
+      - text: 'Neither is strained: ground-level experience already contains the inverse-square law.'
+        feedback: |
+          Ground-level experience gives $g$, not the $1/r^2$ dependence. That the force falls as $1/r^2$ out to $60$ Earth radii is the claim being tested.
+    explanation: |
+      This is a live debate: defenders of evolution and of abstraction say reasoning extends what experience supplies; critics reply that the extension to new regimes is the part to be explained.
+
+  - type: mcq
+    id: p1-parts
+    title: "Where thoughtful people part ways"
+    prompt: |
+      Two readers accept all the numbers in this problem: $0.91\%$, $84\%$, the factor of $60$. One thinks the remaining fit of mathematics to nature is explained by shared structure, the other by design. What kind of disagreement is it?
+    options:
+      - text: 'A disagreement about what the leftover fit means: shared structure moves the question to why the world has structure, design answers it by a designer. The numbers are shared (layer 1); which answer is better is a live debate or a commitment (layers 2 and 3).'
+        correct: true
+      - text: 'A disagreement of fact: one of them has miscalculated.'
+        feedback: |
+          They agree on all calculations. What differs is the weighing of explanations for the same data.
+      - text: 'There is no disagreement: the Moon test shows which of them is right.'
+        feedback: |
+          The test gives the same numbers under both readings. It cannot separate a mathematical world from a designed one.
+    explanation: |
+      The Moon test sets what a good answer must explain: a predicted, precise fit. The schools differ on whether the fit needs a deeper explanation than selection, and what kind.
+
+  # ---------------- Problem 2 ----------------
+  - type: text
+    id: p2-recall
+    title: "Problem 2 · A list of reals"
+    body: |
+      **Recall.** A real number in $(0,1)$ is written $0.x_1x_2x_3\dots$ A list claims to contain them all as rows $x_1, x_2, \dots$, and $x_{kn}$ is digit $n$ of row $k$. The **diagonal digit** of row $k$ is $x_{kk}$. Cantor's construction (1891, decimal form) builds
+      $$d = 0.d_1d_2d_3\dots$$
+      with
+      $$d_k \ne x_{kk},\quad d_k \in \{1,\dots,8\}$$
+      Digits $0$ and $9$ are avoided because $0.0999\ldots = 0.1000\ldots$ would give one number two expansions.
+
+      **Problem 2.** A list shows its first six rows (to six digits). Use the rule "add $1$ to the diagonal digit; $8$, $9$ and $0$ become $1$".
+
+  - type: widget
+    id: p2-table
+    title: "Build d from the list"
+    widget: diagonal-list
+    review: false
+    config:
+      rows: 6
+      digits: 6
+      values: ['718281', '141592', '577215', '414213', '732050', '618033']
+      stepReveal: true
+      show: { readout: false }
+    body: |
+      Press the button to reveal one digit of $d$ at a time. The gold cells are the diagonal digits $x_{kk}$; each digit of $d$ comes from the rule "add $1$ to the diagonal digit". The check column compares $d$ with each row in its diagonal digit.
+
+  - type: numeric
+    id: p2-d
+    title: "The number d"
+    prompt: |
+      The six rows are $0.718281$, $0.141592$, $0.577215$, $0.414213$, $0.732050$ and $0.618033$. Using the rule "add $1$ to the diagonal digit; $8$, $9$ and $0$ become $1$", what is $d$ to six digits?
+    answer: 0.858364
+    tolerance: 0.0000005
+    answerText: '$0.858364$'
+    wrong:
+      - { value: 0.7, feedback: 'Do not take the first digits of the rows. Use digit $k$ of row $k$ (the diagonal), then add $1$.' }
+      - { value: 0.747253, feedback: 'These are the diagonal digits themselves, $7,4,7,2,5,3$. Add $1$ to each to differ from them.' }
+    hint: The diagonal digits are $7, 4, 7, 2, 5, 3$.
+    explanation: |
+      The diagonal digits are $7,4,7,2,5,3$ (digit $1$ of row $1$, digit $2$ of row $2$, and so on). Adding $1$ to each gives $8,5,8,3,6,4$, so
+      $$d = 0.858364\ldots$$
+      The first digit of $d$ differs from row $1$, the second from row $2$, and so on, so $d$ matches no row.
+
+  - type: numeric
+    id: p2-count
+    title: "How many such numbers?"
+    prompt: |
+      The rule above is one choice. Keep the requirement that digit $k$ of $d$ lies in $\{1,\dots,8\}$ and differs from the diagonal digit $x_{kk}$. The six diagonal digits $7,4,7,2,5,3$ all lie in $1$ to $8$. How many different six-digit choices of $d_1\dots d_6$ are allowed?
+    answer: 117649
+    tolerance: 0
+    answerText: '$7^6 = 117{,}649$'
+    wrong:
+      - { value: 262144, feedback: '$8^6 = 262{,}144$ ignores the requirement $d_k \ne x_{kk}$. Each digit has $8$ possible values minus the one forbidden, so $7$.' }
+      - { value: 42, feedback: 'That adds the choices ($7\times6$) instead of multiplying them. The digits are chosen independently, so the counts multiply.' }
+    hint: Each of the six digits has $8$ values minus the forbidden one.
+    explanation: |
+      $$7\times7\times7\times7\times7\times7 = 7^6 = 117{,}649$$
+      The diagonal argument does not give *one* missing number: it shows a huge family of numbers off the list (in the full infinite case, uncountably many). The rule above just picks one.
+
+  - type: mcq
+    id: p2-fix
+    title: "Add d to the list"
+    prompt: |
+      A student says: "The list missed $d = 0.858364\ldots$. I add $d$ as a new row at the top. Now the list is complete." What is the right reply?
+    options:
+      - text: 'The new list has a new diagonal, so the same construction yields another number $d'' $ missing from it. Any list, however it is extended, is beaten by its own diagonal; that is why no list can contain every real in $(0,1)$.'
+        correct: true
+      - text: 'It works: a list with $d$ added contains every real number.'
+        feedback: |
+          The rule is applied to the whole new list. Adding a row shifts the rows, so the diagonal changes, and the construction builds a fresh number missing from the extended list.
+      - text: 'It fails because $d$ is not a real number, having been built by a rule.'
+        feedback: |
+          $d$ is a legitimate decimal expansion with digits $1$ to $8$, so it is a real number in $(0,1)$ with a unique expansion. That was the purpose of avoiding $0$ and $9$.
+    explanation: |
+      The theorem says that no list, not just this one, is complete: a matching between $1, 2, 3, \dots$ and the reals in $(0,1)$ cannot exist. Listing more rows is exactly the move the argument defeats.
+
+  - type: mcq
+    id: p2-schools
+    title: "Three readings of the result"
+    prompt: |
+      According to which school is each reading right? (a) "The reals form a definite totality and the proof discovers it is larger than the naturals." (b) "A theorem of the symbol game; 'uncountable' is a derived label." (c) "From any list one can construct a number missing from it, but there is no finished totality of all reals ranked by size."
+    options:
+      - text: '(a) Platonist, (b) formalist, (c) intuitionist (in Brouwer''s tradition).'
+        correct: true
+      - text: '(a) Formalist, (b) Platonist, (c) intuitionist.'
+        feedback: |
+          Swapped. Platonists hold that mathematical objects exist independently, so the proof discovers a fact about a real totality; formalists see only moves in a game.
+      - text: '(a) Platonist, (b) intuitionist, (c) formalist.'
+        feedback: |
+          Swapped. Intuitionists accept the construction but not completed infinite totalities (reading c). Reading b, a theorem as a result of the symbol game, is the formalist's.
+    explanation: |
+      All three accept the digit trick as a calculation. They differ on what it shows about "all the real numbers", which is a question about what mathematics is about (a metaphysical commitment), not about the digits.
+
+  - type: mcq
+    id: p2-disputed
+    title: "Which step is disputed?"
+    prompt: |
+      In the proof by contradiction (P1 a complete list is assumed, P2 $d$ is built, P3 $d$ has a unique expansion, P4 $d$ differs from every row, conclusion: no complete list), which step does the intuitionist in Brouwer's tradition question, and why?
+    options:
+      - text: 'None of the digit steps. The disputed element is the meaning of "all the real numbers" in P1 as a finished totality, and the picture of infinite sets ranked by size built on it.'
+        correct: true
+      - text: 'P4: the intuitionist says $d$ may secretly equal a row.'
+        feedback: |
+          P4 is a finite check on each digit, which the intuitionist accepts. $d$ differs from row $k$ in digit $k$.
+      - text: 'P3: the intuitionist says $0.999\ldots$ is not a number.'
+        feedback: |
+          $0.999\ldots = 1$ is not what is disputed, and P3 is handled by avoiding $0$ and $9$. The intuitionist objection is aimed at completed infinite totalities.
+    explanation: |
+      That is the pattern of this level: the shared calculation, then a disagreement over what the calculation is about. Platonists, formalists and intuitionists all keep the construction; they differ on what, if anything, "all the reals" refers to. It is a theorem about mathematical sets, not a measurement of physical space.
+
+  # ---------------- Problem 3 ----------------
+  - type: text
+    id: p3-recall
+    title: "Problem 3 · Which theorem applies?"
+    body: |
+      **Recall.** A formal system $F$ is a fixed list of axioms and rules checkable by a mechanical procedure ("effectively axiomatised"). $F$ is *consistent* if it never proves both a statement and its negation, and *complete* if for every statement $A$ it proves $A$ or $\lnot A$. Godel's first theorem (1931): if $F$ is consistent, effectively axiomatised and contains enough arithmetic, there is a sentence $G_F$ with
+      $$F \nvdash G_F$$
+      and $G_F$ is true (provided $F$ is consistent). Second theorem: under the same conditions,
+      $$F \nvdash \mathrm{Con}(F)$$
+      Here $\mathrm{Con}(F)$ is the arithmetical sentence "$F$ is consistent", and "true" means true of the ordinary natural numbers $0,1,2,\dots$
+
+      **Problem 3.** Three systems. **S1**: arithmetic of addition only (Presburger arithmetic). **S2**: a system with the axioms of addition and multiplication of natural numbers plus induction, with a finite list of axioms that a computer can check, assumed consistent. **S3**: the system whose axioms are *every* sentence about the natural numbers that is true.
+
+  - type: mcq
+    id: p3-sort
+    title: "Which theorem applies?"
+    prompt: |
+      Which statement about the three systems S1 (addition only), S2 (addition, multiplication, induction, a finite checkable axiom list, consistent) and S3 (every true sentence of arithmetic as an axiom) is right?
+    options:
+      - text: 'Only S2 meets the conditions of Godel''s theorems, so it has a true sentence $G_{S2}$ it cannot prove, and it cannot prove its own consistency. S1 is complete (too weak for the theorems). S3 is complete too, but its axiom list cannot be checked mechanically, so the theorems do not apply.'
+        correct: true
+      - text: 'All three are incomplete, since every system of arithmetic is.'
+        feedback: |
+          Godel''s theorems need three conditions: consistency, effective axiomatisation and enough arithmetic. S1 has too little arithmetic and is complete. S3 fails effectiveness and is complete.
+      - text: 'Only S3 is incomplete, because it is the largest.'
+        feedback: |
+          S3 contains every true sentence (and no false one), so for each sentence $A$ either $A$ or $\lnot A$ is true and therefore an axiom: it is complete. Size does not help; the theorems turn on mechanical checkability.
+    explanation: |
+      This is the scope of the theorem. S3 shows why the effectiveness condition matters: completeness is cheap if we may declare every truth an axiom, but then no procedure can tell us what the axioms are. The first theorem says that for a consistent, mechanically checkable system containing enough arithmetic, no such complete system exists.
+
+  - type: mcq
+    id: p3-notsay
+    title: "What it does not say"
+    prompt: |
+      A commentator writes: "Godel proved that some mathematical truths can never be proved by anyone." Which reply is right?
+    options:
+      - text: 'It overstates. The theorem says $G_{F}$ is not provable *in $F$*. A stronger system, for example $F$ with $G_F$ added as an axiom, proves it, but that system has its own unprovable sentence. It is not an absolute unprovability.'
+        correct: true
+      - text: 'It is exactly right: $G_F$ is unprovable in every possible system.'
+        feedback: |
+          Unprovability is relative to $F$. Add $G_F$ as an axiom and the new system proves it at once; the theorems then apply to the new system.
+      - text: 'It is wrong because $G_F$ is false in $F$.'
+        feedback: |
+          If $F$ is consistent, $G_F$ is *true* of the natural numbers (it says, loosely, that it is not provable in $F$, and it is not). A true sentence that $F$ cannot prove is what makes $F$ incomplete.
+    explanation: |
+      The theorem is about particular systems. It does not support slogans such as "truth is unprovable" or conclusions about God, science or relativism. Whether it shows anything about minds versus machines (Lucas 1961, Penrose 1989) is a live debate.
+
+  - type: numeric
+    id: p3-code
+    title: "Coding statements by numbers"
+    prompt: |
+      A generic way to let arithmetic talk about sequences (an illustration, not Godel's exact scheme): code the sequence $(a_1, a_2, a_3)$ as $2^{a_1}\,3^{a_2}\,5^{a_3}$. What is the code of the sequence $(2, 1, 3)$?
+    answer: 1500
+    tolerance: 0
+    answerText: '$2^2\cdot3^1\cdot5^3 = 1500$'
+    wrong:
+      - { value: 213, feedback: 'Writing the digits side by side is not the prime-power code, and it is ambiguous. Use $2^{a_1}3^{a_2}5^{a_3}$.' }
+      - { value: 30, feedback: 'That is $2\cdot1\cdot3\cdot5$ or $2+1+3$ style arithmetic. Each term is a prime *raised to* the entry, so $2^2$, $3^1$ and $5^3$.' }
+    hint: $2^2 = 4$, $3^1 = 3$, $5^3 = 125$.
+    explanation: |
+      $$2^2\cdot3^1\cdot5^3 = 4\cdot3\cdot125 = 1500$$
+      Unique factorization into primes lets us decode $1500$ back to $(2,1,3)$. Such codings let sentences and proofs be treated as numbers, so arithmetic can express "$n$ codes a proof in $F$" and the diagonal trick can build $G_F$ with $G_F \leftrightarrow \lnot\,\mathrm{Prov}_F(\ulcorner G_F \urcorner)$.
+
+  - type: mcq
+    id: p3-second
+    title: "Adding the consistency statement"
+    prompt: |
+      Take S2, assumed consistent. Define a new system $F^{+}$ = S2 plus the new axiom $\mathrm{Con}(\text{S2})$. Is the problem of proving consistency solved for $F^{+}$?
+    options:
+      - text: 'No. $F^{+}$ is again consistent (if S2 is), effectively axiomatised and rich in arithmetic, so by the second theorem it cannot prove $\mathrm{Con}(F^{+})$. A system can prove the consistency of a weaker one, never (if consistent) its own.'
+        correct: true
+      - text: 'Yes, since $F^{+}$ proves $\mathrm{Con}(\text{S2})$ and S2 is part of $F^{+}$, so it proves its own consistency.'
+        feedback: |
+          $F^{+}$ proves the consistency of S2, a part of itself, not the consistency of $F^{+}$. The second theorem applies to $F^{+}$ with its own sentence $\mathrm{Con}(F^{+})$.
+      - text: 'Yes, since adding an axiom always makes a system complete.'
+        feedback: |
+          Adding axioms to a system that meets the conditions never makes it complete; the first theorem applies to the larger system as well.
+    explanation: |
+      This pattern is what hurts Hilbert's programme. Hilbert (1862-1943) hoped for a finitary proof that mathematics is consistent. The second theorem is usually read as showing that this original aim cannot be reached by methods that the system itself can formalize: the proof of consistency needs more than the system. How much of the aim survives depends on what counts as finitary, which is a live debate.
+
+  - type: mcq
+    id: p3-follow
+    multiple: true
+    title: "What follows?"
+    prompt: |
+      Take a consistent, effectively axiomatised $F$ containing enough arithmetic. Select **all** statements that follow from Godel's two theorems.
+    options:
+      - text: 'There is an arithmetical sentence that $F$ cannot prove although it is true of the natural numbers.'
+        correct: true
+      - text: '$F$ cannot prove $\mathrm{Con}(F)$.'
+        correct: true
+      - text: 'Mathematics is inconsistent.'
+        feedback: |
+          The theorems assume consistency. They say nothing against it.
+      - text: 'Human minds can see truths that no computer could.'
+        feedback: |
+          Not a consequence. This is the Lucas-Penrose claim, a very controversial argument with a standard objection: we cannot be sure that our own reasoning is consistent.
+    explanation: |
+      The theorems are results about formal systems of a certain kind. Readings about minds, God or relativism need extra premises.
+
+  - type: mcq
+    id: p3-cuh
+    title: "Godel and the Computable Universe Hypothesis"
+    prompt: |
+      Tegmark's Mathematical Universe Hypothesis says the physical world is a mathematical structure. Godel's theorems are raised as an objection (a full structure for arithmetic has truths that outrun any consistent, effectively axiomatised system). Tegmark's reply, the **Computable Universe Hypothesis** (CUH), keeps only computable structures. What does the reply cost, and what do the theorems still say?
+    options:
+      - text: 'It restricts which mathematical structures exist, so the Level IV claim "every structure exists" becomes "every computable structure exists", a cost in how much mathematics is allowed. The theorems still apply to every formal system we use to describe the world: such a description, if consistent and rich in arithmetic, leaves some arithmetical sentences undecided.'
+        correct: true
+      - text: 'It costs nothing, because Godel''s theorems only concern human proofs.'
+        feedback: |
+          The theorems concern formal systems of a given kind, not humans. The cost is the narrower range of structures allowed.
+      - text: 'It refutes Godel, since computable structures are complete.'
+        feedback: |
+          Nothing in the CUH refutes the theorems. They remain valid for every consistent, effectively axiomatised system with enough arithmetic, including any we use to describe a computable structure.
+    explanation: |
+      Whether the CUH is true is a metaphysical commitment; it cannot be tested by the Moon test or any experiment so far. Note the distinction: a theory of the world is a formal system, with the limits above; the world itself is not a system of proofs.
+
+  - type: mcq
+    id: p3-parts
+    title: "Where thoughtful people part ways"
+    prompt: |
+      Everyone in the room accepts the theorems. How do the three schools of this level read them?
+    options:
+      - text: 'Platonists read it as truth outrunning proof (there are truths of arithmetic no such system proves). Formalists read it as showing that the original aim (a finitary consistency proof of the whole game) cannot be reached. Intuitionists deny that truth outruns constructive proof. All of this is interpretation (layers 2 and 3) of a shared theorem (layer 1).'
+        correct: true
+      - text: 'All three read it as showing that mathematics is a human invention.'
+        feedback: |
+          The theorem does not decide invention versus discovery. A Platonist uses it as support for independent truth.
+      - text: 'All three read it as proving mathematics is inconsistent.'
+        feedback: |
+          The theorems assume consistency. They do not claim to prove any inconsistency.
+    explanation: |
+      Same theorem, three readings: the course's method in miniature. The proof is settled; what it means for the nature of mathematics is not.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Selection and the Moon test**: with $r$ the Moon's orbital radius, $T$ its period and $R_E$ the Earth's radius, $a = 4\pi^2 r/T^2 \approx 2.72\times10^{-3}$ m/s$^2$ against $g/(r/R_E)^2 \approx 2.69\times10^{-3}$ m/s$^2$. A flat spread of candidates between $1\times10^{-3}$ and $1\times10^{-2}$ puts a $\pm1.5\%$ window at a chance of $0.91\%$ for one law fixed in advance, and $84\%$ for at least one fit among $200$ tries; a $1/r$ law misses by a factor of about $60$. A fit is surprising only given how few tries produced it. Selection targets the hit rate; design and shared structure remain a live debate or a commitment.
+      - **Diagonal argument**: for a list of reals $x_k = 0.x_{k1}x_{k2}\dots$, the number $d$ with $d_k \in \{1,\dots,8\}$, $d_k \ne x_{kk}$ is on no row ($0.858364$ for the six-row list above, and $7^6 = 117{,}649$ valid choices). Extending a list does not help. Platonists, formalists and intuitionists accept the digits and differ on what "all the reals" means.
+      - **Godel**: for a consistent, effectively axiomatised $F$ with enough arithmetic, $F \nvdash G_F$ ($G_F$ true) and $F \nvdash \mathrm{Con}(F)$. The conditions matter (addition-only arithmetic is complete; "all truths as axioms" is not checkable). Unprovability is relative to $F$. The second theorem is the problem for Hilbert's programme, and the Computable Universe Hypothesis answers the Godel objection at the cost of a narrower range of structures.
+      - **Layers**: the calculations and theorems are fact; their meaning for invention or discovery is a live debate; what mathematics is about is a commitment.
+
+      **Next:** part 2 has problems 4 and 5, then the end of the level.
