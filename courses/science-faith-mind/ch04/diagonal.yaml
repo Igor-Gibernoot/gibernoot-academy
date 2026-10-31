@@ -1,0 +1,320 @@
+id: ch04-diagonal
+title: "Guided proof: Some Infinities Are Bigger"
+kind: guided
+proof: true
+own: |
+  - **Same size without counting.** Two collections have the same size when {{ a one-to-one matching pairs every element of one with exactly one element of the other, with none left over }}. A set is **countable** when it can be matched with $1, 2, 3, \dots$, that is, written as a list $x_1, x_2, x_3, \dots$. The even numbers and the positive fractions are countable (matchings $n \mapsto 2n$ and a zigzag walk through a grid of fractions), although the evens are only part of the naturals.
+  - **The diagonal argument** (Cantor, 1891). Suppose a list $x_1, x_2, \dots$ claims to contain every real number between 0 and 1, each written as a decimal $x_k = 0.x_{k1}x_{k2}x_{k3}\dots$ (so $x_{kn}$ is digit $n$ of the $k$-th number). Build $d = 0.d_1d_2d_3\dots$ with
+  $$d_k \in \{1,\dots,8\},\quad d_k \ne x_{kk}$$
+  where $x_{kk}$ is the **diagonal digit** (digit $k$ of the $k$-th number). Avoiding 0 and 9 matters because $0.0999\ldots = 0.1000\ldots$ would otherwise let one number have two expansions. Then $d$ differs from every $x_k$ in digit $k$, so {{ no list contains every real number between 0 and 1 }}: the reals are **uncountable**. It is a proof by contradiction: assume a complete list (P1), build $d$ (P2), check it is a real number with one expansion (P3) and not on the list (P4), contradiction.
+  - **What it says and does not say.** It proves that no matching exists between the natural numbers and the reals in $(0,1)$. "Bigger infinity" is a name for that fact. It is a theorem about mathematical sets, not a measurement of physical space. Also $0.999\ldots = 1$ exactly, since $10x - x = 9$ for $x = 0.999\ldots$.
+  - **Where people part ways.** According to Platonists the reals are a definite, independent totality and the theorem discovers that it is larger than the naturals. According to formalists it is a theorem of the symbol game, and "uncountable" is a derived label. According to intuitionists in Brouwer's tradition, one keeps the construction (from any list one can produce a number missing from it) but not the picture of finished infinite totalities ranked by size. The disputed step is not the digit trick but the meaning of "all the real numbers".
+  - **Power sets.** The **power set** $\mathcal{P}(S)$ of a set $S$ is the set of all subsets of $S$. For a set with $n$ elements
+  {{ $$|\mathcal{P}(S)| = 2^n$$ }}
+  and Cantor's theorem says the same strict growth holds for infinite sets: no matching of $S$ with $\mathcal{P}(S)$ exists, so there is no largest infinity.
+cards:
+  - type: mcq
+    id: hook
+    title: "Can you list all the reals?"
+    tag: "Guess first"
+    prompt: |
+      Guess before any theory. A **real number between 0 and 1** is anything you can write as an endless decimal $0.d_1d_2d_3\dots$ (like $0.5$, $0.3333\dots$ or $0.1415926\dots$). Imagine an infinitely long list, "first number, second number, third number, and so on forever". Could such a list contain **every** real number between 0 and 1?
+    options:
+      - text: 'Yes: with an endless list and endless time, every number would eventually appear.'
+        feedback: |
+          A natural first guess, and it is true for some infinite collections (the lesson shows two). It fails here, and the reason is one of the cleverest short arguments in mathematics.
+      - text: 'No: whatever endless list you write, some real number between 0 and 1 is missing from it.'
+        correct: true
+        feedback: |
+          Correct, as the lesson proves. The surprise is that an endless list is not enough.
+      - text: 'It is a matter of taste: mathematicians have never agreed on whether such a list exists.'
+        feedback: |
+          Not for this question: it has a short proof that everyone accepts as a proof. What is still debated (in the last part of the lesson) is what the result *means*, not whether the argument works.
+    explanation: |
+      No endless list of reals between 0 and 1 is complete. This lesson builds the proof step by step, as a chain of numbered premises. At the end we ask, school by school (Platonism, formalism, intuitionism), what the result means.
+
+  - type: text
+    id: recall
+    title: "Recall: three schools and their prices"
+    body: |
+      **Recall:** the lesson Platonism, Formalism, Intuitionism compared three answers to "what is a mathematical object?", each with a price.
+
+      - **Platonism**: mathematical objects exist, abstract and independent of us. Price: **access** (how do we know about them?).
+      - **Formalism** (Hilbert's version): mathematics is a game of symbols and rules. Price: **application** (why does the game fit the world?).
+      - **Intuitionism** (Brouwer, 1881-1966): mathematics is a mental construction, so a statement is true when we can construct a proof of it. Price: **how much classical mathematics survives**.
+
+      Now one concrete theorem all three must face: Georg Cantor (1845-1918) proved that there are different sizes of infinity. First we need a way to compare sizes of *endless* collections.
+
+  - type: text
+    id: matching
+    title: "Counting without numbers"
+    body: |
+      How do we say two *finite* collections are the same size without counting? A shepherd who matches each sheep with one pebble, with none left over on either side, knows the flock and the pebbles are equally many. Such a pairing is a **one-to-one matching** (the mathematical name is a **bijection**): every element of one side is paired with exactly one element of the other, and no element is left unpaired.
+
+      Cantor's idea: use matching as the *definition* of "same size", even for endless collections. A collection is **countable** if it can be matched with the natural numbers $1, 2, 3, \dots$. A matching with the naturals is the same thing as a **list**: "first, second, third, ...".
+
+      Consequence worth testing: a collection can have the same size as a *part* of itself.
+
+  - type: build
+    id: evens
+    title: "Naturals versus evens"
+    prompt: |
+      Match each natural number $n = 1, 2, 3, \dots$ with the even numbers $2, 4, 6, \dots$ in order ($1 \leftrightarrow 2$, $2 \leftrightarrow 4$, $3 \leftrightarrow 6$, ...). Build the formula for the even number matched with $n$.
+    prefix: 'n \mapsto'
+    tiles: ['2', 'n', '+', '1', 'n^2']
+    answers:
+      - ['2', 'n']
+      - ['n', '2']
+    wrong:
+      - answer: ['n', '+', '2']
+        feedback: |
+          $n + 2$ gives $3, 4, 5, \dots$, which is not the even numbers. The evens grow by 2 at each step, so the rule must double $n$.
+      - answer: ['2', 'n', '+', '1']
+        feedback: |
+          $2n + 1$ gives $3, 5, 7, \dots$, the odd numbers, not the evens.
+    hint: 'The first matches are $1 \to 2$, $2 \to 4$, $3 \to 6$. What do you do to $n$ each time?'
+    explanation: |
+      The rule $n \mapsto 2n$ pairs every natural number with exactly one even number, and every even number $2m$ is hit exactly once (by $n = m$). So the evens, although only "half" of the naturals, are matched with all of them: they are countable. This is the first lesson of infinity: a collection can match a proper part of itself. For finite collections this is impossible; for endless ones it is normal.
+
+  - type: order
+    id: fractions
+    title: "A list of all fractions"
+    prompt: |
+      The positive fractions $p/q$ ($p, q = 1, 2, 3, \dots$) look far more numerous than the naturals, since between any two fractions there are infinitely many more. Yet they can be listed. Put the method in order.
+    steps:
+      - 'Write every fraction $p/q$ in a grid: numerator $p$ across, denominator $q$ down.'
+      - 'Walk through the grid one diagonal at a time: first $p + q = 2$, then $p + q = 3$, then $p + q = 4$, and so on.'
+      - 'Each diagonal holds only finitely many fractions, so every fraction is reached after finitely many steps.'
+      - 'Skip any fraction that repeats a value already met (for example $2/2$ repeats $1/1$).'
+      - 'Number the fractions you keep $1, 2, 3, \dots$: the result is a list containing every positive fraction.'
+    hint: 'Set up the grid first, then decide the route, then explain why no fraction is missed.'
+    explanation: |
+      The first entries are $1/1,\ 1/2,\ 2/1,\ 1/3,\ 3/1,\ 1/4,\ 2/3,\ 3/2,\ 4/1,\ \dots$ The key point is the third step: a route that visits finitely many items at a time, forever, reaches every cell. So the fractions are countable, a surprise in itself. The question of the lesson is whether *every* collection of numbers can be listed this way. Decimals with endless digits are a harder case.
+
+  - type: widget
+    id: table
+    title: "A claimed list of reals"
+    widget: diagonal-list
+    review: false
+    config:
+      rows: 5
+      digits: 5
+      values: ['31415', '27182', '57721', '41421', '61803']
+      show: { d: false, checks: false, rule: false, readout: false }
+    body: |
+      Five rows of a claimed list: each row $x_k$ is the real number $0.$ followed by its digits (only the first five digits are shown; the real list goes on forever to the right and downward). The gold cells are the **diagonal**: digit $k$ of the $k$-th number. Click a digit to change it and see that the gold cells always run from top-left to bottom-right.
+
+  - type: numeric
+    id: forced
+    title: "How many digits are forced?"
+    prompt: |
+      A list of real numbers $x_1, x_2, x_3, \dots$ is given. We want to write down a new real number $d$ that differs from $x_k$ **in at least one digit**, for each $k$ from 1 to 1000. Using one digit of $d$ to separate $d$ from each row, how many digits of $d$ must we choose?
+    answer: 1000
+    hint: 'One digit of $d$ can be assigned to guarantee a difference from one particular row.'
+    explanation: |
+      One digit per row: digit $k$ of $d$ is chosen so that it differs from digit $k$ of $x_k$. For 1000 rows this fixes the first 1000 digits. A full list is endless, so the method fixes *every* digit of $d$, which is therefore an endless decimal, exactly what a real number between 0 and 1 is.
+
+  - type: text
+    id: premises
+    title: "The argument as premises"
+    body: |
+      According to Cantor's 1891 paper (stated there for sequences of two symbols; the decimal form is the usual textbook version), the argument is a proof by contradiction. Write $x_{kn}$ for digit $n$ of the $k$-th number $x_k$, so $x_k = 0.x_{k1}x_{k2}x_{k3}\dots$. The **diagonal digit** of row $k$ is $x_{kk}$.
+
+      - **P1 (assumed, to be refuted).** There is a list $x_1, x_2, x_3, \dots$ containing every real number between 0 and 1, each written as a decimal.
+      - **P2 (construction).** Define $d = 0.d_1d_2d_3\dots$ digit by digit: $d_k$ is a digit from $1$ to $8$ that differs from $x_{kk}$. A concrete rule: add 1 to $x_{kk}$, except that $8$, $9$ and $0$ all give $1$.
+      - **P3 (d is legitimate).** $d$ is a real number between 0 and 1 with only one decimal expansion (it has no 0s and no 9s).
+      - **P4 (d is not on the list).** For every $k$, $d$ differs from $x_k$ in digit $k$, so $d \ne x_k$.
+      - **C.** By P1, $d$ must be on the list (P3); by P4 it is not. Contradiction, so P1 is false: **no list contains every real number between 0 and 1.**
+
+      Next: build $d$ by hand, then test each premise, as the course does with every argument.
+
+  - type: widget
+    id: build
+    title: "Build d digit by digit"
+    widget: diagonal-list
+    review: false
+    config:
+      rows: 5
+      digits: 5
+      values: ['31415', '27182', '57721', '41421', '61803']
+      stepReveal: true
+      show: { readout: false }
+    body: |
+      Press the button to reveal one digit of $d$ at a time. Each digit is the diagonal digit of that row plus 1 (and $8$, $9$, $0$ give $1$). Watch the check column: it compares $d$ with each row in the gold digit.
+
+  - type: numeric
+    id: compute-d
+    title: "Compute d"
+    prompt: |
+      A claimed list begins with the five numbers $0.31415\dots$, $0.27182\dots$, $0.57721\dots$, $0.41421\dots$, $0.61803\dots$ (digits beyond the fifth are not needed). Build the first five digits of $d$ with the rule: $d_k$ is the diagonal digit $x_{kk}$ plus 1 (with $8$, $9$, $0$ giving $1$). Enter $d$ as $0.d_1d_2d_3d_4d_5$.
+    answer: 0.48834
+    tolerance: 0.0000001
+    answerText: '0.48834'
+    wrong:
+      - { value: 0.31415, feedback: 'That is just the first row. The diagonal takes digit 1 of row 1, digit 2 of row 2, and so on, one digit from each row.' }
+      - { value: 0.37723, feedback: 'These are the diagonal digits themselves ($3, 7, 7, 2, 3$). The rule then adds 1 to each, which makes $d$ differ from the diagonal.' }
+    hint: 'Diagonal digits: digit 1 of row 1, digit 2 of row 2, digit 3 of row 3, digit 4 of row 4, digit 5 of row 5.'
+    explanation: |
+      The diagonal digits are $x_{11} = 3$, $x_{22} = 7$, $x_{33} = 7$, $x_{44} = 2$, $x_{55} = 3$. Adding 1 to each gives $4, 8, 8, 3, 4$, so $d = 0.48834\dots$. It differs from row 1 in digit 1 ($4 \ne 3$), from row 2 in digit 2, and so on.
+
+  - type: mcq
+    id: no-zero-nine
+    title: "Why never 0 or 9?"
+    prompt: |
+      A student builds $d$ by "add 1 to the diagonal digit, with $9$ wrapping to $0$", so $d_k$ can be $0$ or $9$. The rule above avoids both. Why does this matter for the proof?
+    options:
+      - text: 'Because one real number can have two decimal expansions ($0.0999\ldots = 0.1000\ldots$), so a number could differ from $x_k$ in a digit and still be the same number.'
+        correct: true
+      - text: 'Because $d$ would then be larger than 1.'
+        feedback: |
+          Every decimal $0.d_1d_2\dots$ with digits 0 to 9 stays between 0 and 1 (apart from the case of all 9s, which equals 1). Size is not the issue; the problem is that two different strings can name the same number.
+      - text: 'Because digits 0 and 9 are not allowed in decimal expansions.'
+        feedback: |
+          They are allowed. The proof avoids them only to make the expansion of $d$ unique.
+    explanation: |
+      Two different strings of digits can name the same number, so "the digits differ" does not by itself prove "the numbers differ". Numbers like $0.1000\ldots$ and $0.0999\ldots$ are such pairs, and the dual expansions always end in all 0s or all 9s. If $d$ never uses 0 or 9, its expansion is unique, and it also cannot equal the *other* expansion of any listed number (that one ends in 0s or 9s, which $d$ never has). So differing in digit $k$ really means $d \ne x_k$ as numbers. This is premise P3 at work.
+
+  - type: mcq
+    id: why-differs
+    title: "Where does d differ?"
+    prompt: |
+      In the diagonal construction, $d_k$ is chosen to differ from the diagonal digit $x_{kk}$ of the $k$-th number $x_k$. Which statement about $d$ and $x_{50}$ does this guarantee?
+    options:
+      - text: '$d$ differs from $x_{50}$ in digit 50 (and so $d \ne x_{50}$); the other digits are not guaranteed to differ.'
+        correct: true
+      - text: '$d$ differs from $x_{50}$ in every digit.'
+        feedback: |
+          Only digit 50 is controlled by the rule. The other digits of $d$ may agree with those of $x_{50}$ by accident, and that does not matter: one difference is enough to make two numbers different.
+      - text: '$d$ differs from $x_{50}$ only if $x_{50}$ comes late in the list.'
+        feedback: |
+          The argument works for every position in the list equally: row $k$ is handled by digit $k$, whether $k$ is 2 or 2 billion.
+    explanation: |
+      Row $k$ is separated from $d$ by digit $k$, exactly once. Since this holds for every $k = 1, 2, 3, \dots$, $d$ is separated from every row. This is premise P4.
+
+  - type: mcq
+    id: critic
+    title: "Which premise would a critic reject?"
+    prompt: |
+      In the argument P1 (assumed complete list), P2 (construct $d$ from the diagonal), P3 ($d$ is a legitimate real number), P4 ($d$ differs from every $x_k$), C (no complete list), where would a critic of the *result* press, according to the main objections in the history of the subject?
+    options:
+      - text: 'Not on the digit steps P2 to P4, which can be checked mechanically for any given list. The serious disagreement is over what to make of "every real number" as a finished totality, and so over how to read the conclusion.'
+        correct: true
+      - text: 'On P2: the construction needs infinitely many digits, so it is not a legitimate construction.'
+        feedback: |
+          For a *given* list, each digit of $d$ is produced by a finite rule from one entry (diagonal digit plus 1), so $d$ is an explicit recipe. Constructivists accept recipes of this kind. The doubt about infinity goes elsewhere: to treating all the reals at once as one completed object.
+      - text: 'On P4: $d$ might equal some $x_k$ in its later digits.'
+        feedback: |
+          Agreeing in later digits is irrelevant: $d$ and $x_k$ differ in digit $k$, so they are different numbers (P3 ensures no dual-expansion loophole).
+      - text: 'On P1: the argument assumes the list exists, which begs the question.'
+        feedback: |
+          P1 is an assumption made *in order to refute it*, as in every proof by contradiction. Showing that P1 leads to an impossibility is the conclusion, not a flaw.
+    explanation: |
+      Validity and truth of premises are separate checks. The steps are valid, and P2 to P4 are checkable for any list. What critics have disputed is the picture behind the words "all real numbers": according to historians of mathematics, Kronecker (1823-1891) objected to non-constructive existence proofs and to Cantor's treatment of infinite totalities, and Brouwer's intuitionism rejected the idea of a completed infinite. Historians also debate how much of Kronecker's opposition was personal. Note that the argument itself is a recipe: *given* a list, it produces a number missing from it.
+
+  - type: order
+    id: reductio
+    title: "The proof by contradiction"
+    prompt: |
+      Put the proof in order.
+    steps:
+      - 'Assume there is a list $x_1, x_2, \dots$ containing every real number between 0 and 1.'
+      - 'Build $d$ from the diagonal: digit $k$ of $d$ differs from digit $k$ of $x_k$, and is never 0 or 9.'
+      - 'Check that $d$ is a real number between 0 and 1, so by the assumption $d = x_n$ for some $n$.'
+      - 'But $d$ differs from $x_n$ in digit $n$, a contradiction.'
+      - 'So the assumption was false: no list contains every real number between 0 and 1.'
+    hint: 'Assume, construct, check legitimacy, collide with the assumption, conclude.'
+    explanation: |
+      The assumption is used twice: to say $d$ is on the list, and in the structure of the list as $x_1, x_2, \dots$. The contradiction arises only because the assumption claims completeness. The same argument works on *any* list, so it shows something stronger than "this list fails": every list fails, each missing a number we can write down from the list itself.
+
+  - type: mcq
+    id: trap-nines
+    title: "Trap: is 0.999... less than 1?"
+    prompt: |
+      A student says: "$0.999\ldots$ is always a little less than $1$, so it is a different number, and the proof's worry about two expansions is nonsense." Which reply is right?
+    options:
+      - text: '$0.999\ldots = 1$ exactly: with $x = 0.999\ldots$, $10x = 9.999\ldots$, so $10x - x = 9$, hence $x = 1$. The two strings name one number.'
+        correct: true
+      - text: '$0.999\ldots$ is infinitesimally smaller than $1$, a number so close that it is a separate real number.'
+        feedback: |
+          The real numbers contain no infinitesimals: the gap between $0.999\ldots$ and 1 is smaller than every positive real number, so it is $0$. (Other number systems with infinitesimals exist, but then "$0.999\ldots$" no longer names a different number in the usual sense.)
+      - text: 'It depends on how many nines you write: a billion nines is equal to 1 and ten nines is not.'
+        feedback: |
+          No finite string of nines equals 1: $0.9999999999$ is below 1. The notation $0.999\ldots$ means the *endless* string, which is a different object from any finite one.
+    explanation: |
+      The endless string $0.999\ldots$ is defined as the limit of $0.9,\ 0.99,\ 0.999,\ \dots$, and the distance of each term from 1 is $10^{-m}$, which goes below any positive number. So the limit is exactly 1. This is why the construction of $d$ avoids 9s (and 0s): to keep one number from having two names, which would let "different strings" fail to mean "different numbers".
+
+  - type: mcq
+    id: limits
+    title: "What the proof shows and does not show"
+    prompt: |
+      Which statement correctly describes what the diagonal argument establishes?
+    options:
+      - text: 'No matching exists between the natural numbers and the real numbers between 0 and 1, so in Cantor''s sense of "same size" the reals are strictly more numerous than the naturals.'
+        correct: true
+      - text: 'It shows that physical space contains more points than there are particles, or that space is infinitely divisible.'
+        feedback: |
+          The theorem concerns mathematical sets of numbers. Whether physical space is a continuum of points (or has a smallest length) is a question for physics, and the proof does not decide it.
+      - text: 'It shows that the number $d$ is a special, unusually complicated real number that no one can ever write.'
+        feedback: |
+          $d$ is built from the list by a plain rule (add 1 to each diagonal digit). It is not special: each different list yields a different $d$.
+      - text: 'It shows that infinity is not a legitimate idea in mathematics.'
+        feedback: |
+          Quite the opposite for most mathematicians: it classifies infinities into different sizes. Only the intuitionist and constructivist traditions doubt completed infinite totalities, and they do so for philosophical reasons the proof does not settle.
+    explanation: |
+      "Bigger infinity" is just the name of this fact: matching with the naturals is impossible. It is a theorem about sets of numbers, not a count of points in physical space. Whether nature contains a continuum is a separate question (the physics of Wigner's puzzle makes mathematics fit nature, but fit does not make mathematical sets physical).
+
+  - type: text
+    id: schools
+    title: "Three readings of the result"
+    body: |
+      The three schools of the recall card read the same theorem differently. Each is given in the form its defenders would accept.
+
+      - **Platonism.** According to Platonists, the real numbers are a definite totality, existing independently of us. Cantor's theorem *discovers* that this totality is larger than the naturals; there are different sizes of infinity in the mathematical world, as there are different sizes of finite sets.
+      - **Formalism.** According to formalists, the theorem is a result of the symbol game: from the axioms and rules of set theory, a chain of allowed steps ends with "there is no bijection between the naturals and the reals". "Uncountable" is a label defined by that statement, and no realm of objects needs to stand behind it.
+      - **Intuitionism.** According to intuitionists in Brouwer's tradition, mathematics is constructed, and a completed infinite totality is not a given. The constructive core survives: from any list of reals one can *construct* a real not on it. What is not accepted in the same way is the classical picture of finished infinite sets ranked by size; constructive treatments of the result are more careful than classical ones, and some classical comparisons between infinite sizes no longer hold.
+
+      The proof is the same on all three accounts. The disagreement is over what it *is about*.
+
+  - type: mcq
+    id: schools-q
+    title: "Same proof, three readings"
+    prompt: |
+      A reader says: "Cantor's diagonal proof shows that the real numbers form a finished totality, and that this totality is larger than the naturals." Whose reading is that, and what would a Brouwer-style intuitionist reply?
+    options:
+      - text: 'It is the Platonist reading. An intuitionist would accept the construction (from any list, produce a number missing from it) but reject the picture of the reals as a completed totality ranked by size.'
+        correct: true
+      - text: 'It is the formalist reading. An intuitionist would reject the digit construction as invalid.'
+        feedback: |
+          Formalists describe the theorem as a result of rules and do not need a finished totality. And the digit construction itself is a plain recipe that constructive mathematics accepts; the disagreement is about the interpretation, not the steps.
+      - text: 'It is the intuitionist reading, since intuitionists believe in the proof by contradiction.'
+        feedback: |
+          Brouwer's tradition is the one that restricts classical reasoning (notably the law of excluded middle) and questions completed infinities. A constructive version of this theorem also exists that avoids those assumptions.
+    explanation: |
+      The Platonist describes a world of finished mathematical totalities; the formalist describes a derivation in a rule system; the intuitionist keeps the constructive step and limits the interpretation. The result is used by all three, with different prices and different meanings.
+
+  - type: text
+    id: powerset
+    title: "A teaser: there is no largest infinity"
+    body: |
+      The **power set** $\mathcal{P}(S)$ of a set $S$ is the set of *all subsets* of $S$, including the empty set and $S$ itself. For $S = \{a, b\}$ the power set is $\{\ \{\},\ \{a\},\ \{b\},\ \{a,b\}\ \}$, which has 4 elements.
+
+      For a finite set with $n$ elements, each element is either in or out of a subset, so
+      $$|\mathcal{P}(S)| = 2^n$$
+      Check: $n = 0, 1, 2, 3$ give $1, 2, 4, 8$. This is always larger than $n$. **Cantor's theorem** says the same strict growth holds for *infinite* sets: there is no matching of $S$ with $\mathcal{P}(S)$. The idea is the diagonal again: given a claimed matching, the subset of elements that are *not* in their own matched subset is a subset that the matching misses. Applied to the naturals, this gives an endless ladder of bigger and bigger infinities.
+
+  - type: numeric
+    id: powerset-q
+    title: "Counting subsets"
+    prompt: |
+      How many subsets does the four-element set $\{a, b, c, d\}$ have, counting the empty set and the whole set?
+    answer: 16
+    hint: 'Each of the 4 elements is either in a subset or out.'
+    explanation: |
+      Two choices (in or out) for each of 4 elements gives $2 \times 2 \times 2 \times 2 = 2^4 = 16$ subsets. The count doubles with every added element, so $2^n > n$ for every $n$; Cantor showed that the strict inequality survives when $n$ is infinite.
+
+  - type: text
+    id: summary
+    body: |
+      **Where thoughtful people part ways.** Not on the proof, which all schools can check, but on its meaning: for Platonists a discovery about a real totality, for formalists a theorem of a symbol game, for intuitionists a construction whose interpretation as ranking finished infinities they limit. These layers stay open: what mathematical objects are, and whether physical space is a continuum, which the theorem does not decide.
+
+      **Next:** the lesson Godel and the Limits of Proof. The diagonal argument showed that a list cannot contain everything. The next lesson asks what a formal system of proofs can and cannot reach, and what people wrongly say that result proves about science, faith and mind.

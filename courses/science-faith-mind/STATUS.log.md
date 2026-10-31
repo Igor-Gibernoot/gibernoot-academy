@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-30 ch04-diagonal (guided proof, 21 cards)
+Built autonomously, web-checked (see Verified). Choices: widget diagonal-list twice (table only, then stepReveal); 21 cards, no split; power set teaser kept short with the diagonal subset idea stated, not proved; Kronecker motives marked debated; Brouwer reading hedged ("in Brouwer's tradition"); Hilbert paradise quote not used. Conventions fixed here: P1-P4 premises, x_{kk} diagonal digit, list 31415..., d=0.48834, |P(S)|=2^n.
+
 ## 2026-10-30 ch04-platonism (concept, 20 cards)
 Built autonomously, web-checked (see Verified). Choices: no widget (plain cards); hook has two "reasonable" options marked correct (a guess card); three schools only (logicism named and set aside); Heyting and the Hilbert "paradise" quote dropped as unconfirmed; Frege paraphrased; Godel perception analogy attributed to the 1964 revision. Cards: hook, Wigner recall with formulas, families, Platonism, objectivity, indispensability order, Benacerraf, Godel reply, "Plato's heaven" trap, formalism, symbol game (3 moves), applicability, intuitionism, excluded middle, sqrt2^sqrt2, witness numeric, answers to Wigner, evidence, prices, summary. Conventions fixed here: three prices = access (Platonism), application (formalism), how much classical mathematics survives (intuitionism); symbol-game strings a, b with moves a->ab, b->bb; witness x=sqrt2, y=2 log2 3 gives 3.
 
