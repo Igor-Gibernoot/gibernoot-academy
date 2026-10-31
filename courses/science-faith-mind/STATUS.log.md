@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-31 ch05-bigbang (21 cards, concept)
+Built Level 5 opener. No widget card: no existing preset shows expansion (checked docs/widgets/README.md: log-ruler, flow-lab, tradeoff-curve, none fit); an expansion widget is recommended later. Choices: Hubble-Lemaitre law with H0=70, Hubble time 14.0 Gyr, T=T0(1+z), helium Y=2x/(1+x) with x=1/7; quotes avoided (paraphrase); Lemaitre/Pius XII 1951 as reported by Wikipedia, worded "reportedly". Conventions fixed here: H0=70 km/s/Mpc (Planck 67.4, local ~73), c=3.0e5 km/s, T0=2.725 K, z~1100 => ~3000 K at ~380,000 yr, n/p=1/7 => Y=0.25, age 13.8 Gyr; Hubble-Lemaitre spelled without accent in YAML like "Lemaitre".
+
 ## 2026-10-31 Level 4 audit
 Checked level references, widget cards, file: registration, own: blocks, validate and shots (clean). Fixed: Ellis/Kirchner/Stoeger name and year (2004), Schmidhuber/Tegmark measure wording from primary sources, stray qquad and "Level 4" self-reference in challenge-2. Earlier levels use no conflicting Level 4 terms. Conventions fixed here: none new.
 

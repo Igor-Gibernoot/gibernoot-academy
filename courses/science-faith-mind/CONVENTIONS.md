@@ -67,3 +67,7 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 - Explaining lesson (21 cards): Wigner puzzle as P1 internal origin, P2 substantial fit, P3 improbable without explanation, C; replies: empiricism rejects P1 (Mill), selection P2 (Hamming; Kepler 1596 solids failed; 20/10,000 = 0.2% invented), evolution and structure P3, design accepts all (layer 3).
 - Godel lesson (19 cards): F, F |- A, G_F, Prov_F, Con(F), code of G_F as \ulcorner G_F \urcorner; truth = truth in the standard natural numbers; prime coding 2^a1 3^a2 5^a3 (600 for 3,1,2); Lucas-Penrose a live debate, consistency objection.
 - Universe lesson (20 cards): modest ("described by") vs bold ("is") readings; ERH, MUH (Tegmark 2008 paper, 2014 book), Level IV, self-aware substructures, CUH reply to Godel; objections observers, Godel, measure (toy 2/8 = 25%), testability; rivals structural realism (Worrall 1989, Ladyman 1998) and map-territory (Korzybski).
+
+## Chapter 5
+
+- Big Bang lesson (21 cards): H0=70 km/s/Mpc (Planck 67.4, local ~73, "Hubble tension"), c=3.0e5 km/s, v=H0 d, z=0.02 -> 85.7 Mpc, 1/H0=14.0 Gyr; T=T0(1+z), T0=2.725 K, z~1100 -> ~3000 K at ~380,000 yr; n/p=1/7 -> Y=2x/(1+x)=0.25; Lemaitre (1894-1966), Pius XII 1951 "reportedly"; spelled "Lemaitre" without accent.
