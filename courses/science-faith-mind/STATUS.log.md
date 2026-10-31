@@ -1,5 +1,12 @@
 # Status log
 
+## Images, chapter 5 (retrofit)
+6 images: bigbang/lemaitre (Lemaitre and Eddington 1938, lemaitre.webp), bigbang/cmb (Holmdel horn, holmdel-horn.webp), beginning/theorems (Penrose 1978, penrose.webp), something/leibniz (Francke portrait, leibniz.webp), entropy/boltzmann (Fenzl 1898 lithograph, boltzmann.webp), anthropic/weinberg (weinberg.webp).
+web: Commons file pages (Lemaitre-Eddington 1938 on ship from Stockholm after IAU assembly, CC BY-SA 4.0; Penrose 1978 Berkeley, Bergman, CC BY-SA 4.0; Holmdel horn, Dunham, CC BY-SA 3.0; Fenzl 1867-1908 lithograph 1898); nobelprize.org (Penrose 2020 citation via news summaries; Weinberg 1979 with Glashow and Salam, d. 2021); atlasobscura/physics.it.com (formula on tomb in Vienna Zentralfriedhof); EGO Mainz/Braunschweig museum (Francke Leibniz c. 1695, Herzog Anton Ulrich Museum).
+Skipped: Lemaitre solo portrait GLemaitre30 and Boltzmann2 (public domain US-only or unclear), Hoyle (only in a trap card), Planck CMB map (one image per card enough), Hubble/Penzias/Wilson portraits.
+UNVERIFIED: Lemaitre-Eddington order left/right not stated on Commons (caption does not say); Weinberg birth year 1933 from search summary only; Leibniz portrait date is c. 1695 per EGO, Commons mirror says c. 1700 (caption says "around 1695").
+Conventions fixed here: none.
+
 ## Images, chapter 4 (retrofit)
 7 images: wigner/wigner (Nobel Foundation 1963 photo), wigner/dirac (Nobel 1933 photo); diagonal/recall (Cantor); godel/recall (Gödel as student, Vienna, mid-1920s); platonism/intuitionism (Brouwer); universe/galileo (Sustermans portrait, Greenwich), universe/tegmark (CC BY-SA 4.0). Skipped: Pythagoras (only Roman busts, identification unsourced on Commons), Kepler (portraits disputed/presumed), Frege, Mill, Plato, Hilbert (already has a portrait), Riemann, Maxwell, Hardy, Lucas, Penrose (no fitting free image checked / not worth it), traps, intuition, explaining.
 web: SEP Gödel incompleteness (1931, first theorem); SEP Brouwer (1881-1966, Dutch, mathematics as free activity of mind, rejects excluded middle); Wikipedia Cantor's diagonal argument (1891; first uncountability proof 1874); Wikipedia Tegmark (MIT physics professor, born 1967, MUH); AIP/nobel words (Wigner 1963 Nobel, group theory of nucleus; Dirac 1933 with Schrödinger; Anderson positron 1932); Commons file pages (Galileo 1636-1640, Greenwich BHC2700; Gödel 1924-1927 IAS archive; Wigner 1963 Nobel site).
