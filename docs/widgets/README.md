@@ -72,3 +72,4 @@ and a new `docs/widgets/<name>.md` plus a line below.
 
 - `diagonal-list`: Cantor's diagonal table: N rows of K-digit decimals (click/arrow spinner per digit), highlighted diagonal cells, diagonal number d built from a rule that never gives 0 or 9 (presets add1, five, or custom map), check column "d differs from row k in digit k", live readout, optional step-reveal and display-only modes
 - `scale-factor`: Schematic cosmic scale factor a(t) for Big Bang / bounce / eternal / emergent pasts, model selector, draggable cursor reading a, T = T0/a and rho ~ a^-3 or a^-4, optional breakdown and unknown-physics bands (not Einstein solutions)
+- `microstate-counter`: N particles in a box with two halves; click to flip, macrostate k, W = C(N,k), share W/2^N, S/k_B = ln W, optional histogram of W for every k with k highlighted; shuffle, step, auto-run (drift to N/2), reset, N selector; seeded

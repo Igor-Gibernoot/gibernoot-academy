@@ -71,6 +71,7 @@ import { tradeoffCurve } from './tradeoff-curve.js';
 import { cellularAutomaton } from './cellular-automaton.js';
 import { chshLab } from './chsh-lab.js';
 import { scaleFactor } from './scale-factor.js';
+import { microstateCounter } from './microstate-counter.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -138,6 +139,7 @@ const WIDGETS = {
   'cellular-automaton': cellularAutomaton,
   'chsh-lab': chshLab,
   'scale-factor': scaleFactor,
+  'microstate-counter': microstateCounter,
 };
 
 export function mountWidget(name, el, config) {
