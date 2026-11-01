@@ -1,5 +1,8 @@
 # Status log
 
+## Images, chapter 10
+4 images: predictive-processing/hook (dennett.webp, Erik Charlton, CC BY 2.0), predictive-processing/bayesian-brain (helmholtz.webp, 1884 photo, PD), action-theories/ideomotor (james-principles.webp, 1890 title page, PD), rationality-emotion/bounded (simon.webp, RIT 1981, PD; Commons notes personality-rights restriction only). web: Wikipedia/Nobel summary for Simon (1916-2001, 1978 Nobel Economics); dates of Dennett, Helmholtz, James from Commons/common knowledge, UNVERIFIED beyond that. Skipped: James portrait (only a disputed "self-portrait" file), Bellman (no free portrait), Powers, TOTE authors, decision-theories and attention-learning (no person or object worth a picture). Shots run, no problems; image card not viewed.
+
 ## Images, chapter 9
 1 image: analysis-steps (tmaze.webp reused from ch07, on card hook; DBCLS illustration, CC BY 4.0, already in ledger; caption makes no dated claim, depicts a mouse, lesson says rat, caption says "animal"). web: none needed. Skipped: false-inference neglect (only free clock image shows allochiria, not neglect), Lewy body/schizophrenia (no fitting object), meta-bayesian, peb, variational-laplace, analysis-traps (no person or object; Laplace not introduced as a person). Image card not viewed.
 
