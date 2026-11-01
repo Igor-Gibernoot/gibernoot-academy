@@ -229,7 +229,7 @@ Widgets are not the only visuals: a lesson may carry **pictures** on any card
 and `link`), where they make something concrete: **a person when first
 introduced** (portrait), **an experiment or scenario described in words**
 (apparatus, pattern, place), **a real object or data image**. Max 4 per lesson
-(intro level up to 8); most lessons need 0 to 2; never decorative, never the
+(6 in people-heavy history-of-ideas lessons, intro level up to 8); most lessons need 0 to 2, but in history-of-ideas courses every named person gets a portrait; never decorative, never the
 answer to a question, never a copyrighted figure or anything from `sources/`.
 Only **free licenses** (public domain, CC0, CC BY, CC BY-SA), fetched from
 Wikimedia Commons by `node tools/fetch-image.mjs search|get` (resizes, writes

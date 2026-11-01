@@ -6,7 +6,12 @@ concrete. It never replaces a widget or a derivation, and never decorates.
 ## When to add one
 
 - **Introducing a person** (scientist, philosopher, thinker): a portrait, once,
-  at the card where they are first named with their idea.
+  at the card where they are first named. In history-of-ideas courses (science
+  and faith, philosophy, history of physics) **every named person who plays a
+  role in the argument gets a portrait**, not only a lesson's main subject; a
+  passing mention in a list of names is the one exception. Elsewhere, people
+  who carry an idea are worth one. A caption may be as simple as who they were
+  and what they are named for here.
 - **A scenario or experiment** described in words: a photo or period drawing of
   the apparatus, the pattern it produced, the place.
 - **A real object or data image**: telescope, CMB map, manuscript page, specimen.
@@ -20,7 +25,9 @@ books or papers, anything from `sources/`.
 ## Limits
 
 - **At most 4 per lesson** (the intro level, Level 1 and its preview lessons, up
-  to 8). Concept lessons and guided problems usually need 0 to 2. Traps,
+  to 8). In a people-heavy lesson (history of ideas) portraits may bring it to
+  **6**: if more people are named, spread them over cards rather than drop them.
+  Elsewhere, concept lessons and guided problems usually need 0 to 2. Traps,
   intuition, maps and exams rarely any (an exam figure only if the original has one).
 - `validate` warns above the limit. When in doubt, leave it out.
 - **Place each image next to the paragraph that names its subject.** A card
@@ -134,6 +141,6 @@ and saves a screenshot of every image card: **look at the first image card of a 
 ## Retrofitting an existing lesson
 
 Read the lesson's cards and list candidates (people introduced, experiments
-described, real objects) with the card id each would go on. Keep only those
-that pass "When to add one". Fetch, add the `image:` block to that card with
+described, real objects) with the card id each would go on. Add every one
+that passes "When to add one" (for people see the first bullet there: be generous). Fetch, add the `image:` block to that card with
 a small `Edit`, validate, shots. Do not change any other text. Log the count in the course's `STATUS.log.md`.

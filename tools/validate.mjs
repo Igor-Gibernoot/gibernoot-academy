@@ -168,9 +168,9 @@ for (const level of course.levels ?? []) {
 }
 
 // Card images (docs/IMAGES.md): file present and light, alt + caption + credit (+ link unless our own),
-// at most 4 per lesson (8 in the intro level), and a ledger entry for every file.
+// at most 6 per lesson (8 in the intro level), and a ledger entry for every file.
 function checkImages(file, lesson, dir) {
-  const MAX = introLevel ? 8 : 4;
+  const MAX = introLevel ? 8 : 6; // 4 is the norm; up to 6 for people-heavy lessons (docs/IMAGES.md)
   const ledgerPath = join(dir, 'img/credits.yaml');
   const ledger = existsSync(ledgerPath) ? (yaml.load(readFileSync(ledgerPath, 'utf8')) ?? {}) : {};
   let count = 0;
