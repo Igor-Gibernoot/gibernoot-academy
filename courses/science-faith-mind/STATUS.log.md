@@ -1,5 +1,13 @@
 # Status log
 
+## Images pass 2, chapter 1
+Licence fixes: hilbert.webp (1907 photo, PD-US only) replaced by David Hilbert c. 1900 (PD-old); popper.webp (Flickr Commons "no known restrictions") replaced by DorianKBandy photo, CC BY-SA 4.0. Other ch1 images already free everywhere (Hume, Reid, Kardec PD-old-100, Epicurus, Topkapi). Not touched (other chapters): kuhn, bohr, schrodinger, wigner, dirac (country-limited, kept for their agents).
+New (5): tour/p-aliens Fermi (US DOE, PD), tour/p-language Aquinas (Crivelli 1476, PD-old), lenses/philosophy Russell (LA Times 1929, CC BY 4.0), lenses/lived Wittgenstein (Nähr 1930, PD-old). Tour now 7 images, lenses 2.
+Skipped: Leibniz (portrait already in ch05/something, his lesson), Nagel and Nozick (portrait/caption would give away the answer of the puzzle card; Nozick photo only PD-US), Jackson (morph image), Gould, Kuhn (flagged file), Muhammad/Milinda (no portraits), brain scan and Milky Way (not described as objects).
+web: Copleston-Russell debate BBC 28 Jan 1948 (Wikipedia, dhspriory transcript); Tractatus 6.44 (Ogden); Fermi lunch Los Alamos summer 1950, death 1954 (Wikipedia, Universe Today); Crivelli Aquinas 1476 National Gallery London; Commons file pages for dates/licences.
+UNVERIFIED: Fermi birth year 1901 and Nobel 1938 (Commons description), Aquinas 1225-1274 (already in lesson text).
+Conventions fixed here: none.
+
 ## Images audit (chapters 1-5)
 Ledger vs image blocks consistent (no missing, unused or absent files); counts within limits; validate clean. Dates confirmed: Hilbert 1862-1943, Kuhn 1922-1996, Duhem 1861-1916, Weinberg 1933, Bohr/Copenhagen institute, Bostrom at Oxford 2003 (postdoc from 2002/early 2003), Leibniz "around 1695" (EGO Trier, Commons title; older sources say c. 1700). Fixed: Gödel caption "at the age of 25" (born April 1906, paper early 1931) now "in his mid-twenties". Kuhn, Wigner, Dirac photos: Commons tags them Public domain (Kuhn: 1977 Princeton bulletin, US basis), accepted by docs/IMAGES.md; kept.
 
