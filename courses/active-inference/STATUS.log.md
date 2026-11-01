@@ -1,5 +1,8 @@
 # Status log
 
+## Images, chapter 6
+1 image: model-setup (frog-reeds.webp on card frog-cause; CC0 photo). Skipped: recipe, model-form, design-example, recipe-traps (no persons; rat/maze and retina photos not found free/fitting; traps none). web: none needed (Commons file description only; caption makes no dated claim).
+
 ## Images, chapter 5
 3 images: microcircuits (primer: cajal-cortex.webp), motor-subcortical (striatum: basal-ganglia.webp; thalamus: thalamic-nuclei.webp). web: Commons file descriptions (Cajal drawings: Nissl visual/motor adult, Golgi infant; thalamic nuclei key); Cajal dates common knowledge. Skipped: neuromodulation (dopamine/Schultz, Lewy, pupil: no suitable free image or would give away answers), hierarchies (none), neuro-traps (none), basal ganglia circuits SVG (shows pathways the questions ask about). No screenshot viewed.
 
