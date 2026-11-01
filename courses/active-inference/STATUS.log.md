@@ -1,5 +1,8 @@
 # Status log
 
+## Images, chapter 8
+1 image: dynamical-systems (lynx-hare.webp on card lv-story; Thomas Quine, CC BY 2.0, museum display). web: Krebs et al. BioScience / mun.ca Hudson Bay lynx-hare page / Encyclopedia of Math "Canadian lynx data" (about 10-year cycle, lynx trails hare). Skipped: Lorenz and Volterra portraits (not named in lessons), Lorenz attractor (the widget shows it), eyeblink rabbit and saccade monkey (no free fitting image; macaque photo would be decorative), zebra finch (simulated bird, decorative), generalized-filtering, hybrid, movement-control, intuition, traps (none). Shots run, image card not viewed.
+
 ## Images, chapter 7
 1 image: decision-planning (tmaze.webp on card hook; DBCLS illustration of a mouse at the start of a T-maze, CC BY 4.0). web: none needed (Commons description; caption makes no dated claim; it shows a mouse, the lesson says rat, caption says "animal"). Skipped: Dirichlet (not introduced as a person), lost-keys streetlight (everyday scenario, no distinct object), perceptual-processing, state-inference, information-seeking, efe-derivation, learning-novelty, deep-inference, intuition, traps (no person or real object). Viewed the hook card on phone: fine.
 
