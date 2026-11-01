@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-31 Images, chapter 1 (4 images)
+tour: container-ship (ship card), lightning (thunder), iss (satellite); scales: wire-rope (cable card). Skipped: Mont Blanc (Commons page unclear whether summit or Aiguille du Midi), airliner (Commons category says computer-generated), wrench (caption would give the answer), toilet float diagram and bicycle gears (no suitable photo / reveals answer), energy and tradeoffs (nothing earns a picture). No people introduced in chapter 1. Captions state only what the Commons descriptions say; web: Commons file pages (lightning: 2 s exposure, Schaffhausen, 2009-07-14; wire rope about 2 cm, tugboat winch; ISS: NASA description STS-114, Discovery, Aug 2005), NBC/NASA search for ISS altitude about 400 km (sources give 400 to 420 km, caption says roughly). Ship caption deliberately does not name the vessel (Ever Uberty build year UNVERIFIED, not used). Two fetched files (Mont Blanc, airliner) deleted with ledger entries.
+
 - 2026-10-31 own: audit: fixed ch01/tour (displayed formulas) and ch03/guided (last card); bike, lock, ch02/guided already fine.
 
 - **2026-10-29 ch03-intuition** (Quick Recall, 19 cards, no widget): own: summary of six formulas (H, I, m=2j-3, sigma, f0 with peak and damper tuning, T_soil). 7 mcq (limit h to 0, scalings, truss count, peak, tuning direction), 5 builds, 4 numerics with data only (tower 1.59 Hz, soil 0.8 s, damping 0.25 m, arch 250 kN). Choices: no widget; tuning card asks direction only (new numbers not stated). No external facts added, web check not needed (reused Verified). Conventions fixed here: recall numbers m 1e6 kg, k 1e8 N/m; soil 25 m, 125 m/s; arch 50 m, 10 m rise, 8 kN/m.
