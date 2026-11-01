@@ -1,5 +1,7 @@
 # Status log
 
+- 2026-11-01 Images, chapter 3: 0 images. Skipped: Felix Hausdorff on def-hausdorff (hausdorff.yaml): only free portrait is File:Hausdorff 1913-1921.jpg, marked public domain in the US only, unknown author (web: Commons page; en sources confirm 1868-1942, Grundzuege der Mengenlehre 1914); other Hausdorff files are graves/Stolpersteine. Road atlas on def-atlas (atlases.yaml): only an analogy, decorative. Other ch03 lessons (open sets, homeomorphisms, charts, smooth maps, circle, traps) are abstract with no person/experiment/object. No lesson changed, so no shots.
+
 - 2026-11-01 Images, chapter 2: 1 image. basis.yaml: kronecker.webp on dual-def (Commons names the sitter; web: en.wikipedia Leopold Kronecker for 1823-1891, German mathematician, Kronecker delta). Skipped: Descartes for the Cartesian product (maps.yaml; card never names him), all other ch02 lessons are abstract linear algebra with no person/experiment/object. Fixed duplicated author in ledger.
 
 - 2026-11-01 Images, chapter 1: 3 images. gravity.yaml: newton.webp + einstein.webp (q1-intro, Commons descriptions name the sitters; Kneller 1689, Schmutzer Vienna 1921), m87-black-hole.webp (horizon; EHT, CC BY 4.0). web: Astrophysical Journal Letters 2019 EHT paper IV (April 2019, ring ~40 microarcsec, April 2017 observations); distance of M87 left out (UNVERIFIED). curvature.yaml, spacetime.yaml: none (no person or object worth a picture; globe and triangle are widgets/own schematics).
