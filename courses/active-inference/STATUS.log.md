@@ -1,5 +1,8 @@
 # Status log
 
+### 2026-10-31 — Images, chapter 1
+1 image: acting (thermostat.webp on card goals; CC BY-SA 3.0, Commons description + Exif 2004 checked). persist, guessing: none (no people; scenarios are abstract, a garden photo would hint at answers). traps/intuition: none in ch01. No web-check needed (caption states only generic thermostat behaviour).
+
 - 2026-10-31 own: audit: 14 lessons scanned; fixed expected-free-energy, models-policies, inference-dynamics, model-form, model-setup (defined symbols, displayed formulas); rest already fine.
 
 Newest first. Never read this file in a session; add an entry by `Edit`ing the `# Status log` line.
