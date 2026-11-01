@@ -1,5 +1,8 @@
 # Status log
 
+## Images, chapter 7
+1 image: decision-planning (tmaze.webp on card hook; DBCLS illustration of a mouse at the start of a T-maze, CC BY 4.0). web: none needed (Commons description; caption makes no dated claim; it shows a mouse, the lesson says rat, caption says "animal"). Skipped: Dirichlet (not introduced as a person), lost-keys streetlight (everyday scenario, no distinct object), perceptual-processing, state-inference, information-seeking, efe-derivation, learning-novelty, deep-inference, intuition, traps (no person or real object). Viewed the hook card on phone: fine.
+
 ## Images, chapter 6
 1 image: model-setup (frog-reeds.webp on card frog-cause; CC0 photo). Skipped: recipe, model-form, design-example, recipe-traps (no persons; rat/maze and retina photos not found free/fitting; traps none). web: none needed (Commons file description only; caption makes no dated claim).
 
