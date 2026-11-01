@@ -1,5 +1,8 @@
 # Status log
 
+## Images, chapter 9
+1 image: analysis-steps (tmaze.webp reused from ch07, on card hook; DBCLS illustration, CC BY 4.0, already in ledger; caption makes no dated claim, depicts a mouse, lesson says rat, caption says "animal"). web: none needed. Skipped: false-inference neglect (only free clock image shows allochiria, not neglect), Lewy body/schizophrenia (no fitting object), meta-bayesian, peb, variational-laplace, analysis-traps (no person or object; Laplace not introduced as a person). Image card not viewed.
+
 ## Images, chapter 8
 1 image: dynamical-systems (lynx-hare.webp on card lv-story; Thomas Quine, CC BY 2.0, museum display). web: Krebs et al. BioScience / mun.ca Hudson Bay lynx-hare page / Encyclopedia of Math "Canadian lynx data" (about 10-year cycle, lynx trails hare). Skipped: Lorenz and Volterra portraits (not named in lessons), Lorenz attractor (the widget shows it), eyeblink rabbit and saccade monkey (no free fitting image; macaque photo would be decorative), zebra finch (simulated bird, decorative), generalized-filtering, hybrid, movement-control, intuition, traps (none). Shots run, image card not viewed.
 
