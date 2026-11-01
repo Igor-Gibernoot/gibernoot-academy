@@ -1,5 +1,8 @@
 # Status log
 
+### 2026-10-31 — Images, chapter 2
+1 image: free-energy (leibler.webp on card kl; NSA photo, public domain). web: https://en.wikipedia.org/wiki/Richard_Leibler (dates 1914-2003; 1951 Kullback-Leibler paper). Skipped: Kullback portrait (2 KB, no description or author), Bayes (disputed portrait), Helmholtz (not named in ch02), Jensen/Shannon (passing mentions), garden/pond/frog scenarios (abstract, would hint at answers), other ch02 lessons: none. Viewed the kl card on phone: fine.
+
 ### 2026-10-31 — Images, chapter 1
 1 image: acting (thermostat.webp on card goals; CC BY-SA 3.0, Commons description + Exif 2004 checked). persist, guessing: none (no people; scenarios are abstract, a garden photo would hint at answers). traps/intuition: none in ch01. No web-check needed (caption states only generic thermostat behaviour).
 
