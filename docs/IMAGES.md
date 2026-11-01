@@ -83,6 +83,15 @@ Only **free licenses**: public domain, CC0, CC BY, CC BY-SA (also GFDL). Never
 NC / ND / fair use / "all rights reserved". Wikimedia Commons is the source
 (NASA/ESA/NIH imagery is on Commons as well). The tool refuses anything else.
 
+**Prefer free in every country.** "Public domain" that holds only under some
+countries' law (PD-US, expired US copyright, Swedish or Nobel Foundation
+photos, URAA cases) is not enough when an alternative exists. Prefer: author
+dead 70+ years or work of unknown age ("PD-old"), CC0, CC BY, CC BY-SA, own
+work, US federal government works (NASA etc.). The tool refuses country-limited
+templates; `--allow-limited` overrides it only when no other image of the
+subject exists, and then the log notes it. Skip the image rather than use a
+doubtful one.
+
 ```sh
 node tools/fetch-image.mjs search "Kurt Gödel portrait"      # candidates: license, size, description
 node tools/fetch-image.mjs get <course> "File:Kurt gödel.jpg" godel [--width 900]

@@ -3,6 +3,7 @@
 // resized to a phone-friendly WebP, and records its credit in img/credits.yaml.
 //
 //   node tools/fetch-image.mjs search "Kurt Gödel portrait"             list candidate files with license
+//   (get refuses public domain that holds only in some countries, e.g. PD-US, PD-Sweden; --allow-limited overrides)
 //   node tools/fetch-image.mjs get <course> "File:Kurt gödel.jpg" <name> [--width 900]
 //
 // `get` refuses non-free licenses (NC, ND, fair use, unknown), downloads, converts
@@ -40,6 +41,15 @@ const info = async (title, width = 900) => {
   };
 };
 
+// Public domain "only in some countries" (US-only, Swedish law, URAA...) is not free everywhere:
+// read the file page's license templates and flag those.
+const LIMITED = /\{\{\s*(PD-US(?!-?Gov)[^|}]*|PD-1996|PD-URAA|PD-Sweden[^|}]*|PD-Nobel|PD-Norway[^|}]*|PD-Poland|PD-Italy|PD-Brazil|PD-Russia[^|}]*|PD-Canada[^|}]*|PD-Germany[^|}]*|PD-Japan[^|}]*|PD-Australia|PD-Ukraine|PD-Soviet|PD-Hungary|PD-China|PD-Israel|PD-India|PD-Mexico|PD-Austria|PD-Switzerland|PD-Finland|PD-Denmark|PD-Netherlands|PD-France)/i;
+const worldwide = async title => {
+  const j = await api({ action: 'query', titles: title, prop: 'revisions', rvprop: 'content', rvslots: 'main' });
+  const txt = Object.values(j.query?.pages ?? {})[0]?.revisions?.[0]?.slots?.main?.['*'] ?? '';
+  return txt.match(LIMITED)?.[1] ?? null;
+};
+
 const [cmd, ...rest] = process.argv.slice(2);
 
 if (cmd === 'search') {
@@ -61,6 +71,9 @@ if (cmd === 'search') {
   if (!existsSync(join(root, 'courses', course))) { console.error(`no course folder courses/${course}`); process.exit(2); }
   const t = await info(fileTitle.startsWith('File:') ? fileTitle : `File:${fileTitle}`, width);
   if (!FREE.test(t.license) || NONFREE.test(t.license)) { console.error(`REFUSED: license "${t.license}" is not free to reuse (${t.page})`); process.exit(1); }
+  const lim = await worldwide(t.title);
+  if (lim && !rest.includes('--allow-limited')) { console.error(`REFUSED: "${lim}" makes this public domain only under some countries' law, not free everywhere (${t.page}). Pick another file (author dead 70+ years, PD-old, CC0, CC BY, CC BY-SA, own work), or add --allow-limited only if nothing else exists.`); process.exit(1); }
+  if (lim) console.error(`note: country-limited license ${lim}: log it in STATUS.log.md`);
   if (/trademark|personality|insignia/i.test(t.restrictions)) console.error(`note: restrictions on this file: ${t.restrictions}`);
   const dir = join(root, 'courses', course, 'img');
   mkdirSync(dir, { recursive: true });
