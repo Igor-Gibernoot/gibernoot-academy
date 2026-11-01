@@ -1,5 +1,9 @@
 # Status log
 
+## Images, audit
+Ledger and lesson images match 1:1 (19 files, no orphans); validate clean (0 errors, 0 warnings). Life dates and works in captions (Lagrange 1736-1813 and 1788 treatise, Hamilton 1805-1865 and 1834-35, Kalman 1930-2016 and 1960/61, Cajal 1852-1934, Dennett 1942-2024, Helmholtz 1821-1894, James 1842-1910 and 1890, Simon 1916-2001 and Nobel 1978) are standard facts, confirmed from knowledge, not by web search. Fixed: thalamus caption (dropped the doubtful "PUL part of LNG"); T-maze captions in ch07/ch09 now say the picture shows a mouse, rats are used too. Kept: Simon photo (ledger: public domain, no personality-rights note recorded), frog photo (card text already states the idea, the caption adds none), lynx/hare. Viewed phone shots of ch08 lv-story and ch05 primer: layout fine. Not viewed: ch09, ch10 image cards, other ch05 images. Dennett portrait identity rests on the Commons file title "Dan Dennett at TED".
+Conventions fixed here: none.
+
 ## Images, chapter 10
 4 images: predictive-processing/hook (dennett.webp, Erik Charlton, CC BY 2.0), predictive-processing/bayesian-brain (helmholtz.webp, 1884 photo, PD), action-theories/ideomotor (james-principles.webp, 1890 title page, PD), rationality-emotion/bounded (simon.webp, RIT 1981, PD; Commons notes personality-rights restriction only). web: Wikipedia/Nobel summary for Simon (1916-2001, 1978 Nobel Economics); dates of Dennett, Helmholtz, James from Commons/common knowledge, UNVERIFIED beyond that. Skipped: James portrait (only a disputed "self-portrait" file), Bellman (no free portrait), Powers, TOTE authors, decision-theories and attention-learning (no person or object worth a picture). Shots run, no problems; image card not viewed.
 
