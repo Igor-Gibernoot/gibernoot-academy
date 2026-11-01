@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-31 Images, chapter 4 (0 images)
+Nothing to retrofit: no chapter 4 lesson file exists yet (course.yaml lists ch04 nodes shower, insulation, fridge, aircon, engine, cooker, guided, traps, intuition as planned, none with `file:`; no ch04/ folder). No images fetched. Candidates to consider when the lessons are built: engine (cutaway of a four-stroke engine, Carnot or Otto portraits only if documented), fridge (back coils), pressure cooker (valve), thermos (vacuum flask). web: none needed.
+
 ## 2026-10-31 Images, chapter 3 (3 images)
 skyscraper/hook: taipei-damper (CC BY 3.0, Armand du Plessis); flutter/hook: tacoma-twist (frame from the 1940 collapse film, public domain); truss/warren-widget: warren-truss (CC0, Warren pony truss, National Road Museum Ohio). Skipped: lead rubber bearing test (fetched, 561 px video frame unreadable, deleted with ledger entry), rebar cage (fetched, highway photo with no readable rebar, deleted), arch hook (any arch picture answers the question), Pantheon, Mexico City, materials, quake, intuition, traps (nothing earns a picture). No people introduced needing a portrait (Warren, Farquharson not pictured). web: Commons file pages (Taipei damper dated 2 June 2010, caption states only what is visible; Warren sign text: built 1909 by Mount Vernon Bridge Company, moved to museum); WebSearch Wikipedia/Seattle Times obituary/UW film archive confirm Barney Elliott and Harbine Monroe, Tacoma camera shop owners, filmed the collapse on 16 mm Kodachrome on 7 Nov 1940 (this still credited to Elliott on Commons). No UNVERIFIED claims.
 
