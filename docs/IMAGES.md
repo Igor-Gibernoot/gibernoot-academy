@@ -23,6 +23,12 @@ books or papers, anything from `sources/`.
   to 8). Concept lessons and guided problems usually need 0 to 2. Traps,
   intuition, maps and exams rarely any (an exam figure only if the original has one).
 - `validate` warns above the limit. When in doubt, leave it out.
+- **Place each image next to the paragraph that names its subject.** A card
+  has `top` (before the body) and `bottom` (after it): put a portrait at `top`
+  if the person is named in the first paragraph, at `bottom` if in the last.
+  Never stack two images on one card: if two people or objects are named in
+  different paragraphs, give each its own card, or one at `top` and one at
+  `bottom`. If neither slot sits near the mention, put the image on a nearer card.
 - A person gets one portrait in the course; later mentions do not repeat it.
 - Prefer a portrait that is actually documented as the person. If the only
   portrait is disputed or a later idealisation (e.g. Bayes), skip it or say so in the caption.
@@ -53,6 +59,12 @@ books or papers, anything from `sources/`.
 - **Credit**: `<author>, <license>, via Wikimedia Commons` (the fetch tool writes
   it; shorten very long author strings). Own drawings: `Gibernoot Academy`
   (no `link`). A tap on the picture enlarges it.
+- **Unknown author** (old portraits, public domain by age): keep "Unknown
+  author, Public domain, via Wikimedia Commons" in `credit` (the fetch tool
+  writes it; remove any duplicated "Unknown author Unknown author"). The
+  credit line is shown under the caption, so no extra caption wording is needed.
+- **Dates in captions** are web-checked: name the event precisely ("published
+  in 1865"), not a loose decade; for a result with earlier versions, say so.
 - **Alt**: 8 or more characters; describe the picture, not the lesson.
 - Self-contained rules as for any card: no "the book", no "previous card".
 - Where a question card carries an image, the prompt must still make sense in
@@ -75,7 +87,7 @@ node tools/fetch-image.mjs get <course> "File:Kurt gödel.jpg" godel [--width 90
 date to `courses/<course>/img/credits.yaml` (the audit ledger; never edit by
 hand except to add own drawings), and prints the `image:` block to paste. Edit
 alt and caption (they start as TODO; validate does not catch "TODO" in the
-text, so check). Pick wide pictures (landscape or square) for phones; check the
+text, so check). Pick wide pictures (landscape or square) for phones (the card wraps tightly around the picture, so portraits leave no empty side bars); check the
 license text: CC BY and CC BY-SA need exactly the author and license in the credit.
 
 Search several queries (names in the original language help, "portrait", "photograph", "1887"). Open
