@@ -1,5 +1,11 @@
 # Status log
 
+## Images pass 2, chapter 2
+Licence fixes: kuhn.webp (1977 photo, PD-US only) replaced by kuhn2.webp (illustrated portrait by Davi.trip, CC BY-SA 4.0, own work); old file and ledger entry removed. Other ch02 images inspected on Commons: eclipse1919 (PD-19/PD-US tag, but authors Dyson/Eddington/Davidson died 1939-1944, so free everywhere), duhem (PD-old-assumed), duckrabbit (PD-anon-70), quine (CC0), blackswan (CC BY-SA): all kept. bohr, schrodinger, wigner, dirac are not used in ch02 (ch03/ch04): left for those passes.
+New: induction Hume (hume), Russell (chicken), Popper (popper), Laplace (laplace, new); falsification Popper (popper card, bottom, beside the swan); paradigms Le Verrier (anomaly, new leverrier), Popper (popper-vs-kuhn); underdetermination Duhem (duhem, reused); realism Putnam (nma, new, CC BY-SA 2.5 released by Putnam), Hacking (observable, new, CC BY-SA 3.0); limits Hume (hume, reused). web: Commons file pages (licence, subject); dates from the lessons' own web-checked text and the Commons descriptions.
+Skipped: Wegener (PD-EU-no author disclosure only), Gould (PD-US dust jacket), Reichenbach (PD-US), Lakatos (Flickr "no restrictions"), Michelson-Morley photo (PD-US), Goodman, Laudan, van Fraassen, Bayes (disputed portrait), Eddington/Marx/Freud/Copernicus/Newton/Einstein (passing mentions or only in explanations; falsification and paradigms near the limit). Traps, intuition, bayes, bayes-proof, pseudo: no new pictures.
+Conventions fixed here: none.
+
 ## Images pass 2, chapter 1
 Licence fixes: hilbert.webp (1907 photo, PD-US only) replaced by David Hilbert c. 1900 (PD-old); popper.webp (Flickr Commons "no known restrictions") replaced by DorianKBandy photo, CC BY-SA 4.0. Other ch1 images already free everywhere (Hume, Reid, Kardec PD-old-100, Epicurus, Topkapi). Not touched (other chapters): kuhn, bohr, schrodinger, wigner, dirac (country-limited, kept for their agents).
 New (5): tour/p-aliens Fermi (US DOE, PD), tour/p-language Aquinas (Crivelli 1476, PD-old), lenses/philosophy Russell (LA Times 1929, CC BY 4.0), lenses/lived Wittgenstein (Nähr 1930, PD-old). Tour now 7 images, lenses 2.
