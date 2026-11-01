@@ -1,5 +1,12 @@
 # Status log
 
+## Images pass 2, chapter 5 (2026-11-01)
+- Licence check: all 5 existing ch05 images (Weinberg CC BY 4.0, Lemaitre CC BY-SA 4.0, Holmdel horn CC BY-SA 3.0, Penrose CC BY-SA 4.0, Boltzmann/Leibniz PD-old) are free everywhere; none replaced. Hubble studio portrait refused (PD-US-no notice), Hartle refused (PD-user-en): used Hubble at the 100-inch (NOIRLab CC BY 4.0); Hartle has no portrait.
+- Penrose: kept in ch05/beginning (singularity theorem, Nobel); removed from ch04/godel (Lucas-Penrose side mention).
+- Added 21 (all free, no --allow-limited): bigbang Hubble, Planck CMB map, Penzias, Wilson; beginning Hawking, Guth, Vilenkin, Steinhardt, Turok; something Krauss, Rowe; entropy Loschmidt, S. Carroll; constants Hoyle, Rees; anthropic Carter, Riess, Schmidt; multiverse Linde, Susskind, Ellis, Smolin.
+- Skipped: Friedmann/Gamow/Alpher (limit 6 in bigbang, or only PD-limited/Attribution), Fowler, Perlmutter, D. Albert, Collins, Barrow (no free portrait found), Bayes (disputed), Wheeler/Dyson/Tegmark (passing or already in ch04). Leibniz portrait also in ch03/dualism (duplicate left for ch03 owner).
+- web: Wikipedia/Nobel/Britannica for Rowe 1931-2015, Penzias 1933-2024 (died 22 Jan 2024), Carter b.1942 and 1973 Cracow talk; other dates standard.
+
 ## Images pass 2, chapter 4
 Licence fixes: wigner.webp and dirac.webp (Nobel Foundation, Swedish-law PD) replaced by wigner2.webp (US DOE, federal work) and dirac2.webp (Emilio Segrè / AIP, CC BY 4.0); old files and ledger entries removed. Hardy dropped (only PD-EU-no-author-disclosure portrait). Mill: John Watkins photo and a PD-US-expired file refused or small, Watts painting used. Added: newton, riemann, einstein (reused), wigner lesson; hilbert (reused), frege, platonism; quine (reused), kepler, mill, explaining; penrose (reused), godel; pythagoras, universe. No free image found for Hamming, Lucas, Benacerraf (skipped). Gödel in ch04 and Penrose also appear in ch05 beginning (later repeat, not touched). web: atomicarchive/Wikipedia (Wigner at Oak Ridge 1946-47, Nobel 1963), Riemann lecture 10 June 1854 printed 1868 (MacTutor-derived pages); other dates are those already in the lessons. Conventions fixed here: none.
 
