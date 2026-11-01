@@ -1,5 +1,8 @@
 # Status log
 
+### 2026-10-31 — Images, chapter 4
+3 images: laplace (laplace.webp on card intro; Heinsius 1775 portrait, public domain), predictive-coding (kalman.webp on card smooth; ETH photo 2008, CC BY-SA 4.0), motor-reflexes (reflexarc.webp on card reflex-arc; CC BY-SA 4.0 diagram, mat). web: Kalman filter 1960 paper and 1961 Kalman-Bucy form (search results, Wikipedia); Laplace dates standard, portrait identity from the Commons description ("presumably" commissioned portrait, sitter named Laplace). Skipped: Bayes (disputed portrait), Jaynes/Friston (no free images), maze (no distinct source), other lessons (no person/object). UNVERIFIED: Kalman 1930-2016 dates not re-fetched beyond the Commons title.
+
 ### 2026-10-31 — Images, chapter 3
 3 images: models-policies (lagrange.webp, hamilton.webp on card analogy; LoC portraits, public domain), reconciliation (ashby.webp on card prospective; 1948 photo, public domain). web: https://www.maths.tcd.ie/pub/HistMath/People/Hamilton/Dynamics/ (Hamilton 1834-35 papers); https://pespmc1.vub.ac.be/books/Conant_Ashby.pdf (Conant-Ashby 1970); Lagrange 1788 treatise and life dates from Commons description/general knowledge, UNVERIFIED by search; Ashby life dates left out of caption (unconfirmed). Skipped: thermostat (already used in ch01), Maturana/Varela, Conant, markov-blankets/self-evidencing/other lessons (fish, cell: abstract scenarios), traps: none. Viewed analogy card on phone: tall (two portraits) but fine.
 
