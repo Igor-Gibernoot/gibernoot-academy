@@ -1,5 +1,8 @@
 # Status log
 
+### 2026-10-31 — Images, chapter 3
+3 images: models-policies (lagrange.webp, hamilton.webp on card analogy; LoC portraits, public domain), reconciliation (ashby.webp on card prospective; 1948 photo, public domain). web: https://www.maths.tcd.ie/pub/HistMath/People/Hamilton/Dynamics/ (Hamilton 1834-35 papers); https://pespmc1.vub.ac.be/books/Conant_Ashby.pdf (Conant-Ashby 1970); Lagrange 1788 treatise and life dates from Commons description/general knowledge, UNVERIFIED by search; Ashby life dates left out of caption (unconfirmed). Skipped: thermostat (already used in ch01), Maturana/Varela, Conant, markov-blankets/self-evidencing/other lessons (fish, cell: abstract scenarios), traps: none. Viewed analogy card on phone: tall (two portraits) but fine.
+
 ### 2026-10-31 — Images, chapter 2
 1 image: free-energy (leibler.webp on card kl; NSA photo, public domain). web: https://en.wikipedia.org/wiki/Richard_Leibler (dates 1914-2003; 1951 Kullback-Leibler paper). Skipped: Kullback portrait (2 KB, no description or author), Bayes (disputed portrait), Helmholtz (not named in ch02), Jensen/Shannon (passing mentions), garden/pond/frog scenarios (abstract, would hint at answers), other ch02 lessons: none. Viewed the kl card on phone: fine.
 
