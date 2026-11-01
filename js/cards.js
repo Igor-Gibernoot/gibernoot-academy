@@ -35,8 +35,10 @@ function header(card, el) {
 // `image:` (one object or a list) on any card: a captioned, credited picture from courses/<id>/img/.
 // Shown under the title, above the body/prompt; `place: bottom` puts it after the body (text cards).
 // `mat: true` gives transparent diagrams a light backing (dark theme). Tap to enlarge.
+// `beside: true` puts an image in a row with the previous one (wraps to a column on narrow screens).
 function images(card, el, place) {
   const list = [card.image].flat().filter(Boolean).filter(im => (im.place ?? 'top') === place);
+  let row = null;
   for (const im of list) {
     const src = /^(https?:|\/)/.test(im.src) ? im.src : `courses/${courseId()}/${im.src}`;
     const img = h('img', { src, alt: im.alt ?? '', loading: 'lazy', decoding: 'async', class: im.mat ? 'mat' : null });
@@ -51,7 +53,10 @@ function images(card, el, place) {
         h('img', { src, alt: im.alt ?? '', class: im.mat ? 'mat' : null }));
       document.body.append(big);
     });
-    el.append(h('figure', { class: 'card-image' }, img, cap));
+    const fig = h('figure', { class: 'card-image' }, img, cap);
+    if (im.beside && row) { row.append(fig); continue; }
+    row = h('div', { class: 'card-images' }, fig);
+    el.append(row);
   }
 }
 
