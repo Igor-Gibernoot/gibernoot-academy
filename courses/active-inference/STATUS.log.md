@@ -1,5 +1,8 @@
 # Status log
 
+## Images, chapter 5
+3 images: microcircuits (primer: cajal-cortex.webp), motor-subcortical (striatum: basal-ganglia.webp; thalamus: thalamic-nuclei.webp). web: Commons file descriptions (Cajal drawings: Nissl visual/motor adult, Golgi infant; thalamic nuclei key); Cajal dates common knowledge. Skipped: neuromodulation (dopamine/Schultz, Lewy, pupil: no suitable free image or would give away answers), hierarchies (none), neuro-traps (none), basal ganglia circuits SVG (shows pathways the questions ask about). No screenshot viewed.
+
 ### 2026-10-31 — Images, chapter 4
 3 images: laplace (laplace.webp on card intro; Heinsius 1775 portrait, public domain), predictive-coding (kalman.webp on card smooth; ETH photo 2008, CC BY-SA 4.0), motor-reflexes (reflexarc.webp on card reflex-arc; CC BY-SA 4.0 diagram, mat). web: Kalman filter 1960 paper and 1961 Kalman-Bucy form (search results, Wikipedia); Laplace dates standard, portrait identity from the Commons description ("presumably" commissioned portrait, sitter named Laplace). Skipped: Bayes (disputed portrait), Jaynes/Friston (no free images), maze (no distinct source), other lessons (no person/object). UNVERIFIED: Kalman 1930-2016 dates not re-fetched beyond the Commons title.
 
