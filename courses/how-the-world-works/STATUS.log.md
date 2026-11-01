@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-10-31 Images audit (chapters 1 to 3)
+10 image blocks, 10 files, 10 ledger entries, no orphans. Web-checked Commons pages and search: Tacoma film credited to Barney Elliott only on Commons (Monroe not confirmed there), so caption now names Elliott alone; wire rope is "formerly onboard" a tugboat, caption reworded; warren-truss 1909 confirmed by the sign; crash-test (Fiat 500, Turin museum, 5 stars), lightning (Schaffhausen, 2 s, 14 Jul 2009), ISS (Discovery, 6 Aug 2005) confirmed. Validate clean.
+
 ## 2026-10-31 Images, chapter 4 (0 images)
 Nothing to retrofit: no chapter 4 lesson file exists yet (course.yaml lists ch04 nodes shower, insulation, fridge, aircon, engine, cooker, guided, traps, intuition as planned, none with `file:`; no ch04/ folder). No images fetched. Candidates to consider when the lessons are built: engine (cutaway of a four-stroke engine, Carnot or Otto portraits only if documented), fridge (back coils), pressure cooker (valve), thermos (vacuum flask). web: none needed.
 
