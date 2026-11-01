@@ -28,9 +28,11 @@ books or papers, anything from `sources/`.
   if the person is named in the first paragraph, at `bottom` if in the last.
   Never stack two images on one card: if two people or objects are named in
   different paragraphs, give each its own card, or one at `top` and one at
-  `bottom`. If two subjects are named in the same paragraph (a comparison, a
-  pair of rival views), put both in the same slot and give the second
-  `beside: true`: they sit side by side on wide screens and stack on phones.
+  `bottom`. If two subjects are named in the same paragraph, or in
+  neighbouring paragraphs, and both pictures are portrait-shaped (taller than
+  wide), put both in the same slot and give the second `beside: true`: they sit
+  side by side on wide screens and stack on phones. Landscape pictures, or
+  subjects named far apart, keep separate slots (top and bottom) or separate cards.
   If neither slot sits near the mention, put the image on a nearer card.
 - A person gets one portrait in the course; later mentions do not repeat it.
 - Prefer a portrait that is actually documented as the person. If the only

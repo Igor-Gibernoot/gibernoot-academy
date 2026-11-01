@@ -142,7 +142,7 @@ above"). Never name a theme-dependent colour; use labels or the fixed hues
 ## Images (full rules: `docs/IMAGES.md`)
 
 Any card takes `image:` (one object or a list): `src` (in `courses/<id>/img/`), `alt`, one-sentence `caption` that teaches
-something, `credit`, `link` (source page), optional `place: bottom`, `beside: true` (shown in a row with the previous image; use when two subjects are named in the same paragraph), `mat: true`. Max 4 per lesson (8 in the intro level),
+something, `credit`, `link` (source page), optional `place: bottom`, `beside: true` (shown in a row with the previous image; use for two portrait-shaped images whose subjects are named in the same or neighbouring paragraphs), `mat: true`. Max 4 per lesson (8 in the intro level),
 free licenses only, fetched with `node tools/fetch-image.mjs search|get` (it resizes and writes `img/credits.yaml`).
 Use for people introduced, described experiments and scenarios, real objects; never a decoration, never the answer.
 
