@@ -1,0 +1,418 @@
+id: ch05-intuition
+title: Quick Recall
+kind: intuition
+
+cards:
+  - type: text
+    id: welcome
+    title: "Quick recall: beginnings, nothing and fine-tuning"
+    body: |
+      This round **derives nothing**. It is for fast recall of the main ideas of the level: the expanding universe and its hot past, whether time began, why there is something rather than nothing, the low entropy of the early universe, fine-tuning, the anthropic principle, the multiverse and its measure problem, and the Bayesian argument.
+
+      Four kinds of card: **mnemonics** (the shape of an idea), **build cards** (assemble a formula), **checks** (does it behave sensibly?) and **distinctions** (who says what). Small applied cases give you data only: choose the right tool yourself.
+
+      As always, answers are given *according to* a thinker or a view. Nothing here asks you to decide whether the universe was designed, is one of many, or simply is.
+
+  - type: mcq
+    id: bang-centre
+    title: "The Big Bang in one line"
+    prompt: |
+      Which sentence states the Big Bang model correctly?
+    options:
+      - text: Typical distances between far-apart galaxies have been growing from a hot, dense state; the pattern looks the same from every galaxy, so there is no centre and no outside.
+        correct: true
+      - text: A lump of matter sat in empty space and exploded; we sit near the edge of the debris.
+        feedback: |
+          A bomb goes off at a place inside space. The model is about how the distances between places change, and every galaxy sees the same recession pattern, so none is a centre.
+      - text: The model proves the universe was created at a first moment.
+        feedback: |
+          The well-tested part reaches back to the first minutes. What happened at the very start, and whether that deserves the word "creation", is a live debate and a metaphysical question.
+      - text: The model says the whole universe began as a point the size of a grapefruit.
+        feedback: |
+          Typical distances were smaller and the density higher. No size for the whole universe follows; it may be unbounded at all times.
+    explanation: |
+      Mnemonic: **space stretches, no centre, hot past**. Three tests: the expansion law, the cosmic microwave background (CMB, the leftover light), and the light elements.
+
+  - type: build
+    id: hubble-build
+    title: "The Hubble-Lemaitre law"
+    prompt: |
+      For nearby galaxies, $v$ is the recession speed, $d$ the distance and $H_0$ the present expansion rate. Assemble the law: the speed grows in proportion to the distance.
+    prefix: 'v ='
+    tiles: ['H_0', 'd', 'd^2', '\frac{H_0}{d}']
+    answers:
+      - ['H_0', 'd']
+      - ['d', 'H_0']
+    wrong:
+      - answer: ['\frac{H_0}{d}']
+        feedback: |
+          That would make far galaxies slower. Observations show the opposite: the farther, the faster.
+    hint: Doubling the distance should double the speed.
+    explanation: |
+      $v = H_0\,d$. Because the speed is proportional to the distance, every observer sees the same pattern, which is why there is no centre.
+
+  - type: numeric
+    id: hubble-time
+    title: "How long ago, at a steady rate?"
+    prompt: |
+      Galaxies recede at $70$ km/s for every megaparsec (Mpc) of distance, and $1\ \text{Mpc} \approx 3.09\times10^{19}$ km. Suppose that rate had never changed. How many billion years ago were all distances zero? (One year is $3.156\times10^{7}$ s.)
+    answer: 13.99
+    tolerance: 0.15
+    answerText: '14.0'
+    hint: A galaxy at distance $d$ moves at a speed proportional to $d$; the time to cover $d$ is the same for every galaxy. Convert Mpc to km first.
+    explanation: |
+      The time is $d/v = 1/H_0$, the same for every galaxy: $3.09\times10^{19}\ \text{km}/(70\ \text{km/s}) \approx 4.4\times10^{17}$ s $\approx 14$ billion years. The measured age, $13.8$ billion years, is close because the real expansion rate has changed only moderately.
+
+  - type: build
+    id: cmb-build
+    title: "The hot past"
+    prompt: |
+      Light from the epoch with redshift $z$ has been stretched by the factor $1+z$, and its thermal spectrum keeps its shape with the temperature lowered by the same factor. With $T_0$ the temperature today, assemble the temperature $T$ at that epoch.
+    prefix: 'T ='
+    tiles: ['T_0', '(1+z)', '\frac{1}{1+z}', 'z']
+    answers:
+      - ['T_0', '(1+z)']
+      - ['(1+z)', 'T_0']
+    wrong:
+      - answer: ['T_0', '\frac{1}{1+z}']
+        feedback: |
+          That would make the past colder. Stretching lowers the temperature *going forward*, so going back the radiation was hotter by the factor $1+z$.
+    hint: The past was hotter than today.
+    explanation: |
+      $T = T_0(1+z)$. A prediction of the hot early universe, confirmed when the CMB was found (Penzias and Wilson, 1964-65).
+
+  - type: numeric
+    id: cmb-numeric
+    title: "When the universe became transparent"
+    prompt: |
+      Today the CMB has temperature $2.725$ K. When atoms formed and the universe became transparent, light was stretched by a factor $1101$ on its way to us (redshift $1100$). What was the temperature then, in kelvin? Round to the nearest $10$ K.
+    answer: 3000
+    tolerance: 10
+    answerText: '3000'
+    wrong:
+      - { value: 0.0025, feedback: "That divides by the stretch factor, which cools the radiation. Going back in time the radiation was hotter." }
+    hint: Radiation stretched by a factor was hotter by that same factor before the stretching.
+    explanation: |
+      $2.725 \times 1101 \approx 3000$ K, about the temperature at which atoms form and light can travel freely, roughly $380{,}000$ years after the start.
+
+  - type: numeric
+    id: helium-numeric
+    title: "Where the helium comes from"
+    prompt: |
+      In the first minutes, suppose a region holds $14$ protons and $2$ neutrons. All the neutrons end up in helium-4 (a nucleus of 2 protons and 2 neutrons); the leftover protons stay as hydrogen. What fraction of the mass is helium? Treat a proton and a neutron as equal in mass.
+    answer: 0.25
+    tolerance: 0.005
+    answerText: '0.25'
+    wrong:
+      - { value: 0.125, feedback: "That counts only the neutrons ($2$ of $16$). The helium nucleus also carries $2$ protons, so $4$ nucleons in all." }
+    hint: Count the nucleons in the helium nucleus, and divide by all the nucleons.
+    explanation: |
+      One helium-4 nucleus has $4$ nucleons, out of $16$ in total: $4/16 = 0.25$. With the neutron-to-proton ratio $\approx 1/7$ at that time, this is the helium fraction seen in the oldest gas, a result the model gets right.
+
+  - type: mcq
+    id: theorems
+    title: "What the singularity results say"
+    prompt: |
+      Select **all** the statements that the singularity theorems (Penrose 1965; Hawking and Penrose 1970) and the Borde-Guth-Vilenkin theorem (2003) support.
+    multiple: true
+    options:
+      - text: "If Einstein's equations hold, matter obeys an energy condition and the geometry is generic, then some freely falling paths cannot be extended past a finite length."
+        correct: true
+      - text: "If the average expansion rate along a past-directed path is positive, the path has finite length into the past: an expanding region has a past boundary."
+        correct: true
+      - text: "They are classical results: they show where the theory runs out, not what quantum gravity does there."
+        correct: true
+      - text: "They prove that time had a first moment and so a cause."
+        feedback: |
+          They show incompleteness *inside* the classical theory. Whether that edge is the edge of time or only the edge of our theory is exactly what is open (bounces, no-boundary proposals and cyclic models read it differently).
+    explanation: |
+      Mnemonic: **if-then, classical, an edge of the theory**. People part ways on whether the equations' edge is the edge of time.
+
+  - type: build
+    id: entropy-build
+    title: "Boltzmann entropy"
+    prompt: |
+      A macrostate can be realised by $W$ microstates. Assemble its entropy ($k_B$ is Boltzmann's constant, $\ln$ the natural logarithm).
+    prefix: 'S ='
+    tiles: ['k_B', '\ln', 'W', 'e^{W}']
+    answers:
+      - ['k_B', '\ln', 'W']
+    wrong:
+      - answer: ['k_B', 'W']
+        feedback: |
+          Entropy would then add up wrongly: for two independent systems the microstate counts multiply, but entropies should add. A logarithm turns the product into a sum.
+    hint: Counts of independent systems multiply; entropies add.
+    explanation: |
+      $S = k_B \ln W$. It is zero when $W = 1$ (one way only) and grows with the number of ways.
+
+  - type: numeric
+    id: microstates
+    title: "Counting the ways"
+    prompt: |
+      Ten distinguishable particles sit in a box with a left half and a right half. In how many different ways can exactly $5$ of them be in the left half?
+    answer: 252
+    tolerance: 0.001
+    answerText: '252'
+    wrong:
+      - { value: 1, feedback: "That is the count for all ten on one side. A split has many ways, since any $5$ of the particles may be the ones on the left." }
+      - { value: 1024, feedback: "That is $2^{10}$, every arrangement over all splits. We want only those with exactly $5$ on the left." }
+    hint: Choose which $5$ of the $10$ particles are on the left; the order of choosing does not matter.
+    explanation: |
+      $\binom{10}{5} = 10!/(5!\,5!) = 252$, against $1$ way for all on one side. For $N = 100$ the even split already has $\approx 10^{29}$ ways: the second law is statistics.
+
+  - type: mcq
+    id: arrow
+    title: "Why the arrow needs the Past Hypothesis"
+    prompt: |
+      The fundamental laws (apart from a tiny weak-force effect that does not explain it) look the same run forwards and backwards. Given only those laws and a medium-entropy state today, what do the statistics say about the past, and what is added to fix it?
+    options:
+      - text: The past was most likely *higher* in entropy too; the Past Hypothesis (Albert, 2000) adds that the universe began in a state of very low entropy.
+        correct: true
+      - text: The past was lower in entropy, because the second law pushes entropy up.
+        feedback: |
+          The second law is statistical, and statistics are symmetric in time: without an extra assumption, a medium state today most likely came from a higher-entropy past, as a fluctuation.
+      - text: Time reversal symmetry is broken by the weak force, which explains the arrow.
+        feedback: |
+          The weak-force effect is tiny and unrelated to entropy growth, so it does not explain the arrow.
+      - text: Gravity makes a smooth early universe a high-entropy state, so nothing needs explaining.
+        feedback: |
+          For gravity the roles flip: clumping raises entropy, so a smooth, hot early universe was *low* in entropy. That is the puzzle.
+    explanation: |
+      Mnemonic: **laws symmetric, statistics symmetric, so assume a low start**. Replies: the measure may not give real probabilities, a multiverse and anthropic selection, new laws or a bounce, or a brute fact. Whether the starting condition needs explaining at all is where people part ways.
+
+  - type: mcq
+    id: nothing
+    title: "Two meanings of 'nothing'"
+    prompt: |
+      A physicist says a universe can come "from nothing" (a quantum vacuum, or a tunnelling from no space). A philosopher replies that this is not nothing. What is the distinction?
+    options:
+      - text: Physics' "nothing" usually means no particles, or even no space, but still fields and laws; the philosophers' means no things, no fields and no laws, so "where do the laws come from?" stays open.
+        correct: true
+      - text: Physics' "nothing" is stronger than the philosophers'.
+        feedback: |
+          Reversed. The philosophers' sense removes everything, including the laws; the physicist's vacuum is a particular arrangement of physical stuff that obeys them.
+      - text: The quantum vacuum has no effects, so it really is nothing.
+        feedback: |
+          The vacuum is measurable: it pushes two close parallel plates together (the Casimir effect). That is one reason it counts as *something* to the critics.
+      - text: Both sides mean the same thing and only disagree about words.
+        feedback: |
+          The disagreement is partly about words, but the words track a real question: whether laws and fields themselves need a reason.
+    explanation: |
+      Mnemonic: **no particles versus no laws**. Leibniz's question (1714) asks for a reason for the whole, laws included, which a cause inside the world cannot supply.
+
+  - type: numeric
+    id: casimir
+    title: "Squeezing the vacuum"
+    prompt: |
+      Two ideal neutral metal plates feel a push toward each other from the vacuum, per unit area, of about $1.3$ mPa at a separation of $1\ \mu\text{m}$. The only constants involved are $\hbar$ (energy times time) and the speed of light $c$. By what factor does the push per unit area grow when the separation is cut to $0.5\ \mu\text{m}$?
+    answer: 16
+    tolerance: 0.1
+    answerText: '16'
+    wrong:
+      - { value: 4, feedback: "That is the factor for a power $d^{-2}$. Check the units: $\\hbar c$ is energy times length, and pressure is energy per length cubed." }
+      - { value: 2, feedback: "That would be a push inversely proportional to $d$. Match the dimensions of a pressure." }
+    hint: Pressure is energy per volume, and $\hbar c$ has units of energy times length. What power of $d$ completes the units?
+    explanation: |
+      Dimensions force $F/A \propto \hbar c/d^4$ (energy per length cubed), so halving $d$ multiplies by $2^4 = 16$. This is the measured Casimir law with coefficient $\pi^2/240$; the force was measured by Lamoreaux in 1997 (sphere and plate, converted with the plate formula) to about 5%.
+
+  - type: mcq
+    id: contingency
+    title: "Valid is not sound"
+    prompt: |
+      The argument from contingency: P1, every contingent thing has an explanation; P2, the totality of contingent things is itself contingent and its explanation cannot be one of its own members. C, the totality has an explanation in something outside it that is not itself contingent. Which verdict is fair?
+    options:
+      - text: The step from the premises to C is valid; the dispute is whether the premises are true (Hume's Cleanthes and Russell deny that the whole needs more than its parts; Rowe replies that explaining each member does not explain why there are any).
+        correct: true
+      - text: The argument is invalid, because a conclusion about the whole cannot follow from claims about its parts.
+        feedback: |
+          Validity is about form. If P1 and P2 are granted, C follows. The worry about the whole and its parts is an objection to the premises, not to the step.
+      - text: The argument proves God exists.
+        feedback: |
+          Even granting it, C only says something outside the totality that is not contingent. Whether that is God, a necessary law or an unknown is another step.
+      - text: Rejecting P2 forces one to accept an infinite regress.
+        feedback: |
+          Three exits are open: a brute fact (the totality just is), a necessary being, or an endless series of explanations. A brute fact needs no regress.
+    explanation: |
+      Mnemonic: **valid, premises disputed; three exits: brute, necessary, regress**. A thing is *contingent* if it could have failed to exist, *necessary* if it could not.
+
+  - type: mcq
+    id: constants-disputes
+    title: "Why the tuning claims are disputed"
+    prompt: |
+      Barnes and Rees say some physical constants would have to be close to their values for atoms, stars and chemistry. Why is the *size* of the life-permitting region contested? Select **all** that apply.
+    multiple: true
+    options:
+      - text: Changing one constant at a time can give a different region from changing several together.
+        correct: true
+      - text: The fraction of "possible values" that works depends on the measure (an even weighting in the number, or in its power of ten).
+        correct: true
+      - text: The range of possible values is itself not fixed by current theory.
+        correct: true
+      - text: Nobody has checked that stars and atoms need any particular constants.
+        feedback: |
+          Some sensitivities are well studied, such as the carbon-producing nuclear level predicted by Hoyle. What is contested is how large the region is and what it means.
+    explanation: |
+      Mnemonic: **one at a time, measure, range**. The meaning of the tuning (designer, multiverse, or nothing needing explanation) is a metaphysical commitment, not a result.
+
+  - type: numeric
+    id: measure-numeric
+    title: "Same window, two measures"
+    prompt: |
+      A dial can take any value from $1$ to $10{,}000$. Life is possible only for values from $100$ to $400$. If the dial's value is spread evenly over *powers of ten* (each decade equally likely), what percentage of the range is life-permitting? Give one decimal.
+    answer: 15.05
+    tolerance: 0.1
+    answerText: '15.1'
+    wrong:
+      - { value: 3, feedback: "That spreads the value evenly in the number itself ($300/9999 \\approx 3\\%$). The question asks for each power of ten equally likely." }
+      - { value: 75, feedback: "That is $300/400$. Compare the log-width of the window to the log-width of the whole range." }
+    hint: Measure the window and the whole range in decades (powers of ten) and take the ratio.
+    explanation: |
+      The whole range spans $\log_{10}(10^4) = 4$ decades; the window spans $\log_{10}(400/100) = \log_{10}4 \approx 0.602$ decades. The ratio is $\approx 15.1\%$, against about $3.0\%$ if the value itself is spread evenly. The likelihood depends on the measure.
+
+  - type: mcq
+    id: anthropic
+    title: "Weak and strong"
+    prompt: |
+      Carter (1974) stated two anthropic principles. Which pairing is right?
+    options:
+      - text: The weak principle is a selection effect, a fact of sampling logic (what we observe is restricted to what allows observers); the strong adds a "must" that the universe admit observers, a philosophical commitment that does not follow from the weak.
+        correct: true
+      - text: The weak principle says the universe was designed; the strong that it was not.
+        feedback: |
+          Neither principle mentions a designer. The weak one is about sampling, the strong one about requirement.
+      - text: Both are logical truths, and the strong follows from the weak.
+        feedback: |
+          Only the weak one is a fact of logic. The strong one can be read as a requirement, a purpose or a law, none of which follows.
+      - text: The weak principle explains why the dials have the values they have.
+        feedback: |
+          It explains why we find a life-permitting value *given* that other values occur somewhere. It does not explain why other values exist, or by what mechanism.
+    explanation: |
+      Mnemonic: **weak = sampling, strong = must**. A selection effect can explain what we see, not why other options exist.
+
+  - type: numeric
+    id: weinberg
+    title: "Denser in the past"
+    prompt: |
+      As space expands, matter is diluted: every length grows by the same factor, and the mass stays the same. A galaxy forms at redshift $z = 9$, when lengths were smaller by a factor $1+z = 10$ than today. How many times denser was the matter than it is today?
+    answer: 1000
+    tolerance: 1
+    answerText: '1000'
+    wrong:
+      - { value: 10, feedback: "That is how much the lengths shrank. Density is mass per volume, and volume involves three lengths." }
+      - { value: 100, feedback: "That squares the factor, which is the scaling of an area. Density is mass per volume." }
+    hint: Density is mass divided by volume; how does a volume scale when every length shrinks by a factor of 10?
+    explanation: |
+      The volume was $10^3$ times smaller with the same mass: $\rho_m = (1+z)^3\rho_{m,0} = 1000\,\rho_{m,0}$. Weinberg's (1987) argument is that galaxies form only if the vacuum energy is not much above the matter density at that time, which bounds it within a few powers of ten, not $120$.
+
+  - type: numeric
+    id: multiverse-volume
+    title: "Counting bubbles two ways"
+    prompt: |
+      A multiverse has bubbles of type A and type B, with $3$ type-A bubbles for each type-B bubble. A type-A bubble has volume $1$ and a type-B bubble has volume $5$ (same units). What percentage of the *volume* is type A?
+    answer: 37.5
+    tolerance: 0.1
+    answerText: '37.5'
+    wrong:
+      - { value: 75, feedback: "That is the share of the *bubbles* ($3$ of $4$). The question asks for volume, so each bubble counts in proportion to its size." }
+    hint: Per group of four bubbles, add up the volume of the A's and of the B.
+    explanation: |
+      Per group: A volume $3\times1 = 3$, B volume $5$, total $8$, so $3/8 = 37.5\%$ (against $75\%$ by counting). With infinitely many bubbles, even the order of counting can change the share, so a *measure* (proper time, scale factor, causal patch) must be chosen.
+
+  - type: mcq
+    id: measure-brains
+    title: "Testing a measure"
+    prompt: |
+      In a universe that lasts forever, rare thermal fluctuations can make a lone observer with false memories (a Boltzmann brain). How is this used in the measure problem?
+    options:
+      - text: A measure that says such fluctuation observers outnumber ordinary ones predicts that we are probably a fluctuation; since we reject that, the measure is in trouble. It is a test of measures.
+        correct: true
+      - text: It proves that we are in fact a Boltzmann brain.
+        feedback: |
+          The argument is a conditional on a measure. Most people reject the conclusion and so reject the measure that produces it.
+      - text: It shows the multiverse exists.
+        feedback: |
+          The test applies to any theory with unbounded time or space and says nothing about whether other universes exist, which is a layer 2 hypothesis.
+      - text: It shows entropy can never rise.
+        feedback: |
+          The fluctuations are rare, entropy-lowering events that become likely only over unbounded time. The second law stays statistical.
+    explanation: |
+      Mnemonic: **no measure, no probabilities; brains test the measure**. Critics (Ellis and Silk; Smolin) ask if an untestable ensemble is science; defenders (Carroll) answer it is judged by what it explains and predicts.
+
+  - type: build
+    id: bayes-build
+    title: "Posterior odds"
+    prompt: |
+      Compare hypotheses $H_2$ (design) and $H_1$ (chance) given evidence $E$. Assemble the posterior odds $P(H_2\mid E)/P(H_1\mid E)$ from the likelihood ratio and the prior odds.
+    prefix: 'posterior odds ='
+    tiles: ['\frac{P(E\mid H_2)}{P(E\mid H_1)}', '\frac{P(H_2)}{P(H_1)}', '+', '\frac{P(H_1)}{P(H_2)}']
+    answers:
+      - ['\frac{P(E\mid H_2)}{P(E\mid H_1)}', '\frac{P(H_2)}{P(H_1)}']
+      - ['\frac{P(H_2)}{P(H_1)}', '\frac{P(E\mid H_2)}{P(E\mid H_1)}']
+    wrong:
+      - answer: ['\frac{P(E\mid H_2)}{P(E\mid H_1)}', '+', '\frac{P(H_2)}{P(H_1)}']
+        feedback: |
+          Odds multiply, they do not add: Bayes' rule in odds form is a product of the likelihood ratio and the prior odds.
+    hint: Evidence updates the prior odds by multiplying.
+    explanation: |
+      Posterior odds $=$ likelihood ratio $\times$ prior odds. Design beats chance exactly when the product exceeds $1$.
+
+  - type: numeric
+    id: odds-numeric
+    title: "A tiny chance is not enough"
+    prompt: |
+      Under chance, the probability that a dial lands in the life-permitting window is $0.001$. Under design it is $0.5$. Before the evidence, design is judged $1000$ times *less* likely than chance (prior odds design : chance $= 1:1000$). What are the posterior odds of design to chance?
+    answer: 0.5
+    tolerance: 0.001
+    answerText: '0.5'
+    wrong:
+      - { value: 500, feedback: "That is only the likelihood ratio ($0.5/0.001$). The prior odds of $1:1000$ also count." }
+      - { value: 0.001, feedback: "That is the chance likelihood alone. Compare the two hypotheses with both likelihoods and priors." }
+    hint: Combine the ratio of the two likelihoods with the prior odds.
+    explanation: |
+      $500 \times (1/1000) = 0.5$: still slightly in favour of chance. A small $P(E\mid H_1)$ does not settle the matter; the prior and the measure matter as much. The likelihood itself was a choice ($w/L$ needs a bounded range and a measure).
+
+  - type: mcq
+    id: gambler
+    title: "This universe or some universe?"
+    prompt: |
+      With $N$ universes, each life-permitting with probability $p$, the chance that at least one is life-permitting is $1-(1-p)^N$. Hacking and White say "we see a life-permitting universe, so there are many" is a fallacy. What is their point, and the reply?
+    options:
+      - text: Our universe's own chance of being life-permitting is still $p$ however many others exist; Leslie and others reply that the right evidence is "some life-permitting universe exists", which our existence entails.
+        correct: true
+      - text: The probability $1-(1-p)^N$ is wrong and should be $p^N$.
+        feedback: |
+          $1-(1-p)^N$ is the probability that *at least one* succeeds. $p^N$ would be the chance that all do.
+      - text: Hacking and White say the multiverse is impossible.
+        feedback: |
+          Their charge is about this inference, not about whether a multiverse exists.
+      - text: Leslie replies that the evidence is irrelevant.
+        feedback: |
+          Leslie's reply is about *which* evidence to condition on: "this universe works" or "some universe works".
+    explanation: |
+      Mnemonic: **this versus some**. People part ways on which evidence to condition on, on the measure, and on the prior cost of a designer or a multiverse.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **An expanding, hot past:** distances grow and the pattern has no centre. With $v$ the recession speed, $d$ the distance and $H_0 \approx 70$ km/s/Mpc,
+        $$v = H_0\,d$$
+        so the steady-rate age is $1/H_0 \approx 14$ billion years. Radiation stretched by $1+z$ was hotter by that factor, with $T_0 = 2.725$ K today:
+        $$T = T_0\,(1+z)$$
+        giving $\approx 3000$ K at $z \approx 1100$. Helium fraction $\approx 0.25$ (4 nucleons of 16 when $n/p = 1/7$).
+      - **Does time begin?** Singularity theorems and Borde-Guth-Vilenkin show an edge of classical theory, not what lies at it; bounces, no-boundary and cyclic models read it differently.
+      - **Something rather than nothing:** Leibniz asks a reason for the whole. Physicists' "nothing" keeps laws and fields; the philosophers' does not. The vacuum is measurable: plates a distance $d$ apart feel
+        $$\frac{F}{A} = \frac{\pi^2\hbar c}{240\,d^4}$$
+        (halve $d$, 16 times stronger). The argument from contingency is valid, and the dispute is over its premises; the exits are a brute fact, a necessary being, or an endless regress.
+      - **Entropy:** for $N$ particles with $k$ on the left, $W = \binom{N}{k}$ microstates and Boltzmann's
+        $$S = k_B \ln W$$
+        The laws are time-symmetric, so the arrow needs the Past Hypothesis (very low entropy at the start); Penrose's odds of order $1$ part in $10^{10^{123}}$ come from a debated measure.
+      - **Fine-tuning and selection:** the size of the life-permitting window depends on one-at-a-time versus joint changes and on the measure (the window 100 to 400 in 1 to 10,000 is $3\%$ evenly in the number, $15.1\%$ evenly in powers of ten). The weak anthropic principle is sampling; the strong adds a "must". With observer weight $F(x)$ and prior $P(x)$,
+        $$P_{\text{obs}}(x) \propto P(x)\,F(x)$$
+        and matter density at redshift $z$ is $\rho_m = (1+z)^3\rho_{m,0}$.
+      - **Multiverse and measure:** counting A and B bubbles by number or by volume gives different shares ($75\%$ against $37.5\%$ in the example), so a measure is needed; Boltzmann brains test measures.
+      - **Bayes:** with $H_2$ design, $H_1$ chance and $E$ the window evidence,
+        $$\frac{P(H_2\mid E)}{P(H_1\mid E)} = \frac{P(E\mid H_2)}{P(E\mid H_1)}\cdot\frac{P(H_2)}{P(H_1)}$$
+        A small chance likelihood does not decide it ($500 \times 1/1000 = 0.5$). The inverse gambler's charge is about conditioning on "this universe" versus "some universe".
+
+      **Next:** the content map, where you rebuild this level's concept map box by box.

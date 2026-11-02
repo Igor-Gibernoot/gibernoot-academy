@@ -1,5 +1,9 @@
 # Status log
 
+## ch05-intuition (2026-11-02)
+- Built Quick Recall (24 cards, 11 numeric/build applied, no images, no widget). Registered `file:` in course.yaml. Choices: no new external facts; Casimir/Lamoreaux web-rechecked, card now says sphere-plate geometry. Numbers by script.
+- Conventions fixed here: none new (reuses the Level 5 numbers).
+
 ## Images pass 2, chapter 5 (2026-11-01)
 - Licence check: all 5 existing ch05 images (Weinberg CC BY 4.0, Lemaitre CC BY-SA 4.0, Holmdel horn CC BY-SA 3.0, Penrose CC BY-SA 4.0, Boltzmann/Leibniz PD-old) are free everywhere; none replaced. Hubble studio portrait refused (PD-US-no notice), Hartle refused (PD-user-en): used Hubble at the 100-inch (NOIRLab CC BY 4.0); Hartle has no portrait.
 - Penrose: kept in ch05/beginning (singularity theorem, Nobel); removed from ch04/godel (Lucas-Penrose side mention).
