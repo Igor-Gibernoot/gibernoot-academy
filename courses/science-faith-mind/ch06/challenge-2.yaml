@@ -1,0 +1,312 @@
+id: ch06-challenge-2
+title: "Level Challenge: Weigh the Argument (2)"
+kind: challenge
+
+cards:
+  - type: text
+    id: welcome
+    title: "Challenge, part 2: weakest premise, next move"
+    body: |
+      Two more problems, then a final weighing of all six arguments of the level. Each problem writes an argument as numbered premises and asks the same three things: *which premise is the weakest, what would a defender do next, and what would a critic do next?* Here is the toolkit, restated, so this part stands alone.
+
+      - **Validity and soundness.** An argument is *valid* if the conclusion follows from the premises; it is *sound* if it is valid **and** every premise is true. Check validity first, separately; the fight is almost always over a premise.
+      - **Credence of the conclusion.** For a valid argument with independent premises:
+      $$P(C) \ \ge\ P(\text{P1})\times P(\text{P2})$$
+      - **Odds form of Bayes' rule.** For rival views $A$ and $B$ and evidence $R$:
+      $$\frac{P(A\mid R)}{P(B\mid R)} = \frac{P(R\mid A)}{P(R\mid B)}\times\frac{P(A)}{P(B)}$$
+      With only two rivals, $P(A\mid R) = \text{odds}/(1+\text{odds})$.
+      - **Modal logic.** $\Diamond p$ = "possibly $p$", $\Box p$ = "necessarily $p$". In the system S5, $\Diamond\Box p\Rightarrow\Box p$, and $\Box p$ gives $p$.
+      - **Cause against reason.** A *cause* is what makes a belief occur; a *reason* is what supports the belief as true. Explaining one does not by itself settle the other.
+      - **Reach.** Every argument gets only so far up the ladder: some ground or cause, then a mind, then one God, then a religion. Each rung needs its own premises.
+
+      Credences below are invented to practise the method; they are nobody's actual views.
+
+  # ---------------- Problem 4 ----------------
+  - type: text
+    id: p4-setup
+    title: "Problem 4 · The kalam beside the modal ontological argument"
+    body: |
+      **Problem 4.** Two valid arguments that start from very different places.
+
+      **Kalam** (defended by William Lane Craig). Let $u$ be the universe, $\mathrm{Beg}(x)$ "$x$ begins to exist".
+
+      **P1.** Whatever begins to exist has a cause.
+
+      **P2.** The universe began to exist.
+
+      **C.** The universe has a cause.
+
+      **Modal ontological argument** (Alvin Plantinga, 1974). Let $E$ be "a maximally great being exists", where *maximally great* means having maximal excellence (omniscient, omnipotent, morally perfect) in every possible world.
+
+      **P1.** $\Diamond E$ (it is possible that a maximally great being exists).
+
+      **P2.** $\Box\,(E\Rightarrow\Box E)$ (a maximally great being cannot exist merely contingently).
+
+      **C.** $E$ (in S5).
+
+      One reader gives the kalam credences $P(\text{P1}) = 0.85$ and $P(\text{P2}) = 0.65$, and treats them as independent.
+
+  - type: numeric
+    id: p4-product
+    title: "How credible are both kalam premises together?"
+    prompt: |
+      A valid argument has two independent premises with credences $0.85$ and $0.65$. What is the credence that **both hold**, and so the lower bound on the credence of the conclusion?
+    answer: 0.5525
+    tolerance: 0.002
+    answerText: '$0.85\times0.65 = 0.5525$'
+    wrong:
+      - { value: 0.65, feedback: 'That is the weaker premise alone. Both must hold together, and a product of probabilities is below each factor.' }
+      - { value: 0.75, feedback: 'That is the average of the two credences. The chance that both hold is a product, not an average.' }
+      - { value: 1.5, feedback: 'That is the sum $0.85+0.65$, which cannot be a probability. Independent premises that must hold together are multiplied.' }
+    hint: 'For independent premises, multiply the credences.'
+    explanation: |
+      $$0.85\times0.65 = 0.5525$$
+      So this reader should put the conclusion at **no less than** about $55\%$. The conclusion could still be true if a premise fails, but the argument by itself guarantees only this much.
+
+  - type: mcq
+    id: p4-physics
+    title: "The kalam's weakest premise and the physics"
+    prompt: |
+      For the reader with credences $0.85$ and $0.65$, which kalam premise is weakest, and what does the physics say about it? Recall: let $a(t)$ be the scale factor (the cosmic size at time $t$) and $H=\dot a/a$ the expansion rate. The Borde-Guth-Vilenkin theorem says that if the expansion rate averaged along a past path is positive, $H_{\text{av}}>0$, that path cannot be extended back forever.
+    options:
+      - text: 'P2, that the universe began to exist. The theorem is classical and needs $H_{\text{av}}>0$ along the past path; models with a bounce or an emergent past escape that assumption, and it is disputed whether the theorem shows a first moment or only the edge of our description.'
+        correct: true
+      - text: 'P1. The theorem proves that the universe had a first moment, so P2 is settled and only P1 can be doubted.'
+        feedback: |
+          The theorem does not settle P2. It has a premise ($H_{\text{av}}>0$ along the past path) that some models deny, and it is classical, so it may mark where our description ends rather than a true first moment. P2 is the weaker premise here.
+      - text: 'The step from P1 and P2 to C. Physics shows that valid-looking arguments about the universe are never really valid.'
+        feedback: |
+          Validity is checked separately and it holds: if whatever begins has a cause and the universe began, the universe has a cause. Physics bears on whether P2 is *true*, not on the logic.
+    explanation: |
+      The weak spot is a premise that mixes a philosophical claim (the past cannot be an actual infinite) with a physical one (the expansion history). Defenders cite the theorem; critics point to its hypothesis and to models that avoid it. Both sides agree that the argument is valid.
+
+  - type: build
+    id: p4-modal
+    title: "Build the S5 step"
+    prompt: |
+      In the modal argument, P1 and P2 give $\Diamond\Box E$ ("possibly, $E$ is necessary"). In S5 the axiom is $\Diamond\Box p\Rightarrow\Box p$. Build what follows from $\Diamond\Box E$.
+    prefix: '\Diamond\Box E\ \Rightarrow'
+    tiles: ['\Box', 'E', '\Diamond', '\lnot']
+    answers:
+      - ['\Box', 'E']
+    wrong:
+      - { answer: ['\Diamond', 'E'], feedback: 'That is weaker: it only says $E$ is possible, which was already P1. The S5 axiom turns "possibly necessary" into "necessary".' }
+      - { answer: ['\lnot', 'E'], feedback: 'That is the opposite of the target. Nothing in the axiom produces the negation of $E$.' }
+    hint: 'The axiom removes the outer "possibly" and keeps the "necessarily".'
+    explanation: |
+      From $\Diamond\Box E$ the S5 axiom gives $\Box E$, and what is necessary is actual, so $E$. The logic is valid; S5 itself (which treats what is possibly necessary as necessary) is something critics may question, but the usual fight is over P1.
+
+  - type: mcq
+    id: p4-parity
+    title: "The possibility premise"
+    prompt: |
+      The definition of *maximally great* gives, in the same way as P2, the mirror image: $\Diamond\lnot E\Rightarrow\lnot E$ (if a maximally great being could fail to exist, it does not exist). Using S5, what does this show about P1, $\Diamond E$?
+    options:
+      - text: 'P1 and the conclusion stand or fall together, $\Diamond E\Leftrightarrow E$. Granting "it is merely possible" is as hard as granting that God exists, so P1 is the weakest premise.'
+        correct: true
+      - text: 'P1 is a modest premise that every atheist should grant, since "possible" is far weaker than "actual".'
+        feedback: |
+          In S5, with this definition, "possibly maximally great" collapses into "maximally great": possible existence is already necessary existence. The word "possible" is weak only on a first reading.
+      - text: 'P1 is false, because the mirror argument proves that no maximally great being exists.'
+        feedback: |
+          The mirror argument proves nothing by itself; it uses the premise $\Diamond\lnot E$, which is just as contestable as P1. The point is *parity*, not refutation.
+    explanation: |
+      The parity problem: the same machinery runs with $\Diamond\lnot E$ and gives $\lnot E$. Whether the concept of a maximally great being is coherent is exactly the question. Plantinga himself says such arguments show it is rational to accept the conclusion for someone who finds the premise rational, rather than prove it to everyone.
+
+  - type: mcq
+    id: p4-moves
+    title: "The next move for each side"
+    prompt: |
+      Take the weakest premise of each argument: P2 of the kalam (the universe began to exist) and P1 of the modal argument (possibly a maximally great being exists). Which pair gives a fair next move for a defender of each, and a critic of each?
+    options:
+      - text: 'Kalam. Defender: add the philosophical argument that an actual infinite past cannot exist. Critic: point to models without a first moment, and say actual infinites are legitimate in mathematics. Modal. Defender: argue the concept of maximal greatness is coherent (knowledge, power and goodness have an intrinsic maximum). Critic: run the parity argument, or ask why the concept is coherent.'
+        correct: true
+      - text: 'Kalam. Defender: everything has a cause because we always see causes. Critic: causes are an illusion. Modal. Defender: God exists because God is defined as existing. Critic: definitions are meaningless.'
+        feedback: |
+          Each half caricatures a position. The defenders do not rest on "we always see causes" or on a bare definition, and the critics do not deny all causes or all definitions. The real exchanges are about P2 (physics, actual infinites) and about the coherence of the concept.
+      - text: 'Kalam. Defender: the argument is sound because it is valid. Critic: it is invalid. Modal. Same two moves.'
+        feedback: |
+          Validity holds for both and does not by itself make either sound. The live disagreement is about the truth of a premise.
+    explanation: |
+      Kalam: the defender strengthens P2 with a philosophical branch and the critic questions both branches. Modal: the whole debate concentrates on one premise, the possibility of a maximally great being, which is why the parity argument matters.
+
+  - type: mcq
+    id: p4-reach
+    title: "How far up the ladder?"
+    prompt: |
+      Suppose each argument were sound. Which statement about their reach is right?
+    options:
+      - text: 'Kalam: at most a cause of the universe''s beginning (a personal cause is a further, contested step). Modal: at most a necessarily existing, maximally excellent being. Neither reaches a given religion.'
+        correct: true
+      - text: 'Kalam: a maximally great being. Modal: a cause of the universe.'
+        feedback: |
+          Swapped. The modal argument is about the concept of a being that exists necessarily, with no appeal to the universe; the kalam argument is about the universe's cause and does not mention maximal greatness.
+      - text: 'Both reach the God of one particular religion.'
+        feedback: |
+          Both stop several rungs earlier. A given religion needs its own premises: revelation, texts, history.
+    explanation: |
+      Reach is separate from soundness. A sound kalam would still leave open whether the cause is a mind; a sound modal argument would still leave open how such a being relates to this universe, if at all.
+
+  - type: mcq
+    id: p4-trap
+    title: "Mixing two arguments"
+    prompt: |
+      A cosmologist presents a model of the past with a bounce and no first moment. A critic says, "That refutes both arguments, the kalam and the modal one." Which reply is right?
+    options:
+      - text: 'It bears on the kalam argument, whose P2 says the universe began to exist. The modal argument says nothing about the universe''s history, so it is untouched; its fight is over the possibility premise.'
+        correct: true
+      - text: 'It refutes both, since both need the universe to have a cause.'
+        feedback: |
+          Only the kalam argument concludes that the universe has a cause. The modal argument concludes that a maximally great being exists, whatever the history of the universe.
+      - text: 'It touches neither, because cosmology cannot bear on arguments about God.'
+        feedback: |
+          P2 of the kalam is partly a claim about physics (the expansion history). A model with no first moment bears on it directly.
+    explanation: |
+      Two arguments with different premises: a physical result can damage one and leave the other alone. The same is true in the other direction: a proof that a maximally great being is incoherent would damage the modal argument and leave the kalam's P2 as it was.
+
+  # ---------------- Problem 5 ----------------
+  - type: text
+    id: p5-setup
+    title: "Problem 5 · The argument from reason"
+    body: |
+      **Problem 5.** Write $N$ for *naturalism* (only the natural world exists: no God, no soul, no supernatural), $E$ for *evolutionary theory* (our minds are products of unguided natural selection) and $R$ for "our belief-forming faculties are **reliable**" (they mostly produce true beliefs in the areas we care about). Two arguments ask whether our own power to reason is evidence about the world.
+
+      **Plantinga's evolutionary argument against naturalism** (*Warrant and Proper Function*, 1993):
+
+      **P1.** $P(R\mid N\&E)$ is low or inscrutable.
+
+      **P2.** Whoever accepts $N\&E$ and sees P1 gains a defeater for $R$.
+
+      **P3.** That defeater spreads to all beliefs, including $N\&E$.
+
+      **C.** $N\&E$ is self-defeating and should not be accepted.
+
+      **Lewis's argument from reason** (*Miracles*, 1947): if every belief were fully explained by non-rational causes, no belief would be reached *because of* a reason, and naturalism would undercut itself. Elizabeth Anscombe replied in 1948, and Lewis revised the argument in 1960.
+
+  - type: mcq
+    id: p5-cause
+    title: "Cause against reason"
+    prompt: |
+      Anscombe's reply to Lewis turned on a distinction. Which description is right?
+    options:
+      - text: 'A belief can have both a cause (what makes it occur, such as brain events) and a reason (what supports it as true). Having a full causal story does not by itself show that the belief lacks good reasons, so Lewis''s wording ("irrational", "valid", "because") was loose.'
+        correct: true
+      - text: 'A belief with a causal story cannot have a reason, so Lewis was right and Anscombe agreed.'
+        feedback: |
+          That is Lewis''s claim, and the one Anscombe challenged. A person who adds two numbers has a causal story in the brain *and* a good reason for the answer.
+      - text: 'Causes and reasons are the same thing, so there is nothing to distinguish.'
+        feedback: |
+          They are different questions: "what made me believe it?" and "what supports it?". Wishful thinking has a cause that is not a reason; careful measurement has both.
+    explanation: |
+      The key move separates the explanation of a belief's occurrence from its support. Lewis revised the argument in 1960. How well Anscombe's reply succeeded is disputed, but the cause/reason distinction is the heart of it.
+
+  - type: numeric
+    id: p5-odds
+    title: "An update with invented numbers"
+    prompt: |
+      Take two rival views of our origins: $N\&E$ and a rival $T$. A reader gives $P(R\mid N\&E) = 0.3$ and $P(R\mid T) = 0.9$, and prior odds $P(N\&E)/P(T) = 1/2$. After conditioning on $R$ ("our faculties are reliable"), what is $P(N\&E\mid R)$, with only these two rivals? Give a decimal.
+    answer: 0.142857
+    tolerance: 0.002
+    answerText: '$\tfrac{1}{7}\approx 0.143$'
+    wrong:
+      - { value: 0.1667, feedback: 'That is the posterior **odds** $1/6$, not the probability. With two rivals, probability $=$ odds$/(1+$odds$)$.' }
+      - { value: 0.3, feedback: 'That is the likelihood $P(R\mid N\&E)$. The posterior also depends on the rival''s likelihood and the priors.' }
+    hint: 'Posterior odds = likelihood ratio times prior odds; then convert odds to a probability.'
+    explanation: |
+      $$\frac{0.3}{0.9}\times\frac{1}{2} = \frac{1}{6}$$
+      Odds $1/6$ give a probability of $\dfrac{1/6}{1+1/6} = \dfrac{1}{7}\approx 0.143$. The result is only as good as the invented inputs: the contested step is whether $P(R\mid N\&E)$ is really low (replies say selection plausibly rewards reliable cognition) and whether $P(R\mid T)$ is really high.
+
+  - type: order
+    id: p5-steps
+    title: "Plantinga's defeater steps"
+    prompt: Put the steps of the argument in order.
+    steps:
+      - 'Selection acts on behaviour, and false beliefs can produce the same useful behaviour as true ones.'
+      - 'So $P(R\mid N\&E)$ is low or inscrutable.'
+      - 'Someone who accepts $N\&E$ and sees this gains a defeater for $R$.'
+      - 'That reason to doubt $R$ spreads to every belief the faculties produced, including $N\&E$.'
+      - 'So $N\&E$ is self-defeating, and should not be accepted.'
+    hint: 'First the mechanism, then the probability, then the defeater, then the spread, then the verdict.'
+    explanation: |
+      Each step is a place a critic can press: the first two (is $P(R\mid N\&E)$ really low?), the third (does a low probability give a defeater?), and the fourth (does the doubt spread to everything?).
+
+  - type: mcq
+    id: p5-replies
+    title: "Which are real replies?"
+    prompt: |
+      Select **all** the replies that critics of the evolutionary argument against naturalism actually make.
+    multiple: true
+    options:
+      - text: 'Natural selection plausibly rewards reliable cognition, since true maps and predictions help survival, so $P(R\mid N\&E)$ need not be low.'
+        correct: true
+      - text: 'A theist faces a parallel worry about whether their faculties are reliable, so the argument threatens more than naturalism.'
+        correct: true
+      - text: 'The step from a low or inscrutable probability to a defeater is contested.'
+        correct: true
+      - text: 'The argument proves the existence of God, so it needs no reply.'
+        feedback: |
+          At most it casts doubt on the *combination* of naturalism and evolution. It does not select theism over other views, and it does not select any religion.
+    explanation: |
+      Three replies attack three different steps: the probability, the symmetry with theism, and the defeater inference. The argument targets a combination of views, not any one of them alone.
+
+  - type: mcq
+    id: p5-moves
+    title: "Weakest premise and next move"
+    prompt: |
+      For Plantinga's argument, which pair names a plausible weakest premise and a fair **next move** for each side?
+    options:
+      - text: 'Weakest: P1, that $P(R\mid N\&E)$ is low or inscrutable. Defender: stress that behaviour, not truth, is what selection sees, so the probability cannot be assumed high. Critic: argue that reliable beliefs are adaptive, or that the priors are arbitrary.'
+        correct: true
+      - text: 'Weakest: the step from P1 and P2 to C, since the argument is invalid. Defender and critic: both agree there is nothing more to say.'
+        feedback: |
+          The logic holds if the premises are granted; the live fight is about premises. And both sides have more to say.
+      - text: 'Weakest: P3, because beliefs about evolution are not formed by our faculties. Defender: this is obvious. Critic: it is obviously false.'
+        feedback: |
+          P3 is about spreading the doubt to *all* beliefs formed by the faculties. Neither "obvious" nor "obviously false" is an argument; the real moves are about what a defeater spreads to.
+    explanation: |
+      The argument inherits the weak point of any likelihood argument: its premise is a probability that is hard to assess. The defender moves on the behaviour/truth gap, the critic on adaptive reliability and the reference class.
+
+  # ---------------- Final weighing ----------------
+  - type: mcq
+    id: weigh
+    title: "Final weighing: six arguments"
+    prompt: |
+      Across the level: contingency (weak spot: the PSR for the totality), kalam (the universe began to exist), ontological (possibility of a maximally great being, with parity), design (like effects have like causes, against selection), moral (God as the ground of objective morality), reason (that $P(R\mid N\&E)$ is low). Which statement weighs them fairly?
+    options:
+      - text: 'Each has a different weakest premise, which different readers weigh differently. At best each reaches a ground, a cause, a necessary being, a mind or a source of value; one God and a given religion need further premises.'
+        correct: true
+      - text: 'The ontological argument is the strongest, since it is deductive and so cannot be criticised on its premises.'
+        feedback: |
+          All six are valid or can be set out validly. Deductive form guarantees that the conclusion follows *if* the premises are true; the ontological argument concentrates the fight on a single premise, the possibility of a maximally great being.
+      - text: 'All six fail for the same reason: they all depend on the principle of sufficient reason.'
+        feedback: |
+          Only the cosmological argument leans on the PSR in the way Problem 1 shows. The others rest on a physical claim, a conceptual claim, an analogy, a grounding claim or a probability.
+    explanation: |
+      The course question is not "which argument wins?" but "which premise would *this* reader reject, and why?". Different readers, with different credences, give different answers.
+
+  - type: order
+    id: ladder
+    title: "The reach ladder"
+    prompt: Put the rungs of the ladder in order, from the first that an argument might reach to the last.
+    steps:
+      - 'A ground or cause of the universe or of its features.'
+      - 'A mind behind that ground.'
+      - 'One God, with a particular character.'
+      - 'The God described by a particular religion, its texts and history.'
+    hint: 'Each rung needs premises the one before it does not supply.'
+    explanation: |
+      None of the six arguments of the level climbs past the first rungs without extra premises. The later rungs are the business of later levels (the nature of God, then the traditions).
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Kalam.** P1: whatever begins to exist has a cause; P2: the universe began to exist; C: it has a cause. With independent credences $0.85$ and $0.65$, $P(C)\ge 0.85\times0.65 = 0.5525$. The weak spot is P2: the Borde-Guth-Vilenkin theorem needs $H_{\text{av}}>0$ along the past path, and bounce or emergent models escape it; the defender adds the philosophical case against an actual infinite past. A past with no beginning damages the kalam argument but not the modal one.
+      - **Modal ontological argument.** With $E$ = "a maximally great being exists": $\Diamond E$ and $\Box(E\Rightarrow\Box E)$ give $\Diamond\Box E$, then $\Box E$ by the S5 axiom $\Diamond\Box p\Rightarrow\Box p$, then $E$. The weak spot is the possibility premise, and parity makes it as hard as the conclusion:
+      $$\Diamond E\ \Longleftrightarrow\ E$$
+      - **Argument from reason.** $N$ = naturalism, $E$ = evolution, $R$ = reliable faculties. Plantinga's argument claims that $P(R\mid N\&E)$ is low or inscrutable, which gives a defeater for $R$ that spreads to $N\&E$ itself. Lewis's version fails or succeeds on the distinction between a *cause* (what makes a belief occur) and a *reason* (what supports it). Replies: selection rewards reliable cognition, a parallel worry for theists, and the defeater step is contested. In odds form:
+      $$\begin{aligned}\frac{P(N\&E\mid R)}{P(T\mid R)} =\ &\frac{P(R\mid N\&E)}{P(R\mid T)}\\ &\cdot\frac{P(N\&E)}{P(T)}\end{aligned}$$
+      With $0.3$, $0.9$ and prior odds $1/2$, the posterior probability is $1/7\approx0.143$.
+      - **Weighing the level.** Each of the six arguments has a different weakest premise, and which one a reader rejects depends on that reader's credences. At most they reach a ground, a cause, a necessary being, a mind or a source of value; one God and a given religion need further premises.
+
+      **Next:** the level review, and then Level 7, the arguments against God: the logical problem of evil, Mackie's inconsistency and the free-will defence.

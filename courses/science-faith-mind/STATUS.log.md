@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-02 ch06-challenge-2 (challenge, 18 cards, problems 4-5)
+Choices: autonomous run; no new external facts (all reused from Level 6 Verified), so no new web check; no widget, no images. Toolkit card restated for stand-alone part 2; P4 kalam (credences 0.85, 0.65) beside the modal ontological argument (S5 build, parity, moves, reach, trap); P5 EAAN and argument from reason (cause vs reason, odds 0.3/0.9 with prior 1/2, defeater order, replies multi-select, moves); closing weighing mcq and ladder order; summary without own:. Summary odds formula split in aligned to fit phone. Conventions fixed here: kalam credences 0.85 and 0.65 (bound 0.5525); EAAN toy numbers P(R|N&E)=0.3, P(R|T)=0.9, prior odds 1/2, posterior 1/7.
+
 ## 2026-11-02 ch06-challenge part 1 (challenge, 22 cards, problems 1-3)
 Choices: part 1 = contingency (with kalam trap), design vs selection (odds), moral (modus tollens, debunking); part 2 = kalam + modal ontological (P4), reason/EAAN + weighing of all six (P5). Added node ch06-challenge-2 (no file yet). No widget (README checked: frequency-grid, simplex-points not needed). No images. No new external facts. validate 0/0, shots 0 problems. Conventions fixed here: none new.
 
