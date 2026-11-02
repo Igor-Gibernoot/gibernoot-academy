@@ -1,5 +1,9 @@
 # Status log
 
+## ch06-theism (2026-11-02)
+- Built `ch06/theism.yaml` (24 cards, concept, `own:` with 5 blanks). Hook: what a flawless first-cause proof would not give. Defined theism (Swinburne paraphrase), attributes (omnipotence, omniscience, omnibenevolence), transcendent/immanent, creator/sustainer, deism, pantheism, panentheism, classical theism vs theistic personalism, atheism broad/narrow, agnosticism, burden of proof, ladder of conclusions (order card), validity/soundness, 0.9^3 numeric, failed argument is not a refuted conclusion. Widget: none (checked belief-mixer, frequency-grid, sequence-sampler: none models a taxonomy of positions). Images: Pascal portrait (new); Spinoza and Aquinas portraits already used earlier in the course, not repeated. Web-checked per Verified line. Choice: dropped Krause 1828 and Aquinas Five Ways as unconfirmed/unused.
+- Conventions fixed here: attributes defined as in SEP (omniscience: for every p, if p true then S knows p); "ladder of conclusions" (cause, necessary, mind, good, one religion); sound = valid + all premises true; unsound argument does not refute its conclusion.
+
 ## Level 5 audit (2026-11-02)
 - Audited all 13 ch05 lessons (items 2, 3, 3b, 4, 5, 7, 8). Fixed: Hacking's dice example said "casino", web confirms only "room" (ch05-finetuning-proof); Level 5 map/challenge titles said "The Universe as Evidence" while the level is "Origins and Fine-Tuning" (map, challenge, challenge-2, course.yaml; challenge node now "(1)" like Level 4). Spot-checked by web: Albert NYT review sentence (confirmed), Hoyle 1953-54 and Fowler (hedged in lesson), Be-8 half-life 8.19e-17 s, Hacking/Leslie/White citations; all Verified lines carry `web:`. No later-level references, all nodes registered, validate and shots clean.
 - Conventions fixed here: none new.
