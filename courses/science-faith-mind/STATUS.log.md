@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-02 ch06-traps (traps, 21 cards, 18 traps, no widget)
+Choices: only facts already web-verified in the seven Level 6 lessons were used (no new external facts); dropped a claim about Plantinga allowing theists to accept evolution (unconfirmed). Images: none: traps round, no person or object first introduced. Checks: validate 0 errors 0 warnings, shots 0 problems. Conventions fixed here: none.
+
 ## 2026-11-02 ch06-reason (concept, 19 cards, no widget)
 Choices: Plantinga's EAAN as outline P1-P3 (not numbered "proof"), Lewis/Anscombe as a short historical card with the outcome marked disputed; Anscombe quoted only in paraphrase; Darwin's "horrid doubt" only two words quoted. Images: Anscombe (CC BY-SA drawing); Plantinga portrait already used in ontological (one per course); no Lewis portrait (only a PD-US dust-jacket photo with conflicting Alamy metadata, skipped). Odds toy numbers labelled invented. Conventions fixed here: $N$, $E$, $R$, $T$ rival; $P(R\mid N\&E)$ low or inscrutable; defeater; cause vs reason; odds $0.2/0.9\times2=4/9$.
 
