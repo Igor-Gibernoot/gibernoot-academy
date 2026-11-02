@@ -1,5 +1,8 @@
 # Status log
 
+## ch06-kalam (2026-11-02)
+- Built `ch06/kalam.yaml` (22 cards, concept, `own:` 4 blanks). Hook, history (Philoponus, al-Ghazali, Craig), argument and validity, P1 and "begins to exist", quantum objection, two roads for P2, Hilbert's Hotel (numeric), hotel replies, successive addition, physics, widget `scale-factor` once (four pasts), BGV, meaning of beginning, contingency contrast, what C reaches, personal cause, probability bound. Images: ghazali (modern sketch; Gibran drawing refused as not free everywhere), craig (CC BY 3.0), hilbert (reused). No portrait of Philoponus (none found that is a likeness). Choices: Craig's formulation attributed via SEP; al-Ghazali not credited with the infinite-past argument (unconfirmed). Conventions fixed here: $\mathrm{Beg}(x)$, $\mathrm{Cause}(y,x)$, $u$ = universe; 0.95 x 0.7 = 0.665.
+
 ## ch06-cosmological (2026-11-02)
 - Built `ch06/cosmological.yaml` (24 cards, guided proof, `own:` with 4 blanks). Hook: endless chain, does "each member explained" explain the whole. Series in time vs present dependence, contingent/necessary/PSR recalled, P1 build card, P1-P3 and C ordered, validity vs soundness, Russell brute fact, composition and Rowe, Aquinas Third Way quantifier shift, van Inwagen collapse and Pruss reply, Kant, necessary-universe rival, reach of conclusion, probability product, contrast with kalam. Widget: none needed (checked docs/widgets/README.md list: no widget for logical arguments or chains; all cards are questions).
 - Images: aquinas, leibniz, kant (reused files already in img/, credits exist), 3 total; first image card viewed on phone, fine.
