@@ -1,0 +1,317 @@
+id: ch07-wager
+title: "Guided Problem: Pascal's Wager"
+kind: guided
+cards:
+  - type: mcq
+    id: hook
+    title: "Guess: a tiny chance of an endless reward"
+    prompt: |
+      Guess before any theory. Suppose you think the chance that God exists is very small, say 1 in 1,000. Suppose also that, if God exists, believing and living accordingly brings an endless happiness, while the cost of that life, if God does not exist, is some finite loss (some pleasures given up). Is a tiny chance of an endless reward enough to make that life the sensible bet?
+    options:
+      - text: 'It depends on how the size of the reward compares with the size of the cost, weighted by the chance. We need a way to weigh them.'
+        correct: true
+        feedback: |
+          Yes. "Tiny" and "endless" pull in opposite directions, and only a calculation can say which wins. That calculation is the heart of the lesson.
+      - text: 'No: a chance of 1 in 1,000 is too small to base a whole way of life on.'
+        feedback: |
+          Tempting, because we ignore very unlikely events in daily life. But we do buy insurance against very unlikely disasters, because the loss would be huge. Size of stake matters as well as chance.
+      - text: 'Yes: an endless reward is bigger than anything, so any chance at all is enough.'
+        feedback: |
+          This is close to Pascal''s own conclusion, but it jumps ahead. We have to check what "bigger than anything" does to the arithmetic, and whether it also helps rival possibilities. We will.
+    explanation: |
+      This is a question about **decision under uncertainty**: choosing an act when we do not know which state of the world is real. We will work it out with numbers, using **Blaise Pascal** (1623-1662), the French mathematician and writer, as our guide, and then test where the argument is strong and where critics push back.
+
+  - type: text
+    id: setting
+    title: "Pascal's setting"
+    body: |
+      **Blaise Pascal** (1623-1662) was a French mathematician, physicist and religious writer. His *Pensées* ("Thoughts") is a collection of notes for a defence of Christianity that he never finished; it was edited and published after his death (the first edition appeared in 1670). In the note usually headed "Infinite, nothing" he sets out what is now called **Pascal's Wager**. According to the Stanford Encyclopedia, it is in fact several arguments that interleave in the text.
+
+      Pascal's setting, in essence: reason cannot settle whether God exists, yet everyone must act as though one answer or the other holds, so we must **wager**. In his words (in the standard English translation) "you must wager. It is not optional." Playing "heads or tails", we stake something finite (the way we live now) on a possible infinite gain.
+
+      *Layer labels for this lesson.* The **calculation** (expected value, tables) is established mathematics. Whether it applies to belief in God is a **live debate** among philosophers. Whether a God exists, or what a God would reward, is a **faith or metaphysical commitment**, and this lesson takes no side on it. We always say "according to" whoever argues each step.
+
+  - type: text
+    id: table
+    title: "A decision table"
+    body: |
+      A **decision problem** has two ingredients.
+
+      - **Acts**: what you choose. Here, two acts: **wager for God** (live as if God exists, and try to come to believe) and **wager against** (live without that commitment).
+      - **States**: how the world might be, outside your control. Here: **God exists** or **God does not exist**.
+
+      A **payoff** is how well off you end up for each act in each state. Pascal's own table, in essence:
+
+      | | God exists | God does not exist |
+      |---|---|---|
+      | **Wager for** | endless happiness | a finite loss (cost) |
+      | **Wager against** | (no reward; on Pascal's reading, loss) | a finite gain |
+
+      The **expected value** (EV) of an act is each payoff multiplied by the probability of its state, then added:
+
+      $$\begin{aligned}\mathrm{EV}={}&p\cdot(\text{payoff if God exists})\\&+(1-p)\cdot(\text{payoff if not})\end{aligned}$$
+
+      Here $p$ is the probability, for you, that God exists. EV is the average payoff you would get if you could repeat the situation many times.
+
+  - type: mcq
+    id: acts-states
+    title: "Acts and states"
+    prompt: |
+      In a decision table the **acts** are what the decider chooses, and the **states** are how the world might be, outside the decider's control. In Pascal's table (acts: wager for or against God; states: God exists or does not), which classification is correct?
+    options:
+      - text: 'Acts: wager for God, wager against. States: God exists, God does not exist.'
+        correct: true
+        feedback: |
+          Right. You choose how to wager; you do not choose whether a God exists.
+      - text: 'Acts: God exists, God does not exist. States: wager for, wager against.'
+        feedback: |
+          This swaps them. What you can choose are the acts; the states are what you are uncertain about and cannot choose.
+      - text: 'There are no states: the wager only has two acts.'
+        feedback: |
+          Without states there would be nothing uncertain to weigh. The point of the table is that the payoff of each act depends on a state you do not know.
+    explanation: |
+      Keeping acts and states apart matters later: one objection to the Wager says that belief is not really an act you can choose at will. We will meet it shortly.
+
+  - type: numeric
+    id: ev-finite
+    title: "Expected value with finite payoffs"
+    prompt: |
+      A toy version with finite numbers, in "units of happiness". Wagering for God costs $10$ units if God does not exist, and gains $1000$ units if God exists. Wagering against God has payoff $0$ in both states. Take the probability that God exists to be $p=0.001$. What is the expected value of **wagering for** God?
+    answer: -8.99
+    tolerance: 0.01
+    answerText: '-8.99'
+    wrong:
+      - { value: 1, feedback: 'That is only the first term, $0.001\times1000=1$. You must also add the cost in the other state, weighted by its probability $0.999$.' }
+      - { value: -9.99, feedback: 'That is only the cost term, $0.999\times(-10)=-9.99$. Add the gain term $0.001\times1000=1$ as well.' }
+    hint: |
+      Multiply each payoff by the probability of its state: $p=0.001$ for "God exists", $1-p=0.999$ for "God does not exist". Then add.
+    explanation: |
+      $$\begin{aligned}\mathrm{EV}&=0.001\times1000+0.999\times(-10)\\&=1-9.99=-8.99\end{aligned}$$
+      Wagering against has EV $0$, so with these numbers the sensible choice is **against**: the chance is too small for a gain of 1000 to pay for a certain cost of 10.
+
+  - type: numeric
+    id: break-even
+    title: "The break-even chance"
+    prompt: |
+      Same toy numbers: wagering for God gains $1000$ units if God exists and costs $10$ units if not; wagering against has payoff $0$. At what probability $p$ of God's existence does wagering for God have exactly expected value $0$ (break-even)? Give $p$ to three decimals.
+    answer: 0.0099
+    tolerance: 0.0005
+    answerText: '0.0099'
+    hint: |
+      Set $p\cdot1000-(1-p)\cdot10=0$ and solve for $p$.
+    explanation: |
+      $$\begin{aligned}1000p-10(1-p)&=0\\1010p&=10\\p&=\tfrac{10}{1010}\approx0.0099\end{aligned}$$
+      Above about 1 chance in 100, wagering for God wins; below it, it loses. In general the break-even is $\text{cost}/(\text{gain}+\text{cost})$: the bigger the gain, the smaller the chance needed.
+
+  - type: numeric
+    id: ev-big
+    title: "Make the reward enormous"
+    prompt: |
+      Keep the cost of $10$ units (if God does not exist) and the probability $p=0.0001$ (1 in 10,000), but let the reward if God exists be $1{,}000{,}000$ units. Wagering against still pays $0$. What is the expected value of **wagering for** God?
+    answer: 90.001
+    tolerance: 0.01
+    answerText: '90.001'
+    hint: |
+      $0.0001\times1{,}000{,}000$ is the gain term; the cost term is $0.9999\times(-10)$.
+    explanation: |
+      $$\begin{aligned}\mathrm{EV}&=0.0001\times10^{6}-0.9999\times10\\&=100-9.999=90.001\end{aligned}$$
+      Now a one-in-ten-thousand chance is enough to favour the wager. Making the reward larger lowers the break-even probability without limit. Pascal's step is to push the reward all the way to **infinity**.
+
+  - type: mcq
+    id: infinite
+    title: "An infinite reward"
+    prompt: |
+      Pascal's reading of the table: if God exists, wagering for God gains an **infinite** reward (endless happiness), while the cost if God does not exist is finite. The probability $p$ that God exists is positive but tiny, say $10^{-9}$. Wagering against has a finite expected value. Which act has the greater expected value?
+    options:
+      - text: 'Wagering for God: $p\times\infty$ is infinite for every $p>0$, so it beats any finite number.'
+        correct: true
+        feedback: |
+          Yes. Whatever small positive $p$ you pick, $p\times\infty=\infty$, and $\infty$ minus a finite cost is still $\infty$. According to this argument the exact size of $p$ stops mattering, as long as it is not zero.
+      - text: 'Wagering against: a chance of $10^{-9}$ is too small to outweigh a certain finite cost.'
+        feedback: |
+          That reasoning works for finite rewards (as in the earlier cards), where there is a break-even chance. With an infinite reward there is no break-even above zero: the gain term is infinite for any $p>0$.
+      - text: 'They tie: infinity cannot be compared with anything.'
+        feedback: |
+          Infinity is greater than every finite number, so against a finite expected value it wins. Ties and undefined values do appear, but later, when two infinite rewards compete.
+    explanation: |
+      This is the structure Pascal's defenders stress: if the reward for wagering for God is infinite and every other payoff is finite, then wagering for God has the greater expected value for **every** positive probability. According to the Stanford Encyclopedia, this form needs no assumption of equal chances (the equal-odds step, which Ian Hacking in 1972, "The Logic of Pascal's Wager", *American Philosophical Quarterly* 9, called a very strong premise, belongs to another strand of the text). In the Pensées Pascal also writes of "an infinity of chances, of which one only would be for you", and still concludes you should wager. The weight falls on the infinity.
+
+  - type: mcq
+    id: even-odds
+    title: "Does it need even odds?"
+    prompt: |
+      In one passage Pascal compares the wager to a coin toss, "heads or tails", with equal risk of gain and loss. In another, he says the conclusion would hold even if there were an infinity of chances of which only one were for you. In the infinite-reward version of the argument, what must be true of the probability $p$ that God exists?
+    options:
+      - text: 'Only that $p>0$: any positive probability, however small, gives the same verdict.'
+        correct: true
+        feedback: |
+          Yes. That is why, in this version, the argument does not depend on how likely God is, only on God not being strictly ruled out.
+      - text: 'It must equal $\tfrac12$.'
+        feedback: |
+          The coin-toss passage uses equal odds for a finite-stakes version. The infinite-stakes version needs no such figure. Hacking called the equal-odds assumption a very strong premise in itself (in essence), so it is useful that the main argument avoids it.
+      - text: 'It must be larger than the break-even chance computed from the cost and the reward.'
+        feedback: |
+          That is the rule for finite rewards. With an infinite reward the break-even chance shrinks to zero.
+    explanation: |
+      According to the Stanford Encyclopedia entry, Pascal's text contains three arguments that interleave: one from dominance, one from expectation with equal odds, and one from *generalized* expectation, where the reward is infinite and any positive probability suffices. The last is the one usually meant by "Pascal's Wager".
+
+  - type: mcq
+    id: believe-at-will
+    title: "Can you choose to believe?"
+    prompt: |
+      An objection to the Wager: "Belief is not something I can switch on because it pays. I cannot make myself believe that there is a God just by deciding to." According to Pascal, as the Stanford Encyclopedia reads him, which reply does he give to a reader who says "I am so made that I cannot believe"?
+    options:
+      - text: 'Act as if you believed (take holy water, have masses said) and belief may follow, because habit quiets the passions that stand in its way.'
+        correct: true
+        feedback: |
+          Yes, in essence. Pascal advises the unbeliever to follow the practices of those who believe; he says the habit will dull the objections of the passions, and belief may come. Critics reply that this shifts the question from "what is true?" to "how can I make myself believe?", and that a God who values sincere belief might not reward a calculated one.
+      - text: 'Reason can prove that God exists, so belief follows from the proof.'
+        feedback: |
+          Pascal says the opposite in this passage: reason can decide nothing here, which is why we must wager.
+      - text: 'If you cannot believe, you are excused from the wager.'
+        feedback: |
+          Pascal says the wager is not optional: not choosing is itself a way of choosing. His answer is to work on the habits that support belief.
+    explanation: |
+      Two views to keep side by side. According to defenders, the Wager is advice about how to act and cultivate belief over time, not a switch you flip. According to critics such as Richard Dawkins and William James (the second appears in a later lesson), belief adopted through a calculation is not the genuine faith a God would want, so the strategy may fail by its own standard.
+
+  - type: text
+    id: many-gods
+    title: "The many-gods objection"
+    body: |
+      The earliest form cited in the Stanford Encyclopedia is by **Denis Diderot** (1746, *Pensées philosophiques*): in essence, an imam (a Muslim prayer leader) could reason just as well this way. Later versions, for example by J. L. Mackie in *The Miracle of Theism* (1982), note that many faiths and gods have been offered as routes to a good afterlife.
+
+      The objection says Pascal's table has **too few states**. If God as one tradition describes him is not the only possibility, then wagering for him may be punished by a rival. Take a toy table with three states and finite payoffs (units of happiness):
+
+      | | God A exists | God B exists | Neither |
+      |---|---|---|---|
+      | **Wager for A** | $+1000$ | $-1000$ | $-10$ |
+      | **Wager against** | $0$ | $0$ | $0$ |
+
+      Here God A rewards those who worship A, God B punishes those who worship A, and "neither" is a world without either (so the cost of the life is lost). Give each of A and B the probability $0.02$, and "neither" the probability $0.96$.
+
+  - type: numeric
+    id: ev-two-gods
+    title: "Expected value with two gods"
+    prompt: |
+      Use this table (units of happiness). Wager for God A: $+1000$ if A exists, $-1000$ if a rival God B exists, $-10$ if neither exists. Wagering against pays $0$ in every state. The probabilities are $0.02$ (A exists), $0.02$ (B exists), $0.96$ (neither). What is the expected value of **wagering for A**?
+    answer: -9.6
+    tolerance: 0.01
+    answerText: '-9.6'
+    wrong:
+      - { value: 20, feedback: 'That is the gain term only ($0.02\times1000$). You must also add the penalty if B exists ($0.02\times(-1000)=-20$) and the cost if neither exists ($0.96\times(-10)$).' }
+      - { value: 0.4, feedback: 'You have dropped the cost term. With B present the gain and the penalty cancel ($20-20$), and the cost of the life, $0.96\times10=9.6$, is what remains.' }
+    hint: |
+      Three terms: $0.02\times1000$, $0.02\times(-1000)$, $0.96\times(-10)$.
+    explanation: |
+      $$\begin{aligned}\mathrm{EV}&=0.02\times1000+0.02\times(-1000)\\&\quad+0.96\times(-10)\\&=20-20-9.6=-9.6\end{aligned}$$
+      The gain and the penalty cancel, and the leftover is the cost of the life. Adding a rival state changed the verdict from "maybe wager" (the earlier two-state tables) to "do not". The result depends entirely on the numbers one gives to A and B, and nothing in the Wager itself supplies them.
+
+  - type: mcq
+    id: infinite-gods
+    title: "Two gods, both infinite"
+    prompt: |
+      Now make both stakes infinite. God A gives an infinite reward to those who wager for A and an infinite punishment to those who wager for B. God B does the reverse. Each has a positive probability, and A is judged much more probable than B. Using expected value with infinite payoffs, what does the calculation say?
+    options:
+      - text: 'It cannot pick one: each act has a positive chance of an infinite reward and of an infinite punishment, so the values are both infinite or undefined, and the sizes of the probabilities no longer help.'
+        correct: true
+        feedback: |
+          Yes. The feature that made the Wager so simple (probabilities do not matter once the reward is infinite) now works against it: it cannot rank a likely god against an unlikely one.
+      - text: 'Wager for A: it is much more probable, so its expected value is larger.'
+        feedback: |
+          This is the tempting repair. With finite payoffs it would be right. But $p\times\infty=\infty$ for every $p>0$, so a likelier god gets no larger expected value than an unlikelier one.
+      - text: 'Wager for neither: infinity cancels, so the expected value is zero.'
+        feedback: |
+          Infinities do not cancel by subtraction ($\infty-\infty$ is undefined). Declaring the result zero would be an extra rule, not something the calculation gives.
+    explanation: |
+      Defenders reply in several ways. Some say that only options promising an infinite reward matter and a generic form of theism might suffice (that is, that the options are less separate than the objection supposes). Critics reply that the replies need more premises than Pascal's table contains. Both agree on the diagnosis: the Wager needs an argument that one candidate is privileged, and probabilities cannot supply it once stakes are infinite.
+
+  - type: mcq
+    id: decision-repair
+    title: "Infinite utilities and mixed strategies"
+    prompt: |
+      A further difficulty, argued by Alan Hájek in "Waging War on Pascal's Wager" (*The Philosophical Review*, 2003), and earlier by Antony Duff (1986) in a related form. Take a **mixed strategy**: "wager for God if a fair coin lands heads, otherwise wager against". It gives a positive chance of the infinite reward. What is the problem for the Wager?
+    options:
+      - text: 'With an infinite reward, any act that gives a positive chance of wagering for God has infinite expected value, so expected value cannot rank "wager for God outright" above a coin-flip version, or above nearly anything else.'
+        correct: true
+        feedback: |
+          Yes, in essence this is Hájek's point: if infinity swallows the probabilities, expected value no longer separates the strategies Pascal wants to separate. Defenders such as Bradley Monton (2011, "Mixed Strategies Can''t Evade Pascal''s Wager", *Analysis*) reply that the mixed strategies do not escape the Wager, and others rework the decision theory with other infinite-number systems; this remains debated.
+      - text: 'A coin flip is not an act, so it cannot be compared with the others.'
+        feedback: |
+          Randomising is an ordinary act in decision theory (you can flip the coin). The problem is in how infinity behaves in the calculation, not in what counts as an act.
+      - text: 'Mixed strategies are only allowed for finite payoffs.'
+        feedback: |
+          There is no such rule. With finite payoffs a mixed strategy simply has a value between its pure parts, and the ranking works fine.
+    explanation: |
+      A second difficulty concerns **probability zero**. Suppose you assign God exactly probability $0$ (a "strict atheist"). With the convention $\infty\times0=0$ the gain term vanishes and the wager has only the cost left, so, according to the Stanford Encyclopedia, it has no pull on a strict atheist. A common reply in the decision-theory literature is that assigning probability exactly $0$ to a possibility you cannot logically rule out is itself over-confident. That is a view about rational credence, not a result of the Wager.
+
+  - type: order
+    id: steps
+    title: "The infinite-reward argument, in order"
+    prompt: |
+      Put Pascal's infinite-reward argument in order, from first premise to conclusion.
+    steps:
+      - 'P1: Reason cannot settle whether God exists, and you must act one way or the other (the wager is unavoidable).'
+      - 'P2: There are two acts and two states, with finite payoffs except one: wagering for God gains an infinite reward if God exists.'
+      - 'P3: The probability that God exists is positive (not strictly ruled out).'
+      - 'P4: So the expected value of wagering for God is infinite, greater than that of any act with finite payoffs.'
+      - 'C: So you should wager for God (act as if you believe).'
+    hint: |
+      The argument first sets up the situation, then the table, then the one thing needed about probability, then the calculation, then the advice.
+    explanation: |
+      Notice where critics push. Against P1: you may suspend judgement (agnosticism, the next lesson) or reason may not be silent. Against P2: the table has too few states (many gods), or the reward is not infinite. Against P3: probability zero. Against P4: infinities break the arithmetic (mixed strategies, ties). Against C: belief is not chosen at will. The validity step (P1 to P4 imply C) is the least contested; the premises are where the debate lives.
+
+  - type: mcq
+    id: trap
+    title: "What the Wager does not claim"
+    prompt: |
+      A student says: "Pascal's Wager proves that God exists, because if it did not, the calculation would not work." What is wrong with this claim?
+    options:
+      - text: 'The Wager is about what to do given uncertainty about whether God exists; it takes the uncertainty as given and says nothing about whether God exists.'
+        correct: true
+        feedback: |
+          Yes. It is a **practical** argument (an argument about action and prudence), not an **evidential** one (an argument that something is true). It is silent on the truth of any claim about God.
+      - text: 'The calculation uses infinity, and nothing infinite can be proved.'
+        feedback: |
+          Mathematics handles infinities with care (though not without difficulties, such as ties between two infinite rewards). The error here is about what the argument is for, not about infinity.
+      - text: 'Nothing is wrong: the Wager is a proof of God.'
+        feedback: |
+          Pascal himself says reason can decide nothing in this matter; the Wager is offered to someone who has not been convinced by proofs.
+    explanation: |
+      A true proposition and a useful bet are different things. A prudent bet that the train will be late does not make the train late. Whether a prudential reason can justify *believing* (rather than acting) is exactly what critics doubt.
+
+  - type: mcq
+    id: resolve
+    title: "Back to the tiny chance"
+    prompt: |
+      Return to the opening question: a very small chance (1 in 1,000) that God exists, an endless reward if so, and a finite cost otherwise. After this lesson, which statement is most accurate?
+    options:
+      - text: 'With an infinite reward, a tiny positive chance beats any finite cost by expected value, but the same reasoning also favours any rival possibility with an infinite stake, so the calculation alone cannot tell you which bet to make.'
+        correct: true
+        feedback: |
+          Yes. The arithmetic is not the weak point; the table (which states are included) and the use of infinity are.
+      - text: 'With an infinite reward, a tiny chance never matters because we should ignore tiny chances.'
+        feedback: |
+          Expected value does not ignore tiny chances; a finite reward can be big enough to outweigh a small chance (the earlier cards), and an infinite one always is.
+      - text: 'The calculation settles the matter: everyone should wager for God.'
+        feedback: |
+          That is the claim of the simplest version. With rival gods, mixed strategies, probability zero and belief that cannot be chosen at will, the conclusion is much less secure.
+    explanation: |
+      The Wager remains a model case in decision theory: it shows what happens when one payoff is infinite, and it shows how much work the choice of *states* does before any arithmetic starts.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      **Method.** To analyse a bet under uncertainty: list the **acts** you can choose and the **states** you cannot; write the **payoff** of each act in each state; weight by the probability of each state; add to get the **expected value** and compare. Then ask which states are missing from the table.
+
+      **Formulas used.**
+
+      $$\begin{aligned}\mathrm{EV}={}&p\cdot(\text{payoff if God exists})\\&+(1-p)\cdot(\text{payoff if not})\end{aligned}$$
+
+      $$p_{\text{break-even}}=\frac{\text{cost}}{\text{gain}+\text{cost}}$$
+
+      With an infinite reward and any $p>0$, the expected value is infinite. With several states, EV adds one term per state, each probability times its payoff.
+
+      **What was established, debated and left open.** The arithmetic is established. According to Pascal (1623-1662, in notes published after his death), reason cannot settle whether God exists, so we must wager, and the infinite-reward version works for any positive probability. According to critics, the argument fails or weakens because of rival gods (Diderot, Mackie), mixed strategies and ties between infinities (Hájek, 2003, with replies such as Monton's, 2011), probability zero, and the fact that belief cannot be chosen at will. Whether prudence can justify belief, and whether to treat the rival states as equally probable, stays open and depends on commitments the lesson does not decide.
+
+      **Next:** *Agnosticism and Its Varieties.* Pascal says that not wagering is itself a wager. Some people reply that the honest response is to suspend judgement. The next lesson separates strong, weak and practical agnosticism and asks when suspending judgement is the honest answer.
