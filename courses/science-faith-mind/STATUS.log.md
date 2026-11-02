@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-02 ch06-intuition (intuition, 21 cards, no widget)
+Choices: only facts already web-verified in the seven Level 6 lessons were used (no new external facts). Widget: none, pure recall of logical forms (checked list in docs/widgets/README.md: nothing shows argument structure). Numeric cards give data only (premise credences, Hilbert pattern by examples, prior and likelihoods). Summary is a plain text card with formulas (intuition has no `own:`). Images: none: recall round, no person or object first introduced. Checks: validate 0 errors 0 warnings, shots 0 problems. Conventions fixed here: none.
+
 ## 2026-11-02 ch06-traps (traps, 21 cards, 18 traps, no widget)
 Choices: only facts already web-verified in the seven Level 6 lessons were used (no new external facts); dropped a claim about Plantinga allowing theists to accept evolution (unconfirmed). Images: none: traps round, no person or object first introduced. Checks: validate 0 errors 0 warnings, shots 0 problems. Conventions fixed here: none.
 
