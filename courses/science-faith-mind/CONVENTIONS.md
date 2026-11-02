@@ -97,3 +97,4 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 ## Chapter 7
 
 - Logical evil lesson (19 cards): $O$ omnipotent, $G$ wholly good, $E$ evil exists; Mackie bridge $(O\land G)\Rightarrow\lnot E$; consistency $\Diamond(O\land G\land E)$; defense (possible story) vs theodicy (real reasons); counterfactual of freedom, feasible worlds $F$; Cara toy ($S_1$, $S_2$): counts 0 (both wrong) and 1 (only $S_2$ right); transworld depravity $\forall w\in F:\mathrm{Free}(c,w)\Rightarrow\mathrm{Wrong}(c,w)$, claimed only possible. Portrait used: Plantinga (earlier).
+- Evidential lesson (17 cards): $G$ good God exists, $E$ suffering like ours (fawn), $I$ hypothesis of indifference; pointless evil (Rowe); odds form $\frac{P(G\mid E)}{P(I\mid E)}=\frac{P(E\mid G)}{P(E\mid I)}\cdot\frac{P(G)}{P(I)}$; toy numbers 0.5, 0.2, 0.6 -> 25%; 0.8/0.2, 0.1, 0.5 -> 44.4%. Rowe portrait in ch05-something.

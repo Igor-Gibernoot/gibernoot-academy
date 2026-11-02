@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-02 ch07-evil-evidence (concept, 17 cards)
+Rowe's fawn and argument (Rowe's 2006 summary verbatim, fetched PDF), pointless evil, inference "no good we know of", Wykstra dog/fleas and skeptical theism, Rowe's afterlife-cost reply, frequency-grid toy model (prior 0.5, 0.2, 0.6 -> 25%), Draper likelihood form with odds numeric (44.4%), Hume only as a one-line aside. Widget: frequency-grid (existing, fixed sliders). Images: none: Rowe's portrait already used in ch05-something; a fawn photo would be mood only. Choices: Rowe's second case (young girl) omitted; Wykstra's CORNEA formula not stated; Draper's numbers not claimed. Conventions fixed here: $G$ = good God exists, $E$ = suffering like ours, $I$ = hypothesis of indifference; pointless evil defined as in Rowe; odds form with $G$ vs $I$.
+
 ## 2026-11-02 ch07-evil-logical (guided proof, 19 cards)
 Built the first Level 7 lesson. Widgets checked: none needed (possible worlds as a 4-option toy, numeric cards). Images: Plantinga portrait reused (`img/plantinga.webp`); Mackie none (no free portrait on Commons search). Choices: Plantinga's transworld depravity paraphrased "in essence" (verbatim definition not found online; only "it is possible that every creaturely essence suffers from transworld depravity" quoted); Mackie's added principles paraphrased; Mackie's compatibilism/Plantinga's libertarianism contrast stated as a reading. Conventions fixed here: $O$, $G$, $E$ and bridge $(O\land G)\Rightarrow\lnot E$; consistency $\Diamond(O\land G\land E)$; defense vs theodicy; Cara toy ($S_1$, $S_2$, counts 0 and 1); transworld depravity $\forall w\in F:\mathrm{Free}(c,w)\Rightarrow\mathrm{Wrong}(c,w)$.
 
