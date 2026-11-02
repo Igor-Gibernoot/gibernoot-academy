@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-02 ch06-reason (concept, 19 cards, no widget)
+Choices: Plantinga's EAAN as outline P1-P3 (not numbered "proof"), Lewis/Anscombe as a short historical card with the outcome marked disputed; Anscombe quoted only in paraphrase; Darwin's "horrid doubt" only two words quoted. Images: Anscombe (CC BY-SA drawing); Plantinga portrait already used in ontological (one per course); no Lewis portrait (only a PD-US dust-jacket photo with conflicting Alamy metadata, skipped). Odds toy numbers labelled invented. Conventions fixed here: $N$, $E$, $R$, $T$ rival; $P(R\mid N\&E)$ low or inscrutable; defeater; cause vs reason; odds $0.2/0.9\times2=4/9$.
+
 ## 2026-11-02: ch06-moral (20 cards, concept)
 Widgets checked in docs/widgets/README.md: none fits (argument cards plus one numeric); none needed. Image: Plato (new); Kant and Craig already have portraits in the course, not repeated; no free portrait sought for modern philosophers (none needed). Choices: Craig P1 quoted verbatim, P2/C paraphrased; Kant kept distinct (highest good); Euthyphro with one card per horn; secular accounts via Wielenberg, Mackie, Street; genetic fallacy card. Conventions fixed here: $M$ = objective moral values and duties exist, $G$ = God exists; Craig $\lnot G\Rightarrow\lnot M$, $M\therefore G$ (modus tollens); credence $P(C)\approx P_1P_2$ with 0.8, 0.4 gives 0.32; "divine nature" reply to Euthyphro.
 
