@@ -1,5 +1,9 @@
 # Status log
 
+## Level 5 audit (2026-11-02)
+- Audited all 13 ch05 lessons (items 2, 3, 3b, 4, 5, 7, 8). Fixed: Hacking's dice example said "casino", web confirms only "room" (ch05-finetuning-proof); Level 5 map/challenge titles said "The Universe as Evidence" while the level is "Origins and Fine-Tuning" (map, challenge, challenge-2, course.yaml; challenge node now "(1)" like Level 4). Spot-checked by web: Albert NYT review sentence (confirmed), Hoyle 1953-54 and Fowler (hedged in lesson), Be-8 half-life 8.19e-17 s, Hacking/Leslie/White citations; all Verified lines carry `web:`. No later-level references, all nodes registered, validate and shots clean.
+- Conventions fixed here: none new.
+
 ## 2026-11-02: ch05-challenge-2 (problems 4 and 5, 20 cards)
 Built `ch05/challenge-2.yaml`, no `own:` (like part 1, plain closing card). Problem 4: radiation density at 1e9 K, BGV reading, order card physics-to-philosophy, bounce does not escape contingency, credence lower bound 0.5, Hume/Rowe premise, layers. Problem 5: three dials, correlated dials, posteriors for E_this (91.7%) and E_some (96.6%), build odds, premises, layers, parting. Images: none (portraits of the named people already not required; no experiment or object fits). Web check done (see Verified). Hacking's dice example not attributed to a casino (only "room" confirmed in mirrors); not used. Conventions fixed here: toy fine-tuning set (3 dials x 1/10, P(E|H2)=0.1, priors 0.6/0.1/0.3, 5000 universes); credence lower bound 1 - sum of failure chances.
 
