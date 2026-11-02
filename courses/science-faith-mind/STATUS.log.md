@@ -1,5 +1,11 @@
 # Status log
 
+## ch06-cosmological (2026-11-02)
+- Built `ch06/cosmological.yaml` (24 cards, guided proof, `own:` with 4 blanks). Hook: endless chain, does "each member explained" explain the whole. Series in time vs present dependence, contingent/necessary/PSR recalled, P1 build card, P1-P3 and C ordered, validity vs soundness, Russell brute fact, composition and Rowe, Aquinas Third Way quantifier shift, van Inwagen collapse and Pruss reply, Kant, necessary-universe rival, reach of conclusion, probability product, contrast with kalam. Widget: none needed (checked docs/widgets/README.md list: no widget for logical arguments or chains; all cards are questions).
+- Images: aquinas, leibniz, kant (reused files already in img/, credits exist), 3 total; first image card viewed on phone, fine.
+- Choices: premises P1-P3 with the totality $T$ as conjunction of contingent truths; "modal collapse" not named, described as "everything would be necessary".
+- Conventions fixed here: predicates $\mathrm{Cont}(x)$, $\mathrm{Expl}(y,x)$; totality $T$; P1 = PSR for contingent things $\forall x(\mathrm{Cont}(x)\Rightarrow\exists y\,\mathrm{Expl}(y,x))$; $\Box$ = "it is necessary that"; probabilities 0.6, 0.8, 0.9 give 0.432.
+
 ## ch06-theism (2026-11-02)
 - Built `ch06/theism.yaml` (24 cards, concept, `own:` with 5 blanks). Hook: what a flawless first-cause proof would not give. Defined theism (Swinburne paraphrase), attributes (omnipotence, omniscience, omnibenevolence), transcendent/immanent, creator/sustainer, deism, pantheism, panentheism, classical theism vs theistic personalism, atheism broad/narrow, agnosticism, burden of proof, ladder of conclusions (order card), validity/soundness, 0.9^3 numeric, failed argument is not a refuted conclusion. Widget: none (checked belief-mixer, frequency-grid, sequence-sampler: none models a taxonomy of positions). Images: Pascal portrait (new); Spinoza and Aquinas portraits already used earlier in the course, not repeated. Web-checked per Verified line. Choice: dropped Krause 1828 and Aquinas Five Ways as unconfirmed/unused.
 - Conventions fixed here: attributes defined as in SEP (omniscience: for every p, if p true then S knows p); "ladder of conclusions" (cause, necessary, mind, good, one religion); sound = valid + all premises true; unsound argument does not refute its conclusion.
