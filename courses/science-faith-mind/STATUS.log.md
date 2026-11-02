@@ -1,5 +1,11 @@
 # Status log
 
+## ch06-ontological (2026-11-02)
+- Built `ch06/ontological.yaml` (22 cards, guided proof, `own:` 4 blanks). Hook (can a definition create a thing), Anselm and the formula, reductio (order card), which premise a critic rejects, Gaunilo island and what a parody shows, two replies (Anselm per SEP, intrinsic maximum) with the palm-tree counter, Kant, modal version (Plantinga), S5 derivation (order card), mirror argument and parity, credence numeric (0.3 gives 0.7), Leibniz coherence, Plantinga's modest claim, ladder of conclusions.
+- Images: anselm (new, Public domain), plantinga (new, CC BY-SA 3.0; the PD-user-en file was refused by the tool), 2 total; first image card viewed on phone, fine.
+- Choices: reductio form P1-P3 plus C; modal premises M1, M2 and S5; parity shown as $\Diamond E\Leftrightarrow E$ (derived by hand from the definition); Anselm's reply given in two readings; no Hartshorne/Malcolm details beyond SEP; Kant quote paraphrased; no widget.
+- Conventions fixed here: $G$ = that than which nothing greater can be conceived; $E$ = a maximally great being exists; $\Diamond$, $\Box$; M1 $\Diamond E$, M2 $\Box(E\Rightarrow\Box E)$; parity $\Diamond E\Leftrightarrow E$.
+
 ## ch06-kalam (2026-11-02)
 - Built `ch06/kalam.yaml` (22 cards, concept, `own:` 4 blanks). Hook, history (Philoponus, al-Ghazali, Craig), argument and validity, P1 and "begins to exist", quantum objection, two roads for P2, Hilbert's Hotel (numeric), hotel replies, successive addition, physics, widget `scale-factor` once (four pasts), BGV, meaning of beginning, contingency contrast, what C reaches, personal cause, probability bound. Images: ghazali (modern sketch; Gibran drawing refused as not free everywhere), craig (CC BY 3.0), hilbert (reused). No portrait of Philoponus (none found that is a likeness). Choices: Craig's formulation attributed via SEP; al-Ghazali not credited with the infinite-past argument (unconfirmed). Conventions fixed here: $\mathrm{Beg}(x)$, $\mathrm{Cause}(y,x)$, $u$ = universe; 0.95 x 0.7 = 0.665.
 
