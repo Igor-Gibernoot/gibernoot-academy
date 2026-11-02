@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-02: ch06-moral (20 cards, concept)
+Widgets checked in docs/widgets/README.md: none fits (argument cards plus one numeric); none needed. Image: Plato (new); Kant and Craig already have portraits in the course, not repeated; no free portrait sought for modern philosophers (none needed). Choices: Craig P1 quoted verbatim, P2/C paraphrased; Kant kept distinct (highest good); Euthyphro with one card per horn; secular accounts via Wielenberg, Mackie, Street; genetic fallacy card. Conventions fixed here: $M$ = objective moral values and duties exist, $G$ = God exists; Craig $\lnot G\Rightarrow\lnot M$, $M\therefore G$ (modus tollens); credence $P(C)\approx P_1P_2$ with 0.8, 0.4 gives 0.32; "divine nature" reply to Euthyphro.
+
 ## ch06-design (2026-11-02)
 - Built `ch06/design.yaml` (22 cards, concept, `own:` 3 blanks (Paley, selection, odds form); no widget: order, build, mcq, numeric suffice). Hook stone vs watch, Paley, analogy kind, eye/telescope, self-copying watch, order of the analogy, Hume (4 objections), one-universe mcq, select-all, Darwin, order of selection, chance trap, what Darwin attacks, Dawkins, undercutting vs explaining away, level shift to laws (points to the lesson "Guided Proof: Bayes and Fine-Tuning"), chance/necessity/design, Bayes numeric 0.4, odds build, ladder, summary.
 - Images: paley (Romney, Public domain), darwin (Cameron, Public domain), both new; Hume portrait not repeated (used in Level 5). Dawkins photo skipped (no clearly suitable image needed).
