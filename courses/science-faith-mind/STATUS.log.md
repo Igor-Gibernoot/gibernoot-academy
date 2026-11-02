@@ -1,5 +1,9 @@
 # Status log
 
+## ch05-map (2026-11-02)
+- Built Content Map of Level 5 (13 cards, 11 boxes, 2 decoys each, 14 edges, no widget). Registered `file: ch05/map.yaml`. Choices: boxes follow the `own:` summaries of the eight concept/proof lessons; "Singularity theorems and BGV" and "Models of the start" kept as two boxes; one-at-a-time claim phrased as "can overstate the tuning" (Barr-Khan, Tegmark, per constants Verified); no new external facts, so no new web check (reuse of Verified items).
+- Conventions fixed here: none new.
+
 ## ch05-intuition (2026-11-02)
 - Built Quick Recall (24 cards, 11 numeric/build applied, no images, no widget). Registered `file:` in course.yaml. Choices: no new external facts; Casimir/Lamoreaux web-rechecked, card now says sphere-plate geometry. Numbers by script.
 - Conventions fixed here: none new (reuses the Level 5 numbers).
