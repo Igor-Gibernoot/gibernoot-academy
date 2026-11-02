@@ -1,0 +1,366 @@
+id: ch06-challenge
+title: "Level Challenge: Weigh the Argument (1)"
+kind: challenge
+
+cards:
+  - type: text
+    id: welcome
+    title: "Challenge, part 1: weakest premise, next move"
+    body: |
+      Each problem takes one classical argument for God from this level (the argument from contingency, the design argument, the moral argument), writes it as numbered premises, and asks the same three things: *which premise is the weakest, what would a defender do next, and what would a critic do next?* The problems are independent, so here is the toolkit, restated.
+
+      - **Validity and soundness.** An argument is *valid* if the conclusion follows from the premises; it is *sound* if it is valid **and** every premise is true. Check validity first, separately; the fight is almost always over a premise.
+      - **Credence of the conclusion.** For a valid argument with independent premises, the conclusion is at least as credible as all the premises holding together:
+      $$P(C) \ \ge\ P(\text{P1})\times P(\text{P2})\times P(\text{P3})$$
+      - **Odds form of Bayes' rule.** For rival explanations $A$ and $B$ of evidence $E$:
+      $$\frac{P(A\mid E)}{P(B\mid E)} = \frac{P(E\mid A)}{P(E\mid B)}\times\frac{P(A)}{P(B)}$$
+      With only two rivals, $P(A\mid E) = \text{odds}/(1+\text{odds})$.
+      - **Modus tollens.** From "if $\lnot G$ then $\lnot M$" and $M$, infer $G$. Valid. The *converse* and the *inverse* of an "if" are not equivalent to it.
+      - **Genetic fallacy.** Showing where a belief came from does not by itself show it false.
+      - **Reach.** Every argument gets only so far up the ladder: some ground or cause, then a mind, then one God, then a religion. Each rung needs its own premises.
+
+      Three problems here. Problems 4 and 5 come in part 2. Credences below are invented to practise the method; they are nobody's actual views.
+
+  # ---------------- Problem 1 ----------------
+  - type: text
+    id: p1-setup
+    title: "Problem 1 · The argument from contingency"
+    body: |
+      **Problem 1.** A *contingent* thing exists but could have failed to exist; a *necessary* being could not have failed to exist. Let $T$ be the totality of all contingent things. According to Leibniz (1646-1716) and his heirs, the argument runs:
+
+      **P1.** (Principle of sufficient reason, PSR.) Every contingent thing has an explanation.
+
+      **P2.** $T$ is itself contingent.
+
+      **P3.** No member of $T$ can explain $T$ (it would be part of what it explains).
+
+      **C.** Something outside $T$, a necessary being, explains $T$.
+
+      Suppose a thoughtful reader gives these credences: $P(\text{P1}) = 0.7$, $P(\text{P2}) = 0.9$, $P(\text{P3}) = 0.95$, and treats the premises as independent.
+
+  - type: numeric
+    id: p1-product
+    title: "How credible are all three together?"
+    prompt: |
+      A valid argument has premises with credences $0.7$, $0.9$ and $0.95$, treated as independent. What is the credence that **all three premises hold**, and so the lower bound on the credence of the conclusion?
+    answer: 0.5985
+    tolerance: 0.002
+    answerText: '$0.7\times0.9\times0.95 = 0.5985$'
+    wrong:
+      - { value: 0.7, feedback: 'That is the credence of the weakest premise alone. All three must hold together, and each extra premise can only lower the chance.' }
+      - { value: 0.85, feedback: 'That is the average of the three credences. The chance that all three hold is a product, not an average, and a product is below the smallest factor.' }
+    hint: 'For independent premises, multiply the three credences.'
+    explanation: |
+      $$0.7\times0.9\times0.95 = 0.5985$$
+      So this reader should put the conclusion at **no less than** about $60\%$. It could be higher, because the conclusion might be true even if a premise fails, but the argument by itself guarantees only this much. A long chain of fairly likely premises can still be shaky.
+
+  - type: mcq
+    id: p1-weakest
+    title: "Which premise is the weakest?"
+    prompt: |
+      Take the argument and the credences above ($P(\text{P1}) = 0.7$, $P(\text{P2}) = 0.9$, $P(\text{P3}) = 0.95$). Which is the weakest premise, and what is the standard critic's complaint against it?
+    options:
+      - text: 'P1, the PSR. The critic (Russell, 1948, and Hume''s Cleanthes, 1779) says the totality of contingent things may simply be a brute fact, with no explanation, and that explaining each member already explains the whole.'
+        correct: true
+      - text: 'P3. The critic says a member of the totality could perhaps explain the totality of which it is a part.'
+        feedback: |
+          P3 has the highest credence here, and a part explaining the whole it belongs to is the very circle P3 rules out. The standard critics do not aim there.
+      - text: 'The step from P1 and P2 to C, since a valid-looking argument is never really valid.'
+        feedback: |
+          Validity is checked separately and it holds: P1 gives every contingent thing an explanation, P2 makes $T$ contingent, and P3 puts the explainer outside $T$. A critic who wants to resist must reject a premise.
+    explanation: |
+      The PSR is the premise with the least support and the most weight on it: it is not a datum but a principle about the world, and many accept it only for particular things, not for the totality. The *collapse worry* (van Inwagen, 1983) presses on the same spot: if an explanation must guarantee what it explains, every truth ends up necessary. Pruss's reply is that a free act can explain without guaranteeing.
+
+  - type: build
+    id: p1-valid
+    title: "Build the validity step"
+    prompt: |
+      Take P1 as $\forall x\,\big(\mathrm{Cont}(x)\Rightarrow\exists y\ \mathrm{Expl}(y,x)\big)$, where $\mathrm{Expl}(y,x)$ means "$y$ explains $x$", and P2 as $\mathrm{Cont}(T)$. Apply P1 to $T$, then modus ponens. Build what follows: *there is something that explains $T$*.
+    tiles: ['\exists y', '\forall y', '\mathrm{Expl}(y,T)', '\mathrm{Expl}(T,y)', '\neg']
+    answers:
+      - ['\exists y', '\mathrm{Expl}(y,T)']
+    wrong:
+      - { answer: ['\forall y', '\mathrm{Expl}(y,T)'], feedback: 'That says *everything* explains $T$. P1 promises at least one explainer, not that all things explain it.' }
+      - { answer: ['\exists y', '\mathrm{Expl}(T,y)'], feedback: 'The arguments of $\mathrm{Expl}$ are reversed: that says $T$ explains something, not that something explains $T$.' }
+    hint: 'The explainer is the first argument of $\mathrm{Expl}$, and we only need that one exists.'
+    explanation: |
+      Instantiating P1 at $T$ gives $\mathrm{Cont}(T)\Rightarrow\exists y\,\mathrm{Expl}(y,T)$; P2 supplies the left side, so modus ponens delivers the right side. P3 then says that $y$ is not a member of $T$. Nothing in these steps looks at whether the premises are *true*.
+
+  - type: mcq
+    id: p1-moves
+    title: "The next move for each side"
+    prompt: |
+      The weakest premise is the PSR for the totality of contingent things. Which pair gives a fair **next move** for the critic and for the defender?
+    options:
+      - text: 'Critic: the whole may be a brute fact, and explaining every member already explains the whole (the fallacy of composition charge). Defender: explaining every member does not explain why there are any members at all (Rowe, 1975), so a reason is still owed.'
+        correct: true
+      - text: 'Critic: the argument is invalid, so nothing more needs to be said. Defender: the conclusion is the God of one particular religion.'
+        feedback: |
+          Both moves misfire. The argument is valid, so the critic must find a premise to reject; and the defender is claiming far more than the argument reaches.
+      - text: 'Critic: the PSR is false because science has found uncaused events. Defender: the PSR is true because it is obvious.'
+        feedback: |
+          The first half runs together "uncaused" and "unexplained", and a bare "it is obvious" is not a reply to a critic who doubts it. The real exchange is about whether the totality needs a reason at all.
+    explanation: |
+      Each side's next move targets the **same** premise from opposite directions. The critic offers the brute-fact alternative; the defender argues that the question "why is there anything contingent at all?" is not answered by listing the explanations of the members.
+
+  - type: mcq
+    id: p1-reach
+    title: "How far up the ladder?"
+    prompt: |
+      Suppose the argument from contingency were sound. Which of these would it **at most** establish?
+    options:
+      - text: 'A necessary ground that explains the totality of contingent things; further rungs (a person, goodness, one God, a religion) need separate premises.'
+        correct: true
+      - text: 'A personal creator who is all-good and acts in history.'
+        feedback: |
+          That is several rungs higher. Nothing in P1 to P3 says the necessary being has a mind, is good or acts; those would be new premises.
+      - text: 'A first moment in time when the universe began.'
+        feedback: |
+          The argument from contingency is about explanation, not time. It would apply equally to a universe with no beginning.
+    explanation: |
+      Reach is a separate question from soundness. A sound argument for a necessary ground would still leave open whether that ground is a mind or an impersonal necessity, and which religion, if any, describes it.
+
+  - type: mcq
+    id: p1-trap
+    title: "Mixing two arguments"
+    prompt: |
+      A cosmologist shows that the universe had **no beginning**: the past is endless. Two arguments are in play: the *kalam* argument (whatever begins to exist has a cause; the universe began to exist; so it has a cause) and the argument from contingency. Which statement is right?
+    options:
+      - text: 'The kalam argument loses its second premise (the universe began to exist). The argument from contingency is untouched, because it asks for an explanation of the totality of contingent things, whether or not they began.'
+        correct: true
+      - text: 'Both arguments fail, since both need a first moment.'
+        feedback: |
+          Only the kalam argument needs a first moment. The argument from contingency is built to work for a universe with no beginning.
+      - text: 'Neither argument is affected, because physics cannot touch philosophy.'
+        feedback: |
+          If the universe had no beginning, the kalam argument's second premise is false, so physics does bear on it. Which claims are philosophy and which are physics is part of what each argument must say.
+    explanation: |
+      The two arguments have different premises, so a result that breaks one need not break the other. This is why the course keeps "begins to exist" and "is contingent" apart.
+
+  # ---------------- Problem 2 ----------------
+  - type: text
+    id: p2-setup
+    title: "Problem 2 · Design against selection"
+    body: |
+      **Problem 2.** According to William Paley (1743-1805), a watch found on a heath shows by its fitted parts that it had a maker, and the eye shows the same sort of fit. As an argument:
+
+      **P1.** The eye's parts are fitted together to serve a purpose, as a watch's parts are.
+
+      **P2.** Things alike in this kind of fit are alike in their cause (like effects have like causes).
+
+      **P3.** Watches have designers.
+
+      **C.** The eye (probably) had a designer.
+
+      Charles Darwin (1809-1882) proposed a rival: *natural selection*, where heritable variation plus some variants leaving more offspring produces fit with no foresight. Let $D$ = "design" and $S$ = "selection", and treat them as the only two rivals for this toy calculation. Let $E$ = "a complex eye-like organ exists".
+
+  - type: numeric
+    id: p2-posterior
+    title: "Update with an invented likelihood ratio"
+    prompt: |
+      Invented numbers. The probability of the evidence $E$ is $P(E\mid D) = 0.5$ under design and $P(E\mid S) = 0.2$ under selection. The prior odds are $P(D)/P(S) = 1/10$. Treating $D$ and $S$ as the only two rivals, what is $P(D\mid E)$?
+    answer: 0.2
+    tolerance: 0.005
+    answerText: '$0.2$ (odds $0.25$)'
+    wrong:
+      - { value: 0.25, feedback: 'That is the posterior **odds** $D:S$. A probability is odds$/(1+\text{odds}) = 0.25/1.25 = 0.2$.' }
+      - { value: 2.5, feedback: 'That is only the likelihood ratio. It still has to be multiplied by the prior odds $1/10$.' }
+    hint: 'Posterior odds = likelihood ratio times prior odds; then convert odds to a probability.'
+    explanation: |
+      $$\frac{P(E\mid D)}{P(E\mid S)} = \frac{0.5}{0.2} = 2.5$$
+      $$\text{posterior odds} = 2.5\times\frac{1}{10} = 0.25$$
+      $$P(D\mid E) = \frac{0.25}{1+0.25} = 0.2$$
+      The evidence favours design by a factor $2.5$, yet the low prior keeps the posterior low. This is how the same evidence can be weighty to one reader and unimpressive to another.
+
+  - type: mcq
+    id: p2-weakest
+    title: "Which premise is the weakest?"
+    prompt: |
+      In Paley's argument above, which premise carries most of the weight, and so is where both Hume and Darwin push?
+    options:
+      - text: 'P2, that things alike in fit are alike in cause. Hume (in the Dialogues, 1779) says the world resembles a machine only weakly, with only one universe to compare; Darwin offers a different cause that also yields fit.'
+        correct: true
+      - text: 'P1, since nobody denies that the eye is complicated, so P1 is the weak one.'
+        feedback: |
+          P1 is the premise both critics grant: organs really are fitted to purposes. Their objection is to the inference *from* that fit to a designer.
+      - text: 'P3, since watches in fact have no designers.'
+        feedback: |
+          Watches are made; that is observation. The analogy would not be needed if it were not.
+    explanation: |
+      Hume attacks the *strength* of the analogy (how alike are a world and a watch?), Darwin attacks the *uniqueness* of the cause (fit can arise another way). Both reject P2 as stated, by different routes. Note the layers: that organs show fit is fact, that selection can produce it is established science, that a mind lies behind the laws is a commitment.
+
+  - type: order
+    id: p2-order
+    title: "Order the Darwinian reply"
+    prompt: Put the steps of the reply to Paley in order.
+    steps:
+      - 'Grant the datum: organs really are fitted to purposes.'
+      - 'Name the ingredients: heritable variation among offspring, and some variants leaving more offspring than others, over many generations.'
+      - 'Show that these produce fit with no foresight: variation is random, but the filtering is not.'
+      - 'Conclude that Paley''s inference from fit to a designer is undercut: the same evidence now has a rival explanation.'
+      - 'Note what is left open: whether the laws and conditions that let selection work have a further explanation.'
+    hint: 'Concede the data, give the mechanism, show it works, state what it changes, state what it leaves.'
+    explanation: |
+      The reply does not deny the data and does not claim to refute a designer. It *undercuts* an inference. The last step is where the defender replies next.
+
+  - type: numeric
+    id: p2-revised
+    title: "A critic changes the likelihood"
+    prompt: |
+      Same prior odds $P(D)/P(S) = 1/10$. A critic argues that selection predicts complex eyes just as well as design does, so $P(E\mid S) = 0.5$, while still $P(E\mid D) = 0.5$. With $D$ and $S$ the only two rivals, what is $P(D\mid E)$ now? Round to three decimals.
+    answer: 0.0909
+    tolerance: 0.002
+    answerText: '$1/11 \approx 0.091$'
+    wrong:
+      - { value: 0.2, feedback: 'That was the value with $P(E\mid S) = 0.2$. With equal likelihoods the ratio is $1$ and the evidence no longer moves the odds.' }
+      - { value: 0.1, feedback: 'That is the posterior **odds** $D:S = 1/10$, not the probability. Convert with odds$/(1+\text{odds}) = 0.1/1.1$.' }
+    hint: 'If the likelihood ratio is $1$, the posterior odds equal the prior odds.'
+    explanation: |
+      $$\frac{P(E\mid D)}{P(E\mid S)} = \frac{0.5}{0.5} = 1$$
+      $$\text{odds} = 1\times\frac{1}{10} = 0.1$$
+      $$P(D\mid E) = \frac{0.1}{1.1} \approx 0.091$$
+      The whole fight moved into one number: how well each rival predicts the evidence. When the ratio is $1$, the evidence is silent and only the prior speaks.
+
+  - type: mcq
+    id: p2-moves
+    title: "The next move for each side"
+    prompt: |
+      After the Darwinian reply, which pair gives a fair **next move** for the defender of design and for the critic?
+    options:
+      - text: 'Defender: selection needs laws and conditions that allow it, and those are what still needs explaining (this moves toward fine-tuning). Critic: that is a different argument with its own premises and its own odds; selection leaves no Paley-style inference from the eye to a designer.'
+        correct: true
+      - text: 'Defender: Darwin''s account is only a theory, so Paley''s watch stands. Critic: selection has now shown that no designer exists.'
+        feedback: |
+          Both overreach. Calling a well-supported theory "only a theory" does not restore Paley's inference, and explaining the appearance of design shows only that the *inference* from fit fails, not that no designer exists.
+      - text: 'Defender: the designer is the God of a particular religion. Critic: the eye proves that evolution is wrong.'
+        feedback: |
+          The design argument reaches at most a mind or minds of great skill, not one religion. And nothing about the eye refutes selection.
+    explanation: |
+      Selection removes the inference from *biology* but not the question about the laws. That is the lesson's own limit: it undercuts one design argument without ruling on the others.
+
+  # ---------------- Problem 3 ----------------
+  - type: text
+    id: p3-setup
+    title: "Problem 3 · The moral argument"
+    body: |
+      **Problem 3.** According to William Lane Craig, the moral argument has two premises:
+
+      **P1.** "If God does not exist then objective moral values and duties do not exist."
+
+      **P2.** Objective moral values and duties do exist.
+
+      **C.** Therefore God exists.
+
+      Write $G$ = "God exists" and $M$ = "objective moral values and duties exist" (some things are right or wrong whatever anyone thinks). Then P1 is $\lnot G\Rightarrow\lnot M$ and P2 is $M$.
+
+  - type: build
+    id: p3-form
+    title: "Build the equivalent form"
+    prompt: |
+      P1 says $\lnot G\Rightarrow\lnot M$. Build the **contrapositive**, the only rewriting of an "if" that always says the same thing: *if objective moral values and duties exist, then God exists*.
+    tiles: ['M', 'G', '\lnot M', '\lnot G', '\Rightarrow']
+    answers:
+      - ['M', '\Rightarrow', 'G']
+    wrong:
+      - { answer: ['G', '\Rightarrow', 'M'], feedback: 'That is the **converse** of $M\Rightarrow G$, a different claim ("if God exists, objective morality exists"). Swapping the sides of an "if" does not preserve meaning.' }
+      - { answer: ['\lnot M', '\Rightarrow', '\lnot G'], feedback: 'That is the **inverse** of $M\Rightarrow G$. It does not follow from it: a world could have God and no objective morality without contradicting the contrapositive.' }
+    hint: 'Swap the two sides **and** negate both: $\lnot G\Rightarrow\lnot M$ becomes $\lnot\lnot M\Rightarrow\lnot\lnot G$, that is, $M\Rightarrow G$.'
+    explanation: |
+      $$\lnot G\Rightarrow\lnot M\ \ \equiv\ \ M\Rightarrow G$$
+      With P2 ($M$), modus ponens (equivalently, modus tollens on the original) gives $G$. The argument is valid; the converse and the inverse are the two classic traps.
+
+  - type: numeric
+    id: p3-product
+    title: "A critic's credence"
+    prompt: |
+      Invented numbers. A critic gives P2 (objective moral values and duties exist) credence $0.7$ and P1 (no God, then no objective morality) credence $0.25$, treated as independent. What is the credence that **both premises hold**, a lower bound on the conclusion?
+    answer: 0.175
+    tolerance: 0.002
+    answerText: '$0.7\times0.25 = 0.175$'
+    wrong:
+      - { value: 0.7, feedback: 'That is the credence of P2 alone. The conclusion needs P1 too, and P1 is much weaker for this critic.' }
+      - { value: 0.95, feedback: 'That is the sum $0.7+0.25$. Probabilities of premises that must hold together are multiplied, not added.' }
+    hint: 'Multiply the two credences.'
+    explanation: |
+      $$0.7\times0.25 = 0.175$$
+      A defender with credences $0.85$ and $0.6$ would get $0.85\times0.6 = 0.51$. The two readers do not need to disagree about validity; they disagree on how plausible each premise is, and P1 is where the gap is widest.
+
+  - type: mcq
+    id: p3-weakest
+    title: "Which premise does each critic reject?"
+    prompt: |
+      Two critics. A moral realist without God (as in Wielenberg's work) thinks objective moral facts exist, with no divine ground. An error theorist (Mackie, 1977) thinks nothing is objectively right or wrong. Which premise does each reject?
+    options:
+      - text: 'The godless realist rejects P1 (objective morality can exist without God). The error theorist rejects P2 (there are no objective moral values and duties).'
+        correct: true
+      - text: 'The godless realist rejects P2, and the error theorist rejects P1.'
+        feedback: |
+          Swapped. The realist *accepts* P2 (objective morality exists) and denies that it needs God. The error theorist accepts P1's "if" without difficulty, since it denies morality altogether.
+      - text: 'Both reject the conclusion C but neither rejects a premise.'
+        feedback: |
+          The argument is valid, so rejecting C requires rejecting a premise. Saying "C is false" is a consequence of rejecting a premise, not an independent objection.
+    explanation: |
+      The same argument loses a different premise to each critic. This is a general lesson: the **weakest** premise depends on who is weighing it, which is why the course asks "which premise would *this* critic reject?" and not "is the argument good?".
+
+  - type: mcq
+    id: p3-debunk
+    title: "Origin of a belief"
+    prompt: |
+      Someone argues: "Our moral beliefs were shaped by natural selection for survival. So they are false." A debunker such as Sharon Street (2006) makes a more careful version aimed at moral realism. When does an origin story give a good reason to doubt a belief?
+    options:
+      - text: 'When the process that produced the belief would have produced it whether or not it was true (the origin is unconnected to truth). Showing only where a belief came from is the genetic fallacy.'
+        correct: true
+      - text: 'Always: any belief with a natural origin is thereby shown false.'
+        feedback: |
+          That would make our belief that $2+2=4$ and our belief in natural selection itself false, since both have natural origins. An origin by itself settles nothing.
+      - text: 'Never: where a belief came from is irrelevant to whether we should trust it.'
+        feedback: |
+          Too strong. If a belief came from a process that did not track truth (say, a drug that makes you feel certain), that is a good reason for doubt. The question is whether the origin is connected to truth.
+    explanation: |
+      The *genetic fallacy* is the slide from "this is how you came to believe it" to "so it is false". The careful debunker adds a premise: the process would have installed these beliefs either way. Realists reply that selection could favour true moral beliefs, or that some moral truths are accessible by reason; each side then has a premise to defend.
+
+  - type: mcq
+    id: p3-moves
+    title: "The next move for each side"
+    prompt: |
+      A godless realist rejects P1. Which pair gives a fair **next move** for the defender of the moral argument and for the critic?
+    options:
+      - text: 'Defender: objective values need a ground, and God''s good character is the best candidate (neither independent of God nor arbitrary). Critic: moral facts may be basic truths that need no further ground, so no explanation by God is owed.'
+        correct: true
+      - text: 'Defender: anyone who is moral must believe in God. Critic: morality is purely a matter of taste.'
+        feedback: |
+          The first claim is not part of the argument, which is about the *grounding* of values, not about whether believers are more moral. The second changes the subject to rejecting P2, which this critic does not do.
+      - text: 'Defender: the argument is sound, because it is valid. Critic: the argument is unsound, because it is valid.'
+        feedback: |
+          Validity does not make an argument sound, and it does not make it unsound. Soundness needs true premises too.
+    explanation: |
+      Both moves target P1. The defender offers an *explanatory* case: God as the best ground for objective morality; the critic offers the *basic-fact* alternative. Neither move touches validity.
+
+  - type: mcq
+    id: p3-reach
+    title: "How far up the ladder?"
+    prompt: |
+      Suppose the moral argument were sound. Which of these would it **at most** establish?
+    options:
+      - text: 'A source or ground of objective moral value; the step to one God and to a given religion needs more premises.'
+        correct: true
+      - text: 'That the sacred text of a given religion is true.'
+        feedback: |
+          A ground of morality is not yet a text, a revelation or a tradition. Those rungs need their own evidence.
+      - text: 'That everyone who is moral believes in God.'
+        feedback: |
+          The argument says nothing about the beliefs of moral people; it is about what grounds moral facts, not about who follows them.
+    explanation: |
+      Same ladder as before: a ground, then a mind, then one God, then a religion. The moral argument reaches at best the first rungs.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Validity first, then premises.** A valid argument is sound if its premises are true. For independent premises, $P(C) \ge P(\text{P1})\times P(\text{P2})\times\cdots$. With credences $0.7,\ 0.9,\ 0.95$ the product is $0.5985$, below the smallest factor; a long chain of likely premises can still be shaky.
+      - **Contingency.** P1: every contingent thing has an explanation; P2: the totality $T$ of contingent things is contingent; P3: no member of $T$ explains $T$. Valid: $\exists y\,\mathrm{Expl}(y,T)$ follows. The weakest premise is the principle of sufficient reason: the critic says the totality may be a brute fact, the defender (Rowe) says a reason is still owed for why there are any members. A universe with no beginning leaves it standing but defeats the kalam argument's second premise.
+      - **Design against selection.** In odds form, posterior odds are the likelihood ratio times the prior odds. With $P(E\mid D)=0.5$, $P(E\mid S)=0.2$ and prior odds $1/10$, the posterior probability of design is $0.2$; if selection predicts the evidence as well as design ($P(E\mid S)=0.5$) it falls to $1/11\approx0.091$. The weak premise is that like fit means like cause. Selection undercuts the inference without ruling on a designer, and the defender replies by moving to the laws and conditions.
+      - **Moral argument.** P1: $\lnot G\Rightarrow\lnot M$, P2: $M$, so $G$ (modus tollens). The contrapositive is $M\Rightarrow G$; the converse and inverse are not equivalent. The godless realist rejects P1, the error theorist rejects P2. With credences $0.7$ and $0.25$ the bound is $0.175$. An origin story gives doubt only if the process would install the belief whether or not it was true; otherwise it is the genetic fallacy.
+      - **Reach.** Each argument gets at most a ground, a cause or a mind. One God, a given religion and its texts need further premises.
+
+      **Next:** part 2 has problems 4 and 5: the kalam argument beside the modal ontological argument (credences, the physics premise, the parity of possibility and truth), then the argument from reason against naturalism (cause against reason), and a final weighing of all the arguments of the level.

@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-02 ch06-challenge part 1 (challenge, 22 cards, problems 1-3)
+Choices: part 1 = contingency (with kalam trap), design vs selection (odds), moral (modus tollens, debunking); part 2 = kalam + modal ontological (P4), reason/EAAN + weighing of all six (P5). Added node ch06-challenge-2 (no file yet). No widget (README checked: frequency-grid, simplex-points not needed). No images. No new external facts. validate 0/0, shots 0 problems. Conventions fixed here: none new.
+
 ## 2026-11-02 ch06-map (map, 13 cards, 11 boxes)
 Choices: no archive map; 3x4 grid (goal, ladder, soundness / contingency, kalam, modal ontological / design, moral, reason / reach, parting spanning 2). Decoys: kalam vs contingency, Hume vs Darwin, Kant vs Craig, genetic fallacy, validity vs truth, parity reversed. No new external facts (all reused from Level 6 Verified lines). Widget: built-in map kind. validate 0/0, shots 0 problems. Conventions fixed here: none new.
 
