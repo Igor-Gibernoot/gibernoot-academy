@@ -1,5 +1,11 @@
 # Status log
 
+## ch06-design (2026-11-02)
+- Built `ch06/design.yaml` (22 cards, concept, `own:` 3 blanks (Paley, selection, odds form); no widget: order, build, mcq, numeric suffice). Hook stone vs watch, Paley, analogy kind, eye/telescope, self-copying watch, order of the analogy, Hume (4 objections), one-universe mcq, select-all, Darwin, order of selection, chance trap, what Darwin attacks, Dawkins, undercutting vs explaining away, level shift to laws (points to the lesson "Guided Proof: Bayes and Fine-Tuning"), chance/necessity/design, Bayes numeric 0.4, odds build, ladder, summary.
+- Images: paley (Romney, Public domain), darwin (Cameron, Public domain), both new; Hume portrait not repeated (used in Level 5). Dawkins photo skipped (no clearly suitable image needed).
+- Choices: Dawkins's birth year and Darwin's Autobiography wording not used (unconfirmed); Hume's regress given as Philo's challenge with a generic defenders' reply; priors in the numeric card are invented toy values.
+- Conventions fixed here: $D$ design, $S$ selection, $E$ evidence; odds form $\frac{P(D\mid E)}{P(S\mid E)}=\frac{P(E\mid D)}{P(E\mid S)}\frac{P(D)}{P(S)}$; toy $P(D)=0.25$, likelihoods 0.5 and 0.25 give $P(D\mid E)=0.4$; "undercutting vs explaining away"; "level shift" from organisms to laws.
+
 ## ch06-ontological (2026-11-02)
 - Built `ch06/ontological.yaml` (22 cards, guided proof, `own:` 4 blanks). Hook (can a definition create a thing), Anselm and the formula, reductio (order card), which premise a critic rejects, Gaunilo island and what a parody shows, two replies (Anselm per SEP, intrinsic maximum) with the palm-tree counter, Kant, modal version (Plantinga), S5 derivation (order card), mirror argument and parity, credence numeric (0.3 gives 0.7), Leibniz coherence, Plantinga's modest claim, ladder of conclusions.
 - Images: anselm (new, Public domain), plantinga (new, CC BY-SA 3.0; the PD-user-en file was refused by the tool), 2 total; first image card viewed on phone, fine.
