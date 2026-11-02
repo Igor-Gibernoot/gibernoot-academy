@@ -1,0 +1,363 @@
+id: ch05-challenge-2
+title: "Level Challenge: The Universe as Evidence (2)"
+kind: challenge
+
+cards:
+  - type: text
+    id: welcome
+    title: "Challenge, part 2: the beginning, the contingency argument, and fine-tuning against its rivals"
+    body: |
+      Two more problems put the whole level together. Problem 4 asks what a "beginning" in physics does and does not give to the argument from contingency. Problem 5 weighs fine-tuning evidence for chance, design and a multiverse, with numbers. Toolkit, restated:
+
+      - **The scale factor** $a$ (size of space relative to today, $a = 1$ now). Running the film backwards, temperature and radiation density grow as
+      $$T = \frac{T_0}{a}$$
+      $$\rho_{\text{rad}} \propto a^{-4}$$
+      with $T_0 = 2.725$ K the temperature of the microwave background today.
+      - **Borde, Guth and Vilenkin** (2003, *Physical Review Letters* 90, 151301) showed that a classical spacetime that has been expanding fast enough on average along a past path cannot be continued indefinitely into the past along that path. It is a theorem about a classical description, with that average-expansion premise.
+      - **The argument from contingency** (Leibniz, 1646-1716). **P1.** Every contingent thing has an explanation. **P2.** The totality of contingent things is itself contingent and is not explained by one of its members. **C.** So its explanation lies outside it, in something not contingent.
+      - **Bayes' rule in odds form**, for rival hypotheses $H_1$ (chance), $H_2$ (design) and $H_3$ (multiverse) and evidence $E$:
+      $$\frac{P(H_i\mid E)}{P(H_j\mid E)} = \frac{P(E\mid H_i)}{P(E\mid H_j)}\cdot\frac{P(H_i)}{P(H_j)}$$
+      - **Layers**: (1) established fact, (2) live debate, (3) faith or metaphysical commitment.
+
+      Numbers in these problems are invented to make the logic checkable by hand.
+
+  # ---------------- Problem 4 ----------------
+  - type: text
+    id: p4-setup
+    title: "Problem 4 · A beginning, and what it proves"
+    body: |
+      **Problem 4.** Two speakers argue about the first moments of the universe.
+
+      **Speaker A:** "Run the film backwards: the universe gets hotter and denser without limit, and Borde, Guth and Vilenkin proved it cannot go back forever. So the universe had a beginning."
+
+      **Speaker B:** "Grant that. But whether there is a first moment does not decide whether the universe needs an explanation. The argument from contingency never mentions a first moment."
+
+      You will check A's physics with a number, then ask what A's premise really says, and then test B's claim.
+
+  - type: numeric
+    id: p4-density
+    title: "How much denser was the radiation?"
+    prompt: |
+      The temperature of the radiation filling the universe scales as $T = T_0/a$ with $T_0 = 2.725$ K, and its energy density as $\rho_{\text{rad}} \propto a^{-4}$ ($a = 1$ today). At the epoch when the radiation temperature was $T = 10^{9}$ K, what is $\log_{10}(\rho_{\text{rad}}/\rho_{\text{rad},0})$, with $\rho_{\text{rad},0}$ the radiation density today?
+    answer: 34.26
+    tolerance: 0.05
+    answerText: '$\log_{10}\left(\dfrac{10^9}{2.725}\right)^4 \approx 34.26$ (a ratio of about $1.8\times10^{34}$)'
+    wrong:
+      - { value: 8.56, feedback: 'That is $\log_{10}(T/T_0) = \log_{10}(1/a)$, the exponent of the *temperature* ratio. The density goes as $a^{-4}$, so the exponent is four times as large.' }
+      - { value: 25.7, feedback: 'That uses $a^{-3}$, the law for ordinary matter. Radiation is diluted by the volume factor $a^{-3}$ *and* each photon loses energy as space stretches, an extra factor $a^{-1}$, so the power is $-4$.' }
+    hint: 'First find $a = T_0/T$, then raise $1/a$ to the fourth power; or note $\rho_{\text{rad}} \propto T^4$.'
+    explanation: |
+      $$a = \frac{T_0}{T} = \frac{2.725}{10^{9}} \approx 2.7\times10^{-9}$$
+      $$\frac{\rho_{\text{rad}}}{\rho_{\text{rad},0}} = a^{-4} \approx 1.8\times10^{34}$$
+      Taking $\log_{10}$ gives $34.26$. Pushing $a \to 0$ makes these numbers grow without limit: that is where the equations stop giving answers, not a measured infinity.
+
+  - type: mcq
+    id: p4-reading
+    title: "What does the theorem license?"
+    prompt: |
+      Speaker A says Borde, Guth and Vilenkin "proved the universe had a beginning". Which reading is the most accurate account of what the theorem gives?
+    options:
+      - text: 'A classical spacetime that has expanded at a positive average rate $H_{\text{av}}$ along a past path cannot be extended indefinitely along it into the past. So some further physics (or a different kind of past) is needed beyond that boundary; the theorem alone does not say a first moment of time exists.'
+        correct: true
+      - text: 'It proves that time itself started at a first instant, for any universe whatever.'
+        feedback: |
+          The theorem is classical and has a premise about the average expansion along the path. A past that was not expanding on average, or a quantum-gravity regime where the classical description fails, is not covered.
+      - text: 'It proves that the universe came from nothing.'
+        feedback: |
+          "Nothing" is not a term of the theorem. It speaks of paths in a classical spacetime that cannot be continued; whether that is an absolute start, an edge of the description or a smooth rounding-off is the question of what "beginning" means.
+    explanation: |
+      The theorem is real physics with stated assumptions (classical description, positive average expansion along the path). What a "beginning" is, and what follows from it, is a further step that the theorem does not take.
+
+  - type: order
+    id: p4-order
+    title: "From the film to the philosophy"
+    prompt: |
+      Put these steps in the order in which an argument from physics to a philosophical conclusion must go, starting from the data.
+    steps:
+      - 'Running the film backwards, $T = T_0/a$ and $\rho_{\text{rad}} \propto a^{-4}$ grow as $a$ shrinks (established physics).'
+      - 'A theorem under stated premises says a classical past path cannot be extended without limit (a result with assumptions).'
+      - 'So the classical description has a boundary in the past; what lies at it (a first moment, a quantum rounding-off, another kind of past) is a further question.'
+      - 'Only then ask whether the whole universe is contingent and calls for an explanation (a philosophical premise).'
+    hint: Data first, then the theorem with its premises, then what the boundary means, then the philosophy.
+    explanation: |
+      Each step uses a different layer: fact, theorem under assumptions, interpretation, philosophy. Skipping from the first to the last treats a boundary of a description as if it already answered a question about explanation.
+
+  - type: mcq
+    id: p4-bounce
+    title: "Does a beginningless past escape?"
+    prompt: |
+      Suppose the universe has no first moment (it bounces from an earlier contracting phase, forever). Speaker B claims the argument from contingency still applies. Is B right?
+    options:
+      - text: 'Yes, as far as the argument goes. P1 and P2 speak of whether the totality of contingent things could have failed to exist and what explains it, not of when it began. A critic must reject P1 or P2, for instance by saying the totality is just there.'
+        correct: true
+      - text: 'No. Without a first moment there is nothing to explain, so P1 is false.'
+        feedback: |
+          P1 says contingent things have explanations; it says nothing about starting. Even a beginningless series of contingent things might be asked "why is there such a series at all?" (the point of Rowe), so it is not automatically answered.
+      - text: 'Yes, and so a beginning is exactly what the argument proves.'
+        feedback: |
+          The argument from contingency concludes that the totality has an explanation outside it, not that it began. It would apply to a beginningless universe too; a beginning is not its conclusion.
+    explanation: |
+      Two different arguments are easy to mix up: one asks whether there was a first moment, the other asks why anything contingent exists at all. A beginningless universe leaves the second open. A critic can still answer, with the brute-fact reply, that the universe is simply there and needs no explanation; that rejects a premise rather than changing the physics.
+
+  - type: numeric
+    id: p4-credence
+    title: "Valid is not the same as probable"
+    prompt: |
+      A reader gives P1 of the argument from contingency credence $0.9$ and P2 credence $0.6$, and does not know how the two are related. The argument is valid, so the credence in its conclusion C must be at least the credence that P1 and P2 are both true. What is the *smallest* credence in "P1 and P2" that these two numbers allow? (Hint: the chance that one of them is false is at most the sum of the chances that each is false.)
+    answer: 0.5
+    tolerance: 0.001
+    answerText: '$1 - (0.1 + 0.4) = 0.5$'
+    wrong:
+      - { value: 0.54, feedback: 'That is $0.9\times0.6$, which assumes P1 and P2 are independent. With no knowledge of how they are related, the worst case is lower.' }
+      - { value: 0.6, feedback: 'That is the credence of P2 alone, the larger lower bound if P1 were certain. P1 is only $0.9$, so some of the chance of P1 failing falls where P2 holds.' }
+    hint: 'P1 fails with chance $0.1$, P2 fails with chance $0.4$; in the worst case these never overlap.'
+    explanation: |
+      $$\begin{aligned}
+      P(\text{both}) &\ge 1 - P(\text{not P1})\\
+      &\quad - P(\text{not P2})\\
+      &= 1 - 0.1 - 0.4 = 0.5
+      \end{aligned}$$
+      With independence the figure would be $0.9\times0.6 = 0.54$. Validity only passes credence from the premises to the conclusion: a sound-looking chain can still leave a reader near one half, and the conclusion can be true even if the premises are not, so this is a lower bound.
+
+  - type: mcq
+    id: p4-premise
+    title: "Which premise would a critic reject?"
+    prompt: |
+      **P1.** Every contingent thing has an explanation.
+
+      **P2.** The totality of contingent things is contingent, and none of its members can explain it.
+
+      **C.** The totality has an explanation outside it, in something not contingent.
+
+      The step from P1 and P2 to C is valid. A critic in the line of Hume says that explaining each part explains the whole, so asking for more is "an arbitrary act of the mind"; a reply in the line of Rowe says each part explained by another part still leaves open why there are any dependent things at all. Which premise is the focus of this exchange, and what does each side say about it?
+    options:
+      - text: 'P2: the critic says no further thing (the totality) needs explaining beyond its parts; Rowe replies that explaining each part by another part does not explain why there are any dependent things at all.'
+        correct: true
+      - text: 'P1: the critic says some contingent things have no explanation, Rowe says all of them do.'
+        feedback: |
+          That is a different quarrel (the brute-fact reply attacks P1 by denying that the principle of sufficient reason holds for everything). The Hume-Rowe exchange is about whether the whole needs explaining beyond its parts, which is P2.
+      - text: 'The validity step: Rowe shows C does not follow from P1 and P2.'
+        feedback: |
+          Rowe does not dispute the logical form. The exchange is about whether P2 is true.
+    explanation: |
+      Validity and truth are separate checks. The argument is valid; the live disagreement is about P1 (the principle of sufficient reason) and P2 (whether a totality is something over and above its parts). Both are layer 2, and which one a person finds weaker usually shows a prior commitment.
+
+  - type: mcq
+    id: p4-layer
+    title: "Label each claim"
+    prompt: |
+      Three claims: (a) at $T = 10^9$ K the radiation density was about $1.8\times10^{34}$ times today's; (b) a classical spacetime with positive average expansion cannot be continued indefinitely into the past; (c) the universe's existence needs an explanation outside it. Which labelling is right?
+    options:
+      - text: '(a) established physics (a calculation from tested relations); (b) a theorem under stated assumptions, so its reach is a live debate; (c) live debate among philosophers and, for many, a commitment.'
+        correct: true
+      - text: '(a) live debate; (b) established fact about the real past; (c) established fact.'
+        feedback: |
+          Reversed. The ratio in (a) follows from relations that are tested; (b) is a result about a classical model with assumptions; (c) is contested and cannot be settled by physics alone.
+      - text: '(a), (b) and (c) are all faith commitments.'
+        feedback: |
+          (a) is checked by calculation and (b) by proof from stated premises. Calling everything faith erases the layers.
+    explanation: |
+      The course rule: never pass a layer-3 claim off as layer 1, in either direction. The physics narrows what a "beginning" can mean; the philosophy of explanation is a separate argument with its own premises.
+
+  # ---------------- Problem 5 ----------------
+  - type: text
+    id: p5-setup
+    title: "Problem 5 · Fine-tuning against its rivals"
+    body: |
+      **Problem 5.** Invented numbers. A universe has **three independent dials** (constants the laws take as inputs). Each dial has a possible range, and life needs the value to lie in a window equal to one tenth of the range, with every value of the range equally likely under chance. Let $E$ be the evidence **"all three dials lie in their life-permitting windows"**. Three rival hypotheses:
+
+      - $H_1$, **chance**: one universe, dial values drawn at random.
+      - $H_2$, **design**: a designer who wanted a life-friendly universe set them; $P(E\mid H_2) = 0.1$.
+      - $H_3$, **multiverse**: $5000$ universes, each with its own independent random dials.
+
+      Prior probabilities: $P(H_1) = 0.6$, $P(H_2) = 0.1$, $P(H_3) = 0.3$ (these are invented; where they come from is exactly what a critic disputes).
+
+  - type: numeric
+    id: p5-dials
+    title: "Three dials at once"
+    prompt: |
+      Three independent dials, each lands in its window with probability $\tfrac{1}{10}$ (every value in the range equally likely). What is $\log_{10} P(E\mid H_1)$, the chance that all three land in their windows in a single universe?
+    answer: -3
+    tolerance: 0.01
+    answerText: '$\log_{10}(0.1)^3 = -3$ (a chance of $0.001$)'
+    wrong:
+      - { value: -1, feedback: 'That is the chance for one dial. For several independent dials the chances multiply, so each extra dial lowers the exponent.' }
+      - { value: -0.52, feedback: 'That would be $\log_{10} 0.3$, which adds the chances ($0.1+0.1+0.1$). Independent events that must *all* happen multiply their chances.' }
+    hint: 'Independent events that must all happen: multiply the chances, so add the $\log_{10}$ values.'
+    explanation: |
+      $$P(E\mid H_1) = \left(\frac{1}{10}\right)^3 = 10^{-3}$$
+      $$\log_{10} P(E\mid H_1) = -3$$
+      The more independent dials a universe has, the smaller the chance that all of them are in their windows. That is why quoting one dial at a time understates the tuning and why counting dials matters.
+
+  - type: mcq
+    id: p5-correlated
+    title: "What if the dials are linked?"
+    prompt: |
+      A critic says: "Suppose the laws link the dials, so that once dial 1 is in its window, dials 2 and 3 are forced into theirs. Then the three tunings are not three independent coincidences." With dial 1 still having a $\tfrac{1}{10}$ window, what is $P(E\mid H_1)$ then, and what does it do to the argument?
+    options:
+      - text: '$P(E\mid H_1) = 0.1$ (only dial 1 is a coincidence); the tuning looks less impressive, and the open question becomes why the laws link the dials that way.'
+        correct: true
+      - text: '$P(E\mid H_1) = 10^{-3}$ still; links between dials do not change the chance.'
+        feedback: |
+          The product rule needs independence. If dials 2 and 3 are fixed by dial 1, they add no further chance of failure.
+      - text: '$P(E\mid H_1) = 0.3$, the sum of the three windows.'
+        feedback: |
+          Adding chances is for "either of these", not "all of these". Here a single coincidence (dial 1) decides all three.
+    explanation: |
+      The count of independent dials is itself a physics question, not a given: estimates that vary one constant at a time can overstate or understate the tuning depending on how the constants are linked. A defender can reply that the linking law is then itself something that could have been otherwise.
+
+  - type: numeric
+    id: p5-this
+    title: "Posterior of design for this universe"
+    prompt: |
+      Use $P(E\mid H_1) = 10^{-3}$, $P(E\mid H_2) = 0.1$, and priors $P(H_1)=0.6$, $P(H_2)=0.1$, $P(H_3)=0.3$. Take the evidence to be $E_{\text{this}}$: **this** universe (the one we observe) has all three dials in their windows. In a multiverse each universe separately has the single-universe chance, so $P(E_{\text{this}}\mid H_3) = 10^{-3}$ as well. What is the posterior probability of design $H_2$, as a percentage?
+    answer: 91.7
+    tolerance: 0.2
+    answerText: '$\dfrac{0.01}{0.0006+0.01+0.0003} \approx 91.7\%$'
+    wrong:
+      - { value: 10, feedback: 'That is the prior of design. The evidence has a likelihood ratio of $100$ in favour of design over each rival, so the posterior is much higher.' }
+      - { value: 96.6, feedback: 'That uses the multiverse likelihood for "at least one universe works", which is the other evidence. For *this* universe the multiverse gets no boost.' }
+    hint: 'Compute $P(H_i)P(E\mid H_i)$ for each of the three hypotheses, then divide the design term by the total.'
+    explanation: |
+      $$\begin{aligned}
+      P(H_1)P(E\mid H_1) &= 0.0006\\
+      P(H_2)P(E\mid H_2) &= 0.0100\\
+      P(H_3)P(E\mid H_3) &= 0.0003
+      \end{aligned}$$
+      The total is $0.0109$, so
+      $$P(H_2\mid E_{\text{this}}) = \frac{0.0100}{0.0109} \approx 0.917$$
+      Chance gets $5.5\%$ and the multiverse $2.8\%$. Other universes do not make *this* one more likely to be life-permitting.
+
+  - type: numeric
+    id: p5-some
+    title: "Posterior of the multiverse for 'some universe'"
+    prompt: |
+      Now take the evidence to be $E_{\text{some}}$: **at least one** of the universes has all three dials in their windows. Under chance ($H_1$, one universe) and design ($H_2$) the likelihoods are as before, $10^{-3}$ and $0.1$. Under $H_3$ there are $5000$ universes, each with chance $10^{-3}$, so $P(E_{\text{some}}\mid H_3) = 1-(0.999)^{5000} \approx 0.9933$. With the same priors ($0.6$, $0.1$, $0.3$), what is the posterior probability of the multiverse $H_3$, as a percentage?
+    answer: 96.6
+    tolerance: 0.2
+    answerText: '$\dfrac{0.2980}{0.0006+0.0100+0.2980} \approx 96.6\%$'
+    wrong:
+      - { value: 91.7, feedback: 'That is the design posterior for $E_{\text{this}}$. Here the evidence is different, and the multiverse likelihood is $0.9933$, not $10^{-3}$.' }
+      - { value: 99.3, feedback: 'That is the likelihood $P(E_{\text{some}}\mid H_3)$, not the posterior. The posterior also weighs the prior ($0.3$) against the other hypotheses.' }
+    hint: 'Same method: $P(H_i)P(E\mid H_i)$ for each, divide the multiverse term by the total.'
+    explanation: |
+      $$\begin{aligned}
+      P(H_1)P(E\mid H_1) &= 0.0006\\
+      P(H_2)P(E\mid H_2) &= 0.0100\\
+      P(H_3)P(E\mid H_3) &\approx 0.2980
+      \end{aligned}$$
+      The total is about $0.3086$, so
+      $$P(H_3\mid E_{\text{some}}) \approx 0.966$$
+      Design has $3.2\%$. The same priors give opposite verdicts for the two evidence statements: the whole dispute is over which statement is the right evidence.
+
+  - type: mcq
+    id: p5-which
+    title: "Which evidence is the right one?"
+    prompt: |
+      The two posteriors differ: design leads for "this universe is life-permitting" ($91.7\%$), the multiverse leads for "some universe is" ($96.6\%$). According to Roger White (2000), who gave the "this universe" objection, which evidence should be used, and what is the standard reply?
+    options:
+      - text: 'White: more universes do not make it more probable that the one we observe is life-permitting, so the relevant evidence is about this universe. The defender replies that, since observers can only find themselves in a life-permitting universe, the evidence that bears on the hypotheses is that some universe permits observers; the choice of evidence is the live point.'
+        correct: true
+      - text: 'White: the multiverse is impossible, so the second posterior is meaningless.'
+        feedback: |
+          White does not argue that other universes cannot exist; his claim concerns what the observation of this universe supports.
+      - text: 'There is nothing to choose: both statements say the same thing, so the posteriors must agree.'
+        feedback: |
+          They are different statements with different likelihoods under $H_3$ ($10^{-3}$ against $0.9933$); the arithmetic shows they do not agree. That is what makes the choice matter.
+    explanation: |
+      Hacking (1987) named the *inverse gambler's fallacy*, the step from one unlikely outcome to many earlier tries, and White (2000) pressed the form that targets multiverse replies to fine-tuning. Defenders reply that the selection effect makes "some universe" the relevant evidence. Both are layer 2: the numbers are fixed, the choice of evidence is argued.
+
+  - type: build
+    id: p5-odds
+    title: "Build the odds of design against chance"
+    prompt: |
+      For design $H_2$ against chance $H_1$, given evidence $E$, build the posterior odds as the product of a likelihood ratio and a prior ratio.
+    prefix: '\dfrac{P(H_2\mid E)}{P(H_1\mid E)} ='
+    tiles: ['\dfrac{P(E\mid H_2)}{P(E\mid H_1)}', '\dfrac{P(H_2)}{P(H_1)}', '\dfrac{P(E\mid H_1)}{P(E\mid H_2)}', '\dfrac{P(H_1)}{P(H_2)}']
+    answers:
+      - ['\dfrac{P(E\mid H_2)}{P(E\mid H_1)}', '\dfrac{P(H_2)}{P(H_1)}']
+      - ['\dfrac{P(H_2)}{P(H_1)}', '\dfrac{P(E\mid H_2)}{P(E\mid H_1)}']
+    wrong:
+      - { answer: ['\dfrac{P(E\mid H_1)}{P(E\mid H_2)}', '\dfrac{P(H_2)}{P(H_1)}'], feedback: 'The likelihood ratio is flipped: it would favour chance when the evidence is *more* probable under design.' }
+      - { answer: ['\dfrac{P(E\mid H_2)}{P(E\mid H_1)}', '\dfrac{P(H_1)}{P(H_2)}'], feedback: 'The prior ratio is flipped: the posterior odds of design start from the prior odds of design.' }
+    hint: 'Posterior odds equal (likelihood ratio) times (prior odds), both written with $H_2$ over $H_1$.'
+    explanation: |
+      $$\frac{P(H_2\mid E)}{P(H_1\mid E)} = \frac{P(E\mid H_2)}{P(E\mid H_1)}\cdot\frac{P(H_2)}{P(H_1)}$$
+      With the toy numbers: $\tfrac{0.1}{0.001}\cdot\tfrac{0.1}{0.6} = 100\times\tfrac16 \approx 16.7$. Check: $0.917/0.055 \approx 16.7$.
+
+  - type: mcq
+    id: p5-premise
+    title: "Which premise would a critic reject?"
+    prompt: |
+      **P1.** The life-permitting window is narrow compared with the possible range.
+
+      **P2.** So under chance, the likelihood $P(E\mid H_1)$ is small.
+
+      **P3.** Under design, $P(E\mid H_2)$ is not small.
+
+      **P4.** The prior odds of design against chance are not extremely small.
+
+      **C.** The posterior odds favour design over chance.
+
+      The step to C is valid. A physicist says nobody knows the range of values a constant could take, or how likely each is. A philosopher says an unconstrained designer could produce any universe, so $P(E\mid H_2)$ is not large either. Which premises do they press?
+    options:
+      - text: 'The physicist presses P1 and P2 (the range and the measure behind "narrow" and "small"); the philosopher presses P3 (what a designer would do).'
+        correct: true
+      - text: 'The physicist presses P4 (the prior odds); the philosopher presses P1.'
+        feedback: |
+          The physicist's complaint is about the range and its probability rule, which enter the likelihood under chance. The philosopher's is about what design predicts, P3. P4 concerns the prior.
+      - text: 'Both press the validity of the step to C.'
+        feedback: |
+          Both accept that if the premises held, C would follow. They dispute the premises.
+    explanation: |
+      Each objection hits a different premise, and they can be separated cleanly. P4 is where priors enter: a reader can accept every likelihood and still reject C by holding the prior odds of design to be tiny, or the reverse.
+
+  - type: mcq
+    id: p5-layer
+    title: "Label each claim"
+    prompt: |
+      Three claims: (a) with three independent dials with windows of one tenth, the chance of all in range is $10^{-3}$; (b) the evidence that bears on the multiverse is "some universe is life-permitting" rather than "this one is"; (c) a designer, if any, would choose a life-permitting universe. Which labelling is right?
+    options:
+      - text: '(a) established arithmetic (given the model); (b) live debate; (c) live debate or commitment, depending on whether it is argued from a view of what a designer would value or held as a creed.'
+        correct: true
+      - text: '(a) live debate; (b) established fact; (c) established fact.'
+        feedback: |
+          Reversed. The product is arithmetic given independent dials with uniform chance; the choice of evidence is what the exchange between White and his critics is about; what a designer would do is not a physical datum.
+      - text: 'All three are faith commitments.'
+        feedback: |
+          (a) is a calculation anyone can check, and (b) is a point of probability reasoning argued in print. Neither is a creed.
+    explanation: |
+      Separate what the model gives (the product), what is argued among philosophers of probability (which evidence), and what depends on a view of a designer or of the prior (a commitment for some, an argued premise for others).
+
+  - type: mcq
+    id: p5-parting
+    title: "Where thoughtful people part ways"
+    prompt: |
+      Three readers study the same numbers. One says the case is weak because the range and measure for the dials are unknown. One says it is strong, since the likelihood ratio between design and chance is $100$. One says the multiverse removes the puzzle. What is the most accurate summary of why they differ?
+    options:
+      - text: 'They agree on the arithmetic and differ on different premises: the first on the likelihood under chance (the range and measure), the second on the prior (and on P3), the third on which evidence to condition on and on whether a multiverse is acceptable at all.'
+        correct: true
+      - text: 'They differ on the arithmetic, so one of them has made an error.'
+        feedback: |
+          The numbers above are the same for all three. The disagreement is over premises and the choice of evidence.
+      - text: 'They differ because physics has already decided the question and two of them ignore it.'
+        feedback: |
+          The measure over dial values, the existence of other universes and the prior of design are not settled by current physics; each reader makes a defensible choice there.
+    explanation: |
+      The course does not name a winner: it asks where each reader presses. The first presses P1 and P2, the second accepts them and relies on a prior she holds, the third replaces the hypotheses with a larger one and accepts its measure problem.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Beginning versus explanation**. With $a$ the scale factor of space ($a=1$ today) and $T_0 = 2.725$ K the microwave-background temperature today, running the film backwards gives
+      $$T = \frac{T_0}{a}$$
+      $$\rho_{\text{rad}} \propto a^{-4}$$
+      so at $T = 10^{9}$ K the radiation density was about $1.8\times10^{34}$ times today's ($\log_{10} = 34.26$). Borde, Guth and Vilenkin (2003) show that a classical spacetime with positive average expansion along a past path cannot be continued indefinitely along it: a boundary of a classical description, not by itself a first moment of time. The argument from contingency (P1, P2, C) never mentions a first moment, so a beginningless universe does not escape it; a critic must reject P1 or P2.
+      - **Validity is not probability**. For a valid argument, the credence in the conclusion is at least the credence that all premises hold. With credences $0.9$ for P1 and $0.6$ for P2, and no assumption about how they are related, that is at least $1-(0.1+0.4) = 0.5$; with independence $0.9\times0.6 = 0.54$.
+      - **Fine-tuning against its rivals**. For chance $H_1$, design $H_2$ and a multiverse $H_3$, the posterior odds are
+      $$\frac{P(H_2\mid E)}{P(H_1\mid E)} = \frac{P(E\mid H_2)}{P(E\mid H_1)}\cdot\frac{P(H_2)}{P(H_1)}$$
+      Three independent dials, each with a window of one tenth, give $P(E\mid H_1) = 10^{-3}$; linked dials can raise it to $0.1$. With priors $0.6$, $0.1$, $0.3$ and $P(E\mid H_2)=0.1$: for the evidence "this universe is life-permitting" design gets $91.7\%$; for "some universe among $5000$ is" the multiverse gets $96.6\%$ (likelihood $1-(0.999)^{5000}\approx0.9933$). The dispute is over which evidence is right (White's "this universe" objection, after Hacking's inverse gambler's fallacy), over the range and measure, and over the priors.
+      - **Layers**: the calculations are fact; the reach of the theorem, the premises of the argument from contingency, the choice of evidence and the measure are live debate; what a designer or a necessary being would be is, for many, a commitment that the numbers do not settle in either direction.
+
+      **Next:** the level review comes automatically; the next chapter turns to the arguments for and against theism.

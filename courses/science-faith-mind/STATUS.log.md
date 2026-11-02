@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-02: ch05-challenge-2 (problems 4 and 5, 20 cards)
+Built `ch05/challenge-2.yaml`, no `own:` (like part 1, plain closing card). Problem 4: radiation density at 1e9 K, BGV reading, order card physics-to-philosophy, bounce does not escape contingency, credence lower bound 0.5, Hume/Rowe premise, layers. Problem 5: three dials, correlated dials, posteriors for E_this (91.7%) and E_some (96.6%), build odds, premises, layers, parting. Images: none (portraits of the named people already not required; no experiment or object fits). Web check done (see Verified). Hacking's dice example not attributed to a casino (only "room" confirmed in mirrors); not used. Conventions fixed here: toy fine-tuning set (3 dials x 1/10, P(E|H2)=0.1, priors 0.6/0.1/0.3, 5000 universes); credence lower bound 1 - sum of failure chances.
+
 ## ch05-challenge part 1 (2026-11-02)
 - Built Level Challenge part 1 (23 cards, problems 1 to 3: entropy odds N=200, Weinberg bound z_c=6, bubble cut-offs and Boltzmann-brain check), no widget; registered `file: ch05/challenge.yaml`. Autonomous choices: toolkit and layer cards per problem; build card for the bound; invented toy numbers flagged as invented; web check done now (see Verified). Closing card is plain text (challenge has no `own:`).
 - Conventions fixed here: Weinberg toy z_c=6 -> 343, /2.1746 = 157.7; z=2 -> 27, 12.4; bubble schedule days 1-10 (3A,1B), 11-20 (1A,3B), v_A=1, v_B=6: 75%/50%/14.3%.
