@@ -1,0 +1,386 @@
+id: ch05-challenge
+title: "Level Challenge: The Universe as Evidence (1)"
+kind: challenge
+
+cards:
+  - type: text
+    id: welcome
+    title: "Challenge, part 1: numbers, premises and layers"
+    body: |
+      Each problem takes one argument of this level (the entropy puzzle, Weinberg's bound, the measure problem), puts numbers on it, and then asks the course's two standing questions: *which premise would a critic reject?* and *which layer is each claim?* The problems are independent, so here is the toolkit, restated.
+
+      - **Boltzmann entropy** (Boltzmann, 1844-1906). With $N$ particles in a box with a left half and a right half, a *microstate* says which side each particle is on, and a *macrostate* only says how many, $k$, are on the left. The number of microstates in macrostate $k$ and its entropy are
+      $$W = \binom{N}{k} = \frac{N!}{k!\,(N-k)!}$$
+      $$S = k_B \ln W$$
+      where $\ln$ is the natural logarithm and $k_B$ is Boltzmann's constant. The *Past Hypothesis* (named by David Albert, 2000) says the universe began in a state of very low entropy; Penrose (1989) put the odds of such a start at about $1$ part in $10^{10^{123}}$ in the usual phase-space measure, a number that depends on a debated measure.
+      - **Weinberg's bound** (Weinberg, 1987). The vacuum (dark-energy) density $\rho_\Lambda$ must not be so large that it stops galaxies forming. Matter density grows with redshift $z$ as
+      $$\rho_m(z) = (1+z)^3\,\rho_{m,0}$$
+      where $\rho_{m,0}$ is the matter density today. The observed ratio is $\rho_\Lambda/\rho_{m,0} = \Omega_\Lambda/\Omega_m \approx 0.685/0.315 \approx 2.2$ (flat universe, Planck 2018).
+      - **Selection and measure.** What observers find follows $P_{\text{obs}}(x) \propto P(x)\,F(x)$, with $P(x)$ the prior for a dial value $x$ and $F(x)$ the weight of observers it allows. In an endless ensemble of bubble universes, a *measure* is the rule that cuts off and weights the count: by number, $f_A^{\text{count}} = n_A/(n_A+n_B)$, or by volume, $f_A^{\text{volume}} = n_A v_A/(n_A v_A+n_B v_B)$.
+      - **Layers**: label each claim as (1) established fact, (2) live debate, or (3) faith or metaphysical commitment.
+
+      Three problems here. Problems 4 and 5 come in part 2.
+
+  # ---------------- Problem 1 ----------------
+  - type: text
+    id: p1-setup
+    title: "Problem 1 · Counting a special start"
+    body: |
+      **Problem 1.** Invented numbers, honest logic. Take a small box model of the universe: $N = 200$ particles, each in the left or the right half, and every one of the $2^{200}$ microstates counted as equally likely. A critic of the Past Hypothesis says: "A low-entropy start is no cause for wonder." A defender says: "Count how special it is." The all-left state is the toy version of a very special start; the even split ($k = 100$) is the toy version of a typical one.
+
+  - type: numeric
+    id: p1-odds
+    title: "How many times more likely?"
+    prompt: |
+      $N = 200$ particles, each in the left or right half of a box, all $2^{200}$ microstates equally likely. The all-left macrostate ($k = 200$) has $W = 1$ microstate. The even split ($k = 100$) has $W = \binom{200}{100}$ microstates. Give $\log_{10}$ of how many times more likely the even split is than the all-left state.
+    answer: 58.96
+    tolerance: 0.05
+    answerText: '$\log_{10}\binom{200}{100} \approx 58.96$ (about $9.05\times10^{58}$ to $1$)'
+    wrong:
+      - { value: 60.2, feedback: 'That is $\log_{10}2^{200}$, the exponent of the *total* number of microstates. The even split is only a fraction of the total ($5.6\%$), so its count is a little smaller.' }
+      - { value: 2, feedback: 'That would be the ratio for a tiny box of about 2 particles ($\binom{2}{1}/1 = 2$ is of order 1). With $200$ particles the number of ways to choose $100$ of them is astronomically large.' }
+    hint: The even split has $\binom{200}{100} = \dfrac{200!}{100!\,100!}$ microstates; take $\log_{10}$ of it.
+    explanation: |
+      $$W_{\text{even}} = \binom{200}{100} \approx 9.05\times10^{58}$$
+      $$\log_{10} W_{\text{even}} \approx 58.96$$
+      The all-left state has $W = 1$. So the even split is about $10^{59}$ times more likely, and the chance of the all-left state, if all microstates are equally likely, is $2^{-200} \approx 6.2\times10^{-61}$. With only $200$ particles the gap is already beyond imagination.
+
+  - type: numeric
+    id: p1-entropy
+    title: "The entropy of the even split"
+    prompt: |
+      Using $S = k_B \ln W$, what is $S/k_B$ for the even split of $N = 200$ particles ($W = \binom{200}{100} \approx 9.05\times10^{58}$), using the natural logarithm?
+    answer: 135.75
+    tolerance: 0.1
+    answerText: '$\ln\binom{200}{100} \approx 135.75$'
+    wrong:
+      - { value: 58.96, feedback: 'That is $\log_{10} W$. Boltzmann''s formula uses the natural logarithm, $\ln W = 2.3026\,\log_{10} W$.' }
+      - { value: 200, feedback: 'That is $N$, the number of particles. The entropy of the macrostate is $\ln$ of its number of microstates, not the number of particles.' }
+    hint: '$\ln W = \ln 10 \times \log_{10} W$, with $\ln 10 \approx 2.3026$.'
+    explanation: |
+      $$\frac{S}{k_B} = \ln W = 2.3026 \times 58.96 \approx 135.75$$
+      The all-left state has $S = 0$. The entropy grows only like the *logarithm* of the count, which is why the entropy numbers of the universe are huge but manageable, while the probability numbers (like $10^{-61}$ here, or $10^{-10^{123}}$ for Penrose) are not.
+
+  - type: mcq
+    id: p1-measure
+    title: "Which reply is this?"
+    prompt: |
+      A critic of the entropy argument says: "Your $6.2\times10^{-61}$ assumes each microstate is equally likely and that a starting state was drawn from all of them. For the whole universe, with gravity, nobody knows the right way to assign probabilities to starting states, and a number built on the wrong rule means nothing." The lesson on entropy lists four replies: the measure problem; the multiverse or anthropic reply; new laws or a bounce; a brute fact. Which is this, and what does it target?
+    options:
+      - text: 'The measure problem. It targets the step from "few microstates" to "improbable", which needs a probability rule (a measure) on the possible starts.'
+        correct: true
+      - text: 'The multiverse reply. It targets the claim that the start was special, by saying that every start occurs somewhere.'
+        feedback: |
+          The multiverse reply needs many universes with different starts; this critic does not assume any. The complaint here is about whether the probability itself is defined.
+      - text: 'Brute fact. It targets the claim that the start needs explaining, by saying it is just how things are.'
+        feedback: |
+          A brute-fact reply accepts that the start was special and refuses to explain it. This critic questions the odds themselves, which is a different move.
+    explanation: |
+      Counting microstates is solid mathematics; turning the count into a *probability of the start* is the step that needs a measure. For a gravitating universe this is open, which is why Penrose's number is an order of magnitude from a debated measure, not a settled probability.
+
+  - type: mcq
+    id: p1-premise
+    title: "Which premise would a critic reject?"
+    prompt: |
+      Here is the argument for the Past Hypothesis's strangeness.
+
+      **P1.** The early universe was in a macrostate with very few microstates (smooth, hot matter with gravity).
+
+      **P2.** Every microstate is equally likely a priori, so a macrostate's probability is proportional to its number of microstates.
+
+      **P3.** A very improbable start calls for an explanation.
+
+      **C.** The low-entropy start calls for an explanation.
+
+      The validity step is fine: C follows from P1 to P3. Which premise would the *measure-problem* critic reject, and which would a *brute-fact* defender reject?
+    options:
+      - text: 'The measure-problem critic rejects P2 (equal weight to every microstate, for the whole universe); the brute-fact defender rejects P3 (some starts just are, with no further explanation owed).'
+        correct: true
+      - text: 'The measure-problem critic rejects P1, since nobody knows the early universe was smooth.'
+        feedback: |
+          The smoothness of the early universe is established by observation (the microwave background). The measure critic does not dispute P1 but the probabilities in P2.
+      - text: 'Both reject C, since a valid argument can still have a false conclusion.'
+        feedback: |
+          A valid argument with true premises has a true conclusion. Rejecting C alone, without a premise, is not an objection; each critic names a premise.
+    explanation: |
+      Validity and truth are separate checks. The argument is valid. P1 is observational. P2 and P3 are where the live disagreement is, and they are different kinds: P2 is about a probability rule, P3 is a principle about when explanation is owed.
+
+  - type: mcq
+    id: p1-layer
+    title: "Label each claim"
+    prompt: |
+      Three claims from this problem: (a) the even split of $200$ particles has about $9.05\times10^{58}$ microstates; (b) Penrose's $1$ part in $10^{10^{123}}$ measures how improbable our start was; (c) the low-entropy start was set by a designer. Which labelling by layer is right?
+    options:
+      - text: '(a) established fact (a count); (b) live debate (it rests on a contested measure); (c) faith or metaphysical commitment.'
+        correct: true
+      - text: '(a) established fact; (b) established fact; (c) live debate.'
+        feedback: |
+          (b) is an estimate that depends on a measure many physicists question, so it is not settled. (c) is not decided by the numbers, so it is a commitment, not a scientific debate.
+      - text: '(a) live debate; (b) live debate; (c) live debate.'
+        feedback: |
+          (a) is arithmetic: it can be checked by anyone with the binomial formula. Labelling it a debate hides the difference between what is counted and what is interpreted.
+    explanation: |
+      The method of the course in three lines: the count is fact, the probability built on it is debated, the "why" behind it is a commitment that the numbers do not settle in either direction.
+
+  # ---------------- Problem 2 ----------------
+  - type: text
+    id: p2-setup
+    title: "Problem 2 · Weinberg's bound with numbers"
+    body: |
+      **Recall.** According to Weinberg (1987), the vacuum density $\rho_\Lambda$ must not be so large that galaxies cannot form: it should not be much larger than the matter density at the time the earliest galaxies formed. Matter density rises with redshift $z$ as $\rho_m(z) = (1+z)^3\rho_{m,0}$, with $\rho_{m,0}$ the matter density today.
+
+      **Problem 2.** Invented numbers: suppose galaxies first collapsed at redshift $z_c = 6$. The observed vacuum density is $\rho_\Lambda/\rho_{m,0} \approx 2.17$ (that is $0.685/0.315$, from the Planck 2018 values with a flat universe).
+
+  - type: build
+    id: p2-formula
+    title: "Build the bound"
+    prompt: |
+      Weinberg's bound says the vacuum density should not be much larger than the matter density at the collapse redshift $z_c$. Build the right side, in terms of $z_c$ and today's matter density $\rho_{m,0}$.
+    prefix: '\rho_\Lambda \lesssim'
+    tiles: ['(1+z_c)^3', '\rho_{m,0}', 'z_c^3', '(1+z_c)^{-3}', '(1+z_c)^2']
+    answers:
+      - ['(1+z_c)^3', '\rho_{m,0}']
+      - ['\rho_{m,0}', '(1+z_c)^3']
+    wrong:
+      - { answer: ['z_c^3', '\rho_{m,0}'], feedback: 'The scale-factor relation is $1+z = 1/a$, so the volume shrinks by $(1+z)^3$, not $z^3$. At $z_c = 6$ the difference is $343$ against $216$.' }
+      - { answer: ['(1+z_c)^{-3}', '\rho_{m,0}'], feedback: 'The matter density was *higher* in the past, so the factor is above $1$. A negative power would make it lower than today.' }
+    hint: Going back to redshift $z$, lengths were $1/(1+z)$ of today, so densities of matter were $(1+z)^3$ times larger.
+    explanation: |
+      $$\rho_\Lambda \lesssim (1+z_c)^3\,\rho_{m,0}$$
+      Matter spreads out as the universe expands, so earlier it was denser by the cube of the stretching factor. The sign $\lesssim$ means "not much more than": it is an order-of-magnitude bound.
+
+  - type: numeric
+    id: p2-bound
+    title: "The bound"
+    prompt: |
+      With the collapse redshift $z_c = 6$, the bound is $\rho_\Lambda \lesssim (1+z_c)^3\rho_{m,0}$. What is the bound in units of $\rho_{m,0}$?
+    answer: 343
+    tolerance: 1
+    answerText: '$(1+6)^3 = 343$'
+    wrong:
+      - { value: 216, feedback: 'That is $6^3$. The factor is $(1+z_c)^3$, because the stretching factor is $1+z$, not $z$.' }
+      - { value: 18, feedback: 'That is $3z_c$. The density rises as the *cube* of $1+z$, not as three times $z$.' }
+    hint: Compute $(1+z_c)^3$ with $z_c = 6$.
+    explanation: |
+      $$(1+6)^3 = 7^3 = 343$$
+      So galaxies could form at $z_c = 6$ with $\rho_\Lambda$ up to a few hundred times $\rho_{m,0}$.
+
+  - type: numeric
+    id: p2-ratio
+    title: "Bound against observed"
+    prompt: |
+      The bound is $343\,\rho_{m,0}$ and the observed vacuum density is $\rho_\Lambda \approx 2.17\,\rho_{m,0}$. By what factor is the bound larger than the observed value?
+    answer: 158
+    tolerance: 1.5
+    answerText: '$343/2.1746 \approx 157.7$'
+    wrong:
+      - { value: 343, feedback: 'That is the bound in units of $\rho_{m,0}$. The question compares it with the observed value, $2.17\,\rho_{m,0}$, so divide.' }
+      - { value: 2.17, feedback: 'That is the observed value in units of $\rho_{m,0}$, not the ratio of bound to observed.' }
+    hint: Divide $343$ by $0.685/0.315$.
+    explanation: |
+      $$\frac{343}{0.685/0.315} = \frac{343}{2.1746} \approx 157.7$$
+      The observed value lies about two powers of ten below this bound, against the $120$ powers of ten of the mismatch with the quantum-field estimate. Weinberg's argument explains the *order of magnitude*, not the exact value.
+
+  - type: numeric
+    id: p2-typical
+    title: "Typical galaxies instead of the earliest"
+    prompt: |
+      Martel, Shapiro and Weinberg (1998) argued that the observed value should be compared with the matter density when *typical* galaxies formed, not the earliest. Suppose typical galaxies collapsed at $z = 2$. By what factor is the bound $(1+2)^3\rho_{m,0}$ larger than the observed $2.17\,\rho_{m,0}$?
+    answer: 12.4
+    tolerance: 0.2
+    answerText: '$27/2.1746 \approx 12.4$'
+    wrong:
+      - { value: 158, feedback: 'That is the factor for $z_c = 6$. For typical galaxies at $z = 2$ the bound is only $(1+2)^3 = 27$ in units of $\rho_{m,0}$.' }
+      - { value: 27, feedback: 'That is the bound in units of $\rho_{m,0}$. Divide by the observed $2.17$ to get the factor.' }
+    hint: Compute $(1+2)^3 = 27$, then divide by $2.1746$.
+    explanation: |
+      $$\frac{(1+2)^3}{0.685/0.315} = \frac{27}{2.1746} \approx 12.4$$
+      Choosing typical rather than earliest galaxies brings the observed value within about one power of ten of the bound. The redshift $z = 2$ is an invented illustration of the logic, not a measured formation epoch.
+
+  - type: mcq
+    id: p2-premise
+    title: "Which premise would a critic reject?"
+    prompt: |
+      **P1.** Observers need galaxies.
+
+      **P2.** Galaxies cannot form if $\rho_\Lambda$ is much larger than the matter density at collapse.
+
+      **P3.** Other values of $\rho_\Lambda$ occur somewhere (in other regions or universes), with no strong preference for small values inside the allowed range.
+
+      **C.** We should expect to observe a $\rho_\Lambda$ no larger than about a few hundred times $\rho_{m,0}$, not $120$ powers of ten below the quantum-field estimate.
+
+      Validity is fine. Which premise needs more than physics we have tested?
+    options:
+      - text: 'P3. P1 and P2 are physics and biology we can examine; P3 needs a mechanism that produces the other values (a multiverse, say), which is untested.'
+        correct: true
+      - text: 'P2. Nobody has ever shown that vacuum energy affects how matter clumps.'
+        feedback: |
+          Gravity acting against a positive $\rho_\Lambda$ is ordinary general relativity, and the calculation of when clumps still collapse was done by Weinberg and by later authors. P2 can be examined; P3 cannot.
+      - text: 'C. A conclusion can never follow from premises about other universes.'
+        feedback: |
+          The argument is valid: if P1 to P3 hold, C follows. The objection must name a premise. This one wrongly treats talk of other universes as invalid, when it only makes a premise untested.
+    explanation: |
+      Weinberg's bound makes a *prediction* (the order of magnitude), and the later observation of $\rho_\Lambda/\rho_{m,0} \approx 2.2$ is consistent with it. Whether this supports P3 (a spread of values) or only shows that physics constrains $\rho_\Lambda$ for a reason not yet known is a live debate. A critic can also reject P1's hidden assumption that only galaxy-based observers count.
+
+  - type: mcq
+    id: p2-layer
+    title: "Label each claim"
+    prompt: |
+      Three claims: (a) $\rho_\Lambda/\rho_{m,0} \approx 2.2$ today; (b) the bound $(1+z_c)^3\rho_{m,0}$ follows from requiring that galaxies can form; (c) our value of $\rho_\Lambda$ was fixed by a purpose. Which labelling is right?
+    options:
+      - text: '(a) established fact (a measurement, assuming the standard model of cosmology); (b) established reasoning given the physics of galaxy formation, with the choice of $z_c$ and the prior a live debate; (c) faith or metaphysical commitment.'
+        correct: true
+      - text: '(a) live debate; (b) established fact; (c) established fact.'
+        feedback: |
+          (c) is a statement of purpose, which no calculation or measurement settles. And (a) is a measurement, within the standard model.
+      - text: '(a) faith; (b) faith; (c) live debate.'
+        feedback: |
+          (a) and (b) are not matters of faith: one is measured, the other is derived. Labelling them so confuses the work done by evidence with the work done by commitment.
+    explanation: |
+      Notice that the bound does not decide between the readings: a multiverse reader, a design reader and a law-of-nature reader each take the same numbers. The numbers constrain the options; they do not choose among them.
+
+  # ---------------- Problem 3 ----------------
+  - type: text
+    id: p3-setup
+    title: "Problem 3 · Bubbles, cut-offs and brains"
+    body: |
+      **Recall.** In an endless ensemble of bubble universes, a *measure* is a rule that cuts off and weights the count. Counting by number gives $f_A^{\text{count}} = n_A/(n_A+n_B)$; weighting each bubble by its volume gives $f_A^{\text{volume}} = n_A v_A/(n_A v_A+n_B v_B)$.
+
+      **Problem 3.** Invented numbers. Bubbles of type A (volume $v_A = 1$) and type B (volume $v_B = 6$) are born as follows. On each of days $1$ to $10$, three A and one B are born. On each of days $11$ to $20$, one A and three B are born. A *cut-off* at day $T$ means we count only the bubbles born by day $T$.
+
+  - type: numeric
+    id: p3-count
+    title: "Counting by number, cut-off at day 20"
+    prompt: |
+      Days $1$ to $10$ give $30$ A and $10$ B; days $11$ to $20$ give $10$ A and $30$ B. With the cut-off at day $20$, counting bubbles by number, what percentage of the bubbles are type A?
+    answer: 50
+    tolerance: 0.5
+    answerText: '$\dfrac{40}{40+40} = 50\%$'
+    wrong:
+      - { value: 75, feedback: 'That is the answer for the cut-off at day $10$ ($30$ A of $40$). With the cut-off at day $20$ the later days, rich in B, are counted too.' }
+      - { value: 25, feedback: 'That would be the fraction of B in days $1$ to $10$. Add up both periods: $40$ A and $40$ B in total.' }
+    hint: Add up both periods first, then take the fraction.
+    explanation: |
+      $$n_A = 30 + 10 = 40,\qquad n_B = 10 + 30 = 40$$
+      $$f_A^{\text{count}} = \frac{40}{40+40} = 50\%$$
+      With the cut-off at day $10$ the same rule gives $30/40 = 75\%$; at day $15$ it gives $35/60 \approx 58\%$. The answer drifts with where the line is drawn.
+
+  - type: numeric
+    id: p3-volume
+    title: "Weighting by volume, cut-off at day 20"
+    prompt: |
+      Same bubbles ($40$ A of volume $1$ and $40$ B of volume $6$ by day $20$). Now weight each bubble by its volume. What percentage of the total volume is type A?
+    answer: 14.3
+    tolerance: 0.3
+    answerText: '$\dfrac{40\cdot1}{40\cdot1+40\cdot6} = \dfrac{40}{280} \approx 14.3\%$'
+    wrong:
+      - { value: 50, feedback: 'That is the answer by number. B bubbles are six times bigger, so they carry six times the weight when volume counts.' }
+      - { value: 16.7, feedback: 'That is $1/(1+5)$ or similar mixing. Use $n_A v_A = 40$ and $n_B v_B = 240$, and divide $40$ by their sum.' }
+    hint: 'Volumes: $n_A v_A = 40\times1$ and $n_B v_B = 40\times6$.'
+    explanation: |
+      $$f_A^{\text{volume}} = \frac{40}{40+240} = \frac{1}{7} \approx 14.3\%$$
+      Same bubbles, same cut-off: $50\%$ by number and $14.3\%$ by volume.
+
+  - type: mcq
+    id: p3-lesson
+    title: "What do the three numbers show?"
+    prompt: |
+      By number, the fraction of type A is $75\%$ (cut-off day 10) or $50\%$ (cut-off day 20). By volume at day 20 it is $14.3\%$. A physicist says: "So the fraction of universes of type A is about $14\%$ after all, since volume is what matters." What is the best reply?
+    options:
+      - text: 'Each number answers a different question defined by a rule (what to count, where to stop). In an endless ensemble there is no rule-free "fraction of A"; choosing a measure is part of the theory, and a different choice changes the probabilities.'
+        correct: true
+      - text: 'The first two numbers are mistakes; only the volume count is correct.'
+        feedback: |
+          None is an arithmetic mistake. Counting by number is a defined rule too. Which rule fits the question "what would an observer find?" is the contested point, not a matter of arithmetic.
+      - text: 'The differences vanish if the cut-off is moved far enough out.'
+        feedback: |
+          Not in general. In this schedule the rates change at day 10, and for an endless ensemble the answer can keep depending on how the cut-off is taken (as the orderings AAB... and ABB... showed). A limit exists only if a rule says how to take it.
+    explanation: |
+      This is the measure problem in a few lines of arithmetic. The numbers $75\%$, $50\%$ and $14.3\%$ are all correct for their rules; the physics question is which rule corresponds to what an observer should expect.
+
+  - type: numeric
+    id: p3-brain
+    title: "A Boltzmann-brain check"
+    prompt: |
+      A *Boltzmann brain* is a lone observer who appears from a thermal fluctuation in an empty, endlessly lasting universe, with false memories of a world. Suppose measure X, applied to a universe with a small positive vacuum energy, says there is $1$ ordinary observer (one who evolved in a galaxy) for every $10^{6}$ Boltzmann brains. If you were a random observer under measure X, what is $\log_{10}$ of the chance that you are an ordinary observer?
+    answer: -6
+    tolerance: 0.05
+    answerText: '$\log_{10}\dfrac{1}{1+10^{6}} \approx -6.0$ (a chance of about $10^{-6}$)'
+    wrong:
+      - { value: 6, feedback: 'That is the exponent of the ratio of brains to ordinary observers. The chance of being ordinary is the *small* share, $10^{-6}$, so the logarithm is negative.' }
+      - { value: -0.5, feedback: 'That would be a chance of about one in three. Under measure X there are $10^6$ brains for each ordinary observer, so the ordinary share is about one in a million.' }
+    hint: 'The share is $\dfrac{1}{1+10^{6}}$.'
+    explanation: |
+      $$P(\text{ordinary}) = \frac{1}{1+10^{6}} \approx 10^{-6}$$
+      $$\log_{10} P \approx -6$$
+      The number $10^{6}$ is invented to make the logic visible.
+
+  - type: mcq
+    id: p3-brainlogic
+    title: "What does the test conclude?"
+    prompt: |
+      Measure X makes ordinary observers about one in a million among all observers. You have ordinary memories, a stable body and a world that obeys physics when checked. What is the best use of this as a test of measure X?
+    options:
+      - text: 'It counts against measure X, if we assume we are a typical observer under the measure. Measure Y, which makes ordinary observers dominant, passes this test; passing is not proof that Y is right.'
+        correct: true
+      - text: 'It proves we are Boltzmann brains, since the measure says so.'
+        feedback: |
+          The test is run the other way. A measure that predicts we are almost surely brains is in conflict with our evidence that the world is regular; the usual conclusion is to doubt the measure, not to accept the brains.
+      - text: 'It proves measure Y, since Y is the only alternative.'
+        feedback: |
+          Passing one test does not single out a measure; other measures may pass it too and differ elsewhere. The test can eliminate measures, not confirm one.
+    explanation: |
+      The check rests on an assumption that a critic can reject: that we should treat ourselves as a random draw from all observers (the principle of mediocrity). The Boltzmann-brain worry was raised by Dyson, Kleban and Susskind (2002) and the name credited to Albrecht and Sorbo (2004).
+
+  - type: mcq
+    id: p3-premise
+    title: "Which premise would a critic reject?"
+    prompt: |
+      **P1.** The probability of a dial value is the fraction of observers (or universes) that have it.
+
+      **P2.** In an endless ensemble, that fraction is defined only given a measure (a cut-off and a weighting).
+
+      **P3.** The correct measure is one that does not predict that most observers are Boltzmann brains.
+
+      **C.** The multiverse supports a definite prediction for the dial.
+
+      Validity is fine if the premises are read as the argument needs. Which premise is the one a critic of the multiverse as *explanation* presses hardest?
+    options:
+      - text: 'P3 (together with P1): the constraint from brains does not pick out a single measure, so the prediction C is not definite; a critic can also reject the assumption that we are a random draw.'
+        correct: true
+      - text: 'P2. Fractions are always defined, whatever the ensemble.'
+        feedback: |
+          The numbers 75%, 50% and 14.3% from one schedule show that the fraction depends on the rule. P2 is the lesson of the arithmetic and is not what the critic rejects.
+      - text: 'None: the argument is valid and C is therefore true.'
+        feedback: |
+          Validity does not make the premises true. The argument is valid, but the strength of C depends on P3 and P1, which are the live points.
+    explanation: |
+      The multiverse defender replies that the measure is a matter for physics to settle, like any hard problem, and that some measures already pass the brain test. The critic answers that until one does so uniquely, the multiverse is not yet an explanation of the dial. Both are layer 2.
+
+  - type: mcq
+    id: p3-layer
+    title: "Label each claim"
+    prompt: |
+      Three claims: (a) with $4$ A for each B and volumes $1$ and $8$, the fraction of A is $80\%$ by number and $1/3$ by volume; (b) an eternal-inflation or string-landscape multiverse exists; (c) the multiverse is the explanation of the dials. Which labelling is right?
+    options:
+      - text: '(a) established fact (arithmetic); (b) live debate (no other bubble has been observed); (c) live debate or, for those who hold it as a creed, a commitment.'
+        correct: true
+      - text: '(a) live debate; (b) established fact; (c) established fact.'
+        feedback: |
+          The wrong way round: the arithmetic is settled; the existence of other bubbles has not been observed. Treating (b) as fact would pass a hypothesis off as data.
+      - text: 'All three are faith commitments.'
+        feedback: |
+          The arithmetic in (a) is checked by anyone, and (b) is a hypothesis of current physics with arguments for and against. Calling them all faith erases the layers.
+    explanation: |
+      The course's rule: never pass a layer-3 claim off as layer 1, in either direction. "Other universes exist" is a hypothesis of theories under study (layer 2); whether it explains why we are here is a question of explanation on which thoughtful people part ways.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Entropy odds**: with $N$ particles in two halves, $W = \binom{N}{k}$ and $S = k_B \ln W$. For $N = 200$ the even split has $W \approx 9.05\times10^{58}$ ($\log_{10} W \approx 58.96$, $S/k_B \approx 135.75$) against $W = 1$ for all-left, so with equal weights all-left has chance $2^{-200} \approx 6.2\times10^{-61}$. The step from the count to a probability needs a measure; that is where the measure-problem critic objects, and the brute-fact defender objects to the premise that the improbable owes an explanation.
+      - **Weinberg's bound**: $\rho_\Lambda \lesssim (1+z_c)^3\rho_{m,0}$, with $z_c$ the collapse redshift and $\rho_{m,0}$ today's matter density. With the invented $z_c = 6$ the bound is $343\,\rho_{m,0}$, about $158$ times the observed $\rho_\Lambda \approx 2.17\,\rho_{m,0}$; at $z = 2$ it is $27$ and the factor $12.4$. It is an order-of-magnitude result, and the premise a critic presses is that other values of $\rho_\Lambda$ occur somewhere.
+      - **Measure**: for bubbles of types A and B, $f_A^{\text{count}} = n_A/(n_A+n_B)$ and $f_A^{\text{volume}} = n_A v_A/(n_A v_A+n_B v_B)$. The schedule above gave $75\%$ (cut-off day 10), $50\%$ (day 20) and $14.3\%$ by volume at day 20: there is no rule-free fraction in an endless ensemble. The Boltzmann-brain check ($1$ ordinary per $10^6$ brains gives a chance $10^{-6}$ of being ordinary) can eliminate a measure, not confirm one.
+      - **Layers**: the counts and arithmetic are fact; the odds of a start, the choice of measure and the existence of other bubbles are live debate; whether any of it points to a purpose, or to none, is a commitment.
+
+      **Next:** part 2 has problems 4 and 5, which put the whole level together (the beginning, the argument from contingency, the fine-tuning argument and its rivals), then the end of the level.

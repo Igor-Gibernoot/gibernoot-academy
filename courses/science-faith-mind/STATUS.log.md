@@ -1,5 +1,9 @@
 # Status log
 
+## ch05-challenge part 1 (2026-11-02)
+- Built Level Challenge part 1 (23 cards, problems 1 to 3: entropy odds N=200, Weinberg bound z_c=6, bubble cut-offs and Boltzmann-brain check), no widget; registered `file: ch05/challenge.yaml`. Autonomous choices: toolkit and layer cards per problem; build card for the bound; invented toy numbers flagged as invented; web check done now (see Verified). Closing card is plain text (challenge has no `own:`).
+- Conventions fixed here: Weinberg toy z_c=6 -> 343, /2.1746 = 157.7; z=2 -> 27, 12.4; bubble schedule days 1-10 (3A,1B), 11-20 (1A,3B), v_A=1, v_B=6: 75%/50%/14.3%.
+
 ## ch05-map (2026-11-02)
 - Built Content Map of Level 5 (13 cards, 11 boxes, 2 decoys each, 14 edges, no widget). Registered `file: ch05/map.yaml`. Choices: boxes follow the `own:` summaries of the eight concept/proof lessons; "Singularity theorems and BGV" and "Models of the start" kept as two boxes; one-at-a-time claim phrased as "can overstate the tuning" (Barr-Khan, Tegmark, per constants Verified); no new external facts, so no new web check (reuse of Verified items).
 - Conventions fixed here: none new.
