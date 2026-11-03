@@ -24,7 +24,7 @@ import { recapCards, runRecap } from './recap.js';
 import { sounds, soundOn, setSound } from './sound.js';
 import { initTheme, themeButton } from './theme.js';
 import { initTooltips } from './tooltip.js';
-import { cloudConfigured, initCloud, onCloudChange, signIn, signOutUser, flushCloud } from './cloud.js';
+import { cloudConfigured, initCloud, onCloudChange, signIn, signOutUser, flushCloud, syncCloudNow } from './cloud.js';
 
 initTheme();
 initTooltips();
@@ -195,8 +195,12 @@ function accountPanel() {
       body.replaceChildren(
         h('p', {}, `Signed in as ${st.user.name ?? st.user.email}${st.user.name ? ` (${st.user.email})` : ''}.`),
         h('p', { class: 'hint-line', style: 'margin:0 0 8px' },
-          st.sync === 'syncing' ? 'Syncing…' : st.sync === 'error' ? `Sync problem: ${st.error}` : 'Progress is synced to your account on every change.'),
-        h('div', { class: 'row' }, h('button', { class: 'btn ghost', type: 'button', onclick: () => signOutUser() }, 'Sign out')));
+          st.sync === 'syncing' ? 'Syncing…'
+            : st.sync === 'error' ? `Sync problem: ${st.error} (retrying automatically)`
+            : `Synced${st.last ? ` at ${new Date(st.last).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : ''}${st.bytes ? ` (${Math.round(st.bytes / 1000)} kB in the cloud)` : ''}. Progress is merged with your account on every change, every minute and when you return to this tab.`),
+        h('div', { class: 'row' },
+          h('button', { class: 'btn primary', type: 'button', onclick: () => syncCloudNow() }, 'Sync now'),
+          h('button', { class: 'btn ghost', type: 'button', onclick: () => signOutUser() }, 'Sign out')));
     } else {
       body.replaceChildren(
         h('p', {}, 'Sign in with Google to keep your progress in your account and share it between your phone and laptop. Progress already in this browser is merged in, never lost.'),
@@ -211,7 +215,7 @@ function accountPanel() {
   return panel;
 }
 
-const BUILD = '2026-10-24.2 (widgets: one file each)';
+const BUILD = '2026-11-03 (robust sync: retry, polling, gzip, merge-on-import)';
 
 function settings() {
   const code = h('textarea', { readonly: true, 'aria-label': 'Your progress code' });
@@ -238,7 +242,7 @@ function settings() {
       }, 'Copy code'))),
     h('div', { class: 'panel' },
       h('h3', {}, 'Import progress'),
-      h('p', {}, 'This replaces the progress stored in this browser.'),
+      h('p', {}, 'The code is merged into the progress stored in this browser: nothing already here is lost (use Reset below to start over).'),
       paste,
       h('div', { class: 'row' }, h('button', {
         class: 'btn primary', type: 'button',

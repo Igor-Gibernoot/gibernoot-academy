@@ -191,7 +191,8 @@ export function accountChip() {
         ? h('img', { src: st.user.photo, alt: '', referrerpolicy: 'no-referrer' })
         : h('span', { html: icons.user }));
       btn.append(h('span', {}, (st.user.name ?? st.user.email ?? 'Account').split(' ')[0]));
-      btn.dataset.tip = `Signed in as ${st.user.email ?? st.user.name} · tap for account`;
+      btn.dataset.tip = `Signed in as ${st.user.email ?? st.user.name} · ${st.sync === 'error' ? 'SYNC PROBLEM' : st.sync === 'syncing' ? 'syncing…' : 'synced'} · tap for account`;
+      btn.classList.toggle('sync-error', st.sync === 'error');
       btn.onclick = () => { location.hash = '#/settings'; };
     } else {
       btn.replaceChildren(h('span', { html: icons.user }), h('span', {}, 'Log in'));

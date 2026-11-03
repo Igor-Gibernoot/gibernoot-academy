@@ -39,3 +39,7 @@ export { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 JS
 npx esbuild entry.js --bundle --minify --format=esm --outfile=vendor/firebase.js
 ```
+
+## Sync behaviour (2026-11-03)
+
+Every sync = pull, merge, push only if the cloud text differs. Triggers: change (1.5 s debounce), tab visible, network back, every 60 s while visible; failures retry with backoff (5 s x3 up to 5 min). The document stores gzip+base64 in `z` (`progress` holds a small stub for old app copies); plain JSON if `CompressionStream` is missing. Import merges; only Reset starts a new epoch.

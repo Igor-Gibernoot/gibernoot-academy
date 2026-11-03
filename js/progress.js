@@ -204,8 +204,9 @@ export const progress = {
   // Combine a remote state into the local one; returns the merged state.
   mergeRemote(remote) {
     if (!remote || !remote.lessons || !remote.cards) return state;
+    const before = JSON.stringify(state);
     state = merge(state, migrate({ streak: { count: 0, last: null }, partial: {}, ...remote }));
-    save();
+    if (JSON.stringify(state) !== before) save(); // unchanged: no listeners, so no push loop
     return state;
   },
 
@@ -214,7 +215,9 @@ export const progress = {
   importCode(code) {
     const s = JSON.parse(decodeURIComponent(escape(atob(code.trim()))));
     if (!s || !s.lessons || !s.cards) throw new Error('Not a progress code.');
-    state = { ...migrate({ recap: {}, partial: {}, ...s }), epoch: Date.now() };
+    // An import adds to this browser's progress (same epoch, so nothing here is wiped);
+    // only Reset starts a new epoch.
+    state = merge(state, migrate({ recap: {}, partial: {}, ...s, epoch: state.epoch }));
     save();
   },
 
