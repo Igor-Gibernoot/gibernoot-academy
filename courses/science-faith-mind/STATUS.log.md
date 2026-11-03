@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-03 ch08-time
+Built `ch08/time.yaml` (23 cards, concept): hook, recall of Pike argument, eternal vs everlasting (image), Boethius reply, objections (what time is it; acting in history), everlasting and open theism, physics with widget `now-lines` x3 (two now-lines; verdict and cones; block), arrow of time, three traps, summary. Images: boethius (manuscript initial, public domain) only; checked screenshot. Choices: English of Boethius's definition paraphrased, Latin quoted; Prior and Wolterstorff dates dropped as unconfirmed; link to entropy lesson by name. Conventions fixed here: units light = 1, Alice at rest, Bob u = 0.6, gamma 1.25, E=(a,tau); t_B = gamma(tau - u a); E=(3,0) gives -2.25; timelike pair (1,3) all agree; eternal = outside time, everlasting = inside time, unending.
+
 ## 2026-11-03 ch08-attributes
 
 Built `ch08/attributes.yaml` (19 cards, concept, no widget: logical paradoxes, no spatial or numeric structure; images: none, every fitting portrait (Aquinas, Descartes, Plato, Anselm) is already used elsewhere in the course and no free scenario image fits). Cards: stone hook, perfect-being thinking, three readings of omnipotence, stone under each, square-circle trap, omniscience definition (build), foreknowledge argument (Pike), non-causal trap, three exits, open-theism trap, Euthyphro, divine nature, table of puzzles, sin question, summary. Choice: Euthyphro divine-nature attribution kept soft (secondary web sources only). Conventions fixed here: $\Diamond s$, $\mathrm{Can}(g,s)$, $N$ nature, readings A/B/C of omnipotence, $\forall p\,(p\Rightarrow K_S\,p)$.
