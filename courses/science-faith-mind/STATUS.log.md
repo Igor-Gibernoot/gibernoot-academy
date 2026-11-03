@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-02 Audit Level 7
+Light audit plus web spot-check of Mackie, Plantinga, Rowe, Wykstra (title "The Humean Obstacle", 1984), Draper (Nous 23, 1989), Hick 1966, Schellenberg 1993, Moser 2008, Diderot 1746 imam, Mackie 1982, Duff, Hacking, Hajek, Jefferys-Berger (Am. Sci. 80, 1992), Mallock "Cowardly Agnosticism" (Fortnightly Review, Apr 1889), Neptune. Fixes: apatheism "Stuart Johnson 1972" unconfirmed, now "popularized by Jonathan Rauch 2003"; "Bayes factor" glossed as the likelihood ratio of Level 2 (agnostic, challenge-2); "defence" -> "defense" in ch06/ch07; ch01-bubble "agnostic" gloss aligned with weak/strong. No later-level refs, no "the book", all own: bullets self-contained, all ch07 nodes have file:. STATUS/CONVENTIONS/log checked by eye: intact. Conventions fixed here: spelling "defense"; "Bayes factor" = likelihood ratio.
+
 ## 2026-11-02 ch07-challenge part 2 (22 cards, problems 4-5 + final weighing, no widget, no images)
 Built autonomously. Problem 4: Iris's diary, premise chain order, P3 critic, three replies paired with what each leaves standing (epistemic distance, relationship, skeptical theism), numerics 1/9 then 1/3, neutral value 0.8. Problem 5: Kai/Lou/Mo placed on the grid and strong/weak/practical, suspension fit, Bayes factor 4 (0.5 -> 0.8) then 1/2 (-> 2/3), Nell's Pascal push. Two final weighing cards. No new external facts (web sources in Level 7 Verified lines). Exam-partial1 needs no figure widgets (arguments and Bayes numerics only).
 Conventions fixed here: hiddenness toy Iris prior 0.5, P(D|not G)=0.8, P(D|G) 0.1 -> 1/9, 0.4 -> 1/3; agnostic toy Bayes factor 4 then 1/2 -> 0.8, 2/3; friends Kai (weak), Lou (agnostic atheist), Mo (strong + practical).
