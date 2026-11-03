@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-03 ch08-abrahamic (22 cards, concept)
+Shema (JPS "alone" vs "one"), Maimonides, Trinity (Nicaea 325, Constantinople 381, modalism/tritheism/Arianism, identity puzzle), tawhid (Qur'an 112, 4:48, 4:171), Nostra Aetate, Volf reference vs description, A Common Word, layers, open. Images: none: ImageMagick (`magick`) missing so fetch-image failed (candidates: Nicaea icon, Maimonides portrait). Widget: none (checked now-lines, scale-factor, diagonal-list: nothing models doctrine). Choices: hook has one correct "depends on what same means"; critics of Volf kept generic (Durie review unreadable, 403). Conventions fixed here: puzzle $F,S,G$ identity chain; three misreadings; "same God" = reference/description/worship.
+
 ## 2026-11-03 ch08-time
 Built `ch08/time.yaml` (23 cards, concept): hook, recall of Pike argument, eternal vs everlasting (image), Boethius reply, objections (what time is it; acting in history), everlasting and open theism, physics with widget `now-lines` x3 (two now-lines; verdict and cones; block), arrow of time, three traps, summary. Images: boethius (manuscript initial, public domain) only; checked screenshot. Choices: English of Boethius's definition paraphrased, Latin quoted; Prior and Wolterstorff dates dropped as unconfirmed; link to entropy lesson by name. Conventions fixed here: units light = 1, Alice at rest, Bob u = 0.6, gamma 1.25, E=(a,tau); t_B = gamma(tau - u a); E=(3,0) gives -2.25; timelike pair (1,3) all agree; eternal = outside time, everlasting = inside time, unending.
 
