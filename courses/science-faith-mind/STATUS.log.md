@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-03 ch08-spinoza (21 cards, concept)
+Built from SEP Spinoza and Pantheism plus web checks (VERIFIED.md). 21 cards, no widget (checked README index: nothing fits verbal structure), no images (ImageMagick missing, fetch-image get fails; log: none: convert missing). Choices: Einstein 1929, 1954 and Born quotes all paraphrased (translations vary); miracle card uses Spinoza's TTP definition. Conventions fixed here: G = God, W = world, pantheism G=W, panentheism W strictly inside G, classical G != W; Spinoza: one substance, modes; Deus sive Natura.
+
 ## 2026-11-03 ch08-process (20 cards, concept)
 Hook, classical theism, foreknowledge recall, Whitehead, Hartshorne dipolar, persuasion, Cobb/Griffin evil, open theism, process vs open, evil/prayer/miracles table, objections, premises, what stays open. Widgets checked: tradeoff-curve (power/freedom slider would need invented numbers and presuppose the zero-sum model the lesson questions), now-lines (time only): none used. Images: none, `magick` missing (only Windows convert.exe), tool failed. Dropped unconfirmed: Griffin dates, Pinnock's Most Moved Mover year. Conventions fixed here: dipolar = abstract pole C (character, fixed) and concrete pole E(t); process vs open split = limits built into reality vs God's choice.
 
