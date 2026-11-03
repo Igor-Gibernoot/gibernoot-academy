@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-02 ch07-challenge part 2 (22 cards, problems 4-5 + final weighing, no widget, no images)
+Built autonomously. Problem 4: Iris's diary, premise chain order, P3 critic, three replies paired with what each leaves standing (epistemic distance, relationship, skeptical theism), numerics 1/9 then 1/3, neutral value 0.8. Problem 5: Kai/Lou/Mo placed on the grid and strong/weak/practical, suspension fit, Bayes factor 4 (0.5 -> 0.8) then 1/2 (-> 2/3), Nell's Pascal push. Two final weighing cards. No new external facts (web sources in Level 7 Verified lines). Exam-partial1 needs no figure widgets (arguments and Bayes numerics only).
+Conventions fixed here: hiddenness toy Iris prior 0.5, P(D|not G)=0.8, P(D|G) 0.1 -> 1/9, 0.4 -> 1/3; agnostic toy Bayes factor 4 then 1/2 -> 0.8, 2/3; friends Kai (weak), Lou (agnostic atheist), Mo (strong + practical).
+
 ## 2026-11-02 ch07-challenge part 1 (29 cards, no widget, no images)
 Problems: 1 sort letter into logical/evidential/hiddenness (hospital ward), 2 student asserts transworld depravity is true (defense vs theodicy, fawn, replies' prices), 3 wager table with rival god plus razor and burden. Part 2 node `ch07-challenge-2` planned in course.yaml. No new external facts (web sources in Level 7 Verified lines). Choices: autonomous, no questions asked. Conventions fixed here: hospital-letter toy G 0.4 / I 0.6, likelihoods 0.15 vs 0.45 -> 2/11, theodicy 0.30 -> 4/13; Dana toy, 3 situations, 1 of 7 worlds wrong-free; wager g=500, c=20, p=0.05: EV +6, break-even 20/520, rival B 0.05 -> EV -18, rival must be below 0.0125; narrow N 4 of 200, factor 50, prior 0.2 -> 25/27.
 
