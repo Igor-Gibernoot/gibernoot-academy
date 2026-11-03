@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-02 ch07-map (content map, 12 cards, 10 boxes)
+Built autonomously. Boxes: logical problem, defense vs theodicy, free-will defense, evidential problem, replies (soul-making, skeptical theism, process, Adams), hiddenness, parsimony, burden of proof, wager, agnosticism; 2 decoys each (and/or swap, defense/theodicy swap, caused vs counterfactual freedom, reversed inequality, skeptical theism as theodicy, hiddenness as evil, ratio upside down, burden to one side, c/g swap, strong/weak swap). Choices: no new facts so no new web check (all items reuse Level 7 Verified lines); images none: a map carries no pictures; no widget. validate 0/0, shots 0 problems.
+Conventions fixed here: map layout 3 columns, agnosticism last at row 4 col 2; replies box groups four replies; hiddenness-to-wager link and replies-to-hidden dashed edge.
+
 ## 2026-11-02 ch07-intuition (intuition, 14 cards: welcome, 12 recall cards, summary)
 Built autonomously. Cards: logical vs evidential (defense), bridge build, odds build, scaling check, which-reply (process), hiddenness modus tollens build, hiddenness numeric 0.6, narrow rule 20, wager break-even 0.05, infinite-reward limit, belief/knowledge grid, burden and simplicity. Choices: no new external facts (reuse Level 7 Verified); no images (recall round); no widget; the five-reply sort became one mcq (no sort card type). Conventions fixed here: toy numbers hiddenness 0.6/0.4 prior, 0.2 vs 0.5 -> odds 0.6; wager gain 95, cost 5 -> p = c/(g+c) = 0.05.
 

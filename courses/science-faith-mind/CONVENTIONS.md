@@ -105,3 +105,4 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 - Agnostic lesson (16 cards): $G$ God exists, $\lnot G$ denial; belief vs knowledge axes (grid); strong/weak/practical; toy A/B Bayes factors 3 and 1/3 -> 0.5; mystery coin 0.8/0.2 -> 0.68 vs fair 0.5. Portrait: Huxley.
 - Intuition lesson (14 cards, no images): hiddenness toy prior 0.6/0.4, likelihoods 0.2 vs 0.5 -> odds 0.6; wager gain 95, cost 5 -> p = c/(g+c) = 0.05; narrow rule factor 20 reused.
 - Traps lesson (20 cards, no images): toy numbers odds 2 x 0.25 = 0.5; hiddenness 0.3/0.6 -> P(G|D) = 1/3; wager c=8, g=200 -> p = 8/208 = 0.0385. Reuses only items verified in Level 7 lessons.
+- Map lesson (12 cards, 10 boxes, no images): boxes logical, defense, freewill, evidential, replies, hidden, parsimony, burden, wager, agnostic; notation reused from the level lessons ($O,G,E$, $I$, $D$, $S/C$ factor 20, $c/(g+c)$).
