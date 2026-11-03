@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-03 exam-partial1 (Levels 2-7)
+Original exam in `exams/partial1.yaml`: setting card (Kestrel Circle) + 19 cards, 5 questions of 2 points, 60 min. Q1 Bayes/test quality (numeric, multi-select, numeric), Q2 simulation count, CHSH 2.4, diagonal order, incompleteness, Q3 CMB T at z=3, design vs chance, at-least-one in 300 universes, "some vs this universe", Q4 moral-argument logic, three-premise bound, odds-to-probability build, design vs selection, Q5 defense vs theodicy, wager break-even, hiddenness update, strong vs weak agnostic. Checks: validate 0/0, shots 0 problems (two explanation formulas split into aligned), headless run (intro, answer, submit slide, results with debrief, review of 19, exit; and time-up with minutes 0.05) no page errors. "Practical agnosticism" dropped (unconfirmed on the web). No widget needed.
+Conventions fixed here: exam numbers (alarm 0.04/0.9/0.3, X=5, z=3 gives 10.9 K, window 0.01 vs 0.5, 300 universes gives 0.951, bound 0.4, wager g=240 c=6, hiddenness 0.3/0.1/0.6); later lessons must not reuse them as worked examples.
+
 ## 2026-11-02 Audit Level 7
 Light audit plus web spot-check of Mackie, Plantinga, Rowe, Wykstra (title "The Humean Obstacle", 1984), Draper (Nous 23, 1989), Hick 1966, Schellenberg 1993, Moser 2008, Diderot 1746 imam, Mackie 1982, Duff, Hacking, Hajek, Jefferys-Berger (Am. Sci. 80, 1992), Mallock "Cowardly Agnosticism" (Fortnightly Review, Apr 1889), Neptune. Fixes: apatheism "Stuart Johnson 1972" unconfirmed, now "popularized by Jonathan Rauch 2003"; "Bayes factor" glossed as the likelihood ratio of Level 2 (agnostic, challenge-2); "defence" -> "defense" in ch06/ch07; ch01-bubble "agnostic" gloss aligned with weak/strong. No later-level refs, no "the book", all own: bullets self-contained, all ch07 nodes have file:. STATUS/CONVENTIONS/log checked by eye: intact. Conventions fixed here: spelling "defense"; "Bayes factor" = likelihood ratio.
 

@@ -1,0 +1,519 @@
+id: exam-partial1
+title: Partial Exam 1
+kind: exam
+
+# Exam lesson (js/exam.js). Original exam (no professor's exam): all numbers checked by script.
+# Covers Levels 2 to 7. Five questions of 2 points; every question restates what it needs.
+
+minutes: 60
+
+rules: |
+  This is **Partial Exam 1** on Levels 2 to 7: how science knows, views of reality, mathematics, origins and fine-tuning, the arguments for God and the arguments against.
+
+  - **One hour**, **10 points**, 5 questions of 2 points each. The bar at the top counts the time down; when it ends, the exam is submitted for you.
+  - **No feedback while you work.** Pick or type an answer and press *Next*. You can go back and change any answer until you submit.
+  - Each card shows its points. Some questions let you select **all** that apply; read the card.
+  - At the end, a submit slide shows which questions are still empty. **Unanswered questions count as wrong.**
+  - After submitting you get your score and a **review** of every card: your answer, the correct one, why each tempting wrong answer fails, and the explanation.
+  - Work on **paper first** and keep your notes closed. Numeric answers may be typed as decimals or fractions; three decimals are enough.
+  - The exam never asks you to say which side is right about God or reality. It asks what an argument assumes, what a number shows, and what a view must pay for.
+
+  The setting (a study circle) is the first card. Every question restates what it needs.
+
+debrief: |
+  Use the review to see where points went. The skills behind the five questions (2 points each):
+
+  - **How science knows** (Q1): the base-rate trap and Bayes' rule in odds form,
+    $$\frac{P(H\mid E)}{P(\lnot H\mid E)} = \frac{P(E\mid H)}{P(E\mid \lnot H)}\cdot\frac{P(H)}{P(\lnot H)},$$
+    independent evidence multiplying the odds, and what makes a claim a real test (risky, recorded, checked, no ad hoc rescue).
+  - **Reality and mathematics** (Q2): the simulation count $f_{\text{sim}} = X/(X+1)$, what a CHSH value above $2$ rules out and what it does not, the diagonal argument, and what the first incompleteness theorem needs.
+  - **Origins and fine-tuning** (Q3): $T = T_0(1+z)$, the odds-to-probability step, $1-(1-p)^N$ for "at least one", and the difference between "some universe" and "this universe".
+  - **Arguments for God** (Q4): a three-premise bound (the failure chances add up at most), the logic of the moral argument (modus tollens, so the critic must reject a premise), and the odds form for design versus selection.
+  - **Arguments against God** (Q5): defense versus theodicy, the break-even probability $c/(g+c)$ of the wager, the hiddenness update, and strong versus weak agnosticism.
+
+  **Next:** Level 8 turns from whether God exists to what the traditions mean by God: classical theism, the Trinity and *tawhid*, process theology, pantheism and panentheism.
+
+cards:
+  - type: text
+    id: setting
+    title: The setting, the Kestrel Circle
+    body: |
+      The **Kestrel Circle** is a study group that meets five evenings, one topic each: a doubtful pendulum, a podcast about simulated worlds, a physicist's talk on the early universe, a debate about arguments for God, and a debate about arguments against.
+
+      The questions are independent. **Every question restates what it needs.** Probabilities are given as decimals; "odds" means the probability of a hypothesis divided by the probability of its rival. Where a question describes someone's view, it is described *according to* that person: the exam asks what follows from it, not whether it is true.
+
+  # ------------------------------------------------------------- Question 1
+  - type: numeric
+    id: q1a
+    points: 0.6
+    tag: Question 1 · How science knows
+    title: (a) One alarm
+    prompt: |
+      **Tomás** claims that his pendulum "alarm" predicts earthquakes. In his region, a week contains a quake of magnitude 5 or more with probability $0.04$. The alarm fires in $90\%$ of weeks that do contain such a quake, and in $30\%$ of weeks that do not.
+
+      An alarm fires this week. What is the probability that a magnitude-5 quake occurs this week?
+    answer: 0.111
+    tolerance: 0.002
+    answerText: '1/9 ≈ 0.111'
+    wrong:
+      - value: 0.9
+        feedback: |
+          That is $P(\text{alarm}\mid\text{quake})$, the likelihood. The question asks the reverse, $P(\text{quake}\mid\text{alarm})$, which also depends on how rare quakes are.
+      - value: 0.036
+        feedback: |
+          That is the joint $P(\text{alarm and quake}) = 0.04\times0.9$. It still has to be divided by the probability of an alarm, which includes the false alarms.
+      - value: 0.04
+        feedback: |
+          That is the prior. The alarm is informative (it fires three times as often before quakes), so the probability must move.
+    explanation: |
+      Joint with a quake: $0.04\times0.9 = 0.036$. Joint without: $0.96\times0.3 = 0.288$. The alarm probability is $0.324$, so
+      $$P(\text{quake}\mid\text{alarm}) = \frac{0.036}{0.324} = \frac19 \approx 0.111.$$
+      In odds form: prior odds $0.04:0.96 = 1:24$ times likelihood ratio $0.9/0.3 = 3$ gives $1:8$, that is $1/9$. A tool that is right three times as often is still weak when its target is rare.
+
+  - type: mcq
+    id: q1b
+    points: 0.7
+    tag: Question 1 · How science knows
+    title: (b) A real test
+    multiple: true
+    prompt: |
+      Tomás wants his claim ("an alarm means a magnitude-5 quake within the week, in this region") to count as a genuine scientific test. **Select all** the practices that make it one.
+    options:
+      - text: He writes the rule down in advance (what counts as an alarm, which region, which week), then compares it with the quake record and with the $4\%$ base rate.
+        correct: true
+      - text: He records every alarm and every quake, including the misses and the false alarms.
+        correct: true
+      - text: Someone who has not seen the pendulum readings scores the hits and misses.
+        correct: true
+      - text: After a missed quake he explains that "the Moon disturbed the pendulum that week", with no way to check this.
+        feedback: |
+          This is an ad hoc rescue: an auxiliary assumption added only to save the claim and with no independent test. If any miss can be explained away this way, no observation could count against the claim, which is what marks it as weak science.
+      - text: He counts only the alarms that were followed by a quake and reports that "most alarms came true".
+        feedback: |
+          This is selective counting. The test needs the false alarms too: with a $30\%$ false-alarm rate and rare quakes, most alarms are false (only $1$ in $9$ comes true).
+      - text: Many readers of his blog are convinced by his results.
+        feedback: |
+          Persuasion is not a test. A claim can convince many people and still fail every checked prediction; the question is whether it was exposed to a risky, recorded, independent check.
+    explanation: |
+      A claim becomes a test when it can fail and the failure is recorded: a rule fixed beforehand, all hits and misses counted against the base rate, and scoring by someone independent. The three practices that fail do so in the ways the course names: an untestable rescue (the Moon), counting only hits, and counting believers instead of checks.
+
+  - type: numeric
+    id: q1c
+    points: 0.7
+    tag: Question 1 · How science knows
+    title: (c) Two independent pendulums
+    prompt: |
+      Tomás buys a second pendulum from another maker. Given the state of the week (quake or no quake), the two alarms are independent, and each behaves as before: it fires in $90\%$ of quake weeks and $30\%$ of weeks without a quake. The base rate of a quake week is $0.04$.
+
+      **Both** alarms fire this week. What is the probability of a magnitude-5 quake this week? (Three decimals.)
+    answer: 0.273
+    tolerance: 0.002
+    answerText: '3/11 ≈ 0.273'
+    wrong:
+      - value: 0.111
+        feedback: |
+          That is the answer for one alarm. The second alarm is new evidence and must multiply the odds again.
+      - value: 0.375
+        feedback: |
+          $3/8$ are the final **odds** ($3:8$), not a probability. Convert with $p = \text{odds}/(1+\text{odds})$.
+      - value: 0.81
+        feedback: |
+          $0.9\times0.9$ is the probability that both alarms fire in a quake week. That is a likelihood, not the probability of a quake given the alarms.
+    explanation: |
+      Prior odds $1:24$. Each alarm has likelihood ratio $0.9/0.3 = 3$, and independence lets the ratios multiply: $3\times3 = 9$. Posterior odds $= 9/24 = 3/8$, so
+      $$P = \frac{3/8}{1+3/8} = \frac{3}{11} \approx 0.273.$$
+      Check by joints: $0.04\times0.81 = 0.0324$ and $0.96\times0.09 = 0.0864$, so $0.0324/0.1188 = 3/11$. Two weak, independent signals together still leave a quake less likely than not.
+
+  # ------------------------------------------------------------- Question 2
+  - type: numeric
+    id: q2a
+    points: 0.5
+    tag: Question 2 · Reality and mathematics
+    title: (a) Counting simulated minds
+    prompt: |
+      A podcast host uses the simulation argument's counting. In a toy cosmos, a fraction $0.2$ of civilizations reach a "posthuman" stage; of those, $5\%$ are interested in running simulations of their own past; each interested one runs $500$ simulated histories, and each simulated history contains as many observers as a real one.
+
+      Per real history, how many simulated histories are there on average, and so what fraction of all observers with that kind of history live in a simulation? Give the **fraction**. (Three decimals.)
+    answer: 0.833
+    tolerance: 0.002
+    answerText: '5/6 ≈ 0.833'
+    wrong:
+      - value: 5
+        feedback: |
+          $5$ is the number of simulated histories per real one, $X = 0.2\times0.05\times500$. The fraction of observers is $X/(X+1)$, because the real history is one more to count.
+      - value: 0.167
+        feedback: |
+          $1/6$ is the fraction of observers in the **real** history. The question asks for the simulated ones, $5/6$.
+      - value: 0.5
+        feedback: |
+          Equal shares would need $X=1$, one simulated history per real one. Here $X=5$.
+    explanation: |
+      Expected simulated histories per real one: $X = 0.2\times0.05\times500 = 5$. With equally many observers in each history, the simulated fraction is
+      $$f_{\text{sim}} = \frac{X}{X+1} = \frac{5}{6} \approx 0.833.$$
+      The argument says one of three things must hold: almost no civilization reaches the posthuman stage, almost none of those run such simulations, or almost all observers like us are simulated. This toy cosmos sits in the third case.
+
+  - type: mcq
+    id: q2b
+    points: 0.5
+    tag: Question 2 · Reality and mathematics
+    title: (b) A CHSH value of 2.4
+    prompt: |
+      In a Bell test on entangled pairs, the CHSH quantity is $S = E(a,b) - E(a,b') + E(a',b) + E(a',b')$. Any model with pre-set local values for each measurement, free choice of settings and one outcome per measurement obeys $|S|\le2$; quantum mechanics allows up to $2\sqrt2\approx2.83$.
+
+      An experiment, with its loopholes closed, reports $S = 2.4$ with small error. According to the standard reading, what follows?
+    options:
+      - text: At least one of the assumptions behind $|S|\le2$ (local pre-set values, free choice, a single outcome) fails, and quantum mechanics is not contradicted.
+        correct: true
+      - text: Quantum mechanics is refuted, since it predicted a value no larger than $2$.
+        feedback: |
+          Quantum mechanics predicts values up to $2\sqrt2\approx2.83$, so $2.4$ is allowed. It is the local pre-set-value picture that has the bound of $2$.
+      - text: Signals can be sent faster than light between the two labs.
+        feedback: |
+          Violating the bound shows that the correlations cannot be explained by local pre-set values; it does not let either lab choose what the other receives. Each side alone sees random outcomes, so no message is sent.
+      - text: Many worlds is proved, because the other outcomes must exist somewhere.
+        feedback: |
+          Several views (many worlds, pilot wave, QBism, Copenhagen) all reproduce the quantum value $2\sqrt2$. A violation cannot choose among them; it constrains which assumptions each must give up.
+    explanation: |
+      The bound $2$ follows from local pre-set values, free choice and unique outcomes. Observing $2.4>2$ means the set of assumptions is false somewhere, and the views of quantum mechanics differ in which they drop. Because $2.4<2\sqrt2$, quantum mechanics is consistent with the result. The result does not select a single interpretation.
+
+  - type: order
+    id: q2c
+    points: 0.5
+    tag: Question 2 · Reality and mathematics
+    title: (c) The diagonal argument
+    prompt: |
+      Show that the infinite binary sequences (strings of 0s and 1s that never end) cannot all be placed in one list. Put the proof in order.
+    steps:
+      - 'Suppose a list $s_1, s_2, s_3, \dots$ contains every infinite binary sequence.'
+      - 'Build a new sequence $d$: its digit $k$ is the opposite of digit $k$ of $s_k$ (a 0 becomes 1, a 1 becomes 0).'
+      - 'The sequence $d$ is itself an infinite binary sequence, so by the supposition $d = s_m$ for some $m$.'
+      - 'But by construction $d$ differs from $s_m$ in digit $m$, a contradiction.'
+      - 'So the supposition was false: no list contains every infinite binary sequence.'
+    explanation: |
+      Suppose, construct, check that the new object is of the kind listed, collide with the supposition, conclude. The construction uses only the diagonal digits, so it works whatever the list is. (For a finite set of $n$ elements the same idea shows that its $2^n$ subsets outnumber its $n$ elements.)
+
+  - type: mcq
+    id: q2d
+    points: 0.5
+    tag: Question 2 · Reality and mathematics
+    title: (d) What the first incompleteness theorem says
+    prompt: |
+      A guest says: "Gödel proved that mathematics is inconsistent and that some truths can never be known." Which statement is the correct version of the **first incompleteness theorem**?
+    options:
+      - text: For a consistent, effectively axiomatized formal system that can carry out a certain amount of elementary arithmetic, there is a sentence of its language that the system can neither prove nor refute.
+        correct: true
+      - text: Every formal system contains a contradiction, so no mathematical proof can be trusted.
+        feedback: |
+          The theorem assumes consistency and then draws incompleteness. It does not say mathematics is inconsistent.
+      - text: No human being can ever know whether a given mathematical sentence is true.
+        feedback: |
+          The theorem is about what one formal system can prove, not about all human knowledge. The undecidable sentence of one system is often provable in a stronger one.
+      - text: Every formal system, however small, has a sentence it can neither prove nor refute.
+        feedback: |
+          The system must be able to express enough arithmetic. Some small systems are complete (they decide every sentence of their language), so the condition cannot be dropped.
+    explanation: |
+      The conditions matter: consistent, effectively axiomatized (its axioms and rules can be listed by a mechanical procedure), and containing a certain amount of elementary arithmetic. Then some sentence is undecided by the system. It says nothing about the inconsistency of mathematics and nothing about the limits of all human knowledge.
+
+  # ------------------------------------------------------------- Question 3
+  - type: numeric
+    id: q3a
+    points: 0.5
+    tag: Question 3 · Origins and fine-tuning
+    title: (a) A cloud seen at redshift 3
+    prompt: |
+      A physicist reports a gas cloud whose light is redshifted by $z = 3$. The cosmic background radiation today has temperature $T_0 = 2.725\ \text{K}$, and it cools as the universe expands, with $1+z = 1/a$ ($a$ = scale factor, $a=1$ today).
+
+      What was the temperature of the background radiation when the cloud's light was emitted, in kelvin? (One decimal.)
+    answer: 10.9
+    tolerance: 0.05
+    answerText: '10.9'
+    wrong:
+      - value: 8.2
+        feedback: |
+          That is $T_0\times z = 2.725\times3$. The scaling is with $1+z$, the ratio of sizes of the universe then and now, not with $z$.
+      - value: 0.68
+        feedback: |
+          That divides by $1+z$ ($2.725/4$). Going back in time the radiation was **hotter**, not cooler.
+      - value: 43.6
+        feedback: |
+          That is $T_0(1+z)^2$. The temperature scales as $1/a$, so one power of $(1+z)$; the radiation energy **density** carries four powers.
+    explanation: |
+      Radiation temperature scales as $T\propto1/a$, so $T = T_0(1+z) = 2.725\times4 = 10.9\ \text{K}$. (The energy density of radiation goes as $a^{-4}$, here a factor $4^4=256$.)
+
+  - type: numeric
+    id: q3b
+    points: 0.6
+    tag: Question 3 · Origins and fine-tuning
+    title: (b) Design or chance?
+    prompt: |
+      A constant has a life-permitting window. Let $E$ = "the constant falls in the window". Under **chance** $C$ the window is hit with probability $P(E\mid C) = 0.01$; under **design** $D$ the designer would have chosen the window with probability $P(E\mid D) = 0.5$. A reader gives the priors $P(D) = 0.02$ and $P(C) = 0.98$ (only these two hypotheses).
+
+      What is $P(D\mid E)$? (Three decimals.)
+    answer: 0.505
+    tolerance: 0.002
+    answerText: '≈ 0.505'
+    wrong:
+      - value: 0.5
+        feedback: |
+          That is $P(E\mid D)$, the likelihood. The posterior must weigh the priors too.
+      - value: 0.02
+        feedback: |
+          That is the prior. The evidence favours design by a factor of $50$, so the probability has to move a lot.
+      - value: 0.98
+        feedback: |
+          That is the prior of chance. Not the posterior of design.
+      - value: 50
+        feedback: |
+          $50$ is the likelihood ratio $0.5/0.01$, only one factor of the odds. A probability is at most $1$.
+    explanation: |
+      Likelihood ratio $0.5/0.01 = 50$. Prior odds $D:C = 0.02:0.98 = 1:49$. Posterior odds $50/49$, so
+      $$\begin{aligned}P(D\mid E) &= \frac{0.02\times0.5}{0.02\times0.5 + 0.98\times0.01}\\ &= \frac{0.0100}{0.0198} \approx 0.505.\end{aligned}$$
+      The whole answer hangs on two disputed inputs, the priors and the likelihood of the window under design; critics also dispute whether a range of values and a measure over it can be defined at all.
+
+  - type: numeric
+    id: q3c
+    points: 0.4
+    tag: Question 3 · Origins and fine-tuning
+    title: (c) Three hundred universes
+    prompt: |
+      A multiverse reply supposes $300$ universes, each with the constant set independently by chance, each with probability $0.01$ of landing in the window.
+
+      What is the probability that **at least one** of the $300$ universes has the constant in the window? (Three decimals.)
+    answer: 0.951
+    tolerance: 0.002
+    answerText: '≈ 0.951'
+    wrong:
+      - value: 3
+        feedback: |
+          $300\times0.01 = 3$ is the expected **number** of universes in the window, not a probability.
+      - value: 0.01
+        feedback: |
+          That is the chance for a single universe. With many tries, at least one success is far likelier.
+      - value: 0.049
+        feedback: |
+          $0.99^{300}\approx0.049$ is the probability that **none** is in the window. At least one is its complement, $1-0.049$.
+    explanation: |
+      "At least one" is one minus "none". None: each universe misses with probability $0.99$, and independence multiplies:
+      $$\begin{aligned}P(\ge1) &= 1 - 0.99^{300}\\ &\approx 1 - 0.049 = 0.951.\end{aligned}$$
+
+  - type: mcq
+    id: q3d
+    points: 0.5
+    tag: Question 3 · Origins and fine-tuning
+    title: (d) What the 0.951 measures
+    prompt: |
+      In the multiverse setting of the previous calculation (300 universes, each with chance $0.01$ of having the constant in its window, independently), a critic and a defender argue about what the number $0.951$ shows. What does $0.951$ **measure**?
+    options:
+      - text: The probability that at least one of the $300$ universes has the constant in its window (a fact about "some universe").
+        correct: true
+      - text: The probability that our own universe has the constant in its window, given that the multiverse exists.
+        feedback: |
+          Under independent chance each single universe, ours included, still has probability $0.01$. Whether observing our own universe in the window is made likely by the multiverse is the contested step (the "this universe" versus "some universe" issue, raised against the multiverse reply by the inverse gambler's charge).
+      - text: The probability that the multiverse hypothesis is true.
+        feedback: |
+          It is computed **assuming** the multiverse. A probability that the hypothesis itself is true would need a prior and the likelihood of the evidence under its rivals.
+      - text: The probability that design is false.
+        feedback: |
+          The number says nothing about design. It is the chance of at least one hit under a hypothesis with many tries.
+    explanation: |
+      $1-0.99^{300}$ is the chance that the ensemble contains at least one universe in the window. Whether that explains why **this** universe is in the window depends on a selection effect (observers can only be in such universes) and on a rule for counting universes; critics and defenders disagree on both.
+
+  # ------------------------------------------------------------- Question 4
+  - type: mcq
+    id: q4a
+    points: 0.6
+    tag: Question 4 · Arguments for God
+    title: (a) Where the moral argument can be resisted
+    prompt: |
+      Let $G$ = "God exists" and $M$ = "objective moral values and duties exist". A debater presents:
+
+      **P1.** If $G$ is false then $M$ is false.
+
+      **P2.** $M$ is true.
+
+      **C.** So $G$ is true.
+
+      A critic says: "I accept P2, but I hold that objective moral facts can be grounded without God, in the nature of well-being." Which response is correct?
+    options:
+      - text: The argument is valid, so the critic is rejecting P1, and the debate moves to whether a secular ground for $M$ is possible.
+        correct: true
+      - text: The argument is invalid, because the conclusion does not follow from P1 and P2.
+        feedback: |
+          It is valid: from "not $G$ implies not $M$" and "$M$", conclude "$G$" (modus tollens). The disagreement is about whether P1 is true.
+      - text: The critic is rejecting P2, because P2 and the secular ground cannot both hold.
+        feedback: |
+          The critic **accepts** P2. What they deny is that $M$ needs God, which is P1.
+      - text: The critic has refuted the conclusion $C$ by showing that $M$ is false.
+        feedback: |
+          The critic said the opposite: $M$ is true. Denying a conclusion needs a premise to fall, and the critic's challenge targets P1.
+    explanation: |
+      The form is modus tollens (if not-$G$ then not-$M$; $M$; therefore $G$), which is valid. A valid argument can be rejected only by denying a premise. This critic keeps P2 and denies P1; a defender would reply that secular grounds fail (for example, to explain moral duties), and the critic would reply that they do not. The truth of P1 is the live debate.
+
+  - type: numeric
+    id: q4b
+    points: 0.5
+    tag: Question 4 · Arguments for God
+    title: (b) How much is guaranteed?
+    prompt: |
+      A three-premise argument for God has premises P1, P2, P3 with credences $0.9$, $0.8$ and $0.7$. Nothing is assumed about how the premises depend on one another. What is the **largest lower bound** on the probability that all three are true that follows from these three numbers alone? (Two decimals.)
+    answer: 0.4
+    tolerance: 0.005
+    answerText: '0.40'
+    wrong:
+      - value: 0.504
+        feedback: |
+          $0.9\times0.8\times0.7 = 0.504$ assumes the premises are independent. The question allows any dependence, and then only the bound $0.4$ is guaranteed.
+      - value: 0.7
+        feedback: |
+          The weakest single credence is an upper bound on the probability of the conjunction, not a lower bound.
+      - value: 0.6
+        feedback: |
+          $1-0.1-0.2-0.3 = 0.4$. Adding $0.1+0.2+0.3 = 0.6$ gives the probability that something fails (at most), not that everything holds.
+    explanation: |
+      The chance that at least one premise fails is at most the sum of the failure chances: $0.1+0.2+0.3 = 0.6$. So all three hold with probability at least $1-0.6 = 0.4$. If the premises are independent, the probability is $0.504$, but the bound is what the credences guarantee on their own. A long chain of fairly likely premises can be fairly unlikely.
+
+  - type: build
+    id: q4c
+    points: 0.4
+    tag: Question 4 · Arguments for God
+    title: (c) From odds back to probability
+    prompt: |
+      Design $D$ and selection $S$ are the only rivals, and the posterior odds are $O = \dfrac{P(D\mid E)}{P(S\mid E)}$. Write $P(D\mid E)$ in terms of $O$.
+    prefix: 'P(D\mid E) ='
+    suffix: ''
+    tiles: ['\dfrac{O}{1+O}', '\dfrac{1}{1+O}', '\dfrac{O}{1-O}', '\dfrac{1}{O}']
+    answers:
+      - ['\dfrac{O}{1+O}']
+    wrong:
+      - answer: ['\dfrac{1}{1+O}']
+        feedback: 'That is $P(S\mid E)$, the probability of the rival. The two sum to $1$.'
+      - answer: ['\dfrac{O}{1-O}']
+        feedback: 'With $O = a/b$ and $a+b=1$ the denominator must be the total $a+b$, that is $O+1$ after dividing by $b$, not $1-O$.'
+      - answer: ['\dfrac{1}{O}']
+        feedback: 'That inverts the odds, giving the odds of $S$ against $D$, and it is not a probability.'
+    explanation: |
+      With only two hypotheses, $P(D\mid E) + P(S\mid E) = 1$ and $O = P(D\mid E)/P(S\mid E)$. Then $P(D\mid E) = \dfrac{O}{1+O}$ (divide numerator and denominator of $\dfrac{a}{a+b}$ by $b$).
+
+  - type: numeric
+    id: q4d
+    points: 0.5
+    tag: Question 4 · Arguments for God
+    title: (d) Design or selection?
+    prompt: |
+      A debater compares **design** $D$ and **natural selection** $S$ as explanations of a fitted structure $E$ (only these two). A listener's prior odds are $P(D):P(S) = 1:4$. The listener judges $P(E\mid D) = 0.9$ and $P(E\mid S) = 0.3$.
+
+      What is $P(D\mid E)$? (Three decimals.)
+    answer: 0.429
+    tolerance: 0.002
+    answerText: '3/7 ≈ 0.429'
+    wrong:
+      - value: 3
+        feedback: |
+          $3$ is the likelihood ratio $0.9/0.3$, one factor of the odds. A probability cannot exceed $1$.
+      - value: 0.75
+        feedback: |
+          $3/4$ are the posterior **odds** ($3:4$), not a probability. Convert with $O/(1+O)$.
+      - value: 0.2
+        feedback: |
+          That is the prior probability, $1/(1+4)$. The evidence favours $D$ by a factor of $3$, so it must rise.
+    explanation: |
+      Posterior odds $=$ likelihood ratio $\times$ prior odds $= 3\times\frac14 = \frac34$. Then $P(D\mid E) = \dfrac{3/4}{1+3/4} = \dfrac37\approx0.429$. The evidence favours design by a factor of $3$ and the prior favours selection by $4$, so selection stays ahead. Whether $P(E\mid S)$ should be as low as $0.3$ is exactly what the evolutionary reply disputes.
+
+  # ------------------------------------------------------------- Question 5
+  - type: mcq
+    id: q5a
+    points: 0.5
+    tag: Question 5 · Arguments against God
+    title: (a) Answering the logical problem
+    prompt: |
+      Let $O$ = "God is omnipotent", $G$ = "God is wholly good" and $E$ = "evil exists". A critic claims that $O$, $G$ and $E$ **cannot all be true together** (a logical contradiction). A theist wants to answer **that charge**, keeping all three claims. What is the least that is needed?
+    options:
+      - text: A possible scenario in which $O$, $G$ and $E$ are all true together (a defense), even if the theist does not claim it is the real explanation.
+        correct: true
+      - text: The actual reason God allows each evil (a full theodicy).
+        feedback: |
+          That would answer more than the charge. The claim to refute is only that the three cannot be true together, so one consistent story is enough; a theodicy is the answer to the evidential problem and to the "why" question.
+      - text: A demonstration that evil is rarer than it seems.
+        feedback: |
+          A single evil would still be a problem for a *logical* contradiction. Rarity matters for probability, not for consistency.
+      - text: A demonstration that most people are not troubled by evil.
+        feedback: |
+          Psychological comfort is no evidence of consistency. The charge is about what can be true together.
+    explanation: |
+      A contradiction claim is refuted by showing the claims *can* be true together: it is enough to describe one possible situation, true or not. This is the move of the free-will defense. Telling the real reason is a stronger and harder project (a theodicy), needed for the evidential problem and for the question "why does God allow this?".
+
+  - type: numeric
+    id: q5b
+    points: 0.5
+    tag: Question 5 · Arguments against God
+    title: (b) The wager's break-even
+    prompt: |
+      A finite version of Pascal's wager: wagering costs $c=6$ units if God does not exist, and gains $g=240$ units if God exists. Let $p$ be your probability that God exists. The expected value of wagering is $p\,g - (1-p)\,c$.
+
+      At what probability $p$ does the expected value of wagering equal $0$? (Four decimals.)
+    answer: 0.0244
+    tolerance: 0.0003
+    answerText: '6/246 ≈ 0.0244'
+    wrong:
+      - value: 0.025
+        feedback: |
+          $6/240 = 0.025$ forgets that the cost is paid with probability $1-p$ and the gain with $p$: the break-even is $c/(g+c)$, not $c/g$.
+      - value: 0.5
+        feedback: |
+          Break-even at $1/2$ would need equal gain and cost. With $g=240$ and $c=6$ the gain is forty times larger.
+      - value: 40
+        feedback: |
+          $g/c = 40$ is the ratio of the stakes, not a probability.
+    explanation: |
+      Set $p\,g = (1-p)\,c$. Then $p(g+c) = c$, so
+      $$p^* = \frac{c}{g+c} = \frac{6}{246} \approx 0.0244.$$
+      Above this probability the wager has positive expected value. The many-gods objection says the table is incomplete: a rival god who punishes the wager can pull the expected value below zero, even at small probabilities.
+
+  - type: numeric
+    id: q5c
+    points: 0.5
+    tag: Question 5 · Arguments against God
+    title: (c) Hiddenness as evidence
+    prompt: |
+      $G$ = "a perfectly loving personal God exists", and $D$ = "there are people who are open to a relationship with God yet do not believe". A reader's prior is $P(G) = 0.3$, $P(\lnot G) = 0.7$. They judge that $D$ would be unlikely if $G$ were true, $P(D\mid G) = 0.1$, and fairly likely otherwise, $P(D\mid\lnot G) = 0.6$.
+
+      What is $P(G\mid D)$ for this reader? (Three decimals.)
+    answer: 0.067
+    tolerance: 0.002
+    answerText: '1/15 ≈ 0.067'
+    wrong:
+      - value: 0.1
+        feedback: |
+          That is $P(D\mid G)$. The question asks for $P(G\mid D)$; the two differ whenever the priors differ.
+      - value: 0.03
+        feedback: |
+          $0.3\times0.1 = 0.03$ is only the joint $P(G\text{ and }D)$. Divide by $P(D) = 0.03+0.42 = 0.45$.
+      - value: 0.167
+        feedback: |
+          $0.1/0.6 = 1/6$ is the likelihood ratio, one factor of the odds. The prior odds $3:7$ must be multiplied in as well.
+    explanation: |
+      Joints: $0.3\times0.1 = 0.03$ and $0.7\times0.6 = 0.42$. So
+      $$P(G\mid D) = \frac{0.03}{0.03+0.42} = \frac{1}{15}\approx0.067.$$
+      In odds: prior $3:7$ times likelihood ratio $1:6$ gives $3:42 = 1:14$. The update is only as strong as the readers' judgements of $P(D\mid G)$, which defenders dispute (for example, by arguing that God may allow doubt for the sake of freedom or relationship).
+
+  - type: mcq
+    id: q5d
+    points: 0.5
+    tag: Question 5 · Arguments against God
+    title: (d) Which agnostic?
+    prompt: |
+      Two people are asked whether God exists. **Rae** says: "I do not know, and I think nobody can know." **Sol** says: "I do not know, but the question is still open for me, and I may know after looking at more evidence." In the usual labels for agnosticism, which pairing fits **best**?
+    options:
+      - text: Rae is a strong agnostic (the question cannot be settled), Sol a weak agnostic (it is open, and might be settled).
+        correct: true
+      - text: Rae is a weak agnostic, Sol a strong agnostic.
+        feedback: |
+          The labels are swapped. The claim that nobody *can* know is the strong form; "I do not know yet" is the weak form.
+      - text: Both are atheists, because neither believes in God.
+        feedback: |
+          Not believing is not the same as denying. Agnosticism concerns knowledge (whether the question can be settled), and an agnostic need not deny God.
+      - text: Both are agnostics of the same kind, because both say "I do not know".
+        feedback: |
+          They differ in what they claim about the question itself: Rae says it cannot be settled by anyone, Sol says it is merely unsettled for now.
+    explanation: |
+      In the usual labels (the philosophical literature differs in the exact wording), *strong* agnosticism holds that the question cannot be settled, or that suspending judgement is required; *weak* agnosticism holds that one does not know now, perhaps will, or that suspending is permissible. Belief and knowledge are different axes, so an agnostic can lack belief without denying God.
