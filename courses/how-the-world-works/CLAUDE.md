@@ -31,7 +31,7 @@ No `sources/` book. `REFERENCES.md` lists the trusted books per level. Igor does
 supply them. Claims are checked by (1) deriving them in the lesson, (2) a script for every
 number, and (3) a web check of every external fact (below). A script only proves the arithmetic
 agrees with the formula, not that the formula, constant or real-world value is right. Log what
-was checked in the `Verified` line of `STATUS.md` (compact: item, `web: <source>`).
+was checked as one line in `VERIFIED.md` (compact: item, `web: <source>`).
 
 **Web check is mandatory, not "from memory".** Every external fact in a lesson is checked with
 WebSearch/WebFetch (NIST, Wikipedia for orientation only, Britannica, textbook or manufacturer
@@ -42,7 +42,7 @@ battery capacity, efficiencies, speeds, stopping distances, safety figures), how
 device works (lock, airbag, elevator, shower, ...), and every historical claim, named person,
 experiment, date and institution. Not needed: numbers the lesson derives or invents itself
 (the setting's data) and their scripted arithmetic.
-- "Typical", "standard knowledge" or "memory" never counts as verified. The Verified line says
+- "Typical", "standard knowledge" or "memory" never counts as verified. The `VERIFIED.md` line says
   `web: <source>` per item; an item without it is marked `UNVERIFIED` and the unit is not done.
 - Typical values may be rounded in the lesson, but must lie inside the range the source gives;
   say "about" or "typically".

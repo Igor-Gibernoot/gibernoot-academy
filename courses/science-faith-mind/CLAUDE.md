@@ -52,13 +52,13 @@ No `sources/` book. `REFERENCES.md` lists trusted works per level. Each lesson's
 checked by (1) deriving or arguing them in the lesson, (2) a script for every number, and (3) a
 cross-check against the level's references (use WebSearch/WebFetch for dates, quotations,
 figures). Quotations and attributions must be accurate: if unsure, paraphrase and say so. Log
-what was checked in the `Verified` line of `STATUS.md` (compact).
+what was checked as one line in `VERIFIED.md` (compact).
 
 **Web check is mandatory, not "from memory".** Every external fact in a lesson (person's name,
 birth/death years, work title and year, institution, study, statistic, event date, and every
 attributed claim or quotation) is checked with WebSearch/WebFetch (SEP, IEP, Britannica,
 publisher or journal pages) *in the session that writes the lesson*, before committing. Rules:
-- "Standard knowledge" or "memory" never counts as verified. The Verified line must say
+- "Standard knowledge" or "memory" never counts as verified. The `VERIFIED.md` line must say
   `web: <source>` per item; an item without it is marked `UNVERIFIED` and the lesson is not done.
 - Attributions are checked for *what the person actually argued*, not only dates (e.g. Berkeley's
   s.3 and s.23, Elisabeth's objection, Chalmers's positions). Quotation marks only for text

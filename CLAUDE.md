@@ -13,6 +13,8 @@ method; only the content differs.
   - `course.yaml` (the trail), lessons `chNN/*.yaml`, `exams/`.
   - `STATUS.md`: build status (short Current block only).
   - `STATUS.log.md`: history, **never read** (append-only).
+  - `VERIFIED.md`: one line per lesson of what was checked (pages, `web: <source>`);
+    append one line per unit, look up with `grep -n`, **never read whole**.
   - `CONVENTIONS.md`: notation, running examples, key numbers fixed while
     building, one `## Chapter N` section per chapter.
   - `archive/` (optional): old exercises and notes worth mining.
@@ -293,13 +295,15 @@ one unit of work**.
   - `widget-smoke` only when a widget was added or changed; `shots` only on
     the lesson just built.
   - Source verification is mandatory but **scoped**: check only the source
-    range of the lesson's own formulas and symbols; write the pages in the
-    `STATUS.md` "Verified" line; don't re-verify items listed there.
+    range of the lesson's own formulas and symbols; write the pages
+    (and, where required, each fact with `web: <source>`) as one line in the
+    course's `VERIFIED.md`, never in `STATUS.md`; before verifying,
+    `grep -n` it for the lesson or fact and don't re-verify what is listed.
   - **Traps and intuition lessons are lighter**: reuse what their concept
     lessons verified; read the source only for a formula or figure not yet
-    in "Verified".
-  - Keep `STATUS.md` and `CONVENTIONS.md` short: Current under ~40 lines,
-    "Verified" as compact page lists, a convention is one or two lines (the
+    in `VERIFIED.md` (grep, never read whole).
+  - Keep `STATUS.md` and `CONVENTIONS.md` short: Current under ~40 lines
+    (no per-lesson "Verified" lines: they go to `VERIFIED.md`), a convention is one or two lines (the
     notation or number future lessons must reuse, not a lesson summary).
     Compress a file when it grows. Don't repeat in a course file what this
     file or `docs/` say.

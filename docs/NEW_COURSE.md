@@ -18,15 +18,16 @@ courses/<id>/
   course.yaml    the trail: title + one level per chapter, lessons as planned nodes
   STATUS.md      short "## Current" block (state, next unit); the history goes in
                   `STATUS.log.md` (never read in a session)
+  VERIFIED.md    one line per lesson of the facts checked (`web: <source>`); grep, never read whole
   CONVENTIONS.md "## General" then one "## Chapter N" section per chapter
   sources/       git-ignored: the main reference (Markdown), exams, PDFs
   archive/       optional: old exercise sheets, notes worth mining
 ```
 
-Create the two status files from these templates (the validator requires them):
+Create the three status files from these templates (the validator requires them):
 `STATUS.md` = `# Status`, a blank line, `## Current (<date>)` and a short
 state / next-unit list (nothing else, no Log); `STATUS.log.md` = `# Status log`
-and a line "Newest first. Never read this file in a session." Keep
+and a line "Newest first. Never read this file in a session."; `VERIFIED.md` = `# Verified` and a line "One line per lesson; grep, never read whole." Keep
 `CONVENTIONS.md` short and per chapter; if one grows past ~300 lines, split
 it into `conventions/general.md` and `conventions/chNN.md`.
 

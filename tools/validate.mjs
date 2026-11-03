@@ -113,9 +113,13 @@ function checkStatus(dir) {
   // Courses with the mandatory web-check rule: Verified must not rely on memory.
   const cmd = join(dir, 'CLAUDE.md');
   if (existsSync(cmd) && /Web check is mandatory/.test(readFileSync(cmd, 'utf8'))) {
-    for (const i of at(/^- \*\*Verified\b/)) {
-      const hits = new Set((lines[i].match(/UNVERIFIED|\bmemory\b|standard knowledge|\(standard\)|, standard\b|not re-fetched|typical values?\b(?![^;.]*web:)/gi) ?? []).map(s => s.toLowerCase()));
-      if (hits.size) warn('STATUS.md', `Verified line has items not web-checked (${[...hits].join(', ')}); check them by web and mark "web: <source>" (course CLAUDE.md, Web check)`);
+    const vf = join(dir, 'VERIFIED.md');
+    if (!existsSync(vf)) err('VERIFIED.md', 'missing (course has the web-check rule)');
+    else if (at(/^- \*\*Verified\b/).length) warn('STATUS.md', 'Verified lines belong in VERIFIED.md, not STATUS.md');
+    const vl = existsSync(vf) ? readFileSync(vf, 'utf8').split('\n') : [];
+    for (const i of vl.flatMap((l, j) => (/^- /.test(l) ? [j] : []))) {
+      const hits = new Set((vl[i].match(/UNVERIFIED|\bmemory\b|standard knowledge|\(standard\)|, standard\b|not re-fetched|typical values?\b(?![^;.]*web:)/gi) ?? []).map(s => s.toLowerCase()));
+      if (hits.size) warn('VERIFIED.md', `line ${i + 1} has items not web-checked (${[...hits].join(', ')}); check them by web and mark "web: <source>" (course CLAUDE.md, Web check)`);
     }
   }
   const g =join(dir, 'STATUS.log.md');
