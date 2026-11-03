@@ -1,0 +1,484 @@
+id: ch07-challenge
+title: "Level Challenge: Weigh the Objection (1)"
+kind: challenge
+
+cards:
+  - type: text
+    id: welcome
+    title: "Challenge, part 1: which objection, which reply, what is left"
+    body: |
+      Each problem takes an objection or an argument from this level (evil, hiddenness, the wager, the razor), sorts it, pairs it with the reply that actually fits, and asks what each reply **leaves standing**. The problems are independent, so here is the toolkit, restated.
+
+      - **The logical problem of evil.** Let $O$ = "an omnipotent God exists", $G$ = "a wholly good God exists", $E$ = "evil exists". The bridge claim is
+      $$(O\land G)\Rightarrow\lnot E$$
+      With $E$ true, modus tollens gives $\lnot(O\land G)$. A *defense* (Plantinga) is a possible story showing the three can be true together; a *theodicy* (Hick, Augustine) claims to give God's real reasons.
+      - **The evidential problem.** For a good-God hypothesis $G$ against an indifference hypothesis $I$, and evidence $E$ (suffering like ours), in odds form:
+      $$\frac{P(G\mid E)}{P(I\mid E)}=\frac{P(E\mid G)}{P(E\mid I)}\times\frac{P(G)}{P(I)}$$
+      With two rivals, $P(G\mid E)=\text{odds}/(1+\text{odds})$. A theodicy tries to raise $P(E\mid G)$; skeptical theism says our failure to see a reason is what we should expect.
+      - **Hiddenness (Schellenberg).** A perfectly loving personal God would be open to relationship with everyone not resisting; yet some nonresistant people do not believe.
+      - **Pascal's wager.** Expected value is $\mathrm{EV}=p\cdot(\text{payoff if God})+(1-p)\cdot(\text{payoff if not})$. If wagering for God costs $c$ when God does not exist and gains $g$ when God exists, break-even is
+      $$p=\frac{c}{g+c}$$
+      - **The razor.** Among hypotheses that fit about equally well, prefer the simpler; in Bayes terms a narrow hypothesis that predicts the evidence sharply gets a big Bayes factor $P(E\mid N)/P(E\mid B)$.
+
+      Three problems here. Problems 4 and 5 come in part 2. Every number below is invented to practise the method; they are nobody's actual views.
+
+  # ---------------- Problem 1 ----------------
+  - type: text
+    id: p1-setup
+    title: "Problem 1 · Which problem is this?"
+    body: |
+      **Problem 1.** A hospital chaplain gets a letter from a nonbeliever who has been sitting at a child's bedside on a long-stay ward. The letter makes three separate claims:
+
+      **(a)** "If a God who is all-powerful and wholly good existed, there would be no suffering on this ward. There is suffering. So there is no such God."
+
+      **(b)** "Suppose that is too quick. Still, a child who suffers for months, with no good I can see in it, is far more probable if nobody is in charge than if a good God is. So a good God is now improbable."
+
+      **(c)** "For years I have asked, openly and sincerely, whether anyone is there. I am not resisting. I have no belief. A loving God would have let me know."
+
+      The chaplain must first see which problem each claim raises, because each needs a different reply.
+
+  - type: mcq
+    id: p1-sort
+    title: "Sort the three claims"
+    prompt: |
+      In the letter, claim (a) says a good all-powerful God and suffering cannot both exist; claim (b) says the suffering makes a good God improbable; claim (c) says an open nonbeliever's lack of belief tells against a loving God. Which assignment is right?
+    options:
+      - text: '(a) is the logical problem of evil, (b) is the evidential problem of evil, (c) is the argument from divine hiddenness.'
+        correct: true
+      - text: '(a) is the evidential problem, (b) is the logical problem, (c) is the argument from hiddenness.'
+        feedback: |
+          Reversed. Claim (a) says the three claims are *inconsistent* (no way both could be true): that is the logical problem. Claim (b) says only that the evidence makes a good God *less probable*, which is the evidential problem.
+      - text: '(a) is the logical problem, (b) is the argument from hiddenness, (c) is the evidential problem of evil.'
+        feedback: |
+          Claim (b) is about suffering and how probable it is on two hypotheses, so it is evidential. Claim (c) is not about suffering at all: it is about people who are open to God and still do not believe.
+      - text: 'All three are the same problem of evil in different words.'
+        feedback: |
+          Claim (c) does not mention suffering, and (a) and (b) differ in strength: (a) says "impossible together", (b) says "improbable". Each needs a different reply, which is why sorting comes first.
+    explanation: |
+      Three shapes: **inconsistency** (logical), **improbability** (evidential), and **absence of what a loving God would do** (hiddenness). A reply to one can leave the others untouched.
+
+  - type: build
+    id: p1-mt
+    title: "Build the line of claim (a)"
+    prompt: |
+      Let $O$ = "an omnipotent God exists", $G$ = "a wholly good God exists", $E$ = "evil exists". Claim (a) uses the bridge $(O\land G)\Rightarrow\lnot E$ and the fact $E$. By modus tollens, build the conclusion.
+    prefix: 'C:'
+    tiles: ['\lnot', '(O\land G)', '\lnot O', '\lor', '\land', '\lnot G']
+    answers:
+      - ['\lnot', '(O\land G)']
+      - ['\lnot O', '\lor', '\lnot G']
+    wrong:
+      - { answer: ['\lnot O', '\land', '\lnot G'], feedback: 'Denying a conjunction does not deny both parts. $\lnot(O\land G)$ says at least one of $O$, $G$ fails, which is $\lnot O\lor\lnot G$.' }
+    hint: 'Modus tollens: from "if $X$ then $\lnot E$" and $E$, infer $\lnot X$, with $X$ the whole conjunction.'
+    explanation: |
+      From $X\Rightarrow\lnot E$ and $E$ we get $\lnot X$, here $\lnot(O\land G)$, which means **at least one** of $O$ and $G$ is false. The step is valid. The fight is over the bridge: Mackie needs extra principles (a good being removes evil as far as it can; an omnipotent one has no limits), and Plantinga denies the bridge is necessary.
+
+  - type: build
+    id: p1-odds
+    title: "Build the line of claim (b)"
+    prompt: |
+      Let $G$ = "a good God exists", $I$ = "nobody is in charge", $E$ = "a child suffers for months with no visible good". Build the right-hand side of the odds form, so that the left side is the odds of $G$ against $I$ after seeing $E$.
+    prefix: '\text{odds after}='
+    tiles: ['\frac{P(E\mid G)}{P(E\mid I)}', '\frac{P(G)}{P(I)}', '\frac{P(E\mid I)}{P(E\mid G)}', '\frac{P(I)}{P(G)}']
+    answers:
+      - ['\frac{P(E\mid G)}{P(E\mid I)}', '\frac{P(G)}{P(I)}']
+      - ['\frac{P(G)}{P(I)}', '\frac{P(E\mid G)}{P(E\mid I)}']
+    wrong:
+      - { answer: ['\frac{P(E\mid I)}{P(E\mid G)}', '\frac{P(G)}{P(I)}'], feedback: 'The likelihood ratio is inverted. The hypothesis of interest, $G$, goes on top: how well $G$ predicts $E$ against how well $I$ does.' }
+    hint: 'Odds after = likelihood ratio times odds before, with $G$ on top in both.'
+    explanation: |
+      $$\frac{P(G\mid E)}{P(I\mid E)}=\frac{P(E\mid G)}{P(E\mid I)}\times\frac{P(G)}{P(I)}$$
+      Claim (b) is a claim about the *first* factor: the letter says $P(E\mid G)$ is smaller than $P(E\mid I)$. Notice it does not say $P(E\mid G)=0$. That is the difference from claim (a).
+
+  - type: mcq
+    id: p1-reply-fit
+    title: "One reply to all three?"
+    prompt: |
+      The chaplain writes back one sentence: "It is logically possible that God has a good reason for every instance of suffering." Which of the letter's claims does this fully answer? (Claim (a): God and suffering are inconsistent. Claim (b): the suffering makes a good God improbable. Claim (c): an open nonbeliever's lack of belief tells against a loving God.)
+    options:
+      - text: 'Only (a). A possible story is enough to show the claims are consistent, but it does not lower the probability gap in (b) or say why an open nonbeliever lacks belief in (c).'
+        correct: true
+      - text: 'All three, because if a good reason is possible then nothing in the letter can count against God.'
+        feedback: |
+          Possibility is not probability. Many things are possible and wildly improbable, and the evidential and hiddenness arguments only claim a probability shift, which a bare "possible" does not touch.
+      - text: 'Only (b), because it is about probability and the reply mentions reasons.'
+        feedback: |
+          The reply is about what is *possible*. That fits an inconsistency charge, (a). Claim (b) needs a reason to think such reasons are *likely*, or a reason to expect we would not see them.
+      - text: 'None: a defense that does not name the reason answers nothing.'
+        feedback: |
+          Against a charge of inconsistency a possible story is exactly what is needed (this is Plantinga's point); it is a defense, not a theodicy, but it does its job against (a).
+    explanation: |
+      A **defense** answers a charge of *impossibility*. For (b) the chaplain would need either a **theodicy** (raise $P(E\mid G)$ by naming plausible goods) or **skeptical theism** (we should not expect to see the reason). For (c) the reply must address hiddenness itself.
+
+  - type: mcq
+    id: p1-hidden-reply
+    title: "A reply aimed at claim (c)"
+    prompt: |
+      Which reply is aimed at claim (c), the open nonbeliever who has asked sincerely for years?
+    options:
+      - text: 'God may keep some distance so that belief and love are freely given and not forced (Hick''s epistemic distance; Swinburne and Murray on coercion); critics ask whether sincere seekers are the people that would serve.'
+        correct: true
+      - text: 'It is possible that every creaturely essence suffers from transworld depravity.'
+        feedback: |
+          That is Plantinga's reply to the logical problem of evil, about free creatures who would do wrong. It says nothing about why an open person lacks belief.
+      - text: 'If the chance that God exists is small but the reward is infinite, believing has infinite expected value.'
+        feedback: |
+          That is Pascal's wager, an argument about what to do under uncertainty, not a reply to the claim that nonbelief tells against a loving God.
+    explanation: |
+      The best-known replies to hiddenness appeal to the value of free response (a God who showed too much would pressure), or to the idea that belief is not all that relationship needs. The critic answers that a nonresistant person is exactly not someone being pressured.
+
+  - type: numeric
+    id: p1-num-1
+    title: "How improbable does the letter make God?"
+    prompt: |
+      Take claim (b) as a calculation. A reader gives prior probabilities $P(G)=0.4$ ("a good God") and $P(I)=0.6$ ("nobody in charge"), with no other rival. The evidence $E$ (months of suffering with no visible good) has $P(E\mid G)=0.15$ and $P(E\mid I)=0.45$. What is $P(G\mid E)$?
+    answer: 0.1818
+    tolerance: 0.002
+    answerText: '$\tfrac{2}{11}\approx0.182$'
+    wrong:
+      - { value: 0.3333, feedback: 'That is the likelihood ratio $0.15/0.45=1/3$ alone, forgetting the prior odds $0.4/0.6$, and it is not yet a probability.' }
+      - { value: 0.4, feedback: 'That is the prior. The evidence should move it, here downwards.' }
+      - { value: 0.2222, feedback: 'That is the posterior *odds* $2/9$, not the probability. With two rivals the probability is odds$/(1+\text{odds})$.' }
+    hint: 'Odds after = $(0.15/0.45)\times(0.4/0.6)$, then odds$/(1+\text{odds})$.'
+    explanation: |
+      $$\text{odds}=\frac{0.15}{0.45}\times\frac{0.4}{0.6}=\frac13\times\frac23=\frac29$$
+      $$P(G\mid E)=\frac{2/9}{1+2/9}=\frac{2}{11}\approx0.182$$
+      For this reader the evidence takes God from $40\%$ to about $18\%$.
+
+  - type: numeric
+    id: p1-num-2
+    title: "What a theodicy would change"
+    prompt: |
+      The chaplain offers a theodicy: goods such as deep character and bonds between people that, he argues, a loving God could secure only through hard suffering. Suppose it persuades the reader to raise $P(E\mid G)$ from $0.15$ to $0.30$, with everything else as before ($P(G)=0.4$, $P(I)=0.6$, $P(E\mid I)=0.45$). What is $P(G\mid E)$ now?
+    answer: 0.3077
+    tolerance: 0.002
+    answerText: '$\tfrac{4}{13}\approx0.308$'
+    wrong:
+      - { value: 0.1818, feedback: 'That is the earlier answer with $P(E\mid G)=0.15$. The new likelihood must be used.' }
+      - { value: 0.4444, feedback: 'That is the posterior *odds* $4/9$, not the probability: divide by $1+\text{odds}$.' }
+    hint: 'New likelihood ratio $=0.30/0.45=2/3$; multiply by the prior odds $2/3$.'
+    explanation: |
+      $$\text{odds}=\frac{0.30}{0.45}\times\frac{0.4}{0.6}=\frac23\times\frac23=\frac49$$
+      $$P(G\mid E)=\frac{4/9}{13/9}=\frac{4}{13}\approx0.308$$
+      A theodicy works by moving a **likelihood**. Whether it should move that far is the live question: critics ask whether the goods reach the child on the ward, and whether they need *this much* suffering.
+
+  - type: mcq
+    id: p1-parting
+    title: "Where do thoughtful people part ways?"
+    prompt: |
+      Two careful readers use the same odds form on the same letter. One ends at about $18\%$, the other at about $31\%$. What most likely accounts for the difference?
+    options:
+      - text: 'Different judgments of the inputs: how likely a good God would be to permit suffering like this (the likelihood), and the prior, which depend on views about goods, freedom and what God owes creatures.'
+        correct: true
+      - text: 'One of them made an arithmetic mistake, since the same formula must give the same answer.'
+        feedback: |
+          The formula is the same; the numbers fed in are not. Bayes' rule is a bookkeeping rule: it carries your inputs through correctly, and disagreement lives in the inputs.
+      - text: 'One reader is rational and the other is not.'
+        feedback: |
+          Both can be perfectly coherent. Rationality constrains how inputs combine; it does not fix the inputs, and here the inputs rest on contested value and metaphysical judgments (a layer-3 commitment, not established fact).
+    explanation: |
+      Readers part ways at three places: the **prior** (is a good God already plausible?), the **likelihood** $P(E\mid G)$ (what would a good God permit?), and the **rival** $I$ (is "nobody in charge" the right alternative, or are there others?). The arithmetic does not decide any of them.
+
+  # ---------------- Problem 2 ----------------
+  - type: text
+    id: p2-setup
+    title: "Problem 2 · A defense that is too strong"
+    body: |
+      **Problem 2.** A student writes an essay on evil. She says: "God gave creatures free will. In fact, **every** possible free creature, in every situation God could have set up, would have done at least one wrong thing. That is how things are, and so God could not have made a world with free creatures and no wrong. Evil is therefore no problem for belief in a good, all-powerful God."
+
+      Recall: Alvin Plantinga (born 1932) argued, in the free will defense, that it is *possible* that every creaturely essence suffers from **transworld depravity**: in every feasible world in which it is significantly free, it does at least one wrong.
+
+  - type: mcq
+    id: p2-which
+    title: "Defense or theodicy?"
+    prompt: |
+      Plantinga says transworld depravity is *possibly* true; the student says it **is** true. What kind of claim has she made, and what has she taken on?
+    options:
+      - text: 'She has moved from a defense to a theodicy: she now asserts a real reason, so she owes evidence that it is true. The defense needed only possibility, a far lighter load.'
+        correct: true
+      - text: 'Nothing changes: a stronger claim is simply a better defense.'
+        feedback: |
+          A stronger claim is a *riskier* one. The defense works because it asks only for logical possibility, which no one can easily refute. A claim of truth can be attacked by any evidence against it.
+      - text: 'She has refuted the logical problem more thoroughly, because truth entails possibility.'
+        feedback: |
+          Truth does entail possibility, but the point was that the defense did not need truth. By asserting more than needed she adds attack surface (how could she know it?) without strengthening the answer to the logical problem.
+      - text: 'She has made a mistake in logic: truth contradicts possibility.'
+        feedback: |
+          There is no contradiction. What is true is also possible. The issue is not logic but burden: asserting it as fact requires reasons.
+    explanation: |
+      A **defense** says "here is a story that might be true"; a **theodicy** says "here is what is true". The student's version is a theodicy, and it needs support: why think every free creature would go wrong in every feasible situation? Plantinga himself wrote that it is a possibility offered to answer the charge of inconsistency, not a thesis about what is actually the case.
+
+  - type: numeric
+    id: p2-count
+    title: "How many worlds avoid wrong?"
+    prompt: |
+      A toy. A creature, Dana, could meet three situations $S_1$, $S_2$, $S_3$. A feasible world fixes **which** situations she meets freely (at least one; she can meet any nonempty subset), and in each she would act as follows: wrong in $S_1$, right in $S_2$, wrong in $S_3$. Among the $7$ nonempty subsets, how many are worlds where she is free and does **no** wrong?
+    answer: 1
+    tolerance: 0
+    answerText: '$1$'
+    wrong:
+      - { value: 0, feedback: 'The subset $\{S_2\}$, where she meets only $S_2$, is free and wrong-free. Transworld depravity would need $0$, but it fails here because one situation is right.' }
+      - { value: 3, feedback: 'You counted subsets containing $S_2$. A subset that also contains $S_1$ or $S_3$ includes a wrong act. Only the subset with $S_2$ and nothing else avoids wrong.' }
+    hint: 'A world is wrong-free if it contains neither $S_1$ nor $S_3$. List the nonempty subsets of $\{S_1,S_2,S_3\}$ that qualify.'
+    explanation: |
+      The wrong-free worlds avoid both $S_1$ and $S_3$, so the only choice is $\{S_2\}$: **1 of 7**. Now change the toy: if Dana would also go wrong in $S_2$, the count is $0$ and her essence is transworld depraved. The student's essay claims this holds for **every** possible free creature, a huge universal claim. One creature with one right-acting situation breaks it.
+
+  - type: mcq
+    id: p2-fawn
+    title: "Does it answer the fawn?"
+    prompt: |
+      The student's story is about creatures who choose wrongly. Rowe's example is a fawn that suffers for days after a lightning-caused forest fire, with no human involved. Does the free will story, as she tells it, answer the fawn?
+    options:
+      - text: 'Not directly. It speaks to *moral* evil (wrong choices); the fawn''s suffering is *natural* evil. Defenders extend the story by a further claim, such as non-human agents whose free acts cause natural evil, which many find improbable, or turn to a theodicy of natural laws or soul-making.'
+        correct: true
+      - text: 'Yes: all suffering is caused by free will, so the fawn is covered.'
+        feedback: |
+          That claim is exactly what is in doubt. A forest fire started by lightning does not obviously trace to any creature's choice, so "all suffering is moral evil" needs its own support.
+      - text: 'Yes: since the story shows God and evil are consistent, it answers every case.'
+        feedback: |
+          Consistency is about the logical problem. The fawn is used in the evidential problem, which asks how probable that suffering is if a good God exists. A consistency story does not by itself raise that probability.
+    explanation: |
+      The free will story has **limited reach**: it targets moral evil. For natural evil, defenders need a second move (supernatural agents, the value of lawlike nature, soul-making), each with its own price. The strength of the student's claim does not help here; it only makes the first move riskier.
+
+  - type: mcq
+    id: p2-price
+    title: "Which reply pays which price?"
+    prompt: |
+      The student now sees she needs a reply for the fawn. Match the reply with the price a critic says it pays.
+    options:
+      - text: 'A theodicy of natural evil pays by owing a reach: its goods must plausibly cover the fawn, children and horrendous cases. Skeptical theism pays by weakening what we can infer about God from other cases (Rowe: even the hope of a good afterlife). A defense pays by answering only the logical problem.'
+        correct: true
+      - text: 'A theodicy pays nothing, since a reason is a reason. Skeptical theism pays by being a theodicy. A defense pays by being false.'
+        feedback: |
+          A theodicy asserts real reasons and so carries the burden of making them fit the hardest cases. Skeptical theism is not a theodicy (it names no reason), and a defense is not claimed true at all.
+      - text: 'All three replies have the same price: they must prove that God exists.'
+        feedback: |
+          None of them needs to prove God exists; they respond to an objection. The price is different for each: reach for a theodicy, spreading doubt for skeptical theism, narrow scope for a defense.
+    explanation: |
+      Every reply has a bill. **Theodicy:** reach and the size of the suffering. **Skeptical theism:** the doubt may spread to what believers rely on about God's goodness. **Defense:** it answers the charge of inconsistency but leaves the evidential question open.
+
+  - type: mcq
+    id: p2-combine
+    title: "Combining two replies"
+    prompt: |
+      The student writes: "I will keep my free will theodicy for human evil, and for the fawn I will say we cannot know God's reasons." What tension does a critic press?
+    options:
+      - text: 'If our judgment about what could justify suffering is unreliable (skeptical theism), then our confidence that free will is the justification for human evil is also weakened. The two replies pull against each other, although many thinkers do use both for different evils.'
+        correct: true
+      - text: 'None: two replies are always better than one.'
+        feedback: |
+          Not always. A reply that says "we cannot judge God's reasons" undercuts one that says "here is God's reason". Combining them has to be done carefully.
+      - text: 'The critic can say she has contradicted herself logically, so the essay is invalid.'
+        feedback: |
+          There is no strict contradiction; it is a tension of *confidence*: how much weight can a reasoned story bear if our reasoning about God's aims is doubted? That is a live debate, not a logical error.
+    explanation: |
+      Skeptical theism says "we should not expect to see the reason", a theodicy says "here it is". Used together, the defender must say why the doubt applies to the fawn but not to the free will story. Replies: the free will good is *general* and widely recognised, the fawn is a *detail*.
+
+  - type: mcq
+    id: p2-parting
+    title: "Where do thoughtful people part ways?"
+    prompt: |
+      After the exchange, the believer and the critic still disagree. Which pair of points most plausibly marks where they part?
+    options:
+      - text: 'Whether the goods (freedom, soul-making, order) could be worth this much and this kind of suffering, and how much doubt about God''s reasons is reasonable; the first is a judgment of value, the second of how far our judgment reaches.'
+        correct: true
+      - text: 'Whether the logical problem was ever a threat: the believer says yes, the critic says no.'
+        feedback: |
+          Most of both sides now agree the logical problem of evil, as Mackie stated it, is answered by a possible story. The live debate is about the evidential problem.
+      - text: 'Whether suffering exists.'
+        feedback: |
+          Both sides agree that it does. The disagreement is about what it implies.
+    explanation: |
+      The parting is not about facts of suffering but about **values** (is the good worth the cost?) and **epistemic reach** (should the failure to see a reason lower our credence in God?). Those are layer-2 and layer-3 questions.
+
+  # ---------------- Problem 3 ----------------
+  - type: text
+    id: p3-setup
+    title: "Problem 3 · Weigh the wager against a razor"
+    body: |
+      **Problem 3.** A friend offers Pascal's wager in a toy form. If you **wager for god A** (live as A's believers do), you gain $g=500$ if A exists and lose $c=20$ (a cost in time and comfort) if no god exists. If you do not wager, you get $0$ in every state. Your probability that A exists is $p=0.05$.
+
+      | Act | A exists | A does not exist |
+      |---|---|---|
+      | Wager for A | $+500$ | $-20$ |
+      | Do not wager | $0$ | $0$ |
+
+      Then a critic raises two objections. First, a **rival god B** who punishes those who wagered for A ($-500$). Second, a **razor** argument: "A, with its specific traits, is a narrow hypothesis; narrow hypotheses are less probable, so $p$ is lower than you think."
+
+  - type: numeric
+    id: p3-ev
+    title: "The expected value of the wager"
+    prompt: |
+      Wagering for A pays $+500$ if A exists (probability $0.05$) and $-20$ if A does not exist. Not wagering pays $0$. What is the expected value of wagering for A?
+    answer: 6
+    tolerance: 0.01
+    answerText: '$+6$'
+    wrong:
+      - { value: 25, feedback: 'That is the gain side $0.05\times500$ alone. The cost applies in the other states: $0.95\times(-20)$.' }
+      - { value: -19, feedback: 'That is only the cost term $0.95\times(-20)$. You forgot the gain.' }
+    hint: '$\mathrm{EV}=p\cdot(\text{payoff if A})+(1-p)\cdot(\text{payoff if not})$.'
+    explanation: |
+      $$\begin{aligned}\mathrm{EV}&=0.05\times500\\&\quad+0.95\times(-20)\\&=25-19=+6\end{aligned}$$
+      Positive, so wagering beats not wagering (EV $0$) on these numbers.
+
+  - type: numeric
+    id: p3-break
+    title: "How low can p go?"
+    prompt: |
+      With gain $g=500$ if A exists and cost $c=20$ if not, below what probability $p$ of A does wagering for A have negative expected value? (Give the break-even $p$ as a decimal.)
+    answer: 0.03846
+    tolerance: 0.0005
+    answerText: '$\tfrac{20}{520}\approx0.0385$'
+    wrong:
+      - { value: 0.04, feedback: 'Close but not exact: $20/520=0.03846$. Round only at the end.' }
+      - { value: 0.025, feedback: 'That is not the break-even. Set $500p-20(1-p)=0$ and solve: $p=c/(g+c)$.' }
+    hint: 'Solve $p\cdot500-(1-p)\cdot20=0$.'
+    explanation: |
+      $$500p-20(1-p)=0$$
+      $$p=\frac{c}{g+c}=\frac{20}{520}\approx0.0385$$
+      The reader's $p=0.05$ is above it, so the wager is positive; at $p=0.03$ it would not be. Note how little $p$ must be: a big enough gain makes a small chance enough.
+
+  - type: numeric
+    id: p3-rival
+    title: "Add the rival god"
+    prompt: |
+      Now add the rival god B, who punishes anyone who wagered for A with $-500$. Probabilities: A exists $0.05$, B exists $0.05$, neither $0.90$. Payoffs for wagering for A: $+500$ if A, $-500$ if B, $-20$ if neither. Not wagering pays $0$ everywhere. What is the expected value of wagering for A?
+    answer: -18
+    tolerance: 0.01
+    answerText: '$-18$'
+    wrong:
+      - { value: 6, feedback: 'That is the answer without B. With B the second state costs $0.05\times500=25$.' }
+      - { value: 0, feedback: 'The gain and the punishment cancel ($25-25=0$), but the third state still costs $0.90\times(-20)=-18$.' }
+    hint: '$0.05\times500+0.05\times(-500)+0.90\times(-20)$.'
+    explanation: |
+      $$\mathrm{EV}=25-25-18=-18$$
+      The rival erases the gain, and the cost of living by A's rules is left. The dominance argument that made the wager look simple is gone.
+
+  - type: numeric
+    id: p3-threshold
+    title: "How unlikely must the rival be?"
+    prompt: |
+      Keep A at probability $0.05$, with the same payoffs, but let the rival B have probability $q$ and "neither" have $0.95-q$. For wagering for A to have positive expected value, $q$ must be below what value? (Decimal.)
+    answer: 0.0125
+    tolerance: 0.0001
+    answerText: '$0.0125$'
+    wrong:
+      - { value: 0.05, feedback: 'At $q=0.05$ we computed $-18$. Set $\mathrm{EV}=25-500q-20(0.95-q)=6-480q$ and require it positive.' }
+    hint: '$\mathrm{EV}=25-500q-20(0.95-q)$; find where it equals $0$.'
+    explanation: |
+      $$\begin{aligned}\mathrm{EV}&=25-500q\\&\quad-20(0.95-q)\\&=6-480q\end{aligned}$$
+      This is positive when $q<0.0125$.
+      Check with $q=0.01$: $\mathrm{EV}=1.2>0$. The defender's reply to the many-gods objection is that rival gods are not equally credible; the critic's is that the wager gives no way to decide *how* much less credible a rival is, so it cannot be used without the very evidence it was meant to bypass.
+
+  - type: mcq
+    id: p3-lesson
+    title: "What the rival table shows"
+    prompt: |
+      The rival god B turned the expected value from $+6$ to $-18$. What does that show?
+    options:
+      - text: 'That the wager''s verdict depends on which gods get probability and which punish or reward whom; it does not show A is false or B is true. It shows the wager is not a free-standing argument.'
+        correct: true
+      - text: 'That B exists.'
+        feedback: |
+          B is a stipulated rival in a table, given probability $0.05$ to test the method. The calculation says nothing about whether B exists.
+      - text: 'That expected value is the wrong tool for any decision.'
+        feedback: |
+          Expected value works well in many decisions. The problem here is that the inputs (which gods, how probable, what payoff) are exactly what is contested.
+    explanation: |
+      The wager is a decision rule; it can only be as good as the table. A, B and "neither" all need probabilities and payoffs, and the evidence for them is the very question the wager was supposed to let you skip.
+
+  - type: mcq
+    id: p3-razor
+    title: "Does the razor remove A?"
+    prompt: |
+      The critic says: "By Ockham's razor, prefer the hypothesis with fewer entities, so a god is out." Which statement is fairest?
+    options:
+      - text: 'The razor guides choice among hypotheses that fit the evidence about equally well; whether a god hypothesis explains as much as the naturalist one is the very point in dispute. Theists such as Swinburne argue that one simple person is simpler than the alternatives.'
+        correct: true
+      - text: 'The razor proves that the simplest hypothesis is true, so nothing more is needed.'
+        feedback: |
+          The razor is a tie-breaker or a prior, not a proof. A simpler hypothesis can be false, and simplicity has several senses (fewer entities, fewer kinds, shorter statement).
+      - text: 'The razor is irrelevant because theology is not about evidence.'
+        feedback: |
+          Many theists argue from evidence and simplicity (Swinburne), and critics apply the razor to the same hypotheses. The debate is on the shared ground of explanation.
+    explanation: |
+      The slogan "entities must not be multiplied beyond necessity" is not found in Ockham's own texts, and his own rule allowed positing what reason, experience or Scripture requires. For equal fit, the razor sets a tie-break; here it is contested whether the fit is equal and what counts as simple.
+
+  - type: numeric
+    id: p3-factor
+    title: "The Bayes factor of a narrow hypothesis"
+    prompt: |
+      A toy. An outcome is one of $200$ equally likely types. A **narrow** hypothesis $N$ allows only $4$ of them and spreads its probability evenly over those $4$. A **broad** hypothesis $B$ allows all $200$ evenly. The observed outcome is one that $N$ allows. What is the Bayes factor $P(E\mid N)/P(E\mid B)$?
+    answer: 50
+    tolerance: 0.01
+    answerText: '$50$'
+    wrong:
+      - { value: 0.02, feedback: 'That is inverted ($B$ over $N$). The narrow hypothesis puts $1/4$ on each allowed outcome, versus $1/200$ for the broad one.' }
+      - { value: 196, feedback: 'You subtracted ($200-4$). The factor is a ratio of probabilities: $(1/4)/(1/200)$.' }
+    hint: '$P(E\mid N)=1/4$ and $P(E\mid B)=1/200$.'
+    explanation: |
+      $$\frac{P(E\mid N)}{P(E\mid B)}=\frac{1/4}{1/200}=50$$
+      A hypothesis that sticks its neck out and is right gains a lot; had the outcome been one of the other $196$, $N$ would have been refuted ($P(E\mid N)=0$). This is why narrow, testable claims can be strongly confirmed.
+
+  - type: numeric
+    id: p3-posterior
+    title: "Then the prior decides"
+    prompt: |
+      Give the narrow hypothesis $N$ a prior of $0.2$ and the broad one $B$ a prior of $0.8$ (nothing else is in the running). With the Bayes factor $50$ from the toy outcome, what is the posterior probability $P(N\mid E)$?
+    answer: 0.9259
+    tolerance: 0.002
+    answerText: '$\tfrac{25}{27}\approx0.926$'
+    wrong:
+      - { value: 12.5, feedback: 'That is the posterior *odds* $50\times0.2/0.8$. Convert: odds$/(1+\text{odds})$.' }
+      - { value: 0.2, feedback: 'That is the prior. The evidence multiplies the odds by $50$.' }
+    hint: 'Odds $=50\times(0.2/0.8)$, then odds$/(1+\text{odds})$.'
+    explanation: |
+      $$\text{odds}=50\times\frac{0.2}{0.8}=12.5$$
+      $$P(N\mid E)=\frac{12.5}{13.5}=\frac{25}{27}\approx0.926$$
+      The razor says a narrow hypothesis is *a priori* costly; the evidence, if it lands inside the narrow region, pays that cost back. A narrow prior of $0.2$ was generous; with a prior of $0.001$ the same factor would give about $4.8\%$.
+
+  - type: mcq
+    id: p3-burden
+    title: "Who carries the burden?"
+    prompt: |
+      The friend says: "Whoever claims a god exists must prove it." The critic says: "No, the believer and the denier each assert something, and each owes reasons." According to Antony Flew (1972) there is a presumption of atheism, like the presumption of innocence. Which statement fits the level's analysis?
+    options:
+      - text: 'Burden attaches to claims, not to sides: "A exists" and "no god exists" are both claims that need support; Flew argued for a default of negative atheism (not believing) until a case is made, while critics reply that this default is itself contested.'
+        correct: true
+      - text: 'The burden always falls on the believer, so the believer must prove God exists before anyone else says anything.'
+        feedback: |
+          That is one side's starting point (Flew's presumption), not a rule everyone accepts, and a positive denial ("there is no god") carries its own burden.
+      - text: 'The burden falls on whoever speaks second.'
+        feedback: |
+          Order of speaking does not decide who owes reasons. It is the content of the claim that matters.
+    explanation: |
+      Flew (1972) separated *positive* atheism (asserting no god) from *negative* atheism (not believing), and argued for a presumption in favour of the latter. Opponents say agnostics and theists can argue from the same start. In practice, whoever *claims* something owes reasons for it.
+
+  - type: mcq
+    id: p3-parting
+    title: "Where do thoughtful people part ways?"
+    prompt: |
+      After the wager table and the razor, a believer and a critic still differ. Which is the most plausible place?
+    options:
+      - text: 'The probabilities and payoffs in the table (which gods are live, how likely, what they would reward) and whether simplicity favours or disfavours the god hypothesis; the arithmetic is shared.'
+        correct: true
+      - text: 'Whether expected value can be computed at all: the believer says no and the critic says yes.'
+        feedback: |
+          The arithmetic is agreed. The critic computes the same expected value, only with a different table.
+      - text: 'Whether Pascal lived in the 17th century.'
+        feedback: |
+          Everyone agrees he did (1623-1662). The disagreement is about the argument, not the history.
+    explanation: |
+      Again the parting is in the **inputs**: the table (which gods) and the prior (what simplicity buys). The wager and the razor give method, not verdict.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Sort before replying.** Logical: $(O\land G)\Rightarrow\lnot E$ and $E$ give $\lnot(O\land G)$, which is $\lnot O\lor\lnot G$, and the fight is over the bridge. Evidential: odds $=$ likelihood ratio $\times$ prior odds. Hiddenness: nonresistant nonbelief against a loving God. A reply to one leaves the others: a defense answers only inconsistency.
+      - **The odds line, with numbers.** Priors $0.4/0.6$ and likelihoods $0.15/0.45$ give odds $2/9$ and $P(G\mid E)=2/11\approx0.18$; a theodicy that raises $P(E\mid G)$ to $0.30$ gives $4/13\approx0.31$. The two readers differ in inputs, not arithmetic.
+      - **Defense is lighter than theodicy.** Transworld depravity is claimed only *possible*. Asserting it true takes on a burden, covers moral evil only (the fawn needs another move), and each reply has its bill: reach for a theodicy, spreading doubt for skeptical theism (which also pulls against a theodicy), narrow scope for a defense. In the Dana toy, 1 of 7 worlds is wrong-free, so no depravity.
+      - **Wager.** With $g=500$, $c=20$, $p=0.05$: $\mathrm{EV}=+6$, break-even $p=c/(g+c)\approx0.0385$. A rival god B with $p=0.05$ gives $\mathrm{EV}=-18$; the wager survives only if the rival has probability below $0.0125$. The table, not the arithmetic, is the dispute.
+      - **Razor and burden.** A narrow hypothesis with $4$ of $200$ outcomes has Bayes factor $50$, and posterior $25/27\approx0.93$ from prior $0.2$. The razor is a tie-breaker among equally good fits; burden attaches to claims, not sides.
+
+      **Next:** part 2 has problems 4 and 5: the argument from hiddenness weighed against replies and the numbers it needs, then agnosticism (strong, weak, practical) set against a push to decide, and a final weighing of all the objections of the level.

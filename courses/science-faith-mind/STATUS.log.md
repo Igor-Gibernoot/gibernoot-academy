@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-02 ch07-challenge part 1 (29 cards, no widget, no images)
+Problems: 1 sort letter into logical/evidential/hiddenness (hospital ward), 2 student asserts transworld depravity is true (defense vs theodicy, fawn, replies' prices), 3 wager table with rival god plus razor and burden. Part 2 node `ch07-challenge-2` planned in course.yaml. No new external facts (web sources in Level 7 Verified lines). Choices: autonomous, no questions asked. Conventions fixed here: hospital-letter toy G 0.4 / I 0.6, likelihoods 0.15 vs 0.45 -> 2/11, theodicy 0.30 -> 4/13; Dana toy, 3 situations, 1 of 7 worlds wrong-free; wager g=500, c=20, p=0.05: EV +6, break-even 20/520, rival B 0.05 -> EV -18, rival must be below 0.0125; narrow N 4 of 200, factor 50, prior 0.2 -> 25/27.
+
 ## 2026-11-02 ch07-map (content map, 12 cards, 10 boxes)
 Built autonomously. Boxes: logical problem, defense vs theodicy, free-will defense, evidential problem, replies (soul-making, skeptical theism, process, Adams), hiddenness, parsimony, burden of proof, wager, agnosticism; 2 decoys each (and/or swap, defense/theodicy swap, caused vs counterfactual freedom, reversed inequality, skeptical theism as theodicy, hiddenness as evil, ratio upside down, burden to one side, c/g swap, strong/weak swap). Choices: no new facts so no new web check (all items reuse Level 7 Verified lines); images none: a map carries no pictures; no widget. validate 0/0, shots 0 problems.
 Conventions fixed here: map layout 3 columns, agnosticism last at row 4 col 2; replies box groups four replies; hiddenness-to-wager link and replies-to-hidden dashed edge.
