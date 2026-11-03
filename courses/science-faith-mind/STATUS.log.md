@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-03 ch08-panentheism (20 cards, concept)
+Built from SEP Panentheism, Schleiermacher and web checks (VERIFIED.md). 20 cards, no widget (README index checked, e.g. now-lines, scale-factor, microstate-counter: none fits a verbal structure), no images (none: ImageMagick missing, fetch-image get fails; Schleiermacher portrait found but not saved). Choices: Tillich and Schleiermacher framed as in the panentheist lineage by readers, not self-declared; Tillich claims paraphrased (no verbatim quote); prayer has no sourced panentheist position so stated as an open question; Polkinghorne cautious/eschatological; Peacocke and Clayton without birth years. Conventions fixed here: three relations $G=W$, $W\subsetneq G$, $G\neq W$ reused; "in" readings (locative, dependence, mind-body, part-whole); Tillich being-itself not a being.
+
 ## 2026-11-03 ch08-spinoza (21 cards, concept)
 Built from SEP Spinoza and Pantheism plus web checks (VERIFIED.md). 21 cards, no widget (checked README index: nothing fits verbal structure), no images (ImageMagick missing, fetch-image get fails; log: none: convert missing). Choices: Einstein 1929, 1954 and Born quotes all paraphrased (translations vary); miracle card uses Spinoza's TTP definition. Conventions fixed here: G = God, W = world, pantheism G=W, panentheism W strictly inside G, classical G != W; Spinoza: one substance, modes; Deus sive Natura.
 
