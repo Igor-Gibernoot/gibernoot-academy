@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-03 ch08-process (20 cards, concept)
+Hook, classical theism, foreknowledge recall, Whitehead, Hartshorne dipolar, persuasion, Cobb/Griffin evil, open theism, process vs open, evil/prayer/miracles table, objections, premises, what stays open. Widgets checked: tradeoff-curve (power/freedom slider would need invented numbers and presuppose the zero-sum model the lesson questions), now-lines (time only): none used. Images: none, `magick` missing (only Windows convert.exe), tool failed. Dropped unconfirmed: Griffin dates, Pinnock's Most Moved Mover year. Conventions fixed here: dipolar = abstract pole C (character, fixed) and concrete pole E(t); process vs open split = limits built into reality vs God's choice.
+
 ## 2026-11-03 ch08-abrahamic (22 cards, concept)
 Shema (JPS "alone" vs "one"), Maimonides, Trinity (Nicaea 325, Constantinople 381, modalism/tritheism/Arianism, identity puzzle), tawhid (Qur'an 112, 4:48, 4:171), Nostra Aetate, Volf reference vs description, A Common Word, layers, open. Images: none: ImageMagick (`magick`) missing so fetch-image failed (candidates: Nicaea icon, Maimonides portrait). Widget: none (checked now-lines, scale-factor, diagonal-list: nothing models doctrine). Choices: hook has one correct "depends on what same means"; critics of Volf kept generic (Durie review unreadable, 403). Conventions fixed here: puzzle $F,S,G$ identity chain; three misreadings; "same God" = reference/description/worship.
 
