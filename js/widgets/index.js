@@ -21,6 +21,7 @@ import { fallingCloud } from './falling-cloud.js';
 import { lightCones } from './light-cones.js';
 import { worldlineClock } from './worldline-clock.js';
 import { observerFrame } from './observer-frame.js';
+import { nowLines } from './now-lines.js';
 import { areaCell } from './area-cell.js';
 import { torusFigure } from './torus.js';
 import { sphereFigure } from './sphere.js';
@@ -90,6 +91,7 @@ const WIDGETS = {
   'light-cones': lightCones,
   'worldline-clock': worldlineClock,
   'observer-frame': observerFrame,
+  'now-lines': nowLines,
   'area-cell': areaCell,
   torus: torusFigure,
   sphere: sphereFigure,

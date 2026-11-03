@@ -39,6 +39,7 @@ and a new `docs/widgets/<name>.md` plus a line below.
 - `mean-field-vb`: Mean-field variational Bayes on a joint over two discrete latent variables x_1\{1
 - `microcircuit`: A generic message circuit
 - `observer-frame`: An observer's frame and what it measures
+- `now-lines`: A plain-language 1+1 Minkowski diagram: Alice at rest, Bob moving at speed u, each one's line of now, an event E and who disagrees on its order
 - `parallel-transport`: Parallel transport and autoparallels in the plane
 - `peb-regression`: Group regression on per-subject posteriors
 - `policy-scorer`: Scores 2 to 4 policies by expected free energy
