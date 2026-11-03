@@ -109,3 +109,7 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 - Challenge part 1 (29 cards): hospital-letter toy G 0.4 / I 0.6, likelihoods 0.15 vs 0.45 gives 2/11, theodicy 0.30 gives 4/13; Dana toy, 3 situations, 1 of 7 worlds wrong-free; wager g=500, c=20, p=0.05: EV +6, break-even 20/520, rival B 0.05 gives EV -18 (rival must be under 0.0125); narrow N 4 of 200 gives factor 50, prior 0.2 gives 25/27.
 - Challenge part 2 (22 cards): Iris diary toy prior 0.5, P(D|not G)=0.8, P(D|G) 0.1 -> 1/9, 0.4 -> 1/3, 0.8 neutral; agnostic toy Bayes factor 4 then 1/2 from 0.5 -> 0.8, 2/3; Kai weak, Lou agnostic atheist, Mo strong plus practical.
 - Exam partial1 (Levels 2-7, 19 cards): fresh exam numbers not to be reused as worked examples: alarm 0.04/0.9/0.3 (1/9, 3/11), X=5 (5/6), z=3 gives 10.9 K, window 0.01 vs 0.5 (0.505), 300 universes (0.951), three-premise bound 0.4, wager g=240 c=6, hiddenness 0.3/0.1/0.6 (1/15).
+
+## Chapter 8
+
+- Attributes lesson (19 cards, no images): state of affairs $s$, $\Diamond s$, $\mathrm{Can}(g,s)$, God's nature $N$; omnipotence readings (A) anything, (B) $\forall s(\Diamond s\Rightarrow\mathrm{Can}(g,s))$, (C) $\Diamond(s\land N)$; omniscience $\forall p\,(p\Rightarrow K_S\,p)$; Euthyphro horns 1 (independent standard) and 2 (arbitrary), divine nature as third. Foreknowledge argument P1-P3 (Pike) reused by God and Time.

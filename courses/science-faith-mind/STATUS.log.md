@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-03 ch08-attributes
+
+Built `ch08/attributes.yaml` (19 cards, concept, no widget: logical paradoxes, no spatial or numeric structure; images: none, every fitting portrait (Aquinas, Descartes, Plato, Anselm) is already used elsewhere in the course and no free scenario image fits). Cards: stone hook, perfect-being thinking, three readings of omnipotence, stone under each, square-circle trap, omniscience definition (build), foreknowledge argument (Pike), non-causal trap, three exits, open-theism trap, Euthyphro, divine nature, table of puzzles, sin question, summary. Choice: Euthyphro divine-nature attribution kept soft (secondary web sources only). Conventions fixed here: $\Diamond s$, $\mathrm{Can}(g,s)$, $N$ nature, readings A/B/C of omnipotence, $\forall p\,(p\Rightarrow K_S\,p)$.
+
 ## 2026-11-03 exam-partial1 (Levels 2-7)
 Original exam in `exams/partial1.yaml`: setting card (Kestrel Circle) + 19 cards, 5 questions of 2 points, 60 min. Q1 Bayes/test quality (numeric, multi-select, numeric), Q2 simulation count, CHSH 2.4, diagonal order, incompleteness, Q3 CMB T at z=3, design vs chance, at-least-one in 300 universes, "some vs this universe", Q4 moral-argument logic, three-premise bound, odds-to-probability build, design vs selection, Q5 defense vs theodicy, wager break-even, hiddenness update, strong vs weak agnostic. Checks: validate 0/0, shots 0 problems (two explanation formulas split into aligned), headless run (intro, answer, submit slide, results with debrief, review of 19, exit; and time-up with minutes 0.05) no page errors. "Practical agnosticism" dropped (unconfirmed on the web). No widget needed.
 Conventions fixed here: exam numbers (alarm 0.04/0.9/0.3, X=5, z=3 gives 10.9 K, window 0.01 vs 0.5, 300 universes gives 0.951, bound 0.4, wager g=240 c=6, hiddenness 0.3/0.1/0.6); later lessons must not reuse them as worked examples.
