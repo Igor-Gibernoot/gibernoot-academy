@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-02 ch07-intuition (intuition, 14 cards: welcome, 12 recall cards, summary)
+Built autonomously. Cards: logical vs evidential (defense), bridge build, odds build, scaling check, which-reply (process), hiddenness modus tollens build, hiddenness numeric 0.6, narrow rule 20, wager break-even 0.05, infinite-reward limit, belief/knowledge grid, burden and simplicity. Choices: no new external facts (reuse Level 7 Verified); no images (recall round); no widget; the five-reply sort became one mcq (no sort card type). Conventions fixed here: toy numbers hiddenness 0.6/0.4 prior, 0.2 vs 0.5 -> odds 0.6; wager gain 95, cost 5 -> p = c/(g+c) = 0.05.
+
 ## 2026-11-02 ch07-traps (traps, 20 cards: welcome, 18 traps, summary)
 Built autonomously. Traps: logical vs evidential, defense claims truth?, natural evil vs free will, Rowe probable, dog/fleas, skeptical theism price, odds numeric (2 x 0.25 = 0.5), Adams defeat, hiddenness vs evil, hiddenness odds numeric (1/3), simplicity vs fit, Ockham slogan, Flew burden, wager break-even numeric (8/208), wager not a proof, many gods, agnostic axes, strong agnosticism. Mix 3 numeric, 15 mcq. Images: none: traps lesson, no person or object newly introduced. Web: reused Level 7 Verified items; new check: Marilyn McCord Adams defeat within the individual's life (JAT abstract, Hadsell reply via search).Conventions fixed here: traps numbers odds 2 x 0.25 = 0.5; P(G|D) = 1/3 for 0.3/0.6 at prior 0.5; wager c=8, g=200 gives p = 0.0385.
 
