@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-04 ch09-theology-of-science
+Built (21 cards, concept, no widget; README widgets checked, none fits). Image: needham (CC BY-SA); Whitehead and Descartes not repeated (already in course); Kepler skipped (portraits uncertain). Choices: Whitehead, Descartes, Newton paraphrased (only secondary sources reached); Kepler "God's thoughts" not quoted; Einstein sentence verbatim. Conventions fixed here: Kepler $T^2=k\,a^3$ (Jupiter 5.2 AU gives 11.86 y); laws views lawgiver / Humean best system / governing.
+
 ## 2026-11-04 ch09-origins-religion
 Built (20 cards, concept, no widget, no images: no central person with a free portrait; widget README checked, none needed). Choices: Ecklund sample sizes taken from secondary summaries; margin-of-error card is a worked formula for the 1996 random sample, not a Pew figure (Pew's own margin not on its page). Web-checked, see VERIFIED.md. Conventions fixed here: survey figures quoted as group, year, wording; margin covers sampling error only.
 
