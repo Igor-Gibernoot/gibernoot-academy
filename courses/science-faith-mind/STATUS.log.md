@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-03 ch08-language (18 cards, guided proof)
+Built from SEP Religious Language, Vienna Circle, Popper, Medieval Analogy and Wikipedia pages for the symposium (VERIFIED.md). No widget. Images: none (Commons Ayer 155x190 and Flew 218x270 too small, licence unclear). Choices: 18 cards not 20 (merged recall, Hick and Popper); Flew closing question paraphrased (sources differ); Mitchell parable via secondary sources, paraphrased "in essence"; no dates for Popper's book or Hick's parable. Conventions fixed here: $s$ sentence, $e$ "God exists", $M$ meaningful, $V$ verifiable, $A$ analytic; P1 $M(s)\Rightarrow V(s)\lor A(s)$, P2 $\neg V(e)\land\neg A(e)$, C $\neg M(e)$; analogy by attribution (healthy) and proportionality (ratio form).
+
 ## 2026-11-03 ch08-apophatic (19 cards, concept)
 Built from SEP Maimonides, Pseudo-Dionysius, Religious Language, Summa I q3/q13 and web checks (VERIFIED.md). No widget (verbal structure; README index has none that fits). Image: Maimonides traditional portrait (ImageMagick now works); Eckhart image fetched then dropped (fresco identification unsure), ledger entry removed; Aquinas already has his portrait elsewhere. Choices: Maimonides on ST q13 a2 "Rabbi Moses" stated as "usually taken to be"; Eckhart "rid me of God" quote dropped (unconfirmed); self-refutation objection framed as a question, with SEP-confirmed revisionary objection; 3 blanks in own:. Conventions fixed here: $G$, $F$; affirm/deny/beyond; "G is wise" -> "G is not ignorant"; analogy vs univocal/equivocal; God vs Godhead.
 
