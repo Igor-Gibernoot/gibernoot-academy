@@ -67,6 +67,27 @@ publisher or journal pages) *in the session that writes the lesson*, before comm
   guess. An agent that skips the web check has not finished the unit; report it, don't commit.
 - Briefs to agents must repeat this rule. If Igor
   asked for a specific check, do exactly that check.
+- **Search protocol (a miss is not "unconfirmed" until all steps fail).** A failed search usually
+  means a bad query, not a missing fact (the Einstein 1930 essay was once "not found" though a
+  plain search finds it at once). Before marking any item unconfirmed or dropping it:
+  1. **Short queries first**: 2 to 4 words, the way a person would google it
+     (`Einstein Religion and Science 1930`, not a long sentence with quotation marks, dates and
+     the claim). Add one distinguishing word at a time (author, title, year, "full text").
+  2. **Vary at least 3 times**: other word order, the original-language title, the author's name
+     alone, the idea instead of the exact phrase, a quotation fragment of 4 to 6 words in quotes.
+     Run independent queries in the same turn; use `mode: "extended"` on the retry.
+  3. **Go to the primary or reference site**, not only search results: SEP/IEP/Britannica entry
+     (WebFetch the page and ask for the item), Wikisource, Project Gutenberg, sacred-texts.com,
+     Fordham sourcebooks, archive.org, publisher or journal pages. A PDF or full text is fetched
+     with WebFetch and the exact sentence read there.
+  4. **Quotations**: confirmed only when the sentence is read in a full text (not a quote
+     aggregator). If only secondary pages repeat it, paraphrase ("in essence") and log
+     `secondary only`.
+  5. **Dates that disagree** (e.g. a birth year): give the commonly cited one and say "some
+     sources give X", or use "c."; never silently pick one.
+  6. **Record the attempts**: for each item left unconfirmed, `VERIFIED.md` lists the queries and
+     sites tried (`tried: <q1>; <q2>; <site>`), so a later pass does not repeat them.
+  7. A blocked page (403) is not a failed search: try another mirror or reprint.
 
 If Igor later adds a book to
 `sources/` (git-ignored), follow the root workflow.

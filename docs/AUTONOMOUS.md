@@ -20,7 +20,7 @@ context stays small. Igor reviews the level on the live site at the end.
   If the course `CLAUDE.md` has a "Web check is mandatory" rule: every
   external fact (names, dates, works, studies, numbers, attributions,
   quotations; in physics-style courses also constants, material properties,
-  typical real-world values and how a real device works) must be web-checked in this session, and its line in
+  typical real-world values and how a real device works) must be web-checked in this session, following the course `CLAUDE.md` "Search protocol" (short keyword queries, at least 3 variations, primary/reference sites, attempts logged as `tried:`; an item is unconfirmed only after all fail), and its line in
   `VERIFIED.md` needs `web: <source>` per item. If you cannot search, or an item stays
   unconfirmed, do not commit: report 'UNVERIFIED: <items>' instead.
   Do not view screenshot images unless shots.mjs flags a card or the unit
