@@ -67,8 +67,6 @@ publisher or journal pages) *in the session that writes the lesson*, before comm
   guess. An agent that skips the web check has not finished the unit; report it, don't commit.
 - Briefs to agents must repeat this rule. If Igor
   asked for a specific check, do exactly that check.
-- **Search protocol:** follow `docs/WEB_SEARCH.md` (short queries, 3+ variations, primary sites,
-  quotations only from full text, `tried:` log); a miss is not "unconfirmed" until all steps fail.
 
 If Igor later adds a book to
 `sources/` (git-ignored), follow the root workflow.

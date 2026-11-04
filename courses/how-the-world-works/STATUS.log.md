@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-04 Retry pass
+Retried the unconfirmed items of ch02 and ch03 with the general search protocol. Confirmed: dome hoop sign change at 51.8 deg (MIT thesis, Springer, MDPI). Fixed: brake-disc melting wording (cast iron 1400-1500 K, steel 1650-1800 K). Still unconfirmed (tried: logged): ASTM F2291 limits, melted-rubber film on a locked wheel. Not retried (never in a lesson): Frahm 1909, milli-g comfort limits, Taipei 101 mass. Conventions fixed here: none.
+
 ## 2026-10-31 Images audit (chapters 1 to 3)
 10 image blocks, 10 files, 10 ledger entries, no orphans. Web-checked Commons pages and search: Tacoma film credited to Barney Elliott only on Commons (Monroe not confirmed there), so caption now names Elliott alone; wire rope is "formerly onboard" a tugboat, caption reworded; warren-truss 1909 confirmed by the sign; crash-test (Fiat 500, Turin museum, 5 stars), lightning (Schaffhausen, 2 s, 14 Jul 2009), ISS (Discovery, 6 Aug 2005) confirmed. Validate clean.
 
