@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-04 ch09-galileo (16 cards, concept)
+Built `ch09/galileo.yaml`, registered `file:`. Hook, myth sort, dates, order card, Bellarmine (image), Christina, Church parallax case, Galileo tides, Urban VIII (image), Barbour typing (Galileo Independence on this question, consultors Conflict), historians, trap, summary. No widget (checked docs/widgets/README.md: nothing fits documentary history). Images bellarmine (CC0), urban8 (PD); Galileo portrait exists in ch04, not repeated. Decisions: quotations paraphrased (translations differ); dropped unverified items. Conventions fixed here: Galileo typed on the Earth's-motion question as Independence ($\notin D_R$) and consultors as Conflict ($D_S\cap D_R\neq\varnothing$); no torture applied (threat only); 1616 wording of the injunction disputed.
+
 ## 2026-11-04 ch09-models (16 cards)
 Built `ch09/models.yaml`, registered `file:`. Hook (same facts, opposite conclusions), Barbour's four types (conflict shared premise, independence/NOMA with build $D_S\cap D_R=\varnothing$, sort, weak spot, non-exhaustion, dialogue, integration routes), resolution of the hook, typology worry, summary with 3 blanks. Choices: dialogue/integration examples taken from secondary summaries (paraphrased, no quotes); only quote is Gould's magisterium definition; no widget (checked README: none relevant); images: barbour (CC BY-SA 4.0); Gould portrait refused (PD-US only), skipped. Conventions fixed here: $D_S$, $D_R$ = domains of questions of science and religion; conflict $D_S\cap D_R\neq\varnothing$ with clash, NOMA $D_S\cap D_R=\varnothing$ (and $D_S\cup D_R\neq$ all inquiry); Barbour types Conflict/Independence/Dialogue/Integration (integration routes natural theology, theology of nature, systematic synthesis).
 
