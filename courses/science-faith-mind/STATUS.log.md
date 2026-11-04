@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-04 ch10-intuition (intuition, 18 cards)
+Built `ch10/intuition.yaml`: replies mnemonic, zombie order, correlation/dependence/identity, workspace vs HOT, toy cut, splits build, free-will sort, determinism vs fatalism, Parfit, brain-damage premise, machines sort, then numeric data-only cards (8-node splits 127, K5 toy score 4, Libet 350 ms, 0.9^10, AWARE-II 9.3%). No images, no widget, no new web facts (reused). Plan said 13 items; 18 cards.
+Conventions fixed here: intuition lesson reuses toy integration (K5 = 4), 2^(n-1)-1 (n=8: 127), Libet 550-200=350 ms, 0.9^10=0.35, AWARE-II 53/567=9.3%.
+
 ## 2026-11-04 ch10-traps (traps, 21 cards, 19 traps)
 Built `ch10/traps.yaml`: NCC identity, easy problems vs hard problem, conceivable-hence-possible, zombie order card, workspace vs higher-order, toy vs real Phi, splits 2^(n-1)-1 (n=7: 63), Libet, determinism vs fatalism, compatibilism, Locke/Olson/Parfit on the copy, decay 0.9^10, split brain, no-self, brain damage (multi-select), AWARE-II 53/567 = 9.3%, Turing test, Searle, 2023 indicator report. No images, no widget (verbal traps). No new external facts: all reused from concept lessons. Conventions fixed here: none new (reused toy integration wording, 2^(n-1)-1, 0.9^10, AWARE-II 567/53/28/11).
 
