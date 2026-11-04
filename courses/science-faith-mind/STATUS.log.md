@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-04 Retry pass (unconfirmed facts, Search protocol)
+Re-searched the items marked unconfirmed/dropped in VERIFIED (Galileo, Gould/JPII, Einstein 1930, Flew, Spinoza, level 8 dates, entropy, Assayer, Kastrup). Confirmed and restored in: ch09-galileo, ch09-models, ch08-language, ch08-spinoza, ch08-process, ch08-panentheism, ch04-universe, ch05-entropy, ch05-constants, ch06-design, ch03-idealism (Kastrup birth year 1966 -> 1974). Removed a Gould quotation not in the essay text. Still unconfirmed items carry `tried:` in VERIFIED.md. Conventions fixed here: none.
+
 ## 2026-11-04 ch09-galileo (16 cards, concept)
 Built `ch09/galileo.yaml`, registered `file:`. Hook, myth sort, dates, order card, Bellarmine (image), Christina, Church parallax case, Galileo tides, Urban VIII (image), Barbour typing (Galileo Independence on this question, consultors Conflict), historians, trap, summary. No widget (checked docs/widgets/README.md: nothing fits documentary history). Images bellarmine (CC0), urban8 (PD); Galileo portrait exists in ch04, not repeated. Decisions: quotations paraphrased (translations differ); dropped unverified items. Conventions fixed here: Galileo typed on the Earth's-motion question as Independence ($\notin D_R$) and consultors as Conflict ($D_S\cap D_R\neq\varnothing$); no torture applied (threat only); 1616 wording of the injunction disputed.
 
