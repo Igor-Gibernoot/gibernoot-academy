@@ -19,3 +19,31 @@ a hidden control keeps its start value, so a card can fix the LR and let only th
 - Witnesses, toy case: `{witnesses: true, prior: 1.0e-6, n: 1, q: 1.0e-3, presets: [{label: "Two witnesses", n: 2}]}`
   (LR $=10^{3n}$; $n = 2$ gives even odds).
 - Worldviews: `{lr: 1000, lrSlider: false, presets: [{label: "Prior 1e-3", prior: 1.0e-3}, {label: "Prior 1e-9", prior: 1.0e-9}]}`.
+
+Smoke presets (mounted by `node tools/widget-smoke.mjs`):
+
+```smoke
+prior: 1.0e-6
+lr: 1000
+presets:
+  - {label: "LR 1e6", lr: 1.0e6}
+```
+
+```smoke
+witnesses: true
+prior: 1.0e-9
+n: 2
+q: 1.0e-3
+presets:
+  - {label: "n=3", n: 3}
+```
+
+```smoke
+priorSlider: false
+lrSlider: false
+ticks: false
+marker50: false
+rowLabels: false
+reset: false
+readout: {prob: true}
+```

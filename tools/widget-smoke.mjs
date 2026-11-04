@@ -24,6 +24,11 @@ const scan = (o, where) => {
 };
 for (const f of files) scan(yaml.load(readFileSync(f, 'utf8')), f.slice(repo.length + 9));
 
+// Widgets not yet used in any lesson: fenced ```smoke blocks in docs/widgets/<name>.md (YAML config).
+if (!only) for (const f of readdirSync(join(repo, 'docs/widgets')).filter(f => f.endsWith('.md'))) {
+  const txt = readFileSync(join(repo, 'docs/widgets', f), 'utf8');
+  for (const m of txt.matchAll(/```smoke\n([\s\S]*?)```/g)) mounts.push({ name: f.slice(0, -3), config: yaml.load(m[1]) ?? {}, where: `docs/widgets/${f} (smoke)` });
+}
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.yaml': 'text/yaml', '.woff2': 'font/woff2', '.svg': 'image/svg+xml' };
 const server = createServer((req, res) => {
   let p = decodeURIComponent(req.url.split('?')[0]); if (p.endsWith('/')) p += 'index.html';
