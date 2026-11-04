@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-04 ch09-map
+Built (14 cards, map, 12 boxes in 3 columns, no widget, no images: a map card has no picture slot and the people were pictured in their lessons). Boxes: models/NOMA, Bellarmine's condition, Galileo's placement, selection odds rule, three layers, Hume's weighing, witnesses and independence, divine-action proposals, epistemic vs ontological, surveys, Needham thesis, laws of nature; decoys swap non-overlap/exhaustion, q vs nq, epistemic/ontological, survey figures between groups, Lewis/Armstrong. Choice: surveys and margin merged into one box, ch09-map reuses facts verified in earlier ch09 lines. Long displays use `gathered` for phone width. Conventions fixed here: none new (map reuses the chapter's notation).
+
 ## 2026-11-04 ch09-intuition
 Built (16 cards, intuition, no widget: README widgets checked, odds-updater and chaos-sensitivity would reveal answers or restate lessons; no images: recall round; no `own:`, closing text card with displayed formulas as in ch08). Choices: no new external facts, reused ch09 sources; numeric cards give data only (selection edge, witnesses with a shared story, survey n=400, gap in points). Conventions fixed here: none.
 
