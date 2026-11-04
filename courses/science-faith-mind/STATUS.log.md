@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-04 ch09-intuition
+Built (16 cards, intuition, no widget: README widgets checked, odds-updater and chaos-sensitivity would reveal answers or restate lessons; no images: recall round; no `own:`, closing text card with displayed formulas as in ch08). Choices: no new external facts, reused ch09 sources; numeric cards give data only (selection edge, witnesses with a shared story, survey n=400, gap in points). Conventions fixed here: none.
+
 ## 2026-11-04 ch09-traps
 Built (19 cards: welcome, 17 traps, summary; no widget, no images). Choices: reused earlier ch09 web-verified facts only (no new external facts); two side claims dropped as unverified (alchemy remark, extra Sivin objections); odds-updater and chaos-sensitivity not reused (fast text round). Conventions fixed here: none.
 
