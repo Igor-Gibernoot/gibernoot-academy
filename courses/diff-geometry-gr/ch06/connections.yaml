@@ -118,10 +118,27 @@ cards:
       To see what it is, note that $J^k{}_j$ is a function on $\mathbb{R}^d$, namely $\partial_j(\text{ᛖ}_{\mathcal{U}\mathcal{V}})^k$, evaluated at the chart coordinates of the point. Moving along $\mathcal{X}_p$ changes these coordinates at the rate $x^i_p$ in slot $i$, so the chain rule gives
       $$\mathcal{X}_p\big(J^k{}_j\big) = x^i_p\,\partial_i\partial_j(\text{ᛖ}_{\mathcal{U}\mathcal{V}})^k,$$
       with the second derivative taken at $\mathscr{X}(p)$. Putting it together:
-      $$\begin{aligned}&\mathcal{X}_p(\tilde y^k)\\ &= J^k{}_j(p)\,\mathcal{X}_p(\tilde x^j)\\ &\quad + \tilde x^j(p)\,x^i_p\,\partial_i\partial_j(\text{ᛖ}_{\mathcal{U}\mathcal{V}})^k.\end{aligned}$$
+      $$\mathcal{X}_p(\tilde y^k) = J^k{}_j\,\mathcal{X}_p(\tilde x^j) + \tilde x^j x^i_p\,\partial_i\partial_j\text{ᛖ}^k,$$
+      where $J$, $\tilde x^j$ and the second derivative of $\text{ᛖ} = \text{ᛖ}_{\mathcal{U}\mathcal{V}}$ are all evaluated at $p$ (at $\mathscr{X}(p)$ for the derivative).
       The extra term is the field's component, times the direction's component, times a second derivative of the transition map, which measures how fast the Jacobian changes.
 
-      Check it on the polar verdict. Here $\mathscr{X}$ is cartesian, $\mathscr{Y}$ is polar, and $\text{ᛖ}^2 = \theta(a,b)$ with $\partial_1\theta = -b/r^2$. Take $\mathcal{Y} = \partial x_1$, so $\tilde x = (1,0)$, along $x_p = (0,1)$ at $(1,0)$. Only $j=1$ and $i=2$ contribute, so the extra term is $\partial_2\partial_1\theta = \partial_b(-b/r^2) = -1$. The first term is $0$ because $\tilde x^1$ is constant, so the whole answer is $-1$, as found before.
+  - type: text
+    id: where-from-example
+    title: The extra term on the polar example
+    body: |
+      Let us run the formula on the polar verdict, one ingredient at a time. The first chart $\mathscr{X}$ is cartesian, with coordinates $(a,b)$. The second chart $\mathscr{Y}$ is polar, with coordinates $(r,\theta)$. The transition map is
+      $$\text{ᛖ}_{\mathcal{U}\mathcal{V}}(a,b) = \big(\sqrt{a^2+b^2},\ \theta(a,b)\big),$$
+      so its second component is the angle, and $\partial_1\theta = -b/r^2$ and $\partial_2\theta = a/r^2$.
+
+      The field is $\mathcal{Y} = \partial x_1$, whose cartesian components are $\tilde x = (1,0)$. Its polar components are $\tilde y^2 = J^2{}_1\,\tilde x^1 = -b/r^2$, which is the function we differentiated before. The direction is $\mathcal{X}_p = (\partial x_2)_p$ at $p=(1,0)$, which means $x^1_p = 0$ and $x^2_p = 1$.
+
+      Now look at the two terms of the formula for $k=2$. The first one contains $\mathcal{X}_p(\tilde x^j)$, the derivative of the cartesian components, and these are constants, so the first term is $0$.
+
+      In the second term, $\tilde x^j(p)$ is nonzero only for $j=1$, and $x^i_p$ is nonzero only for $i=2$. So a single piece survives:
+      $$\tilde x^1(p)\,x^2_p\,\partial_2\partial_1\theta = 1\cdot 1\cdot\partial_b\!\left(-\frac{b}{r^2}\right).$$
+      At $(1,0)$ this derivative is $-(r^2-2b^2)/r^4 = -1$, so $\mathcal{X}_p(\tilde y^2) = 0 + (-1) = -1$.
+
+      This agrees with the direct computation of the polar verdict, and now we see where the number came from: all of it is the second derivative of the angle, the term that exists only because the polar chart is curved with respect to the cartesian one.
 
   - type: mcq
     id: affine-only

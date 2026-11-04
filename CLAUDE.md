@@ -157,6 +157,14 @@ Static web app on GitHub Pages (laptop and phone). Deploy = commit + push to
 
 ### How to teach a topic
 
+**Writing style (all lesson text, hints, explanations).** Natural, fluid
+prose in simple words and first-principles logic. No "Step 1: ..." labels,
+no AI buzzwords, no absolutist words (perfectly, exactly), few bullets and
+dashes. Concise and clear. A derivation reads as a paragraph with displayed
+equations between sentences; a worked example that applies a result gets
+its own card, not a closing paragraph. A final equation goes on one line
+when it fits at phone width.
+
 Igor's emphasis: **language as simple as possible, an intuitive approach,
 a rigorous foundation**: define every new notation and symbol; weight on
 understanding and on the physics (or, in other courses, what the subject is
