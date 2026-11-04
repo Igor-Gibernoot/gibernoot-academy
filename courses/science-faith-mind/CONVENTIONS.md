@@ -124,6 +124,7 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 - Challenge part 1 (21 cards, no images): conceptions $G=W$, $W\subsetneq G$, $G\neq W$ plus eternal/everlasting/open/process; $t_B(a{=}5,\tau{=}1)=-2.5$ at $u=0.6$; Aquinas $\Box(K\Rightarrow W)$ vs $K\Rightarrow\Box W$; toy posteriors 0.2/0.6/0.8/0.3 over 1.9; Trinity bare identity forces 3 pairs equal.
 
 ## Chapter 9
+- No-signature divine action: LR 1 on rain data; piety of an age: LR 1 between theology thesis and rival. Logistic r=3.9, x0=0.2: gap 1e-9 first visible at step 33.
 
 - Models lesson (16 cards, image Barbour): $D_S$, $D_R$ = domains of questions of science and religion; conflict $D_S\cap D_R\neq\varnothing$ with clash, NOMA $D_S\cap D_R=\varnothing$ and $D_S\cup D_R\neq$ all inquiry; Barbour's four types Conflict/Independence/Dialogue/Integration (integration routes: natural theology, theology of nature, systematic synthesis); Gould's magisterium definition is the only quotation.
 - Galileo lesson (16 cards, images Bellarmine, Urban VIII): on "Does the Earth move?" Galileo (Letter to Christina) = Independence ($\notin D_R$), 1616 consultors = Conflict; Bellarmine 1615 hypothesis vs demonstration (paraphrased); torture only threatened; Church's parallax objection reasonable (Bessel 1838), Galileo's tides wrong.
