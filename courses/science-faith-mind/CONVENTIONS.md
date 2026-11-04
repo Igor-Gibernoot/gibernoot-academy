@@ -122,3 +122,7 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 - Apophatic lesson (19 cards, image Maimonides): $G$ God, $F$ property word; affirm/deny/beyond (Dionysius); "$G$ is wise" $\to$ "$G$ is not ignorant" (Maimonides), attributes of action (fire); Aquinas analogy vs univocal/equivocal ("healthy"); Eckhart God vs Godhead; bull 27 Mar 1329.
 - Language lesson (18 cards, no images): $s$ sentence, $e$ "God exists", $M$ factually meaningful, $V$ verifiable, $A$ analytic; P1 $M(s)\Rightarrow V(s)\lor A(s)$, P2 $\neg V(e)\land\neg A(e)$, C $\neg M(e)$ (valid; P1 self-undermining); Hick eschatological verification, Flew gardener, Hare blik, Mitchell partisan; analogy by attribution (healthy) and proportionality (ratio).
 - Challenge part 1 (21 cards, no images): conceptions $G=W$, $W\subsetneq G$, $G\neq W$ plus eternal/everlasting/open/process; $t_B(a{=}5,\tau{=}1)=-2.5$ at $u=0.6$; Aquinas $\Box(K\Rightarrow W)$ vs $K\Rightarrow\Box W$; toy posteriors 0.2/0.6/0.8/0.3 over 1.9; Trinity bare identity forces 3 pairs equal.
+
+## Chapter 9
+
+- Models lesson (16 cards, image Barbour): $D_S$, $D_R$ = domains of questions of science and religion; conflict $D_S\cap D_R\neq\varnothing$ with clash, NOMA $D_S\cap D_R=\varnothing$ and $D_S\cup D_R\neq$ all inquiry; Barbour's four types Conflict/Independence/Dialogue/Integration (integration routes: natural theology, theology of nature, systematic synthesis); Gould's magisterium definition is the only quotation.
