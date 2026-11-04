@@ -294,6 +294,10 @@ one unit of work**.
 - **Token rules (sessions and agents):**
   - `widget-smoke` only when a widget was added or changed; `shots` only on
     the lesson just built.
+  - **Any web check** (facts, quotations, constants, image captions, in every
+    course): follow `docs/WEB_SEARCH.md` (short keyword queries, 3+ variations,
+    primary and reference sites, `tried:` log). A failed search is not
+    "unconfirmed" until all its steps fail.
   - Source verification is mandatory but **scoped**: check only the source
     range of the lesson's own formulas and symbols; write the pages
     (and, where required, each fact with `web: <source>`) as one line in the
