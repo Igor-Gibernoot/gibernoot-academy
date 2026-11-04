@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-04 ch10-souls (concept, 24 cards)
+Built `ch10/souls.yaml`: hook, recall, Phaedo, Aristotle, Abrahamic resurrection, Hindu and Buddhist rebirth, Spiritism, dualism, brain evidence, NDE and AWARE I and II, Stevenson, views table, misconceptions. Images: none (Plato, Kardec, Descartes portraits already in course; no free scenario image sought). Widget: none. Choices: AWARE-I shelf-limitation and Gallup figure omitted (secondhand); SEP Phaedo and Britannica pages unreachable, used secondary sources, logged. Conventions fixed here: AWARE-I/II figures (2060 events, 140/101, 46/9/2%; 567, 53, 28, 11, no hidden picture identified); Stevenson about 3000 cases (counts differ); brain-damage argument needs premise that dependence is total and permanent.
+
 ## 2026-11-04 ch10-self (concept, 21 cards)
 Built `ch10/self.yaml`: hook teleporter, identity over time vs unity at a time, Locke and Reid's brave officer (chain reply), animalism (Olson), split brain (Sperry, Gazzaniga; two readings, Pinto 2017 vs Volz and Gazzaniga), Parfit (branching order card, memory-decay numeric 0.9^10), Hume/anatta/Metzinger/Dennett, verdict table (death as prose, table kept to 3 columns for phone), misconceptions, own. Images: sperry, parfit (locke, reid, hume already used earlier, not repeated). Choices: Locke's identity chapter dated 1694 (second edition), not 1690. No widget: branching carried by an order card.
 Conventions fixed here: Locke identity chapter 1694; Reid brave officer 1785; Olson 1997 animalism; split-brain = callosotomy, left visual field to right hemisphere; interpreter (Gazzaniga); Parfit 1984, connectedness = direct links, continuity = chain; toy decay 0.9^10 about 0.35.
