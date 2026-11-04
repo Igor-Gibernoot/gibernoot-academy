@@ -150,3 +150,4 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 - Intuition lesson (18 cards): no new conventions; reuses toy integration (K5 = 4), 2^(n-1)-1 (n=8: 127), Libet 550-200=350 ms, 0.9^10 = 0.35, AWARE-II 53 of 567 = 9.3%.
 - Challenge part 1 (24 cards): toy network = triangles ABC, DEF with bridges A-D, B-E, C-F (score 3; two bridges off -> 1); Leo keeps 0.8 of memories per year (0.8^6=0.262, below half at year 4); 2^11-1=2047 splits for 12 units.
 - Map lesson (13 cards, 11 boxes): no new conventions; reuses toy scores (chain 1, ring 2), 2^(n-1)-1, 0.9^10=0.35, Libet 550/200 ms, AWARE 2060 about 2%, AWARE-II 11/28=39%, Butlin et al. 14 indicators.
+- Challenge part 2 (22 cards): lanternfoot (invented) entered 96/54/12 of 120 at low/medium/high heat, doubled reward at high 42 of 120 (+25 points); button study RP 640 ms, urge 170 ms, gap G = t_RP - t_W = 470 (clock error 50 ms gives 420); classifier 126/200 = 26 above chance.
