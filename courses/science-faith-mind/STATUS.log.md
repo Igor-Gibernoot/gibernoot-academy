@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-04: ch09-miracles-proof (guided proof, 19 cards)
+Built autonomously. Uses `odds-updater` twice (witnesses; priors). Choices: premises P1 odds identity, P2 witnesses (truthful, independent), P3 prior; validity separate from soundness; Millican year dropped (unconfirmed, only "Millican has argued against" kept); Price and Babbage appendix numbers not used. Images: none (Hume, Babbage already pictured). Conventions fixed here: premises P1-P3 as above; effective n = independent sources; condition $q^n<P(M)$, $n\ge\ln(1/P(M))/\ln(1/q)$; $P(E\mid M)=0.9$, prior $10^{-6}$, $q=10^{-3}$, n=2 gives 44.75%.
+
 ## 2026-11-04 ch09-miracles (concept, 19 cards)
 Built `ch09/miracles.yaml`, registered `file:`. Hook (rare event vs good witness), definitions (Hume, Swinburne), violation vs rare, Hume's argument with verbatim quotes (Gutenberg text), order card, witness conditions, odds form with Babbage portrait, numeric cards (one witness 0.1%, threshold 1e6, two witnesses 50%), independence trap, objections (circularity Johnson/Earman vs Fogelin, laws/Mackie, prior/Swinburne), worldview-prior numeric, traps (impossible, low prior), parting, summary. Choices: first names of Johnson/Fogelin/Mackie and their titles omitted (not confirmed); circularity attribution rests on SEP plus a secondary search summary of Schmitt (403 on fetch), noted in VERIFIED. Images: babbage (Hume already pictured in ch06). No widget. Validate 0 errors/warnings, shots 0 problems. Conventions fixed here: $M$, $E$, $q=P(E\mid\neg M)$, LR about $1/q$; toy numbers 1e-6, 1e-3, 1e-9 (see CONVENTIONS Chapter 9).
 

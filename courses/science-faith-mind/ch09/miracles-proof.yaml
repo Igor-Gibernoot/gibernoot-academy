@@ -1,0 +1,335 @@
+id: ch09-miracles-proof
+title: "Guided proof: Weighing a Miracle Report"
+kind: guided
+proof: true
+own: |
+  The setting: a witness reports an event $M$ (a miracle, here an event that breaks a law of nature). Let $E$ be the fact that the witness reports $M$, let $P(M)$ be the prior probability of $M$ (before anyone speaks), and let $q=P(E\mid\neg M)$ be the chance that a witness reports $M$ when it did not happen (a mistake or a lie). The goal is to say exactly when testimony outweighs a tiny prior, in the spirit of David Hume's maxim that testimony establishes a miracle only if its falsehood would be more miraculous than the event.
+  - **P1, the odds identity.** Dividing Bayes' rule for $M$ by Bayes' rule for $\neg M$ cancels $P(E)$ and gives posterior odds as likelihood ratio times prior odds:
+  {{ $$\frac{P(M\mid E)}{P(\neg M\mid E)}=\frac{P(E\mid M)}{P(E\mid\neg M)}\cdot\frac{P(M)}{P(\neg M)}$$ }}
+  - **P2, a truthful witness.** If the event certainly gets reported when it happens, $P(E\mid M)\approx1$, so the likelihood ratio is about $1/q$. For $n$ independent witnesses, each with false-report chance $q$, the likelihood ratio is
+  {{ $$\frac{1}{q^{\,n}}$$ }}
+  - **P3, the prior.** $P(M)$ is not given by the testimony or by the laws alone; it comes from the worldview (is there a God who acts?). With a small prior the prior odds are about $P(M)$, so the report gives even odds when $q^{\,n}=P(M)$ and better than even when $q^{\,n}<P(M)$.
+  - **Witnesses needed.** Solving $q^{\,n}\le P(M)$ for $n$ gives
+  {{ $$n\ \ge\ \frac{\ln\,(1/P(M))}{\ln\,(1/q)}$$ }}
+  For $P(M)=10^{-9}$ and $q=10^{-3}$ this is $n=3$. If the truthful witness reports with chance $P(E\mid M)=0.9$ instead of 1, the likelihood ratio is multiplied by $0.9$.
+  - **Independence.** The formulas count only independent witnesses; $k$ witnesses who copy one source count as one, so the effective $n$ is the number of independent groups.
+  - **Valid is not sound.** The argument from P1 to P3 to the verdict is valid (the arithmetic follows); whether it is sound depends on the premises, and the sides differ over P2 (independence, reliability) and P3 (the prior).
+cards:
+  - type: text
+    id: recall
+    title: "Recall: Hume's weighing"
+    body: |
+      Recall: the philosopher **David Hume** (1711-1776), in his *An Enquiry Concerning Human Understanding* (1748), defined a miracle as a violation of a law of nature and set a rule for reports of one: "no testimony is sufficient to establish a miracle, unless the testimony be of such a kind, that its falsehood would be more miraculous, than the fact, which it endeavours to establish". In words: believe the report only if a false report is less likely than the event.
+
+      The lesson reads this with Bayes' rule in odds form. Let $M$ be "the miracle happened", $\neg M$ "it did not", and $E$ "a witness reports $M$". Write $P(M)$ for the prior probability of $M$ (before anyone speaks) and $q=P(E\mid\neg M)$ for the chance that a witness reports $M$ although it did not happen (a mistake or a lie). Odds of an event with probability $p$ are $p/(1-p)$, which is about $p$ when $p$ is small. For independent witnesses, the likelihood ratio is about $1/q^{\,n}$ for $n$ of them.
+
+      This lesson turns that weighing into a proof with numbered premises, and asks where a critic can push back.
+
+  - type: mcq
+    id: hook
+    title: "Guess: how many witnesses?"
+    prompt: |
+      An event happens about once in a million times, so its prior probability is $10^{-6}$. Each independent witness is very reliable: when the event did not happen, a witness falsely reports it only $1$ time in $1000$. Before any formula, guess: about how many independent witnesses must report it before the event is as likely as not?
+    options:
+      - text: 'Two.'
+        correct: true
+        feedback: |
+          Yes. Each independent witness divides the chance of a false story by 1000, so two bring it to one in a million, the size of the prior.
+      - text: 'About a thousand, since each witness is wrong 1 time in 1000.'
+        feedback: |
+          Tempting, but evidence from independent witnesses multiplies the likelihood ratio, it does not add up slowly. Each new witness multiplies the odds by about 1000.
+      - text: 'About a million, to match the prior.'
+        feedback: |
+          Matching the size of the prior is the right idea, but a million witnesses is the number needed if they added; they multiply, so far fewer are enough.
+      - text: 'No number: a one-in-a-million event can never be made likely by testimony.'
+        feedback: |
+          Hume himself did not claim this. A tiny prior is not zero, so enough reliable, independent evidence can in principle outweigh it.
+    explanation: |
+      The widget on the next card lets you check the guess and see how fast the odds climb.
+
+  - type: widget
+    id: widget-witnesses
+    title: "Move the witnesses"
+    widget: odds-updater
+    config:
+      witnesses: true
+      prior: 1.0e-6
+      n: 1
+      q: 1.0e-3
+      presets:
+        - { label: "One witness", n: 1 }
+        - { label: "Two witnesses", n: 2 }
+        - { label: "Three witnesses", n: 3 }
+    body: |
+      The bar shows the log of the odds: the blue row is the prior, the orange row is what the witnesses add, the purple row is the posterior; the dashed line is even odds (50%). Raise the number of witnesses $n$ one at a time, then lower $q$ (the chance each witness reports falsely) and watch the posterior.
+    review: false
+
+  - type: mcq
+    id: widget-check
+    title: "What one more witness does"
+    prompt: |
+      Prior probability $10^{-6}$, each independent witness has false-report chance $q=10^{-3}$. Going from one witness to two, by what factor do the odds of the event multiply?
+    options:
+      - text: 'About $1000$.'
+        correct: true
+        feedback: |
+          Yes. Each independent witness multiplies the likelihood ratio by $1/q=1000$, so the odds go from about $10^{-3}$ to about $1$.
+      - text: 'About $2$.'
+        feedback: |
+          That counts witnesses as if the evidence doubled. Independent evidence multiplies the likelihood ratio, here by $1/q$ for each witness.
+      - text: 'About $10^{-3}$.'
+        feedback: |
+          That is $q$ itself, and would shrink the odds. A new report that agrees with the first makes the event more likely, multiplying by $1/q$.
+    explanation: |
+      Each independent witness multiplies the odds by about $1/q$. That multiplication is what the proof below will derive.
+
+  - type: text
+    id: argument
+    title: "The argument, with numbered premises"
+    body: |
+      Here is Hume's weighing as an argument with premises. Let $n$ independent witnesses each report $M$.
+
+      **P1 (the odds identity).** Posterior odds equal the likelihood ratio times the prior odds.
+
+      **P2 (the witnesses).** A truthful witness reports the event if it happened ($P(E\mid M)\approx1$), and each witness reports it falsely with chance $q$, independently of the others.
+
+      **P3 (the prior).** The prior probability $P(M)$ of the event is a small number, fixed before the testimony.
+
+      **C (the verdict).** The report makes $M$ more likely than not exactly when the false-report chance of all $n$ witnesses together is smaller than the prior.
+
+      The proof has two jobs: show that C follows from P1 to P3 (validity), and ask whether P1 to P3 are true (soundness). We take the premises one by one.
+
+  - type: order
+    id: order-p1
+    title: "P1: from Bayes' rule to the odds identity"
+    prompt: |
+      Put in order the derivation of the odds identity from Bayes' rule, $P(H\mid E)=P(E\mid H)\,P(H)/P(E)$, applied to $H=M$ and $H=\neg M$.
+    steps:
+      - 'Write Bayes'' rule for $M$: $P(M\mid E)=P(E\mid M)\,P(M)/P(E)$, and for $\neg M$: $P(\neg M\mid E)=P(E\mid \neg M)\,P(\neg M)/P(E)$.'
+      - 'Divide the first equation by the second.'
+      - 'The common factor $P(E)$ cancels, which is why the odds form needs no knowledge of how likely the report is overall.'
+      - 'Regroup into a ratio of likelihoods times a ratio of priors: posterior odds $=$ likelihood ratio $\times$ prior odds.'
+    hint: 'State the rule twice, then divide, then see what disappears.'
+    explanation: |
+      The step worth noticing is the cancellation of $P(E)$: it is hard to know how likely a report is in general, but the likelihood ratio only needs $P(E\mid M)$ and $P(E\mid\neg M)$. P1 is a theorem of probability. A critic can still dispute what the probabilities mean (credences, or frequencies), but nobody rejects the algebra.
+
+  - type: mcq
+    id: p2-critic
+    title: "P2: who rejects it, and why?"
+    prompt: |
+      P2 says a truthful witness reports the event if it happened ($P(E\mid M)\approx1$) and that each witness errs independently with chance $q$. Which critic targets P2?
+    options:
+      - text: 'Someone who says the witnesses had talked to each other, or heard the story from the same source, so their errors are not independent.'
+        correct: true
+        feedback: |
+          Yes. If the witnesses share a source or an expectation, one mistake can produce many reports, and the likelihood ratio is far below $1/q^{\,n}$. Ahmed (2015) argues that even non-collusive witnesses are plausibly not independent in the way the multiplication needs.
+      - text: 'Someone who says Bayes'' rule is wrong.'
+        feedback: |
+          That would target P1, which is a theorem of probability, not P2.
+      - text: 'Someone who says the event is very rare, so it probably did not happen.'
+        feedback: |
+          That targets P3, the prior. It is a different premise: the size of the prior, not the reliability of the witnesses.
+    explanation: |
+      P2 has two parts: the witness reports truthfully when the event happens, and the errors are independent. Critics of the weighing usually press the second (independence). Hume himself listed conditions (good sense, integrity, reputation, public setting) that make $q$ small.
+
+  - type: widget
+    id: widget-prior
+    title: "Same witnesses, different priors"
+    widget: odds-updater
+    config:
+      witnesses: true
+      prior: 1.0e-3
+      n: 2
+      q: 1.0e-3
+      presets:
+        - { label: "Believer: prior 1e-3", prior: 1.0e-3 }
+        - { label: "Sceptic: prior 1e-9", prior: 1.0e-9 }
+    body: |
+      Two witnesses, each with false-report chance $q=10^{-3}$. The two buttons set two toy priors: $10^{-3}$ (a person who thinks a God who acts is plausible) and $10^{-9}$ (a person who thinks the laws are never broken). Both are illustrations, not measurements. Switch between them and drag the prior slider.
+    review: false
+
+  - type: numeric
+    id: p3-sceptic
+    title: "P3: the sceptic's odds"
+    prompt: |
+      Two independent witnesses, each with false-report chance $q=10^{-3}$, report an event. A sceptic's prior probability for it is $10^{-9}$. The posterior odds are about $1$ chance in how many?
+    answer: 1000
+    tolerance: 20
+    answerText: '1000 (odds about $10^{-3}$)'
+    wrong:
+      - value: 1
+        feedback: |
+          That would be even odds, which is the believer's result with prior $10^{-3}$. The sceptic's prior is a million times smaller.
+    hint: 'Likelihood ratio $1/q^{2}$, times prior odds $10^{-9}$. Then take $1/\text{odds}$.'
+    explanation: |
+      The likelihood ratio is $10^{6}$, and $10^{6}\times10^{-9}=10^{-3}$: about one chance in a thousand. The believer, with the same witnesses and prior $10^{-3}$, gets odds $10^{-3}\times10^{6}=1000$, about $99.9\%$. The testimony is the same and so is the arithmetic; the gap comes entirely from P3, which is decided by earlier questions (the arguments about God), not by the witnesses.
+
+  - type: mcq
+    id: p3-where
+    title: "P3: where the prior comes from"
+    prompt: |
+      A critic says: "Your prior $P(M)$ of a miracle already assumes there is no God who acts, so the argument begs the question against believers." Which reply is fair to **both** sides?
+    options:
+      - text: 'The prior is a premise, and the argument shows what follows from it: a believer who holds that a God who acts is plausible may start from a much larger prior and then the same witnesses give a different verdict. The dispute moves to the grounds for the prior.'
+        correct: true
+        feedback: |
+          Yes. The argument is conditional on P3. It does not settle the prior, and it should not be presented as if it did, in either direction.
+      - text: 'A prior cannot be chosen at all, so the argument says nothing.'
+        feedback: |
+          Too strong. The argument still tells you exactly how strong the testimony must be for each prior, which is useful even when people disagree about the prior.
+      - text: 'The prior is fixed by the laws of nature, so there is nothing to choose.'
+        feedback: |
+          Whether the laws fix the prior of a miracle is the very point in dispute: if a God acts, the laws describe nature when nothing interferes, and the probability of interference is a further question.
+    explanation: |
+      A sceptic cannot cite the laws alone to refute the believer, and the believer cannot cite the witnesses alone to compel the sceptic. Each side holds a view of P3 that comes from the debates of earlier levels.
+
+  - type: mcq
+    id: condition
+    title: "Deriving the condition"
+    prompt: |
+      Assume P2 with $P(E\mid M)=1$, independent witnesses, and a small prior, so prior odds are about $P(M)$. Posterior odds $=\dfrac{P(M)}{q^{\,n}}$. The event is more likely than not when posterior odds exceed $1$. Which condition on the witnesses is equivalent?
+    options:
+      - text: '$q^{\,n}<P(M)$: a false report from all the witnesses is less likely than the event.'
+        correct: true
+        feedback: |
+          Yes. $P(M)/q^{\,n}>1$ is the same as $q^{\,n}<P(M)$. This is Hume's maxim in numbers: the falsehood of the testimony must be less probable than the event.
+      - text: '$q<P(M)$, whatever $n$ is.'
+        feedback: |
+          This is the condition for a single witness. With $n$ independent witnesses it is the combined false-report chance $q^{\,n}$ that must be below $P(M)$.
+      - text: '$n\,q<P(M)$.'
+        feedback: |
+          This adds the false-report chances as if they were alternatives. All $n$ independent witnesses would have to err together, and the chance of that is the product $q^{\,n}$.
+    explanation: |
+      Taking logarithms of $q^{\,n}\le P(M)$ and dividing by $\ln q<0$ (which flips the inequality):
+
+      $$n\ \ge\ \frac{\ln\,(1/P(M))}{\ln\,(1/q)}$$
+
+      Notice what was proved: given P1 to P3, the verdict follows. This is the validity step. It says nothing yet on whether the premises are true.
+
+  - type: numeric
+    id: n-needed
+    title: "How many for the sceptic's prior?"
+    prompt: |
+      Prior probability $P(M)=10^{-9}$, each independent witness has $q=10^{-3}$ and $P(E\mid M)=1$. What is the smallest number of independent witnesses that gives at least even odds?
+    answer: 3
+    tolerance: 0.01
+    answerText: '3'
+    wrong:
+      - value: 2
+        feedback: |
+          Two witnesses give a likelihood ratio of $10^{6}$ and odds $10^{-3}$, not yet even.
+      - value: 9
+        feedback: |
+          That reads the exponent of the prior as the number of witnesses. Each witness is worth a factor of $10^{3}$, not $10$.
+    hint: 'You need $q^{\,n}\le 10^{-9}$ with $q=10^{-3}$, so $10^{-3n}\le10^{-9}$.'
+    explanation: |
+      $\ln(10^{9})/\ln(10^{3})=3$, so $n=3$ gives odds exactly $1$, even. A prior a thousand times smaller than before costs one more witness: the number of witnesses grows with the logarithm of the improbability, not with the improbability.
+
+  - type: numeric
+    id: imperfect
+    title: "A witness who sometimes misses"
+    prompt: |
+      Now the truthful witness is not perfect: if the event happened, the witness reports it with probability $P(E\mid M)=0.9$. Prior $P(M)=10^{-6}$, false-report chance $q=10^{-3}$ per witness, two independent witnesses, each with $P(E\mid M)=0.9$. Taking the two reports together, the likelihood ratio is $0.9^{2}/q^{2}$. What is the probability, **in percent**, that the event happened? (Prior odds are about $10^{-6}$.)
+    answer: 44.75
+    tolerance: 0.3
+    answerText: '44.8'
+    wrong:
+      - value: 50
+        feedback: |
+          That takes both witnesses as perfect. The $0.9$ in each factor lowers the likelihood ratio.
+      - value: 47.4
+        feedback: |
+          That multiplies by $0.9$ only once. Each independent witness contributes its own factor $0.9$ to the numerator, so the ratio has $0.9^{2}$.
+    hint: '$0.9^{2}=0.81$. Posterior odds $=0.81\times10^{6}\times10^{-6}$; then probability $=o/(1+o)$.'
+    explanation: |
+      Posterior odds are $0.81$, so the probability is $0.81/1.81\approx 44.8\%$. A witness who sometimes misses the event costs a little, but only by a constant factor. The factor that matters for a miracle is $q$ in the denominator: a miss rate of ten percent barely moves the verdict, while a false-report chance of one in a thousand versus one in a million moves it enormously.
+
+  - type: numeric
+    id: effective-n
+    title: "Correlated witnesses"
+    prompt: |
+      Six people report the event, but they are three pairs: in each pair the second person heard the story from the first and repeated it, while the three pairs did not influence each other. Prior $10^{-6}$, $q=10^{-3}$ per independent source, $P(E\mid M)=1$. What is the probability, **in percent**, that the event happened? Count independent sources only.
+    answer: 99.9
+    tolerance: 0.05
+    answerText: '99.9 (about 99.9)'
+    wrong:
+      - value: 100
+        feedback: |
+          Six independent witnesses would give odds $10^{-6}\times10^{18}=10^{12}$, almost certain. But the repeaters add nothing new.
+      - value: 50
+        feedback: |
+          That counts only two independent sources. There are three pairs, so three independent sources.
+    hint: 'A repeater adds no independent evidence. How many independent sources are there? Use $1/q^{\,n}$ with that $n$.'
+    explanation: |
+      The effective number of witnesses is three, so the likelihood ratio is $10^{9}$, the odds are $10^{9}\times10^{-6}=1000$ and the probability is $1000/1001\approx99.9\%$. If all six had been copies of one source, the effective $n$ would be $1$ and the probability would be $0.1\%$. The number of people matters less than the number of independent sources. How independent real witnesses are is the hard empirical question.
+
+  - type: build
+    id: build-lr
+    title: "Build the likelihood ratio"
+    prompt: |
+      Build the likelihood ratio (approximately, with $P(E\mid M)=1$) of $n$ **independent** witnesses, each with false-report chance $q$.
+    prefix: '\text{LR}\approx'
+    tiles: ['\prod_{i=1}^{n}', '\dfrac{1}{q}', '\sum_{i=1}^{n}', 'q']
+    answers:
+      - ['\prod_{i=1}^{n}', '\dfrac{1}{q}']
+    wrong:
+      - answer: ['\sum_{i=1}^{n}', '\dfrac{1}{q}']
+        feedback: |
+          A sum would add the evidence of the witnesses. Independent evidence multiplies likelihood ratios, so the product gives $(1/q)^{n}=1/q^{\,n}$.
+      - answer: ['\prod_{i=1}^{n}', 'q']
+        feedback: |
+          That is the chance that all the witnesses err together, $q^{\,n}$, which is the *denominator* of the likelihood ratio. The ratio is its inverse.
+    hint: 'Each witness contributes the same factor, and independent factors multiply.'
+    explanation: |
+      Each independent report contributes the factor $1/q$, and the product of $n$ of them is $1/q^{\,n}$. If the reports are not independent, the product no longer holds, and that is where P2 is attacked.
+
+  - type: mcq
+    id: validity
+    title: "Valid, but is it sound?"
+    prompt: |
+      Someone says: "The proof is valid, so its conclusion about the testimony is true." Which reply is correct?
+    options:
+      - text: 'Validity only says that if P1 to P3 are true, the verdict follows. The conclusion is true only if the argument is also sound, that is, if the premises (especially independence and the prior) really hold.'
+        correct: true
+        feedback: |
+          Yes. A valid argument preserves truth: true premises force a true conclusion, but valid reasoning from a doubtful premise delivers a doubtful conclusion.
+      - text: 'A valid argument has true premises by definition.'
+        feedback: |
+          Not so. Validity is about the form: true premises would guarantee the conclusion. Whether the premises are true is a separate question.
+      - text: 'If a premise is doubtful, the argument is invalid.'
+        feedback: |
+          A premise can be false or doubtful while the reasoning from it is perfectly valid. Doubt about a premise is a soundness issue.
+    explanation: |
+      The odds arithmetic is valid and P1 is a theorem. All the philosophical weight sits on P2 and P3.
+
+  - type: mcq
+    id: sides
+    title: "Which premise does each side reject?"
+    prompt: |
+      Match each position to the premise it presses. (1) Ahmed (2015): even reports by non-collusive witnesses are plausibly not independent in the way the multiplication needs. (2) A believer who holds that a God who acts is plausible and so starts from a prior far above $10^{-9}$. Which pair is right?
+    options:
+      - text: '(1) presses P2 (independence of the witnesses); (2) presses P3 (the size of the prior).'
+        correct: true
+        feedback: |
+          Yes. One side attacks the likelihood ratio for $n$ witnesses; the other attacks the starting odds. Both leave the algebra of P1 untouched.
+      - text: '(1) presses P1; (2) presses P2.'
+        feedback: |
+          P1 is the odds identity, a theorem. Neither position disputes it.
+      - text: '(1) presses P3; (2) presses P1.'
+        feedback: |
+          Independence of witnesses belongs to the likelihood ratio (P2), not the prior; and the believer's choice of prior is P3, not the identity P1.
+    explanation: |
+      Notice the parallel with the lessons on the arguments for God: the logic is shared, and the disagreement is over which premises to accept.
+
+  - type: text
+    id: parting
+    title: "Where thoughtful people part ways"
+    body: |
+      Three layers, as in earlier lessons. **Established:** P1 is a theorem; independent errors multiply and copied reports count once; a prior of zero cannot be raised, while a small prior can. **Live debate among philosophers and mathematicians:** whether Hume meant something Bayesian (Holder, 1998, defends a Bayesian reading; Millican has argued against it); whether independent witnesses can add up to overcome the prior (Babbage, 1837, in his *Ninth Bridgewater Treatise*, argued yes), or whether real witnesses are never independent enough (Ahmed, 2015).
+
+      **Faith or worldview:** the prior. A person who holds that a God exists and acts may start from a prior that is not tiny; a person who holds that nature is closed starts from one near zero. Neither can fault the other's arithmetic. They differ on P3, and on whether any real report has passed the test of P2. A fair statement for each side: the believer cannot cite the witness alone to compel the sceptic, and the sceptic cannot cite the laws alone to refute the believer.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** *How Could God Act in the World?* If miracles are not violations, how could a God act at all? The next lesson looks at three proposals (quantum indeterminacy, chaos, and top-down causation) and what each one costs.
