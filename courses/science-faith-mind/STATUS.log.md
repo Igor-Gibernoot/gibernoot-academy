@@ -1,5 +1,7 @@
 # Status log
 
+- 2026-11-03 `ch08-traps` (20 cards: welcome, 18 traps, summary; no widget, none: traps images). Traps: omnipotence, Euthyphro, omniscience converse, foreknowledge, eternal/everlasting, spacelike, numeric Bob t_B=-3.75, G=W/W⊊G/G≠W, Deus sive Natura, dipolar, open future, Trinity, same God, negation vs opposite, Dionysius, analogy, verificationism, Flew/Hare/Mitchell. No new external facts (all reused from VERIFIED). Choices: dropped stone-paradox and Maimonides-attributes as separate traps (folded in). Conventions fixed here: none new.
+
 ## 2026-11-03 ch08-language (18 cards, guided proof)
 Built from SEP Religious Language, Vienna Circle, Popper, Medieval Analogy and Wikipedia pages for the symposium (VERIFIED.md). No widget. Images: none (Commons Ayer 155x190 and Flew 218x270 too small, licence unclear). Choices: 18 cards not 20 (merged recall, Hick and Popper); Flew closing question paraphrased (sources differ); Mitchell parable via secondary sources, paraphrased "in essence"; no dates for Popper's book or Hick's parable. Conventions fixed here: $s$ sentence, $e$ "God exists", $M$ meaningful, $V$ verifiable, $A$ analytic; P1 $M(s)\Rightarrow V(s)\lor A(s)$, P2 $\neg V(e)\land\neg A(e)$, C $\neg M(e)$; analogy by attribution (healthy) and proportionality (ratio form).
 
