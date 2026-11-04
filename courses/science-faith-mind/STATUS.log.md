@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-04 ch10-map (map, 13 cards, 11 boxes)
+Built `ch10/map.yaml`: boxes hard problem, three replies, zombie, neural correlates, workspace/higher-order, integrated information, predictive processing and Orch OR, self, free will, machines, souls; 2 decoys each (swapped theories, swapped critics, reversed method, swapped numbers). No images, no widget, no new web facts (every box reused from the concept lessons' `own:` text). Choice: split brain folded into nothing separate (covered in the self lesson, not a box); rebirth traditions only in the souls explanation.
+Conventions fixed here: map reuses toy scores (chain 1, ring 2), 2^(n-1)-1 splits, 0.9^10=0.35, Libet 550/200 ms, AWARE 2060 and about 2%, AWARE-II 11/28 = 39%, Butlin et al. 14 indicators.
+
 ## 2026-11-04 ch10-intuition (intuition, 18 cards)
 Built `ch10/intuition.yaml`: replies mnemonic, zombie order, correlation/dependence/identity, workspace vs HOT, toy cut, splits build, free-will sort, determinism vs fatalism, Parfit, brain-damage premise, machines sort, then numeric data-only cards (8-node splits 127, K5 toy score 4, Libet 350 ms, 0.9^10, AWARE-II 9.3%). No images, no widget, no new web facts (reused). Plan said 13 items; 18 cards.
 Conventions fixed here: intuition lesson reuses toy integration (K5 = 4), 2^(n-1)-1 (n=8: 127), Libet 550-200=350 ms, 0.9^10=0.35, AWARE-II 53/567=9.3%.
