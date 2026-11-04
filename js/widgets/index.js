@@ -76,6 +76,7 @@ import { multiverseCounter } from './multiverse-counter.js';
 import { oddsUpdater } from './odds-updater.js';
 import { chaosSensitivity } from './chaos-sensitivity.js';
 import { microstateCounter } from './microstate-counter.js';
+import { integrationDemo } from './integration-demo.js';
 
 const WIDGETS = {
   'basis-playground': basisPlayground,
@@ -147,6 +148,7 @@ const WIDGETS = {
   'chsh-lab': chshLab,
   'scale-factor': scaleFactor,
   'microstate-counter': microstateCounter,
+  'integration-demo': integrationDemo,
   'multiverse-counter': multiverseCounter,
 };
 

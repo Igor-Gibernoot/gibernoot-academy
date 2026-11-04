@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-04 widget integration-demo (no lesson)
+New shared widget `js/widgets/integration-demo.js` (registered; CSS `.idm-*` in `css/app.css`; docs and README line). Choices: undirected weighted links (default weight 1, `[i,j,w]` allowed), brute force over bipartitions containing node 0, ties broken by most balanced split; toy score = smallest crossing weight, labelled 'toy integration' (not phi). Scores checked by an independent script: chain 1, ring 2, complete (5 nodes) 4, two-clusters (6 nodes, one bridge) 1, empty 0. Hideable: nodes, labels, links, slots, cut, groups, score, cutValue, reset, clickable, cutList. Screenshot viewed once at phone width (fine). Conventions fixed here: none.
+
 ## 2026-11-04 ch10-gwt (concept, 18 cards, no widget, images theatre + rosenthal new, dehaene reused)
 Built per plan (hook, recall, Baars + theatre, GNW ignition, seen/unseen, HOT + Lau, contrast, objections, Block access trap, place trap, prefrontal prediction, parting, summary). Web-checked (VERIFIED.md). Choices: no Lau portrait (Commons file only PD-user, refused by tool); no widget (a diagram would give answers away; theatre image is a free static schematic); Lau PRM described only "in essence" (secondary sources); no quotations; Cogitate results left for the next lesson (not checked); SEP has no global workspace entry, so SEP Higher-Order Theories and Consciousness used. Images added: theatre.webp, rosenthal.webp. Conventions fixed here: GWT = Baars 1988; GNW = Dehaene, Kerszberg, Changeux 1998, ignition ~200-400 ms; HOT = Rosenthal 1986, thought can itself be unconscious; Block 1995 access vs phenomenal; objections misrepresentation and ignition-as-report.
 
