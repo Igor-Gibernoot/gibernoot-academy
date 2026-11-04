@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-04 ch08-challenge part 1 (21 cards, problems 1-3)
+Built `ch08/challenge.yaml`: P1 foreknowledge vs five conceptions (Aquinas build, relativity numeric -2.5), P2 flood/prayer across classical, process, Spinoza, panentheism (toy Bayes 0.316), P3 same God (3 pairs, Volf, Shema). Planned node `ch08-challenge-2` (problems 4-5) added without file. Images: none: concept-comparison problems introduce no new person. Widget: none (checked: now-lines not needed, no figure). No `own:` (challenge). Choices: Spinoza necessity phrased as the usual reading; Torah-status claim dropped as unverifiable. Conventions fixed here: toy-Bayes over four conceptions with equal priors and likelihoods 0.2/0.6/0.8/0.3; t_B(5,1)=-2.5 at u=0.6.
+
 ## 2026-11-03 ch08-map (14 cards, 12 boxes)
 Built `ch08/map.yaml` (3 columns, 5 rows), node added `file:` in course.yaml. Images: none: map. Widget: none. No new external facts (VERIFIED line reuses ch08 `web:` items). Choices: Ockhamist reply kept inside the foreknowledge box (taught in time lesson); omnipotence and omniscience share one box; Trinity box hangs off omni with a dashed edge; negation and analogy are two boxes; verificationism and its replies are two boxes; analogy proportion written with subscripts $G$ and $P$ to stay phone-safe. Conventions fixed here: none new.
 
