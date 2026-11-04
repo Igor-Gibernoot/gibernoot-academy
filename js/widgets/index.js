@@ -73,6 +73,7 @@ import { cellularAutomaton } from './cellular-automaton.js';
 import { chshLab } from './chsh-lab.js';
 import { scaleFactor } from './scale-factor.js';
 import { multiverseCounter } from './multiverse-counter.js';
+import { oddsUpdater } from './odds-updater.js';
 import { microstateCounter } from './microstate-counter.js';
 
 const WIDGETS = {
@@ -137,6 +138,7 @@ const WIDGETS = {
   'dual-grids': dualGrids,
   'alt-projections': altProjections,
   'log-ruler': logRuler,
+  'odds-updater': oddsUpdater,
   'feedback-loop': feedbackLoop,
   'tradeoff-curve': tradeoffCurve,
   'cellular-automaton': cellularAutomaton,
