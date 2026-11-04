@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-04 ch09-challenge part 1
+Built `ch09/challenge.yaml` (21 cards, problems 1-3), added `ch09-challenge-2` node (problems 4-5) to course.yaml. Problem 1: comet model, Bellarmine condition, order card, domains and four models, lawgiver vs best system. Problem 2: P(M)=1e-8, q=2e-3 (n=3, odds 1.25; 0.9 reliability needs n=4; two sources count as 2; priors 1e-2 vs 1e-8 for open vs complete laws). Problem 3: surveys A (28%, n=400, margin 4.4) and B (35%, n=1600, margin 2.3), layers. No new external facts (invented cases; reuses ch09 web-checked lines), no images (none needed: invented cases), no widget. Conventions fixed here: challenge numbers P(M)=1e-8, q=2e-3 (not reused from lessons); surveys A/B above.
+
 ## 2026-11-04 ch09-map
 Built (14 cards, map, 12 boxes in 3 columns, no widget, no images: a map card has no picture slot and the people were pictured in their lessons). Boxes: models/NOMA, Bellarmine's condition, Galileo's placement, selection odds rule, three layers, Hume's weighing, witnesses and independence, divine-action proposals, epistemic vs ontological, surveys, Needham thesis, laws of nature; decoys swap non-overlap/exhaustion, q vs nq, epistemic/ontological, survey figures between groups, Lewis/Armstrong. Choice: surveys and margin merged into one box, ch09-map reuses facts verified in earlier ch09 lines. Long displays use `gathered` for phone width. Conventions fixed here: none new (map reuses the chapter's notation).
 
