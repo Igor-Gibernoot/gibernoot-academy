@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-04 ch09-origins-religion
+Built (20 cards, concept, no widget, no images: no central person with a free portrait; widget README checked, none needed). Choices: Ecklund sample sizes taken from secondary summaries; margin-of-error card is a worked formula for the 1996 random sample, not a Pew figure (Pew's own margin not on its page). Web-checked, see VERIFIED.md. Conventions fixed here: survey figures quoted as group, year, wording; margin covers sampling error only.
+
 ## 2026-11-04: ch09-divine-action (concept, 21 cards)
 Built autonomously. Uses `chaos-sensitivity` once (r=3.9, gap 1e-6, step 22) plus numeric 1e-12 -> 44 (script-checked). Image: Polkinghorne only (Peacocke has no free portrait found; Ellis already pictured in ch05-multiverse). Choices: SEP Divine Action unavailable, so sources are CTNS/counterbalance pages and Commons; no verbatim quotations; volume year given as 1995 (catalogues disagree, 1996 CTNS). Interpretation claim (Bohmian/many-worlds deterministic) from secondary sources, stated as standard classification. Conventions fixed here: divine-action proposals named Quantum (Russell), Chaos (Polkinghorne), Whole-part (Peacocke, Ellis); critic Tracy; terms epistemic vs ontological openness; non-interventionist = laws not broken.
 
