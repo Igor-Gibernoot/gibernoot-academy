@@ -164,6 +164,12 @@ dashes. Concise and clear. A derivation reads as a paragraph with displayed
 equations between sentences; a worked example that applies a result gets
 its own card, not a closing paragraph. A final equation goes on one line
 when it fits at phone width.
+A worked example that applies a formula **restates that formula** (with
+its symbols) on its own card, so the reader never flips back, and goes one
+quantity at a time: setup, each ingredient computed, then the assembly.
+Never compress an example into one closing paragraph or a chain of
+"only this survives" remarks; only a trivial example (one or two
+operations) may be short.
 
 Igor's emphasis: **language as simple as possible, an intuitive approach,
 a rigorous foundation**: define every new notation and symbol; weight on
