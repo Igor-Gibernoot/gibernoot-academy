@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-04 ch09-traps
+Built (19 cards: welcome, 17 traps, summary; no widget, no images). Choices: reused earlier ch09 web-verified facts only (no new external facts); two side claims dropped as unverified (alchemy remark, extra Sivin objections); odds-updater and chaos-sensitivity not reused (fast text round). Conventions fixed here: none.
+
 ## 2026-11-04 ch09-theology-of-science
 Built (21 cards, concept, no widget; README widgets checked, none fits). Image: needham (CC BY-SA); Whitehead and Descartes not repeated (already in course); Kepler skipped (portraits uncertain). Choices: Whitehead, Descartes, Newton paraphrased (only secondary sources reached); Kepler "God's thoughts" not quoted; Einstein sentence verbatim. Conventions fixed here: Kepler $T^2=k\,a^3$ (Jupiter 5.2 AU gives 11.86 y); laws views lawgiver / Humean best system / governing.
 
