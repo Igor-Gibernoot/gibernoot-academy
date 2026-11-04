@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-03 ch08-map (14 cards, 12 boxes)
+Built `ch08/map.yaml` (3 columns, 5 rows), node added `file:` in course.yaml. Images: none: map. Widget: none. No new external facts (VERIFIED line reuses ch08 `web:` items). Choices: Ockhamist reply kept inside the foreknowledge box (taught in time lesson); omnipotence and omniscience share one box; Trinity box hangs off omni with a dashed edge; negation and analogy are two boxes; verificationism and its replies are two boxes; analogy proportion written with subscripts $G$ and $P$ to stay phone-safe. Conventions fixed here: none new.
+
 ## 2026-11-03 ch08-intuition (17 cards, no widget)
 Built `ch08/intuition.yaml`. Images: none: intuition. No new external facts (all reuse `web:` items in VERIFIED.md). Choices: no `match` card type exists, so matches are mcq; foreknowledge and verificationism are order cards; two numeric cards give data only (Bob u=0.6, (4,1) gives -1.75; u=0.8, (5,3) gives -1.67), then an mcq on spacelike order. Conventions fixed here: none new (reuses Chapter 8 section).
 
