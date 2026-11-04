@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-03 ch08-intuition (17 cards, no widget)
+Built `ch08/intuition.yaml`. Images: none: intuition. No new external facts (all reuse `web:` items in VERIFIED.md). Choices: no `match` card type exists, so matches are mcq; foreknowledge and verificationism are order cards; two numeric cards give data only (Bob u=0.6, (4,1) gives -1.75; u=0.8, (5,3) gives -1.67), then an mcq on spacelike order. Conventions fixed here: none new (reuses Chapter 8 section).
+
 - 2026-11-03 `ch08-traps` (20 cards: welcome, 18 traps, summary; no widget, none: traps images). Traps: omnipotence, Euthyphro, omniscience converse, foreknowledge, eternal/everlasting, spacelike, numeric Bob t_B=-3.75, G=W/W⊊G/G≠W, Deus sive Natura, dipolar, open future, Trinity, same God, negation vs opposite, Dionysius, analogy, verificationism, Flew/Hare/Mitchell. No new external facts (all reused from VERIFIED). Choices: dropped stone-paradox and Maimonides-attributes as separate traps (folded in). Conventions fixed here: none new.
 
 ## 2026-11-03 ch08-language (18 cards, guided proof)
