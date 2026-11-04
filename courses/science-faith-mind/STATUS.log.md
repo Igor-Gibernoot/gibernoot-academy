@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-04: ch09-divine-action (concept, 21 cards)
+Built autonomously. Uses `chaos-sensitivity` once (r=3.9, gap 1e-6, step 22) plus numeric 1e-12 -> 44 (script-checked). Image: Polkinghorne only (Peacocke has no free portrait found; Ellis already pictured in ch05-multiverse). Choices: SEP Divine Action unavailable, so sources are CTNS/counterbalance pages and Commons; no verbatim quotations; volume year given as 1995 (catalogues disagree, 1996 CTNS). Interpretation claim (Bohmian/many-worlds deterministic) from secondary sources, stated as standard classification. Conventions fixed here: divine-action proposals named Quantum (Russell), Chaos (Polkinghorne), Whole-part (Peacocke, Ellis); critic Tracy; terms epistemic vs ontological openness; non-interventionist = laws not broken.
+
 ## 2026-11-04: ch09-miracles-proof (guided proof, 19 cards)
 Built autonomously. Uses `odds-updater` twice (witnesses; priors). Choices: premises P1 odds identity, P2 witnesses (truthful, independent), P3 prior; validity separate from soundness; Millican year dropped (unconfirmed, only "Millican has argued against" kept); Price and Babbage appendix numbers not used. Images: none (Hume, Babbage already pictured). Conventions fixed here: premises P1-P3 as above; effective n = independent sources; condition $q^n<P(M)$, $n\ge\ln(1/P(M))/\ln(1/q)$; $P(E\mid M)=0.9$, prior $10^{-6}$, $q=10^{-3}$, n=2 gives 44.75%.
 
