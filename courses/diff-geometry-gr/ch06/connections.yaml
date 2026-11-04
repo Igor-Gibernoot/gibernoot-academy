@@ -105,26 +105,23 @@ cards:
     id: where-from
     title: Where the extra term comes from
     body: |
-      Recall the transition map $\text{ᛖ}_{\mathcal{U}\mathcal{V}} := \mathscr{Y}\circ\mathscr{X}^{-1}$ (from $\mathscr{X}$-coordinates to $\mathscr{Y}$-coordinates), and write $\partial_i$ for the partial derivative of a function on $\mathbb{R}^d$ in its $i$-th slot. Take a direction $\mathcal{X}_p = x^i_p\,(\partial x_i)_p$ (components $x^i_p$ in the chart $\mathscr{X}$) and a field $\mathcal{Y}$ with component functions $\tilde x^j$ in $\mathscr{X}$ and $\tilde y^k$ in $\mathscr{Y}$.
+      Recall the transition map $\text{ᛖ}_{\mathcal{U}\mathcal{V}} := \mathscr{Y}\circ\mathscr{X}^{-1}$, which sends $\mathscr{X}$-coordinates to $\mathscr{Y}$-coordinates, and write $\partial_i$ for the partial derivative of a function on $\mathbb{R}^d$ in its $i$-th slot. Take a direction $\mathcal{X}_p = x^i_p\,(\partial x_i)_p$ and a field $\mathcal{Y}$ whose component functions are $\tilde x^j$ in the chart $\mathscr{X}$ and $\tilde y^k$ in the chart $\mathscr{Y}$.
 
-      **Step 1: how the components change chart.** A vector's components transform with the Jacobian of the transition map:
+      When we change chart, the components of a vector are mixed by the Jacobian of the transition map:
       $$\tilde y^k = J^k{}_j\,\tilde x^j,$$
-      where the Jacobian is
+      where
       $$J^k{}_j := \frac{\partial\mathscr{Y}^k}{\partial\mathscr{X}^j} = \partial_j(\text{ᛖ}_{\mathcal{U}\mathcal{V}})^k\circ\mathscr{X}.$$
-      Both $J^k{}_j$ and $\tilde x^j$ are **functions of the point**, so $\tilde y^k$ is a sum of products of two functions.
+      Both $J^k{}_j$ and $\tilde x^j$ depend on the point, so $\tilde y^k$ is a product of two functions. The direction $\mathcal{X}_p$ acts on functions as a derivative, so it follows the product rule $(fg)' = f'g + fg'$:
+      $$\mathcal{X}_p(\tilde y^k) = J^k{}_j(p)\,\mathcal{X}_p(\tilde x^j) + \mathcal{X}_p\big(J^k{}_j\big)\,\tilde x^j(p).$$
+      The first term is the usual transformation law applied to the naive derivative $\mathcal{X}_p(\tilde x^j)$. If it were alone, these numbers would be the components of one vector, the same in every chart. The second term is the troublemaker, and it is there only because the Jacobian changes from point to point.
 
-      **Step 2: product rule.** $\mathcal{X}_p$ acts on functions as a derivative, so it obeys $(fg)' = f'g + fg'$:
-      $$\mathcal{X}_p(\tilde y^k) = \mathcal{X}_p\big(J^k{}_j\big)\,\tilde x^j(p) + J^k{}_j(p)\,\mathcal{X}_p(\tilde x^j).$$
-      The **second** piece is the transformation law applied to the naive derivative $\mathcal{X}_p(\tilde x^j)$: alone, it would make these numbers the components of one chart-independent vector. The **first** piece is the unwanted extra term. It appears because the Jacobian is not constant.
-
-      **Step 3: differentiate the Jacobian.** $J^k{}_j = (\partial_j\text{ᛖ}^k)\circ\mathscr{X}$ is a function on $\mathbb{R}^d$ composed with the chart. $\mathcal{X}_p$ acts on a function composed with $\mathscr{X}$ by the chain rule: differentiate in each coordinate slot and weight by the components $x^i_p$ of the direction:
-      $$\mathcal{X}_p\big(J^k{}_j\big) = x^i_p\,\partial_i\big(\partial_j(\text{ᛖ}_{\mathcal{U}\mathcal{V}})^k\big) = x^i_p\,\partial_i\partial_j(\text{ᛖ}_{\mathcal{U}\mathcal{V}})^k,$$
-      evaluated at $\mathscr{X}(p)$. So the extra term is
-      $$\tilde x^j(p)\,x^i_p\,\partial_i\partial_j(\text{ᛖ}_{\mathcal{U}\mathcal{V}})^k:$$
-      the field's component $\tilde x^j(p)$ (from step 2), times the direction's component $x^i_p$ (from step 3), times a **second derivative of the transition map** (derivative of the Jacobian). All together:
+      To see what it is, note that $J^k{}_j$ is a function on $\mathbb{R}^d$, namely $\partial_j(\text{ᛖ}_{\mathcal{U}\mathcal{V}})^k$, evaluated at the chart coordinates of the point. Moving along $\mathcal{X}_p$ changes these coordinates at the rate $x^i_p$ in slot $i$, so the chain rule gives
+      $$\mathcal{X}_p\big(J^k{}_j\big) = x^i_p\,\partial_i\partial_j(\text{ᛖ}_{\mathcal{U}\mathcal{V}})^k,$$
+      with the second derivative taken at $\mathscr{X}(p)$. Putting it together:
       $$\begin{aligned}&\mathcal{X}_p(\tilde y^k)\\ &= J^k{}_j(p)\,\mathcal{X}_p(\tilde x^j)\\ &\quad + \tilde x^j(p)\,x^i_p\,\partial_i\partial_j(\text{ᛖ}_{\mathcal{U}\mathcal{V}})^k.\end{aligned}$$
+      The extra term is the field's component, times the direction's component, times a second derivative of the transition map, which measures how fast the Jacobian changes.
 
-      **Check on the polar verdict.** Here $\mathscr{X}$ is cartesian, $\mathscr{Y}$ polar, and $\text{ᛖ}^2 = \theta(a,b)$ with $\partial_1\theta = -b/r^2$. For $\mathcal{Y} = \partial x_1$ ($\tilde x = (1,0)$) along $x_p = (0,1)$ at $(1,0)$, only $j=1$, $i=2$ survive, so the extra term is $\partial_2\partial_1\theta = \partial_b(-b/r^2) = -1$. And the first piece vanishes there because $\mathcal{X}_p(\tilde x^1) = 0$ (constant components), which reproduces the $-1$ found above.
+      Check it on the polar verdict. Here $\mathscr{X}$ is cartesian, $\mathscr{Y}$ is polar, and $\text{ᛖ}^2 = \theta(a,b)$ with $\partial_1\theta = -b/r^2$. Take $\mathcal{Y} = \partial x_1$, so $\tilde x = (1,0)$, along $x_p = (0,1)$ at $(1,0)$. Only $j=1$ and $i=2$ contribute, so the extra term is $\partial_2\partial_1\theta = \partial_b(-b/r^2) = -1$. The first term is $0$ because $\tilde x^1$ is constant, so the whole answer is $-1$, as found before.
 
   - type: mcq
     id: affine-only
