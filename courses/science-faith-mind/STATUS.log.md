@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-04 ch10-challenge part 1 (challenge, 24 cards, problems 1-3, no images, no widget beyond integration-demo once)
+Built `ch10/challenge.yaml` and planned node `ch10-challenge-2`. P1 anaesthesia (patient with no ignition, complex echo; GWT vs IIT forecasts, multi-select replies, unresponsive is not unconscious, Orch OR needs microtubule-scale evidence); P2 split brain (Ana) and Parfit with Leo's toy decay (0.8^6=0.262, first below half at year 4, 0.8^12=0.069); P3 machine Orla (prism widget: 3, bridges A-D and B-E off -> 1, 2^11-1=2047, IIT hardware, functionalism vs Searle, weak reports, indicators), two sorting cards. Images: none (no person or object newly introduced). No new external facts.
+Conventions fixed here: challenge toy network = two triangles ABC, DEF with bridges A-D, B-E, C-F (score 3, two bridges off -> 1); Leo keeps 0.8 of memories per year (0.8^6=0.262, below half at year 4); 2^11-1=2047 splits for 12 units.
+
 ## 2026-11-04 ch10-map (map, 13 cards, 11 boxes)
 Built `ch10/map.yaml`: boxes hard problem, three replies, zombie, neural correlates, workspace/higher-order, integrated information, predictive processing and Orch OR, self, free will, machines, souls; 2 decoys each (swapped theories, swapped critics, reversed method, swapped numbers). No images, no widget, no new web facts (every box reused from the concept lessons' `own:` text). Choice: split brain folded into nothing separate (covered in the self lesson, not a box); rebirth traditions only in the souls explanation.
 Conventions fixed here: map reuses toy scores (chain 1, ring 2), 2^(n-1)-1 splits, 0.9^10=0.35, Libet 550/200 ms, AWARE 2060 and about 2%, AWARE-II 11/28 = 39%, Butlin et al. 14 indicators.
