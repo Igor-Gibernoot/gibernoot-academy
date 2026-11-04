@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-03 ch08-apophatic (19 cards, concept)
+Built from SEP Maimonides, Pseudo-Dionysius, Religious Language, Summa I q3/q13 and web checks (VERIFIED.md). No widget (verbal structure; README index has none that fits). Image: Maimonides traditional portrait (ImageMagick now works); Eckhart image fetched then dropped (fresco identification unsure), ledger entry removed; Aquinas already has his portrait elsewhere. Choices: Maimonides on ST q13 a2 "Rabbi Moses" stated as "usually taken to be"; Eckhart "rid me of God" quote dropped (unconfirmed); self-refutation objection framed as a question, with SEP-confirmed revisionary objection; 3 blanks in own:. Conventions fixed here: $G$, $F$; affirm/deny/beyond; "G is wise" -> "G is not ignorant"; analogy vs univocal/equivocal; God vs Godhead.
+
 ## 2026-11-03 ch08-panentheism (20 cards, concept)
 Built from SEP Panentheism, Schleiermacher and web checks (VERIFIED.md). 20 cards, no widget (README index checked, e.g. now-lines, scale-factor, microstate-counter: none fits a verbal structure), no images (none: ImageMagick missing, fetch-image get fails; Schleiermacher portrait found but not saved). Choices: Tillich and Schleiermacher framed as in the panentheist lineage by readers, not self-declared; Tillich claims paraphrased (no verbatim quote); prayer has no sourced panentheist position so stated as an open question; Polkinghorne cautious/eschatological; Peacocke and Clayton without birth years. Conventions fixed here: three relations $G=W$, $W\subsetneq G$, $G\neq W$ reused; "in" readings (locative, dependence, mind-body, part-whole); Tillich being-itself not a being.
 
