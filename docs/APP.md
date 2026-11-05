@@ -19,7 +19,7 @@ Static site, no build step, served by GitHub Pages from the repo root.
   `courses/<id>/img/` (tap = lightbox); the same renderer serves lessons, review and exams. `tools/fetch-image.mjs`
   fetches free Commons images and keeps `img/credits.yaml`; `validate` checks alt, caption, credit, link, ledger, size, count.
 - Player: back button, progress bar, synthesized feedback sounds
-  (`js/sound.js`, toggle in the player header and settings), varied
+  (`js/sound.js`, toggle in the player header and settings; synced with the account via `progress.prefs`), varied
   encouraging messages and "N in a row" streaks.
 - Trail: average first-try accuracy (overall chip and per level), level
   reviews (`#/review/<levelId>`), a hue per level (`data-hue` on `.level`,

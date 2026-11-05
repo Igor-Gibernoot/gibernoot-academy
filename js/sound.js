@@ -1,15 +1,20 @@
 // Feedback sounds, synthesized with Web Audio (no audio files).
-// The on/off preference is per browser and is not part of the progress code.
+// The on/off preference follows the account (progress.prefs); until it is set
+// there, the value once kept in this browser's localStorage is used.
+
+import { progress } from './progress.js';
 
 const KEY = 'gibernoot.sound', OLD_KEY = 'dg2gr.sound';
 let ctx = null;
 
 export function soundOn() {
+  const v = progress.pref('sound');
+  if (v != null) return v;
   try { return (localStorage.getItem(KEY) ?? localStorage.getItem(OLD_KEY)) !== 'off'; } catch { return true; }
 }
 
 export function setSound(on) {
-  try { localStorage.setItem(KEY, on ? 'on' : 'off'); } catch { /* ignore */ }
+  progress.setPref('sound', !!on);
 }
 
 // notes: [frequency Hz, start s, duration s]
