@@ -1,9 +1,9 @@
 // The trail map: levels (chapters) with their lessons as a winding path.
 
 import { h } from './dom.js';
-import { mdInline } from './render.js';
+import { md, mdInline } from './render.js';
 import { icons, KIND_LABEL } from './icons.js';
-import { getCourse } from './content.js';
+import { getCourse, getLesson, summaryCard } from './content.js';
 import { at } from './course.js';
 import { progress } from './progress.js';
 import { recapCards } from './recap.js';
@@ -111,6 +111,22 @@ const SPECIAL = ['map', 'review', 'challenge', 'exam'];
 const ICON = { ...icons, map: icons.map, review: icons.levelReview, challenge: icons.challenge, exam: icons.exam };
 const pct = x => `${Math.round(x * 100)}%`;
 
+// The lesson's closing summary in a floating window over the trail: only that
+// card, nothing recorded, no way to step into the lesson's other cards.
+function openSummary(meta, sum) {
+  const close = () => { scrim.remove(); removeEventListener('keydown', onKey); };
+  const onKey = e => { if (e.key === 'Escape') close(); };
+  addEventListener('keydown', onKey);
+  const scrim = h('div', { class: 'scrim', onclick: e => { if (e.target === scrim) close(); } },
+    h('div', { class: 'sheet summary-sheet', role: 'dialog', 'aria-modal': 'true' },
+      h('div', { class: 'kind' }, meta.title),
+      h('h3', { html: mdInline(sum.title) }),
+      h('div', { class: 'prose', html: md(sum.body ?? '') }),
+      h('div', { class: 'actions' }, h('button', { class: 'btn primary', type: 'button', onclick: close }, 'Close'))));
+  document.body.append(scrim);
+  scrim.querySelector('.btn')?.focus();
+}
+
 function openSheet(meta, state, { level, deck, due }) {
   const close = () => scrim.remove();
   const rec = progress.lesson(meta.id);
@@ -144,6 +160,12 @@ function openSheet(meta, state, { level, deck, due }) {
       h('div', { class: 'actions' }, actions)));
   document.body.append(scrim);
   scrim.querySelector('.btn.primary')?.focus();
+  if (state !== 'planned' && meta.kind !== 'review') getLesson(meta.id).then(({ data }) => {
+    const sum = summaryCard(data);
+    if (!sum || !scrim.isConnected) return;
+    const btn = h('button', { class: 'btn ghost', type: 'button', onclick: () => { close(); openSummary(meta, sum); } }, 'Summary');
+    scrim.querySelector('.actions .btn').after(btn);
+  }).catch(() => {});
   if (meta.kind === 'review') recapCards(level.id).then(list => {
     if (!list.length || !scrim.isConnected) return;
     const n = list.reduce((s, c) => s + c.due.length, 0);

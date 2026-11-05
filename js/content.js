@@ -105,3 +105,12 @@ function withOwn(data) {
   cards[cards.length - 1] = { ...end, title: end.title ?? 'What you now own', body: stripOwn(data.own) + (end.body ? `\n\n${end.body}` : '') };
   return { ...data, cards };
 }
+
+// The closing "what you now own" card of a lesson (a concept lesson's `own:`
+// summary, or a guided problem's plain closing card), or null.
+export function summaryCard(data) {
+  const end = data?.cards?.at(-1);
+  if (end?.type !== 'text') return null;
+  if (data.own || /what you now own|wrap-up/i.test(end.title ?? '')) return { title: end.title ?? 'What you now own', body: end.body };
+  return null;
+}

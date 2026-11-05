@@ -36,6 +36,11 @@ Static site, no build step, served by GitHub Pages from the repo root.
   new; missed blanks come back once at the end of the session. The trail's
   Recap chip counts due blanks (it loads the finished concept lessons'
   files after the trail draws); level-review sheets get a Recap button.
+- Summary button: a built lesson's sheet shows **Summary** when its last card is
+  the "what you now own" text (`own:` or a closing card titled "What you now own"
+  / "Wrap-up"); it opens only that card in a floating window over the trail
+  (`summaryCard` in `js/content.js`), recording nothing, whether or not the
+  lesson is done.
 - Light/dark toggle (`js/theme.js`), instant tooltips via `data-tip`
   (`js/tooltip.js`), optional Google sign-in with Firestore sync
   (`js/cloud.js`, `docs/ACCOUNTS.md`; inactive until `js/firebase-config.js`
