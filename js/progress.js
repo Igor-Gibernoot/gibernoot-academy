@@ -20,7 +20,7 @@ const OLD_KEY = 'dg2gr.progress.v1'; // single-course app; left in place as a ba
 const INTERVALS = [0, 1, 3, 7, 16, 35];
 
 const today = () => Math.floor((Date.now() - new Date().getTimezoneOffset() * 60000) / 86400000);
-const blank = () => ({ version: 2, epoch: 0, lessons: {}, cards: {}, recap: {}, partial: {}, streak: { count: 0, last: null } });
+const blank = () => ({ version: 2, epoch: 0, lessons: {}, cards: {}, recap: {}, partial: {}, prefs: {}, streak: { count: 0, last: null } });
 
 // Keys without a course prefix come from version 1 (before courses existed,
 // or an old tab still open somewhere) and belong to the first course; a
@@ -88,6 +88,11 @@ function merge(a, b) {
   for (const k of new Set([...Object.keys(a.partial ?? {}), ...Object.keys(b.partial ?? {})])) {
     const x = a.partial?.[k], y = b.partial?.[k];
     out.partial[k] = !x ? y : !y ? x : (y.t ?? 0) > (x.t ?? 0) ? y : x;
+  }
+  // Settings that follow the account ({ value, t }): the most recent change wins.
+  for (const k of new Set([...Object.keys(a.prefs ?? {}), ...Object.keys(b.prefs ?? {})])) {
+    const x = a.prefs?.[k], y = b.prefs?.[k];
+    out.prefs[k] = !x ? y : !y ? x : (y.t ?? 0) > (x.t ?? 0) ? y : x;
   }
   const sa = a.streak, sb = b.streak;
   out.streak = (sb.last ?? -1) > (sa.last ?? -1) || ((sb.last ?? -1) === (sa.last ?? -1) && sb.count > sa.count) ? { ...sb } : { ...sa };
@@ -198,6 +203,10 @@ export const progress = {
     return s.last != null && s.last >= today() - 1 ? s.count : 0;
   },
 
+  // Account-wide settings, synced with the progress.
+  pref: (name, dflt) => state.prefs?.[name]?.value ?? dflt,
+  setPref(name, value) { state.prefs = { ...state.prefs, [name]: { value, t: Date.now() } }; save(); },
+
   // Cloud sync hooks (see cloud.js).
   snapshot: () => state,
   onChange(fn) { listeners.add(fn); return () => listeners.delete(fn); },
@@ -221,5 +230,5 @@ export const progress = {
     save();
   },
 
-  reset() { state = { ...blank(), epoch: Date.now() }; save(); },
+  reset() { state = { ...blank(), epoch: Date.now(), prefs: state.prefs ?? {} }; save(); }, // settings survive a reset
 };

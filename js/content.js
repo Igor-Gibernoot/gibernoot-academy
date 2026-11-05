@@ -2,6 +2,7 @@
 // its course map and lesson files from courses/<id>/.
 
 import { courseId } from './course.js';
+import { progress } from './progress.js';
 
 const cache = new Map();
 
@@ -115,12 +116,7 @@ export function summaryCard(data) {
   return null;
 }
 
-// Setting (per browser, not in the progress code): let the trail show the
+// Setting (synced with the account via progress): let the trail show the
 // summary of lessons not finished yet. Off by default.
-const PEEK_KEY = 'gibernoot.peekSummaries';
-export function peekSummaries() {
-  try { return localStorage.getItem(PEEK_KEY) === 'on'; } catch { return false; }
-}
-export function setPeekSummaries(on) {
-  try { localStorage.setItem(PEEK_KEY, on ? 'on' : 'off'); } catch { /* ignore */ }
-}
+export const peekSummaries = () => progress.pref('peekSummaries', false);
+export const setPeekSummaries = on => progress.setPref('peekSummaries', on);
