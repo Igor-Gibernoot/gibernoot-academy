@@ -39,8 +39,9 @@ Static site, no build step, served by GitHub Pages from the repo root.
 - Summary button: a built lesson's sheet shows **Summary** when its last card is
   the "what you now own" text (`own:` or a closing card titled "What you now own"
   / "Wrap-up"); it opens only that card in a floating window over the trail
-  (`summaryCard` in `js/content.js`), recording nothing, whether or not the
-  lesson is done.
+  (`summaryCard` in `js/content.js`), recording nothing. Only finished lessons
+  by default; the Settings toggle "Summaries" (per browser) allows unfinished
+  ones too. The trail does not scroll while the window is open.
 - Light/dark toggle (`js/theme.js`), instant tooltips via `data-tip`
   (`js/tooltip.js`), optional Google sign-in with Firestore sync
   (`js/cloud.js`, `docs/ACCOUNTS.md`; inactive until `js/firebase-config.js`

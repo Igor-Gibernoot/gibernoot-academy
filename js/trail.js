@@ -3,7 +3,7 @@
 import { h } from './dom.js';
 import { md, mdInline } from './render.js';
 import { icons, KIND_LABEL } from './icons.js';
-import { getCourse, getLesson, summaryCard } from './content.js';
+import { getCourse, getLesson, summaryCard, peekSummaries } from './content.js';
 import { at } from './course.js';
 import { progress } from './progress.js';
 import { recapCards } from './recap.js';
@@ -114,10 +114,13 @@ const pct = x => `${Math.round(x * 100)}%`;
 // The lesson's closing summary in a floating window over the trail: only that
 // card, nothing recorded, no way to step into the lesson's other cards.
 function openSummary(meta, sum) {
-  const close = () => { scrim.remove(); removeEventListener('keydown', onKey); };
+  // The trail underneath must not scroll while the window is open.
+  const html = document.documentElement, prev = html.style.overflow;
+  html.style.overflow = 'hidden';
+  const close = () => { scrim.remove(); removeEventListener('keydown', onKey); html.style.overflow = prev; };
   const onKey = e => { if (e.key === 'Escape') close(); };
   addEventListener('keydown', onKey);
-  const scrim = h('div', { class: 'scrim', onclick: e => { if (e.target === scrim) close(); } },
+  const scrim = h('div', { class: 'scrim', onclick: e => { if (e.target === scrim) close(); }, ontouchmove: e => { if (e.target === scrim) e.preventDefault(); } },
     h('div', { class: 'sheet summary-sheet', role: 'dialog', 'aria-modal': 'true' },
       h('div', { class: 'kind' }, meta.title),
       h('h3', { html: mdInline(sum.title) }),
@@ -160,7 +163,7 @@ function openSheet(meta, state, { level, deck, due }) {
       h('div', { class: 'actions' }, actions)));
   document.body.append(scrim);
   scrim.querySelector('.btn.primary')?.focus();
-  if (state !== 'planned' && meta.kind !== 'review') getLesson(meta.id).then(({ data }) => {
+  if (state !== 'planned' && meta.kind !== 'review' && (rec?.done || peekSummaries())) getLesson(meta.id).then(({ data }) => {
     const sum = summaryCard(data);
     if (!sum || !scrim.isConnected) return;
     const btn = h('button', { class: 'btn ghost', type: 'button', onclick: () => { close(); openSummary(meta, sum); } }, 'Summary');

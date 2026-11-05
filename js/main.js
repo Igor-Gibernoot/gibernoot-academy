@@ -13,7 +13,7 @@
 
 import { h, shuffle, escapeHtml } from './dom.js';
 import { icons } from './icons.js';
-import { getCatalog, getCourse, getLesson, nextLessonAfter, isQuestion } from './content.js';
+import { getCatalog, getCourse, getLesson, nextLessonAfter, isQuestion, peekSummaries, setPeekSummaries } from './content.js';
 import { setCourse, courseId, at, LEGACY_COURSE, RENAMED } from './course.js';
 import { renderHome } from './home.js';
 import { progress } from './progress.js';
@@ -257,6 +257,11 @@ function settings() {
       h('label', { class: 'toggle' },
         h('input', { type: 'checkbox', checked: soundOn(), onchange: e => setSound(e.target.checked) }),
         'Play a sound for right and wrong answers')),
+    h('div', { class: 'panel' },
+      h('h3', {}, 'Summaries'),
+      h('label', { class: 'toggle' },
+        h('input', { type: 'checkbox', checked: peekSummaries(), onchange: e => setPeekSummaries(e.target.checked) }),
+        'Show the summary of lessons I have not finished yet (off: only finished lessons)')),
     h('div', { class: 'panel' },
       h('h3', {}, 'Start over'),
       h('p', {}, 'Erase all progress and the review decks of every course, here and in your account if signed in.'),
