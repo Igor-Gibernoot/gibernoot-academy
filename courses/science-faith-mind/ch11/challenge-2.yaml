@@ -1,0 +1,409 @@
+id: ch11-challenge-2
+title: "Level Challenge: Weigh the Claim (2)"
+kind: challenge
+
+cards:
+  - type: text
+    id: welcome
+    title: "Challenge, part 2: a medium and a drug trial"
+    body: |
+      Two more claims about unusual experiences, in the style of the level. Both cases and all their numbers are invented to practise the method. This part stands alone, so the toolkit is restated here.
+
+      - **Four verdicts.** A claim is *established* when repeated, well-controlled data support it; *plausible* when it fits what is known and could be tested but has not been; *disputed* when serious people read the same data differently; *unsupported* when the evidence offered does not bear on it. A *metaphysical commitment* is not a verdict at all: no study of this kind could settle it.
+      - **Chance fits.** If a statement fits a random person with probability $p$, then $n$ statements give an expected $np$ fits by chance. Vague statements fit most people: in Forer's classroom study (1949), students rated one general paragraph, taken from an astrology column, as a description of themselves with a mean of $4.26$ out of $5$ (the Barnum effect). A *cold reading* uses cues from the sitter; a *hot reading* uses information gathered in advance.
+      - **Blinded pairs.** Each sitter receives two transcripts, the one meant for them and a control, and picks the better fit. By chance each pick is right with probability $\tfrac12$, so all $m$ picks are right with probability $(\tfrac12)^m$.
+      - **Odds rule.** With $H$ the claim, $E$ the result and $\varepsilon=P(E\mid\neg H)$,
+      $$\text{posterior odds}=\frac{P(E\mid H)}{\varepsilon}\times\text{prior odds}$$
+      - **Difference of two rates.** For rates $\hat p_1=k_1/n_1$ and $\hat p_2=k_2/n_2$, the difference is $\hat p_1-\hat p_2$ and its uncertainty is
+      $$\text{SE}=\sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1}+\frac{\hat p_2(1-\hat p_2)}{n_2}}$$
+      with a 95% interval of about $\pm1.96\,\text{SE}$.
+      - **Drug and expectation.** The effect measured in a drug trial is the drug's own effect plus the effect of expecting to be treated. A placebo group measures the second part only if the participants cannot tell which group they are in. In 2021 a trial of 59 patients compared psilocybin with the antidepressant escitalopram; the main result was not significant ($P=0.17$), while remission was $57\%$ against $28\%$ in a secondary comparison that was not corrected for the many outcomes tried.
+      - **Three layers:** established fact, live debate, faith or metaphysical commitment.
+
+      Problems 1 to 3 were in part 1.
+
+  # ---------------- Problem 4 ----------------
+  - type: text
+    id: p4-setup
+    title: "Problem 4 · The Brandt sitting"
+    body: |
+      **Problem 4.** A medium, Ilka Brandt, sits with Tomas, who recently lost his father. In one session she makes ten statements. Tomas marks each one as a fit or not. Here are the statements, each followed by his mark.
+
+      1. "He had trouble with his health at the end." (fit)
+      2. "There was a quarrel never settled." (fit)
+      3. "A man with the letter M is close to you." (miss)
+      4. "He liked to work with his hands." (fit)
+      5. "He worries about someone who is not coping well." (fit)
+      6. "I see a dog." (miss)
+      7. "He wants you to forgive yourself." (fit)
+      8. "There was a trip he never took." (fit)
+      9. "He is proud of you." (fit)
+      10. "A clock stopped around the time he died." (miss)
+
+      Tomas marked $7$ of $10$ as fits. Brandt's supporters say the sitting shows contact with the dead father. Skeptics say a skilled reader could do the same with a stranger. Your task: weigh the claim, then design a test, then weigh the test.
+
+  - type: numeric
+    id: p4-expected
+    title: "How many fits for a stranger?"
+    prompt: |
+      Suppose each of the ten statements fits a randomly chosen person who has lost a parent with probability $p=0.4$, independently of the others. How many fits are expected by chance alone?
+    answer: 4
+    hint: Expected count is the number of statements times the chance each one fits.
+    explanation: |
+      With $n=10$ and $p=0.4$ the expected count is $np=4$. Tomas's $7$ is above that, so the next question is how far above.
+
+  - type: numeric
+    id: p4-tail
+    title: "How surprising is 7 or more?"
+    prompt: |
+      With $p=0.4$ and independent statements, the chance of exactly $k$ fits out of $10$ is $\binom{10}{k}\,0.4^{k}\,0.6^{10-k}$. The chance of $7$ or more is the sum over $k=7,8,9,10$. Compute it, as a decimal to three places.
+    answer: 0.055
+    tolerance: 0.002
+    answerText: '0.055'
+    hint: |
+      $k=7$: $120\times0.4^7\times0.6^3\approx0.0425$. Then $k=8$ gives about $0.0106$, $k=9$ about $0.0016$ and $k=10$ about $0.0001$.
+    explanation: |
+      $0.0425+0.0106+0.0016+0.0001\approx0.055$, about $5.5\%$. A reading that fits this well would turn up for roughly one stranger in eighteen, so a single sitting is mild evidence at most. And the figure used a base rate of $0.4$ that a reader can raise by choosing statements that fit nearly everyone.
+
+  - type: mcq
+    id: p4-features
+    title: "What does the transcript show?"
+    multiple: true
+    prompt: |
+      Look at the ten statements. Select **all** the fair observations about how the sitting could have been produced without any contact with the dead.
+    options:
+      - text: 'Several statements are very general ("trouble with his health", "a quarrel never settled", "he is proud of you") and fit most bereaved people, as in the Barnum effect.'
+        correct: true
+        feedback: |
+          Yes. Statements that fit nearly everyone raise the base rate $p$ above $0.4$, so more fits are expected by chance.
+      - text: 'Statements 3, 6 and 10 are specific, and they were marked as misses; only the vague ones were marked as fits.'
+        correct: true
+        feedback: |
+          Yes. A specific statement can be checked and fail, while a vague one cannot. The pattern "vague ones fit, specific ones miss" is what cold reading predicts.
+      - text: 'Tomas, who wants a message from his father, may mark a loose statement as a fit; the sitter helps to make the fit.'
+        correct: true
+        feedback: |
+          Yes. Fitting a vague statement to one's own life is work the sitter does, and a grieving sitter has reasons to do it.
+      - text: 'Seven fits out of ten prove the statements were obtained by cold reading.'
+        feedback: |
+          The transcript shows that cold reading would be enough, not that it was used. A test that excludes it is needed to say more.
+    explanation: |
+      None of this shows fraud or insincerity. It shows what a test must remove: vague statements, cues from the sitter, and the sitter's own generous marking.
+
+  - type: mcq
+    id: p4-design
+    title: "What a better test must change"
+    prompt: |
+      A lab plans to repeat the Brandt sitting. Which design would best remove the routes for a result without any real channel?
+    options:
+      - text: 'A medium who never meets or sees the sitters gives a reading about each deceased person through a proxy who knows nothing. Each sitter later receives two typed readings in random order, the one meant for them and a control about another person, and picks the better fit.'
+        correct: true
+      - text: 'Brandt sits with ten new people, each in person, and each marks how well the reading fits on a scale from 0 to 10.'
+        feedback: |
+          In person she gets cues, and a rating of a single reading cannot be compared with what a vague reading would earn from anyone.
+      - text: 'Brandt reads for Tomas again, this time with a recorder running, and a transcriber checks the statements.'
+        feedback: |
+          A recording fixes what was said, which helps, but it leaves the cold reading, the vague statements and the generous marking untouched.
+    explanation: |
+      The proxy and the distance remove cold and hot reading. The control transcript means a vague statement that fits everyone fits both readings and cancels out. Random order and a forced choice make chance exactly $\tfrac12$ per sitter.
+
+  - type: numeric
+    id: p4-chance7
+    title: "Seven sitters, seven correct picks"
+    prompt: |
+      The lab runs the blinded pair test with $7$ sitters, and every sitter picks the transcript meant for them. If every pick were a coin toss, with probability $\tfrac12$ each, what is the probability of $7$ correct picks out of $7$? Give a decimal or a fraction.
+    answer: 0.0078125
+    tolerance: 0.0003
+    answerText: '1/128'
+    hint: Picks are independent, so multiply the chance for each sitter.
+    explanation: |
+      $\left(\tfrac12\right)^7=\tfrac1{128}\approx0.0078$, below $1\%$. Six of six would give $\tfrac1{64}\approx0.0156$, which is above $1\%$. So seven is the smallest number of perfect picks that beats the $1\%$ line.
+
+  - type: mcq
+    id: p4-prereg
+    title: "What else must be fixed in advance?"
+    prompt: |
+      The lab announces the result "7 of 7 correct, chance 1 in 128". A skeptic asks what else must be known before the number means anything. Which answer is best?
+    options:
+      - text: 'Whether the number of sitters, the question asked of the sitters and the rule for scoring were all fixed before the data came in, and whether other sittings were run and not reported. A $1\%$ figure comes from a single fixed plan; trying several versions and reporting the best one makes it much too small.'
+        correct: true
+      - text: 'Nothing: a probability below $1\%$ settles the matter by itself.'
+        feedback: |
+          The $1\%$ is the chance for one fixed plan. If twenty plans were tried, $1-0.99^{20}\approx18\%$ is the chance that one of them looks this good by luck.
+      - text: 'Only whether the medium is sincere, since sincerity decides whether the result is real.'
+        feedback: |
+          Sincerity is not the issue. A sincere medium may produce a lucky or flawed result as easily as a dishonest one, and a flawed procedure does not need bad faith.
+    explanation: |
+      This is the lesson from the ganzfeld and the replication studies: a result is as good as the plan that was fixed before looking, and the count of unreported attempts.
+
+  - type: numeric
+    id: p4-lr
+    title: "Chance, plus a small leak"
+    prompt: |
+      Let $E$ be "7 of 7 correct". Let $H$ be "a real channel exists", and suppose that if it did, $P(E\mid H)=0.6$. Let $\neg H$ cover chance and a possible flaw: with probability $f=0.01$ the procedure leaks a cue (say a proxy's slip) that makes all $7$ picks correct, and otherwise the picks are coin tosses. Then
+      $$\varepsilon=P(E\mid\neg H)=f+(1-f)\left(\tfrac12\right)^7$$
+      Compute the likelihood ratio $P(E\mid H)/\varepsilon$, to the nearest whole number.
+    answer: 34
+    tolerance: 0.6
+    hint: |
+      $\varepsilon=0.01+0.99/128\approx0.01+0.00773=0.01773$. Divide $0.6$ by it.
+    wrong:
+      - { value: 77, feedback: "That is $0.6\\times128$, the ratio when the chance of a leak is zero. A leak of one in a hundred is larger than the chance of seven lucky coin tosses, so it dominates the denominator." }
+    explanation: |
+      $\mathrm{LR}=0.6/0.01773\approx34$, about half the $77$ obtained if leaks were impossible. A flaw that is small in absolute terms still matters, because the result it explains is itself rare. Lowering the leak rate is therefore worth as much as adding sitters.
+
+  - type: numeric
+    id: p4-posterior
+    title: "From a doubtful prior"
+    prompt: |
+      A reader's prior odds for $H$ (a real channel) are $10^{-4}$. Using the likelihood ratio of about $34$ from the test above (take $33.8$), what are the posterior odds? Give a decimal.
+    answer: 0.00338
+    tolerance: 0.0002
+    answerText: '0.0034'
+    hint: Multiply the prior odds by the likelihood ratio.
+    explanation: |
+      $10^{-4}\times33.8\approx3.4\times10^{-3}$, about $1$ to $300$. One clean test moves a doubtful reader by a factor of $34$ and still leaves them far from belief; a believer with prior odds $1$ would end near $34$ to $1$. This is why a repeat in an independent lab, with its own chance of leaks, counts for so much.
+
+  - type: mcq
+    id: p4-readings
+    title: "What a clean positive would not show"
+    prompt: |
+      Suppose the test is repeated in three independent labs, with the leak rate low, and each finds $7$ of $7$. Which statement is the fairest?
+    options:
+      - text: 'Something other than chance and ordinary cues would be at work, and the result would be a serious anomaly. It would not say what: a survival reading says the father is communicating, while a "super-psi" reading says the medium gains information from the living, with no message from the dead. The test cannot tell these apart.'
+        correct: true
+      - text: 'The result would prove the dead survive death.'
+        feedback: |
+          The design checks whether information reaches the medium, not where it comes from. A rival reading (psi between living minds) predicts the same result.
+      - text: 'The result would prove the first lab cheated, since the effect is impossible.'
+        feedback: |
+          Declaring a result impossible before seeing it stops the test from ever mattering. A clean, repeated anomaly would call for better explanations, not for an accusation.
+    explanation: |
+      The reading depends on the prior and on what rival explanations remain. A survival reader and a super-psi reader would share the data and part ways on what it means.
+
+  - type: mcq
+    id: p4-verdicts
+    title: "Four verdicts for four sentences"
+    prompt: |
+      Give each sentence its verdict. (a) At the Brandt sitting, Tomas marked $7$ of $10$ statements as fits. (b) The sitting shows that Brandt received information from Tomas's father. (c) A blinded pair test, run as described with $7$ of $7$ correct and a low leak rate, would be strong evidence against pure chance. (d) The dead father's mind survives the death of his body.
+    options:
+      - text: '(a) established as a record of what happened; (b) unsupported, because vague statements and a generous sitter explain the fits; (c) plausible: it is a design that could be run, and we have not seen it done under these conditions; (d) a metaphysical commitment, which no such test can settle.'
+        correct: true
+      - text: '(a) disputed; (b) established; (c) unsupported; (d) established.'
+        feedback: |
+          (a) is only the sitter's own count, which no one disputes. (b) is the claim in question; one sitting with vague statements cannot establish it.
+      - text: '(a) established; (b) disputed; (c) established; (d) plausible.'
+        feedback: |
+          (b) is better called unsupported than disputed, since the evidence offered does not bear on it. (c) describes a test not yet run. And (d) is a commitment about what exists, not a result.
+    explanation: |
+      The skeptical and the sympathetic reader can agree on all four verdicts. They part ways on (d), and on how high a prior to start from before a clean test.
+
+  # ---------------- Problem 5 ----------------
+  - type: text
+    id: p5-setup
+    title: "Problem 5 · The Calder trial"
+    body: |
+      **Problem 5.** A small trial asks whether one dose of a psychedelic drug, given in a comfortable room with two trained guides, helps people with long-standing depression. It assigns $30$ people to the drug and $30$ to an inactive placebo pill, in the same room with the same guides, and counts remission after six weeks.
+
+      - Drug group: $14$ of $30$ in remission.
+      - Placebo group: $6$ of $30$ in remission.
+
+      After the six weeks, every participant was asked which group they thought they were in. In the drug group, $27$ said "drug" and $3$ said "placebo". In the placebo group, $6$ said "drug" and $24$ said "placebo". Among those who guessed "drug", $13$ of $27$ in the drug group and $3$ of $6$ in the placebo group were in remission; among those who guessed "placebo", $1$ of $3$ and $3$ of $24$ respectively.
+
+      Your task: weigh what the trial shows about the drug itself.
+
+  - type: numeric
+    id: p5-diff
+    title: "The measured difference"
+    prompt: |
+      Remission was $14/30$ with the drug and $6/30$ with the placebo. Compute the difference of the two rates, in percentage points, to one decimal place.
+    answer: 26.7
+    tolerance: 0.2
+    hint: |
+      $14/30\approx46.7\%$ and $6/30=20.0\%$.
+    explanation: |
+      $46.7-20.0=26.7$ percentage points. Remission is more common in the drug group by that amount, and the next question is how uncertain the amount is.
+
+  - type: numeric
+    id: p5-se
+    title: "How uncertain is the difference?"
+    prompt: |
+      With $\hat p_1=14/30$ and $\hat p_2=6/30$ and $n_1=n_2=30$, compute
+      $$\text{SE}=\sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1}+\frac{\hat p_2(1-\hat p_2)}{n_2}}$$
+      in percentage points, to one decimal place.
+    answer: 11.7
+    tolerance: 0.2
+    hint: |
+      The two terms under the root are about $0.00830$ and $0.00533$. Add them, take the root, and multiply by $100$.
+    explanation: |
+      $0.00830+0.00533=0.01363$ and its root is $0.1167$, that is $11.7$ points. A 95% interval is $26.7\pm1.96\times11.7$, from about $3.8$ to $49.5$ points.
+
+  - type: mcq
+    id: p5-interval
+    title: "What does the interval say?"
+    prompt: |
+      The interval for the difference runs from about $3.8$ to $49.5$ percentage points. Which reading is fair?
+    options:
+      - text: 'The data are compatible with a small benefit and with a very large one, and the lower end is close to zero. A trial of 30 per group tells us the sign more than the size, and says nothing yet about why the groups differ.'
+        correct: true
+      - text: 'The drug raises remission by 26.7 points, as the study found.'
+        feedback: |
+          That is the best single guess, but the interval says the true size could be a small fraction or nearly double it.
+      - text: 'Since the interval excludes zero, the drug itself must be doing the work.'
+        feedback: |
+          Excluding zero says the groups differ by more than chance would explain. It does not say what in the drug group differs: the chemical, the expectation, or both.
+    explanation: |
+      An interval answers "how big?" and not "why?". The second question is the one that needs the unblinding survey.
+
+  - type: numeric
+    id: p5-unblind
+    title: "Could they tell?"
+    prompt: |
+      In the survey, $27$ people in the drug group and $24$ in the placebo group guessed their group correctly. What fraction of all $60$ participants guessed correctly? Give a decimal. (Guessing at random would give $0.5$.)
+    answer: 0.85
+    tolerance: 0.005
+    hint: Add the two counts and divide by $60$.
+    explanation: |
+      $(27+24)/60=0.85$. Participants could tell, which is not surprising: a strong psychedelic changes perception in ways a placebo pill does not. So the blind was largely broken, and each person's expectation differed between the groups.
+
+  - type: numeric
+    id: p5-believers
+    title: "Compare those who believed the same"
+    prompt: |
+      A way to separate drug from expectation is to compare people who held the same belief. Among those who guessed "drug", the drug group had $13$ of $27$ in remission, and the placebo group $3$ of $6$. Compute the difference (drug minus placebo) of these two rates, in percentage points, to one decimal place.
+    answer: -1.9
+    tolerance: 0.2
+    hint: |
+      $13/27\approx48.1\%$ and $3/6=50.0\%$.
+    explanation: |
+      $48.1-50.0\approx-1.9$ points. Among people who believed they had the drug, the actual drug added nothing visible. Among those who guessed "placebo", the rates were $1/3$ and $3/24=12.5\%$.
+
+  - type: mcq
+    id: p5-believers-reading
+    title: "What does that comparison show?"
+    prompt: |
+      Among those who guessed "drug", the difference was about $-1.9$ points, with an uncertainty of about $23$ points (the placebo side has only $6$ people). A reader says the drug is therefore only expectation. What is the best reply?
+    options:
+      - text: 'The uncertainty is about twelve times the difference, so the data are compatible with no drug effect and with a large one. And beliefs were formed after the pill, so the drug may have caused the belief by changing how people felt; comparing believers is then not a clean comparison.'
+        correct: true
+      - text: 'The reader is right: the drug did nothing, and the trial showed it.'
+        feedback: |
+          A difference near zero with an uncertainty of 23 points shows little. It leaves open a large drug effect as well as none.
+      - text: 'The comparison is meaningless because belief cannot be measured.'
+        feedback: |
+          Belief was measured, by the survey. The trouble is its timing and the small numbers, not that it was asked.
+    explanation: |
+      The trial cannot separate drug from expectation, because the drug is what breaks the blind. Some reviewers argue that many trials never reported expectation at all; designs that give an active placebo (a drug that changes feelings without the target action) or that measure expectation before treatment try to do better.
+
+  - type: mcq
+    id: p5-setting
+    title: "Set, setting, and who was in the trial"
+    multiple: true
+    prompt: |
+      Everyone took part in a comfortable room with two guides, and people with a history of psychosis were excluded. Select **all** the fair conclusions.
+    options:
+      - text: 'The result, if real, applies to this kind of care: a prepared person, a supportive room, trained guides. It does not tell us what the drug would do taken alone in an unprepared setting.'
+        correct: true
+        feedback: |
+          Yes. The effect of a psychedelic depends strongly on set (the expectations and state) and setting (the surroundings).
+      - text: 'The result cannot be applied to people with a history of psychosis, since they were not in the trial.'
+        correct: true
+        feedback: |
+          Yes. Such people were excluded because of known risk, so the trial says nothing about them.
+      - text: 'The room and the guides are part of the treatment, so a pill alone and the whole programme are different questions.'
+        correct: true
+        feedback: |
+          Yes. The placebo group shared the room and guides, which is good for comparing the drug, and it also means the programme as a whole may be what gives the effect.
+      - text: 'Because set and setting matter, the drug effect must be an illusion.'
+        feedback: |
+          Overreach. Set and setting shape the effect; they do not show the chemical contributes nothing.
+    explanation: |
+      Careful readers separate three questions: does the drug act, does the programme help, and does it help the kind of person who was not allowed in.
+
+  - type: mcq
+    id: p5-mystical
+    title: "What a mystical-type score shows"
+    prompt: |
+      In the drug group, those with higher scores on a questionnaire of mystical-type experience (a sense of unity, sacredness, ineffability) had higher remission. A commentator concludes: "The experience of the sacred is what cures." Which reply is fairest?
+    options:
+      - text: 'The score is a report of experience, and people who feel better may also report richer experiences, so the order of cause is open. Even if the experience helps, it does not show that what was felt corresponds to anything beyond the brain: a materialist and a religious reader describe the same score differently.'
+        correct: true
+      - text: 'The score is meaningless, because experiences cannot be measured.'
+        feedback: |
+          A questionnaire measures what people report, which is data. What it cannot do is settle what the reports are about.
+      - text: 'The score proves the experience was a real encounter with the divine.'
+        feedback: |
+          A score of 0 to 100 on how a person felt cannot tell whether what they felt was reality or the brain. That is a commitment, not a finding.
+    explanation: |
+      A study like this can show that a report predicts an outcome. Whether the report is a perception of something or a construction of the brain is the layer-3 question that keeps the readings apart.
+
+  - type: mcq
+    id: p5-verdicts
+    title: "Four verdicts for four sentences"
+    prompt: |
+      Give each sentence its verdict. (a) In the Calder trial, $14$ of $30$ on the drug and $6$ of $30$ on placebo were in remission. (b) The drug itself caused the extra remissions. (c) Expectation and the drug together produced the extra remissions in this setting. (d) The experiences these people had were encounters with a sacred reality.
+    options:
+      - text: '(a) established as a record of what the trial counted; (b) disputed: the interval is wide and the blind was broken; (c) plausible: it fits the data and could be tested with an active placebo; (d) a metaphysical commitment, not settled by the scores.'
+        correct: true
+      - text: '(a) disputed; (b) established; (c) unsupported; (d) plausible.'
+        feedback: |
+          The counts are not disputed. And (b) is the very thing the broken blind keeps from being established.
+      - text: '(a) established; (b) established; (c) unsupported; (d) established.'
+        feedback: |
+          The data fit (c), so it is not unsupported; and (d) is a metaphysical commitment, which no trial can establish.
+    explanation: |
+      The same data feed the believer and the skeptic: both agree on the counts and on the broken blind, and part ways on how much of the gap to credit to the drug.
+
+  # ---------------- Final weighing ----------------
+  - type: mcq
+    id: final-weighing
+    title: "Final weighing: one lesson per problem"
+    prompt: |
+      Across the five problems of this level (an invented meditation program, a hospital near-death study, a ganzfeld lab, a medium and a psychedelic trial), which pairing names the lesson that decided each?
+    options:
+      - text: 'Program: control group and interval. Hospital study: the denominator of a rate and a test with few testable cases. Ganzfeld lab: flexible outcomes and failed repeats. Medium: vague statements, a blinded design and leaks. Psychedelic trial: a broken blind, so drug and expectation are tangled.'
+        correct: true
+      - text: 'Program: broken blind. Hospital study: blinded pairs. Ganzfeld lab: the denominator of a rate. Medium: control group and interval. Psychedelic trial: failed repeats.'
+        feedback: |
+          Each lesson is real, but this assigns them to the wrong cases. For example, the program had no blinded pairs, and the ganzfeld lab was decided by flexible outcomes, not by a denominator.
+      - text: 'In all five the lesson was the same: unusual experiences cannot be studied.'
+        feedback: |
+          The level shows the opposite: each claim can be tested, and each test showed what a fair design needs. What stays out of reach of any of them are the metaphysical readings.
+    explanation: |
+      The method is the same each time: write the claim, ask for the rival that needs no new reality, ask what design would separate them, and compute the odds.
+
+  - type: mcq
+    id: final-partways
+    title: "Where thoughtful people part ways"
+    multiple: true
+    prompt: |
+      Two careful readers see the same clean, repeated result in a blinded test of a medium. Select **all** the places where they may still part ways.
+    options:
+      - text: 'The prior odds they start from, which differ widely because of their background commitments.'
+        correct: true
+        feedback: |
+          Yes. The same likelihood ratio moves odds of $10^{-4}$ and odds of $1$ to very different places.
+      - text: 'Whether the information came from the dead (survival) or from living minds (super-psi), or from a flaw not yet found.'
+        correct: true
+        feedback: |
+          Yes. The design cannot tell these apart; each reader favours the one that fits their wider view.
+      - text: 'Whether the counts and the design were as reported.'
+        feedback: |
+          Not in this case: both readers are assumed to accept the clean result. Disagreements about the counts are settled by checking, not by commitment.
+    explanation: |
+      The method makes the points of disagreement visible and puts them where they belong: in priors and in readings, not in arithmetic.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Weighing a sitting.** A vague statement fits most people, so a reading earns little: $n$ statements with chance-fit rate $p$ give an expected $np$ fits (here $10\times0.4=4$), and $7$ or more has probability about $0.055$. A transcript where the vague statements fit and the specific ones miss is what cold reading predicts. Sitters help to make the fit.
+      - **Weighing a blinded test.** With a forced choice between the sitter's transcript and a control, $m$ perfect picks have chance $(\tfrac12)^m$: $\tfrac1{64}$ for $6$, $\tfrac1{128}$ for $7$. With a leak rate $f$,
+      $$\varepsilon=f+(1-f)\left(\tfrac12\right)^m$$
+      and $f=0.01$, $m=7$, $P(E\mid H)=0.6$ give $\mathrm{LR}\approx34$ instead of $77$. From prior odds $10^{-4}$ the posterior odds are about $3.4\times10^{-3}$. The plan, the scoring and the unreported attempts must be fixed in advance, and even a clean positive does not choose between survival and super-psi.
+      - **Weighing a drug trial.** The difference of two rates is $\hat p_1-\hat p_2$ ($46.7\%-20.0\%=26.7$ points), with
+      $$\text{SE}=\sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1}+\frac{\hat p_2(1-\hat p_2)}{n_2}}$$
+      which is about $11.7$ points here, and an interval of about $3.8$ to $49.5$. The measured effect is drug plus expectation; $85\%$ guessed their group correctly, so the blind was broken, and comparing those who believed the same gave $-1.9$ points with an uncertainty near $23$. Set, setting and the exclusion of people with a history of psychosis limit whom the result is about. A mystical-type score is a report, not proof of what the report is about.
+      - **Method.** Give each sentence its own verdict (established, plausible, disputed, unsupported), name the rival that needs nothing new, design the test that separates them, compute the odds, and keep the metaphysical commitments apart.
+
+      **Next:** the automatic Level Review of Level 11 comes next. After it, Level 12 turns from single experiences to why humans believe at all: the mind's tendencies to see agents, purposes and patterns, and what that does and does not say about whether the beliefs are true.
