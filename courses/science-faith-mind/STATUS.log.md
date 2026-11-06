@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-05 ch11-parapsychology (22 cards, concept, no widget)
+Built: hook (20 labs, 64%), Zener cards, p-value, ganzfeld, Bem 2011 and critique, power, p-hacking, file drawer, PPV, OSC 2015, Transparent Psi Project, order card. Images added: zener (Zener cards, PD), bem (Daryl Bem, CC BY-SA 3.0); Rhine/Pearce photo refused by tool (PD-US-no notice). Choices: avoided Bem trial counts and Kekecs lab counts (unconfirmed); Bem as spark of crisis softened. Conventions fixed here: Zener 25 cards chance 5; ganzfeld chance 25%; z=1.62 (n=100, 32% vs 25%); 15% power for 53% vs 50% at n=100; n about 1,720 for 80% power; 1-0.95^20=64%; PPV 9% (10 of 1000 true, power .5, alpha .05); OSC 97 originals, ~36% replicated, half effect.
+
 ## 2026-11-05 ch11-mediumship (21 cards, concept)
 Built `ch11/mediumship.yaml`, registered in course.yaml. Web-checked every fact (VERIFIED.md); Beischel and Schwartz 2007 read in full text; Europe PMC 503 again, used eutils. Images: fox, piper, flournoy (book title page); Kardec skipped (portrait already in ch01-tour). James white-crow remark paraphrased (wording varies). Fox ages and Leah's role left out (sources differ). Widgets checked: odds-updater, frequency-grid (not used: numeric cards carry the arithmetic). Validate 0 errors, shots 0 problems. Conventions fixed here: expected fits $np$; blinded pair chance $(1/2)^m$; example LR 32; super-psi named as the limit of any positive result; Spiritism (Kardec) vs Spiritualism (Fox) kept distinct.
 
