@@ -1,0 +1,348 @@
+id: ch11-extraordinary
+title: "Guided proof: Extraordinary Claims and Bayes"
+kind: guided
+proof: true
+own: |
+  The setting: a laboratory reports a result $E$ (for example, "volunteers guessed hidden cards above chance, with $p<0.01$") in support of an extraordinary claim $H$ (for example, "mind-reading exists"). Write $\neg H$ for the rival, "$H$ is false and the result came from chance, error, p-hacking or fraud". The question is how strongly $E$ should move a reader who starts with a tiny prior $P(H)$. The argument has three premises about probabilities and one conclusion.
+  - **P1, the prior.** Before the result, the claim has prior odds
+  {{ $$\frac{P(H)}{P(\neg H)}$$ }}
+  which is tiny for an extraordinary claim. Laplace (1814) and Sagan ("extraordinary claims require extraordinary evidence") say the evidence must be proportioned to the strangeness; defenders reply that the prior is contestable and comes from a worldview.
+  - **P2, the evidence.** $P(E\mid H)$ is the chance of the reported result if the claim is true (the power of the study).
+  - **P3, the rival.** $\varepsilon=P(E\mid\neg H)$ is the chance of the same reported result when the claim is false (a fluke at level $\alpha$, hidden analyses, error, fraud). It is the weak point of most reports.
+  - **C, the odds rule.** Bayes' rule in odds form gives
+  {{ $$\frac{P(H\mid E)}{P(\neg H\mid E)}=\frac{P(E\mid H)}{\varepsilon}\cdot\frac{P(H)}{P(\neg H)}$$ }}
+  A small $p$-value is not $P(H\mid E)$: with prior odds $10^{-6}$, power $0.5$ and $\varepsilon=0.01$, the posterior odds are only $5\times10^{-5}$.
+  - **Replications.** $n$ independent, clean replications multiply the likelihood ratio, so the posterior odds grow as
+  {{ $$\left(\frac{P(E\mid H)}{\varepsilon}\right)^{n}\cdot\frac{P(H)}{P(\neg H)}$$ }}
+  With $P(E\mid H)/\varepsilon=50$ and prior odds $10^{-6}$, even odds need $n=4$. If instead a design flaw (present with probability $c$) makes every run succeed whatever the truth, the likelihood ratio stops near $1/c$ however many runs are added.
+  - **Valid is not sound.** The odds rule follows from the premises (validity); whether P1 and P3 are true is the dispute, and it is where thoughtful people part ways.
+cards:
+  - type: mcq
+    id: hook
+    title: "Guess: believe the lab?"
+    prompt: |
+      A laboratory reports that volunteers guessed which card another person was looking at, above chance, with $p<0.01$. The authors claim this shows mind-reading. Before any formula, guess: how should a careful reader react?
+    options:
+      - text: 'It is hard to say without knowing how likely such a claim was beforehand, and how often a result like this appears when there is no mind-reading (a fluke, hidden analyses, an error). It could still be quite unlikely to be true.'
+        correct: true
+        feedback: |
+          Yes. A result is weighed against what it would look like if the claim were false, and against how plausible the claim was to begin with. Both are missing from "$p<0.01$".
+      - text: 'It is about $99\%$ likely that mind-reading is real, since $p<0.01$ means a $1\%$ chance of being wrong.'
+        feedback: |
+          This reads the $p$-value as the probability that the claim is false. A $p$-value is the chance of a result this strong if there were only chance, not the chance that the claim is true.
+      - text: 'It is certainly false, because mind-reading is impossible.'
+        feedback: |
+          A careful reader does not skip the evidence. A tiny prior is not zero, and the question of this lesson is exactly how much evidence could outweigh it.
+    explanation: |
+      The lesson turns this hunch into a short argument with numbered premises, using Bayes' rule in odds form.
+
+  - type: text
+    id: recall
+    title: "Recall: the odds form and the 9%"
+    body: |
+      Recall: for a claim $H$ and its rival $\neg H$ ("the claim is false"), and a piece of evidence $E$, Bayes' rule in odds form says
+
+      $$\text{posterior odds}=\text{LR}\times\text{prior odds}$$
+
+      where the **likelihood ratio** is $\text{LR}=P(E\mid H)/P(E\mid\neg H)$ and the odds of $H$ are $P(H)/P(\neg H)$, about $P(H)$ when $P(H)$ is small.
+
+      Recall also the lesson Parapsychology and the Replication Problem: in a field where $10$ of $1000$ tested hypotheses are true, tests have power $0.5$ (a true effect is detected half the time) and use the level $\alpha=0.05$ (a false one passes $5\%$ of the time), a significant result is true only about $9\%$ of the time:
+
+      $$\frac{10\times0.5}{10\times0.5+990\times0.05}=\frac{5}{54.5}\approx9\%$$
+
+      That share is a posterior probability. This lesson asks where its ingredients come from, and what repeated trials can and cannot do.
+
+  - type: text
+    id: argument
+    title: "The argument, with numbered premises"
+    body: |
+      Let $H$ be the extraordinary claim (here: some people can read minds under test conditions), $\neg H$ its rival (the result is a fluke, an error, p-hacking or fraud), and $E$ the reported result (a significant outcome in the lab's study).
+
+      **P1 (the prior).** Before the result, the odds of $H$ are small.
+
+      **P2 (the evidence).** If $H$ were true, the study would produce $E$ with probability $P(E\mid H)$.
+
+      **P3 (the rival).** If $H$ were false, the study would still produce $E$ with probability $\varepsilon=P(E\mid\neg H)$.
+
+      **C (the verdict).** The posterior odds of $H$ equal $\dfrac{P(E\mid H)}{\varepsilon}$ times the prior odds.
+
+      Two jobs follow. Show that C follows from P1 to P3 (validity), then ask which premise a critic can reject (soundness).
+
+  - type: text
+    id: prior-history
+    title: "P1: why a prior at all?"
+    image:
+      src: img/laplace.webp
+      alt: "Painted portrait of Pierre-Simon Laplace by Johann Ernst Heinsius"
+      caption: "Pierre-Simon Laplace (1749-1827) argued, in his 1814 essay on probabilities, that the stranger a fact, the stronger the proof it needs."
+      credit: "Johann Ernst Heinsius, Public domain, via Wikimedia Commons"
+      link: "https://commons.wikimedia.org/wiki/File:Pierre-Simon_de_Laplace_by_Johann_Ernst_Heinsius_(1775).jpg"
+    body: |
+      The idea that strange claims need more evidence is old. **David Hume** (1711-1776), in *An Enquiry Concerning Human Understanding* (1748), section X, wrote: "A wise man, therefore, proportions his belief to the evidence." **Pierre-Simon Laplace** (1749-1827), in his *Essai philosophique sur les probabilités* (1814), argued in essence that the more extraordinary a fact is, the stronger the proofs it needs. The astronomer **Carl Sagan** (1934-1996) made the slogan famous ("extraordinary claims require extraordinary evidence") in *Broca's Brain* (1979) and the television series *Cosmos* (1980); the sociologist Marcello Truzzi had used a version with "proof" a few years earlier.
+
+      In odds language the slogan is P1: a claim that fits nothing else we know has tiny prior odds, so the likelihood ratio must be huge for the posterior odds to reach even. The slogan is a rule of thumb, a rough way to say that the prior multiplies the evidence.
+
+  - type: mcq
+    id: p1-critic
+    title: "P1: how does a defender reply?"
+    prompt: |
+      A critic of the lab says: "Mind-reading has a tiny prior, so no study could convince me." Which reply, from someone defending the study, is fair?
+    options:
+      - text: 'The prior is a premise and not a fact: it comes from a background view of the world, and people differ on it. The odds rule shows exactly how strong the evidence must be for each prior; it does not say which prior is right. The critic should also say what result would change their mind.'
+        correct: true
+        feedback: |
+          Yes. The argument is conditional on P1. A prior of exactly zero can never be raised by any evidence, so a critic who says "no study could convince me" is stating a commitment, not a calculation, and a small but non-zero prior can be raised.
+      - text: 'A prior should not be used at all; only the $p$-value matters.'
+        feedback: |
+          Without a prior, a $p$-value cannot say how likely the claim is. The 9% example in the recall shows how a significant result can still be mostly false when true effects are rare.
+      - text: 'The prior is fixed by physics, so there is nothing to discuss.'
+        feedback: |
+          Physics may justify a low prior, and many physicists hold one, but how low is a judgement, and defenders of the field argue for a larger one. It is part of the disagreement, not a settled number.
+    explanation: |
+      Sceptics point to the lack of any known mechanism and to the long record of failed or retracted claims in the field. Defenders reply that a missing mechanism is not evidence against an effect, and that a tiny prior should still be moved by strong enough evidence. Both agree on the form of the calculation.
+
+  - type: mcq
+    id: p2-critic
+    title: "P2: what is the evidence?"
+    prompt: |
+      The lab reports "$p<0.01$ in our guessing study". A critic says P2 hides a problem: the evidence $E$ is not just "a significant result exists" but "a significant result was reported". Which fact would make the critic's point strongest?
+    options:
+      - text: 'The lab ran many studies or many analyses and reported only the one that came out significant.'
+        correct: true
+        feedback: |
+          Yes. If only successes are reported, $E$ ("a significant result was reported") is likely whether or not the claim is true, so it says little. The evidence is whatever the process would show a reader, not just the best outcome.
+      - text: 'The study had a large sample.'
+        feedback: |
+          A large sample usually raises power, which helps $P(E\mid H)$. It does not by itself hide anything.
+      - text: 'The result was published in a journal.'
+        feedback: |
+          Publication is not the problem on its own. The problem is a filter that lets in significant results and keeps out the rest, which a journal can do but does not always.
+    explanation: |
+      The critic is rejecting a premise about what was observed. This is why pre-registration (writing the plan and the analysis before the data) matters: it makes $E$ mean what it says.
+
+  - type: numeric
+    id: p3-hidden
+    title: "P3: the rival's chance"
+    prompt: |
+      Suppose there is no mind-reading at all, but the lab tried $20$ independent analyses of its data, each at level $\alpha=0.05$ (each passes $5\%$ of the time by chance), and reports any one that is significant. What is the chance, **in percent**, that the lab has at least one significant result to report?
+    answer: 64
+    tolerance: 0.5
+    answerText: '64 (about 64%)'
+    wrong:
+      - value: 100
+        feedback: |
+          That multiplies $0.05$ by $20$ and treats it as certain. The chance of at least one hit is one minus the chance of twenty misses.
+      - value: 5
+        feedback: |
+          That is the chance for a single analysis. With twenty tries, many chances to hit.
+    hint: 'The chance of twenty misses is $0.95^{20}$.'
+    explanation: |
+      $1-0.95^{20}\approx0.64$. So here $\varepsilon=P(E\mid\neg H)\approx0.64$, not $0.05$. If the study also had power $0.5$ per analysis, $P(E\mid H)$ is at least $0.5$ and the likelihood ratio is close to $1$: the reported result would appear about as often with or without mind-reading. P3 is the weak point because $\varepsilon$ depends on what the lab did, not only on the stated $p$.
+
+  - type: numeric
+    id: odds-calc
+    title: "Posterior odds"
+    prompt: |
+      A pre-registered study (one analysis, fixed in advance) tests the mind-reading claim $H$. Take prior odds $10^{-6}$ (a toy number, not a measurement), $P(E\mid H)=0.5$ and $\varepsilon=P(E\mid\neg H)=0.01$. By the odds rule, the posterior odds are $x\times10^{-5}$. What is $x$?
+    answer: 5
+    tolerance: 0.05
+    answerText: '5'
+    wrong:
+      - value: 50
+        feedback: |
+          $50$ is the likelihood ratio $0.5/0.01$. The posterior odds are the ratio times the prior odds $10^{-6}$.
+      - value: 0.5
+        feedback: |
+          That drops the factor $1/\varepsilon$. The likelihood ratio is $P(E\mid H)/\varepsilon=50$, not $0.5$.
+    hint: 'LR $=0.5/0.01=50$; posterior odds $=50\times10^{-6}$.'
+    explanation: |
+      $50\times10^{-6}=5\times10^{-5}$, about one chance in twenty thousand ($0.005\%$). The result made the claim fifty times more likely than before, and it was still very unlikely, because it started a million times below even odds. "Significant at $p<0.01$" and "probably true" are far apart.
+
+  - type: widget
+    id: widget-prior-lr
+    title: "Move the prior and the evidence"
+    widget: odds-updater
+    config:
+      prior: 1.0e-6
+      lr: 50
+      presets:
+        - { label: "Study: LR 50", lr: 50 }
+        - { label: "Hidden tries: LR 1", lr: 1 }
+        - { label: "Strong: LR 1e6", lr: 1.0e6 }
+    body: |
+      The bar is on a log scale: the blue row is the prior, the orange row is what the evidence adds, the purple row is the posterior; the dashed line is even odds ($50\%$). Start with likelihood ratio $50$ and prior $10^{-6}$ (the pre-registered study). Drag the prior up to $10^{-3}$, then back, and push the likelihood ratio up. The readout is the same rule in numbers.
+    review: false
+
+  - type: mcq
+    id: lr-needed
+    title: "How strong must the evidence be?"
+    prompt: |
+      The prior odds of a claim are $10^{-6}$. About how large must the likelihood ratio be for the posterior odds to reach even ($1$)?
+    options:
+      - text: 'About $10^{6}$, the inverse of the prior odds.'
+        correct: true
+        feedback: |
+          Yes. Posterior odds $=\text{LR}\times10^{-6}=1$ needs $\text{LR}=10^{6}$. This is the Sagan standard in numbers: the evidence must be as strong as the claim is improbable.
+      - text: 'About $10^{-6}$, the same as the prior odds.'
+        feedback: |
+          A likelihood ratio below $1$ would lower the odds. The evidence must multiply the prior up by a factor of about a million.
+      - text: 'About $6$, since the exponent is $-6$.'
+        feedback: |
+          That reads the exponent as the ratio. The ratio is $10^{6}$, one million, not $6$.
+    explanation: |
+      One honest, pre-registered study with $\varepsilon=0.01$ gives only about $50$, so a single study cannot do it. That is why replication matters, which comes next.
+
+  - type: build
+    id: build-odds
+    title: "Build the odds rule"
+    prompt: |
+      Build the posterior odds of $H$ given $E$ (the claim $H$, its rival $\neg H$): likelihood ratio times prior odds.
+    prefix: '\text{post. odds}='
+    tiles: ['\dfrac{P(E\mid H)}{P(E\mid\neg H)}', '\dfrac{P(H)}{P(\neg H)}', '\dfrac{P(E\mid\neg H)}{P(E\mid H)}', '\dfrac{P(\neg H)}{P(H)}']
+    answers:
+      - ['\dfrac{P(E\mid H)}{P(E\mid\neg H)}', '\dfrac{P(H)}{P(\neg H)}']
+      - ['\dfrac{P(H)}{P(\neg H)}', '\dfrac{P(E\mid H)}{P(E\mid\neg H)}']
+    wrong:
+      - answer: ['\dfrac{P(E\mid\neg H)}{P(E\mid H)}', '\dfrac{P(H)}{P(\neg H)}']
+        feedback: |
+          This turns the likelihood ratio upside down. It would make evidence that fits $H$ lower the odds of $H$.
+      - answer: ['\dfrac{P(E\mid H)}{P(E\mid\neg H)}', '\dfrac{P(\neg H)}{P(H)}']
+        feedback: |
+          These are the odds *against* $H$, not for it. The two factors must both be odds in favour of $H$.
+    hint: 'Both factors are "for $H$ over against $H$".'
+    explanation: |
+      The first factor is how much better $H$ predicts $E$ than its rival does, the second is where we started. The conclusion C follows from P1 to P3 by this rule.
+
+  - type: mcq
+    id: validity
+    title: "Valid, but is it sound?"
+    prompt: |
+      Someone says: "The odds rule is just arithmetic, so the argument shows the lab's claim is almost certainly false." Which reply is correct?
+    options:
+      - text: 'The rule is valid: given the prior, $P(E\mid H)$ and $\varepsilon$, the posterior follows. Whether it shows the claim is false depends on whether those numbers are right, and a different prior or a different $\varepsilon$ gives a different answer.'
+        correct: true
+        feedback: |
+          Yes. Validity is about the step from premises to conclusion. The tiny result in the earlier card came from a toy prior of $10^{-6}$.
+      - text: 'A valid argument cannot be criticised.'
+        feedback: |
+          It can still have a doubtful premise. Validity does not make the premises true.
+      - text: 'Arithmetic that depends on a prior is invalid.'
+        feedback: |
+          A premise that is contested is a problem of soundness, not of validity. The rule follows correctly from whatever numbers are given.
+    explanation: |
+      The calculation tells each reader what follows from their own numbers. It cannot fix the numbers.
+
+  - type: text
+    id: replications
+    title: "Repeated trials"
+    body: |
+      One study gave a likelihood ratio of $50$. What if independent labs repeat it? Suppose each run is clean (fixed in advance, reported whatever its outcome), with $P(E\mid H)=0.5$ and $\varepsilon=0.01$. Independent evidence **multiplies** likelihood ratios, so after $n$ successful replications
+
+      $$\text{posterior odds}=\left(\frac{P(E\mid H)}{\varepsilon}\right)^{n}\cdot\text{prior odds}.$$
+
+      The multiplication needs two conditions. The runs must be *independent* (a fluke in one does not cause a fluke in the next) and *unbiased* (no common error pushes every run the same way).
+
+  - type: numeric
+    id: n-clean
+    title: "How many clean replications?"
+    prompt: |
+      Prior odds $10^{-6}$. Each clean, independent replication has $P(E\mid H)=0.5$ and $\varepsilon=0.01$, so a likelihood ratio of $50$. What is the smallest number of successful replications that makes the posterior odds at least even?
+    answer: 4
+    tolerance: 0.01
+    answerText: '4'
+    wrong:
+      - value: 3
+        feedback: |
+          Three replications give $50^{3}=125\,000$, and odds $0.125$, about $11\%$. That is not yet even.
+      - value: 6
+        feedback: |
+          That takes the exponent of the prior as the number of runs. Each run multiplies by $50$, not by $10$.
+    hint: 'Solve $50^{n}\times10^{-6}\ge1$, so $n\ge\ln(10^{6})/\ln 50$.'
+    explanation: |
+      $\ln(10^{6})/\ln 50\approx3.53$, so $n=4$: $50^{4}=6.25\times10^{6}$ gives odds $6.25$, about $86\%$. The number of replications needed grows with the logarithm of the improbability, which is why a small prior is not a wall.
+
+  - type: numeric
+    id: common-cause
+    title: "When one error repeats"
+    prompt: |
+      Now suppose that with probability $c=10^{-3}$ the experimental design has a flaw (say, the sender can be heard by the guesser) that makes every run succeed half the time **whether or not mind-reading exists**. Otherwise a run behaves as before. With $n=4$ successful runs, $P(E\mid H)$ is $0.5^{4}$ and the chance of the same four successes without mind-reading is $c\times0.5^{4}+(1-c)\times0.01^{4}$. What is the likelihood ratio for the four runs together?
+    answer: 1000
+    tolerance: 5
+    answerText: '1000 (about 999.8)'
+    wrong:
+      - value: 6250000
+        feedback: |
+          That is $50^{4}$, the likelihood ratio when the four runs are independent and clean. A shared flaw is a common cause: it can produce all four successes at once, so the runs do not multiply.
+    hint: 'The first term in the denominator, $c\times0.5^{4}$, dwarfs the second. The ratio is about $0.5^{4}/(c\times0.5^{4})=1/c$.'
+    explanation: |
+      The denominator is $6.25\times10^{-5}+10^{-8}$, so the likelihood ratio is about $999.8$, close to $1/c$. With prior odds $10^{-6}$ the posterior odds are $10^{-3}$, about $0.1\%$. Adding more runs changes almost nothing: with ten runs the ratio is still about $1000$. Replications that share a cause (the same equipment, analysis habit or leak) count as one. What can raise the ratio is a replication that removes the flaw: a different design, different people, different labs.
+
+  - type: mcq
+    id: trap-p
+    title: "Trap: small p is the posterior"
+    prompt: |
+      A study reports $p=0.003$ for a claim. A reader says: "So the chance the claim is false is $0.3\%$." Which reply is correct?
+    options:
+      - text: 'The $p$-value is $P(\text{result this strong}\mid\text{no effect})$. The chance that the claim is false is $P(\neg H\mid E)$, which also needs the prior and $P(E\mid H)$. With a tiny prior it can be large even for a small $p$.'
+        correct: true
+        feedback: |
+          Yes. The two conditionals are not the same: reversing "given" needs Bayes' rule and a prior. In the recall, a significant result was false about $91\%$ of the time.
+      - text: 'The reader is right: $p$ is the probability of being wrong.'
+        feedback: |
+          That reverses the conditional. $p$ assumes there is no effect and asks about the data, whereas the reader asks about the claim given the data.
+      - text: 'The reader is wrong only if the sample is small.'
+        feedback: |
+          Sample size affects power and the size of $p$, but the reversal of the conditional is wrong at any sample size.
+    explanation: |
+      Reading $P(E\mid\neg H)$ as $P(\neg H\mid E)$ is a classic slip (the transposed conditional): the odds rule is the repair.
+
+  - type: mcq
+    id: trap-fraud
+    title: "Trap: fraud is the answer"
+    prompt: |
+      A critic says: "The prior for fraud or error in this field is high, so this result proves fraud." Which reply is correct?
+    options:
+      - text: 'A high prior for the rival raises the posterior odds of the rival, but it does not reach certainty. Each rival (fluke, error, p-hacking, fraud) needs its own $P(E\mid\text{rival})$, and which one explains the result is a further question that needs evidence.'
+        correct: true
+        feedback: |
+          Yes. "More likely than the claim" is not "proved". The same odds rule applies to the rival, and to each member of it separately; calling a particular lab dishonest needs evidence about that lab.
+      - text: 'Yes: if the prior for fraud is high, fraud is proved.'
+        feedback: |
+          A prior is a starting point, not a conclusion. Even a high prior only gives odds, and the evidence for a specific fraud has to come from the case.
+      - text: 'No: fraud can never be more likely than a real effect.'
+        feedback: |
+          It can be, when the claim is extraordinary. The point is that likelier is not the same as proved, and that the rival is usually error, not fraud.
+    explanation: |
+      Both mistakes use the odds rule badly: one forgets the prior, the other treats the prior as the verdict. The rival is mostly honest error, not misconduct, and the course never accuses a person without evidence.
+
+  - type: text
+    id: parting
+    title: "Where thoughtful people part ways"
+    body: |
+      Three layers, as in earlier lessons. **Established:** Bayes' rule in odds form is a theorem; independent clean runs multiply the likelihood ratio; runs that share a cause do not; a $p$-value is not the probability that the claim is true; hidden analyses raise the rival's chance. **Live debate:** how to set priors (Laplace and Sagan stress proportion; critics note that "extraordinary" is hard to define), and how far Bayesian reanalyses such as Wagenmakers, Wetzels, Borsboom and van der Maas (2011) of Bem's precognition studies, which found the evidence weak or nonexistent, depend on the prior chosen. Bem and colleagues answered that the prior used was unfavourable to his data.
+
+      **Worldview:** the prior of P1, and the weight given to the rival in P3. A person who holds that nature is closed starts near zero and needs near-perfect designs; a person open to the claim starts higher and finds the same replications more persuasive. Each can follow the other's arithmetic; they differ on the prior and on how likely errors are in the field. A fair statement for each side: the sceptic cannot use the prior alone to say that no evidence could count, and the defender cannot use a $p$-value alone to say that the claim is probably true.
+
+  - type: mcq
+    id: sides
+    title: "Which premise does each side press?"
+    prompt: |
+      (1) A reviewer says: "Your lab ran many analyses and reported the best, so the chance of the result without mind-reading is far above $0.01$." (2) A defender says: "Your prior of $10^{-9}$ for the claim already assumes it is false." Which pair is right?
+    options:
+      - text: '(1) presses P3 (the rival''s chance $\varepsilon$); (2) presses P1 (the prior).'
+        correct: true
+        feedback: |
+          Yes. One side attacks the denominator of the likelihood ratio, the other the starting odds. Neither disputes the odds rule.
+      - text: '(1) presses P1; (2) presses P2.'
+        feedback: |
+          P2 is the chance of the result if the claim is true. The reviewer's point is about the chance without the claim (P3), and the defender is questioning the starting odds (P1).
+      - text: 'Both press the odds rule itself.'
+        feedback: |
+          The rule is a theorem of probability and neither of them disputes it.
+    explanation: |
+      Every dispute about an extraordinary claim can be located this way: in the prior, in the chance of the result if true, or in the chance of the result if false.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** *Traps*. Fast questions on the slips of this level: reading $p$ as a posterior, trusting repeated runs that share a cause, treating a state of mind as proof of a source, and moving from "unexplained" to "explained by X".

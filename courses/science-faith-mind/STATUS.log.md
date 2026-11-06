@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-05 ch11-extraordinary (20 cards, guided proof, widget odds-updater once)
+Built: hook, recall of odds form and 9% PPV, premises P1-P3 and C, P1 history (Hume, Laplace, Sagan) with defender reply, P2 evidence as reported, P3 hidden analyses (64%), posterior odds, odds-updater, LR needed, build, validity, replications, n=4, common-cause cap, two traps, parting, sides, summary. Images added: laplace (reused from ch02, PD) on the P1 history card; none new (no free image needed for Hume/Sagan; Sagan skipped as he is a slogan source only). Choices: toy numbers P(E|H)=0.5, eps=0.01, prior odds 1e-6; quotation only Hume (verified Gutenberg); Laplace paraphrased (primary text not read); Sagan attribution phrased as popularised (Truzzi earlier). Screenshot not viewed (reused image, 0 problems). Conventions fixed here: H claim, not-H rival, eps = P(E|not H); LR 50, n=4 clean replications, common-cause flaw c=1e-3 caps LR near 1000.
+
 ## 2026-11-05 ch11-parapsychology (22 cards, concept, no widget)
 Built: hook (20 labs, 64%), Zener cards, p-value, ganzfeld, Bem 2011 and critique, power, p-hacking, file drawer, PPV, OSC 2015, Transparent Psi Project, order card. Images added: zener (Zener cards, PD), bem (Daryl Bem, CC BY-SA 3.0); Rhine/Pearce photo refused by tool (PD-US-no notice). Choices: avoided Bem trial counts and Kekecs lab counts (unconfirmed); Bem as spark of crisis softened. Conventions fixed here: Zener 25 cards chance 5; ganzfeld chance 25%; z=1.62 (n=100, 32% vs 25%); 15% power for 53% vs 50% at n=100; n about 1,720 for 80% power; 1-0.95^20=64%; PPV 9% (10 of 1000 true, power .5, alpha .05); OSC 97 originals, ~36% replicated, half effect.
 
