@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-05 ch11-map (13 cards, 11 boxes, no images, no widget)
+Built: intro, 11 box cards (states, sleep, hypnosis, meditation, psychedelics, nde, mediumship, parapsychology, odds, replication, layers) with 2 decoys each, finished map. Grid: states row 1 col 2; sleep, hypnosis, meditation row 2; nde, mediumship, psychedelics row 3; parapsychology row 4 col 2; odds col 1 and replication col 3 row 5; layers row 6 col 2. Dashed arrows nde to odds (likelihood ratio) and psychedelics to replication (blinding). Boxes checked against each lesson's own: block; no new external facts. Phone overflow of long \text lines fixed with gathered/aligned. Conventions fixed here: map box order and wording follow the level's lessons; nothing new.
+
 ## 2026-11-05 ch11-intuition (16 cards, no images, no widget)
 Built: welcome, mnemonics (state/content, REM vs dream, eye signal, three layers), builds (d, rate k/n, odds form), scaling and limit checks (SE 1/sqrt n, d=0/large d, zero prior and LR near 1), numeric cards without formulas (20 analyses 64, toy update 16.7%, shared-flaw replications 100), order card (blinded medium test), summary with formulas (no own:, as ch10). Choices: no widget (odds-updater would give the posterior away); no images (recall round); no new external facts. Conventions fixed here: toy update prior 1:200, LR 40, 16.7%; shared flaw c=0.01 caps LR near 100.
 
