@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-05 ch11-traps (21 cards, 19 traps, no images, no widget)
+Built: welcome, 19 trap cards (state vs impairment, REM vs dreaming, eye signals, d 0.3, expert selection, unblinding, mystical source, NDE count vs rate, OBE memory, medium hit rate, cryptomnesia, PPV 9.2 numeric, shared-cause replications, 20 analyses 64.2 numeric, prior for fraud, null LR 0.96 numeric, unexplained vs explained, zero prior, sort claims multi-select), summary. Choices: no new external facts (all reused from earlier Level 11 lines); no widget (odds-updater would give answers away); no images. Conventions fixed here: PPV example 10/1000 true, power .5, alpha .05 gives 9.2%; 1-0.95^20 = 64.2%; null LR example 0.95/0.99 = 0.96; fraud prior odds 9 with LR 1/5 gives 1.8 (64% fraud).
+
 ## 2026-11-05 ch11-extraordinary (20 cards, guided proof, widget odds-updater once)
 Built: hook, recall of odds form and 9% PPV, premises P1-P3 and C, P1 history (Hume, Laplace, Sagan) with defender reply, P2 evidence as reported, P3 hidden analyses (64%), posterior odds, odds-updater, LR needed, build, validity, replications, n=4, common-cause cap, two traps, parting, sides, summary. Images added: laplace (reused from ch02, PD) on the P1 history card; none new (no free image needed for Hume/Sagan; Sagan skipped as he is a slogan source only). Choices: toy numbers P(E|H)=0.5, eps=0.01, prior odds 1e-6; quotation only Hume (verified Gutenberg); Laplace paraphrased (primary text not read); Sagan attribution phrased as popularised (Truzzi earlier). Screenshot not viewed (reused image, 0 problems). Conventions fixed here: H claim, not-H rival, eps = P(E|not H); LR 50, n=4 clean replications, common-cause flaw c=1e-3 caps LR near 1000.
 
