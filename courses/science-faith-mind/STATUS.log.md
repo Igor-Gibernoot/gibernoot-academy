@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-05 ch11-intuition (16 cards, no images, no widget)
+Built: welcome, mnemonics (state/content, REM vs dream, eye signal, three layers), builds (d, rate k/n, odds form), scaling and limit checks (SE 1/sqrt n, d=0/large d, zero prior and LR near 1), numeric cards without formulas (20 analyses 64, toy update 16.7%, shared-flaw replications 100), order card (blinded medium test), summary with formulas (no own:, as ch10). Choices: no widget (odds-updater would give the posterior away); no images (recall round); no new external facts. Conventions fixed here: toy update prior 1:200, LR 40, 16.7%; shared flaw c=0.01 caps LR near 100.
+
 ## 2026-11-05 ch11-traps (21 cards, 19 traps, no images, no widget)
 Built: welcome, 19 trap cards (state vs impairment, REM vs dreaming, eye signals, d 0.3, expert selection, unblinding, mystical source, NDE count vs rate, OBE memory, medium hit rate, cryptomnesia, PPV 9.2 numeric, shared-cause replications, 20 analyses 64.2 numeric, prior for fraud, null LR 0.96 numeric, unexplained vs explained, zero prior, sort claims multi-select), summary. Choices: no new external facts (all reused from earlier Level 11 lines); no widget (odds-updater would give answers away); no images. Conventions fixed here: PPV example 10/1000 true, power .5, alpha .05 gives 9.2%; 1-0.95^20 = 64.2%; null LR example 0.95/0.99 = 0.96; fraud prior odds 9 with LR 1/5 gives 1.8 (64% fraud).
 
