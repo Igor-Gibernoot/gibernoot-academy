@@ -1,0 +1,432 @@
+id: ch11-challenge
+title: "Level Challenge: Weigh the Claim (1)"
+kind: challenge
+
+cards:
+  - type: text
+    id: welcome
+    title: "Challenge, part 1: three claims, one toolkit"
+    body: |
+      Each problem hands you a claim about an unusual experience, in the style of the level, and asks how much of it deserves belief. The cases and all their numbers are invented to practise the method. The problems are independent, so the toolkit is restated here.
+
+      - **Four verdicts.** A claim is *established* when repeated, well-controlled data support it; *plausible* when it fits what is known and could be tested but has not been; *disputed* when serious people read the same data differently; *unsupported* when the evidence offered does not bear on it. A fifth kind of sentence is not a verdict at all: a *metaphysical commitment* that no study of this kind could settle.
+      - **Effect size.** For two groups, $d$ is the difference of the means in units of the spread of the scores. Cohen's rough benchmarks are $0.2$ small, $0.5$ medium, $0.8$ large. With $n$ people per group,
+      $$\text{SE}(d)\approx\sqrt{\frac{2}{n}+\frac{d^{2}}{4n}}$$
+      and a 95% interval is about $d\pm1.96\,\text{SE}$. In a meta-analysis of 47 randomized trials of meditation programs, Goyal and colleagues (2014) found $d=0.38$ for anxiety at 8 weeks, and no evidence that the programs beat active treatments.
+      - **Rates.** Of $n$ people interviewed, $k$ give a report: the rate is $k/n$, and it depends on whom you count in $n$. The Greyson scale scores 16 features of a near-death experience from 0 to 2 each, so $0\le S\le32$, and $S\ge7$ counts as one.
+      - **Chance and z.** With chance rate $p_0$ and observed rate $\hat p$ over $n$ trials,
+      $$z=\frac{\hat p-p_0}{\sqrt{p_0(1-p_0)/n}}$$
+      In a ganzfeld test the target is one of four pictures, so $p_0=25\%$.
+      - **Many chances.** If $k$ tests are each run at level $\alpha$ and nothing is real, the chance of at least one false positive is $1-(1-\alpha)^{k}$. In the Open Science Collaboration (2015), 97 original psychology results were significant and about 36% of the replications were.
+      - **Odds rule.** With $H$ the claim, $E$ the reported result and $\varepsilon=P(E\mid\neg H)$,
+      $$\text{posterior odds}=\frac{P(E\mid H)}{\varepsilon}\times\text{prior odds}$$
+      and $n$ independent clean replications multiply the likelihood ratio $n$ times.
+      - **Three layers:** established fact, live debate, faith or metaphysical commitment.
+
+      Three problems here. Problems 4 and 5 come in part 2.
+
+  # ---------------- Problem 1 ----------------
+  - type: text
+    id: p1-setup
+    title: "Problem 1 · The calm program"
+    body: |
+      **Problem 1.** A company sells *Stillwater*, an eight-week meditation program, and advertises: "Proven to cut anxiety. Brain scans show it rebuilds the mind." You find the data behind the advertisement.
+
+      Trial A compares $50$ people on Stillwater with $50$ on a waiting list, and reports a drop in an anxiety score of $d=0.45$ in favour of Stillwater. Trial B compares $50$ people on Stillwater with $50$ taught a relaxation routine of the same length and with the same attention from a teacher, and reports $d=0.10$. The brain scans compare $12$ people who have meditated for over ten years with $12$ people who never have; the first group shows a thicker patch of cortex.
+
+      Your task: weigh each part of the slogan.
+
+  - type: numeric
+    id: p1-se
+    title: "How uncertain is Trial A?"
+    prompt: |
+      Trial A has $n=50$ people per group and an effect size $d=0.45$. The uncertainty of an effect size is
+      $$\text{SE}(d)\approx\sqrt{\frac{2}{n}+\frac{d^{2}}{4n}}$$
+      Compute $\text{SE}(d)$ for Trial A, to two decimals.
+    answer: 0.2
+    tolerance: 0.005
+    answerText: '0.20'
+    hint: |
+      $2/50=0.04$ and $d^2/(4n)=0.2025/200\approx0.001$. Add them, then take the square root.
+    wrong:
+      - { value: 0.041, feedback: "That is the quantity under the square root. The standard error is its square root." }
+    explanation: |
+      Under the root we have $0.04+0.0010\approx0.0410$, and $\sqrt{0.0410}\approx0.20$. A 95% interval is then about $0.45\pm1.96\times0.20$, which runs from about $0.05$ to $0.85$.
+
+  - type: mcq
+    id: p1-interval
+    title: "What does the interval say?"
+    prompt: |
+      Trial A gives $d=0.45$ with a 95% interval from about $0.05$ to $0.85$, and Trial B gives $d=0.10$ with an interval from about $-0.29$ to $0.49$. Which reading is fair?
+    options:
+      - text: 'Trial A is consistent with a real effect ranging from tiny to large; Trial B is consistent with no effect and with a moderate one. Neither is precise, so one trial of this size settles little.'
+        correct: true
+      - text: 'Trial A proves an effect of $0.45$, and Trial B proves there is no effect.'
+        feedback: |
+          An interval is a range of effects the data cannot rule out. Trial B includes $0$, but it also includes $0.49$, so it does not prove absence.
+      - text: 'Trial B shows Stillwater is worse than relaxation, since $0.10$ is smaller than $0.45$.'
+        feedback: |
+          The two trials compare different things (waiting versus a relaxation routine), so their numbers are not rivals. Each is a separate measurement with its own uncertainty.
+    explanation: |
+      Small trials give wide intervals. That is why pooled results of many trials, such as the meta-analysis in the toolkit, carry more weight than any single trial.
+
+  - type: mcq
+    id: p1-controls
+    title: "Why does the control group matter?"
+    prompt: |
+      Trial A uses a waiting list and Trial B uses a relaxation routine with a teacher. Both report Stillwater doing better, but Trial B by far less. What is the best explanation of why the numbers differ?
+    options:
+      - text: 'Part of what a waiting list leaves out is not meditation itself but attention, a plan, a teacher and the expectation of getting better. A relaxation routine supplies those too, so only what is specific to Stillwater is left in the difference.'
+        correct: true
+      - text: 'Relaxation training is a stronger treatment than meditation, so it hid a real advantage.'
+        feedback: |
+          A fall in the difference does not show the control is "stronger". It shows that some of the first gap came from things both groups now share.
+      - text: 'Waiting-list trials cannot be believed, so Trial A should be thrown out.'
+        feedback: |
+          Trial A is informative: it shows people feel better after a program, which is real. It just cannot say whether the meditation did the work.
+    explanation: |
+      A comparison with a waiting list answers "is the whole package better than nothing?". A comparison with an active control answers "is this practice better than another reasonable practice?". The advertisement says "proven" on the first, while the question a sceptic cares about is the second.
+
+  - type: mcq
+    id: p1-scan
+    title: "What do the brain scans show?"
+    multiple: true
+    prompt: |
+      The scan study compares $12$ people who have meditated for over ten years with $12$ people who never have, and the first group has a thicker patch of cortex. Select **all** the fair points.
+    options:
+      - text: 'People who stick with meditation for ten years may differ from the rest in the first place, so the scan may show who becomes a long-term meditator and not what meditation does.'
+        correct: true
+        feedback: |
+          Yes. This is selection, and only scans before and after training, with random assignment, could separate it from an effect of practice.
+      - text: 'With $12$ per group, the difference could easily be a chance finding, so it needs to be replicated.'
+        correct: true
+        feedback: |
+          Yes. Small groups give wide uncertainty, as with the effect sizes above.
+      - text: 'A thicker patch of cortex shows how the meditation changed the person, since the brain is the cause of the mind.'
+        feedback: |
+          A difference between two groups does not tell its direction. Even if practice did thicken the patch, that would show a link between practice and the brain, not what the experience is.
+      - text: 'The scans prove nothing can be learned from brain differences between groups.'
+        feedback: |
+          Overstated. Group differences are useful as leads; they just cannot alone settle cause.
+    explanation: |
+      "Rebuilds the mind" claims cause, and a one-time comparison of two small groups can show only an association. The fair reading is: a lead worth a trial that scans the same people before and after.
+
+  - type: order
+    id: p1-ladder
+    title: "Rank the designs"
+    prompt: |
+      Put these ways of studying "does Stillwater reduce anxiety?" in order, from the weakest to the strongest evidence for the effect of the program itself.
+    steps:
+      - 'Testimonials from satisfied customers.'
+      - 'Scans of ten-year meditators compared with non-meditators.'
+      - 'People randomly assigned to Stillwater or to a waiting list.'
+      - 'People randomly assigned to Stillwater or to a relaxation routine with equal teacher attention, with the analysis fixed in advance.'
+    hint: |
+      Ask each time: what else could explain the difference? The fewer rivals, the stronger.
+    explanation: |
+      Testimonials hide who left and who was never asked. A group comparison without random assignment has selection. Random assignment removes selection but not expectation. An active control with a fixed analysis also removes most of the expectation and the freedom to pick a favourable result.
+
+  - type: mcq
+    id: p1-verdicts
+    title: "Four verdicts for four sentences"
+    prompt: |
+      Give each sentence the verdict that fits the evidence in this problem and in the toolkit. (a) Programs like Stillwater lower anxiety scores a little more than a waiting list does. (b) Stillwater lowers anxiety more than relaxation training does. (c) Years of practice thicken a patch of cortex. (d) The effect works by reducing mind-wandering.
+    options:
+      - text: '(a) established at a modest size; (b) unsupported so far, since the pooled comparisons with active treatments found no evidence of an advantage; (c) disputed, since selection and training both fit; (d) plausible, a mechanism that fits what is known and could be tested.'
+        correct: true
+      - text: '(a) disputed; (b) established; (c) established; (d) unsupported.'
+        feedback: |
+          The ranking is upside down. The waiting-list result is the best supported part, and the comparison with active treatments is where the evidence runs out.
+      - text: '(a) established; (b) established, since Stillwater is a program with a teacher; (c) plausible; (d) established.'
+        feedback: |
+          Having a teacher is exactly what a relaxation control also has, so it cannot help (b). And a mechanism such as reduced mind-wandering has been proposed, not shown in this trial.
+    explanation: |
+      Verdicts apply sentence by sentence, not to the product. The slogan mixes an established modest result, an unsupported comparison and a disputed brain claim. A fair summary: "some benefit, about as much as other reasonable programs, causes still being worked out."
+
+  # ---------------- Problem 2 ----------------
+  - type: text
+    id: p2-setup
+    title: "Problem 2 · The ward study"
+    body: |
+      **Problem 2.** The Riverside Hospital study followed $360$ cardiac arrests in one year (the heart stops pumping). $54$ patients survived, $40$ of them could be interviewed within a week, and $10$ of those $40$ described a vivid experience of dying: peace, a sense of leaving the body, a light. The team scored each account on the Greyson scale.
+
+      To test whether people really see from above, the hospital had put a picture on a high shelf, facing the ceiling, in some resuscitation rooms. Of the $10$ who described an experience, $4$ had arrested in a room with a picture. None named it.
+
+      Your task: read the numbers fairly and say what the picture test can and cannot show.
+
+  - type: numeric
+    id: p2-score
+    title: "Does the account count?"
+    prompt: |
+      The Greyson scale has $16$ items, each scored $0$, $1$ or $2$. A survivor's answers are: four items scored $2$, three items scored $1$, and the other nine scored $0$. What is the total score $S$? (An experience counts as a near-death experience when $S\ge7$.)
+    answer: 11
+    tolerance: 0
+    hint: |
+      Four times $2$, plus three times $1$.
+    explanation: |
+      $4\times2+3\times1=11$, so $S\ge7$ and the account counts. The score classifies an account by its features. It does not say what caused them.
+
+  - type: mcq
+    id: p2-denominator
+    title: "A rate: out of whom?"
+    prompt: |
+      Ten survivors described an experience. The hospital's press release says: "$25\%$ of patients who have a cardiac arrest have a near-death experience." Which statement of the data is right?
+    options:
+      - text: 'It is $10$ of the $40$ survivors interviewed ($25\%$). Of all $360$ arrests it is $10/360\approx2.8\%$, and nothing is known about the many who died.'
+        correct: true
+      - text: 'It is $10$ of $54$ survivors, about $19\%$, and that is the share of arrest patients.'
+        feedback: |
+          Even the larger count leaves out the $306$ who did not survive, and the $14$ survivors not interviewed. It is a share of survivors, not of patients.
+      - text: 'The press release is right, since $10/40=25\%$.'
+        feedback: |
+          The arithmetic is right, but the denominator is survivors who could be interviewed, not "patients who have a cardiac arrest".
+    explanation: |
+      A rate is only as clear as its denominator. Here the people who could report are a selected few, and the interviewed group may differ from those who were too ill or confused to talk.
+
+  - type: numeric
+    id: p2-lr
+    title: "How much does the empty picture test weigh?"
+    prompt: |
+      Let $H_A$ be the reading "reporters really see from above" and $H_B$ the reading "the experience is produced by the brain and nothing is seen". Suppose that under $H_A$ each reporter who arrested in a room with a picture would name it with probability $0.3$ (they would have to look, remember and say), and under $H_B$ nobody can. Four reporters were in such rooms and none named the picture. Compute the likelihood ratio
+      $$\mathrm{LR}=\frac{P(E\mid H_A)}{P(E\mid H_B)}$$
+      to two decimals, where $E$ is "none of the four named it".
+    answer: 0.24
+    tolerance: 0.01
+    answerText: '0.24'
+    hint: |
+      Under $H_A$ each of the four misses with probability $0.7$, independently. Under $H_B$ a miss is certain.
+    explanation: |
+      $P(E\mid H_A)=0.7^{4}=0.2401$ and $P(E\mid H_B)=1$, so $\mathrm{LR}\approx0.24$. The result leans a little toward $H_B$, but a ratio near $1/4$ moves a reader very little: four cases cannot do much.
+
+  - type: numeric
+    id: p2-n
+    title: "How many cases could settle it?"
+    prompt: |
+      Keep the same assumptions: each reporter in a picture room names it with probability $0.3$ under $H_A$ and never under $H_B$. How many reporters in picture rooms, all missing, are needed before the likelihood ratio $0.7^{m}$ falls to $0.05$ or below?
+    answer: 9
+    tolerance: 0
+    hint: |
+      Find the smallest whole $m$ with $0.7^{m}\le0.05$. Try $m=8$ and $m=9$.
+    explanation: |
+      $0.7^{8}\approx0.058$ is still above $0.05$, and $0.7^{9}\approx0.040$ is below. So nine misses would be needed, and the ward had four testable cases. With most arrests happening outside picture rooms, such a test collects cases slowly, which is why a null result so far is weak evidence on either side.
+
+  - type: mcq
+    id: p2-hearing
+    title: "A patient describes the team's words"
+    prompt: |
+      A survivor, back on the ward, repeats a sentence the surgeon said during the resuscitation. A newspaper says this shows the mind left the body. Which is the best first reply?
+    options:
+      - text: 'Ask how the sentence could have been learned in an ordinary way: partial awareness during the event, hearing before or after, talk with staff, or reconstruction. Then compare how likely the report is under each reading.'
+        correct: true
+      - text: 'Dismiss it, because anything a person says after an arrest must be false.'
+        feedback: |
+          That is as unfair as the newspaper. The report may be accurate; the question is what explains it.
+      - text: 'Accept it, because a correct sentence cannot have come from anywhere else.'
+        feedback: |
+          "Cannot have come from anywhere else" is exactly what must be shown. Ordinary routes (and the person being only partly unconscious) are open until they are ruled out by design, for example by a hidden picture that no one could learn about later.
+    explanation: |
+      In the likelihood ratio, a report easily explained by ordinary means has $P(E\mid H_B)$ not small, so the ratio stays near $1$. The picture was a good design for exactly this reason: nobody could pick it up from conversation.
+
+  - type: mcq
+    id: p2-hit
+    title: "If someone did name the picture"
+    prompt: |
+      Suppose a later study finds a reporter who names a hidden picture correctly, in a controlled setup, with no ordinary route found. According to the two readings in the lesson, what would this show?
+    options:
+      - text: 'It would be strong evidence that information reached the person by a channel not yet understood. Whether that is a mind leaving the body, a mind reaching information at a distance (as in the super-psi reading), or a flaw not yet found is a further, disputed step.'
+        correct: true
+      - text: 'It would prove the mind survives death.'
+        feedback: |
+          A person who perceives something while the heart is stopped is alive, and the same result would also fit a living mind reaching information at a distance. Survival after death is a further claim.
+      - text: 'It would change nothing, since single cases do not count.'
+        feedback: |
+          A well-controlled hit is a very surprising event under the brain-only reading, so it would count heavily. It would need replication, but it would not be ignored.
+    explanation: |
+      A positive result would shift the odds strongly, since $P(E\mid H_B)$ would be tiny. It would not choose among the several readings that are not the brain-only one.
+
+  - type: mcq
+    id: p2-verdicts
+    title: "Four verdicts for four sentences"
+    prompt: |
+      Give each sentence its verdict. (a) After a cardiac arrest, some survivors report vivid experiences of dying. (b) The brain, disturbed by dying, can produce such experiences. (c) Reporters really perceive their surroundings from above. (d) The experience is evidence that the mind outlasts the brain.
+    options:
+      - text: '(a) established, as a report; (b) plausible to disputed (stimulating some brain areas produces body-leaving sensations, but whether the whole pattern is explained is debated); (c) unsupported so far, since the one test built for it had too few cases and no hit; (d) a metaphysical commitment, a premise a study of reports cannot settle.'
+        correct: true
+      - text: '(a) disputed; (b) established; (c) established; (d) plausible.'
+        feedback: |
+          That people report these experiences is not in dispute: it is the thing to be explained. And (c) has no test result in its favour.
+      - text: '(a) established; (b) unsupported; (c) plausible; (d) established.'
+        feedback: |
+          Brain-based accounts have some support (stimulation and sleep-intrusion findings), and (d) goes beyond any data in this problem.
+    explanation: |
+      The same experience feeds different layers. The report is a fact; the explanation is a live debate; what it means for the mind is a commitment.
+
+  # ---------------- Problem 3 ----------------
+  - type: text
+    id: p3-setup
+    title: "Problem 3 · The Halden lab"
+    body: |
+      **Problem 3.** The Halden Lab, an invented parapsychology group, runs a ganzfeld experiment: a sender looks at one of four pictures while a receiver, in a quiet, dimly lit room, tries to say which. The target is one of four, so chance is $25\%$. In $240$ trials the receivers pick the target $78$ times, a rate of $32.5\%$. The abstract says: "Significant evidence for telepathy ($p<0.01$)."
+
+      Later the lab admits that it had measured six different outcomes (the hit rate, the rank of the target, and four others) and reported the one that came out significant. Three other labs then repeat the study with $240$ trials each.
+
+      Your task: weigh the claim as it first appears, as it should be read after the admission, and after the repeats.
+
+  - type: numeric
+    id: p3-z
+    title: "How far above chance?"
+    prompt: |
+      In a test with chance rate $p_0=0.25$ over $n=240$ trials, the observed rate is $\hat p=0.325$. Compute
+      $$z=\frac{\hat p-p_0}{\sqrt{p_0(1-p_0)/n}}$$
+      to two decimals.
+    answer: 2.68
+    tolerance: 0.02
+    hint: |
+      The denominator is $\sqrt{0.25\times0.75/240}=\sqrt{0.00078125}\approx0.0280$. The numerator is $0.075$.
+    explanation: |
+      $z=0.075/0.0280\approx2.68$. The result lies about $2.7$ standard errors above chance, a one-sided $p$ of about $0.004$.
+
+  - type: mcq
+    id: p3-pvalue
+    title: "What does p < 0.01 mean?"
+    prompt: |
+      The abstract reads "significant evidence for telepathy ($p<0.01$)". Which is the right reading of the $p$-value?
+    options:
+      - text: 'If only chance were acting, a result at least this extreme would occur less than $1\%$ of the time. It is not the probability that telepathy exists.'
+        correct: true
+      - text: 'There is less than a $1\%$ chance that the result came from chance, so telepathy is more than $99\%$ likely.'
+        feedback: |
+          This swaps the direction. The $p$-value is $P(\text{result}\mid\text{chance})$, not $P(\text{chance}\mid\text{result})$. Getting the second needs a prior, as in the odds rule.
+      - text: 'It means the experiment was done correctly.'
+        feedback: |
+          A $p$-value is silent about design, selection of analyses and fraud; it assumes the test was run as planned.
+    explanation: |
+      Turning a small $p$ into the probability of the claim requires the prior odds and $P(E\mid\neg H)$. That is the rest of this problem.
+
+  - type: numeric
+    id: p3-eps
+    title: "What the admission does"
+    prompt: |
+      If six independent outcomes were each tested at the $1\%$ level and nothing is real, what is the chance that at least one comes out significant, so that the lab could report it? Give the answer as a number between $0$ and $1$, to three decimals.
+    answer: 0.059
+    tolerance: 0.002
+    answerText: '0.059'
+    hint: |
+      Use $1-(1-\alpha)^{k}$ with $\alpha=0.01$ and $k=6$.
+    explanation: |
+      $1-0.99^{6}\approx0.0585$. So the chance of the lab reporting a "significant at $1\%$" result when nothing is real is not $0.01$ but nearly $0.06$. This is the quantity $\varepsilon=P(E\mid\neg H)$ in the odds rule.
+
+  - type: numeric
+    id: p3-lr
+    title: "The likelihood ratio, honestly and as advertised"
+    prompt: |
+      Suppose that, if telepathy were real with the assumed strength, the lab would report a significant result with probability $P(E\mid H)=0.6$. Using $\varepsilon=0.0585$ (the lab's six outcomes) in the odds rule
+      $$\mathrm{LR}=\frac{P(E\mid H)}{\varepsilon}$$
+      what is the likelihood ratio? (If the lab had tested a single outcome, $\varepsilon$ would be $0.01$ and the ratio $60$.) Give it to the nearest whole number.
+    answer: 10
+    tolerance: 0.5
+    answerText: '10'
+    hint: |
+      Divide $0.6$ by $0.0585$.
+    explanation: |
+      $0.6/0.0585\approx10.3$. Reporting only the winner out of six outcomes cuts the strength of the evidence from $60$ to about $10$ without changing a single number in the abstract.
+
+  - type: widget
+    id: p3-widget
+    widget: odds-updater
+    config:
+      prior: 1.0e-3
+      lr: 10
+      lrSlider: false
+      presets:
+        - { label: "Open-minded prior 1e-3", prior: 1.0e-3 }
+        - { label: "Doubtful prior 1e-6", prior: 1.0e-6 }
+        - { label: "Very doubtful prior 1e-9", prior: 1.0e-9 }
+    body: |
+      The evidence is fixed at a likelihood ratio of about $10$. Click the three priors and watch the posterior odds and probability.
+
+  - type: numeric
+    id: p3-post
+    title: "The doubtful reader"
+    review: false
+    prompt: |
+      A reader's prior odds for telepathy are $10^{-6}$. The Halden result has a likelihood ratio of about $10$. What are the posterior odds, written as a power of ten? Give the exponent (for example, $-4$ for $10^{-4}$).
+    answer: -5
+    tolerance: 0
+    hint: |
+      Multiply: $10\times10^{-6}$.
+    explanation: |
+      $10\times10^{-6}=10^{-5}$, still one in a hundred thousand. A result with a likelihood ratio of $10$ moves a doubtful reader by one step on the scale, not toward belief.
+
+  - type: numeric
+    id: p3-rep
+    title: "How many clean replications?"
+    prompt: |
+      After the Halden report, the reader's odds are $10^{-6}\times10.25\approx1.0\times10^{-5}$. Each independent, pre-registered, clean replication that succeeds multiplies the odds by a likelihood ratio of $60$. How many such successes are needed to bring the odds to even (at least $1$)?
+    answer: 3
+    tolerance: 0
+    hint: |
+      Find the smallest $n$ with $1.0\times10^{-5}\times60^{n}\ge1$. Try $n=2$ and $n=3$.
+    explanation: |
+      $60^{2}=3600$ gives odds of about $0.037$, still far below even. $60^{3}=216000$ gives about $2.2$, past even. Three clean successes would be needed; this assumes they are independent and share no common flaw, which the lesson on extraordinary claims showed caps the ratio otherwise.
+
+  - type: numeric
+    id: p3-pooled
+    title: "What the repeats found"
+    prompt: |
+      Three other labs repeat the study with $240$ trials each, picking the target $62$, $65$ and $58$ times: $185$ hits in $720$ trials, a rate of $25.7\%$. With chance $p_0=0.25$ and $n=720$, compute $z=(\hat p-p_0)/\sqrt{p_0(1-p_0)/n}$ to two decimals.
+    answer: 0.43
+    tolerance: 0.02
+    hint: |
+      $\hat p=185/720\approx0.2569$. The denominator is $\sqrt{0.1875/720}\approx0.01614$.
+    explanation: |
+      $z\approx0.0069/0.01614\approx0.43$, well within chance. A first result at $z=2.68$ followed by repeats near chance is the pattern the replication project reported for many published results: about $36\%$ of the repeats came out significant, against $97$ original ones.
+
+  - type: mcq
+    id: p3-reading
+    title: "Two ways to read the pattern"
+    prompt: |
+      The first study found $32.5\%$ and three repeats found $25.7\%$ together. Which reading is fairest?
+    options:
+      - text: 'The first study most likely reflects the freedom to pick the outcome and chance; the repeats, with a fixed plan, are the better estimate. A defender may reply that the repeats had a different sample or setup, which is why a pre-agreed protocol shared by both camps is the real test.'
+        correct: true
+      - text: 'The repeats must be wrong, because telepathy is hard to reproduce on demand.'
+        feedback: |
+          A claim that can never be reproduced by fair tests cannot be told apart from no effect. The defender is entitled to ask for better tests, not to excuse every null.
+      - text: 'The first study is fraud, and the repeats prove telepathy is impossible.'
+        feedback: |
+          Neither follows. The admission shows flexible analysis, not fraud, and chance-level repeats show no effect was found, not that none could exist.
+    explanation: |
+      The repeats do not refute a metaphysical possibility. They remove the support that the first abstract claimed.
+
+  - type: mcq
+    id: p3-verdicts
+    title: "Four verdicts for four sentences"
+    prompt: |
+      Give each sentence its verdict. (a) The Halden receivers picked the target $32.5\%$ of the time in $240$ trials. (b) That result is evidence for telepathy. (c) With a fixed plan, three other labs found a hit rate near chance. (d) The mind can in principle reach beyond the senses.
+    options:
+      - text: '(a) established as a report of what the lab recorded; (b) unsupported, once the six outcomes and the repeats are counted (a likelihood ratio near $10$ from one study is weak); (c) established as a report, though a defender may dispute the setups; (d) a metaphysical commitment, which neither result can settle.'
+        correct: true
+      - text: '(a) disputed; (b) established; (c) unsupported; (d) established.'
+        feedback: |
+          The counts are what the lab recorded, so (a) is not disputed as a record. And (b) fails once the selection of outcomes is counted.
+      - text: '(a) established; (b) established; (c) disputed; (d) plausible.'
+        feedback: |
+          The evidence for (b) is the very thing the admission weakens, and (d) concerns what is possible in principle, which these data do not decide.
+    explanation: |
+      Even a null set of repeats leaves the in-principle possibility open as a commitment. The sound summary: this study gives little reason to believe, and the field's best remedy is fixed plans and shared data.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Weighing a program.** An effect size has an uncertainty,
+      $$\text{SE}(d)\approx\sqrt{\frac{2}{n}+\frac{d^{2}}{4n}}$$
+      and with $n=50$ per group $d=0.45$ gives $\text{SE}\approx0.20$, an interval from about $0.05$ to $0.85$. A waiting-list control answers "better than nothing"; an active control answers "better than another reasonable practice". Group differences in experts (selection) are leads, not causes.
+      - **Weighing a rate.** A rate $k/n$ is only as clear as its denominator: $10/40=25\%$ of interviewed survivors, $10/360\approx2.8\%$ of arrests. A score of $S\ge7$ on the Greyson scale classifies an account without explaining it. A hidden-target test with success probability $0.3$ per case has likelihood ratio $0.7^{m}$ after $m$ misses, so it takes $m=9$ to reach $0.05$.
+      - **Weighing a result.** $z=(\hat p-p_0)/\sqrt{p_0(1-p_0)/n}$ gave $2.68$ for $78$ hits in $240$ ganzfeld trials, and $1-0.99^{6}\approx0.059$ is the chance of a reportable fluke when six outcomes are tried. In the odds rule
+      $$\text{posterior odds}=\frac{P(E\mid H)}{\varepsilon}\times\text{prior odds}$$
+      that moves the ratio from $60$ to about $10$. A doubtful reader at $10^{-6}$ ends near $10^{-5}$, and needs three clean replications ($60^{3}$) to reach even odds. Repeats near chance ($z\approx0.43$) remove the support.
+      - **Method.** Give each sentence its own verdict: established, plausible, disputed or unsupported, and keep the metaphysical commitments apart, since no study of reports can settle them.
+
+      **Next:** part 2 weighs two further claims: an invented mediumship demonstration with a blinded test, and a psychedelic trial whose drug effect and expectation must be pulled apart, ending with a final weighing across the level.

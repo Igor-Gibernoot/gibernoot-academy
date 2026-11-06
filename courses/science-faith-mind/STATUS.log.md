@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-06 ch11-challenge part 1 (28 cards, problems 1-3, widget odds-updater once, images none: invented cases, no person or object introduced)
+Built: toolkit, P1 Stillwater program (SE(d), controls, scan selection, rank designs, four verdicts), P2 Riverside ward (Greyson score, denominators, hidden-picture LR, cases needed, four verdicts), P3 Halden ganzfeld lab (z, p-value, six outcomes, LR 10, odds-updater, replications, pooled z, four verdicts), summary (no own:). Registered file and planned node ch11-challenge-2. Web-checked Greyson, Goyal, Cohen, ganzfeld, OSC (VERIFIED.md). Choices: no own: (as Level 10); verdict set established/plausible/disputed/unsupported plus metaphysical commitment as a non-verdict.
+Conventions fixed here: verdict words established / plausible / disputed / unsupported (+ commitment); Stillwater n=50 d=0.45 SE 0.20; Riverside 360 arrests, 54 survivors, 40 interviewed, 10 reports (25%), 4 in picture rooms, p=0.3, LR 0.7^m; Halden 78/240, z 2.68, six outcomes epsilon 0.0585, LR about 10, repeats 185/720 z 0.43; 3 clean replications at LR 60 from prior 1e-6.
+
 ## 2026-11-05 ch11-map (13 cards, 11 boxes, no images, no widget)
 Built: intro, 11 box cards (states, sleep, hypnosis, meditation, psychedelics, nde, mediumship, parapsychology, odds, replication, layers) with 2 decoys each, finished map. Grid: states row 1 col 2; sleep, hypnosis, meditation row 2; nde, mediumship, psychedelics row 3; parapsychology row 4 col 2; odds col 1 and replication col 3 row 5; layers row 6 col 2. Dashed arrows nde to odds (likelihood ratio) and psychedelics to replication (blinding). Boxes checked against each lesson's own: block; no new external facts. Phone overflow of long \text lines fixed with gathered/aligned. Conventions fixed here: map box order and wording follow the level's lessons; nothing new.
 
