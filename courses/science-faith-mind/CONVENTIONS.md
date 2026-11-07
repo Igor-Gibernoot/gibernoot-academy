@@ -188,3 +188,6 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 - Intuition lesson (15 cards): extra toy numbers: signal c_C=3, c_F=11 -> largest whole b=10; odds prior 0.25 with LR 6 -> 2/3; alarm costs 198 and 2 -> p*=0.01.
 - Challenge part 2 (Hollin): survey 240/300 (80%) vs 150/300 (50%), fall 37.5%; ratio 0.9/0.6=1.5; priors 0.10 -> 1/6 odds -> 14.29%, 0.02 -> 3/98 -> 2.97%.
 - Challenge part 1 (Hollin): survey 180/200 vs 30/100 (ratio 3); signal c_C=3, c_F=14 (10 whole b), b=8 with c_F=6 fails; public goods n=5, e=20, m=2.5 free rider 60 vs 50; prior 0.3, LR 0.9/0.72=1.25 -> 0.35; p*=3/453=0.66%, p=3% -> 970/1000 false alarms.
+
+## Exam partial 2 (Levels 8-13)
+- Invented setting (Ardenne Summer School, shrine of Marl). Numbers: u=0.8, E=(5,2) gives t_B=-10/3; miracle prior 1e-6, P(E|M)=0.8, q=0.01, 3 witnesses 0.339; toy network A-B,A-C,B-C,B-D,C-D score 2; SE(d) n=50 d=0.4 0.202; z=3.0 (38/100 vs 0.25); 1-0.95^14=0.512; p*=2/42; free rider 34; margin 3.2 pts (p=0.4, n=900); shared flaw c=0.005 LR 120. Do not reuse in later exams.

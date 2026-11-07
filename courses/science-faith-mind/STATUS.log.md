@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-07 exam-partial2 (Levels 8-13)
+Original exam in `exams/partial2.yaml` (autonomous): setting (Ardenne Summer School) + 21 cards, 5 questions of 2 points, 60 min. Q1 time/relativity t_B, panentheism multi-select, three witnesses, chaos divine action; Q2 toy integration, zombie P2 (Hesperus), SE(d), NDE denominator; Q3 z, 1-0.95^14, neuro LR, common core, build report=core+interpretation; Q4 p*, free rider, debunking multi-select, survey margin; Q5 odds order, three layers, shared-flaw LR 120, equal LR different priors. Choices: invented names and numbers only, few attributions (all reused from lessons with web lines); SE(d) formula given in the card as approximate. Web check: Lorentz sign, SE(d) general form, Greyson scale (VERIFIED.md). Checks: validate 0/0, shots 0 problems (one explanation formula split), headless run (intro, answer, submit, results with debrief, review of 21, exit; time-up with minutes 0.05) no page errors. No widget needed.
+Conventions fixed here: exam numbers listed in CONVENTIONS.md "Exam partial 2"; do not reuse.
+
 ## 2026-11-07 ch13-challenge-2 (20 cards, problems 4-5)
 Built autonomously: Hollin two-generation survey 240/300 vs 150/300 read three ways (security, supply, pluralism) with Quarry Ford and M/R village comparisons; mill rite (van Gennep phases, communitas, Durkheim/Malinowski/Geertz, CRED); closing weighing with symmetric argument, prior 0.10 and 0.02 with ratio 1.5, order and layers. Web check done, no images (invented village). Choices: invented chances 0.9/0.6 labelled as the sides' own judgements. Conventions fixed here: part 2 Hollin: survey 80% -> 50% (37.5% fall); ratio 0.9/0.6=1.5; priors 0.10 -> 14.29%, 0.02 -> 2.97%.
 
