@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch12-perennial (concept, 20 cards)
+Built "The Perennial Philosophy and Its Critics": hook, Steuco/Leibniz, Huxley 1945, Stace types and core, Katz (A/B/C, order card), Proudfoot, hidden favourite (Ferrer), Forman PCE reply and counter-reply, evidence mcq, traps, toy core numeric (=3), layers, summary. Images: leibniz (reused), aldous-huxley (new, Henri Manuel). none for Stace/Katz: no free image found. Widget: none, since it is a debate between readings and a widget would only decorate. Choices: Leibniz's phrase dated "early 1700s" (sources say 1714 and 1715); Ferrer's critique stated "in essence" (secondary only); Katz not quoted. Conventions fixed here: Stace's report = core + interpretation; Katz's $S_i\neq S_j\Rightarrow$ experiences differ; toy core 3 features; Ferrer 2001.
+
 ## 2026-11-07 ch12-mysticism (19 cards, concept, no widget)
 Five traditions (Sufi fana/baqa and al-Hallaj, Kabbalah devekut and Zohar, Christian Teresa and Eckhart, Advaita and moksha, Buddhist anatta and nirvana), table, sorting, Katz vs common core, order, numeric 655, traps, layers. Images: teresa (Commons, public domain, portrait by Juan de la Miseria); none for the others (Eckhart only sculptures, Hallaj/Rumi not fetched). Widget: none, because the lesson is verbal reports plus one plain table. Choices: no verbatim quotations (only glossed terms); Stace left to the next lesson (not yet verified); core defined as intersection of feature sets. Conventions fixed here: common core = $T_1\cap\dots\cap T_5$; Hallaj 858-922; Teresa Interior Castle written 1577; Zohar late 13th c., Moses de Leon c.1250-1305; Eckhart c.1260-1328; Katz 1978.
 
