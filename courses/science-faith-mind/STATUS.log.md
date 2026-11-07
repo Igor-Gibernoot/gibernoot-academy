@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch13-intuition (15 cards, intuition, no widget, `own:` summary)
+Recall only; no widget (arithmetic is one line); `none:` images (recall round, nothing introduced). Cards: layers, debunk build, LR=1 limit (0.2 -> 0.2; LR 12 -> 0.75), HADD p* build, c_C<b<c_F build, by-product/adaptation, secularisation readings, r^2 (3.2%), six anthropologists, van Gennep order, then data-only numerics (3<b<11 -> 10; prior 0.25, LR 6 -> 2/3; 198/2 -> 0.01). No new external facts: reused ch13-* VERIFIED lines. Conventions fixed here: toy numbers above (signal 3/11, odds 0.25 and 6, alarm 198/2).
+
 ## 2026-11-07 ch13-traps (20 cards, 17 traps)
 Welcome, 15 mcq and 2 numeric (r^2=3.2%, Konvalinka total 38), summary. Traps: genetic fallacy, by-product/adaptation, HADD, costly signals (2,3,5 does not sort), Wilson vs Dawkins vs by-product, secularisation, debunking symmetry, EAAN target, r=-0.18, Durkheim, Malinowski, Geertz, van Gennep/Turner, Rappaport, Whitehouse, Konvalinka, layers. No widget (verbal, one-line arithmetic), no images (traps). Web: reused ch13-* VERIFIED lines, no new external fact. Conventions fixed here: none new (reuses the Chapter 13 section).
 
