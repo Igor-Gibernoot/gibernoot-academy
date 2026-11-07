@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch14-modern (concept, 22 cards, no widget)
+Autonomous. Widget decision: none (argument and history). Images (4): jonas, berkovits, mendelssohn, herzl (Herzl 'Theodor Herzl.jpg' refused as PD-US only, used Lilien balcony photo, PD); no free Rubenstein portrait found (search returned unrelated); Fackenheim, Wiesel, Greenberg, Kook, Teitelbaum without portraits (not searched; max 4 kept). Choices: Heschel and Soloveitchik left out (no role in the argument); quotations only Deut 31:17-18 (Sefaria API) and the short phrase 'a national home for the Jewish people'; everything else paraphrased (Jonas via Henrix, secondary). Britannica and Yad Vashem pages returned 403, used USHMM, SEP Mendelssohn, Wikipedia fetches. Conventions fixed here: dates and numbers as in CONVENTIONS Chapter 14 Modern line.
+
 ## 2026-11-07 ch14-thought (concept, 18 cards, no widget)
 Autonomous. Widget decision: none (Sefirot order is an order card). Images: reused maimonides.webp and spinoza.webp (already in credits.yaml); no free Luria or Moses de Leon portrait looked for or used. Cut to 18 cards (plan 20): no separate build card. Quotes verbatim only Guide I.26 (Friedlander), Exod 15:6, Deut 32:22. Web checks listed in VERIFIED.md. Conventions fixed here: Zohar de Leon c.1240-1305, written c.1280-1286; Luria 1534-1572, Safed c.1570 (some 1569); Maimonides 1138 (some 1135), Guide 1190, Principles 1168; Spinoza herem 27 July 1656, TTP 1670, banned 1674; Sefirot order Keter..Malkhut; 1670-1190=480.
 
