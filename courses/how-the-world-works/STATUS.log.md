@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 Level 3 audit (autonomous)
+Checked items 2, 3, 3b, 4, 5, 7, 8. Fixed: "Level 4, Heat and Energy" in ch03-challenge-2 and "in Level 3" in ch02-coaster now refer by name; skyscraper `own:` defined $f_d$; added two free images (Freyssinet portrait in materials, 1985 Mexico City collapsed building in quake) and ledgered; ch03 intuition VERIFIED line now says `web: n/a`. All other facts re-confirmed by web (see Audit line in VERIFIED.md); no mismatches. Widget decision for ch04-shower: no new widget, `tradeoff-curve` (outlet temperature = T_in + P/(c rho Q) as a + b curve over flow slider, needs band 38-42 C) fits; inlet/power changed per card by preset (no live sliders; judged acceptable). Level 1 tour table already matches real titles. Conventions fixed here: none.
+
 ## 2026-11-07 ch03-challenge part 2 (30 cards, problems 4-5)
 Built `ch03/challenge2.yaml`: recall, Millennium Bridge story (1 image), footfall/lateral spring/f0, oscillator-lab bare and with TMD (mu 0.02), concrete comparison, flutter-lab (Uc 36 m/s model), Tacoma myth, bank vs bearing analogy (4 cards), Problem 5 rebuild (shape multi-select, M build, tuning, order, final check), plain summary. Choices: the plan said light steel has a lower Uc than concrete; web search found no support (Selberg-type formulas depend on twist and bending frequencies and shape), so the lesson says weight alone does not decide and asks for a wind-tunnel check; real damper masses of the Millennium Bridge not claimed (only a student document); the Millennium cause is told as "usual account, still discussed". Images: millennium-bridge.webp (CC BY-SA 4.0). Conventions fixed here: see CONVENTIONS Chapter 3 "Challenge part 2".
 
