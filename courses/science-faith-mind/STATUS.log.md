@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-07 ch12-varieties (20 cards, concept, no widget)
+Built from web-checked James text (Standard Ebooks, Britannica, NLI). Images: james.webp reused from ch03 (portrait on first mention; no other free image of Bradley/Ratisbonne sought). Widget: none, the lesson is a verbal catalogue and the only number (enrichment ratio R) is a numeric card. Choices: Starbuck ages given only as roughly 14-17; toy ratio data labelled invented; quotation marks only for text read in the Standard Ebooks full text; Lecture numbers only for XVI-XVII (named, not "Level N"). Validate 0 errors 0 warnings, shots 0 problems.
+Conventions fixed here: James's four marks (ineffability and noetic quality necessary; transiency, passivity usual); three tests luminousness/reasonableness/helpfulness; "roots and fruits"; enrichment ratio $R=\text{observed}/\text{expected if spread evenly}$.
+
 ## 2026-11-06 Level 11 audit
 Checked all 12 ch11 lessons: registered with `file:`, card counts within limits (max 28 challenge, 22 lesson), images all with alt/caption/credit, VERIFIED lines all carry `web:`, numbers re-run by script. Re-checked ~30 external facts by web (Konkoly, Coronado-Montoya, Schlosser, Goyal, Lutz, Nelson, AWARE 2014 and II (53 survivors, 28 interviewed, 6 transcendent confirmed in Europe PMC abstract), Carhart-Harris 2021, Griffiths 2016, Fox 1888, OSC, Ritchie, Kekecs, Milton-Wiseman, Faraday, Siclari, Bem, Kardec, Hofmann, Kabat-Zinn, Hume, Beischel, Forer): no mismatches. Fixed: challenge-2 outro named "Level 12" with the wrong topic (now by name, Religious Experience and Mysticism); super-psi glossed in the challenge-2 recall card; `\text{LR}` unified to `\mathrm{LR}` in extraordinary. Soft points: Forer 4.26 and Hofmann death date rest on secondary sources; Kardec question count varies by edition (1,018 vs 1,019); Konkoly 18.4% from secondary coverage (paper not reachable). Conventions fixed here: LR written \mathrm{LR}.
 
