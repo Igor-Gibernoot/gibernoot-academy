@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch13-map (12 cards, 10 boxes, 3 cols x 4 rows)
+Boxes: origins, cognition, group, culture, debunk, odds, reverse, ritual, passage, layers; two decoys each with feedback, all taken from facts already taught and web-logged. Edges: dashed into layers from reverse, odds, passage. Choices made without Igor: Whitehouse/big-gods and Konvalinka/Xygalatas left out (disputed or minor); web re-check of key attributions done, rest reused from earlier lines. Validate 0 errors/warnings, shots 0 problems. Conventions fixed here: none new.
+
 ## 2026-11-07 ch13-intuition (15 cards, intuition, no widget, `own:` summary)
 Recall only; no widget (arithmetic is one line); `none:` images (recall round, nothing introduced). Cards: layers, debunk build, LR=1 limit (0.2 -> 0.2; LR 12 -> 0.75), HADD p* build, c_C<b<c_F build, by-product/adaptation, secularisation readings, r^2 (3.2%), six anthropologists, van Gennep order, then data-only numerics (3<b<11 -> 10; prior 0.25, LR 6 -> 2/3; 198/2 -> 0.01). No new external facts: reused ch13-* VERIFIED lines. Conventions fixed here: toy numbers above (signal 3/11, odds 0.25 and 6, alarm 198/2).
 
