@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 Level 12 audit
+Checked: no stray Level N references (only self-references in map), all ch12 nodes have `file:`, own: bullets self-contained, no source labels. Web re-check of ~40 facts (see VERIFIED.md audit line): Griffiths 2008 58%/67% confirmed from the abstract. Fixed: Newberg sample (eight meditators, three nuns) in neuro-religion; Pahnke supervision by Leary/Alpert softened to the Harvard psilocybin circle. Unconfirmed from primary text: Paloutzian 1999 (secondary), Doblin 1991 (summaries), Swinburne exact wording (paraphrase kept). Conventions fixed here: none.
+
 ## 2026-11-07 ch12-challenge-2 (15 cards, problems 4-5)
 Built: invented retreat follow-up (rates, LR, posterior, enrichment, causal caveat, broken blind, layers) and a closing weighing (Iris, Jon, Mara; question unanswered, defeater, roots/fruits, parting). Plan said 20-24 cards; kept 15 since each step has its card. No widget: nothing needed a movable prior against a fixed LR (part 1 already used odds-updater for that). No images. No new external facts. Conventions fixed here: retreat follow-up 42/60 vs 24/60, LR 1.75, prior 0.2 -> 0.30, R=1.29, guesses 0.90 vs 0.27.
 
