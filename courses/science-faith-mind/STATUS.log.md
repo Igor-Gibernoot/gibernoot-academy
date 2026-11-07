@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07: ch12-traps (21 cards, 18 traps)
+Built Level 12 traps: private/worthless, roots vs fruits, numinous as fear, awe explained, union words, core and truth, Katz, core count (numeric), credulity, no-defeater posterior (numeric), diversity, brain correlate, helmet failure, LR 1 (numeric), good outcome (numeric), harm, conversion, small study, layer sort, summary. No new facts (reused, see VERIFIED.md). Images: none: traps rely on cards, no new person or object. Widget: none. Choice: dropped the enrichment-ratio trap to stay near 18. Conventions fixed here: none new.
+
 ## 2026-11-07: ch12-transformation (19 cards, concept)
 Built "Do Experiences Change Lives?": hook, Good Friday study (Pahnke 1962, Doblin 1991), Griffiths 2008 follow-up, conversion (Paloutzian et al. 1999), good outcome as LR, harm reverse, views, fair design order, own:. Web-checked (see VERIFIED.md). Images: none: no free portrait/object that teaches (Pahnke/Doblin not searched, studies are the content). Choices: used 58%/67% from the abstract via search summaries; Paloutzian wording kept "in essence". Conventions fixed here: toy prior 0.5, P(G|X)=0.8, P(G|not X)=0.7, LR 1.143, posterior 0.533; Griffiths 2008 n=36, 58% of 36 = 21.
 
