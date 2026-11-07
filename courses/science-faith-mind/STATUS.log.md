@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch14-genesis (concept, 24 cards, no widget)
+Built autonomously. Widget decision: none (the ratio and the cosmic-year compression are two numeric cards; a slider adds little). Images: 2 (flood-tablet CC0, resized to 600 px; ussher public domain; flood-tablet card viewed in phone screenshot). Choices: Sefaria and sacred-texts blocked or empty, so JPS 1917 verses confirmed on biblehub only and quoted only those; Gen 8 bird verses paraphrased; Sacks paraphrased (verbatim not found); Ryan-Pitman and Black Sea framed as contested; cuneiform-date disputes given as ranges. Conventions fixed here: Ussher 6029 yr, 4.54e9/6029 = 7.53e5, cosmic-year 13.8 s; Holtz Atrahasis closer than Gilgamesh.
+
 ## 2026-11-07 ch14-textual (guided problem, 22 cards, no widget)
 Built autonomously. Widget decision: none (toy tables in cards carry it; a drag widget would add little). Images: none (toy text, no person or object needing a free image; Bengel/Griesbach portraits not searched). Web: tried: lectio difficilior Bengel 1734; lectio brevior Griesbach haplography; haplography dittography definition; witnesses weighed not counted; Metzger internal evidence; Epp original text; Isaiah 53:11 light. Unconfirmed from primary: Griesbach/Metzger wording (secondary only, paraphrased), first formulator of the harder-reading canon (sources differ, kept 'made prominent'). Dropped: NIV/RSV adoption of 53:11. Not a proof: no own/Recap. Conventions fixed here: toy text is the Chronicle of Harrow (copies A-E; fled/withdrew, gate of bronze, north/old gate, lamb/ram with codex K and independent S, T); canons taught as rules of thumb with critics named; "witnesses weighed, not counted".
 
