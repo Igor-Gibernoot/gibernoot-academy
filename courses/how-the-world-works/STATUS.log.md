@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-07 widget boiling-curve (autonomous)
+Built `js/widgets/boiling-curve.js` (registered), `docs/widgets/boiling-curve.md` (ready-to-paste NIST tables for R-134a, isobutane, water; smoke block), index line. Monotone cubic of ln p vs 1/T through the table rows; log or linear pressure axis; low/high dots (drag or sliders) or single mode; cold/warm lines, lift band, regions, ratio. Tables from NIST WebBook (logged in VERIFIED.md). Checked by script (table reproduced to 1e-15, held-out rows within 0.05 %), throwaway lesson viewed at phone and desktop width and deleted, validate and widget-smoke run.
+Conventions fixed here: isobutane 110 kPa boils at -9.6 C, 450 kPa at 33.8 C (ratio 4.1); R-134a 350 kPa at 5.0 C, 1100 kPa at 43.0 C (ratio 3.1); water 101.325 kPa at about 100 C, 200 kPa at 120.2 C; table rows are [T in C, p in kPa].
+
 ## 2026-11-07 ch04-fridge (autonomous)
 Built `ch04/fridge.yaml` (21 cards, concept, heat-pump-flow twice: fixed COP 2 with heat slider, then fridge/freezer presets at 40 % of Carnot). Hook, loop (order card), boiling and pressure, history, energy balance, COP, open-door trap, Carnot, wall load. Images: 1 (Jacob Perkins portrait, National Library of Wales, PD; the PD-US portraits were refused by the fetch tool). Web-checked (see VERIFIED.md). Choices: dropped a typical-household-COP claim (only secondary sources) and the Perkins refrigerant (sources differ); used "Heat taken/Work in/Heat out" arrow labels; widget label for the compressor stays "Compressor". Fixed overflow in q-freezer explanation.
 Conventions fixed here: $\dot Q_c,\dot Q_h,\dot W$ in watts, $\dot Q_h=\dot Q_c+\dot W$, COP $=\dot Q_c/\dot W$; fridge example 300 W taken, 100 W work, 400 W out, COP 3; fridge wall A 4 m$^2$, foam 5 cm k 0.033, dT 18 K: leak 47.5 W, W 15.8 W at COP 3 (139 kWh/yr); ENERGY STAR 18 ft3 about 363.5 kWh/yr (41 W); isobutane boils at about -12 C at 1 atm.

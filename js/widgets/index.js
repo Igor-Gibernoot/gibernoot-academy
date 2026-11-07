@@ -35,6 +35,7 @@ import { leverBalance } from './lever-balance.js';
 import { frictionStop } from './friction-stop.js';
 import { heatLayers } from './heat-layers.js';
 import { heatPumpFlow } from './heat-pump-flow.js';
+import { boilingCurve } from './boiling-curve.js';
 import { pinTumbler } from './pin-tumbler.js';
 import { diagonalList } from './diagonal-list.js';
 import { elevatorCounterweight } from './elevator-counterweight.js';
@@ -110,6 +111,7 @@ const WIDGETS = {
   'friction-stop': frictionStop,
   'heat-layers': heatLayers,
   'heat-pump-flow': heatPumpFlow,
+  'boiling-curve': boilingCurve,
   'pin-tumbler': pinTumbler,
   'diagonal-list': diagonalList,
   'elevator-counterweight': elevatorCounterweight,
