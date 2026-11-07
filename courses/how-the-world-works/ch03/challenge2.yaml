@@ -1,0 +1,485 @@
+id: ch03-challenge-2
+title: 'Level Challenge: Design a footbridge, Part 2'
+kind: challenge
+cards:
+  - type: text
+    id: recall
+    title: "Recall: the footbridge so far"
+    body: |
+      In the lesson Level Challenge: Design a footbridge, Part 1, a town's footbridge over a river was fixed as follows (all data invented for the exercise, except where it says typical):
+
+      - **Span and load.** Span $L = 24$ m, deck $3$ m wide, crowd $4$ kN/m$^2$, design load $w = 30$ kN per metre of span. Each bank carries $V = wL/2 = 360$ kN.
+      - **Shape.** An arch of rise $h$ pushes each bank sideways with $H = wL^2/(8h)$, so $Hh = 2160$ kN m. Banks limited to $600$ kN need $h \ge 3.6$ m. A beam pushes nothing sideways but bends, with midspan moment $M = wL^2/8 = 2160$ kN m.
+      - **Section.** A steel I-beam $0.9$ m deep, with two flanges $0.3$ m wide and $0.04$ m thick, has $I = 5.36\times10^{-3}$ m$^4$ and a bending stress $\sigma = My/I = 181$ MPa, under the $200$ MPa limit chosen for this problem. It weighs $317$ kg/m. A concrete beam $0.4\times1.6$ m weighs $1600$ kg/m.
+
+      Part 2 asks what the **crowd** and the **wind** do to this light steel bridge, compares the bank with an isolation bearing, and then rebuilds the whole bridge from its specification. **Guess first**, then check.
+
+  - type: text
+    id: story
+    title: A real bridge that swayed
+    image:
+      src: img/millennium-bridge.webp
+      alt: The Millennium Bridge in London seen from the Thames, a long low steel footbridge with thin side cables
+      caption: The Millennium Bridge in London is 325 m long with a 144 m longest span; on its opening day in June 2000 the crowd made it sway sideways.
+      credit: King of Hearts, CC BY-SA 4.0, via Wikimedia Commons
+      link: https://commons.wikimedia.org/wiki/File:Millennium_Bridge_London_June_2016_001.jpg
+    body: |
+      **Problem 4: sway.** The Millennium Bridge in London opened on 10 June 2000. About $90\,000$ people crossed that day, up to $2\,000$ at once, and the deck swung sideways by several centimetres (about $70$ mm at most). It was closed within days. The usual account says that walkers, nervous on the moving deck, fell into step with the sway and pushed it further; the exact mechanism is still discussed by researchers. The engineers did not stiffen the bridge, which would have changed its look: they added **dampers** (viscous dampers and tuned mass dampers, dozens of devices) and reopened it in February 2002.
+
+      We test our own bridge for the same weakness. It is a steel deck, and the weak direction of a steel I-beam is **sideways**: the two flanges act as a narrow beam bent about the vertical axis.
+
+  - type: numeric
+    id: footfall
+    prompt: |
+      A walker takes about $2$ steps per second (typically $1.4$ to $2.4$ Hz for a footstep). One step is made with the left foot and the next with the right foot, and each foot pushes the deck toward its own side. How many times per second does a walker push the deck from left to right, in Hz?
+    answer: 1
+    tolerance: 0.1
+    answerText: '1 Hz'
+    wrong:
+      - { value: 2, feedback: 'That is the step rate, which sets the **vertical** rhythm of the footfalls. The sideways push alternates between the two feet, so it repeats only every second step.' }
+      - { value: 4, feedback: 'The sideways rhythm is slower than the step rate, not faster: left and right feet alternate.' }
+    hint: |
+      A full left-right cycle takes two steps.
+    explanation: |
+      One sideways cycle needs two steps, so the sideways rhythm is half the step rate: about $1$ Hz (reported lateral forcing lies between about $0.7$ and $1.2$ Hz). Any structure whose sideways natural frequency falls in that band can be driven near resonance, as in the lesson Skyscrapers and Tuned Mass Dampers.
+
+  - type: numeric
+    id: lateral-k
+    prompt: |
+      Model the sideways motion of the deck as one mass on a spring. Bent sideways, the two flanges ($0.3$ m wide, $0.04$ m thick each) give $I_{\text{lat}} = 2\times\dfrac{0.04\times0.3^3}{12} = 1.8\times10^{-4}$ m$^4$ (the thin web is ignored). For a beam resting on two supports, loaded at midspan, the stiffness is
+      $$k = \frac{48\,E\,I_{\text{lat}}}{L^3}$$
+      with steel $E = 210$ GPa (typically $190$ to $215$ GPa) and $L = 24$ m. What is $k$, in kN/m?
+    answer: 131.25
+    tolerance: 0.5
+    answerText: '131 kN/m'
+    wrong:
+      - { value: 75600, feedback: 'The span in the denominator is cubed: $24^3 = 13\,824$, not $24$. Check the powers.' }
+      - { value: 3909, feedback: 'You used the vertical $I = 5.36\times10^{-3}$ m$^4$. That is the stiffness for bending **down**; the sideways stiffness uses the flanges'' narrow width, $I_{\text{lat}} = 1.8\times10^{-4}$ m$^4$.' }
+    hint: |
+      $48\times210\times10^9\times1.8\times10^{-4} = 1.814\times10^{9}$; divide by $13\,824$.
+    explanation: |
+      $$k = \frac{48\times210\times10^9\times1.8\times10^{-4}}{24^3}$$
+      $$= 1.3125\times10^{5}\ \text{N/m}$$
+      Sideways, the beam is about $30$ times softer than downwards ($5.36\times10^{-3}/1.8\times10^{-4}$ is $30$), because stiffness follows $I$, which grows with the cube of the dimension along the bending direction.
+
+  - type: numeric
+    id: lateral-f0
+    prompt: |
+      The moving mass is taken as half the mass of the deck. The beam and the railings and surfacing weigh about $520$ kg per metre, so the deck has $520\times24 = 12\,480$ kg and the moving mass is $m = 6\,240$ kg. With the stiffness $k = 131\,250$ N/m, what is the natural frequency
+      $$f_0 = \frac{1}{2\pi}\sqrt{\frac{k}{m}}$$
+      in Hz?
+    answer: 0.73
+    tolerance: 0.01
+    answerText: '0.73 Hz'
+    wrong:
+      - { value: 4.59, feedback: 'You forgot the factor $1/2\pi$: $\sqrt{k/m} = 4.59$ is the angular frequency in rad/s, not Hz.' }
+      - { value: 0.52, feedback: 'You used the whole deck mass $12\,480$ kg. The model uses the half that moves with the middle of the span, $6\,240$ kg.' }
+    hint: |
+      $k/m = 21.03$, whose square root is $4.59$.
+    explanation: |
+      $$f_0 = \frac{1}{2\pi}\sqrt{\frac{131\,250}{6\,240}} = \frac{4.586}{6.283} = 0.73\ \text{Hz}$$
+      That is inside the band of the sideways rhythm of a crowd ($0.7$ to $1.2$ Hz), at its lower end. A crowd also adds mass and so lowers $f_0$ a little.
+
+  - type: widget
+    id: sway-widget
+    widget: oscillator-lab
+    review: false
+    config:
+      system: spring
+      mass: 6.24
+      stiffness: 131.25
+      damping: 0.004
+      driveFrequency: 0.73
+      fMax: 1.6
+      ampMax: 140
+      units: { mass: 't', stiffness: 'kN/m', length: 'x D' }
+      readouts: [natural, drive, amplitude, ratio]
+      show: { damper: false, damperToggle: false, systemToggle: false, presets: false, handles: false, trace: true, dampingSlider: false, freqSlider: true, massSlider: false, stiffnessSlider: false }
+    body: |
+      The deck as one mass on a spring: $m = 6.24$ t, $k = 131$ kN/m, damping ratio $\zeta = 0.004$ (a typical value for a steel footbridge is a few tenths of a percent). The crowd pushes sideways with a steady rhythm; slide its **frequency** through $0.73$ Hz and watch the resonance curve. The amplitude is in units of $D$, the sway under a steady push of the same size.
+
+  - type: numeric
+    id: bare-peak
+    prompt: |
+      In the same model (damping ratio $\zeta = 0.004$), the sway at resonance is $\dfrac{1}{2\zeta}$ times $D$, where $D = F_0/k$ is the sway under a steady sideways push $F_0$. The crowd's rhythmic push is $F_0 = 200$ N (an invented value). What is the sway at resonance, in mm?
+    answer: 190
+    tolerance: 2
+    answerText: '190 mm'
+    wrong:
+      - { value: 1.52, feedback: 'That is $D = 200/131\,250$ m $= 1.52$ mm, the sway under a steady push. Resonance multiplies it by $1/(2\zeta)$.' }
+      - { value: 125, feedback: 'That is the factor $1/(2\zeta) = 125$. Multiply it by $D = 1.52$ mm to get the sway.' }
+    hint: |
+      $D = 200/131\,250 = 1.52\times10^{-3}$ m; multiply by $125$.
+    explanation: |
+      $$\frac{1}{2\zeta}D = 125\times1.524\ \text{mm} = 190\ \text{mm}$$
+      A push of only $200$ N makes the deck swing $19$ cm if the crowd keeps the rhythm: the same lever as in the skyscraper, now with a much smaller damping ratio.
+
+  - type: numeric
+    id: damper-mass
+    prompt: |
+      The fix is a tuned mass damper, a small mass on a soft spring with its own dashpot, attached where the deck moves most. Its mass is a fraction $\mu$ of the moving mass. With $\mu = 0.02$ and $m = 6\,240$ kg, what is the damper mass, in kg?
+    answer: 124.8
+    tolerance: 0.5
+    answerText: '125 kg'
+    wrong:
+      - { value: 12480, feedback: 'That is the whole deck mass. The damper is only $2\%$ of the moving mass $6\,240$ kg.' }
+    hint: |
+      $\mu m = 0.02\times6\,240$.
+    explanation: |
+      $\mu m = 124.8$ kg, about the mass of two adults, to tame a deck of $12$ tonnes. A small mass is enough because it is tuned to move strongly when the deck does.
+
+  - type: numeric
+    id: damper-tuning
+    prompt: |
+      The damper is tuned just below the deck's natural frequency, at $f_d = \dfrac{f_0}{1+\mu}$. With $f_0 = 0.730$ Hz and $\mu = 0.02$, what is $f_d$, in Hz?
+    answer: 0.7156
+    tolerance: 0.003
+    answerText: '0.716 Hz'
+    wrong:
+      - { value: 0.7446, feedback: 'You multiplied by $1+\mu$. The tuning rule divides: the damper sits slightly **below** $f_0$, because its mass lowers the combined frequency.' }
+    hint: |
+      $0.730/1.02$.
+    explanation: |
+      $f_d = 0.730/1.02 = 0.7156$ Hz, a ratio of $0.980$ to $f_0$ as in the lesson Skyscrapers and Tuned Mass Dampers. A practical rule from footbridge damper design: the damper must be set within about $2$ to $3\%$ of the structure's frequency.
+
+  - type: widget
+    id: tmd-widget
+    widget: oscillator-lab
+    review: false
+    config:
+      system: spring
+      mass: 6.24
+      stiffness: 131.25
+      damping: 0.004
+      damper: true
+      massRatio: 0.02
+      driveFrequency: 0.73
+      fMax: 1.6
+      ampMax: 140
+      units: { mass: 't', stiffness: 'kN/m', length: 'x D' }
+      readouts: [natural, drive, amplitude, damperAmp]
+      show: { damperToggle: true, systemToggle: false, presets: false, handles: false, trace: true, dampingSlider: false, freqSlider: true, ghost: true, massSlider: false, stiffnessSlider: false }
+    body: |
+      The same deck with the tuned mass damper, $\mu = 0.02$, tuned at $f_0/(1+\mu)$. The dashed curve is the deck without it. Slide the drive frequency through $0.73$ Hz and compare the two peaks, then remove and add the damper.
+
+  - type: numeric
+    id: tmd-swing
+    prompt: |
+      With the damper ($\mu = 0.02$, tuned and with its own damping chosen well) the peak of the curve falls from $125\,D$ to about $9.5\,D$. With $D = 1.52$ mm, what is the sway at the worst frequency, in mm?
+    answer: 14.4
+    tolerance: 0.5
+    answerText: '14 mm'
+    wrong:
+      - { value: 190, feedback: 'That is the sway **without** the damper ($125\,D$). The damper cuts the peak to $9.5\,D$.' }
+    hint: |
+      $9.47\times1.524$ mm.
+    explanation: |
+      $9.47\times1.524 = 14.4$ mm instead of $190$ mm, a thirteenth, from a damper of only $125$ kg. The extra mass is not what helps: the damper moves out of step with the deck and its dashpot turns the deck's motion into heat.
+
+  - type: mcq
+    id: tmd-drift
+    prompt: |
+      A tuned mass damper for a footbridge is tuned within a few percent of the deck's sideways frequency. A big crowd steps on, adding to the moving mass, so $f_0$ drops. What happens to the damper?
+    shuffle: true
+    options:
+      - text: 'It is detuned by the new frequency and works less well; designers therefore make the damper tolerant (a well-chosen damping) and check the crowd-loaded frequency.'
+        correct: true
+      - text: 'Nothing: a damper works at any frequency because it adds damping, whatever the mass.'
+        feedback: 'A tuned damper works because its own frequency matches the deck''s; far from it the damper hardly moves and does little (the detuned curve of the skyscraper lesson).'
+      - text: 'It works better, since a heavier deck moves less.'
+        feedback: 'A heavier deck does move less for the same push, but the damper is tuned to the old frequency. A small detuning costs some of the reduction.'
+    explanation: |
+      Frequencies depend on $k/m$, and a crowd is a noticeable fraction of a light deck. This is why light decks are sensitive and why dampers are tuned for the loaded bridge.
+
+  - type: numeric
+    id: concrete-f0
+    prompt: |
+      The concrete alternative ($0.4$ m wide, $1.6$ m deep, $1600$ kg/m, plus $200$ kg/m of railings and surfacing) bends sideways about its $1.6$ m dimension: $I_{\text{lat}} = \dfrac{1.6\times0.4^3}{12} = 8.53\times10^{-3}$ m$^4$. With $E = 30$ GPa for concrete (typical), $k = 48EI_{\text{lat}}/L^3$ and the moving mass $m = \tfrac12\times1800\times24 = 21\,600$ kg, what is $f_0$, in Hz?
+    answer: 1.02
+    tolerance: 0.02
+    answerText: '1.02 Hz'
+    wrong:
+      - { value: 0.73, feedback: 'That is the steel deck. Concrete is much stiffer **and** much heavier, and the two partly cancel in $k/m$, but not completely.' }
+    hint: |
+      $k = 48\times30\times10^9\times8.53\times10^{-3}/13\,824 = 8.89\times10^5$ N/m; then $\sqrt{k/m} = 6.42$.
+    explanation: |
+      $$f_0 = \frac{1}{2\pi}\sqrt{\frac{8.89\times10^{5}}{21\,600}} = 1.02\ \text{Hz}$$
+      The heavy concrete deck sits right in the middle of the crowd's sideways band, only a bit higher than steel. Its damping is usually larger (guidelines give about $0.8$ to $1.3\%$ for reinforced concrete, against $0.2$ to $0.4\%$ for steel), which cuts the peak, $1/(2\zeta)$, to about $50$ at $\zeta = 1\%$.
+
+  - type: mcq
+    id: heavy-or-light
+    prompt: |
+      Steel: $f_0 = 0.73$ Hz, $\zeta \approx 0.4\%$. Concrete: $f_0 = 1.02$ Hz, $\zeta \approx 1\%$. Which statement is right for the crowd's sideways rhythm of $0.7$ to $1.2$ Hz?
+    shuffle: true
+    options:
+      - text: 'Both decks need a sway check: neither frequency is outside the band. Concrete helps through its larger damping and its mass (a crowd is a smaller fraction of it), steel needs the damper.'
+        correct: true
+      - text: 'Only the steel deck is at risk: its frequency is lower.'
+        feedback: 'Both frequencies lie inside $0.7$ to $1.2$ Hz. Frequency alone does not save concrete here.'
+      - text: 'Concrete is safe because it is heavier and so cannot be moved.'
+        feedback: 'Heavy decks move less for the same push, but a rhythmic push at resonance still builds up: the peak is $1/(2\zeta)$ times $D$, and $D = F_0/k$ stays finite.'
+    explanation: |
+      Lightness was the cost of steel's low weight in Part 1: easier to set swaying. A designer either adds damping (as here and at the Millennium Bridge), or moves the frequency out of the band by stiffening, at a cost in size, weight or looks.
+
+  - type: text
+    id: wind-intro
+    title: Wind and flutter
+    body: |
+      Recall from the lesson Tacoma Narrows: The Bridge That Danced: wind can **feed** energy into the twisting of a deck. The deck's own damping ratio $\zeta_s$ takes energy out of the twist, and the wind subtracts from it. In the lab model the net damping is
+      $$\zeta_{\text{eff}} = \zeta_s\left(1 - \frac{U}{U_c}\right)$$
+      with wind speed $U$ and **critical speed** $U_c$ (set by the deck's shape and twist stiffness). While $\zeta_{\text{eff}} > 0$ a twist dies away; above $U_c$ it grows. This is a simple linear model: $U_c$ is an input, not a prediction.
+
+      **Problem 4, wind.** Our deck is given (invented) $\zeta_s = 0.02$ in twist and $U_c = 36$ m/s. The design gust at the site is $U = 30$ m/s, and the specification asks for $U_c$ at least $1.5$ times the gust.
+
+  - type: widget
+    id: flutter-widget
+    widget: flutter-lab
+    review: false
+    config:
+      mode: flutter
+      wind: 20
+      ucrit: 36
+      f0: 1.5
+      damping: 0.02
+      initial: 0.5
+      limit: 15
+      windMax: 72
+      units: { speed: 'm/s' }
+      show: { ucritSlider: false, modeToggle: false }
+      presets:
+        - { label: Calm 20, wind: 20 }
+        - { label: Design gust 30, wind: 30 }
+        - { label: 45 m/s, wind: 45 }
+    body: |
+      The twist of the deck in steady wind. Try the three winds and watch the effective damping and the twist trace after a small kick.
+
+  - type: numeric
+    id: zeff-45
+    prompt: |
+      The deck has $\zeta_s = 0.02$ and $U_c = 36$ m/s. In a wind of $U = 45$ m/s, what is
+      $$\zeta_{\text{eff}} = \zeta_s\left(1 - \frac{U}{U_c}\right)$$
+    answer: -0.005
+    tolerance: 0.0002
+    answerText: '-0.005'
+    wrong:
+      - { value: 0.005, feedback: 'The sign matters: $45/36 = 1.25$ is above $1$, so $1 - 1.25 = -0.25$ and the damping is **negative**: the twist grows.' }
+      - { value: -0.25, feedback: 'You gave $1 - U/U_c$ without the factor $\zeta_s = 0.02$.' }
+    hint: |
+      $1 - 45/36 = -0.25$; multiply by $0.02$.
+    explanation: |
+      $\zeta_{\text{eff}} = 0.02\times(-0.25) = -0.005$. Each period of twist multiplies its size by about $e^{2\pi\times0.005} = 1.032$: slow at first, but it never stops and ends at whatever breaks first. At the design gust $30$ m/s the value is $+0.0033$ and the twist decays, only just.
+
+  - type: mcq
+    id: raise-uc
+    prompt: |
+      The specification needs $U_c \ge 1.5\times30 = 45$ m/s, and the steel deck has $36$ m/s. Which change helps most?
+    shuffle: true
+    options:
+      - text: 'Stiffen the deck against twisting and give the section a shape that lets the wind pass (the 1950 Tacoma Narrows replacement had a deeper open truss, wind-tunnel tested). A wind-tunnel test of the stiffened section is the way to find the new $U_c$.'
+        correct: true
+      - text: 'Add the sway damper of the previous cards: it works at $0.72$ Hz, so it also stops the twist.'
+        feedback: 'A tuned damper acts only on the motion whose frequency it is tuned to. This one is tuned to the sideways sway; the twist is another mode with another frequency.'
+      - text: 'Switch to concrete: heavier decks always have a higher flutter speed.'
+        feedback: 'Not always. Simple flutter formulas depend on the twist and bending frequencies and on the section''s shape; weight changes the frequencies but does not by itself decide the result. The deck needs to be checked, not assumed.'
+      - text: 'Lower $\zeta_s$, so there is less damping for the wind to cancel.'
+        feedback: 'Less damping makes the sway and the twist worse, not better. The wind has to cancel the structure''s own damping, so more of it leaves a larger safety margin.'
+    explanation: |
+      Raising $U_c$ means changing the deck: stiffness in twist, shape, and sometimes extra damping devices (tuned dampers have been studied to raise flutter speed on long bridges). The model asks only that we check: $U_c \ge 45$ m/s.
+
+  - type: mcq
+    id: tacoma
+    prompt: |
+      Many textbooks say that the Tacoma Narrows Bridge ($7$ November 1940, wind about $42$ mph or $68$ km/h) was shaken apart by **resonance** with the vortices the wind sheds behind the deck. Which fact shows that this account fails?
+    shuffle: true
+    options:
+      - text: 'The vortices at that wind speed shed at about $1$ Hz, while the deck twisted at about $0.2$ Hz ($12$ cycles per minute). The twist grew with wind speed as a self-excited flutter, not as a push at the bridge''s own frequency.'
+        correct: true
+      - text: 'The wind was far too weak to move a bridge.'
+        feedback: 'The wind was about $42$ mph, a strong breeze; the bridge had a slender, shallow deck, and flutter needs no great force, only wind that **feeds** the twist.'
+      - text: 'Resonance never happens in bridges.'
+        feedback: 'Resonance is real in structures: a rhythmic push near a natural frequency builds up, as in the sway cards above. The point is that at Tacoma the numbers do not match a resonance.'
+    explanation: |
+      The modern account is aeroelastic flutter: the deck's twist changes the wind force, and the force feeds the twist (negative effective damping). Both the sway of the Millennium Bridge and the twist of Tacoma are feedbacks between a motion and a force on it, but the sway is driven by people and the twist by wind.
+
+  - type: text
+    id: analogy
+    title: The bank and the bearing
+    body: |
+      **Problem 4, the ends.** Two earlier results look different but have the same shape.
+
+      | | Arch on its banks | Deck on isolation bearings |
+      |---|---|---|
+      | Demand | the load $w$ makes a thrust $H$ on each bank | the ground's shaking makes a force on the deck |
+      | What you cannot do | remove the thrust | remove the shaking |
+      | What you buy with | **height**: $H = \dfrac{wL^2}{8h}$ | **stretch**: soft bearings, a long period |
+      | The price | a taller arch | a gap for the deck to move |
+
+      An **isolation bearing** (laminated layers of rubber and steel, often with a lead core) is soft sideways and carries the weight. It lowers the deck's natural frequency below the frequencies of the shaking, as in the lesson Earthquakes and Safe Buildings, so the deck is shaken less but the bearing must stretch more.
+
+  - type: numeric
+    id: bearing-k
+    prompt: |
+      The steel deck ($M = 12\,480$ kg) rests on isolation bearings chosen for a period $T = 4$ s (the same period as in the isolated block of the lesson Guided Problem: Putting Numbers on It). The sideways stiffness of the bearings is
+      $$k = M\left(\frac{2\pi}{T}\right)^2$$
+      What is $k$, in kN/m?
+    answer: 30.8
+    tolerance: 0.3
+    answerText: '30.8 kN/m'
+    wrong:
+      - { value: 123.2, feedback: 'You used $M(2\pi)^2/T$ with a single power of $T$. The period is squared in the denominator: $(2\pi/T)^2$.' }
+    hint: |
+      $2\pi/4 = 1.571$, squared $2.467$; times $12\,480$.
+    explanation: |
+      $k = 12\,480\times2.467 = 30\,800$ N/m. That is about $1/4$ of the stiffness of the deck's own sideways spring ($131$ kN/m): the bearings, not the beam, now set the frequency, $f_0 = 0.25$ Hz.
+
+  - type: numeric
+    id: bearing-stretch
+    prompt: |
+      A slow shaking band at $0.4$ Hz moves the ground back and forth by $0.2$ m (an invented design value). With $f_0 = 0.25$ Hz, $r = 0.4/0.25 = 1.6$ and bearing damping $\zeta = 0.15$, the bearings stretch by the ground displacement times
+      $$\frac{r^2}{\sqrt{(1-r^2)^2+(2\zeta r)^2}} = 1.57$$
+      By how many metres do the bearings stretch?
+    answer: 0.314
+    tolerance: 0.005
+    answerText: '0.31 m'
+    wrong:
+      - { value: 0.2, feedback: 'That is the ground''s own displacement. At $r = 1.6$ the factor is above $1$, so the bearings stretch more than the ground moves.' }
+    hint: |
+      $0.2\times1.57$.
+    explanation: |
+      $0.2\times1.568 = 0.314$ m, so the deck needs a gap of more than $0.31$ m at each end. The force through the bearings is $k\times0.314 = 9.7$ kN, against $12\,480\times(2\pi\times0.4)^2\times0.2 = 15.8$ kN if the deck were fixed to the shaking ground: about $0.61$ of it, the factor of the retrofit lesson.
+
+  - type: mcq
+    id: analogy-check
+    prompt: |
+      An arch cannot remove the thrust on its banks, and a bearing cannot remove the ground's shaking. What do they have in common?
+    shuffle: true
+    options:
+      - text: 'Each turns a demand that cannot be removed into something cheaper to give: the arch trades thrust for height ($Hh = $ constant), the bearing trades force for stretch.'
+        correct: true
+      - text: 'Both make the structure lighter.'
+        feedback: 'Neither changes the weight. The arch''s thrust follows from the load and the geometry, and the bearing changes how the deck responds to the ground.'
+      - text: 'Both make the structure stiffer, so it moves less.'
+        feedback: 'The bearing makes the connection **softer**; its gain is a lower frequency, and the arch wins by a taller shape, not by stiffness.'
+    explanation: |
+      Every design is a tradeoff: a force you cannot afford is exchanged for a length (a rise, a gap) that you can. The check in both cases is the same: is the length you pay within the site's limit (600 kN banks, a gap of a few tenths of a metre)?
+
+  - type: text
+    id: rebuild-spec
+    title: "Problem 5: rebuild the bridge"
+    body: |
+      Now rebuild the whole footbridge from the specification alone:
+
+      | Item | Requirement |
+      |---|---|
+      | Span | $24$ m, deck $3$ m wide |
+      | Crowd load | $4$ kN/m$^2$; design load $w = 30$ kN/m |
+      | Banks | at most $600$ kN of sideways push each |
+      | Steel | bending stress at most $200$ MPa |
+      | Crowd sway | sideways frequency checked against $0.7$ to $1.2$ Hz; damper if inside |
+      | Wind | $U_c \ge 1.5\times$ design gust ($30$ m/s) |
+
+      Choose the shape, the section, the material and the damping, one decision per card.
+
+  - type: mcq
+    id: rebuild-shape
+    prompt: |
+      Span $24$ m, load $30$ kN/m, banks limited to $600$ kN of sideways push. Which shapes satisfy the banks? Select all that do.
+    multiple: true
+    options:
+      - text: 'A beam (no sideways push).'
+        correct: true
+      - text: 'An arch of rise $4$ m ($H = 2160/4 = 540$ kN).'
+        correct: true
+      - text: 'An arch of rise $3$ m ($H = 720$ kN).'
+        feedback: 'Above $600$ kN: it needs $h \ge 2160/600 = 3.6$ m.'
+      - text: 'An arch of rise $1.5$ m ($H = 1440$ kN).'
+        feedback: 'A flat arch pushes hardest: $H = 2160/1.5 = 1440$ kN, more than twice the limit.'
+    explanation: |
+      The banks only exclude the flat arches. Beam or tall arch both pass; we choose the beam because the deck is flat and a $4$ m arch needs posts and more material. The decision is now about the bending of the beam.
+
+  - type: build
+    id: rebuild-moment
+    prompt: |
+      Write the midspan bending moment of the beam (span $L$, uniform load $w$ per metre), which sets the bending stress.
+    prefix: 'M ='
+    tiles: ['\tfrac{1}{8}', 'w', 'L^2', '\tfrac{1}{4}', 'L', '\tfrac{1}{2}']
+    answers:
+      - ['\tfrac{1}{8}', 'w', 'L^2']
+      - ['w', '\tfrac{1}{8}', 'L^2']
+      - ['w', 'L^2', '\tfrac{1}{8}']
+      - ['\tfrac{1}{8}', 'L^2', 'w']
+      - ['L^2', '\tfrac{1}{8}', 'w']
+      - ['L^2', 'w', '\tfrac{1}{8}']
+    wrong:
+      - { answer: ['\tfrac{1}{4}', 'w', 'L'], feedback: 'That is $PL/4$, the moment of a single load $P$ at midspan. A load spread along the span gives $wL^2/8$.' }
+      - { answer: ['\tfrac{1}{2}', 'w', 'L'], feedback: 'That is the vertical force at a bank, $wL/2$: a force, not a moment.' }
+    hint: |
+      The total load $wL$ acts, on average, at a lever arm that works out to $L/8$.
+    explanation: |
+      $$M = \frac{wL^2}{8} = \frac{30\times24^2}{8} = 2160\ \text{kN m}$$
+      With the I-beam $0.9$ m deep, $I = 5.36\times10^{-3}$ m$^4$, $\sigma = My/I = 2160\times10^3\times0.45/(5.36\times10^{-3}) = 181$ MPa, under $200$ MPa: the section passes.
+
+  - type: numeric
+    id: rebuild-tuning
+    prompt: |
+      The steel I-beam has $f_0 = 0.73$ Hz sideways, inside the crowd band, so a damper is needed. A designer chooses a bigger damper, $\mu = 0.03$. What tuning frequency $f_d = f_0/(1+\mu)$ does it need, in Hz?
+    answer: 0.7087
+    tolerance: 0.003
+    answerText: '0.709 Hz'
+    wrong:
+      - { value: 0.7156, feedback: 'That is the tuning for $\mu = 0.02$. A heavier damper lowers the best frequency further: divide by $1.03$.' }
+    hint: |
+      Divide $0.730$ by $1.03$.
+    explanation: |
+      $f_d = 0.730/1.03 = 0.7087$ Hz, with damper mass $\mu m = 0.03\times6\,240 = 187$ kg. A larger $\mu$ gives a lower peak (about $7.9\,D$ here, against $9.5\,D$ at $\mu = 2\%$), at the cost of a heavier device and a tuning that moves further from $f_0$.
+
+  - type: order
+    id: rebuild-order
+    prompt: |
+      Put the design steps of the footbridge in a sensible order.
+    steps:
+      - 'Fix the design load $w$ from the crowd, the deck''s weight and the railings.'
+      - 'Choose the shape from the bank limit (beam, or arch with rise at least $3.6$ m).'
+      - 'Size the section so the bending stress stays under $200$ MPa.'
+      - 'Compute the sideways natural frequency and compare it with the crowd''s $0.7$ to $1.2$ Hz.'
+      - 'Add a tuned mass damper if the frequency is inside the band.'
+      - 'Check that the critical wind speed $U_c$ exceeds $1.5$ times the design gust.'
+    hint: |
+      Strength and shape first, then dynamics, then wind.
+    explanation: |
+      The load decides the shape, the shape and load decide the section, and only then do mass and stiffness decide the frequency. The wind check last, because it can send you back to change the section (stiffness in twist) and so everything before it.
+
+  - type: mcq
+    id: final-check
+    prompt: |
+      A proposed footbridge: steel I-beam $0.9$ m deep (bending stress $181$ MPa), a beam with no sideways push on the banks, sideways $f_0 = 0.73$ Hz with a $125$ kg tuned mass damper tuned to $1.00$ Hz, and $U_c = 52$ m/s against a $30$ m/s design gust. Which requirement does it fail?
+    shuffle: false
+    options:
+      - text: 'The stress: $181$ MPa is above the steel limit.'
+        feedback: 'The limit is $200$ MPa, so $181$ MPa passes.'
+      - text: 'The damper: it should be tuned near $0.716$ Hz, not $1.00$ Hz.'
+        correct: true
+      - text: 'The wind: $52$ m/s is not above the gust.'
+        feedback: 'The requirement is $1.5\times30 = 45$ m/s, and $52 > 45$: it passes.'
+      - text: 'The banks: a beam pushes sideways.'
+        feedback: 'A simply supported beam under vertical load pushes the banks down only; the sideways push belongs to the arch.'
+    explanation: |
+      A damper tuned $40\%$ above the deck's frequency hardly moves when the deck sways at $0.73$ Hz, so the crowd's resonance is left almost untouched. Correct tuning is $0.73/1.02 = 0.716$ Hz. Every other line of the specification is met.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      **The footbridge, rebuilt.** Span $L = 24$ m, design load $w = 30$ kN/m, banks limited to $600$ kN, steel limited to $200$ MPa.
+
+      - **Shape and section:** a beam avoids bank thrust ($Hh = wL^2/8 = 2160$ kN m rules out rises below $3.6$ m). An I-beam $0.9$ m deep ($I = 5.36\times10^{-3}$ m$^4$) takes
+        $$M = \frac{wL^2}{8} = 2160\ \text{kN m}$$
+        $$\sigma = \frac{My}{I} = 181\ \text{MPa}$$
+      - **Sway:** the sideways spring and moving mass give
+        $$k = \frac{48EI_{\text{lat}}}{L^3}, \qquad f_0 = \frac{1}{2\pi}\sqrt{\frac{k}{m}}.$$
+        For the steel deck $I_{\text{lat}} = 1.8\times10^{-4}$ m$^4$, $k = 131$ kN/m, $m = 6.24$ t, $f_0 = 0.73$ Hz, in the crowd's sideways band ($0.7$ to $1.2$ Hz, half of the footstep rate near $2$ Hz). The resonance peak is $D/(2\zeta)$, $190$ mm for $\zeta = 0.004$.
+      - **Damper:** a tuned mass damper with $\mu = 0.02$ ($125$ kg), tuned at $f_0/(1+\mu) = 0.716$ Hz, cuts the peak to about $9.5\,D$ ($14$ mm).
+      - **Wind:** $\zeta_{\text{eff}} = \zeta_s(1 - U/U_c)$; the deck must have $U_c \ge 1.5\times$ the gust, raised by twist stiffness and shape, not by a sway damper. Tacoma failed by flutter, not by simple resonance.
+      - **Bearings:** isolation trades force for stretch, as the arch trades thrust for height: $k = M(2\pi/T)^2$ ($30.8$ kN/m for $T = 4$ s), stretch $0.31$ m for $0.2$ m of ground.
+
+      Every line is a tradeoff: weight against sway, stiffness against damping, a force against a length. **Next:** Level 4, Heat and Energy, starting with the electric shower.
