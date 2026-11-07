@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch12-mysticism (19 cards, concept, no widget)
+Five traditions (Sufi fana/baqa and al-Hallaj, Kabbalah devekut and Zohar, Christian Teresa and Eckhart, Advaita and moksha, Buddhist anatta and nirvana), table, sorting, Katz vs common core, order, numeric 655, traps, layers. Images: teresa (Commons, public domain, portrait by Juan de la Miseria); none for the others (Eckhart only sculptures, Hallaj/Rumi not fetched). Widget: none, because the lesson is verbal reports plus one plain table. Choices: no verbatim quotations (only glossed terms); Stace left to the next lesson (not yet verified); core defined as intersection of feature sets. Conventions fixed here: common core = $T_1\cap\dots\cap T_5$; Hallaj 858-922; Teresa Interior Castle written 1577; Zohar late 13th c., Moses de Leon c.1250-1305; Eckhart c.1260-1328; Katz 1978.
+
 ## 2026-11-07 ch12-numinous (19 cards, concept)
 Otto (numinous, mysterium tremendum et fascinans, creature-feeling), two readings, Keltner-Haidt awe, toy count card (inclusion-exclusion 12+30-8=34), order, James vs Otto, traps, layers. Images: otto (Commons, public domain). Widget: none, because the lesson is verbal reports and a conceptual contrast, with nothing to manipulate. Choices: no real awe-study numbers used (not verified), Schleiermacher dates dropped (unconfirmed), small-self claim attributed to "later studies" (Templeton page). Conventions fixed here: numinous = tremendum (awefulness, majestas, energy) + fascinans + mysterium (wholly other); awe = vastness + need for accommodation; overlap count formula $N(D\text{ or }F)=N_D+N_F-N_{DF}$.
 
