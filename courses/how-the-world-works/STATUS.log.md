@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-07 widget heat-pump-flow (autonomous)
+Built `js/widgets/heat-pump-flow.js` (registered), `docs/widgets/heat-pump-flow.md` (with smoke block), index line. Fraction-of-Carnot or fixed-COP modes, drag boxes, heat-to-move slider (power W). Checked by script and web, throwaway lesson deleted. Also fixed heat-layers profile axis title overlapping the top temperature label (PT 30, title at y 8).
+Conventions fixed here: Carnot COP_c = Tc/(Th-Tc), COP_h = COP_c + 1, kelvin = degrees + 273.15; fridge 4 C in 22 C kitchen at 40 % of Carnot: COP 6.16 (Carnot 15.4); freezer -18 C: Carnot 6.38.
+
 ## 2026-11-07 ch04-insulation (autonomous)
 Built `ch04/insulation.yaml` (24 cards, concept, own: 6 bullets, 5 blanks): spoon and jacket hook, conduction law and heat-layers (glass), window numbers, oak door, two layers in series (wood and foam), trap (wool makes heat), trapped air and convection, double glazing widget and numeric, radiation and emissivity, vacuum flask (Dewar, Thermos), flask widget, order of the heat path, oven, oven wall numeric, recall of the shower C = m c and tau = C R, two tau numerics. Choices: no new widget (heat-layers covers all); flask C 4180 J/K (1 L), A 0.05, silvered h 0.3 vs dull h 6 (setting values), ideal wall gives tau 77 h and the lesson says the neck and stopper make a real flask worse; q-halve card dropped to stay near 24. Images: 2 (Orchardson painting of Dewar, Dewar flask cross section, both public domain, on the flask card). Widget quirk: in the flask preset the profile's top-left temperature label overlaps the axis title (cosmetic, not fixed). Conventions fixed here: heat flow written $\dot Q$ (W) and heat $Q$ (J); $R = L/(kA)$ K/W, series $R_{\text{tot}}=\sum R$; still air $k = 0.026$; $C = mc$, $\tau = C R_{\text{tot}}$; flask setting $A = 0.05$ m$^2$, silvered $h = 0.3$, dull $h = 6$ W/(m$^2$ K), $\tau$ 77.4 h and 3.87 h; oven setting 220 to 30 °C, A 0.8 m$^2$, blanket k 0.05, 152 W.
 

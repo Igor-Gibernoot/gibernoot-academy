@@ -90,7 +90,7 @@ export function heatLayers(el, cfg) {
 
   // geometry (px)
   const W = 360, PL = 14, PR = 346, SW = 14, FW = 10;
-  const showProfile = show.profile, PT = 24, PH = showProfile ? 96 : 0;
+  const showProfile = show.profile, PT = 30, PH = showProfile ? 96 : 0;
   const AR = show.flowArrow ? PT + PH + 8 : PT + PH, ARH = show.flowArrow ? 26 : 0;
   const LY = AR + ARH + 4, LH = 66;
   const txtBase = LY + LH + 14;
@@ -142,7 +142,7 @@ export function heatLayers(el, cfg) {
         });
       }
       if (show.guides) for (const sl of resSlabs) for (const bx of [sl.x0, sl.x1]) g.append(s('line', { x1: bx, y1: PT, x2: bx, y2: LY, stroke: 'var(--muted)', 'stroke-width': 0.7, 'stroke-dasharray': '2 3', opacity: 0.7 }));
-      g.append(s('text', { x: PL + 3, y: PT - 2, 'font-size': 9, fill: 'var(--muted)' }, `${Lb.temp} (${U.temp})`));
+      g.append(s('text', { x: PL + 3, y: 8, 'font-size': 9, fill: 'var(--muted)' }, `${Lb.temp} (${U.temp})`));
     }
     // flow arrow
     if (show.flowArrow) {
