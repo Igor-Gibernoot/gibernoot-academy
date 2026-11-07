@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-07 ch04-fridge (autonomous)
+Built `ch04/fridge.yaml` (21 cards, concept, heat-pump-flow twice: fixed COP 2 with heat slider, then fridge/freezer presets at 40 % of Carnot). Hook, loop (order card), boiling and pressure, history, energy balance, COP, open-door trap, Carnot, wall load. Images: 1 (Jacob Perkins portrait, National Library of Wales, PD; the PD-US portraits were refused by the fetch tool). Web-checked (see VERIFIED.md). Choices: dropped a typical-household-COP claim (only secondary sources) and the Perkins refrigerant (sources differ); used "Heat taken/Work in/Heat out" arrow labels; widget label for the compressor stays "Compressor". Fixed overflow in q-freezer explanation.
+Conventions fixed here: $\dot Q_c,\dot Q_h,\dot W$ in watts, $\dot Q_h=\dot Q_c+\dot W$, COP $=\dot Q_c/\dot W$; fridge example 300 W taken, 100 W work, 400 W out, COP 3; fridge wall A 4 m$^2$, foam 5 cm k 0.033, dT 18 K: leak 47.5 W, W 15.8 W at COP 3 (139 kWh/yr); ENERGY STAR 18 ft3 about 363.5 kWh/yr (41 W); isobutane boils at about -12 C at 1 atm.
+
 ## 2026-11-07 widget heat-pump-flow (autonomous)
 Built `js/widgets/heat-pump-flow.js` (registered), `docs/widgets/heat-pump-flow.md` (with smoke block), index line. Fraction-of-Carnot or fixed-COP modes, drag boxes, heat-to-move slider (power W). Checked by script and web, throwaway lesson deleted. Also fixed heat-layers profile axis title overlapping the top temperature label (PT 30, title at y 8).
 Conventions fixed here: Carnot COP_c = Tc/(Th-Tc), COP_h = COP_c + 1, kelvin = degrees + 273.15; fridge 4 C in 22 C kitchen at 40 % of Carnot: COP 6.16 (Carnot 15.4); freezer -18 C: Carnot 6.38.
