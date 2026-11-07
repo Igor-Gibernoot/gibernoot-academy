@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07: ch13-origins (19 cards, concept)
+Built autonomously. Hook: guess who built Göbekli Tepe; then site and its temple-vs-settlement debate, a three-rung ladder (deliberate, not merely practical, belief meaning) with an order card, Shanidar 4 and La Chapelle-aux-Saints burial debates, Lion-man and Chauvet, Tylor vs Bird-David on animism, Peoples-Duda-Marlowe 2016, layers card. Web-checked (see VERIFIED.md); Britannica Göbekli page gave 403, used DAI/Wikipedia/UNESCO search. Images: gobekli-pillar (Zhengan, CC BY-SA 4.0), lion-man (Thilo Parg, CC BY-SA 4.0); no portraits (Schmidt, Tylor, Bird-David: none checked/free found, skipped). Choices: no widget; ladder is the lesson's own working test, not attributed. validate 0/0, shots 0 problems. Conventions fixed here: Göbekli Tepe c.9500-8000 calBC, pillars 3-5.5 m, UNESCO 2018; Lion-man c.40,000 y, Chauvet c.36,000 y; gap 28,500 y; Peoples et al. N=33, active high gods 15% (about 5); three-rung ladder.
+
 ## 2026-11-07 Level 12 audit
 Checked: no stray Level N references (only self-references in map), all ch12 nodes have `file:`, own: bullets self-contained, no source labels. Web re-check of ~40 facts (see VERIFIED.md audit line): Griffiths 2008 58%/67% confirmed from the abstract. Fixed: Newberg sample (eight meditators, three nuns) in neuro-religion; Pahnke supervision by Leary/Alpert softened to the Harvard psilocybin circle. Unconfirmed from primary text: Paloutzian 1999 (secondary), Doblin 1991 (summaries), Swinburne exact wording (paraphrase kept). Conventions fixed here: none.
 

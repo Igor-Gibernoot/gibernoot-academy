@@ -176,3 +176,6 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 - Challenge part 1: sham base rate 32.5% as P(E|not X), P(E|X)=0.65, LR 2, prior 0.1 -> 0.18, ceiling LR 3.08 (<=0.25); sleep-deprived R=3.75; feature sets A-G, S∩K=4, three-way core 3.
 - Map (12 boxes in 4 rows): marks, tests, numinous, traditions, core, constructivism, PCE, credulity, odds, neuro, transformation, layers.
 - Challenge part 2: invented retreat follow-up 42/60 vs 24/60 (0.70 vs 0.40, LR 1.75), prior 0.2 gives 0.30; R=18/14=1.29 for mystical-type group; blind guesses 0.90 vs 0.27 (3.4x).
+
+## Chapter 13
+- Origins lesson (19 cards): Göbekli Tepe c.9500-8000 calBC, T-pillars 3-5.5 m, UNESCO 2018, Schmidt 1953-2014 (ritual centre) vs settlement with ritual component; ladder of three rungs: deliberate, not merely practical, belief-kind meaning; Shanidar 4 (Solecki 1960, Leroi-Gourhan 1975, Hunt 2023 bees); La Chapelle (Rendu 2014 vs Dibble 2015); Lion-man c.40,000 y, Chauvet c.36,000 y, gap to Göbekli 28,500 y; Tylor 1871 vs Bird-David 1999; Peoples-Duda-Marlowe 2016 N=33, active high gods 15% (about 5).
