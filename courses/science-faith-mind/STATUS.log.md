@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch12-challenge (part 1, 28 cards)
+Built problems 1-3, no images, odds-updater once (prior 0.1, LR 2 fixed, presets 1%/10%/50%). P1 Dara's night watch (James marks, three tests, roots/fruits, R=45/12=3.75, Swinburne unreliable-conditions defeater, order, layers). P2 invented Sufi (fana) and Kabbalist (devekut) accounts with features A-G: overlap 4, three-way core 3 with a Buddhist report, shrink card, Katz, build report=core+interpretation, Forman PCE (neither account is a PCE: both name an object), layers. P3 retreat: 120/400, helmet 14/40 vs sham 13/40 (32.5%), LR 0.65/0.325=2, posterior 2/11=0.18, ceiling LR 1/0.325=3.08 (posterior <=0.25), scan 9/10 vs 8/10 LR near 1, layers. Registered the node, added planned node ch12-challenge-2. Choices: no own: (challenge, plain closing card); invented quotations flagged as invented. Conventions fixed here: sham base rate 32.5% = P(E|not X); LR 2; best-case LR 3.08; feature sets S={A,B,C,D,E,G}, K={A,B,C,F,G}, T={A,B,C,D}.
+
 ## 2026-11-07 ch12-map
 Built (14 cards, 12 boxes, 4 rows x 3 cols, no images, no widget; a map is recall by structure). Boxes: marks, tests, numinous, traditions, core, constructivism, PCE, credulity, odds, neuro, transformation, layers (constructivism and PCE split into two boxes). Decoys: marks swapped (entitle vs usual), tremendum/fascinans swapped, fana/baqa swapped, union for intersection, Katz reversed, PCE as sleep, credulity indefeasible, LR read the wrong way, layers misplaced. Dashed edge tests to transformation. No new web facts (all reused). Conventions fixed here: map box list recorded in CONVENTIONS.
 
