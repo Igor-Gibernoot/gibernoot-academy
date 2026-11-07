@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07: ch12-transformation (19 cards, concept)
+Built "Do Experiences Change Lives?": hook, Good Friday study (Pahnke 1962, Doblin 1991), Griffiths 2008 follow-up, conversion (Paloutzian et al. 1999), good outcome as LR, harm reverse, views, fair design order, own:. Web-checked (see VERIFIED.md). Images: none: no free portrait/object that teaches (Pahnke/Doblin not searched, studies are the content). Choices: used 58%/67% from the abstract via search summaries; Paloutzian wording kept "in essence". Conventions fixed here: toy prior 0.5, P(G|X)=0.8, P(G|not X)=0.7, LR 1.143, posterior 0.533; Griffiths 2008 n=36, 58% of 36 = 21.
+
 ## 2026-11-07 ch12-neuro-religion (19 cards, concept)
 Built from the plan. Widget: none (interpretation of findings; odds-updater used twice in ch12-evidence; two numeric cards cover the LR arithmetic). Images: none (no sure free-licence portrait/scenario of Geschwind, Persinger, Newberg checked; skipped). Choices: Tinoca-Ortiz and French studies left unnamed ("results went both ways", secondary source only); no field strengths stated (sources differ). Conventions fixed here: brain explanation defeats only if LR = 1 (Swinburne's 4th defeater); toy numbers prior 0.2, LR 1 gives 0.2, LR 2 gives 0.333; Granqvist 2005 N = 89 (43 field, 46 sham).
 
