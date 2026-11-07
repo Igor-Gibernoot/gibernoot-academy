@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch14-scrolls (concept, 22 cards, no widget)
+Built autonomously. Widget decision: none (a manuscript comparison gains little from one; the next guided problem does the toy comparison). Images: 1 (qumran-cave, CC BY-SA 4.0, resized to 700 px; first image card checked in phone screenshot). Choices: one image only since no free image of a Qumran scroll beyond the Isaiah one already used in the writing lesson; Tov percentages given as 60% (1992) vs about 35% (2001) from secondary sources; Esther claim and dealer name dropped as unconfirmed; Temple lunar calendar stated as "according to many scholars". tried: web checks listed in VERIFIED.md (8 searches, 2 fetches). Conventions fixed here: scrolls 981 manuscripts, 11 caves, Cave 4 ~90%; ~40/30/30 split; Great Isaiah c.125 BCE, >2,600 variants, 125 BCE to 1008 CE = 1132 years; 364 = 52x7, drift 1.24 days/yr (37.2 in 30 yr); Essene (de Vaux) vs Jerusalem library (Golb) vs Zadokite-Sadducean roots (Schiffman).
+
 - 2026-11-07 `ch14-archaeology` (concept, 23 cards, no widget: a map or timeline would not build intuition beyond the order card). Frame: attested / debated / silent. Exodus (numbers, Kitchen vs Finkelstein/Dever), conquest (Jericho, Ai, Hazor), origins models, David (Tel Dan, Qeiyafa, low vs modified chronology), Kurkh/Black Obelisk/Sennacherib, exile (Chronicle 597, Jehoiachin tablets, Cyrus Cylinder). Images: tel-dan-stele, lachish-relief. Choices: Hoffmeier dropped (stance unconfirmed); Mesha stele, Samaria 722, Siloam tunnel left out for length. Conventions fixed here: Qarqar c.853 (some give 854); destruction of Jerusalem 587 or 586; Jehu c.841; 603,550 x 4 = 2.41 million.
 
 ## 2026-11-07 ch14-torah (Level 14, concept, 23 cards, autonomous)
