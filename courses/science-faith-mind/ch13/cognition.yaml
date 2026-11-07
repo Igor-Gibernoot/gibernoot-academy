@@ -1,0 +1,337 @@
+id: ch13-cognition
+title: "Minds Built to See Agents"
+kind: concept
+own: |
+  The setting: cognitive scientists of religion ask which ordinary mental habits make beliefs in spirits and gods easy to form and to pass on. Here an **agent** is a being that acts on goals, and a **false alarm** is a detector firing when nothing is there.
+  - **Agency detection.** According to Guthrie (1993) and Barrett (2000), the mind quickly flags ambiguous signs (a rustle, a shape) as the work of an agent, because missing a predator costs far more than a false alarm. With $p$ the chance that a rustle is an agent, $C_{\text{miss}}$ the cost of ignoring a real one and $C_{\text{alarm}}$ the cost of reacting to nothing, the expected costs are
+  {{ $$E_{\text{ignore}} = p\,C_{\text{miss}}$$ }}
+  {{ $$E_{\text{react}} = (1-p)\,C_{\text{alarm}}$$ }}
+  and reacting wins when
+  $$p > \frac{C_{\text{alarm}}}{C_{\text{alarm}} + C_{\text{miss}}}.$$
+  So a detector that is wrong most of the time can still be the best policy.
+  - **Theory of mind.** The ability to attribute beliefs, goals and knowledge to others, including beliefs that differ from the facts. In the false-belief test a person puts an object in place A, leaves, and it is moved to place B; a child who passes says that the person will look in {{ place A, where she believes it is }}. Children usually pass around age four.
+  - **Minimally counterintuitive concepts.** According to Boyer (2001), a concept that breaks one or two expectations about its category and keeps all the others, such as a ghost that walks through walls but still has beliefs and wants, tends to be {{ better remembered and passed on }} than an ordinary concept or a very strange one.
+  - **Two stories of origin.** According to the by-product view (Boyer, Atran), religious belief is a side effect of {{ mental tools that evolved for other jobs }}; according to the adaptation view (D. S. Wilson), religion itself was selected for what it does for groups. The two can be combined.
+  - **Three layers.** That minds flag agents and remember strange concepts is established in experiments; whether this is the main cause of religion, a by-product or an adaptation is a live debate; whether a belief is true is a faith or metaphysical commitment that the origin story alone does not settle.
+
+cards:
+  - type: mcq
+    id: hook
+    title: "Guess: the rustle in the grass"
+    prompt: |
+      Guessing is the point; no theory yet. You are walking alone at dusk through tall grass, long ago, and something rustles nearby. It is either the wind or a predator. You can freeze and prepare to flee, or ignore it. Over many generations, which kind of mistake would you expect evolution to punish harder?
+    options:
+      - text: 'Reacting to wind as if it were a predator.'
+        feedback: |
+          This mistake costs a little: some wasted energy and a startled moment. It happens often, but it rarely kills.
+      - text: 'Ignoring a predator as if it were wind.'
+        correct: true
+        feedback: |
+          Yes. One such mistake can end a life, so ancestors who sometimes jumped at the wind lived to have children, and those who never did were at more risk.
+      - text: 'Both cost the same, so nothing would be selected.'
+        feedback: |
+          The costs are far from equal: a wasted flinch against a lost life. When costs are that lopsided, the lopsidedness is what drives selection.
+    explanation: |
+      Hold on to this asymmetry. It is the first of three mental habits this lesson uses to ask why beliefs in unseen beings come so easily to human minds.
+
+  - type: text
+    id: hadd
+    title: "Seeing someone behind the rustle"
+    body: |
+      The anthropologist Stewart Guthrie argued in *Faces in the Clouds: A New Theory of Religion* (1993) that religion is a kind of systematic anthropomorphism, that is, reading human traits and intentions into things that are not human. We do it from childhood on: faces in clouds, a storm that "wants" something, a car that "refuses" to start. In his account it is a basic and automatic habit of perception, not only a religious one.
+
+      The psychologist Justin Barrett turned this into a cognitive mechanism in a 2000 review, "Exploring the natural foundations of religion," in *Trends in Cognitive Sciences*, naming it the **hyperactive agency detection device**, abbreviated HADD. It is a way of saying that the mind has a quick system that flags self-propelled, goal-directed events as the work of an **agent** (a being that acts on goals), and that this system errs toward seeing agents. A modest reading is enough for what follows: the system is tuned to fire on weak evidence.
+
+  - type: text
+    id: decision-table
+    title: "A toy decision table"
+    body: |
+      Make the rustle precise with invented numbers. Say a rustle comes from a predator with probability $p = 0.02$, and from wind otherwise. If you ignore a real predator the cost is $C_{\text{miss}} = 100$ units (a life, in rough terms). If you react to wind the cost is $C_{\text{alarm}} = 1$ unit (a wasted flinch).
+
+      | You | It is a predator ($p$) | It is wind ($1-p$) |
+      |---|---|---|
+      | Ignore | cost $C_{\text{miss}}$ | cost $0$ |
+      | React | cost $0$ | cost $C_{\text{alarm}}$ |
+
+      The expected cost of a choice is each possible cost times its probability, added up. For ignoring, only the predator row costs anything:
+      $$E_{\text{ignore}} = p\,C_{\text{miss}}.$$
+      For reacting, only the wind row does:
+      $$E_{\text{react}} = (1-p)\,C_{\text{alarm}}.$$
+
+  - type: numeric
+    id: expected-ignore
+    title: "The cost of ignoring"
+    prompt: |
+      A rustle comes from a predator with probability $p=0.02$. Ignoring a real predator costs $100$ units; reacting to wind costs $1$ unit. What is the expected cost of ignoring the rustle, in units?
+    answer: 2
+    tolerance: 0.001
+    answerText: '2'
+    wrong:
+      - value: 0.98
+        feedback: |
+          That is the expected cost of reacting, $(1-p)\cdot 1 = 0.98$. Ignoring only costs anything when the rustle really is a predator.
+      - value: 100
+        feedback: |
+          That is the cost if the predator is real. The expected cost weights it by how likely that is, $0.02$.
+    hint: Only the predator case costs anything when you ignore. Multiply its cost by its probability.
+    explanation: |
+      $E_{\text{ignore}} = 0.02\times100 = 2$ units. Reacting costs $E_{\text{react}} = 0.98\times1 = 0.98$ units. So reacting is the cheaper policy, even though 98 rustles in 100 are only wind.
+
+  - type: numeric
+    id: break-even
+    title: "How rare can predators be?"
+    prompt: |
+      Same costs: ignoring a real predator costs $100$ units, reacting to wind costs $1$ unit. Reacting is the better policy whenever the chance $p$ of a predator exceeds a break-even value, where the two expected costs are equal. Find the break-even $p$ as a percentage, to two decimals.
+    answer: 0.99
+    tolerance: 0.01
+    answerText: '0.99'
+    hint: Set $p\cdot100 = (1-p)\cdot1$ and solve for $p$.
+    explanation: |
+      $100p = 1-p$ gives $p = 1/101 \approx 0.0099$, about $0.99\%$. In general reacting wins when
+      $$p > \frac{C_{\text{alarm}}}{C_{\text{alarm}} + C_{\text{miss}}}.$$
+      So with these costs the detector should fire even if only about one rustle in a hundred hides a predator: if $p$ were $0.5\%$, ignoring would cost $0.5$ and reacting $0.995$, and ignoring would win, but just above $0.99\%$ it flips.
+
+  - type: mcq
+    id: broken-detector
+    title: "Is the detector broken?"
+    prompt: |
+      A critic says: "A detector that is wrong 98 times out of 100, as in the rustle example with $p=0.02$, is a faulty detector." What is the best reply from the cost argument?
+    options:
+      - text: 'It is faulty, but evolution cannot fix every fault.'
+        feedback: |
+          This accepts the critic's measure of accuracy. The cost argument says accuracy is the wrong measure when the two errors cost so differently.
+      - text: 'Its job is to minimise expected cost, not to be right most often, so many cheap false alarms are the price of rarely missing a costly real one.'
+        correct: true
+        feedback: |
+          Yes. A smoke alarm that sometimes rings over toast is working as intended for the same reason.
+      - text: 'It is accurate, since the 2% of true predators are always detected.'
+        feedback: |
+          Catching all the real ones is exactly what makes it good, but it is not accurate in the plain sense: most alarms are false. The argument works because false alarms are cheap.
+    explanation: |
+      Some scholars question whether the detector really fires on every ambiguous sign, so how hair-trigger it is stays a live debate; the cost argument shows only why such a tuning would pay.
+
+  - type: text
+    id: tom
+    title: "Minds that read minds"
+    image:
+      src: img/baron-cohen.webp
+      alt: "Photograph of the psychologist Simon Baron-Cohen"
+      caption: "Simon Baron-Cohen, who with Leslie and Frith named the Sally-Anne test in 1985."
+      credit: "Simon Baron-Cohen, CC BY-SA 3.0, via Wikimedia Commons"
+      link: "https://commons.wikimedia.org/wiki/File:Simon_Baron-Cohen.jpg"
+    body: |
+      Detecting an agent is the first habit. The second is guessing what the agent wants and knows. In 1978 David Premack and Guy Woodruff asked, in the title of a paper in *Behavioral and Brain Sciences*, "Does the chimpanzee have a theory of mind?" They defined an individual as having a **theory of mind** if it imputes mental states (beliefs, wants, intentions) to itself and to others. Their answer for the chimpanzee Sarah was yes, and the question is still debated.
+
+      The sharpest test for humans uses a **false belief**: a belief that differs from how things are. Heinz Wimmer and Josef Perner (*Cognition*, 1983) told children about Maxi, who puts chocolate in one cupboard and leaves; his mother moves it to another, and the child is asked where Maxi will look. The same logic appears in the Sally-Anne test, named by Simon Baron-Cohen, Alan Leslie and Uta Frith (1985): Sally puts a marble in her basket and leaves, and Anne moves it to a box.
+
+  - type: mcq
+    id: sally-anne
+    title: "Where will Sally look?"
+    prompt: |
+      Sally puts her marble in her basket and goes out. While she is away, Anne moves the marble to a box. Sally comes back. Where will Sally look first for her marble? (You know where it is.)
+    options:
+      - text: 'In the box, because that is where the marble is.'
+        feedback: |
+          This is the answer of a mind that uses what it knows instead of what Sally knows. Sally did not see the move, so she has no reason to look there.
+      - text: 'In the basket, because that is where she believes it is.'
+        correct: true
+        feedback: |
+          Yes. To get it right you hold two pictures at once: the real world (marble in the box) and Sally's belief (marble in the basket).
+    explanation: |
+      Children typically start to answer correctly around the age of four, according to reviews of the Wimmer-Perner line of work; younger children tend to say the box.
+
+  - type: mcq
+    id: what-passing-shows
+    title: "What does passing show?"
+    prompt: |
+      A four-year-old answers the Sally-Anne question correctly. Which conclusion is best supported?
+    options:
+      - text: 'The child can represent that someone else holds a belief that differs from the facts, which is the core of reading minds.'
+        correct: true
+        feedback: |
+          Yes. That is why the task is used: the right answer cannot come from the facts alone.
+      - text: 'The child understands every aspect of other minds, including emotions and lies.'
+        feedback: |
+          Too much. The test targets one ability, and children keep developing others (second-order beliefs such as what one person thinks another believes come around two years later, according to later work).
+      - text: 'Nothing: the answer could be a lucky guess in every case.'
+        feedback: |
+          A single child could guess, but across many children a pattern of failing at three and passing at five is not luck. Researchers do debate what exactly the pattern shows, and whether babies show a hidden early version.
+    explanation: |
+      Baron-Cohen, Leslie and Frith (1985) also reported that many autistic children failed the task while most children in a comparison group with Down syndrome passed, which they read as a specific delay in this ability. Later work finds that some autistic children pass, so the link is weaker than the first reading suggested.
+
+  - type: text
+    id: agents-and-gods
+    title: "Putting the two habits together"
+    body: |
+      Suppose a mind has both habits: a quick detector that flags agents on weak signs, and a mind-reading tool that then supplies what the agent believes and wants. Applied to a creak in an empty house, a lightning bolt or a good harvest, the pair produces a thought of the form "someone is there, and they know and want something." Cognitive scientists of religion (Guthrie, Barrett and others) point out that the concept of a god or spirit is exactly such an agent, only unseen.
+
+      This is a claim about **why such concepts are easy to form**. It says nothing yet about whether there is anyone there.
+
+  - type: order
+    id: chain
+    title: "Build the chain"
+    prompt: Put the proposed chain from a rustle to a belief in an unseen agent in order.
+    steps:
+      - 'An ambiguous sign appears (a rustle, a shape, a lucky escape).'
+      - 'The quick agency detector flags it as the work of an agent.'
+      - 'Theory of mind supplies what that agent believes and wants.'
+      - 'The thought "someone unseen is acting, with a purpose" forms and can be told to others.'
+    hint: First the sign, then detecting, then reading its mind, then the shared story.
+    explanation: |
+      Each link is a habit of the ordinary mind, used for other jobs. The proposal is that religious concepts ride on them. Note that the chain explains why the thought forms, not whether it is true.
+
+  - type: text
+    id: mci
+    title: "Which strange ideas stick?"
+    image:
+      src: img/atran.webp
+      alt: "Photograph of the anthropologist Scott Atran at a conference"
+      caption: "Scott Atran, whose book In Gods We Trust (2002) argues that religion grows out of ordinary cognitive faculties rather than being an adaptation in its own right."
+      credit: "Scottatran, CC BY-SA 4.0, via Wikimedia Commons"
+      link: "https://commons.wikimedia.org/wiki/File:Scott_Atran_2017_Davos_photo.jpg"
+    body: |
+      Religious stories are full of odd beings, yet they are not wildly odd. Pascal Boyer (*Religion Explained*, 2001) argued that concepts which mostly fit our expectations about a category (a person, an animal, an object) but break one or two of them are especially memorable and so spread well. He called them **minimally counterintuitive** concepts. A ghost that walks through walls still sees, wants and remembers like a person: one expectation broken, the rest kept. Scott Atran (*In Gods We Trust*, 2002) also ran memory studies on strange concepts, including ones with more violations.
+
+      Two neighbours help to see the idea. An **intuitive** concept breaks nothing (a plain stone). A **maximally counterintuitive** concept breaks three or more expectations in the usual labelling of Barrett, the labelling used in this lesson, so that little is left to reason with.
+
+  - type: mcq
+    id: mci-sort
+    title: "Pick the minimally counterintuitive ones"
+    prompt: |
+      A concept is minimally counterintuitive if it breaks one or two expectations about its category and keeps the rest. Which of these fit? Select all that apply.
+    multiple: true
+    options:
+      - text: 'A tree that listens to what people say (a plant that hears).'
+        correct: true
+        feedback: |
+          One broken expectation (plants do not hear), the rest of "tree" is kept.
+      - text: 'A man who walks through walls, and otherwise eats, tires and holds grudges.'
+        correct: true
+        feedback: |
+          One broken expectation (solid bodies are blocked by solid objects), everything else about a person is kept.
+      - text: 'An ordinary stone lying in a field.'
+        feedback: |
+          It breaks no expectation: that makes it an intuitive concept, not a counterintuitive one.
+      - text: 'A thing that is invisible, has no body, is in no place, does not change over time, and has no beliefs or wants.'
+        feedback: |
+          It breaks more than three expectations and keeps little to reason with, so it falls at the maximal end.
+    explanation: |
+      The counting is a rough tool: what counts as one expectation is itself argued about, and it depends on what listeners already know.
+
+  - type: mcq
+    id: mci-memory
+    title: "What do the memory studies show?"
+    prompt: |
+      Barrett and Nyhof (2001, *Journal of Cognition and Culture*) tested stories with ordinary items and items with one violation. What did they report, and what is the caution?
+    options:
+      - text: 'They reported that the one-violation items tended to be better remembered and passed along, though later studies are mixed, and critics ask how well lab recall predicts what spreads in a culture.'
+        correct: true
+        feedback: |
+          Yes. The effect is real in several experiments but its size and conditions are debated.
+      - text: 'They proved that all successful religious ideas are minimally counterintuitive.'
+        feedback: |
+          No study could prove that. Even the proposers talk of an advantage in memory and transmission, not of a rule without exceptions.
+      - text: 'They showed that the stranger a concept, the better it is remembered.'
+        feedback: |
+          The proposal is the opposite of "the stranger the better": very strange concepts are said to lose the advantage because little can be inferred from them.
+    explanation: |
+      A fair summary: the claim is a modest, testable one about memory and retelling, and only a part of any account of why religions look as they do.
+
+  - type: mcq
+    id: why-keep-rest
+    title: "Why keep the rest of the concept?"
+    prompt: |
+      Boyer's view says a god-concept works best when it breaks a little and keeps the rest of the properties of an agent (it sees, knows, wants). What does keeping the rest give believers?
+    options:
+      - text: 'Nothing: the kept properties are just filler.'
+        feedback: |
+          They do the work: they let people use their theory of mind to reason about the being, to guess what it wants or sees.
+      - text: 'A being they can reason about with the mind-reading habits they already have, so the concept is easy to use as well as to remember.'
+        correct: true
+        feedback: |
+          Yes. This ties the second habit (theory of mind) to the third (memorable oddness).
+      - text: 'Proof that the being exists.'
+        feedback: |
+          Usability of a concept says nothing on whether anything corresponds to it. A fictional detective is also easy to reason about.
+    explanation: |
+      A later lesson takes up how beliefs in aware gods may bind groups.
+
+  - type: text
+    id: by-product-or-not
+    title: "By-product or adaptation?"
+    body: |
+      Three habits are on the table: spotting agents, reading minds and remembering mild oddness. Two broad accounts of why religion exists build on them.
+
+      The **by-product view** (Atran, Boyer and Paul Bloom are often named) says religion is a side effect of mental tools that evolved for other jobs, such as avoiding predators and getting along with other people; religion then spread because it fits minds already built that way. In one phrase from a 2011 review, the idea is that there is no mind for religion, but religion evolved culturally to fit the minds we have.
+
+      The **adaptation view** (David Sloan Wilson is the main example) says that religion itself was selected, because it helped groups hold together, a claim the next lesson examines. Some scholars combine the two: belief in supernatural agents may be a by-product, which cultures later used to encourage cooperation.
+
+  - type: mcq
+    id: predictions
+    title: "What would each view expect?"
+    prompt: |
+      Which finding would, on its own, count most in favour of the by-product view over the adaptation view?
+    options:
+      - text: 'The same agent-spotting and mind-reading habits show up when people see faces in clouds or blame their computers, with no religious setting at all.'
+        correct: true
+        feedback: |
+          Yes. If the tools work outside religion in the same way, religion looks like one more use of them. It does not rule out adaptation: a by-product can also have been put to use later.
+      - text: 'Religious groups with strong rituals tend to outlast groups without them.'
+        feedback: |
+          This favours the adaptation story: it is about what religion does for the group. A by-product theorist can accept it as a later effect.
+      - text: 'Religion exists in every known society.'
+        feedback: |
+          Both views expect that: the by-product view because the mental habits are universal, the adaptation view because the function is useful everywhere. It does not tell them apart.
+    explanation: |
+      Notice that each view has an answer for the other's evidence. That is why the debate is live: the evidence needed to separate them is hard to get.
+
+  - type: text
+    id: explain-away
+    title: "Does the story settle the truth?"
+    body: |
+      A natural reaction to everything above is: "If the mind is built to see agents, then gods are just a trick of the mind." A believer reacts the other way: "If the mind is built to see agents, that is how a creator made us able to find him." Both sound reasonable, and neither follows from the science alone.
+
+      What the experiments establish is about how beliefs form and spread. Whether a causal story about the origin of a belief undermines the belief is a separate question, taken up in the lesson Does Explaining Belief Explain It Away?, which asks when a cause counts against a belief and when it does not. Here it is enough to mark the gap.
+
+  - type: mcq
+    id: flag-q
+    title: "Origin and truth"
+    prompt: |
+      Someone argues: "Cognitive science has shown that the mind is built to see agents even where there are none, so belief in God is false." What is the most careful assessment?
+    options:
+      - text: 'The conclusion does not follow from the premise alone: a detector tuned to over-fire shows that many agent-readings are mistaken, but not that every one is, and it says nothing about this one.'
+        correct: true
+        feedback: |
+          Yes. A smoke alarm that over-fires still sometimes sounds when there is a real fire. The argument may be strengthened with further premises, which the later lesson examines.
+      - text: 'It is valid, since an explanation of belief makes the belief false.'
+        feedback: |
+          Being explained is not being false: we can explain true beliefs too, such as why we believe the sun is bright. A causal story alone does not decide.
+      - text: 'It is refuted by the fact that many scientists believe in God.'
+        feedback: |
+          The beliefs of scientists neither support nor refute an argument. What matters is the logic: what the premise gives and what it does not.
+    explanation: |
+      The same care applies the other way: "the mind is built to see agents, so God made it so" also needs more than the cognitive facts. Thoughtful people part ways on whether a cause can count as evidence against a belief, and on what else must be added.
+
+  - type: mcq
+    id: layers
+    title: "Sorting the claims"
+    prompt: |
+      Sort three claims. (a) People over-attribute agency to ambiguous signs in experiments with moving shapes and rustling sounds. (b) Religion exists mainly because of this tendency. (c) God exists. Which sorting fits the three layers?
+    options:
+      - text: '(a) established in experiments, (b) a live debate between by-product and adaptation views and others, (c) a faith or metaphysical commitment.'
+        correct: true
+        feedback: |
+          Yes. (a) is an experimental result, (b) is a scholarly debate about causes and how much each cause counts, and (c) lies beyond what these studies can test.
+      - text: '(a) a live debate, (b) established, (c) established by the cognitive science.'
+        feedback: |
+          The mixture is reversed: (b) is exactly what is contested, and no cognitive study establishes or refutes (c).
+      - text: '(a), (b) and (c) are all faith commitments.'
+        feedback: |
+          (a) is tested by experiments that anyone can repeat. Only (c) rests on a commitment.
+    explanation: |
+      Keeping the layers apart is the point of the whole level: a good account of how a belief arises can be fully accepted by believers and by sceptics, and each draws a different conclusion.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** Religion and the Group. We asked which mental habits make belief in unseen agents easy; the next lesson asks what religion does for groups, from costly signals of commitment to big watching gods and the debate over whether groups were a target of selection.
