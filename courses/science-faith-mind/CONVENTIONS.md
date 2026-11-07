@@ -191,6 +191,7 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 
 ## Chapter 14
 - Israel lesson (21 cards): Merneptah reign 1213-1203 BCE, stele c.1208; Amarna letters c.380 tablets mid-14th c., Akkadian; Ugarit texts c.1350-1185, destroyed c.1190, El/Athirat/Baal; Kuntillet Ajrud c.801-770 (goddess vs cult symbol); henotheism < monolatry < monotheism; Kaufmann (Moses, new beginning) vs Smith (gradual, 1990, rev. 2002); quotations only JPS 1917 Exod 20:3, Deut 6:4, Isa 45:5.
+- Writing lesson (20 cards): Gezer calendar c.10th c. BCE (found 1908); Great Isaiah Scroll c.125 BCE; Aleppo Codex c.920-930 CE, Leningrad 1008 CE; Tanakh 24 books (Josephus 22); Graetz 1871, Lewis 1964, Leiman 1976 (Jamnia contested); LXX Torah 3rd c. BCE, Jeremiah LXX ~1/8 shorter.
 
 ## Exam partial 2 (Levels 8-13)
 - Invented setting (Ardenne Summer School, shrine of Marl). Numbers: u=0.8, E=(5,2) gives t_B=-10/3; miracle prior 1e-6, P(E|M)=0.8, q=0.01, 3 witnesses 0.339; toy network A-B,A-C,B-C,B-D,C-D score 2; SE(d) n=50 d=0.4 0.202; z=3.0 (38/100 vs 0.25); 1-0.95^14=0.512; p*=2/42; free rider 34; margin 3.2 pts (p=0.4, n=900); shared flaw c=0.005 LR 120. Do not reuse in later exams.
