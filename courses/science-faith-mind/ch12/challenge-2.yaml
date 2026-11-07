@@ -1,0 +1,240 @@
+id: ch12-challenge-2
+title: "Level Challenge: What Does an Experience Show? (2)"
+kind: challenge
+
+cards:
+  - type: text
+    id: welcome
+    title: "Challenge, part 2: a retreat follow-up and a closing weighing"
+    body: |
+      Two more problems in the style of the level. Both cases and all their numbers are invented to practise the method. This part stands alone, so the toolkit is restated here.
+
+      - **James's four marks.** According to William James (1902), a state is called mystical when it has *ineffability* (it cannot be put into words) and a *noetic quality* (it feels like knowledge). *Transiency* and *passivity* are usual but not required.
+      - **Three tests, roots and fruits.** James judges an opinion by *immediate luminousness*, *philosophical reasonableness* and *moral helpfulness*. What caused a state (its roots) and what it is worth (its fruits) are two questions.
+      - **Credulity and defeaters.** Richard Swinburne's principle: if it seems to a person that something is present, then, absent a defeater, probably it is. A defeater pulls the likelihood ratio toward $1$. In odds form, with $X$ the claim and $E$ the evidence,
+      $$\begin{aligned}\text{posterior odds}={}&\frac{P(E\mid X)}{P(E\mid\neg X)}\\&\times\text{prior odds}\end{aligned}$$
+      - **Enrichment.** For a group,
+      $$R=\frac{\text{observed}}{\text{expected if spread evenly}}$$
+      - **Three layers:** established fact, live debate, faith or metaphysical commitment.
+
+  # ---------------- Problem 4 ----------------
+  - type: text
+    id: p4-setup
+    title: "Problem 4 · The retreat follow-up"
+    body: |
+      **Problem 4.** A study invites $120$ adults to a week-long retreat. Each is randomly given either a psychedelic substance ($60$ people) or an inactive placebo ($60$ people), with a guide present in both groups. Six months later each is asked whether the retreat led to a good outcome (a lasting rise in well-being that they themselves rate as good). The answers: $42$ of the $60$ in the substance group say yes, against $24$ of the $60$ in the placebo group. Within the substance group, $20$ people had a session that scored as mystical-type on a questionnaire built from James's marks, and $18$ of those $20$ report a good outcome. (The study is invented.)
+
+      Your task: compute the rates, weigh what the numbers can show, and say where they stop.
+
+  - type: numeric
+    id: p4-lr
+    title: "The ratio of a good outcome"
+    prompt: |
+      In the substance group, $42$ of $60$ report a good outcome. In the placebo group, $24$ of $60$ do. Let $H$ be "this person was in the substance group" and $\neg H$ "in the placebo group". How many times likelier is a good outcome in the substance group than in the placebo group, that is, the ratio $P(\text{good}\mid H)/P(\text{good}\mid\neg H)$? Give a number to two decimals.
+    answer: 1.75
+    tolerance: 0.01
+    answerText: '1.75'
+    hint: |
+      Find the two rates first, each as outcomes over group size, then divide the larger by the smaller.
+    wrong:
+      - { value: 0.57, feedback: "That is the ratio upside down: placebo rate over substance rate. The question asks for the substance group first." }
+      - { value: 0.3, feedback: "That is the difference of the rates ($0.70-0.40$), not their ratio. The likelihood ratio divides the two chances." }
+    explanation: |
+      The substance rate is $42/60=0.70$ and the placebo rate is $24/60=0.40$, so the ratio is $0.70/0.40=1.75$. Even people given nothing active report a good outcome $40\%$ of the time, which is a base rate the substance has to beat.
+
+  - type: numeric
+    id: p4-post
+    title: "Where a reader ends"
+    prompt: |
+      A stranger from this study says only "I had a good outcome." You know nothing about their group except that each person was put in the substance group with probability $0.20$ (so their prior probability of the substance group is $0.20$). A good outcome is $1.75$ times as likely in the substance group as in the placebo group. What is the probability, after hearing the stranger, that they were in the substance group? Give it to two decimals.
+    answer: 0.30
+    tolerance: 0.005
+    answerText: '0.30'
+    hint: |
+      Turn the prior probability into odds, apply the ratio to the odds, and turn the result back into a probability.
+    wrong:
+      - { value: 0.35, feedback: "That multiplies the probability $0.20$ by $1.75$. The ratio acts on the odds ($1$ to $4$), not on the probability." }
+      - { value: 0.64, feedback: "That is the answer for a prior of $0.5$ (odds $1$). The prior here is $0.20$, with odds $1/4$." }
+    explanation: |
+      Prior odds are $0.20/0.80=1/4$. Times $1.75$ gives $0.4375$, and the probability is $0.4375/1.4375\approx0.30$. A good outcome is weak evidence about the group, because most of its rate is shared with the placebo group.
+
+  - type: numeric
+    id: p4-enrich
+    title: "How much does a mystical-type session enrich a good outcome?"
+    prompt: |
+      Of the $60$ people in the substance group, $42$ report a good outcome and $20$ had a mystical-type session. Of those $20$, $18$ report a good outcome. Compute the enrichment ratio $R$ for the mystical-type group: the good outcomes observed in it over those expected if the $42$ good outcomes were spread evenly over the $60$ people. Give a number to two decimals.
+    answer: 1.29
+    tolerance: 0.01
+    answerText: '1.29'
+    hint: |
+      A group of $20$ out of $60$ would hold the same share of the $42$ good outcomes as its share of the people.
+    wrong:
+      - { value: 0.9, feedback: "That is the rate inside the group ($18$ of $20$), not the enrichment. Compare it with what an even spread would give." }
+      - { value: 0.43, feedback: "That is the group's share of the people ($20/60$) mixed up with the ratio. The expected count is that share times $42$." }
+    explanation: |
+      Evenly spread, the group would hold $42\times20/60=14$ good outcomes. It holds $18$, so $R=18/14\approx1.29$. In rates, $90\%$ inside the group against $70\%$ in the whole substance group.
+
+  - type: mcq
+    id: p4-causal
+    title: "Does the enrichment show the experience did it?"
+    prompt: |
+      A reader says: "Good outcomes are $1.29$ times as common after a mystical-type session, so the mystical-type experience caused the good outcome." What is the fair reading?
+    options:
+      - text: 'It is a pattern worth noting, but it is a comparison inside one group, and nobody was randomly assigned to have a mystical-type session. People who were hopeful, open or fond of the setting may be likelier both to have such a session and to rate their outcome as good, so a common factor could produce the pattern.'
+        correct: true
+      - text: 'It shows the cause, because the substance group was randomly formed, and randomization makes every comparison inside it causal.'
+        feedback: |
+          Randomization protects the comparison between the two groups. The split inside the substance group, into those who had a mystical-type session and those who did not, was not assigned, so it can carry other differences.
+      - text: 'It shows nothing, because $18$ of $20$ is too small a number to mean anything.'
+        feedback: |
+          The numbers are small, but that is not the main weakness. Even with large numbers the split would still be self-selected, and a causal reading would still need a common factor to be excluded.
+    explanation: |
+      Randomization supports the substance-against-placebo comparison. The enrichment among those with a mystical-type session is a pattern that fits the claim "the experience matters", and equally fits "the same people are inclined to both". Nothing here separates them.
+
+  - type: mcq
+    id: p4-blind
+    title: "A broken blind"
+    prompt: |
+      At the end, $54$ of the $60$ people in the substance group correctly guessed that they had the substance, and $16$ of the $60$ in the placebo group guessed they had it. According to the rates, how many times as often does the substance group guess substance? What does this do to the comparison of $42$ and $24$?
+    options:
+      - text: 'About $3.4$ times as often ($0.90$ against $0.27$). Many knew their group, so the $42$ against $24$ measures the substance plus the expectation of those who knew, and the study cannot say how much is which.'
+        correct: true
+      - text: 'About $3.4$ times as often, but this only shows the substance works strongly enough to be noticed, so the difference of $42$ and $24$ is a clean measure of its effect.'
+        feedback: |
+          A person can tell the groups apart by effects such as perceptual changes, which are not the six-month outcome. Knowing the group brings its own expectation about the outcome, which sits inside the same $42$ and $24$.
+      - text: 'About $0.3$ times as often, so the blind held.'
+        feedback: |
+          That inverts the ratio and the conclusion: the substance group guessed substance far more often ($0.90$) than the placebo group did ($0.27$). A blind that held would give similar guess rates in both groups.
+    explanation: |
+      The ratio is $0.90/0.27\approx3.4$. A broken blind does not erase the effect, but it makes the observed difference a mixture of the substance and what people expect from it. A fair design asks people to guess before they hear the results, and compares those who believed the same thing.
+
+  - type: mcq
+    id: p4-layers
+    title: "Sort three claims into the three layers"
+    prompt: |
+      Sort: (a) In this study, $42$ of $60$ in the substance group and $24$ of $60$ in the placebo group report a good outcome. (b) The mystical-type session mediates the good outcome. (c) The mystical-type session is a real contact with a reality beyond the person, and that is why the outcome is good.
+    options:
+      - text: '(a) established fact (as the study''s counts); (b) live debate, since the data fit it and fit expectation and a common factor too; (c) a faith or metaphysical commitment.'
+        correct: true
+      - text: '(a) live debate; (b) established fact; (c) live debate.'
+        feedback: |
+          The counts are a record. (b) rests on a causal reading the design does not support alone, and (c) goes beyond any trial of this kind.
+      - text: '(a) established fact; (b) established fact; (c) established fact.'
+        feedback: |
+          Only the counts are a fact of the study. (b) needs more than a self-selected comparison, and (c) is a claim about what the experience is of, which no outcome score can settle.
+    explanation: |
+      The counts are established. Whether the experience mediates the outcome is a live debate that better designs can narrow. Whether it is contact with something beyond the person, or what James called a worth of a different kind than its cause, is a commitment on which careful readers part ways.
+
+  # ---------------- Problem 5 ----------------
+  - type: text
+    id: p5-setup
+    title: "Problem 5 · The closing weighing"
+    body: |
+      **Problem 5.** Three people look back on an experience, each with a different account. Iris, a retreat participant, says: "In the session I understood that everything is held together. It changed how I treat people." Jon, a neuroscientist, says: "Everything Iris describes was in her brain, and we can scan it." Mara, a theologian, says: "Iris met something real, and her changed life is how we know." (The three speakers are invented.)
+
+      Your task: say what the account answers, what it leaves open, and where the three part ways.
+
+  - type: mcq
+    id: p5-question
+    title: "The question the account does not answer"
+    prompt: |
+      According to James, one question is about the roots and worth of Iris's state. Which question is **not** answered by her account, by the scan, or by the changed life?
+    options:
+      - text: 'Whether what Iris understood (that everything is held together) is true of reality, as opposed to being a vivid state with good effects.'
+        correct: true
+      - text: 'Whether Iris had an experience she cannot easily put into words.'
+        feedback: |
+          Her report answers this: the experience was ineffable enough that she describes it only by its upshot. It is a question about the report, which she herself answers.
+      - text: 'Whether her treatment of people changed.'
+        feedback: |
+          This is about fruits, and her account (and, in principle, the testimony of those around her) answers it.
+    explanation: |
+      The felt knowing (the noetic quality) is the very thing in question. The account shows that something was felt as knowledge, the scan shows a brain correlate, and the changed life shows a worth. None of them, alone, shows that the content is true.
+
+  - type: mcq
+    id: p5-jon
+    title: "What Jon's claim does and does not do"
+    prompt: |
+      Jon says: "It was in her brain and we can scan it, so the experience is explained away." Using Swinburne's four kinds of defeater and the odds form, what is the fair reply?
+    options:
+      - text: 'A brain correlate defeats the seeming only if it would appear just as readily whether or not something real was behind the experience, so that the likelihood ratio falls to $1$. Jon needs that further claim; every experience has a brain correlate, including the ones he trusts.'
+        correct: true
+      - text: 'A brain correlate never matters, because experiences are about the world and not the brain.'
+        feedback: |
+          Brain findings can matter: a drug-like state that produces such a pattern for everyone, whatever they report, could pull the ratio toward $1$. The point is that the correlate alone does not do it.
+      - text: 'A brain correlate defeats any experience, because it shows the experience is caused by something other than what is claimed.'
+        feedback: |
+          A cause in the brain is compatible with the content being true: every perception is carried by the brain. The defeater has to show the report would be equally likely without the claimed object.
+    explanation: |
+      The odds form states the demand: Jon must say how likely the report would be without a real object. If the answer is "equally likely", the ratio is $1$ and the experience adds nothing. If the answer is "less likely", it adds something. The scan itself does not say which.
+
+  - type: mcq
+    id: p5-mara
+    title: "What Mara's claim does and does not do"
+    prompt: |
+      Mara says: "Iris met something real, and her changed life is how we know." What is the fair reply, according to James's separation of roots and fruits?
+    options:
+      - text: 'The changed life is a fruit and shows the experience was valuable. A false belief can also lead to good conduct, so fruits speak to worth more than to the truth of the content. Mara needs further premises for the step from worth to a real object.'
+        correct: true
+      - text: 'The changed life shows nothing, because only the roots of a state matter for its truth.'
+        feedback: |
+          James held that fruits matter a great deal for judging the worth of a religious opinion. The reply goes wrong in saying that they show nothing.
+      - text: 'The changed life shows the claim is true, because James held that worth and truth are the same thing.'
+        feedback: |
+          James tied the value of an idea to its consequences in his philosophy of pragmatism, but in Varieties he kept roots and fruits as two questions, and the fair reply does not simply identify worth with the truth of the object.
+    explanation: |
+      Mara's strongest version is not "worth proves truth" but a cumulative one: worth is one line of support among others, weighed against the defeaters. That is a reasonable position, and the weighing is where readers differ.
+
+  - type: mcq
+    id: p5-parting
+    title: "Where the three part ways"
+    multiple: true
+    prompt: |
+      Iris, Jon and Mara all accept the same counts and the same scan. Select **all** the places where careful readers can still part ways.
+    options:
+      - text: 'The prior odds they start from, which differ with their background commitments.'
+        correct: true
+        feedback: |
+          Yes. The same likelihood ratio moves a low prior and a high prior to very different places.
+      - text: 'Whether a brain correlate would appear just as readily without a real object, that is, whether there is a defeater.'
+        correct: true
+        feedback: |
+          Yes. This is a judgment about $P(E\mid\neg X)$, and the data of the scan do not fix it.
+      - text: 'Which layer the sentence "the content of the experience is true" belongs to: established fact, live debate, or faith commitment.'
+        correct: true
+        feedback: |
+          Yes. Jon places it as something explained away, Mara as a conclusion of experience, and a third reader as a commitment. How a sentence is sorted already shapes the argument.
+      - text: 'What the scan counts show.'
+        feedback: |
+          Not here: all three accept the counts. Disagreements about counts are settled by checking, not by commitment.
+    explanation: |
+      The method makes the parting visible: in the prior, in the defeater and in the layer. None of them is arithmetic.
+
+  - type: mcq
+    id: p5-fair
+    title: "A fair statement for each"
+    prompt: |
+      Which closing statement would Iris, Jon and Mara each recognise as fair to their view?
+    options:
+      - text: 'The experience was real as an experience, with a brain correlate and good fruits. Whether its content is true depends on a prior and on whether a defeater applies, and each of them weighs those differently.'
+        correct: true
+      - text: 'The scan settles that nothing was there, and the good fruits are a happy accident.'
+        feedback: |
+          Mara would not recognise this as fair, and it is a layer-3 claim passed off as a result of the scan.
+      - text: 'The good fruits settle that something real was there, and the scan is irrelevant.'
+        feedback: |
+          Jon would not recognise this as fair, and it passes a commitment off as a result of the fruits.
+    explanation: |
+      A fair statement states what is established (the experience, the correlate, the fruits), what is in debate (the defeater, the weight of the fruits), and what is a commitment (the content), and it does not choose among them.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      - **Weighing a follow-up.** Rates are outcomes over group size: $42/60=0.70$ in the substance group and $24/60=0.40$ in the placebo group, a ratio of $0.70/0.40=1.75$. In odds form, with prior probability $0.20$ (odds $1/4$), the posterior odds are $0.4375$ and the probability is about $0.30$:
+      $$\begin{aligned}\text{posterior odds}={}&\frac{P(E\mid X)}{P(E\mid\neg X)}\\&\times\text{prior odds}\end{aligned}$$
+      Enrichment $R=\text{observed}/\text{expected}$ for the mystical-type group was $18/14\approx1.29$. A broken blind ($0.90$ against $0.27$ guessing substance, ratio about $3.4$) means the difference measures the substance plus expectation, and a split inside one group is not randomly assigned.
+      - **Weighing an account.** James's roots and fruits are two questions, worth and cause. A brain correlate defeats a seeming only if it makes the report as likely without a real object as with one (ratio $1$); good fruits speak mainly to worth and add to the truth of the content only through further premises.
+      - **Weighing the parting.** Careful readers part ways in the prior, in whether a defeater applies, and in which of the three layers (established fact, live debate, faith commitment) a sentence belongs.
+
+      **Next:** the automatic Level Review of this level comes next. After it, the next level, Why Humans Believe, asks what the evolution, cognition and culture of religion do to the question of whether religious beliefs are true.

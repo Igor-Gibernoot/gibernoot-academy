@@ -175,3 +175,4 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 - Transformation lesson (19 cards): Pahnke Good Friday 20 Apr 1962 (20 students, psilocybin vs niacin), Doblin 1991 (25-year follow-up); Griffiths 2008 n=36, 58%/67% at 14 months; Paloutzian-Richardson-Rambo 1999; toy prior 0.5, P(G|X)=0.8, P(G|not X)=0.7, LR 1.143, posterior 0.533.
 - Challenge part 1: sham base rate 32.5% as P(E|not X), P(E|X)=0.65, LR 2, prior 0.1 -> 0.18, ceiling LR 3.08 (<=0.25); sleep-deprived R=3.75; feature sets A-G, S∩K=4, three-way core 3.
 - Map (12 boxes in 4 rows): marks, tests, numinous, traditions, core, constructivism, PCE, credulity, odds, neuro, transformation, layers.
+- Challenge part 2: invented retreat follow-up 42/60 vs 24/60 (0.70 vs 0.40, LR 1.75), prior 0.2 gives 0.30; R=18/14=1.29 for mystical-type group; blind guesses 0.90 vs 0.27 (3.4x).
