@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch13-challenge-2 (20 cards, problems 4-5)
+Built autonomously: Hollin two-generation survey 240/300 vs 150/300 read three ways (security, supply, pluralism) with Quarry Ford and M/R village comparisons; mill rite (van Gennep phases, communitas, Durkheim/Malinowski/Geertz, CRED); closing weighing with symmetric argument, prior 0.10 and 0.02 with ratio 1.5, order and layers. Web check done, no images (invented village). Choices: invented chances 0.9/0.6 labelled as the sides' own judgements. Conventions fixed here: part 2 Hollin: survey 80% -> 50% (37.5% fall); ratio 0.9/0.6=1.5; priors 0.10 -> 14.29%, 0.02 -> 2.97%.
+
 ## 2026-11-07 ch13-challenge part 1 (22 cards, problems 1-3)
 Invented village Hollin (Keeper at the spring, salt vigil, skeptic Maro, believer Ilse, reader Tomas). P1 survey 180/200 vs 30/100 (ratio 3), which premise Ilse rejects, sensitivity test, genetic fallacy, independent support, order card. P2 c_C=3, c_F=14 -> 10 whole b; c_F falls to 6 with b=8; public goods n=5, e=20, m=2.5 free rider 60 vs 50; filter mcq; by-product vs adaptation evidence. P3 prior 0.3, 0.9/0.72=1.25 -> 0.35; odds-updater presets LR 1.25/3/1; p*=3/453=0.66%; 970 false alarms of 1000 at p=3%; layers sort. Choices: widget reused once (new preset, no new widget); no images (invented setting). Web check logged in VERIFIED.md, none unverified. Conventions fixed here: Hollin numbers above; Irons not named, Zahavi without year.
 
