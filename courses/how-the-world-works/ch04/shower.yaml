@@ -1,0 +1,290 @@
+id: ch04-shower
+title: The Electric Shower
+kind: concept
+own: |
+  - **Setting.** An electric shower is a heater with a flow switch: water flows through it, and while water flows an electric element of power $P$ (watts, J/s) heats it. Cold water enters at temperature $T_{\text{in}}$ (°C), flows at $Q_{\text{flow}}$ litres per minute, and leaves at $T_{\text{out}}$. We use a heater of $P = 7500$ W, water with $c = 4180$ J/(kg·K) and density $\rho = 1$ kg per litre.
+  - **Heat to warm water.** Warming a mass $m$ (kg) of water by $\Delta T$ (K or °C steps) needs heat $Q$ (joules), where $c$ is the specific heat (heat per kilogram per degree):
+    {{ $$Q = m\,c\,\Delta T$$ }}
+    For example $1$ kg warmed from $10$ to $40$ °C needs $4180\times 30 = 125\,400$ J.
+  - **Power is heat per second.** If $\dot m$ (kg/s) is the mass of water passing the heater each second (one litre per minute is $1/60$ kg/s), the heater must supply $P = \dot m\,c\,\Delta T$, so the water is warmed by
+    {{ $$\Delta T = \frac{P}{\dot m\,c}, \qquad T_{\text{out}} = T_{\text{in}} + \frac{P}{\dot m\,c}$$ }}
+    For the $7500$ W heater at $4$ L/min ($\dot m = 1/15$ kg/s) this is $\Delta T \approx 26.9$ K.
+  - **The tap is the thermostat.** With the heater at fixed power, less flow means more heat per litre. Doubling the flow halves $\Delta T$. In winter ($T_{\text{in}} = 10$ °C) the $7500$ W heater gives $40$ °C only at about $3.6$ L/min; in summer ($T_{\text{in}} = 20$ °C) at about $5.4$ L/min. Comfort needs $T_{\text{out}}$ in a band of about $38$ to $42$ °C, so comfort and flow are a **tradeoff**: more water, or hotter water, not both. A bigger heater ($10.5$ kW) buys more flow at the same temperature, about $5.0$ L/min in winter.
+  - **Electrical limit.** The current drawn is
+    {{ $$I = \frac{P}{V}$$ }}
+    where $V$ is the supply voltage, so $7500$ W on $220$ V draws about $34$ A: this needs thick wires, its own circuit breaker and an earth connection, and water above about $50$ to $60$ °C scalds in seconds to minutes.
+cards:
+  - type: mcq
+    id: hook
+    image:
+      src: img/electric-shower.webp
+      alt: An electric shower head with water spraying from its holes and cables running to its side
+      caption: Many homes have no hot-water tank; a heater built into the shower head warms the water as it flows through.
+      credit: Ivan2010, CC BY-SA 4.0, via Wikimedia Commons
+      link: https://commons.wikimedia.org/wiki/File:Ducha_Electrica.jpg
+    prompt: |
+      Many homes heat shower water at the moment of use, with an electric heater inside the shower head. On a cold morning the water is lukewarm. You turn the tap to get **more water** hoping for more heat, and the water gets colder. To get it hotter you have to turn the tap **down** to a trickle. **Guess before any theory.** Why?
+    shuffle: false
+    options:
+      - text: The tap also controls the heater, and a trickle makes the heater work harder.
+        feedback: |
+          The heater has one power while water flows. The tap changes how much water shares that power, not how much power there is.
+      - text: Hot water is lighter, so it only comes out when little water flows.
+        feedback: |
+          Density has little to do with it. Water leaves at whatever temperature the heater gave it on the way through.
+      - text: The heater adds a fixed amount of heat every second, so less water per second means more heat for each litre.
+        correct: true
+      - text: Fast water is colder because it cools by friction with the pipe.
+        feedback: |
+          Friction slightly warms water if anything. The trouble is that the same heat is shared among more water.
+    explanation: |
+      The heater is like a burner under a pan of flowing water: it pours in a fixed amount of heat every second. If that heat is spread over a thin stream, each litre gets a lot; over a wide stream, each litre gets little. The lesson turns this into a formula, finds where a shower is comfortable, and sees why a trickle in winter is a real design tradeoff.
+
+  - type: text
+    id: heat
+    title: How much heat warms water
+    body: |
+      **Recall (from the lesson Everything Costs Energy).** Energy is what is spent whenever something is heated, lifted or moved, measured in joules (J). **Power** $P$ is energy per second, in watts: $1$ W $= 1$ J/s.
+
+      To warm water we need **heat** $Q$, an amount of energy in joules. It grows with the mass $m$ (kg) of water and with the temperature rise $\Delta T$ (in kelvin; a rise of $1$ K equals a rise of $1$ °C). The constant of proportionality is the **specific heat** $c$ of the water, the heat needed to warm $1$ kg by $1$ K:
+      $$Q = m\,c\,\Delta T$$
+      For liquid water $c$ is about $4180$ J/(kg·K) (it varies slightly with temperature: about $4217$ near $0$ °C and $4184$ at $20$ °C, so $4180$ is a good round value). That is large: water soaks up a lot of heat, which is why it is used to carry heat in showers, radiators and engines.
+
+  - type: numeric
+    id: q-heat
+    prompt: |
+      Using $Q = m\,c\,\Delta T$ with $c = 4180$ J/(kg·K), how much heat in **kilojoules** warms $1$ kg of water (about one litre) from $10$ °C to $40$ °C?
+    answer: 125.4
+    tolerance: 0.5
+    answerText: '125.4'
+    wrong:
+      - { value: 167.2, feedback: 'You used $\Delta T = 40$. The rise is the **difference**, $40 - 10 = 30$ K, not the final temperature.' }
+      - { value: 125400, feedback: 'The number is right but in joules. The question asks for kilojoules: divide by $1000$.' }
+    hint: The rise is the final temperature minus the starting one.
+    explanation: |
+      $\Delta T = 40 - 10 = 30$ K, so
+      $$Q = 1 \times 4180 \times 30 = 125\,400\ \text{J} \approx 125\ \text{kJ}.$$
+      A $7500$ W heater delivers $7.5$ kJ every second, so it needs about $17$ s to heat one litre by this much, which hints at the flow rate it can serve.
+
+  - type: text
+    id: power
+    title: From heat to power
+    body: |
+      A shower does not heat a fixed pot of water: water flows through the heater continuously. So ask instead: how much heat per second? If a mass $\dot m$ (kg/s; the dot means "per second") passes through the heater, the heat needed per second to raise it by $\Delta T$ is $\dot m\,c\,\Delta T$. That heat per second is the heater's power $P$:
+      $$P = \dot m\,c\,\Delta T \quad\Longrightarrow\quad \Delta T = \frac{P}{\dot m\,c}.$$
+      Shower flow is quoted in litres per minute, $Q_{\text{flow}}$. One litre of water has mass about $1$ kg, so $\dot m = Q_{\text{flow}}/60$ in kg/s. The outlet temperature is then
+      $$T_{\text{out}} = T_{\text{in}} + \frac{P}{\dot m\,c}.$$
+      This is the **energy balance** of the shower: the electrical energy delivered each second equals the heat gained by the water each second (we ignore the small heat lost to the pipes and the air).
+
+  - type: text
+    id: worked
+    title: A first example
+    body: |
+      **Setting.** A heater of $P = 7500$ W warms water that comes in at $T_{\text{in}} = 10$ °C and flows at $Q_{\text{flow}} = 4$ L/min. With $c = 4180$ J/(kg·K) and the rule $\Delta T = P/(\dot m\,c)$:
+
+      The mass per second is
+      $$\dot m = \frac{4}{60} = 0.0667\ \text{kg/s}.$$
+      The heat the water must absorb per kilogram for each kelvin, per second, is
+      $$\dot m\,c = 0.0667 \times 4180 = 278.7\ \text{W/K}.$$
+      So every kelvin of rise costs $278.7$ W, and the rise is
+      $$\Delta T = \frac{7500}{278.7} = 26.9\ \text{K},$$
+      which gives $T_{\text{out}} = 10 + 26.9 = 36.9$ °C: pleasantly warm, but a little under what most people call hot.
+
+  - type: numeric
+    id: q-dt
+    prompt: |
+      A shower heater of $P = 5500$ W warms water at $Q_{\text{flow}} = 3$ L/min (one litre is about $1$ kg; $c = 4180$ J/(kg·K)). By how many kelvin does it raise the temperature?
+    answer: 26.3
+    tolerance: 0.3
+    answerText: '26.3'
+    wrong:
+      - { value: 1578.9, feedback: 'You used $\dot m = 3$ kg/s. The flow is $3$ litres per **minute**, so $\dot m = 3/60 = 0.05$ kg/s.' }
+    hint: Convert litres per minute to kilograms per second first, then divide the power by $\dot m\,c$.
+    explanation: |
+      $\dot m = 3/60 = 0.05$ kg/s, so $\dot m\,c = 0.05\times4180 = 209$ W/K and
+      $$\Delta T = \frac{5500}{209} = 26.3\ \text{K}.$$
+
+  - type: widget
+    id: w-winter
+    widget: tradeoff-curve
+    review: false
+    config:
+      param: { label: Flow, unit: L/min, range: [2.5, 8], value: 6, step: 0.1, decimals: 1 }
+      x: { label: Flow, unit: L/min, a: 1, range: [2, 8.5], decimals: 1 }
+      y: { label: Outlet temperature, unit: °C, a: 107.6555, k: -1, b: 10, range: [0, 75], decimals: 1 }
+      needs: { yMin: 38, yMax: 42 }
+      show: { guides: true }
+      readouts: [x, y, verdict]
+      presets:
+        - { label: '3 L/min', value: 3 }
+        - { label: '4 L/min', value: 4 }
+        - { label: '6 L/min', value: 6 }
+    body: |
+      A $7500$ W shower in **winter**: the water comes in at $10$ °C. The curve shows the outlet temperature $T_{\text{out}} = 10 + 107.7/Q_{\text{flow}}$ against the flow, and the green band is the comfortable range, $38$ to $42$ °C (a typical range for a pleasant shower). Slide the flow from high to low and watch where the marker turns green.
+
+  - type: numeric
+    id: q-read
+    prompt: |
+      A $7500$ W shower heater has inflow at $10$ °C and flow $6$ L/min ($c = 4180$ J/(kg·K)). What is the outlet temperature, in °C?
+    answer: 27.9
+    tolerance: 0.3
+    answerText: '27.9'
+    wrong:
+      - { value: 17.9, feedback: 'That is only the rise $\Delta T$. Add the inlet temperature $10$ °C to get the temperature of the water leaving.' }
+    hint: $\dot m = 6/60$ kg/s; the rise is $P/(\dot m\,c)$.
+    explanation: |
+      $\dot m c = 0.1\times4180 = 418$ W/K, so $\Delta T = 7500/418 = 17.9$ K and $T_{\text{out}} = 10 + 17.9 = 27.9$ °C, well below the comfort band. A winter shower at a generous flow is simply cold.
+
+  - type: numeric
+    id: q-flow40
+    prompt: |
+      Winter water comes in at $10$ °C. At what flow, in L/min, does a $7500$ W heater give exactly $40$ °C? ($c = 4180$ J/(kg·K), one litre $\approx 1$ kg.)
+    answer: 3.59
+    tolerance: 0.05
+    answerText: '3.59'
+    wrong:
+      - { value: 0.0598, feedback: 'That is $\dot m$ in kg/s. The question asks for litres per **minute**: multiply by $60$.' }
+    hint: The rise needed is $30$ K. Solve $P = \dot m\,c\,\Delta T$ for $\dot m$, then convert.
+    explanation: |
+      $\dot m = \dfrac{P}{c\,\Delta T} = \dfrac{7500}{4180\times30} = 0.0598$ kg/s, and $0.0598\times60 = 3.59$ L/min. That is a thin stream, about a cupful in four seconds.
+
+  - type: widget
+    id: w-summer
+    widget: tradeoff-curve
+    review: false
+    config:
+      param: { label: Flow, unit: L/min, range: [2.5, 8], value: 6, step: 0.1, decimals: 1 }
+      x: { label: Flow, unit: L/min, a: 1, range: [2, 8.5], decimals: 1 }
+      y: { label: Outlet temperature, unit: °C, a: 107.6555, k: -1, b: 20, range: [0, 75], decimals: 1 }
+      needs: { yMin: 38, yMax: 42 }
+      show: { guides: true }
+      readouts: [x, y, verdict]
+      presets:
+        - { label: '4 L/min', value: 4 }
+        - { label: '5 L/min', value: 5 }
+        - { label: '6 L/min', value: 6 }
+    body: |
+      The same $7500$ W shower in **summer**: the water comes in at $20$ °C. Slide the flow again and compare the green stretch with the winter one.
+
+  - type: numeric
+    id: q-summer
+    prompt: |
+      The same $7500$ W heater now receives water at $20$ °C. At what flow, in L/min, does it give $40$ °C? ($c = 4180$ J/(kg·K).)
+    answer: 5.38
+    tolerance: 0.05
+    answerText: '5.38'
+    hint: The rise needed is now $20$ K.
+    explanation: |
+      $\dot m = \dfrac{7500}{4180\times20} = 0.0897$ kg/s, which is $5.38$ L/min. Warmer incoming water needs less heating, so the same heater can serve about $1.5$ times the flow of winter (the real incoming temperature depends on place and season; manufacturers quote values from about $5$ to $20$ °C).
+
+  - type: numeric
+    id: q-double
+    prompt: |
+      A $7500$ W shower in winter ($T_{\text{in}} = 10$ °C) runs at $4$ L/min and gives $36.9$ °C. You turn the tap to **double** the flow, $8$ L/min. What is the outlet temperature, in °C?
+    answer: 23.5
+    tolerance: 0.3
+    answerText: '23.5'
+    wrong:
+      - { value: 73.8, feedback: 'You doubled the temperature. Doubling the flow **halves the rise** $\Delta T$ ($26.9 \to 13.5$ K), and the rise is added to the $10$ °C inlet.' }
+      - { value: 18.5, feedback: 'You halved the outlet temperature. It is the **rise** that halves, not the temperature itself: the water still enters at $10$ °C.' }
+    hint: $\Delta T = P/(\dot m\,c)$ is inversely proportional to $\dot m$.
+    explanation: |
+      At $4$ L/min the rise is $26.9$ K. At twice the flow, the same power is shared by twice the water: $\Delta T = 13.5$ K, so $T_{\text{out}} = 10 + 13.5 = 23.5$ °C. The water gets cold quickly, because it is the rise that scales with $1/Q_{\text{flow}}$.
+
+  - type: widget
+    id: w-big
+    widget: tradeoff-curve
+    review: false
+    config:
+      param: { label: Flow, unit: L/min, range: [2.5, 8], value: 4, step: 0.1, decimals: 1 }
+      x: { label: Flow, unit: L/min, a: 1, range: [2, 8.5], decimals: 1 }
+      y: { label: Outlet temperature, unit: °C, a: 150.7177, k: -1, b: 10, range: [0, 75], decimals: 1 }
+      needs: { yMin: 38, yMax: 42 }
+      show: { guides: true }
+      readouts: [x, y, verdict]
+      presets:
+        - { label: '4 L/min', value: 4 }
+        - { label: '5 L/min', value: 5 }
+        - { label: '6 L/min', value: 6 }
+    body: |
+      A **stronger heater**, $10.5$ kW, in winter ($T_{\text{in}} = 10$ °C). Try $4$, $5$ and $6$ L/min and find the green stretch.
+
+  - type: numeric
+    id: q-big
+    prompt: |
+      Winter water ($10$ °C). A $10.5$ kW heater is used instead of $7.5$ kW. At what flow, in L/min, does it give $40$ °C? ($c = 4180$ J/(kg·K).)
+    answer: 5.02
+    tolerance: 0.05
+    answerText: '5.02'
+    wrong:
+      - { value: 3.59, feedback: 'That is the flow for the $7.5$ kW heater. More power means more heat per second, so the same temperature is reached at a larger flow.' }
+    hint: Same rise of $30$ K, bigger $P$.
+    explanation: |
+      $\dot m = \dfrac{10\,500}{4180\times30} = 0.0837$ kg/s, which is $5.02$ L/min. For a fixed temperature the flow is proportional to the power: $10.5/7.5 = 1.4$ times the flow. This is a **tradeoff** in the sense of the lesson Every Design Is a Compromise: more flow at the same temperature costs more power, and so a thicker cable and a bigger bill.
+
+  - type: mcq
+    id: trap-tap
+    prompt: |
+      A $7500$ W shower in winter gives lukewarm water. Which statement about the tap is correct?
+    shuffle: false
+    options:
+      - text: Turning the tap up sends more water through the heater, so the water leaves hotter.
+        feedback: |
+          It tempts because "more water through the heater" sounds like more heating. But the heat per second is fixed by the power, so the same heat spread over more water raises each litre less: the rise is $P/(\dot m\,c)$ and gets smaller.
+      - text: Turning the tap down lets the same heat warm less water, so the water leaves hotter.
+        correct: true
+      - text: The tap changes the temperature only if it also changes the heater's power.
+        feedback: |
+          Not so: even at fixed power, the flow sets the rise. In the formula $\Delta T = P/(\dot m\,c)$, changing $\dot m$ alone changes $\Delta T$.
+      - text: The tap has no effect on temperature, only on how much water comes out.
+        feedback: |
+          The temperature rise is inversely proportional to the flow, so the tap decides both at once.
+    explanation: |
+      $\Delta T = P/(\dot m\,c)$ at a fixed $P$: smaller $\dot m$, bigger rise. In many electric showers the "temperature" knob really is a flow valve.
+
+  - type: mcq
+    id: trap-power
+    prompt: |
+      While water is flowing, a $7500$ W heater is running. You turn the tap down to a trickle to get hotter water. How does the heater's power $P$ change?
+    shuffle: false
+    options:
+      - text: It rises, because the heater works harder to warm a thinner stream.
+        feedback: |
+          The heater does not know how much water passes: the element has a fixed electrical resistance on a fixed supply, so it takes the same power, $7500$ W, as long as the flow switch keeps it on.
+      - text: It stays the same, but each litre gets a larger share of it.
+        correct: true
+      - text: It falls, because less water means less to heat.
+        feedback: |
+          The power is set by the element and the supply, not by the amount of water. What falls is the water the same power is shared by.
+    explanation: |
+      Less flow raises the temperature of the **water**, not the power. The flow switch cuts the heater off if the flow falls too low (and a thermal cut-out protects against overheating), which is why a trickle that is too thin makes the shower go cold.
+
+  - type: text
+    id: safety
+    title: Why you cannot just buy a bigger heater
+    body: |
+      If the water is too cold, why not simply fit a much bigger heater? Two limits stop us.
+
+      **Scalding.** Skin is damaged by hot water faster than people expect: tables from burn research give a serious burn in about $5$ to $6$ seconds at $60$ °C, but about $9$ to $10$ minutes at $49$ °C. A shower aimed at $38$ to $42$ °C leaves a safe margin; a heater that could push the water to $60$ °C when the flow drops would not.
+
+      **Electricity.** The heater draws a current $I$ from the supply voltage $V$ with
+      $$P = V\,I \quad\Longrightarrow\quad I = \frac{P}{V}.$$
+      On a $220$ V supply a $7500$ W shower draws $34$ A, more than almost any other device in a home. Such a shower normally gets its own circuit with a thick cable (typically $6$ mm$^2$ in Brazilian practice) and a high-rating breaker (about $40$ A), and the case must be connected to an **earth** wire because water and mains voltage meet in the same place. Why a thicker wire carries more current safely, and what earthing does, are the subject of the level Electricity and Circuits.
+
+  - type: numeric
+    id: q-current
+    prompt: |
+      A $7500$ W shower is connected to a $220$ V supply. Using $I = P/V$, what current does it draw, in amperes?
+    answer: 34.1
+    tolerance: 0.3
+    answerText: '34.1'
+    wrong:
+      - { value: 1650000, feedback: 'You multiplied power by voltage. Current is power **divided** by voltage, since $P = VI$.' }
+    hint: Solve $P = V\,I$ for $I$.
+    explanation: |
+      $I = 7500/220 = 34.1$ A. On a $127$ V supply the same power needs $59$ A, which is why the same shower model needs much thicker wiring there.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the shower heats water on purpose. The next lesson asks how heat escapes when you do not want it to: ovens, thermoses and warm jackets, and the three ways heat travels.

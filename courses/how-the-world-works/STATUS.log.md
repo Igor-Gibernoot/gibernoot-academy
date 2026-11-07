@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch04-shower (autonomous)
+Built `ch04/shower.yaml` (19 cards, concept, own: with 5 bullets and 4 blanks): hook with image, Q = m c dT, P = mdot c dT worked example, three tradeoff-curve presets (winter 7.5 kW, summer, 10.5 kW; y = T_in + 60P/(c Q)), two traps, safety (scald, I = P/V, earth), summary. Choices: heater 7500 W (matches Brazilian 220 V showers and UK 7.5 kW); c = 4180; NIST page fetch failed (HTTP 400), c taken from Wikipedia/Engineering ToolBox (logged in VERIFIED.md); cable/breaker figures are Brazilian practice, stated as such. Images: 1 (Ducha Electrica.jpg, CC BY-SA 4.0, Ivan2010, hook card; viewed). Conventions fixed here: c 4180, 1 L = 1 kg, T_out = T_in + P/(mdot c) named energy balance, 7500 W, winter 10 C, summer 20 C, band 38-42 C, flows 3.59 / 5.38 / 5.02 L/min, I = 34.1 A.
+
 ## 2026-11-07 Level 3 audit (autonomous)
 Checked items 2, 3, 3b, 4, 5, 7, 8. Fixed: "Level 4, Heat and Energy" in ch03-challenge-2 and "in Level 3" in ch02-coaster now refer by name; skyscraper `own:` defined $f_d$; added two free images (Freyssinet portrait in materials, 1985 Mexico City collapsed building in quake) and ledgered; ch03 intuition VERIFIED line now says `web: n/a`. All other facts re-confirmed by web (see Audit line in VERIFIED.md); no mismatches. Widget decision for ch04-shower: no new widget, `tradeoff-curve` (outlet temperature = T_in + P/(c rho Q) as a + b curve over flow slider, needs band 38-42 C) fits; inlet/power changed per card by preset (no live sliders; judged acceptable). Level 1 tour table already matches real titles. Conventions fixed here: none.
 
