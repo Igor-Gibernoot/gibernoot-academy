@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch12-neuro-religion (19 cards, concept)
+Built from the plan. Widget: none (interpretation of findings; odds-updater used twice in ch12-evidence; two numeric cards cover the LR arithmetic). Images: none (no sure free-licence portrait/scenario of Geschwind, Persinger, Newberg checked; skipped). Choices: Tinoca-Ortiz and French studies left unnamed ("results went both ways", secondary source only); no field strengths stated (sources differ). Conventions fixed here: brain explanation defeats only if LR = 1 (Swinburne's 4th defeater); toy numbers prior 0.2, LR 1 gives 0.2, LR 2 gives 0.333; Granqvist 2005 N = 89 (43 field, 46 sham).
+
 ## 2026-11-07 ch12-evidence (guided proof, 22 cards)
 Principle of credulity as P1-P3/C; critic cards for P1, P2, P3; validity order card; Alston analogy; diversity (Hick, Alston/Plantinga); Swinburne's four defeaters; `odds-updater` twice (defeater lowers LR with prior 0.1: LR 20 gives 0.69, LR 1.5 gives 0.14; fixed LR 20 with priors 0.5/0.01/0.001); traps; layers. Images: swinburne reused (no new image: none needed). Choices: kept the diversity objection out of the widget; Swinburne diversity reply paraphrased only as "summarised in the literature" (secondary). Conventions fixed here: toy credulity case prior 0.1, LR 20 (posterior 0.69), LR 1.5 (0.14), LR 99 for even odds from prior 0.01; defeater = LR toward 1.
 
