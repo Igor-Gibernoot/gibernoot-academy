@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch03-map (11 cards, 9 boxes)
+Boxes: arch thrust, beam bending, truss, concrete and steel, natural frequency, tuned mass damper, flutter, quake/soil period, base isolation; each with 2 decoys (formula slip or reversed reading). Edges: arch/beam to materials, beam to truss, materials to natfreq (dashed), natfreq to tmd, quake, flutter (dashed), quake and tmd to isolation. No new external facts: all reused from the Verified lines of the concept lessons (VERIFIED.md line "ch03 map"); no web search run this session by choice. Images: none: a concept map needs no picture. No widget. Choices: challenge node split into `ch03-challenge` (problems 1-3) and `ch03-challenge-2` (4-5) in course.yaml. Conventions fixed here: none new (map reuses the Chapter 3 numbers).
+
 ## 2026-11-04 Retry pass
 Retried the unconfirmed items of ch02 and ch03 with the general search protocol. Confirmed: dome hoop sign change at 51.8 deg (MIT thesis, Springer, MDPI). Fixed: brake-disc melting wording (cast iron 1400-1500 K, steel 1650-1800 K). Still unconfirmed (tried: logged): ASTM F2291 limits, melted-rubber film on a locked wheel. Not retried (never in a lesson): Frahm 1909, milli-g comfort limits, Taipei 101 mass. Conventions fixed here: none.
 
