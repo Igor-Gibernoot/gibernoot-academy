@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-07 widget heat-layers (autonomous)
+Built `js/widgets/heat-layers.js` (registered), `docs/widgets/heat-layers.md` (with smoke block), index line. Layers in series with k and L or a coefficient h (gap, radiation), thickness sliders and drag handles, material selects, optional films and body cooling time. Checked by script, throwaway lesson viewed at phone and desktop width (deleted), validate and widget-smoke clean. Typical k web-checked in VERIFIED.md.
+Conventions fixed here: layer R = L/(kA) in K/W; k in W/(m K); thickness shown in cm by default; films 8 (inside) and 25 (outside) W/m^2 K.
+
 ## 2026-11-07 ch04-shower (autonomous)
 Built `ch04/shower.yaml` (19 cards, concept, own: with 5 bullets and 4 blanks): hook with image, Q = m c dT, P = mdot c dT worked example, three tradeoff-curve presets (winter 7.5 kW, summer, 10.5 kW; y = T_in + 60P/(c Q)), two traps, safety (scald, I = P/V, earth), summary. Choices: heater 7500 W (matches Brazilian 220 V showers and UK 7.5 kW); c = 4180; NIST page fetch failed (HTTP 400), c taken from Wikipedia/Engineering ToolBox (logged in VERIFIED.md); cable/breaker figures are Brazilian practice, stated as such. Images: 1 (Ducha Electrica.jpg, CC BY-SA 4.0, Ivan2010, hook card; viewed). Conventions fixed here: c 4180, 1 L = 1 kg, T_out = T_in + P/(mdot c) named energy balance, 7500 W, winter 10 C, summer 20 C, band 38-42 C, flows 3.59 / 5.38 / 5.02 L/min, I = 34.1 A.
 
