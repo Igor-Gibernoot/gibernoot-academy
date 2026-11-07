@@ -1,0 +1,359 @@
+id: ch04-insulation
+title: Ovens, Thermoses and Warm Jackets
+kind: concept
+own: |
+  - **Setting.** Heat flows steadily through a flat wall of area $A$ (m$^2$) and thickness $L$ (m), made of a material of thermal conductivity $k$ (W/(m·K), how well it conducts heat), between a hot side and a cold side whose temperatures differ by $\Delta T$ (K). The heat flow $\dot Q$ is heat per second, in watts.
+  - **Conduction.** Heat flow grows with area, with the temperature difference and with $k$, and falls with thickness:
+    {{ $$\dot Q = \frac{k\,A\,\Delta T}{L}$$ }}
+    For a glass pane with $L = 1$ cm, $k = 1.0$, $A = 1$ m$^2$ and $\Delta T = 20$ K this is $2000$ W.
+  - **Thermal resistance.** A layer has resistance $R$ (K/W) and the heat flow is the temperature difference divided by it:
+    {{ $$R = \frac{L}{k\,A}, \qquad \dot Q = \frac{\Delta T}{R}$$ }}
+    Layers in series (heat must cross each one) add their resistances, and each layer takes a share $\dot Q\,R$ of the temperature drop, so the best insulator takes most of it:
+    {{ $$R_{\text{tot}} = R_1 + R_2 + \dots$$ }}
+  - **Convection and trapped air.** Still air conducts very badly ($k \approx 0.026$ W/(m·K), against about $1$ for glass), but moving air carries heat in currents (convection). Wool, down, foam and double glazing work by trapping air so it cannot move; a gap that is too wide lets convection start again. Insulation makes no heat, it only slows the flow.
+  - **Radiation.** Every warm surface sends out infrared light, which crosses a vacuum. A dull dark surface radiates and absorbs about $95\%$ of the most a surface can, a polished silver one only about $2$ to $3\%$. A radiation gap acts like a layer with a coefficient $h$ (W/(m$^2$·K)): $R = 1/(h\,A)$. A vacuum flask has two walls with a vacuum between them (no conduction, no convection) and silvered facing surfaces (little radiation).
+  - **Cooling time.** A body of heat capacity $C = m\,c$ (J/K, mass times specific heat) inside walls of total resistance $R_{\text{tot}}$ cools toward room temperature with time constant
+    {{ $$\tau = C\,R_{\text{tot}}$$ }}
+    After one $\tau$ the excess over room temperature has dropped to about $37\%$. For $1$ L of tea ($C = 4180$ J/K) behind $R_{\text{tot}} = 66.7$ K/W, $\tau \approx 77$ h.
+cards:
+  - type: mcq
+    id: hook
+    prompt: |
+      A metal spoon left in a cup of hot tea soon becomes too hot to hold. A thick puffy jacket, full of wool or feathers, keeps you warm on a cold day even though the jacket itself starts out cold. **Guess before any theory.** What does the jacket do?
+    shuffle: false
+    options:
+      - text: It makes heat, like a tiny heater woven into the cloth.
+        feedback: |
+          Wool and feathers contain no energy source. Your body makes the heat (about as much as a bright lamp or two), and the jacket does nothing to add to it.
+      - text: It slows down how fast your body's heat escapes into the cold air.
+        correct: true
+      - text: It lets the warmth of the outside air in and blocks the cold.
+        feedback: |
+          Cold is not a substance that flows in. Heat flows from hot to cold, so on a cold day the flow runs out of you, and the jacket's job is to make that flow smaller.
+      - text: It reflects all the heat back like a mirror.
+        feedback: |
+          Some materials do reflect radiated heat, and we will meet that, but a woolly jacket is not a mirror. Most of its effect comes from something else it holds in its fluff.
+    explanation: |
+      Your body keeps itself warm by producing heat, and it loses heat to the colder air around it. The rate of loss decides how warm you feel, so a jacket is a device to slow the loss. The lesson builds a rule for that rate, shows what the jacket holds that makes it work, and uses the same rule on an oven and a thermos flask.
+
+  - type: text
+    id: law
+    title: How fast does heat flow through a wall?
+    body: |
+      Heat always flows from hot to cold. The **heat flow** $\dot Q$ (the dot means "per second") is the heat crossing per second, so it is measured in watts, like power.
+
+      Think of a wall between a warm room and cold air outside. More area gives the heat more room to cross, so the flow grows with the area $A$. A bigger temperature difference $\Delta T$ pushes harder, so the flow grows with it too. A thicker wall gives a longer path, so the flow falls with the thickness $L$. And some materials pass heat easily (metals) while others hardly do (foam): that is the **thermal conductivity** $k$, measured in W/(m·K), the watts that cross a slab of $1$ m$^2$ and $1$ m thickness for each kelvin of difference. Putting these together:
+      $$\dot Q = \frac{k\,A\,\Delta T}{L}$$
+      This way of moving heat through a solid, atom to atom, is called **conduction**. Typical values: copper about $390$, window glass about $1$, still air about $0.026$ W/(m·K).
+
+  - type: widget
+    id: w-one
+    widget: heat-layers
+    review: false
+    config:
+      Thot: 20
+      Tcold: 0
+      A: 1
+      layers:
+        - { name: Glass, k: 1.0, L: 1, min: 0.5, max: 5, step: 0.5 }
+      readouts: [Q, Rtot]
+      show: { resistanceBar: false, tempSliders: true, kSliders: true }
+    body: |
+      A single pane of window glass, $1$ m$^2$, warm room on one side and cold air on the other. Drag the right edge of the glass (or use the slider) to change its thickness, and change the conductivity and the two temperatures with the sliders. Watch the heat flow $\dot Q$ and the **resistance** $R_{\text{tot}}$ (next card).
+
+  - type: text
+    id: window
+    title: A window pane, with numbers
+    body: |
+      **Setting.** A glass pane of thickness $L = 1$ cm $= 0.01$ m, conductivity $k = 1.0$ W/(m·K), area $A = 1$ m$^2$, with $20$ °C inside and $0$ °C outside, so $\Delta T = 20$ K. The rule is $\dot Q = kA\,\Delta T/L$. It helps to group the geometry and the material into one number, the **thermal resistance**
+      $$R = \frac{L}{k\,A}, \qquad \dot Q = \frac{\Delta T}{R}.$$
+      $R$ is measured in K/W: the kelvins of difference needed to push one watt through. Here
+      $$R = \frac{0.01}{1.0\times 1} = 0.01\ \text{K/W}$$
+      and so
+      $$\dot Q = \frac{20}{0.01} = 2000\ \text{W}.$$
+      Two kilowatts through one square metre of glass: this is the bare pane. A real window loses less, because thin films of nearly still air cling to both faces, but the pane alone already shows why a large glass wall is expensive to heat.
+
+  - type: numeric
+    id: q-door
+    prompt: |
+      An oak door is $4$ cm thick, with $k = 0.16$ W/(m·K) and area $A = 2$ m$^2$. It has $20$ K between its two faces. Using $\dot Q = kA\,\Delta T/L$, what heat flow crosses it, in watts?
+    answer: 160
+    tolerance: 1
+    answerText: '160'
+    wrong:
+      - { value: 1.6, feedback: 'You used $L = 4$, the thickness in centimetres. The conductivity is in W/(m·K), so $L$ must be in metres: $0.04$ m.' }
+      - { value: 0.256, feedback: 'You multiplied by $L$ instead of dividing. A thicker door must let **less** heat through.' }
+    hint: Convert the thickness to metres, then use the rule with $k$, $A$, $\Delta T$ on top and $L$ below.
+    explanation: |
+      $$R = \frac{0.04}{0.16\times 2} = 0.125\ \text{K/W}$$
+      and so
+      $$\dot Q = \frac{20}{0.125} = 160\ \text{W}.$$
+      A door of wood loses far less than the same area of glass ($2$ m$^2$ of the pane would lose $4000$ W), because $k$ is about six times smaller and the wood is four times thicker.
+
+  - type: widget
+    id: w-two
+    widget: heat-layers
+    review: false
+    config:
+      Thot: 90
+      Tcold: 20
+      A: 1
+      layers:
+        - { name: Wood, k: 0.15, L: 2, min: 1, max: 6, step: 0.5 }
+        - { name: Foam, k: 0.033, L: 5, min: 1, max: 10, step: 0.5 }
+      readouts: [Q, Rtot, layerDT]
+      show: { resistanceBar: true }
+    body: |
+      **Two layers in series**: a wooden board with a foam layer behind it, $90$ °C on the wood side and $20$ °C on the foam side. Heat must cross the wood and then the foam, so the same $\dot Q$ goes through both. The drawing shows the resistance of each layer and the temperature drop across it. Change a thickness and watch where the drop falls.
+
+      Each layer has its own resistance $R_1 = L_1/(k_1A)$ and $R_2 = L_2/(k_2A)$, and takes a drop $\dot Q R_1$ and $\dot Q R_2$. The two drops add up to the whole $\Delta T$, so $\Delta T = \dot Q\,(R_1 + R_2)$, which gives
+      $$R_{\text{tot}} = R_1 + R_2, \qquad \dot Q = \frac{\Delta T}{R_1 + R_2}.$$
+
+  - type: mcq
+    id: q-where
+    prompt: |
+      A board of wood ($2$ cm, $k = 0.15$ W/(m·K)) is backed by foam ($5$ cm, $k = 0.033$ W/(m·K)), with the same area $1$ m$^2$, and there are $70$ K between its outer faces. Which layer takes most of the $70$ K drop, and why?
+    shuffle: false
+    options:
+      - text: The wood, because heat meets it first and loses most of its push there.
+        feedback: |
+          Order does not matter in a series. The same heat flow crosses both layers, and each takes a drop equal to $\dot Q$ times its own resistance.
+      - text: Both take the same drop, because the same heat flow crosses both.
+        feedback: |
+          The heat flow is the same, but the drop is $\dot Q\,R$, and the resistances differ. A layer that resists more needs a bigger drop to pass the same flow.
+      - text: The foam, because its resistance is much larger.
+        correct: true
+    explanation: |
+      The wood has $R_1 = 0.02/0.15 = 0.133$ K/W and the foam $R_2 = 0.05/0.033 = 1.515$ K/W, so the foam holds about $92\%$ of the total and takes about $64$ K of the $70$ K. This is why a thin layer of a good insulator does more than a thick layer of a poor one: in a series the biggest resistance dominates.
+
+  - type: numeric
+    id: q-wall
+    prompt: |
+      A wall of area $A = 2$ m$^2$ has an inner board of wood ($3$ cm, $k = 0.15$ W/(m·K)) and a foam layer ($4$ cm, $k = 0.033$ W/(m·K)) in series, with $50$ K between its faces. Using $R = L/(kA)$ for each layer and $R_{\text{tot}} = R_1 + R_2$, what is the heat flow, in watts?
+    answer: 70.8
+    tolerance: 0.5
+    answerText: '70.8'
+    wrong:
+      - { value: 82.5, feedback: 'That is the foam alone. The wood adds its own resistance in series, small but not zero: $R_{\text{tot}} = R_1 + R_2$.' }
+      - { value: 261.7, feedback: 'You added the two conductivities and the two thicknesses as if it were one slab. Resistances add; conductivities do not.' }
+    hint: Compute $R$ for the wood, $R$ for the foam, add them, then divide $\Delta T$ by the total.
+    explanation: |
+      The wood: $R_1 = 0.03/(0.15\times 2) = 0.100$ K/W. The foam: $R_2 = 0.04/(0.033\times 2) = 0.606$ K/W. Together $R_{\text{tot}} = 0.706$ K/W, so
+      $$\dot Q = \frac{50}{0.706} = 70.8\ \text{W}.$$
+
+  - type: mcq
+    id: trap-wool
+    prompt: |
+      On a warm day you wrap a block of ice in a thick woollen blanket. A friend leaves an identical block of ice bare next to it. **A woollen sweater keeps you warm because wool makes heat**, says your friend. What does that predict, and what really happens?
+    shuffle: false
+    options:
+      - text: The wrapped ice melts faster, because wool makes heat.
+        feedback: |
+          Wool has no source of energy. If it made heat, a sweater on a cold shelf would warm up by itself, and it never does.
+      - text: The wrapped ice melts more slowly, because the blanket slows the heat flowing in from the warm air.
+        correct: true
+      - text: Both melt at the same rate, because the blanket has no effect on heat.
+        feedback: |
+          The blanket adds a layer of high resistance in series, so the same temperature difference now drives a smaller flow, and that changes the melting time a lot.
+    explanation: |
+      An insulator slows heat in either direction. On the cold shelf a sweater keeps the cold out of nothing; on you it keeps your own heat in; around ice it keeps the room's heat out. Wool produces nothing. Its conductivity is about $0.035$ to $0.042$ W/(m·K), only a little above still air, because it is mostly air held between fibres.
+
+  - type: text
+    id: air
+    title: The secret ingredient is still air
+    body: |
+      Still air has $k \approx 0.026$ W/(m·K), about $38$ times lower than glass. That is the secret of most insulators: foam, wool, feathers and fibre blankets are mostly air, held in tiny pockets by a thin solid structure. Feathers called **down** have a loose, fluffy structure that traps air, which is why a down jacket warms you, and wet down clumps and loses much of its effect.
+
+      Why not just use a layer of plain air? Because air also moves. Warm air rises and cool air sinks, and these currents carry heat across a gap much faster than conduction would. This second way of moving heat, by a flowing fluid, is **convection**. Insulating means trapping air so it cannot circulate: in fibres, in foam cells, or in the narrow gap between two panes of **double glazing**. In sealed window units a gap of about $16$ to $19$ mm works best: wider than that, convection currents start to flow and the extra width brings no gain.
+
+  - type: widget
+    id: w-gap
+    widget: heat-layers
+    review: false
+    config:
+      Thot: 20
+      Tcold: 0
+      A: 1
+      layers:
+        - { name: Glass, k: 1.0, L: 0.4, fixed: true }
+        - { name: Air, type: gap, k: 0.026, L: 1.2, min: 0.2, max: 2, step: 0.2 }
+        - { name: Glass, k: 1.0, L: 0.4, fixed: true }
+      readouts: [Q, Rtot, layerDT]
+    body: |
+      Double glazing: two panes of glass with a gap of air between them, treated here as **still** air (so keep the gap under about $2$ cm, where that is fair). Slide the gap thickness and watch the heat flow and where the temperature drops.
+
+  - type: numeric
+    id: q-double
+    prompt: |
+      Double glazing of area $A = 1$ m$^2$: glass ($1$ cm, $k = 1.0$ W/(m·K)), still air ($1$ cm, $k = 0.026$ W/(m·K)), glass ($1$ cm). There are $20$ K between the outer faces. What heat flow crosses it, in watts? (A single glass pane of the same thickness lets through $2000$ W.)
+    answer: 49.4
+    tolerance: 0.5
+    answerText: '49.4'
+    wrong:
+      - { value: 1000, feedback: 'That counts only the two glass panes ($R = 0.01 + 0.01$ K/W). The air gap is a third layer in series, and its resistance is the biggest of all.' }
+      - { value: 52, feedback: 'That is the air alone. The two glass panes add a little resistance in series, so the answer is slightly smaller.' }
+    hint: 'Three resistances in series: $L/(kA)$ for glass, for air, for glass. Add them and divide $\Delta T$ by the sum.'
+    explanation: |
+      $R_{\text{glass}} = 0.01/(1.0\times 1) = 0.01$ K/W each, and $R_{\text{air}} = 0.01/(0.026\times 1) = 0.385$ K/W. So $R_{\text{tot}} = 0.01 + 0.385 + 0.01 = 0.405$ K/W and
+      $$\dot Q = \frac{20}{0.405} = 49.4\ \text{W}.$$
+      About $40$ times less than the single pane, and the thin air layer takes $19$ K of the $20$ K.
+
+  - type: text
+    id: radiation
+    title: Heat that needs no air at all
+    body: |
+      There is a third way heat travels. Every warm surface sends out infrared light (a kind of light our eyes cannot see, felt as warmth on the face near a fire or a hot oven door). This **radiation** crosses empty space: it is how the Sun warms the Earth. It needs no air, no solid, no flow.
+
+      How much a surface radiates depends on its finish. A dull black surface sends out about $95\%$ of the most any surface can; polished silver only about $2$ to $3\%$, and bright aluminium foil about $3$ to $9\%$. A shiny surface also reflects most of the infrared that falls on it. So a mirror-like coating blocks radiation much as a thick layer blocks conduction.
+
+  - type: mcq
+    id: q-shiny
+    prompt: |
+      Two identical cups of tea at $90$ °C sit in the same room. Suppose we ignore conduction and convection and look only at **radiation**. One cup is wrapped in dull black tape, the other in polished metal foil. Which loses heat faster by radiation?
+    shuffle: false
+    options:
+      - text: The cup in polished foil, because metal conducts heat well.
+        feedback: |
+          Metal does conduct well, but this question is about radiation only. What counts is how strongly the surface sends out infrared light, and polished metal sends out very little.
+      - text: The cup in dull black tape, which radiates several times to ten times more.
+        correct: true
+      - text: They lose heat equally, because both cups are at $90$ °C.
+        feedback: |
+          Temperature is one factor, but not the only one. At the same temperature a dull black surface radiates far more than a polished one.
+    explanation: |
+      At the same temperature, a dull black surface gives out about $95\%$ of the maximum while polished foil gives out a few percent: ten times less or even more. This is why survival blankets are shiny, and why the surfaces facing the gap in a vacuum flask are silvered.
+
+  - type: text
+    id: flask
+    title: The vacuum flask
+    image:
+      - src: img/dewar-orchardson.webp
+        alt: Painting of James Dewar seated at a table, experimenting
+        caption: James Dewar (1842-1923), a Scottish scientist, invented the vacuum flask in 1892 in his laboratory work and never patented it.
+        credit: William Quiller Orchardson, Public domain, via Wikimedia Commons
+        link: https://commons.wikimedia.org/wiki/File:William_Quiller_Orchardson_(1832-1910)_-_James_Dewar,_Seated_at_a_Table,_Experimenting_-_18_-_Peterhouse.jpg
+      - src: img/dewar-section.webp
+        alt: Cross section of a vacuum flask, a bottle inside a bottle with the gap between the walls marked vacuum
+        caption: In section, the pink space between the two walls is the vacuum; the walls meet only at the neck, under the stopper.
+        credit: Wikimedia Commons contributor, Public domain, via Wikimedia Commons
+        link: https://commons.wikimedia.org/wiki/File:Dewar_flask.svg
+        place: bottom
+    body: |
+      A flask has to defeat all three ways at once, and it does it with two ideas. It is a bottle inside a bottle, with the air pumped out of the space between: with **no matter** in the gap, there is no conduction across it and no convection. And the surfaces facing the gap are **silvered**, so that radiation, the only way left, is small. The walls touch only at the neck, where the stopper sits.
+
+      The idea came from James Dewar in 1892, and in 1904 the German glassblowers Reinhold Burger and Albert Aschenbrenner turned it into a commercial product, which they named Thermos. That is why a laboratory vessel is called a Dewar flask and a kitchen one a thermos.
+
+  - type: widget
+    id: w-flask
+    widget: heat-layers
+    review: false
+    config:
+      Thot: 90
+      Tcold: 20
+      A: 0.05
+      body: { C: 4180 }
+      layers:
+        - { name: Steel, k: 16, L: 0.1, fixed: true }
+        - { name: Vacuum, type: gap, h: 0.3 }
+        - { name: Steel, k: 16, L: 0.1, fixed: true }
+      readouts: [Q, Rtot, tau]
+      presets:
+        - { label: Silvered walls, layers: [{}, { h: 0.3 }, {}] }
+        - { label: Dull dark walls, layers: [{}, { h: 6 }, {}] }
+    body: |
+      An ideal flask wall: two steel walls of $1$ mm ($k = 16$ W/(m·K)) and a vacuum between them. With no matter in the gap, heat can cross it only by radiation, which we describe by a coefficient $h$ (watts per square metre per kelvin): its resistance is $1/(hA)$. The wall area is $A = 0.05$ m$^2$, with $1$ L of tea inside at $90$ °C in a $20$ °C room. Use the two presets: silvered walls ($h = 0.3$) and dull dark walls ($h = 6$, both values chosen for the setting). Watch which layer holds almost all of the resistance.
+
+  - type: mcq
+    id: q-vacuum
+    prompt: |
+      In the ideal flask wall, the two steel walls are thin ($1$ mm) and steel conducts well ($k = 16$ W/(m·K)), yet the whole wall resists heat very well. Where does the resistance come from?
+    shuffle: false
+    options:
+      - text: From the steel, because steel is a strong material.
+        feedback: |
+          Strength has nothing to do with it. A $1$ mm steel sheet has a tiny resistance, $L/(kA) = 0.0013$ K/W, compared with the gap.
+      - text: From the vacuum gap, where only weak radiation can carry heat.
+        correct: true
+      - text: From the tea itself, which is already hot.
+        feedback: |
+          The tea sets the temperature on one side but does not change how the wall resists the flow. The resistance is a property of the wall alone.
+    explanation: |
+      The gap has $R = 1/(0.3\times 0.05) = 66.7$ K/W, while each steel wall has $0.0013$ K/W. Layers in series add, and one large resistance dominates the total, just as the foam did before. 
+
+  - type: order
+    id: order-path
+    prompt: Put in order the path of heat from the hot soup in a vacuum flask to the room.
+    steps:
+      - The hot soup warms the inner steel wall by conduction.
+      - The inner wall sends heat across the vacuum gap as infrared radiation.
+      - The outer wall absorbs part of that radiation and warms.
+      - The outer wall warms the room air touching it, which carries heat away by convection.
+    hint: Heat must cross each layer in turn, and the vacuum can only be crossed by one of the three ways.
+    explanation: |
+      Conduction in the solid wall, radiation across the vacuum, conduction again, then convection into the room: all three ways appear in one flask, and the vacuum with silvering blocks the two that could cross it most easily.
+
+  - type: text
+    id: oven
+    title: The oven
+    body: |
+      An oven is a flask turned inside out: it must keep a lot of heat **in** at $200$ °C and more, while the kitchen stays cool and the outside stays safe to touch. The walls are typically a metal box wrapped in a thick blanket of fibre insulation such as glass wool or mineral wool, which is mostly air held still by fibres, the same trick as the jacket. The door has a window, and the window is the hard part, because glass conducts well and passes radiation: many ovens use several panes with gaps between them (layers in series), a coating on some surfaces that reflects infrared back into the oven, and in many designs a stream of air through the gaps that carries heat out of the door before it reaches the outer pane.
+
+  - type: numeric
+    id: q-oven
+    prompt: |
+      An oven wall (setting's numbers) has total area $A = 0.8$ m$^2$ and two layers in series: a steel sheet ($1$ mm, $k = 16$ W/(m·K)) and a fibre blanket ($5$ cm, $k = 0.05$ W/(m·K)). Inside it is $220$ °C and outside $30$ °C. Using $R = L/(kA)$ and $\dot Q = \Delta T/R_{\text{tot}}$, what heat flow do the walls lose, in watts?
+    answer: 152
+    tolerance: 1
+    answerText: '152'
+    wrong:
+      - { value: 1.52, feedback: 'You used $L = 5$ for the blanket, in centimetres. Use $0.05$ m.' }
+      - { value: 2434000, feedback: 'That is the steel alone, as if the blanket were absent. The blanket is in series with it and holds nearly all of the resistance.' }
+    hint: Two resistances in series, one tiny (steel) and one large (the blanket). Add them, then divide the temperature difference.
+    explanation: |
+      $\Delta T = 220 - 30 = 190$ K. The steel: $R_1 = 0.001/(16\times 0.8) = 0.00008$ K/W. The blanket: $R_2 = 0.05/(0.05\times 0.8) = 1.25$ K/W. So $R_{\text{tot}} = 1.2501$ K/W and
+      $$\dot Q = \frac{190}{1.2501} = 152\ \text{W}.$$
+      The blanket alone gives the same answer to three figures: in a series the large resistance sets the flow. Without the blanket the steel would pass about $2.4$ million watts.
+
+  - type: text
+    id: recall
+    title: How long does it stay hot?
+    body: |
+      **Recall (from the lesson The Electric Shower).** Warming a mass $m$ of water by $\Delta T$ takes heat $Q = m\,c\,\Delta T$, with specific heat $c = 4180$ J/(kg·K). So a body of mass $m$ holds, for each kelvin of temperature, the heat
+      $$C = m\,c,$$
+      called its **heat capacity**, in J/K. One litre of tea ($m \approx 1$ kg) has $C = 4180$ J/K.
+
+      Now let the tea sit in a flask of total resistance $R_{\text{tot}}$, in a room colder by $\Delta T$. The heat flow out is $\Delta T/R_{\text{tot}}$ and, by the same energy balance used in the shower (heat out per second equals the heat the tea gives up per second), it makes the tea cool, slowly at first and then more slowly still as the gap to room temperature closes. The excess over the room temperature falls exponentially with a time constant
+      $$\tau = C\,R_{\text{tot}}.$$
+      After one $\tau$ the excess has fallen to about $37\%$ of its starting value.
+
+  - type: numeric
+    id: q-tau
+    prompt: |
+      One litre of tea ($m \approx 1$ kg, $c = 4180$ J/(kg·K)) sits in an ideal flask wall with total resistance $R_{\text{tot}} = 66.7$ K/W (silvered walls). Using $C = m\,c$ and $\tau = C\,R_{\text{tot}}$, what is the time constant, in hours?
+    answer: 77.4
+    tolerance: 0.5
+    answerText: '77.4'
+    wrong:
+      - { value: 278700, feedback: 'That is the time in seconds. Divide by $3600$ s per hour.' }
+      - { value: 0.0627, feedback: 'You divided $C$ by $R_{\text{tot}}$. The time constant is the **product** $C\,R_{\text{tot}}$: more heat to lose or more resistance both make the tea last longer.' }
+    hint: First $C = m\,c$ in J/K, then multiply by $R_{\text{tot}}$ to get seconds, then convert.
+    explanation: |
+      $C = 1\times 4180 = 4180$ J/K, so $\tau = 4180\times 66.7 = 278\,700$ s, which is $278\,700/3600 = 77.4$ h. The ideal wall is far better than a real flask: the neck and the stopper add leaks that this model leaves out, so a real flask does not keep tea hot for days.
+
+  - type: numeric
+    id: q-dull
+    prompt: |
+      Same flask and same litre of tea ($C = 4180$ J/K), but the walls facing the gap are dull and dark, with radiation coefficient $h = 6$ W/(m$^2$·K) instead of $0.3$. The wall area is $A = 0.05$ m$^2$, the gap resistance is $1/(hA)$ and the two steel walls add $0.0025$ K/W. What is $\tau = C\,R_{\text{tot}}$ now, in hours?
+    answer: 3.87
+    tolerance: 0.05
+    answerText: '3.87'
+    wrong:
+      - { value: 77.4, feedback: 'That is the silvered flask. Here $h$ is $20$ times larger, so the gap resistance $1/(hA)$ is $20$ times smaller.' }
+    hint: Gap resistance $1/(hA)$, plus the steel, then multiply by $C$ and convert seconds to hours.
+    explanation: |
+      $R_{\text{gap}} = 1/(6\times 0.05) = 3.333$ K/W, so $R_{\text{tot}} = 3.3358$ K/W and $\tau = 4180\times 3.3358 = 13\,944$ s $= 3.87$ h. Silvering multiplies the time constant by about $20$, using only a thin metal coating.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** insulation only slows heat down. The next lesson asks how a refrigerator makes a cold box colder than its room, and why the back of a fridge is warm: heat moved uphill, at a cost.
