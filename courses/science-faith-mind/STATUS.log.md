@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch12-intuition
+Built (16 cards, no images, no widget; odds-updater skipped because it would hint the formula). Cards: marks, numinous words, roots/fruits, R=6.5, core vs union and scaling, report=core+interpretation build, odds build and three numeric (0.69, 0.2, 0.533), credulity order, defeater, layers. No new web facts. Conventions fixed here: none new.
+
 ## 2026-11-07: ch12-traps (21 cards, 18 traps)
 Built Level 12 traps: private/worthless, roots vs fruits, numinous as fear, awe explained, union words, core and truth, Katz, core count (numeric), credulity, no-defeater posterior (numeric), diversity, brain correlate, helmet failure, LR 1 (numeric), good outcome (numeric), harm, conversion, small study, layer sort, summary. No new facts (reused, see VERIFIED.md). Images: none: traps rely on cards, no new person or object. Widget: none. Choice: dropped the enrichment-ratio trap to stay near 18. Conventions fixed here: none new.
 
