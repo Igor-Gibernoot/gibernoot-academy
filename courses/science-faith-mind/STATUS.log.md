@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch12-map
+Built (14 cards, 12 boxes, 4 rows x 3 cols, no images, no widget; a map is recall by structure). Boxes: marks, tests, numinous, traditions, core, constructivism, PCE, credulity, odds, neuro, transformation, layers (constructivism and PCE split into two boxes). Decoys: marks swapped (entitle vs usual), tremendum/fascinans swapped, fana/baqa swapped, union for intersection, Katz reversed, PCE as sleep, credulity indefeasible, LR read the wrong way, layers misplaced. Dashed edge tests to transformation. No new web facts (all reused). Conventions fixed here: map box list recorded in CONVENTIONS.
+
 ## 2026-11-07 ch12-intuition
 Built (16 cards, no images, no widget; odds-updater skipped because it would hint the formula). Cards: marks, numinous words, roots/fruits, R=6.5, core vs union and scaling, report=core+interpretation build, odds build and three numeric (0.69, 0.2, 0.533), credulity order, defeater, layers. No new web facts. Conventions fixed here: none new.
 
