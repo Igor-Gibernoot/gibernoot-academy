@@ -1,0 +1,480 @@
+id: ch03-challenge
+title: 'Level Challenge: Design a footbridge, Part 1'
+kind: challenge
+cards:
+  - type: text
+    id: setting
+    title: The client and the river
+    body: |
+      **Level challenge: design a footbridge.** A town wants a pedestrian bridge over a river. In this first part you choose the **shape** (arch or beam), the **section** of a steel deck beam and the **material** (concrete or steel, and where the steel bars go). The second part adds wind, flutter and damping, then asks you to rebuild the whole bridge.
+
+      The client's specification (every number is this problem's own data, invented for the exercise, except where it says typical):
+
+      | Item | Value |
+      |---|---|
+      | Span $L$ (bank to bank) | $24$ m |
+      | Deck width | $3$ m |
+      | Crowd load | $4$ kN per m$^2$ of deck |
+      | Design load, uniform | $w = 30$ kN per metre of span |
+      | Banks | can take a sideways push of at most $600$ kN per bank |
+
+      The load $w$ adds up like this: the crowd gives $3 \times 4 = 12$ kN/m, a beam's own weight about $16$ kN/m (computed later for concrete) and about $2$ kN/m of railing and surfacing. Design codes for footbridges use a crowd load of order $4$ to $5$ kN/m$^2$ (the European code gives up to $5$, the American guide specification $90$ lb per square foot, about $4.3$ kN/m$^2$); we take $4$. We use the same $w = 30$ kN/m for every design, so they can be compared. The deck is flat; an arch would sit **under** it, on posts.
+
+      **Guessing is the point.** If a step is unclear, guess, then check against the numbers.
+
+  - type: numeric
+    id: vertical
+    prompt: |
+      **Problem 1: shape, arch or beam.** The span is $L = 24$ m and the load is a uniform $w = 30$ kN per metre of span. The two banks share the load equally. What vertical force $V = wL/2$, in kN, does each bank carry?
+    answer: 360
+    tolerance: 1
+    answerText: '360 kN'
+    wrong:
+      - { value: 720, feedback: 'That is the whole load $wL$. Each of the two banks carries half of it.' }
+    hint: |
+      The total load is $wL$ and it splits between two banks.
+    explanation: |
+      $wL = 30 \times 24 = 720$ kN in total, so $V = 720/2 = 360$ kN per bank. A beam and an arch both need this much support from below.
+
+  - type: widget
+    id: arch-widget
+    widget: arch-thrust
+    review: false
+    config:
+      mode: arch
+      modes: [arch]
+      span: 24
+      rise: 3
+      load: 30
+      readouts: [thrust, vertical, maxforce]
+      show: { ghost: false, band: false, stone: false }
+      ranges: { rise: [1, 8, 0.5] }
+      presets:
+        - { label: Rise 3 m, rise: 3 }
+        - { label: Rise 1.5 m, rise: 1.5 }
+      units: { length: m, force: kN, load: kN/m, area: kN/m2, line: kN/m }
+    body: |
+      An arch under the deck: span $24$ m, uniform load $30$ kN/m. Drag the crown or use the presets. Read the **thrust** (the sideways push at each bank), the **vertical** force and the **largest force** in the arch as the rise changes.
+
+  - type: numeric
+    id: thrust-3
+    prompt: |
+      The arch pushes sideways on each bank with a thrust $H = \dfrac{wL^2}{8h}$, where $h$ is the rise (the height of the crown above the supports). For $w = 30$ kN/m, $L = 24$ m and a rise $h = 3$ m, what is $H$, in kN?
+    answer: 720
+    tolerance: 1
+    answerText: '720 kN'
+    wrong:
+      - { value: 360, feedback: 'That is the vertical force $wL/2$, which does not depend on the rise. The thrust has $L^2$ and $h$ in it.' }
+      - { value: 2160, feedback: 'You forgot to divide by the rise $h$. $wL^2/8 = 2160$ is the numerator; the thrust is that divided by $h$.' }
+    hint: |
+      $wL^2 = 30 \times 576$; divide by $8h = 24$.
+    explanation: |
+      $wL^2/8 = 30 \times 576/8 = 2160$ kN m, and $H = 2160/3 = 720$ kN. That is twice the $360$ kN a bank carries downward, and it is more than the banks can take ($600$ kN).
+
+  - type: numeric
+    id: thrust-15
+    prompt: |
+      A designer halves the rise to $h = 1.5$ m to keep the bridge slim. With $w = 30$ kN/m and $L = 24$ m, what is the thrust $H = wL^2/(8h)$, in kN?
+    answer: 1440
+    tolerance: 1
+    answerText: '1440 kN'
+    wrong:
+      - { value: 360, feedback: 'Halving the rise **doubles** the thrust, because $h$ sits in the denominator. $720/2$ goes the wrong way.' }
+    hint: |
+      The rise is in the denominator.
+    explanation: |
+      $H = 2160/1.5 = 1440$ kN, double the $720$ kN of the $3$ m rise. A flatter arch pushes harder on its banks, as in the lesson The Arch and the Cable.
+
+  - type: mcq
+    id: h-times-rise
+    prompt: |
+      A uniformly loaded arch has span $24$ m and load $30$ kN/m. For every rise $h$ the thrust satisfies $H \times h = 2160$ kN m: at $h = 3$ m it is $720$ kN, at $h = 1.5$ m it is $1440$ kN. What is the number $2160$ kN m?
+    shuffle: false
+    options:
+      - text: 'The bending moment $wL^2/8$ that a **beam** of the same span and load would have at midspan. The arch trades that bending for thrust times rise.'
+        correct: true
+      - text: 'The weight of the arch.'
+        feedback: |
+          The weight does not appear in the formula; $2160 = 30 \times 24^2/8$ uses only the load, the span and the numbers $8$.
+      - text: 'A property of the stone, fixed by its strength.'
+        feedback: |
+          Nothing about the material enters: it is pure geometry of load and span.
+    explanation: |
+      Balancing moments about the crown of the half arch gave $H h = wL^2/8$. A beam carries the same load by **bending** with the moment $wL^2/8$; an arch carries it by **thrust**, and the rise is the lever arm that turns this moment into a force. Doubling the rise halves the thrust.
+
+  - type: numeric
+    id: min-rise
+    prompt: |
+      Each bank can take a sideways push of at most $600$ kN. With $H h = 2160$ kN m, what is the **smallest rise** $h$, in m, that keeps the thrust within $600$ kN?
+    answer: 3.6
+    tolerance: 0.02
+    answerText: '3.6 m'
+    wrong:
+      - { value: 0.28, feedback: 'You divided $600$ by $2160$. The thrust is $H = 2160/h$, so $h = 2160/H$.' }
+    hint: |
+      Solve $2160/h = 600$.
+    explanation: |
+      $h = 2160/600 = 3.6$ m. A flatter arch breaks the banks, a taller one costs more height, more material and more excavation under a flat deck: a tradeoff, as in the lesson Every Design Is a Compromise.
+
+  - type: numeric
+    id: max-force
+    prompt: |
+      With the rise $3.6$ m the thrust is $H = 600$ kN and the vertical force at each bank is $V = 360$ kN. The largest force in the arch is at the banks, $N = \sqrt{H^2 + V^2}$. What is $N$, in kN?
+    answer: 699.7
+    tolerance: 1
+    answerText: '699.7 kN'
+    wrong:
+      - { value: 960, feedback: 'You added $H + V$. The two forces are at right angles, so they combine as the sides of a right triangle: $\sqrt{H^2+V^2}$.' }
+    hint: |
+      $600^2 = 360000$ and $360^2 = 129600$.
+    explanation: |
+      $N = \sqrt{360000 + 129600} = \sqrt{489600} \approx 699.7$ kN, all of it compression in the arch. The material only has to be strong when squeezed, which is what stone and concrete are good at.
+
+  - type: mcq
+    id: soft-banks
+    prompt: |
+      The river's banks turn out to be soft: each can take a sideways push of only $150$ kN. The arch needs $H h = 2160$ kN m. Which choice is sensible for the $24$ m span?
+    shuffle: false
+    options:
+      - text: 'A beam. It pushes straight down on the banks, with no sideways thrust. An arch would need $h = 2160/150 = 14.4$ m, taller than half the span.'
+        correct: true
+      - text: 'A very flat arch, since flat is slim.'
+        feedback: |
+          Flat is the worst: the thrust grows as the rise falls ($H = 2160/h$), which is exactly what the soft banks cannot take.
+      - text: 'An arch with the same $3$ m rise, since the load is the same.'
+        feedback: |
+          The load is the same, but the thrust there is $720$ kN, almost five times the $150$ kN the banks can take.
+    explanation: |
+      A beam asks only for vertical support ($360$ kN per bank) and moves the difficulty into its own bending. The next problems size that beam. (A third way, an arch with a tie across its feet that carries the thrust as tension, is a bowstring; we do not pursue it.)
+
+  - type: build
+    id: m-build
+    prompt: |
+      **Problem 2: section.** The beam is simply supported at its two ends. Cut it at midspan, a horizontal distance $L/2$ from the left bank. The left half has the upward reaction $\tfrac{wL}{2}$ at the bank, and its own load $\tfrac{wL}{2}$ acting at its middle, a distance $L/4$ from the bank. Build the bending moment $M$ at midspan, the moment of the reaction about the cut minus the moment of the load.
+    prefix: 'M ='
+    tiles: ['\tfrac{wL}{2}\cdot\tfrac{L}{2}', '-', '\tfrac{wL}{2}\cdot\tfrac{L}{4}', '+']
+    answers:
+      - ['\tfrac{wL}{2}\cdot\tfrac{L}{2}', '-', '\tfrac{wL}{2}\cdot\tfrac{L}{4}']
+    wrong:
+      - { answer: ['\tfrac{wL}{2}\cdot\tfrac{L}{2}', '+', '\tfrac{wL}{2}\cdot\tfrac{L}{4}'], feedback: 'The load pushes down, the reaction pushes up, so they turn the half beam in opposite senses and the moments subtract.' }
+    hint: |
+      The reaction acts $L/2$ from the cut; the half-span load is centred $L/2 - L/4 = L/4$ from the cut.
+    explanation: |
+      $\tfrac{wL}{2}\cdot\tfrac{L}{2} = \tfrac{wL^2}{4}$ and $\tfrac{wL}{2}\cdot\tfrac{L}{4} = \tfrac{wL^2}{8}$. The difference is $M = \dfrac{wL^2}{8}$, the same combination that gave the arch's $H h$.
+
+  - type: numeric
+    id: m-value
+    prompt: |
+      With $w = 30$ kN/m and $L = 24$ m, what is the midspan moment $M = wL^2/8$, in kN m?
+    answer: 2160
+    tolerance: 1
+    answerText: '2160 kN m'
+    wrong:
+      - { value: 4320, feedback: 'That is $wL^2/4$, the moment if the whole load $wL$ sat in one point at midspan ($PL/4$ with $P = wL$). A spread load is gentler.' }
+    hint: |
+      $30 \times 24^2/8$.
+    explanation: |
+      $30 \times 576/8 = 2160$ kN m. If the same $720$ kN were one point load $P$ at midspan the moment $PL/4$ would be $4320$ kN m, twice as much: spread load sits closer to the banks.
+
+  - type: numeric
+    id: rect-stress
+    prompt: |
+      A first idea: a **solid rectangular steel** deck beam $0.3$ m wide and $h = 0.4$ m deep. The bending stress at the edge is $\sigma = My/I$, with $y = h/2$ the distance from the neutral axis and $I = bh^3/12$. For $M = 2160$ kN m, what is $\sigma$, in MPa?
+    answer: 270
+    tolerance: 2
+    answerText: '270 MPa'
+    wrong:
+      - { value: 0.27, feedback: 'A unit slip: $M$ must be in N m ($2.16\times10^6$) and $I$ in m$^4$ to get pascals; then convert to MPa.' }
+      - { value: 540, feedback: 'You used $y = h = 0.4$ m. The edge lies half the depth, $0.2$ m, from the neutral axis in the middle.' }
+    hint: |
+      $I = 0.3 \times 0.4^3/12 = 1.6\times10^{-3}$ m$^4$; $y = 0.2$ m.
+    explanation: |
+      $\sigma = 2.16\times10^6 \times 0.2/(1.6\times10^{-3}) = 2.7\times10^{8}$ Pa $= 270$ MPa. Our steel has a yield strength near $355$ MPa (a common structural grade, S355) and we want a safety margin: a design limit of $200$ MPa (a made-up round value, about $1.8$ below yield). $270$ MPa fails.
+
+  - type: numeric
+    id: rect-depth
+    prompt: |
+      Keep the width $0.3$ m and the limit $\sigma \le 200$ MPa. At the edge $\sigma = M/S$ with $S = I/y = bh^2/6$. What is the smallest depth $h$, in m? (Solve $bh^2/6 = M/\sigma$.)
+    answer: 0.465
+    tolerance: 0.005
+    answerText: '0.465 m'
+    wrong:
+      - { value: 0.4, feedback: 'That is the depth that gave $270$ MPa. The stress falls as $1/h^2$, so more depth is needed to reach $200$ MPa.' }
+    hint: |
+      $S = M/\sigma = 2.16\times10^6/(2\times10^8) = 0.0108$ m$^3$. Then $h^2 = 6S/b$.
+    explanation: |
+      $h^2 = 6 \times 0.0108/0.3 = 0.216$, so $h = 0.465$ m. We round up to $0.47$ m, where $\sigma = 195.6$ MPa.
+
+  - type: numeric
+    id: rect-mass
+    prompt: |
+      The rectangular beam is $0.3$ m by $0.47$ m. Steel has a density of $7850$ kg/m$^3$. What is the mass of beam per metre of length, in kg/m?
+    answer: 1107
+    tolerance: 3
+    answerText: '1107 kg/m'
+    wrong:
+      - { value: 0.141, feedback: 'That is the cross-section area in m$^2$. Multiply by the density to get a mass per metre.' }
+    hint: |
+      Area $= 0.3 \times 0.47$ m$^2$; mass per metre $=$ area $\times$ density.
+    explanation: |
+      $0.141 \times 7850 = 1107$ kg per metre, about $26.6$ tonnes over $24$ m. Most of this steel sits near the neutral axis, where the stress is small. The lesson Beams and Trusses showed where to put the steel instead.
+
+  - type: mcq
+    id: depth-or-width
+    prompt: |
+      For a rectangular beam, $\sigma = M/S$ with $S = bh^2/6$. You want the stress as low as possible and may double **either** the depth $h$ **or** the width $b$ (the steel used doubles in both cases). Which gives the lower stress, and by what factor?
+    shuffle: false
+    options:
+      - text: 'Doubling the depth: the stress falls by a factor $4$. Doubling the width only halves it.'
+        correct: true
+      - text: 'Doubling the width: stress falls by $4$, since width is a side too.'
+        feedback: |
+          Width enters $S$ only to the first power, so doubling it halves the stress. The depth enters squared (the edge is farther from the axis **and** there is more material far out).
+      - text: 'They give the same, since the area doubles in both cases.'
+        feedback: |
+          Equal steel, unequal effect: where the steel sits matters. Far from the neutral axis it works harder against bending.
+    explanation: |
+      $S = bh^2/6$: depth counts squared, width once. That is why deck beams are deep and why the I-shape moves its steel to the edges of the depth.
+
+  - type: widget
+    id: shape-widget
+    widget: beam-section
+    review: false
+    config:
+      section: solid
+      sections: [solid, I]
+      span: 24
+      load: 360
+      E: 200
+      area: 0.0404
+      dims:
+        solid: { b: 0.2 }
+        I: { H: 0.9, bf: 0.3, tw: 0.02 }
+      readouts: [area, Imom, moment, maxstress]
+      ranges: { load: [0, 500, 10] }
+      units: { length: m, force: kN, stress: MPa }
+      show: { rebar: false, crack: false, prestress: false, loadSlider: true }
+    body: |
+      Two sections of the **same area** ($0.0404$ m$^2$, so the same steel): a solid bar $0.2$ m wide and an I-shape $0.9$ m deep with flanges $0.3$ m wide and a $0.02$ m web. The load shown, $P = 360$ kN at midspan, gives the same midspan moment as the uniform $30$ kN/m over $24$ m, $M = PL/4 = wL^2/8 = 2160$ kN m. Switch between the sections and read the **second moment of area** and the **largest stress**.
+
+  - type: numeric
+    id: i-section
+    prompt: |
+      The I-shape is $0.9$ m deep and $0.3$ m wide, with flanges $0.04$ m thick and a web $0.02$ m thick. Its second moment of area is the full box minus the two empty side gaps: $I = \dfrac{0.3 \times 0.9^3}{12} - \dfrac{0.28 \times 0.82^3}{12}$ (each gap is $0.28$ m wide in total and $0.82$ m tall). What is $I$, in units of $10^{-3}$ m$^4$?
+    answer: 5.36
+    tolerance: 0.02
+    answerText: '5.36'
+    wrong:
+      - { value: 18.2, feedback: 'That is the full box $0.3\times0.9^3/12$ before taking the gaps out. The steel is only the flanges and the web.' }
+    hint: |
+      $0.3\times0.729/12 = 0.018225$ and $0.28 \times 0.551368/12 = 0.012865$.
+    explanation: |
+      $I = 0.018225 - 0.012865 = 5.36\times10^{-3}$ m$^4$, more than three times the $1.6\times10^{-3}$ of the solid $0.3\times0.4$ rectangle, with only $0.0404$ m$^2$ of steel instead of $0.12$.
+
+  - type: numeric
+    id: sigma-i
+    prompt: |
+      Under $M = 2160$ kN m, the edge of the I-shape's flange lies $y = 0.45$ m from the neutral axis, and $I = 5.36\times10^{-3}$ m$^4$. What is $\sigma = My/I$, in MPa?
+    answer: 181
+    tolerance: 1
+    answerText: '181 MPa'
+    wrong:
+      - { value: 363, feedback: 'You used $y = 0.9$ m, the full depth. The neutral axis is at mid-depth, so the edge is $0.45$ m away.' }
+    hint: |
+      $2.16\times10^6 \times 0.45/(5.36\times10^{-3})$ Pa.
+    explanation: |
+      $\sigma = 2.16\times10^6 \times 0.45/5.36\times10^{-3} = 1.81\times10^8$ Pa $= 181$ MPa, under the $200$ MPa limit.
+
+  - type: numeric
+    id: i-mass
+    prompt: |
+      The I-shape has area $2\times0.3\times0.04 + 0.82\times0.02 = 0.0404$ m$^2$. With density $7850$ kg/m$^3$, what is its mass per metre, in kg/m? (The rectangle needed $1107$ kg/m.)
+    answer: 317
+    tolerance: 1
+    answerText: '317 kg/m'
+    wrong:
+      - { value: 1107, feedback: 'That is the rectangle. The I-shape has less than a third of its area.' }
+    hint: |
+      Area times density.
+    explanation: |
+      $0.0404 \times 7850 = 317$ kg/m, about $3.5$ times lighter than the rectangle ($1107/317 = 3.49$), for a lower stress. Its own weight is $317\times9.8 = 3.1$ kN/m, well under the $16$ kN/m a concrete beam will need. The I-beam wins by putting the steel at the edges of a deep section, at the price of a taller deck.
+
+  - type: numeric
+    id: plain-concrete
+    prompt: |
+      **Problem 3: material.** Now try **concrete**: a solid rectangle $0.4$ m wide and $1.6$ m deep ($I = bh^3/12 = 0.1365$ m$^4$), carrying the same $M = 2160$ kN m. What tension, in MPa, does the bottom edge feel, $\sigma = My/I$ with $y = 0.8$ m? (Plain concrete pulls only about $3$ MPa before it cracks.)
+    answer: 12.66
+    tolerance: 0.1
+    answerText: '12.66 MPa'
+    wrong:
+      - { value: 25.3, feedback: 'You used $y = 1.6$ m. The bottom edge is half the depth, $0.8$ m, below the neutral axis.' }
+    hint: |
+      $2.16\times10^6 \times 0.8/0.1365$ Pa.
+    explanation: |
+      $\sigma = 2.16\times10^6 \times 0.8/0.1365 = 1.266\times10^7$ Pa $= 12.7$ MPa, over four times what plain concrete can pull. Concrete is typically about $20$ to $40$ MPa when squeezed but only a tenth of that when pulled, so the bottom cracks at midspan. (The same beam weighs $0.64 \times 25 = 16$ kN/m, taking $25$ kN/m$^3$ for reinforced concrete.)
+
+  - type: mcq
+    id: where-bars
+    prompt: |
+      The concrete beam is simply supported and carries the load on top. Where does it crack, and where do the steel bars go?
+    shuffle: false
+    options:
+      - text: 'The bottom fibres, near midspan, are stretched; the bars lie along the bottom, near the lowest edge.'
+        correct: true
+      - text: 'The top fibres at midspan crack; the bars go along the top.'
+        feedback: |
+          Under a load pushing down the beam bends like a smile: the top is squeezed (concrete is good at that) and the bottom is stretched.
+      - text: 'Cracks open near the banks; the bars go in the middle of the depth.'
+        feedback: |
+          The moment is largest at midspan, and bars at mid-depth sit on the neutral axis where there is no stretch to resist.
+    explanation: |
+      Put steel where the pull is: low, at midspan, where $M$ is largest. A crack there is normal in reinforced concrete; the bars carry the pull across it.
+
+  - type: widget
+    id: rebar-widget
+    widget: beam-section
+    review: false
+    config:
+      section: solid
+      sections: [solid]
+      span: 24
+      load: 360
+      E: 30
+      tensileLimit: 3
+      area: 0.64
+      dims:
+        solid: { b: 0.4 }
+      rebar: { on: true, area: 0.0056, cover: 0.07, count: 7 }
+      readouts: [moment, crack, steel]
+      labels: { steel: 'Bar force, stress', limit: 'concrete pull strength' }
+      ranges: { load: [0, 500, 10] }
+      units: { length: m, force: kN, stress: MPa }
+      show: { selector: false, prestress: false, loadSlider: true, rebarToggle: true }
+    body: |
+      The concrete beam ($0.4$ m by $1.6$ m, the midspan load $360$ kN standing for the uniform $30$ kN/m) with seven bars, $56$ cm$^2$ in all, $7$ cm above the bottom edge. Switch the bars on and off and read the **crack** and the **bar force and stress**. The picture of the concrete stress is a simple elastic estimate; the bars take the pull across the crack.
+
+  - type: numeric
+    id: bar-force
+    prompt: |
+      Recall the simplified rule for a cracked reinforced beam: the bars carry a force $T = M/z$, with lever arm $z = 0.9\,d$ and $d$ the depth from the top edge to the bars. Here $d = 1.6 - 0.07 = 1.53$ m and $M = 2160$ kN m. What is $T$, in kN?
+    answer: 1569
+    tolerance: 3
+    answerText: '1569 kN'
+    wrong:
+      - { value: 1412, feedback: 'You forgot the $0.9$: $2160/1.53 = 1412$. The lever arm $z$ is a bit shorter than $d$, so the force is larger.' }
+    hint: |
+      $z = 0.9 \times 1.53 = 1.377$ m.
+    explanation: |
+      $T = 2160/1.377 = 1569$ kN. The top of the beam takes the matching squeeze, a pair of equal and opposite forces a distance $z$ apart, which together supply the moment $M = Tz$.
+
+  - type: numeric
+    id: steel-area
+    prompt: |
+      Reinforcing bars typically yield near $400$ to $500$ MPa. Take a working stress limit of $280$ MPa (a typical $420$ MPa bar divided by $1.5$, a made-up margin). What bar area $A_s = T/\sigma_s$ carries $T = 1569$ kN, in cm$^2$? ($1$ m$^2$ $= 10^4$ cm$^2$.)
+    answer: 56
+    tolerance: 0.5
+    answerText: '56 cm²'
+    wrong:
+      - { value: 0.56, feedback: 'A unit slip: $1569\times10^3/(280\times10^6) = 5.6\times10^{-3}$ m$^2$, and one square metre is $10\,000$ cm$^2$.' }
+    hint: |
+      $T$ in N over $\sigma_s$ in Pa gives m$^2$.
+    explanation: |
+      $A_s = 1.569\times10^6/(2.8\times10^8) = 5.6\times10^{-3}$ m$^2 = 56$ cm$^2$. Seven 32 mm bars each have area $\pi\,(0.016)^2 = 8.04$ cm$^2$, so seven give $56.3$ cm$^2$: just enough.
+
+  - type: widget
+    id: prestress-widget
+    widget: beam-section
+    review: false
+    config:
+      section: solid
+      sections: [solid]
+      span: 24
+      load: 360
+      E: 30
+      tensileLimit: 3
+      area: 0.64
+      dims:
+        solid: { b: 0.4 }
+      prestress: 0
+      readouts: [maxstress, crack]
+      labels: { limit: 'concrete pull strength' }
+      ranges: { load: [0, 500, 10], prestress: [0, 15, 0.5] }
+      units: { length: m, force: kN, stress: MPa }
+      show: { selector: false, rebar: false, loadSlider: true, prestressSlider: true }
+    body: |
+      The same beam without bars. Squeeze the concrete in advance with the **prestress** slider (a uniform compression $\sigma_p$ from stretched steel cables) and watch the stress at the bottom and the crack marker as $\sigma_p$ rises, then at the top as well.
+
+  - type: numeric
+    id: prestress-needed
+    prompt: |
+      Prestress adds a uniform compression $\sigma_p$, so the bottom stress is $\sigma_{\text{bottom}} = \sigma_{\text{load}} - \sigma_p$ (tension positive). The load alone gives $12.66$ MPa of tension; plain concrete pulls at most $3$ MPa. What is the smallest $\sigma_p$, in MPa, that stops cracks?
+    answer: 9.66
+    tolerance: 0.05
+    answerText: '9.66 MPa'
+    wrong:
+      - { value: 12.66, feedback: 'That cancels the stretch completely. You only need to bring it down to the $3$ MPa the concrete can take, so $12.66 - 3$.' }
+    hint: |
+      Solve $12.66 - \sigma_p = 3$.
+    explanation: |
+      $\sigma_p = 12.66 - 3 = 9.66$ MPa. The cables must pull with a force $\sigma_p \times A = 9.66\times10^6 \times 0.64 = 6.18$ MN. (Real beams place the cables below the centre so they also bend the beam upward; the uniform squeeze here is the simple version.)
+
+  - type: numeric
+    id: top-check
+    prompt: |
+      Prestress squeezes the top too. At the top edge the load gives a squeeze of $12.66$ MPa; the prestress adds $9.66$ MPa more. What is the total squeeze at the top, in MPa? (Concrete of the upper grade handles about $40$ MPa when squeezed.)
+    answer: 22.3
+    tolerance: 0.1
+    answerText: '22.3 MPa'
+    wrong:
+      - { value: 3, feedback: 'You subtracted, as at the bottom. At the top the load already squeezes, so the prestress **adds** to it.' }
+    hint: |
+      Both squeezes point the same way at the top.
+    explanation: |
+      $12.66 + 9.66 = 22.3$ MPa, comfortably below $40$ MPa. There is a limit: too much prestress would crush the top, so the prestress is chosen between "enough to stop cracks" ($9.66$ MPa) and "not too much".
+
+  - type: numeric
+    id: concrete-mass
+    prompt: |
+      The concrete beam ($0.64$ m$^2$, reinforced concrete about $2500$ kg/m$^3$) against the steel I-shape ($317$ kg/m). What is the concrete beam's mass per metre, in kg/m?
+    answer: 1600
+    tolerance: 5
+    answerText: '1600 kg/m'
+    wrong:
+      - { value: 0.000256, feedback: 'You divided by the density. Mass per metre is area times density.' }
+    hint: |
+      $0.64 \times 2500$.
+    explanation: |
+      $1600$ kg/m, five times the I-shape's $317$ kg/m. Its own weight, $1600 \times 9.8 = 15.7$ kN/m, is more than half of the $30$ kN/m design load.
+
+  - type: mcq
+    id: choose-material
+    prompt: |
+      The concrete beam weighs $16$ kN/m of the $30$ kN/m design load; the steel I-beam weighs $3.1$ kN/m. What is the honest conclusion?
+    shuffle: false
+    options:
+      - text: 'Concrete spends most of its strength carrying itself and needs more material and bigger banks; steel is light but costs more per kilogram. Neither wins on every count: choose by what the site needs.'
+        correct: true
+      - text: 'Concrete is always better because it is cheaper.'
+        feedback: |
+          The numbers say nothing about price. They say the concrete beam is five times heavier, which loads the banks and the beam itself.
+      - text: 'Steel is always better because it is lighter.'
+        feedback: |
+          Lighter is one entry in a tradeoff. A lighter bridge also moves more in the wind and under footsteps; the second part of this challenge examines exactly that.
+    explanation: |
+      A tradeoff, as in the lesson Concrete, Steel and Why Both: weight, size, upkeep and cost pull in different directions. Lightness will come back in Part 2, where a light, slender deck is easy to set swaying.
+
+  - type: text
+    id: part1-results
+    title: What you now own
+    body: |
+      The footbridge so far, for a $24$ m span with a uniform design load $w = 30$ kN/m (all invented data):
+
+      - **Shape.** Each bank carries $V = wL/2 = 360$ kN. An arch adds a sideways thrust
+        $$H = \frac{wL^2}{8h}, \qquad Hh = 2160\ \text{kN m},$$
+        $720$ kN at rise $3$ m and $1440$ kN at $1.5$ m. Banks limited to $600$ kN need $h \ge 3.6$ m ($N = \sqrt{H^2+V^2} = 700$ kN); banks limited to $150$ kN rule the arch out, so we use a beam.
+      - **Section.** The beam's midspan moment is
+        $$M = \frac{wL^2}{8} = 2160\ \text{kN m}, \qquad \sigma = \frac{My}{I}.$$
+        A solid steel rectangle $0.3\times0.4$ m has $\sigma = 270$ MPa (too much); one that passes needs $h = 0.47$ m ($1107$ kg/m). An I-shape $0.9$ m deep ($I = 5.36\times10^{-3}$ m$^4$) gives $181$ MPa with $317$ kg/m.
+      - **Material.** A concrete beam $0.4\times1.6$ m has $12.66$ MPa of bottom tension, over four times the $3$ MPa it can take. Bars in the bottom, with $T = M/z$, $z = 0.9d$, need $A_s = 56$ cm$^2$ (seven 32 mm bars). Prestress $\sigma_p = 9.66$ MPa avoids cracks and leaves $22.3$ MPa at the top. The concrete beam weighs $1600$ kg/m, five times the steel I-beam.
+
+      **Next, in the lesson Level Challenge: Design a footbridge, Part 2:** wind and flutter (can a light deck become unstable?), damping of the bridge's sway, a comparison of the abutment with an isolation bearing, and finally the whole bridge rebuilt from the specification.

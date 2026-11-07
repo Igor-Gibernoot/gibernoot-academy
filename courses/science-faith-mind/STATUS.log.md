@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch13-traps (20 cards, 17 traps)
+Welcome, 15 mcq and 2 numeric (r^2=3.2%, Konvalinka total 38), summary. Traps: genetic fallacy, by-product/adaptation, HADD, costly signals (2,3,5 does not sort), Wilson vs Dawkins vs by-product, secularisation, debunking symmetry, EAAN target, r=-0.18, Durkheim, Malinowski, Geertz, van Gennep/Turner, Rappaport, Whitehouse, Konvalinka, layers. No widget (verbal, one-line arithmetic), no images (traps). Web: reused ch13-* VERIFIED lines, no new external fact. Conventions fixed here: none new (reuses the Chapter 13 section).
+
 ## 2026-11-07 ch13-anthropology (23 cards, concept)
 Hook (guess), Durkheim, Malinowski (prediction), Radcliffe-Brown, Geertz, van Gennep (order card), Turner, Rappaport, Whitehouse, field studies (Xygalatas 2013, Konvalinka 2011, numeric 12+9+17=38), two-readings and layers cards, summary. Widgets checked (README list: odds-updater, belief-mixer, sequence-sampler, coupled-agents, blanket-sync, none shows ritual phases): no widget. Images: durkheim, malinowski (Witkacy portrait), van-gennep (all PD); none for Geertz (dust-jacket photo PD-limited, refused), Turner (none free found). ImageMagick present. Web check logged in VERIFIED.md; Malinowski fishing contrast secondary only (paraphrased, no quotes). Shots flagged one display (separation arrow chain), fixed with gathered. Conventions fixed here: Durkheim 1858-1917, Malinowski 1884-1942, Radcliffe-Brown 1881-1955, Geertz 1926-2006, van Gennep 1873-1957, Turner 1920-1983, Rappaport 1926-1997; phases separation-liminality-incorporation; Konvalinka N=12+9+17=38; Xygalatas N=86 men; no quotations.
 
