@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch13-challenge part 1 (22 cards, problems 1-3)
+Invented village Hollin (Keeper at the spring, salt vigil, skeptic Maro, believer Ilse, reader Tomas). P1 survey 180/200 vs 30/100 (ratio 3), which premise Ilse rejects, sensitivity test, genetic fallacy, independent support, order card. P2 c_C=3, c_F=14 -> 10 whole b; c_F falls to 6 with b=8; public goods n=5, e=20, m=2.5 free rider 60 vs 50; filter mcq; by-product vs adaptation evidence. P3 prior 0.3, 0.9/0.72=1.25 -> 0.35; odds-updater presets LR 1.25/3/1; p*=3/453=0.66%; 970 false alarms of 1000 at p=3%; layers sort. Choices: widget reused once (new preset, no new widget); no images (invented setting). Web check logged in VERIFIED.md, none unverified. Conventions fixed here: Hollin numbers above; Irons not named, Zahavi without year.
+
 ## 2026-11-07 ch13-map (12 cards, 10 boxes, 3 cols x 4 rows)
 Boxes: origins, cognition, group, culture, debunk, odds, reverse, ritual, passage, layers; two decoys each with feedback, all taken from facts already taught and web-logged. Edges: dashed into layers from reverse, odds, passage. Choices made without Igor: Whitehouse/big-gods and Konvalinka/Xygalatas left out (disputed or minor); web re-check of key attributions done, rest reused from earlier lines. Validate 0 errors/warnings, shots 0 problems. Conventions fixed here: none new.
 
