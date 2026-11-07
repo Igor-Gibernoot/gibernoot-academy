@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch12-numinous (19 cards, concept)
+Otto (numinous, mysterium tremendum et fascinans, creature-feeling), two readings, Keltner-Haidt awe, toy count card (inclusion-exclusion 12+30-8=34), order, James vs Otto, traps, layers. Images: otto (Commons, public domain). Widget: none, because the lesson is verbal reports and a conceptual contrast, with nothing to manipulate. Choices: no real awe-study numbers used (not verified), Schleiermacher dates dropped (unconfirmed), small-self claim attributed to "later studies" (Templeton page). Conventions fixed here: numinous = tremendum (awefulness, majestas, energy) + fascinans + mysterium (wholly other); awe = vastness + need for accommodation; overlap count formula $N(D\text{ or }F)=N_D+N_F-N_{DF}$.
+
 ## 2026-11-07 ch12-varieties (20 cards, concept, no widget)
 Built from web-checked James text (Standard Ebooks, Britannica, NLI). Images: james.webp reused from ch03 (portrait on first mention; no other free image of Bradley/Ratisbonne sought). Widget: none, the lesson is a verbal catalogue and the only number (enrichment ratio R) is a numeric card. Choices: Starbuck ages given only as roughly 14-17; toy ratio data labelled invented; quotation marks only for text read in the Standard Ebooks full text; Lecture numbers only for XVI-XVII (named, not "Level N"). Validate 0 errors 0 warnings, shots 0 problems.
 Conventions fixed here: James's four marks (ineffability and noetic quality necessary; transiency, passivity usual); three tests luminousness/reasonableness/helpfulness; "roots and fruits"; enrichment ratio $R=\text{observed}/\text{expected if spread evenly}$.

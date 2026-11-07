@@ -167,3 +167,4 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 
 ## Chapter 12
 - Varieties lesson (20 cards): James 1842-1910, Gifford Lectures 1901-02, book 1902; four marks of mystical states (ineffability and noetic quality entitle; transiency, passivity usual); tests: luminousness, reasonableness, helpfulness; roots vs fruits; Starbuck volitional vs self-surrender; enrichment ratio $R=\text{observed}/\text{expected if spread evenly}$ (toy 130/20=6.5).
+- Numinous lesson (19 cards): Otto 1869-1937, Das Heilige 1917 (English 1923); numinous = mysterium (wholly other) + tremendum (awefulness, majestas, energy) + fascinans; creature-feeling; awe (Keltner and Haidt 2003) = perceived vastness + need for accommodation; toy overlap count 12+30-8=34.
