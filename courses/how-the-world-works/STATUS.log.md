@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch03-challenge part 1 (30 cards, problems 1-3)
+Footbridge L 24 m, w 30 kN/m (crowd 4 kN/m2 x 3 m + beam about 16 + 2). P1 arch vs beam (arch-thrust widget; soft banks pick beam), P2 steel rectangle vs I (beam-section, midspan P = wL/2 gives same M), P3 concrete: crack, rebar, prestress, mass. Choices: tie/bowstring only mentioned; prestress uniform as in materials lesson; invented limits flagged in text. Images: none (invented bridge, no person or real object introduced). New widget for part 2: none needed (flutter-lab and oscillator-lab already cover wind and damping). Conventions fixed here: w = 30 kN/m, L = 24 m, M = 2160 kN m, H h = 2160 kN m, bank limit 600 kN (rise 3.6 m), steel limit 200 MPa, I-shape 0.9 x 0.3 (tf 0.04, tw 0.02) 317 kg/m, concrete 0.4 x 1.6 m, As 56 cm2, prestress 9.66 MPa, concrete beam 1600 kg/m.
+
 ## 2026-11-07 ch03-map (11 cards, 9 boxes)
 Boxes: arch thrust, beam bending, truss, concrete and steel, natural frequency, tuned mass damper, flutter, quake/soil period, base isolation; each with 2 decoys (formula slip or reversed reading). Edges: arch/beam to materials, beam to truss, materials to natfreq (dashed), natfreq to tmd, quake, flutter (dashed), quake and tmd to isolation. No new external facts: all reused from the Verified lines of the concept lessons (VERIFIED.md line "ch03 map"); no web search run this session by choice. Images: none: a concept map needs no picture. No widget. Choices: challenge node split into `ch03-challenge` (problems 1-3) and `ch03-challenge-2` (4-5) in course.yaml. Conventions fixed here: none new (map reuses the Chapter 3 numbers).
 
