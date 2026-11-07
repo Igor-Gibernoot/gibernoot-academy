@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch12-evidence (guided proof, 22 cards)
+Principle of credulity as P1-P3/C; critic cards for P1, P2, P3; validity order card; Alston analogy; diversity (Hick, Alston/Plantinga); Swinburne's four defeaters; `odds-updater` twice (defeater lowers LR with prior 0.1: LR 20 gives 0.69, LR 1.5 gives 0.14; fixed LR 20 with priors 0.5/0.01/0.001); traps; layers. Images: swinburne reused (no new image: none needed). Choices: kept the diversity objection out of the widget; Swinburne diversity reply paraphrased only as "summarised in the literature" (secondary). Conventions fixed here: toy credulity case prior 0.1, LR 20 (posterior 0.69), LR 1.5 (0.14), LR 99 for even odds from prior 0.01; defeater = LR toward 1.
+
 ## 2026-11-07 ch12-perennial (concept, 20 cards)
 Built "The Perennial Philosophy and Its Critics": hook, Steuco/Leibniz, Huxley 1945, Stace types and core, Katz (A/B/C, order card), Proudfoot, hidden favourite (Ferrer), Forman PCE reply and counter-reply, evidence mcq, traps, toy core numeric (=3), layers, summary. Images: leibniz (reused), aldous-huxley (new, Henri Manuel). none for Stace/Katz: no free image found. Widget: none, since it is a debate between readings and a widget would only decorate. Choices: Leibniz's phrase dated "early 1700s" (sources say 1714 and 1715); Ferrer's critique stated "in essence" (secondary only); Katz not quoted. Conventions fixed here: Stace's report = core + interpretation; Katz's $S_i\neq S_j\Rightarrow$ experiences differ; toy core 3 features; Ferrer 2001.
 
