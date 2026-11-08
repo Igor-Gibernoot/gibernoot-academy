@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-08 ch14-map
+Built `ch14/map.yaml` (13 cards, 11 boxes, 3 columns, 2 decoys each, 13 edges, 2 dashed to the closing "Reading fairly" box). Boxes: Israel, writing, Documentary Hypothesis, archaeology, scrolls, Genesis, textual criticism, rabbinic, thought, modern, layers. All facts reused from the ch14 VERIFIED lines (no new facts). Choice: scrolls/textual/rabbinic/layers placed so no arrow crosses a box. Conventions fixed here: map box titles follow the lesson titles; Redford's 2 to 2.5 million is the Exodus-population estimate (not Egypt's population).
+
 ## 2026-11-07 ch14-intuition
 Built `ch14/intuition.yaml` (18 cards: 2 order, 1 build, 9 mcq incl. pairings, 3 numeric, welcome, summary; no widget, no images: nothing to show without giving answers). Facts all reused from verified ch14 lines (no new facts, no new searches; logged in VERIFIED.md). Choice: no match card type exists, so the Rubenstein/Jonas/Berkovits/Fackenheim and genesis-readings pairings are mcq; genesis build card replaced by mcq. Conventions fixed here: numeric cards give data only (603,550 men x household of 4 = 2.414 M; 364-day calendar drift 37.2 d in 30 yr; 1190 to 1670 = 480 yr).
 
