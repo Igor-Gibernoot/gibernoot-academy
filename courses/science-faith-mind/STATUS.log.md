@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-08 ch14-challenge (part 1)
+Built `ch14/challenge.yaml` (24 cards, problems 1-3), registered with `file:`; added planned node `ch14-challenge-2` (problems 4-5). P1 Scroll of Aven (Ael/Yor, 3 vs 7 servants, oath clue in v10, death notice v13): 2^9=512 chance of name split, three readings, Tigay-style analogy. P2 Book of Tarn: 8 clans sum 48,000, x4 = 192,000 people, 768,000 L vs 120,000 = 6.4; rival 'ulf' as unit of 12: 3,540 men, 0.47 of supply; attested/debated/silent. P3 Song of the Ferryman: S, K, T (K and T one line), places A haplography, B dittography, C harder vs lines (1 vs 1). No widget (would reveal answers); no images (invented texts, no person or real object; none fits). Web: eleph clan/unit reading (Petrie, Mendenhall) with objection that it sits beside hundreds; all else reused from VERIFIED. Conventions fixed here: toy Scroll of Aven, Book of Tarn (6.4 shortfall), Song of the Ferryman (K+T one line).
+
 ## 2026-11-08 ch14-map
 Built `ch14/map.yaml` (13 cards, 11 boxes, 3 columns, 2 decoys each, 13 edges, 2 dashed to the closing "Reading fairly" box). Boxes: Israel, writing, Documentary Hypothesis, archaeology, scrolls, Genesis, textual criticism, rabbinic, thought, modern, layers. All facts reused from the ch14 VERIFIED lines (no new facts). Choice: scrolls/textual/rabbinic/layers placed so no arrow crosses a box. Conventions fixed here: map box titles follow the lesson titles; Redford's 2 to 2.5 million is the Exodus-population estimate (not Egypt's population).
 
