@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-08 ch15-world
+Built `ch15/world.yaml` (22 cards, concept, no widget, 2 images: Holyland model, Pilate stone). Choices: no widget (few dates; order card instead); no portraits (no documented free portrait of Josephus or Pompey chosen); Hasmonean start given as 164/165 since sources differ; 1QS 9:11 plural reading paraphrased (secondary sources only, debated). Web-checked per VERIFIED.md. Conventions fixed here: dates Cyrus 538, Temple c.516, Antiochus 167, rededication Dec 164, Pompey 63, Herod 37-4 BCE, Temple c.19 BCE, province 6 CE, Pilate 26-36 CE; groups are told "according to Josephus"; messiah means anointed, hopes varied (royal, priestly, prophet like Moses).
+
 ## 2026-11-08 · ch14-challenge-2 (17 cards, problems 4-5)
 Built from the plan: problem 4 the real Exodus debate (603,550 x 4 = 2,414,200; ten abreast 241 km, Cline about 240; three readers, premise, sort, what would move each); problem 5 closing weighing (Merneptah, Torah layers, Akhnai three readings, Maimonides/Spinoza/Rubenstein, order card, fair summary). No widget, no images (planning question asked: no free image adds anything not already used in the level). Isa 53:11/Jeremiah not used. Web-checked, see VERIFIED. Conventions fixed here: Cline column 240 km toy (ten abreast, 1 m rows) = 241 km; Exodus total 2,414,200 vs Redford 2-2.5 M.
 

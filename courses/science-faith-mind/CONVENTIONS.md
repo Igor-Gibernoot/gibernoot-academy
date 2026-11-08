@@ -208,3 +208,6 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 
 ## Exam partial 2 (Levels 8-13)
 - Invented setting (Ardenne Summer School, shrine of Marl). Numbers: u=0.8, E=(5,2) gives t_B=-10/3; miracle prior 1e-6, P(E|M)=0.8, q=0.01, 3 witnesses 0.339; toy network A-B,A-C,B-C,B-D,C-D score 2; SE(d) n=50 d=0.4 0.202; z=3.0 (38/100 vs 0.25); 1-0.95^14=0.512; p*=2/42; free rider 34; margin 3.2 pts (p=0.4, n=900); shared flaw c=0.005 LR 120. Do not reuse in later exams.
+
+## Chapter 15
+- World lesson (22 cards): Cyrus 538, Temple c.516 (some 515), Antiochus IV 167, rededication Dec 164, Pompey 63, Herod 37-4 BCE, Temple from c.19 BCE, province 6 CE, Pilate 26-36 CE (19 BCE to 26 CE = 44 yr, no year 0); Josephus groups taught only "according to Josephus"; messiah = anointed, VanderKam: most texts none; Daniel c.167-163 critical vs 6th c. traditional; no quotations; images: Holyland model, Pilate stone.
