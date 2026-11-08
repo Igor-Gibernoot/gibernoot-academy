@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch14-traps (traps, 20 cards, 18 traps, no widget, no images)
+Autonomous. Welcome + 16 mcq + 2 numeric (Isaiah scroll to Leningrad = 1132 yr; Spinoza ban 1656 to Treatise 1670 = 14 yr) + summary. Traps: Merneptah, parallel direction, oldest copy, weigh not count, harder reading, documentary models, Exodus silence, Jericho, Tel Dan, 701 BCE, days of Genesis, Black Sea flood, Akhnai, Maimonides, Zohar date, Spinoza chronology, Jonas, views on the state. Jamnia, Kuntillet Ajrud, Gezer left out to stay at 20 cards. Web check: facts reused from concept-lesson lines; new items (Maimonides incorporeality, Ussher archbishop, Kitchen/Redford/Dever) checked by search; 'Aksu river' error fixed. Conventions fixed here: traps cite only facts already in VERIFIED; Kitchen/Redford/Dever named by position only.
+
 ## 2026-11-07 ch14-modern (concept, 22 cards, no widget)
 Autonomous. Widget decision: none (argument and history). Images (4): jonas, berkovits, mendelssohn, herzl (Herzl 'Theodor Herzl.jpg' refused as PD-US only, used Lilien balcony photo, PD); no free Rubenstein portrait found (search returned unrelated); Fackenheim, Wiesel, Greenberg, Kook, Teitelbaum without portraits (not searched; max 4 kept). Choices: Heschel and Soloveitchik left out (no role in the argument); quotations only Deut 31:17-18 (Sefaria API) and the short phrase 'a national home for the Jewish people'; everything else paraphrased (Jonas via Henrix, secondary). Britannica and Yad Vashem pages returned 403, used USHMM, SEP Mendelssohn, Wikipedia fetches. Conventions fixed here: dates and numbers as in CONVENTIONS Chapter 14 Modern line.
 
