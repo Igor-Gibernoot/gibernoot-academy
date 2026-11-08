@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-08 ch15-synoptic
+Built `ch15/synoptic.yaml` (21 cards, concept, no widget checked or needed: one invented table and order cards suffice; 2 images: Codex Sinaiticus Matthew page, P52). Choices: Wikipedia used as main web source (Britannica 403); verse counts kept to Mark 661 and about 600 shared (counts vary by method); Lord's Prayer, 'Gospel' etymology and Luke omissions dropped as unconfirmed; Papias quoted from Eusebius NPNF translation; layer 3 kept neutral (inspiration card). Web-checked per VERIFIED.md. Conventions fixed here: Mark 661 verses, about 600 in Matthew (91%); double tradition about 200 verses; dates Mark 65-75, Matthew/Luke 80-90, John 90-100; names and years of Lachmann 1835, Weisse 1838, Griesbach, Farmer 1964, Farrer 1955, Goodacre 2002, Streeter 1924; NRSV quotes only Luke 1:1-4, Mark 6:5, Matt 13:58.
+
 ## 2026-11-08 ch15-world
 Built `ch15/world.yaml` (22 cards, concept, no widget, 2 images: Holyland model, Pilate stone). Choices: no widget (few dates; order card instead); no portraits (no documented free portrait of Josephus or Pompey chosen); Hasmonean start given as 164/165 since sources differ; 1QS 9:11 plural reading paraphrased (secondary sources only, debated). Web-checked per VERIFIED.md. Conventions fixed here: dates Cyrus 538, Temple c.516, Antiochus 167, rededication Dec 164, Pompey 63, Herod 37-4 BCE, Temple c.19 BCE, province 6 CE, Pilate 26-36 CE; groups are told "according to Josephus"; messiah means anointed, hopes varied (royal, priestly, prophet like Moses).
 
