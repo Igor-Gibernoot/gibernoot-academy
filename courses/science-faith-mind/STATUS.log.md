@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-08 ch15-paul
+Built `ch15/paul.yaml` (21 cards, concept, no widget; 2 images: Rembrandt Paul (CC0), Philippi ruins (CC BY-SA); phone screenshot viewed once). Choices (autonomous): Bible quotes limited to two verified NRSVUE fragments (1 Cor 15:3 and 15:11), rest paraphrased; no dating of 1 Cor; Dunn as popularizer of 'New Perspective' with Wright 1978 noted; death c.64/65 given as tradition. Web-checked (see VERIFIED). Conventions fixed here: Paul seven letters; call 31-36; Council of Jerusalem 49 (47/51); Acts c.80-90; numeric 33+3+14=50 (47 alt); Sanders 1977, Dunn 1982, Wrede 1904; three readings (Protestant, New Perspective, Paul within Judaism).
+
 ## 2026-11-08 ch15-historical
 Built `ch15/historical.yaml` (24 cards, concept, no widget; 2 images: Reimarus and Schweitzer portraits, public domain, shown side by side, phone screenshot viewed once). Choices (autonomous): Wikipedia pages main web source; Hooker's thesis not confirmed so only 'argued criteria were misused'; Crossan, Chalcedon and Testimonium wording paraphrased (no quotation marks); Third Quest dated only 'in the 1980s' (Wikipedia 1982); Dunn left undescribed. Four trap cards (one per criterion), baptism and crucifixion as near-certain with reasons, three portraits table, faith card neutral, three-layers table. Conventions fixed here: dates Josephus Antiquities c.93-94, Tacitus Annals c.115-116, 1 Thess c.49-51; Jesus's death 'about 30 or 33'; portraits named apocalyptic prophet / sage / social reformer with Sanders-Ehrman, Crossan-Borg, Horsley; resurrection and divinity labelled commitment, no side taken.
 
