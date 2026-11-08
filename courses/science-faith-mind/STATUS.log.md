@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-08 ch15-canon
+Built `ch15/canon.yaml` (21 cards, concept, no widget; 2 images: P46 bifolio (new, Public domain), Sinaiticus (reused)). Web-checked (Wikipedia pages, WebSearch variants); no verbatim quotations. Choices (autonomous): Muratorian date given with the Sundberg/Rothschild fourth-century dissent; Hippo 393 and Carthage 397 stated without "Third"; Wallace's "over 75% spelling" attributed to him (secondary); Ehrman's range 200,000-400,000 (2005). Numeric: Romans c.56 to P46 c.200 = 144. Conventions fixed here: canon dates (Marcion c.140, Irenaeus c.180, Athanasius 367, Hippo 393, Carthage 397); P52 c.125, P46 c.200, Sinaiticus c.325-360; over 5,000 Greek MSS; Thomas 114 sayings Nag Hammadi 1945; Peter Akhmim 1886/1892; Judas Tchacos 220-340.
+
 ## 2026-11-08 ch15-paul
 Built `ch15/paul.yaml` (21 cards, concept, no widget; 2 images: Rembrandt Paul (CC0), Philippi ruins (CC BY-SA); phone screenshot viewed once). Choices (autonomous): Bible quotes limited to two verified NRSVUE fragments (1 Cor 15:3 and 15:11), rest paraphrased; no dating of 1 Cor; Dunn as popularizer of 'New Perspective' with Wright 1978 noted; death c.64/65 given as tradition. Web-checked (see VERIFIED). Conventions fixed here: Paul seven letters; call 31-36; Council of Jerusalem 49 (47/51); Acts c.80-90; numeric 33+3+14=50 (47 alt); Sanders 1977, Dunn 1982, Wrede 1904; three readings (Protestant, New Perspective, Paul within Judaism).
 
