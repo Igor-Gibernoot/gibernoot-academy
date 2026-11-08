@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-07 ch14-intuition
+Built `ch14/intuition.yaml` (18 cards: 2 order, 1 build, 9 mcq incl. pairings, 3 numeric, welcome, summary; no widget, no images: nothing to show without giving answers). Facts all reused from verified ch14 lines (no new facts, no new searches; logged in VERIFIED.md). Choice: no match card type exists, so the Rubenstein/Jonas/Berkovits/Fackenheim and genesis-readings pairings are mcq; genesis build card replaced by mcq. Conventions fixed here: numeric cards give data only (603,550 men x household of 4 = 2.414 M; 364-day calendar drift 37.2 d in 30 yr; 1190 to 1670 = 480 yr).
+
 ## 2026-11-07 ch14-traps (traps, 20 cards, 18 traps, no widget, no images)
 Autonomous. Welcome + 16 mcq + 2 numeric (Isaiah scroll to Leningrad = 1132 yr; Spinoza ban 1656 to Treatise 1670 = 14 yr) + summary. Traps: Merneptah, parallel direction, oldest copy, weigh not count, harder reading, documentary models, Exodus silence, Jericho, Tel Dan, 701 BCE, days of Genesis, Black Sea flood, Akhnai, Maimonides, Zohar date, Spinoza chronology, Jonas, views on the state. Jamnia, Kuntillet Ajrud, Gezer left out to stay at 20 cards. Web check: facts reused from concept-lesson lines; new items (Maimonides incorporeality, Ussher archbishop, Kitchen/Redford/Dever) checked by search; 'Aksu river' error fixed. Conventions fixed here: traps cite only facts already in VERIFIED; Kitchen/Redford/Dever named by position only.
 
