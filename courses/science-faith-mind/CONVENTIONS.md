@@ -201,6 +201,7 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 - Thought lesson (18 cards): Zohar de Leon c.1240-1305, written c.1280-1286; Luria 1534-1572, Safed c.1570; Maimonides 1138 (some 1135), Guide 1190, Principles 1168; Spinoza herem 27 Jul 1656, TTP 1670, banned 1674; quotes verbatim only Guide I.26 (Friedlander), Exod 15:6, Deut 32:22 (JPS 2023); Sefirot order Keter to Malkhut.
 - Modern lesson (22 cards): about six million victims 1933-1945 (USHMM; Yad Vashem 5-6 million range); Rubenstein 1924-2021 After Auschwitz 1966; Jonas 1903-1993, lecture 1984, JR 1987, gives up omnipotence; Berkovits 1908-1992, Faith after the Holocaust 1973, hester panim, Deut 31:17-18 JPS; Fackenheim 614th 1967; Wiesel 1928-2016, Night Eng. 1960; Mendelssohn 1729-1786, Jerusalem 1783; Herzl 1860-1904, 1896, Basel 29-31 Aug 1897, Balfour 2 Nov 1917, UN 181 29 Nov 1947 (33-13-10), Israel 14 May 1948; 1948-70 = 1878; Kook 1865-1935, Teitelbaum 1887-1979; movements in broad terms.
 
+- Map (13 cards, 11 boxes): Redford's 2 to 2.5 million is his Exodus-population estimate, not Egypt's population; 125 BCE to 1008 CE = 1132 yr.
 - Intuition lesson (18 cards): toy numbers 603,550 x 4 = 2.414 million; 365.24-364 = 1.24 d/yr, 37.2 d in 30 yr; Guide 1190 to TTP 1670 = 480 yr. No match card type: pairings are mcq.
 
 ## Exam partial 2 (Levels 8-13)
