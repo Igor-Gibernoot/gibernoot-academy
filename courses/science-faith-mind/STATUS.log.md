@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-09 ch16-quran (concept, 17 cards)
+Built The Qur'an: Revelation and Compilation. Widget: none (source weighing). Image: birmingham-quran (PD Commons). Choices: plan said ~20 cards; 17 sufficed (one idea per card). Hadith numbers not cited (sites differ); Sanaa radiocarbon given as one leaf 578-669 (sources differ); Donner softened; ahruf not mentioned (unverified); no Muhammad depictions. Conventions fixed here: Birmingham 568-645, 645-632 = 13; Uthman r. 644-656; Ibn Mujahid d. 936; Sinai 2014 default early date.
+
 ## 2026-11-09 ch16-muhammad (concept, 20 cards)
 Built Muhammad and the Sources for His Life. Widget: none (source-weighing prose; nothing to manipulate). Images: none: no free image found that verifiably shows a 7th-century source or inscription, and no depictions of Muhammad. Choices: Sebeos hedged ("attributed", 650s-660s, secondary web sources only: Thomson via search); coin dated 66 AH Bishapur "probable, not settled"; Doctrina Jacobi paraphrased, no quotation. Conventions fixed here: dates Ibn Ishaq d. 767 (gap 135 yr from 632), Ibn Hisham d. 833 (201), al-Waqidi 747-823, Ibn Sa'd 784/5-845; Dome of the Rock 72 AH = 691/2; Wansbrough 1928-2002, Motzki 1948-2019; frames "according to the tradition" / "historians ask what independent evidence confirms".
 
