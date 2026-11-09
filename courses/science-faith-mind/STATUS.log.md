@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-09 ch16-sufism
+Built `ch16-sufism` (concept, 19 cards, no widget; images sufi-sama-manuscript PD, mevlevi-sema CC BY-SA 2.0). Web-checked (see VERIFIED.md). Choices: order card by death year (Ibn Arabi before Rumi); Rabi'a torch story dropped (attribution unclear); Rabi'a prayer paraphrased. Conventions fixed here: dates and cautions as in CONVENTIONS Chapter 16 Sufism line.
+
 ## 2026-11-09 ch16-kalam (concept, 20 cards, no widget, 3 images avicenna, ghazali (reused), averroes)
 Built autonomously. Choices: no widget; images are later artists' sketches/miniatures (PD), captioned as such; Ghazali birth given as 1058 with "some sources about 1056" (SEP gives c.1056); Avicenna c. 980-1037 (SEP says ca. 970); Mihna end given as range 847-851 (sources differ); dropped unconfirmed claims: Ash'ari kasb, Qur'an Abraham-fire story, Averroes jurisprudence, ta'wil antiquity; Averroes causes reply attributed per Kogan/secondary; Hume comparison framed as scholars' comparison with disagreement. Conventions fixed here: dates Mu'tazila Wasil d.748, Ash'ari 874-936, Mihna 833 under al-Ma'mun (r.813-833), Ghazali Incoherence c.1095 (20 discussions, 3 charges), Averroes 1126-1198, Tahafut al-tahafut c.1180, Decisive Treatise 1178.
 
