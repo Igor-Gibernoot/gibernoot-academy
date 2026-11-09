@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-09 ch15-traps
+Built `ch15/traps.yaml` (21 cards: welcome, 19 traps, summary; 3 numeric: 19 BCE to 26 CE = 44, odds 10^4*10^-3 = 10, plus mcq). Plan adjusted to lesson content: dropped Paul-wrote-Gospels and Luther-door cards; no widget (nothing to manipulate), no images. Web spot-checks logged in VERIFIED.md; all other claims reused from the level's lines. Conventions fixed here: toy LR 10^4 with prior odds 10^-3 gives 10 (91%); 19 BCE to 26 CE = 44 years.
+
 ## 2026-11-09 ch15-today
 Built `ch15/today.yaml` (19 cards, concept, no widget: demographic shares are shown by a plain table and two numeric cards, a widget would add nothing; 2 images: Gutierrez, Bonhoeffer, viewed Gutierrez once; Seymour and Azusa photos refused by tool as PD-US only, so none). Web-checked (Pew 2011 reports, Wikipedia Azusa, Gutierrez obituaries, Vatican instruction coverage, Romero, Bonhoeffer, Robinson, Cox). Choices: no 2020 Pew numbers (could not confirm from Pew itself); "Global South" described loosely. Conventions fixed here: Pew 2011 figures (2.18 bn; Europe 66% to 26%; SSA 9m to 516m; South 61%/North 39%; Pentecostal 279m + charismatic 305m = 584m) for later lessons; Gutierrez paraphrased not quoted.
 
