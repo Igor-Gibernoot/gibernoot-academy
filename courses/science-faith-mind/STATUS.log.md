@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-09 ch15-challenge-2 (21 cards)
+Problems 4-5, [H]/[B] labels. P4: fears of Arius vs Athanasius, ousia/hypostasis, order of councils, gaps 56/70/126 yr, Philippians 2:6-7 (NRSV fragment) read believer vs critical, creed clause read twice, layer sort, Constantine myth. P5: Pew 516/9=57.3, 0.61*2.18=1.33 bn, demography does not prove truth, Catholic/Orthodox/Protestant authority, best defender vs critic of "creeds faithful to NT", priors 1e-3/1e-9/1e-6 with LR 1e4 -> odds 10, 1e-5, 1e-2, layer match. No widget (no figure to manipulate), no images (people already pictured in creeds lesson). Web check redone this session (Wikipedia councils, Pew, Dei Verbum 10). Conventions fixed here: council gaps 56/70/126; Pew 57.3 and 1.33 bn reused.
+
 ## 2026-11-09 ch15-challenge part 1 (27 cards)
 Problems 1-3 with [H]/[B] labels: synoptic overlap (72/80=90%, 16 own verses), Q vs Farrer vs Griesbach; saying S and scene E with attestation (2 independent lines), gap 60 vs 20 yr, embarrassment, dissimilarity, toy criteria update (1:9 x 27 = 75%); invented Sel report with dates order, odds-updater (prior 1e-6, LR 1e4 -> 0.99%; LR 1e6 for even odds), Hume vs believer, canon reception, layer sort. Web-checked (see VERIFIED.md). Images: none: invented passages, people already pictured. Widget: no new widget, the existing odds-updater covers the only manipulable quantity and the rest is textual comparison. Choices: Käsemann and Swinburne omitted (not confirmed verbatim); Hume paraphrased. Added planned node ch15-challenge-2. Conventions fixed here: invented synoptic texts A (80 verses), B (100), C (110); B shares 72 of A, C 64, B and C share 30 not in A; Sel report toy prior 1e-6.
 
