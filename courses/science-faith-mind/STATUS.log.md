@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-09 ch15-intuition (18 cards, no widget, no images)
+Built from the ten ch15 `own:` blocks: layers, dates ladder (order), triple/double tradition, Q vs Farrer, criteria with limits, canon order, manuscripts, two Bayes numerics (prior 0.05 with LR 20 gives 0.513; LR 1e4 with prior 1e-8 gives 0.01%), councils order, ousia/hypostasis, thinkers, four senses (build), authority, two Pew numerics (factor 57.3, 1.33 bn). Choices: John left out of the dates ladder (90-100 overlaps Josephus c.93-94); no match card type exists, so pairings are mcq; web re-check of 367/393/397, four council dates and Pew figures. Conventions fixed here: dates ladder death 30, 1 Thess 50, Mark 65-75, Matt/Luke 80-90, Josephus 93-94, Tacitus 115; mnemonics "fact, debate, commitment" and "ousia = what, hypostasis = who".
+
 ## 2026-11-09 ch15-traps
 Built `ch15/traps.yaml` (21 cards: welcome, 19 traps, summary; 3 numeric: 19 BCE to 26 CE = 44, odds 10^4*10^-3 = 10, plus mcq). Plan adjusted to lesson content: dropped Paul-wrote-Gospels and Luther-door cards; no widget (nothing to manipulate), no images. Web spot-checks logged in VERIFIED.md; all other claims reused from the level's lines. Conventions fixed here: toy LR 10^4 with prior odds 10^-3 gives 10 (91%); 19 BCE to 26 CE = 44 years.
 
