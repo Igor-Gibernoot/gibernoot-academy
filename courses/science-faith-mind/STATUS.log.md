@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-09 ch16-hadith (concept, 18 cards, no widget, 1 image)
+Built Hadith, Sunnah and Chains of Transmission with a strict web check (VERIFIED.md). Widget: none here; a chain-of-narrators widget (draw chains of 4 collections converging on a common link, toggle partial/seeming links and dates) would help ch16-isnad but is not required, order/mcq cards suffice; none exists in the registry. Image: bukhari-manuscript (LACMA, PD), shown to be a binding, captioned as such. Choices: Bukhari's 600,000 given as the tradition's claim; Umar II/Zuhri framed with Goldziher vs Azami/Motzki; Qur'anists mentioned fairly; Ibn Sirin and Abu Dawud date note dropped. Conventions fixed here: Zuhri d. c. 742; Shafi'i 767-820; Bukhari 810-870 (238 yr after 632); Muslim d. 875; six books dates 870/875/888/892/915/887; Bukhari 7,563 with repeats, about 2,600 distinct; Goldziher 1850-1921 (1889-90), Schacht 1902-69 (1950, from c. 720), Juynboll 1935-2010 (1983), Motzki 1948-2019 (2002), Abd al-Razzaq d. 211 AH/827; grading uses Ibn Hajar's five conditions.
+
 ## 2026-11-09 ch16-form (concept, 16 cards, no widget, no images)
 Built with strict web check (see VERIFIED.md). Choices: no image (Birmingham already used; no new free fit); Ibn Kathir and Baqillani-on-saj' dropped (secondary only); Nazzam dated "in the 840s" because sources differ; Jurjani 1078 with "some sources 1081"; numeric card uses surah 55 (78 verses, refrain 31). Not a guided proof: argument P1-P3 laid out in cards, critic question included. Conventions fixed here: challenge verses cited by number only; i'jaz argument P1-P3/C with critics rejecting P3; sarfa as rival Muslim view.
 
