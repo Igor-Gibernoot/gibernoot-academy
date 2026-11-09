@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-09 ch15-challenge part 1 (27 cards)
+Problems 1-3 with [H]/[B] labels: synoptic overlap (72/80=90%, 16 own verses), Q vs Farrer vs Griesbach; saying S and scene E with attestation (2 independent lines), gap 60 vs 20 yr, embarrassment, dissimilarity, toy criteria update (1:9 x 27 = 75%); invented Sel report with dates order, odds-updater (prior 1e-6, LR 1e4 -> 0.99%; LR 1e6 for even odds), Hume vs believer, canon reception, layer sort. Web-checked (see VERIFIED.md). Images: none: invented passages, people already pictured. Widget: no new widget, the existing odds-updater covers the only manipulable quantity and the rest is textual comparison. Choices: Käsemann and Swinburne omitted (not confirmed verbatim); Hume paraphrased. Added planned node ch15-challenge-2. Conventions fixed here: invented synoptic texts A (80 verses), B (100), C (110); B shares 72 of A, C 64, B and C share 30 not in A; Sel report toy prior 1e-6.
+
 ## 2026-11-09 ch15-map (13 cards, 11 boxes)
 Built from the ten ch15 `own:` blocks plus intuition. Boxes: world, gospels, historical, paul, canon, resurrection, creeds, thinkers, reading, today, layers; 3 columns, dashed edges into layers. Decoys: Griesbach vs Farrer, ousia vs hypostasis, Nicaea vs Athanasius/Hippo for the canon, LR times vs plus prior, Gutierrez vs Bonhoeffer, Dei Verbum vs Chicago. No new facts, all reused from web-checked lessons (no web search run). No archive map existed. Conventions fixed here: none new.
 
