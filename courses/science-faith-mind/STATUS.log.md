@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-09 ch16-muhammad (concept, 20 cards)
+Built Muhammad and the Sources for His Life. Widget: none (source-weighing prose; nothing to manipulate). Images: none: no free image found that verifiably shows a 7th-century source or inscription, and no depictions of Muhammad. Choices: Sebeos hedged ("attributed", 650s-660s, secondary web sources only: Thomson via search); coin dated 66 AH Bishapur "probable, not settled"; Doctrina Jacobi paraphrased, no quotation. Conventions fixed here: dates Ibn Ishaq d. 767 (gap 135 yr from 632), Ibn Hisham d. 833 (201), al-Waqidi 747-823, Ibn Sa'd 784/5-845; Dome of the Rock 72 AH = 691/2; Wansbrough 1928-2002, Motzki 1948-2019; frames "according to the tradition" / "historians ask what independent evidence confirms".
+
 ## 2026-11-09 ch16-arabia (21 cards)
 Concept, no widget, `own:` with 5 blanks. Images: kaaba-1886 (PD), hegra-tomb (CC BY-SA 2.0); no Muhammad/portrait images (none free or appropriate). Choices: Lakhmid religion left out (sources conflicted); Q 29:61 paraphrased "in essence", 39:3 short phrase; Himyar end dated 525-530 with "sources differ"; Q30 prophecy framed as two readings. All facts web-checked (see VERIFIED.md). validate 0/0, shots 0 problems. Conventions fixed here: dates 328, 523, 529, 602-628, 195-year gap; Q cited by number; "Muslim tradition holds / historians weigh / Muslims read" framing.
 
