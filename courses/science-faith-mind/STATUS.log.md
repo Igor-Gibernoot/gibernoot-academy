@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-09 ch16-form (concept, 16 cards, no widget, no images)
+Built with strict web check (see VERIFIED.md). Choices: no image (Birmingham already used; no new free fit); Ibn Kathir and Baqillani-on-saj' dropped (secondary only); Nazzam dated "in the 840s" because sources differ; Jurjani 1078 with "some sources 1081"; numeric card uses surah 55 (78 verses, refrain 31). Not a guided proof: argument P1-P3 laid out in cards, critic question included. Conventions fixed here: challenge verses cited by number only; i'jaz argument P1-P3/C with critics rejecting P3; sarfa as rival Muslim view.
+
 ## 2026-11-09 ch16-quran (concept, 17 cards)
 Built The Qur'an: Revelation and Compilation. Widget: none (source weighing). Image: birmingham-quran (PD Commons). Choices: plan said ~20 cards; 17 sufficed (one idea per card). Hadith numbers not cited (sites differ); Sanaa radiocarbon given as one leaf 578-669 (sources differ); Donner softened; ahruf not mentioned (unverified); no Muhammad depictions. Conventions fixed here: Birmingham 568-645, 645-632 = 13; Uthman r. 644-656; Ibn Mujahid d. 936; Sinai 2014 default early date.
 
