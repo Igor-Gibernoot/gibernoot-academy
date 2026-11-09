@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-09 ch16-law (concept, 17 cards, no widget, 1 image karbala-shrine)
+Built autonomously. Choices: no timeline widget; one image (Husayn shrine photo, PD), no depictions of Muhammad; Ismaili/Zaydi details limited to what web sources confirmed (no Imam counts for Ismailis); dropped unconfirmed claims (Abu Bakr/Aisha, Ali as son-in-law, Sunni view of Karbala). Conventions fixed here: school dates Abu Hanifa 699-767, Malik c.711-795, Ahmad 780-855, Ja'far al-Sadiq c.702-765; Ghadir/Saqifa framed as two readings of mawla; 855-632=223.
+
 ## 2026-11-09 ch16-isnad (guided problem, 16 cards, no widget, no images)
 Built Grading a Chain of Transmission: invented chain Qays 600-680, Sa'id 650-725, Idris 690-760, Harun 765-815, Dawud 780-860, collector Ibn Rashid d. 880 (all invented); break Idris/Harun (5 yr); four converging chains W,X,Y,Z, common link Idris, partial common link Yusuf; 760-632 = 128. Not a proof (no own:). Images: none: no free image of an invented chain. Widget: none; chain widget still a possible separate unit. Conventions fixed here: invented narrators Qays, Sa'id, Idris, Harun, Dawud, Yusuf, Hafs, Nu'man, Ibn Rashid; Idris is the common link (d. 760).
 
