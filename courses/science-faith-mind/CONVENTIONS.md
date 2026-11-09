@@ -224,3 +224,6 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 - Challenge part 1 (27 cards): invented texts A 80 verses, B 100 (shares 72 of A), C 110 (shares 64 of A, 30 with B only, 16 own); labels [H] historian, [B] believer; saying S, letter L c.50; Sel report toy prior 1e-6, LR 1e4 -> 0.99%, LR 1e6 for even odds.
 - Traps lesson (21 cards, 19 traps): 19 BCE to 26 CE = 44 yr; toy LR 10^4 x prior odds 10^-3 = 10 (91%); Tacitus 85 yr after death c.30.
 - Intuition lesson: dates ladder death c.30, 1 Thess c.50, Mark 65-75, Matt/Luke 80-90, Josephus c.93-94, Tacitus c.115; mnemonics "fact, debate, commitment", "ousia = what, hypostasis = who"; Pew share/count numerics 516/9=57.3, 0.61*2.18=1.33 bn.
+
+## Chapter 16
+- Arabia lesson (21 cards, images kaaba-1886, hegra-tomb): Namara 328 CE, Najran 523 (Arethas + 340), al-Harith patricius 529, war 602-628 (Jerusalem 614), Himyar ends 525-530 (sources differ), Ibn al-Kalbi 737-819, Crone 1987; 523-328 = 195 yr; Abraha/elephant ~570 'tradition', inscriptions do not name Mecca; Q cited by number only (29:61 and 39:3 paraphrased, 2:127, 3:67, 53:19-20, 105, 106, 30:2-4); frames "Muslim tradition holds" / "historians weigh" / "Muslims read ... as"; *hanif*, *jahiliyya*, Quraysh, Kaaba glossed.

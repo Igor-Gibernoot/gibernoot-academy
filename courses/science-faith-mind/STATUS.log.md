@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-09 ch16-arabia (21 cards)
+Concept, no widget, `own:` with 5 blanks. Images: kaaba-1886 (PD), hegra-tomb (CC BY-SA 2.0); no Muhammad/portrait images (none free or appropriate). Choices: Lakhmid religion left out (sources conflicted); Q 29:61 paraphrased "in essence", 39:3 short phrase; Himyar end dated 525-530 with "sources differ"; Q30 prophecy framed as two readings. All facts web-checked (see VERIFIED.md). validate 0/0, shots 0 problems. Conventions fixed here: dates 328, 523, 529, 602-628, 195-year gap; Q cited by number; "Muslim tradition holds / historians weigh / Muslims read" framing.
+
 ## 2026-11-09 ch15-challenge-2 (21 cards)
 Problems 4-5, [H]/[B] labels. P4: fears of Arius vs Athanasius, ousia/hypostasis, order of councils, gaps 56/70/126 yr, Philippians 2:6-7 (NRSV fragment) read believer vs critical, creed clause read twice, layer sort, Constantine myth. P5: Pew 516/9=57.3, 0.61*2.18=1.33 bn, demography does not prove truth, Catholic/Orthodox/Protestant authority, best defender vs critic of "creeds faithful to NT", priors 1e-3/1e-9/1e-6 with LR 1e4 -> odds 10, 1e-5, 1e-2, layer match. No widget (no figure to manipulate), no images (people already pictured in creeds lesson). Web check redone this session (Wikipedia councils, Pew, Dei Verbum 10). Conventions fixed here: council gaps 56/70/126; Pew 57.3 and 1.33 bn reused.
 
