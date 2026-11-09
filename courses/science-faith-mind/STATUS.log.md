@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-09 ch16-isnad (guided problem, 16 cards, no widget, no images)
+Built Grading a Chain of Transmission: invented chain Qays 600-680, Sa'id 650-725, Idris 690-760, Harun 765-815, Dawud 780-860, collector Ibn Rashid d. 880 (all invented); break Idris/Harun (5 yr); four converging chains W,X,Y,Z, common link Idris, partial common link Yusuf; 760-632 = 128. Not a proof (no own:). Images: none: no free image of an invented chain. Widget: none; chain widget still a possible separate unit. Conventions fixed here: invented narrators Qays, Sa'id, Idris, Harun, Dawud, Yusuf, Hafs, Nu'man, Ibn Rashid; Idris is the common link (d. 760).
+
 ## 2026-11-09 ch16-hadith (concept, 18 cards, no widget, 1 image)
 Built Hadith, Sunnah and Chains of Transmission with a strict web check (VERIFIED.md). Widget: none here; a chain-of-narrators widget (draw chains of 4 collections converging on a common link, toggle partial/seeming links and dates) would help ch16-isnad but is not required, order/mcq cards suffice; none exists in the registry. Image: bukhari-manuscript (LACMA, PD), shown to be a binding, captioned as such. Choices: Bukhari's 600,000 given as the tradition's claim; Umar II/Zuhri framed with Goldziher vs Azami/Motzki; Qur'anists mentioned fairly; Ibn Sirin and Abu Dawud date note dropped. Conventions fixed here: Zuhri d. c. 742; Shafi'i 767-820; Bukhari 810-870 (238 yr after 632); Muslim d. 875; six books dates 870/875/888/892/915/887; Bukhari 7,563 with repeats, about 2,600 distinct; Goldziher 1850-1921 (1889-90), Schacht 1902-69 (1950, from c. 720), Juynboll 1935-2010 (1983), Motzki 1948-2019 (2002), Abd al-Razzaq d. 211 AH/827; grading uses Ibn Hajar's five conditions.
 
