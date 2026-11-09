@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-09 ch16-shared (concept, 16 cards, no widget, 1 image caravaggio-isaac PD)
+Built autonomously. Choices: no widget (reading lesson); one image (Caravaggio, Genesis scene, caption notes it is the Genesis version); no depictions of Muhammad; Bible quotes World English Bible, Qur'an quotes Sahih International, named in cards; son of the sacrifice left open (Ibn Qutayba/Tabari Isaac, most Muslims Ishmael); 4:157 given as several Muslim readings plus historians' view as layer 2; dropped unconfirmed Jewish-covenant claim. Conventions fixed here: Moses named 136 times in Qur'an (one common count); Nostra Aetate 28 Oct 1965; Reynolds 2010; Tahrif al-ma'na vs al-nass.
+
 ## 2026-11-09 ch16-sufism
 Built `ch16-sufism` (concept, 19 cards, no widget; images sufi-sama-manuscript PD, mevlevi-sema CC BY-SA 2.0). Web-checked (see VERIFIED.md). Choices: order card by death year (Ibn Arabi before Rumi); Rabi'a torch story dropped (attribution unclear); Rabi'a prayer paraphrased. Conventions fixed here: dates and cautions as in CONVENTIONS Chapter 16 Sufism line.
 
