@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-10 ch18-intuition (Level 18, intuition, 18 cards)
+No widget (condition-chain already used in origination/emptiness; recall works with order/build/mcq cards). No images: none (recall lesson, no new person). Web-checked this session (see VERIFIED.md). Choices: dates card uses Dogen's age at Eisai's death (15); Lutz facts in a multi-select confound card; cut-link numeric gives data only (craving is link 8, ask how many remain: 7). Conventions fixed here: none new.
+
 ## 2026-11-10 ch18-traps
 Built `ch18/traps.yaml` (22 cards: welcome, 17 mcq, 3 numeric, summary; no widget). Images none: traps, nothing newly introduced. Web check: fresh fetches of SEP Buddha and Nagarjuna, Lutz 2004 (PMC), Wikipedia MBSR, Theravada, Koan, Parfit, Dependent origination, Mind and Life; other items reused from the concept lessons' lines (same day). Choices: 78-year gap numeric (483 vs 405), cut-craving numeric (4), age-gap numeric (28); Parfit-Buddha link phrased as scholars' comparison only. validate 0 errors/0 warnings, shots 0 problems. Conventions fixed here: traps numerics: 483-405 = 78 years; craving is link 8 of 12, cutting it stops 4; Lutz groups mean ages 49 vs 21 (gap 28).
 
