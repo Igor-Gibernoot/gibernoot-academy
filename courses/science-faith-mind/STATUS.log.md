@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-10 Audit, Level 18 (light plus fact spot-check)
+Checked: level references (only own-level "Level 18" and a named teaser to Level 19), all `own:` bullets (self-contained, formulas shown), `file:` on all 14 nodes, images per lesson, terminology grep across ch01-ch18 (anatta, svabhava, khandha/skandha glossed, Theravada, nirvana/nibbana: consistent, Pali vs Sanskrit glossed at first use). Web re-checks: Zuting shiyuan 1108 slogan (earliest documented use of the line 952, Tsu-t'ang chi: "Song-era" ok), Lutz 2004 (8 practitioners, 10 students), Mind and Life Oct 1987 Dharamsala (Engle, Varela), Kabat-Zinn 1979 clinic, MMK 27 chapters about 450 verses, Milindapanha dating (about 100 BCE to 200 CE, Livius supports), Dalai Lama principle (kept paraphrase "in essence"), Dogen 1200-1253. No mismatches. All ch18 VERIFIED lines carry `web:`. STATUS Current updated (next: ch19-confucius).
+Conventions fixed here: none.
+
 ## 2026-11-10 ch18-challenge-2 (problems 4-5, 22 cards, no widget, no images)
 Choices: no widget (counting and critique); invented village Orun (rain, canal gate, seed; harvest = seed and (rain or gate), 8 seasons); numeric cards: 3 harvests, rain-harvest 2/4, 1 of 3 removals; Lewis 1973 "invidious discrimination" cited via SEP in essence; Hume second definition quoted verbatim from Gutenberg text. Web-checked, see VERIFIED. Conventions fixed here: Orun setup and numbers; Hume Treatise to Reasons and Persons gap 245 years.
 
