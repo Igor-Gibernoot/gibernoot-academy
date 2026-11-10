@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-10 ch17-brahman (23 cards, concept, no widget, 1 image)
+Brahman and Atman: hook (tired I / watcher), atman and brahman glossed, salt (6.13), banyan seed (6.12, image banyan-figs CC BY-SA 4.0), tat tvam asi and two readings, Brihadaranyaka (seer of seeing, neti neti, aham brahmasmi), Mandukya four states (order), five koshas (order), three traps (soul, God with a form, I am the body), preview of schools, layers sorting, summary. Choices: no verbatim quotations (paraphrase, "in essence"); dropped BU 4.4.5 and an 'ayam atma brahma' verse number (unconfirmed); images: banyan figs only (Yajnavalkya already used in ch17-vedas). Validate 0 errors/warnings, shots 0 problems.
+Conventions fixed here: Chapter 17 section (brahman lines).
+
 ## 2026-11-10 ch17-vedas (23 cards, concept, no widget, 2 images)
 Vedas and Upanishads: hook, four Vedas (Rigveda manuscript), Samaveda mcq, layers with dates, order card, hymns Agni/Indra/Soma and rta, Agni mcq, Nasadiya (two readings), ritual logic and exactness, horse of the Brihadaranyaka, Yajnavalkya (relief), Uddalaka and Shvetaketu, traps (ritual, dating, oral), numeric verses per hymn (10.3), shruti and Vedanta, faith vs scholarship multi-select, summary. Choices: no build card (nothing to assemble); no verbatim quotations (paraphrase); Britannica Veda 403 so Wikipedia pages used; Yajnavalkya image is a modern relief, captioned as such. Images: rigveda-manuscript, yajnavalkya-janaka. Conventions fixed here: see Chapter 17.
 
