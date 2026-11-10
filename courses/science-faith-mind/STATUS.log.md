@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-09 ch16-modern (concept, 25 cards, no widget, 3 images abduh, salam, ibn-al-haytham)
+Built autonomously, strict web check (VERIFIED.md). Widget: none; checked log-ruler, tradeoff-curve, frequency-grid, odds-updater, curve-fit-lab: none shows survey/historical content. Images: Abduh (PD photo), Salam (CC BY-SA 3.0 nl), Hevelius 1647 frontispiece of Alhazen (PD); first image screenshot viewed, fine; no depictions of Muhammad. Choices: 26 cards first, dropped the trivial numeric (22-13=9) into an explanation; Salam 'no Islamic science' and Ghazali mathematics passage paraphrased (secondary only); Afghani/Abduh evolution views kept to what sources confirm; Ahmadi case in neutral terms. Conventions fixed here: see CONVENTIONS Chapter 16 modern line.
+
 ## 2026-11-09 ch16-shared (concept, 16 cards, no widget, 1 image caravaggio-isaac PD)
 Built autonomously. Choices: no widget (reading lesson); one image (Caravaggio, Genesis scene, caption notes it is the Genesis version); no depictions of Muhammad; Bible quotes World English Bible, Qur'an quotes Sahih International, named in cards; son of the sacrifice left open (Ibn Qutayba/Tabari Isaac, most Muslims Ishmael); 4:157 given as several Muslim readings plus historians' view as layer 2; dropped unconfirmed Jewish-covenant claim. Conventions fixed here: Moses named 136 times in Qur'an (one common count); Nostra Aetate 28 Oct 1965; Reynolds 2010; Tahrif al-ma'na vs al-nass.
 
