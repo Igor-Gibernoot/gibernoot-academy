@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-09 ch16-challenge-2 (23 cards, problems 4-5, no widget, no images)
+Problem 4: invented lab (Dr. Amal, 1,000 burnings) for Ghazali vs Averroes (80% metaphysics, necessity vs regularity, no experiment separates, Hume comparison disputed, no double truth, rival views, 85-year gap), then invented drink sahar/ruman by qiyas vs aql, 855-632=223. Problem 5: claim sorter across the level, evidence per layer, where people part ways, fair summary, date order. Choices: no new external facts, so no new web search (all reused from verified lines); Hume given without dates; no `own:` (challenge), closing text card; widget none (README index checked), images none. Conventions fixed here: Dr. Amal 1,000 burnings; sahar (intoxicates) and ruman (does not); 1180-1095=85; 855-632=223; 1180-632=548.
+
 ## 2026-11-09 ch16-challenge part 1 (25 cards, problems 1-3, no widget, no images)
 Problem 1 invented Leaf L (600-680, 95.4%) + real 1:4 malik/malik readings; Sinai vs Wansbrough. Problem 2 invented hadith S with common link Hamza 740, Sulayman 700, sahih/hasan grading, Schacht vs Motzki, "late sources". Problem 3 Qur'an 2:256 (Sahih International) read by Ibn Kathir/occasion report, historian, Tabataba'i/Motahhari; rival Muslim views. Choices: no `own:` (validator: challenge is not a concept lesson), closing text card instead; verse 2:256 chosen over 4:157/2:223 as web-confirmable; Tabari's own position dropped (secondhand only). Added node ch16-challenge-2. Conventions fixed here: Leaf L 600-680; invented chain Rafi 680, Sulayman 700, Hamza 740 (gap 108, push-back 40); 2:256 readings: general / People of the Book / abrogated.
 
