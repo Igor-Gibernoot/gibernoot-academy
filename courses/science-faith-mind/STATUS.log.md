@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-10 ch18-map (Level 18, map, 12 cards, 10 boxes, no widget, no images)
+Boxes: truths, aggregates, chariot, origination, emptiness, rebirth, schools, zen, gods and undeclared questions, science of mind; 12 edges (2 dashed). Decoys cover "life is only suffering", eternal creator, immortal devas, swapped ideals/schools/people, nihilist emptiness, not-found vs shown-false. Choices made autonomously: rebirth got its own box (plan folded it into gods); no separate cross-links box (the outro carries them). Web re-check this session (3 queries: Milindapanha chariot Nagasena Menander; Culamalunkya MN 63 arrow; Mind and Life 1987 Dharamsala; plus Nagarjuna svabhava two truths) confirmed the key facts; the rest reused from same-day ch18 lines. Conventions fixed here: none new.
+
 ## 2026-11-10 ch18-intuition (Level 18, intuition, 18 cards)
 No widget (condition-chain already used in origination/emptiness; recall works with order/build/mcq cards). No images: none (recall lesson, no new person). Web-checked this session (see VERIFIED.md). Choices: dates card uses Dogen's age at Eisai's death (15); Lutz facts in a multi-select confound card; cut-link numeric gives data only (craving is link 8, ask how many remain: 7). Conventions fixed here: none new.
 
