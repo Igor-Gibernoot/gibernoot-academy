@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-10 ch18-traps
+Built `ch18/traps.yaml` (22 cards: welcome, 17 mcq, 3 numeric, summary; no widget). Images none: traps, nothing newly introduced. Web check: fresh fetches of SEP Buddha and Nagarjuna, Lutz 2004 (PMC), Wikipedia MBSR, Theravada, Koan, Parfit, Dependent origination, Mind and Life; other items reused from the concept lessons' lines (same day). Choices: 78-year gap numeric (483 vs 405), cut-craving numeric (4), age-gap numeric (28); Parfit-Buddha link phrased as scholars' comparison only. validate 0 errors/0 warnings, shots 0 problems. Conventions fixed here: traps numerics: 483-405 = 78 years; craving is link 8 of 12, cutting it stops 4; Lutz groups mean ages 49 vs 21 (gap 28).
+
 ## 2026-11-10 ch18-no-self-proof
 Built `ch18-no-self-proof` (19 cards, guided proof with `own:`, no widget: the argument is about names and logic, `condition-chain` models dependence not part-whole). 1 image: Menander I drachm (CC BY-SA 4.0, Commons, caption web-checked). Choices: P2 read as "all the parts as a mere collection" (the text asks "all these parts"), hidden premise of exhaustiveness made explicit, three readings table (reductionist, conventional, emergentist), no new quotation beyond two Rhys Davids phrases. Web-checked per VERIFIED.md; sacred-texts 403, read via mirror. Conventions fixed here: chariot premises P1-P3 and person P4-P6; hidden exhaustiveness premise; Rhys Davids phrases only quoted.
 
