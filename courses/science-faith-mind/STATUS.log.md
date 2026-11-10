@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-10 ch18-challenge part 1 (Level 18, challenge, 28 cards, problems 1-3, no widget, no images, web-checked)
+Problems: ship Calla and crew (chariot argument, constitution and weak/strong emergence replies, Hobbes second ship); Mara with Parfit's links toy and a division; Kestrel Lab study (gap decomposition, Bayes, dependent origination test, not found vs shown false). Choices: no `own:` (challenge); order card for "build the argument"; "20 links a day" is an invented toy figure, Parfit's real figure not confirmed. Conventions fixed here: Calla 240 planks, 8 replaced/month, crew 12 (one leaves per 3 months, 2 original at month 30); Mara links 36,30,24,22,17,26, threshold 20 of 40 (toy), stage0-6 3 links, division copies A,B with 38 links; Kestrel 9 meditators (46 y, 4.8) vs 11 novices (23 y, 2.1), sd 2.0, randomized effect 0.9, remainder 1.8, Bayes prior 0.5, 0.9/0.4 -> 0.692, 0.9/0.05 -> 0.947.
+
 ## 2026-11-10 ch18-map (Level 18, map, 12 cards, 10 boxes, no widget, no images)
 Boxes: truths, aggregates, chariot, origination, emptiness, rebirth, schools, zen, gods and undeclared questions, science of mind; 12 edges (2 dashed). Decoys cover "life is only suffering", eternal creator, immortal devas, swapped ideals/schools/people, nihilist emptiness, not-found vs shown-false. Choices made autonomously: rebirth got its own box (plan folded it into gods); no separate cross-links box (the outro carries them). Web re-check this session (3 queries: Milindapanha chariot Nagasena Menander; Culamalunkya MN 63 arrow; Mind and Life 1987 Dharamsala; plus Nagarjuna svabhava two truths) confirmed the key facts; the rest reused from same-day ch18 lines. Conventions fixed here: none new.
 
