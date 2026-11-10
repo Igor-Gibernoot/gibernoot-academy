@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-10 ch18-no-self-proof
+Built `ch18-no-self-proof` (19 cards, guided proof with `own:`, no widget: the argument is about names and logic, `condition-chain` models dependence not part-whole). 1 image: Menander I drachm (CC BY-SA 4.0, Commons, caption web-checked). Choices: P2 read as "all the parts as a mere collection" (the text asks "all these parts"), hidden premise of exhaustiveness made explicit, three readings table (reductionist, conventional, emergentist), no new quotation beyond two Rhys Davids phrases. Web-checked per VERIFIED.md; sacred-texts 403, read via mirror. Conventions fixed here: chariot premises P1-P3 and person P4-P6; hidden exhaustiveness premise; Rhys Davids phrases only quoted.
+
 ## 2026-11-10 ch18-sciencemind (Level 18, concept, 18 cards, no widget, 1 image)
 Built `ch18/sciencemind.yaml`. Widgets checked: `odds-updater` (does not fit: it updates odds of a hypothesis, not a study design; the small-sample point is made by the gap = training + pre-existing identity), `condition-chain` (not suited). Images: 1 added (Dalai Lama 2012, Christopher Michel, CC BY-SA 4.0, caption checked); none for Davidson, Lopez, Wallace (no free portrait sought; Kabat-Zinn already in ch11-meditation). Choices: Lutz 2004 only recalled (covered in What Meditation Does); Dalai Lama principle paraphrased (verbatim only seen on secondary pages); Engle's profession dropped; Lopez and Wallace described "according to reviews/summaries". Conventions fixed here: observed gap = effect of training + pre-existing difference; principle "not yet found is not shown false"; readings partnership vs category mistake; Mind and Life dialogues 1987, incorporated 1991.
 
