@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-10 ch18-schools (concept, 19 cards, no widget; widgets checked: condition-chain, none fits a comparison of ideals)
+Built `ch18/schools.yaml`. Images: img/shwedagon.webp (Theravada), img/sand-mandala.webp (Vajrayana); no Mahayana image (none needed). Britannica 403, used Wikipedia. Numeric card uses round Buddha date 450 BCE and Lokaksema 170 CE. Conventions fixed here: Theravada = "doctrine of the elders"; Vajrayana a tantric branch of Mahayana; buddhavacana debate by three voices; Buddha ~450 BCE round figure.
+
 ## 2026-11-10 ch18-emptiness
 Built `ch18-emptiness` (concept, 21 cards, `condition-chain` linear row once with numeric + 'first link' question, 1 image: Toji portrait of Nagarjuna (public domain, captioned as later imagined likeness)). Images: Nagarjuna only; no other person needs one. Choices: verses paraphrased 'in essence' (wording varies by translator), only 24.8 phrase quoted from SEP; Nyaya critics left out (no verified source), rival Abhidharma (Sarvastivada) used as the critic; readings card names nihilist, Siderits anti-realist, Garfield/Westerhoff/Kania no-thesis, Garfield-Priest paradox. Conventions fixed here: see CONVENTIONS Chapter 18 emptiness line.
 
