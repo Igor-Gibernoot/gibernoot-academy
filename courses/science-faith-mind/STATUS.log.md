@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-10 widget condition-chain (no lesson)
+Built `js/widgets/condition-chain.js` for `ch18-origination` (integration-demo did not fit: undirected, cut-based). Ring or row of labelled links, click removes/restores, a link arises iff not removed and its predecessor arises; `cyclic` loop-back with Cyclic/Linear toggle; counter, stopped list, reset, all hideable. Registered in index.js, CSS `.ccn-*`, docs and README line, 3 smoke presets; widget-smoke 408 mounts 0 errors; validate 0/0; viewed at phone and desktop width. Conventions fixed here: none.
+
 ## 2026-11-10 ch18-anatta (concept, 19 cards, no widget)
 Built autonomously. Choices: reused hume.webp and parfit.webp (already shown in ch10-self and earlier; people-introduced rule satisfied there, reuse accepted); sort card done as two mcq (single, multi-select) plus an order card for the argument; second reply to "who is reborn" is the sceptic's (rebirth is faith), not a named school; Pali phrase for "neither same nor another" and the Parfit glass-tunnel wording not used (unconfirmed). Images: 2 reused, none new. Conventions fixed here: aggregates glossed rupa form, vedana feeling, sanna perception, sankhara volitions/formations, vinnana consciousness (khandha/skandha); argument written P1 impermanent, P2 unsatisfactory, P3 not fit to be self, C; "no self is not no person" via conventional truth and the chariot; Milindapanha dated c. 100 BCE-200 CE; flame reply paraphrased "in essence".
 ## 2026-11-10 ch18-buddha (20 cards, concept, no widget, 1 image: Sarnath Buddha)

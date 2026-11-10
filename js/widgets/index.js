@@ -78,6 +78,7 @@ import { scaleFactor } from './scale-factor.js';
 import { multiverseCounter } from './multiverse-counter.js';
 import { oddsUpdater } from './odds-updater.js';
 import { chaosSensitivity } from './chaos-sensitivity.js';
+import { conditionChain } from './condition-chain.js';
 import { microstateCounter } from './microstate-counter.js';
 import { integrationDemo } from './integration-demo.js';
 
@@ -148,6 +149,7 @@ const WIDGETS = {
   'log-ruler': logRuler,
   'odds-updater': oddsUpdater,
   'chaos-sensitivity': chaosSensitivity,
+  'condition-chain': conditionChain,
   'feedback-loop': feedbackLoop,
   'tradeoff-curve': tradeoffCurve,
   'cellular-automaton': cellularAutomaton,
