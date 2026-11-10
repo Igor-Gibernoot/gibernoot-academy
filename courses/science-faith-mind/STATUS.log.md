@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-09 ch16-challenge part 1 (25 cards, problems 1-3, no widget, no images)
+Problem 1 invented Leaf L (600-680, 95.4%) + real 1:4 malik/malik readings; Sinai vs Wansbrough. Problem 2 invented hadith S with common link Hamza 740, Sulayman 700, sahih/hasan grading, Schacht vs Motzki, "late sources". Problem 3 Qur'an 2:256 (Sahih International) read by Ibn Kathir/occasion report, historian, Tabataba'i/Motahhari; rival Muslim views. Choices: no `own:` (validator: challenge is not a concept lesson), closing text card instead; verse 2:256 chosen over 4:157/2:223 as web-confirmable; Tabari's own position dropped (secondhand only). Added node ch16-challenge-2. Conventions fixed here: Leaf L 600-680; invented chain Rafi 680, Sulayman 700, Hamza 740 (gap 108, push-back 40); 2:256 readings: general / People of the Book / abrogated.
+
 ## 2026-11-09 ch16-map
 Content map of Level 16: 13 cards, 11 boxes (arabia, muhammad, quran, form, hadith [isnad merged in], law, kalam, sufism, shared, modern, layers), 2 decoys each. Widget: none (the map is a card type). Images: none: a map card type carries no pictures. Every fact reused from ch16 lessons already web-checked (see VERIFIED.md); no new external fact. Decoys: swapped kingdoms, scholars, sahih/hasan, isnad/matn, sharia/fiqh, sukr/sahw, fana/baqa, tahrif terms, arithmetic of x^2+10x=39, Pew countries. Conventions fixed here: none new.
 
