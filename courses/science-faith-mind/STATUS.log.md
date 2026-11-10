@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-10 ch18-origination
+Built `ch18-origination` (concept, 21 cards, `condition-chain` linear-row and cycle-toggle, 1 image: bhavacakra mural, CC BY 2.0). Choices: formula quoted only as "When this is, that is" / "When this isn't, that isn't" (Thanissaro, Ud 1.3), rest paraphrased; SN 12.1 not cited (page 404), twelve-link glosses from SN 12.2; Gethin not attributed (no source text reachable); three-lives vs moment reading with Buddhaghosa, Vasubandhu, Jones 2009; modern-causal comparison hedged. STATUS.md was edited once by a script in error (result checked by validate). Conventions fixed here: link names as Pali avijja, sankhara, vinnana, namarupa, salayatana, phassa, vedana, tanha, upadana, bhava, jati, jaramarana; formula = "when this is, that is"; ignorance = most necessary condition, not first cause; Nagarjuna traditionally 2nd century CE.
+
 ## 2026-11-10 widget condition-chain (no lesson)
 Built `js/widgets/condition-chain.js` for `ch18-origination` (integration-demo did not fit: undirected, cut-based). Ring or row of labelled links, click removes/restores, a link arises iff not removed and its predecessor arises; `cyclic` loop-back with Cyclic/Linear toggle; counter, stopped list, reset, all hideable. Registered in index.js, CSS `.ccn-*`, docs and README line, 3 smoke presets; widget-smoke 408 mounts 0 errors; validate 0/0; viewed at phone and desktop width. Conventions fixed here: none.
 
