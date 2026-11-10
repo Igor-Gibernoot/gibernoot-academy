@@ -1,4 +1,6 @@
 # Status log
+## 2026-11-10 ch17-challenge part 1 (23 cards, problems 1-3, no widget, no images)
+Built `ch17/challenge.yaml`: P1 saffron dialogue read three ways (mcq x3, 5 kinds, 15 pairs, order by plurality, text cannot settle), P2 sage Vasudatta and three objections, toy ledger, layers, P3 Samkhya 25 and 23, five-member frog-pond inference, unestablished and deviation. Added `ch17-challenge-2` node to course.yaml. No `own:` (follows ch16 model, plain summary card). No new external fact. Validate 0/0, shots 0 problems. Conventions fixed here: toy ledger flagged as model; 23 evolutes; 15 pairs.
 
 ## 2026-11-10 ch17-map (13 cards, 11 boxes, no widget)
 Built `ch17/map.yaml`: boxes name and streams, Vedas and layers (with shruti/smriti), tat tvam asi and the knower, atman and sheaths, three schools, karma/samsara/moksha, Samkhya and Yoga, Nyaya, Gita, dialogue with physics, three layers (dashed from Gita and dialogue). Two decoys per box inverting verified facts only; no new external fact, VERIFIED line says so. Validate 0/0, shots 0 problems. Conventions fixed here: none new.
