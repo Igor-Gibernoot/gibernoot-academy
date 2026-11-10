@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-10 ch18-challenge-2 (problems 4-5, 22 cards, no widget, no images)
+Choices: no widget (counting and critique); invented village Orun (rain, canal gate, seed; harvest = seed and (rain or gate), 8 seasons); numeric cards: 3 harvests, rain-harvest 2/4, 1 of 3 removals; Lewis 1973 "invidious discrimination" cited via SEP in essence; Hume second definition quoted verbatim from Gutenberg text. Web-checked, see VERIFIED. Conventions fixed here: Orun setup and numbers; Hume Treatise to Reasons and Persons gap 245 years.
+
 ## 2026-11-10 ch18-challenge part 1 (Level 18, challenge, 28 cards, problems 1-3, no widget, no images, web-checked)
 Problems: ship Calla and crew (chariot argument, constitution and weak/strong emergence replies, Hobbes second ship); Mara with Parfit's links toy and a division; Kestrel Lab study (gap decomposition, Bayes, dependent origination test, not found vs shown false). Choices: no `own:` (challenge); order card for "build the argument"; "20 links a day" is an invented toy figure, Parfit's real figure not confirmed. Conventions fixed here: Calla 240 planks, 8 replaced/month, crew 12 (one leaves per 3 months, 2 original at month 30); Mara links 36,30,24,22,17,26, threshold 20 of 40 (toy), stage0-6 3 links, division copies A,B with 38 links; Kestrel 9 meditators (46 y, 4.8) vs 11 novices (23 y, 2.1), sd 2.0, randomized effect 0.9, remainder 1.8, Bayes prior 0.5, 0.9/0.4 -> 0.692, 0.9/0.05 -> 0.947.
 
