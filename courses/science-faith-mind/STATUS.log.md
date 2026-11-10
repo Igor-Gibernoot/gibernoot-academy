@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-10 ch18-zen (concept, 17 cards, no widget; widgets checked: condition-chain (does not fit), README index scan found nothing for words vs experience)
+Built `ch18/zen.yaml`. Images: img/dogen.webp (traditional Soto portrait, Commons public domain, caption hedged). No rock garden (would need a school-affiliation check). Plan said ~19 cards; built 17 (merged layers card into one mcq). Mu stated as the one-word answer only; slogan paraphrased "in essence"; Daoist influence stated as debated. Hakuin omitted (not needed). Britannica main page not fully readable; used Britannica Kids and other sources, logged in VERIFIED. Summary schemas rewritten with gathered blocks after an overflow flag.
+Conventions fixed here: Zen/Chan from dhyana; Bodhidharma traditional c. 520 CE, obscure; slogan Song-era attribution (Zuting shiyuan 1108); Eisai 1141-1215 Rinzai, Dogen 1200-1253 Soto (returned 1227); Mumonkan 1228; Joshu 778-897 traditional; koan = gong'an "public case"; Rinzai koans, Soto shikantaza, emphases not split.
+
 ## 2026-11-10 ch18-schools (concept, 19 cards, no widget; widgets checked: condition-chain, none fits a comparison of ideals)
 Built `ch18/schools.yaml`. Images: img/shwedagon.webp (Theravada), img/sand-mandala.webp (Vajrayana); no Mahayana image (none needed). Britannica 403, used Wikipedia. Numeric card uses round Buddha date 450 BCE and Lokaksema 170 CE. Conventions fixed here: Theravada = "doctrine of the elders"; Vajrayana a tantric branch of Mahayana; buddhavacana debate by three voices; Buddha ~450 BCE round figure.
 
