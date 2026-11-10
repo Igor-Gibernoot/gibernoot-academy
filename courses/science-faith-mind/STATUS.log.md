@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-10 ch18-emptiness
+Built `ch18-emptiness` (concept, 21 cards, `condition-chain` linear row once with numeric + 'first link' question, 1 image: Toji portrait of Nagarjuna (public domain, captioned as later imagined likeness)). Images: Nagarjuna only; no other person needs one. Choices: verses paraphrased 'in essence' (wording varies by translator), only 24.8 phrase quoted from SEP; Nyaya critics left out (no verified source), rival Abhidharma (Sarvastivada) used as the critic; readings card names nihilist, Siderits anti-realist, Garfield/Westerhoff/Kania no-thesis, Garfield-Priest paradox. Conventions fixed here: see CONVENTIONS Chapter 18 emptiness line.
+
 ## 2026-11-10 ch18-origination
 Built `ch18-origination` (concept, 21 cards, `condition-chain` linear-row and cycle-toggle, 1 image: bhavacakra mural, CC BY 2.0). Choices: formula quoted only as "When this is, that is" / "When this isn't, that isn't" (Thanissaro, Ud 1.3), rest paraphrased; SN 12.1 not cited (page 404), twelve-link glosses from SN 12.2; Gethin not attributed (no source text reachable); three-lives vs moment reading with Buddhaghosa, Vasubandhu, Jones 2009; modern-causal comparison hedged. STATUS.md was edited once by a script in error (result checked by validate). Conventions fixed here: link names as Pali avijja, sankhara, vinnana, namarupa, salayatana, phassa, vedana, tanha, upadana, bhava, jati, jaramarana; formula = "when this is, that is"; ignorance = most necessary condition, not first cause; Nagarjuna traditionally 2nd century CE.
 
