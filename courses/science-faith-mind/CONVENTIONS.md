@@ -254,4 +254,5 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 - Challenge part 1 (23 cards): invented saffron dialogue (Arani, Kavi), sage Vasudatta with villagers Meera, Dev, Sunita, frog-pond inference; toy world 1 God, 3 souls, 2 things = 15 pairs; toy ledger +1/-1 (5-2, 1-4, 6-1 = net 5), flagged as model not doctrine; 23 = evolutes of nature.
 
 ## Chapter 18
+- Anatta lesson: aggregates rupa, vedana, sanna, sankhara (volitions/formations), vinnana (khandha/skandha); argument P1 impermanent, P2 unsatisfactory, P3 not fit to be self; "no self, not no person" (conventional truth, chariot); Milindapanha c. 100 BCE-200 CE, flame reply paraphrased "in essence"; Parfit: connectedness and continuity, reductionism not eliminativism.
 - Buddha lesson: Pali spellings (dukkha, tanha, nirvana/nibbana); three kinds dukkha-dukkha, viparinama-dukkha, sankhara-dukkha; eightfold groups wisdom, ethical conduct, meditation; Buddha c. fifth century BCE, debated; SN 56.11 quotes are Piyadassi Thera translation; medical pattern hedged (Analayo, Gombrich).
