@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-09 ch16-intuition (17 cards, no widget, no images)
+Recall round for Level 16: collection order, Uthman, Birmingham gap (13), Ibn Hajar build, grades, Idris gap (128), isnad/matn, founders and split orders, Ghazali necessity, sukr/sahw, Sufi order, tahrif, al-Khwarizmi (x=3), Pew 13/22. Choices: no new facts, so no new web search (all reused from lines with web: sources in VERIFIED.md); no widget (verbal recall); no images. Conventions fixed here: none new.
+
 - 2026-11-09 ch16-traps: 22 cards (welcome, 19 traps incl. 3 numeric and 1 multi-select, parting, summary). Misconceptions: one-book-at-once, i'jaz=untranslatable, sahih=certain, common link=inventor, schools=sects, Ghadir mawla, Ghazali necessity, double truth, Sufism alien, Ibn Taymiyya, Qur'an copies Bible, Muslims reject Jesus, Ghazali killed science, evolution, Pew share, scientific miracles. Choices: no widget or images; only the translation/i'jaz point needed new web check. Conventions fixed here: Birmingham latest 645 = 13 yr after 632; Idris (invented) 760 gives 128 yr gap; Pew 13/22 = 59% of countries.
 
 ## 2026-11-09 ch16-modern (concept, 25 cards, no widget, 3 images abduh, salam, ibn-al-haytham)
