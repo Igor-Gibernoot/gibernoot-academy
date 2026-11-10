@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-10 Level 16 audit
+Checked all 15 ch16 lessons: files registered, validate and shots clean, every ch16 VERIFIED line carries web:. Fixed: "Level 17" in ch16-challenge-2 outro now "the next level, Hindu Thought"; Salam text said "preface" and "creed": the book lists it as a foreword and the Nobel banquet line is "the faith of all physicists"; Pew devotion gap is in Southern and Eastern Europe (Russia, Bosnia, Kosovo), not only Bosnia and Kosovo. Re-checked independently (web): Birmingham 568-645 at 95.4% (Oxford lab), Sanaa 578-669, Pew 13/22, Kazakhstan 79, Lebanon 78, Pakistan 30/38/32, Iraq 67% rejecting, Ghazali Deliverance mathematics passage (McCarthy/Watt), Abu Dawud 2:256 Ansar report via Ibn Abbas (variants exist, Mujahid), Ibn Mujahid d. 936, Abduh Grand Mufti 1899-1905, Bucaille 1976, Maragha 1259, Bukhari 7,563/2,602, Mihna 833 (end 847-851), Ibn Hajar 1372-1449. Not confirmed by primary text: Ibn al-Haytham sun-pain argument (kept as "according to modern accounts"), qira'at reader attribution for 1:4 (lesson only says both readings are recognised), Afghani d. 1897 (not re-found).
+Conventions fixed here: none new.
+
 ## 2026-11-09 ch16-challenge-2 (23 cards, problems 4-5, no widget, no images)
 Problem 4: invented lab (Dr. Amal, 1,000 burnings) for Ghazali vs Averroes (80% metaphysics, necessity vs regularity, no experiment separates, Hume comparison disputed, no double truth, rival views, 85-year gap), then invented drink sahar/ruman by qiyas vs aql, 855-632=223. Problem 5: claim sorter across the level, evidence per layer, where people part ways, fair summary, date order. Choices: no new external facts, so no new web search (all reused from verified lines); Hume given without dates; no `own:` (challenge), closing text card; widget none (README index checked), images none. Conventions fixed here: Dr. Amal 1,000 burnings; sahar (intoxicates) and ruman (does not); 1180-1095=85; 855-632=223; 1180-632=548.
 
