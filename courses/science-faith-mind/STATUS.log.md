@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-10 ch17-darshanas (22 cards, concept, no widget, 1 image)
+Samkhya, Yoga, Nyaya: hook (smoke on a hill), six darshanas, Samkhya (purusha/prakriti/gunas), why prakriti is unconscious, order of evolution, count of tattvas (23), Samkhya vs Descartes, liberation and lame-blind objection, Yoga (sutra 1.2, Ishvara), order of eight limbs, posture trap, layers card (Goyal 2014), Nyaya pramanas, five members order, vs Aristotle, hetvabhasa, mist-for-smoke, multi-select traps, where people part, summary. Images: yogasutras-manuscript (PD, one ledger entry). karma.yaml checked: no lesson id in learner text, no fix needed. Choices: no build card (tiles are math); numeric tattva count used instead; Sanskrit names of the five hetvabhasa left out (English only); Aksapada confirmed only as "Gautama or Akshapada" (Britannica via search).
+Conventions fixed here: Chapter 17 darshanas lines.
+
 ## 2026-11-10 ch17-karma (22 cards, concept, no widget, 1 image)
 Karma, Samsara, Moksha: hook (blind child, three answers), karma origin (BU 3.2.13 in essence), Chandogya five fires and two paths, Bronkhorst vs Tull on origin, samsara (caterpillar, Gita 2.22 clothes in essence), what the image assumes, moksha by three schools, order chain, traps (fate, judge vs law, victim-blaming), objections (memory, first birth via Brahma Sutras 2.1.35-36), injustice (2.1.34) vs problem of evil, what carries over, Stevenson studies and critics (no verdict), layer sort, parting, summary. Image: brihadaranyaka-manuscript (PD, Penn). Choices: no verbatim quotations except none; verse numbers hedged; no kshatriya-origin claim; Stevenson cases "more than 2,500" (UVA; Wikipedia says ~3,000).
 Conventions fixed here: Chapter 17 karma lines.
