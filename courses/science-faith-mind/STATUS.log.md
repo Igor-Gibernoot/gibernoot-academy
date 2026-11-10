@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-10 ch18-sciencemind (Level 18, concept, 18 cards, no widget, 1 image)
+Built `ch18/sciencemind.yaml`. Widgets checked: `odds-updater` (does not fit: it updates odds of a hypothesis, not a study design; the small-sample point is made by the gap = training + pre-existing identity), `condition-chain` (not suited). Images: 1 added (Dalai Lama 2012, Christopher Michel, CC BY-SA 4.0, caption checked); none for Davidson, Lopez, Wallace (no free portrait sought; Kabat-Zinn already in ch11-meditation). Choices: Lutz 2004 only recalled (covered in What Meditation Does); Dalai Lama principle paraphrased (verbatim only seen on secondary pages); Engle's profession dropped; Lopez and Wallace described "according to reviews/summaries". Conventions fixed here: observed gap = effect of training + pre-existing difference; principle "not yet found is not shown false"; readings partnership vs category mistake; Mind and Life dialogues 1987, incorporated 1991.
+
 ## 2026-11-10 ch18-no-god (Level 18, concept, 19 cards, no widget, 1 image)
 Built `ch18/no-god.yaml`. Widgets checked: none fits (definitions/readings compared; condition-chain not suited). Images: 1 added (Kamakura Great Buddha, Amida, CC BY-SA 3.0); the others none: no free portrait needed (Batchelor, Wallace living, no free image sought). Choices: Wallace's rebirth view hedged as reported by reviewers (no primary text retrieved). Conventions fixed here: gods = devas in samsara; MN 63 only quoted phrase; religion defined two ways (god-centred vs practice-and-community).
 
