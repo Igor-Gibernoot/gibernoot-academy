@@ -1,4 +1,7 @@
 # Status log
+## 2026-11-10 ch17-challenge-2 (21 cards, problems 4-5, no widget, no images)
+Built `ch17/challenge-2.yaml`: P4 invented clinic (Ines, cousin Tadeu) with Gita 2.47 mapping, verse-order card, what needs metaphysics, non-attachment is not indifference, Shankara/Ramanuja/Tilak ranking, layer-three multi-select; P5 invented pamphlet (Dr. Salim Arora, The Quantum Self): entanglement vs Advaita, Samkhya witness vs observer, kalpa/universe 0.313, life of Brahma 22,560 ages, post-hoc matching, meditation research, a modest rewrite; closing weighing (layers, order of voices, where people part). No `own:` (challenge, plain closing card). Registered in course.yaml. No new external fact: all reused from VERIFIED (Level 17 lines); web check not repeated. Images none: invented cases. Conventions fixed here: none new.
+
 ## 2026-11-10 ch17-challenge part 1 (23 cards, problems 1-3, no widget, no images)
 Built `ch17/challenge.yaml`: P1 saffron dialogue read three ways (mcq x3, 5 kinds, 15 pairs, order by plurality, text cannot settle), P2 sage Vasudatta and three objections, toy ledger, layers, P3 Samkhya 25 and 23, five-member frog-pond inference, unestablished and deviation. Added `ch17-challenge-2` node to course.yaml. No `own:` (follows ch16 model, plain summary card). No new external fact. Validate 0/0, shots 0 problems. Conventions fixed here: toy ledger flagged as model; 23 evolutes; 15 pairs.
 
