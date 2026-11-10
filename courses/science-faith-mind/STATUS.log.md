@@ -1,5 +1,7 @@
 # Status log
 
+- 2026-11-09 ch16-traps: 22 cards (welcome, 19 traps incl. 3 numeric and 1 multi-select, parting, summary). Misconceptions: one-book-at-once, i'jaz=untranslatable, sahih=certain, common link=inventor, schools=sects, Ghadir mawla, Ghazali necessity, double truth, Sufism alien, Ibn Taymiyya, Qur'an copies Bible, Muslims reject Jesus, Ghazali killed science, evolution, Pew share, scientific miracles. Choices: no widget or images; only the translation/i'jaz point needed new web check. Conventions fixed here: Birmingham latest 645 = 13 yr after 632; Idris (invented) 760 gives 128 yr gap; Pew 13/22 = 59% of countries.
+
 ## 2026-11-09 ch16-modern (concept, 25 cards, no widget, 3 images abduh, salam, ibn-al-haytham)
 Built autonomously, strict web check (VERIFIED.md). Widget: none; checked log-ruler, tradeoff-curve, frequency-grid, odds-updater, curve-fit-lab: none shows survey/historical content. Images: Abduh (PD photo), Salam (CC BY-SA 3.0 nl), Hevelius 1647 frontispiece of Alhazen (PD); first image screenshot viewed, fine; no depictions of Muhammad. Choices: 26 cards first, dropped the trivial numeric (22-13=9) into an explanation; Salam 'no Islamic science' and Ghazali mathematics passage paraphrased (secondary only); Afghani/Abduh evolution views kept to what sources confirm; Ahmadi case in neutral terms. Conventions fixed here: see CONVENTIONS Chapter 16 modern line.
 
