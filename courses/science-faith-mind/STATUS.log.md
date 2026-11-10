@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-10 ch17-vedas (23 cards, concept, no widget, 2 images)
+Vedas and Upanishads: hook, four Vedas (Rigveda manuscript), Samaveda mcq, layers with dates, order card, hymns Agni/Indra/Soma and rta, Agni mcq, Nasadiya (two readings), ritual logic and exactness, horse of the Brihadaranyaka, Yajnavalkya (relief), Uddalaka and Shvetaketu, traps (ritual, dating, oral), numeric verses per hymn (10.3), shruti and Vedanta, faith vs scholarship multi-select, summary. Choices: no build card (nothing to assemble); no verbatim quotations (paraphrase); Britannica Veda 403 so Wikipedia pages used; Yajnavalkya image is a modern relief, captioned as such. Images: rigveda-manuscript, yajnavalkya-janaka. Conventions fixed here: see Chapter 17.
+
 ## 2026-11-10 ch17-overview (22 cards, concept, no widget, 2 images)
 What Is Hinduism?: hook (five neighbours), Sindhu/Hidush/Indos, Hinduism term (Roy c. 1816, hedged), sanatana dharma, failed tests (founder/creed/scripture/authority), census 966.3 m = 79.8%, Pew 1.2 bn/95% (numeric 60 m abroad), shruti/smriti, epics ratio 4.2, four streams, orthopraxy, Rigveda 1.164.46 two readings, astika/nastika, name problem (one / family / construct), layers. Choices: Supreme Court "way of life" and Brian K. Smith dropped (contested, unverified); Britannica 403, Wikipedia truncated, so reference sources secondary and claims hedged. Images: dna-darius (CC BY-SA 4.0, Darius DNa), rammohan-roy (PD, Peale 1833); Mahabharata folio refused (PD-India only), none else added. Duplicate ledger entry from a refetch removed.
 Conventions fixed here: see Chapter 17.
