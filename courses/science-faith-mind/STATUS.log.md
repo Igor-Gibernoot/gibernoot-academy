@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-09 ch16-map
+Content map of Level 16: 13 cards, 11 boxes (arabia, muhammad, quran, form, hadith [isnad merged in], law, kalam, sufism, shared, modern, layers), 2 decoys each. Widget: none (the map is a card type). Images: none: a map card type carries no pictures. Every fact reused from ch16 lessons already web-checked (see VERIFIED.md); no new external fact. Decoys: swapped kingdoms, scholars, sahih/hasan, isnad/matn, sharia/fiqh, sukr/sahw, fana/baqa, tahrif terms, arithmetic of x^2+10x=39, Pew countries. Conventions fixed here: none new.
+
 ## 2026-11-09 ch16-intuition (17 cards, no widget, no images)
 Recall round for Level 16: collection order, Uthman, Birmingham gap (13), Ibn Hajar build, grades, Idris gap (128), isnad/matn, founders and split orders, Ghazali necessity, sukr/sahw, Sufi order, tahrif, al-Khwarizmi (x=3), Pew 13/22. Choices: no new facts, so no new web search (all reused from lines with web: sources in VERIFIED.md); no widget (verbal recall); no images. Conventions fixed here: none new.
 
