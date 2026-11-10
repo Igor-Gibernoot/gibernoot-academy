@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-10 ch17-karma (22 cards, concept, no widget, 1 image)
+Karma, Samsara, Moksha: hook (blind child, three answers), karma origin (BU 3.2.13 in essence), Chandogya five fires and two paths, Bronkhorst vs Tull on origin, samsara (caterpillar, Gita 2.22 clothes in essence), what the image assumes, moksha by three schools, order chain, traps (fate, judge vs law, victim-blaming), objections (memory, first birth via Brahma Sutras 2.1.35-36), injustice (2.1.34) vs problem of evil, what carries over, Stevenson studies and critics (no verdict), layer sort, parting, summary. Image: brihadaranyaka-manuscript (PD, Penn). Choices: no verbatim quotations except none; verse numbers hedged; no kshatriya-origin claim; Stevenson cases "more than 2,500" (UVA; Wikipedia says ~3,000).
+Conventions fixed here: Chapter 17 karma lines.
+
 ## 2026-11-10 ch17-schools (22 cards, concept, no widget, 3 images)
 Hook (three readings of "that you are"), three starting texts and why commentary became philosophy, Shankara (maya, two levels, rope-and-snake), Ramanuja (body of Brahman), Madhva (five differences), who-says-what, 3-column table, objections to each with replies, why one text allows three readings, middle-school trap, summary. Images: shankara (Ravi Varma painting, PD), ramanuja (Vijayanagar sculpture, CC0), madhva (Pajaka image, CC0). Choices: did not attribute the rope-and-snake example to a person (blog sources only), dropped finer liberation claims for Ramanuja and Madhva, hedged all dates, table kept to 3 columns for phone width. Conventions fixed here: Shankara c. 700-750 CE; Ramanuja c. 1077-1157 (tradition 1017-1137); Madhva 1238-1317 (some 1199-1278); Gaudapada 6th-7th c.; Brahma Sutras about 555 sutras in 4 chapters, surviving form c. 400-450 CE; five differences = God-soul, God-matter, soul-matter, soul-soul, matter-matter.
 
