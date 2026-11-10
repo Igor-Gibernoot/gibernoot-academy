@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-10 ch18-no-god (Level 18, concept, 19 cards, no widget, 1 image)
+Built `ch18/no-god.yaml`. Widgets checked: none fits (definitions/readings compared; condition-chain not suited). Images: 1 added (Kamakura Great Buddha, Amida, CC BY-SA 3.0); the others none: no free portrait needed (Batchelor, Wallace living, no free image sought). Choices: Wallace's rebirth view hedged as reported by reviewers (no primary text retrieved). Conventions fixed here: gods = devas in samsara; MN 63 only quoted phrase; religion defined two ways (god-centred vs practice-and-community).
+
 ## 2026-11-10 ch18-zen (concept, 17 cards, no widget; widgets checked: condition-chain (does not fit), README index scan found nothing for words vs experience)
 Built `ch18/zen.yaml`. Images: img/dogen.webp (traditional Soto portrait, Commons public domain, caption hedged). No rock garden (would need a school-affiliation check). Plan said ~19 cards; built 17 (merged layers card into one mcq). Mu stated as the one-word answer only; slogan paraphrased "in essence"; Daoist influence stated as debated. Hakuin omitted (not needed). Britannica main page not fully readable; used Britannica Kids and other sources, logged in VERIFIED. Summary schemas rewritten with gathered blocks after an overflow flag.
 Conventions fixed here: Zen/Chan from dhyana; Bodhidharma traditional c. 520 CE, obscure; slogan Song-era attribution (Zuting shiyuan 1108); Eisai 1141-1215 Rinzai, Dogen 1200-1253 Soto (returned 1227); Mumonkan 1228; Joshu 778-897 traditional; koan = gong'an "public case"; Rinzai koans, Soto shikantaza, emphases not split.
