@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-13 ch19-sikh
+Built `ch19/sikh.yaml` (concept, 14 cards; plan merged into fewer cards; no widget, widgets README checked: nothing is manipulated; images: guru-nanak-woodcut (Amritsar print 1870s, public domain, caption says later devotional picture; viewed, OK), harmandir-sahib (Dey.sandip, CC BY-SA 4.0); credits.yaml has no duplicates). No verbatim quotes except two Mool Mantar renderings (Nesbitt, Pashaura Singh) as given on Wikipedia "Mul Mantar", translators named. Britannica pages 403 on fetch: Britannica facts taken from search-result summaries. Autonomous choices: Gurus' dates and Khalsa 1699 per Wikipedia/Britannica; five Ks origin kept as "tradition dates to 1699"; caste card uses McLeod, village studies and Asia Times 2018 via Wikipedia "Sikhism and caste". Conventions fixed here: Sikh terms Ik Onkar, Mool Mantar (list of attributes), nirgun/sargun, Adi Granth 1604 vs Guru Granth Sahib 1708, langar, naam japna/kirat karni/vand chakna, Khalsa, five Ks; Nanak 1469-1539.
+
 ## 2026-11-13 ch19-jain
 Built `ch19/jain.yaml` (concept, 14 cards, below the ~20 plan: merged sorting, link and rival-reading cards into single mcqs; no widget, widgets README checked: nothing is manipulated; images: mahavira-statue (Vassil, CC0, 1470 Gujarat), jain-anekanta (temple painting, CC BY-SA 2.0), first viewed). No verbatim quotes except none; all paraphrase "according to" SEP/IEP/Wikipedia/Jainpedia. Autonomous choices: Wikipedia used for Digambara/Svetambara, Cort and Dundas, Siddhasena, Mallisena since SEP/Britannica did not carry them; the Ravi father/son toy is original. Conventions fixed here: see CONVENTIONS Chapter 19, Jain lesson.
 
