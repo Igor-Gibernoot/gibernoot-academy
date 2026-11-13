@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-12 ch19-traps (traps, 21 cards, 19 traps, no widget, no images)
+- Text-only questions, so no widget; traps reuse only facts already web-verified in the ch19 lessons (no new external facts, logged in VERIFIED.md). Covers Confucian category, wu wei, Laozi, ahimsa, anekanta, Khalsa, Sikh blend, Zoroastrian dualism and influence, African religion, animism, Shinto, Gnostic, Hermetic, new religions, Pew overlap, rebirth premises. Conventions fixed here: none new.
+
 ## 2026-11-12 ch19-compare (guided problem, 20 cards, no widget)
 Built autonomously. Widget: none (comparing claims and premises; nothing to manipulate, no widget fits). Images: none (a comparison of doctrines; no free non-answer image of a text or place worth a card). Choices: invented visitor Mara; the four = Judaism, Christianity, Hindu (Advaita), Buddhism; physicalism as a fifth contrast voice; AWARE numbers reused from ch10-souls (2060 arrests, ~2%); summary table cut to 3 columns (4 overflowed at phone). Web: Psalm 6:5 ESV verbatim, Daniel 12:2 c.167-164 BCE, Pharisees/Sadducees (NT vs Josephus differ), Maimonides 13th principle, Apostles' and Nicene wording, 1 Cor 15, Milinda "Neither the same nor another" (Rhys Davids), Buddhaghosa flame. Conventions fixed here: death-lesson frame = ask "what is the person?" first, then premise / kind of reason / layer; resurrection vs rebirth pairs, differences inside each pair.
 
