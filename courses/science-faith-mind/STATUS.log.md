@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-13 ch19-challenge part 1 (challenge, 27 cards, problems 1-3, no widget, no images)
+Added node ch19-challenge-2 (problems 4-5) to course.yaml. Choices: Problem 3 survey and sd cards give data only; web check done on Casaubon, Carlson, Smith, Ames-Rosemont, Appiah (Appiah stated softly, Aeon page not opened). Conventions fixed here: Orrin valley (marro 1480 vs 1200 = 280), Ismene 96 letters p=1/4 (mu 24, sigma 4.24, 33 hits, tail 0.0253, 20 readers 0.40), Hallow Reach n=800 (40/25/15/20).
+
 ## 2026-11-13 ch19-map (map, 12 cards, 10 boxes, no images)
 - Boxes: Confucius, Daoism, Jainism, Shinto, Indigenous/African and the word "religion", Sikhism, Zoroastrianism, esotericism, newer movements, four answers on death (3x3 grid plus bottom box). Edges: confucius>dao>indigenous, shinto>indigenous, jain>sikh, indigenous>esoteric>movements, sikh>movements (dashed), zoroaster/esoteric/movements>compare. No archive/ map existed. Choices: only facts already web-verified in the lessons used, plus fresh spot rechecks (Shinto Directive, Casaubon, Mool Mantar/1708, Mbiti/Gyekye); the compare lesson has no own: so its box uses its summary card. Conventions fixed here: none new.
 
