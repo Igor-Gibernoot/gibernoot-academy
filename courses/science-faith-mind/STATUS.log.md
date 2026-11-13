@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-13 ch19-map (map, 12 cards, 10 boxes, no images)
+- Boxes: Confucius, Daoism, Jainism, Shinto, Indigenous/African and the word "religion", Sikhism, Zoroastrianism, esotericism, newer movements, four answers on death (3x3 grid plus bottom box). Edges: confucius>dao>indigenous, shinto>indigenous, jain>sikh, indigenous>esoteric>movements, sikh>movements (dashed), zoroaster/esoteric/movements>compare. No archive/ map existed. Choices: only facts already web-verified in the lessons used, plus fresh spot rechecks (Shinto Directive, Casaubon, Mool Mantar/1708, Mbiti/Gyekye); the compare lesson has no own: so its box uses its summary card. Conventions fixed here: none new.
+
 ## 2026-11-12 ch19-intuition
 Built `ch19/intuition.yaml` (18 cards, no widget: text and recall; no images). Cards: welcome, layers, four questions, Confucian terms, Daoist terms, Jain vows (order) and graded ahimsa, Sikh Khalsa/5 Ks/Granth, Zoroastrian ages (build), asha/druj, Gnostic label, Hermetic dating, four answers to death, then numeric data-only (Parsi census fall 50%, Ficino-Casaubon gap 151, chance spread 4.08 for n=75 p=1/3, survey count 600). Every item taken from the lessons' own: blocks; no new external facts (VERIFIED line says so). Choices: dropped Daojia/daojiao and the Sikh three guides cards for length; own: kept to 6 blanks. Conventions fixed here: none new.
 
