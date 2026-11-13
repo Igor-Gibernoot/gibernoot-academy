@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-13: ch20-kardec (Level 20 started)
+- Built `ch20/kardec.yaml` (19 cards, concept, no widget, 2 images: Kardec portrait reused from ch01-tour, Daumier La Fluidomanie 1853). Widget decision: none; the chance-of-agreement card (5 mediums, 4 answers, 1/256) is numeric text, and a "agreement simulator" widget could be considered for ch20-method or ch20-science-view if wanted. Choices: Baudin sisters and the Fortier/Plainemaison story omitted (contested identities); pen-name origin attributed, reason unclaimed; first sitting "about 1855". Images: Fox sisters photo refused by tool (PD-US only), skipped.
+- Conventions fixed here: question counts 501 (1857) and 1019 (1860 on); five works 1857/1861/1864/1865/1868; Revue Spirite Jan 1858, Société 1 Apr 1858; "universal control" = agreement among mediums unknown to each other, reason first; running chance example 5 mediums, 4 answers, 1/256 = 0.39%.
+
 ## 2026-11-13 exam-partial3 built
 - `exams/partial3.yaml`: setting + 20 cards, 10 points, 60 min, no widget, no images; registered `file:` in course.yaml. Q1 texts (copies, shorter reading, Dead Sea Scrolls multi-select), Q2 witnesses (common link, embarrassment, two independent witnesses), Q3 Hindu/Buddhist (Nyaya order, Vedanta schools, survey margin, no-self), Q4 other traditions (syadvada count + build, Mbiti, Sikh dates, Analects), Q5 weighing (order, radiocarbon, Bayes forger, all-the-same). Choices: no Level numbers in cards; Esther only (Ezra/Nehemiah sources differ); web checks logged in VERIFIED.md (an injected instruction on a mirror page was ignored). Headless run (intro, answering, submit, time-up, results, review, exit) clean; validate 0/0; shots 0 problems. Next: ch20-kardec.
 - Conventions fixed here: see CONVENTIONS.md "Exam partial 3".

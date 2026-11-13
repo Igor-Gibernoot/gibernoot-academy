@@ -283,3 +283,6 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 
 ## Exam partial 3 (Levels 14-19)
 - Invented setting (Quillon Reading Week, Song of the Weaver, Nuh chains d.790 6 of 8, saying S prior 0.1 LR 6 and 4, Tamsin Bay n=1200 p=0.31 margin 2.62, Tessel Fragment 250 BCE vs 180-60 BCE gap 70, dealer prior 1:30 LR 1.9 -> 0.060). Numbers: 0.998^450=0.406, 2^3-1=7, 1708-1604=104. No widget, no images.
+
+## Chapter 20
+- Kardec lesson: Rivail 1804-1869, Spirits' Book 18 Apr 1857 (501 questions) and 1860 (1019, 4 books, 29 chapters); Revue Spirite Jan 1858; Société 1 Apr 1858; five works 1857/1861/1864/1865/1868; universal control = agreement of mediums strangers to each other, reason first (Revue Spirite Apr 1864); chance example 5 mediums, 4 answers, $4(1/4)^5=1/256\approx0.39\%$; Faraday Times 30 Jun 1853; Fox 1848, confession 1888, retraction 1889. Describe as adherents do, attribute claims, hedge the pen-name origin.
