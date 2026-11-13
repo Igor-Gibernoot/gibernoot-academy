@@ -280,3 +280,6 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 - Compare lesson (ch19): Mara (invented visitor) asks four traditions about death; method = ask what a person is, then premise, kind of reason, layer. Pairs: raised by God (Judaism, Christianity) vs rebirth (Hindu, Buddhist); physicalism as fifth contrast voice.
 - Challenge part 1 (ch19): invented Orrin valley (14 springs, Kettle Leaves, marro 1480 vs claimed 1200), Ismene's 96 sealed letters (p=1/4, 33 hits, exact tail 0.0253, 20 readers 0.40), Hallow Reach town survey n=800 (40/25/15/20%).
 - Challenge part 2 (ch19): Daniel c.165 BCE midpoint (167-163 consensus); gaps 1000-165=835, 539-165=374; Shinto 720 to 1868 = 1148, 1868 to 1945 = 77 (Sakamoto 1900-1945 = 45); shrines 100,000/80,000/20,000.
+
+## Exam partial 3 (Levels 14-19)
+- Invented setting (Quillon Reading Week, Song of the Weaver, Nuh chains d.790 6 of 8, saying S prior 0.1 LR 6 and 4, Tamsin Bay n=1200 p=0.31 margin 2.62, Tessel Fragment 250 BCE vs 180-60 BCE gap 70, dealer prior 1:30 LR 1.9 -> 0.060). Numbers: 0.998^450=0.406, 2^3-1=7, 1708-1604=104. No widget, no images.

@@ -1,0 +1,504 @@
+id: exam-partial3
+title: Partial Exam 3
+kind: exam
+
+# Exam lesson (js/exam.js). Original exam (no professor's exam): all numbers checked by script (twice).
+# Covers Levels 14 to 19. Five questions of 2 points; every question restates what it needs.
+
+minutes: 60
+
+rules: |
+  This is **Partial Exam 3** on Levels 14 to 19: Judaism and the Torah, Christianity and the Gospels, Islam and the Qur'an, Hindu thought, Buddhist thought, and other traditions around the world.
+
+  - **One hour**, **10 points**, 5 questions worth 2 points each, split into small parts. The bar at the top counts the time down; when it ends, the exam is submitted for you.
+  - **No feedback while you work.** Pick or type an answer and press *Next*. You can go back and change any answer until you submit.
+  - Each card shows its points. Some questions let you select **all** that apply; read the card.
+  - At the end, a submit slide shows which questions are still empty. **Unanswered questions count as wrong.**
+  - After submitting you get your score and a **review** of every card: your answer, the correct one, why each tempting wrong answer fails, and the explanation.
+  - Work on **paper first** and keep your notes closed. Numeric answers may be typed as decimals; three decimals are enough unless the card says otherwise.
+  - The exam never asks you to say which tradition is right. It asks what a text or view says, what a number shows, and what a claim must pay for.
+
+  The setting (a reading week) is the first card. Every question restates what it needs.
+
+debrief: |
+  Use the review to see where points went. The skills behind the five questions (2 points each):
+
+  - **Texts and how they travel** (Q1): the chance that a line survives successive copyings, $(1-\varepsilon)^{wk}$ for $w$ words and $k$ copies, the rule of thumb that the shorter or harder reading is preferred and why many copies from one source count as one witness, and what the Dead Sea Scrolls do and do not show.
+  - **Witnesses to a saying** (Q2): the common link in a set of transmission chains and the two readings of it (the point where a report was put into circulation, or an early real teacher), the criterion of embarrassment and its limits, and combining two independent witnesses with
+    $$\text{posterior odds}=\text{LR}_1\cdot\text{LR}_2\cdot\text{prior odds}.$$
+  - **Hindu and Buddhist thought** (Q3): the five members of a Nyaya inference, the three Vedanta schools on the self and Brahman, the margin of error $1.96\sqrt{p(1-p)/n}$ for a survey, and the Buddhist claim "no permanent self" against "no person".
+  - **Other traditions** (Q4): the seven predications of Jain syadvada as the $2^3-1$ non-empty combinations of three basic ones, Mbiti's *sasa* and living-dead, the dates of the Sikh scripture, and why a collection compiled by followers must be read as a text with a history.
+  - **Weighing across traditions** (Q5): the steps of a fair comparison, what a radiocarbon date of parchment can and cannot date, the odds form of Bayes' rule with forgers in mind, and why "all religions say the same" is a claim to be tested.
+
+  **Next:** the course turns to Spiritism and Allan Kardec: his doctrine, his method of collecting messages from mediums, and how both can be examined.
+
+cards:
+  - type: text
+    id: setting
+    title: The setting, the Quillon Reading Week
+    body: |
+      The **Quillon Reading Week** is a study week of five sessions: on how ancient texts were copied, on witnesses to a saying in Christian and Islamic sources, on Hindu and Buddhist thought, on other traditions, and a closing session that weighs claims across traditions.
+
+      The questions are independent. **Every question restates what it needs.** Probabilities are decimals; "odds" means the probability of a hypothesis divided by the probability of its rival. Where a view is described, it is described *according to* someone: the exam asks what follows from it, not whether it is true. All towns, scribes, manuscripts, transmitters, surveys and numbers marked as invented are invented for the exam.
+
+  # ------------------------------------------------------------- Question 1
+  - type: numeric
+    id: q1-copy
+    points: 0.7
+    tag: Question 1 · Texts and how they travel
+    title: (a) Three copies in a row
+    prompt: |
+      In an invented scriptorium, a scribe copies a scroll, then a second scribe copies that copy, then a third copies the second copy. Each word is copied correctly with probability $0.998$, independently of every other word and every other copying. A certain line has $150$ words.
+
+      What is the probability that the line is still **word for word the same** as the original after the three copyings? (Three decimals.)
+    answer: 0.406
+    tolerance: 0.002
+    answerText: '0.998^450 ≈ 0.406'
+    wrong:
+      - value: 0.741
+        feedback: |
+          This is $0.998^{150}$, the chance that the line survives **one** copying. There are three copyings in a row, and each one can add errors.
+      - value: 0.1
+        feedback: |
+          This subtracts the error rates, $1-0.002\times450$. Independent chances multiply; subtracting is only a rough guide for tiny totals and here it is far off.
+      - value: 0.994
+        feedback: |
+          This is $0.998^3$, the chance for one word to survive three copyings, but the line has $150$ words, each of which must survive.
+    explanation: |
+      Each of the $150$ words must be right in each of the $3$ copyings, so $150\times3=450$ independent chances multiply:
+      $$P=0.998^{450}\approx0.406.$$
+      A tiny error rate per word still leaves a line that has probably changed after three copies, and each later copy starts from the earlier copy's mistakes. This is why scholars compare many independent copies instead of trusting any one.
+
+  - type: mcq
+    id: q1-reading
+    points: 0.6
+    tag: Question 1 · Texts and how they travel
+    title: (b) Two readings of one line
+    prompt: |
+      A line of the invented *Song of the Weaver* survives in two forms. Form A: "the elder wept at the gate", found in $3$ medieval copies. Form B: "the elder, being a righteous man, wept at the gate", found in $6$ copies, all of which were copied from one lost earlier copy. Which reasoning is the most careful for choosing between them?
+    options:
+      - text: Lean to A as a rule of thumb. The extra phrase in B looks like the kind of explanation a scribe adds, and the $6$ copies of B count as one witness because they share a single source. This is a probability, not a proof.
+        correct: true
+      - text: Choose B, because six copies outweigh three.
+        feedback: |
+          Copies that descend from one lost copy are not independent: they repeat one scribe's choice six times. Counting copies instead of independent witnesses is the usual slip.
+      - text: Choose B, because the longer reading carries more information, and more information is more likely to be original.
+        feedback: |
+          Scribes tend to add explanations and smooth difficulties, so as a rule of thumb the shorter or harder reading is the one to suspect less. Length alone proves nothing, but it does not favour B.
+      - text: A is certainly original, because the shorter reading is always right.
+        feedback: |
+          "Shorter" is a rule of thumb, not a law: a scribe can also drop words by accident. The rule gives a lean, to be weighed with the age and independence of the witnesses.
+    explanation: |
+      Textual critics use rules of thumb, such as preferring the shorter or harder reading, because copyists more often add, explain or smooth than cut. They also count **independent** witnesses: copies that descend from one source are one witness. Here A has three copies and B effectively one, and B's extra phrase reads like an addition, so A is favoured, with the honest label "probable".
+
+  - type: mcq
+    id: q1-scrolls
+    points: 0.7
+    multiple: true
+    tag: Question 1 · Texts and how they travel
+    title: (c) What the scrolls show
+    prompt: |
+      The Dead Sea Scrolls are manuscripts found from 1947 in caves near Qumran, on the northwest shore of the Dead Sea. **Select all** statements that are correct.
+    options:
+      - text: They include copies of books of the Hebrew Bible roughly a thousand years older than the oldest medieval Hebrew Bible manuscripts.
+        correct: true
+      - text: They also include non-biblical works of the community that held them, such as a rule for its members.
+        correct: true
+      - text: No copy of the Book of Esther has been identified among them.
+        correct: true
+      - text: They contain the earliest known copies of the New Testament.
+        feedback: |
+          The scrolls are Jewish texts from before and around the time of Jesus; they are not Christian writings. The New Testament copies are of later centuries.
+      - text: Every biblical copy among them matches the medieval Hebrew text word for word.
+        feedback: |
+          Some copies agree closely with the medieval text, but others differ, and the scrolls show real variants. Their value is that they let us test how stable the text was.
+      - text: Scholars agree that one single group wrote every scroll and kept them all as their own library.
+        feedback: |
+          Scholars debate who held the library (a sect such as the Essenes, a Jerusalem library hidden in the caves, or another group). Many scrolls are copies of texts the holders did not compose.
+    explanation: |
+      The scrolls give copies of biblical books about a thousand years older than the medieval manuscripts, plus sectarian and other texts. Esther is the one book for which no copy has been identified, which is debated (accident, or a choice by the holders). They show both stability and variation in the biblical text, and who owned them remains a live scholarly debate.
+
+  # ------------------------------------------------------------- Question 2
+  - type: numeric
+    id: q2-link
+    points: 0.5
+    tag: Question 2 · Witnesses to a saying
+    title: (a) The common link
+    prompt: |
+      In an invented set of hadith chains (a *hadith* is a report of what the Prophet Muhammad said or did, and each comes with an *isnad*, the chain of people who passed it on), a collector who died in 870 records $8$ different chains for one report. Six of the eight chains pass through the same transmitter, Nuh (died 790); the other two go through unrelated transmitters.
+
+      What fraction of the chains pass through Nuh, the **common link**? (A decimal.)
+    answer: 0.75
+    tolerance: 0.005
+    answerText: '6/8 = 0.75'
+    wrong:
+      - value: 0.25
+        feedback: |
+          This is the share that does **not** pass through Nuh, $2/8$. The question asks for the share that does.
+      - value: 0.6
+        feedback: |
+          This divides by $10$. The collector recorded $8$ chains in all, so the denominator is $8$.
+    explanation: |
+      Six of $8$ chains converge on Nuh: $6/8=0.75$. A transmitter where most chains converge, and before whom there is only a single strand, is called a common link. It is the earliest point at which the report is attested in wide circulation, which is where the next card picks up.
+
+  - type: mcq
+    id: q2-claim
+    points: 0.5
+    tag: Question 2 · Witnesses to a saying
+    title: (b) What a common link shows
+    prompt: |
+      Take the same report, with Nuh (died 790) as the common link of the chains. Which statement best matches how scholars use the idea?
+    options:
+      - text: The report can be reliably dated at least to Nuh's time. Juynboll took Nuh to be where the report was put into circulation, perhaps its inventor, while Motzki read a common link as an early collector and teacher who really received it from earlier people.
+        correct: true
+      - text: The common link proves the saying goes back to the Prophet, since six chains agree.
+        feedback: |
+          Agreement among later chains that all pass through one man shows that man's role, not what came before him. The single strands before him are the weak part, as both camps agree.
+      - text: The common link proves that Nuh invented the report.
+        feedback: |
+          Schacht and Juynboll leaned towards that reading, but critics such as Motzki reject it as an argument from silence. Another reading is that Nuh was a real early teacher.
+      - text: The single early strands before Nuh are the most reliable part of the chains, because they are the oldest.
+        feedback: |
+          The reverse is argued: where a chain is a single strand there is no cross-check, while at the common link many independent chains converge. Age alone does not make a strand reliable.
+    explanation: |
+      Where chains fan out from one transmitter, the fan is evidence that the report was circulating by his time. What lies before him is a single line with no check. Juynboll read the common link as the probable originator, Motzki as a first systematic collector and professor of real earlier material; both agree it does not by itself reach the Prophet. Two views, two meanings of the same convergence.
+
+  - type: mcq
+    id: q2-embar
+    points: 0.5
+    tag: Question 2 · Witnesses to a saying
+    title: (c) An embarrassing story
+    prompt: |
+      Historians of the Gospels sometimes use the **criterion of embarrassment**: a story that would have embarrassed the early Christian communities is less likely to have been invented by them. The classic case is the baptism of Jesus by John the Baptist, which can seem to place John above Jesus. Which statement is the most careful?
+    options:
+      - text: "It gives a reason to think the baptism was remembered rather than invented, but it is a clue and not a proof: what counts as embarrassing is a judgement about the writers, and it is used together with other criteria."
+        correct: true
+      - text: It proves the baptism happened, because no one invents an embarrassing story.
+        feedback: |
+          Communities can invent stories for many reasons, and what looks embarrassing to us may not have been to them. The criterion raises plausibility; it does not close the case.
+      - text: It shows the baptism did not happen, because the Gospels try to soften the story.
+        feedback: |
+          Softening shows the later writers were uneasy with the story, which is the same observation the criterion starts from. It fits an earlier story being reworked, not an invented one.
+      - text: It applies to any saying that is repeated in several Gospels.
+        feedback: |
+          Repetition in several Gospels is a different test (multiple attestation, and then asking whether the sources are independent). Embarrassment concerns material that cuts against the community's interests.
+    explanation: |
+      The logic: authors rarely invent what weakens their own case, so such a story is more probably traditional. The limits: embarrassment is in the eye of the historian, the Gospels respond to it in different ways (Matthew adds an exchange between John and Jesus, John's Gospel omits the baptism), and critics say it can reflect theology rather than history. Scholars such as Meier use it together with other criteria.
+
+  - type: numeric
+    id: q2-odds
+    points: 0.5
+    tag: Question 2 · Witnesses to a saying
+    title: (d) Two witnesses
+    prompt: |
+      An invented saying $S$ is attributed to a teacher. Before looking at the sources, the odds that the teacher really said it are $1:10$, that is $0.1$. Two sources report $S$, and they are **independent** (neither used the other). The first source is $6$ times more likely to report $S$ if the teacher said it than if not (likelihood ratio $6$); for the second the likelihood ratio is $4$.
+
+      What is the probability that the teacher said $S$, after both sources? (Three decimals.)
+    answer: 0.706
+    tolerance: 0.002
+    answerText: '2.4 / 3.4 ≈ 0.706'
+    wrong:
+      - value: 0.5
+        feedback: |
+          This adds the likelihood ratios ($6+4=10$) instead of multiplying them. Independent evidence multiplies the odds: $0.1\times10=1$ would give odds of $1$, not $2.4$.
+      - value: 2.4
+        feedback: |
+          $2.4$ is the posterior **odds**, not the probability. A probability is $O/(1+O)$.
+      - value: 0.375
+        feedback: |
+          This uses only the first source, $0.1\times6=0.6$ and $0.6/1.6$. The second independent source also counts.
+    explanation: |
+      Independent likelihood ratios multiply: $6\times4=24$. The posterior odds are $0.1\times24=2.4$, so
+      $$P=\frac{2.4}{1+2.4}\approx0.706.$$
+      This holds only if the sources are independent. If the second source copied the first, its ratio would add nothing and the answer would be $0.375$, which is why Gospel scholars ask whether two reports come from separate sources.
+
+  # ------------------------------------------------------------- Question 3
+  - type: order
+    id: q3-nyaya
+    points: 0.5
+    tag: Question 3 · Hindu and Buddhist thought
+    title: (a) An inference in five members
+    prompt: |
+      The Nyaya school of Hindu philosophy sets out an inference to convince another person in five members. Put the five members of one such argument in the standard order.
+    steps:
+      - 'Thesis: there is a fire in the hut.'
+      - 'Reason: because there is smoke coming from it.'
+      - 'Example: wherever there is smoke there is fire, as in a kitchen.'
+      - 'Application: this hut has smoke of just that kind.'
+      - 'Conclusion: therefore, there is a fire in the hut.'
+    explanation: |
+      The five members, in Sanskrit *pratijna*, *hetu*, *udaharana*, *upanaya* and *nigamana*, are thesis, reason, example (which states the general link), application (which says the case has the reason) and conclusion. The conclusion restates the thesis, now supported.
+
+  - type: mcq
+    id: q3-schools
+    points: 0.5
+    tag: Question 3 · Hindu and Buddhist thought
+    title: (b) Which school?
+    prompt: |
+      A teacher says: "The individual self is real, and Vishnu (Brahman) is real. The difference between them is real and never ends; even a freed self does not become Vishnu." Which of these Vedanta views (or others) does this describe?
+    options:
+      - text: Dvaita, the dualism taught by Madhva.
+        correct: true
+      - text: Advaita, the non-dualism taught by Shankara.
+        feedback: |
+          Advaita holds that the individual self is ultimately not different from Brahman, and the difference is due to ignorance. Here the difference is eternal.
+      - text: Vishishtadvaita, the qualified non-dualism taught by Ramanuja.
+        feedback: |
+          Ramanuja holds that Brahman is one with selves and matter as its body, so the self is a real, dependent part, not a separate thing for ever. Madhva sees the distinction as eternal and basic.
+      - text: Samkhya, which is the claim that matter and many selves are two distinct principles.
+        feedback: |
+          Samkhya's dualism is between purusha (selves) and prakriti (nature), not between the self and a supreme God such as Vishnu.
+    explanation: |
+      Madhva's Dvaita holds that God (Vishnu), the many selves and matter are eternally distinct, with five basic differences, and that liberation does not make the self one with God. Ramanuja and Shankara each hold that the self and Brahman are in some sense one. All three read the same Upanishads, which is the point of the comparison.
+
+  - type: numeric
+    id: q3-survey
+    points: 0.5
+    tag: Question 3 · Hindu and Buddhist thought
+    title: (c) Rebirth in one town
+    prompt: |
+      In the invented town of Tamsin Bay, a random survey of $n=1200$ adults finds that $31\%$ say they believe in rebirth. The $95\%$ margin of error is $1.96\sqrt{p(1-p)/n}$ with $p=0.31$.
+
+      What is the margin of error, in percentage points? (Two decimals.)
+    answer: 2.62
+    tolerance: 0.02
+    answerText: '≈ 2.62 percentage points'
+    wrong:
+      - value: 1.34
+        feedback: |
+          This is one standard error, $\sqrt{p(1-p)/n}\approx1.34$ points, without the factor $1.96$.
+      - value: 8.28
+        feedback: |
+          This uses $n=120$, a tenth of the sample. The sample is $1200$.
+      - value: 90.65
+        feedback: |
+          This forgets to divide by $\sqrt n$. The error shrinks with the square root of the sample size.
+    explanation: |
+      $p(1-p)=0.31\times0.69=0.2139$, so $\sqrt{0.2139/1200}\approx0.01335$. Multiply by $1.96$ to get $0.0262$, that is $2.62$ points: the true share is probably between about $28.4\%$ and $33.6\%$. The margin covers **sampling** only. It says nothing about wording, about what "rebirth" means to each respondent (a Hindu rebirth of a soul, a Buddhist rebirth without a permanent self), or about a sample that is not random.
+
+  - type: mcq
+    id: q3-noself
+    points: 0.5
+    tag: Question 3 · Hindu and Buddhist thought
+    title: (d) No self, no person?
+    prompt: |
+      Early Buddhist teaching says that a person is made of five changing aggregates (body, feeling, perception, volitions, consciousness) and that none of them is a permanent, unchanging self. According to a common reading of this teaching, which statement is correct?
+    options:
+      - text: What is denied is a permanent, unchanging self; persons still exist as ever-changing streams of aggregates, in everyday (conventional) speech and for ethics.
+        correct: true
+      - text: No persons exist at all, so no one can be responsible for anything.
+        feedback: |
+          Buddhist writers who defend this teaching distinguish "no permanent self" from "no person". The person is a real continuing stream of causes and effects, and karma and ethics are meant to hold within it.
+      - text: The self is the body, the first aggregate, which is the one stable thing.
+        feedback: |
+          The body is also an aggregate, and it changes; it is listed among the things said not to be the self.
+      - text: There is a permanent self, which becomes visible only in nirvana.
+        feedback: |
+          That is the claim the teaching rejects. The Upanishadic atman, a permanent Self, is the contrast the Buddhist teaching was understood to deny.
+    explanation: |
+      The teaching targets a permanent, independent self. Persons are treated as conventionally real: a stream of changing aggregates linked by cause and effect, much as a river is real though no water stays. Some modern thinkers (Parfit, Hume's bundle) offer a similar reductionist picture, and others read the same teaching more strongly. The disagreement is about how much "conventional" gives the person.
+
+  # ------------------------------------------------------------- Question 4
+  - type: numeric
+    id: q4-syad
+    points: 0.3
+    tag: Question 4 · Other traditions
+    title: (a) Jain predications
+    prompt: |
+      Jain philosophy teaches *syadvada*: any claim about a thing is true "in some respect", and there are three basic predications: "it is" (*asti*), "it is not" (*nasti*) and "it is inexpressible" (*avaktavya*). The **seven** forms are all the **non-empty combinations** of these three, taken without regard to order.
+
+      How many non-empty combinations of three basic predications are there?
+    answer: 7
+    tolerance: 0.01
+    answerText: '2^3 - 1 = 7'
+    wrong:
+      - value: 8
+        feedback: |
+          $2^3=8$ counts the empty combination (say nothing) as well. The seven forms leave that one out.
+      - value: 3
+        feedback: |
+          These are only the three basic predications. Combinations such as "is and is not" are further forms.
+      - value: 6
+        feedback: |
+          Counting only pairs and the full triple gives $3+1=4$; counting ordered pairs gives $6$. Order does not matter here, and the three single predications are forms too.
+    explanation: |
+      Each of the three basic predications is either in the combination or out of it, which gives $2^3=8$ choices; removing the empty one leaves $7$: three single ones, three pairs and one triple. Jain texts list these seven, and it is the number of the standard list, not a coincidence of counting (they explain it as the only seven answers a question about a thing can need).
+
+  - type: build
+    id: q4-count
+    points: 0.2
+    tag: Question 4 · Other traditions
+    title: (b) For $k$ basic predications
+    prompt: |
+      Complete the line for the number $N$ of non-empty combinations of $k$ basic predications, taken without regard to order.
+    prefix: 'N ='
+    suffix: ''
+    tiles: ['2^{k}', '-', '1', '+', 'k', '\times']
+    answers:
+      - ['2^{k}', '-', '1']
+    wrong:
+      - answer: ['2^{k}']
+        feedback: 'That counts the empty combination too. The non-empty ones are one fewer.'
+      - answer: ['2^{k}', '+', '1']
+        feedback: 'Adding one would count something that is not a combination. The empty choice is removed, so subtract one.'
+    explanation: |
+      Each predication is in or out, giving $2^k$ choices; take away the empty one: $N=2^k-1$. For $k=3$ this is $7$.
+
+  - type: mcq
+    id: q4-sasa
+    points: 0.5
+    tag: Question 4 · Other traditions
+    title: (c) Time and the remembered dead
+    prompt: |
+      According to the Kenyan philosopher John Mbiti, in his account of many African peoples' view of time, **sasa** is the lived present (with the near past and near future) and **zamani** is the long past where everything finally goes. He says the dead who are still remembered by name by people who knew them are the "living-dead". In an invented village, Amina died four years ago and her grandchildren remember her well. According to Mbiti, where is Amina?
+    options:
+      - text: In sasa, as one of the living-dead, for as long as people who knew her remember her; when the last of them dies she passes into zamani.
+        correct: true
+      - text: In zamani already, because she is dead.
+        feedback: |
+          On Mbiti's account death alone does not send a person to zamani. A remembered person is still part of the sasa of the family.
+      - text: Alive in the ordinary sense, because Mbiti says nobody really dies.
+        feedback: |
+          Mbiti does not say that. He distinguishes the living-dead from the living and from the long dead in zamani.
+      - text: In sasa for ever, because the living-dead never leave it.
+        feedback: |
+          Memory is the key: once no one who knew her is left, she moves into zamani. Critics also note that Mbiti's picture does not fit every African people, so it should be read as an account of some.
+    explanation: |
+      Mbiti ties the living-dead to memory: remembered by name, a person remains in the sasa; forgotten, the person passes into zamani. Critics argue that he generalises about "African religion" from some peoples (and that some peoples have different views of time), so the view is better stated as "according to Mbiti" than as one fact about all of Africa.
+
+  - type: numeric
+    id: q4-sikh
+    points: 0.4
+    tag: Question 4 · Other traditions
+    title: (d) A scripture becomes the Guru
+    prompt: |
+      In Sikh tradition the scripture was compiled by Guru Arjan in 1604 as the Adi Granth ("first book"). In 1708 Guru Gobind Singh gave the text the status of Guru, after which it is called the Guru Granth Sahib.
+
+      How many years lie between the compilation in 1604 and the elevation in 1708?
+    answer: 104
+    tolerance: 0.5
+    answerText: '1708 - 1604 = 104'
+    wrong:
+      - value: 4
+        feedback: |
+          This subtracts 1704, a date some sources give for when hymns of Guru Tegh Bahadur were added, from 1708. The question asks for 1604 to 1708.
+      - value: 2
+        feedback: |
+          This subtracts 1706, another date given for the same addition. The question runs from 1604 to 1708.
+      - value: 114
+        feedback: |
+          This is an addition slip: $1708-1604=104$, not $114$.
+    explanation: |
+      $1708-1604=104$ years, a little more than a century in which the book was a revered text (the Adi Granth) before its status as the Guru was declared. Sources differ on the exact date within 1604 and 1708 and on when the hymns of Guru Tegh Bahadur were added (1704 and 1706 are both cited), but the years used here are agreed.
+
+  - type: mcq
+    id: q4-analects
+    points: 0.6
+    tag: Question 4 · Other traditions
+    title: (e) Who said it?
+    prompt: |
+      A reader says: "I cannot assume that every saying in the Analects was spoken by Confucius." According to scholars, the Analects (*Lunyu*) is a collection of sayings and short dialogues that was put together by his followers, or their followers, over a long time after his death. Which is the best defence of the reader's caution?
+    options:
+      - text: "A text assembled by later hands over time should be weighed like any other text with a history: some sayings may be later, and layers and variants have to be considered."
+        correct: true
+      - text: The Analects is a forgery with no value as evidence for Confucius's thought.
+        feedback: |
+          That overstates the doubt. Even if some sayings are later, the collection is the main early witness to the Confucian tradition, and doubt about a layer is not rejection of the whole.
+      - text: Because his followers compiled it, every saying is word for word his.
+        feedback: |
+          Being compiled by followers does not guarantee verbatim record; the text was shaped over a long period, and some scholars see later additions.
+      - text: Confucius wrote the book himself, so it is certain.
+        feedback: |
+          The tradition does not claim that. The sayings refer to him in the third person and the collection is credited to followers.
+    explanation: |
+      This is textual criticism again: a collection compiled by followers over a long time is a layered text, to be read with care about which parts are earlier. Doubt about a saying's source is not a verdict on its value, and a scholar can still ask what the tradition taught. Some scholars treat certain books as earlier cores, but views differ.
+
+  # ------------------------------------------------------------- Question 5
+  - type: order
+    id: q5-order
+    points: 0.5
+    tag: Question 5 · Weighing across traditions
+    title: (a) A fair comparison
+    prompt: |
+      The closing session compares what four traditions say about one question. Put the steps of a fair comparison in the right order.
+    steps:
+      - 'Choose one shared question, for example "what happens to a person at death?"'
+      - 'State each tradition''s answer in its own terms, *according to* that tradition.'
+      - 'Find the premise behind each answer, for example what a person is.'
+      - 'Name the kind of reason each relies on (text, argument, experience or community tradition).'
+      - 'Label each claim by layer: established fact, live scholarly debate, or faith commitment.'
+      - 'Say where thoughtful people part ways and why, without declaring a winner.'
+    explanation: |
+      One shared question makes the answers comparable. Each answer is stated as its tradition would state it, then the premise and kind of reason are exposed, then the layers are kept apart, and only then is the point of disagreement named. Putting the verdict first, or comparing answers to different questions, is the usual way a comparison goes wrong.
+
+  - type: numeric
+    id: q5-dating
+    points: 0.5
+    tag: Question 5 · Weighing across traditions
+    title: (b) Dating a fragment
+    prompt: |
+      An invented museum fragment, the Tessel Fragment, is a piece of parchment with a text said to have been **written** in $250$ BCE. A radiocarbon test of the parchment (calibrated, $95.4\%$ range) gives $180$ to $60$ BCE. Radiocarbon dates when the animal lived, not when the words were written; the writing cannot be older than the skin.
+
+      By how many years does the claimed writing date of $250$ BCE come **before** the earliest edge of the $95.4\%$ range?
+    answer: 70
+    tolerance: 0.5
+    answerText: '250 - 180 = 70'
+    wrong:
+      - value: 190
+        feedback: |
+          This measures to the **latest** edge, $250-60=190$. The test is how far the claim lies before the earliest possible date of the skin.
+      - value: 120
+        feedback: |
+          This is the width of the range, $180-60=120$ years, not the gap to the claim.
+      - value: 0
+        feedback: |
+          A claim lying outside the range is not within it. The claimed date is $70$ years earlier than the earliest edge.
+    explanation: |
+      On BCE dates the earlier date is the larger number: $250-180=70$. So the writing on this parchment is very unlikely to date from $250$ BCE. The text itself could still be older: this copy may be a later copy of a composition from $250$ BCE or before. The test limits the date of the manuscript, not of the composition.
+
+  - type: numeric
+    id: q5-bayes
+    points: 0.5
+    tag: Question 5 · Weighing across traditions
+    title: (c) Genuine or forged?
+    prompt: |
+      A dealer offers a parchment fragment of a kind that is genuine with prior odds of only $1:30$. A radiocarbon range that fits the claimed date is found with probability $0.95$ if the fragment is genuine, and with probability $0.5$ if it is forged (forgers often use old blank parchment).
+
+      What is the probability that this fragment is genuine, given that the range fits? (Three decimals.)
+    answer: 0.06
+    tolerance: 0.002
+    answerText: '0.0633 / 1.0633 ≈ 0.060'
+    wrong:
+      - value: 0.95
+        feedback: |
+          This treats $P(\text{fit}\mid\text{genuine})$ as the probability of being genuine. The prior odds of $1:30$ must be multiplied by the likelihood ratio.
+      - value: 0.063
+        feedback: |
+          $0.0633$ is the posterior **odds**. Convert to a probability with $O/(1+O)$, which gives about $0.060$.
+      - value: 0.655
+        feedback: |
+          This is $0.95/(0.95+0.5)$, which ignores the prior odds. Most such fragments are not genuine, and that matters.
+    explanation: |
+      The likelihood ratio is $0.95/0.5=1.9$. The posterior odds are $1.9\times\tfrac1{30}\approx0.0633$, so the probability is $0.0633/1.0633\approx0.060$. A matching radiocarbon date helps, but a forger who plans for it makes it weak evidence, and a low prior stays low.
+
+  - type: mcq
+    id: q5-same
+    points: 0.5
+    tag: Question 5 · Weighing across traditions
+    title: (d) "All religions say the same"
+    prompt: |
+      At the end of the week a speaker says: "All religions teach the same thing at the core, so their differences do not matter." Which assessment is the most careful?
+    options:
+      - text: It is itself a claim to test, topic by topic. On some themes (for example care for others) many traditions overlap, but on what a person is, traditions give different answers (made by God, reborn, or no permanent self) from different premises.
+        correct: true
+      - text: It is true, because every tradition has moral rules.
+        feedback: |
+          Overlap in moral rules is real, but it does not show that the core teachings agree. Traditions differ on what grounds the rules and on what a person is.
+      - text: It is false, since the traditions disagree on one doctrine.
+        feedback: |
+          One disagreement shows the claim cannot hold for every theme, but it does not settle which themes overlap. The claim has to be tested theme by theme.
+      - text: It cannot be assessed, because traditions cannot be compared at all.
+        feedback: |
+          Fair comparison is possible when one question is shared and each tradition is stated in its own terms. Treating them as incomparable is as unfair as treating them as identical.
+    explanation: |
+      "The same at the core" is a thesis with a burden of proof: where does the overlap hold, and where do the premises differ? Comparing what each tradition says a person is shows real differences in claims, and also some shared concerns. The careful move is neither "all the same" nor "no comparison", but to test each theme and name the premise at which people part.
