@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-12 ch19-compare (guided problem, 20 cards, no widget)
+Built autonomously. Widget: none (comparing claims and premises; nothing to manipulate, no widget fits). Images: none (a comparison of doctrines; no free non-answer image of a text or place worth a card). Choices: invented visitor Mara; the four = Judaism, Christianity, Hindu (Advaita), Buddhism; physicalism as a fifth contrast voice; AWARE numbers reused from ch10-souls (2060 arrests, ~2%); summary table cut to 3 columns (4 overflowed at phone). Web: Psalm 6:5 ESV verbatim, Daniel 12:2 c.167-164 BCE, Pharisees/Sadducees (NT vs Josephus differ), Maimonides 13th principle, Apostles' and Nicene wording, 1 Cor 15, Milinda "Neither the same nor another" (Rhys Davids), Buddhaghosa flame. Conventions fixed here: death-lesson frame = ask "what is the person?" first, then premise / kind of reason / layer; resurrection vs rebirth pairs, differences inside each pair.
+
 ## 2026-11-12 ch19-movements (concept, 17 cards, no widget)
 Built autonomously. Widget: none (history and claims; the only numbers are a birthday age and a survey share, plain numeric cards). Images: Bahá'u'lláh 1868 photo (PD), Joseph Smith c.1842 painting (PD); Book of Mormon 1830 title page refused by the tool (PD-US only), none other found; screenshots not viewed (shots flagged nothing). Choices: Pew figures taken from Pew's page ("about 40%", "six in ten"); sample size and the 62% not used (unconfirmed on page). LDS membership and Baha'i totals not used. Seal-of-prophets objection sourced from Baha'i-side pages only, stated as an objection, not as Islamic scholarship. Conventions fixed here: Baha'i and Mormon dates as in CONVENTIONS Chapter 19; New Age = "milieu" (Bruce, Heelas and Woodhead).
 
