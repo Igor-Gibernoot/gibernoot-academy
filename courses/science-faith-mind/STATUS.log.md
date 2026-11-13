@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-12 ch19-confucius (22 cards, concept, no widget, 1 image: Confucius portrait attributed to Wu Daozi)
+Choices: no widget (a conceptual tour of texts, nothing to manipulate); autonomous session. 1 image: `confucius.webp` (Commons "Confucius Tang Dynasty.jpg", public domain; caption hedges the doubtful Wu Daozi attribution). Quotations only from Legge via standardebooks.org (15.23/15.24, 11.11/11.12, 3.12, 3.13) and IEP (12.11, 11.9); 2.3, 6.22, 7.23, 13.18 in essence. Hook resolved at `laws-virtue`. Legalists named as rival view, Mozi/Mencius 3A5 in the family-loyalty explanation, Tiwald vs Ames/Rosemont/Neville in `reading`.
+Conventions fixed here: Confucius traditional 551-479 BCE; Legge numbering 15.23 and 11.11 vs 15.24 and 11.12 noted; terms ren, li, junzi, xiao, shu, Tian; role vs virtue ethics readings.
+
 ## 2026-11-10 Audit, Level 18 (light plus fact spot-check)
 Checked: level references (only own-level "Level 18" and a named teaser to Level 19), all `own:` bullets (self-contained, formulas shown), `file:` on all 14 nodes, images per lesson, terminology grep across ch01-ch18 (anatta, svabhava, khandha/skandha glossed, Theravada, nirvana/nibbana: consistent, Pali vs Sanskrit glossed at first use). Web re-checks: Zuting shiyuan 1108 slogan (earliest documented use of the line 952, Tsu-t'ang chi: "Song-era" ok), Lutz 2004 (8 practitioners, 10 students), Mind and Life Oct 1987 Dharamsala (Engle, Varela), Kabat-Zinn 1979 clinic, MMK 27 chapters about 450 verses, Milindapanha dating (about 100 BCE to 200 CE, Livius supports), Dalai Lama principle (kept paraphrase "in essence"), Dogen 1200-1253. No mismatches. All ch18 VERIFIED lines carry `web:`. STATUS Current updated (next: ch19-confucius).
 Conventions fixed here: none.
