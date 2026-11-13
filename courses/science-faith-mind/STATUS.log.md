@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-13 ch19-challenge-2 (challenge part 2, 22 cards, problems 4-5 + closing weighing, no widget, no images)
+Built `ch19/challenge-2.yaml`, added `file:` in course.yaml. Problem 4 uses real dates (Gathas c.1000, Cyrus 539, Daniel c.165 BCE: gaps 835, 374), criteria order card, Barr/Boyce premise, Hellenism; Problem 5 Shinto (712, 720, 1868, 1945; gaps 1148, 77; shrines 100,000/80,000/20,000), Directive debate, closing weighing. Choices: no images (none needed); Barr only via secondary summaries, worded "according to commentators"; Gathas "oral" claim dropped. Web-checked, see VERIFIED.md. Conventions fixed here: Daniel midpoint 165 BCE; Directive-versus-1868 span 77 years (Sakamoto's 1900-1945 gives 45).
+
 ## 2026-11-13 ch19-challenge part 1 (challenge, 27 cards, problems 1-3, no widget, no images)
 Added node ch19-challenge-2 (problems 4-5) to course.yaml. Choices: Problem 3 survey and sd cards give data only; web check done on Casaubon, Carlson, Smith, Ames-Rosemont, Appiah (Appiah stated softly, Aeon page not opened). Conventions fixed here: Orrin valley (marro 1480 vs 1200 = 280), Ismene 96 letters p=1/4 (mu 24, sigma 4.24, 33 hits, tail 0.0253, 20 readers 0.40), Hallow Reach n=800 (40/25/15/20).
 
