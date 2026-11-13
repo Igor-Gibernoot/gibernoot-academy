@@ -42,5 +42,6 @@ function play(notes, { type = 'sine', gain = 0.12 } = {}) {
 export const sounds = {
   correct: () => play([[659.3, 0, 0.16], [987.8, 0.08, 0.32]], { type: 'triangle', gain: 0.14 }),
   wrong: () => play([[196, 0, 0.18], [164.8, 0.1, 0.28]], { type: 'triangle', gain: 0.12 }),
+  medal: () => play([[784, 0, 0.1], [988, 0.08, 0.1], [1175, 0.16, 0.1], [1568, 0.24, 0.45]], { type: 'square', gain: 0.05 }),
   finish: () => play([[523.3, 0, 0.18], [659.3, 0.1, 0.18], [784, 0.2, 0.18], [1046.5, 0.3, 0.5]], { type: 'triangle', gain: 0.12 }),
 };

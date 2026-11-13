@@ -9,6 +9,7 @@ import { progress } from './progress.js';
 import { themeButton } from './theme.js';
 import { accountChip } from './trail.js';
 import { bannerEl } from './pixel.js';
+import { medalBar, medalCheck } from './medals.js';
 
 const pct = x => `${Math.round(x * 100)}%`;
 
@@ -47,5 +48,6 @@ export async function renderHome(root) {
       : h('a', { class: 'course-card', href: `#/${c.id}`, 'data-hue': c.hue ?? k % 6 }, body);
   }));
 
-  root.replaceChildren(h('div', { class: 'trail home' }, top, h('div', { class: 'course-list' }, cards)));
+  root.replaceChildren(h('div', { class: 'trail home' }, top, medalBar(), h('div', { class: 'course-list' }, cards)));
+  medalCheck().then(() => root.querySelector('.medal-bar')?.replaceWith(medalBar()));
 }

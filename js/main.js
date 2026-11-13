@@ -1,6 +1,7 @@
 // Router.
 //   #/                              academy home: the list of courses
 //   #/settings                      progress export/import/reset (all courses)
+//   #/medals                        the medal room (achievements, all courses)
 //   #/<course>                      the course's trail map
 //   #/<course>/lesson/<id>          play a lesson
 //   #/<course>/lesson/<id>/<n>      jump to card n (1-based) — handy while authoring
@@ -16,6 +17,7 @@ import { icons } from './icons.js';
 import { getCatalog, getCourse, getLesson, nextLessonAfter, isQuestion, peekSummaries, setPeekSummaries } from './content.js';
 import { setCourse, courseId, at, LEGACY_COURSE, RENAMED } from './course.js';
 import { renderHome } from './home.js';
+import { renderMedals, medalCheck } from './medals.js';
 import { progress } from './progress.js';
 import { renderTrail } from './trail.js';
 import { runSession, lessonItems } from './player.js';
@@ -34,9 +36,9 @@ const root = document.getElementById('app');
 const REVIEW_SIZE = 12;
 const RECAP_SIZE = 5;
 
-// Pixel font for titles, labels and buttons (Settings; on by default).
-const pixelFont = () => progress.pref('pixelFont', true);
-const applyPixelFont = () => { document.documentElement.dataset.pixel = pixelFont() ? 'on' : 'off'; };
+// Pixel font (Settings): 'all' (default, lessons too; math keeps its font), 'titles' (titles, labels, buttons), 'off'.
+const pixelFont = () => progress.pref('pixelStyle', progress.pref('pixelFont', true) === false ? 'off' : 'all');
+const applyPixelFont = () => { document.documentElement.dataset.pixel = pixelFont(); };
 applyPixelFont();
 
 async function route() {
@@ -50,6 +52,7 @@ async function route() {
     }
     if (RENAMED[parts[0]]) { location.replace(`#/${[RENAMED[parts[0]], ...parts.slice(1)].join('/')}`); return; }
     if (parts[0] === 'settings') return settings();
+    if (parts[0] === 'medals') { document.title = 'Medals · Gibernoot Academy'; return await renderMedals(root); }
     if (!parts.length) { document.title = 'Gibernoot Academy'; return await renderHome(root); }
     const course = (await getCatalog()).courses.find(c => c.id === parts[0]);
     if (!course) { location.replace('#/'); return; }
@@ -76,22 +79,25 @@ async function playLesson(id, startAt, readOnly = false) {
     runExam(root, {
       id, title: meta.title, data,
       onExit: () => { location.hash = at(); },
-      onFinish: stats => progress.completeLesson(id, stats),
+      onFinish: stats => { progress.completeLesson(id, stats); medalCheck(); },
     });
     return;
   }
   const saved = progress.partial(id);
+  const resume = !readOnly && startAt > 0 && saved?.n === data.cards.length ? saved : undefined;
+  // A run played from the first card in one sitting is timed (speed medals).
+  const t0 = !readOnly && !resume && !(startAt > 0) ? Date.now() : null;
   runSession(root, {
     items: lessonItems(id, data),
     mode: 'lesson',
     readOnly,
     startAt: Math.max(0, Math.min(startAt || 0, data.cards.length - 1)),
-    resume: !readOnly && startAt > 0 && saved?.n === data.cards.length ? saved : undefined,
+    resume,
     onProgress: (at, n, extra) => { if (at > 0 || progress.partial(id)) progress.savePartial(id, at, n, extra); },
     onExit: () => { location.hash = at(); },
     onFinish: async stats => {
       if (readOnly) { location.hash = at(); return; }
-      progress.completeLesson(id, stats);
+      progress.completeLesson(id, { ...stats, secs: t0 ? (Date.now() - t0) / 1000 : undefined, cards: data.cards.length });
       const next = await nextLessonAfter(id);
       doneScreen({
         title: 'Lesson complete',
@@ -130,7 +136,7 @@ async function playReview(levelId) {
     items, mode: 'review',
     onExit: () => { location.hash = at(); },
     onFinish: stats => {
-      progress.finishReview();
+      progress.finishReview('reviews');
       doneScreen({
         title: level ? `${level.title}: review done` : 'Review done',
         subtitle: 'Spaced repetition keeps it in long-term memory.',
@@ -155,7 +161,7 @@ async function playRecap(levelId) {
     cards,
     onExit: () => { location.hash = at(); },
     onFinish: stats => {
-      progress.finishReview();
+      progress.finishReview('recaps');
       doneScreen({
         title: level ? `${level.title}: recap done` : 'Recap done',
         subtitle: 'Stating the key results from memory is what makes them yours.',
@@ -185,6 +191,7 @@ function doneScreen({ title, subtitle, stats, actions, mode = 'lesson', statLabe
       h('div', { class: 'stat' }, h('b', {}, `${progress.streak()}`), h('span', {}, 'day streak'))),
     h('div', { class: 'actions' }, actions.filter(Boolean).map(([cls, label, href]) =>
       h('a', { class: `btn ${cls}`, href, style: 'text-decoration:none' }, label)))));
+  setTimeout(medalCheck, 600); // after the finish jingle
 }
 
 function accountPanel() {
@@ -221,7 +228,7 @@ function accountPanel() {
   return panel;
 }
 
-const BUILD = '2026-11-13 (8-bit look: pixel font, mascots, banners)';
+const BUILD = '2026-11-13 (medals, pixel font in lessons)';
 
 function settings() {
   const code = h('textarea', { readonly: true, 'aria-label': 'Your progress code' });
@@ -265,9 +272,11 @@ function settings() {
         'Play a sound for right and wrong answers')),
     h('div', { class: 'panel' },
       h('h3', {}, 'Pixel style'),
-      h('label', { class: 'toggle' },
-        h('input', { type: 'checkbox', checked: pixelFont(), onchange: e => { progress.setPref('pixelFont', e.target.checked); applyPixelFont(); } }),
-        'Pixel font for titles, labels and buttons (lesson text and math always use the plain font)')),
+      [['all', 'Pixel font everywhere, lessons included (math keeps its own font)'],
+        ['titles', 'Pixel font for titles, labels and buttons only (lesson text in the plain font)'],
+        ['off', 'Plain font everywhere']].map(([v, label]) => h('label', { class: 'toggle' },
+        h('input', { type: 'radio', name: 'pixel', checked: pixelFont() === v, onchange: () => { progress.setPref('pixelStyle', v); applyPixelFont(); } }),
+        label))),
     h('div', { class: 'panel' },
       h('h3', {}, 'Summaries'),
       h('label', { class: 'toggle' },

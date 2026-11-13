@@ -7,7 +7,7 @@
 // frames, then `legs` (one row list per walk frame). Every sprite gets a dark
 // 1-pixel outline drawn around it, so it reads on light and dark backgrounds.
 
-const OUTLINE = '#1b1b24';
+export const OUTLINE = '#1b1b24';
 
 export const SPRITES = {
   // Wild white hair, moustache, grey sweater: the relativity course.
@@ -145,11 +145,14 @@ const rows = (s, f) => [...s.body, ...s.legs[f % s.legs.length]];
 const spriteSize = s => ({ w: s.body[0].length + 2, h: s.body.length + s.legs[0].length + 2 });
 
 // Paint one frame with its top-left corner (outline included) at (x0, y0).
-function paintSprite(ctx, s, f, x0, y0) {
-  const grid = rows(s, f);
+function paintSprite(ctx, s, f, x0, y0) { paintGrid(ctx, s.pal, rows(s, f), x0, y0); }
+
+// Any character grid with its palette and a 1-pixel dark outline (also used by medals.js).
+export function paintGrid(ctx, pal, grid, x0, y0, outline = true) {
+  const s = { pal };
   const on = (x, y) => grid[y]?.[x] != null && grid[y][x] !== '.';
   ctx.fillStyle = OUTLINE;
-  for (let y = -1; y <= grid.length; y++) for (let x = -1; x <= grid[0].length; x++)
+  if (outline) for (let y = -1; y <= grid.length; y++) for (let x = -1; x <= grid[0].length; x++)
     if (!on(x, y) && (on(x - 1, y) || on(x + 1, y) || on(x, y - 1) || on(x, y + 1))) ctx.fillRect(x0 + x + 1, y0 + y + 1, 1, 1);
   grid.forEach((r, y) => [...r].forEach((c, x) => {
     if (c === '.') return;
@@ -158,7 +161,7 @@ function paintSprite(ctx, s, f, x0, y0) {
   }));
 }
 
-const canvas = (w, h) => Object.assign(document.createElement('canvas'), { width: w, height: h });
+export const canvas = (w, h) => Object.assign(document.createElement('canvas'), { width: w, height: h });
 
 // Walk-cycle sheet (frames side by side) as a data URL, cached per sprite.
 const sheets = new Map();

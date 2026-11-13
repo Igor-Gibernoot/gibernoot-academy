@@ -20,7 +20,7 @@ const OLD_KEY = 'dg2gr.progress.v1'; // single-course app; left in place as a ba
 const INTERVALS = [0, 1, 3, 7, 16, 35];
 
 const today = () => Math.floor((Date.now() - new Date().getTimezoneOffset() * 60000) / 86400000);
-const blank = () => ({ version: 2, epoch: 0, lessons: {}, cards: {}, recap: {}, partial: {}, prefs: {}, streak: { count: 0, last: null } });
+const blank = () => ({ version: 2, epoch: 0, lessons: {}, cards: {}, recap: {}, partial: {}, prefs: {}, counts: {}, medals: {}, streak: { count: 0, last: null, best: 0 } });
 
 // Keys without a course prefix come from version 1 (before courses existed,
 // or an old tab still open somewhere) and belong to the first course; a
@@ -74,7 +74,8 @@ function merge(a, b) {
     const x = a.lessons[id], y = b.lessons[id];
     if (!x || !y) { out.lessons[id] = x ?? y; continue; }
     const newer = (y.last ?? 0) > (x.last ?? 0) ? y : x;
-    out.lessons[id] = { ...newer, done: x.done || y.done, best: Math.max(x.best ?? 0, y.best ?? 0), runs: Math.max(x.runs ?? 0, y.runs ?? 0), first: x.first ?? y.first };
+    const pace = [x.pace, y.pace].filter(p => p != null);
+    out.lessons[id] = { ...newer, done: x.done || y.done, best: Math.max(x.best ?? 0, y.best ?? 0), runs: Math.max(x.runs ?? 0, y.runs ?? 0), first: x.first ?? y.first, ...(pace.length ? { pace: Math.min(...pace) } : {}) };
   }
   for (const k of new Set([...Object.keys(a.cards), ...Object.keys(b.cards)])) {
     const x = a.cards[k], y = b.cards[k];
@@ -96,6 +97,10 @@ function merge(a, b) {
   }
   const sa = a.streak, sb = b.streak;
   out.streak = (sb.last ?? -1) > (sa.last ?? -1) || ((sb.last ?? -1) === (sa.last ?? -1) && sb.count > sa.count) ? { ...sb } : { ...sa };
+  out.streak.best = Math.max(sa.best ?? 0, sb.best ?? 0, sa.count ?? 0, sb.count ?? 0);
+  // Counters keep the larger side; a medal keeps the day it was first earned.
+  for (const k of new Set([...Object.keys(a.counts ?? {}), ...Object.keys(b.counts ?? {})])) out.counts[k] = Math.max(a.counts?.[k] ?? 0, b.counts?.[k] ?? 0);
+  for (const k of new Set([...Object.keys(a.medals ?? {}), ...Object.keys(b.medals ?? {})])) out.medals[k] = Math.min(a.medals?.[k] ?? Infinity, b.medals?.[k] ?? Infinity);
   return out;
 }
 
@@ -104,6 +109,7 @@ function bumpStreak() {
   if (s.last === d) return;
   s.count = s.last === d - 1 ? s.count + 1 : 1;
   s.last = d;
+  s.best = Math.max(s.best ?? 0, s.count);
 }
 
 function schedule(key, box) {
@@ -121,11 +127,15 @@ export const progress = {
     return { done: recs.length, due, acc: scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null };
   },
 
-  completeLesson(lessonId, { questions, firstTry }) {
+  // `secs` and `cards` (a first run played in one sitting) give the pace in seconds per card, for the speed medals.
+  completeLesson(lessonId, { questions, firstTry, secs, cards }) {
     const id = k(lessonId);
     const prev = state.lessons[id];
     const score = questions ? firstTry / questions : 1;
+    const pace = !prev && secs > 0 && cards > 0 ? Math.round((secs / cards) * 10) / 10 : prev?.pace;
     state.lessons[id] = {
+      q: questions ?? 0,
+      ...(pace != null ? { pace } : {}),
       done: true,
       score, // latest run
       first: prev ? (prev.first ?? prev.score ?? score) : score, // first run: what the trail accuracy uses
@@ -163,7 +173,8 @@ export const progress = {
     save();
   },
 
-  finishReview() { bumpStreak(); save(); },
+  // kind: 'reviews' or 'recaps' (counted for the memory medals).
+  finishReview(kind = 'reviews') { state.counts = { ...state.counts, [kind]: (state.counts?.[kind] ?? 0) + 1 }; bumpStreak(); save(); },
 
   // Recap items: undefined until first rated.
   recapItem: key => state.recap[k(key)],
@@ -203,6 +214,22 @@ export const progress = {
     return s.last != null && s.last >= today() - 1 ? s.count : 0;
   },
 
+  // Every lesson record of every course ("<course>:<lesson>" keys), counters, best streak (medals.js).
+  allLessons: () => state.lessons,
+  counts: () => state.counts ?? {},
+  bestStreak: () => Math.max(state.streak.best ?? 0, progress.streak()),
+
+  // Earned medals: { id: day earned }. award() records the new ids and returns them.
+  medals: () => state.medals ?? {},
+  award(ids) {
+    const fresh = ids.filter(id => !(id in (state.medals ?? {})));
+    if (!fresh.length) return [];
+    state.medals = { ...state.medals };
+    for (const id of fresh) state.medals[id] = today();
+    save();
+    return fresh;
+  },
+
   // Account-wide settings, synced with the progress.
   pref: (name, dflt) => state.prefs?.[name]?.value ?? dflt,
   setPref(name, value) { state.prefs = { ...state.prefs, [name]: { value, t: Date.now() } }; save(); },
@@ -214,7 +241,7 @@ export const progress = {
   mergeRemote(remote) {
     if (!remote || !remote.lessons || !remote.cards) return state;
     const before = JSON.stringify(state);
-    state = merge(state, migrate({ streak: { count: 0, last: null }, partial: {}, ...remote }));
+    state = merge(state, migrate({ streak: { count: 0, last: null }, partial: {}, counts: {}, medals: {}, ...remote }));
     if (JSON.stringify(state) !== before) save(); // unchanged: no listeners, so no push loop
     return state;
   },
@@ -230,5 +257,5 @@ export const progress = {
     save();
   },
 
-  reset() { state = { ...blank(), epoch: Date.now(), prefs: state.prefs ?? {} }; save(); }, // settings survive a reset
+  reset() { state = { ...blank(), epoch: Date.now(), prefs: state.prefs ?? {} }; save(); }, // settings survive a reset (medals do not)
 };

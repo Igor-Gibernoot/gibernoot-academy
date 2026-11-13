@@ -6,6 +6,7 @@ import { icons, KIND_LABEL } from './icons.js';
 import { getCatalog, getCourse, getLesson, summaryCard, peekSummaries } from './content.js';
 import { at, courseId } from './course.js';
 import { mascotEl } from './pixel.js';
+import { medalBar, medalCheck } from './medals.js';
 import { progress } from './progress.js';
 import { recapCards } from './recap.js';
 import { themeButton } from './theme.js';
@@ -87,7 +88,8 @@ export async function renderTrail(root) {
     return h('section', { class: `level${unwritten ? ' unwritten' : ''}`, id: level.id, 'data-hue': level.hue ?? hueOf.get(level.id) }, head, lessons.length ? path : null);
   });
 
-  root.replaceChildren(h('div', { class: 'trail' }, top, levels));
+  root.replaceChildren(h('div', { class: 'trail' }, top, medalBar(), levels));
+  medalCheck().then(() => root.querySelector('.medal-bar')?.replaceWith(medalBar()));
   if (nextId) {
     const el = root.querySelector('.node.next');
     el?.scrollIntoView({ block: 'center' });

@@ -46,8 +46,17 @@ Static site, no build step, served by GitHub Pages from the repo root.
   banners (`BANNERS`, 96 x 28 scenes) drawn to tiny canvases and scaled with `image-rendering: pixelated`; picked per
   course by `mascot:`/`banner:` in `catalog.yaml` (validate checks the names). The mascot stands beside the next
   lesson node, walks in from the one before (skipped under reduced motion), hops on tap. Pixel font Pixelify Sans
-  (`vendor/fonts`, OFL) on titles, labels, chips and buttons only, never lesson prose, answers or math; Settings
-  "Pixel style" (`prefs.pixelFont`, sets `data-pixel` on `<html>`) turns it off.
+  (`vendor/fonts`, OFL), Settings "Pixel style" (pref `pixelStyle`, `<html data-pixel>`): `all` (default: lessons too;
+  KaTeX and widgets keep their fonts), `titles` (titles, labels, chips, buttons only), `off` (the
+  older boolean pref `pixelFont: false` still maps to `off`).
+- Medals (`js/medals.js`, route `#/medals`): `CATEGORIES` of series, each a ladder of `[need, name]` on one statistic
+  computed from the progress store (retroactive): lessons, accuracy (90% / 100% first try, first run), streaks (best
+  ever, `streak.best`), speed (first run in one sitting, 90%+, under `PACE` s per card: `lessons[..].pace`), levels
+  cleared, maps, challenges, exams (50% / 90%), memory (`counts.reviews` + `counts.recaps`), courses (one per course,
+  the mascot on a coin, plus explorer). Metal follows the rung (bronze to legendary), symbol follows the series, so each
+  medal's 8-bit picture is unique. Earned ids are saved in `medals` with the day (merge keeps the earliest; never
+  rename an id). `medalCheck()` runs after lessons, exams, reviews and on home/trail renders and pops toasts; the
+  medal bar under the home and trail headers shows the count per category. New medals: add a rung or series there.
 - Light/dark toggle (`js/theme.js`), instant tooltips via `data-tip`
   (`js/tooltip.js`), optional Google sign-in with Firestore sync
   (`js/cloud.js`, `docs/ACCOUNTS.md`; inactive until `js/firebase-config.js`
