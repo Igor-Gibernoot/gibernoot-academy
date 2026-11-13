@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-12 ch19-esoteric (concept, 19 cards, no widget)
+Built autonomously. Widget: none (claims, history and one numeric card on chance; nothing to manipulate). Images: Nag Hammadi Codex II p.32 (PD, viewed OK), Casaubon NPG portrait (PD), Visconti-Sforza Justice (PD). Choices: 120-chart numeric test is invented (Carlson's own counts only on a skeptic blog, dropped); practitioners' reply stated in essence (secondary); Keynes "last of the magicians" paraphrased. Web: Wikipedia fetches plus searches; see VERIFIED. Conventions fixed here: Gnosticism taught as contested category (Williams, King vs Brakke); Hermetic texts c.100-300 CE; Ficino 1463/1471, Casaubon 1614; "chymistry" per Newman; esotericism per Hanegraaff, methodological agnosticism.
+
 ## 2026-11-12 ch19-shinto (concept, 16 cards, no widget)
 Built autonomously. Widgets README: none fits (nothing to manipulate). Images: Motoori Norinaga self-portrait (PD), viewed OK; Ise photo fetched then dropped (CC0 file did not look like Ise, risk of mislabel), Ise 1953 aerial refused (PD-Japan-oldphoto). Web: Wikipedia pages fetched plus searches; Picken and Earhart only as quoted on Wikipedia; Yomei passage paraphrased, no quotation marks; Kojiki 711 order / 712 presentation per Wikipedia Kojiki. Choices: no numeric card; no survey numbers (non-comparable); Ise "next rebuilding" omitted (sources differ 2025/2033). Conventions fixed here: Kojiki = presented 712, Nihon Shoki = 720; Shinto Directive = 15 Dec 1945; kami defined via Norinaga "in essence".
 
