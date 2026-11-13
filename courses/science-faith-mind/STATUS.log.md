@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-12 ch19-intuition
+Built `ch19/intuition.yaml` (18 cards, no widget: text and recall; no images). Cards: welcome, layers, four questions, Confucian terms, Daoist terms, Jain vows (order) and graded ahimsa, Sikh Khalsa/5 Ks/Granth, Zoroastrian ages (build), asha/druj, Gnostic label, Hermetic dating, four answers to death, then numeric data-only (Parsi census fall 50%, Ficino-Casaubon gap 151, chance spread 4.08 for n=75 p=1/3, survey count 600). Every item taken from the lessons' own: blocks; no new external facts (VERIFIED line says so). Choices: dropped Daojia/daojiao and the Sikh three guides cards for length; own: kept to 6 blanks. Conventions fixed here: none new.
+
 ## 2026-11-12 ch19-traps (traps, 21 cards, 19 traps, no widget, no images)
 - Text-only questions, so no widget; traps reuse only facts already web-verified in the ch19 lessons (no new external facts, logged in VERIFIED.md). Covers Confucian category, wu wei, Laozi, ahimsa, anekanta, Khalsa, Sikh blend, Zoroastrian dualism and influence, African religion, animism, Shinto, Gnostic, Hermetic, new religions, Pew overlap, rebirth premises. Conventions fixed here: none new.
 
