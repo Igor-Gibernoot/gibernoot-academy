@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-13 ch19-jain
+Built `ch19/jain.yaml` (concept, 14 cards, below the ~20 plan: merged sorting, link and rival-reading cards into single mcqs; no widget, widgets README checked: nothing is manipulated; images: mahavira-statue (Vassil, CC0, 1470 Gujarat), jain-anekanta (temple painting, CC BY-SA 2.0), first viewed). No verbatim quotes except none; all paraphrase "according to" SEP/IEP/Wikipedia/Jainpedia. Autonomous choices: Wikipedia used for Digambara/Svetambara, Cort and Dundas, Siddhasena, Mallisena since SEP/Britannica did not carry them; the Ravi father/son toy is original. Conventions fixed here: see CONVENTIONS Chapter 19, Jain lesson.
+
 ## 2026-11-12 ch19-dao
 Built `ch19/dao.yaml` (concept, 17 cards, below the ~20 plan: merged the plan's extra layer-sort and rival-reading cards into single mcqs; no widget, widgets README checked: none fits; images: laozi (Zhang Lu), zhuangzi-butterfly (Ike no Taiga), both public domain). Quotes verbatim only from Legge (Gutenberg 216) and Giles (Gutenberg 59709); "Way that can be spoken of" from SEP. Choices: Cook Ding's conclusion paraphrased; Zhang Lu dated "active around 1500" since sources differ. Cross-links by title: Saying What God Is Not, Emptiness: Nagarjuna. Conventions fixed here: Daoist terms dao, de, ziran, wu wei glossed (wu wei = effortless action); daojia/daojiao via IEP; Laozi dating per SEP.
 
