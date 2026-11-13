@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-12 ch19-dao
+Built `ch19/dao.yaml` (concept, 17 cards, below the ~20 plan: merged the plan's extra layer-sort and rival-reading cards into single mcqs; no widget, widgets README checked: none fits; images: laozi (Zhang Lu), zhuangzi-butterfly (Ike no Taiga), both public domain). Quotes verbatim only from Legge (Gutenberg 216) and Giles (Gutenberg 59709); "Way that can be spoken of" from SEP. Choices: Cook Ding's conclusion paraphrased; Zhang Lu dated "active around 1500" since sources differ. Cross-links by title: Saying What God Is Not, Emptiness: Nagarjuna. Conventions fixed here: Daoist terms dao, de, ziran, wu wei glossed (wu wei = effortless action); daojia/daojiao via IEP; Laozi dating per SEP.
+
 ## 2026-11-12 ch19-confucius (22 cards, concept, no widget, 1 image: Confucius portrait attributed to Wu Daozi)
 Choices: no widget (a conceptual tour of texts, nothing to manipulate); autonomous session. 1 image: `confucius.webp` (Commons "Confucius Tang Dynasty.jpg", public domain; caption hedges the doubtful Wu Daozi attribution). Quotations only from Legge via standardebooks.org (15.23/15.24, 11.11/11.12, 3.12, 3.13) and IEP (12.11, 11.9); 2.3, 6.22, 7.23, 13.18 in essence. Hook resolved at `laws-virtue`. Legalists named as rival view, Mozi/Mencius 3A5 in the family-loyalty explanation, Tiwald vs Ames/Rosemont/Neville in `reading`.
 Conventions fixed here: Confucius traditional 551-479 BCE; Legge numbering 15.23 and 11.11 vs 15.24 and 11.12 noted; terms ren, li, junzi, xiao, shu, Tian; role vs virtue ethics readings.
