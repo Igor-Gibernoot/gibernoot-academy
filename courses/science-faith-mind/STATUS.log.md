@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-12 ch19-movements (concept, 17 cards, no widget)
+Built autonomously. Widget: none (history and claims; the only numbers are a birthday age and a survey share, plain numeric cards). Images: Bahá'u'lláh 1868 photo (PD), Joseph Smith c.1842 painting (PD); Book of Mormon 1830 title page refused by the tool (PD-US only), none other found; screenshots not viewed (shots flagged nothing). Choices: Pew figures taken from Pew's page ("about 40%", "six in ten"); sample size and the 62% not used (unconfirmed on page). LDS membership and Baha'i totals not used. Seal-of-prophets objection sourced from Baha'i-side pages only, stated as an objection, not as Islamic scholarship. Conventions fixed here: Baha'i and Mormon dates as in CONVENTIONS Chapter 19; New Age = "milieu" (Bruce, Heelas and Woodhead).
+
 ## 2026-11-12 ch19-esoteric (concept, 19 cards, no widget)
 Built autonomously. Widget: none (claims, history and one numeric card on chance; nothing to manipulate). Images: Nag Hammadi Codex II p.32 (PD, viewed OK), Casaubon NPG portrait (PD), Visconti-Sforza Justice (PD). Choices: 120-chart numeric test is invented (Carlson's own counts only on a skeptic blog, dropped); practitioners' reply stated in essence (secondary); Keynes "last of the magicians" paraphrased. Web: Wikipedia fetches plus searches; see VERIFIED. Conventions fixed here: Gnosticism taught as contested category (Williams, King vs Brakke); Hermetic texts c.100-300 CE; Ficino 1463/1471, Casaubon 1614; "chymistry" per Newman; esotericism per Hanegraaff, methodological agnosticism.
 
