@@ -42,6 +42,12 @@ Static site, no build step, served by GitHub Pages from the repo root.
   (`summaryCard` in `js/content.js`), recording nothing. Only finished lessons
   by default; the Settings toggle "Summaries" (`progress.prefs`, synced with the account) allows unfinished
   ones too. The trail does not scroll while the window is open.
+- 8-bit look (`js/pixel.js`): course mascots (`SPRITES`, character grids, auto-outlined, two-frame walk sheet) and home
+  banners (`BANNERS`, 96 x 28 scenes) drawn to tiny canvases and scaled with `image-rendering: pixelated`; picked per
+  course by `mascot:`/`banner:` in `catalog.yaml` (validate checks the names). The mascot stands beside the next
+  lesson node, walks in from the one before (skipped under reduced motion), hops on tap. Pixel font Pixelify Sans
+  (`vendor/fonts`, OFL) on titles, labels, chips and buttons only, never lesson prose, answers or math; Settings
+  "Pixel style" (`prefs.pixelFont`, sets `data-pixel` on `<html>`) turns it off.
 - Light/dark toggle (`js/theme.js`), instant tooltips via `data-tip`
   (`js/tooltip.js`), optional Google sign-in with Firestore sync
   (`js/cloud.js`, `docs/ACCOUNTS.md`; inactive until `js/firebase-config.js`

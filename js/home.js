@@ -8,6 +8,7 @@ import { getCatalog, getCourse } from './content.js';
 import { progress } from './progress.js';
 import { themeButton } from './theme.js';
 import { accountChip } from './trail.js';
+import { bannerEl } from './pixel.js';
 
 const pct = x => `${Math.round(x * 100)}%`;
 
@@ -34,6 +35,7 @@ export async function renderHome(root) {
       meter = h('div', { class: 'meter' }, h('div', { style: `width:${built.length ? (100 * st.done) / built.length : 0}%` }));
     }
     const body = [
+      c.banner ? bannerEl(c.banner) : null,
       c.eyebrow ? h('div', { class: 'eyebrow' }, c.eyebrow) : null,
       h('h2', { html: mdInline(c.title) }),
       c.blurb ? h('p', { html: mdInline(c.blurb) }) : null,

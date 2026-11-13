@@ -49,8 +49,11 @@ PDF pages, fix the Markdown, and log the range in `sources/VERIFIED.md`
 ## 3. Register it
 
 Add an entry to `courses/catalog.yaml` (`id`, `title`, `short`, `eyebrow`,
-`blurb`, `hue` 0–5). Use `status: planned` to show it as "coming soon"
-before its folder exists.
+`blurb`, `hue` 0–5, `mascot`, `banner`). Use `status: planned` to show it as "coming soon"
+before its folder exists. `mascot` (8-bit character on the trail) and `banner`
+(8-bit scene on the home card) name entries of `SPRITES` and `BANNERS` in
+`js/pixel.js`; give a new course its own pair (add them there: a sprite is a
+16-wide character grid plus two leg frames, a banner a 96 x 28 drawing).
 
 ## 4. Plan the trail
 

@@ -34,7 +34,13 @@ const root = document.getElementById('app');
 const REVIEW_SIZE = 12;
 const RECAP_SIZE = 5;
 
+// Pixel font for titles, labels and buttons (Settings; on by default).
+const pixelFont = () => progress.pref('pixelFont', true);
+const applyPixelFont = () => { document.documentElement.dataset.pixel = pixelFont() ? 'on' : 'off'; };
+applyPixelFont();
+
 async function route() {
+  applyPixelFont();
   document.querySelectorAll('.scrim').forEach(s => s.remove());
   let parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
   try {
@@ -215,7 +221,7 @@ function accountPanel() {
   return panel;
 }
 
-const BUILD = '2026-11-03 (robust sync: retry, polling, gzip, merge-on-import)';
+const BUILD = '2026-11-13 (8-bit look: pixel font, mascots, banners)';
 
 function settings() {
   const code = h('textarea', { readonly: true, 'aria-label': 'Your progress code' });
@@ -257,6 +263,11 @@ function settings() {
       h('label', { class: 'toggle' },
         h('input', { type: 'checkbox', checked: soundOn(), onchange: e => setSound(e.target.checked) }),
         'Play a sound for right and wrong answers')),
+    h('div', { class: 'panel' },
+      h('h3', {}, 'Pixel style'),
+      h('label', { class: 'toggle' },
+        h('input', { type: 'checkbox', checked: pixelFont(), onchange: e => { progress.setPref('pixelFont', e.target.checked); applyPixelFont(); } }),
+        'Pixel font for titles, labels and buttons (lesson text and math always use the plain font)')),
     h('div', { class: 'panel' },
       h('h3', {}, 'Summaries'),
       h('label', { class: 'toggle' },

@@ -13,6 +13,7 @@ import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { expandLesson, ownParts } from '../js/content.js';
+import { SPRITES, BANNERS } from '../js/pixel.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -74,6 +75,8 @@ for (const c of catalog.courses ?? []) {
   if (courseIds.has(c.id)) err('catalog.yaml', `duplicate course id "${c.id}"`);
   courseIds.add(c.id);
   checkText(`catalog.yaml ${c.id}`, c.blurb);
+  if (c.mascot && !SPRITES[c.mascot]) err('catalog.yaml', `${c.id}: mascot "${c.mascot}" is not a sprite in js/pixel.js`);
+  if (c.banner && !BANNERS[c.banner]) err('catalog.yaml', `${c.id}: banner "${c.banner}" is not a scene in js/pixel.js`);
   if (c.status === 'planned' || (only && c.id !== only)) continue;
   if (!existsSync(join(root, 'courses', c.id, 'course.yaml'))) { err('catalog.yaml', `courses/${c.id}/course.yaml not found`); continue; }
   cid = `${c.id}/`;

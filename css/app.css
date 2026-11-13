@@ -1,5 +1,6 @@
 /* Runes (the transition map ᛖ, the Jacobian ᛞ) are not in the KaTeX fonts:
    extend KaTeX_Main with a runic subset so every device draws them. */
+@font-face { font-family: 'Pixelify Sans'; src: url(../vendor/fonts/pixelify-sans-latin-wght-normal.woff2) format('woff2'); font-weight: 400 700; font-display: swap; }
 @font-face { font-family: 'KaTeX_Main'; src: url(../vendor/fonts/NotoSansRunic-runic.woff2) format('woff2'); unicode-range: U+16A0-16F8; }
 
 /* ---------- Tokens ---------- */
@@ -1598,3 +1599,35 @@ a.course-card:active { transform: translateY(1px); }
 .widget .ccn-read { font-size: 15px; padding: 4px 10px; display: flex; flex-wrap: wrap; gap: 2px 18px; }
 .widget .ccn-list { font-size: 14px; padding: 4px 10px; color: var(--muted); }
 .widget .ccn-act { border-color: var(--ink); color: var(--ink); }
+
+/* ---------- 8-bit look (js/pixel.js) ---------- */
+/* Pixel font on titles, labels and buttons only; lesson text, answers and math keep the plain font. */
+:root:not([data-pixel="off"]) :is(.topbar .course-title, .topbar .course-sub, .academy-link, .level-head h2, .level-head .eyebrow, .level-head .meta,
+  .course-card h2, .course-card .eyebrow, .course-card .course-line, .start-bubble, .node-label, .chip, .btn, .sheet .kind, .sheet h3,
+  .card-tag, .prose h2, .panel h3, .order-label) {
+  font-family: 'Pixelify Sans', system-ui, -apple-system, sans-serif; letter-spacing: .01em;
+}
+:root:not([data-pixel="off"]) .node-label { font-size: 14px; }
+
+/* Home banners: a 96 x 28 pixel scene across the top of each course card. */
+.course-card { overflow: hidden; }
+.course-card .banner {
+  display: block; width: calc(100% + 40px); height: auto; aspect-ratio: 96 / 28; margin: -18px -20px 14px;
+  image-rendering: pixelated; image-rendering: crisp-edges;
+}
+.course-card.planned .banner { filter: grayscale(.7); }
+
+/* Trail mascot: two-frame walk sheet as a background, scaled with crisp pixels. */
+.mascot {
+  position: absolute; top: 1px; z-index: 2; cursor: pointer;
+  background-repeat: no-repeat; background-position: 0 0;
+  image-rendering: pixelated; image-rendering: crisp-edges;
+  animation: mascot-step 1.3s linear infinite;
+}
+.mascot.right { left: calc(50% + 46px); }
+.mascot.left { right: calc(50% + 46px); }
+.mascot.walking { animation: mascot-step .3s linear infinite; }
+.mascot.hop { animation: mascot-hop .5s steps(6) 1, mascot-step .2s linear infinite; }
+@keyframes mascot-step { 0%, 49.99% { background-position: 0 0; } 50%, 100% { background-position: 100% 0; } }
+@keyframes mascot-hop { 50% { transform: translateY(-24px); } }
+@media (prefers-reduced-motion: reduce) { .mascot, .mascot.walking, .mascot.hop { animation: none; } }

@@ -3,8 +3,9 @@
 import { h } from './dom.js';
 import { md, mdInline } from './render.js';
 import { icons, KIND_LABEL } from './icons.js';
-import { getCourse, getLesson, summaryCard, peekSummaries } from './content.js';
-import { at } from './course.js';
+import { getCatalog, getCourse, getLesson, summaryCard, peekSummaries } from './content.js';
+import { at, courseId } from './course.js';
+import { mascotEl } from './pixel.js';
 import { progress } from './progress.js';
 import { recapCards } from './recap.js';
 import { themeButton } from './theme.js';
@@ -21,7 +22,12 @@ export async function renderTrail(root) {
   const acc = progress.accuracy(allIds);
 
   // The first built lesson not yet done gets the "start here" marker.
-  const nextId = course.levels.flatMap(l => l.lessons ?? []).find(m => m.file && !progress.lesson(m.id)?.done)?.id;
+  const built = course.levels.flatMap(l => l.lessons ?? []).filter(m => m.file);
+  const nextId = built.find(m => !progress.lesson(m.id)?.done)?.id;
+  // The mascot stands at the next lesson (or the last one, when all are done)
+  // and walks there from the lesson before it.
+  const k = nextId ? built.findIndex(m => m.id === nextId) : built.length - 1;
+  const mascotAt = built[k]?.id, mascotFrom = built[k - 1]?.id;
 
   const top = h('header', { class: 'topbar' },
     h('a', { class: 'academy-link', href: '#/', html: `${icons.back}<span>Gibernoot Academy</span>` }),
@@ -72,7 +78,7 @@ export async function renderTrail(root) {
           + (isReview && levelDue ? `<span class="badge">${levelDue}</span>` : ''),
         onclick: () => openSheet(meta, state, { level, deck: deck.length, due: levelDue }),
       });
-      return h('div', { class: `node-wrap${isNext ? ' has-bubble' : ''}`, style: `transform: translateX(${OFFSETS[k % OFFSETS.length]}px)` },
+      return h('div', { class: `node-wrap${isNext ? ' has-bubble' : ''}`, 'data-id': meta.id, style: `transform: translateX(${OFFSETS[k % OFFSETS.length]}px)` },
         isNext ? h('div', { class: 'start-bubble' }, rec ? 'CONTINUE' : 'START') : null,
         node,
         h('div', { class: `node-label${state === 'planned' ? ' planned' : ''}`, html: mdInline(meta.title) }));
@@ -87,6 +93,31 @@ export async function renderTrail(root) {
     el?.scrollIntoView({ block: 'center' });
   }
   followLevelHue([...root.querySelectorAll('.course-title, .chip.review, .chip.recap')], [...root.querySelectorAll('section.level')]);
+  const entry = (await getCatalog()).courses.find(c => c.id === courseId());
+  placeMascot(root, entry?.mascot, mascotAt, mascotFrom);
+}
+
+// The course's 8-bit mascot beside a lesson node, on the side facing the
+// middle of the trail. It walks in from the node before it; a tap makes it hop.
+function placeMascot(root, name, atId, fromId) {
+  const find = id => id && root.querySelector(`.node-wrap[data-id="${CSS.escape(id)}"]`);
+  const wrap = find(atId), el = wrap && name ? mascotEl(name) : null;
+  if (!el) return;
+  const k = [...wrap.parentElement.children].indexOf(wrap);
+  el.classList.add(OFFSETS[k % OFFSETS.length] > 0 ? 'left' : 'right');
+  el.onclick = () => { el.classList.remove('hop'); void el.offsetWidth; el.classList.add('hop'); };
+  el.onanimationend = e => { if (e.animationName === 'mascot-hop') el.classList.remove('hop'); };
+  wrap.append(el);
+  const from = find(fromId);
+  if (!from || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const a = from.querySelector('.node').getBoundingClientRect(), b = wrap.querySelector('.node').getBoundingClientRect();
+  let dx = a.left - b.left, dy = a.top - b.top;
+  const d = Math.hypot(dx, dy), max = 300;
+  if (d < 1) return;
+  if (d > max) { dx *= max / d; dy *= max / d; }
+  el.classList.add('walking');
+  el.animate([{ translate: `${dx}px ${dy}px` }, { translate: '0 0' }], { duration: Math.min(d, max) * 7, easing: 'linear', delay: 250, fill: 'backwards' })
+    .finished.then(() => el.classList.remove('walking'), () => {});
 }
 
 // The course title and the review chip take the hue of the level on screen:
