@@ -198,6 +198,19 @@ function openSheet(meta, state, { level, deck, due }) {
       h('button', { class: `btn ${part ? 'ghost' : 'primary'}`, type: 'button', onclick: go(at(`lesson/${meta.id}`)) }, part ? 'Start over' : rec ? 'Replay' : 'Start'),
       part ? h('button', { class: 'btn primary', type: 'button', onclick: go(at(`lesson/${meta.id}/${part.at + 1}`)) }, `Continue (card ${part.at + 1}${part.n ? `/${part.n}` : ''})`) : null,
     ].filter(Boolean);
+    // Challenge: a shortcut for readers who already know the chapter from elsewhere.
+    const rest = (level.lessons ?? []).filter(m => m.file && m.kind !== 'review' && m.kind !== 'exam' && !progress.lesson(m.id)?.done);
+    if (meta.kind === 'challenge' && rest.length) {
+      body.append(h('p', { class: 'hint-line', style: 'margin:10px 0 0' }, 'Already know this chapter from somewhere else? Skip it: every unfinished lesson of this level is marked done (without an accuracy score).'),
+        h('button', {
+          class: 'btn ghost', type: 'button', style: 'margin-top:8px',
+          onclick: () => {
+            if (!confirm(`Mark ${rest.length} lesson${rest.length > 1 ? 's' : ''} of this level as done without playing them?`)) return;
+            progress.markKnown(rest.map(m => m.id));
+            close(); location.reload();
+          },
+        }, `Mark the level as known (${rest.length})`));
+    }
   }
   const scrim = h('div', { class: 'scrim', onclick: e => { if (e.target === scrim) close(); } },
     h('div', { class: 'sheet', role: 'dialog', 'aria-modal': 'true' },

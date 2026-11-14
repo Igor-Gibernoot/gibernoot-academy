@@ -10,6 +10,8 @@ function stored() {
   try { const v = localStorage.getItem(KEY) ?? localStorage.getItem(OLD_KEY); return v === 'light' || v === 'dark' ? v : null; } catch { return null; }
 }
 
+// The chosen mode: 'system' (follow the browser), 'light' or 'dark'.
+export const themeMode = () => stored() ?? 'system';
 export const currentTheme = () => stored() ?? (mq.matches ? 'dark' : 'light');
 
 function apply() {
@@ -25,23 +27,26 @@ export function initTheme() {
   mq.addEventListener?.('change', apply);
 }
 
-function toggle() {
-  const next = currentTheme() === 'dark' ? 'light' : 'dark';
-  try { localStorage.setItem(KEY, next); } catch { /* keep in memory only */ }
-  document.documentElement.dataset.theme = next;
+const NEXT = { system: 'light', light: 'dark', dark: 'system' };
+const LABEL = { system: 'System', light: 'Light', dark: 'Dark' };
+
+function cycle() {
+  const next = NEXT[themeMode()];
+  try { next === 'system' ? localStorage.removeItem(KEY) : localStorage.setItem(KEY, next); } catch { /* keep in memory only */ }
+  try { localStorage.removeItem(OLD_KEY); } catch { /* ignore */ }
   apply();
 }
 
-// A button that flips the theme and repaints its own icon.
+// A button that cycles system -> light -> dark and repaints its own icon.
 export function themeButton(h) {
   const b = h('button', { class: 'icon-btn', type: 'button' });
   const paint = () => {
-    const dark = currentTheme() === 'dark';
-    b.innerHTML = dark ? icons.sun : icons.moon;
-    b.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
-    b.dataset.tip = dark ? 'Light mode' : 'Dark mode';
+    const m = themeMode();
+    b.innerHTML = m === 'system' ? icons.system : m === 'dark' ? icons.moon : icons.sun;
+    b.setAttribute('aria-label', `Theme: ${LABEL[m]}. Switch to ${LABEL[NEXT[m]]}`);
+    b.dataset.tip = `Theme: ${LABEL[m]}`;
   };
-  b.addEventListener('click', () => { toggle(); paint(); });
+  b.addEventListener('click', () => { cycle(); paint(); });
   paint();
   return b;
 }

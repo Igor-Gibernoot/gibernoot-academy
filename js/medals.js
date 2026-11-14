@@ -262,6 +262,7 @@ async function facts() {
         const r = recs[`${c.id}:${m.id}`];
         if (!m.file || !r?.done) { cleared = false; complete = false; continue; }
         started = true;
+        if (r.known) continue; // marked as known: counts for levels and courses, not for score medals
         f.lessons++;
         const first = r.first ?? r.score ?? r.best ?? 0;
         if (m.kind === 'exam') { if (first >= 0.5) f.passed++; if (first >= 0.9) f.aced++; continue; }

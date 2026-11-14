@@ -57,7 +57,7 @@ Static site, no build step, served by GitHub Pages from the repo root.
   medal's 8-bit picture is unique. Earned ids are saved in `medals` with the day (merge keeps the earliest; never
   rename an id). `medalCheck()` runs after lessons, exams, reviews and on home/trail renders and pops toasts; the
   medal bar under the home and trail headers shows the count per category. New medals: add a rung or series there.
-- Light/dark toggle (`js/theme.js`), instant tooltips via `data-tip`
+- Theme button cycling system/light/dark (`js/theme.js`); finishing a level challenge, or "Mark the level as known" on its sheet, marks the level's other lessons done with no score (`progress.markKnown`), instant tooltips via `data-tip`
   (`js/tooltip.js`), optional Google sign-in with Firestore sync
   (`js/cloud.js`, `docs/ACCOUNTS.md`; inactive until `js/firebase-config.js`
   is filled in).

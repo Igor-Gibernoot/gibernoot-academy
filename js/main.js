@@ -98,10 +98,18 @@ async function playLesson(id, startAt, readOnly = false) {
     onFinish: async stats => {
       if (readOnly) { location.hash = at(); return; }
       progress.completeLesson(id, { ...stats, secs: t0 ? (Date.now() - t0) / 1000 : undefined, cards: data.cards.length });
+      // Finishing a level challenge counts the level's other lessons as done (a shortcut for readers who know the chapter).
+      let skipped = 0;
+      if (meta.kind === 'challenge') {
+        const level = (await getCourse()).levels.find(l => (l.lessons ?? []).some(m => m.id === id));
+        const rest = (level?.lessons ?? []).filter(m => m.file && m.kind !== 'review' && m.kind !== 'exam' && !progress.lesson(m.id)?.done);
+        skipped = rest.length;
+        if (skipped) progress.markKnown(rest.map(m => m.id));
+      }
       const next = await nextLessonAfter(id);
       doneScreen({
         title: 'Lesson complete',
-        subtitle: meta.title,
+        subtitle: skipped ? `${meta.title} · ${skipped} other lesson${skipped > 1 ? 's' : ''} of this level marked as done` : meta.title,
         stats,
         actions: [
           next ? ['primary', `Next: ${next.meta.title}`, at(`lesson/${next.meta.id}`)] : null,

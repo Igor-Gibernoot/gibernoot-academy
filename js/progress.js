@@ -75,7 +75,7 @@ function merge(a, b) {
     if (!x || !y) { out.lessons[id] = x ?? y; continue; }
     const newer = (y.last ?? 0) > (x.last ?? 0) ? y : x;
     const pace = [x.pace, y.pace].filter(p => p != null);
-    out.lessons[id] = { ...newer, done: x.done || y.done, best: Math.max(x.best ?? 0, y.best ?? 0), runs: Math.max(x.runs ?? 0, y.runs ?? 0), first: x.first ?? y.first, ...(pace.length ? { pace: Math.min(...pace) } : {}) };
+    out.lessons[id] = { ...newer, ...(x.known && y.known ? { known: true } : { known: undefined }), done: x.done || y.done, best: Math.max(x.best ?? 0, y.best ?? 0), runs: Math.max(x.runs ?? 0, y.runs ?? 0), first: x.first ?? y.first, ...(pace.length ? { pace: Math.min(...pace) } : {}) };
   }
   for (const k of new Set([...Object.keys(a.cards), ...Object.keys(b.cards)])) {
     const x = a.cards[k], y = b.cards[k];
@@ -122,7 +122,7 @@ export const progress = {
   // Lessons done, review cards due and average first-try accuracy of any course (for the course list).
   courseStats(course, ids) {
     const recs = ids.map(id => state.lessons[`${course}:${id}`]).filter(r => r?.done);
-    const scores = recs.map(r => r.first ?? r.score ?? r.best);
+    const scores = recs.filter(r => !r.known).map(r => r.first ?? r.score ?? r.best);
     const due = Object.entries(state.cards).filter(([key, c]) => key.startsWith(`${course}:`) && c.due <= today()).length;
     return { done: recs.length, due, acc: scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null };
   },
@@ -144,6 +144,18 @@ export const progress = {
       last: today(),
     };
     state.partial[id] = { at: null, t: Date.now() };
+    bumpStreak();
+    save();
+  },
+
+  // "I already know this": marks lessons done without a score (no accuracy, pace or medal stats).
+  // Lessons already played keep their record.
+  markKnown(ids) {
+    for (const lessonId of ids) {
+      const id = k(lessonId);
+      if (state.lessons[id]?.done) continue;
+      state.lessons[id] = { q: 0, done: true, known: true, runs: 0, last: today() };
+    }
     bumpStreak();
     save();
   },
@@ -190,7 +202,7 @@ export const progress = {
 
   // Average first-try accuracy (first run; replays don't change it) over the finished lessons among ids.
   accuracy(ids) {
-    const scores = ids.map(id => state.lessons[k(id)]).filter(r => r?.done).map(r => r.first ?? r.score ?? r.best);
+    const scores = ids.map(id => state.lessons[k(id)]).filter(r => r?.done && !r.known).map(r => r.first ?? r.score ?? r.best);
     return scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null;
   },
 
