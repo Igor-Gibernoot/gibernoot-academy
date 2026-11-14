@@ -87,30 +87,28 @@ export const SPRITES = {
       ['....LL....LL....', '...LL......LL...', '..LLL......LLL..'],
     ],
   },
-  // Hard hat and overalls: how the world works.
+  // Hard hat with a lamp, cyan goggles, orange safety vest and a wrench: how the world works.
   engineer: {
-    pal: { Y: '#ffc928', y: '#d99a00', S: '#f2c48d', K: '#26262e', B: '#4f8de0', O: '#f07a2a', G: '#ffe08a' },
+    pal: { Y: '#ffc928', y: '#d99a00', W: '#fffbe0', S: '#f2c48d', K: '#26262e', C: '#5ce1ff', O: '#ff7a1f', R: '#fff2b0', B: '#3f6fd0', G: '#b8c0cc' },
     body: [
       '.....YYYYYY.....',
-      '....YYYYYYYY....',
-      '...YYYYYYYYYY...',
+      '....YYWWYYYY....',
+      '...YYYWWYYYYY...',
       '..yyyyyyyyyyyy..',
-      '....SSSSSSSS....',
-      '....SKSSSSKS....',
+      '...KCCCKKCCCK...',
       '....SSSSSSSS....',
       '....SSKKKKSS....',
       '.....SSSSSS.....',
-      '....BBOOOOBB....',
-      '..BBBBOOOOBBBB..',
-      '.BBBBOOOOOOBBBB.',
-      '.BB.OOOGGOOO.BB.',
-      '.SS.OOOOOOOO.SS.',
-      '....OOOOOOOO....',
-      '....OOO..OOO....',
+      '..OOOOOOOOOOOOGG',
+      '.OOORROOOORROOOG',
+      '.SOORROOOORROOSG',
+      '.SOOOOOOOOOOOOSG',
+      '..BBBBBBBBBBBB.G',
+      '..BBBBBBBBBBBB..',
     ],
     legs: [
-      ['....OOO..OOO....', '....KKK..KKK....'],
-      ['....OOO..OOO....', '...KKK....KKK...'],
+      ['....BBB..BBB....', '....KKK..KKK....'],
+      ['....BBB..BBB....', '...KKK....KKK...'],
     ],
   },
   // Bald, white beard, toga and a lantern: science, faith and mind.
@@ -258,19 +256,22 @@ export const BANNERS = {
     g.disc(60, 7, 1, '#d8d8e8');
     g.sprite('einstein', 74, 27);
   },
-  // A brain inside its Markov blanket (a dashed ring), with signals coming in.
+  // A brain standing in a moonlit forest, fireflies drifting between the pines.
   blanket(g) {
-    g.sky(['#24103a', '#311552', '#3f1b68']);
-    g.stars(18, 11, ['#ffffff', '#ffb3f0']);
-    const cx = 48, cy = 15, r = 12;
-    for (let a = 0; a < 64; a++) if (a % 4 < 2) g.px(cx + r * 1.5 * Math.cos(a * Math.PI / 32), cy + r * Math.sin(a * Math.PI / 32), '#ffd23f');
-    const r2 = rng(5);
-    for (let i = 0; i < 14; i++) {
-      const left = i % 2, y = 3 + Math.floor(r2() * 22), x = left ? 4 + Math.floor(r2() * 20) : 72 + Math.floor(r2() * 20);
-      g.px(x, y, ['#5cf2a0', '#4fd1ff', '#ff7ab8'][i % 3]);
-      g.px(x + (left ? 1 : -1), y, ['#2f9f66', '#2b8fd6', '#b8457f'][i % 3]);
-    }
-    g.sprite('brain', 39, 25);
+    g.sky(['#0a1f2e', '#0f3040', '#164a4a', '#1d5c4c']);
+    g.stars(16, 11, ['#ffffff', '#bfe9ff'], 12);
+    g.disc(80, 6, 4, '#fff1b8'); g.disc(82, 5, 3, '#0f3040');
+    const pine = (x, base, hgt, c, d) => {
+      for (let k = 0; k < hgt; k++) { const w = Math.floor(k / 2.2); g.rect(x - w, base - hgt + k, 2 * w + 1, 1, k % 4 === 3 ? d : c); }
+      g.rect(x, base, 1, 2, '#4a3220');
+    };
+    [[6, 22, 14], [20, 23, 12], [58, 22, 15], [72, 23, 11], [90, 22, 14], [32, 22, 9], [66, 22, 9]].forEach(([x, b2, hh]) => pine(x, b2, hh, '#14503a', '#0d3a2b'));
+    g.rect(0, 24, 96, 4, '#0b2a22'); g.rect(0, 24, 96, 1, '#1d6b4a');
+    g.disc(48, 17, 9, '#1d5c4c');
+    [[14, 6], [27, 12], [34, 5], [60, 9], [68, 14], [78, 17], [86, 8], [8, 15], [42, 3], [54, 4]].forEach(([x, y], i) => {
+      g.px(x, y, '#ffe86b'); if (i % 2) { g.px(x + 1, y, '#c9a93a'); }
+    });
+    g.sprite('brain', 40, 26);
   },
   // Bell curves of different widths, and the robot that fits them.
   curves(g) {
@@ -282,29 +283,37 @@ export const BANNERS = {
     g.curve(x => 25 - 7 * gauss(x, 48, 16), 0, 70, '#ff7ab8');
     g.sprite('robot', 74, 27);
   },
-  // Sky, sun, a gear and a rocket taking off.
+  // Sunset over a workshop town: factory with smoking chimneys, a big gear and a rocket lifting off.
   machines(g) {
-    g.sky(['#5fc4ff', '#86d4ff', '#b0e3ff']);
-    g.disc(12, 7, 4, '#ffd23f');
-    g.rect(30, 6, 10, 2, '#ffffff'); g.rect(28, 8, 15, 2, '#ffffff');
-    g.rect(0, 25, 96, 3, '#4caf50'); g.rect(0, 25, 96, 1, '#7ddc6f');
-    // The gear: eight teeth around a disc with a hole.
-    for (let a = 0; a < 8; a++) g.rect(Math.round(52 + 6 * Math.cos(a * Math.PI / 4)) - 1, Math.round(17 + 6 * Math.sin(a * Math.PI / 4)) - 1, 2, 2, '#7d8796');
-    g.disc(52, 17, 5, '#a3adbb');
-    g.disc(52, 17, 1, '#5fc4ff');
+    g.sky(['#2b1b4a', '#6a3a7a', '#d9645a', '#ffb36b']);
+    g.stars(14, 4, ['#ffffff', '#ffe9a8'], 9);
+    g.disc(34, 24, 7, '#ffd86b'); g.disc(34, 24, 4, '#fff1b8');
+    // factory: sawtooth roof, chimneys, lit windows
+    g.rect(0, 18, 30, 10, '#1d1530');
+    for (let x = 0; x < 30; x += 6) for (let k = 0; k < 4; k++) g.rect(x + k, 15 + k, 1, 3 - k + 0, '#1d1530');
+    g.rect(4, 6, 3, 12, '#2a1d40'); g.rect(20, 9, 3, 9, '#2a1d40');
+    g.rect(3, 6, 5, 1, '#ff7a1f'); g.rect(19, 9, 5, 1, '#ff7a1f');
+    [[5, 3], [7, 1], [21, 6], [23, 4], [25, 2]].forEach(([x, y]) => g.disc(x, y, 1, '#8b7aa0'));
+    for (let x = 2; x < 28; x += 5) g.rect(x, 21, 3, 2, '#ffd23f');
+    // big gear with a lit hub
+    for (let a = 0; a < 12; a++) g.rect(Math.round(46 + 8 * Math.cos(a * Math.PI / 6)) - 1, Math.round(17 + 8 * Math.sin(a * Math.PI / 6)) - 1, 3, 3, '#8d97a6');
+    g.disc(46, 17, 6, '#b5bfcc'); g.disc(46, 17, 3, '#6a4a7a'); g.disc(46, 17, 1, '#ffd23f');
+    // rocket lifting off with a flame and smoke
     g.grid([
       '...R...',
       '..RRR..',
       '..WWW..',
       '..WBW..',
-      '..WWW..',
+      '..WBW..',
       '..WWW..',
       '.RWWWR.',
       'RRWWWRR',
       '..OYO..',
-      '...O...',
-      '..Y.Y..',
-    ], 24, 10, { R: '#e53935', W: '#f4f4f6', B: '#4f8de0', O: '#ff8a1f', Y: '#ffd23f' });
+      '..OYO..',
+      '...Y...',
+    ], 62, 5, { R: '#e53935', W: '#f4f4f6', B: '#5ce1ff', O: '#ff8a1f', Y: '#ffd23f' });
+    [[65, 17], [64, 19], [66, 21], [63, 23], [65, 25]].forEach(([x, y], i) => g.disc(x, y, i < 3 ? 1 : 2, i % 2 ? '#c9b8d8' : '#e8dff0'));
+    g.rect(0, 27, 96, 1, '#120c20');
     g.sprite('engineer', 74, 27);
   },
   // Dusk over a temple, a crescent moon and the first stars.

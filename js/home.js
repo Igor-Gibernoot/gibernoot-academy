@@ -32,7 +32,7 @@ export async function renderHome(root) {
       const lessons = course.levels.flatMap(l => l.lessons ?? []).filter(m => m.kind !== 'review');
       const built = lessons.filter(m => m.file).map(m => m.id);
       const st = progress.courseStats(c.id, built);
-      line = [`${st.done} of ${built.length} lessons done`, st.acc != null ? `${pct(st.acc)} first-try` : null, st.due ? `${st.due} to review` : null].filter(Boolean).join(' · ');
+      line = [`${built.length ? Math.round(100 * st.done / built.length) : 0}% progress`, st.acc != null ? `${pct(st.acc)} first-try` : null, st.due ? `${st.due} to review` : null].filter(Boolean).join(' · ');
       meter = h('div', { class: 'meter' }, h('div', { style: `width:${built.length ? (100 * st.done) / built.length : 0}%` }));
     }
     const body = [
