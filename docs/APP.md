@@ -45,7 +45,7 @@ Static site, no build step, served by GitHub Pages from the repo root.
 - 8-bit look (`js/pixel.js`): course mascots (`SPRITES`, character grids, auto-outlined, two-frame walk sheet) and home
   banners (`BANNERS`, 96 x 28 scenes) drawn to tiny canvases and scaled with `image-rendering: pixelated`; picked per
   course by `mascot:`/`banner:` in `catalog.yaml` (validate checks the names). The mascot stands beside the next
-  lesson node, walks in from the one before (skipped under reduced motion), hops on tap. Pixel font Pixelify Sans
+  lesson node, walks in from the one before (skipped under reduced motion), hops on tap. Pixel font Jersey 10
   (`vendor/fonts`, OFL), Settings "Pixel style" (pref `pixelStyle`, `<html data-pixel>`): `all` (default: lessons too;
   KaTeX and widgets keep their fonts), `titles` (titles, labels, chips, buttons only), `off` (the
   older boolean pref `pixelFont: false` still maps to `off`).

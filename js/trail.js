@@ -14,6 +14,16 @@ import { cloudConfigured, preloadCloud, onCloudChange, signIn } from './cloud.js
 
 const OFFSETS = [0, 52, 78, 52, 0, -52, -78, -52];
 
+// Course overview: what the course is, and the main sources and authors behind it.
+function overviewBox(o) {
+  if (!o) return null;
+  return h('details', { class: 'overview', open: true },
+    h('summary', {}, 'About this course'),
+    h('p', { html: mdInline(o.text) }),
+    o.sources?.length ? h('h3', {}, 'Main sources') : null,
+    o.sources?.length ? h('ul', {}, o.sources.map(s => h('li', {}, h('b', {}, s.who), ': ', h('span', { html: mdInline(s.what) })))) : null);
+}
+
 export async function renderTrail(root) {
   const course = await getCourse();
   const due = progress.dueKeys().length;
@@ -88,7 +98,8 @@ export async function renderTrail(root) {
     return h('section', { class: `level${unwritten ? ' unwritten' : ''}`, id: level.id, 'data-hue': level.hue ?? hueOf.get(level.id) }, head, lessons.length ? path : null);
   });
 
-  root.replaceChildren(h('div', { class: 'trail' }, top, medalBar(), levels));
+  top.append(medalBar());
+  root.replaceChildren(h('div', { class: 'trail' }, top, overviewBox(course.overview), levels));
   medalCheck().then(() => root.querySelector('.medal-bar')?.replaceWith(medalBar()));
   if (nextId) {
     const el = root.querySelector('.node.next');

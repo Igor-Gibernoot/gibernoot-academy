@@ -48,6 +48,7 @@ export async function renderHome(root) {
       : h('a', { class: 'course-card', href: `#/${c.id}`, 'data-hue': c.hue ?? k % 6 }, body);
   }));
 
-  root.replaceChildren(h('div', { class: 'trail home' }, top, medalBar(), h('div', { class: 'course-list' }, cards)));
+  top.append(medalBar());
+  root.replaceChildren(h('div', { class: 'trail home' }, top, h('div', { class: 'course-list' }, cards)));
   medalCheck().then(() => root.querySelector('.medal-bar')?.replaceWith(medalBar()));
 }

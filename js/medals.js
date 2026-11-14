@@ -403,7 +403,7 @@ export async function renderMedals(root) {
   const top = h('header', { class: 'topbar' },
     h('a', { class: 'academy-link', href: '#/', html: `${icons.back}<span>Gibernoot Academy</span>` }),
     h('h1', { class: 'course-title', 'data-hue': 0 }, 'Medal Room'),
-    h('div', { class: 'course-sub' }, `${nEarned} of ${list.length} medals earned. Each one has its own pixel art: go collect them all!`),
+    h('div', { class: 'course-sub' }, `${nEarned} of ${list.length} medals earned. Go collect them all!`),
     h('div', { class: 'toolbar' }, themeButton(h)));
   const sections = CATEGORIES.map(cat => {
     const ms = list.filter(m => m.cat === cat.id);
