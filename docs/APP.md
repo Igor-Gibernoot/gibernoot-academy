@@ -65,3 +65,11 @@ Static site, no build step, served by GitHub Pages from the repo root.
   is filled in).
 - `tools/validate.mjs` (structure and KaTeX checks), `tools/shots.mjs`
   (headless screenshots and overflow check; see `courses/diff-geometry-gr/CONVENTIONS.md`, General, Tooling).
+
+## Today, mastery, sharing, tour, offline
+
+- **Today** (`#/today`, home `todayBox` in `js/home.js`): one review session mixing the due questions of every course, the courses taking turns (`TODAY_SIZE` in `main.js`). Items carry `course`; `player.js` switches the current course per card, so images and records follow it. The box also offers the next lesson of the course studied most recently (`progress.lastStudied`).
+- **Mastery heat-maps** (`js/mastery.js`): from the review deck's Leitner boxes (`progress.deckCards`). The trail's level header shows one cell per question (hollow = due); the home course card one cell per level.
+- **Share cards** (`js/share.js`): a 1200 x 630 pixel picture of a finished level (Share button on a complete level header, and on the done screen of the lesson that completes a level) or of an earned medal (tap it in the medal room). Uses the phone's share menu when it accepts files, otherwise saves a PNG.
+- **Welcome tour** (`js/tour.js`, `#/welcome`): three cards over the home page, shown once to a newcomer (pref `toured`); card 2 is the first `card` block of `pages/method.md`.
+- **Offline & install** (`sw.js`, `js/offline.js`): network-first service worker with a cache fallback (after 4 s or offline); Settings has "Save all courses for offline use" (catalog, trails, lessons, their images, the pages). Bump `CACHE` in `sw.js` only to drop old caches. PNG icons are rendered from `icon.svg`.

@@ -40,10 +40,18 @@ export function pageTabs(current = '') {
     }, p.label)));
 }
 
+const pageText = async id => cache[id] ??= await fetch(`pages/${id}.md`).then(r => { if (!r.ok) throw new Error(`pages/${id}.md: ${r.status}`); return r.text(); });
+
+// The YAML of the first block of a kind in a page (the welcome tour borrows the Method page's card).
+export async function pageBlock(id, kind) {
+  for (const m of (await pageText(id)).matchAll(BLOCK)) if (m[1] === kind) return jsyaml.load(m[2]);
+  return null;
+}
+
 export async function renderPage(root, id) {
   const page = PAGES.find(p => p.id === id && id);
   const catalog = await getCatalog();
-  cache[id] ??= await fetch(`pages/${id}.md`).then(r => { if (!r.ok) throw new Error(`pages/${id}.md: ${r.status}`); return r.text(); });
+  await pageText(id);
   document.title = `${page.label} · Gibernoot Academy`;
   const top = h('header', { class: 'topbar' },
     h('h1', { class: 'course-title', 'data-hue': 0 }, catalog.title),
@@ -76,12 +84,13 @@ function fill(body, src, catalog) {
   });
 }
 
-const BLOCKS = {
+export const BLOCKS = {
   cast(ids, catalog) {
     const list = Array.isArray(ids) && ids.length ? ids.map(i => catalog.courses.find(c => c.id === i)).filter(Boolean) : catalog.courses;
     return h('div', { class: 'cast', 'aria-label': 'The course guides' }, list.filter(c => c.mascot).map(c => {
-      const m = mascotEl(c.mascot, 4);
-      return h('a', { class: 'cast-member', href: `#/${c.id}`, 'data-hue': c.hue ?? 0 }, h('span', { class: 'cast-sprite' }, m), h('span', {}, c.short ?? c.title));
+      const m = mascotEl(c.mascot, 4), planned = c.status === 'planned';
+      return h(planned ? 'span' : 'a', { class: `cast-member${planned ? ' planned' : ''}`, href: planned ? null : `#/${c.id}`, 'data-hue': c.hue ?? 0, title: planned ? 'Coming soon' : null },
+        h('span', { class: 'cast-sprite' }, m), h('span', {}, c.short ?? c.title));
     }));
   },
 
@@ -126,7 +135,7 @@ const BLOCKS = {
 };
 
 // One lesson card, playable in place: Check, then feedback; a wrong answer can be retried.
-function tryCard(card) {
+export function tryCard(card) {
   const stage = h('div', { class: 'try-stage' });
   const ctl = renderCard(card, stage);
   const foot = h('div', { class: 'try-foot' });

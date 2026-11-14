@@ -1,5 +1,7 @@
 ## The short version
 
+New here? The [30-second tour](#/welcome) shows the idea with a puzzle.
+
 Every course here is a trail of puzzles. You meet a problem before you have the tools to solve it, you guess, and the lesson builds the tools with you until the puzzle falls apart in your hands. Everything you answer comes back later on a schedule, so it stays in memory. The courses differ in subject, but they all share this structure.
 
 ## A course is a trail

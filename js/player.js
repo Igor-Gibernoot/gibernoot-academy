@@ -1,6 +1,7 @@
 // Plays a sequence of cards (a lesson, or a review session).
 //
-// items: [{ card, key }]  — key = "<lessonId>/<cardId>" for question cards
+// items: [{ card, key, course }]  — key = "<lessonId>/<cardId>" for question cards;
+//        course (optional) = the card's course, for sessions that mix courses
 // mode:  'lesson' | 'review'
 
 import { h } from './dom.js';
@@ -9,6 +10,7 @@ import { icons } from './icons.js';
 import { renderCard } from './cards.js';
 import { isQuestion } from './content.js';
 import { progress } from './progress.js';
+import { setCourse } from './course.js';
 import { sounds, soundOn, setSound } from './sound.js';
 import { themeButton } from './theme.js';
 
@@ -109,6 +111,8 @@ export function runSession(root, { items, mode, startAt = 0, readOnly = false, r
 
   function show() {
     const item = items[i];
+    // A mixed session (Today) carries each card's course: images and records follow it.
+    if (item.course) setCourse(item.course);
     if (!readOnly) onProgress?.(i, items.length, { stats: { ...stats }, combo, answered: Object.fromEntries(answered) });
     fill.style.width = `${((i + 1) / items.length) * 100}%`;
     counter.textContent = `${i + 1}/${items.length}`;

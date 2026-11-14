@@ -221,6 +221,28 @@ export const progress = {
     return Object.entries(state.cards).filter(([key, c]) => mine(key) && c.due <= d).map(([key]) => strip(key));
   },
 
+  // Review keys due today in every course, as { course, key } (the Today session on the home page).
+  allDue() {
+    const d = today();
+    return Object.entries(state.cards).filter(([, c]) => c.due <= d)
+      .map(([full]) => ({ course: full.slice(0, full.indexOf(':')), key: strip(full) }));
+  },
+
+  // Memory strength of the review cards of some lessons of a course (default: the current one),
+  // for the mastery heat-maps: [{ box, due }], box 0 (just missed) to 5 (remembered for weeks).
+  deckCards(lessonIds, course = courseId()) {
+    const set = new Set(lessonIds.map(id => `${course}:${id}`)), d = today();
+    return Object.entries(state.cards).filter(([key]) => set.has(key.split('/')[0])).map(([, c]) => ({ box: c.box, due: c.due <= d }));
+  },
+
+  // When the reader last studied a course (ms; 0 = never): the latest card answered or lesson finished.
+  lastStudied(course) {
+    let t = 0;
+    for (const [key, c] of Object.entries(state.cards)) if (key.startsWith(`${course}:`) && c.at > t) t = c.at;
+    for (const [key, l] of Object.entries(state.lessons)) if (key.startsWith(`${course}:`) && l.last * 86400000 > t) t = l.last * 86400000;
+    return t;
+  },
+
   streak() {
     const s = state.streak;
     return s.last != null && s.last >= today() - 1 ? s.count : 0;

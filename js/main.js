@@ -3,6 +3,8 @@
 //   #/settings                      progress export/import/reset (all courses)
 //   #/medals                        the medal room (achievements, all courses)
 //   #/method, #/about               academy pages (text in pages/<id>.md)
+//   #/today                         review session mixing the due questions of every course
+//   #/welcome                       the home page with the welcome tour open
 //   #/<course>                      the course's trail map
 //   #/<course>/lesson/<id>          play a lesson
 //   #/<course>/lesson/<id>/<n>      jump to card n (1-based) — handy while authoring
@@ -28,15 +30,19 @@ import { recapCards, runRecap } from './recap.js';
 import { sounds, soundOn, setSound } from './sound.js';
 import { initTheme, themeButton } from './theme.js';
 import { initTooltips } from './tooltip.js';
+import { shareLevel } from './share.js';
+import { initOffline, offlinePanel } from './offline.js';
 import { cloudConfigured, initCloud, onCloudChange, signIn, signOutUser, flushCloud, syncCloudNow } from './cloud.js';
 
 initTheme();
 initTooltips();
 initCloud();
+initOffline();
 
 const root = document.getElementById('app');
 const REVIEW_SIZE = 12;
 const RECAP_SIZE = 5;
+const TODAY_SIZE = 15;
 
 // Pixel font (Settings): 'all' (default, lessons too; math keeps its font), 'titles' (titles, labels, buttons), 'off'.
 const pixelFont = () => progress.pref('pixelStyle', progress.pref('pixelFont', true) === false ? 'off' : 'all');
@@ -46,7 +52,8 @@ applyPixelFont();
 async function route() {
   applyPixelFont();
   document.querySelectorAll('.scrim').forEach(s => s.remove());
-  let parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
+  document.documentElement.style.overflow = ''; // a window closed by navigation must not leave the page frozen
+  let parts = location.hash.replace(/^#\/?/, '').replace(/\?.*$/, '').split('/').filter(Boolean);
   try {
     if (['lesson', 'read', 'review', 'recap'].includes(parts[0])) {
       location.replace(`#/${LEGACY_COURSE}/${parts.join('/')}`);
@@ -56,7 +63,8 @@ async function route() {
     if (parts[0] === 'settings') return settings();
     if (parts[0] === 'medals') { document.title = 'Medals · Gibernoot Academy'; return await renderMedals(root); }
     if (parts[0] === 'method' || parts[0] === 'about') return await renderPage(root, parts[0]);
-    if (!parts.length) { document.title = 'Gibernoot Academy'; return await renderHome(root); }
+    if (parts[0] === 'today') { document.title = 'Today · Gibernoot Academy'; return await playToday(); }
+    if (!parts.length || parts[0] === 'welcome') { document.title = 'Gibernoot Academy'; return await renderHome(root); }
     const course = (await getCatalog()).courses.find(c => c.id === parts[0]);
     if (!course) { location.replace('#/'); return; }
     setCourse(course.id);
@@ -100,18 +108,24 @@ async function playLesson(id, startAt, readOnly = false) {
     onExit: () => { location.hash = at(); },
     onFinish: async stats => {
       if (readOnly) { location.hash = at(); return; }
+      const level = (await getCourse()).levels.find(l => (l.lessons ?? []).some(m => m.id === id));
+      const counted = (level?.lessons ?? []).filter(m => m.kind !== 'review');
+      const levelDone = () => counted.length > 0 && counted.every(m => m.file && progress.lesson(m.id)?.done);
+      const wasDone = levelDone();
       progress.completeLesson(id, { ...stats, secs: t0 ? (Date.now() - t0) / 1000 : undefined, cards: data.cards.length });
       // Finishing a level challenge counts the level's other lessons as done (a shortcut for readers who know the chapter).
       let skipped = 0;
       if (meta.kind === 'challenge') {
-        const level = (await getCourse()).levels.find(l => (l.lessons ?? []).some(m => m.id === id));
         const rest = (level?.lessons ?? []).filter(m => m.file && m.kind !== 'review' && m.kind !== 'exam' && !progress.lesson(m.id)?.done);
         skipped = rest.length;
         if (skipped) progress.markKnown(rest.map(m => m.id));
       }
       const next = await nextLessonAfter(id);
+      // The lesson that finishes a level offers a picture of it to share.
+      const entry = !wasDone && levelDone() ? (await getCatalog()).courses.find(c => c.id === courseId()) : null;
       doneScreen({
-        title: 'Lesson complete',
+        share: entry ? { label: `Share: ${level.title} complete`, run: () => shareLevel({ course: entry, level, acc: progress.accuracy(counted.map(m => m.id)) }) } : null,
+        title: entry ? 'Level complete!' : 'Lesson complete',
         subtitle: skipped ? `${meta.title} · ${skipped} other lesson${skipped > 1 ? 's' : ''} of this level marked as done` : meta.title,
         stats,
         actions: [
@@ -182,15 +196,52 @@ async function playRecap(levelId) {
   });
 }
 
-function nothingDue(text) {
+// Today: the due questions of every course in one session, the courses taking turns.
+async function playToday() {
+  const catalog = await getCatalog();
+  const live = new Map(catalog.courses.filter(c => c.status !== 'planned').map(c => [c.id, c]));
+  const queues = [...live.keys()].map(id => shuffle(progress.allDue().filter(d => d.course === id))).filter(q => q.length);
+  const picked = [];
+  while (picked.length < TODAY_SIZE && queues.some(q => q.length)) for (const q of queues) if (q.length && picked.length < TODAY_SIZE) picked.push(q.shift());
+  const items = [];
+  for (const { course, key } of picked) {
+    const [lessonId, cardId] = key.split('/');
+    try {
+      setCourse(course);
+      const { meta, data } = await getLesson(lessonId);
+      const card = data?.cards.find(c => c.id === cardId);
+      const c = live.get(course);
+      if (card && isQuestion(card)) items.push({ card: { ...card, tag: `${c.short ?? c.title} · ${meta.title}` }, key, course });
+    } catch { /* lesson renamed or removed: skip */ }
+  }
+  setCourse(null);
+  if (!items.length) return nothingDue('Questions you answer in any course come back here when they are due: missed ones the same day, the rest after 1, 3, 7, 16 and 35 days.', '#/', 'Back home');
+  runSession(root, {
+    items, mode: 'review',
+    onExit: () => { setCourse(null); location.hash = '#/'; },
+    onFinish: stats => {
+      setCourse(null);
+      progress.finishReview('reviews');
+      const left = progress.allDue().filter(d => live.has(d.course)).length;
+      doneScreen({
+        title: 'Today’s review done',
+        subtitle: left ? `${left} more question${left > 1 ? 's' : ''} due: another round whenever you like.` : 'Everything due is reviewed. See you tomorrow!',
+        stats, mode: 'review',
+        actions: [left ? ['primary', 'Another round', location.hash === '#/today' ? '#/today?again' : '#/today'] : null, [left ? 'ghost' : 'primary', 'Back home', '#/']],
+      });
+    },
+  });
+}
+
+function nothingDue(text, href = at(), label = 'Back to the trail') {
   root.replaceChildren(h('div', { class: 'page done-screen' },
     h('div', { class: 'burst', html: icons.check }),
     h('h1', {}, 'Nothing due'),
     h('p', { class: 'hint-line' }, text),
-    h('div', { class: 'actions' }, h('a', { class: 'btn primary', href: at(), style: 'text-decoration:none' }, 'Back to the trail'))));
+    h('div', { class: 'actions' }, h('a', { class: 'btn primary', href, style: 'text-decoration:none' }, label))));
 }
 
-function doneScreen({ title, subtitle, stats, actions, mode = 'lesson', statLabel }) {
+function doneScreen({ title, subtitle, stats, actions, mode = 'lesson', statLabel, share }) {
   const pct = stats.questions ? Math.round((stats.firstTry / stats.questions) * 100) : 100;
   sounds.finish();
   root.replaceChildren(h('div', { class: 'page done-screen' },
@@ -200,8 +251,10 @@ function doneScreen({ title, subtitle, stats, actions, mode = 'lesson', statLabe
     h('div', { class: 'stats' },
       h('div', { class: 'stat' }, h('b', {}, `${pct}%`), h('span', {}, statLabel ?? (mode === 'lesson' ? 'first-try accuracy in this lesson' : 'first-try accuracy in this session'))),
       h('div', { class: 'stat' }, h('b', {}, `${progress.streak()}`), h('span', {}, 'day streak'))),
-    h('div', { class: 'actions' }, actions.filter(Boolean).map(([cls, label, href]) =>
-      h('a', { class: `btn ${cls}`, href, style: 'text-decoration:none' }, label)))));
+    h('div', { class: 'actions' },
+      share ? h('button', { class: 'btn good', type: 'button', onclick: share.run }, share.label) : null,
+      actions.filter(Boolean).map(([cls, label, href]) =>
+        h('a', { class: `btn ${cls}`, href, style: 'text-decoration:none' }, label)))));
   setTimeout(medalCheck, 600); // after the finish jingle
 }
 
@@ -239,7 +292,7 @@ function accountPanel() {
   return panel;
 }
 
-const BUILD = '2026-11-13 (medals, pixel font in lessons)';
+const BUILD = '2026-11-14 (Today review, mastery maps, share cards, tour, offline)';
 
 function settings() {
   const code = h('textarea', { readonly: true, 'aria-label': 'Your progress code' });
@@ -253,6 +306,7 @@ function settings() {
       h('div', { class: 'brand' }, 'Progress & settings'),
       themeButton(h)),
     accountPanel(),
+    offlinePanel(),
     h('div', { class: 'panel' },
       h('h3', {}, 'Move progress by code'),
       h('p', {}, 'Without an account, progress is saved only in this browser. To continue on another device, copy this code here and import it there.'),

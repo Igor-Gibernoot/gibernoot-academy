@@ -7,6 +7,8 @@ import { getCatalog, getCourse, getLesson, summaryCard, peekSummaries } from './
 import { at, courseId } from './course.js';
 import { mascotEl } from './pixel.js';
 import { medalBar, medalCheck } from './medals.js';
+import { masteryStrip } from './mastery.js';
+import { shareLevel } from './share.js';
 import { progress } from './progress.js';
 import { recapCards } from './recap.js';
 import { themeButton } from './theme.js';
@@ -26,6 +28,7 @@ function overviewBox(o) {
 
 export async function renderTrail(root) {
   const course = await getCourse();
+  const entry = (await getCatalog()).courses.find(c => c.id === courseId());
   const due = progress.dueKeys().length;
   const dueSet = new Set(progress.dueKeys());
   const streak = progress.streak();
@@ -74,7 +77,12 @@ export async function renderTrail(root) {
         h('div', { style: `width:${(done / counted.length) * 100}%` })) : null,
       counted.length ? h('div', { class: 'meta' },
         h('span', {}, `${done}/${counted.length} lessons`),
-        levelAcc != null ? h('span', { class: 'acc', title: 'Average first-try accuracy in this level' }, `${pct(levelAcc)} accuracy`) : null) : null);
+        levelAcc != null ? h('span', { class: 'acc', title: 'Average first-try accuracy in this level' }, `${pct(levelAcc)} accuracy`) : null) : null,
+      masteryStrip(progress.deckCards(lessons.map(m => m.id))),
+      // A level whose lessons are all built and done can be shared as a picture.
+      counted.length && counted.every(m => m.file) && done === counted.length && entry
+        ? h('button', { class: 'level-share', type: 'button', 'data-tip': 'Share a picture of this finished level', onclick: () => shareLevel({ course: entry, level, acc: levelAcc }) }, 'Share')
+        : null);
 
     const path = h('div', { class: 'path' }, lessons.map((meta, k) => {
       const rec = progress.lesson(meta.id);
@@ -106,7 +114,6 @@ export async function renderTrail(root) {
     el?.scrollIntoView({ block: 'center' });
   } else window.scrollTo(0, 0);
   followLevelHue([...root.querySelectorAll('.course-title, .chip.review, .chip.recap')], [...root.querySelectorAll('section.level')]);
-  const entry = (await getCatalog()).courses.find(c => c.id === courseId());
   placeMascot(root, entry?.mascot, mascotAt, mascotFrom);
 }
 

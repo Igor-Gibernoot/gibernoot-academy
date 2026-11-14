@@ -24,7 +24,7 @@ import { mdInline } from '../render.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 const sv = (tag, attrs = {}) => { const e = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); return e; };
-const W = 480, H = 260, X0 = 46, X1 = 470, Y0 = 12, Y1 = 222;
+const W = 480, H = 260, X0 = 46, X1 = 470, Y0 = 30, Y1 = 222; // the band above Y0 holds the axis title
 
 export function forgettingCurve(el, cfg) {
   const days = cfg.days ?? 60, s0 = cfg.s0 ?? 2.5, gain = cfg.gain ?? 3.8;
@@ -69,7 +69,7 @@ export function forgettingCurve(el, cfg) {
   }
   if (sh.axisLabels) {
     const t = sv('text', { x: X1, y: H - 4, class: 'fgc-tick', 'text-anchor': 'end' }); t.textContent = L.day; grid.append(t);
-    const r = sv('text', { x: X0 + 6, y: Y0 + 4, class: 'fgc-tick' }); r.textContent = L.retention; grid.append(r);
+    const r = sv('text', { x: 4, y: 14, class: 'fgc-tick' }); r.textContent = L.retention; grid.append(r);
   }
   if (sh.threshold) {
     const y = yOf(cfg.thresholdAt ?? 0.5);

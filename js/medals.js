@@ -18,6 +18,7 @@ import { sounds } from './sound.js';
 import { icons } from './icons.js';
 import { themeButton } from './theme.js';
 import { paintGrid, canvas, OUTLINE, SPRITES } from './pixel.js';
+import { shareMedal } from './share.js';
 
 export const PACE = 45; // seconds per card for a speed medal
 
@@ -353,6 +354,9 @@ const urls = new Map();
 const cached = (key, draw) => { if (!urls.has(key)) urls.set(key, draw().toDataURL()); return urls.get(key); };
 const pixImg = (src, w, hgt, cls, alt = '') => h('img', { src, width: w, height: hgt, class: `pix ${cls}`, alt, draggable: 'false' });
 
+// The medal's picture as a fresh canvas (share cards scale it up).
+export const medalCanvas = m => drawMedal(m);
+
 export const medalImg = (m, scale = 3) => pixImg(cached(m.id, () => drawMedal(m)), MW * scale, MH * scale, 'medal-art', m.name);
 
 // A category's symbol alone (12 x 12 with its outline), for the counters.
@@ -404,7 +408,7 @@ export async function renderMedals(root) {
   const top = h('header', { class: 'topbar' },
     h('a', { class: 'academy-link', href: '#/', html: `${icons.back}<span>Gibernoot Academy</span>` }),
     h('h1', { class: 'course-title', 'data-hue': 0 }, 'Medal Room'),
-    h('div', { class: 'course-sub' }, `${nEarned} of ${list.length} medals earned. Go collect them all!`),
+    h('div', { class: 'course-sub' }, `${nEarned} of ${list.length} medals earned. Go collect them all!${nEarned ? ' Tap an earned medal to share it.' : ''}`),
     h('div', { class: 'toolbar' }, themeButton(h)));
   const sections = CATEGORIES.map(cat => {
     const ms = list.filter(m => m.cat === cat.id);
@@ -415,7 +419,9 @@ export async function renderMedals(root) {
         h('span', { class: 'medal-cat-count' }, `${got}/${ms.length}`)),
       h('div', { class: 'medal-grid' }, ms.map(m => {
         const have = m.id in earned;
-        return h('div', { class: `medal${have ? '' : ' locked'}${fresh.includes(m) ? ' fresh' : ''}` },
+        const share = () => shareMedal(m, earned[m.id]);
+        return h('div', { class: `medal${have ? ' shareable' : ' locked'}${fresh.includes(m) ? ' fresh' : ''}`,
+          ...(have ? { role: 'button', tabindex: 0, 'data-tip': 'Tap to share this medal', onclick: share, onkeydown: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); share(); } } } : {}) },
           medalImg(m, 2.5),
           h('div', { class: 'm-name' }, m.name),
           h('div', { class: 'm-desc' }, m.desc),

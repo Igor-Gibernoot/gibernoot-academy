@@ -177,6 +177,15 @@ export function spriteSheet(name) {
   return sheets.get(name);
 }
 
+// One frame of a sprite as a canvas at 1 pixel per cell (share cards scale it up).
+export function spriteCanvas(name, f = 0) {
+  const s = SPRITES[name];
+  if (!s) return null;
+  const { w, h } = spriteSize(s), c = canvas(w, h);
+  paintSprite(c.getContext('2d'), s, f, 0, 0);
+  return c;
+}
+
 // The trail mascot: a div whose background steps through the walk sheet.
 // CSS (.mascot) scales it; the `walking` class runs the cycle.
 export function mascotEl(name, scale = 3) {
