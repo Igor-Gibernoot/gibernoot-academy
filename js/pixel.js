@@ -87,28 +87,25 @@ export const SPRITES = {
       ['....LL....LL....', '...LL......LL...', '..LLL......LLL..'],
     ],
   },
-  // Hard hat with a lamp, cyan goggles, orange safety vest and a wrench: how the world works.
+  // Slim engineer: hard hat with a lamp, cyan goggles, orange vest with reflective stripes, a big wrench held up.
   engineer: {
-    pal: { Y: '#ffc928', y: '#d99a00', W: '#fffbe0', S: '#f2c48d', K: '#26262e', C: '#5ce1ff', O: '#ff7a1f', R: '#fff2b0', B: '#3f6fd0', G: '#b8c0cc' },
+    pal: { Y: '#ffc928', y: '#d99a00', W: '#fffbe0', S: '#f2c48d', K: '#26262e', C: '#5ce1ff', O: '#ff7a1f', R: '#fff2b0', B: '#3f6fd0', G: '#dfe5ee' },
     body: [
-      '.....YYYYYY.....',
-      '....YYWWYYYY....',
-      '...YYYWWYYYYY...',
-      '..yyyyyyyyyyyy..',
-      '...KCCCKKCCCK...',
-      '....SSSSSSSS....',
-      '....SSKKKKSS....',
-      '.....SSSSSS.....',
-      '..OOOOOOOOOOOOGG',
-      '.OOORROOOORROOOG',
-      '.SOORROOOORROOSG',
-      '.SOOOOOOOOOOOOSG',
-      '..BBBBBBBBBBBB.G',
-      '..BBBBBBBBBBBB..',
+      '...YYYYYY.......',
+      '..YYYWWYYY.GG.GG',
+      '.yyyyyyyyy.GGGGG',
+      '..KCCKKCCK...GG.',
+      '..SSSSSSSS...GG.',
+      '...SSSSSS....GG.',
+      '..OOOOOOOOOSSGG.',
+      '.SOORROORROO.GG.',
+      '..OOOOOOOO...GG.',
+      '..OORROORR...GG.',
+      '..BBBBBBBB......',
     ],
     legs: [
-      ['....BBB..BBB....', '....KKK..KKK....'],
-      ['....BBB..BBB....', '...KKK....KKK...'],
+      ['..BBB..BBB......', '..KKK..KKK......'],
+      ['..BBB..BBB......', '.KKK....KKK.....'],
     ],
   },
   // Bald, white beard, toga and a lantern: science, faith and mind.
@@ -256,21 +253,20 @@ export const BANNERS = {
     g.disc(60, 7, 1, '#d8d8e8');
     g.sprite('einstein', 74, 27);
   },
-  // A brain standing in a moonlit forest, fireflies drifting between the pines.
+  // A brain standing in a forest clearing on a bright morning, sun low behind the pines.
   blanket(g) {
-    g.sky(['#0a1f2e', '#0f3040', '#164a4a', '#1d5c4c']);
-    g.stars(16, 11, ['#ffffff', '#bfe9ff'], 12);
-    g.disc(80, 6, 4, '#fff1b8'); g.disc(82, 5, 3, '#0f3040');
+    g.sky(['#7cc8f0', '#a9dcf4', '#d8f0f0', '#fff0c0']);
+    g.disc(14, 17, 6, '#ffe27a'); g.disc(14, 17, 4, '#fff6c4');
+    [[30, 5], [31, 5], [32, 5], [29, 6], [30, 6], [31, 6], [32, 6], [33, 6], [60, 3], [61, 3], [62, 3], [59, 4], [60, 4], [61, 4], [62, 4], [63, 4]].forEach(([x, y]) => g.px(x, y, '#ffffff'));
+    [[44, 8], [46, 7], [48, 8], [84, 6], [86, 5], [88, 6]].forEach(([x, y]) => g.px(x, y, '#3a4a5a'));
     const pine = (x, base, hgt, c, d) => {
       for (let k = 0; k < hgt; k++) { const w = Math.floor(k / 2.2); g.rect(x - w, base - hgt + k, 2 * w + 1, 1, k % 4 === 3 ? d : c); }
-      g.rect(x, base, 1, 2, '#4a3220');
+      g.rect(x, base, 1, 2, '#6b4a2c');
     };
-    [[6, 22, 14], [20, 23, 12], [58, 22, 15], [72, 23, 11], [90, 22, 14], [32, 22, 9], [66, 22, 9]].forEach(([x, b2, hh]) => pine(x, b2, hh, '#14503a', '#0d3a2b'));
-    g.rect(0, 24, 96, 4, '#0b2a22'); g.rect(0, 24, 96, 1, '#1d6b4a');
-    g.disc(48, 17, 9, '#1d5c4c');
-    [[14, 6], [27, 12], [34, 5], [60, 9], [68, 14], [78, 17], [86, 8], [8, 15], [42, 3], [54, 4]].forEach(([x, y], i) => {
-      g.px(x, y, '#ffe86b'); if (i % 2) { g.px(x + 1, y, '#c9a93a'); }
-    });
+    [[32, 22, 9], [66, 22, 9]].forEach(([x, b2, hh]) => pine(x, b2, hh, '#4aa65a', '#37894a'));
+    [[6, 22, 14], [20, 23, 12], [58, 22, 15], [72, 23, 11], [90, 22, 14]].forEach(([x, b2, hh]) => pine(x, b2, hh, '#2e8b4a', '#1f6b3a'));
+    g.rect(0, 24, 96, 4, '#4f9a4a'); g.rect(0, 24, 96, 1, '#8fd36a');
+    [[10, 26], [26, 25], [38, 26], [60, 26], [80, 25], [93, 26]].forEach(([x, y]) => { g.px(x, y, '#ffd23f'); g.px(x + 2, y, '#ff8ab0'); });
     g.sprite('brain', 40, 26);
   },
   // Bell curves of different widths, and the robot that fits them.
@@ -283,22 +279,21 @@ export const BANNERS = {
     g.curve(x => 25 - 7 * gauss(x, 48, 16), 0, 70, '#ff7ab8');
     g.sprite('robot', 74, 27);
   },
-  // Sunset over a workshop town: factory with smoking chimneys, a big gear and a rocket lifting off.
+  // A bright morning of inventions: hot-air balloon, wind turbine, rocket lifting off, and the engineer.
   machines(g) {
-    g.sky(['#2b1b4a', '#6a3a7a', '#d9645a', '#ffb36b']);
-    g.stars(14, 4, ['#ffffff', '#ffe9a8'], 9);
-    g.disc(34, 24, 7, '#ffd86b'); g.disc(34, 24, 4, '#fff1b8');
-    // factory: sawtooth roof, chimneys, lit windows
-    g.rect(0, 18, 30, 10, '#1d1530');
-    for (let x = 0; x < 30; x += 6) for (let k = 0; k < 4; k++) g.rect(x + k, 15 + k, 1, 3 - k + 0, '#1d1530');
-    g.rect(4, 6, 3, 12, '#2a1d40'); g.rect(20, 9, 3, 9, '#2a1d40');
-    g.rect(3, 6, 5, 1, '#ff7a1f'); g.rect(19, 9, 5, 1, '#ff7a1f');
-    [[5, 3], [7, 1], [21, 6], [23, 4], [25, 2]].forEach(([x, y]) => g.disc(x, y, 1, '#8b7aa0'));
-    for (let x = 2; x < 28; x += 5) g.rect(x, 21, 3, 2, '#ffd23f');
-    // big gear with a lit hub
-    for (let a = 0; a < 12; a++) g.rect(Math.round(46 + 8 * Math.cos(a * Math.PI / 6)) - 1, Math.round(17 + 8 * Math.sin(a * Math.PI / 6)) - 1, 3, 3, '#8d97a6');
-    g.disc(46, 17, 6, '#b5bfcc'); g.disc(46, 17, 3, '#6a4a7a'); g.disc(46, 17, 1, '#ffd23f');
-    // rocket lifting off with a flame and smoke
+    g.sky(['#6fc0f2', '#9bd6f6', '#c9ebfa', '#f3f8e8']);
+    g.disc(88, 6, 4, '#ffe27a'); g.disc(88, 6, 2, '#fff6c4');
+    [[40, 4], [41, 4], [42, 4], [39, 5], [40, 5], [41, 5], [42, 5], [43, 5], [4, 12], [5, 12], [6, 12], [3, 13], [4, 13], [5, 13], [6, 13], [7, 13]].forEach(([x, y]) => g.px(x, y, '#ffffff'));
+    // hills
+    for (let x = 0; x < 96; x++) { const h = 24 + Math.round(1.6 * Math.sin(x / 8)); g.rect(x, h, 1, 28 - h, '#62b35c'); g.px(x, h, '#9be07a'); }
+    // hot-air balloon
+    g.disc(20, 9, 5, '#ff5a4f'); g.rect(19, 4, 3, 10, '#ffd23f'); g.rect(17, 9, 7, 1, '#ffffff');
+    g.px(18, 14, '#5a4a3a'); g.px(22, 14, '#5a4a3a'); g.rect(18, 15, 5, 2, '#8a5a2b');
+    // wind turbine
+    g.rect(41, 13, 1, 11, '#f4f7fa'); g.disc(41, 12, 1, '#c9d2dc');
+    [-80, 40, 160].forEach(a2 => { const r = a2 * Math.PI / 180; for (let t = 2; t <= 9; t += 0.5) { const x = 41 + t * Math.cos(r), y = 12 + t * Math.sin(r); g.px(x, y, '#ffffff'); if (t > 4) g.px(x + 1, y, '#dfe8f0'); } });
+    g.disc(41, 12, 1, '#9aa7b5');
+    // rocket lifting off
     g.grid([
       '...R...',
       '..RRR..',
@@ -311,9 +306,8 @@ export const BANNERS = {
       '..OYO..',
       '..OYO..',
       '...Y...',
-    ], 62, 5, { R: '#e53935', W: '#f4f4f6', B: '#5ce1ff', O: '#ff8a1f', Y: '#ffd23f' });
-    [[65, 17], [64, 19], [66, 21], [63, 23], [65, 25]].forEach(([x, y], i) => g.disc(x, y, i < 3 ? 1 : 2, i % 2 ? '#c9b8d8' : '#e8dff0'));
-    g.rect(0, 27, 96, 1, '#120c20');
+    ], 55, 3, { R: '#e53935', W: '#f4f4f6', B: '#5ce1ff', O: '#ff8a1f', Y: '#ffd23f' });
+    [[58, 15, 1], [57, 17, 1], [59, 19, 2], [57, 21, 2], [59, 23, 2]].forEach(([x, y, r], i) => g.disc(x, y, r, i % 2 ? '#e3eaf1' : '#ffffff'));
     g.sprite('engineer', 74, 27);
   },
   // Dusk over a temple, a crescent moon and the first stars.
