@@ -2,6 +2,7 @@
 //   #/                              academy home: the list of courses
 //   #/settings                      progress export/import/reset (all courses)
 //   #/medals                        the medal room (achievements, all courses)
+//   #/method, #/about               academy pages (text in pages/<id>.md)
 //   #/<course>                      the course's trail map
 //   #/<course>/lesson/<id>          play a lesson
 //   #/<course>/lesson/<id>/<n>      jump to card n (1-based) — handy while authoring
@@ -17,6 +18,7 @@ import { icons } from './icons.js';
 import { getCatalog, getCourse, getLesson, nextLessonAfter, isQuestion, peekSummaries, setPeekSummaries } from './content.js';
 import { setCourse, courseId, at, LEGACY_COURSE, RENAMED } from './course.js';
 import { renderHome } from './home.js';
+import { renderPage } from './pages.js';
 import { renderMedals, medalCheck } from './medals.js';
 import { progress } from './progress.js';
 import { renderTrail } from './trail.js';
@@ -53,6 +55,7 @@ async function route() {
     if (RENAMED[parts[0]]) { location.replace(`#/${[RENAMED[parts[0]], ...parts.slice(1)].join('/')}`); return; }
     if (parts[0] === 'settings') return settings();
     if (parts[0] === 'medals') { document.title = 'Medals · Gibernoot Academy'; return await renderMedals(root); }
+    if (parts[0] === 'method' || parts[0] === 'about') return await renderPage(root, parts[0]);
     if (!parts.length) { document.title = 'Gibernoot Academy'; return await renderHome(root); }
     const course = (await getCatalog()).courses.find(c => c.id === parts[0]);
     if (!course) { location.replace('#/'); return; }

@@ -49,6 +49,8 @@ Static site, no build step, served by GitHub Pages from the repo root.
   (`vendor/fonts`, OFL), Settings "Pixel style" (pref `pixelStyle`, `<html data-pixel>`): `all` (default: lessons too;
   KaTeX and widgets keep their fonts), `titles` (titles, labels, chips, buttons only), `off` (the
   older boolean pref `pixelFont: false` still maps to `off`).
+- Academy pages (`js/pages.js`, routes `#/method`, `#/about`): text in `pages/<id>.md` (Markdown + math); the
+  tab bar Courses · Method · About sits under the home header. Update `pages/method.md` when a feature changes.
 - Medals (`js/medals.js`, route `#/medals`): `CATEGORIES` of series, each a ladder of `[need, name]` on one statistic
   computed from the progress store (retroactive): lessons, accuracy (90% / 100% first try, first run), streaks (best
   ever, `streak.best`), speed (first run in one sitting, 90%+, under `PACE` s per card: `lessons[..].pace`), levels

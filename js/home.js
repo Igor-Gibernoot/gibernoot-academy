@@ -10,6 +10,7 @@ import { themeButton } from './theme.js';
 import { accountChip } from './trail.js';
 import { bannerEl } from './pixel.js';
 import { medalBar, medalCheck } from './medals.js';
+import { pageTabs } from './pages.js';
 
 const pct = x => `${Math.round(x * 100)}%`;
 
@@ -48,7 +49,7 @@ export async function renderHome(root) {
       : h('a', { class: 'course-card', href: `#/${c.id}`, 'data-hue': c.hue ?? k % 6 }, body);
   }));
 
-  top.append(medalBar());
+  top.append(pageTabs(''), medalBar());
   root.replaceChildren(h('div', { class: 'trail home' }, top, h('div', { class: 'course-list' }, cards)));
   medalCheck().then(() => root.querySelector('.medal-bar')?.replaceWith(medalBar()));
 }
