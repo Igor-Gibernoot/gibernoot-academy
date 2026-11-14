@@ -14,8 +14,10 @@ adds what is specific to this course.
 - **The book is unpublished: never commit or push it** (Markdown, images,
   PDFs). Never read the PDFs.
 - Exams: `sources/partial_exam/` and `sources/final_exam/` (built:
-  `exams/partial.yaml`, `exams/final.yaml`; levels `exam-partial` between
-  Levels 5 and 6, `exam-final` after Level 10).
+  `exams/partial.yaml`, `exams/partial2.yaml`; levels `exam-partial` between
+  Levels 5 and 6, `exam-partial2` (the professor's final, as second partial)
+  between Levels 8 and 9). `exams/final.yaml` is an original exam on Levels
+  9 and 10 only (`exam-final` after Level 10).
 - `sources/PDF_TYPOS.md`: typos found in the book's PDF.
 - `archive/tex_exercises/`: retired TeX exercises, a source of good problems
   (and of each chapter's content map); the book stays the reference.

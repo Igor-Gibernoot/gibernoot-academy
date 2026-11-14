@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-14 · Exams re-split
+The professor's sphere exam is now `exam-partial2` (`exams/partial2.yaml`, after Level 8, original points 3 + 4 + 3, restored exactly). `exam-final` (`exams/final.yaml`) is original, Levels 9 and 10 only: Q1 gravity as a connection (3), Q2 spacetime and Einstein equations (3), Q3 Newton vs Einstein around a point mass with G_NM = 1, r = 4: omega = 1/8, tides -2/r^3 = -0.03125 vs ff''/2 = -0.015625, orbiting clock 5 for Delta t = 10 (4). Kept id `exam-partial` for the first partial (progress is keyed by id).
+Conventions fixed here: exams are exam-partial (L2-5), exam-partial2 (L6-8), exam-final (L9-10).
+
 ## 2026-11-14 · Final exam extended to Levels 9 and 10
 `exams/final.yaml`: professor's Q1-Q3 (sphere, Levels 6-8) kept, points scaled by 0.6 (1.8 + 2.4 + 1.8); added original Q4 (Level 9: potential $\phi=\tfrac12(2x_1^2-x_2^2-x_3^2)$, acceleration, vacuum but tidal, tidal equation, $\cosh 1$ fall, Coriolis $\omega=2$) and Q5 (Level 10: 13-12-5 twin = 10 vs 26, boost $u=0.8$, fluid $\rho=4,p=1$ Ric$_{00}=3.5$, Ric$_{11}=1.5$, static clock $r=5$ gives 7.746, vacuum $f$), 2 points each. Total still 10, 51 cards.
 Conventions fixed here: final exam = 5 questions (1.8 + 2.4 + 1.8 + 2 + 2); Q4-Q5 are self-contained, no figures.
