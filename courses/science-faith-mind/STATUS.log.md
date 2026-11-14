@@ -1,5 +1,11 @@
 # Status log
 
+## 2026-11-14: ch20-method
+- Built `ch20/method.yaml` (20 cards, concept): hook five mediums agree; universal control (Revue Spirite Apr 1864, incl. Kardec's own "same influence" caveat); Mediums' Book cautions (ch XIX, XX, XXIV, XXVII); shared-book numeric $0.9^5\approx59\%$ vs chance 1/256; `odds-updater` witnesses mode (prior 1e-3, q = 1/4, presets one / five independent / five sharing one source = n 1); independence multi-select; controls: blinding (1784 Franklin commission), Faraday's indicator, randomisation (Peirce-Jastrow 1884), preregistration (Registered Reports 2013), counting misses (Rosenthal 1979); order card test design; trap "unanimous so proven"; Spiritist steelman (Mediums' Book item 31: spirits "not subject to our commands") and critic's reply; layers; `own:` 4 blanks.
+- Choices: Mediums' Book quoted in the English Kardecpedia translation (not Blackwell); widget labels shortened for phone; Kardec's "same influence" caveat used as the Spiritist side's own independence argument.
+- Images (2): Franklin by Duplessis c. 1785 (PD), Faraday's indicator from Illustrated London News 16 Jul 1853 (PD; card credit adds the newspaper). Not reused: Kardec, Daumier.
+- Conventions fixed here: witness odds $\text{LR}=1/q^{n}$ with q = chance one medium matches with no real source; shared source = one witness; shared-book toy $0.9^5\approx0.59$; four controls named blinding / randomisation / written in advance / count the misses.
+
 ## 2026-11-14: ch20-principles
 - Built `ch20/principles.yaml` (23 cards, concept, no widget; checked condition-chain, odds-updater, sequence-sampler, tradeoff-curve: none shows a doctrine's principles, and the spirit scale is a count, not a manipulation). Hook: two children born unequal, resolved by Q171 justice argument. Critics: Catholic Catechism 1013/2117 + Heb 9:27 and Deut 18, John 3:3 two readings, Edwards (memory, population after Tertullian) with Spirits' Book replies Q393/Q80/Q172, physicalist brain objection vs James's transmission (1898).
 - Images (2): 1860 title page of Le Livre des Esprits (PD), Kardec's tomb at Père Lachaise (DuiMDog, CC BY 2.5; ledger author corrected by hand from "unknown" to the photographer named in the file description). No James portrait (already used in the course), no Edwards portrait (none free).
