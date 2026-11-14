@@ -5,6 +5,7 @@
 //   node tools/fetch-image.mjs search "Kurt Gödel portrait"             list candidate files with license
 //   (get refuses public domain that holds only in some countries, e.g. PD-US, PD-Sweden; --allow-limited overrides)
 //   node tools/fetch-image.mjs get <course> "File:Kurt gödel.jpg" <name> [--width 900]
+//   (<course> = pages saves into pages/img/, for the academy pages Method and About)
 //
 // `get` refuses non-free licenses (NC, ND, fair use, unknown), downloads, converts
 // (needs ImageMagick `magick`), appends to the ledger and prints the YAML to paste on a card
@@ -68,14 +69,16 @@ if (cmd === 'search') {
   const width = wi >= 0 ? Number(rest[wi + 1]) : 900;
   const [course, fileTitle, name] = args.filter(a => a !== String(width) || wi < 0);
   if (!course || !fileTitle || !/^[a-z0-9-]+$/.test(name ?? '')) { console.error('usage: get <course> "File:Name.jpg" <name-lowercase-with-dashes> [--width 900]'); process.exit(2); }
-  if (!existsSync(join(root, 'courses', course))) { console.error(`no course folder courses/${course}`); process.exit(2); }
+  // `pages` = the academy pages (pages/img/), otherwise a course folder
+  const base = course === 'pages' ? join(root, 'pages') : join(root, 'courses', course);
+  if (!existsSync(base)) { console.error(`no course folder courses/${course}`); process.exit(2); }
   const t = await info(fileTitle.startsWith('File:') ? fileTitle : `File:${fileTitle}`, width);
   if (!FREE.test(t.license) || NONFREE.test(t.license)) { console.error(`REFUSED: license "${t.license}" is not free to reuse (${t.page})`); process.exit(1); }
   const lim = await worldwide(t.title);
   if (lim && !rest.includes('--allow-limited')) { console.error(`REFUSED: "${lim}" makes this public domain only under some countries' law, not free everywhere (${t.page}). Pick another file (author dead 70+ years, PD-old, CC0, CC BY, CC BY-SA, own work), or add --allow-limited only if nothing else exists.`); process.exit(1); }
   if (lim) console.error(`note: country-limited license ${lim}: log it in STATUS.log.md`);
   if (/trademark|personality|insignia/i.test(t.restrictions)) console.error(`note: restrictions on this file: ${t.restrictions}`);
-  const dir = join(root, 'courses', course, 'img');
+  const dir = join(base, 'img');
   mkdirSync(dir, { recursive: true });
   const url = t.ii.thumburl || t.ii.url;
   const buf = Buffer.from(await (await fetch(url, { headers: UA })).arrayBuffer());
@@ -90,7 +93,7 @@ if (cmd === 'search') {
   const q = s => JSON.stringify(s);
   appendFileSync(ledger, `${name}.webp:\n  source: ${q(t.page)}\n  title: ${q(t.title)}\n  author: ${q(t.author)}\n  license: ${q(t.license)}\n  fetched: ${new Date().toISOString().slice(0, 10)}\n`);
   const credit = `${t.author.length > 70 ? t.author.slice(0, 67) + '…' : t.author}, ${t.license}, via Wikimedia Commons`;
-  console.log(`saved courses/${course}/img/${name}.webp (${kb} KB); ledger updated. Paste on the card, then write alt and caption:\n`);
+  console.log(`saved ${course === 'pages' ? 'pages' : `courses/${course}`}/img/${name}.webp (${kb} KB); ledger updated. Paste on the card, then write alt and caption:\n`);
   console.log(`  image:\n    src: img/${name}.webp\n    alt: ${q('TODO: what the picture shows')}\n    caption: ${q('TODO: one sentence that teaches something')}\n    credit: ${q(credit)}\n    link: ${q(t.page)}`);
 } else {
   console.error('usage:\n  node tools/fetch-image.mjs search "words"\n  node tools/fetch-image.mjs get <course> "File:Name.jpg" <name> [--width 900]');

@@ -76,6 +76,7 @@ import { cellularAutomaton } from './cellular-automaton.js';
 import { chshLab } from './chsh-lab.js';
 import { scaleFactor } from './scale-factor.js';
 import { multiverseCounter } from './multiverse-counter.js';
+import { forgettingCurve } from './forgetting-curve.js';
 import { oddsUpdater } from './odds-updater.js';
 import { chaosSensitivity } from './chaos-sensitivity.js';
 import { conditionChain } from './condition-chain.js';
@@ -158,6 +159,7 @@ const WIDGETS = {
   'microstate-counter': microstateCounter,
   'integration-demo': integrationDemo,
   'multiverse-counter': multiverseCounter,
+  'forgetting-curve': forgettingCurve,
 };
 
 export function mountWidget(name, el, config) {

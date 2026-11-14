@@ -50,7 +50,7 @@ Static site, no build step, served by GitHub Pages from the repo root.
   KaTeX and widgets keep their fonts), `titles` (titles, labels, chips, buttons only), `off` (the
   older boolean pref `pixelFont: false` still maps to `off`).
 - Academy pages (`js/pages.js`, routes `#/method`, `#/about`): text in `pages/<id>.md` (Markdown + math); the
-  tab bar Courses · Method · About sits under the home header. Update `pages/method.md` when a feature changes.
+  tab bar Courses · Method · About sits under the home header. Update `pages/method.md` when a feature changes. Pages hold visual blocks (fenced code with YAML: `cast`, `trail`, `card` (a playable lesson card), `widget`, `image` from `pages/img/` via `fetch-image.mjs get pages`, `bars`), documented at the top of `js/pages.js`.
 - Medals (`js/medals.js`, route `#/medals`): `CATEGORIES` of series, each a ladder of `[need, name]` on one statistic
   computed from the progress store (retroactive): lessons, accuracy (90% / 100% first try, first run), streaks (best
   ever, `streak.best`), speed (first run in one sitting, 90%+, under `PACE` s per card: `lessons[..].pace`), levels
