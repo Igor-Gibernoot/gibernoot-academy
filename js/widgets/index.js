@@ -78,6 +78,7 @@ import { scaleFactor } from './scale-factor.js';
 import { multiverseCounter } from './multiverse-counter.js';
 import { forgettingCurve } from './forgetting-curve.js';
 import { oddsUpdater } from './odds-updater.js';
+import { hitCounter } from './hit-counter.js';
 import { chaosSensitivity } from './chaos-sensitivity.js';
 import { conditionChain } from './condition-chain.js';
 import { microstateCounter } from './microstate-counter.js';
@@ -149,6 +150,7 @@ const WIDGETS = {
   'alt-projections': altProjections,
   'log-ruler': logRuler,
   'odds-updater': oddsUpdater,
+  'hit-counter': hitCounter,
   'chaos-sensitivity': chaosSensitivity,
   'condition-chain': conditionChain,
   'feedback-loop': feedbackLoop,
