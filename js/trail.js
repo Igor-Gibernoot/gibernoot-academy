@@ -101,7 +101,7 @@ export async function renderTrail(root) {
   top.append(medalBar());
   root.replaceChildren(h('div', { class: 'trail' }, top, overviewBox(course.overview), levels));
   medalCheck().then(() => root.querySelector('.medal-bar')?.replaceWith(medalBar()));
-  if (nextId) {
+  if (nextId && built.some(m => progress.lesson(m.id)?.done)) {
     const el = root.querySelector('.node.next');
     el?.scrollIntoView({ block: 'center' });
   }
