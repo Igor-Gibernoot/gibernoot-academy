@@ -39,26 +39,30 @@ export const SPRITES = {
   },
   // A pink brain with eyes: active inference.
   brain: {
-    pal: { P: '#f59ab5', p: '#c9577c', W: '#ffffff', K: '#26262e', R: '#e53935', T: '#ff5a5a' },
+    pal: { P: '#f59ab5', p: '#c9577c', W: '#ffffff', K: '#26262e', R: '#e53935', T: '#8a5a2b', Y: '#fff0a0', O: '#ff9a1f' },
     body: [
-      '.....PPPPPP.....',
-      '...PPpPPPPpPP...',
-      '..PPPPpPPpPPPP..',
-      '.PPpPPPPPPPPpPP.',
-      '.RRRRRRRRRRRRRR.',
-      'PPpPKKPPPPKKPPRR',
-      'PPPPWKPPPPWKPPPP',
-      'PPPPWWPPPPWWPPPP',
-      'PpPPPPPPPPPPPPpP',
-      '.PPPPKPPPPKPPPP.',
-      '.PPpPPKKKKPPpPP.',
-      '..PPPPPpPPPPPP..',
-      '....PPPPPPPP....',
-      '.......pp.......',
+      '..................Y.',
+      '.................YOY',
+      '.................ORO',
+      '..................O.',
+      '.......PPPPPP.....T.',
+      '.....PPpPPPPpPP...T.',
+      '....PPPPpPPpPPPP..T.',
+      '...PPpPPPPPPPPpPP.T.',
+      '...RRRRRRRRRRRRRR.T.',
+      '..PPpPKPPPPPPKPPRRT.',
+      '..PPPPPKPPPPKPPPPPT.',
+      '..PPPPWWPPPPWWPPPPP.',
+      '.PPpPPWKPPPPWKPPpPP.',
+      'P.PPPPPPPPPPPPPPPP..',
+      'P..PPPPPKKKKPPPPP...',
+      '...PPpPKPPPPKpPPP...',
+      '....PPPPPpPPPPPP....',
+      '......PPPPPPPP......',
     ],
     legs: [
-      ['.....K....K.....', '.....K....K.....', '....KK....KK....'],
-      ['.....K....K.....', '....K......K....', '...KK......KK...'],
+      ['.......K....K.......', '.......K....K.......', '......KK....KK......'],
+      ['.......K....K.......', '......K......K......', '.....KK......KK.....'],
     ],
   },
   // A robot whose screen shows a bell curve: information geometry.
@@ -262,31 +266,25 @@ export const BANNERS = {
       for (let k = 0; k < hgt; k++) { const w = Math.floor(k / 2.2); g.rect(x - w, base - hgt + k, 2 * w + 1, 1, k % 4 === 3 ? d : c); }
       g.rect(x, base, 1, 2, '#2a1d18');
     };
-    [[30, 22, 11], [34, 22, 8], [64, 22, 10], [68, 22, 8], [46, 22, 7]].forEach(([x, b2, hh]) => pine(x, b2, hh, '#486f66', '#3b5d56'));
+    [[30, 22, 11], [34, 22, 8]].forEach(([x, b2, hh]) => pine(x, b2, hh, '#486f66', '#3b5d56'));
     for (let y = 18; y < 24; y++) for (let x = 0; x < 96; x++) if ((x + y) % 2 === 0 && y % 2 === 0) g.px(x, y, '#cfdcd8');
     [[6, 23, 17], [19, 24, 14], [78, 24, 14], [91, 23, 17]].forEach(([x, b2, hh]) => pine(x, b2, hh, '#173f31', '#0f2c23'));
     g.rect(0, 24, 96, 4, '#1f3a26'); g.rect(0, 24, 96, 1, '#3d6a3a');
     for (let x = 1; x < 96; x += 3) g.px(x, 23, '#2c5a32');
     // bushes with eyes in the dark
     [[24, 21], [84, 21]].forEach(([x, y]) => { g.rect(x, y, 9, 3, '#0b1f18'); g.px(x + 2, y + 1, '#ff3b3b'); g.px(x + 5, y + 1, '#ff3b3b'); });
-    // a bare, twisted tree
-    g.rect(70, 14, 2, 10, '#2a1d18');
-    [[69, 15], [68, 14], [67, 13], [72, 16], [73, 15], [74, 14], [74, 13], [68, 19], [67, 18]].forEach(([x, y]) => g.px(x, y, '#2a1d18'));
-    g.sprite('brain', 40, 26);
-    // arms: left hand hangs ready, right arm lifts a torch
-    const D = '#1b1b24', P = '#f59ab5', ARM = [[57, 17], [58, 16], [59, 15], [60, 14]];
-    ARM.forEach(([x, y]) => { g.px(x, y - 1, D); g.px(x, y + 1, D); g.px(x + 1, y, D); g.px(x - 1, y, D); });
-    [[40, 17], [39, 18], [38, 19], [38, 20]].forEach(([x, y]) => { g.px(x - 1, y, D); g.px(x, y + 1, D); g.px(x + 1, y - 1, D); });
-    ARM.forEach(([x, y]) => { g.px(x, y, P); g.px(x, y + 1, P); });
-    [[40, 17], [39, 18], [38, 19], [38, 20]].forEach(([x, y]) => g.px(x, y, P));
-    g.rect(62, 8, 1, 8, D); g.rect(61, 9, 1, 7, '#8a5a2b'); g.rect(61, 9, 1, 1, D);
+    // a wolf watching from the mist
     g.grid([
-      '..Y..',
-      '.YOY.',
-      '.OYO.',
-      '.ORO.',
-      '..O..',
-    ], 59, 3, { Y: '#fff0a0', O: '#ff9a1f', R: '#e53935' });
+      '.K.K.........K',
+      '.KKK........KK',
+      'KKEKKKKKKKKKK.',
+      'KKKKKKKKKKKKK.',
+      '.KKKKKKKKKKKK.',
+      '..KKKKKKKKKK..',
+      '..KK.KK..KK.KK',
+      '..KK.KK..KK.KK',
+    ], 66, 17, { K: '#20242e', E: '#ffd23f' });
+    g.sprite('brain', 38, 26);
     [[57, 6], [64, 5], [56, 11], [66, 10]].forEach(([x, y]) => g.px(x, y, '#ffd86b'));
   },
   // Bell curves of different widths, and the robot that fits them.
