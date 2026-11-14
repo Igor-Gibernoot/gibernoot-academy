@@ -275,15 +275,17 @@ export const BANNERS = {
     [[24, 21], [84, 21]].forEach(([x, y]) => { g.rect(x, y, 9, 3, '#0b1f18'); g.px(x + 2, y + 1, '#ff3b3b'); g.px(x + 5, y + 1, '#ff3b3b'); });
     // a wolf watching from the mist
     g.grid([
-      '.K.K.........K',
-      '.KKK........KK',
-      'KKEKKKKKKKKKK.',
-      'KKKKKKKKKKKKK.',
-      '.KKKKKKKKKKKK.',
-      '..KKKKKKKKKK..',
-      '..KK.KK..KK.KK',
-      '..KK.KK..KK.KK',
-    ], 66, 17, { K: '#20242e', E: '#ffd23f' });
+      '....K.K...........',
+      '....KKKKK.........',
+      '..KKKEKKKKKKKKK...',
+      'KKKKKKKKKKKKKKKKK.',
+      '.KKK.KKKKKKKKKKKKK',
+      '.....KKKKKKKKKKKKK',
+      '.....KKKKKKKKKK.KK',
+      '.....KK.KK..KK.KK.',
+      '.....KK.KK..KK.K..',
+      '.....KK.KK..KK....',
+    ], 60, 15, { K: '#20242e', E: '#ffd23f' });
     g.sprite('brain', 38, 26);
     [[57, 6], [64, 5], [56, 11], [66, 10]].forEach(([x, y]) => g.px(x, y, '#ffd86b'));
   },
