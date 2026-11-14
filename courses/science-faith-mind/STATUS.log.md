@@ -1,5 +1,11 @@
 # Status log
 
+## 2026-11-14: ch20-principles
+- Built `ch20/principles.yaml` (23 cards, concept, no widget; checked condition-chain, odds-updater, sequence-sampler, tradeoff-curve: none shows a doctrine's principles, and the spirit scale is a count, not a manipulation). Hook: two children born unequal, resolved by Q171 justice argument. Critics: Catholic Catechism 1013/2117 + Heb 9:27 and Deut 18, John 3:3 two readings, Edwards (memory, population after Tertullian) with Spirits' Book replies Q393/Q80/Q172, physicalist brain objection vs James's transmission (1898).
+- Images (2): 1860 title page of Le Livre des Esprits (PD), Kardec's tomb at Père Lachaise (DuiMDog, CC BY 2.5; ledger author corrected by hand from "unknown" to the photographer named in the file description). No James portrait (already used in the course), no Edwards portrait (none free).
+- Choices: quotations from Blackwell's translation (full text read); Edwards's arguments softened to "argued roughly" (reviews only); "five principles" presented as the lesson's grouping, not a Spiritist formula.
+- Conventions fixed here: Blackwell translation with question numbers; human = body + perispirit + spirit; spirit scale 3 orders, classes 10-6/5-2/1; rebirth always human, never regressive; critics set (CCC 1013/2117, John 3:3 anōthen, Edwards, James).
+
 ## 2026-11-13: ch20-kardec (Level 20 started)
 - Built `ch20/kardec.yaml` (19 cards, concept, no widget, 2 images: Kardec portrait reused from ch01-tour, Daumier La Fluidomanie 1853). Widget decision: none; the chance-of-agreement card (5 mediums, 4 answers, 1/256) is numeric text, and a "agreement simulator" widget could be considered for ch20-method or ch20-science-view if wanted. Choices: Baudin sisters and the Fortier/Plainemaison story omitted (contested identities); pen-name origin attributed, reason unclaimed; first sitting "about 1855". Images: Fox sisters photo refused by tool (PD-US only), skipped.
 - Conventions fixed here: question counts 501 (1857) and 1019 (1860 on); five works 1857/1861/1864/1865/1868; Revue Spirite Jan 1858, Société 1 Apr 1858; "universal control" = agreement among mediums unknown to each other, reason first; running chance example 5 mediums, 4 answers, 1/256 = 0.39%.
