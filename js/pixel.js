@@ -274,21 +274,24 @@ export const BANNERS = {
     // bushes with eyes in the dark
     [[24, 21], [84, 21]].forEach(([x, y]) => { g.rect(x, y, 9, 3, '#0b1f18'); g.px(x + 2, y + 1, '#ff3b3b'); g.px(x + 5, y + 1, '#ff3b3b'); });
     // a wolf howling at the pale morning moon
-    g.disc(67, 6, 4, '#e8eef2'); g.disc(69, 5, 3, '#f7fafc'); g.px(65, 7, '#cfd8de'); g.px(66, 5, '#cfd8de');
+    g.disc(76, 5, 4, '#e8eef2'); g.disc(78, 4, 3, '#f7fafc'); g.px(74, 6, '#cfd8de'); g.px(75, 4, '#cfd8de');
     g.grid([
-      '.KK...............',
-      '.KKKE.K...........',
-      '..KKKKKK..........',
-      '...KKKKK..........',
-      '....KKKKKKKKKKK...',
-      '....KKKKKKKKKKKKK.',
-      '....KKKKKKKKKKKKKK',
-      '....KKKKKKKKKKKKKK',
-      '.....KKKKKKKKKK.KK',
-      '.....KK.KK..KK.KK.',
-      '.....KK.KK..KK.K..',
-      '.....KK.KK..KK....',
-    ], 60, 13, { K: '#20242e', E: '#ffd23f' });
+      '.KK......................',
+      '.KKKK..K.................',
+      '..KKEEKKK................',
+      '..KKKeKKK................',
+      '...KKKKKKKK..............',
+      '....KKKKKKKKKKKKK........',
+      '.....KKKKKKKKKKKKKKKK....',
+      '.....KKKKKKKKKKKKKKKKKK..',
+      '.....KKKKKKKKKKKKKKKKKKKK',
+      '.....KKKKKKKKKKKKKKKKKKKK',
+      '.....KKKKKKKKKKKKKKKK.KKK',
+      '......KKKK.KKK..KKK.KKKK.',
+      '......KKK..KKK..KKK.KKK..',
+      '......KKK..KKK..KKK.KK...',
+      '......KKK..KKK..KKK......',
+    ], 62, 9, { K: '#20242e', E: '#fff6a0', e: '#a8801c' });
     g.sprite('brain', 38, 26);
     [[57, 6], [64, 5], [56, 11], [66, 10]].forEach(([x, y]) => g.px(x, y, '#ffd86b'));
   },
