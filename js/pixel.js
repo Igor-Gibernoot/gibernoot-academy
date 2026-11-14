@@ -253,21 +253,41 @@ export const BANNERS = {
     g.disc(60, 7, 1, '#d8d8e8');
     g.sprite('einstein', 74, 27);
   },
-  // A brain standing in a forest clearing on a bright morning, sun low behind the pines.
+  // A brain exploring a dark, misty forest at dawn: torch in hand, eyes glowing in the bushes, crows overhead.
   blanket(g) {
-    g.sky(['#7cc8f0', '#a9dcf4', '#d8f0f0', '#fff0c0']);
-    g.disc(14, 17, 6, '#ffe27a'); g.disc(14, 17, 4, '#fff6c4');
-    [[30, 5], [31, 5], [32, 5], [29, 6], [30, 6], [31, 6], [32, 6], [33, 6], [60, 3], [61, 3], [62, 3], [59, 4], [60, 4], [61, 4], [62, 4], [63, 4]].forEach(([x, y]) => g.px(x, y, '#ffffff'));
-    [[44, 8], [46, 7], [48, 8], [84, 6], [86, 5], [88, 6]].forEach(([x, y]) => g.px(x, y, '#3a4a5a'));
+    g.sky(['#5c7a90', '#8fa9b4', '#d9b99a', '#f2c488']);
+    g.disc(12, 19, 6, '#ff9a4a'); g.disc(12, 19, 4, '#ffd27a');
+    [[48, 6], [50, 5], [52, 6], [76, 9], [78, 8], [80, 9]].forEach(([x, y]) => { g.px(x, y, '#1b1b24'); g.px(x + 1, y + 1, '#1b1b24'); });
     const pine = (x, base, hgt, c, d) => {
       for (let k = 0; k < hgt; k++) { const w = Math.floor(k / 2.2); g.rect(x - w, base - hgt + k, 2 * w + 1, 1, k % 4 === 3 ? d : c); }
-      g.rect(x, base, 1, 2, '#6b4a2c');
+      g.rect(x, base, 1, 2, '#2a1d18');
     };
-    [[32, 22, 9], [66, 22, 9]].forEach(([x, b2, hh]) => pine(x, b2, hh, '#4aa65a', '#37894a'));
-    [[6, 22, 14], [20, 23, 12], [58, 22, 15], [72, 23, 11], [90, 22, 14]].forEach(([x, b2, hh]) => pine(x, b2, hh, '#2e8b4a', '#1f6b3a'));
-    g.rect(0, 24, 96, 4, '#4f9a4a'); g.rect(0, 24, 96, 1, '#8fd36a');
-    [[10, 26], [26, 25], [38, 26], [60, 26], [80, 25], [93, 26]].forEach(([x, y]) => { g.px(x, y, '#ffd23f'); g.px(x + 2, y, '#ff8ab0'); });
+    [[30, 22, 11], [34, 22, 8], [64, 22, 10], [68, 22, 8], [46, 22, 7]].forEach(([x, b2, hh]) => pine(x, b2, hh, '#486f66', '#3b5d56'));
+    for (let y = 18; y < 24; y++) for (let x = 0; x < 96; x++) if ((x + y) % 2 === 0 && y % 2 === 0) g.px(x, y, '#cfdcd8');
+    [[6, 23, 17], [19, 24, 14], [78, 24, 14], [91, 23, 17]].forEach(([x, b2, hh]) => pine(x, b2, hh, '#173f31', '#0f2c23'));
+    g.rect(0, 24, 96, 4, '#1f3a26'); g.rect(0, 24, 96, 1, '#3d6a3a');
+    for (let x = 1; x < 96; x += 3) g.px(x, 23, '#2c5a32');
+    // bushes with eyes in the dark
+    [[24, 21], [84, 21]].forEach(([x, y]) => { g.rect(x, y, 9, 3, '#0b1f18'); g.px(x + 2, y + 1, '#ff3b3b'); g.px(x + 5, y + 1, '#ff3b3b'); });
+    // a bare, twisted tree
+    g.rect(70, 14, 2, 10, '#2a1d18');
+    [[69, 15], [68, 14], [67, 13], [72, 16], [73, 15], [74, 14], [74, 13], [68, 19], [67, 18]].forEach(([x, y]) => g.px(x, y, '#2a1d18'));
     g.sprite('brain', 40, 26);
+    // arms: left hand hangs ready, right arm lifts a torch
+    const D = '#1b1b24', P = '#f59ab5', ARM = [[57, 17], [58, 16], [59, 15], [60, 14]];
+    ARM.forEach(([x, y]) => { g.px(x, y - 1, D); g.px(x, y + 1, D); g.px(x + 1, y, D); g.px(x - 1, y, D); });
+    [[40, 17], [39, 18], [38, 19], [38, 20]].forEach(([x, y]) => { g.px(x - 1, y, D); g.px(x, y + 1, D); g.px(x + 1, y - 1, D); });
+    ARM.forEach(([x, y]) => { g.px(x, y, P); g.px(x, y + 1, P); });
+    [[40, 17], [39, 18], [38, 19], [38, 20]].forEach(([x, y]) => g.px(x, y, P));
+    g.rect(62, 8, 1, 8, D); g.rect(61, 9, 1, 7, '#8a5a2b'); g.rect(61, 9, 1, 1, D);
+    g.grid([
+      '..Y..',
+      '.YOY.',
+      '.OYO.',
+      '.ORO.',
+      '..O..',
+    ], 59, 3, { Y: '#fff0a0', O: '#ff9a1f', R: '#e53935' });
+    [[57, 6], [64, 5], [56, 11], [66, 10]].forEach(([x, y]) => g.px(x, y, '#ffd86b'));
   },
   // Bell curves of different widths, and the robot that fits them.
   curves(g) {
