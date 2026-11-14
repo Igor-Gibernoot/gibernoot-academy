@@ -56,6 +56,24 @@ Static web app on GitHub Pages (laptop and phone). Deploy = commit + push to
   `docs/LESSON_FORMAT.md`. Engine/app features: `docs/APP.md` (only when
   changing the engine).
 
+### Every course has the academy's look (new courses too)
+
+A new course is not done until it has all of these (`docs/NEW_COURSE.md`):
+- **`overview:` in `course.yaml`** (the "About this course" box at the top of
+  the trail): `text` is an engaging, intuitive pitch for a curious
+  newcomer: open with a question or hook, say what problem the subject
+  solves, why anyone should care and who would love it, how the course
+  teaches it (puzzles, guess first). No jargon, ~100 words, no formulas.
+  `sources:` is a list of `{who, what}` for the main sources and authors
+  (published works only: never list unpublished or `sources/` material,
+  such as the professor's notes or exams).
+- **Pixel character:** its own `mascot:` sprite (16-wide grid plus two walk
+  frames) in `js/pixel.js` `SPRITES`, set in `courses/catalog.yaml`.
+- **Pixel image:** its own `banner:` scene (96 x 28) in `js/pixel.js`
+  `BANNERS`, set in `courses/catalog.yaml`, plus a `hue` there.
+- Pixel font (Jersey 10) and the sticky medal bar come from the shared
+  engine; never override them per course. Validate checks the names.
+
 ### Lesson kinds (per chapter level)
 
 1. **Concept** (`concept`): open with a problem or prediction the reader

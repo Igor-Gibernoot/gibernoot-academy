@@ -104,7 +104,7 @@ export async function renderTrail(root) {
   if (nextId && built.some(m => progress.lesson(m.id)?.done)) {
     const el = root.querySelector('.node.next');
     el?.scrollIntoView({ block: 'center' });
-  }
+  } else window.scrollTo(0, 0);
   followLevelHue([...root.querySelectorAll('.course-title, .chip.review, .chip.recap')], [...root.querySelectorAll('section.level')]);
   const entry = (await getCatalog()).courses.find(c => c.id === courseId());
   placeMascot(root, entry?.mascot, mascotAt, mascotFrom);
