@@ -273,19 +273,22 @@ export const BANNERS = {
     for (let x = 1; x < 96; x += 3) g.px(x, 23, '#2c5a32');
     // bushes with eyes in the dark
     [[24, 21], [84, 21]].forEach(([x, y]) => { g.rect(x, y, 9, 3, '#0b1f18'); g.px(x + 2, y + 1, '#ff3b3b'); g.px(x + 5, y + 1, '#ff3b3b'); });
-    // a wolf watching from the mist
+    // a wolf howling at the pale morning moon
+    g.disc(67, 6, 4, '#e8eef2'); g.disc(69, 5, 3, '#f7fafc'); g.px(65, 7, '#cfd8de'); g.px(66, 5, '#cfd8de');
     g.grid([
-      '....K.K...........',
-      '....KKKKK.........',
-      '..KKKEKKKKKKKKK...',
-      'KKKKKKKKKKKKKKKKK.',
-      '.KKK.KKKKKKKKKKKKK',
-      '.....KKKKKKKKKKKKK',
+      '.KK...............',
+      '.KKKE.K...........',
+      '..KKKKKK..........',
+      '...KKKKK..........',
+      '....KKKKKKKKKKK...',
+      '....KKKKKKKKKKKKK.',
+      '....KKKKKKKKKKKKKK',
+      '....KKKKKKKKKKKKKK',
       '.....KKKKKKKKKK.KK',
       '.....KK.KK..KK.KK.',
       '.....KK.KK..KK.K..',
       '.....KK.KK..KK....',
-    ], 60, 15, { K: '#20242e', E: '#ffd23f' });
+    ], 60, 13, { K: '#20242e', E: '#ffd23f' });
     g.sprite('brain', 38, 26);
     [[57, 6], [64, 5], [56, 11], [66, 10]].forEach(([x, y]) => g.px(x, y, '#ffd86b'));
   },
