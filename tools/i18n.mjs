@@ -91,7 +91,8 @@ function compare(en, tr, path, key, errors, tally) {
     const a = Object.keys(en), b = Object.keys(tr).filter(k => k !== 'source_hash');
     for (const k of a) if (!(k in tr)) errors.push(`${path}.${k}: missing`);
     for (const k of b) if (!(k in en)) errors.push(`${path}.${k}: not in English`);
-    for (const k of a) if (k in tr) compare(en[k], tr[k], `${path}.${k}`, k, errors, tally);
+    // strings inside a widget's `labels:` map (prior, reset, …) are display text: translatable
+    for (const k of a) if (k in tr) compare(en[k], tr[k], `${path}.${k}`, key === 'labels' && typeof en[k] === 'string' ? 'label' : k, errors, tally);
   } else if (typeof en === 'string') {
     if (!TEXT.has(key)) { if (en !== tr) errors.push(`${path}: must stay exactly "${en.slice(0, 40)}" (not a text field)`); return; }
     if (JSON.stringify(mathOf(en)) !== JSON.stringify(mathOf(tr))) errors.push(`${path}: math differs (${mathOf(en).length} formulas in English, ${mathOf(tr).length} here, or changed)`);
