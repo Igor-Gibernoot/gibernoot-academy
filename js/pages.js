@@ -14,6 +14,7 @@
 //                      a small bar chart (good: true paints a bar in the accent colour)
 
 import { h } from './dom.js';
+import { lang, t } from './i18n.js';
 import { md, mdInline } from './render.js';
 import { getCatalog } from './content.js';
 import { themeButton } from './theme.js';
@@ -22,10 +23,10 @@ import { mascotEl } from './pixel.js';
 import { renderCard } from './cards.js';
 import { mountWidget } from './widgets/index.js';
 
-export const PAGES = [
-  { id: '', label: 'Courses' },
-  { id: 'method', label: 'Method', title: 'How the academy teaches' },
-  { id: 'about', label: 'About', title: 'Why learning should be fun' },
+export const pages = () => [
+  { id: '', label: t('Courses') },
+  { id: 'method', label: t('Method'), title: t('How the academy teaches') },
+  { id: 'about', label: t('About'), title: t('Why learning should be fun') },
 ];
 
 const cache = {};
@@ -33,14 +34,21 @@ const BLOCK = /^```(cast|trail|card|widget|image|bars)[ \t]*\n([\s\S]*?)^```[ \t
 
 // The tab bar: Courses (home, #/), Method, About.
 export function pageTabs(current = '') {
-  return h('nav', { class: 'page-tabs', 'aria-label': 'Academy pages' },
-    PAGES.map(p => h('a', {
+  return h('nav', { class: 'page-tabs', 'aria-label': t('Academy pages') },
+    pages().map(p => h('a', {
       href: `#/${p.id}`, class: p.id === current ? 'on' : null,
       'aria-current': p.id === current ? 'page' : null,
     }, p.label)));
 }
 
-const pageText = async id => cache[id] ??= await fetch(`pages/${id}.md`).then(r => { if (!r.ok) throw new Error(`pages/${id}.md: ${r.status}`); return r.text(); });
+// The page in the chosen language when a translated copy exists (pages/<lang>/<id>.md), else English.
+const pageText = async id => cache[id] ??= await (async () => {
+  if (lang() !== 'en') {
+    const r = await fetch(`pages/${lang()}/${id}.md`).catch(() => null);
+    if (r?.ok) return r.text();
+  }
+  return fetch(`pages/${id}.md`).then(r => { if (!r.ok) throw new Error(`pages/${id}.md: ${r.status}`); return r.text(); });
+})();
 
 // The YAML of the first block of a kind in a page (the welcome tour borrows the Method page's card).
 export async function pageBlock(id, kind) {
@@ -49,7 +57,7 @@ export async function pageBlock(id, kind) {
 }
 
 export async function renderPage(root, id) {
-  const page = PAGES.find(p => p.id === id && id);
+  const page = pages().find(p => p.id === id && id);
   const catalog = await getCatalog();
   await pageText(id);
   document.title = `${page.label} · Gibernoot Academy`;
@@ -87,9 +95,9 @@ function fill(body, src, catalog) {
 export const BLOCKS = {
   cast(ids, catalog) {
     const list = Array.isArray(ids) && ids.length ? ids.map(i => catalog.courses.find(c => c.id === i)).filter(Boolean) : catalog.courses;
-    return h('div', { class: 'cast', 'aria-label': 'The course guides' }, list.filter(c => c.mascot).map(c => {
+    return h('div', { class: 'cast', 'aria-label': t('The course guides') }, list.filter(c => c.mascot).map(c => {
       const m = mascotEl(c.mascot, 4), planned = c.status === 'planned';
-      return h(planned ? 'span' : 'a', { class: `cast-member${planned ? ' planned' : ''}`, href: planned ? null : `#/${c.id}`, 'data-hue': c.hue ?? 0, title: planned ? 'Coming soon' : null },
+      return h(planned ? 'span' : 'a', { class: `cast-member${planned ? ' planned' : ''}`, href: planned ? null : `#/${c.id}`, 'data-hue': c.hue ?? 0, title: planned ? t('Coming soon') : null },
         h('span', { class: 'cast-sprite' }, m), h('span', {}, c.short ?? c.title));
     }));
   },
@@ -116,7 +124,7 @@ export const BLOCKS = {
       h('img', { src, alt: im.alt ?? '', decoding: 'async' }),
       h('figcaption', {},
         h('span', { class: 'cap-text', html: im.caption ? mdInline(im.caption) : '' }),
-        credit ? h('span', { class: 'cap-credit' }, 'Image: ', credit) : null));
+        credit ? h('span', { class: 'cap-credit' }, t('Image: '), credit) : null));
   },
 
   bars(b) {
@@ -139,7 +147,7 @@ export function tryCard(card) {
   const stage = h('div', { class: 'try-stage' });
   const ctl = renderCard(card, stage);
   const foot = h('div', { class: 'try-foot' });
-  const box = h('div', { class: 'try-card' }, h('div', { class: 'try-tag' }, card.tag ?? 'Try it: a real card'), stage, foot);
+  const box = h('div', { class: 'try-card' }, h('div', { class: 'try-tag' }, card.tag ?? t('Try it: a real card')), stage, foot);
   if (ctl.kind !== 'question') return box;
   const btn = (label, cls, onclick) => h('button', { class: `btn ${cls}`, type: 'button', onclick }, label);
   const feedback = (kind, head, text) => h('div', { class: `feedback ${kind}` },
@@ -148,16 +156,16 @@ export function tryCard(card) {
   const show = fb => { stage.querySelector('.feedback')?.remove(); stage.append(fb); };
 
   function ask() {
-    const check = btn('Check', 'primary', () => {
+    const check = btn(t('Check'), 'primary', () => {
       const r = ctl.check();
       if (r.correct) {
-        show(feedback('good', card.praise ?? 'Right!', [r.feedback, card.explanation].filter(Boolean).join('\n\n')));
-        foot.replaceChildren(btn('Again', 'ghost', reset));
+        show(feedback('good', card.praise ?? t('Right!'), [r.feedback, card.explanation].filter(Boolean).join('\n\n')));
+        foot.replaceChildren(btn(t('Again'), 'ghost', reset));
       } else {
-        show(feedback('bad', 'Not quite. That mistake is a lesson too:', r.feedback));
+        show(feedback('bad', t('Not quite. That mistake is a lesson too:'), r.feedback));
         foot.replaceChildren(
-          btn('Show answer', 'ghost', () => { ctl.reveal(); show(feedback('neutral', 'Answer', card.explanation ?? '')); foot.replaceChildren(btn('Again', 'ghost', reset)); }),
-          btn('Try again', 'primary', () => { stage.querySelector('.feedback')?.remove(); ctl.retry(); ask(); }));
+          btn(t('Show answer'), 'ghost', () => { ctl.reveal(); show(feedback('neutral', t('Answer'), card.explanation ?? '')); foot.replaceChildren(btn(t('Again'), 'ghost', reset)); }),
+          btn(t('Try again'), 'primary', () => { stage.querySelector('.feedback')?.remove(); ctl.retry(); ask(); }));
       }
     });
     check.disabled = !ctl.ready();

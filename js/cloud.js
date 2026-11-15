@@ -8,6 +8,7 @@
 
 import { firebaseConfig } from './firebase-config.js';
 import { progress } from './progress.js';
+import { t } from './i18n.js';
 
 const HINT = 'gibernoot.signedin', OLD_HINT = 'dg2gr.signedin'; // set once the user signs in, so we restore the session on load
 const hasHint = () => { try { return (localStorage.getItem(HINT) ?? localStorage.getItem(OLD_HINT)) === '1'; } catch { return false; } };
@@ -42,10 +43,10 @@ const pipe = async (bytes, stream) => new Uint8Array(await new Response(new Blob
 async function encode(json) {
   if (typeof CompressionStream === 'function') {
     const z = toB64(await pipe(new TextEncoder().encode(json), new CompressionStream('gzip')));
-    if (z.length > SIZE_LIMIT) throw new Error(`Progress is too large to sync (${Math.round(z.length / 1000)} kB, limit ~1000 kB)`);
+    if (z.length > SIZE_LIMIT) throw new Error(t('Progress is too large to sync ({n} kB, limit ~1000 kB)', { n: Math.round(z.length / 1000) }));
     return { progress: STUB, z, updated: Date.now() };
   }
-  if (json.length > SIZE_LIMIT) throw new Error(`Progress is too large to sync without compression (${Math.round(json.length / 1000)} kB); update your browser`);
+  if (json.length > SIZE_LIMIT) throw new Error(t('Progress is too large to sync without compression ({n} kB); update your browser', { n: Math.round(json.length / 1000) }));
   return { progress: json, updated: Date.now() };
 }
 
@@ -129,7 +130,7 @@ export async function signIn() {
     await fb.signInWithPopup(auth, new fb.GoogleAuthProvider());
   } catch (err) {
     if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') return;
-    if (err.code === 'auth/popup-blocked') throw new Error('The browser blocked the sign-in window. Allow pop-ups for this site and tap the button again.');
+    if (err.code === 'auth/popup-blocked') throw new Error(t('The browser blocked the sign-in window. Allow pop-ups for this site and tap the button again.'));
     throw err;
   }
 }

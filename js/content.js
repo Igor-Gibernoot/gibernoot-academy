@@ -3,6 +3,7 @@
 
 import { courseId } from './course.js';
 import { progress } from './progress.js';
+import { langPath, t } from './i18n.js';
 
 const cache = new Map();
 
@@ -15,12 +16,35 @@ function loadYaml(path) {
   return cache.get(path);
 }
 
-export const getCatalog = () => loadYaml('catalog.yaml');
+// A translated copy of a file, or null when there is none (the English file is then used).
+const loadOverlay = path => {
+  const lp = langPath(path);
+  return lp ? loadYaml(lp).catch(() => null) : Promise.resolve(null);
+};
+
+// Text fields of a translation overlay replace those of the English structure
+// (ids, kinds and files always come from English, so a stale translation cannot break the trail).
+const over = (base, o) => (o ? { ...base, ...o } : base);
+
+let catalogP = null;
+export const getCatalog = () => catalogP ??= Promise.all([loadYaml('catalog.yaml'), loadOverlay('catalog.yaml')]).then(([en, o]) => !o ? en : ({
+  ...over(en, { title: o.title ?? en.title, tagline: o.tagline ?? en.tagline }),
+  courses: en.courses.map(c => over(c, o.courses?.[c.id])),
+}));
 
 export const QUESTION_TYPES = ['mcq', 'numeric', 'build', 'order', 'mapstep'];
 export const isQuestion = card => QUESTION_TYPES.includes(card.type);
 
-export const getCourse = (id = courseId()) => loadYaml(`${id}/course.yaml`);
+const courseCache = new Map();
+export function getCourse(id = courseId()) {
+  if (!courseCache.has(id)) {
+    courseCache.set(id, Promise.all([loadYaml(`${id}/course.yaml`), loadOverlay(`${id}/course.yaml`)]).then(([en, o]) => !o ? en : ({
+      ...over(en, { title: o.title ?? en.title, overview: o.overview ? { ...en.overview, ...o.overview } : en.overview }),
+      levels: en.levels.map(l => ({ ...over(l, o.levels?.[l.id]), lessons: l.lessons?.map(m => over(m, o.lessons?.[m.id])) })),
+    })));
+  }
+  return courseCache.get(id);
+}
 
 // Every lesson entry of the course, in trail order, with its level attached.
 export async function allLessons() {
@@ -32,7 +56,8 @@ export async function getLesson(id) {
   const entry = (await allLessons()).find(e => e.meta.id === id);
   if (!entry) throw new Error(`No lesson with id "${id}" in course.yaml.`);
   if (!entry.meta.file) return { ...entry, data: null };
-  return { ...entry, data: expandLesson(await loadYaml(`${courseId()}/${entry.meta.file}`)) };
+  const file = `${courseId()}/${entry.meta.file}`;
+  return { ...entry, data: expandLesson(await loadOverlay(file) ?? await loadYaml(file)) };
 }
 
 export async function nextLessonAfter(id) {
@@ -47,14 +72,14 @@ export async function nextLessonAfter(id) {
 export function expandLesson(data) {
   if (data?.own && data.cards?.length) data = withOwn(data);
   if (data?.kind !== 'map' || data.cards) return data;
-  const cards = [{ type: 'mapview', id: 'intro', title: data.introTitle ?? 'Build the map', body: data.intro, map: data, filled: 0 }];
+  const cards = [{ type: 'mapview', id: 'intro', title: data.introTitle ?? t('Build the map'), body: data.intro, map: data, filled: 0 }];
   data.nodes.forEach((n, k) => cards.push({
     type: 'mapstep', id: `node-${n.id}`, map: data, step: k,
-    prompt: n.prompt ?? `Content map of **${data.name}**: which card belongs in the **${n.title}** box?`,
+    prompt: n.prompt ?? t('Content map of **{name}**: which card belongs in the **{box}** box?', { name: data.name, box: n.title }),
     options: [{ text: n.body, correct: true }, ...(n.decoys ?? []).map(d => ({ text: d.body, feedback: d.feedback }))],
     explanation: n.explanation,
   }));
-  cards.push({ type: 'mapview', id: 'complete', title: data.outroTitle ?? 'Your map', body: data.outro, map: data, filled: data.nodes.length });
+  cards.push({ type: 'mapview', id: 'complete', title: data.outroTitle ?? t('Your map'), body: data.outro, map: data, filled: data.nodes.length });
   return { ...data, cards };
 }
 
@@ -103,7 +128,7 @@ function withOwn(data) {
   const cards = [...data.cards];
   const end = cards[cards.length - 1];
   if (end.type !== 'text') return data;
-  cards[cards.length - 1] = { ...end, title: end.title ?? 'What you now own', body: stripOwn(data.own) + (end.body ? `\n\n${end.body}` : '') };
+  cards[cards.length - 1] = { ...end, title: end.title ?? t('What you now own'), body: stripOwn(data.own) + (end.body ? `\n\n${end.body}` : '') };
   return { ...data, cards };
 }
 
@@ -112,7 +137,7 @@ function withOwn(data) {
 export function summaryCard(data) {
   const end = data?.cards?.at(-1);
   if (end?.type !== 'text') return null;
-  if (data.own || /what you now own|wrap-up/i.test(end.title ?? '')) return { title: end.title ?? 'What you now own', body: end.body };
+  if (data.own || /what you now own|wrap-up/i.test(end.title ?? '') || end.title === t('What you now own')) return { title: end.title ?? t('What you now own'), body: end.body };
   return null;
 }
 

@@ -5,7 +5,7 @@
 // every course file, which fills the cache through this same path.
 // Other origins (sign-in, cloud sync) are left alone.
 
-const CACHE = 'gibernoot-v4';
+const CACHE = 'gibernoot-v5';
 const SHELL = ['./', 'index.html', 'css/app.css', 'js/main.js', 'manifest.webmanifest', 'icon.svg',
   'vendor/katex/katex.min.css', 'vendor/katex/katex.min.js', 'vendor/js-yaml.min.js', 'vendor/marked.min.js',
   'vendor/fonts/jersey-10-latin-400-normal.woff2', 'courses/catalog.yaml'];

@@ -5,6 +5,7 @@
 // mode:  'lesson' | 'review'
 
 import { h } from './dom.js';
+import { t } from './i18n.js';
 import { md } from './render.js';
 import { icons } from './icons.js';
 import { renderCard } from './cards.js';
@@ -28,7 +29,7 @@ export function runSession(root, { items, mode, startAt = 0, readOnly = false, r
   const stage = h('div', { class: 'stage' });
   const main = h('main', { class: 'player-main' }, stage);
   const foot = h('div', { class: 'foot-inner' });
-  const closeBtn = h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'Exit', html: icons.close, onclick: exit });
+  const closeBtn = h('button', { class: 'icon-btn', type: 'button', 'aria-label': t('Exit'), html: icons.close, onclick: exit });
   const soundBtn = h('button', { class: 'icon-btn', type: 'button', onclick: toggleSound });
   paintSoundBtn();
 
@@ -40,8 +41,8 @@ export function runSession(root, { items, mode, startAt = 0, readOnly = false, r
   function paintSoundBtn() {
     const on = soundOn();
     soundBtn.innerHTML = on ? icons.soundOn : icons.soundOff;
-    soundBtn.setAttribute('aria-label', on ? 'Mute sounds' : 'Turn sounds on');
-    soundBtn.dataset.tip = on ? 'Sounds on' : 'Sounds off';
+    soundBtn.setAttribute('aria-label', on ? t('Mute sounds') : t('Turn sounds on'));
+    soundBtn.dataset.tip = on ? t('Sounds on') : t('Sounds off');
   }
   function toggleSound() { setSound(!soundOn()); paintSoundBtn(); }
 
@@ -59,7 +60,7 @@ export function runSession(root, { items, mode, startAt = 0, readOnly = false, r
   const cleanup = () => document.removeEventListener('keydown', onKey);
 
   function exit() {
-    if (!readOnly && i > 0 && i < items.length && !confirm(mode === 'lesson' ? 'Leave now? You can continue from this card later.' : 'Leave now? Progress inside this session is not saved.')) return;
+    if (!readOnly && i > 0 && i < items.length && !confirm(mode === 'lesson' ? t('Leave now? You can continue from this card later.') : t('Leave now? Progress inside this session is not saved.'))) return;
     cleanup();
     onExit();
   }
@@ -67,7 +68,7 @@ export function runSession(root, { items, mode, startAt = 0, readOnly = false, r
   // The Back button sits on the left of the footer on every card but the first.
   function setFoot(buttons) {
     const back = i > 0
-      ? h('button', { class: 'btn ghost back', type: 'button', 'aria-label': 'Previous card', html: icons.back, onclick: prev })
+      ? h('button', { class: 'btn ghost back', type: 'button', 'aria-label': t('Previous card'), html: icons.back, onclick: prev })
       : null;
     footButtons = buttons;
     foot.replaceChildren(...[back, ...buttons].filter(Boolean));
@@ -123,7 +124,7 @@ export function runSession(root, { items, mode, startAt = 0, readOnly = false, r
     if (item.card.tag) stage.append(h('div', { class: 'card-tag' }, item.card.tag));
     controller = renderCard(item.card, stage);
     const last = i === items.length - 1;
-    const continueBtn = () => btn(last ? 'Finish' : 'Continue', 'primary', next);
+    const continueBtn = () => btn(last ? t('Finish') : t('Continue'), 'primary', next);
 
     if (controller.kind === 'info') {
       setFoot([continueBtn()]);
@@ -139,7 +140,7 @@ export function runSession(root, { items, mode, startAt = 0, readOnly = false, r
       ctl.reveal();
       showFeedback(before.head
         ? feedbackBox('good', before.head, explanation ?? '')
-        : feedbackBox(readOnly ? 'good' : 'neutral', 'Answer', explanation ?? ''));
+        : feedbackBox(readOnly ? 'good' : 'neutral', t('Answer'), explanation ?? ''));
       setFoot([continueBtn()]);
       return;
     }
@@ -147,7 +148,7 @@ export function runSession(root, { items, mode, startAt = 0, readOnly = false, r
     let attempts = 0;
 
     function askCheck() {
-      const check = btn('Check', 'primary', doCheck, !ctl.ready());
+      const check = btn(t('Check'), 'primary', doCheck, !ctl.ready());
       setFoot([check]);
       ctl.onChange(() => { check.disabled = !ctl.ready(); });
     }
@@ -168,13 +169,13 @@ export function runSession(root, { items, mode, startAt = 0, readOnly = false, r
         if (attempts === 1) { record(item, false); combo = 0; }
         showFeedback(feedbackBox('bad', pick(attempts === 1 ? NOT_YET : NOT_YET_AGAIN), r.feedback));
         setFoot([
-          btn('Show answer', 'ghost', () => {
+          btn(t('Show answer'), 'ghost', () => {
             ctl.reveal();
             answered.set(i, { firstTry: false });
-            showFeedback(feedbackBox('neutral', 'Answer', explanation ?? ''));
+            showFeedback(feedbackBox('neutral', t('Answer'), explanation ?? ''));
             setFoot([continueBtn()]);
           }),
-          btn('Try again', 'primary', () => {
+          btn(t('Try again'), 'primary', () => {
             stage.querySelector('.feedback')?.remove();
             ctl.retry();
             askCheck();
@@ -189,16 +190,18 @@ export function runSession(root, { items, mode, startAt = 0, readOnly = false, r
 }
 
 // Encouragement in the feedback header.
-const PRAISE = ['Correct!', 'Exactly.', 'Nice work!', 'Yes!', 'Spot on.', 'You nailed it.', 'Great thinking!'];
-const RETRY_PRAISE = ['Got it this time!', 'There you go!', 'Nice recovery!', 'Yes! Fixing a mistake is how it sticks.'];
-const NOT_YET = ['Not quite.', 'Not yet.', 'Good try, but no.', 'Almost everyone trips here.'];
-const NOT_YET_AGAIN = ['Still not it. Keep going.', 'Not yet. Read the hint and try once more.', 'Hang in there. Read why below.'];
-const STREAK = { 3: 'Three in a row!', 5: 'Five in a row! You\'re on fire.', 10: 'Ten in a row! Outstanding.' };
-const pick = a => a[Math.floor(Math.random() * a.length)];
+// T() marks a string for translation (tools/i18n-check.mjs); pick() and STREAK are looked up with t() when shown.
+const T = s => s;
+const PRAISE = [T('Correct!'), T('Exactly.'), T('Nice work!'), T('Yes!'), T('Spot on.'), T('You nailed it.'), T('Great thinking!')];
+const RETRY_PRAISE = [T('Got it this time!'), T('There you go!'), T('Nice recovery!'), T('Yes! Fixing a mistake is how it sticks.')];
+const NOT_YET = [T('Not quite.'), T('Not yet.'), T('Good try, but no.'), T('Almost everyone trips here.')];
+const NOT_YET_AGAIN = [T('Still not it. Keep going.'), T('Not yet. Read the hint and try once more.'), T('Hang in there. Read why below.')];
+const STREAK = { 3: T('Three in a row!'), 5: T('Five in a row! You\'re on fire.'), 10: T('Ten in a row! Outstanding.') };
+const pick = a => t(a[Math.floor(Math.random() * a.length)]);
 
 function praise(attempts, combo) {
   if (attempts > 1) return pick(RETRY_PRAISE);
-  return STREAK[combo] ?? (combo > 10 && combo % 5 === 0 ? `${combo} in a row!` : pick(PRAISE));
+  return STREAK[combo] ? t(STREAK[combo]) : combo > 10 && combo % 5 === 0 ? t('{n} in a row!', { n: combo }) : pick(PRAISE);
 }
 
 export function lessonItems(lessonId, data) {

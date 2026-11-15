@@ -4,6 +4,7 @@
 //   offlinePanel()  the Settings panel: save every course for offline use, install the app
 
 import { h } from './dom.js';
+import { lang, langPath, t } from './i18n.js';
 
 const SHELL_FLAG = 'gibernoot.offline.v1';
 let installPrompt = null;
@@ -33,30 +34,36 @@ async function courseFiles() {
     files.push(`courses/${c.id}/course.yaml`);
     for (const m of course.levels.flatMap(l => l.lessons ?? []).filter(m => m.file)) files.push(`courses/${c.id}/${m.file}`);
   }
-  return { files, catalog };
+  // The chosen language's copies, where they exist (a missing one is not an error: English is used).
+  const optional = new Set();
+  for (const f of [...files]) {
+    const l = f.startsWith('pages/') ? (lang() === 'en' ? null : f.replace('pages/', `pages/${lang()}/`)) : langPath(f.replace(/^courses\//, ''));
+    if (l && !f.endsWith('.webp')) { const full = f.startsWith('pages/') ? l : `courses/${l}`; files.push(full); optional.add(full); }
+  }
+  return { files, catalog, optional };
 }
 
 const imagesOf = (lesson, dir) => (lesson?.cards ?? []).flatMap(card => [card.image].flat().filter(Boolean))
   .map(im => im.src).filter(src => src && !/^(https?:|\/)/.test(src)).map(src => `${dir}/${src}`);
 
 async function saveAll(report) {
-  const { files } = await courseFiles();
+  const { files, optional } = await courseFiles();
   const queue = [...new Set(files)];
   let done = 0, failed = 0;
-  report(`Saving… 0 / ${queue.length}`);
+  report(t('Saving… {done} / {n}', { done: 0, n: queue.length }));
   const worker = async () => {
     while (queue.length) {
       const path = queue.shift();
       try {
         const res = await fetch(path, { cache: 'no-cache' });
-        if (!res.ok) throw new Error(res.status);
+        if (!res.ok) { if (optional.has(path)) { done++; continue; } throw new Error(res.status); }
         if (path.endsWith('.yaml') && /\/ch|\/exams?\//.test(path)) {
           const dir = path.slice(0, path.indexOf('/', 'courses/'.length));
           for (const img of imagesOf(jsyaml.load(await res.text()), dir)) if (!files.includes(img)) { files.push(img); queue.push(img); }
         }
       } catch { failed++; }
       done++;
-      report(`Saving… ${done} / ${files.length}`);
+      report(t('Saving… {done} / {n}', { done, n: files.length }));
     }
   };
   await Promise.all(Array.from({ length: 6 }, worker));
@@ -73,23 +80,23 @@ export function offlinePanel() {
       save.disabled = true;
       try {
         await navigator.serviceWorker.ready;
-        const { total, failed } = await saveAll(t => { status.textContent = t; });
-        status.textContent = failed ? `Saved ${total - failed} files; ${failed} could not be fetched (try again when the connection is better).` : `All ${total} files saved: every course now works offline in this browser.`;
-      } catch (err) { status.textContent = `Could not save: ${err.message}`; }
+        const { total, failed } = await saveAll(msg => { status.textContent = msg; });
+        status.textContent = failed ? t('Saved {n} files; {failed} could not be fetched (try again when the connection is better).', { n: total - failed, failed }) : t('All {n} files saved: every course now works offline in this browser.', { n: total });
+      } catch (err) { status.textContent = t('Could not save: {error}', { error: err.message }); }
       save.disabled = false;
     },
-  }, 'Save all courses for offline use');
+  }, t('Save all courses for offline use'));
   const install = h('button', {
     class: 'btn ghost install-btn', type: 'button', hidden: !installPrompt,
     onclick: async () => { if (!installPrompt) return; installPrompt.prompt(); await installPrompt.userChoice; installPrompt = null; install.hidden = true; },
-  }, 'Install the app');
+  }, t('Install the app'));
   return h('div', { class: 'panel' },
-    h('h3', {}, 'Offline & install'),
+    h('h3', {}, t('Offline & install')),
     h('p', {}, canWork
-      ? 'Pages you open are kept for offline use automatically. Save everything at once before a trip, and review on the go; progress made offline syncs when you are back online.'
-      : 'Offline mode needs the app to be opened from its web address.'),
-    standalone ? h('p', {}, 'You are using the installed app.')
-      : h('p', {}, ios ? 'To install on iPhone or iPad: tap Share, then “Add to Home Screen”.' : 'On a phone or in Chrome or Edge, the app can be installed like any other: it opens in its own window, even offline.'),
+      ? t('Pages you open are kept for offline use automatically. Save everything at once before a trip, and review on the go; progress made offline syncs when you are back online.')
+      : t('Offline mode needs the app to be opened from its web address.')),
+    standalone ? h('p', {}, t('You are using the installed app.'))
+      : h('p', {}, ios ? t('To install on iPhone or iPad: tap Share, then “Add to Home Screen”.') : t('On a phone or in Chrome or Edge, the app can be installed like any other: it opens in its own window, even offline.')),
     h('div', { class: 'row' }, save, install),
     status);
 }

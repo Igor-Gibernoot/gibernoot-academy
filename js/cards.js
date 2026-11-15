@@ -14,6 +14,7 @@
 // The player locks input between check() and retry()/reveal().
 
 import { h, shuffle } from './dom.js';
+import { t } from './i18n.js';
 import { md, mdInline, tex } from './render.js';
 import { mountWidget } from './widgets/index.js';
 import { courseId } from './course.js';
@@ -47,9 +48,9 @@ function images(card, el, place) {
       : im.credit);
     const cap = h('figcaption', {},
       h('span', { class: 'cap-text', html: im.caption ? mdInline(im.caption) : '' }),
-      credit ? h('span', { class: 'cap-credit' }, 'Image: ', credit) : null);
+      credit ? h('span', { class: 'cap-credit' }, t('Image: '), credit) : null);
     img.addEventListener('click', () => {
-      const big = h('div', { class: 'lightbox', role: 'dialog', 'aria-label': im.alt ?? 'Image', onclick: () => big.remove() },
+      const big = h('div', { class: 'lightbox', role: 'dialog', 'aria-label': im.alt ?? t('Image'), onclick: () => big.remove() },
         h('img', { src, alt: im.alt ?? '', class: im.mat ? 'mat' : null }));
       document.body.append(big);
     });
@@ -97,7 +98,7 @@ function mcq(card, el) {
   header(card, el);
   el.append(h('div', { class: 'prose', html: md(card.prompt) }));
   const multi = !!card.multiple;
-  if (multi) el.append(h('div', { class: 'hint-line' }, 'Select all that apply.'));
+  if (multi) el.append(h('div', { class: 'hint-line' }, t('Select all that apply.')));
 
   const base = card.options.map((o, i) => ({ ...o, i }));
   const opts = card.shuffle === false ? base : shuffle(base);
@@ -138,7 +139,7 @@ function mcq(card, el) {
       selected.forEach(k => btns[k].classList.add(opts[k].correct ? 'correct' : 'wrong'));
       const correct = wrongPicks.length === 0 && missed.length === 0;
       const notes = wrongPicks.map(k => opts[k].feedback).filter(Boolean);
-      if (!correct && missed.length && !notes.length) notes.push('You missed at least one correct option.');
+      if (!correct && missed.length && !notes.length) notes.push(t('You missed at least one correct option.'));
       return { correct, feedback: correct ? opts.filter(o => o.correct && o.feedback).map(o => o.feedback).join('\n\n') : notes.join('\n\n') };
     },
     correctMd: () => opts.filter(o => o.correct).map(o => `- ${o.text}`).join('\n'),
@@ -179,7 +180,7 @@ function numeric(card, el) {
   const ev = emitter();
   const input = h('input', {
     type: 'text', inputmode: 'decimal', autocomplete: 'off', spellcheck: 'false',
-    placeholder: card.placeholder ?? 'Your answer', 'aria-label': 'Your answer',
+    placeholder: card.placeholder ?? t('Your answer'), 'aria-label': t('Your answer'),
   });
   input.addEventListener('input', () => { input.classList.remove('wrong'); ev.fire(); });
   const row = h('div', { class: 'numeric-row' },
@@ -188,7 +189,7 @@ function numeric(card, el) {
     card.unit ? h('span', { html: mdInline(card.unit) }) : null);
   // Phone decimal keypads have no minus or slash key: provide them.
   const keys = h('div', { class: 'numeric-keys' },
-    ...[['−', 'minus sign'], ['/', 'fraction slash']].map(([ch, label]) => h('button', {
+    ...[['−', t('minus sign')], ['/', t('fraction slash')]].map(([ch, label]) => h('button', {
       type: 'button', class: 'numeric-key', 'aria-label': label,
       onmousedown: e => e.preventDefault(),
       onclick: () => {
@@ -199,7 +200,7 @@ function numeric(card, el) {
         input.focus({ preventScroll: true });
       },
     }, ch)));
-  el.append(row, keys, h('div', { class: 'hint-line' }, 'Fractions like 1/2 are fine.'));
+  el.append(row, keys, h('div', { class: 'hint-line' }, t('Fractions like 1/2 are fine.')));
   setTimeout(() => input.focus({ preventScroll: true }), 50);
 
   const tol = card.tolerance ?? 1e-6 * Math.max(1, Math.abs(card.answer));
@@ -243,7 +244,7 @@ function build(card, el) {
   let seq = [];
   let locked = false;
 
-  const line = h('div', { class: 'build-line', 'aria-label': 'Your expression' });
+  const line = h('div', { class: 'build-line', 'aria-label': t('Your expression') });
   const bank = h('div', { class: 'tile-bank' });
   const bankBtns = new Map();
   for (const i of order) {
@@ -253,8 +254,8 @@ function build(card, el) {
   }
   const tools = h('div', { class: 'build-tools' },
     h('button', { class: 'btn ghost', type: 'button', onclick: () => { if (!locked) { seq.pop(); paint(); } } }, '⌫ Undo'),
-    h('button', { class: 'btn ghost', type: 'button', onclick: () => { if (!locked) { seq = []; paint(); } } }, 'Clear'));
-  el.append(line, bank, tools, h('div', { class: 'hint-line' }, 'Tap tiles to build the expression; tap a placed tile to remove it.'));
+    h('button', { class: 'btn ghost', type: 'button', onclick: () => { if (!locked) { seq = []; paint(); } } }, t('Clear')));
+  el.append(line, bank, tools, h('div', { class: 'hint-line' }, t('Tap tiles to build the expression; tap a placed tile to remove it.')));
 
   function add(i) { if (locked || seq.includes(i)) return; seq.push(i); paint(); }
   function remove(pos) { if (locked) return; seq.splice(pos, 1); paint(); }
@@ -265,7 +266,7 @@ function build(card, el) {
     seq.forEach((i, pos) => line.append(h('button', {
       class: 'tile placed', type: 'button', html: tex(card.tiles[i]), onclick: () => remove(pos),
     })));
-    if (!seq.length) line.append(h('span', { class: 'placeholder' }, 'tap tiles below…'));
+    if (!seq.length) line.append(h('span', { class: 'placeholder' }, t('tap tiles below…')));
     if (card.suffix) line.append(h('span', { class: 'prefix', html: tex(card.suffix) }));
     bankBtns.forEach((b, i) => b.classList.toggle('used', seq.includes(i)));
     ev.fire();
@@ -317,7 +318,7 @@ function order(card, el) {
   const poolBox = h('div', { class: 'order-list pool' });
   el.append(h('div', { class: 'order-cols' },
     h('div', {}, h('div', { class: 'order-label' }, card.chosenLabel ?? 'Your order'), chosenBox),
-    h('div', {}, h('div', { class: 'order-label' }, 'Tap to place next'), poolBox)));
+    h('div', {}, h('div', { class: 'order-label' }, t('Tap to place next')), poolBox)));
 
   const stepBtn = (i, num, onclick) => h('button', { class: 'step', type: 'button', onclick },
     num ? h('span', { class: 'num' }, num) : null,
@@ -330,7 +331,7 @@ function order(card, el) {
       b.disabled = locked;
       return b;
     }));
-    if (!chosen.length) chosenBox.append(h('div', { class: 'hint-line' }, 'Empty — tap steps below in order.'));
+    if (!chosen.length) chosenBox.append(h('div', { class: 'hint-line' }, t('Empty — tap steps below in order.')));
     poolBox.replaceChildren(...pool.map((i, pos) => {
       const b = stepBtn(i, null, () => { if (!locked) { pool.splice(pos, 1); chosen.push(i); paint(); } });
       b.disabled = locked;
@@ -352,7 +353,7 @@ function order(card, el) {
       chosen.forEach((v, i) => { marks[i] = v === i ? 'correct' : 'wrong'; });
       paint(marks);
       const correct = firstWrong === -1;
-      return { correct, feedback: correct ? '' : `Step ${firstWrong + 1} is out of place.${card.hint ? '\n\n' + card.hint : ''}` };
+      return { correct, feedback: correct ? '' : `${t('Step {n} is out of place.', { n: firstWrong + 1 })}${card.hint ? '\n\n' + card.hint : ''}` };
     },
     correctMd: () => card.steps.map((s, i) => `${i + 1}. ${s}`).join('\n'),
     retry() {
@@ -461,6 +462,6 @@ function mapview(card, el) {
   header(card, el);
   if (card.body) el.append(h('div', { class: 'prose', html: md(card.body) }));
   el.append(mapDiagram(card.map, { filled: card.filled }));
-  if (card.filled) el.append(h('div', { class: 'hint-line' }, 'Tap a box to read its card.'));
+  if (card.filled) el.append(h('div', { class: 'hint-line' }, t('Tap a box to read its card.')));
   return { kind: 'info' };
 }
