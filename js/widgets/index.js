@@ -78,7 +78,8 @@ import { scaleFactor } from './scale-factor.js';
 import { multiverseCounter } from './multiverse-counter.js';
 import { forgettingCurve } from './forgetting-curve.js';
 import { oddsUpdater } from './odds-updater.js';
-import { hitCounter } from './hit-counter.js';
+// File not named hit-counter.js: ad blockers (EasyPrivacy "/hit-counter.") block that name, and one blocked module stops the app.
+import { hitCounter } from './binomial-hits.js';
 import { chaosSensitivity } from './chaos-sensitivity.js';
 import { conditionChain } from './condition-chain.js';
 import { microstateCounter } from './microstate-counter.js';

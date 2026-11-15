@@ -1,4 +1,4 @@
-// hit-counter
+// hit-counter (file binomial-hits.js: ad blockers block any file named hit-counter.js)
 //
 // How many hits out of n trials count as evidence. Binomial bars for the hit count X out of
 // n under chance (rate p0, or p0 = 1/k with k options to choose among) and under a claimed rate

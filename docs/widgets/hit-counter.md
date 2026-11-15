@@ -1,5 +1,5 @@
 # `hit-counter`
-How many hits out of $n$ trials count as evidence (`js/widgets/hit-counter.js`, plain SVG + HTML, all wording
+How many hits out of $n$ trials count as evidence (`js/widgets/binomial-hits.js`, named so because ad blockers block files called `hit-counter.js`; plain SVG + HTML, all wording
 from the config). Two sets of **binomial bars** for the hit count $X$ out of $n$: under **chance** (orange, rate
 $p_0$, or $p_0 = 1/k$ with $k$ options to choose among) and under a **claimed rate** $p_1$ (blue). Bar heights
 are $P(X = x) = \binom{n}{x} p^x (1-p)^{n-x}$, scaled to the tallest visible bar. A dashed **threshold** line
