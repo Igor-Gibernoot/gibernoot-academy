@@ -1,0 +1,530 @@
+id: ch20-challenge
+title: "Level Challenge: Weighing the Doctrine (1)"
+kind: challenge
+
+cards:
+  - type: text
+    id: welcome
+    title: "Challenge, part 1: a circle, a child and a test"
+    body: |
+      Problems 1 to 3 use **invented** circles, children, mediums and numbers, built to practise on cases you have never seen; nothing in them is a claim about a real person or a real study. Where a real thinker or study appears, it is named as "according to ...".
+
+      - **Problem 1 · Six mediums, one answer.** Who is independent, what the agreement is worth, and where Kardec's own check holds and where it fails.
+      - **Problem 2 · A child who remembers.** Prior odds, the likelihood ratio before and after two families met, and what a dated notebook can show.
+      - **Problem 3 · A medium under test.** False positives, power, what a failure does to the odds, and what a pass would and would not show.
+
+      **Three layers.** Established fact; scholarly consensus or live debate; faith or metaphysical commitment. Each problem ends with a fair adherent, a fair critic and a sort of its claims by layer. Problems 4 and 5, with the closing weighing of the whole doctrine, come in part 2.
+
+  - type: text
+    id: recall
+    title: "Toolkit recall"
+    body: |
+      Five tools from the level, each stated so it can be used alone.
+
+      - **The universal control.** According to Allan Kardec (1804-1869), the founder of *Spiritism* (the doctrine that spirits of the dead communicate through *mediums*, people said to receive their messages), reason filters every message first, and the best guarantee of a teaching is agreement among mediums who are strangers to one another, in several regions (*Revue Spirite*, April 1864). Agreement inside one circle is not enough, he warned, because its mediums may share the same influence.
+      - **Witnesses in odds.** If $q$ is the chance that one medium gives an answer with no real source behind it, $n$ independent mediums who agree give the likelihood ratio
+        $$\text{LR}=\frac{1}{q^{\,n}},$$
+        and mediums who share a source (a book, a teacher, a session) count as one witness.
+      - **Bayes in odds form.** For a hypothesis $H_1$ against a rival $H_2$ after evidence $E$:
+        $$\frac{P(H_1\mid E)}{P(H_2\mid E)}=\text{LR}\cdot\frac{P(H_1)}{P(H_2)}$$
+        with $\text{LR}=P(E\mid H_1)/P(E\mid H_2)$. Odds $o$ turn into a probability as $o/(1+o)$.
+      - **Rebirth cases.** According to the psychiatrist Ian Stevenson (1918-2007), the strongest cases of a child who speaks of a previous life are those with written records of the child's statements made before the dead person was identified; he held, in essence, that the evidence suggests rebirth without compelling belief.
+      - **A blind test.** With $n$ trials, $k$ choices each and a threshold $t$ fixed in advance, the hits $X$ under chance follow the binomial law with $p_0 = 1/k$:
+        $$P(X=x)=\binom{n}{x}p^{x}(1-p)^{n-x}$$
+        The **false-positive rate** is $P(X\ge t\mid p_0)$, the **power** $P(X\ge t\mid p_1)$ for a claimed rate $p_1$.
+
+  # ---------------- Problem 1 ----------------
+  - type: text
+    id: p1-setup
+    title: "Problem 1 · The circle of Varenne"
+    body: |
+      **Problem 1.** An invented circle in the town of Varenne, 1863. Its leader sends one question in sealed letters to six mediums: "after death, in which of the six spheres does a spirit first rest?" By guessing, each of the six answers is equally likely. All six reply "the third".
+
+      - **Anne** (Lyon), **Bastien** (Bordeaux) and **Claire** (Nantes) have never met or written to one another, and none has read anything on spheres.
+      - **Didier** is Anne's pupil; he sat in on her session the week before and heard her answer.
+      - **Élise** and **Fabien** live in Varenne and both read, the month before, an invented pamphlet, *The Threshold*, which names the third sphere.
+
+      The hypothesis $S$: the agreed answer comes from a real source beyond the mediums (for a Spiritist, the spirits). The rival: the mediums' own guesses and what they read or heard.
+
+  - type: numeric
+    id: p1-count
+    title: "How many witnesses?"
+    prompt: |
+      Six mediums all answer "the third sphere" to a question with six equally likely answers. Anne, Bastien and Claire are strangers in three cities. Didier is Anne's pupil and heard her answer the week before. Élise and Fabien both read a pamphlet naming the third sphere. Counting mediums who share a source as one witness, how many independent witnesses does the circle have?
+    answer: 4
+    tolerance: 0
+    answerText: '4'
+    wrong:
+      - { value: 6, feedback: 'That counts every medium as independent. Didier heard Anne''s answer, and Élise and Fabien read the same pamphlet, so each of those pairs carries one piece of evidence, not two.' }
+      - { value: 5, feedback: 'You merged one pair but not the other. Didier depends on Anne, and Élise depends on the same pamphlet as Fabien: both pairs collapse.' }
+      - { value: 3, feedback: 'That drops the pamphlet pair altogether. Shared reading makes Élise and Fabien one witness, not zero: the pamphlet still points to an answer.' }
+    hint: Group the mediums by where their answer could have come from; each group is one witness.
+    explanation: |
+      The groups are {Anne, Didier}, {Bastien}, {Claire} and {Élise, Fabien}: **4 witnesses**. Independence is a fact about the paths information could travel, not about how many people speak.
+
+  - type: numeric
+    id: p1-lr
+    title: "What the agreement is worth"
+    prompt: |
+      In the circle of Varenne, one question has six equally likely answers, so a medium with no real source gives the agreed answer with chance $q = 1/6$. The six agreeing mediums form 4 independent witnesses. Using $\text{LR} = 1/q^{n}$, what is the likelihood ratio of the agreement for a real source against guessing?
+    answer: 1296
+    tolerance: 0.5
+    answerText: '1296'
+    wrong:
+      - { value: 46656, feedback: 'That is $6^6$, counting all six mediums as independent. A pupil who heard the answer, and two readers of one pamphlet, add nothing beyond their source.' }
+      - { value: 7776, feedback: 'That is $6^5$: only one of the two dependent pairs was merged.' }
+      - { value: 24, feedback: 'That multiplies $4\times6$. Each independent witness multiplies the odds by $1/q = 6$, so four of them give $6\times6\times6\times6$.' }
+    hint: Each independent witness multiplies by $1/q = 6$.
+    explanation: |
+      $$\text{LR}=6^{4}=1296.$$
+      Counting all six as independent would give $6^{6}=46656$, a factor $36$ too large: the double-counting is worth more than one extra witness would be.
+
+  - type: numeric
+    id: p1-post
+    title: "From the prior to the posterior"
+    prompt: |
+      A doubtful reader of the Varenne case gives the hypothesis of a real source toy prior odds of $1{:}10\,000$ against guessing (an illustration, not a measurement). The agreement of 4 independent witnesses has $\text{LR} = 1296$. What posterior probability, in percent, does the reader reach?
+    answer: 11.5
+    tolerance: 0.2
+    answerText: '≈ 11.5%'
+    wrong:
+      - { value: 12.96, feedback: 'That is the posterior odds $0.1296$ written as a percent. Odds $o$ turn into a probability as $o/(1+o)$.' }
+      - { value: 82.3, feedback: 'That uses $\text{LR}=6^6$, counting all six mediums as independent.' }
+    hint: Multiply the prior odds by the LR, then turn odds $o$ into $o/(1+o)$.
+    explanation: |
+      The posterior odds are
+      $$1296\times\frac{1}{10\,000}=0.1296,$$
+      so the probability is $0.1296/1.1296\approx11.5\%$. With the double-counted $\text{LR}=46656$ the odds would be $4.67$, about $82\%$: one counting mistake turns "still unlikely" into "likely".
+
+  - type: widget
+    id: p1-widget
+    title: "Four witnesses or six?"
+    widget: odds-updater
+    config:
+      witnesses: true
+      prior: 1.0e-4
+      n: 4
+      q: 0.1667
+      nMax: 8
+      qMin: -2
+      qMax: -0.3
+      axisMin: -5
+      axisMax: 3
+      labels:
+        prior: "Prior probability of a real source (toy)"
+        n: "Independent witnesses, n"
+        q: "Match chance, no source, q"
+      presets:
+        - { label: "Four witnesses (correct)", n: 4, q: 0.1667 }
+        - { label: "Six (double-counting)", n: 6, q: 0.1667 }
+    body: |
+      The Varenne case with prior $10^{-4}$ and $q = 1/6$. The bar shows the log of the odds: blue the prior, orange what the agreement adds, purple the result; the dashed line is even odds (50%).
+
+      Press "Four witnesses (correct)" and then "Six (double-counting)", and watch the purple row cross the dashed line. Then move the prior: a reader who starts at $10^{-6}$ stays far below even odds even with six.
+    review: false
+
+  - type: mcq
+    id: p1-holds
+    title: "Where the control holds"
+    multiple: true
+    prompt: |
+      In the circle of Varenne, Anne, Bastien and Claire (strangers in three cities, no reading on spheres) agree with one another. According to Kardec's universal control, agreement among mediums who are strangers in several regions is the best guarantee of a teaching. Against which rival explanations does the agreement of these three, taken alone, give real protection? Select all that apply.
+    options:
+      - text: "Pure guessing: three independent guesses coincide on one of six answers with chance $6\\times(1/6)^3 = 1/36$."
+        correct: true
+        feedback: |
+          Yes. For strangers who share nothing, chance is the rival the control is built to beat.
+      - text: "One medium's own ideas bending the answer, which Kardec himself warned about."
+        correct: true
+        feedback: |
+          Yes. A private bias in one medium does not travel to strangers in other cities.
+      - text: "A shared culture: all three grew up hearing that the soul rests in a 'third heaven'."
+        feedback: |
+          No. Strangers can still share a culture. If a common idea makes "the third" likelier for all of them, $q$ is not $1/6$ and the agreement is weaker than it looks.
+      - text: "Information from living minds: the leader who wrote the question knew the pamphlet's answer."
+        feedback: |
+          No. Separate cities stop letters and talk, but not a rival that works through the person who asks. Sealed letters written by someone who knows the answer are not blind.
+    explanation: |
+      The control holds against chance and private bias, the rivals that do not travel between strangers. It does not reach rivals that every medium can share: a culture, a widely read book, or a questioner who knows what answer he hopes for.
+
+  - type: mcq
+    id: p1-fails
+    title: "Where the control fails"
+    prompt: |
+      A critic of Kardec's universal control says: "After 1857 the doctrine itself becomes the shared source." What does the critic mean, and why is it the deepest limit of the control?
+    options:
+      - text: "Once the Spirits' Book (1857) circulated, mediums in every region could have read its answers, so strangers in several regions are no longer independent on any question the book settles. The more the doctrine spreads, the less agreement with it can confirm it."
+        correct: true
+        feedback: |
+          Yes. Agreement is evidence only when the answer could not have travelled between the mediums; a famous book travels everywhere. The strong form of the control would need answers that are new and not in print.
+      - text: "Kardec wrote the Spirits' Book himself, so every message is a fraud."
+        feedback: |
+          That jumps from "shared source" to "fraud". Mediums who read a book and then sincerely give its answer are not lying; the point is about independence, not honesty.
+      - text: "The control fails because spirits do not agree with one another."
+        feedback: |
+          That is not the critic's claim, and Kardec expected some disagreement from less advanced spirits. The critic's worry is the opposite: agreement that comes too easily.
+    explanation: |
+      Kardec saw the danger inside one circle ("the same influence"); the critic extends it to a whole movement. A fair adherent can reply that the control asks for **spontaneous** messages judged by reason, and that agreement on details absent from any book would still count. Both sides then agree on what a strong test looks like.
+
+  - type: mcq
+    id: p1-voices
+    title: "A fair adherent and a fair critic"
+    prompt: |
+      In the circle of Varenne, six mediums agreed on "the third sphere"; four were independent witnesses and two pairs shared a source. Which pair of statements would each side accept as fair to its own view?
+    options:
+      - text: "Adherent: 'Kardec warned about shared influence himself; drop the pupil and the pamphlet, and three strangers still agree, which reason may weigh.' Critic: 'Three strangers still share a culture and a questioner who knew the pamphlet, so $q$ is likelier above $1/6$, and the agreement is weaker than 1-in-36.'"
+        correct: true
+        feedback: |
+          Yes. Both use the same arithmetic and the same rule of independence; they part on how independent the three strangers really are.
+      - text: "Adherent: 'Six mediums agreed, so the matter is settled.' Critic: 'Mediumship is impossible, so the agreement means nothing.'"
+        feedback: |
+          Neither is fair. The first ignores the shared sources Kardec himself warned about; the second decides the question before looking at the evidence.
+      - text: "Adherent: 'Agreement does not matter; faith alone decides.' Critic: 'Agreement does not matter; only laboratory tests count.'"
+        feedback: |
+          Both throw away the evidence on the table. Kardec built his method on agreement, and a critic can weigh it as one weak or strong piece of evidence.
+    explanation: |
+      Where they part: on the value of $q$ (how much a shared culture raises it) and on the prior, not on the formula $\text{LR}=1/q^{n}$.
+
+  - type: mcq
+    id: p1-layers
+    title: "Sort the claims by layer"
+    multiple: true
+    prompt: |
+      Four claims about the circle of Varenne (an invented case, read as if the facts of the story were documented). Select all that are **layer 1**, established fact, and not debate or faith.
+    options:
+      - text: "Six mediums answered 'the third sphere' in sealed replies."
+        correct: true
+        feedback: |
+          Yes: a recorded event that anyone can check in the letters.
+      - text: "Didier heard Anne's answer before giving his own."
+        correct: true
+        feedback: |
+          Yes: a fact about who was in the room.
+      - text: "Three strangers agreeing is strong evidence for a real source."
+        feedback: |
+          Layer 2. How strong depends on $q$ and on hidden shared causes, which reasonable people weigh differently.
+      - text: "A spirit dictated 'the third sphere' to the mediums."
+        feedback: |
+          Layer 3. That the mediums said it is fact; where it came from is a faith or metaphysical commitment.
+    explanation: |
+      The pattern repeats from the level: what was said and by whom is fact; how much it shows is debate; that spirits are its source is faith.
+
+  # ---------------- Problem 2 ----------------
+  - type: text
+    id: p2-setup
+    title: "Problem 2 · The girl of Saint-Aubin"
+    body: |
+      **Problem 2.** An invented case. In the coastal town of Saint-Aubin, where many families hold that the dead are reborn, a girl named Mira begins at age three to speak of "my boat" and "my two sons". Her aunt, a teacher, writes **10 statements** in a notebook. Four months later a family 40 km away is found whose father, a fisherman, died two years before Mira was born; **8 of the 10** notebook statements fit him. After the two families meet, Mira makes **15 more** statements, and 13 fit.
+
+      Let $R$ be the hypothesis that Mira is the fisherman reborn and $N$ the rival that normal causes (chance, contact between the families, shaping by adults) produced the case. A doubtful reader starts with toy prior odds $P(R)/P(N) = 1{:}500$, an illustration, not a measurement.
+
+  - type: numeric
+    id: p2-lr
+    title: "The notebook's likelihood ratio"
+    prompt: |
+      In the invented case of Mira in Saint-Aubin, 8 of 10 statements written in a notebook before the fisherman's family was found fit him. Take $P(E\mid R) = 0.6$ (a reborn child might well say this much) and $P(E\mid N) = 0.002$ (that many fitting details by chance, with no contact). What is the likelihood ratio $\text{LR} = P(E\mid R)/P(E\mid N)$?
+    answer: 300
+    tolerance: 0.5
+    answerText: '300'
+    wrong:
+      - { value: 0.0033, feedback: 'That is the ratio upside down, $P(E\mid N)/P(E\mid R)$. The LR for $R$ puts the probability under $R$ on top.' }
+      - { value: 0.0012, feedback: 'That multiplies the two probabilities. The LR is their ratio.' }
+    hint: Divide the probability of the evidence under $R$ by its probability under $N$.
+    explanation: |
+      $$\text{LR}=\frac{0.6}{0.002}=300.$$
+      The evidence is 300 times likelier if Mira is the fisherman reborn than if normal causes acted without contact. The size comes from the small denominator: everything rests on the claim that no normal route could give 8 fitting details.
+
+  - type: numeric
+    id: p2-post
+    title: "Posterior from the notebook"
+    prompt: |
+      In the invented case of Mira, a doubtful reader holds toy prior odds of $1{:}500$ for rebirth $R$ against normal causes $N$. The notebook statements have $\text{LR} = 300$. What posterior probability of $R$, in percent, does the reader reach?
+    answer: 37.5
+    tolerance: 0.2
+    answerText: '37.5%'
+    wrong:
+      - { value: 60, feedback: 'That is the posterior odds $0.6$ read as a probability. Odds $o$ turn into $o/(1+o)$.' }
+      - { value: 0.6, feedback: 'That is the posterior odds, not a percentage. Turn odds $o$ into $o/(1+o)$ and multiply by 100.' }
+    hint: Posterior odds = LR × prior odds; then $o/(1+o)$.
+    explanation: |
+      $$300\times\frac{1}{500}=0.6,$$
+      so the probability is $0.6/1.6=37.5\%$. Even a strong case leaves this reader below even odds: a low prior needs either a larger LR or several independent strong cases.
+
+  - type: numeric
+    id: p2-met
+    title: "After the families met"
+    prompt: |
+      In the invented case of Mira, 13 of 15 statements made **after** the two families met fit the dead fisherman. Once the families have met, a child can pick up details by normal routes, so take $P(E\mid N) = 0.3$, with $P(E\mid R) = 0.6$ as before. What is the likelihood ratio of these later statements?
+    answer: 2
+    tolerance: 0.01
+    answerText: '2'
+    wrong:
+      - { value: 300, feedback: 'That is the notebook''s LR. After contact the denominator grows from $0.002$ to $0.3$, because normal causes now explain a match too.' }
+      - { value: 0.5, feedback: 'That is the ratio upside down. Put $P(E\mid R)$ on top.' }
+    hint: Same formula, new denominator.
+    explanation: |
+      $$\text{LR}=\frac{0.6}{0.3}=2.$$
+      With prior odds $1{:}500$ these statements alone give odds $0.004$, about $0.4\%$. More statements (15, with 13 fitting) are worth far less than fewer recorded before contact: the number of hits matters less than the path the information could have taken.
+
+  - type: mcq
+    id: p2-records
+    title: "Was the notebook really first?"
+    prompt: |
+      In the invented case of Mira, the aunt dated the notebook herself, and no one outside the family saw it before the fisherman's family was found. According to Stevenson, the strongest cases have written records of the child's statements made before the dead person was identified. What should a careful investigator conclude about the notebook?
+    options:
+      - text: "It may be the record that makes the case strong, but the claim that it came first rests on the aunt's word. An independent date (a witness, a copy sent away, a stamped letter) would raise its weight; without one, a critic may fairly lower the LR."
+        correct: true
+        feedback: |
+          Yes. The rule "records before identification" works only if the order of events is itself documented. Doubt about the order is doubt about the denominator $P(E\mid N)$.
+      - text: "The aunt is family, so the notebook must be a fabrication and should be thrown out."
+        feedback: |
+          That turns a gap in documentation into an accusation. Most records in such cases are made by families; the fair move is to ask how well the date is fixed, not to presume fraud.
+      - text: "The notebook is in the aunt's handwriting, so its date is established fact."
+        feedback: |
+          Handwriting shows who wrote it, not when. Writing the date on a page does not fix the date.
+    explanation: |
+      According to the case files described in the level, only a few dozen of some 2,500 cases had records made before identification, and even these were often written by the families. The fact (layer 1) is that a notebook exists with these words; when it was written may be layer 1 or not, depending on what fixes the date.
+
+  - type: mcq
+    id: p2-voices
+    title: "Stevenson's word and a critic's reply"
+    prompt: |
+      In the invented case of Mira (notebook LR 300, prior odds 1:500, posterior 37.5%; later statements LR 2), Stevenson's view of the strongest real cases was, in essence, that the evidence **suggests** rebirth without compelling belief. Which pair states a fair adherent and a fair critic?
+    options:
+      - text: "Adherent: 'A dated record with 8 fitting details is what Stevenson meant by a strong case; *suggests* means it moves the odds, not that it ends the question.' Critic: 'In a town that expects rebirth, a common cause can shape what the child says and what the adults hear; that raises $P(E\\mid N)$ above 0.002, and the prior for rebirth is low for reasons no single case answers.'"
+        correct: true
+        feedback: |
+          Yes. Both accept Bayes and the importance of records; they part on how small $P(E\mid N)$ really is and on the prior.
+      - text: "Adherent: 'The case proves rebirth.' Critic: 'The case proves nothing, since rebirth is impossible.'"
+        feedback: |
+          Neither is fair. Stevenson himself did not say "proves", and "impossible" is a prior of zero, which no evidence could move.
+      - text: "Adherent: 'More statements were made after the meeting, so the case is stronger.' Critic: 'Statements made before the meeting are worthless.'"
+        feedback: |
+          Both invert the logic. Statements after contact have $\text{LR}=2$; statements before contact are the strongest part of the case.
+    explanation: |
+      Where they part: on the rival's probability (how much a culture that expects rebirth can produce) and on the prior (whether a spirit that returns is a live possibility at all). The arithmetic is shared.
+
+  - type: mcq
+    id: p2-layers
+    title: "Sort the claims by layer"
+    multiple: true
+    prompt: |
+      Four claims about the invented case of Mira in Saint-Aubin. Select all that are **layer 2**, scholarly debate.
+    options:
+      - text: "How small the chance $P(E\\mid N)$ of 8 fitting details really is, given a town that expects rebirth."
+        correct: true
+        feedback: |
+          Yes: reasonable investigators disagree on how much culture and contact can explain.
+      - text: "Whether the notebook is strong evidence, given that only the family vouches for its date."
+        correct: true
+        feedback: |
+          Yes: the weight of a record is a matter of judgement about its documentation.
+      - text: "The notebook contains 10 statements, 8 of which fit the fisherman."
+        feedback: |
+          Layer 1: a count anyone can check against the notebook and the fisherman's life.
+      - text: "Mira's spirit once lived as the fisherman."
+        feedback: |
+          Layer 3: a faith or metaphysical commitment, which the evidence can bear on but not settle.
+    explanation: |
+      The count is fact, its weight is debate, the rebirth itself is faith. Keeping these apart is what lets a believer and a sceptic agree on the notebook while they disagree on the spirit.
+
+  # ---------------- Problem 3 ----------------
+  - type: text
+    id: p3-setup
+    title: "Problem 3 · Testing Hester Lowe"
+    body: |
+      **Problem 3.** An invented medium, Hester Lowe, claims that spirits of the dead tell her about people she has never met. A team designs a test. In each of $n = 12$ trials Hester gives a reading for an absent dead person known only by a first name, to a stand-in (a *proxy sitter*) who knows nothing about them. The real relative then receives $k = 4$ unlabelled readings in random order, one real and three made for other people, and picks the one that fits. A **hit** is picking the real one; $X$ is the number of hits.
+
+      Written in advance: Hester passes if $X \ge t = 6$. Her claimed hit rate is $p_1 = 1/2$; by chance alone each trial is a hit with $p_0 = 1/k = 1/4$.
+
+  - type: numeric
+    id: p3-fp
+    title: "The false-positive rate"
+    prompt: |
+      An invented proxy-sitter test of the medium Hester Lowe: $n = 12$ trials, $k = 4$ readings to choose among, chance hit rate $p_0 = 1/4$, pass if $X \ge 6$. Under chance, $P(X = x) = \binom{12}{x}(1/4)^{x}(3/4)^{12-x}$ gives about 4.01% for $x = 6$, 1.15% for $x = 7$, 0.24% for $x = 8$, 0.035% for $x = 9$, and under 0.004% for each $x$ from 10 to 12. What is the false-positive rate $P(X \ge 6 \mid p_0)$, in percent?
+    answer: 5.44
+    tolerance: 0.05
+    answerText: '≈ 5.44%'
+    wrong:
+      - { value: 4.01, feedback: 'That is only $P(X=6)$. Passing means 6 **or more** hits, so add the tail from 6 to 12.' }
+      - { value: 94.56, feedback: 'That is the chance of failing, $P(X<6)$. The false-positive rate is the chance of passing by luck.' }
+      - { value: 25, feedback: 'That is the chance of a hit in one trial, not of passing the whole test.' }
+    hint: Add the probabilities for $x = 6$ through 12.
+    explanation: |
+      $$4.01+1.15+0.24+0.035+\dots\approx5.44\%.$$
+      A medium with no ability passes about one time in 18. That is a little above the 5% often used as a limit, so a strict team might prefer a higher threshold.
+
+  - type: numeric
+    id: p3-power
+    title: "The power"
+    prompt: |
+      An invented proxy-sitter test of Hester Lowe: $n = 12$ trials, pass if $X \ge 6$. If her claimed hit rate $p_1 = 1/2$ is true, each pattern of hits and misses has probability $(1/2)^{12} = 1/4096$, and the numbers of patterns with $x = 6, 7, \dots, 12$ hits are $\binom{12}{x} = 924, 792, 495, 220, 66, 12, 1$. What is the power $P(X \ge 6 \mid p_1)$, in percent?
+    answer: 61.3
+    tolerance: 0.1
+    answerText: '≈ 61.3%'
+    wrong:
+      - { value: 22.6, feedback: 'That is only $P(X=6)=924/4096$. Add all the patterns from 6 to 12 hits.' }
+      - { value: 50, feedback: 'That is the claimed rate per trial. The power is the chance of reaching 6 hits in 12 trials.' }
+      - { value: 38.7, feedback: 'That leaves out $x = 6$, the power for $t = 7$. The threshold 6 itself counts as a pass.' }
+    hint: Add the counts and divide by 4096.
+    explanation: |
+      The counts add up to
+      $$924+792+495+220+66+12+1=2510,$$
+      so the power is
+      $$\frac{2510}{4096}\approx61.3\%.$$
+      Even if Hester has the ability she claims, she fails this test almost two times in five.
+
+  - type: widget
+    id: p3-widget
+    title: "Moving the threshold"
+    widget: hit-counter
+    config:
+      n: 12
+      k: 4
+      p1: 0.5
+      t: 6
+      locked: [n, k]
+      p1Slider: false
+      labels:
+        chance: "chance only, p0 = 1/4"
+        claim: "claimed rate, p1 = 1/2"
+        t: "Hits needed, t"
+      presets:
+        - { label: "t = 6", t: 6 }
+        - { label: "t = 7", t: 7 }
+    body: |
+      Hester Lowe's test: 12 trials, 4 choices each. Orange bars are the hit counts under chance, blue under her claimed rate $1/2$; the dashed line is the threshold $t$, and bars at or above it count as a pass.
+
+      Check your two answers at $t = 6$, then press "t = 7" and watch both readouts fall. Drag $t$ down to 5 and see the orange tail grow.
+    review: false
+
+  - type: mcq
+    id: p3-threshold
+    title: "Six or seven?"
+    prompt: |
+      In an invented proxy-sitter test (12 trials, 4 choices each, claimed hit rate $1/2$), a pass at $t = 6$ has false-positive rate 5.44% and power 61.3%; at $t = 7$ these become 1.43% and 38.7%. A sceptic asks for $t = 7$; Hester's supporters ask for $t = 6$. What is the fair way to settle it?
+    options:
+      - text: "Both are reasonable trades between two errors; the real fix is a larger $n$, which lowers false positives and raises power together. Whatever is chosen must be written down before the test."
+        correct: true
+        feedback: |
+          Yes. With only 12 trials no threshold is both strict and fair to a real ability. More trials separate the orange and blue bars.
+      - text: "Use $t = 7$, because a lower false-positive rate is always better."
+        feedback: |
+          A lower false-positive rate comes with lower power: at $t = 7$ a medium with the claimed ability fails more often than she passes.
+      - text: "Run the test and then choose the threshold that the result just reaches."
+        feedback: |
+          That is moving the goalposts. A threshold picked after the data adds the chance of every nearby threshold to the false-positive rate.
+    explanation: |
+      Each side's choice protects against the error it fears most: the sceptic against a lucky pass, the supporters against an unfair failure. Agreeing on $n$ and $t$ in advance is what both can accept.
+
+  - type: numeric
+    id: p3-fail
+    title: "What a failure does"
+    prompt: |
+      In the invented test of Hester Lowe ($n = 12$, $k = 4$, pass at $X \ge 6$), she scores 4 hits and fails. A failure has probability $1 - 0.613 = 0.387$ if her claimed rate $1/2$ is true, and $1 - 0.0544 = 0.9456$ under chance. By what factor does the failure multiply the odds of her claim against chance?
+    answer: 0.409
+    tolerance: 0.005
+    answerText: '≈ 0.41'
+    wrong:
+      - { value: 2.44, feedback: 'That is the ratio upside down. The factor for the claim puts the probability of failing under the claim on top.' }
+      - { value: 0.387, feedback: 'That is only the chance of failing under the claim. The factor compares it with the chance of failing under chance.' }
+    hint: The likelihood ratio of the evidence "failed" is $P(\text{fail}\mid p_1)/P(\text{fail}\mid p_0)$.
+    explanation: |
+      $$\frac{0.387}{0.9456}\approx0.41.$$
+      A failure cuts the odds by a bit more than half: real evidence against the claim, but weak. With so few trials, a medium with the ability fails often, so one failed test cannot settle the question in either direction.
+
+  - type: numeric
+    id: p3-best
+    title: "Best of four runs"
+    prompt: |
+      In an invented proxy-sitter test with a false-positive rate of 5.44% per run, a team quietly runs the test four times with four different mediums who have no ability, and reports only a run that passed. What is the chance, in percent, that at least one of the four runs passes by chance alone?
+    answer: 20.0
+    tolerance: 0.2
+    answerText: '≈ 20.0%'
+    wrong:
+      - { value: 21.76, feedback: 'That adds $4\times5.44\%$. Runs can pass together, so the chance of at least one pass is $1-(\text{chance all fail})$.' }
+      - { value: 5.44, feedback: 'That is one run. Each extra run is another chance for luck.' }
+    hint: The chance that all four fail is $(1-0.0544)^4$.
+    explanation: |
+      $$1-(1-0.0544)^{4}\approx1-0.800=20.0\%.$$
+      A one-in-eighteen test becomes a one-in-five test when the failures stay in the drawer. That is why every run must be reported, misses as well as hits.
+
+  - type: mcq
+    id: p3-pass
+    title: "What a pass would show"
+    prompt: |
+      Suppose Hester Lowe passes a clean, preregistered proxy-sitter test, every run reported, with blinding that rules out cues, general statements and leaks. According to the design argument of the level, what would follow, and what would not?
+    options:
+      - text: "It would follow that she had information no normal route explains. It would not follow that the dead are its source: information from living minds (sometimes called super-psi, or living-agent psi) predicts the same hits as survival."
+        correct: true
+        feedback: |
+          Yes. The test removes normal rivals, not unusual ones. Separating survival from information drawn from the living needs a different design; according to Julie Beischel and Gary Schwartz, who reported a positive test of this kind in 2007, their design could not separate the two.
+      - text: "It would prove that spirits of the dead communicate, as Kardec taught."
+        feedback: |
+          That treats "no normal explanation" as "this particular explanation". Survival is one candidate; super-psi is another that fits the same data.
+      - text: "It would show nothing, because a test of mediumship cannot be scientific."
+        feedback: |
+          The design is a standard blind test with a threshold set in advance. Its result counts as evidence, whatever one then concludes about the source.
+    explanation: |
+      Layers: that she passed would be fact; what the pass shows about the source is debate; that the source is the dead would remain faith.
+
+  - type: mcq
+    id: p3-voices
+    title: "A fair adherent and a fair critic"
+    prompt: |
+      In the invented test of Hester Lowe (12 trials, 4 choices, pass at 6 hits), she failed with 4 hits; the failure multiplied the odds of her claim by about 0.41. Which pair states a fair adherent and a fair critic?
+    options:
+      - text: "Adherent: 'According to Kardec, spirits are free beings not subject to our commands, so a test on demand may fail for reasons outside the medium; and with power 61%, failure is common even for a real ability.' Critic: 'The power point is fair, so run more trials; but if every failure is put down to the spirits' freedom, the claim makes no prediction a test could check.'"
+        correct: true
+        feedback: |
+          Yes. Each side grants the other's best point: the adherent the need for testing, the critic the weakness of one small test.
+      - text: "Adherent: 'One failure means nothing, and neither would a hundred.' Critic: 'One failure proves she is a fraud.'"
+        feedback: |
+          Both overstate. A hundred failures would move the odds a great deal, and one failure of a small test is weak evidence, not proof of fraud.
+      - text: "Adherent: 'She should have chosen the threshold after seeing her score.' Critic: 'The test should have had no threshold.'"
+        feedback: |
+          Neither helps. A threshold fixed in advance is what makes the result count for either side.
+    explanation: |
+      Where they part: whether a claim about free spirits should be held to repeatable tests at all, and how many failures it would take to lower the odds a long way. The binomial arithmetic is shared.
+
+  - type: mcq
+    id: p3-layers
+    title: "Sort the claims by layer"
+    multiple: true
+    prompt: |
+      Four claims about the invented test of Hester Lowe. Select all that are **layer 1**, established fact.
+    options:
+      - text: "With 12 trials and 4 choices, chance alone gives 6 or more hits about 5.4% of the time."
+        correct: true
+        feedback: |
+          Yes: a mathematical fact about the binomial law, checkable by anyone.
+      - text: "Hester scored 4 hits, below the threshold of 6 written in advance."
+        correct: true
+        feedback: |
+          Yes: a recorded result of the test.
+      - text: "One failed test of 12 trials is too small to tell us much about her ability."
+        feedback: |
+          Layer 2: how much a factor of 0.41 should move a reader is a matter of judgement.
+      - text: "Spirits chose not to come to the test."
+        feedback: |
+          Layer 3: a faith claim that the test itself cannot check.
+    explanation: |
+      The numbers and the score are fact; their weight is debate; the spirits' reasons are faith.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      Part 1 used one method three ways: ask how the information could have travelled, put numbers on it with odds, and keep the three layers apart.
+
+      **Problem 1 (Varenne).** Mediums who share a source count as one witness: six agreeing mediums were 4 witnesses, with $q = 1/6$,
+      $$\text{LR}=\frac{1}{q^{\,n}}=6^{4}=1296,$$
+      and toy prior odds $1{:}10\,000$ gave about 11.5% (double-counting, $6^6$, would give 82%). Kardec's universal control holds against chance and one medium's bias; it fails against shared culture, a questioner who knows the answer, and the doctrine's own books.
+
+      **Problem 2 (Mira).** With prior odds $1{:}500$, a notebook written before identification gave
+      $$\text{LR}=\frac{0.6}{0.002}=300,$$
+      a posterior of 37.5%; statements after the families met gave $\text{LR}=0.6/0.3=2$. The record counts only if its date is fixed independently. Stevenson, in essence: suggests, does not compel.
+
+      **Problem 3 (Hester Lowe).** With $n = 12$, $k = 4$, $t = 6$: false positives 5.44%, power 61.3%; a failure multiplies the odds by $0.387/0.9456\approx0.41$; best of four runs passes by luck $1-(1-0.0544)^4\approx20\%$. A pass shows information no normal route explains, not its source (super-psi fits too).
+
+      **Where people part ways:** on how independent the witnesses really are, on the prior for spirits, and on whether free spirits owe us repeatable tests. **Next:** part 2, problems 4 and 5 and the closing weighing of the whole doctrine.
