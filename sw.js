@@ -5,7 +5,7 @@
 // every course file, which fills the cache through this same path.
 // Other origins (sign-in, cloud sync) are left alone.
 
-const CACHE = 'gibernoot-v2';
+const CACHE = 'gibernoot-v3';
 const SHELL = ['./', 'index.html', 'css/app.css', 'js/main.js', 'manifest.webmanifest', 'icon.svg',
   'vendor/katex/katex.min.css', 'vendor/katex/katex.min.js', 'vendor/js-yaml.min.js', 'vendor/marked.min.js',
   'vendor/fonts/jersey-10-latin-400-normal.woff2', 'courses/catalog.yaml'];
@@ -29,7 +29,7 @@ self.addEventListener('fetch', e => {
 async function networkFirst(req, page) {
   const cache = await caches.open(CACHE);
   const key = page ? 'index.html' : req.url.split('#')[0];
-  const net = fetch(req, { cache: 'no-cache' }).then(res => {
+  const net = (page ? fetch(req) : fetch(req.url, { cache: 'no-cache' })).then(res => {
     if (res.ok && res.type === 'basic') cache.put(key, res.clone());
     return res;
   });
