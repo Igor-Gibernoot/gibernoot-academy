@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-14 · ch20-challenge part 2
+Built `ch20/challenge-2.yaml` (24 cards, problems 4-5 + closing weighing; no widget, no images). Choices: invented family Davi/Inês/Tomás with three neighbours; penal-code card as an order card (imperfection, repentance, expiation, reparation); fresh census arithmetic (Umbanda+Candomblé 1.77 M, schooled Spiritists 1.53 M) instead of 3.18 M; strongest test = O'Keeffe & Wiseman 2005 vs Beischel & Schwartz 2007; Kardec's label from What Is Spiritism? (1859) and the 1 Nov 1868 speech (Kardecpedia date; one abstract says 1 Dec). Level 20 lessons complete; next: Level 20 audit, then `ch21-drake`.
+Conventions fixed here: Davi/Inês/Tomás; 1.0% × 176.7 M ≈ 1.77 M, 48% × 3.18 M ≈ 1.53 M; Kardec: science of observation + philosophical doctrine, religion only in the philosophical sense.
+
 ## 2026-11-14 · ch20-challenge part 1
 Built `ch20/challenge.yaml` (29 cards, problems 1-3; `odds-updater` once, `hit-counter` once, no images, no `own:` as in other challenges). Added planned node `ch20-challenge-2` (problems 4-5 + closing weighing). Choices: q = 1/6 (six spheres) and prior 1:10,000 for Varenne; Mira prior 1:500 and LR 300/2; Hester Lowe n = 12, k = 4, t = 6; failure factor uses the event "failed" (as in the map), not the exact-x LR (0.62 at x = 4). Shots: one overflow fixed (p3-power explanation split); both widget cards viewed. Card count 29, above the ideal 24 but under 32: every card is a worked step or a voices/layers card.
 Conventions fixed here: Varenne 4 witnesses LR 1296 (naive 46656), 11.5% vs 82%; Mira 1:500 × 300 → 37.5%, after contact LR 2; Hester n = 12, k = 4, t = 6: FP 5.44%, power 61.3%, fail × 0.41, best of 4 runs 20%.
