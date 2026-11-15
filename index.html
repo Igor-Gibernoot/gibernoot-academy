@@ -19,6 +19,30 @@
 </head>
 <body>
   <div id="app"><p class="boot">Loading…</p></div>
+  <script>
+    // Boot watchdog: if the app has not drawn anything after 8 s, show what went
+    // wrong and a button that drops the service worker and caches, then reloads.
+    (function () {
+      var errs = [];
+      addEventListener('error', function (e) {
+        var t = e.target;
+        errs.push(t && t !== window && (t.src || t.href) ? 'Could not load ' + (t.src || t.href) : (e.message || 'error') + (e.filename ? ' (' + e.filename.split('/').pop() + ':' + e.lineno + ')' : ''));
+      }, true);
+      addEventListener('unhandledrejection', function (e) { errs.push('Promise: ' + (e.reason && (e.reason.stack || e.reason.message) || e.reason)); });
+      setTimeout(function () {
+        var boot = document.querySelector('#app > .boot');
+        if (!boot) return;
+        boot.innerHTML = 'The app did not start.<br><small></small><br><br><button class="btn" type="button">Reload clean</button>';
+        boot.querySelector('small').textContent = errs.length ? errs.slice(0, 4).join(' · ') : 'No error was reported (a file may still be downloading).';
+        boot.querySelector('button').onclick = function () {
+          var jobs = [];
+          if (navigator.serviceWorker) jobs.push(navigator.serviceWorker.getRegistrations().then(function (rs) { return Promise.all(rs.map(function (r) { return r.unregister(); })); }));
+          if (window.caches) jobs.push(caches.keys().then(function (ks) { return Promise.all(ks.map(function (k) { return caches.delete(k); })); }));
+          Promise.all(jobs).catch(function () {}).then(function () { location.reload(); });
+        };
+      }, 8000);
+    })();
+  </script>
   <script src="vendor/katex/katex.min.js"></script>
   <script src="vendor/js-yaml.min.js"></script>
   <script src="vendor/marked.min.js"></script>
