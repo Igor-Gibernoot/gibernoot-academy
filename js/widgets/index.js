@@ -4,172 +4,109 @@
 //     config: { ... }
 // Each widget lives in its own file (js/widgets/<name>.js, header = its config);
 // shared plane/SVG helpers are in plane.js. A new widget: add its file and one
-// line here, and document it in docs/widgets/<name>.md.
-
-import { basisPlayground } from './basis-playground.js';
-import { machinePlayground } from './machine-playground.js';
-import { mapBuilder } from './map-builder.js';
-import { ballProbe } from './ball-probe.js';
-import { preimageExplorer } from './preimage-explorer.js';
-import { circleCharts } from './circle-charts.js';
-import { curveVelocity } from './curve-velocity.js';
-import { chartBasis } from './chart-basis.js';
-import { parallelTransport } from './parallel-transport.js';
-import { timeSlices } from './time-slices.js';
-import { rotatingGrid } from './rotating-grid.js';
-import { fallingCloud } from './falling-cloud.js';
-import { lightCones } from './light-cones.js';
-import { worldlineClock } from './worldline-clock.js';
-import { observerFrame } from './observer-frame.js';
-import { nowLines } from './now-lines.js';
-import { areaCell } from './area-cell.js';
-import { torusFigure } from './torus.js';
-import { sphereFigure } from './sphere.js';
-import { beliefMixer } from './belief-mixer.js';
-import { sequenceSampler } from './sequence-sampler.js';
-import { frequencyGrid } from './frequency-grid.js';
-import { curveFitLab } from './curve-fit-lab.js';
-import { homeostat } from './homeostat.js';
-import { bikeBalance } from './bike-balance.js';
-import { leverBalance } from './lever-balance.js';
-import { frictionStop } from './friction-stop.js';
-import { heatLayers } from './heat-layers.js';
-import { heatPumpFlow } from './heat-pump-flow.js';
-import { boilingCurve } from './boiling-curve.js';
-import { pinTumbler } from './pin-tumbler.js';
-import { diagonalList } from './diagonal-list.js';
-import { elevatorCounterweight } from './elevator-counterweight.js';
-import { crashImpulse } from './crash-impulse.js';
-import { trackRide } from './track-ride.js';
-import { oscillatorLab } from './oscillator-lab.js';
-import { flutterLab } from './flutter-lab.js';
-import { archThrust } from './arch-thrust.js';
-import { trussFrame } from './truss-frame.js';
-import { beamSection } from './beam-section.js';
-import { freeEnergyBound } from './free-energy-bound.js';
-import { policyScorer } from './policy-scorer.js';
-import { blanketGraph } from './blanket-graph.js';
-import { blanketSync } from './blanket-sync.js';
-import { factorGraph } from './factor-graph.js';
-import { pomdpLab } from './pomdp-lab.js';
-import { meanFieldVb } from './mean-field-vb.js';
-import { steadyStateWalk } from './steady-state-walk.js';
-import { gaussianFit } from './gaussian-fit.js';
-import { pebRegression } from './peb-regression.js';
-import { predictiveCoding } from './predictive-coding.js';
-import { microcircuit } from './microcircuit.js';
-import { dirichletCounts } from './dirichlet-counts.js';
-import { deepLevels } from './deep-levels.js';
-import { attractorLab } from './attractor-lab.js';
-import { flowLab } from './flow-lab.js';
-import { coupledAgents } from './coupled-agents.js';
-import { hybridSaccade } from './hybrid-saccade.js';
-import { simplexPoints } from './simplex-points.js';
-import { gaussCharts } from './gauss-charts.js';
-import { bregmanGap } from './bregman-gap.js';
-import { dualGrids } from './dual-grids.js';
-import { altProjections } from './alt-projections.js';
-import { logRuler } from './log-ruler.js';
-import { feedbackLoop } from './feedback-loop.js';
-import { tradeoffCurve } from './tradeoff-curve.js';
-import { cellularAutomaton } from './cellular-automaton.js';
-import { chshLab } from './chsh-lab.js';
-import { scaleFactor } from './scale-factor.js';
-import { multiverseCounter } from './multiverse-counter.js';
-import { forgettingCurve } from './forgetting-curve.js';
-import { oddsUpdater } from './odds-updater.js';
-// File not named hit-counter.js: ad blockers (EasyPrivacy "/hit-counter.") block that name, and one blocked module stops the app.
-import { hitCounter } from './binomial-hits.js';
-import { chaosSensitivity } from './chaos-sensitivity.js';
-import { conditionChain } from './condition-chain.js';
-import { microstateCounter } from './microstate-counter.js';
-import { integrationDemo } from './integration-demo.js';
+// line here ('name': ['file', 'exportName']), and document it in docs/widgets/<name>.md.
+//
+// Widgets load on demand (dynamic import) when a card needs one, so a file that fails to
+// load (an ad blocker matching its name, a dropped request) breaks only that widget, never
+// the whole app. Never add static imports of widget files here.
+// FILE NAMES: ad blockers (EasyPrivacy, uBlock, the built-in ones in Arc and Dia) block URLs that look
+// like trackers. Never name a widget file hit-counter, tracker, analytics, beacon, pageview, telemetry,
+// metrics, stats, advert(s), ad(s), popup, sponsor or collect. `node tools/validate.mjs` rejects them.
 
 const WIDGETS = {
-  'basis-playground': basisPlayground,
-  'machine-playground': machinePlayground,
-  'map-builder': mapBuilder,
-  'ball-probe': ballProbe,
-  'preimage-explorer': preimageExplorer,
-  'circle-charts': circleCharts,
-  'curve-velocity': curveVelocity,
-  'chart-basis': chartBasis,
-  'parallel-transport': parallelTransport,
-  'time-slices': timeSlices,
-  'rotating-grid': rotatingGrid,
-  'falling-cloud': fallingCloud,
-  'light-cones': lightCones,
-  'worldline-clock': worldlineClock,
-  'observer-frame': observerFrame,
-  'now-lines': nowLines,
-  'area-cell': areaCell,
-  torus: torusFigure,
-  sphere: sphereFigure,
-  'belief-mixer': beliefMixer,
-  'sequence-sampler': sequenceSampler,
-  'frequency-grid': frequencyGrid,
-  'curve-fit-lab': curveFitLab,
-  homeostat,
-  'bike-balance': bikeBalance,
-  'lever-balance': leverBalance,
-  'friction-stop': frictionStop,
-  'heat-layers': heatLayers,
-  'heat-pump-flow': heatPumpFlow,
-  'boiling-curve': boilingCurve,
-  'pin-tumbler': pinTumbler,
-  'diagonal-list': diagonalList,
-  'elevator-counterweight': elevatorCounterweight,
-  'crash-impulse': crashImpulse,
-  'track-ride': trackRide,
-  'oscillator-lab': oscillatorLab,
-  'flutter-lab': flutterLab,
-  'arch-thrust': archThrust,
-  'truss-frame': trussFrame,
-  'beam-section': beamSection,
-  'free-energy-bound': freeEnergyBound,
-  'policy-scorer': policyScorer,
-  'blanket-graph': blanketGraph,
-  'blanket-sync': blanketSync,
-  'factor-graph': factorGraph,
-  'pomdp-lab': pomdpLab,
-  'mean-field-vb': meanFieldVb,
-  'steady-state-walk': steadyStateWalk,
-  'gaussian-fit': gaussianFit,
-  'peb-regression': pebRegression,
-  'predictive-coding': predictiveCoding,
-  microcircuit,
-  'dirichlet-counts': dirichletCounts,
-  'deep-levels': deepLevels,
-  'attractor-lab': attractorLab,
-  'flow-lab': flowLab,
-  'coupled-agents': coupledAgents,
-  'hybrid-saccade': hybridSaccade,
-  'simplex-points': simplexPoints,
-  'gauss-charts': gaussCharts,
-  'bregman-gap': bregmanGap,
-  'dual-grids': dualGrids,
-  'alt-projections': altProjections,
-  'log-ruler': logRuler,
-  'odds-updater': oddsUpdater,
-  'hit-counter': hitCounter,
-  'chaos-sensitivity': chaosSensitivity,
-  'condition-chain': conditionChain,
-  'feedback-loop': feedbackLoop,
-  'tradeoff-curve': tradeoffCurve,
-  'cellular-automaton': cellularAutomaton,
-  'chsh-lab': chshLab,
-  'scale-factor': scaleFactor,
-  'microstate-counter': microstateCounter,
-  'integration-demo': integrationDemo,
-  'multiverse-counter': multiverseCounter,
-  'forgetting-curve': forgettingCurve,
+  'basis-playground': ['basis-playground', 'basisPlayground'],
+  'machine-playground': ['machine-playground', 'machinePlayground'],
+  'map-builder': ['map-builder', 'mapBuilder'],
+  'ball-probe': ['ball-probe', 'ballProbe'],
+  'preimage-explorer': ['preimage-explorer', 'preimageExplorer'],
+  'circle-charts': ['circle-charts', 'circleCharts'],
+  'curve-velocity': ['curve-velocity', 'curveVelocity'],
+  'chart-basis': ['chart-basis', 'chartBasis'],
+  'parallel-transport': ['parallel-transport', 'parallelTransport'],
+  'time-slices': ['time-slices', 'timeSlices'],
+  'rotating-grid': ['rotating-grid', 'rotatingGrid'],
+  'falling-cloud': ['falling-cloud', 'fallingCloud'],
+  'light-cones': ['light-cones', 'lightCones'],
+  'worldline-clock': ['worldline-clock', 'worldlineClock'],
+  'observer-frame': ['observer-frame', 'observerFrame'],
+  'now-lines': ['now-lines', 'nowLines'],
+  'area-cell': ['area-cell', 'areaCell'],
+  'torus': ['torus', 'torusFigure'],
+  'sphere': ['sphere', 'sphereFigure'],
+  'belief-mixer': ['belief-mixer', 'beliefMixer'],
+  'sequence-sampler': ['sequence-sampler', 'sequenceSampler'],
+  'frequency-grid': ['frequency-grid', 'frequencyGrid'],
+  'curve-fit-lab': ['curve-fit-lab', 'curveFitLab'],
+  'homeostat': ['homeostat', 'homeostat'],
+  'bike-balance': ['bike-balance', 'bikeBalance'],
+  'lever-balance': ['lever-balance', 'leverBalance'],
+  'friction-stop': ['friction-stop', 'frictionStop'],
+  'heat-layers': ['heat-layers', 'heatLayers'],
+  'heat-pump-flow': ['heat-pump-flow', 'heatPumpFlow'],
+  'boiling-curve': ['boiling-curve', 'boilingCurve'],
+  'pin-tumbler': ['pin-tumbler', 'pinTumbler'],
+  'diagonal-list': ['diagonal-list', 'diagonalList'],
+  'elevator-counterweight': ['elevator-counterweight', 'elevatorCounterweight'],
+  'crash-impulse': ['crash-impulse', 'crashImpulse'],
+  'track-ride': ['track-ride', 'trackRide'],
+  'oscillator-lab': ['oscillator-lab', 'oscillatorLab'],
+  'flutter-lab': ['flutter-lab', 'flutterLab'],
+  'arch-thrust': ['arch-thrust', 'archThrust'],
+  'truss-frame': ['truss-frame', 'trussFrame'],
+  'beam-section': ['beam-section', 'beamSection'],
+  'free-energy-bound': ['free-energy-bound', 'freeEnergyBound'],
+  'policy-scorer': ['policy-scorer', 'policyScorer'],
+  'blanket-graph': ['blanket-graph', 'blanketGraph'],
+  'blanket-sync': ['blanket-sync', 'blanketSync'],
+  'factor-graph': ['factor-graph', 'factorGraph'],
+  'pomdp-lab': ['pomdp-lab', 'pomdpLab'],
+  'mean-field-vb': ['mean-field-vb', 'meanFieldVb'],
+  'steady-state-walk': ['steady-state-walk', 'steadyStateWalk'],
+  'gaussian-fit': ['gaussian-fit', 'gaussianFit'],
+  'peb-regression': ['peb-regression', 'pebRegression'],
+  'predictive-coding': ['predictive-coding', 'predictiveCoding'],
+  'microcircuit': ['microcircuit', 'microcircuit'],
+  'dirichlet-counts': ['dirichlet-counts', 'dirichletCounts'],
+  'deep-levels': ['deep-levels', 'deepLevels'],
+  'attractor-lab': ['attractor-lab', 'attractorLab'],
+  'flow-lab': ['flow-lab', 'flowLab'],
+  'coupled-agents': ['coupled-agents', 'coupledAgents'],
+  'hybrid-saccade': ['hybrid-saccade', 'hybridSaccade'],
+  'simplex-points': ['simplex-points', 'simplexPoints'],
+  'gauss-charts': ['gauss-charts', 'gaussCharts'],
+  'bregman-gap': ['bregman-gap', 'bregmanGap'],
+  'dual-grids': ['dual-grids', 'dualGrids'],
+  'alt-projections': ['alt-projections', 'altProjections'],
+  'log-ruler': ['log-ruler', 'logRuler'],
+  'odds-updater': ['odds-updater', 'oddsUpdater'],
+  'hit-counter': ['binomial-hits', 'hitCounter'],
+  'chaos-sensitivity': ['chaos-sensitivity', 'chaosSensitivity'],
+  'condition-chain': ['condition-chain', 'conditionChain'],
+  'feedback-loop': ['feedback-loop', 'feedbackLoop'],
+  'tradeoff-curve': ['tradeoff-curve', 'tradeoffCurve'],
+  'cellular-automaton': ['cellular-automaton', 'cellularAutomaton'],
+  'chsh-lab': ['chsh-lab', 'chshLab'],
+  'scale-factor': ['scale-factor', 'scaleFactor'],
+  'microstate-counter': ['microstate-counter', 'microstateCounter'],
+  'integration-demo': ['integration-demo', 'integrationDemo'],
+  'multiverse-counter': ['multiverse-counter', 'multiverseCounter'],
+  'forgetting-curve': ['forgetting-curve', 'forgettingCurve'],
 };
 
+
 export function mountWidget(name, el, config) {
-  const w = WIDGETS[name];
-  if (!w) { el.textContent = `Unknown widget "${name}".`; return; }
-  w(el, config);
-  steadyReadouts(el);
+  const entry = WIDGETS[name];
+  if (!entry) { el.textContent = `Unknown widget "${name}".`; return Promise.resolve(); }
+  el.setAttribute('aria-busy', 'true');
+  return import(`./${entry[0]}.js`).then(mod => {
+    el.removeAttribute('aria-busy');
+    mod[entry[1]](el, config);
+    steadyReadouts(el);
+  }).catch(err => {
+    el.removeAttribute('aria-busy');
+    console.error(`Widget "${name}" failed to load`, err);
+    el.replaceChildren(Object.assign(document.createElement('p'), { className: 'warn', textContent: 'This figure could not load (a content blocker may have stopped it). Reload the page, or turn the blocker off for this site.' }));
+  });
 }
 
 // Layout stability for every widget: a readout whose text changes height as the reader drags

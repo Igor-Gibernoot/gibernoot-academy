@@ -52,13 +52,15 @@ function checkText(where, text) {
 const IGNORE_VISUAL = /\b(ignore|disregard|never mind|do not worry about|don't worry about)\b[^.\n]{0,70}\b(arrows?|lines?|curves?|dots?|points?|sliders?|buttons?|panels?|readouts?|numbers?|colou?rs?|labels?|parts? of the (widget|figure|picture))\b/i;
 const widgetSrc = (() => {
   const idx = readFileSync(join(root, 'js/widgets/index.js'), 'utf8');
-  const fileOf = {};
-  for (const m of idx.matchAll(/import \{ (\w+) \} from '\.\/([\w-]+)\.js'/g)) fileOf[m[1]] = m[2];
   const out = {};
-  for (const m of idx.matchAll(/^\s*(?:'([\w-]+)'|(\w+))(?::\s*(\w+))?,\s*$/gm)) {
-    const name = m[1] ?? m[2], fn = m[3] ?? m[2];
-    if (fileOf[fn] && existsSync(join(root, 'js/widgets', fileOf[fn] + '.js'))) out[name] = readFileSync(join(root, 'js/widgets', fileOf[fn] + '.js'), 'utf8');
+  for (const m of idx.matchAll(/^\s*'?([\w-]+)'?:\s*\['([\w-]+)',\s*'(\w+)'\],\s*$/gm)) {
+    const file = join(root, 'js/widgets', m[2] + '.js');
+    if (!existsSync(file)) err('js/widgets/index.js', `widget "${m[1]}": file ${m[2]}.js not found`);
+    else out[m[1]] = readFileSync(file, 'utf8');
   }
+  // Ad blockers block tracker-looking URLs; a blocked widget file must never be one we name that way.
+  const BLOCKED = /^(hit-?counters?|.*-?(tracker|trackers|tracking|analytics|beacon|pageview|telemetry)|metrics?|stats?|collect|adverts?|ads?|ad-.*|.*-ads?|popups?|sponsors?)$/;
+  for (const f of readdirSync(join(root, 'js/widgets'))) if (BLOCKED.test(f.replace(/\.js$/, ''))) err('js/widgets/' + f, 'file name looks like a tracker or ad: content blockers (Arc, Dia, uBlock) block it; rename the file');
   return out;
 })();
 const BACKREF = /\b(previous|last) (card|step|lesson|question)|\bin the (last|previous) lesson|\bas (shown|seen) above/i;

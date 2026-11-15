@@ -52,7 +52,7 @@ for (const m of mounts) {
     const { mountWidget } = await import('/js/widgets/index.js');
     document.body.replaceChildren();
     const el = document.createElement('div'); el.className = 'widget'; document.body.append(el);
-    mountWidget(m.name, el, m.config);
+    await mountWidget(m.name, el, m.config);
   }, m);
   await p.waitForTimeout(150);
   await p.evaluate(async () => {

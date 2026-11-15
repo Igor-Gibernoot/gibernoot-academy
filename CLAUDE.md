@@ -280,7 +280,14 @@ Widgets live in `js/widgets/` and belong to the academy, not a course.
 rings, readout rows, labels), so a card shows exactly what its text
 discusses; a card never says "ignore" part of a widget (add the option),
 and every option must be read in the widget's source. The validator warns
-on both. Before building a new one, read `docs/widgets/README.md`
+on both. **File names must not look like trackers or ads**: Arc, Dia and uBlock-style
+blockers block such URLs (`hit-counter.js` once stopped the whole app). Never
+name any file in `js/`, `css/` or `vendor/` hit-counter, tracker, analytics,
+beacon, pageview, telemetry, metrics, stats, ad(s), advert, popup, sponsor or
+collect; validate rejects these in `js/widgets/`. Widgets load on demand
+(dynamic `import()` in `js/widgets/index.js`, registry line
+`'name': ['file', 'exportName']`), so a blocked file breaks only its widget;
+never add static imports of widget files. Before building a new one, read `docs/widgets/README.md`
 (one line per widget) for an existing one a preset could adapt. A new widget is a new
 `js/widgets/<name>.js` (registered in `index.js`), a general tool
 (parameters in the preset, no course-specific text hard-coded).
