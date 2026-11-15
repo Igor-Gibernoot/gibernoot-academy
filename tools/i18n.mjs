@@ -74,7 +74,7 @@ function ui(code) {
 // Text fields a translation may change; every other string must stay exactly as in English.
 const TEXT = new Set(['title', 'tag', 'prompt', 'body', 'text', 'feedback', 'explanation', 'hint', 'steps', 'label', 'caption', 'alt',
   'own', 'name', 'outro', 'outroTitle', 'intro', 'introTitle', 'note', 'rules', 'debrief', 'unit', 'praise', 'placeholder', 'term',
-  'summary', 'eyebrow', 'blurb', 'subtitle', 'tagline', 'short', 'what', 'who', 'overview', 'sources']);
+  'answerText', 'claim', 'summary', 'eyebrow', 'blurb', 'subtitle', 'tagline', 'short', 'what', 'who', 'overview', 'sources']);
 const MATH = /\$\$([\s\S]+?)\$\$|\$((?:\\\$|[^$\n])+?)\$/g;
 const mathOf = s => [...s.matchAll(MATH)].map(m => m[0]);
 const marks = s => (s.match(/\{\{|\}\}/g) ?? []).length;

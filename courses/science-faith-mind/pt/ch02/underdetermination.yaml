@@ -1,0 +1,348 @@
+source_hash: ec729ebbbce2
+id: ch02-underdetermination
+title: "Quando os dados não decidem"
+kind: concept
+own: |
+  - **Cenário.** Uma lista finita de medições (pontos de dados $(x,y)$) e uma família de teorias rivais (curvas, ou teorias físicas inteiras) que concordam todas com elas. **Subdeterminação** significa que {{ os dados sozinhos não destacam uma única teoria }}. Por $n$ pontos passa exatamente um polinômio de grau $n-1$, e também infinitas outras curvas, mas elas discordam sobre novos pontos.
+  - **Ajuste não é previsão.** Seja $\hat y_i$ a previsão de uma teoria e $y_i$ o valor medido em $m$ pontos reservados (pontos não usados para construir a teoria). O erro típico é
+  {{ $$\text{RMS}=\sqrt{\frac{1}{m}\sum_{i=1}^{m}(\hat y_i-y_i)^2}$$ }}
+  Uma curva sinuosa pode ter erro $0$ nos dados usados para construí-la e um RMS grande nos pontos reservados (isto é o **sobreajuste**); uma curva simples se ajusta um pouco pior aos pontos antigos, mas muitas vezes prevê melhor os novos.
+  - **Duhem e Quine.** Segundo Pierre Duhem (1861-1916), uma teoria $T$ encontra a observação apenas junto com hipóteses auxiliares $A$: {{ um choque com os dados refuta apenas o conjunto $T\wedge A$ }}, e não $T$ sozinha. Segundo W. V. O. Quine (1908-2000), levado mais longe, as crenças formam uma teia tocada pela experiência apenas nas bordas, então, em princípio, qualquer crença pode ser mantida se muitas outras forem revisadas (uma afirmação forte, muito debatida).
+  - **Duas intensidades.** Subdeterminação *fraca*: com os dados finitos que temos, várias teorias se ajustam, e mais dados podem separá-las. Subdeterminação *forte*: para duas teorias que concordam em **todas as observações possíveis**, nenhum dado jamais as separa. Se algum par real de teorias é fortemente subdeterminado é um debate em aberto.
+  - **Elo com Bayes.** Para teorias rivais $T_1,T_2$ e dados $E$ que elas preveem igualmente bem, a razão de verossimilhanças é $1$:
+  {{ $$\frac{P(T_1\mid E)}{P(T_2\mid E)}=\frac{P(T_1)}{P(T_2)}$$ }}
+  então $E$ deixa as chances nos valores das prioris. O que desempata precisa entrar pela a priori, ou por evidência adicional.
+  - **O que desempata: duas visões.** As virtudes candidatas são simplicidade, alcance, coerência e fecundidade (a lista que Kuhn dá). Segundo a visão de **rastreamento da verdade** (a navalha de Ockham, defendida por muitos cientistas e estatísticos), teorias simples têm mais chance de ser verdadeiras ou de prever melhor, como no sobreajuste. Segundo a visão **pragmática** (van Fraassen, entre outros), a simplicidade é {{ uma virtude de utilidade e beleza, não um sinal de verdade }}: torna a teoria mais fácil de usar, não mais provável de estar certa.
+  - **Onde pessoas atentas se separam.** Se as virtudes extras de uma teoria são evidência de verdade (os realistas, que dizem que a ciência descreve a realidade) ou apenas razões para usá-la (os instrumentalistas, que dizem que a ciência é uma ferramenta de previsão); e se a subdeterminação forte chega a ocorrer de fato. Camadas: os fatos do ajuste de curvas são estabelecidos; o peso da simplicidade é um debate em aberto; realismo ou instrumentalismo é um compromisso metafísico.
+cards:
+  - type: widget
+    id: hook
+    title: "Cinco pontos, qual curva?"
+    widget: curve-fit-lab
+    config:
+      points: [[1, 0.2], [3, 1.1], [5, 0.9], [7, 2.1], [9, 1.8]]
+      xRange: [0, 10.5]
+      yRange: [-3, 5]
+      degree: 1
+      degreeRange: [1, 4]
+      holdout: null
+      edit: false
+      show:
+        curves: false
+        readout: false
+        legend: false
+        slider: false
+        buttons: false
+        holdout: false
+    body: |
+      Cinco medições: certa quantidade $y$ registrada em cinco valores de $x$. Antes de qualquer teoria, **chute**: agora você precisa prever $y$ em $x=10$, que não foi medido. Quantas curvas lisas diferentes poderiam passar por (ou perto de) todos os cinco pontos?
+    review: false
+
+  - type: mcq
+    id: hook-q
+    title: "Quantas curvas?"
+    prompt: |
+      São dados cinco pontos medidos $(x,y)$. Quantas curvas lisas diferentes passam exatamente por todos os cinco?
+    options:
+      - text: 'Exatamente uma.'
+        feedback: |
+          Tentador: cinco pontos parecem "determinar" uma curva. Mas um *tipo* particular de curva (um polinômio de grau 4) é determinado por cinco pontos; outros tipos também passam por eles.
+      - text: 'Algumas, no máximo dez.'
+        feedback: |
+          Não há um limite pequeno: acrescente qualquer ondulação que se anule nos cinco valores medidos de $x$ e a curva continua passando pelos cinco pontos.
+      - text: 'Infinitas.'
+        correct: true
+    explanation: |
+      Pegue qualquer curva que passe pelos pontos e acrescente uma ondulação que seja zero nos cinco valores medidos de $x$ e diferente de zero em outros lugares (por exemplo, um seno que cruza zero ali, com a amplitude que você quiser). O resultado ainda passa por cada ponto. Todas essas curvas **concordam nos dados e discordam em outros lugares**. Esta é a situação que os filósofos chamam de **subdeterminação**: os dados não decidem qual teoria sustentar.
+
+  - type: widget
+    id: lab
+    title: "Aumente o grau"
+    widget: curve-fit-lab
+    config:
+      points: [[1, 0.2], [3, 1.1], [5, 0.9], [7, 2.1], [9, 1.8]]
+      xRange: [0, 10.5]
+      yRange: [-3, 5]
+      degree: 1
+      degreeRange: [1, 4]
+      compare: [4]
+      holdout: null
+      edit: false
+      show:
+        residuals: true
+        holdout: false
+        buttons: false
+    body: |
+      O **grau** é a maior potência de $x$ na curva (grau 1 é uma reta, grau 2 uma parábola, e assim por diante). Arraste o controle do grau de 1 até 4 e observe a curva e o **RMS** (a distância vertical típica entre a curva e os pontos, no painel de leitura). O que acontece com a distância, e com a forma da curva?
+    review: false
+
+  - type: mcq
+    id: lab-q
+    title: "Um ajuste perfeito"
+    prompt: |
+      Cinco pontos medidos são ajustados por um polinômio de grau 1 (uma reta, com pequenas distâncias até os pontos) e por um de grau 4 (distância zero em cada ponto, mas oscilando entre eles e além deles). Qual afirmação está correta?
+    options:
+      - text: 'A curva de grau 4 é melhor porque seu erro nos dados é zero.'
+        feedback: |
+          Erro zero nos dados é garantido: com cinco números livres, uma curva de grau 4 sempre consegue acertar cinco pontos, quaisquer que sejam, mesmo ruído puro. Um sucesso que não poderia ter falhado diz pouco.
+      - text: 'O erro nos dados, sozinho, não pode nos dizer qual curva vai prever melhor um novo ponto.'
+        correct: true
+      - text: 'A reta é melhor porque curvas simples são sempre verdadeiras.'
+        feedback: |
+          Nenhuma curva tem garantia. Uma reta também pode errar feio (se a relação verdadeira se curvar). O ponto é que o ajuste aos dados antigos não resolve a questão, e não que a simplicidade sempre vença.
+      - text: 'As duas curvas fazem a mesma previsão em $x=10$.'
+        feedback: |
+          Elas concordam nos cinco pontos, mas não precisam concordar em outros lugares; a próxima carta dá um número para a discordância.
+    explanation: |
+      Ajustar-se aos dados que se tem é barato para uma curva flexível. O que importa para uma teoria é a **previsão de dados novos**, e o ajuste sozinho não ordena as duas. Estatísticos chamam de **sobreajustada** uma curva que persegue o ruído.
+
+  - type: widget
+    id: holdout
+    title: "Um ponto retido"
+    widget: curve-fit-lab
+    config:
+      points: [[1, 0.2], [3, 1.1], [5, 0.9], [7, 2.1], [9, 1.8]]
+      xRange: [0, 10.5]
+      yRange: [-3, 5]
+      degree: 1
+      degreeRange: [1, 4]
+      compare: [4]
+      holdout: 10
+      edit: false
+      show:
+        slider: false
+        buttons: false
+    body: |
+      A linha vertical tracejada é um valor **reservado**, $x=10$: ainda não há medição ali. Leia a previsão de cada curva nessa linha. A reta simples e a curva de grau 4 concordam ali? Em qual você apostaria, e o que gostaria de saber antes?
+    review: false
+
+  - type: mcq
+    id: holdout-q
+    title: "O que um ponto reservado mostra"
+    prompt: |
+      Duas curvas concordam nos cinco pontos medidos, mas dão valores diferentes num sexto $x$, não medido. Em seguida, faz-se uma sexta medição. O que ela mostra?
+    options:
+      - text: 'Qual das duas curvas está mais próxima da verdade naquele $x$ (e ainda assim pode errar a verdade).'
+        correct: true
+      - text: 'Que a curva mais próxima dele é a lei verdadeira.'
+        feedback: |
+          Um ponto pode favorecer uma curva sem prová-la: uma terceira curva pode se ajustar aos seis pontos. A evidência ordena teorias; normalmente não coroa uma.
+      - text: 'Nada, já que as duas curvas já se ajustam aos primeiros cinco pontos.'
+        feedback: |
+          Isso é todo o valor de dados novos: as curvas *empatam* nos pontos antigos, então só um ponto novo pode separá-las.
+    explanation: |
+      Dados novos sobre os quais os rivais discordam é o que desfaz um empate entre eles. Esta é a **subdeterminação fraca**: com os dados que temos, várias teorias se ajustam; mais dados podem decidir. Repare em quanto da ciência é a busca por essas observações separadoras.
+
+  - type: text
+    id: duhem
+    title: "Duhem: teorias nunca encontram os dados sozinhas"
+    image:
+      src: img/duhem.webp
+      alt: "Fotografia de retrato de Pierre Duhem, homem de barba, por volta de 1900"
+      caption: "Pierre Duhem (1861-1916), que argumentou em *La théorie physique* (1906) que uma hipótese física nunca é testada isoladamente."
+      credit: "Unknown author, Public domain, via Wikimedia Commons"
+      link: "https://commons.wikimedia.org/wiki/File:Pierre_Duhem_1900_(cropped).jpg"
+    body: |
+      As curvas são um brinquedo. O mesmo problema aparece com teorias reais, e a primeira pessoa a vê-lo com clareza foi o físico e filósofo francês **Pierre Duhem** (1861-1916). Lembre-se da lição sobre falsificação: uma teoria $T$ prevê uma observação $O$ apenas junto com **hipóteses auxiliares** $A$ (que o instrumento funciona, que nada mais perturba o sistema, que o cálculo está certo):
+
+      $$(T\wedge A)\Rightarrow O$$
+
+      Se $O$ falhar, a lógica só nos diz que $T\wedge A$ é falsa: algo no conjunto está errado, mas **não qual parte**. Segundo Duhem, não existe uma regra puramente lógica para dizer se a culpa é da teoria ou de uma hipótese auxiliar; isso exige julgamento (ele o chamou de *bon sens*, "bom senso").
+
+  - type: mcq
+    id: duhem-q
+    title: "Mercúrio se comporta mal"
+    prompt: |
+      A gravitação de Newton mais a suposição "os planetas conhecidos são tudo o que existe" prevê a órbita de Mercúrio; a órbita observada difere um pouco. Segundo o ponto de Duhem, quais respostas estão logicamente abertas? (Selecione todas que se aplicam.)
+    multiple: true
+    options:
+      - text: 'Rejeitar a gravitação de Newton.'
+        correct: true
+      - text: 'Rejeitar a hipótese auxiliar, supondo que um planeta não visto puxa Mercúrio.'
+        correct: true
+      - text: 'Rejeitar os dados, talvez por um erro observacional.'
+        correct: true
+      - text: 'A lógica sozinha nos obriga a rejeitar a gravitação de Newton.'
+        feedback: |
+          Só o conjunto (teoria mais auxiliares mais dados) é refutado. A lógica não diz qual fio cortar.
+    explanation: |
+      As três estão abertas à lógica. Historicamente, um planeta não visto foi tentado para Urano (funcionou: Netuno, 1846) e para Mercúrio (fracassou: o planeta proposto, Vulcano, nunca foi encontrado); Mercúrio acabou explicado por uma nova teoria, a relatividade geral (1915). Qual resposta é racional depende da plausibilidade prévia e do que cada resposta arrisca, e não só da lógica.
+
+  - type: text
+    id: quine
+    title: "Quine: uma teia de crenças"
+    image:
+      src: img/quine.webp
+      alt: Fotografia de retrato em preto e branco de Willard Van Orman Quine jovem, 1935
+      caption: W. V. O. Quine em 1935; seu ensaio "Two Dogmas of Empiricism" (*The Philosophical Review*, 1951) é de onde vem a imagem da teia de crenças.
+      credit: Unknown author, CC0, via Wikimedia Commons
+      link: https://commons.wikimedia.org/wiki/File:Willard_Van_Orman_Quine_1935.jpg
+    body: |
+      O filósofo americano **W. V. O. Quine** (1908-2000), num ensaio famoso de 1951, levou o ponto de Duhem muito além. Segundo Quine, nossas crenças formam uma **teia**: física, lógica, fatos cotidianos, tudo ligado. A experiência toca a teia apenas nas bordas, e quando uma previsão falha podemos revisar *qualquer* fio: uma lei física, uma hipótese auxiliar, e até (ele sugeriu) uma lei da lógica, se isso fizer a teia inteira se ajustar melhor.
+
+      Há duas leituras comuns disso. Uma leitura **branda**: os cientistas sempre têm várias formas de consertar uma teoria, então o julgamento é inevitável. Uma leitura **radical**: *qualquer* crença pode ser mantida, aconteça o que acontecer, então a evidência nunca força nada. Os críticos respondem que a leitura radical ignora o custo de alguns reparos (um remendo pode piorar tudo o mais na teia), e o próprio Quine enfatizava que revisamos o mínimo possível.
+
+  - type: mcq
+    id: kinds
+    title: "Duas intensidades"
+    prompt: |
+      Os filósofos distinguem a subdeterminação **fraca** (com os dados disponíveis *até agora*, várias teorias se ajustam) da **forte** (duas teorias concordam em *toda observação possível*, passada e futura). Qual dos casos abaixo é forte?
+    options:
+      - text: 'Dois modelos de um novo vírus se ajustam aos números de casos deste ano, e os números do ano que vem os distinguirão.'
+        feedback: |
+          Isto é fraco: os rivais preveem dados futuros diferentes, então mais observação pode separá-los.
+      - text: 'Duas teorias que diferem em suas palavras e em sua história, mas fazem a mesma previsão para toda medição possível.'
+        correct: true
+      - text: 'Duas curvas que passam por cinco pontos e discordam em $x=10$.'
+        feedback: |
+          De novo fraco: uma medição em $x=10$ as separa.
+    explanation: |
+      A subdeterminação fraca é um fato corriqueiro da ciência e costuma ser temporária. A forte é a afirmação de que alguns pares de teorias *nunca* podem ser separados pela observação; se existem pares reais (ou se tais pares são apenas uma teoria em dois disfarces) é um debate em aberto. A leitura radical de Quine a tornaria universal; a maioria dos filósofos a considera forte demais.
+
+  - type: mcq
+    id: bayes
+    title: "Empates e a a posteriori"
+    prompt: |
+      Duas teorias $T_1$ e $T_2$ têm chances a priori de $3$ para $2$ a favor de $T_1$ (a priori de $60\%$ contra $40\%$). As duas previram os dados observados $E$ com a mesma probabilidade. Qual é a razão das chances depois dos dados?
+    options:
+      - text: '$3$ para $2$: sem mudança.'
+        correct: true
+      - text: '$1$ para $1$: um empate.'
+        feedback: |
+          Os dados empatam no *ajuste*, mas as chances também incluem as prioris. Uma razão de verossimilhanças igual a $1$ multiplica as chances por $1$, então as chances a priori sobrevivem.
+      - text: '$3$ para $4$: reduzidas porque nenhuma das teorias ganhou.'
+        feedback: |
+          Nenhuma ganhou em relação à outra, então a razão não se move; não há nenhuma força que a desloque.
+    explanation: |
+      Na forma de chances da regra de Bayes, a razão de verossimilhanças é $P(E\mid T_1)/P(E\mid T_2)=1$, então
+
+      $$\frac{P(T_1\mid E)}{P(T_2\mid E)}=1\cdot\frac{3}{2}.$$
+
+      A subdeterminação em palavras bayesianas: dados que ambas as teorias preveem igualmente não podem mover as chances. Qualquer preferência precisa vir das prioris (de onde elas vêm?) ou de outra evidência.
+
+  - type: mcq
+    id: virtues
+    title: "O que desempata?"
+    prompt: |
+      Quando duas teorias se ajustam igualmente bem aos dados, os cientistas, na prática, apelam às **virtudes teóricas**: simplicidade, alcance (quanto a teoria explica), coerência com outras teorias aceitas, fecundidade (quantas previsões e perguntas novas ela abre). Segundo Kuhn, esses valores orientam a escolha, mas não a fixam. Por quê?
+    options:
+      - text: 'Porque os cientistas podem pesar os valores de modo diferente, e um valor pode favorecer uma teoria enquanto outro favorece a rival.'
+        correct: true
+      - text: 'Porque os valores são aleatórios.'
+        feedback: |
+          Estão longe de ser aleatórios: são compartilhados e estáveis ao longo de séculos. O ponto é que não formam um algoritmo preciso.
+      - text: 'Porque os valores nunca são usados na prática.'
+        feedback: |
+          São usados o tempo todo; o registro histórico está cheio de argumentos de simplicidade e alcance.
+    explanation: |
+      Uma teoria mais simples pode explicar menos; uma mais ampla pode colidir com ideias aceitas. Duas pessoas razoáveis podem pesar os valores de modo diferente e, assim, discordar racionalmente. Esta é a visão de Kuhn; os defensores de regras mais fortes respondem que os valores podem ser tornados precisos (alguns deles são, como mostram as próximas cartas).
+
+  - type: mcq
+    id: simplicity
+    title: "Por que preferir o simples?"
+    prompt: |
+      Duas visões sobre por que uma teoria mais simples deveria ser preferida quando o ajuste é igual. **Rastreamento da verdade:** teorias simples têm mais chance de ser verdadeiras ou de prever bem. **Pragmática:** a simplicidade é uma virtude de uso (mais fácil de calcular, de ensinar, mais bonita), sem ligação com a verdade. Qual observação do laboratório de ajuste de curvas mais apoia a visão do *rastreamento da verdade*?
+    options:
+      - text: 'Curvas simples são mais bonitas.'
+        feedback: |
+          Isso apoia a visão pragmática (estética), já que a beleza não é sinal de correção.
+      - text: 'Em dados ruidosos, uma curva flexível se ajusta ao ruído e prevê novos pontos pior do que uma simples.'
+        correct: true
+      - text: 'Uma curva de grau 4 se ajusta exatamente a cinco pontos.'
+        feedback: |
+          Isso é exatamente o que uma curva flexível sempre consegue fazer, seja ela verdadeira ou não; não favorece a simplicidade.
+    explanation: |
+      Os defensores do rastreamento da verdade (muitos estatísticos; a máxima medieval da *navalha de Ockham*, "não multiplique as entidades além do necessário", é o slogan) apontam para o sobreajuste: a flexibilidade extra se ajusta ao ruído. Os pragmatistas (como Bas van Fraassen, nascido em 1941) respondem que isso mostra que *modelos* simples predizem melhor em dados ruidosos, um fato sobre o método, e não que a natureza seja simples; e que, para teorias inteiras do mundo, o argumento não se aplica de forma óbvia. Um debate em aberto (camada 2).
+
+  - type: numeric
+    id: rms
+    title: "Medindo o erro"
+    prompt: |
+      Três medições reservadas são $y=2.4,\ 2.6,\ 2.9$. Uma curva sinuosa prevê $3.4,\ 0.9,\ 5.1$. Calcule o **erro RMS** da curva sinuosa, $\sqrt{\tfrac13\sum(\hat y-y)^2}$ (arredonde para 2 casas decimais).
+    answer: 1.71
+    tolerance: 0.02
+    answerText: '1.71'
+    wrong:
+      - { value: 1.633, feedback: 'Você fez a média dos erros com sinal ou dos erros absolutos (a média de $1,\,1.7,\,2.2$ é $1.63$). O RMS eleva cada erro ao quadrado primeiro, então erros grandes contam mais.' }
+      - { value: 2.91, feedback: 'Isso é a média dos quadrados; tire a raiz quadrada dela.' }
+    hint: |
+      Os erros são $\hat y-y=1.0,\ -1.7,\ 2.2$. Eleve cada um ao quadrado, tire a média e depois a raiz quadrada.
+    explanation: |
+      Quadrados: $1+2.89+4.84=8.73$. Média sobre três pontos: $2.91$. Raiz quadrada:
+
+      $$\sqrt{2.91}\approx 1.71.$$
+
+      Uma curva simples que prevê $2.2,\ 2.5,\ 2.8$ para os mesmos três pontos tem erros $0.2,\ 0.1,\ 0.1$ e RMS $\sqrt{0.02}\approx0.14$: cerca de doze vezes menor. Ajuste perfeito nos pontos antigos, erro grande nos novos: isso é sobreajuste em números.
+
+  - type: mcq
+    id: trap
+    title: "Uma conclusão tentadora"
+    prompt: |
+      Uma afirmação: "Se duas teorias se ajustam igualmente bem aos dados, nenhuma é melhor que a outra." Qual resposta é a mais precisa?
+    options:
+      - text: 'Verdadeiro: ajuste igual significa status igual.'
+        feedback: |
+          O ajuste é apenas um critério. Teorias podem diferir em simplicidade, alcance, coerência e fecundidade, que muitos cientistas contam como razões (embora o quanto contem seja debatido).
+      - text: 'Falso: ajuste igual não significa status igual, mas se as outras virtudes são sinais de verdade é algo disputado.'
+        correct: true
+      - text: 'Falso: a teoria mais simples é sempre a verdadeira.'
+        feedback: |
+          Nada garante isso. A simplicidade pode orientar a previsão em dados ruidosos (visão do rastreamento da verdade) ou ser apenas conveniência (visão pragmática); nenhuma diz "sempre verdadeira".
+    explanation: |
+      O deslize é tratar o ajuste como a única medida. Realistas e instrumentalistas concordam que as teorias podem diferir em virtudes; divergem sobre o que as virtudes *significam*, que é o tema da próxima lição.
+
+  - type: mcq
+    id: steelman
+    title: "Duas leituras da lição"
+    prompt: |
+      **Realista** (a ciência descreve uma realidade independente da mente): "A subdeterminação é uma preocupação tênue. Rivais selvagens que apenas imitam os dados são inventados na hora; as teorias reais ganham crédito por explicar e prever muitas coisas ao mesmo tempo, e a melhor explicação provavelmente é verdadeira." **Instrumentalista** (a ciência é uma ferramenta de previsão): "Como os dados nunca fixam a teoria, a crença nas partes inobserváveis vai além da evidência; aceite uma teoria como um bom instrumento, e não como um retrato da realidade." Qual questão divide realmente os dois?
+    options:
+      - text: 'Se as virtudes de uma teoria (explicação, simplicidade) são evidência de que ela é verdadeira sobre coisas inobserváveis.'
+        correct: true
+      - text: 'Se os dados se ajustam às teorias.'
+        feedback: |
+          Os dois concordam sobre o ajuste. Divergem sobre o que uma teoria bem-sucedida nos diz, além do ajuste.
+      - text: 'Se a ciência é útil.'
+        feedback: |
+          Os dois concordam que é. A disputa é sobre o que o seu sucesso mostra sobre a realidade.
+    explanation: |
+      O melhor argumento realista ("sem milagres": o sucesso da ciência seria um milagre se suas teorias não fossem aproximadamente verdadeiras) e a melhor resposta instrumentalista (uma teoria falsa pode ter sucesso; a história da ciência está cheia de teorias outrora bem-sucedidas e depois abandonadas) são o tema da próxima lição. Nenhuma visão é imposta pela lógica; cada uma repousa sobre um compromisso sobre o que a evidência pode mostrar (camada 3).
+
+  - type: mcq
+    id: layers
+    title: "Três camadas"
+    prompt: |
+      Classifique cada afirmação por camada. "Por quaisquer cinco pontos passam infinitas curvas" é...
+    options:
+      - text: 'Fato estabelecido (camada 1: decorre da matemática).'
+        correct: true
+      - text: 'Debate em aberto (camada 2).'
+        feedback: |
+          Não: isto é um fato matemático. O debate em aberto é sobre até onde ele se estende a teorias científicas reais.
+      - text: 'Compromisso metafísico (camada 3).'
+        feedback: |
+          Não é preciso nenhum compromisso para aceitá-lo; os compromissos entram quando decidimos o que concluir sobre a realidade a partir dele.
+    explanation: |
+      Camada 1: curvas por pontos; sobreajuste em dados ruidosos. Camada 2: se a subdeterminação forte realmente ocorre, e se a simplicidade acompanha a verdade. Camada 3: se a ciência descreve a realidade (realismo) ou é uma ferramenta (instrumentalismo).
+
+  - type: mcq
+    id: return
+    title: "De volta aos cinco pontos"
+    prompt: |
+      Cinco pontos foram medidos, e você precisa prever $y$ em $x=10$. Qual estratégia é a mais defensável, segundo esta lição?
+    options:
+      - text: 'Use a curva exata de grau 4: ela acerta todos os pontos.'
+        feedback: |
+          Ela não pode falhar nos dados, então não ganha nada com eles; é a mais flexível e a mais sobreajustada.
+      - text: 'Compare curvas simples e flexíveis nos dados reservados, declare a dispersão das previsões e faça a medição que as separaria.'
+        correct: true
+      - text: 'Recuse-se a prever, já que infinitas curvas se ajustam.'
+        feedback: |
+          A subdeterminação não proíbe a previsão; pede cuidado. Algumas curvas são mais plausíveis, e a dispersão das previsões rivais diz o quanto você está incerto.
+    explanation: |
+      Reserve dados, pese as virtudes abertamente (e diga qual visão de simplicidade está usando), informe o quanto os rivais discordam e busque a observação que os separa. É isso que os cientistas fazem, e é o que impede a subdeterminação de virar paralisia.
+
+  - type: text
+    id: summary
+    body: |
+      **Próximo:** se os dados e as virtudes nunca decidem qual teoria é *verdadeira*, o que fazemos quando acreditamos nas nossas melhores teorias? A próxima lição, *A ciência descreve a realidade?*, apresenta o realismo e o instrumentalismo, o melhor argumento de cada um, e a história das teorias abandonadas que mantém a questão em aberto.

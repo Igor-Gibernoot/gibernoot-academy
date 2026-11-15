@@ -1,0 +1,265 @@
+source_hash: c33887afd0e8
+id: ch02-bayes
+title: "A evidência como atualização da crença"
+kind: concept
+own: |
+  - **Cenário.** Uma hipótese $H$ (por exemplo "esta pessoa tem a condição") e um pedaço de evidência $E$ (por exemplo "o teste deu positivo"). $P(H)$ é a **a priori**: {{ quão provável $H$ era antes da evidência }}. $P(E\mid H)$ é a **verossimilhança**: quão provável é a evidência se $H$ for verdadeira. $P(H\mid E)$ é a **a posteriori**: quão provável é $H$ depois de ver $E$.
+  - **A regra de Bayes** (segundo Thomas Bayes, 1701-1761, cujo texto foi lido na Royal Society em 1763, e Laplace) transforma a verossimilhança na a posteriori:
+  {{ $$P(H\mid E)=\frac{P(E\mid H)\,P(H)}{P(E)}$$ }}
+  Contar casos numa multidão dá a mesma resposta: entre todos os que mostram $E$, a fração dos que também têm $H$. Um teste com $P(E\mid H)=0.9$ numa condição de $1\%$ e com taxa de falsos positivos de $9\%$ deixa apenas cerca de $9\%$ depois de um resultado positivo, porque os falsos positivos superam os verdadeiros.
+  - **Não é a mesma pergunta.** $P(E\mid H)$ e $P(H\mid E)$ são números diferentes; confundi-los é {{ a falácia do promotor (ignorar a a priori, ou taxa de base) }}.
+  - **Forma de chances.** Para duas hipóteses rivais $H_1$, $H_2$ e a evidência $E$:
+  {{ $$\frac{P(H_1\mid E)}{P(H_2\mid E)}=\frac{P(E\mid H_1)}{P(E\mid H_2)}\cdot\frac{P(H_1)}{P(H_2)}$$ }}
+  O fator do meio é a **razão de verossimilhanças**: o quanto a evidência é mais esperada sob $H_1$ do que sob $H_2$. A evidência favorece $H_1$ exatamente quando essa razão está acima de $1$; em $1$, a evidência não muda nada.
+  - **As a priori importam: duas visões.** A mesma evidência leva prioris diferentes a a posteriori diferentes (uma razão de verossimilhanças de $10$ leva uma a priori de $50\%$ a $91\%$, mas uma a priori de $5\%$ a $34\%$). Segundo os **bayesianos subjetivistas**, a a priori é um grau pessoal de crença, restringido apenas pela coerência, e evidências compartilhadas aproximam, com o tempo, pessoas que discordam. Segundo os **bayesianos objetivistas**, princípios (como a indiferença ou a entropia máxima) deveriam fixar a a priori. Os críticos de ambos perguntam de onde pode vir uma primeira a priori, um debate em aberto (camada 2).
+  - **Onde pessoas atentas se separam.** Se é possível dar um número à a priori de uma afirmação grandiosa (uma visão de mundo inteira, uma teoria de tudo); se pessoas racionais precisam convergir; e se a regra de Bayes modela como cientistas de fato pesam estruturas inteiras (como descreve Kuhn) ou apenas uma versão idealizada disso.
+cards:
+  - type: mcq
+    id: hook
+    title: "Um teste positivo"
+    prompt: |
+      Um teste médico dá positivo para 90% das pessoas que têm certa condição, e também (erradamente) dá positivo para 9% das pessoas que não a têm. A condição é rara: 1 pessoa em cada 100 a tem. Você testa positivo. Antes de qualquer teoria, **chute**: qual é, mais ou menos, a chance de você ter a condição?
+    options:
+      - text: 'Cerca de 90%.'
+        feedback: |
+          Esta é a resposta mais comum: o teste "é 90% preciso". Mas 90% é a frequência com que pessoas *doentes* testam positivo, não a frequência com que pessoas *positivas* estão doentes. São perguntas diferentes, e a lição trata da distância entre elas.
+      - text: 'Cerca de 50%.'
+        feedback: |
+          Um palpite do meio tentador, mas nada nos números o coloca em metade. Guarde essa ideia, e vamos contar com cuidado.
+      - text: 'Cerca de 9%.'
+        correct: true
+      - text: 'Cerca de 1%.'
+        feedback: |
+          Baixo demais: o resultado positivo é evidência real, então sua chance sobe acima do 1% inicial. A pergunta é quanto.
+    explanation: |
+      Cerca de 9%: bem abaixo do que a maioria chuta, mesmo com o teste parecendo confiável. A razão é a raridade da condição, que veremos contando pessoas. Este caso simples contém toda a ideia de **atualizar a crença com base na evidência**, que filósofos da ciência usam para perguntar o que significa a evidência apoiar uma teoria.
+
+  - type: widget
+    id: grid
+    widget: frequency-grid
+    config:
+      N: 1000
+      prior: 0.01
+      sens: 0.9
+      fpr: 0.09
+      sliders:
+        prior: { fixed: true }
+        sens: { fixed: true }
+        fpr: { fixed: true }
+      show: { posterior: false }
+      reset: false
+      labels:
+        prior: "Tem a condição"
+        sens: "Positivo se doente"
+        fpr: "Positivo se saudável"
+        tp: "Doente e positivo"
+        fn: "Doente, negativo"
+        fp: "Saudável, positivo"
+        tn: "Saudável, negativo"
+        posterior: "Doente, dado positivo"
+    body: |
+      Cada ponto é uma de 1.000 pessoas. **Verde**: doente e positivo. **Azul**: doente, mas negativo. **Vermelho**: saudável, mas positivo. **Cinza**: saudável e negativo. Olhe apenas para as pessoas que testaram positivo (verdes e vermelhas). Como se comparam os verdes com os vermelhos?
+    review: false
+
+  - type: text
+    id: words
+    title: "Três nomes"
+    body: |
+      Seja $H$ uma **hipótese** (aqui: "esta pessoa tem a condição") e $E$ a **evidência** (aqui: "o teste é positivo"). A **probabilidade** é escrita $P(\cdot)$, um número de 0 (impossível) a 1 (certo). A barra vertical se lê "dado que":
+
+      - $P(H)$ é a **a priori**: quão provável é $H$ *antes* da evidência. Aqui, $0.01$.
+      - $P(E\mid H)$ é a **verossimilhança**: quão provável é a evidência *se $H$ for verdadeira*. Aqui, $0.9$.
+      - $P(H\mid E)$ é a **a posteriori**: quão provável é $H$ *depois* de ver a evidência. É o que queremos.
+
+      A palavra "bayesiano" refere-se ao ministro religioso e matemático do século XVIII Thomas Bayes (1701-1761), cujo ensaio foi lido na Royal Society em 1763, depois de sua morte, e publicado logo em seguida, e a Laplace (1749-1827), que o desenvolveu. A ideia: a crença deve **se atualizar** com a evidência por uma regra fixa.
+
+  - type: numeric
+    id: posterior-count
+    title: "Contando os positivos"
+    prompt: |
+      De 1.000 pessoas, 10 têm uma condição (1%). Dessas 10, 9 testam positivo. Das 990 pessoas saudáveis, 89 também testam positivo (cerca de 9%). Entre todos os que testam positivo, qual **porcentagem** realmente tem a condição? (Dê um número, como 12,5.)
+    answer: 9.18
+    tolerance: 0.1
+    answerText: '9/98, cerca de 9,2%'
+    wrong:
+      - { value: 90, feedback: 'Isso é $P(E\mid H)$: a fração de pessoas *doentes* que testam positivo. Queremos a fração de pessoas *positivas* que estão doentes.' }
+      - { value: 9, feedback: 'Você dividiu os 9 verdadeiros positivos por 100 (ou usou a taxa de falsos positivos). As pessoas que testam positivo são 9 verdadeiras mais 89 falsas, 98 no total, então divida por 98.' }
+    hint: |
+      Quantas pessoas testam positivo no total (verdadeiros positivos mais falsos positivos)? Depois, tome a fração delas que está doente.
+    explanation: |
+      Positivos: $9 + 89 = 98$. Doentes entre eles: $9$.
+      $$\frac{9}{98}\approx 9.2\%$$
+      As 89 pessoas saudáveis que testam positivo superam as 9 doentes, porque uma taxa de erro pequena aplicada a 990 pessoas produz muito mais casos do que uma taxa alta de detecção aplicada a 10.
+
+  - type: build
+    id: bayes-rule
+    title: "A regra de Bayes como produto"
+    prompt: |
+      Contar os positivos dá a identidade "(fração de todas as pessoas que estão doentes e positivas) = (fração que é positiva) vezes (fração dos positivos que estão doentes)", e também "= (fração que está doente) vezes (fração dos doentes que testam positivo)". Igualando as duas, monte o lado direito da regra de Bayes na forma de produto, com $P(E)$ a probabilidade de um resultado positivo.
+    prefix: 'P(H\mid E)\,P(E)='
+    tiles: ['P(E\mid H)', 'P(H)', 'P(H\mid E)', 'P(E)', 'P(E\mid \neg H)']
+    answers:
+      - ['P(E\mid H)', 'P(H)']
+      - ['P(H)', 'P(E\mid H)']
+    wrong:
+      - { answer: ['P(H\mid E)', 'P(H)'], feedback: 'Isso usa a própria a posteriori dos dois lados. A identidade precisa expressá-la pela verossimilhança $P(E\mid H)$ e pela a priori $P(H)$.' }
+      - { answer: ['P(E\mid \neg H)', 'P(H)'], feedback: '$P(E\mid\neg H)$ (a taxa de falsos positivos, sendo "$\neg H$" o mesmo que "não $H$") serve para encontrar $P(E)$, mas a fração de doentes e positivos é a verossimilhança vezes a a priori.' }
+    hint: |
+      A fração de todas as pessoas que estão doentes e positivas é a fração das que estão doentes vezes a fração dos que são positivos.
+    explanation: |
+      Os dois produtos contam o mesmo grupo, as pessoas que têm $H$ e mostram $E$. Dividindo por $P(E)$, obtém-se a **regra de Bayes**:
+      $$P(H\mid E)=\frac{P(E\mid H)\,P(H)}{P(E)}$$
+      No teste: $P(E)=0.9\cdot0.01+0.09\cdot0.99=0.0981$, logo $P(H\mid E)=0.009/0.0981\approx 9.2\%$, como na contagem.
+
+  - type: mcq
+    id: prosecutor
+    title: "Duas perguntas diferentes"
+    prompt: |
+      Um teste forense associa o DNA de uma pessoa inocente escolhida ao acaso com probabilidade de 1 em 5.000.000. Num país de 5.000.000 de habitantes, um culpado deixou uma amostra, e um suspeito, escolhido por nada além deste teste, coincide. Um orador diz: "Há apenas uma chance em cinco milhões de que ele seja inocente." Qual leitura está correta?
+    options:
+      - text: '1 em 5.000.000 é $P(\text{match}\mid\text{innocent})$. A chance de inocência *dado* um resultado coincidente também precisa contar as outras pessoas inocentes que deveriam coincidir (cerca de 5): o suspeito é o culpado com probabilidade de cerca de $1/6$.'
+        correct: true
+      - text: 'Está correto: uma coincidência com probabilidade de 1 em 5.000.000 sob inocência significa que a inocência tem probabilidade de 1 em 5.000.000.'
+        feedback: |
+          Isso troca $P(E\mid H)$ por $P(H\mid E)$, o que se chama **falácia do promotor**. A raridade de uma coincidência entre inocentes não é a raridade da inocência entre os que coincidem.
+      - text: 'O teste é inútil, porque 5 pessoas inocentes coincidiriam.'
+        feedback: |
+          Correção exagerada. Uma coincidência eleva o suspeito de 1 em 5.000.000 para cerca de 1 em 6, uma atualização enorme. É uma evidência forte, mas não é prova por si só.
+    explanation: |
+      Entre 5.000.000 de pessoas, cerca de $5{,}000{,}000\times\frac{1}{5{,}000{,}000}=5$ inocentes coincidem, além do culpado: 6 coincidências, 1 culpado.
+      $$P(\text{guilty}\mid\text{match})\approx\frac{1}{6}\approx 17\%$$
+      Os tribunais se importam com isso: outras evidências (a a priori) precisam fornecer o resto. Duas visões sobre a lição: os bayesianos dizem que a a priori deve ser declarada abertamente; os críticos dessa visão dizem que os tribunais não deveriam colocar números na culpa. Ambos concordam que as duas probabilidades condicionais não podem ser trocadas.
+
+  - type: mcq
+    id: priors
+    title: "A mesma evidência, pontos de partida diferentes"
+    prompt: |
+      Dois cientistas veem o mesmo resultado novo $E$, que é 10 vezes mais provável se uma teoria $T$ for verdadeira do que se for falsa. O cientista A começou com $P(T)=50\%$, o cientista B com $P(T)=5\%$. Depois de atualizar pela regra de Bayes, o que acontece?
+    options:
+      - text: 'As duas sobem, para cerca de 91% (A) e 34% (B). Continuam discordando, embora menos do que antes em termos de razão.'
+        correct: true
+      - text: 'As duas chegam ao mesmo número, já que a evidência é a mesma.'
+        feedback: |
+          A evidência é compartilhada, mas a a posteriori depende da evidência *e* da a priori. Aqui A chega a 91%, e B apenas a 34%.
+      - text: 'B fica exatamente com 10 vezes 5%, ou seja, 50%.'
+        feedback: |
+          Multiplicar a probabilidade por 10 está errado. São as **chances** que se multiplicam: as chances de B, $1:19$, passam a $10:19$, que dão $10/29\approx 34\%$.
+    explanation: |
+      A: chances $1:1\to 10:1$, que dão $10/11\approx 91\%$. B: chances $1:19\to 10:19$, que dão $10/29\approx 34\%$. Segundo Kuhn, cientistas pesam uma teoria contra uma estrutura inteira de valores e compromissos de fundo, então seus pontos de partida diferem; um bayesiano pode descrever isso como prioris diferentes. O mesmo resultado então empurra os dois no mesmo sentido (para cima) sem fazê-los concordar de imediato. Muitos bayesianos acrescentam que, com evidências compartilhadas repetidas, as prioris se dissolvem; os críticos respondem que isso exige que as prioris não sejam extremas (uma a priori de exatamente 0 nunca se move).
+
+  - type: widget
+    id: grid-prior
+    widget: frequency-grid
+    config:
+      N: 1000
+      prior: 0.01
+      sens: 0.9
+      fpr: 0.09
+      sliders:
+        sens: { fixed: true }
+        fpr: { fixed: true }
+        prior: { value: 0.01, min: 0.01, max: 0.9, step: 0.01 }
+      show: { bar: true, formula: true }
+      labels:
+        prior: "Tem a condição"
+        sens: "Positivo se doente"
+        fpr: "Positivo se saudável"
+        tp: "Doente e positivo"
+        fn: "Doente, negativo"
+        fp: "Saudável, positivo"
+        tn: "Saudável, negativo"
+        posterior: "Doente, dado positivo"
+    body: |
+      O mesmo teste, o mesmo resultado, mas agora arraste a **a priori** (a fração que tem a condição). Observe a a posteriori conforme a a priori cresce de 1% para 50% e além.
+    review: false
+
+  - type: mcq
+    id: lr
+    title: "Quanto a evidência ajuda?"
+    prompt: |
+      A evidência $E$ tem probabilidade 0,8 se a hipótese $H_1$ for verdadeira e 0,2 se a rival $H_2$ for verdadeira. A razão $P(E\mid H_1)/P(E\mid H_2)$ é $4$. Qual afirmação está certa?
+    options:
+      - text: '$E$ torna $H_1$ mais provável do que antes, em relação a $H_2$: as chances $H_1:H_2$ são multiplicadas por 4.'
+        correct: true
+      - text: '$E$ prova $H_1$, já que $0.8$ é alto.'
+        feedback: |
+          Uma verossimilhança alta não é prova. O que importa é a comparação com a rival ($0.2$) e a a priori. Com chances a priori de $1:99$ contra $H_1$, as chances depois de $E$ são $4:99$, ainda cerca de 4%.
+      - text: '$E$ não tem efeito, porque as duas verossimilhanças estão abaixo de 1.'
+        feedback: |
+          Verossimilhanças quase sempre estão abaixo de 1. O que conta é a razão entre elas; uma razão igual a 1 significaria nenhum efeito.
+    explanation: |
+      A evidência **favorece** a hipótese que a tornou mais esperada. Uma razão acima de 1 eleva $H_1$ contra $H_2$; abaixo de 1, reduz; exatamente 1 deixa tudo como estava. Este é o centro da próxima lição, uma prova guiada de que a evidência favorece a teoria que a previu.
+
+  - type: numeric
+    id: odds
+    title: "Forma de chances"
+    prompt: |
+      Antes da evidência, a hipótese $H_1$ tem probabilidade de 20% e sua única rival $H_2$ tem 80%. A evidência é 6 vezes mais provável sob $H_1$ do que sob $H_2$. **Chances** são uma chance contra outra, então as chances a priori são $20:80=1:4$. Depois da evidência, qual é a probabilidade de $H_1$? (Dê um número de 0 a 1.)
+    answer: 0.6
+    tolerance: 0.005
+    answerText: '0.6'
+    wrong:
+      - { value: 0.5, feedback: 'Isso seriam chances $1:1$. Multiplique as chances a priori por 6: $1:4$ vira $6:4$, que é $3:2$.' }
+      - { value: 0.67, feedback: 'Isso seriam chances $2:1$. As chances são $\frac14\times6=\frac32$, ou seja, $3:2$, então a probabilidade é $3/5$.' }
+    hint: |
+      Multiplique as chances a priori ($1/4$) por 6, e depois transforme as chances $a:b$ na probabilidade $a/(a+b)$.
+    explanation: |
+      Chances a posteriori = razão de verossimilhanças vezes chances a priori:
+      $$\frac{P(H_1\mid E)}{P(H_2\mid E)}=6\cdot\frac14=\frac32$$
+      Chances $3:2$ significam probabilidade $3/(3+2)=0.6$. A forma de chances é a mesma regra de Bayes, com o incômodo $P(E)$ cancelado.
+
+  - type: mcq
+    id: priors-source
+    title: "De onde vem a primeira a priori?"
+    prompt: |
+      A regra de Bayes diz como atualizar, mas um cálculo precisa de uma a priori inicial. Duas escolas bayesianas respondem de maneiras diferentes. Qual par de visão e afirmação está certo?
+    options:
+      - text: 'Bayesianos subjetivistas: a a priori é o grau de crença da própria pessoa, limitado apenas pela coerência (as probabilidades devem obedecer às regras); bayesianos objetivistas: algum princípio, como a indiferença ou a entropia máxima, deveria fixá-la.'
+        correct: true
+      - text: 'Bayesianos subjetivistas dizem que qualquer a priori é tão boa quanto outra mesmo depois de evidência ilimitada; bayesianos objetivistas dizem que a evidência não é necessária.'
+        feedback: |
+          Uma caricatura das duas. Os subjetivistas costumam argumentar que, com evidência compartilhada suficiente, prioris diferentes convergem (a menos que uma seja exatamente 0 ou 1). Os objetivistas também atualizam com base em evidência.
+      - text: 'A própria regra de Bayes determina a a priori, então a disputa é sobre aritmética.'
+        feedback: |
+          A regra de Bayes é um teorema sobre como as probabilidades se relacionam; ela não tem como produzir uma a priori do nada. A disputa é exatamente sobre o que a fornece.
+    explanation: |
+      Versão mais forte da visão subjetivista: nossas crenças iniciais são moldadas pela experiência e não podem ser ditadas, e a honestidade exige admiti-las. Versão mais forte da visão objetivista: a ciência precisa de padrões compartilhados, então as prioris não deveriam ser arbitrárias. Uma terceira voz, os **frequentistas**, diz que a probabilidade só descreve frequências de longo prazo de eventos repetíveis e recusam prioris para hipóteses únicas. Para afirmações grandiosas (uma visão de mundo, uma teoria do universo), as três enfrentam uma pergunta difícil: a a priori de quê?
+
+  - type: mcq
+    id: layers
+    title: "Três camadas"
+    prompt: |
+      Qual afirmação é **fato estabelecido** (camada 1), e não debate em aberto nem compromisso?
+    options:
+      - text: 'Se a a priori, a verossimilhança e a taxa de falsos positivos forem dadas, a regra de Bayes fixa a a posteriori (um teorema).'
+        correct: true
+      - text: 'Uma a priori para uma hipótese sobre o universo inteiro pode receber um número objetivo.'
+        feedback: |
+          Isto é um **debate em aberto** (camada 2): os bayesianos objetivistas dizem que sim, em princípio; os subjetivistas e os frequentistas discordam.
+      - text: 'A ciência praticada de fato sempre se atualiza de modo bayesiano.'
+        feedback: |
+          Um **debate em aberto** (camada 2). Alguns filósofos usam Bayes como modelo de bom raciocínio; outros (incluindo os que seguem Kuhn) dizem que a mudança científica real envolve mais do que atualizar números.
+    explanation: |
+      A regra é matemática; os intervalos e números que colocamos nela, e se ela descreve mentes reais, são filosofia. Manter as camadas separadas é o hábito deste curso.
+
+  - type: mcq
+    id: hook-return
+    title: "De volta ao teste positivo"
+    prompt: |
+      Um teste dá positivo para 90% das pessoas doentes e para 9% das saudáveis, e 1 em cada 100 tem a condição. Por que a a posteriori é apenas cerca de 9%, e não 90%?
+    options:
+      - text: 'Porque a condição é rara, as muitas pessoas saudáveis com a taxa de falsos positivos de 9% superam as poucas pessoas doentes detectadas; a a priori puxa o resultado para baixo.'
+        correct: true
+      - text: 'Porque o teste é ruim.'
+        feedback: |
+          Um teste que dá positivo para 90% dos doentes é bastante bom. O mesmo teste numa população em que metade está doente daria cerca de 91%. O resultado depende da a priori tanto quanto do teste.
+      - text: 'Porque probabilidades não podem ultrapassar a a priori.'
+        feedback: |
+          Não existe tal regra; um resultado positivo elevou 1% para cerca de 9%. As prioris podem subir até 100% com evidência suficiente.
+    explanation: |
+      A priori $1\%$, razão de verossimilhanças $0.9/0.09=10$: chances $1:99\to 10:99$, uma probabilidade de cerca de $9.2\%$. A evidência multiplica as chances; ela não substitui a a priori. É por isso que "quão provável é esta teoria dados os resultados?" não pode ser respondida só pelos dados, o ponto por trás da visão bayesiana da ciência e das objeções a ela.
+
+  - type: text
+    id: summary
+    body: |
+      **Próximo:** a prova guiada "A evidência favorece a teoria que a previu" deriva a lei da razão de verossimilhanças a partir da regra de Bayes, e enfrenta duas objeções: a evidência que já era conhecida (evidência antiga) e a dependência das prioris.
