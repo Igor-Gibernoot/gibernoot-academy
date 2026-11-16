@@ -303,3 +303,4 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 ## Chapter 21
 
 - Drake lesson (19 cards): invented example R*=2, fp=0.5, ne=0.4, fl=fi=0.1, fc=0.5, L=10^4 gives 0.4, 0.004, 0.002 per year, N=20 (L=100 gives 0.2, L=10^6 gives 2000); pessimist table (1, 0.2, 0.1, 1e-3, 1e-3, 0.01, 100) gives 2e-8, optimist (3, 1, 1, 1, 1, 0.5, 1e8) gives 1.5e8, 15.9 orders apart. Symbols $R_*, f_p, n_e, f_l, f_i, f_c, L$; N = signalling civilisations now.
+- Fermi lesson (20 cards): P1 old galaxy, P2 civilisations arose, P3 one spread, P4 spread would be visible; replies: Rare Earth denies P2, short L denies P3, zoo denies P4. Crossing 1e5 ly at 0.1c = 1e6 yr; 1 Gyr head start = 1000 crossings. Great Filter behind vs ahead (Hanson 1998).
