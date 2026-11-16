@@ -73,7 +73,3 @@ Static site, no build step, served by GitHub Pages from the repo root.
 - **Share cards** (`js/share.js`): a 1200 x 630 pixel picture of a finished level (Share button on a complete level header, and on the done screen of the lesson that completes a level) or of an earned medal (tap it in the medal room). Uses the phone's share menu when it accepts files, otherwise saves a PNG.
 - **Welcome tour** (`js/tour.js`, `#/welcome`): three cards over the home page, shown once to a newcomer (pref `toured`); card 2 is the first `card` block of `pages/method.md`.
 - **Offline & install** (`sw.js`, `js/offline.js`): network-first service worker with a cache fallback (after 4 s or offline); Settings has "Save all courses for offline use" (catalog, trails, lessons, their images, the pages). Bump `CACHE` in `sw.js` only to drop old caches. PNG icons are rendered from `icon.svg`.
-
-## Languages
-
-`js/i18n.js` (`t`, `tn`, `lang`, `setLang`, `loadLang`, `langPath`): the language is a synced preference (`lang`, mirrored in localStorage `gibernoot.lang` so it applies before sign-in); `main.js` awaits `loadLang()` before the first route. `content.js` loads `<course>/<lang>/<file>` first and falls back to English; trail and catalog are merged overlays (text fields only). Full guide: `docs/I18N.md`.

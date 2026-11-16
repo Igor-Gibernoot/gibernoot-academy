@@ -1,5 +1,4 @@
 // Inline SVG icons (stroke = currentColor).
-import { t } from './i18n.js';
 const svg = body => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
 
 export const icons = {
@@ -29,14 +28,13 @@ export const icons = {
   target: svg('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>'),
 };
 
-// The lesson kinds' names (a function, so the language is applied when it is called).
-export const kindLabel = kind => ({
-  concept: t('Concept lesson'),
-  intuition: t('Intuition lesson'),
-  guided: t('Guided problem'),
-  traps: t('Trap round'),
-  map: t('Content map'),
-  review: t('Level review'),
-  challenge: t('Level challenge'),
-  exam: t('Exam'),
-})[kind];
+export const KIND_LABEL = {
+  concept: 'Concept lesson',
+  intuition: 'Intuition lesson',
+  guided: 'Guided problem',
+  traps: 'Trap round',
+  map: 'Content map',
+  review: 'Level review',
+  challenge: 'Level challenge',
+  exam: 'Exam',
+};

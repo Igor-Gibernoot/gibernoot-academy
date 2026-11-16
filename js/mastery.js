@@ -5,7 +5,6 @@
 // A cell's shade is its strength (box / 5); a cell due for review is drawn hollow.
 
 import { h } from './dom.js';
-import { t, tn } from './i18n.js';
 import { progress } from './progress.js';
 
 const MAX_BOX = 5;
@@ -16,10 +15,9 @@ export function masteryStrip(cards) {
   if (!cards.length) return null;
   const sorted = [...cards].sort((a, b) => b.box - a.box || a.due - b.due);
   const strong = cards.filter(c => c.box >= 4).length, due = cards.filter(c => c.due).length;
-  const tip = t('Memory of this level: {n} in review, {strong} strong{due}. Each square brightens as a question survives longer gaps.', {
-    n: tn('{n} question', '{n} questions', cards.length), strong, due: due ? t(', {n} due now (hollow)', { n: due }) : '' });
+  const tip = `Memory of this level: ${cards.length} question${cards.length > 1 ? 's' : ''} in review, ${strong} strong${due ? `, ${due} due now (hollow)` : ''}. Each square brightens as a question survives longer gaps.`;
   return h('div', { class: 'mastery', tabindex: 0, 'data-tip': tip, 'aria-label': tip },
-    h('span', { class: 'mastery-label' }, t('Memory')),
+    h('span', { class: 'mastery-label' }, 'Memory'),
     h('span', { class: 'mastery-cells' }, sorted.map(c => h('i', { class: c.due ? 'due' : null, style: shade(c.box / MAX_BOX) }))));
 }
 
@@ -28,10 +26,10 @@ export function levelStrip(course, id) {
   const levels = course.levels.filter(l => (l.lessons ?? []).some(m => m.file && m.kind !== 'exam'));
   const rows = levels.map(l => ({ l, s: strength(progress.deckCards((l.lessons ?? []).map(m => m.id), id)) }));
   if (rows.every(r => r.s == null)) return null;
-  return h('div', { class: 'mastery level-strip', 'aria-label': t('Memory per level') },
-    h('span', { class: 'mastery-label' }, t('Memory')),
+  return h('div', { class: 'mastery level-strip', 'aria-label': 'Memory per level' },
+    h('span', { class: 'mastery-label' }, 'Memory'),
     h('span', { class: 'mastery-cells' }, rows.map(({ l, s }) => h('i', {
       class: s == null ? 'empty' : null, style: s == null ? null : shade(s),
-      title: `${l.eyebrow ?? t('Level {n}', { n: l.number })}: ${s == null ? t('not started') : t('{pct}% memory strength', { pct: Math.round(100 * s) })}`,
+      title: `${l.eyebrow ?? `Level ${l.number}`}: ${s == null ? 'not started' : `${Math.round(100 * s)}% memory strength`}`,
     }))));
 }

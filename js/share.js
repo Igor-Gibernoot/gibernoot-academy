@@ -6,7 +6,6 @@
 //   shareMedal(medal, day)               a medal of medals.js and the day it was earned
 
 import { h } from './dom.js';
-import { t } from './i18n.js';
 import { bannerEl, spriteCanvas } from './pixel.js';
 import { medalCanvas } from './medals.js';
 import { progress } from './progress.js';
@@ -57,14 +56,14 @@ export async function shareLevel({ course, level, acc }) {
     ctx.fillStyle = HUE[(course.hue ?? 0) % 6]; ctx.fillRect(18, 18, W - 36, 348);
     ctx.drawImage(banner, 24, 24, W - 48, 336);
   }
-  const eyebrow = level.eyebrow ? t('{level} complete', { level: plain(level.eyebrow) }) : t('Level {n} complete', { n: level.number });
+  const eyebrow = level.eyebrow ? `${plain(level.eyebrow)} complete` : `Level ${level.number} complete`;
   text(ctx, eyebrow.toUpperCase(), 48, 432, { size: 46, color: GOLD });
   text(ctx, plain(level.title), 48, 506, { size: 74, color: TEXT, max: W - 96 });
   const streak = progress.streak();
   const facts = [plain(course.short ?? course.title), acc != null ? `${Math.round(acc * 100)}% first try` : null, streak > 1 ? `${streak}-day streak` : null].filter(Boolean).join('  ·  ');
   text(ctx, facts, 48, 568, { size: 40, color: MUTED, max: W - 420 });
   text(ctx, 'Gibernoot Academy', W - 48, 590, { size: 40, color: HUE[(course.hue ?? 0) % 6], align: 'right' });
-  openShare(c, { title: `${eyebrow}: ${plain(level.title)}`, text: t('I finished {level} in {course} on Gibernoot Academy.', { level: plain(level.title), course: plain(course.short ?? course.title) }), file: `${course.id}-${level.id}.png` });
+  openShare(c, { title: `${eyebrow}: ${plain(level.title)}`, text: `I finished ${plain(level.title)} in ${plain(course.short ?? course.title)} on Gibernoot Academy.`, file: `${course.id}-${level.id}.png` });
 }
 
 export async function shareMedal(m, day) {
@@ -79,7 +78,7 @@ export async function shareMedal(m, day) {
   const mascot = m.mascot && spriteCanvas(m.mascot);
   if (mascot) ctx.drawImage(mascot, W - 60 - mascot.width * 5, 470 - mascot.height * 5 + 120, mascot.width * 5, mascot.height * 5);
   text(ctx, 'Gibernoot Academy', x, 590, { size: 40, color: HUE[(m.hue ?? 0) % 6] });
-  openShare(c, { title: t('Medal: {name}', { name: plain(m.name) }), text: t('I earned the {name} medal on Gibernoot Academy.', { name: plain(m.name) }), file: `medal-${m.id.replace(/[^a-z0-9]+/gi, '-')}.png` });
+  openShare(c, { title: `Medal: ${plain(m.name)}`, text: `I earned the ${plain(m.name)} medal on Gibernoot Academy.`, file: `medal-${m.id.replace(/[^a-z0-9]+/gi, '-')}.png` });
 }
 
 function openShare(c, { title, text: msg, file }) {
@@ -92,25 +91,25 @@ function openShare(c, { title, text: msg, file }) {
   const save = async () => {
     const a = h('a', { href: URL.createObjectURL(await blob), download: file });
     document.body.append(a); a.click(); a.remove();
-    status.textContent = t('Saved to your downloads.');
+    status.textContent = 'Saved to your downloads.';
   };
   const share = async () => {
     try {
       const f = new File([await blob], file, { type: 'image/png' });
       await navigator.share({ files: [f], title, text: `${msg} ${APP_URL}` });
-    } catch (err) { if (err?.name !== 'AbortError') { status.textContent = t('Sharing is not available here: saving the image instead.'); save(); } }
+    } catch (err) { if (err?.name !== 'AbortError') { status.textContent = 'Sharing is not available here: saving the image instead.'; save(); } }
   };
   const canShare = !!navigator.canShare?.({ files: [new File([new Blob()], file, { type: 'image/png' })] });
   const scrim = h('div', { class: 'scrim', onclick: e => { if (e.target === scrim) close(); } },
     h('div', { class: 'sheet share-sheet', role: 'dialog', 'aria-modal': 'true', 'aria-label': title },
-      h('div', { class: 'kind' }, t('Share')),
+      h('div', { class: 'kind' }, 'Share'),
       h('h3', {}, title),
       h('img', { class: 'share-preview pix', src: url, alt: title }),
       status,
       h('div', { class: 'actions' },
-        h('button', { class: 'btn ghost', type: 'button', onclick: close }, t('Close')),
-        h('button', { class: `btn ${canShare ? 'ghost' : 'primary'}`, type: 'button', onclick: save }, t('Save image')),
-        canShare ? h('button', { class: 'btn primary', type: 'button', onclick: share }, t('Share')) : null)));
+        h('button', { class: 'btn ghost', type: 'button', onclick: close }, 'Close'),
+        h('button', { class: `btn ${canShare ? 'ghost' : 'primary'}`, type: 'button', onclick: save }, 'Save image'),
+        canShare ? h('button', { class: 'btn primary', type: 'button', onclick: share }, 'Share') : null)));
   document.body.append(scrim);
   scrim.querySelector('.btn.primary')?.focus();
 }

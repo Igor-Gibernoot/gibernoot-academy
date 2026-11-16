@@ -2,7 +2,6 @@
 // choice per browser (not part of the progress code).
 
 import { icons } from './icons.js';
-import { t } from './i18n.js';
 
 const KEY = 'gibernoot.theme', OLD_KEY = 'dg2gr.theme';
 const mq = window.matchMedia('(prefers-color-scheme: dark)');
@@ -29,7 +28,7 @@ export function initTheme() {
 }
 
 const NEXT = { system: 'light', light: 'dark', dark: 'system' };
-const label = m => ({ system: t('System'), light: t('Light'), dark: t('Dark') })[m];
+const LABEL = { system: 'System', light: 'Light', dark: 'Dark' };
 
 function cycle() {
   const next = NEXT[themeMode()];
@@ -44,8 +43,8 @@ export function themeButton(h) {
   const paint = () => {
     const m = themeMode();
     b.innerHTML = m === 'system' ? icons.system : m === 'dark' ? icons.moon : icons.sun;
-    b.setAttribute('aria-label', t('Theme: {now}. Switch to {next}', { now: label(m), next: label(NEXT[m]) }));
-    b.dataset.tip = t('Theme: {now}', { now: label(m) });
+    b.setAttribute('aria-label', `Theme: ${LABEL[m]}. Switch to ${LABEL[NEXT[m]]}`);
+    b.dataset.tip = `Theme: ${LABEL[m]}`;
   };
   b.addEventListener('click', () => { cycle(); paint(); });
   paint();

@@ -2,8 +2,7 @@
 
 import { h } from './dom.js';
 import { md, mdInline } from './render.js';
-import { icons, kindLabel } from './icons.js';
-import { t, tn } from './i18n.js';
+import { icons, KIND_LABEL } from './icons.js';
 import { getCatalog, getCourse, getLesson, summaryCard, peekSummaries } from './content.js';
 import { at, courseId } from './course.js';
 import { mascotEl } from './pixel.js';
@@ -21,9 +20,9 @@ const OFFSETS = [0, 52, 78, 52, 0, -52, -78, -52];
 function overviewBox(o) {
   if (!o) return null;
   return h('details', { class: 'overview', open: true },
-    h('summary', {}, t('About this course')),
+    h('summary', {}, 'About this course'),
     h('p', { html: mdInline(o.text) }),
-    o.sources?.length ? h('h3', {}, t('Main sources')) : null,
+    o.sources?.length ? h('h3', {}, 'Main sources') : null,
     o.sources?.length ? h('ul', {}, o.sources.map(s => h('li', {}, h('b', {}, s.who), ': ', h('span', { html: mdInline(s.what) })))) : null);
 }
 
@@ -48,16 +47,16 @@ export async function renderTrail(root) {
     h('a', { class: 'academy-link', href: '#/', html: `${icons.back}<span>Gibernoot Academy</span>` }),
     h('h1', { class: 'course-title', 'data-hue': 0 }, ...titleLines(course.title)),
     h('div', { class: 'toolbar' },
-      acc != null ? h('span', { class: 'chip acc', tabindex: 0, 'data-tip': t('Average first-try accuracy over the lessons you finished'), html: `${icons.target}<span>${pct(acc)}</span>` }) : null,
-      h('span', { class: 'chip streak', tabindex: 0, 'data-tip': t('Days in a row you studied'), html: `${icons.flame}<span>${streak}</span>` }),
+      acc != null ? h('span', { class: 'chip acc', tabindex: 0, 'data-tip': 'Average first-try accuracy over the lessons you finished', html: `${icons.target}<span>${pct(acc)}</span>` }) : null,
+      h('span', { class: 'chip streak', tabindex: 0, 'data-tip': 'Days in a row you studied', html: `${icons.flame}<span>${streak}</span>` }),
       h('button', {
-        class: `chip review${due ? ' due' : ''}`, type: 'button', 'data-hue': 0, 'data-tip': t('Spaced-repetition review'),
-        html: `${icons.review}<span>${due ? t('Review {n}', { n: due }) : t('Review')}</span>`, onclick: () => { location.hash = at('review'); },
+        class: `chip review${due ? ' due' : ''}`, type: 'button', 'data-hue': 0, 'data-tip': 'Spaced-repetition review',
+        html: `${icons.review}<span>${due ? `Review ${due}` : 'Review'}</span>`, onclick: () => { location.hash = at('review'); },
       }),
       recapChip(),
       accountChip(),
       themeButton(h),
-      h('button', { class: 'icon-btn', type: 'button', 'aria-label': t('Progress & settings'), 'data-tip': t('Settings & account'), html: icons.settings, onclick: () => { location.hash = '#/settings'; } })));
+      h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'Progress & settings', 'data-tip': 'Settings & account', html: icons.settings, onclick: () => { location.hash = '#/settings'; } })));
 
   // Exam levels carry their own hue, so inserting one never recolours the chapters after it.
   const hueOf = new Map(course.levels.filter(l => l.hue == null).map((l, n) => [l.id, n % 6]));
@@ -71,18 +70,18 @@ export async function renderTrail(root) {
     const levelDue = deck.filter(k => dueSet.has(k)).length;
 
     const head = h('div', { class: 'level-head' },
-      h('div', { class: 'eyebrow' }, `${level.eyebrow ?? t('Level {n}', { n: level.number })}${unwritten ? t(' · not written yet') : ''}`),
+      h('div', { class: 'eyebrow' }, `${level.eyebrow ?? `Level ${level.number}`}${unwritten ? ' · not in the book yet' : ''}`),
       h('h2', {}, level.title),
       level.blurb ? h('p', { html: mdInline(level.blurb) }) : null,
-      counted.length ? h('div', { class: 'meter', title: t('{done}/{n} lessons done', { done, n: counted.length }) },
+      counted.length ? h('div', { class: 'meter', title: `${done}/${counted.length} lessons done` },
         h('div', { style: `width:${(done / counted.length) * 100}%` })) : null,
       counted.length ? h('div', { class: 'meta' },
-        h('span', {}, t('{done}/{n} lessons', { done, n: counted.length })),
-        levelAcc != null ? h('span', { class: 'acc', title: t('Average first-try accuracy in this level') }, t('{pct} accuracy', { pct: pct(levelAcc) })) : null) : null,
+        h('span', {}, `${done}/${counted.length} lessons`),
+        levelAcc != null ? h('span', { class: 'acc', title: 'Average first-try accuracy in this level' }, `${pct(levelAcc)} accuracy`) : null) : null,
       masteryStrip(progress.deckCards(lessons.map(m => m.id))),
       // A level whose lessons are all built and done can be shared as a picture.
       counted.length && counted.every(m => m.file) && done === counted.length && entry
-        ? h('button', { class: 'level-share', type: 'button', 'data-tip': t('Share a picture of this finished level'), onclick: () => shareLevel({ course: entry, level, acc: levelAcc }) }, t('Share'))
+        ? h('button', { class: 'level-share', type: 'button', 'data-tip': 'Share a picture of this finished level', onclick: () => shareLevel({ course: entry, level, acc: levelAcc }) }, 'Share')
         : null);
 
     const path = h('div', { class: 'path' }, lessons.map((meta, k) => {
@@ -99,7 +98,7 @@ export async function renderTrail(root) {
         onclick: () => openSheet(meta, state, { level, deck: deck.length, due: levelDue }),
       });
       return h('div', { class: `node-wrap${isNext ? ' has-bubble' : ''}`, 'data-id': meta.id, style: `transform: translateX(${OFFSETS[k % OFFSETS.length]}px)` },
-        isNext ? h('div', { class: 'start-bubble' }, rec ? t('CONTINUE') : t('START')) : null,
+        isNext ? h('div', { class: 'start-bubble' }, rec ? 'CONTINUE' : 'START') : null,
         node,
         h('div', { class: `node-label${state === 'planned' ? ' planned' : ''}`, html: mdInline(meta.title) }));
     }));
@@ -177,7 +176,7 @@ function openSummary(meta, sum) {
       h('div', { class: 'kind' }, meta.title),
       h('h3', { html: mdInline(sum.title) }),
       h('div', { class: 'prose', html: md(sum.body ?? '') }),
-      h('div', { class: 'actions' }, h('button', { class: 'btn primary', type: 'button', onclick: close }, t('Close')))));
+      h('div', { class: 'actions' }, h('button', { class: 'btn primary', type: 'button', onclick: close }, 'Close'))));
   document.body.append(scrim);
   scrim.querySelector('.btn')?.focus();
 }
@@ -185,39 +184,39 @@ function openSummary(meta, sum) {
 function openSheet(meta, state, { level, deck, due }) {
   const close = () => scrim.remove();
   const rec = progress.lesson(meta.id);
-  const kind = kindLabel(meta.kind) ?? t('Lesson');
+  const kind = KIND_LABEL[meta.kind] ?? 'Lesson';
   let body, actions;
   if (meta.kind === 'review') {
     body = h('p', {}, deck
-      ? t('Practice only the questions from {level}: {due}{n} in this level\'s deck. Due and weak ones come first.', { level: level.title, due: due ? t('{n} due now, ', { n: due }) : '', n: deck.length })
-      : t('Questions you answer in this level\'s lessons collect here, so you can practice just {level}. Play a lesson first.', { level: level.title }));
-    actions = [h('button', { class: 'btn ghost', type: 'button', onclick: close }, t('Close'))];
-    if (deck) actions.push(h('button', { class: 'btn primary', type: 'button', onclick: () => { close(); location.hash = at(`review/${level.id}`); } }, t('Start review')));
+      ? `Practice only the questions from ${level.title}: ${due ? `${due} due now, ` : ''}${deck.length} in this level's deck. Due and weak ones come first.`
+      : `Questions you answer in this level's lessons collect here, so you can practice just ${level.title}. Play a lesson first.`);
+    actions = [h('button', { class: 'btn ghost', type: 'button', onclick: close }, 'Close')];
+    if (deck) actions.push(h('button', { class: 'btn primary', type: 'button', onclick: () => { close(); location.hash = at(`review/${level.id}`); } }, 'Start review'));
   } else if (state === 'planned') {
-    body = h('p', {}, t('Not built yet. Ask Claude to build this lesson from the course sources.'));
-    actions = [h('button', { class: 'btn ghost', type: 'button', onclick: close }, t('Close'))];
+    body = h('p', {}, 'Not built yet. Ask Claude to build this lesson from the course sources.');
+    actions = [h('button', { class: 'btn ghost', type: 'button', onclick: close }, 'Close')];
   } else {
-    body = h('p', { html: mdInline(meta.summary ?? '') + (rec ? `<br><b>${t('Best first-try score: {pct}%', { pct: Math.round(rec.best * 100) })}</b>` : '') });
+    body = h('p', { html: mdInline(meta.summary ?? '') + (rec ? `<br><b>Best first-try score: ${Math.round(rec.best * 100)}%</b>` : '') });
     const part = progress.partial(meta.id);
     const go = (path) => () => { close(); location.hash = path; };
     actions = [
-      h('button', { class: 'btn ghost', type: 'button', onclick: close }, t('Close')),
-      rec ? h('button', { class: 'btn ghost', type: 'button', onclick: go(at(`read/${meta.id}`)) }, t('Read through')) : null,
-      h('button', { class: `btn ${part ? 'ghost' : 'primary'}`, type: 'button', onclick: go(at(`lesson/${meta.id}`)) }, part ? t('Start over') : rec ? t('Replay') : t('Start')),
-      part ? h('button', { class: 'btn primary', type: 'button', onclick: go(at(`lesson/${meta.id}/${part.at + 1}`)) }, t('Continue (card {card})', { card: `${part.at + 1}${part.n ? `/${part.n}` : ''}` })) : null,
+      h('button', { class: 'btn ghost', type: 'button', onclick: close }, 'Close'),
+      rec ? h('button', { class: 'btn ghost', type: 'button', onclick: go(at(`read/${meta.id}`)) }, 'Read through') : null,
+      h('button', { class: `btn ${part ? 'ghost' : 'primary'}`, type: 'button', onclick: go(at(`lesson/${meta.id}`)) }, part ? 'Start over' : rec ? 'Replay' : 'Start'),
+      part ? h('button', { class: 'btn primary', type: 'button', onclick: go(at(`lesson/${meta.id}/${part.at + 1}`)) }, `Continue (card ${part.at + 1}${part.n ? `/${part.n}` : ''})`) : null,
     ].filter(Boolean);
     // Challenge: a shortcut for readers who already know the chapter from elsewhere.
     const rest = (level.lessons ?? []).filter(m => m.file && m.kind !== 'review' && m.kind !== 'exam' && !progress.lesson(m.id)?.done);
     if (meta.kind === 'challenge' && rest.length) {
-      body.append(h('p', { class: 'hint-line', style: 'margin:10px 0 0' }, t('Already know this chapter from somewhere else? Skip it: every unfinished lesson of this level is marked done (without an accuracy score).')),
+      body.append(h('p', { class: 'hint-line', style: 'margin:10px 0 0' }, 'Already know this chapter from somewhere else? Skip it: every unfinished lesson of this level is marked done (without an accuracy score).'),
         h('button', {
           class: 'btn ghost', type: 'button', style: 'margin-top:8px',
           onclick: () => {
-            if (!confirm(tn('Mark {n} lesson of this level as done without playing it?', 'Mark {n} lessons of this level as done without playing them?', rest.length))) return;
+            if (!confirm(`Mark ${rest.length} lesson${rest.length > 1 ? 's' : ''} of this level as done without playing them?`)) return;
             progress.markKnown(rest.map(m => m.id));
             close(); location.reload();
           },
-        }, t('Mark the level as known ({n})', { n: rest.length })));
+        }, `Mark the level as known (${rest.length})`));
     }
   }
   const scrim = h('div', { class: 'scrim', onclick: e => { if (e.target === scrim) close(); } },
@@ -231,16 +230,16 @@ function openSheet(meta, state, { level, deck, due }) {
   if (state !== 'planned' && meta.kind !== 'review' && (rec?.done || peekSummaries())) getLesson(meta.id).then(({ data }) => {
     const sum = summaryCard(data);
     if (!sum || !scrim.isConnected) return;
-    const btn = h('button', { class: 'btn ghost', type: 'button', onclick: () => { close(); openSummary(meta, sum); } }, t('Summary'));
+    const btn = h('button', { class: 'btn ghost', type: 'button', onclick: () => { close(); openSummary(meta, sum); } }, 'Summary');
     scrim.querySelector('.actions .btn').after(btn);
   }).catch(() => {});
   if (meta.kind === 'review') recapCards(level.id).then(list => {
     if (!list.length || !scrim.isConnected) return;
     const n = list.reduce((s, c) => s + c.due.length, 0);
     const recap = h('button', {
-      class: `btn ${deck ? 'ghost' : 'primary'}`, type: 'button', 'data-tip': t('Recall the key results of this level’s lesson summaries'),
+      class: `btn ${deck ? 'ghost' : 'primary'}`, type: 'button', 'data-tip': 'Recall the key results of this level’s lesson summaries',
       onclick: () => { close(); location.hash = at(`recap/${level.id}`); },
-    }, n ? t('Recap {n}', { n }) : t('Recap'));
+    }, n ? `Recap ${n}` : 'Recap');
     const start = scrim.querySelector('.actions .btn.primary');
     if (start) start.before(recap); else scrim.querySelector('.actions').append(recap);
   }).catch(() => {});
@@ -249,16 +248,16 @@ function openSheet(meta, state, { level, deck, due }) {
 // Recap button: its count (blanks new or due in finished lessons' summaries)
 // needs the lesson files, so it fills in once they have loaded.
 function recapChip() {
-  const label = h('span', {}, t('Recap'));
+  const label = h('span', {}, 'Recap');
   const chip = h('button', {
-    class: 'chip recap', type: 'button', 'data-hue': 0, 'data-tip': t('Recall the key results of the lessons you finished'),
+    class: 'chip recap', type: 'button', 'data-hue': 0, 'data-tip': 'Recall the key results of the lessons you finished',
     onclick: () => { location.hash = at('recap'); },
   });
   chip.innerHTML = icons.recap;
   chip.append(label);
   recapCards().then(list => {
     const n = list.reduce((s, c) => s + c.due.length, 0);
-    if (n) { chip.classList.add('due'); label.textContent = t('Recap {n}', { n }); }
+    if (n) { chip.classList.add('due'); label.textContent = `Recap ${n}`; }
   }).catch(() => {});
   return chip;
 }
@@ -280,14 +279,14 @@ export function accountChip() {
       btn.replaceChildren(st.user.photo
         ? h('img', { src: st.user.photo, alt: '', referrerpolicy: 'no-referrer' })
         : h('span', { html: icons.user }));
-      btn.append(h('span', {}, (st.user.name ?? st.user.email ?? t('Account')).split(' ')[0]));
-      btn.dataset.tip = t('Signed in as {who} · {sync} · tap for account', { who: st.user.email ?? st.user.name, sync: st.sync === 'error' ? t('SYNC PROBLEM') : st.sync === 'syncing' ? t('syncing…') : t('synced') });
+      btn.append(h('span', {}, (st.user.name ?? st.user.email ?? 'Account').split(' ')[0]));
+      btn.dataset.tip = `Signed in as ${st.user.email ?? st.user.name} · ${st.sync === 'error' ? 'SYNC PROBLEM' : st.sync === 'syncing' ? 'syncing…' : 'synced'} · tap for account`;
       btn.classList.toggle('sync-error', st.sync === 'error');
       btn.onclick = () => { location.hash = '#/settings'; };
     } else {
-      btn.replaceChildren(h('span', { html: icons.user }), h('span', {}, t('Log in')));
-      btn.dataset.tip = t('Sign in with Google to sync progress');
-      btn.onclick = () => signIn().catch(err => alert(t('Sign-in failed: {error}', { error: err.message })));
+      btn.replaceChildren(h('span', { html: icons.user }), h('span', {}, 'Log in'));
+      btn.dataset.tip = 'Sign in with Google to sync progress';
+      btn.onclick = () => signIn().catch(err => alert(`Sign-in failed: ${err.message}`));
     }
   });
   return btn;

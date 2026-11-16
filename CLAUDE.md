@@ -273,19 +273,6 @@ or object here worth a picture?"; if yes and a free image exists, add it; if
 none exists, skip (never a placeholder or a non-free image). Read
 `docs/IMAGES.md` once when a lesson gets an image. Images show in review too.
 
-### Languages (`docs/I18N.md`)
-
-English is the source; other languages (now Portuguese, `pt`) are overlays with
-English fallback: `i18n/<lang>.json` (interface), `courses/<id>/<lang>/…` (lessons,
-exams, trail overlay), `courses/catalog.<lang>.yaml`, `pages/<lang>/`. Every new
-interface string goes through `t('English text')` and into `i18n/pt.json`
-(`node tools/i18n.mjs ui`). **Lessons and courses are always built in English
-first.** Translating is its own unit, run for a chapter after its audit unit
-(never before the chapter's lessons are final): glossary first, then up to 5
-parallel agents (one chapter level each), then `node tools/i18n.mjs check <id>`.
-An edited English lesson shows as *stale* in `node tools/i18n.mjs status <id>`:
-re-translate it in the next translation unit.
-
 ### Widgets are shared
 
 Widgets live in `js/widgets/` and belong to the academy, not a course.
@@ -380,8 +367,6 @@ one unit of work**.
   before commit.
 - **Several units in a row** ("until the end of Chapter 3"): follow
   `docs/AUTONOMOUS.md`.
-- **Translation unit** (`docs/I18N.md`): one per chapter level group of a course and
-  language, after the audit; glossary first, up to 5 agents in parallel.
 - **Engine changes** (shared): run `node tools/validate.mjs` (all courses)
   and shots on a lesson of each course; after a widget change also
   `node tools/widget-smoke.mjs` (mounts every preset, clicks, drags,

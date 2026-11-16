@@ -4,7 +4,6 @@
 // blank is a spaced-repetition item (progress.recordRecap).
 
 import { h, shuffle } from './dom.js';
-import { t, tn } from './i18n.js';
 import { md, mdInline } from './render.js';
 import { icons } from './icons.js';
 import { allLessons, getLesson, ownParts } from './content.js';
@@ -59,7 +58,7 @@ export function runRecap(root, { cards, onFinish, onExit }) {
   const foot = h('div', { class: 'foot-inner' });
   root.replaceChildren(h('div', { class: 'player' },
     h('header', { class: 'player-top' },
-      h('button', { class: 'icon-btn', type: 'button', 'aria-label': t('Exit'), html: icons.close, onclick: exit }),
+      h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'Exit', html: icons.close, onclick: exit }),
       h('div', { class: 'bar' }, fill), counter, themeButton(h)),
     h('main', { class: 'player-main' }, stage),
     h('footer', { class: 'player-foot' }, foot)));
@@ -103,16 +102,16 @@ export function runRecap(root, { cards, onFinish, onExit }) {
       el.classList.add('hidden');
       const display = el.classList.contains('display');
       el.prepend(h('button', {
-        class: 'blank-face', type: 'button', 'aria-label': t('Reveal the hidden expression'),
+        class: 'blank-face', type: 'button', 'aria-label': 'Reveal the hidden expression',
         onclick: () => reveal(el.dataset.key),
-      }, display ? t('Tap to reveal') : '?'));
+      }, display ? 'Tap to reveal' : '?'));
     }
 
     const count = h('p', { class: 'hint-line recap-count' });
     stage.replaceChildren(
-      h('div', { class: 'card-tag' }, t('Recap · what you now own')),
+      h('div', { class: 'card-tag' }, 'Recap · what you now own'),
       h('div', { class: 'prose' }, h('h2', { html: mdInline(card.title) })),
-      h('p', { class: 'hint-line', style: 'margin:0 0 12px' }, t('Say each hidden expression to yourself, then tap it to check.')),
+      h('p', { class: 'hint-line', style: 'margin:0 0 12px' }, 'Say each hidden expression to yourself, then tap it to check.'),
       text, count);
 
     function reveal(key) {
@@ -133,23 +132,23 @@ export function runRecap(root, { cards, onFinish, onExit }) {
     }
     function paint() {
       text.classList.toggle('busy', !!active);
-      count.textContent = t('{done}/{n} rated', { done: rated.size, n: hidden.length });
+      count.textContent = `${rated.size}/${hidden.length} rated`;
       if (active) {
         count.textContent += ' · did you recall it?';
-        return setFoot(btn(t('Missed'), 'ghost', () => rate(false)), btn(t('Knew it'), 'good', () => rate(true)));
+        return setFoot(btn('Missed', 'ghost', () => rate(false)), btn('Knew it', 'good', () => rate(true)));
       }
       const left = hidden.filter(k => !rated.has(k));
       if (left.length) {
         // Reveal next = the first still hidden in reading order.
         const nextKey = text.querySelector('.blank.hidden')?.dataset.key ?? left[0];
-        return setFoot(btn(t('Reveal next'), 'primary', () => reveal(nextKey)));
+        return setFoot(btn('Reveal next', 'primary', () => reveal(nextKey)));
       }
       const missed = hidden.filter(k => !rated.get(k));
       count.textContent = missed.length
-        ? tn('You knew {k} of {n}. The missed one comes back at the end and again soon.', 'You knew {k} of {n}. The missed ones come back at the end and again soon.', missed.length, { k: hidden.length - missed.length, n: hidden.length })
-        : t('You knew all {n}.', { n: hidden.length });
+        ? `You knew ${hidden.length - missed.length} of ${hidden.length}. The missed ${missed.length === 1 ? 'one comes' : 'ones come'} back at the end and again soon.`
+        : `You knew all ${hidden.length}.`;
       if (missed.length && !again.has(card.id)) { again.add(card.id); queue.push({ ...card, hidden: missed }); counter.textContent = `${i + 1}/${queue.length}`; }
-      setFoot(btn(i === queue.length - 1 ? t('Finish') : t('Continue'), 'primary', next));
+      setFoot(btn(i === queue.length - 1 ? 'Finish' : 'Continue', 'primary', next));
     }
     paint();
   }

@@ -9,7 +9,6 @@
 // question card an optional `points` (the score is out of their sum).
 
 import { h } from './dom.js';
-import { t, tn } from './i18n.js';
 import { md } from './render.js';
 import { icons } from './icons.js';
 import { renderCard } from './cards.js';
@@ -64,7 +63,7 @@ export function runExam(root, { id, title, data, onExit, onFinish }) {
     setKeys(onKey ?? null);
   }
   const btn = (label, cls, onclick, disabled = false) => h('button', { class: `btn ${cls}`, type: 'button', onclick, disabled }, label);
-  const closeBtn = onclick => h('button', { class: 'icon-btn', type: 'button', 'aria-label': t('Exit'), html: icons.close, onclick });
+  const closeBtn = onclick => h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'Exit', html: icons.close, onclick });
   const enterKey = fn => e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); fn(); } };
 
   // ---------- intro ----------
@@ -73,13 +72,13 @@ export function runExam(root, { id, title, data, onExit, onFinish }) {
     frame({
       top: [closeBtn(leave), h('div', { class: 'exam-title' }, title), themeButton(h)],
       body: h('div', { class: 'stage' },
-        h('div', { class: 'card-tag' }, t('Exam')),
+        h('div', { class: 'card-tag' }, 'Exam'),
         h('div', { class: 'exam-facts' },
-          h('div', { class: 'stat' }, h('b', {}, `${data.minutes ?? 60}`), h('span', {}, t('minutes'))),
-          h('div', { class: 'stat' }, h('b', {}, `${nQ}`), h('span', {}, t('questions'))),
-          totalPts ? h('div', { class: 'stat' }, h('b', {}, fmtPts(totalPts)), h('span', {}, t('points'))) : null),
+          h('div', { class: 'stat' }, h('b', {}, `${data.minutes ?? 60}`), h('span', {}, 'minutes')),
+          h('div', { class: 'stat' }, h('b', {}, `${nQ}`), h('span', {}, 'questions')),
+          totalPts ? h('div', { class: 'stat' }, h('b', {}, fmtPts(totalPts)), h('span', {}, 'points')) : null),
         h('div', { class: 'prose', html: md(data.rules ?? '') })),
-      foot: [btn(t('Start the exam'), 'primary', start)],
+      foot: [btn('Start the exam', 'primary', start)],
       onKey: enterKey(start),
     });
   }
@@ -107,7 +106,7 @@ export function runExam(root, { id, title, data, onExit, onFinish }) {
   }
 
   function runTop() {
-    return [closeBtn(() => { if (confirm(t('Leave the exam? Your answers will be lost.'))) leave(); }), bar, clock, counter, themeButton(h)];
+    return [closeBtn(() => { if (confirm('Leave the exam? Your answers will be lost.')) leave(); }), bar, clock, counter, themeButton(h)];
   }
 
   function show(k) {
@@ -121,8 +120,8 @@ export function runExam(root, { id, title, data, onExit, onFinish }) {
       top: runTop(),
       body: v.el,
       foot: [
-        i > 0 ? h('button', { class: 'btn ghost back', type: 'button', 'aria-label': t('Previous card'), html: icons.back, onclick: () => show(i - 1) }) : null,
-        btn(last ? t('Review & submit') : t('Next'), 'primary', go),
+        i > 0 ? h('button', { class: 'btn ghost back', type: 'button', 'aria-label': 'Previous card', html: icons.back, onclick: () => show(i - 1) }) : null,
+        btn(last ? 'Review & submit' : 'Next', 'primary', go),
       ].filter(Boolean),
       onKey: e => {
         if (e.key === 'Enter' && !e.shiftKey && document.activeElement?.tagName !== 'INPUT') { e.preventDefault(); go(); }
@@ -139,26 +138,26 @@ export function runExam(root, { id, title, data, onExit, onFinish }) {
     counter.textContent = '';
     const unanswered = qIdx.filter(k => !isAnswered(k));
     const grid = h('div', { class: 'q-grid' }, qIdx.map((k, n) => h('button', {
-      class: `q-chip${isAnswered(k) ? ' done' : ''}`, type: 'button', 'aria-label': t('Question card {n}', { n: k + 1 }),
+      class: `q-chip${isAnswered(k) ? ' done' : ''}`, type: 'button', 'aria-label': `Question card ${k + 1}`,
       onclick: () => show(k),
     }, `${n + 1}`)));
     const doSubmit = () => {
-      if (unanswered.length && !confirm(tn('{n} question is unanswered and will count as wrong. Submit anyway?', '{n} questions are unanswered and will count as wrong. Submit anyway?', unanswered.length))) return;
+      if (unanswered.length && !confirm(`${unanswered.length} question${unanswered.length > 1 ? 's are' : ' is'} unanswered and will count as wrong. Submit anyway?`)) return;
       submit(false);
     };
     frame({
       top: runTop(),
       body: h('div', { class: 'stage' },
-        h('div', { class: 'prose' }, h('h2', {}, t('Ready to submit?'))),
+        h('div', { class: 'prose' }, h('h2', {}, 'Ready to submit?')),
         h('p', { class: 'hint-line', style: 'margin:0 0 14px' },
           unanswered.length
-            ? t('{done} of {n} questions answered. Tap a number to go back to it; empty ones are outlined.', { done: qIdx.length - unanswered.length, n: qIdx.length })
-            : t('All {n} questions answered. Tap a number to go back and change one.', { n: qIdx.length })),
+            ? `${qIdx.length - unanswered.length} of ${qIdx.length} questions answered. Tap a number to go back to it; empty ones are outlined.`
+            : `All ${qIdx.length} questions answered. Tap a number to go back and change one.`),
         grid,
-        h('p', { class: 'hint-line' }, t('After you submit, you cannot change your answers. Correct answers and explanations appear in the review.'))),
+        h('p', { class: 'hint-line' }, 'After you submit, you cannot change your answers. Correct answers and explanations appear in the review.')),
       foot: [
-        h('button', { class: 'btn ghost back', type: 'button', 'aria-label': t('Previous card'), html: icons.back, onclick: () => show(cards.length - 1) }),
-        btn(t('Submit exam'), 'primary', doSubmit),
+        h('button', { class: 'btn ghost back', type: 'button', 'aria-label': 'Previous card', html: icons.back, onclick: () => show(cards.length - 1) }),
+        btn('Submit exam', 'primary', doSubmit),
       ],
       onKey: enterKey(doSubmit),
     });
@@ -199,16 +198,16 @@ export function runExam(root, { id, title, data, onExit, onFinish }) {
     setKeys(null);
     root.replaceChildren(h('div', { class: 'page done-screen exam-results' },
       h('div', { class: 'burst', html: icons.check }),
-      h('h1', {}, timeUp ? t('Time is up') : t('Exam submitted')),
+      h('h1', {}, timeUp ? 'Time is up' : 'Exam submitted'),
       h('p', { class: 'hint-line' }, timeUp && blank
-        ? tn('The clock ran out with {n} question unanswered; it counts as wrong and is marked in the review.', 'The clock ran out with {n} questions unanswered; they count as wrong and are marked in the review.', blank)
-        : t('You used {used} of {limit}:00.', { used: fmtTime(Math.round(spent)), limit: data.minutes ?? 60 })),
+        ? `The clock ran out with ${blank} question${blank > 1 ? 's' : ''} unanswered; they count as wrong and are marked in the review.`
+        : `You used ${fmtTime(Math.round(spent))} of ${data.minutes ?? 60}:00.`),
       h('div', { class: 'stats' },
-        totalPts ? h('div', { class: 'stat' }, h('b', {}, `${fmtPts(score)}/${fmtPts(totalPts)}`), h('span', {}, t('points'))) : null,
-        h('div', { class: 'stat' }, h('b', {}, `${pct}%`), h('span', {}, t('accuracy ({right}/{n} correct)', { right: correctN, n })))),
+        totalPts ? h('div', { class: 'stat' }, h('b', {}, `${fmtPts(score)}/${fmtPts(totalPts)}`), h('span', {}, 'points')) : null,
+        h('div', { class: 'stat' }, h('b', {}, `${pct}%`), h('span', {}, `accuracy (${correctN}/${n} correct)`))),
       h('div', { class: 'actions' },
-        btn(t('Review your answers'), 'primary', () => review(0)),
-        btn(t('Exit exam'), 'ghost', leave)),
+        btn('Review your answers', 'primary', () => review(0)),
+        btn('Exit exam', 'ghost', leave)),
       data.debrief ? h('div', { class: 'panel prose exam-debrief', html: md(data.debrief) }) : null));
   }
 
@@ -221,13 +220,13 @@ export function runExam(root, { id, title, data, onExit, onFinish }) {
       const card = cards[k];
       ctl.showCorrect?.();
       const kind = r.correct ? 'good' : 'bad';
-      const head = r.correct ? t('Correct') : r.answered ? t('Incorrect') : t('Not answered');
+      const head = r.correct ? 'Correct' : r.answered ? 'Incorrect' : 'Not answered';
       const parts = [];
-      if (!r.correct) parts.push(`**${t('Correct answer')}**\n\n${ctl.correctMd?.() ?? ''}`);
+      if (!r.correct) parts.push(`**Correct answer**\n\n${ctl.correctMd?.() ?? ''}`);
       if (r.feedback) parts.push(r.feedback);
       if (card.explanation) parts.push(card.explanation);
       notes.set(k, h('div', { class: `feedback ${kind}` },
-        h('div', { class: 'fb-head', html: (r.correct ? icons.check : icons.cross) + `<span>${head}${card.points ? ` · ${r.correct ? fmtPts(card.points) : 0}/${fmtPts(card.points)} ${t('pt')}` : ''}</span>` }),
+        h('div', { class: 'fb-head', html: (r.correct ? icons.check : icons.cross) + `<span>${head}${card.points ? ` · ${r.correct ? fmtPts(card.points) : 0}/${fmtPts(card.points)} pt` : ''}</span>` }),
         parts.length ? h('div', { class: 'prose', html: md(parts.join('\n\n')) }) : null));
     }
     return notes.get(k);
@@ -240,11 +239,11 @@ export function runExam(root, { id, title, data, onExit, onFinish }) {
     const stage = h('div', {}, v.el, note(k));
     const lastQ = n === qIdx.length - 1;
     frame({
-      top: [closeBtn(back), h('div', { class: 'exam-title' }, t('Review')), h('span', { class: 'hint-line', style: 'margin:0' }, `${n + 1}/${qIdx.length}`), themeButton(h)],
+      top: [closeBtn(back), h('div', { class: 'exam-title' }, 'Review'), h('span', { class: 'hint-line', style: 'margin:0' }, `${n + 1}/${qIdx.length}`), themeButton(h)],
       body: stage,
       foot: [
-        n > 0 ? h('button', { class: 'btn ghost back', type: 'button', 'aria-label': t('Previous question'), html: icons.back, onclick: () => review(n - 1) }) : null,
-        lastQ ? btn(t('Back to results'), 'primary', back) : btn(t('Next'), 'primary', () => review(n + 1)),
+        n > 0 ? h('button', { class: 'btn ghost back', type: 'button', 'aria-label': 'Previous question', html: icons.back, onclick: () => review(n - 1) }) : null,
+        lastQ ? btn('Back to results', 'primary', back) : btn('Next', 'primary', () => review(n + 1)),
       ].filter(Boolean),
       onKey: e => { if (e.key === 'Escape') back(); else if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); lastQ ? back() : review(n + 1); } },
     });
