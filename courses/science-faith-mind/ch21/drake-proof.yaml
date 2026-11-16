@@ -1,0 +1,316 @@
+id: ch21-drake-proof
+title: "Guided problem: Estimating Civilisations with Uncertainty"
+kind: guided
+cards:
+  - type: mcq
+    id: hook
+    title: "One number, sixteen powers of ten"
+    prompt: |
+      Suppose you must report how many civilisations in the Milky Way send out detectable signals right now, and you are given a calculation that, under two equally defensible sets of assumptions, returns $0.00000002$ and $150{,}000{,}000$. Before any arithmetic, guess: which report is the most honest?
+    options:
+      - text: "Pick the middle of the two and report it as the estimate."
+        feedback: |
+          Tempting, because a single number sounds like an answer. But the two results differ by about sixteen powers of ten, and an average hides that. Even the middle, on a log scale, is a number nobody has reason to trust.
+      - text: "Say nothing, because with such a gap no statement is honest."
+        feedback: |
+          Too quick. A wide range is itself information: it says which inputs we do not know. Some statements stay honest, such as how likely each range of answers is under stated assumptions.
+      - text: "Report the whole range, say which inputs cause it, and say how likely each part of it is under stated assumptions."
+        correct: true
+        feedback: |
+          Yes. This is what the lesson builds: take each uncertain input as a range, push the ranges through the formula, and read the result as a spread, not a point.
+    explanation: |
+      Keep your guess. The lesson works one specific case with its own numbers from start to finish.
+
+  - type: text
+    id: recall
+    title: "Recall: the equation and the two extreme tables"
+    body: |
+      Recall the Drake equation. Let $N$ be the number of civilisations in the Milky Way that send out signals we could detect now:
+      $$N=R_*\,f_p\,n_e\,f_l\,f_i\,f_c\,L$$
+      Here $R_*$ is the number of stars born per year, $f_p$ the fraction of stars with planets, $n_e$ the number of life-supporting planets per such star, $f_l$ the fraction of those where life starts, $f_i$ the fraction of those where intelligence appears, $f_c$ the fraction of those that make detectable signals, and $L$ the years a civilisation keeps signalling.
+
+      This course uses two illustrative input tables (they are teaching choices, not a published estimate):
+
+      | Factor | Pessimist | Optimist |
+      |---|---|---|
+      | $R_*$ (per year) | 1 | 3 |
+      | $f_p$ | 0.2 | 1 |
+      | $n_e$ | 0.1 | 1 |
+      | $f_l$ | 0.001 | 1 |
+      | $f_i$ | 0.001 | 1 |
+      | $f_c$ | 0.01 | 0.5 |
+      | $L$ (years) | 100 | $10^{8}$ |
+
+      The problem: what can an honest estimate say, given that each factor is only known to lie somewhere between its two entries?
+
+  - type: widget
+    id: sliders
+    title: "Try the two extremes"
+    widget: drake-sliders
+    config:
+      factors:
+        - {name: '$R_*$', min: 0.1, max: 10, start: 1, unit: '/yr'}
+        - {name: '$f_p$', min: 0.01, max: 1, start: 0.2}
+        - {name: '$n_e$', min: 0.01, max: 1, start: 0.1}
+        - {name: '$f_l$', min: 1.0e-3, max: 1, start: 1.0e-3}
+        - {name: '$f_i$', min: 1.0e-3, max: 1, start: 1.0e-3}
+        - {name: '$f_c$', min: 0.01, max: 1, start: 0.01}
+        - {name: '$L$', min: 100, max: 1.0e8, start: 100, unit: 'yr'}
+      presets:
+        - {label: 'Pessimist', values: [1, 0.2, 0.1, 1.0e-3, 1.0e-3, 0.01, 100]}
+        - {label: 'Optimist', values: [3, 1, 1, 1, 1, 0.5, 1.0e8]}
+    body: |
+      Each slider moves one factor on a logarithmic scale, and the bar below shows $N$ on a logarithmic axis (each tick is a factor of ten, the dashed line marks $N=1$). Before pressing a preset button, predict where each extreme will land on the bar, then press and check. Drag a few sliders too, to feel that one factor moving by a thousand moves $N$ by a thousand.
+    review: false
+
+  - type: numeric
+    id: pess-log
+    title: "The pessimist's result"
+    prompt: |
+      Multiply the pessimist's seven numbers: $R_*=1$, $f_p=0.2$, $n_e=0.1$, $f_l=0.001$, $f_i=0.001$, $f_c=0.01$, $L=100$. Give $\log_{10}N$ (the power of ten of the result), to one decimal.
+    answer: -7.7
+    tolerance: 0.06
+    answerText: '-7.7'
+    hint: |
+      Multiply the coefficients first ($0.2\times0.1\times100=2$), then count powers of ten: $10^{-3}\times10^{-3}\times10^{-2}=10^{-8}$.
+    explanation: |
+      The product is $2\times10^{-8}$, far less than one civilisation in the whole galaxy. Its logarithm is
+      $$\log_{10}\!\left(2\times10^{-8}\right)=-8+0.30=-7.7.$$
+
+  - type: numeric
+    id: gap
+    title: "The size of the gap"
+    prompt: |
+      The optimist's numbers $R_*=3$, $f_p=1$, $n_e=1$, $f_l=1$, $f_i=1$, $f_c=0.5$, $L=10^{8}$ give $N=1.5\times10^{8}$, whose $\log_{10}$ is about $8.2$. By how many powers of ten (orders of magnitude) does the optimist's $N$ exceed the pessimist's $N=2\times10^{-8}$? Give the number to one decimal.
+    answer: 15.9
+    tolerance: 0.06
+    answerText: '15.9'
+    hint: |
+      A ratio of two numbers is a difference of their logarithms: $8.2-(-7.7)$.
+    explanation: |
+      The ratio is $1.5\times10^{8}/2\times10^{-8}=7.5\times10^{15}$, so
+      $$\log_{10}\frac{N_{\text{opt}}}{N_{\text{pess}}}=8.18-(-7.70)=15.9.$$
+      The two answers differ by almost sixteen orders of magnitude.
+
+  - type: mcq
+    id: why-logs
+    title: "Why add logarithms?"
+    prompt: |
+      To compare answers spread over sixteen powers of ten, people work with $\log_{10}N$ instead of $N$. Why is that the natural scale for a product of seven uncertain factors?
+    options:
+      - text: "Because the logarithm of a product is the sum of the logarithms, so each factor contributes an amount added to $\\log_{10}N$, and a factor uncertain by a factor of 1000 always adds 3 units of spread."
+        correct: true
+        feedback: |
+          Yes. On the log scale the seven factors add, and each uncertain range has a width we can read directly: $f_l$ from $0.001$ to $1$ is 3 units wide, $L$ from $100$ to $10^8$ is 6 units wide.
+      - text: "Because logarithms make big numbers smaller, so the result looks less alarming."
+        feedback: |
+          Looking smaller is not the reason; it changes nothing about the claim. The point is that multiplications become additions, and equal ratios become equal distances.
+      - text: "Because $N$ must be a whole number of civilisations and the logarithm rounds it."
+        feedback: |
+          The logarithm does not round. A value such as $\log_{10}N=-7.7$ is a perfectly good, unrounded way of writing $N=2\times10^{-8}$; whole numbers do not enter.
+    explanation: |
+      For the same reason the widget draws $N$ on a log axis, and its sliders are logarithmic: a step from $0.001$ to $0.01$ is as big a change of belief as one from $1$ to $10$.
+
+  - type: mcq
+    id: interval
+    title: "Propagating the ranges"
+    prompt: |
+      Now treat each factor as a range instead of two fixed tables: $R_*$ from 1 to 3, $f_p$ from 0.2 to 1, $n_e$ from 0.1 to 1, $f_l$ and $f_i$ from 0.001 to 1, $f_c$ from 0.01 to 0.5, $L$ from 100 to $10^{8}$. Multiplying all the lows gives $2\times10^{-8}$ and all the highs gives $1.5\times10^{8}$, so $N$ lies in that interval. Which statement about the true $N$ is justified?
+    options:
+      - text: "It is certainly inside the interval, but landing near either end needs every one of the seven factors near its own extreme at once, which is unlikely if they vary independently."
+        correct: true
+        feedback: |
+          Yes. If each factor were equally likely anywhere in its range (on the log scale), the chance that all seven sit in the bottom tenth is tiny, because each independent coincidence multiplies the odds. Most of the weight lies well inside the interval.
+      - text: "It is equally likely to be anywhere between $2\\times10^{-8}$ and $1.5\\times10^{8}$."
+        feedback: |
+          A flat spread over the result does not follow from flat spreads over the factors. Adding seven independent random logs pulls the total toward the middle, as the sum of several dice does.
+      - text: "It is probably at the optimist's end, because the optimist's factors are the more exciting ones."
+        feedback: |
+          Excitement is not evidence. Nothing in the ranges favours the top; whether a factor is near its high or its low is exactly what we do not know.
+    explanation: |
+      The interval is the safe statement, and the next step is the informative one: ask how the probability is spread inside it.
+
+  - type: mcq
+    id: guess-middle
+    title: "Where does the middle sit?"
+    prompt: |
+      Take each factor's range as above and let every factor be equally likely anywhere in its range on the log scale (so $f_l$ is as likely to lie between $0.001$ and $0.01$ as between $0.1$ and $1$), independent of the others. Draw seven values, multiply them to get one $N$, and repeat 20,000 times. Guess: where is the median of those $N$ values (half below, half above)?
+    options:
+      - text: "Near $10^{-8}$, the pessimist's end."
+        feedback: |
+          That is the product of all the lows. Hitting it needs every factor at its minimum; typical draws mix lows and highs.
+      - text: "Within a factor of a few of $N=1$, between the two extremes."
+        correct: true
+        feedback: |
+          Yes, as the next cards show. The middle of $\log_{10}N$ is the sum of the middles of the seven log ranges.
+      - text: "Near $10^{8}$, the optimist's end."
+        feedback: |
+          That is the product of all the highs, again needing all seven at their maximum together.
+    explanation: |
+      The lowest and highest results are rare ends; the bulk lies between. Look at the whole picture next.
+
+  - type: widget
+    id: histogram
+    title: "Twenty thousand draws"
+    widget: drake-sliders
+    config:
+      factors:
+        - {name: '$R_*$', min: 1, max: 3, low: 1, high: 3, unit: '/yr'}
+        - {name: '$f_p$', min: 0.2, max: 1, low: 0.2, high: 1}
+        - {name: '$n_e$', min: 0.1, max: 1, low: 0.1, high: 1}
+        - {name: '$f_l$', min: 1.0e-3, max: 1, low: 1.0e-3, high: 1}
+        - {name: '$f_i$', min: 1.0e-3, max: 1, low: 1.0e-3, high: 1}
+        - {name: '$f_c$', min: 0.01, max: 0.5, low: 0.01, high: 0.5}
+        - {name: '$L$', min: 100, max: 1.0e8, low: 100, high: 1.0e8, unit: 'yr'}
+      sliders: false
+      factorValues: false
+      bar: false
+      nReadout: false
+      presets: false
+      reset: false
+      histogram: true
+      interval: true
+      median: false
+      fraction: false
+      draws: 20000
+      seed: 7
+    body: |
+      Each bar counts the draws whose $\log_{10}N$ falls in one decade. Bars left of the dashed line are draws with $N<1$ (blue), bars to the right have $N\ge1$ (purple). The two numbers are the product of all the lows and of all the highs. Look at the shape: where does it pile up, and how wide is it?
+    review: false
+
+  - type: numeric
+    id: median-log
+    title: "Locating the middle by hand"
+    prompt: |
+      Each factor is equally likely anywhere in its log range, so its typical value on the log scale is the middle of its range. The middle of $\log_{10}N$ is then the sum of the seven middles. The middles are $\log_{10}R_*$ about $0.24$, $\log_{10}f_p=-0.35$, $\log_{10}n_e=-0.50$, $\log_{10}f_l=-1.5$, $\log_{10}f_i=-1.5$, $\log_{10}f_c=-1.15$ and $\log_{10}L=5$. Add them to one decimal.
+    answer: 0.2
+    tolerance: 0.06
+    answerText: '0.2'
+    hint: |
+      Add the negative ones first: $-0.35-0.50-1.5-1.5-1.15=-5.0$, then the positive ones.
+    explanation: |
+      The sum is $0.24-5.0+5=0.24$, so the middle sits near $N=10^{0.24}\approx1.7$. A simulation of the 20,000 draws gives a median $\log_{10}N$ of $0.22$, that is a median $N$ of about $1.7$, close to the hand value because a sum of seven independent pieces is nearly symmetric. Under these ranges, the typical result is about one civilisation, between the pessimist's $10^{-8}$ and the optimist's $10^{8}$.
+
+  - type: numeric
+    id: below-one
+    title: "How often is the galaxy empty?"
+    prompt: |
+      The spread of $\log_{10}N$ across the draws has a standard deviation of $2.2$ units (the root of the sum of the squared widths of the seven ranges divided by 12). Its middle is $0.22$ and the histogram is close to a bell shape. $N<1$ means $\log_{10}N<0$, which is $0.22/2.2=0.1$ standard deviations below the middle. For a bell shape, about 54% lies above a point $0.1$ standard deviations below the middle. What percent of draws have $N<1$? Give a whole number.
+    answer: 46
+    tolerance: 2
+    answerText: '46'
+    hint: |
+      The two shares add to 100%: $100-54$.
+    explanation: |
+      About $46\%$ of the draws give $N<1$ (the simulation gives $46.3\%$), so close to half of the plausible results say fewer than one signalling civilisation in the galaxy, and the other half say one or more. The middle of the distribution sits almost at the line that separates "we are alone" from "we are not".
+
+  - type: mcq
+    id: median-trap
+    title: "Median about 1: what does it say?"
+    prompt: |
+      A reader sees that the median is $N\approx1.7$ and concludes: "so the galaxy holds about one or two civilisations, and since we are one, we are probably not alone." According to the spread we computed, what is wrong with that reading?
+    options:
+      - text: "The median is a summary of a distribution that runs from $10^{-8}$ to $10^{8}$; 90% of draws lie between about $10^{-3.4}$ and $10^{3.8}$, so the answer is the spread, and $N\\approx1.7$ is only where it is centred."
+        correct: true
+        feedback: |
+          Yes. The honest report is the range and its shape. A middle value of 1.7 is compatible with results from far below one (we are alone, with high probability) to thousands.
+      - text: "A median is always a worse summary than a mean, so the claim fails."
+        feedback: |
+          Here the mean of $N$ would be dominated by a few huge draws and say even less. The median is the better single number, but a single number is the trouble.
+      - text: "Nothing is wrong: the median is the true value of $N$."
+        feedback: |
+          The median is a feature of our chosen ranges, not a measurement of the galaxy. Different, equally defensible ranges move it by factors of ten or more, as the next cards show.
+    explanation: |
+      The point of propagating uncertainty is not to produce a better single number but to show how large the uncertainty is and which parts of it matter.
+
+  - type: mcq
+    id: dominant
+    title: "Which range does the work?"
+    prompt: |
+      The widths of the seven log ranges are $R_*$ 0.5, $f_p$ 0.7, $n_e$ 1, $f_c$ 1.7, $f_l$ 3, $f_i$ 3 and $L$ 6 units. Independent ranges add their squared widths, so each factor's share of the variance of $\log_{10}N$ is its width squared over the total. Which factor contributes the most to the spread?
+    options:
+      - text: "$L$, the signalling lifetime, about 61% of the variance."
+        correct: true
+        feedback: |
+          Yes: $6^2=36$ out of a total of about $58.6$. The lifetime is the widest range because nothing tells us whether a signalling civilisation lasts a century or a hundred million years. Life and intelligence follow with about 15% each.
+      - text: "$f_p$, because planets are the least understood."
+        feedback: |
+          Planets are the best known of the factors, with a range of less than one unit. Observation has narrowed it.
+      - text: "All seven equally, since each multiplies $N$ once."
+        feedback: |
+          They have equal leverage per unit change, but not equal ranges. What decides the spread is how much we do not know about each factor.
+    explanation: |
+      This shows where an honest effort should go: narrowing $L$ would shrink the spread more than any improvement on the planet factors.
+
+  - type: numeric
+    id: narrow-l
+    title: "Narrowing one range"
+    prompt: |
+      Suppose a hypothetical argument, which you may or may not accept, tells us that $L$ lies between $10^{3}$ and $10^{5}$ years instead of between $100$ and $10^{8}$, with the other six ranges unchanged. The product of the six other lows is $2\times10^{-10}$ and the product of their highs is $1.5\times10^{0}$ (that is, $1.5$). Then the new product of all lows is $2\times10^{-7}$ and of highs $1.5\times10^{5}$. Write $\log_{10}$ of highs over lows: how many orders of magnitude wide is the interval now?
+    answer: 11.9
+    tolerance: 0.06
+    answerText: '11.9'
+    hint: |
+      $\log_{10}(1.5\times10^{5})=5.18$ and $\log_{10}(2\times10^{-7})=-6.70$; subtract.
+    explanation: |
+      The interval shrinks from 15.9 to $5.18-(-6.70)=11.9$ orders. The central 90% of draws narrows from 7.2 to 4.9 units, the median moves from $N\approx1.7$ to $0.17$, and the share of draws with $N<1$ rises from 46% to 69%. A shorter assumed lifetime shrinks the spread and shifts the middle toward emptiness, because the range we removed was mostly on the high side. Both the width and the middle depend on what we assume about $L$, which is why it must be stated.
+
+  - type: order
+    id: method
+    title: "The method, in order"
+    prompt: Put the procedure for propagating uncertainty through the Drake equation in order.
+    steps:
+      - "Give each factor a range, a low and a high, from what is known."
+      - "Choose how likely each value in the range is, for instance equally likely on a log scale."
+      - "Draw one value for every factor and multiply them to get one $N$."
+      - "Repeat many times and collect the values of $\\log_{10}N$."
+      - "Report the spread, the median and the share below one, and say which inputs drive them."
+    hint: |
+      Inputs first, then the random draws, then the summary.
+    explanation: |
+      Every step has a choice a critic can attack: the ranges and the way likelihood is spread over them are assumptions, not measurements. The method makes them visible.
+
+  - type: mcq
+    id: silence
+    title: "What the spread says about the silence"
+    prompt: |
+      No signal from another civilisation has been confirmed. According to Anders Sandberg, Eric Drexler and Toby Ord (Oxford, 2018), the apparent paradox arises from treating Drake-style factors as certain numbers; with wide distributions, they argue, there is a substantial probability that no other civilisation exists in the galaxy, and the silence is then unsurprising. Which statement fairly gives the readings of the same spread?
+    options:
+      - text: "The spread leaves room for several readings: that some factor (for example $f_l$ or $f_i$, as in the Rare Earth view) is tiny or $L$ is short, so we are alone or the signallers are gone; or that the factors allow many civilisations and we have simply not looked widely or long enough."
+        correct: true
+        feedback: |
+          Yes. A wide spread cannot choose among these. Which reading one prefers rests on how much weight one gives to Earth's single case, a judgment between live debate and metaphysical commitment, not on the arithmetic.
+      - text: "The spread proves that we are alone."
+        feedback: |
+          Only if the ranges excluded every case with neighbours, and they do not: the median is above one and the upper tail is large. The spread says that being alone is plausible, not established.
+      - text: "The spread proves that many civilisations exist and are hiding."
+        feedback: |
+          The same ranges give a large share of draws with $N<1$. Hiding is one reading among others, and nothing in the calculation favours it.
+    explanation: |
+      The layers stay separate. That the calculation, given these ranges, yields this spread is established arithmetic. Which ranges are fair is live debate, and what a populated or empty universe means for us is a matter of commitment.
+
+  - type: numeric
+    id: neighbours
+    title: "How many near us?"
+    prompt: |
+      Suppose $N=1.7$ civilisations (the median) are spread at random among the roughly $2\times10^{11}$ stars of the Milky Way (a round figure for the hundreds of billions), so each star has a chance $1.7/(2\times10^{11})$ of hosting one. How many civilisations do you expect among the $1000$ stars nearest us? Give the answer in units of $10^{-9}$ (billionths).
+    answer: 8.5
+    tolerance: 0.1
+    answerText: '8.5'
+    hint: |
+      Expected number $=1000\times1.7/(2\times10^{11})$.
+    explanation: |
+      $$1000\times\frac{1.7}{2\times10^{11}}=8.5\times10^{-9}.$$
+      Under the median we expect none nearby, so a silent neighbourhood is no surprise. Under the optimist's $N=1.5\times10^{8}$ the same calculation gives $0.75$ among those $1000$ stars: a nearby neighbour would then not be strange either, and the silence would count against that case. The distance to the nearest neighbour depends on $N$, so a single null search weighs differently on different parts of the spread.
+
+  - type: text
+    id: own
+    title: "What you now own"
+    body: |
+      **The case.** We took the Drake equation $N=R_*\,f_p\,n_e\,f_l\,f_i\,f_c\,L$ (the number of detectable civilisations in the Milky Way, with seven factors) and gave each factor a range instead of one value. The two extreme tables gave $N=2\times10^{-8}$ and $N=1.5\times10^{8}$, sixteen orders apart; the ranges, drawn log-uniformly and multiplied 20,000 times, gave a median of $N\approx1.7$ with $46\%$ of draws below one and 90% of draws between about $10^{-3.4}$ and $10^{3.8}$.
+
+      **The method.** Add logarithms of the factors; give each factor a range; draw many times; report the spread, not a point. The factor with the widest range ($L$, about 61% of the variance) matters most, and narrowing it moves both the width and the middle.
+
+      **Which layer is which.** Established: the arithmetic and the measured ranges of the planet factors. Live debate: the ranges for $f_l$, $f_i$ and $L$, and whether a wide spread makes the silence unsurprising (according to Sandberg, Drexler and Ord, 2018, it does; others read the silence differently). Commitment: what an empty or populated galaxy means for us.
+
+      **Next:** the sky is not only searched for deliberate signals. Reports of unidentified aerial phenomena raise a different question: what counts as good evidence for an extraordinary claim, and what do the records and official studies actually show?
