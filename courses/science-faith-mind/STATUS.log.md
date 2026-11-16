@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-16, ch21-theology built (concept, 24 cards incl. summary, no widget, 5 images)
+Table, timeline order, aquinas, incarnation options, redemption mcq, Islam, Judaism, Hindu/Buddhist, Mormon/Raelian, premises P1-P3 with multi-select, argument-order, layers. Choices: build card replaced by a second order card (no numeric tiles); Albo and Lamm dropped (secondary only); Dalai Lama not used (no primary); quotations avoided, all paraphrase. Widgets checked in README: odds-updater, belief-mixer, tradeoff-curve, map-builder (none fit a doctrinal-options lesson). Conventions fixed here: argument P1 aliens need salvation, P2 salvation only via single Earth incarnation, P3 aliens exist; three Christian replies unfallen / one incarnation for all (Peters) / many (Nesteruk).
+
 ## 2026-11-16, ch21-ufo built (concept, 23 cards incl. summary, 1 image, widget odds-updater)
 Hook guess (Blue Book unexplained share), terms UFO/UAP, history 1947-1969 with 1952 report-frequency chart, timeline order card, Condon report and critics (two readings), modern records 2017-2026, authentic vs identified, ODNI 143, families of explanation with Gimbal (West vs critics), P1-P3 unexplained is not extraterrestrial, LR bound numeric (18), Sagan standard in odds form, odds-updater (checked README: odds-updater fits; no new widget), posterior numeric, build odds rule, ETH among hypotheses and tests, what would count, layers, summary. Choices: no Tic Tac details (pilot pairing disputed), no portraits (Arnold file source unclear, Hynek photo tiny two-person), chart image as data image. Images: ufo-1952-graph (USAF, PD). Conventions fixed here: Blue Book 701/12,618 = 5.6%; LR bound 18; ODNI 144 reports, 1 explained; AARO FY2025 figures.
 
