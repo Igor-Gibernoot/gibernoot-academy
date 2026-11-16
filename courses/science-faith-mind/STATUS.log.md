@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-16, ch21-copernican built (concept, 23 cards incl. summary, 3 images, widget gott-interval twice)
+Hook guess, Copernicus (portrait), order of retreats (1543, 1918, 1923), principle mcq, Gott wall guess, widget with c slider, coverage mcq, derivation, build, worked wall example, numeric (show 12 yr, 50%), Monte Carlo widget and what it proves, premise-critic multi-select, Carter (portrait reused), selection mcq, Rare Earth, position vs conditions mcq, Pale Blue Dot (image) with Sagan and Gonzalez-Richards views, layers mcq, summary. Choices: Hubble date given as 1923 (announced 1924-25); Sagan quoted only for the verified fragment; Gott's Nature full text not read (abstract and his New Scientist account used); Shapley's variable star type not named (sources differ); Pale Blue Dot image is the 2020 reprocessing, said in the caption; the Sun-Milky Way centre distance "about 27,000 ly" per one source. Conventions fixed here: f=t_past/T uniform, factors (1-c)/(1+c) and (1+c)/(1-c) (1/39, 39 at 95%); wall 8 yr gives 2.7-24 (50%), 0.2-312 (95%); show 12 yr at 50% gives 4-36; position vs conditions vs meaning.
+
 ## 2026-11-16, widget gott-interval built (own unit, no lesson)
 Choices: axis is the span 0..T (true end at the right edge), interval clipped there with an arrow; covered exactly when (1-c)/2 <= f <= (1+c)/2; Monte Carlo counts cumulatively with seeded draws (default 1000 per click, Reset); confidence slider and Monte Carlo off by default; f slider clamped 2% to 98%. Verified by script: c=0.95 gives 1/39 and 39, c=0.8 gives 1/9 and 9, 1e6 draws coverage 0.500/0.800/0.950 for c=0.5/0.8/0.95. Screenshot checked (phone). Conventions fixed here: none.
 
