@@ -92,6 +92,7 @@ const WIDGETS = {
   'integration-demo': ['integration-demo', 'integrationDemo'],
   'multiverse-counter': ['multiverse-counter', 'multiverseCounter'],
   'forgetting-curve': ['forgetting-curve', 'forgettingCurve'],
+  'gott-interval': ['gott-interval', 'gottInterval'],
 };
 
 

@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-16, widget gott-interval built (own unit, no lesson)
+Choices: axis is the span 0..T (true end at the right edge), interval clipped there with an arrow; covered exactly when (1-c)/2 <= f <= (1+c)/2; Monte Carlo counts cumulatively with seeded draws (default 1000 per click, Reset); confidence slider and Monte Carlo off by default; f slider clamped 2% to 98%. Verified by script: c=0.95 gives 1/39 and 39, c=0.8 gives 1/9 and 9, 1e6 draws coverage 0.500/0.800/0.950 for c=0.5/0.8/0.95. Screenshot checked (phone). Conventions fixed here: none.
+
 ## 2026-11-16, ch21-theology built (concept, 24 cards incl. summary, no widget, 5 images)
 Table, timeline order, aquinas, incarnation options, redemption mcq, Islam, Judaism, Hindu/Buddhist, Mormon/Raelian, premises P1-P3 with multi-select, argument-order, layers. Choices: build card replaced by a second order card (no numeric tiles); Albo and Lamm dropped (secondary only); Dalai Lama not used (no primary); quotations avoided, all paraphrase. Widgets checked in README: odds-updater, belief-mixer, tradeoff-curve, map-builder (none fit a doctrinal-options lesson). Conventions fixed here: argument P1 aliens need salvation, P2 salvation only via single Earth incarnation, P3 aliens exist; three Christian replies unfallen / one incarnation for all (Peters) / many (Nesteruk).
 
