@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-16, Level 20 audit (all 13 lesson files)
+Checklist 1-8 run. Item 1 by web (no book): ~35 facts independently re-searched (see the ch20 level audit line in VERIFIED.md); all matched the lessons, no text changed. Discrepancy noted, no action: BPS digest gives O'Keeffe & Wiseman pp. 215-231, repository 165-179 (lesson uses 165-179). Item 2: no "Level N" references in ch20 (grep clean). "the book" in ch20 always means the Spirits' Book or another named Kardec work, kept. Items 3, 3b, 5, 7: widgets as planned, every node has `file:`, validate 0 errors 0 warnings. No lesson edited, so no shots run. Choice: kept "C. H. Simmons" (first name seen once as Carolyn, one search). Conventions fixed here: none new.
+
 ## 2026-11-14 · ch20-challenge part 2
 Built `ch20/challenge-2.yaml` (24 cards, problems 4-5 + closing weighing; no widget, no images). Choices: invented family Davi/Inês/Tomás with three neighbours; penal-code card as an order card (imperfection, repentance, expiation, reparation); fresh census arithmetic (Umbanda+Candomblé 1.77 M, schooled Spiritists 1.53 M) instead of 3.18 M; strongest test = O'Keeffe & Wiseman 2005 vs Beischel & Schwartz 2007; Kardec's label from What Is Spiritism? (1859) and the 1 Nov 1868 speech (Kardecpedia date; one abstract says 1 Dec). Level 20 lessons complete; next: Level 20 audit, then `ch21-drake`.
 Conventions fixed here: Davi/Inês/Tomás; 1.0% × 176.7 M ≈ 1.77 M, 48% × 3.18 M ≈ 1.53 M; Kardec: science of observation + philosophical doctrine, religion only in the philosophical sense.
