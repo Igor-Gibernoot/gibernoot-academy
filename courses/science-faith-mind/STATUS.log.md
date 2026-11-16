@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-16, widget drake-sliders built (own unit, no lesson)
+New `js/widgets/drake-sliders.js` (registered, `css/app.css` block `dk-`, docs `docs/widgets/drake-sliders.md` with 3 smoke presets, index line). Seven (or any number of) log sliders with min/max/start/unit, live N on a log bar (axis -10..10, N=1 marker), optional preset buttons (`values`), optional distribution view (log-uniform `low`/`high` per factor, seeded mulberry32 Monte Carlo of log10 N, histogram, median, share N<1, interval min/max). Every part hideable; histogram and interval are off by default. Choices: histogram ignores the sliders (it shows the ranges); pessimist/optimist are preset buttons given in the lesson, not hard-coded; labels use `html:` for inline math (the `mdInline` result must not be passed as a child). Checked by script: pessimist 2e-8, optimist 1.5e8 (15.9 orders); with low = pessimist, high = optimist and seed 7 (20000 draws): median N 1.7, share N<1 46%. validate 0 errors, widget-smoke run, one phone screenshot viewed.
+Conventions fixed here: none (widget only).
+
 ## 2026-11-16, ch21-biosignatures built (22 cards, concept, no widget)
 Hook and guess, Viking 1976 (text + mcq), ALH84001 (text + mcq), Perseverance/Cheyava Falls (text + mcq), Enceladus/Europa (text + mcq), transit method and numeric depth (84 ppm), K2-18 b (text + mcq on the 2023/2025/2026 status), oxygen+methane and Venus phosphine (text + mcq), ladder of evidence (text, numeric toy odds, mcq), Great Filter link (independent origin), layers mcq, summary with own. No widget needed (docs/widgets/README.md checked: no preset fits). Choices: traps folded into the wrong options; the Sagan phrase paraphrased (secondary sources only). Images: cheyava-falls (NASA PD, card 7, viewed once at phone width), enceladus-plumes (NASA PD, card 9). Web check complete (see VERIFIED). Conventions fixed here: see Chapter 21.
 

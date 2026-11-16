@@ -79,6 +79,7 @@ const WIDGETS = {
   'alt-projections': ['alt-projections', 'altProjections'],
   'log-ruler': ['log-ruler', 'logRuler'],
   'odds-updater': ['odds-updater', 'oddsUpdater'],
+  'drake-sliders': ['drake-sliders', 'drakeSliders'],
   'hit-counter': ['binomial-hits', 'hitCounter'],
   'chaos-sensitivity': ['chaos-sensitivity', 'chaosSensitivity'],
   'condition-chain': ['condition-chain', 'conditionChain'],
