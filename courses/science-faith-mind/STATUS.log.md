@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-16, ch21-drake built (19 cards, concept, no widget)
+Hook mcq, origins (Green Bank 1961, portrait), equation, three symbol cards, scaling, measured-vs-guessed, three worked-example numeric cards, L numeric, two-table ranges, orders-of-magnitude numeric, two traps, layers text, parting mcq, summary with own:. Images: 1 (Drake at Cornell 2017, CC BY-SA 4.0). Widgets checked: `log-ruler` (not used: its use would add a card without new insight here); no new widget. Choices: Wikipedia's 1961 table disagrees with other sources, so the lesson uses only f_l = 1 from it; Sagan/Struve fields omitted; web checks logged in VERIFIED.md. Compressed the STATUS.md Next-unit line. Conventions fixed here: example numbers and the two tables (see CONVENTIONS Chapter 21).
+
 ## 2026-11-16, Level 20 audit (all 13 lesson files)
 Checklist 1-8 run. Item 1 by web (no book): ~35 facts independently re-searched (see the ch20 level audit line in VERIFIED.md); all matched the lessons, no text changed. Discrepancy noted, no action: BPS digest gives O'Keeffe & Wiseman pp. 215-231, repository 165-179 (lesson uses 165-179). Item 2: no "Level N" references in ch20 (grep clean). "the book" in ch20 always means the Spirits' Book or another named Kardec work, kept. Items 3, 3b, 5, 7: widgets as planned, every node has `file:`, validate 0 errors 0 warnings. No lesson edited, so no shots run. Choice: kept "C. H. Simmons" (first name seen once as Carolyn, one search). Conventions fixed here: none new.
 

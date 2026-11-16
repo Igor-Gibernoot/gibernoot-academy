@@ -299,3 +299,7 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 - Map lesson: 11 boxes (origins, kardec, brazil, principles, method, rebirth, ethics, comparison, testing, layers); FEB written as "1884" (day disputed 1/2 Jan); failed test n = 10, k = 5, t = 5 → odds × 0.377/0.967 ≈ 0.39.
 - Challenge part 1: invented Varenne circle (6 mediums, q = 1/6, 4 witnesses: {Anne, Didier}, Bastien, Claire, {Élise, Fabien}; LR 6^4 = 1296, naive 6^6 = 46656; prior 1:10,000 → 11.5%, naive 82%); Mira of Saint-Aubin (prior 1:500, notebook LR 0.6/0.002 = 300 → 37.5%, after contact 0.6/0.3 = 2 → 0.4%); Hester Lowe test n = 12, k = 4, t = 6, p1 = 1/2: FP 5.44%, power 61.3% (2510/4096), t = 7: 1.43% / 38.7%, failure factor 0.387/0.9456 ≈ 0.41, best of 4 runs 20.0%; fail factor = P(fail|p1)/P(fail|p0).
 - Challenge part 2: invented Davi (illness), parents Inês (Catholic) and Tomás (Lutheran), Neighbours A/B/C; departures 0/1/2/3; census fresh numbers 1.0% × 176.7 M ≈ 1.77 M, 48% × 3.18 M ≈ 1.53 M; Kardec's label: "science of observation and a philosophical doctrine" (What Is Spiritism?, 1859), religion "in the philosophical sense" only (speech 1 Nov 1868).
+
+## Chapter 21
+
+- Drake lesson (19 cards): invented example R*=2, fp=0.5, ne=0.4, fl=fi=0.1, fc=0.5, L=10^4 gives 0.4, 0.004, 0.002 per year, N=20 (L=100 gives 0.2, L=10^6 gives 2000); pessimist table (1, 0.2, 0.1, 1e-3, 1e-3, 0.01, 100) gives 2e-8, optimist (3, 1, 1, 1, 1, 0.5, 1e8) gives 1.5e8, 15.9 orders apart. Symbols $R_*, f_p, n_e, f_l, f_i, f_c, L$; N = signalling civilisations now.
