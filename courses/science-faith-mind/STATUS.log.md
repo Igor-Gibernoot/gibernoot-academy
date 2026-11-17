@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-16, ch21-intuition built (intuition, 19 cards incl. welcome and summary, no widget, no images)
+Mnemonics (Drake rate x lifetime, point vs distribution, position/conditions/meaning, unknown is not alien, detection/interpretation/conclusion order, Great Filter behind vs ahead), scaling (N proportional to L, Gott 1/3 and 3, 1/39 and 39), three build cards (Drake, Gott upper end, odds form), five numeric cards with no formula stated (museum 20 yr at 50% gives 60, odds 1/50 x 4 x 4 gives 24.2%, 701/12618 = 5.6%, 1e5 ly at 0.1c = 1 Myr, L/10 gives N=2), layers card. No widget (recall needs none); no image (recall lesson, nothing new to picture). Web: Blue Book 12,618/701, Hanson 1998, Gott 1993 rechecked. Conventions fixed here: none new.
+
 ## 2026-11-16, ch21-traps built (traps, 18 cards incl. welcome and summary, no widget, no images)
 Fourteen questions: L scaling numeric, median vs distribution, Sandberg et al. dissolving, Hart, galaxy crossing numeric, Mars and the Great Filter, K2-18 b layers, two-clue odds numeric, Blue Book share numeric, likelihood-ratio bound numeric, ODNI, Funes personal view, theology argument validity, Copernican principle and selection, Gott show numeric, Berlin Wall coverage. Choices: all facts reused from level lessons and rechecked by web this session (see VERIFIED); Hanson/Bostrom attribution worded as Hanson's reasoning popularised by Bostrom; K2-18 b stated as "about 3 sigma, unconfirmed" with a reanalysis near 2.7. Conventions fixed here: summary table of trap -> lesson title; sigma glossed in the welcome card.
 
