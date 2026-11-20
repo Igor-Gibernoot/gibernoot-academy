@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-20 ch22-analogy (concept, 18 cards, no widget, 2 reused images)
+Added `file: ch22/analogy.yaml`. Cards: hook, healthy guess, Flew recall, Aquinas trichotomy (portrait) + mcq, health analogy + 2 mcq, Maimonides (portrait), ship + mcq, Pseudo-Dionysius + build, Eckhart + mcq, self-undoing objection, layer mcq, summary (5 bullets, 4 formula blanks). Widgets: none (verbal). Images: aquinas.webp and maimonides.webp reused (already in credits.yaml); none new: Dionysius and Eckhart have no free portrait worth adding. Choices: framed on the language problem (Level 8 apophatic lesson covers the nature of God); dropped the Eckhart 'rid me of God' quote (unconfirmed); Flew phrase paraphrased. Conventions fixed here: univocal/equivocal/analogical triple; Dionysius steps G is F, G is not F, G is over-F; ship parable I.60; G written plain in displayed lines.
+
 ## 2026-11-20 ch22-cognitive (concept, 18 cards, no widget, no images)
 Added `file: ch22/cognitive.yaml`. Cards: hook, guess (invisible gardener), recall of the verification principle, Ayer + mcq on the denial, Flew gardener, three replies (Hare, Mitchell, Hick) + 2 mcq, Braithwaite + build, Phillips + mcq, creed mapping mcq, believer's objection mcq, two layer mcqs (no sort card type exists), summary with 4 blanks. Widgets: none (verbal argument). Images: none: Commons files for Ayer and Flew have doubtful free status, no Phillips found. Web-checked, see VERIFIED. Omitted unconfirmed: Phillips 1976 book, Mascall objection, Hare/Mitchell dates, Braithwaite lecture venue. Conventions fixed here: cognitivism = face-value reading; Flew 'University' 1950-51; Phillips label 'fideism' from Nielsen 1967.
 
