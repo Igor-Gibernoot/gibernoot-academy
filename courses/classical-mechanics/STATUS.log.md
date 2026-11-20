@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-20 widget least-action-path
+Built `js/widgets/least-action-path.js` (+ doc with 4 smoke blocks, README line, registry line). Modes `path` (drag 1 to 5 control points, polynomial or linear curve, S = int(T - V) dt with gauge, dashed true path, snap, hideTrue/Reveal) and `fermat` (drag crossing point, time, angles, Snell sin/v, hidden minimum, optional time curve). Choices: control points move vertically only; extra `k` (spring) option added so a card can show a stationary path that is a saddle (k = 1, T = 4: perturbation lowers S); fermat scene uses equal x/y scale (angles true); no new CSS (reuses fs- classes). Checked by script: free line S = 1 vs parabola through (1,2) 2.333; thrown parabola S = -33.333, other midpoints larger; glass x* = 4.077; water x* = 5.193. Headless drag, reveal, snap on four presets: no page errors; screenshots viewed.
+Conventions fixed here: path preset names for lessons: free-ball (g 0, y0 0, y1 2, T 2, m 1), thrown-ball (g 10, y0 = y1 = 0, T 2, peak 5, S = -33.33); fermat glass v1 1, v2 0.67, A (0,3), B (6,-3); water v1 5, v2 1.5.
+
 ## 2026-11-20 widget newton-cannon
 Built `js/widgets/newton-cannon.js` (+ `docs/widgets/newton-cannon.md`, README line, registry line). RK4, GM = R = 1; presets in the doc's smoke block: short-throw, skim-ground, orbit-ellipse, escape, same-start-two-speeds. Choices: outcome and range appear only after the run ends (so a card can ask for a prediction); period shown for orbit only (a bound ball that hits the ground shows nothing); escape judged by energy at the tower top (for h > 0 the threshold is sqrt(2/(1+h)), slightly below sqrt2 vc); preset buttons fire at once; slider moves reset to idle; angle range 0 to 60 deg upward; Moon strip is a separate to-scale inset, acceleration from a simulated RK4 circular orbit.
 Conventions fixed here: speeds in units of the surface circular speed vc, lengths in R, time in sqrt(R^3/GM), g = 1.

@@ -42,6 +42,7 @@ const WIDGETS = {
   'lever-balance': ['lever-balance', 'leverBalance'],
   'friction-stop': ['friction-stop', 'frictionStop'],
   'newton-cannon': ['newton-cannon', 'newtonCannon'],
+  'least-action-path': ['least-action-path', 'leastActionPath'],
   'heat-layers': ['heat-layers', 'heatLayers'],
   'heat-pump-flow': ['heat-pump-flow', 'heatPumpFlow'],
   'boiling-curve': ['boiling-curve', 'boilingCurve'],
