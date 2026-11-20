@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-20 ch01-map (Content Map, Level 1)
+Built `ch01/map.yaml`: 9 boxes, 3 columns (left Lagrange: Fermat, action, stationary; middle Newton: law, state, Moon; right Hamilton: phase plane, orbits, separatrix and chaos), 2 decoys each, 9 edges. Choices: column order puts Newton between the other two so both cross links are same-row (dashed action to state, solid state to orbits); no edge labels (same-row boxes leave no room); no widget (map kind suffices), no image (a map card). No source re-read: all formulas reused from ch01 VERIFIED lines. Validate and shots clean.
+Conventions fixed here: none new.
+
 ## 2026-11-20 ch01-traps (Intuition Traps, Level 1)
 Built 14 cards (hook, 12 mcq/numeric traps, summary text; no `own:`), no widget (traps are fast text rounds; the pictures already exist as widgets), images: none: every trap is answerable in words and a picture would add scroll or give the answer. Topics: puck, feather and hammer, station free fall (g about 8.7, approximate), Moon pull, lifeguard quickest route, stationary not least, action is a sum, state is position and speed, no self-crossing orbit, 2 pi wrap, friction cannot raise the swing, doubling error. Choices made: Moon card reuses 9.8/3600; chaos card is numeric (2^10 = 1000, 200 s); lifeguard numbers by script. Validate 0 errors, shots 0 problems.
 Conventions fixed here: none new.

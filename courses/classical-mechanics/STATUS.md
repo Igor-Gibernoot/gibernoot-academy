@@ -9,7 +9,8 @@
 - **Built:** `ch01-prediction` (Level 1, 18 cards), `ch01-least-action` (Level 1, 21 cards; Fermat portrait), `ch01-phase-space` (Level 1, 20 cards, phase-portrait x6, no image).
 - **Widget `phase-portrait` built** (docs/widgets/phase-portrait.md): (q, p) plane of pendulum / spring / hill; click-to-start, energy contour or damped spiral, side view in sync, contours, separatrix, E and period readouts.
 - **Built:** `ch01-traps` (Level 1, 14 cards, no widget, no image).
-- **Next unit:** `ch01-map` (content map of Level 1); then `ch01-review` (automatic), then `ch01-challenge`.
+- **Built:** `ch01-map` (Level 1 content map, 9 boxes in three columns: Lagrange, Newton, Hamilton).
+- **Next unit:** `ch01-challenge` in two sessions (problems 1-3, then 4-5); `ch01-review` is automatic.
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
