@@ -1,0 +1,352 @@
+id: ch21-challenge-2
+title: "Level Challenge: Are We Alone? The Case (2)"
+kind: challenge
+
+cards:
+  - type: text
+    id: welcome
+    title: "Challenge, part 2: a forecast from age, a report in odds and a closing weighing"
+    body: |
+      Problems 4 and 5 use **invented** missions, programmes and sightings, built to practise on cases you have never seen; nothing in them is a measurement or a claim about a real object. Where a real thinker or a real record appears, it is stated *according to* the source named.
+
+      - **Problem 4 · A forecast from age alone.** How long a thing may last, given only how long it has lasted, and when that forecast should not be trusted.
+      - **Problem 5 · A report weighed in odds.** What an unexplained case is worth, what three witnesses add, and why the prior is where the quarrel lives.
+      - **The closing weighing** of the whole level: what it claims, what could test it, what a fair sceptic and a fair believer would each say.
+
+      **Three layers.** Established fact; scholarly consensus or live debate; faith or metaphysical commitment. Nothing here asks you to decide whether we are alone.
+
+  - type: text
+    id: recall
+    title: "Toolkit recall"
+    body: |
+      Five tools from the level, each stated so it can be used alone.
+
+      - **The Gott interval.** According to the astrophysicist J. Richard Gott (*Nature* 363, 1993), if you meet a thing at a random moment of its whole life, after it has lasted $t_\text{past}$, then with confidence $c$ its future duration $t_\text{future}$ satisfies
+        $$\frac{1-c}{1+c}\,t_\text{past}\le t_\text{future}\le\frac{1+c}{1-c}\,t_\text{past}.$$
+        The factors are $\tfrac13$ and $3$ at $c=0.5$, and $\tfrac1{39}$ and $39$ at $c=0.95$. The rule assumes your moment is uniformly random in the life; critics reject it where a time scale is known.
+      - **Bayes in odds form.** For two hypotheses $H_1$, $H_2$ and evidence $E$:
+        $$\frac{P(H_1\mid E)}{P(H_2\mid E)}=\frac{P(E\mid H_1)}{P(E\mid H_2)}\cdot\frac{P(H_1)}{P(H_2)}.$$
+        The first factor is the likelihood ratio (LR). Independent clues multiply their LRs; odds $o$ become a probability $o/(1+o)$.
+      - **Project Blue Book.** The US Air Force's inquiry into UFO reports recorded 12,618 reports (1947 to 1969), of which 701 stayed unidentified, about 5.6%.
+      - **The Drake equation and the Great Filter.** According to Frank Drake, who wrote it in 1961 as the agenda of a meeting at Green Bank, West Virginia, the number of detectable civilisations in the Milky Way is $N=R_*f_pn_ef_lf_if_cL$ (stars born per year times fractions, times the years $L$ a civilisation signals). According to Robin Hanson (1998), some step between dead matter and expanding life must be very improbable; the easier the early steps, the bleaker our prospects probably are.
+      - **Dissolving the paradox.** According to Anders Sandberg, Eric Drexler and Toby Ord (2018), Drake-style point estimates treat uncertain factors as if known; with honest distributions, a substantial chance remains that no other civilisation exists in our galaxy.
+
+  # ---------------- Problem 4 ----------------
+  - type: text
+    id: p4-setup
+    title: "Problem 4 · A forecast from age alone"
+    body: |
+      **Problem 4.** Two invented cases, both met at a moment you did not choose.
+
+      - **Evening Lantern**, a radio programme, has been on the air for 40 years when you first tune in.
+      - **Kestrel-9**, a space probe, has been flying for 6 years when you read about it. Its power source is a nuclear battery that the maker rates for 14 years in all.
+
+      The task: forecast how much longer each will last, from the age alone, and then ask where that forecast can be trusted.
+
+  - type: numeric
+    id: p4-radio
+    title: "How much longer will the programme run?"
+    prompt: |
+      Evening Lantern has been on the air for 40 years. You tuned in at a moment that is uniformly random over the programme's whole run. You want a range, with **50%** confidence, for how many more years it will run. What is the **upper** end of the range, in years?
+    answer: 120
+    tolerance: 0.01
+    wrong:
+      - { value: 13.33, feedback: 'That is the lower end, $40/3$. The upper end comes from the opposite extreme: you tuned in early, so a long future remains.' }
+      - { value: 1560, feedback: 'That is the 95% upper end, $39\times40$. The question asks for 50% confidence, where the middle half of the moments is kept.' }
+    hint: Keep the middle half of the possible moments. The largest future goes with the smallest elapsed share of the run, one quarter.
+    explanation: |
+      If a quarter of the run has gone by, the past is $40$ years and the whole run $160$, so $120$ remain. If three quarters have gone by, the whole run is about $53.3$ and the future is $13.3$ years. So the 50% range is $13.3$ to $120$ years, from the factors $\tfrac13$ and $3$.
+
+  - type: numeric
+    id: p4-probe
+    title: "How much longer will the probe fly?"
+    prompt: |
+      Kestrel-9 has flown for 6 years. Suppose you read about it at a uniformly random moment of its whole mission. What is the **upper** end, in years, of the range that holds the future with **95%** confidence?
+    answer: 234
+    tolerance: 0.01
+    wrong:
+      - { value: 0.154, feedback: 'That is the lower end, $6/39$ years, about two months. The upper end uses the reciprocal factor.' }
+      - { value: 18, feedback: 'That uses the 50% factor, 3. At 95% the middle share kept is wider, and the factor is 39.' }
+    hint: The 95% factors are $1/39$ and $39$; the long end is $39$ times the age.
+    explanation: |
+      $39\times6=234$ years, with a lower end of $6/39\approx0.15$ years. From the age alone, the interval is enormous, and its upper end is far beyond anything a probe with a 14-year battery could do. That is the clue for the next card.
+
+  - type: mcq
+    id: p4-fail
+    title: "When the random-moment premise fails"
+    prompt: |
+      The 95% forecast for Kestrel-9 (6 years old, battery rated for 14 years in all) runs from about 0.15 to 234 more years. Why should this forecast not be trusted, and what does that show about the rule?
+    options:
+      - text: "The maker's rating is a known time scale for the whole mission: you are not at a moment that is equally likely to fall anywhere in a life of unknown length, since the life is almost surely under about 14 years. The rule needs ignorance of such scales; with one, use it instead."
+        correct: true
+        feedback: |
+          Yes. The rule is conditional on the premise of a random moment in a life about which you know nothing but its age. A rating, a design life or a life expectancy is information that the rule discards, and a good forecast uses it.
+      - text: "The rule is wrong, since 234 years is too long for any probe."
+        feedback: |
+          The rule makes no claim about this probe once its premise fails. It is a statement about moments, not a defect: given a random moment in a life of unknown length, 95% coverage is a theorem.
+      - text: "The rule fails because 6 years is too short a time to measure anything."
+        feedback: |
+          The rule holds for any age. A thing met at 6 days or 6 million years gets the same factors.
+      - text: "The rule does not apply to machines, only to living things."
+        feedback: |
+          Gott applied it to a theatre run, a publication and a wall, as well as to species. What matters is the premise, not the kind of thing.
+    explanation: |
+      Label: the arithmetic of the interval is **fact**; whether a given case is a random moment of an unknown life is **debate**, which critics of Gott raise about humanity as well. A defender replies that for humanity no such rating exists, and the rule is a prior to be updated by what we do know; a critic replies that we know plenty, so the prior is not the best forecast.
+
+  - type: widget
+    id: p4-widget
+    title: "The interval at work"
+    widget: gott-interval
+    config:
+      span: 40
+      unit: "years"
+      f: 0.15
+      c: 0.5
+      cSlider: true
+    body: |
+      The timeline is the whole life of an invented 40-year thing, with a **now** marker you can drag. The bar after now is the 50% forecast from the age alone, the green or red mark the true end. Drag now early and late, and move the confidence slider to 95%. Watch where the true end leaves the bar.
+    review: false
+
+  - type: widget
+    id: p4-coverage
+    title: "A coverage check"
+    widget: gott-interval
+    config:
+      timeline: false
+      readouts: false
+      fSlider: false
+      monteCarlo: true
+      draws: 1000
+      c: 0.5
+      cSlider: true
+    body: |
+      Each click draws 1000 random meeting moments, uniform over a life, and checks whether the forecast at the chosen confidence covers the true future. Start at 50%, click twice, and then try 95%.
+    review: false
+
+  - type: mcq
+    id: p4-coverage-q
+    title: "What the simulation can and cannot say"
+    prompt: |
+      A simulation draws a million meeting moments uniformly over the lives of many things and counts how often the 50% Gott interval covers the true future. Roughly what share does it find, and what does that settle about Evening Lantern and Kestrel-9?
+    options:
+      - text: "About 50%, as the rule promises. It settles nothing about the two cases, since the draws are uniform by construction; whether a real tune-in or news story is a random moment is a question about the world."
+        correct: true
+        feedback: |
+          Yes. The guarantee is conditional: given the uniform premise, coverage tends to $c$. The premise is exactly what the battery rating puts in doubt.
+      - text: "About 95%, since the rule is built to be reliable."
+        feedback: |
+          The share tends to the confidence asked for. At $c=0.5$ the middle half of the moments is kept, so about half are covered.
+      - text: "About 50%, which proves that Kestrel-9 will fly for between 2 and 18 more years."
+        feedback: |
+          The 50% share describes many moments over many lives. For Kestrel-9 the premise is doubtful, and a rated battery matters more than the age.
+      - text: "100%, because the interval always contains the truth."
+        feedback: |
+          No interval below certainty always contains the truth: the moments at the very start and the very end of a life are missed, in $(1-c)/2$ of cases each.
+    explanation: |
+      Label: the coverage is **fact** about the maths; the fit to real cases is **debate**.
+
+  # ---------------- Problem 5 ----------------
+  - type: text
+    id: p5-setup
+    title: "Problem 5 · A report weighed in odds"
+    body: |
+      **Problem 5.** On an invented night in the invented town of Hallow Bay, three people on the jetty report a silent triangle of lights hanging over the water for ten minutes. A later review lists the case as **unexplained**. The hypotheses are $H_1$, a craft from another civilisation, and $H_2$, an ordinary cause (a plane, a planet in haze, a drone, a misperception). A sceptic starts at prior odds $P(H_1)/P(H_2)=10^{-6}$.
+
+      The task: weigh the report in odds, and see where the quarrel really lies.
+
+  - type: numeric
+    id: p5-bound
+    title: "How much can 'unexplained' prove?"
+    prompt: |
+      An invented archive holds 2000 reports. After investigation, 112 stayed unexplained, and almost all were ordinary things. Let $E$ be "this report stays unexplained". Be as generous as possible to $H_1$: take $P(E\mid H_1)=1$. For $H_2$ take $P(E\mid H_2)$ as the share unexplained in the archive. What is the largest the likelihood ratio can be, to the nearest whole number?
+    answer: 18
+    tolerance: 0.5
+    wrong:
+      - { value: 0.056, feedback: 'That is $P(E\mid H_2)$ itself. The ratio divides $P(E\mid H_1)=1$ by it.' }
+      - { value: 112, feedback: 'That counts the unexplained reports. The ratio uses the share, $112/2000$, in the denominator.' }
+    hint: Divide 1 by the share unexplained, 112 out of 2000.
+    explanation: |
+      $$\text{LR}\le\frac{1}{112/2000}=\frac{1}{0.056}\approx17.9\approx18.$$
+      The real Blue Book shares (701 of 12,618, about 5.6%) give the same bound, about 18. A case staying unexplained raises the odds on $H_1$ by at most about eighteen in this rough model, because ordinary causes leave about one report in eighteen unexplained.
+
+  - type: widget
+    id: p5-widget
+    title: "Witnesses and the prior"
+    widget: odds-updater
+    config:
+      witnesses: true
+      prior: 1.0e-6
+      n: 3
+      q: 0.2
+      presets:
+        - { label: "3 independent witnesses", n: 3 }
+        - { label: "1 effective witness", n: 1 }
+        - { label: "Believer prior 1e-3", prior: 1.0e-3, n: 3 }
+    body: |
+      Here each of $n$ witnesses has chance $q$ of reporting such a sight when the cause is ordinary, and always reports it when it is a craft, so the likelihood ratio is $1/q^n$. The blue row is the prior, the orange row what the witnesses add, the purple row the posterior; the dashed line is even odds. Try the three buttons and then drag $n$, $q$ and the prior.
+    review: false
+
+  - type: numeric
+    id: p5-n
+    title: "How many witnesses for even odds?"
+    prompt: |
+      Odds of a craft against an ordinary cause start at $10^{-6}$. Each independent witness has chance $q=0.1$ of reporting such a sight under an ordinary cause, and would always report it under a craft, so each multiplies the odds by $1/0.1=10$. How many independent witnesses reach even odds ($1{:}1$)?
+    answer: 6
+    tolerance: 0
+    answerText: '6'
+    wrong:
+      - { value: 5, feedback: 'Five witnesses give a factor $10^{5}$ and leave odds of $1{:}10$. Six give $10^{6}$.' }
+      - { value: 1000000, feedback: 'That counts witnesses as if each added 1 to the odds. Each multiplies them by 10.' }
+    hint: You need a total factor of $10^{6}$, and each witness gives $10$.
+    explanation: |
+      $$10^{-6}\times10^{n}=1\quad\Rightarrow\quad n=6.$$
+      Six truly independent witnesses, each with a one-in-ten chance of a false report. The word that matters is *independent*, and the next card is about it.
+
+  - type: mcq
+    id: p5-shared
+    title: "Three witnesses, one planet"
+    prompt: |
+      The three Hallow Bay witnesses stood together, looked at the same patch of sky and talked before they wrote their accounts. Each has chance $q=0.2$ of reporting such a sight under an ordinary cause. Their reports would be about $1/0.2^{3}=125$ times as likely under a craft than under an ordinary cause if they were independent. What is the better estimate here, and why?
+    options:
+      - text: "Much less than 125, nearer $1/0.2=5$. Under an ordinary cause (a bright planet in haze, say) one misperception is shared by all three, so their reports are not independent there, and the second and third add little."
+        correct: true
+        feedback: |
+          Yes. Odds multiply only for clues that are independent under both hypotheses. Shared view, shared talk and a shared cause make the three accounts close to one clue.
+      - text: "Exactly 125, since three people saw it."
+        feedback: |
+          Counting heads treats each report as a fresh draw. Under an ordinary cause the reports are linked, so the chance of all three is nearer the chance of one, 0.2, not $0.2^3$.
+      - text: "Zero, since witnesses can never count as evidence."
+        feedback: |
+          Witnesses are evidence, with an LR above 1 even when shared. The slip is in counting them as independent, not in listening to them.
+      - text: "More than 125, since agreement between three people is stronger than three separate reports."
+        feedback: |
+          Agreement reached by talking is weaker, not stronger, than separate accounts; it is the separation that gives the multiplication.
+    explanation: |
+      With one effective clue the LR is about 5, and posterior odds about $5\times10^{-6}$ from the sceptic's prior. Truly independent accounts, taken apart and early, would be worth far more. Label: the number of witnesses is **fact**; how independent their reports are is **debate**, to be settled by how the accounts were collected.
+
+  - type: order
+    id: p5-order
+    title: "The logic of weighing a report"
+    prompt: "Put in order the steps of weighing an unusual report in odds."
+    steps:
+      - "Name the hypotheses, the unusual one and the ordinary causes, and set the prior odds, saying that it is a judgement."
+      - "For each clue, ask how likely it is under each hypothesis, and check that it is independent of the other clues under both."
+      - "Multiply the likelihood ratios of the independent clues with the prior odds."
+      - "Convert the posterior odds to a probability, and state what new evidence would change it most."
+    hint: First what you compare, then what each clue says, then multiply, then say what remains.
+    explanation: |
+      The posterior odds equal the product of the LRs times the prior odds, and the last step keeps the result honest: a number with the evidence that would move it.
+
+  - type: numeric
+    id: p5-prior
+    title: "The believer's posterior"
+    prompt: |
+      A believer starts at prior odds $10^{-3}$ for a craft against an ordinary cause. Three truly independent witnesses, each with chance $q=0.2$ of a false report, give a likelihood ratio of $125$. What is the believer's posterior probability of a craft, in percent, to one decimal place?
+    answer: 11.1
+    tolerance: 0.01
+    wrong:
+      - { value: 12.5, feedback: 'That is the posterior odds, $0.125$, written as a percent. Odds $o$ become probability $o/(1+o)$.' }
+      - { value: 0.0125, feedback: 'That drops a factor: the LR 125 multiplies the odds $10^{-3}$ to give $0.125$, and then the odds convert to a probability.' }
+    hint: Odds $0.001\times125=0.125$; then probability is odds over one plus odds.
+    explanation: |
+      $$\text{odds}=125\times10^{-3}=0.125$$
+      $$P=\frac{0.125}{1.125}\approx0.111,$$
+      so about 11.1%. The sceptic with prior $10^{-6}$ and the same evidence ends at odds $1.25\times10^{-4}$, about 0.0125%. Neither is convinced, and they differ by nearly a factor of 900 only because of the starting odds.
+
+  - type: mcq
+    id: p5-voices
+    title: "A fair sceptic and a fair believer"
+    prompt: |
+      Both read the same case file at Hallow Bay and the same likelihood ratios. Which pair states a fair sceptic and a fair believer on what the evidence shows?
+    options:
+      - text: "Sceptic: 'The prior for a visit across interstellar distances is tiny, ordinary causes leave about one report in eighteen unexplained, and shared views count as one witness; the case does not move me far.' Believer: 'The Drake and Fermi questions leave other minds possible, so my prior is not so small; and where the sensors and witnesses are independent, the case deserves study and its data should be released.'"
+        correct: true
+        feedback: |
+          Yes. Both accept the same likelihood ratios; they part on the prior, which is a judgement, and each names a test (independent sensors, released data) that could move the other.
+      - text: "Sceptic: 'Unexplained means nothing.' Believer: 'Unexplained means a craft.'"
+        feedback: |
+          Both overstate. Unexplained carries an LR of up to about 18, small but not nothing, and it does not point to a craft more than to missing data.
+      - text: "Sceptic: 'The case proves nothing happened.' Believer: 'Three witnesses prove it was a craft.'"
+        feedback: |
+          Neither is licensed by the odds: the sceptic cannot show $H_1$ has probability zero, and the believer counts shared reports as independent.
+    explanation: |
+      Where they part: on the starting odds and on how independent the clues are. Both would be moved by the same thing, independent, calibrated measurements with public raw data.
+
+  - type: mcq
+    id: p5-layers
+    title: "Sort the claims by layer"
+    multiple: true
+    prompt: |
+      Four claims from Problems 4 and 5. Select all that are **layer 1**, established fact.
+    options:
+      - text: "Project Blue Book recorded 12,618 reports, of which 701 were left unidentified."
+        correct: true
+        feedback: |
+          Yes. A documented count from the official records.
+      - text: "At 95% confidence, a thing met at a random moment after it has lasted $t$ will last between $t/39$ and $39t$ more."
+        correct: true
+        feedback: |
+          Yes, as a theorem about uniform random moments. Whether a given case is such a moment is a separate question.
+      - text: "The Hallow Bay lights were most probably a craft."
+        feedback: |
+          A judgement of probability that rests on a prior and on witness independence, so live debate, and the story is invented.
+      - text: "If other civilisations exist, their existence must change what human life means."
+        feedback: |
+          A commitment or philosophical view, which the theology lesson took up from several traditions.
+    explanation: |
+      Fact: counts and theorems. Debate: priors, independence, whether the random-moment premise holds. Commitment: what other minds would mean.
+
+  # ---------------- Closing weighing ----------------
+  - type: text
+    id: weighing
+    title: "The closing weighing of the level"
+    body: |
+      **What the level claims, and what is open.** Here the claims are laid out by layer.
+
+      - **Fact.** The Drake equation is a product of seven factors, only the first of which is measured. Blue Book recorded 12,618 reports with 701 unexplained. The Gott rule gives $t/39$ to $39\,t$ at 95% for a random moment.
+      - **Live debate.** The width of the unmeasured factors, above all $L$, the years a civilisation signals. Whether the early steps being easy means the later ones are. Whether unexplained reports are anything but missing data. Whether we are a random moment of our species.
+      - **Commitment.** What the existence or absence of other minds would mean for creation, redemption and the place of humans.
+
+      **What could test it.** A second independent origin of life, such as a biosignature not shared with ours; a technosignature; a physical sample or a measurement of an unexplained object with public raw data. Each could, in principle, move the odds a long way, since each is rare under the ordinary hypothesis.
+
+      **A fair sceptic** says: according to Sandberg, Drexler and Ord, honest uncertainty leaves a substantial chance that we are alone; the evidence so far is a handful of unconfirmed claims; extraordinary claims need evidence that ordinary causes would rarely give. **A fair believer** says: according to the Drake and Fermi reasoning, the number of stars makes other life plausible; the silence may be a matter of time, distance and listening, and keeping the question open is reasonable; and it is a question worth the instruments. Both would be moved by the same evidence, and they part on the priors.
+
+  - type: mcq
+    id: weighing-q
+    title: "What would move both"
+    prompt: |
+      A fair sceptic and a fair believer disagree on whether we are alone in the galaxy. Which single development would do most to move **both**?
+    options:
+      - text: "A biosignature found on a second world, with chemistry that a non-living process rarely makes and a history of life clearly independent of ours, checked by several teams with public data."
+        correct: true
+        feedback: |
+          Yes. Independence, repeatability and a small chance under the ordinary hypothesis give a large likelihood ratio, and according to Hanson it would also change what we think about our own future, since it would suggest the early steps are easy.
+      - text: "A longer list of reasons why life should be common, with no new measurement."
+        feedback: |
+          More argument shifts priors, which are the point of the quarrel, but it adds no likelihood ratio and cannot, alone, move a sceptic who started far away.
+      - text: "A larger number of witnesses who describe the same lights."
+        feedback: |
+          Witnesses who share a view and talk count as about one clue, so the LR stays small.
+      - text: "A new point estimate of $N$ with a better-looking set of ranges."
+        feedback: |
+          A point estimate hides the uncertainty that the Sandberg-Drexler-Ord argument is about. Honest ranges, not a better-looking single number, are what changes the conversation.
+    explanation: |
+      Strong evidence is evidence that the ordinary hypothesis would rarely produce, gathered independently and shared openly.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      Part 2 used the same method again: put a range or odds on the claim, count only what is independent, and keep the layers apart.
+
+      **Problem 4 (forecast from age).** For a thing met at a uniformly random moment of its life, after it has lasted $t_\text{past}$,
+      $$\frac{1-c}{1+c}\,t_\text{past}\le t_\text{future}\le\frac{1+c}{1-c}\,t_\text{past}.$$
+      For a programme 40 years old this gave $13.3$ to $120$ years at 50%; for a probe 6 years old, $0.15$ to $234$ years at 95%, which a known 14-year battery rating overrules. The simulation covers $c$ of the cases only because the moments are drawn uniformly.
+
+      **Problem 5 (a report in odds).** With hypotheses $H_1$, $H_2$ and evidence $E$,
+      $$\frac{P(H_1\mid E)}{P(H_2\mid E)}=\frac{P(E\mid H_1)}{P(E\mid H_2)}\cdot\frac{P(H_1)}{P(H_2)}.$$
+      A case staying unexplained (112 of 2000) has $\text{LR}\le1/0.056\approx18$; $n$ independent witnesses of false-report chance $q$ give $\text{LR}=1/q^n$ ($10^6$ needs 6 witnesses at $q=0.1$); three who share one view count as about one, so LR about 5, not 125. From prior odds $10^{-3}$ and LR 125 the posterior is $0.125$, about 11.1%.
+
+      **The closing weighing.** The facts are counts and theorems; the debate is priors, independence and whether we are a random moment; the commitment is what other minds would mean. A fair sceptic and a fair believer share the same likelihood ratios and part on the prior, and independent measurements with open data would move both.
+
+      **Next:** the Level Review, then Level 22, *Language, Meaning and Religious Language*, which asks how words such as "God" or "soul" can mean anything at all.
