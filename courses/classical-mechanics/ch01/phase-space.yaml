@@ -1,0 +1,322 @@
+id: ch01-phase-space
+title: A Map of All Motions
+kind: concept
+own: |
+  Setting: a pendulum, a bob of mass $1$ on a rod of length $1$, with gravity $g = 1$, swinging in a vertical plane. The letter $q$ is a label for its **position**, the angle of the rod from hanging straight down (in radians), and $p$ is a label for its **momentum**, mass times speed, which here is the angular speed. A dot means the rate of change in time. The **state** is the pair $(q, p)$, one point on the **phase plane** ($q$ across, $p$ up), and each motion is a curve on it, called an **orbit**.
+  - **Momentum.** With mass $m$, the momentum is mass times speed. Here $m = 1$, so $p$ is the speed:
+  $$p = m\dot q.$$
+  - **Energy is constant on an orbit.** Without friction the energy, energy of motion plus energy stored by height, does not change in time, so each orbit is a level curve of
+  {{ $$E = \tfrac12 p^2 + 1 - \cos q$$ }}
+  where $\tfrac12 p^2$ is the energy of motion and $1 - \cos q$ is the height of the bob above its lowest point.
+  - **Small swings** look like a mass on a spring. For small $q$, $1 - \cos q \approx \tfrac12 q^2$, so the orbits are circles of constant
+  {{ $$E = \tfrac12\left(p^2 + q^2\right)$$ }}
+  and every small swing takes the same time, $2\pi$ in these units.
+  - **The separatrix** is the orbit that just reaches the top, where the energy is
+  {{ $$E = 2$$ }}
+  Below it the pendulum swings back and forth (closed loops around the bottom). Above it the pendulum spins over the top, and its orbit does not close, because $q$ and $q + 2\pi$ are the same position.
+  - **Orbits never cross**, because {{ one point $(q, p)$ fixes the whole future }}. With friction the orbit spirals into $(0, 0)$, the bottom at rest.
+  - **Unstable points.** At the top the orbits peel away, so two starts a tiny distance apart end up far apart. This is the first sign of chaos.
+
+cards:
+  - type: text
+    id: hook
+    title: One number is not enough
+    body: |
+      You hold a pendulum at an angle of $30°$ and let it go. You can say where it is, but can you say where it will be in two seconds? Now imagine a friend sees the pendulum at exactly $30°$ too, but it is already moving. Her pendulum will not do what yours does.
+
+      This lesson draws a map where every possible motion of a pendulum is a path. As in the last lessons, guessing is the point: make a guess before each answer, and learn from the ones that miss.
+
+  - type: mcq
+    id: what-fixes
+    prompt: |
+      A pendulum is seen at one instant. To predict all its later motion (ignoring friction), which pair of facts is enough?
+    options:
+      - text: Where it is, and how fast it is moving (with direction)
+        correct: true
+      - text: Where it is, and how heavy it is
+        feedback: |
+          The weight matters for some systems, but two pendulums at the same place, one at rest and one moving, behave differently even if they weigh the same. Something about the motion is missing.
+      - text: Only where it is
+        feedback: |
+          That is the trap in the opening card: two pendulums at the same angle, one at rest and one swinging through, have different futures.
+      - text: Only how fast it is moving
+        feedback: |
+          Speed alone does not say where the bob is. At rest at the top and at rest at the bottom both have speed zero, and they do very different things next.
+    explanation: |
+      The pair (position, speed with direction) is called the **state** of the pendulum. The lesson on predicting the future made the same point for the cannonball: Newton's law gives the push, but you must also be told where the ball is and how it is moving. A state is exactly the information that is enough to start the prediction.
+
+  - type: widget
+    id: spring
+    widget: phase-portrait
+    config:
+      system: spring
+      q: 1
+      p: 0
+      interactive: true
+      readouts: [q, p, period]
+      labels: {figure: 'The position-momentum plane of a mass on a spring, with the spring beside it'}
+      show: {contours: false, separatrix: false}
+    body: |
+      A mass hangs on a spring and slides along a line. On the right is the plane where the whole state is one point. Its **position** $q$ (how far the mass is from the middle) runs across, and its **momentum** $p$ (mass times speed, and here the mass is $1$, so $p$ is just the speed, positive to the right) runs up. The letters are labels, not powers. Click anywhere to choose a starting state. The dot then moves, and the small picture shows the mass doing the same thing. Try a few starts, including one on the horizontal axis and one on the vertical axis.
+
+  - type: mcq
+    id: far-end
+    prompt: |
+      A mass on a spring swings back and forth along a line. Its position is $q$ and its speed is $p$ (positive to the right). At the far right end of the swing, where it turns around, what is $p$?
+    options:
+      - text: $p = 0$, because it stops for an instant before coming back
+        correct: true
+      - text: $p$ is largest, because the spring pulls hardest there
+        feedback: |
+          The pull is largest there, but the speed is not. The mass is slowest at the ends and fastest in the middle, where the spring pulls nothing at all.
+      - text: $p$ is negative, because it is already heading back
+        feedback: |
+          It turns around at that very point. A moment before $p$ was positive and a moment after it is negative, so at the turning point it is zero.
+    explanation: |
+      On the map, the far right end of the swing is the point where the dot crosses the horizontal axis ($p = 0$) at its largest $q$. The middle of the swing, where the speed is largest, is where the dot crosses the vertical axis ($q = 0$).
+
+  - type: mcq
+    id: loop-size
+    prompt: |
+      A mass on a spring (mass $1$) is released from rest at distance $1$ from the middle, and goes around a loop on the map in about $6.3$ time units. A second mass is released from rest at distance $2$ instead. What does its loop look like?
+    options:
+      - text: A bigger loop around the same centre, and it goes around in the same time, $6.3$
+        correct: true
+      - text: A bigger loop, and it takes longer, because it has farther to go
+        feedback: |
+          It has farther to go, but it also moves faster, because the spring pulls harder at larger stretch. For a spring the two effects cancel and the time stays the same. This is a special property of springs.
+      - text: A loop of the same size, shifted outward
+        feedback: |
+          The orbit has to pass through the starting point $(2, 0)$ and it is centred on the middle of the spring, the one place where the mass can sit still. A bigger start means a bigger loop around that centre.
+    explanation: |
+      The loops are closed curves around the origin (circles here, because of the units). Starting twice as far out gives a loop twice as wide and twice as tall. A spring keeps the same time per swing whatever the size of the swing, which is why a spring can keep time at all. The pendulum, as you will see, is not so tidy.
+
+  - type: text
+    id: energy
+    title: Why the loops close
+    body: |
+      Without friction, **energy** is constant. Energy is a number that adds the energy of motion, $\tfrac12 p^2$ for mass $1$, to the energy stored by the position, called the **potential energy** and written $V(q)$. For the spring $V = \tfrac12 q^2$. Their sum
+      $$E = \tfrac12 p^2 + V(q)$$
+      does not change while the system moves. So the dot can only wander over points with the same $E$. A curve of constant $E$ is called a **level curve**, like a line of constant height on a hiking map, and each orbit is one level curve.
+
+      For the pendulum, take mass $1$, rod length $1$ and gravity $g = 1$. With $q$ the angle from hanging straight down, measured in radians, the bob is $1 - \cos q$ above its lowest point, so
+      $$E = \tfrac12 p^2 + 1 - \cos q.$$
+      The lowest point has $E = 0$. (A radian is the angle that cuts an arc as long as the rod, so a half turn is $\pi \approx 3.14$.)
+
+  - type: numeric
+    id: bottom-speed
+    prompt: |
+      A pendulum (mass $1$, rod length $1$, gravity $1$) is released from rest at angle $q = 1$ radian. Its energy is $E = \tfrac12 p^2 + 1 - \cos q$, and no energy is lost. What is its speed $p$ as it passes through the bottom, $q = 0$? Give it to two decimals.
+    answer: 0.96
+    tolerance: 0.01
+    answerText: '0.96'
+    wrong:
+      - { value: 0.46, feedback: 'That is the energy $E = 1 - \cos 1$, not the speed. At the bottom all of it is energy of motion, $\tfrac12 p^2 = E$, so $p = \sqrt{2E}$.' }
+      - { value: 0.68, feedback: 'You took $p = \sqrt{E}$. The energy of motion is $\tfrac12 p^2$, so $p^2 = 2E$, not $E$.' }
+    hint: At the start $p = 0$, so all the energy is $1 - \cos 1 \approx 0.46$. At the bottom $1 - \cos 0 = 0$, so all of it is energy of motion.
+    explanation: |
+      At the start the bob is at rest, so $E = 1 - \cos 1 \approx 0.4597$. At the bottom the height term is zero, so
+      $$\tfrac12 p^2 = 0.4597,$$
+      and then $p = \sqrt{0.9194} \approx 0.96$. The orbit on the map goes from the point $(1, 0)$ to the point $(0, 0.96)$ along one level curve.
+
+  - type: widget
+    id: pendulum
+    widget: phase-portrait
+    config:
+      system: pendulum
+      q: 0.4
+      p: 0
+      readouts: [E, period]
+      labels: {figure: 'The position-momentum plane of a pendulum, with the faint family of its orbits'}
+      show: {contours: true, ticks: true, separatrix: false}
+      presets:
+        - {label: Small swing, q: 0.4, p: 0}
+        - {label: Wide swing, q: 1.5, p: 0}
+    body: |
+      Now the pendulum. Its angle $q$ runs across (the ticks are multiples of $\pi$) and its momentum $p$ runs up. The faint curves are some of the level curves of $E$. Start the small swing and watch the orbit and the period (time for one full back-and-forth). Then start the wide swing and compare the shape of its orbit with the small one, and the period too.
+
+  - type: mcq
+    id: small-vs-wide
+    prompt: |
+      A pendulum in small swings follows nearly circular loops on the map, like a mass on a spring, and takes about $6.3$ time units per swing. For a much wider swing, what changes?
+    options:
+      - text: The loop bends out of a circle, and a swing takes longer than $6.3$
+        correct: true
+      - text: 'Nothing changes: a pendulum is a spring, so every swing takes $6.3$'
+        feedback: |
+          Only for small swings. For a wide swing the restoring pull on the bob does not grow in step with the angle, so the pendulum is slower than a spring. At a start of $1.5$ radians a swing takes about $7.3$.
+      - text: The swing takes less time, because the bob falls from higher up
+        feedback: |
+          It falls from higher up but it also has farther to go, and near the ends the pull along the path is weaker than a spring's would be. The net effect is a longer time.
+    explanation: |
+      For small $q$, $1 - \cos q \approx \tfrac12 q^2$, which is the spring's energy, so small swings look like the spring. For wide swings the loops are squarer and the period grows: about $6.35$ for a start at $0.4$ radians and about $7.3$ for $1.5$ radians.
+
+  - type: mcq
+    id: near-top
+    prompt: |
+      Push the pendulum's start higher and higher. Release it from rest with the rod almost straight up, at an angle of $3$ radians (about $172°$), with only a $0.14$ radian gap from the top. What do you expect its orbit on the map to do?
+    options:
+      - text: A big loop, going down through the bottom and up the other side to nearly the top, taking a long time
+        correct: true
+      - text: A tiny loop around the top, because that is where it starts
+        feedback: |
+          The top is not a place the bob can circle around: from there it simply falls. The orbit goes down and across the bottom and does not stay near the starting point.
+      - text: It keeps going around over the top again and again
+        feedback: |
+          Released from rest it only has the energy it had at the start, and that is just below what is needed to reach the top. It turns around before getting there.
+    explanation: |
+      Released from rest at $3$ radians the energy is $E = 1 - \cos 3 \approx 1.99$, just under the $2$ needed to reach the very top. The bob falls, swings through the bottom, and rises almost to the top on the other side. Near the top it moves very slowly, so one swing takes about $16$ time units.
+
+  - type: widget
+    id: separatrix
+    widget: phase-portrait
+    config:
+      system: pendulum
+      q: 3
+      p: 0
+      readouts: [E, period]
+      labels: {figure: 'The pendulum plane with its dividing orbit drawn dashed'}
+      show: {contours: true, ticks: true, separatrix: true, fixedPoints: true}
+      presets:
+        - {label: Almost the top, q: 3, p: 0}
+        - {label: Back and forth, q: 0, p: 1.5}
+        - {label: Spins over, q: 0, p: 2.5}
+    body: |
+      The dashed curve is the orbit that has just enough energy to reach the top. It is called the **separatrix**, a word for a curve that separates two kinds of motion. The filled dot is the bottom at rest, and the open dot is the top at rest. Try the three starts, each a push from the bottom or a release near the top, and watch which side of the dashed curve each lies on.
+
+  - type: mcq
+    id: spin-push
+    prompt: |
+      A pendulum (mass $1$, rod length $1$) hangs at rest at the bottom. You give it a push, so it starts at $q = 0$ with speed $p$. Reaching the top takes energy $E = 2$. Which push makes it spin all the way over?
+    options:
+      - text: $p = 2.5$
+        correct: true
+      - text: $p = 1.5$
+        feedback: |
+          That start has $E = \tfrac12 (1.5)^2 = 1.125$, less than the $2$ needed to reach the top. It swings up and falls back.
+      - text: $p = 1$
+        feedback: |
+          That start has only $E = 0.5$. It rises a modest way and turns back.
+    explanation: |
+      Starting at the bottom, $E = \tfrac12 p^2$, and reaching the top needs $E \ge 2$, so $p \ge 2$. The push $p = 2.5$ has $E = 3.125$ and goes over. Below $E = 2$ the orbits are closed loops (back and forth), above it the pendulum goes around.
+
+  - type: mcq
+    id: wrap
+    prompt: |
+      On the pendulum's map, a spinning pendulum's orbit runs off the right edge of the picture and comes back in at the left edge, at the same height. Why is that the same motion and not a jump?
+    options:
+      - text: The angles $q$ and $q + 2\pi$ are the same position of the rod, so after one full turn the state is the same as before
+        correct: true
+      - text: The pendulum stops and restarts at the left edge
+        feedback: |
+          Its speed $p$ stays the same height before and after the edge, so it does not stop. A rod that goes round does not pause.
+      - text: It is a mistake in the drawing, since the orbit should keep going right
+        feedback: |
+          Going around forever to the right is a fine description of the angle, but a rod that has turned by $2\pi$ looks exactly like one that has turned by $0$. The map therefore repeats every $2\pi$ across.
+    explanation: |
+      A full turn brings the rod back to where it was, with the same speed, so the state repeats. The map of the pendulum is really a band wrapped around a cylinder: the left and right edges are the same line. So a spinning orbit is a closed loop around the cylinder, even if it does not look like a closed loop on a flat picture.
+
+  - type: widget
+    id: friction
+    widget: phase-portrait
+    config:
+      system: pendulum
+      q: 2
+      p: 0
+      gamma: 0.3
+      sliders: [gamma]
+      readouts: [E, gamma]
+      labels: {figure: 'The pendulum plane with friction, and the pendulum beside it'}
+      show: {contours: false, ticks: true, separatrix: false, fixedPoints: true}
+      presets:
+        - {label: Friction, q: 2, p: 0, gamma: 0.3}
+        - {label: Light friction, q: 2, p: 0, gamma: 0.1}
+    body: |
+      Real pendulums lose energy to friction. The slider $\gamma$ (Greek letter gamma) sets how strong it is. It is $0$ for none, and larger for stronger. Start the pendulum at $q = 2$ at rest and watch the orbit and the energy $E$. Then try the lighter friction and the stronger one.
+
+  - type: mcq
+    id: friction-end
+    prompt: |
+      A pendulum with friction is released from rest at $q = 2$. Its energy keeps dropping. Where does its orbit on the map end up, after a long time?
+    options:
+      - text: At the single point $(q, p) = (0, 0)$, the bottom at rest, after a spiral
+        correct: true
+      - text: It keeps circling at a smaller and smaller height, never reaching a point
+        feedback: |
+          It does shrink, but the loops do not stay around a fixed size: the energy keeps going down and the spiral closes in on the centre point. It takes in principle forever to reach it, but the point is where it heads.
+      - text: At the top, $(\pi, 0)$, because that is where the energy is smallest
+        feedback: |
+          The top has the largest energy on the pendulum's route, $E = 2$. The smallest energy is at the bottom at rest, $E = 0$.
+    explanation: |
+      Friction takes energy away at every swing, so the orbit crosses the level curves inward, spiralling down to $E = 0$. The point $(0, 0)$ is where it ends: the bottom at rest. Each swing is a bit smaller than the last, which is what a real pendulum does.
+
+  - type: mcq
+    id: no-cross
+    prompt: |
+      A friend draws two different orbits of the same frictionless pendulum on the map and says they cross at one point $(q, p)$. Can this happen?
+    options:
+      - text: No. The point $(q, p)$ is the full state, so it fixes a single future, and two orbits would give it two futures
+        correct: true
+      - text: Yes, since two motions can pass through the same position
+        feedback: |
+          Two motions can pass through the same position $q$, but with different speeds $p$, and then they are different points of the map. To cross they would need the same position and the same speed.
+      - text: Yes, but only at the top, where the pendulum is balanced
+        feedback: |
+          The top at rest is one state, and from there the future is fixed too. Orbits come close to it but do not cross each other there.
+    explanation: |
+      This is the lesson on predicting the future, drawn as a picture: the state fixes the future. If two orbits met at a point they would both be the future of that same state, and the future would not be unique. So the orbits fill the map like the flow lines of a stream, never crossing, each point on exactly one.
+
+  - type: order
+    id: sort-periods
+    prompt: |
+      Four starts of the pendulum (mass $1$, rod length $1$, gravity $1$), each a different orbit. Put them from the shortest period (time for one swing back and forth, or one full turn for the spinner) to the longest.
+    steps:
+      - 'At the bottom, pushed with $p = 3$ (spins over, fast)'
+      - 'Released from rest at $q = 0.4$ (a small swing)'
+      - 'Released from rest at $q = 1.5$ (a wide swing)'
+      - 'Released from rest at $q = 3$ (almost at the top)'
+    hint: The pendulum is slowest where it nearly stops, near the top. A fast spin has no slow part.
+    explanation: |
+      The spinner has the most energy and never slows much, so it comes around in about $2.4$ time units. The small swing takes about $6.35$. The wide swing takes about $7.3$, and the start at $q = 3$ lingers near the top, so a swing takes about $16.2$. The closer an orbit runs to the separatrix, the longer its period, and on the separatrix itself it is infinite.
+
+  - type: widget
+    id: hill
+    widget: phase-portrait
+    config:
+      system: hill
+      q: 0.05
+      p: 0
+      fixedStart: true
+      readouts: [q, p]
+      labels: {figure: 'The position-momentum plane of a ball on a hilltop, with the hill beside it'}
+      show: {contours: true, separatrix: false, fixedPoints: true}
+    body: |
+      One more system: a ball balanced near the top of a smooth hill, with a start just $0.05$ to the right of the exact top and at rest. The open dot at the middle is the point where the ball could stay forever if placed there exactly. Watch what the orbit does, and what the ball does.
+
+  - type: mcq
+    id: hill-two
+    prompt: |
+      Two balls are released at rest on a smooth hilltop, one at $0.001$ to the right of the exact top and one at $0.001$ to the left. The starts differ by only $0.002$. What happens?
+    options:
+      - text: They roll off in opposite directions and end up far apart
+        correct: true
+      - text: They stay close together, because their starts are almost the same
+        feedback: |
+          That is true near a bottom, where nearby orbits stay nearby. At a hilltop it fails: the orbits near the top peel away from it.
+      - text: Both stay on top, because the push is too small to matter
+        feedback: |
+          Any push, however small, is enough: the ball only stays on top if it starts at the exact top, with no push at all.
+    explanation: |
+      Near an unstable point like a hilltop, any tiny difference in the start grows, and the two orbits peel away in different directions. In the real world you can never place anything at the exact top, so you cannot predict which way the ball falls. When tiny differences grow like this in a whole motion, not only near one point, we call it **chaos**. It is why the weather cannot be forecast far ahead even though the laws are exact.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a round of fast questions, built on the everyday beliefs about motion that Newton overturned. Every puzzle here has a later home:
+
+      | Puzzle | Where it goes |
+      |---|---|
+      | The state is position and momentum | Hamiltonian mechanics |
+      | Orbits are level curves of energy, they never cross | Hamiltonian mechanics, phase space portraits |
+      | Separatrix, spin versus swing | Oscillations, phase space portraits |
+      | Tiny differences grow at a hilltop | Chaos and integrability |

@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-20 ch01-phase-space (Level 1, concept, 20 cards)
+Built `ch01/phase-space.yaml`: hook, state mcq, spring portrait (interactive), turning-point and loop-size mcqs, energy card, bottom-speed numeric (0.96), pendulum with contours, small-vs-wide mcq, near-top prediction, separatrix widget with presets, spin-push mcq, wrap mcq, friction widget and end-point mcq, no-crossing mcq, period order card, hill (fixedStart) and two-balls mcq (chaos teaser), summary with own and puzzle table. Images: none: no new person or experiment introduced and the widget side view already draws the pendulum. Verification: Taylor state-space page rendered (PDF 504); U = mgl(1 - cos phi) from OCR text only; periods by script. Choices: p = angular speed since m = l = g = 1; Taylor's plane is (phi, phi-dot), noted implicitly through "p is mass times speed". Lesson came out at 20 cards (one over the ideal-under-20 target).
+Conventions fixed here: pendulum units m = l = g = 1, E = p^2/2 + 1 - cos q, separatrix E = 2; periods 6.35 (q0 = 0.4), 7.30 (1.5), 16.16 (3, p = 0), spin p = 3 gives 2.41, spring 2 pi; bottom speed from q = 1 is 0.96.
+
 ## 2026-11-20 widget phase-portrait
 Built `js/widgets/phase-portrait.js` (systems pendulum V = 1 - cos q, spring, hill; RK4 with optional damping; undamped orbit = exact energy contour, damped = integrated spiral; pendulum period by elliptic K, checked against RK4: E = 0.46 gives 6.7000, E = 1.125 spring 6.2832, energy drift 1e-14). Choices: m = l = g = 1 and V zero at the pendulum bottom, so the separatrix is E = 2; rotating orbits wrap at the window edge; `fixedStart` implies display only; no free-fall system (hill covers the unstable case). Checks: validate 0 errors, shots clean on a throwaway lesson (removed), widget-smoke run. Conventions fixed here: pendulum energy E = p^2/2 + 1 - cos q (bottom 0, separatrix 2), q = angle from hanging down.
 
