@@ -1,0 +1,344 @@
+id: ch23-disagreement
+title: "Guided proof: Disagreement Among Equals"
+kind: guided
+proof: true
+own: |
+  The setting: two people, A and B, each hold a credence (a degree of belief between $0$ and $1$) in one statement $H$. Write $c_A$ and $c_B$ for those credences, with $c_A \neq c_B$. They then learn that the other disagrees. Each answer is told *according to* the thinkers named.
+  - **Equal peers.** According to the Stanford Encyclopedia of Philosophy, peers are in "an equally good epistemic position with respect to" the statement. In the simple model this means P1: equal ability, P2: the same evidence, and P3: {{ before the dispute, your own credence earns you no extra weight }}.
+  - **Equal weight (Christensen, Elga).** If $c_A'$ and $c_B'$ are the credences after hearing each other, the equal weight view says the peers should split the difference:
+    {{ $$c_A' = c_B' = \frac{c_A + c_B}{2}$$ }}
+    With $c_A = 0.8$ and $c_B = 0.4$ both end at $0.6$.
+  - **Weight on the peer.** Let $r$ be the weight each gives the other, between $0$ and $1$. Then
+    {{ $$c_A' = (1-r)\,c_A + r\,c_B$$ }}
+    where $r = \tfrac12$ is the split, and $r < \tfrac12$ needs a reason to trust yourself more that does not itself rest on the disagreement (the independence requirement quoted from the Stanford Encyclopedia).
+  - **Pooling is a different case.** If the two credences come from independent evidence on a shared prior chance $p_0$, with odds $o = c/(1-c)$, then the evidence adds on the odds scale:
+    {{ $$o_{\text{pooled}} = \frac{o_A\, o_B}{o_0}$$ }}
+    where $o_0 = p_0/(1-p_0)$. For $c_A = 0.8$, $c_B = 0.6$ and $p_0 = 0.5$ the pooled odds are $6$, a credence of about $0.857$, not the split value $0.7$.
+  - **Three layers.** Fact: who argued what and the arithmetic of the model. Debate: whether real disagreements about God satisfy P1 to P3, and whether to split at all (steadfast views reject it). Commitment: whom one counts as a peer.
+
+cards:
+  - type: text
+    id: hook
+    title: "Two careful friends, two totals"
+    body: |
+      Two friends, Ana and Beto, are equally good at arithmetic. After a dinner they each add up the shared bill, with care, and Ana gets 214 while Beto gets 238. Neither has a calculator. Each feels sure the sum was done right.
+
+      Before any theory, a guess. Guessing first is the point. The lesson asks what Ana should now believe about her own total, and then asks whether the same reasoning applies when two equally careful people disagree about something far larger, such as whether God exists. It builds a small formal model, a guided proof, and checks each step.
+
+  - type: mcq
+    id: guess
+    title: "Guess: what should Ana do?"
+    prompt: |
+      Ana and Beto are equally good at sums, saw the same bill, and have just learned that their totals differ (214 and 238). Before they rework anything, what is the most reasonable attitude for Ana?
+    options:
+      - text: "Become less sure of her own total, since someone just as reliable disagrees."
+        correct: true
+        feedback: |
+          Yes. In this case there is no reason, apart from the disagreement itself, to think Ana the one who slipped. That is the intuition the lesson will turn into a rule.
+      - text: "Stay exactly as sure as before, since she knows how she did her own sum."
+        feedback: |
+          Tempting, because her own work feels vivid. But Beto's work felt vivid to him too, and one of them made a slip.
+      - text: "Decide that Beto must be the one who erred, since 214 looks right to her."
+        feedback: |
+          That uses her own answer to rate Beto, which is the very thing in dispute. It would let anyone conclude that everyone who disagrees is wrong.
+    explanation: |
+      Keep your answer. The restaurant-bill case, in this spirit, is used by David Christensen in "Epistemology of Disagreement: The Good News" (Philosophical Review 116(2), 2007), according to the Stanford Encyclopedia of Philosophy. The numbers here are our own.
+
+  - type: widget
+    id: rules
+    title: "Three ways to answer a peer"
+    widget: peer-credence
+    config:
+      peers: ["Ann", "Ben"]
+      a: 0.8
+      b: 0.4
+      rule: split
+      evidence: false
+      presets:
+        - { label: "Firm", rule: firm }
+        - { label: "Split", rule: split }
+        - { label: "Weighted", rule: weighted, r: 0.2 }
+    body: |
+      Ann and Ben are two people who hold credences in the same statement. A **credence** is a degree of belief between $0$ and $1$. Slide Ann's and Ben's starting credences and try each rule. **Firm** means each keeps their own. **Split** means both move to the average. **Weighted** means each gives the other a weight $r$; $r=0$ is firm and $r=\tfrac12$ is split. Watch the gap between them and how far each bar moves.
+
+  - type: numeric
+    id: split-read
+    title: "Split the difference"
+    review: false
+    prompt: |
+      Ann's credence is $0.8$ and Ben's is $0.4$ in the same statement. They both adopt the split rule: each moves to the average of the two. What credence does each hold afterwards?
+    answer: 0.6
+    tolerance: 0.001
+    wrong:
+      - { value: 0.8, feedback: "That is Ann's start. Under the firm rule she would keep it, but the split rule moves her." }
+      - { value: 0.4, feedback: "That is Ben's start. The split rule moves him too." }
+    hint: "Add the two credences and halve."
+    explanation: |
+      $(0.8+0.4)/2 = 0.6$, and both end at the same number, so the gap closes to zero. The rest of the lesson asks when this rule is the right response.
+
+  - type: text
+    id: peers
+    title: "Who counts as an equal"
+    body: |
+      According to the Stanford Encyclopedia of Philosophy, two people are **epistemic peers** about a statement when they are "in an equally good epistemic position with respect to" it. ("Epistemic" means having to do with knowledge and justified belief.) In a simple model that unpacks into three conditions, which we number so we can test them one by one.
+
+      **P1, equal ability:** A and B are equally good at judging this kind of question, for instance equally careful and well trained.
+
+      **P2, equal evidence:** A and B have seen the same evidence.
+
+      **P3, no extra weight for yourself:** whatever reason you have to think you are the one who got it right must come from outside the dispute. The fact that your own answer seems right to you, or that it is yours, does not count. The Stanford Encyclopedia states the same idea as a principle named Independence: "Reasons to discount your peer's opinion about P must be independent of the disagreement itself."
+
+  - type: text
+    id: argument
+    title: "The argument in one line"
+    body: |
+      Call the claim being weighed $H$, and let $c_A$ and $c_B$ be the two credences, with $c_A\neq c_B$. The argument, in the order we will test it, is:
+
+      **P1.** A and B are equally able. **P2.** A and B have the same evidence. **P3.** Neither may count the disagreement itself as a reason to favour their own credence. **C.** Each should revise to the same credence, halfway between:
+
+      $$c_A' = c_B' = \frac{c_A + c_B}{2}$$
+
+      According to Adam Elga ("Reflection and Disagreement", Noûs 41(3), 2007) this is the *equal weight view*, and David Christensen defends a close relative of it. The next three cards each ask which premise a critic would reject.
+
+  - type: mcq
+    id: p1
+    title: "Attack P1"
+    prompt: |
+      Two scientists have seen the same data on a question. One has twenty years of experience on exactly this type of data, and the other is a student in the first week. Which premise of the argument fails for them?
+    options:
+      - text: "P1 (equal ability): they are not equally able, so the argument does not apply to them."
+        correct: true
+        feedback: |
+          Yes. The argument is about peers. For an expert and a novice, a different weight fits (the weighted rule with $r$ below one half for the expert's view).
+      - text: "P2 (equal evidence): they have seen the same data, so P2 fails."
+        feedback: |
+          They share the data, so P2 holds. The gap is in skill.
+      - text: "P3 (no extra weight): the expert is entitled to count his own answer."
+        feedback: |
+          His reason to trust himself is his track record, which is independent of this dispute, so it is allowed. That is a failure of P1, not a breach of P3.
+    explanation: |
+      The conclusion needs equality. An unequal pair gets an unequal split. This is one reading of what a critic of the *use* of the argument would say: the equal weight rule is not wrong, it simply does not apply.
+
+  - type: mcq
+    id: p2
+    title: "Attack P2"
+    prompt: |
+      Two equally capable detectives each interview different witnesses about the same crime. Their conclusions differ. A critic says the argument for splitting the difference does not apply to them. Which premise does the critic reject?
+    options:
+      - text: "P2 (same evidence): each holds evidence the other has not seen, so a disagreement may only show different data."
+        correct: true
+        feedback: |
+          Yes. The argument was built for disagreement over shared evidence. With private evidence, each should first share what they hold. Some defenders of holding firm argue that private evidence of this kind can remain even after sharing, which is why this premise is contested in religious debates.
+      - text: "P1 (equal ability): detectives cannot be equally able."
+        feedback: |
+          The case says they are equally capable.
+      - text: "P3 (no extra weight): witnesses count as an independent source."
+        feedback: |
+          P3 is about counting the disagreement itself as a reason; it does not mention witnesses.
+    explanation: |
+      Whether believers and non-believers share their evidence is a live dispute. Some say all share the same world and arguments (P2 holds); others say an experience of the divine is evidence only the one who had it possesses (P2 fails).
+
+  - type: mcq
+    id: p3
+    title: "Attack P3"
+    prompt: |
+      Ana says: "I recomputed the bill and got 214 again, so I am even more sure Beto slipped." Beto says the same of 238. Which principle do they both break?
+    options:
+      - text: "P3 (independence): each uses their own answer, the thing in dispute, to rate the other as less reliable."
+        correct: true
+        feedback: |
+          Yes. Recomputing with the same method re-runs the same reasoning, so it cannot settle which of two equal reasoners erred. A reason to discount a peer has to come from outside the dispute.
+      - text: "P1 (equal ability): the recomputing shows they are not equal."
+        feedback: |
+          Recomputing leaves ability unchanged. The slip is in how they use the answer.
+      - text: "P2 (same evidence): they now have different evidence."
+        feedback: |
+          They still look at the same bill. Rechecking adds no outside evidence.
+    explanation: |
+      A critic of P3 would say that you do have special access to your own reasoning, so some extra weight is fair. Defenders reply that such weight would let everyone dismiss every disagreement, which is a poor guide to truth.
+
+  - type: mcq
+    id: validity
+    title: "Valid, or true?"
+    prompt: |
+      Two separate questions can be asked of any argument. *Valid* means: if the premises were true, the conclusion would have to be true. *Sound* means: valid and the premises are true. Which statement is correct about the argument P1, P2, P3, so C?
+    options:
+      - text: "Within the model it is valid. Whether it is sound depends on whether real disagreements meet P1 to P3."
+        correct: true
+        feedback: |
+          Yes. We check each step apart from the truth of the premises, as with every argument in this course.
+      - text: "It is sound, because the conclusion matches common sense."
+        feedback: |
+          Plausible conclusions can still rest on false premises. Soundness needs the premises to hold.
+      - text: "It is invalid, because the premises mention three different things."
+        feedback: |
+          The number of premises is not what decides validity. What matters is whether the conclusion follows when they are granted. The next card shows why it does.
+    explanation: |
+      The critic's best move is therefore to deny a premise, not to attack the step. Denying P1, P2 or P3 is exactly what the critics above did.
+
+  - type: text
+    id: model
+    title: "Why the premises give the conclusion"
+    body: |
+      Here is a toy model of the step, not a claim about every real case. Suppose one of the two credences, $c_A$ or $c_B$, is the better one, the one the shared evidence supports. Let $w$ be the chance that A holds the better one, given what A knows, including that B disagrees.
+
+      Before the dispute, P1 (equal ability) and P2 (same evidence) make the two equally likely to have got it right, so $w=\tfrac12$. P3 says the disagreement may not move $w$ by any reason that is not independent of it, so after the dispute it is still $\tfrac12$. A sensible revision is the expected better credence:
+
+      $$c' = w\,c_A + (1-w)\,c_B = \tfrac12 c_A + \tfrac12 c_B$$
+
+      B reasons identically, so both reach the average. If A had an independent reason to think the chance of being right is $w > \tfrac12$, the weights would tilt toward $c_A$. Setting $r = 1-w$ as the weight on the peer gives the general rule $c_A' = (1-r)\,c_A + r\,c_B$.
+
+  - type: build
+    id: build-rule
+    title: "Build the weighted rule"
+    prompt: |
+      Peer A holds credence $c_A$ and peer B holds $c_B$. A gives B the weight $r$ (between $0$ and $1$) and keeps the rest for themselves. Build A's revised credence $c_A'$.
+    prefix: "c_A' ="
+    tiles: ["(1-r)", "r", "c_A", "c_B", "+", "\\cdot"]
+    answers:
+      - ["(1-r)", "c_A", "+", "r", "c_B"]
+      - ["r", "c_B", "+", "(1-r)", "c_A"]
+    wrong:
+      - answer: ["r", "c_A", "+", "(1-r)", "c_B"]
+        feedback: "This gives B's own credence the larger weight when $r$ is small. A gives weight $r$ to the peer, so $r$ multiplies $c_B$."
+    hint: "The two weights must add to one: one part to yourself, the rest to the peer."
+    explanation: |
+      $c_A' = (1-r)c_A + r c_B$. At $r=\tfrac12$ it is the average, and at $r=0$ it is $c_A$ unchanged, the firm rule.
+
+  - type: numeric
+    id: weighted
+    title: "A small tilt toward yourself"
+    prompt: |
+      Ann holds credence $0.8$ and Ben holds $0.4$ in the same statement. Ann gives Ben the weight $r=0.2$, using the rule $c_A' = (1-r)\,c_A + r\,c_B$. What is Ann's new credence?
+    answer: 0.72
+    tolerance: 0.001
+    wrong:
+      - { value: 0.6, feedback: "That is the split value, which uses $r=0.5$." }
+      - { value: 0.48, feedback: "That swaps the weights, putting $0.8$ on Ben's credence. The weight $r=0.2$ goes on Ben's $0.4$." }
+    hint: "Compute $0.8\\cdot 0.8 + 0.2\\cdot 0.4$."
+    explanation: |
+      $0.8\cdot 0.8 + 0.2\cdot 0.4 = 0.64 + 0.08 = 0.72$. She moves $0.08$ toward Ben. The tilt is only allowed if she has a reason to trust herself that does not come from the disagreement.
+
+  - type: widget
+    id: pooling
+    title: "Same evidence, or independent evidence?"
+    widget: peer-credence
+    config:
+      peers: ["Ann", "Ben"]
+      a: 0.8
+      b: 0.6
+      rule: split
+      ruleToggle: false
+      evidence: true
+      evidenceToggle: true
+      prior: 0.5
+      priorSlider: true
+    body: |
+      Now suppose Ann and Ben did not share their evidence but each learned something different and independent about a statement that started at the prior chance $p_0$. The purple row shows the *pooled* credence: odds multiply, so independent evidence adds up, instead of being averaged. Show and hide the purple row, and try prior $0.5$ first.
+
+  - type: numeric
+    id: pooled
+    title: "Add the evidence, do not average it"
+    prompt: |
+      Ann and Ben each looked at independent evidence for a statement whose prior chance was $0.5$. Ann now holds $0.8$, which is odds $4$ (odds are $c/(1-c)$). Ben holds $0.6$, which is odds $1.5$. With prior odds $1$, independent evidence multiplies the odds: $o_{\text{pooled}} = o_A\,o_B/o_0$. What credence do they reach together? (Give it as a decimal.)
+    answer: 0.857
+    tolerance: 0.003
+    wrong:
+      - { value: 0.7, feedback: "That is the average, which is right when both saw the *same* evidence, not when each saw something different." }
+      - { value: 6, feedback: "That is the pooled odds. Convert to a credence with $c = o/(1+o)$." }
+    hint: "Pooled odds are $4\\times 1.5\\,/\\,1$. Then $c = o/(1+o)$."
+    explanation: |
+      The pooled odds are $6$, so $c = 6/7 \approx 0.857$. Each credence was already informed by evidence, so together they are stronger than either, and the result is higher than both. The split would give $0.7$.
+
+  - type: mcq
+    id: when-split
+    title: "Split or pool?"
+    prompt: |
+      Two equally able people disagree. When is splitting the difference the right model, and when is pooling?
+    options:
+      - text: "Split when both reasoned from the same evidence and the gap shows that one made a reasoning error; pool when each holds independent evidence the other lacks."
+        correct: true
+        feedback: |
+          Yes. This is exactly why P2 is a premise: it makes the case one of a reasoning slip, not of missing data. With independent evidence, sharing it can lead to a result beyond both.
+      - text: "Always split, since peers have equal ability."
+        feedback: |
+          Equal ability is only P1. If each holds different evidence, averaging throws information away (pooled odds can exceed both credences).
+      - text: "Always pool, since more evidence is better."
+        feedback: |
+          Pooling needs independent evidence. If both reasoned from the same evidence, multiplying odds counts it twice.
+    explanation: |
+      Religious debates mix both kinds. The equal weight view is clearest when the same arguments and facts are on the table and the two sides still differ.
+
+  - type: text
+    id: objections
+    title: "Replies from the steadfast and from the self-referential"
+    body: |
+      Defenders of the equal weight view include Elga and Christensen (Brian Weatherson names them with Richard Feldman). Rivals hold that you may stay (more) **steadfast**, meaning keep your credence. Thomas Kelly's *total evidence view* (in "Peer Disagreement and Higher-Order Evidence", 2010) says what you should believe depends on all your evidence, so your first-order reasons, the ones about $H$ itself, count as well as the fact of disagreement. Jennifer Lackey's *justificationist view* (in "What Should We Do When We Disagree?", Oxford Studies in Epistemology 3, 2010) says the required revision tracks how well justified your belief already was.
+
+      A second objection is that the equal weight rule is **self-undermining**. According to the Stanford Encyclopedia, critics, among them Plantinga, say that because experts disagree about the rule itself, applying it to itself tells you to abandon it. Defenders reply that the principle exempts itself, or that the defeat is not falsity.
+
+  - type: mcq
+    id: objection-match
+    title: "Which reply to which objection?"
+    prompt: |
+      A believer and an atheist who both know the same arguments have disagreed for years. The believer says: "I have a lived experience the atheist lacks, so I need not split." A critic of the believer replies: "Experience is private, so counting it as a reason is just trusting yourself." Which premise of the argument does the believer's reply reject, and which does the critic defend?
+    options:
+      - text: "The believer rejects P2 (same evidence); the critic presses P3 (independence)."
+        correct: true
+        feedback: |
+          Yes. The believer says their evidence is not shared. The critic asks whether the believer can describe that evidence without leaning on their own verdict.
+      - text: "The believer rejects P1 (equal ability); the critic defends P2."
+        feedback: |
+          The believer does not claim greater skill, but an extra piece of evidence.
+      - text: "The believer rejects the validity of the argument; the critic defends soundness."
+        feedback: |
+          The believer denies a premise, which is a different move from denying validity.
+    explanation: |
+      The same card can be played with the roles reversed: an atheist may cite an experience of the world's evils as a private reason. The model tells us where the dispute lies, which premise, and leaves open who is right.
+
+  - type: mcq
+    id: who-peer
+    title: "The problem of choosing peers"
+    prompt: |
+      A critic says that in a religious disagreement it is hard to apply the argument at all, because there is no neutral way to decide who counts as a peer. Why is that a problem for the rule, according to the model?
+    options:
+      - text: "Deciding that the other person is less able or less informed usually already uses my own view on the disputed matter, which P3 forbids."
+        correct: true
+        feedback: |
+          Yes. If I judge you a poorer reasoner *because* you disagree with me, the judgement is not independent of the dispute. A clear independent mark (a track record, training, a test) would be allowed.
+      - text: "Because the rule gives every believer the same credence."
+        feedback: |
+          The rule gives the two peers one credence, but it does not require that of everyone.
+      - text: "Because religious beliefs are not credences."
+        feedback: |
+          Many treat them as degrees of confidence, but that is not the objection; the difficulty is in picking the group of peers.
+    explanation: |
+      Notice the two edges. If everyone who disagrees is a non-peer, the rule is empty. If every thoughtful disagreer is a peer, then widespread suspension of judgement follows, which defenders of equal weight accept in part and critics regard as too costly.
+
+  - type: mcq
+    id: layers
+    title: "Fact, debate or commitment?"
+    prompt: |
+      Which of these is a matter of fact (layer 1), not live debate or personal commitment?
+    options:
+      - text: "With $c_A=0.8$ and $c_B=0.4$, the equal split gives $0.6$ for both, and independent pooled evidence at prior $0.5$ gives odds $4\\times \\tfrac23\\approx 2.67$, about $0.727$."
+        correct: true
+        feedback: |
+          Yes. This is arithmetic inside the model. Note that the two rules give different numbers, which is why the choice of rule matters.
+      - text: "Two thoughtful people who disagree about God are epistemic peers."
+        feedback: |
+          This is live debate: it depends on whether P1 to P3 hold in the real case.
+      - text: "Believing against a peer's confident disagreement is irrational."
+        feedback: |
+          This is the contested claim itself. Steadfast views, such as Kelly's total evidence view, deny it.
+      - text: "One should treat everyone who disagrees as a possible peer."
+        feedback: |
+          This is a commitment about how generous to be, not a fact.
+    explanation: |
+      The lesson settles the model and who argued what. It leaves open whether religious disagreements fit P1 to P3, which depends on evidence, on private experience and on whom one counts as a peer.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      **Next:** The lesson on Atheism, Agnosticism and Nonbelief looks at the other side of these disagreements: the kinds of nonbelief, their history and their best arguments, as their holders state them.
