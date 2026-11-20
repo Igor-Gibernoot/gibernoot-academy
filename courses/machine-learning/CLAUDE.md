@@ -15,6 +15,30 @@ what is specific to this course.
   stated without derivation and left to the exercises are the best guided
   proofs; worked examples (screening 2.1.1, sinusoidal curve 1.2, robot
   kinematics 6.5.1) are the best guided problems.
+- **Sources for the extra levels and lessons** (what the book lacks;
+  Markdown by `pdftotext -layout`, same verification rule as below, page
+  offsets not yet checked):
+  - `james-islr.md`: James, Witten, Hastie, Tibshirani, *An Introduction to
+    Statistical Learning* (2013, 1st ed.). Ch. 8 trees, bagging, random
+    forests, boosting (md ~16033); 5.1 cross-validation (md ~9246).
+    Level `x-trees`.
+  - `sutton-barto-rl.md`: Sutton and Barto, *Reinforcement Learning*,
+    **2014-15 draft** of the 2nd ed. ("n-armed", not "k-armed"; Ch. 11
+    "Policy Approximation" is a stub). Ch. 2 bandits (md ~1569), 3 MDPs, 6
+    TD and Q-learning. Level `x-rewards`. Notation may differ from the 2018
+    edition: check before fixing conventions.
+  - `prince-udl.md`: Prince, *Understanding Deep Learning* (2023). Ch. 19
+    RL (MDPs md ~17670, policy gradient ~18357, actor-critic ~18649), Ch. 20
+    why deep learning works, Ch. 21 ethics (fairness, `x-modern-fairness`).
+  - Papers: `christiano2017-rlhf.md` (preferences, Bradley-Terry reward),
+    `ouyang2022-instructgpt.md` (RLHF pipeline), `rafailov2023-dpo.md` (DPO
+    derivation, `x-rewards-dpo`), `kaplan2020-scaling-laws.md`,
+    `hoffmann2022-chinchilla.md` (`x-modern-scaling`, `-compute-optimal`).
+  - No source here (check on the web, `docs/WEB_SEARCH.md`, log `web:`):
+    calibration (`ch05-calibration`), distribution shift
+    (`ch09-audit-shift`), tabular benchmarks (`x-trees-which-model`),
+    reasoning models (`x-rewards-reasoning`), in-context learning, tools,
+    hallucination, benchmarks, interpretability (`x-modern-*`).
 - No professor's exams: all exams are original (root `CLAUDE.md`, Exam).
 - **The book's figures are copyrighted** (Springer, "all rights reserved",
   reuse of illustrations included) and the repo is public: never put a book
@@ -33,8 +57,12 @@ formulas and numbers, not prose. PDF page = book page + 20 (checked at
 pp. 6, 112, 582); front matter (roman numerals) does not follow the offset.
 
 ## Trail
-`course.yaml`: 20 chapter levels (Level N = Chapter N) and four exams
-(after Levels 6, 10, 15, 20; covering 2-6, 7-10, 11-15, 16-20).
+`course.yaml`: 20 chapter levels (Level N = Chapter N), three extra levels
+(eyebrow "Extra level", no number: `x-trees` after 6, `x-rewards` after 12,
+`x-modern` after 20) and four exams (after `x-trees`, Level 10, Level 15,
+`x-modern`; covering 2-6 + trees, 7-10, 11-15 + rewards, 16-20 + modern).
+In lessons, name an extra level by title ("the level Learning From
+Rewards"), never by a number.
 Status: `STATUS.md`.
 
 ## Course method (what makes this course different)

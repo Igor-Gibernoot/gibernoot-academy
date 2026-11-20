@@ -65,30 +65,51 @@ export const SPRITES = {
       ['.......K....K.......', '......K......K......', '.....KK......KK.....'],
     ],
   },
-  // A robot whose screen shows a bell curve: information geometry.
+  // Boxy robot with two cyan LED eyes on a dark screen and a green chest light: machine learning.
   robot: {
-    pal: { R: '#ff5a5a', L: '#b8c0cc', D: '#1d3b3a', N: '#5cf2a0', A: '#4f8de0', Y: '#ffd23f' },
+    pal: { O: '#ff9a3c', L: '#b8c0cc', D: '#1b2440', E: '#38e1ff', w: '#e8fbff', C: '#5cf2a0', A: '#4f8de0' },
     body: [
-      '.......R........',
+      '.......O........',
       '.......L........',
       '..LLLLLLLLLLLL..',
       '..LDDDDDDDDDDL..',
-      '..LDDDDNNDDDDL..',
-      '..LDDDNDDNDDDL..',
-      '..LDDNDDDDNDDL..',
-      '..LNNDDDDDDNNL..',
+      '..LDEEDDDDEEDL..',
+      '..LDEwDDDDEwDL..',
+      '..LDDDDDDDDDDL..',
+      '..LDDDCCCCDDDL..',
       '..LDDDDDDDDDDL..',
       '..LLLLLLLLLLLL..',
       '.....LLLLLL.....',
       '..AAAAAAAAAAAA..',
-      '.LAAAYAAAAYAAAL.',
-      '.LAAAAAAAAAAAAL.',
+      '.LAAAAACCAAAAAL.',
+      '.LAAAAACCAAAAAL.',
       '.LAAAAAAAAAAAAL.',
       '..AAAAAAAAAAAA..',
     ],
     legs: [
       ['....LL....LL....', '....LL....LL....', '...LLL....LLL...'],
       ['....LL....LL....', '...LL......LL...', '..LLL......LLL..'],
+    ],
+  },
+  // A bell curve come alive: Gaussian body with eyes, its mean marked in yellow: information geometry.
+  gaussian: {
+    pal: { G: '#5cf2a0', g: '#2fb37a', W: '#ffffff', K: '#1b1b24', P: '#ff9ab8', Y: '#ffd23f' },
+    body: [
+      '......GGGG......',
+      '.....GGGGGG.....',
+      '....GGGGGGGG....',
+      '....GWKGGWKG....',
+      '...GGKKGGKKGG...',
+      '...GPGGKKGGPG...',
+      '..GGGGGGGGGGGG..',
+      '..GGGGGGGGGGGG..',
+      '.gGGGGGGGGGGGGg.',
+      'ggGGGGGGGGGGGGgg',
+      'gggggggYYggggggg',
+    ],
+    legs: [
+      ['....KK....KK....'],
+      ['...KK......KK...'],
     ],
   },
   // Slim engineer: hard hat with a lamp, cyan goggles, orange vest with reflective stripes, a big wrench held up.
@@ -139,33 +160,6 @@ export const SPRITES = {
     ],
   },
   // Long curled wig, crimson coat, white cravat, an apple in hand: classical mechanics.
-  // Small white android with a dome head, one cyan LED eye and a green chest light: machine learning.
-  android: {
-    pal: { O: '#ff9a3c', G: '#8e9bb0', W: '#eef2f7', D: '#1b2440', E: '#38e1ff', w: '#e8fbff', C: '#5cf2a0', B: '#4f8de0' },
-    body: [
-      '.......O........',
-      '.......G........',
-      '....WWWWWWWW....',
-      '...WWWWWWWWWW...',
-      '..WWDDDDDDDDWW..',
-      '..WDDDEwEEDDDW..',
-      '..WDDDEEEEDDDW..',
-      '..WDDDDDDDDDDW..',
-      '..WWDDDDDDDDWW..',
-      '...WWWWWWWWWW...',
-      '......GGGG......',
-      '...WWWWWWWWWW...',
-      '..BWWWWCCWWWWB..',
-      '..BWWWWCCWWWWB..',
-      '..BWWWWWWWWWWB..',
-      '..GWWWWWWWWWWG..',
-      '....WWWWWWWW....',
-    ],
-    legs: [
-      ['.....GG..GG.....', '.....GG..GG.....', '....BBB..BBB....'],
-      ['.....GG..GG.....', '....GG....GG....', '...BBB....BBB...'],
-    ],
-  },
   newton: {
     pal: { H: '#d9cbb0', h: '#a8957a', S: '#f2c48d', s: '#d39a63', K: '#26262e', C: '#8e2f3c', c: '#6a1f2b', W: '#ffffff', R: '#e53935', g: '#4caf50', B: '#3a2a22', T: '#f4f4f6' },
     body: [
@@ -356,7 +350,7 @@ export const BANNERS = {
     g.sprite('brain', 38, 26);
     [[57, 6], [64, 5], [56, 11], [66, 10]].forEach(([x, y]) => g.px(x, y, '#ffd86b'));
   },
-  // Bell curves of different widths, and the robot that fits them.
+  // Bell curves of different widths, and the Gaussian creature walking among them.
   curves(g) {
     g.sky(['#062a2a', '#0a3a3a', '#0f4a48']);
     for (let x = 0; x < 96; x += 2) g.px(x, 26, '#1f6b66');
@@ -364,7 +358,7 @@ export const BANNERS = {
     g.curve(x => 25 - 18 * gauss(x, 22, 6), 0, 60, '#5cf2a0');
     g.curve(x => 25 - 11 * gauss(x, 34, 11), 0, 64, '#ffd23f');
     g.curve(x => 25 - 7 * gauss(x, 48, 16), 0, 70, '#ff7ab8');
-    g.sprite('robot', 74, 27);
+    g.sprite('gaussian', 74, 27);
   },
   // A bright morning of inventions: hot-air balloon, wind turbine, rocket lifting off, and the engineer.
   machines(g) {
@@ -432,7 +426,7 @@ export const BANNERS = {
     [[82, 4], [83, 5]].forEach(([x, y]) => g.px(x, y, '#9fb4ff'));
     g.sprite('newton', 74, 27);
   },
-  // A neural network of glowing nodes, a few paths lit by activation, and the android wondering "?".
+  // A neural network of glowing nodes, a few paths lit by activation, and the robot wondering "?".
   network(g) {
     g.sky(['#0b1426', '#101d36', '#162745']);
     g.stars(14, 5, ['#9fb4ff', '#ffffff'], 26);
@@ -453,7 +447,7 @@ export const BANNERS = {
     }));
     g.rect(0, 27, 96, 1, '#2c4a78');
     g.grid(['YYY', '..Y', '.Y.', '...', '.Y.'], 89, 1, { Y: '#ffd23f' });
-    g.sprite('android', 72, 27);
+    g.sprite('robot', 72, 27);
   },
 };
 

@@ -8,10 +8,14 @@
 # Guided nodes come in three flavours, named in the summary: guided problem,
 # guided proof (proof: true in the file) and AI audit (a guided problem built
 # on AI-written code, claims or results; course CLAUDE.md, Course method).
-# Exams: own levels exam-partial1 (after Level 6, covers 2-6), exam-partial2
-# (after Level 10, covers 7-10), exam-partial3 (after Level 15, covers 11-15)
-# and exam-final (after Level 20, covers 16-20). No exam covers more than 6
-# levels (root CLAUDE.md, Exam). Original exams.
+# Extra levels (eyebrow, no number) teach what the book lacks, from the other
+# sources (course CLAUDE.md): x-trees after Level 6, x-rewards after Level 12,
+# x-modern after Level 20.
+# Exams: own levels exam-partial1 (after x-trees, covers 2-6 + x-trees),
+# exam-partial2 (after Level 10, covers 7-10), exam-partial3 (after Level 15,
+# covers 11-15 + x-rewards) and exam-final (after x-modern, covers 16-20 +
+# x-modern). No exam covers more than 6 levels (root CLAUDE.md, Exam).
+# Original exams.
 
 title: Machine Learning
 overview:
@@ -20,6 +24,16 @@ overview:
   sources:
     - who: Christopher M. Bishop and Hugh Bishop
       what: "Deep Learning: Foundations and Concepts (Springer, 2024). The guide for the whole course, from probability to transformers and diffusion models."
+    - who: Gareth James, Daniela Witten, Trevor Hastie and Robert Tibshirani
+      what: "An Introduction to Statistical Learning (Springer, 2013). Decision trees, random forests and boosting."
+    - who: Richard S. Sutton and Andrew G. Barto
+      what: "Reinforcement Learning: An Introduction (MIT Press, second edition). Bandits, Markov decision processes and learning values."
+    - who: Simon J. D. Prince
+      what: "Understanding Deep Learning (MIT Press, 2023). Reinforcement learning with networks, why deep learning works, and its ethics."
+    - who: Christiano et al. (2017), Ouyang et al. (2022), Rafailov et al. (2023)
+      what: "The papers behind learning from human preferences, RLHF for language models, and direct preference optimization."
+    - who: Kaplan et al. (2020), Hoffmann et al. (2022)
+      what: "Scaling laws for language models and compute-optimal training."
 
 levels:
   - id: ch01
@@ -231,6 +245,10 @@ levels:
         title: "Measuring a Classifier"
         kind: concept
         summary: "Accuracy, the confusion matrix, precision and recall, and the ROC curve: what each number hides when one class is rare."
+      - id: ch05-calibration
+        title: "Does 90% Mean 90%?"
+        kind: concept
+        summary: "Calibration: reliability diagrams, the expected calibration error, why deep networks are often overconfident, and temperature scaling as a fix."
       - id: ch05-generative
         title: "Generative Classifiers"
         kind: concept
@@ -312,16 +330,63 @@ levels:
         kind: challenge
         summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
 
+  - id: x-trees
+    eyebrow: Extra level · Trees
+    title: "When Not to Use a Neural Network"
+    blurb: "Tables of numbers, like medical records or sales data, are often learned best by trees. Decision trees, bagging, random forests and gradient boosting, and how to choose a model for the problem in front of you."
+    lessons:
+      - id: x-trees-trees
+        title: "Decision Trees"
+        kind: concept
+        summary: "Twenty questions with data: split the inputs one feature at a time, grow the tree greedily, measure purity with the Gini index or entropy, and prune it back."
+      - id: x-trees-by-hand
+        title: "Grow a Tree by Hand"
+        kind: guided
+        summary: "Guided problem: choose the first two splits of a tree on a small patient table, computing the error of every candidate split."
+      - id: x-trees-forests
+        title: "Bagging and Random Forests"
+        kind: concept
+        summary: "One tree is unstable, many trees average out: the bootstrap, out-of-bag error, and random forests that decorrelate trees by hiding features."
+      - id: x-trees-boosting
+        title: "Boosting"
+        kind: concept
+        summary: "Many small trees in sequence, each fixing what the others got wrong: the boosting algorithm, shrinkage, and gradient boosting as gradient descent on functions."
+      - id: x-trees-which-model
+        title: "Which Model When?"
+        kind: concept
+        summary: "Tables, images, text and sound: what each model assumes, how much data it needs, how readable it is, and why every project starts with a simple baseline."
+      - id: x-trees-audit
+        title: "Audit: A Deep Network for a Spreadsheet"
+        kind: guided
+        summary: "Guided problem (AI audit): An AI trains a large network on 2,000 rows of tabular data, compares it with no baseline, and reads feature importance as cause. Predict what a forest would score and fix the claims."
+      - id: x-trees-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about tree depth, why bagging helps, the learning rate of boosting, and what feature importance means."
+      - id: x-trees-intuition
+        title: "Intuition Round"
+        kind: intuition
+        summary: "Quick recall of the split criteria, the bagging variance argument and the boosting update."
+      - id: x-trees-map
+        title: "Content Map: Trees and Ensembles"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: x-trees-review, title: Level Review, kind: review }
+      - id: x-trees-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
   - id: exam-partial1
     eyebrow: Partial exam
     hue: 3
     title: "Partial Exam: Probability and Single-layer Networks"
-    blurb: "A timed exam on Levels 2 to 6. No feedback until you submit, then your score and a review of every answer."
+    blurb: "A timed exam on Levels 2 to 6 and the extra level on trees. No feedback until you submit, then your score and a review of every answer."
     lessons:
       - id: exam-partial1
         title: Partial Exam 1
         kind: exam
-        summary: "60 minutes, ten points, about five questions on probability, distributions, regression, classification and deep networks. Answers are checked only when you submit."
+        summary: "60 minutes, ten points, about five questions on probability, distributions, regression, classification, deep networks and trees. Answers are checked only when you submit."
 
   - id: ch07
     number: 7
@@ -450,6 +515,10 @@ levels:
         title: "Audit: Is It Overfitting?"
         kind: guided
         summary: "Guided problem (AI audit): An AI reads a set of learning curves and recommends more parameters, more data or more regularization. Decide which advice is right."
+      - id: ch09-audit-shift
+        title: "Audit: It Worked in the Lab"
+        kind: guided
+        summary: "Guided problem (AI audit): A model trained on one hospital's scans fails at another. Covariate shift, label shift and shortcut features: predict which failure happened and how to test for it."
       - id: ch09-traps
         title: "Intuition Traps"
         kind: traps
@@ -628,6 +697,65 @@ levels:
         kind: challenge
         summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
 
+  - id: x-rewards
+    eyebrow: Extra level · Rewards
+    title: "Learning From Rewards"
+    blurb: "No labels, only a score after acting: reinforcement learning from bandits to policy gradients, and how it turns a language model into an assistant through human preferences, RLHF and DPO."
+    lessons:
+      - id: x-rewards-bandits
+        title: "Explore or Exploit"
+        kind: concept
+        summary: "Ten slot machines and limited coins: action values, the greedy choice, epsilon-greedy exploration and upper confidence bounds."
+      - id: x-rewards-mdp
+        title: "Markov Decision Processes"
+        kind: concept
+        summary: "States, actions, rewards and policies: the return, the discount factor, value functions and the Bellman equation."
+      - id: x-rewards-by-hand
+        title: "Values by Hand"
+        kind: guided
+        summary: "Guided problem: compute the state values of a tiny grid world, one Bellman update at a time, and read off the best policy."
+      - id: x-rewards-q-learning
+        title: "Learning Values From Experience"
+        kind: concept
+        summary: "No model of the world, only trials: temporal-difference learning, Q-learning, and fitted Q-learning with a neural network."
+      - id: x-rewards-policy-gradient
+        title: "Policy Gradients"
+        kind: guided
+        summary: "Guided proof: the gradient of the expected return is the expected reward times the gradient of the log policy, and a baseline lowers its variance (REINFORCE, actor-critic)."
+      - id: x-rewards-rlhf
+        title: "Learning From Human Preferences"
+        kind: concept
+        summary: "People compare two answers, a reward model learns their taste, and reinforcement learning with a KL leash tunes the language model: the RLHF pipeline and reward hacking."
+      - id: x-rewards-dpo
+        title: "Direct Preference Optimization"
+        kind: guided
+        summary: "Guided proof: the best policy for a KL-regularized reward has a closed form, so the reward model can be skipped and preferences trained on directly."
+      - id: x-rewards-reasoning
+        title: "Rewards for Reasoning"
+        kind: concept
+        summary: "Reinforcement learning on problems with checkable answers, like maths and code: why it lengthens chains of thought, and what a correct final answer does not prove."
+      - id: x-rewards-audit
+        title: "Audit: A Reward That Gets Gamed"
+        kind: guided
+        summary: "Guided problem (AI audit): An AI designs a reward for a summarizer and claims RLHF made the model truthful. Predict how the reward will be gamed and what the training really optimizes."
+      - id: x-rewards-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about exploration, discounting, on- and off-policy learning, and what human feedback can and cannot teach."
+      - id: x-rewards-intuition
+        title: "Intuition Round"
+        kind: intuition
+        summary: "Quick recall of the Bellman equation, the Q-learning update, the policy gradient and the DPO loss."
+      - id: x-rewards-map
+        title: "Content Map: Learning From Rewards"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: x-rewards-review, title: Level Review, kind: review }
+      - id: x-rewards-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
   - id: ch13
     number: 13
     title: "Graph Neural Networks"
@@ -745,12 +873,12 @@ levels:
     eyebrow: Partial exam
     hue: 3
     title: "Partial Exam: Structure, Attention and Sampling"
-    blurb: "A timed exam on Levels 11 to 15. No feedback until you submit, then your score and a review of every answer."
+    blurb: "A timed exam on Levels 11 to 15 and the extra level on rewards. No feedback until you submit, then your score and a review of every answer."
     lessons:
       - id: exam-partial3
         title: Partial Exam 3
         kind: exam
-        summary: "60 minutes, ten points, about five questions on graphical models, transformers, graph networks, sampling and latent variables. Answers are checked only when you submit."
+        summary: "60 minutes, ten points, about five questions on graphical models, transformers, reinforcement learning, graph networks, sampling and latent variables. Answers are checked only when you submit."
 
   - id: ch16
     number: 16
@@ -931,13 +1059,72 @@ levels:
         kind: challenge
         summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
 
+  - id: x-modern
+    eyebrow: Extra level · Modern AI
+    title: "Using and Auditing Modern AI"
+    blurb: "The capstone: how today's language models are scaled, prompted and connected to tools, why they make things up, how to tell whether a benchmark means anything, and how to look inside a model."
+    lessons:
+      - id: x-modern-scaling
+        title: "Scaling Laws"
+        kind: concept
+        summary: "Loss falls as a power law in parameters, data and compute: what the curves predict, and what they do not."
+      - id: x-modern-compute-optimal
+        title: "Spend a Compute Budget"
+        kind: guided
+        summary: "Guided problem: given a fixed amount of compute, choose the model size and the number of training tokens, and compare with models that were trained too short."
+      - id: x-modern-in-context
+        title: "Learning From the Prompt"
+        kind: concept
+        summary: "Few-shot examples and chains of thought change the answer without changing a single weight: in-context learning and its limits."
+      - id: x-modern-tools
+        title: "Retrieval, Tools and Agents"
+        kind: concept
+        summary: "Give the model a search engine, a calculator or a terminal: retrieval-augmented generation, tool use, agents, and how each one fails."
+      - id: x-modern-hallucination
+        title: "Why Models Make Things Up"
+        kind: concept
+        summary: "Hallucinated facts and citations, flattery toward the user, and confidence that does not track accuracy: where each comes from in training."
+      - id: x-modern-benchmarks
+        title: "Can You Trust the Benchmark?"
+        kind: concept
+        summary: "Test questions leaked into training data, leaderboards tuned on the test set, and scores that stop measuring what they meant to."
+      - id: x-modern-interpretability
+        title: "Looking Inside a Model"
+        kind: concept
+        summary: "Probes, attention maps that do not explain, features stored in superposition, and causal tests that change an activation and watch the output."
+      - id: x-modern-fairness
+        title: "Bias, Fairness and Harm"
+        kind: concept
+        summary: "Biased data gives biased models: competing definitions of fairness that cannot all hold at once, and who is affected when a model fails."
+      - id: x-modern-audit
+        title: "Audit: An AI Agent's Research Report"
+        kind: guided
+        summary: "Guided problem (AI audit): An AI agent writes a report with a benchmark result, a citation and a chart. Check each claim: contamination, a citation that does not exist, a cherry-picked run."
+      - id: x-modern-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about emergent abilities, chain of thought as explanation, retrieval as a cure for errors, and what a probe proves."
+      - id: x-modern-intuition
+        title: "Intuition Round"
+        kind: intuition
+        summary: "Quick recall of the scaling laws, the compute-optimal ratio and the fairness definitions."
+      - id: x-modern-map
+        title: "Content Map: Using and Auditing Modern AI"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and complete the problem-and-model table."
+      - { id: x-modern-review, title: Level Review, kind: review }
+      - id: x-modern-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
   - id: exam-final
     eyebrow: Final exam
     hue: 3
-    title: "Final Exam: Generative Models"
-    blurb: "A timed exam on Levels 16 to 20. No feedback until you submit, then your score and a review of every answer."
+    title: "Final Exam: Generative Models and Modern AI"
+    blurb: "A timed exam on Levels 16 to 20 and the extra level on modern AI. No feedback until you submit, then your score and a review of every answer."
     lessons:
       - id: exam-final
         title: Final Exam
         kind: exam
-        summary: "120 minutes, ten points, about five questions on PCA, GANs, flows, autoencoders and diffusion models. Answers are checked only when you submit."
+        summary: "120 minutes, ten points, about five questions on PCA, GANs, flows, autoencoders, diffusion models and auditing modern AI. Answers are checked only when you submit."
