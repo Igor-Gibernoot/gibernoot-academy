@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-20 ch23-fundamentalism built
+Concept lesson, 20 cards (mcq, text), no widget (checked docs/widgets/README.md: belief-mixer, condition-chain, peer-credence, decision-matrix, odds-updater; none fits a lesson of dates, definitions and competing accounts). Image: scopes-trial.webp (Darrow questioning Bryan, Smithsonian, no restrictions); Scopes_trial.jpg refused by the tool (PD-US-expired); none: Laws, Marty, Appleby, Armstrong, Watt (no checked free portrait). Autonomous choices: trait list hedged as 'wording and count vary' because the primary list was not reached; violence stated as not on the trait list; Hindutva given as supporters' view versus critics. Web check done, items and tried: log in VERIFIED.md. Conventions fixed here: Laws 1 July 1920 coinage; five articles 1910; family resemblance (Wittgenstein) used for Marty and Appleby; Watt as skeptic, Clarke as defender.
+
 ## 2026-11-20 ch23-secular built
 Concept lesson, 22 cards (mcq, order, text), no widget (the country-by-model grid is a categorical sort that mcq cards handle; no spatial or numeric quantity to manipulate). Images: locke.webp reused (ch03), none new; none: Rawls, Taylor, Habermas, Asad (no checked free portrait, cap and speed); not viewed (reused, no shots flag). Choices: Turkey, India, Islamic states each one text plus one mcq; Islamic states shown as a range (Saudi, Iran, Egypt, Indonesia) in constitutional wording; Habermas and Asad birth years omitted (unconfirmed); Locke's Catholic exclusion stated as disputed. Web-checked (see VERIFIED). Conventions fixed here: terms separation, establishment, neutrality (even-handed vs hands-off), secularism (doctrine), secularity (condition).
 
