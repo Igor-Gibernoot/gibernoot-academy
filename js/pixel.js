@@ -105,7 +105,7 @@ export const SPRITES = {
       'MMMMMMWWNWWNMoYYWWWYY.',
       'MMMMMMWKNWKNMMooYYY...',
       'MMMMMMNNNNNNMMMMoo....',
-      'MMMMMMNKNNKNMMbbbM....',
+      'MMMMMMNNNNKNMMbbbM....',
       'MMMMMMNNKKNNMbbbMM....',
       'MMMMMMNNNNNNMXMXMM....',
       'MMRMRMNNNNRRMMXMMM....',
