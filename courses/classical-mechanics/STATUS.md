@@ -6,8 +6,8 @@
 - **Sources:** all three converted; level-to-section map confirmed against the contents pages. Taylor and Goldstein are OCR text with per-page markers (`=== PDF page N (book p. B) ===`); verify formulas on the PDF render.
 - **Widget `newton-cannon` built** (docs/widgets/newton-cannon.md): falls / orbit / escape cannon, second ball, flat-earth parabola, Moon check.
 - **Widget `least-action-path` built** (docs/widgets/least-action-path.md): modes `path` (drag control points, action S, true path, snap, hideTrue) and `fermat` (drag crossing point, time, Snell).
-- **Built:** `ch01-prediction` (Level 1, 18 cards).
-- **Next unit:** `ch01-least-action` (Level 1, "Nature's Shortcut"; uses `least-action-path`).
+- **Built:** `ch01-prediction` (Level 1, 18 cards), `ch01-least-action` (Level 1, 21 cards; Fermat portrait).
+- **Next unit:** new widget `phase-portrait` (position-momentum plane of a pendulum/spring: pick a start point, see the orbit and the motion; no existing widget draws a mechanical phase portrait), then lesson `ch01-phase-space` ("A Map of All Motions").
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.

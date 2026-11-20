@@ -1,0 +1,339 @@
+id: ch01-least-action
+title: Nature's Shortcut
+kind: concept
+own: |
+  Setting: a ball of mass $m$ moves straight up and down. Its height at time $t$ is $y(t)$, and a dot means the rate of change in time, so $\dot y$ is its velocity. The ball starts at the fixed time $t_1$ and ends at the fixed time $t_2$, at fixed heights. Many paths $y(t)$ join these two events. Which one does nature pick?
+  - **Light takes the quickest route.** Going from a point A in a fast medium to a point B in a slow one, light crosses the boundary where the total time is smallest. With path lengths $d_1$, $d_2$ and speeds $v_1$, $v_2$ in the two media,
+  $$\text{time} = \frac{d_1}{v_1} + \frac{d_2}{v_2}.$$
+  - **Action of a path.** Kinetic energy is $T = \tfrac12 m\dot y^2$ (energy of motion), potential energy is $V = mgy$ (energy stored by height, with $g$ the gravity acceleration), and $L = T - V$ is the Lagrangian. The **action** is one number for the whole path:
+  {{ $$S = \int_{t_1}^{t_2} L\,dt$$ }}
+  - **Hamilton's principle.** The real path makes the action stationary: for the real path, a small change of the path changes $S$ only to second order. In symbols, with $\delta S$ the first-order change of $S$,
+  {{ $$\delta S = 0$$ }}
+  - **Free ball** ($V = 0$, so $L = \tfrac12 m\dot y^2$). Going 2 m in 2 s with $m = 1$ kg, steady speed gives $S = 1\ \mathrm{J\,s}$, while 2 m/s for the first second and rest for the second gives $S = 2\ \mathrm{J\,s}$. Uneven speed costs more, because
+  {{ $$T \propto \dot y^{\,2}$$ }}
+  grows faster than the speed does.
+  - **Stationary, not always least.** For a mass on a spring, with $V = \tfrac12 k y^2$ ($k$ the spring stiffness) and a long enough time, some paths near the real one have a lower action and some a higher one. The name "least action" is historical; the exact word is stationary.
+
+cards:
+  - type: text
+    id: hook
+    title: A lifeguard's problem
+    body: |
+      A lifeguard stands on the sand and sees a swimmer in trouble, some way along the beach and out in the sea. She runs fast on sand and swims slowly. The straight line to the swimmer is the shortest route, but is it the quickest?
+
+      As in the last lesson, guessing is the point: make a guess before each answer, and learn from the ones that miss.
+
+  - type: widget
+    id: beach
+    widget: least-action-path
+    config:
+      mode: fermat
+      A: [0, 3]
+      B: [6, -3]
+      xRange: [-1, 7]
+      v1: 5
+      v2: 1.5
+      x: 3
+      hideTrue: true
+      units: {time: '×10 s', distance: '×10 m'}
+      labels: {medium1: sand, medium2: water, figure: 'A lifeguard on the sand and a swimmer in the water'}
+      show: {angles: false, snell: false, snap: false, timeCurve: false, reveal: false}
+      readouts: [time]
+    body: |
+      The lifeguard (A, on the sand) runs at $5\ \mathrm{m/s}$ and swims at $1.5\ \mathrm{m/s}$. The swimmer is at B. Lengths are measured in tens of metres and times in tens of seconds, so a time reading of $3.3$ means $33\ \mathrm{s}$. Drag the point where she enters the water along the shoreline. The first position is the one on the straight line from A to B. Try other entry points and watch the total time.
+
+  - type: mcq
+    id: where-enter
+    prompt: |
+      A lifeguard runs on sand at $5\ \mathrm{m/s}$ and swims at $1.5\ \mathrm{m/s}$. She goes from A on the sand to a swimmer at B in the water. The straight line from A to B meets the shoreline at one point. Compared with that point, where does the quickest route enter the water?
+    options:
+      - text: Farther along the beach, so she runs longer and swims less
+        correct: true
+      - text: 'At the same point: the straight line is the quickest'
+        feedback: |
+          The straight line is the shortest, but she does not move equally fast along every part of it. A route that is a little longer can still be quicker if more of it is run than swum.
+      - text: Earlier, so she gets into the water as soon as possible
+        feedback: |
+          That makes the slow part of the trip longer. Every metre swum costs more than three times as much time as a metre run.
+    explanation: |
+      Running is more than three times faster than swimming, so she is willing to run extra distance along the shore to shorten the swim. The best entry point is about $52\ \mathrm{m}$ along, compared with $30\ \mathrm{m}$ for the straight line, and the trip takes about $33\ \mathrm{s}$ instead of $37\ \mathrm{s}$. The best route is bent at the shoreline, like a ray of light.
+
+  - type: text
+    id: fermat
+    title: Light does the same
+    image:
+      src: img/fermat.webp
+      alt: Engraved portrait of Pierre de Fermat in a wig and lace collar
+      caption: Pierre de Fermat, in a 17th-century engraving by François de Poilly. In 1662 he proposed that light always chooses the path that takes the least time.
+      credit: François de Poilly, Public domain, via Wikimedia Commons
+      link: https://commons.wikimedia.org/wiki/File:Pierre_de_Fermat_(F._Poilly).jpg
+    body: |
+      In 1662 the French mathematician **Pierre de Fermat** made a bold claim: a ray of light going from one point to another picks the route that takes the least time. Light is slower in water or glass than in air, just like the lifeguard is slower in the sea, so a ray that enters glass bends at the surface. This bending is called **refraction**.
+
+      Fermat's claim explains the bend without any push or pull acting on the light. It says only that among all routes from A to B, one is picked, and it is picked for a property of the whole route: its total time.
+
+  - type: widget
+    id: glass
+    widget: least-action-path
+    config:
+      mode: fermat
+      A: [0, 2]
+      B: [5, -2]
+      xRange: [-1, 6]
+      v1: 1
+      v2: 0.67
+      x: 1
+      units: {time: '', distance: ''}
+      labels: {medium1: air, medium2: glass, figure: 'A ray of light from a point in air to a point in glass'}
+      show: {angles: false, snell: false, snap: true, timeCurve: false}
+      readouts: [time, best]
+    body: |
+      A ray goes from A in air to B in glass. Light travels at speed $1$ in air (units of its air speed) and $0.67$ in glass, so glass is the slow medium. Drag the crossing point and watch the time, then press the button that goes to the best point and look at the dashed route. It bends at the surface. Is its time smaller than the time at your first position?
+
+  - type: mcq
+    id: glass-bend
+    prompt: |
+      Light goes from A in air to B in glass, and travels more slowly in glass. Light chooses the route that takes the least time. How does that route compare with the straight line from A to B?
+    options:
+      - text: It is a bit longer in total, but spends less of its length inside the glass
+        correct: true
+      - text: It is the straight line, because the straight line is the shortest
+        feedback: |
+          Shortest in length is not shortest in time. The straight line spends a long stretch in the slow glass, so a route that bends and shortens the glass part wins.
+      - text: It spends more of its length inside the glass, to get to B sooner
+        feedback: |
+          Glass is the slow part. Moving more of the trip into it adds time, not saves it.
+    explanation: |
+      It is the lifeguard again: the route is a compromise between total length and the share spent in the slow medium. The bend at the surface is where the compromise lands.
+
+  - type: widget
+    id: toss
+    widget: least-action-path
+    config:
+      mode: path
+      t0: 0
+      t1: 2
+      y0: 0
+      y1: 0
+      yMin: -1
+      yMax: 7
+      g: 10
+      points: 2
+      start: [2, 3]
+      hideTrue: true
+      show: {readouts: false, bar: false, truePath: false, snap: false, parts: false, reveal: false}
+      units: {time: 's', distance: 'm'}
+      labels: {figure: 'Height of a ball against time, from the ground to the ground'}
+    body: |
+      Now a ball. It is thrown from the ground at time $0$ and caught at the ground two seconds later. The picture plots its height against time. These two events are fixed, but many paths join them: drag the two points and see some of them. Real motion follows exactly one. Which one, and how could a rule choose it from the whole family?
+
+  - type: numeric
+    id: peak
+    prompt: |
+      A ball is thrown straight up from the ground and lands back on the ground exactly $2\ \mathrm{s}$ later. Gravity gives a falling body $10\ \mathrm{m/s^2}$ (rounded from $9.8$ for clean numbers). The real path goes up and comes down in mirror image. How high is the top of the path, in metres?
+    answer: 5
+    tolerance: 0.01
+    answerText: '5'
+    wrong:
+      - { value: 10, feedback: 'That is the launch speed in m/s, not a height. The top is reached after $1\ \mathrm{s}$ of slowing down, and the ball moves up less than $10\ \mathrm{m}$ in that second.' }
+      - { value: 20, feedback: 'Check the time: the ball rises for only half of the $2\ \mathrm{s}$, and its speed shrinks all the way to zero on the way up.' }
+    hint: |
+      The way down takes $1\ \mathrm{s}$, starting from rest at the top. A falling body gains $10\ \mathrm{m/s}$ of speed every second, so its speed in that second grows from $0$ to $10\ \mathrm{m/s}$. Use the average speed.
+    explanation: |
+      Falling from the top takes $1\ \mathrm{s}$, with speed growing from $0$ to $10\ \mathrm{m/s}$, so the average speed is $5\ \mathrm{m/s}$ and the drop is $5\ \mathrm{m}$. This is Newton's way: use the force at every moment, and the path follows. The next cards ask whether the same path can be found by a rule about the path as a whole, like Fermat's rule for light.
+
+  - type: text
+    id: action
+    title: One number for a whole path
+    body: |
+      Fermat's rule gave each route one number, its time, and picked the route with the best number. For a moving body the right number is not the time. Here is the recipe.
+
+      Two kinds of energy are needed. **Kinetic energy** $T$ is the energy of motion: for a body of mass $m$ and speed $v$,
+      $$T = \tfrac12 m v^2.$$
+      **Potential energy** $V$ is the energy stored by position. For a ball at height $y$ near the ground,
+      $$V = m g y,$$
+      with $g$ the gravity acceleration. Both depend on the moment. Their difference has a name:
+      $$L = T - V,$$
+      the **Lagrangian** (written $L$, a name, not a length). Now add up $L$ over every moment of the path, which is what the symbol $\int$ (an integral) means: a sum of many tiny slices, each the value of $L$ times a tiny time $dt$. The result is the **action**:
+      $$S = \int_{t_1}^{t_2} L\,dt.$$
+      Here $S$ is a label, not a power. A dot over a letter means the rate of change in time, so the speed of the ball is $\dot y$. The action is measured in joule-seconds ($\mathrm{J\,s}$), a joule being the unit of energy. It is a single number for the whole path from $t_1$ to $t_2$, so every possible path has one.
+
+  - type: numeric
+    id: steady
+    prompt: |
+      A ball of mass $1\ \mathrm{kg}$ moves in a straight line through empty space, with no force and so no potential energy ($V = 0$). It covers $2\ \mathrm{m}$ in $2\ \mathrm{s}$ at a steady speed. The Lagrangian is then $L = T = \tfrac12 m v^2$ at every moment. What is its action over the $2\ \mathrm{s}$, in $\mathrm{J\,s}$?
+    answer: 1
+    tolerance: 0.001
+    answerText: '1'
+    wrong:
+      - { value: 2, feedback: 'That is the distance, or the time. The action adds $L$ over time: $L \times 2\ \mathrm{s}$, with $L = \tfrac12 m v^2$.' }
+      - { value: 0.5, feedback: 'That is $L$ alone, in joules. The action multiplies it by the time, $2\ \mathrm{s}$, because $L$ stays the same during all of it.' }
+    hint: |
+      The speed is $2\ \mathrm{m} / 2\ \mathrm{s}$. Find $L$ from it, and note that $L$ is the same at every moment, so the sum over time is $L$ times the duration.
+    explanation: |
+      The speed is $v = 1\ \mathrm{m/s}$, so $L = \tfrac12 (1\ \mathrm{kg})(1\ \mathrm{m/s})^2 = 0.5\ \mathrm{J}$ at every moment. Over $2\ \mathrm{s}$ the sum is $0.5 \times 2 = 1\ \mathrm{J\,s}$.
+
+  - type: numeric
+    id: rush
+    prompt: |
+      The same ball (mass $1\ \mathrm{kg}$, no force, $V = 0$) must again cover $2\ \mathrm{m}$ in $2\ \mathrm{s}$, but now by a different path: it moves at $2\ \mathrm{m/s}$ for the first second, which takes it $2\ \mathrm{m}$, and then rests for the second second. What is the action of this path, in $\mathrm{J\,s}$?
+    answer: 2
+    tolerance: 0.001
+    answerText: '2'
+    wrong:
+      - { value: 1, feedback: 'That is the action of the steady path. Here the speed is $2\ \mathrm{m/s}$ in the first second, and $T$ depends on the square of the speed.' }
+      - { value: 4, feedback: 'That is $T$ at speed $2\ \mathrm{m/s}$ for a full $2\ \mathrm{s}$, but the ball moves at that speed for only the first second and rests after that.' }
+    hint: |
+      Split the time. In the first second, $L = \tfrac12 m v^2$ with $v = 2\ \mathrm{m/s}$. In the second second the ball rests, so $L = 0$.
+    explanation: |
+      First second: $L = \tfrac12 (1)(2)^2 = 2\ \mathrm{J}$ for $1\ \mathrm{s}$, which gives $2\ \mathrm{J\,s}$. Second second: $L = 0$. Total $2\ \mathrm{J\,s}$, twice the steady path's $1\ \mathrm{J\,s}$, although both cover the same $2\ \mathrm{m}$ in the same $2\ \mathrm{s}$.
+
+  - type: widget
+    id: free-path
+    widget: least-action-path
+    config:
+      mode: path
+      t0: 0
+      t1: 2
+      y0: 0
+      y1: 2
+      yMin: -1
+      yMax: 4
+      g: 0
+      points: 1
+      start: [1]
+      readouts: [S, Strue]
+      units: {time: 's', distance: 'm', action: 'J s'}
+      labels: {figure: 'Height of a free ball against time, from 0 m to 2 m'}
+      show: {parts: false, snap: false}
+    body: |
+      The same free ball, mass $1\ \mathrm{kg}$, must go from height $0$ at $t = 0$ to height $2\ \mathrm{m}$ at $t = 2\ \mathrm{s}$. The dashed line is the steady path, and the dot makes a smooth curve through the middle. Drag it up and down and watch the action $S$ of your path next to the action of the dashed one.
+
+  - type: mcq
+    id: why-straight
+    prompt: |
+      A free ball ($V = 0$, so $L = \tfrac12 m\dot y^2$) must go from one height to another in a fixed time. Every path you tried had a larger action than the steady one. Why does uneven speed cost more?
+    options:
+      - text: $T$ grows with the square of the speed, so going fast for a while costs more than going slow for the rest saves
+        correct: true
+      - text: A bent path is longer than a straight one, and the action measures length
+        feedback: |
+          The action does not measure length. A ball that covers the same distance in the same time, but unevenly, has a larger action even when the path in space is still a straight line, as the $2\ \mathrm{J\,s}$ path just showed.
+      - text: Energy is lost when the speed changes, and the action counts the loss
+        feedback: |
+          Nothing is lost here: there is no friction. The action is a number computed from the path, not a measure of lost energy.
+    explanation: |
+      Doubling the speed quadruples $T$. To keep the same journey in the same time, a path that is slow in one stretch must be fast in another, and the fast stretch costs more than the slow one saves. Steady speed makes $T$ as even as possible, which gives the smallest sum.
+
+  - type: widget
+    id: thrown
+    widget: least-action-path
+    config:
+      mode: path
+      t0: 0
+      t1: 2
+      y0: 0
+      y1: 0
+      yMin: -1
+      yMax: 7
+      g: 10
+      points: 2
+      start: [2, 3]
+      hideTrue: true
+      readouts: [S, Strue]
+      units: {time: 's', distance: 'm', action: 'J s'}
+      labels: {figure: 'Height of a thrown ball against time, from the ground to the ground'}
+      show: {parts: false, snap: false}
+    body: |
+      Back to the thrown ball, mass $1\ \mathrm{kg}$, from the ground at $t = 0$ to the ground at $t = 2\ \mathrm{s}$, now with gravity. Its action is $S = \int (T - V)\,dt$ with $V = mgy$. Drag the two points to build paths and watch $S$. You are looking for the lowest value you can reach. When you want to compare with the real path, press **Show true path**.
+
+  - type: mcq
+    id: lower
+    prompt: |
+      A $1\ \mathrm{kg}$ ball goes from the ground at $t = 0$ to the ground at $t = 2\ \mathrm{s}$ under gravity ($g = 10\ \mathrm{m/s^2}$), and the real path (peak $5\ \mathrm{m}$) has action $S = -33.3\ \mathrm{J\,s}$. You try other paths between the same two events, some close to the real one and some far. What do you find?
+    options:
+      - text: Every other path has a larger action than the real one
+        correct: true
+      - text: Some clever path has a lower action than the real one
+        feedback: |
+          Try a path whose peak is higher or lower than $5\ \mathrm{m}$: its action is larger. For a $3\ \mathrm{m}$ peak it is about $-28$, and for a $7\ \mathrm{m}$ peak also about $-28$. The real path sits at the bottom.
+      - text: The action is the same for all paths between these two events
+        feedback: |
+          If it were, the action could not pick one path. It changes from path to path, and the real path has the lowest value among those you can build here.
+    explanation: |
+      The real path is the one where $S$ is smallest. A higher arc gains potential energy, which lowers $S$ through the $-V$ term, but it needs a faster motion, and the extra $T$ wins. A flatter arc does the reverse. The real arc is the balance. The sign matters: $L = T - V$, with $V$ subtracted.
+
+  - type: text
+    id: principle
+    title: A rule for a whole path
+    body: |
+      This is the idea. Among all paths that join the same two events, the real motion is the one that makes the action $S$ **stationary**. Stationary means: if you change the path a little, the action changes by an amount much smaller than the change itself, as at the bottom of a bowl, where a small step sideways hardly changes the height. In symbols, with $\delta S$ standing for the first-order change of $S$ when the path changes a little,
+      $$\delta S = 0.$$
+      In the 1830s the mathematician William Rowan Hamilton gave this its modern form for mechanics, and it is called **Hamilton's principle**. Many books call it the principle of least action, but "stationary" is the exact word, as the next question shows. Light in glass is the same idea with a different number (time) in place of $S$.
+
+  - type: widget
+    id: spring
+    widget: least-action-path
+    config:
+      mode: path
+      t0: 0
+      t1: 4
+      y0: 1
+      y1: 1
+      yMin: -4
+      yMax: 3
+      g: 0
+      k: 1
+      points: 1
+      start: [1]
+      readouts: [S, Strue]
+      units: {time: 's', distance: 'm', action: 'J s'}
+      labels: {figure: 'Height of a mass on a spring against time'}
+      show: {parts: false, snap: true}
+    body: |
+      A different system: a $1\ \mathrm{kg}$ mass on a spring, with $V = \tfrac12 k y^2$ and $k = 1$. It must be at height $1$ at $t = 0$ and again at $t = 4\ \mathrm{s}$. The dashed curve is the real motion, with its action $S_{\text{true}}$. Drag the dot and watch $S$. Can you find a path with an action below that of the dashed one?
+
+  - type: mcq
+    id: stationary
+    prompt: |
+      A mass on a spring goes between two fixed events. The real path has action $S = 2.19\ \mathrm{J\,s}$, and by dragging a smooth path you find one with $S$ clearly below that. Some other small wiggles around the real path, which a script checked, give a larger $S$. What does this say about Hamilton's principle?
+    options:
+      - text: 'The real path is stationary, but here it is not the path of lowest action: some nearby paths are lower and some are higher'
+        correct: true
+      - text: The principle fails for springs
+        feedback: |
+          It does not fail. The principle demands that small changes of the path change $S$ only to second order, which holds. It never demanded the lowest value.
+      - text: The real path is the one with the highest action
+        feedback: |
+          It is neither the highest nor the lowest here. Some wiggles raise $S$ and some lower it, which is what a pass between two hills looks like.
+    explanation: |
+      For short times, a path of least action exists. For a spring held over a long time (here $4\ \mathrm{s}$, longer than half a period), the real path is a saddle: stationary, with $\delta S = 0$, yet some small changes lower $S$ and others raise it. The principle is "stationary action", and "least action" is a historical name that is right only in simple cases such as the free ball.
+
+  - type: text
+    id: matters
+    title: Why this matters
+    body: |
+      Newton's method needs the force at every moment, and a new force law needs a new calculation. The action recipe needs only two energies, $T$ and $V$, and one rule: make $S$ stationary. A thrown ball, a mass on a spring, a planet and a ray of light are all handled by the same step, with a different $L$ for each.
+
+      There is a second gain. The action is one number for a whole path, and it does not care which coordinates are used to describe the path: heights, angles, distances, or something stranger. So the same rule works in any description, which is hard to say for a recipe built from forces. Later lessons turn the stationary-action rule into equations of motion, called Lagrange's equations, and show that they follow from it, so nothing is lost.
+
+  - type: mcq
+    id: trap-number
+    prompt: |
+      A $1\ \mathrm{kg}$ ball is thrown up and caught again, and someone says: "The action is the kinetic energy minus the potential energy, so it is $T - V$ at the moment the ball is at the top." What is wrong with this?
+    options:
+      - text: $T - V$ at one moment is $L$, the Lagrangian. The action $S$ adds $L$ over all moments of the path, which gives one number for the whole path
+        correct: true
+      - text: 'Nothing: at the top of the path the action is simply $T - V$'
+        feedback: |
+          At the top, $T - V$ is the value of $L$ at that moment. The action is the sum of $L$ over the whole time from start to end, so it needs the whole path.
+      - text: The action does not include the potential energy, only $T$
+        feedback: |
+          It does include it: $L = T - V$ is the quantity summed. For a free ball $V = 0$, but for a thrown ball the $-V$ term decides which path wins.
+    explanation: |
+      $L$ is a value at an instant, and $S = \int L\,dt$ is a value for a whole path. The principle compares paths, so what must be computed is the second one.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the principle compares whole paths, and Newton's law follows one tiny step at a time. In the next lesson, *A Map of All Motions*, the state of a system, its position and velocity together, becomes a single point on a map, and each motion becomes a path across that map. Can the whole set of possible motions be seen at once?
