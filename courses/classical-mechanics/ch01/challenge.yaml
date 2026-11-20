@@ -1,0 +1,249 @@
+id: ch01-challenge
+title: Level Challenge
+kind: challenge
+cards:
+  - type: text
+    id: intro
+    title: Harder, still guess first
+    body: |
+      Problems that **combine** the three pictures of Level 1. The rule is the same as ever: **guess first**. A wrong guess is fine, and every answer comes with its reason. A pencil helps, and every number can be checked by hand.
+
+      The toolkit, in three lines.
+
+      - **Newton's picture.** A force makes the velocity change, $\mathbf{F} = m\ddot{\mathbf{r}}$, so the future follows from the **state**: position and velocity together, at one instant.
+      - **Lagrange's picture.** Give each possible path a number, the **action** $S = \int L\,dt$ with $L = T - V$ (kinetic energy minus potential energy). The real path makes $S$ stationary, which means that nearby paths change $S$ only slightly. Light does something similar with time: it takes the quickest route.
+      - **Hamilton's picture.** Draw the state as one point on a map: position $q$ across, momentum $p$ up (here $p$ is the velocity, for a unit mass). The motion is a curve on this map, and the energy $E$ stays the same along it.
+
+      Three problems now: a satellite that skims the ground, a lifeguard racing to a swimmer, and a pendulum that gets a kick.
+
+  # ---------------------------------------------------------------- Problem 1
+  - type: widget
+    id: p1-setup
+    title: 'Problem 1: the skimming satellite'
+    widget: newton-cannon
+    config:
+      v0: 1
+      h: 0
+      sliders: [v0]
+      readouts: [v0, outcome, period]
+      units: {speed: 'v_c', length: 'R'}
+      presets:
+        - { label: Skims the ground, v0: 1, h: 0 }
+        - { label: 20% faster, v0: 1.2, h: 0 }
+      labels: {figure: 'A ball fired sideways from the ground of a round planet with no air'}
+    body: |
+      Fire a ball sideways from the ground of a round planet with no air and no mountains. The speed $v_c$ is the one at which the ball neither rises nor lands: the ground curves away as fast as the ball falls, so it circles just above the surface. Try both presets, and watch how long a lap takes. The questions that follow use the Earth, with $g = 9.8\ \mathrm{m/s^2}$ and radius $R = 6371\ \mathrm{km}$.
+
+  - type: numeric
+    id: p1-vc
+    prompt: |
+      A ball circles the Earth just above the ground, with no air. Its speed $v_c$ is the one for which the pull of gravity, $g = 9.8\ \mathrm{m/s^2}$ per kilogram, is the acceleration needed to keep it on a circle of radius $R = 6371\ \mathrm{km}$. What is $v_c$, in $\mathrm{km/s}$?
+    answer: 7.9
+    tolerance: 0.02
+    answerText: '7.9'
+    wrong:
+      - { value: 7900, feedback: 'That is the right size but in metres per second. The question asks for $\mathrm{km/s}$.' }
+      - { value: 250, feedback: 'The units are mixed: $9.8$ is in metres per second squared but $6371$ is in kilometres. Convert $R$ to metres first ($6.371\times10^6\ \mathrm{m}$).' }
+    hint: |
+      Turning on a circle of radius $R$ at speed $v$ needs an acceleration $v^2/R$ pointing at the centre. Set it equal to $g$, and use metres.
+    explanation: |
+      Newton's law says the acceleration is the pull per kilogram, and a circle needs $v_c^2/R$. So $v_c^2/R = g$ and
+      $$\begin{aligned} v_c &= \sqrt{gR} \\ &= \sqrt{9.8 \times 6.371\times10^6}\ \mathrm{m/s} \\ &\approx 7.9\ \mathrm{km/s}. \end{aligned}$$
+      This is the unit on the speed slider of the picture above.
+
+  - type: numeric
+    id: p1-period
+    prompt: |
+      A ball circles the Earth just above the ground at the constant speed $v_c = 7.9\ \mathrm{km/s}$. The circle has radius $R = 6371\ \mathrm{km}$. How long does one lap take, in minutes?
+    answer: 84.4
+    tolerance: 0.5
+    answerText: '84.4'
+    wrong:
+      - { value: 5066, feedback: 'That is the time in seconds. Divide by $60$ for minutes.' }
+      - { value: 13.4, feedback: 'You divided the radius by the speed, which gives the time to travel one radius, not around the circle. A lap is the full circumference, $2\pi R$.' }
+    hint: |
+      Time is distance over speed. The distance of one lap is the circumference of the circle.
+    explanation: |
+      One lap is $2\pi R = 4.00\times10^4\ \mathrm{km}$, and at $7.9\ \mathrm{km/s}$ it takes about $5070\ \mathrm{s}$, which is about $84$ minutes. A satellite that skims the ground would go round the Earth in a bit more than an hour and a half. The state at the start (a position and a sideways speed) fixed all of it.
+
+  - type: mcq
+    id: p1-faster
+    prompt: |
+      The ball is now fired $20\%$ faster than $v_c$, from the same spot on the ground, with no air. It does not escape; it goes round the planet again and again on an oval. Compared with the $84$ minutes of the skimming ball, how long does one lap of the oval take?
+    options:
+      - text: More than twice as long. The ball swings far out, where gravity is weak and it moves slowly
+        correct: true
+      - text: Shorter, because the ball is moving faster
+        feedback: |
+          It is faster at the start, but a bigger oval is a much longer way round, and far from the planet the pull is weaker, so the ball slows down there. The slow part of the lap wins.
+      - text: About $1.2$ times as long, since the speed is $1.2$ times bigger
+        feedback: |
+          That treats the ball as if it kept a steady speed on a circle. Its speed and its distance from the planet both change along the lap, so the time does not follow the speed in a simple way.
+      - text: The same, since gravity is the same
+        feedback: |
+          Gravity at the starting point is the same, but the future is not: the state (position and velocity) changed, and a different state gives a different path and a different lap time.
+    explanation: |
+      The lap time for $1.2\,v_c$ is about $15.0$ in the time unit of the picture, against $6.28$ for the skimming ball: a ratio of about $2.4$. On the Earth that is about $200$ minutes. A small change in the starting velocity changed the whole future, which is the lesson of the first part of Level 1.
+
+  # ---------------------------------------------------------------- Problem 2
+  - type: widget
+    id: p2-setup
+    title: 'Problem 2: the lifeguard'
+    widget: least-action-path
+    config:
+      mode: fermat
+      A: [0, 12]
+      B: [20, -8]
+      xRange: [-3, 24]
+      v1: 5
+      v2: 1.5
+      x: 6
+      hideTrue: true
+      units: {time: 's', distance: 'm'}
+      labels: {medium1: sand, medium2: water, figure: 'A lifeguard on the sand and a swimmer in the water'}
+      show: {angles: false, snell: false, snap: true, timeCurve: false}
+      readouts: [time]
+    body: |
+      A lifeguard stands at A, $12\ \mathrm{m}$ from the water's edge. A swimmer is at B, $8\ \mathrm{m}$ out in the water and $20\ \mathrm{m}$ along the shore from the lifeguard. She runs at $5\ \mathrm{m/s}$ on sand and swims at $1.5\ \mathrm{m/s}$. Drag the point where she enters the water and look for the quickest route. Guess first, and press the button for the best point only when you are done.
+
+  - type: numeric
+    id: p2-straight
+    prompt: |
+      The lifeguard at A runs on sand ($5\ \mathrm{m/s}$) and swims in water ($1.5\ \mathrm{m/s}$) to reach B. Take the straight line from A to B. It enters the water $12\ \mathrm{m}$ along the shore, after $\sqrt{12^2 + 12^2}\ \mathrm{m}$ of sand, and then covers $\sqrt{8^2 + 8^2}\ \mathrm{m}$ of water. How long does this route take, in seconds?
+    answer: 10.94
+    tolerance: 0.05
+    answerText: '10.94'
+    hint: |
+      Add the two times, each one distance over speed. The two lengths are $12\sqrt2$ and $8\sqrt2$ metres.
+    explanation: |
+      The sand part takes $12\sqrt2/5 = 3.39\ \mathrm{s}$ and the water part $8\sqrt2/1.5 = 7.54\ \mathrm{s}$, so $10.94\ \mathrm{s}$ in all. The straight line is the shortest route, but most of the time goes into the slow water.
+
+  - type: mcq
+    id: p2-where
+    prompt: |
+      Same lifeguard (sand $5\ \mathrm{m/s}$, water $1.5\ \mathrm{m/s}$). The straight line enters the water $12\ \mathrm{m}$ along the shore, and the swimmer's own spot is $20\ \mathrm{m}$ along. Where is the quickest crossing point?
+    options:
+      - text: Between $12$ and $20\ \mathrm{m}$, a good deal past the straight line's crossing
+        correct: true
+      - text: At $12\ \mathrm{m}$, where the straight line crosses, since the straight line is shortest
+        feedback: |
+          The straight line is the shortest, not the quickest. Moving the crossing point along the shore lengthens the run on sand, which is cheap, and shortens the swim, which is expensive.
+      - text: Before $12\ \mathrm{m}$, to reach the water sooner
+        feedback: |
+          That is the opposite direction. Entering early means a longer swim, and the swim is the slow part.
+      - text: At $20\ \mathrm{m}$, straight above the swimmer, to make the swim as short as possible
+        feedback: |
+          Tempting, and close: the time there is $10.0\ \mathrm{s}$, better than $10.94$. But entering a bit sooner, at about $17.9\ \mathrm{m}$, takes the time down to $9.82\ \mathrm{s}$, because the sand saved is worth more than the swim added.
+    explanation: |
+      The quickest crossing point is at about $17.9\ \mathrm{m}$ along the shore, with a time of $9.82\ \mathrm{s}$. The route is a compromise: sand costs $0.2\ \mathrm{s}$ per metre and water $0.67\ \mathrm{s}$ per metre, so it pays to trade some water for sand, until one more step along the sand costs as much as it saves in the water.
+
+  - type: numeric
+    id: p2-snell
+    prompt: |
+      At the quickest crossing point, the number $\sin\theta/v$ is the same on both sides, where $\theta$ is the angle between the path and the line at right angles to the shore, and $v$ is the speed there. On the sand $v = 5\ \mathrm{m/s}$ and on the water $v = 1.5\ \mathrm{m/s}$. What is the ratio $\sin\theta_{\text{sand}} / \sin\theta_{\text{water}}$?
+    answer: 3.33
+    tolerance: 0.02
+    answerText: '3.33'
+    wrong:
+      - { value: 0.3, feedback: 'You turned the ratio upside down. The sine is larger where the speed is larger, so the sand angle is the larger one.' }
+    hint: |
+      Write $\sin\theta_{\text{sand}}/5 = \sin\theta_{\text{water}}/1.5$ and solve for the ratio of the sines.
+    explanation: |
+      From $\sin\theta_{\text{sand}}/5 = \sin\theta_{\text{water}}/1.5$ the ratio of the sines is $5/1.5 = 3.33$. At the best point the angles are about $56^\circ$ on the sand and $14^\circ$ in the water, and $\sin 56^\circ / \sin 14^\circ \approx 3.33$. The route bends towards the right angle in the slow medium.
+
+  - type: mcq
+    id: p2-faster-water
+    prompt: |
+      The swimmer is brought in by a boat that makes the water faster, so now the lifeguard swims at $2.5\ \mathrm{m/s}$ instead of $1.5\ \mathrm{m/s}$ (sand speed unchanged, same A and B). Where does the quickest crossing point go, compared with $17.9\ \mathrm{m}$?
+    options:
+      - text: Back towards the straight line, to about $16.5\ \mathrm{m}$, because the sand now saves less
+        correct: true
+      - text: Further away, past $17.9\ \mathrm{m}$, because the water is better
+        feedback: |
+          It is the slow water that pushes the crossing point far along the shore. Make the water faster and the reason to avoid it gets weaker, so the crossing moves back.
+      - text: It does not move, because the shortest and quickest routes are different things
+        feedback: |
+          The quickest route depends on both speeds. It is a compromise between length and speed, so changing a speed shifts the compromise.
+      - text: It jumps to the straight line, at $12\ \mathrm{m}$
+        feedback: |
+          If the water were as fast as the sand, the straight line would be the quickest, and the crossing would be at $12\ \mathrm{m}$. At $2.5$ against $5$ the water is still slower, so the route still bends, only less.
+    explanation: |
+      The rule $\sin\theta_{\text{sand}}/5 = \sin\theta_{\text{water}}/2.5$ now gives a ratio of the sines of $2$, smaller than $3.33$, so the path bends less. The crossing point is at about $16.5\ \mathrm{m}$ (time $7.57\ \mathrm{s}$). With equal speeds the ratio would be $1$ and the route would be the straight line. This is the same recipe as for a ball in the action picture: compare paths by a number (time here, action there) and pick the one that makes it stationary.
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: widget
+    id: p3-setup
+    title: 'Problem 3: the kicked pendulum'
+    widget: phase-portrait
+    config:
+      system: pendulum
+      q: 0
+      p: 1.6
+      fixedStart: true
+      speed: 1.5
+      readouts: []
+      show: {contours: true, separatrix: false, ticks: true, readouts: false, sliders: false, buttons: true}
+      labels: {figure: 'The position-momentum plane of a pendulum, and the pendulum beside it'}
+    body: |
+      A pendulum hangs at rest at the bottom. A kick gives it momentum $p = 1.6$ at the bottom, where the angle is $q = 0$ (it is measured from hanging straight down, in radians). The mass and the rod length are $1$ and gravity is $1$, as in the earlier map of the pendulum. The picture shows what happens next. The symbols $q$ and $p$ label two numbers on the map; they are not powers.
+
+  - type: numeric
+    id: p3-energy
+    prompt: |
+      A pendulum of mass $1$ and rod length $1$ (with gravity $1$) has the energy
+      $$E = \tfrac12 p^2 + 1 - \cos q,$$
+      where $q$ is the angle from hanging straight down and $p$ is its momentum. It is kicked at the bottom ($q = 0$) so that $p = 1.6$. What is its energy $E$?
+    answer: 1.28
+    tolerance: 0.005
+    answerText: '1.28'
+    wrong:
+      - { value: 2.28, feedback: 'You added $1$ without taking away the $\cos q$. At the bottom $q = 0$, so $\cos q = 1$ and the potential part $1 - \cos q$ is $0$.' }
+      - { value: 1.6, feedback: 'That is the momentum itself. The kinetic part is half of its square.' }
+    hint: |
+      At $q = 0$ the cosine is $1$, so the second part of $E$ vanishes: the bob is at the lowest point.
+    explanation: |
+      At the bottom $1 - \cos 0 = 0$, so $E = \tfrac12 (1.6)^2 = 1.28$. This number stays the same for the whole motion, so the orbit on the map is the level curve $E = 1.28$.
+
+  - type: numeric
+    id: p3-angle
+    prompt: |
+      A frictionless pendulum (mass $1$, rod length $1$, gravity $1$) has energy $E = \tfrac12 p^2 + 1 - \cos q = 1.28$. At the highest point of its swing it turns around, so there $p = 0$. What is the largest angle $q$ it reaches, in degrees from hanging straight down?
+    answer: 106.3
+    tolerance: 0.5
+    answerText: '106'
+    wrong:
+      - { value: 90, feedback: 'That would be a swing that reaches the horizontal, which needs $E = 1$. The energy here, $1.28$, is a bit more.' }
+      - { value: 180, feedback: 'The top, $q = 180^\circ$, needs $E = 2$. With $E = 1.28$ the bob does not get there.' }
+    hint: |
+      Put $p = 0$ in the energy: $1 - \cos q = 1.28$. Then $\cos q = -0.28$.
+    explanation: |
+      With $p = 0$ the energy is all potential: $1 - \cos q = 1.28$, so $\cos q = -0.28$ and $q = \arccos(-0.28) = 1.855\ \text{rad} \approx 106^\circ$. The swing goes a little past the horizontal and comes back. On the map this is where the orbit crosses the $q$ axis.
+
+  - type: numeric
+    id: p3-kick
+    prompt: |
+      Same pendulum (mass $1$, rod length $1$, gravity $1$, energy $E = \tfrac12 p^2 + 1 - \cos q$), kicked at the bottom with momentum $p$. To reach the very top, $q = \pi$ with $p = 0$, takes the energy $E = 2$, the energy of the separatrix. What is the smallest kick $p$ at the bottom that reaches the top?
+    answer: 2
+    tolerance: 0.01
+    answerText: '2'
+    wrong:
+      - { value: 1.414, feedback: 'That kick gives $E = 1$, which only reaches the horizontal ($q = 90^\circ$). For the top you need $E = 2$.' }
+      - { value: 4, feedback: 'You set $p$ equal to $2E$. The energy at the bottom is $\tfrac12 p^2$, so $p^2 = 2E$, not $p = 2E$.' }
+    hint: |
+      At the bottom the energy is $E = \tfrac12 p^2$. Set it to $2$.
+    explanation: |
+      $\tfrac12 p^2 = 2$ gives $p = 2$. A kick below $2$ makes the pendulum swing back and forth, and a kick above $2$ makes it spin all the way round. The kick $p = 2$ itself sits on the separatrix: the bob creeps toward the top and, strictly, never gets there in finite time.
+
+  - type: order
+    id: p3-friction
+    prompt: |
+      Now there is friction (a slow loss of energy), and the pendulum is kicked hard at the bottom with $p = 2.5$. Put in order what happens on the map.
+    steps:
+      - It spins over the top again and again, each lap a little slower, while the orbit on the map spirals in
+      - The energy falls below $2$, the value of the separatrix, so the bob stops short of the top
+      - It swings back and forth, each swing smaller than the last
+      - It ends at the bottom at rest, the point $(q, p) = (0, 0)$
+    hint: |
+      Friction only removes energy. The energy starts above $2$ and ends at $0$.
+    explanation: |
+      Friction drains energy, so on the map the orbit moves from one level curve to a lower one. It cannot cross the separatrix back upwards: once the energy is below $2$ the bob can no longer reach the top, and the motion changes from spinning to swinging. The point $(0, 0)$ is the only place where the pendulum can stay, and it is where the spiral ends.

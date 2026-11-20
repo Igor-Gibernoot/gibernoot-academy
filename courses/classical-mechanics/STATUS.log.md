@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-20 ch01-challenge, part 1 (problems 1-3)
+Built `ch01/challenge.yaml` (15 cards): intro with the three-picture toolkit; P1 skimming satellite (newton-cannon, h = 0: v_c = sqrt(gR) = 7.9 km/s, lap 84.4 min, 1.2 v_c lap about 2.4 times longer); P2 lifeguard (least-action-path fermat, A (0,12), B (20,-8), 5 and 1.5 m/s: straight 10.94 s, best x = 17.94 m, 9.82 s, sin ratio 10/3, water 2.5 m/s gives x = 16.47, 7.57 s); P3 kicked pendulum (phase-portrait fixedStart q = 0, p = 1.6: E = 1.28, max angle 106.3 deg, separatrix kick p = 2, order card on friction from p = 2.5). Part 2 will append problems 4-5 and the summary card (budget: 32 cards total, 17 left). Images: none, no free image fits a problem set (answers must not be shown, nothing new introduced). Choices: widgets reused, no new one; P2 widget shows the Reveal/best button (guess-first stated in text). Conventions fixed here: lifeguard geometry above; P3 start p = 1.6.
+
 ## 2026-11-20 ch01-map (Content Map, Level 1)
 Built `ch01/map.yaml`: 9 boxes, 3 columns (left Lagrange: Fermat, action, stationary; middle Newton: law, state, Moon; right Hamilton: phase plane, orbits, separatrix and chaos), 2 decoys each, 9 edges. Choices: column order puts Newton between the other two so both cross links are same-row (dashed action to state, solid state to orbits); no edge labels (same-row boxes leave no room); no widget (map kind suffices), no image (a map card). No source re-read: all formulas reused from ch01 VERIFIED lines. Validate and shots clean.
 Conventions fixed here: none new.
