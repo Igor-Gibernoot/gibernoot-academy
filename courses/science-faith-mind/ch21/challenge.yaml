@@ -1,0 +1,346 @@
+id: ch21-challenge
+title: "Level Challenge: Are We Alone? The Case (1)"
+kind: challenge
+
+cards:
+  - type: text
+    id: welcome
+    title: "Challenge, part 1: a galaxy, a probe and a planet"
+    body: |
+      Problems 1 to 3 use **invented** ranges, probes and planets, built to practise on cases you have never seen; nothing in them is a measurement or a claim about a real world. Where a real thinker appears, the claim is taught as "according to ...".
+
+      - **Problem 1 · A galaxy of guesses.** A fresh set of Drake ranges: how wide the answer is, where its middle sits, and how often the galaxy would be empty.
+      - **Problem 2 · A slow probe.** How long a patient colonisation wave takes to cross the galaxy, and what a life found on Mars would, and would not, say about the Great Filter.
+      - **Problem 3 · A planet in the spectrum.** How big the dip is, what two clues are worth, and why a third clue may be worth nothing.
+
+      **Three layers.** Established fact; scholarly consensus or live debate; faith or metaphysical commitment. Problems 4 and 5, with the closing weighing of the level, come in part 2.
+
+  - type: text
+    id: recall
+    title: "Toolkit recall"
+    body: |
+      Five tools from the level, each stated so it can be used alone.
+
+      - **The Drake equation.** According to Frank Drake (1930-2022), who wrote it in 1961 as an agenda for a meeting at Green Bank, West Virginia, the number $N$ of civilisations in the Milky Way that send out signals we could detect now is
+        $$N=R_*\,f_p\,n_e\,f_l\,f_i\,f_c\,L,$$
+        with $R_*$ the stars born per year, $f_p$ the fraction of stars with planets, $n_e$ the life-supporting planets per such star, $f_l$ the fraction where life starts, $f_i$ the fraction where intelligence appears, $f_c$ the fraction that send detectable signals, and $L$ the years a civilisation keeps signalling.
+      - **Ranges, not points.** If a factor is equally likely anywhere in its range on a log scale, its $\log_{10}$ is uniform over a width $w$ (in powers of ten) with spread $w/\sqrt{12}$. For independent factors, the spread of $\log_{10}N$ is
+        $$\sigma=\sqrt{\frac{w_1^2+w_2^2+\dots+w_7^2}{12}}$$
+        and the middle of $\log_{10}N$ is the sum of the middles.
+      - **The Fermi puzzle and the Great Filter.** A wave of colonisation crossing a galaxy $10^5$ light-years wide in a time much shorter than the stars' ages would leave signs, and we see none. According to Robin Hanson (1998), some step between dead matter and expanding life must be very improbable; the easier the early steps proved to be, the bleaker our own prospects probably are.
+      - **Bayes in odds form.** For life against no life and evidence $E$:
+        $$\frac{P(\text{life}\mid E)}{P(\text{no life}\mid E)}=\text{LR}\cdot\frac{P(\text{life})}{P(\text{no life})}$$
+        with
+        $$\text{LR}=\frac{P(E\mid\text{life})}{P(E\mid\text{no life})}.$$
+        Independent clues multiply their LRs; odds $o$ become a probability $o/(1+o)$.
+      - **The Gott interval (1993).** For a thing that has lasted $t_\text{past}$ and is met at a random moment of its life, the future lies, with confidence $c$, between $\frac{1-c}{1+c}\,t_\text{past}$ and $\frac{1+c}{1-c}\,t_\text{past}$ (1/39 to 39 times at 95%). Part 2 uses it.
+
+  # ---------------- Problem 1 ----------------
+  - type: widget
+    id: p1-widget
+    title: "Problem 1 · A galaxy of guesses"
+    widget: drake-sliders
+    config:
+      factors:
+        - {name: '$R_*$', min: 1, max: 4, low: 1, high: 4, unit: '/yr'}
+        - {name: '$f_p$', min: 0.3, max: 1, low: 0.3, high: 1}
+        - {name: '$n_e$', min: 0.05, max: 0.5, low: 0.05, high: 0.5}
+        - {name: '$f_l$', min: 1.0e-4, max: 1.0e-1, low: 1.0e-4, high: 1.0e-1}
+        - {name: '$f_i$', min: 1.0e-3, max: 1, low: 1.0e-3, high: 1}
+        - {name: '$f_c$', min: 0.1, max: 1, low: 0.1, high: 1}
+        - {name: '$L$', min: 100, max: 1.0e6, low: 100, high: 1.0e6, unit: 'yr'}
+      sliders: false
+      factorValues: false
+      bar: false
+      nReadout: false
+      presets: false
+      reset: false
+      histogram: true
+      interval: true
+      median: false
+      fraction: false
+      draws: 20000
+      seed: 11
+    body: |
+      **Problem 1.** An invented team gives each Drake factor a range, equally likely anywhere in it on a log scale: $R_*$ from 1 to 4 per year, $f_p$ from 0.3 to 1, $n_e$ from 0.05 to 0.5, $f_l$ from $10^{-4}$ to $10^{-1}$, $f_i$ from $10^{-3}$ to 1, $f_c$ from 0.1 to 1, and $L$ from 100 to $10^{6}$ years. The histogram counts 20,000 draws by $\log_{10}N$; bars left of the dashed line have $N<1$.
+
+      Look at its shape, then answer by hand: no formula is on the card, so use your toolkit.
+    review: false
+
+  - type: numeric
+    id: p1-sd
+    title: "How wide is the answer?"
+    prompt: |
+      A team gives each Drake factor a range, equally likely anywhere in it on a log scale: $R_*$ 1 to 4, $f_p$ 0.3 to 1, $n_e$ 0.05 to 0.5, $f_l$ $10^{-4}$ to $10^{-1}$, $f_i$ $10^{-3}$ to 1, $f_c$ 0.1 to 1, $L$ 100 to $10^{6}$ years. The widths of the ranges, in powers of ten, are $0.60,\ 0.52,\ 1,\ 3,\ 3,\ 1$ and $4$. What is the spread (standard deviation) of $\log_{10}N$ across the whole set of draws? Give one decimal.
+    answer: 1.7
+    tolerance: 0.06
+    answerText: '1.7 (about 1.75)'
+    wrong:
+      - { value: 13.1, feedback: 'That adds the widths themselves. Independent spreads add as squares: square each width, add, divide by 12, then take the root.' }
+      - { value: 3.05, feedback: 'That is the variance, the sum of the squared widths divided by 12. The spread is its square root.' }
+    hint: Square each width, add the seven squares, divide by 12, then take the square root.
+    explanation: |
+      The squares are $0.36,\ 0.27,\ 1,\ 9,\ 9,\ 1,\ 16$, which add to $36.6$. Divided by 12 this gives $3.05$, and its root is
+      $$\sigma=\sqrt{3.05}\approx1.75.$$
+      So a typical draw sits about one and three quarter powers of ten from the middle: the answer is spread over many orders of magnitude, however carefully each factor was set.
+
+  - type: numeric
+    id: p1-median
+    title: "Where is the middle?"
+    prompt: |
+      With the same ranges, the middle of each factor on the log scale is the middle of its range: $\log_{10}R_*$ about $0.30$, $\log_{10}f_p=-0.26$, $\log_{10}n_e=-0.80$, $\log_{10}f_l=-2.5$, $\log_{10}f_i=-1.5$, $\log_{10}f_c=-0.5$, $\log_{10}L=4$. Add them: what is the middle of $\log_{10}N$, to one decimal?
+    answer: -1.3
+    tolerance: 0.06
+    answerText: '-1.3'
+    wrong:
+      - { value: 4.0, feedback: 'That keeps only the middle of $L$. The six other factors are fractions or small numbers, and their negative logs pull the middle down.' }
+      - { value: 1.3, feedback: 'The sign slipped: the negative middles add up to more than the positive ones.' }
+    hint: Add the negatives first, $-0.26-0.80-2.5-1.5-0.5=-5.56$, then the positives.
+    explanation: |
+      The sum is $0.30-5.56+4=-1.26$, so the middle of $N$ is $10^{-1.26}\approx0.055$. A simulation of three million draws gives a median $\log_{10}N$ of $-1.26$ as well. The typical result is about one signalling civilisation per eighteen galaxies like ours: below one, though the top of the range lies above $10^{4}$.
+
+  - type: numeric
+    id: p1-below
+    title: "How often is the galaxy empty?"
+    prompt: |
+      The distribution of $\log_{10}N$ has its middle at $-1.26$ and a spread of $1.75$, and is close to a bell shape. $N<1$ means $\log_{10}N<0$, which is $1.26/1.75=0.72$ spreads above the middle. For a bell shape, 50% of the draws lie below the middle and about 84% lie below a point one full spread above it; read between the two. A reader says: "the middle is $N\approx0.055$, so the galaxy is empty, with certainty." What percent of draws have $N<1$? Give a whole number.
+    answer: 76
+    tolerance: 3
+    answerText: 'about 76%'
+    wrong:
+      - { value: 100, feedback: 'That treats the middle as the whole answer. A quarter of the draws still give one or more civilisations; the range reaches above $10^{4}$.' }
+      - { value: 24, feedback: 'That is the share with $N\ge1$. The middle is below zero on the log scale, so most draws, not a minority, have $N<1$.' }
+    hint: The share below a point is the share below the middle (50%) plus the share between the middle and that point.
+    explanation: |
+      About 76% of draws have $N<1$ and about 24% have $N\ge1$ (a direct simulation gives 75.5%). So "the galaxy is probably empty of signalling civilisations, but with a one-in-four chance that it is not" is a fair statement of what these invented ranges say. A single number $N\approx0.055$ would hide that one in four, and a point estimate cannot say it.
+
+  - type: mcq
+    id: p1-dominant
+    title: "Where to spend the next effort"
+    prompt: |
+      The seven ranges have widths $0.60,\ 0.52,\ 1,\ 3,\ 3,\ 1$ and $4$ powers of ten, for $R_*, f_p, n_e, f_l, f_i, f_c, L$. The spread of $\log_{10}N$ comes from adding the squared widths. A funder can pay to narrow exactly one range to a width of one power of ten. Which gives the largest cut in the spread, and what does that say about the problem?
+    options:
+      - text: "$L$ (the lifetime of signalling): it carries 44% of the variance, and no telescope can measure it, since it asks about the future of civilisations."
+        correct: true
+        feedback: |
+          Yes. Squared widths: $L$ gives 16 of 36.6. Narrowing it from width 4 to 1 removes 15 of those 36.6. The honest summary is that the largest uncertainty belongs to the factor about which we know least by observation.
+      - text: "$R_*$ (the star formation rate): it is the first factor, so every other factor is multiplied by it."
+        feedback: |
+          Its range is the narrowest of all (width $0.60$) because astronomers measure it well. Order in the product does not matter; only the widths do.
+      - text: "$f_l$ (the start of life): this is the best-studied step, so narrowing it is cheapest."
+        feedback: |
+          Its range is wide (width 3) because we have one example of life's start, not a measurement. It carries 25% of the variance, but narrowing $L$ removes more.
+      - text: "None: every factor contributes equally to the spread."
+        feedback: |
+          Equal weights would need equal widths. The squared widths run from $0.27$ to $16$, so the contributions differ by a factor of sixty.
+    explanation: |
+      Because squared widths add, the widest ranges dominate: $L$ (44%), then $f_l$ and $f_i$ (25% each). If $L$ alone is narrowed to $10^{3}$ to $10^{5}$ years (width 2), the spread falls from $1.75$ to $1.43$ and the share below one rises from 76% to about 80%. Where people part ways: on $L$ itself, some reading it as a hopeful estimate of how long a civilisation keeps signalling and others, with a worldview of self-destruction or of lasting peace, reading it as a commitment about the human future (layer 3), not a measurement.
+
+  # ---------------- Problem 2 ----------------
+  - type: text
+    id: p2-setup
+    title: "Problem 2 · A slow probe"
+    body: |
+      **Problem 2.** An invented civilisation, the Ardeni, sends self-copying probes. Each probe flies at $0.02\,c$ ($c$ = the speed of light) to a star 10 light-years away, then spends 200 years building a copy and launching it to the next star 10 light-years further on. The Milky Way is a disk about $10^{5}$ light-years across. The probes move in a straight line across it, one hop after another.
+
+      The Ardeni arose 3 billion years ($3\times10^{9}$ years) before the Earth's life reached our stage. The Fermi puzzle asks whether such a head start is enough to matter.
+
+  - type: numeric
+    id: p2-cross
+    title: "How long does one crossing take?"
+    prompt: |
+      A probe flies 10 light-years at $0.02\,c$ and then spends 200 years building its copy. The disk is $10^{5}$ light-years across, covered by identical hops of 10 light-years. How many **millions of years** does one crossing of the disk take?
+    answer: 7
+    tolerance: 0.01
+    answerText: '7 million years'
+    wrong:
+      - { value: 5, feedback: 'That counts the flights only: $10^{5}/0.02=5\times10^{6}$ years. The 200-year stops at each of $10^{4}$ stars add two million more.' }
+      - { value: 0.7, feedback: 'That is the time of 1000 hops, not $10^{4}$: the disk is $10^{5}$ light-years and each hop covers 10.' }
+    hint: One hop takes the flight time (distance over speed) plus the stop. Count the hops, then multiply.
+    explanation: |
+      The flight of one hop takes $10/0.02=500$ years, and the stop adds 200, so a hop takes 700 years. The disk needs $10^{5}/10=10^{4}$ hops, so
+      $$t=10^{4}\times700\ \text{years}=7\times10^{6}\ \text{years}.$$
+      The stops cost as much as 40% of the flight time, and still the whole crossing is a few million years.
+
+  - type: numeric
+    id: p2-count
+    title: "A head start, in crossings"
+    prompt: |
+      One crossing takes 7 million years. The Ardeni began 3 billion years ($3\times10^{9}$) before the Earth's life reached our stage. How many crossings of the galaxy fit into that head start? Give a whole number.
+    answer: 429
+    tolerance: 2
+    answerText: '429 (about 430)'
+    wrong:
+      - { value: 600, feedback: 'That uses the flight-only time of 5 million years. The stops make a crossing longer, so fewer fit.' }
+      - { value: 0.0023, feedback: 'That is the ratio turned upside down. Divide the long head start by the short crossing time.' }
+    hint: Divide the head start by the time of one crossing, both in years.
+    explanation: |
+      $$\frac{3\times10^{9}\ \text{years}}{7\times10^{6}\ \text{years}}\approx429.$$
+      Even with stops and a modest speed, the head start holds hundreds of crossing times. So the speed is not the escape: according to the argument, the question is why nothing shows it, and each reply to the puzzle must reject one premise (a civilisation arose; one spread; spreading leaves signs).
+
+  - type: mcq
+    id: p2-mars-shared
+    title: "Life on Mars, one family or two?"
+    prompt: |
+      The Great Filter (Hanson, 1998) is a very improbable step between dead matter and expanding life. A lander finds living microbes in Martian soil. Analysis shows that they use the same genetic code and the same twenty amino acids as life on Earth. Rocks thrown out by impacts travel between Mars and Earth. According to Hanson's reasoning, what does this find say about where the filter lies?
+    options:
+      - text: "Little about the start of life: the microbes may be relatives of ours, one origin spread by rocks, so it does not show that starting life is easy."
+        correct: true
+        feedback: |
+          Yes. The inference needs two independent starts. A shared genetic code points to shared ancestry, and a single origin tells us nothing new about how improbable that origin was.
+      - text: "That the filter lies ahead of us, because life exists on a second planet."
+        feedback: |
+          Hanson's inference works only if life began separately on Mars. If it is a cousin of ours, the early steps may still be very hard, and the filter may still lie behind us.
+      - text: "That the filter lies behind us, because life on Mars proves the start was easy."
+        feedback: |
+          Shared ancestry does not prove the start was easy: it may have happened once, on one planet. And an independent start would point the other way, toward the filter being ahead.
+      - text: "Nothing at all: no find on Mars could bear on the Great Filter."
+        feedback: |
+          A find can bear on it. An independent origin on Mars would be strong evidence that the early steps are easy; this find simply does not show independence.
+    explanation: |
+      According to Hanson, the key question is independence of origin; comparing biochemistry is the test. Fact: such a find has not been made. Live debate: how much a second origin would shift the filter, and how likely rock exchange is. The wording of the card, "according to Hanson's reasoning", keeps the claim attached to its source.
+
+  - type: mcq
+    id: p2-mars-two
+    title: "Two views of an independent start"
+    prompt: |
+      Suppose instead the Martian microbes use a different genetic code, so life began twice in one solar system. According to Hanson, in essence, the earlier steps are then easy and our future prospects bleaker. A defender of the Rare Earth hypothesis (Ward and Brownlee, 2000), who holds that simple life may be common but complex life is rare, replies in essence in which way?
+    options:
+      - text: "Easy microbes are no surprise; the hard steps may lie later, in complex cells or in intelligence, so the filter can still be behind us."
+        correct: true
+        feedback: |
+          Yes. The Rare Earth view separates microbes from complex life. An easy start of life moves the filter only if the later steps are also easy, which that view denies.
+      - text: "The find must be false, because life cannot begin twice."
+        feedback: |
+          A Rare Earth defender need not deny the find. The view allows common simple life; its claim is about what comes later.
+      - text: "Easy early steps prove that the filter is ahead, so the Rare Earth view is refuted."
+        feedback: |
+          That is the other side's reading. The replying side says exactly where that inference needs an extra premise: that the later steps are easy too.
+      - text: "Life on two planets shows that civilisations must be common."
+        feedback: |
+          Microbes on two planets say nothing yet about intelligence. The distance from microbes to a civilisation is the very question in dispute.
+    explanation: |
+      The two views share the fact and part on a premise: whether every step after the start of life is also easy. That premise is live debate, not fact; whether the silence points to a lonely or to a full universe is the layer-three question.
+
+  # ---------------- Problem 3 ----------------
+  - type: text
+    id: p3-setup
+    title: "Problem 3 · A planet in the spectrum"
+    body: |
+      **Problem 3.** An invented planet, **Tessera b**, crosses its star every few days. Its radius is 2.4 Earth radii; its star has 0.45 of the Sun's radius. Take the Earth's radius as 6371 km and the Sun's as 695,700 km. A telescope sees the starlight dip when the planet crosses (a **transit**), and the colours that dip a little more tell which gases are in its air.
+
+      Two clues are claimed: a gas $G_1$ that, on Earth, living things are known to make, and a second gas $G_2$, seen with another instrument. A skeptic and a hopeful reader will weigh them by odds.
+
+  - type: numeric
+    id: p3-depth
+    title: "How big is the dip?"
+    prompt: |
+      A planet of radius $R_p=2.4\times6371$ km crosses a star of radius $R_\star=0.45\times695{,}700$ km. By what fraction does the starlight dip, in **parts per million** (millionths of the star's light)? Give the nearest whole number.
+    answer: 2385
+    tolerance: 15
+    answerText: '2385 parts per million'
+    wrong:
+      - { value: 48.8, feedback: 'That is the ratio of the radii, $0.0488$, written in millionths of a hundredth. The dip is the ratio of the areas, which is that ratio squared.' }
+      - { value: 23.85, feedback: 'The decimal point slipped: $2.385\times10^{-3}$ is $2385$ parts per million, not $23.85$.' }
+    hint: The fraction of the star's disc covered is the ratio of two areas.
+    explanation: |
+      The radii are $R_p=15{,}290$ km and $R_\star=313{,}065$ km, a ratio of $0.0488$. The dip is its square,
+      $$\delta=(0.0488)^2=2.39\times10^{-3},$$
+      about 2385 parts per million. An atmosphere 60 km thick adds only $2R_ph/R_\star^2\approx18.7$ parts per million. The gas lines are a hundredth of the transit itself, which is why a claim about a gas needs careful statistics.
+
+  - type: numeric
+    id: p3-lr
+    title: "What is the first clue worth?"
+    prompt: |
+      The gas $G_1$ is seen at the quoted strength with chance $0.45$ if the planet carries life, and with chance $0.03$ if it carries none (non-living chemistry known from laboratories can make it, at about that rate). What is the likelihood ratio of this observation for life against no life?
+    answer: 15
+    tolerance: 0.01
+    answerText: '15'
+    wrong:
+      - { value: 0.0667, feedback: 'That is the ratio upside down. The likelihood ratio puts the chance under life on top.' }
+      - { value: 0.42, feedback: 'That is the difference of the two chances. Likelihood ratios divide; they do not subtract.' }
+    hint: Divide the chance of the observation under life by its chance under no life.
+    explanation: |
+      $$\text{LR}_1=\frac{P(E_1\mid\text{life})}{P(E_1\mid\text{no life})}=\frac{0.45}{0.03}=15.$$
+      A clue that non-living chemistry makes easily would have a ratio near 1. This one is 15 because the abiotic rate is low, not because life would surely show it.
+
+  - type: numeric
+    id: p3-post
+    title: "The ladder after two clues"
+    prompt: |
+      A reader starts at odds of $1{:}500$ for life against no life on a planet like Tessera b (a toy figure, not a measurement). The first clue has likelihood ratio $15$. A second clue, from another instrument with other noise and judged independent of the first, has chance $0.40$ under life and $0.08$ under no life. What probability of life, in percent, does the reader now hold? Give one decimal.
+    answer: 13
+    tolerance: 0.3
+    answerText: '13.0%'
+    wrong:
+      - { value: 98.7, feedback: 'That forgets the prior: $15\times5=75$ as odds is $98.7\%$ only if the start was even. The start was $1{:}500$.' }
+      - { value: 15, feedback: 'That reads the posterior odds, $0.15$, as a percent. Odds $o$ become a probability $o/(1+o)$.' }
+      - { value: 2.9, feedback: 'That uses the first clue only. The second, independent clue multiplies the odds again.' }
+    hint: Multiply the prior odds by both likelihood ratios, then turn the odds into a probability.
+    explanation: |
+      The second ratio is $0.40/0.08=5$. Then
+      $$\text{odds}=15\times5\times\frac{1}{500}=0.15,$$
+      and the probability is
+      $$P=\frac{0.15}{1.15}\approx13.0\%.$$
+      Two clues raised the odds 75-fold, and the reader is still well under even odds. That is the ladder: a low start needs many independent rungs.
+
+  - type: mcq
+    id: p3-shared
+    title: "Which third clue counts?"
+    multiple: true
+    prompt: |
+      The reader holds odds of $0.15$ for life on Tessera b after two clues, and wants a third that would multiply the odds again as an independent clue. Which of these candidates would add (mostly) independent evidence? Select all that apply.
+    options:
+      - text: "A measurement of the same gas by a different instrument, with different noise and different habits."
+        correct: true
+        feedback: |
+          Yes. Different instrument, different errors: it can fail where the first did not.
+      - text: "A new transit of the same planet on another date with the same instrument: fresh starlight and so fresh noise (habits of the instrument may repeat, so it is only partly independent)."
+        correct: true
+        feedback: |
+          Yes, mostly. New photons are a new test of the planet; the shared instrument is the reason to prefer the first option when possible.
+      - text: "A second team re-analysing the same spectrum with a different method and finding the same line."
+        feedback: |
+          This checks the processing, not the planet: the light collected is the same, so the planet's contribution is the same, and the two analyses cannot fail independently. Credit about LR 1.
+      - text: "A second gas that the same volcanic chemistry makes together with $G_1$ when there is no life."
+        feedback: |
+          This is the shared-cause trap. If a non-living process makes both gases, seeing the second is almost as likely given the first when there is no life, so its likelihood ratio is near 1. Independence must hold under the rival hypothesis too.
+      - text: "The same team's later paper, which reuses their spectrum with a different model."
+        feedback: |
+          Same data, same team: a reworked model adds no new light from the planet. The 2025 critics of a real case made exactly this point about analysis choices.
+    explanation: |
+      Odds multiply only for clues that are independent under both hypotheses. New data from a new instrument or a new transit passes; the same data read twice, or two signs of one non-living cause, does not.
+
+  - type: numeric
+    id: p3-sceptic
+    title: "What would move the sceptic?"
+    prompt: |
+      A sceptic starts at odds of $1{:}100\,000$ for life against no life on Tessera b, while the hopeful reader starts at $1{:}10$. Each new clue is independent and has likelihood ratio $10$. How many such clues does the sceptic need to reach even odds ($1{:}1$)?
+    answer: 5
+    tolerance: 0
+    answerText: '5'
+    wrong:
+      - { value: 4, feedback: 'Four clues give a factor $10^{4}$, which leaves odds of $1{:}10$. Five give $10^{5}$.' }
+      - { value: 100000, feedback: 'That counts clues as if each added 1 to the odds. Each multiplies them by 10.' }
+    hint: Each clue multiplies the odds by 10, so you need a total factor of $10^{5}$.
+    explanation: |
+      $$\frac{1}{10^{5}}\times10^{5}=1,$$
+      so five clues. The hopeful reader needs just one. Both read the same evidence, with the same likelihood ratios, and part ways only on the starting odds. According to the sceptic, extraordinary claims need extraordinary evidence; according to the hopeful reader, the Drake and Fermi lessons leave life open, so the prior is not tiny. The prior is a judgement (layer 3 when it rests on a worldview), not a measurement.
+
+  - type: text
+    id: summary
+    title: "What you now own"
+    body: |
+      Part 1 used one method three ways: put ranges and odds on the claim, count only independent evidence, and keep the three layers apart.
+
+      **Problem 1 (ranges).** For seven log-uniform factors with widths $w_i$ in powers of ten,
+      $$\sigma=\sqrt{\frac{\sum_i w_i^2}{12}},$$
+      and the middle of $\log_{10}N$ is the sum of the middles. With widths $0.60, 0.52, 1, 3, 3, 1, 4$ this gave $\sigma\approx1.75$, a median of $\log_{10}N\approx-1.26$ ($N\approx0.055$), and about 76% of draws with $N<1$. The widest range, $L$, held 44% of the variance.
+
+      **Problem 2 (probe and filter).** A crossing of $10^{5}$ light-years by hops of 10 light-years at $0.02\,c$ with 200-year stops takes $10^{4}\times700$ years $=7$ million years, so a 3-billion-year head start holds about 429 crossings. According to Hanson (1998), an independent second origin of life would suggest the early steps are easy and the filter ahead; a Mars life with our ancestry would not. A Rare Earth defender replies that the hard steps may be later.
+
+      **Problem 3 (ladder).** The transit dip is $\delta=(R_p/R_\star)^2$, about 2385 parts per million for Tessera b. Independent clues multiply:
+      $$\begin{aligned}\text{odds}&=\text{LR}_1\,\text{LR}_2\cdot\text{prior odds}\\&=15\times5\times\tfrac{1}{500}=0.15,\end{aligned}$$
+      about 13%. A re-analysis of the same data, or a second gas from the same non-living cause, has an LR near 1. A sceptic at $1{:}10^{5}$ needs five clues of LR 10; a hopeful reader at $1{:}10$ needs one.
+
+      **Where people part ways:** on the width of the unmeasurable factors, especially $L$; on whether the early steps being easy means the later ones are; and on the starting odds. **Next:** part 2, problems 4 and 5, with the Gott interval, the odds of being observed and the closing weighing of the whole level.
