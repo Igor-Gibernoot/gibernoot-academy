@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-20 ch23-fideism built
+20 cards, concept, no widget (conceptual contrast; numeric threshold, sorting and objection cards instead). Images: kierkegaard.webp new (Luplau Janssen painting, public domain), wittgenstein.webp reused; viewed Kierkegaard card at phone width, fine. Web-checked (see VERIFIED); verbatim quotes of Wittgenstein, Pascal, Tertullian not read in full text, so paraphrased with "in essence". Choices: three senses (unable/irrelevant/hostile) labelled as the lesson's own sorting; self-defeat objection labelled the lesson's own wording; Kierkegaard reported 'according to Climacus' for the Postscript; Abraham read both as defence and as warning. Conventions fixed here: faith-as-bet recalled with g=50, c=10 threshold 1/6; Nielsen 1967 label, Phillips rejects it; Kierkegaard pseudonyms Johannes de silentio (1843), Johannes Climacus (1846).
+
 ## 2026-11-20 ch23-pragmatic built
 22 cards, concept, decision-matrix x4 (James weights toy model with thresholds, Pascal finite, infinite, many gods; first lesson to use the widget; many-gods preset checked by screenshot: 10.61 before, -9.6 after god B). Images: none new, reused james.webp and pascal.webp (no better free image; none: no scenario or object worth a picture). Web-checked (see VERIFIED). Choices: James's toy weights model labelled as ours, not his; Hájek/Duff/Williams/Diderot/Mackie attributions as SEP and search give them (Hájek paper not read); no first name for Duff. Conventions fixed here: genuine option = live + forced + momentous; break-even p = c/(g+c); toy numbers 1/11, 100/101, -8.99, -9.6 reused from the wager lesson.
 
