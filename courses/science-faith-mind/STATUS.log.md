@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-20 ch23-plantinga built
+20 cards, concept, no widget (checked docs/widgets/README.md: no widget fits a conceptual argument; none numeric), 1 new image (Calvin's Institutes 1559 title page, PD; Plantinga portrait skipped: the only free file with a clean licence, plantinga.webp, is already used in ch06, ch07, ch13; the other Commons files are PD-user-en, refused). Web-checked (see VERIFIED). Choices: no quotation marks anywhere (sources read through fetch summaries, so paraphrase); IEP page ref-epis fetched, SEP not reachable (404 on guessed URLs), so SEP not cited; Son of Great Pumpkin attributed to Michael Martin, Rational Recognition Principle to Zagzebski, both per IEP; defeaters cited to IEP only; breakfast, parking and door examples labelled ours. Conventions fixed here: basic/inferred/properly basic; classical foundationalism = self-evident, incorrigible, evident to senses; warrant externalist per Plantinga (proper function, design plan aimed at truth).
+
 ## 2026-11-20 ch23-evidentialism built
 21 cards, concept, no widget (odds-updater checked: it has no threshold marker, so it would show the posterior but not where 'sufficient' falls; two numeric cards and a threshold mcq do that instead), 1 image (Clifford portrait by Collier, PD; none for the ship: hypothetical case). Web-checked (see VERIFIED). Choices: only two Clifford quotations used (both found in Wikisource and SEP); self-refutation worry stated as our question, not attributed (SEP gives regress only); Great Pumpkin only named as teaser. Conventions fixed here: $E_S$; Clifford (ethical) vs Feldman-Conee (justification); shipowner odds numbers.
 
