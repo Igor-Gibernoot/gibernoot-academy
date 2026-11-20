@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-20 ch22-metaphor (concept, 19 cards, no widget)
+Built per plan. Widget: none (verbal content, previous agent's decision kept). Images: ricoeur (CC0), mcfague (CC BY-SA 4.0); none for Ramsey and Tillich (Commons had only busts and graves for Tillich, nothing checked for Ramsey). Web-checked; Ricoeur "is/is not" and McFague wording not found verbatim, so stated in essence and not quoted. Tillich being-itself exception secondary only, hedged. Conventions fixed here: Ricoeur = tension of identity and difference at statement level; McFague model = extended metaphor, plurality guards against idol.
+
 ## 2026-11-20 ch22-analogy (concept, 18 cards, no widget, 2 reused images)
 Added `file: ch22/analogy.yaml`. Cards: hook, healthy guess, Flew recall, Aquinas trichotomy (portrait) + mcq, health analogy + 2 mcq, Maimonides (portrait), ship + mcq, Pseudo-Dionysius + build, Eckhart + mcq, self-undoing objection, layer mcq, summary (5 bullets, 4 formula blanks). Widgets: none (verbal). Images: aquinas.webp and maimonides.webp reused (already in credits.yaml); none new: Dionysius and Eckhart have no free portrait worth adding. Choices: framed on the language problem (Level 8 apophatic lesson covers the nature of God); dropped the Eckhart 'rid me of God' quote (unconfirmed); Flew phrase paraphrased. Conventions fixed here: univocal/equivocal/analogical triple; Dionysius steps G is F, G is not F, G is over-F; ship parable I.60; G written plain in displayed lines.
 
