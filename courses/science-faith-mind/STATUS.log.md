@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-20 ch22-cognitive (concept, 18 cards, no widget, no images)
+Added `file: ch22/cognitive.yaml`. Cards: hook, guess (invisible gardener), recall of the verification principle, Ayer + mcq on the denial, Flew gardener, three replies (Hare, Mitchell, Hick) + 2 mcq, Braithwaite + build, Phillips + mcq, creed mapping mcq, believer's objection mcq, two layer mcqs (no sort card type exists), summary with 4 blanks. Widgets: none (verbal argument). Images: none: Commons files for Ayer and Flew have doubtful free status, no Phillips found. Web-checked, see VERIFIED. Omitted unconfirmed: Phillips 1976 book, Mascall objection, Hare/Mitchell dates, Braithwaite lecture venue. Conventions fixed here: cognitivism = face-value reading; Flew 'University' 1950-51; Phillips label 'fideism' from Nielsen 1967.
+
 ## 2026-11-20 ch22-meaning (concept, 19 cards, no widget, no images)
 Widgets checked: none fit verbal reasoning (belief-mixer, sequence-sampler, curve-fit-lab, frequency-grid are numeric or Bayesian). Images: none: Frege and Wittgenstein portraits already used (ch04, ch01), no free portraits needed for Schlick or Carnap (passing mentions). Web-checked per VERIFIED.md; Tractatus not quoted, PI 43 quoted from SEP. Choices: guided the 'strict vs liberal' point since Carnap and others did not hold the crude principle. Conventions fixed here: three theories 'according to', Ayer's principle stated for fact-stating sentences, Schlick laws as rules of inference (SEP).
 
