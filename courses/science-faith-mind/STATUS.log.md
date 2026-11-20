@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-20 ch22-map (map, 9 boxes, 18 decoys, 11 cards, no widget)
+Boxes: what a sentence means (root), is a religious sentence a claim, speaking of God, metaphor/symbol/model, myth, ritual and performative speech, interpretation, translation, three layers (fact/debate/commitment; 9th box added by choice so the layers sit on the map). Two decoys per box, each one swapped or wrong attribution (sense/reference, Wittgensteins, Ayer both directions, Hare, Aquinas univocal, Pseudo-Dionysius as Acts convert, Tillich sign/symbol, Ricoeur word level, everyday 'myth', Bultmann deletes, misfire/abuse, Staal, Philo drops law, Gadamer removes prejudgments, Nida labels, strong Whorf established, layer misplacements). Widgets checked: none needed for map format. none: map (images). No new external facts; all reused from ch22 VERIFIED lines; removed Austin bystander example (unconfirmed) and soft-edited three feedback lines to stay inside verified facts. Checks: validate 0/0, shots 0 problems, final map viewed on desktop.
+Conventions fixed here: none new.
+
 ## 2026-11-20 ch22-intuition (intuition, 18 cards, no widget, no images)
 Recall of Level 22: Frege sense/reference, verification objections, cognitivism vs Braithwaite/Phillips, Aquinas uses and Pseudo-Dionysius path (build), Ramsey model+qualifier (build), Tillich/Ricoeur, myth thinkers, Austin misfire/abuse, reading traditions, Sapir-Whorf, Nida (build), four-sentence applied cards (no rule stated) and a six-sentence count (answer 3), layers sort. Widgets checked (docs/widgets/README.md): all are maths, physics or inference tools; none shows language. Images: none, recall lesson, portraits already used. No new external facts, so no web search. Conventions fixed here: none new.
 
