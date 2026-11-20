@@ -1,0 +1,256 @@
+id: ch01-prediction
+title: Can You Predict the Future?
+kind: concept
+own: |
+  Setting: a body of mass $m$ (a thrown ball, the Moon) moves through space under a force $\mathbf{F}$ such as gravity. Its position at time $t$ is the arrow $\mathbf{r}(t)$ from a fixed origin, and a dot means the rate of change in time.
+  - **State.** The position $\mathbf{r}$ and the velocity (speed and direction) at one instant, where
+  $$\mathbf{v} = \dot{\mathbf{r}}.$$
+  Together they fix the whole future, once the force is known. The history before that instant is not needed.
+  - **Newton's second law** says the acceleration $\ddot{\mathbf{r}}$ (the rate of change of $\mathbf{v}$) is set by the force:
+  {{ $$\mathbf{F} = m\,\ddot{\mathbf{r}}$$ }}
+  - **How to predict.** Take a tiny time step $\Delta t$. From the state now, the next velocity and position are
+  {{ $$\mathbf{v}_{\text{new}} = \mathbf{v} + \frac{\mathbf{F}}{m}\,\Delta t$$ }}
+  and $\mathbf{r}_{\text{new}} = \mathbf{r} + \mathbf{v}\,\Delta t$. Repeating this builds the whole trajectory.
+  - **One law for apple and Moon.** At the Earth's surface a falling body has acceleration $g \approx 9.8\ \mathrm{m/s^2}$. At distance $r$ from the Earth's centre (Earth radius $R$) gravity gives
+  {{ $$a = g\left(\frac{R}{r}\right)^2$$ }}
+  The Moon moves on a circle of radius $r$ with period $T$, with acceleration
+  {{ $$a = \frac{4\pi^2 r}{T^2}$$ }}
+  and for $r \approx 60\,R$ the two agree (about $2.7\times10^{-3}\ \mathrm{m/s^2}$).
+cards:
+  - type: text
+    id: hook
+    title: Guess first
+    body: |
+      Here is a game we will play in this whole tour: **guess first, then check**. A wrong guess is not a failure. It is how you find out what you really think. Nothing here needs earlier physics.
+
+      Two puzzles to start. You throw a ball and, as it leaves your hand, you can tell where it will land. You look at the Moon, which has been going around the Earth for billions of years, and astronomers can tell where it will be in a thousand years.
+
+      Is a thrown ball the same kind of thing as the Moon? And what do you need to know *now* to say what happens *later*?
+
+  - type: mcq
+    id: predict-faster
+    prompt: |
+      Picture a very tall tower on a smooth, round planet with no air. You throw a ball sideways from the top. Throw it harder and harder. What happens to the place where it lands?
+    options:
+      - text: It moves farther away, until at some speed the ball never comes down at all
+        correct: true
+      - text: It moves farther away without limit, but the ball always lands in the end
+        feedback: |
+          This is the picture for a flat ground. But the planet is round: the ground curves away below the ball. At high enough speed the ground curves away as fast as the ball falls, and the ball never reaches it.
+      - text: Past some speed it lands closer again, because it spends less time near the ground
+        feedback: |
+          Faster does not shorten the fall. Gravity pulls the same way no matter how fast the ball moves sideways, so a faster ball only gets farther before it comes down.
+    explanation: |
+      On a flat floor a faster throw always lands farther. On a round planet the ground bends away from the ball, so there is a speed at which the ball keeps missing the ground. We will see this on a simulation next.
+
+  - type: text
+    id: newton
+    title: The man with the cannonball
+    image:
+      src: img/newton.webp
+      alt: Portrait painting of Isaac Newton in middle age, with long hair and a dark coat
+      caption: Isaac Newton (1643 to 1727), painted by Godfrey Kneller in 1689, two years after Newton published his book on motion and gravity, the *Principia* (1687).
+      credit: Godfrey Kneller, Public domain, via Wikimedia Commons
+      link: https://commons.wikimedia.org/wiki/File:Portrait_of_Sir_Isaac_Newton,_1689.jpg
+    body: |
+      The man who asked this question was **Isaac Newton**. A famous story says he watched an apple fall and wondered whether the pull that drops the apple also reaches the Moon. It is an anecdote, not a documented scene. Newton himself told some version of it late in life, and friends wrote it down. The version with the apple hitting his head is a later embellishment.
+
+      What is solid is the idea. Newton imagined a cannon on a mountain top and fired the ball faster and faster, exactly as in the puzzle. The idea needs a few words we will use all the time.
+
+      A **force** is a push or a pull, such as the pull of the Earth on a ball. The **mass** $m$ of a body is how much it resists being pushed: the same push moves a heavy cart less than a light one. The **trajectory** is the path the body follows through space.
+
+  - type: widget
+    id: cannon-short
+    widget: newton-cannon
+    config:
+      v0: 0.3
+      h: 0.1
+      sliders: [v0]
+      readouts: [v0, outcome, range]
+      presets:
+        - { label: Slow throw, v0: 0.3, h: 0.1 }
+        - { label: Faster throw, v0: 0.6, h: 0.1 }
+    body: |
+      A ball is fired sideways from a tower on a round planet, with no air. The planet is drawn small so you can see its curvature. The speed is measured in units of $v_c$, the speed at which a ball skims along the ground (we meet it in a moment). Press the two presets, or drag the speed and press **Fire**. Watch where the ball lands.
+
+  - type: mcq
+    id: what-fixes-landing
+    prompt: |
+      A ball leaves a tower on a round planet with no air. Gravity is the same every time. Which information fixes where the ball lands?
+    options:
+      - text: How fast, and in which direction, it leaves the tower
+        correct: true
+      - text: Only how heavy the ball is
+        feedback: |
+          Mass is not even a setting of the simulation: the path depends only on the launch speed and direction. In gravity, a heavier ball is pulled harder but also resists more, so the two effects cancel. A later lesson shows why.
+      - text: Nothing. Two identical throws can land in different places
+        feedback: |
+          In the simulation the same launch gave the same landing every time. That is the point of classical mechanics: identical beginnings lead to identical endings.
+    explanation: |
+      With gravity fixed, the start decides everything. The start is where the ball is and how it moves: speed and direction.
+
+  - type: widget
+    id: cannon-orbit
+    widget: newton-cannon
+    config:
+      v0: 1
+      h: 0.02
+      sliders: [v0]
+      readouts: [v0, outcome]
+      presets:
+        - { label: Skims the ground, v0: 1, h: 0.02 }
+        - { label: Orbit, v0: 1.2, h: 0.05 }
+        - { label: Escape, v0: 1.45, h: 0.05 }
+    body: |
+      Now push the speed up. Try the three presets. The unit $v_c$ is the speed at which the ball skims the ground: for the Earth it is about $7.9\ \mathrm{km/s}$ (computed from $g$ and the Earth's radius). Watch the outcome line for each shot.
+
+  - type: mcq
+    id: critical-speed
+    prompt: |
+      On a smooth round planet with no air, a ball is fired exactly sideways just above the ground at the speed $v_c$ at which the ground curves away as fast as the ball falls. Gravity keeps pulling it down. What does the ball do?
+    options:
+      - text: It circles the planet at the same height and keeps going round
+        correct: true
+      - text: It still falls to the ground, only later than a slower ball
+        feedback: |
+          It does fall all the time: gravity never stops pulling. But the ground falls away below it by exactly the same amount, so its height never shrinks.
+      - text: It leaves the planet and flies off into space
+        feedback: |
+          Leaving for good takes more speed, about $1.41$ times $v_c$ in the simulation. At $v_c$ the pull still holds the ball in a circle.
+    explanation: |
+      Orbiting is falling, and missing the ground. Between $v_c$ and about $1.41\,v_c$ the path is an oval around the planet, and above that the ball escapes. Newton's point: the same kind of motion covers a thrown stone, a satellite and a planet.
+
+  - type: text
+    id: moon-idea
+    title: Is the Moon a cannonball?
+    body: |
+      If the Moon is a cannonball, the same pull that drops an apple must keep it on its curve. Newton tested this with numbers. The apple falls with an **acceleration** $g \approx 9.8\ \mathrm{m/s^2}$ at the surface of the Earth. Acceleration means how fast the speed changes: $9.8\ \mathrm{m/s^2}$ means that each second the falling apple gains $9.8\ \mathrm{m/s}$ of speed.
+
+      The Moon is about $60$ times farther from the Earth's centre than the apple. Newton's guess was that the pull weakens with the square of the distance: twice as far, a quarter of the pull. A raised 2 in this lesson is always a power. Here, a distance $60$ times larger means a pull $60^2 = 3600$ times smaller.
+
+  - type: numeric
+    id: pull-at-moon
+    prompt: |
+      Suppose the pull of the Earth gets weaker with the square of the distance from its centre. At the surface a falling body has acceleration $9.8\ \mathrm{m/s^2}$. The Moon is $60$ times farther from the centre. What acceleration would gravity give the Moon, in units of $10^{-3}\ \mathrm{m/s^2}$?
+    answer: 2.72
+    tolerance: 0.06
+    answerText: '2.72'
+    wrong:
+      - { value: 163, feedback: 'That divides by 60 once ($9.8/60$). The pull weakens with the square of the distance, so divide by $60^2 = 3600$.' }
+    hint: 'Divide $9.8$ by $60\times60$, then express the result in thousandths.'
+    explanation: |
+      Gravity at the surface is $9.8$. At $60$ times the distance it is $9.8/3600 \approx 0.00272 = 2.72\times10^{-3}\ \mathrm{m/s^2}$. That is a prediction from the falling apple alone.
+
+  - type: text
+    id: moon-motion
+    title: What the Moon really does
+    body: |
+      Now look at the Moon's own motion, which astronomers measure. It goes round a circle of radius $r$ in one period $T$. Its speed is the length of the circle divided by the time:
+      $$v = \frac{2\pi r}{T}.$$
+      The speed is constant, but the direction keeps turning, so the **velocity** (speed together with direction) keeps changing. In one period the velocity arrow turns a full turn, whose size is $2\pi$ in units of its own length $v$. So its change per second is about $v\cdot 2\pi/T$, which is the acceleration:
+      $$a = \frac{2\pi v}{T} = \frac{4\pi^2 r}{T^2}.$$
+      Here $\pi^2$ means $\pi$ squared and $T^2$ means the period squared: powers again.
+
+  - type: numeric
+    id: moon-measured
+    prompt: |
+      The Moon goes round the Earth on a circle of radius $r = 3.84\times10^{8}\ \mathrm{m}$ with period $T = 2.36\times10^{6}\ \mathrm{s}$ (27.3 days). Its acceleration is $a = 4\pi^2 r/T^2$. Give $a$ in units of $10^{-3}\ \mathrm{m/s^2}$.
+    answer: 2.72
+    tolerance: 0.06
+    answerText: '2.72'
+    hint: 'Use $4\pi^2 \approx 39.5$. First compute $T^2 \approx 5.57\times10^{12}$.'
+    explanation: |
+      $4\pi^2 r \approx 39.48\times3.84\times10^{8} \approx 1.516\times10^{10}$, and $T^2 \approx 5.570\times10^{12}$. The ratio is $\approx 2.72\times10^{-3}\ \mathrm{m/s^2}$. This is the same number as the one predicted from the falling apple, within about one percent. The apple and the Moon obey **one** law of gravity. The Moon is just a cannonball that is fast enough to keep missing the Earth.
+
+  - type: widget
+    id: cannon-two
+    widget: newton-cannon
+    config:
+      v0: 0.6
+      v0b: 1.0
+      second: true
+      h: 0.08
+      sliders: [v0, v0b]
+      readouts: [v0, outcome]
+      presets:
+        - { label: Fire both, v0: 0.6, v0b: 1.0, h: 0.08, second: true }
+    body: |
+      Two balls are fired at the same time from the same place, in the same direction, with two different speeds (blue and orange). Gravity is the same for both. Press **Fire** and watch them part.
+
+  - type: mcq
+    id: two-balls
+    prompt: |
+      Two balls leave the same point of a tower at the same moment, in the same direction, but at different speeds. Gravity acts on both in the same way. Their futures differ. What does this tell us about what we need to know to predict a future?
+    options:
+      - text: 'The place alone is not enough: we also need the velocity (speed and direction) at that moment'
+        correct: true
+      - text: The place is enough, and the speed does not matter
+        feedback: |
+          The two balls share the same place, and still one lands and the other does not. The place cannot tell them apart.
+      - text: We need the whole history of the ball, from the beginning of time
+        feedback: |
+          Look at the start of each shot: only the place and the velocity at the beginning are given. Everything after follows from them.
+    explanation: |
+      Position and velocity at one instant are called the **state**. The state is the starting data that Newton's law turns into a whole future.
+
+  - type: text
+    id: second-law
+    title: Newton's law, with its notation
+    body: |
+      How does a state turn into a future? Name the position of the ball at time $t$ by the arrow $\mathbf{r}(t)$ drawn from a fixed origin. Bold means an arrow, or **vector**: a quantity with a size and a direction. A dot above a letter means **rate of change in time** (how fast the quantity changes each second). So $\dot{\mathbf{r}}$ is the velocity, and two dots, $\ddot{\mathbf{r}}$, are the rate of change of the velocity: the acceleration. Newton's second law says that the force sets the acceleration:
+      $$\mathbf{F} = m\,\ddot{\mathbf{r}}.$$
+      Read it as: the more you push a body, the faster its velocity changes, and a larger mass changes more slowly. Beware: it is not a rule for where the ball is, but for how its velocity changes. A force $\mathbf{F}$ may depend on where the ball is, as gravity does. In this lesson a raised 2 or 3 is always a power, never a label.
+
+  - type: order
+    id: recipe
+    prompt: |
+      Newton's law gives a way to predict motion step by step. Put the recipe in order, for one tiny time step $\Delta t$, starting from a known position and velocity.
+    steps:
+      - 'Read the position and the velocity of the body now'
+      - 'Use the force at that position to get the acceleration $\mathbf{F}/m$'
+      - 'Change the velocity by the acceleration times $\Delta t$'
+      - 'Move the position by the velocity times $\Delta t$'
+      - 'Repeat the steps from the new position and velocity'
+    hint: 'You need the force before the acceleration, and the acceleration before the new velocity.'
+    explanation: |
+      Each tiny step needs only the state at that moment. Many steps trace the whole trajectory. This is how the simulations on the cards above were made.
+
+  - type: numeric
+    id: one-step
+    prompt: |
+      A ball moves straight up. Its velocity now is $4.9\ \mathrm{m/s}$ upward, and gravity gives it an acceleration of $9.8\ \mathrm{m/s^2}$ downward. After a tiny time of $0.1\ \mathrm{s}$, what is its upward velocity, in $\mathrm{m/s}$?
+    answer: 3.92
+    tolerance: 0.01
+    answerText: '3.92'
+    wrong:
+      - { value: 5.88, feedback: 'You added the change. Gravity points down, against the upward motion, so the ball loses speed.' }
+      - { value: 0.98, feedback: 'That is only the change in velocity, $9.8\times0.1$. Start from the velocity the ball already has, $4.9$.' }
+    hint: 'The velocity changes by (acceleration) times (time). The change is downward, so subtract.'
+    explanation: |
+      In $0.1\ \mathrm{s}$ the velocity changes by $9.8\times0.1 = 0.98\ \mathrm{m/s}$ downward. So the upward velocity is $4.9 - 0.98 = 3.92\ \mathrm{m/s}$. Repeat this and you follow the ball to the top of its flight and back.
+
+  - type: mcq
+    id: trap-select
+    multiple: true
+    prompt: |
+      To predict the motion of a ball under a known force, using Newton's second law $\mathbf{F} = m\ddot{\mathbf{r}}$, which information do you need? Select all that apply.
+    options:
+      - text: Where the ball is now
+        correct: true
+      - text: Its velocity now
+        correct: true
+      - text: The force on it, at each place it may reach
+        correct: true
+      - text: Where it was one hour ago
+        feedback: |
+          The state now already holds everything the past could tell. Two balls with the same position and velocity now share the same future, however they got there.
+      - text: A guess of where it will end up
+        feedback: |
+          The law produces the end point. A guess is something to check against it.
+    explanation: |
+      Position and velocity now, plus the force, are enough. In the ideal world of classical mechanics, with perfectly known data, the future is fixed by the present. In practice small errors in the data can grow with time, and some systems are very sensitive to them. A later lesson on chaos returns to this.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** Newton's law follows a motion one tiny step at a time. In the next lesson, *Nature's Shortcut*, a different idea shows up: light seems to choose the fastest path between two points, and a thrown ball seems to choose a path too, judged as a whole. Can one rule for a whole path replace all those tiny steps?

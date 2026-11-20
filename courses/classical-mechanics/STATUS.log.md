@@ -6,6 +6,10 @@ Conventions fixed here: speeds in units of the surface circular speed vc, length
 
 Newest first. Never read this file in a session.
 
+## 2026-11-20 ch01-prediction (Level 1, concept, 18 cards)
+Built `ch01/prediction.yaml`: hook, tower prediction, Newton (portrait; apple flagged as anecdote), newton-cannon three times (short throw, skim/orbit/escape, two speeds), Moon check (9.8/3600 vs 4 pi^2 r/T^2, both 2.72e-3 m/s^2), state, F = m r-double-dot with notation warnings, recipe order card, one-step numeric, select-all trap, summary. Images: newton.webp (Kneller 1689, Wikimedia, public domain); no more (no free fitting image for the cannon scene). Skim-ground widget viewed once (fine; R and g arrows show). Choices: critical speed 7.9 km/s stated as computed, not derived (derivation of v^2/r comes only via the Moon card); escape factor 1.41 quoted from the widget. Fixed OCR line in taylor.md (Eq. 1.30), logged in sources/VERIFIED.md.
+Conventions fixed here: Moon r = 3.84e8 m, T = 2.36e6 s, a = 2.72e-3 m/s^2; Earth R = 6371 km, g = 9.8; vc about 7.9 km/s; velocity = r-dot, acceleration = r-double-dot, bold vectors; the state = position and velocity at one instant.
+
 ## 2026-11-20 sources and Level 18
 Added Level 18 "From Particles to Fields" (6 teaching lessons); exam-final now covers 13-18. Lemos is the English Cambridge 2018 translation (text layer, offset +15); a Portuguese scan was replaced. Goldstein OCRed with tesseract (offset +9, contents confirmed); Taylor OCRed later the same day: no single offset (scan duplicates book pp. 458-459 and 597-598, misses 718-719), so taylor.md and goldstein.md carry per-page markers. Level 12 kept as one level (6 teaching lessons, fewer than Level 10). Conventions fixed here: Lemos writes the Poisson bracket {F,G} (8.4); bracket style still decided at Level 15.
 
