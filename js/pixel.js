@@ -95,13 +95,14 @@ export const SPRITES = {
   atlas: {
     pal: { M: '#f3e3b5', N: '#e2c98c', m: '#b89a5a', g: '#6fbf6a', b: '#5aa7e0', W: '#ffffff', K: '#26262e', R: '#e04848', X: '#b8322e', Y: '#e0a832', O: '#26262e', B: '#5a3a22', o: '#1b1b24' },
     body: [
-      '................YYY...',
+      '.........BB...........',
+      '......BB........YYY...',
       '..............YYWWWYY.',
       '......WW.WW...YWWRWWY.',
       'MMMMMMWKNWKNoYWWRRRWWY',
       'MgggMMWWNWWNoYWKWOWKWY',
       'MggggMNNNNNNoYWWKKKWWY',
-      'MMggMMNNNNNNMoYWWKWWY.',
+      'MMggMMNKKKNNMoYWWKWWY.',
       'MMMMMMNNNNNNMoYYWWWYY.',
       'MMMMMMNNNNNNMMooYYY...',
       'MMMMMMNNNNNNMMMMoo....',
