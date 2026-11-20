@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-20 Level 22 audit
+Checked items 2, 3b, 4, 5, 7, 8. No "Level N" references to later material; all 13 lessons registered with `file:`; validate 0 errors, 0 warnings. Fixed: metaphor `own:` displayed formulas overflowed at phone width (split with gathered); hermeneutics feedback said "settled by the book" (now "the record of what Spinoza wrote"). Web spot-check (about 20 facts, standard searches): Frege 1892 vol 100 pp 25-50; Braithwaite Eddington Lecture 22 Nov 1955; Phillips 1934-2006, Concept of Prayer 1965, Swansea/Claremont; Lévi-Strauss 1908-2009, Collège chair 1959-82; Spinoza TTP 1670 anonymous; Schlick 1882-1936; Carnap 1891-1970; Austin 1911-1960, Harvard lectures 1955, book 1962; Aquinas ST I q.13 a.5 healthy example; Pickthall 1930; Ramsey 1915-72, Nolloth 1951-66, Religious Language SCM 1957; Eliade 1949/1954; Flew paper 1950-51 (sources conflict with a 1955 reprint date; lesson keeps 1950-51). Gadamer birth/death places not re-confirmed this pass (earlier SEP/Wikipedia check stands). Every ch22 VERIFIED line carries web:.
+Conventions fixed here: none new.
+
 ## 2026-11-20 ch22-challenge (challenge, 21 cards, 5 problems, no widget, images none: challenge, no portrait needed)
 Invented Ferrymen of Orel: four sentences and four jobs (Austin, Ayer), silent spirit (Flew, Hare, LR 3), analogy (Aquinas), myth (Lévi-Strauss, Bultmann, Gadamer circle), translation (Nida, Whorf), closing weigh card. Fits under 32, so no challenge-2. Widget judged unwarranted: conceptual. No `own:` (challenge). Web-checked this session, see VERIFIED.md.
 Conventions fixed here: none new.
