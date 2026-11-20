@@ -339,7 +339,8 @@ function drawMedal(m) {
     const s = SPRITES[m.mascot];
     ctx.save();
     ctx.beginPath(); ctx.arc(CX, CY, R - 1.4, 0, 2 * Math.PI); ctx.clip();
-    paintGrid(ctx, s.pal, s.body.slice(0, 14), CX - 9, CY - 9);
+    // A sprite too big for the disc may give its own `coin` grid (whole figure, shrunk).
+    paintGrid(ctx, s.pal, s.coin ?? s.body.slice(0, 14), CX - 9, CY - 9);
     ctx.restore();
     disc(true);
   } else {
