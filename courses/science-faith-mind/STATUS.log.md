@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-20, ch21-map built (map, 7 boxes, 21 decoy-pairs, 9 cards, no widget)
+Boxes: Drake equation, Fermi paradox and Great Filter, search for life, estimating with uncertainty, Copernican principle, UAP, theology; edges drake to fermi and uncertainty, life to fermi and ufo (dashed), uncertainty and fermi to copernican, copernican and ufo to theology. Decoys: sum for product, measured/guessed factors swapped, 1e9 crossing, filter must lie ahead, radius ratio not squared, single gas, median read as most draws, Sandberg read as proof, selection refutes mediocrity, non-random moment, unexplained as extraordinary evidence, official studies found ET, A alone for A and B, Aquinas for many worlds. No widget: a map is a reconstruction task and the level's widgets (drake-sliders, gott-interval, odds-updater) already did the manipulation. Kant 1755 and Cusa 1440 dropped from the theology box (unconfirmed by web). Conventions fixed here: none new.
+
 ## 2026-11-16, ch21-intuition built (intuition, 19 cards incl. welcome and summary, no widget, no images)
 Mnemonics (Drake rate x lifetime, point vs distribution, position/conditions/meaning, unknown is not alien, detection/interpretation/conclusion order, Great Filter behind vs ahead), scaling (N proportional to L, Gott 1/3 and 3, 1/39 and 39), three build cards (Drake, Gott upper end, odds form), five numeric cards with no formula stated (museum 20 yr at 50% gives 60, odds 1/50 x 4 x 4 gives 24.2%, 701/12618 = 5.6%, 1e5 ly at 0.1c = 1 Myr, L/10 gives N=2), layers card. No widget (recall needs none); no image (recall lesson, nothing new to picture). Web: Blue Book 12,618/701, Hanson 1998, Gott 1993 rechecked. Conventions fixed here: none new.
 
