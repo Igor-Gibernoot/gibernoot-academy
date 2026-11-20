@@ -21,12 +21,16 @@ root `CLAUDE.md` applies; this file adds what is specific to this course.
 - No professor's exams: all exams are original (root `CLAUDE.md`, Exam).
 - **Conversion:** Taylor and Goldstein are scans without a text layer, so
   they were OCRed with tesseract (300 dpi, eng); their `.md` files are OCR
-  text, with a form feed between PDF pages and weak equations: verify
-  formulas against the PDF render (below). Lemos came from `pdftotext -layout`.
+  text, one page per form feed, each page headed `=== PDF page N (book p. B) ===`
+  (grep the marker to find the PDF page to render). OCR equations are weak:
+  verify formulas against the PDF render (below). Lemos came from
+  `pdftotext -layout`. **Taylor scan defects:** book pp. 458-459 and 597-598
+  appear twice (PDF 470-473, 611-614); pp. 718-719 (16.10, elastic solids,
+  unused) are missing.
 
 ## Level-to-source map
-Goldstein and Lemos numbers are confirmed against their contents pages;
-Taylor's are still from memory until its conversion is checked. "Primary" fixes notation and order;
+All section numbers are confirmed against the three contents pages
+(2026-11-20). "Primary" fixes notation and order;
 "second road" is the other derivation the lesson must also give (root
 `CLAUDE.md`, How to teach, 10).
 
@@ -41,15 +45,15 @@ Taylor's are still from memory until its conversion is checked. "Primary" fixes 
 | 7 | Calculus of Variations | Taylor ch 6 | Goldstein 2.2 |
 | 8 | Lagrange's Equations | Taylor ch 7 | Goldstein 1.3-1.5, 2.1-2.4 (d'Alembert) |
 | 9 | Symmetry and Noether | Lemos 2.5-2.7 | Taylor 7.8, Goldstein 2.6-2.7 |
-| 10 | Central Forces and Orbits | Taylor ch 8 (+ ch 14 for scattering) | Goldstein 3.6 (Bertrand), 3.9 (LRL), 3.10-3.11 (scattering); Lemos 1.7 |
+| 10 | Central Forces and Orbits | Taylor ch 8 (+ 14.1-14.6 for scattering, 14.6 Rutherford) | Goldstein 3.6 (Bertrand), 3.9 (LRL), 3.10-3.11 (scattering); Lemos 1.7 |
 | 11 | Noninertial Frames | Taylor ch 9 | Goldstein 4.9-4.10, Lemos 3.6 |
-| 12 | Rigid Bodies | Taylor ch 10 | Goldstein 4.4 (Euler angles), 5.1-5.7 (inertia tensor, Euler equations, heavy top) |
+| 12 | Rigid Bodies | Taylor ch 10 (10.9 Euler angles, 10.10 top) | Goldstein 4.4 (Euler angles), 5.1-5.7 (inertia tensor, Euler equations, heavy top) |
 | 13 | Coupled Oscillations | Taylor ch 11 | Goldstein 6.1-6.4 (6.4 triatomic) |
 | 14 | Hamiltonian Mechanics | Goldstein 8.1-8.6 | Taylor ch 13 |
 | 15 | Canonical Transformations | Goldstein 9.1-9.9 | Lemos 8.1-8.8 |
 | 16 | Hamilton-Jacobi, Action-Angle | Goldstein 10.1-10.8 | Lemos 9.1-9.6, 9.11, 9.13 (optics, quantum) |
-| 17 | Chaos and Integrability | Taylor ch 12 (maps, sections) | Goldstein 11.1-11.8 (11.2 KAM, 11.6 Hénon-Heiles, 11.8 logistic); Lemos 9.7-9.10 (Liouville-Arnold, tori) |
-| 18 | From Particles to Fields | Goldstein 13.1-13.7 | Lemos 11.1-11.5; Taylor ch 16 (string, wave equation) |
+| 17 | Chaos and Integrability | Taylor ch 12 (12.4-12.9: DDP, sensitivity, bifurcations, Poincaré, logistic) | Goldstein 11.1-11.8 (11.2 KAM, 11.6 Hénon-Heiles, 11.8 logistic); Lemos 9.7-9.10 (Liouville-Arnold, tori) |
+| 18 | From Particles to Fields | Goldstein 13.1-13.7 | Lemos 11.1-11.5; Taylor 16.1-16.2 (string, wave equation) |
 
 Left out on purpose: special relativity (Taylor 15, Goldstein 7; the
 `diff-geometry-gr` course covers it), canonical perturbation theory
@@ -65,7 +69,9 @@ view the PNGs), compare the formulas, boxes and numbers the lesson will use
 against the Markdown, fix the Markdown, and log the range in
 `sources/VERIFIED.md` (`book, section, PDF pages, date, fixes`). Read
 `sources/VERIFIED.md` first and skip any range already logged. Check formulas
-and numbers, not prose. PDF page = book page + offset: Taylor `?`,
+and numbers, not prose. PDF page = book page + offset: Taylor has no single offset (+12 up to
+book p. 457, +14 from p. 460 to 596, +16 from p. 599 to 717, +14 after; use
+its page markers),
 Goldstein `+9` (checked at pp. 7, 34, 208, 589), Lemos `+15` (checked at
 pp. 73, 374). Front-matter pages (roman numerals) do not follow the offset.
 
