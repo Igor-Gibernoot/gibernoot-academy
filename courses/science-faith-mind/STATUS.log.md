@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-20 ch23-atheism built
+Concept lesson, 21 cards (mcq, order, text), no widget. Two-axis sort done as one mcq (no sort card type). Images: huxley, epicurus, hume, russell, all reused from earlier lessons (4, none new; Dawkins portrait skipped for the 4 cap). Choices: Hume gets a portrait beside Epicurus; Dawkins scale card without image; Flew presumption told from summaries (full text paywalled); Epicurean questions marked attributed, uncertain. Validate 0 errors 0 warnings; shots 0 problems. Conventions fixed here: gnostic/agnostic = claims knowledge or not (not the ancient sect); weak/strong atheism = lacking belief / denying, usage varies, always say which sense; belief and knowledge are two questions.
+
 ## 2026-11-20 ch23-disagreement built
 Guided proof, 21 cards (peer-credence widget twice: rules, then evidence pooling). Premises P1 equal ability, P2 same evidence, P3 independence; one question each, validity checked apart from truth, split vs pooled, steadfast and self-undermining objections, peer-picking, layers. Images: none: the authors are living scholars with no free portrait on Commons ("Adam Elga philosopher" search empty), a receipt photo would be decorative. Numbers by script: split 0.6; weighted r=0.2 gives 0.72; pooled odds 6 = 0.857 (A 0.8, B 0.6, prior 0.5; split there 0.7); A 0.8, B 0.4 pooled 0.727. Choice: the card plan gave split 0.6 with pooled odds 6, which do not match (0.8, 0.4 pooled is 2.67), so the pooled example uses B = 0.6. Widget-smoke: 470 mounts, 0 errors. Conventions fixed here: peers P1 equal ability, P2 same evidence, P3 independence; weighted rule $c_A'=(1-r)c_A+r c_B$ with r the weight on the peer; pooled odds $o_Ao_B/o_0$.
 
