@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-20 ch22-meaning (concept, 19 cards, no widget, no images)
+Widgets checked: none fit verbal reasoning (belief-mixer, sequence-sampler, curve-fit-lab, frequency-grid are numeric or Bayesian). Images: none: Frege and Wittgenstein portraits already used (ch04, ch01), no free portraits needed for Schlick or Carnap (passing mentions). Web-checked per VERIFIED.md; Tractatus not quoted, PI 43 quoted from SEP. Choices: guided the 'strict vs liberal' point since Carnap and others did not hold the crude principle. Conventions fixed here: three theories 'according to', Ayer's principle stated for fact-stating sentences, Schlick laws as rules of inference (SEP).
+
 ## 2026-11-20, ch21-challenge-2 built (challenge, 21 cards, gott-interval twice, odds-updater once, no images)
 Added `file: ch21/challenge-2.yaml`. Recall card (Gott, odds, Blue Book, Drake/Hanson, Sandberg et al.). P4 invented Evening Lantern (40 yr) and Kestrel-9 (6 yr, battery rated 14 yr): numeric 50% and 95% upper ends without the formula, card on the known time scale, gott-interval widget and coverage widget, coverage mcq. P5 invented Hallow Bay sighting: LR bound 1/0.056, odds-updater witnesses, six witnesses at q=0.1, shared-view trap (LR 5 not 125), order card, believer posterior 11.1%, fair sceptic/believer, layer sort. Closing weighing text and mcq, summary as plain text card (challenge, no own:). Images: none (invented cases, no person or object to picture). Choice: 21 cards rather than 14-16, under the 32 limit. Web check done by search (see VERIFIED.md). Conventions fixed here: Evening Lantern 40 yr, Kestrel-9 6 yr with 14-yr rating, archive 112/2000, Hallow Bay witnesses q=0.2 (LR 125 vs 5).
 
