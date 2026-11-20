@@ -57,6 +57,7 @@ and a new `docs/widgets/<name>.md` plus a line below.
 - `bike-balance`: A bicycle from behind as an inverted pendulum with steering feedback; lean-angle plot, speed and gain sliders, nudge
 - `lever-balance`: A plank on a pivot; drag pivot and loads, force arrows, dashed arms, a torque bar per side, tilt; `wrench` form (hand force vs a bolt's torque)
 - `friction-stop`: A vehicle braking on a road with friction mu: stopping distance d = v0^2/(2 g mu) (mass cancels), speed-against-distance plot, kinetic energy turning into heat, optional slope and locked/rolling toggle
+- `newton-cannon`: Ball fired from a tower on a planet (RK4, circular speed 1): falls, orbits or escapes; optional second ball, flat-earth parabola, Moon check
 - `pin-tumbler`: Cutaway pin-tumbler lock with N pins and a key of D cut depths: pins at the shear line turn green, the plug turns only if all match, D^N keys; optional picking mode
 - `elevator-counterweight`: A traction elevator: cabin and counterweight on a pulley, sliders for load, counterweight and speed, up/down; rope tensions, motor force F = (m - M) g, power P = F v (negative = regenerating), trip energy bar
 - `track-ride`: Side-view track (hill-hill, crest, circle or teardrop loop, or draggable control points) and a cart with energy conservation and optional friction; felt-g meter and plot (N/mg, signed, optional tolerance band), force arrows, energy bar, airtime and stall flags

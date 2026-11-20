@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-20 widget newton-cannon
+Built `js/widgets/newton-cannon.js` (+ `docs/widgets/newton-cannon.md`, README line, registry line). RK4, GM = R = 1; presets in the doc's smoke block: short-throw, skim-ground, orbit-ellipse, escape, same-start-two-speeds. Choices: outcome and range appear only after the run ends (so a card can ask for a prediction); period shown for orbit only (a bound ball that hits the ground shows nothing); escape judged by energy at the tower top (for h > 0 the threshold is sqrt(2/(1+h)), slightly below sqrt2 vc); preset buttons fire at once; slider moves reset to idle; angle range 0 to 60 deg upward; Moon strip is a separate to-scale inset, acceleration from a simulated RK4 circular orbit.
+Conventions fixed here: speeds in units of the surface circular speed vc, lengths in R, time in sqrt(R^3/GM), g = 1.
+
 Newest first. Never read this file in a session.
 
 ## 2026-11-20 sources and Level 18

@@ -41,6 +41,7 @@ const WIDGETS = {
   'bike-balance': ['bike-balance', 'bikeBalance'],
   'lever-balance': ['lever-balance', 'leverBalance'],
   'friction-stop': ['friction-stop', 'frictionStop'],
+  'newton-cannon': ['newton-cannon', 'newtonCannon'],
   'heat-layers': ['heat-layers', 'heatLayers'],
   'heat-pump-flow': ['heat-pump-flow', 'heatPumpFlow'],
   'boiling-curve': ['boiling-curve', 'boilingCurve'],
