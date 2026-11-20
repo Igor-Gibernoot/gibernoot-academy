@@ -139,6 +139,33 @@ export const SPRITES = {
     ],
   },
   // Long curled wig, crimson coat, white cravat, an apple in hand: classical mechanics.
+  // Small white android with a dome head, one cyan LED eye and a green chest light: machine learning.
+  android: {
+    pal: { O: '#ff9a3c', G: '#8e9bb0', W: '#eef2f7', D: '#1b2440', E: '#38e1ff', w: '#e8fbff', C: '#5cf2a0', B: '#4f8de0' },
+    body: [
+      '.......O........',
+      '.......G........',
+      '....WWWWWWWW....',
+      '...WWWWWWWWWW...',
+      '..WWDDDDDDDDWW..',
+      '..WDDDEwEEDDDW..',
+      '..WDDDEEEEDDDW..',
+      '..WDDDDDDDDDDW..',
+      '..WWDDDDDDDDWW..',
+      '...WWWWWWWWWW...',
+      '......GGGG......',
+      '...WWWWWWWWWW...',
+      '..BWWWWCCWWWWB..',
+      '..BWWWWCCWWWWB..',
+      '..BWWWWWWWWWWB..',
+      '..GWWWWWWWWWWG..',
+      '....WWWWWWWW....',
+    ],
+    legs: [
+      ['.....GG..GG.....', '.....GG..GG.....', '....BBB..BBB....'],
+      ['.....GG..GG.....', '....GG....GG....', '...BBB....BBB...'],
+    ],
+  },
   newton: {
     pal: { H: '#d9cbb0', h: '#a8957a', S: '#f2c48d', s: '#d39a63', K: '#26262e', C: '#8e2f3c', c: '#6a1f2b', W: '#ffffff', R: '#e53935', g: '#4caf50', B: '#3a2a22', T: '#f4f4f6' },
     body: [
@@ -404,6 +431,29 @@ export const BANNERS = {
     g.rect(82, 1, 2, 2, '#e53935'); g.px(83, 0, '#4caf50');
     [[82, 4], [83, 5]].forEach(([x, y]) => g.px(x, y, '#9fb4ff'));
     g.sprite('newton', 74, 27);
+  },
+  // A neural network of glowing nodes, a few paths lit by activation, and the android wondering "?".
+  network(g) {
+    g.sky(['#0b1426', '#101d36', '#162745']);
+    g.stars(14, 5, ['#9fb4ff', '#ffffff'], 26);
+    const line = (x0, y0, x1, y1, c) => {
+      const n = Math.max(Math.abs(x1 - x0), Math.abs(y1 - y0));
+      for (let k = 0; k <= n; k++) g.px(x0 + (x1 - x0) * k / n, y0 + (y1 - y0) * k / n, c);
+    };
+    const layers = [[6, [8, 14, 20]], [22, [4, 10, 16, 22]], [38, [4, 10, 16, 22]], [54, [10, 18]]];
+    const lit = new Set(['0-1-1', '1-2-2', '2-0-0', '1-0-1', '2-3-1']);
+    for (let l = 0; l < 3; l++) {
+      const [xa, ya] = layers[l], [xb, yb] = layers[l + 1];
+      ya.forEach((y0, i) => yb.forEach((y1, j) => line(xa + 2, y0, xb - 2, y1, lit.has(`${l}-${i}-${j}`) ? '#ffd23f' : '#2c4a78')));
+    }
+    layers.forEach(([x, ys], l) => ys.forEach((y, i) => {
+      g.disc(x, y, 2, l === 3 ? '#ff7ab8' : '#4fd1ff');
+      g.px(x - 1, y - 1, '#e8fbff');
+      if ((l + i) % 3 === 1) { g.px(x, y, '#5cf2a0'); g.px(x + 1, y, '#5cf2a0'); }
+    }));
+    g.rect(0, 27, 96, 1, '#2c4a78');
+    g.grid(['YYY', '..Y', '.Y.', '...', '.Y.'], 89, 1, { Y: '#ffd23f' });
+    g.sprite('android', 72, 27);
   },
 };
 

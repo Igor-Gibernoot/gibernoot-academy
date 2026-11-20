@@ -1,0 +1,943 @@
+# The trail. One level per chapter of the main source (Bishop and Bishop,
+# Deep Learning: Foundations and Concepts, 20 chapters), lessons in trail order.
+#
+# A lesson entry with `file:` is built and playable; without it, it shows as
+# a planned (greyed) node. `kind` is concept | guided | traps | intuition, plus
+# the end-of-level kinds: map (content-map puzzle), review (automatic, no file:
+# practises only this level's questions) and challenge (mixed problems).
+# Guided nodes come in three flavours, named in the summary: guided problem,
+# guided proof (proof: true in the file) and AI audit (a guided problem built
+# on AI-written code, claims or results; course CLAUDE.md, Course method).
+# Exams: own levels exam-partial1 (after Level 6, covers 2-6), exam-partial2
+# (after Level 10, covers 7-10), exam-partial3 (after Level 15, covers 11-15)
+# and exam-final (after Level 20, covers 16-20). No exam covers more than 6
+# levels (root CLAUDE.md, Exam). Original exams.
+
+title: Machine Learning
+overview:
+  text: >-
+    How can a program learn to spot skin cancer, translate a sentence or paint a face, when nobody wrote down the rules? Machine learning builds machines that learn from examples, and today they write code and answer questions too. That makes a new skill precious: knowing what a model can do, when it fails, and whether a result deserves your trust. This course teaches the ideas behind modern learning machines, from fitting a curve to transformers and diffusion models, with puzzles where you guess first and check after. Along the way you audit code and claims written by an AI, so you learn to think with these tools without being fooled by them.
+  sources:
+    - who: Christopher M. Bishop and Hugh Bishop
+      what: "Deep Learning: Foundations and Concepts (Springer, 2024). The guide for the whole course, from probability to transformers and diffusion models."
+
+levels:
+  - id: ch01
+    number: 1
+    title: "The Deep Learning Revolution"
+    blurb: "A light tour: what a machine can learn from examples, a first curve fit that goes wrong in an instructive way, and how to work with an AI partner without trusting it blindly. Guessing is the point."
+    lessons:
+      - id: ch01-what-can-learn
+        title: "What Can a Machine Learn?"
+        kind: concept
+        summary: "Spotting skin cancer, folding proteins, painting faces, writing text. What these systems share: a flexible function, many examples, and a way to measure error."
+      - id: ch01-curve-fit
+        title: "Fitting a Curve"
+        kind: concept
+        summary: "Noisy points from a hidden curve. Fit polynomials of growing degree, watch the training error vanish and the predictions explode, and meet the error function."
+      - id: ch01-too-good
+        title: "Too Good to Be True"
+        kind: concept
+        summary: "How do you know a model works on data it has never seen? Regularization, validation sets, cross-validation, and the first rule of data: never peek at the test set."
+      - id: ch01-history
+        title: "From Perceptrons to Deep Networks"
+        kind: concept
+        summary: "Seventy years of ideas in one lesson: single-layer networks, backpropagation, depth, and why scale changed everything."
+      - id: ch01-ai-partner
+        title: "Predict, Then Verify"
+        kind: concept
+        summary: "An AI assistant writes fluent code and confident claims. How to check them: guess the result first, then test the claim against the data. The skill this course trains."
+      - id: ch01-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Fast questions on what people (and chatbots) wrongly believe about learning machines: zero training error, more parameters, accuracy, and data."
+      - id: ch01-map
+        title: "Content Map: The Deep Learning Revolution"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch01-review, title: Level Review, kind: review }
+      - id: ch01-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: ch02
+    number: 2
+    title: "Probabilities"
+    blurb: "The language of uncertainty: sum and product rules, Bayes' theorem, densities, the Gaussian, maximum likelihood, entropy and the Kullback-Leibler divergence."
+    lessons:
+      - id: ch02-screening
+        title: "The Screening Puzzle"
+        kind: concept
+        summary: "A test is 90% accurate and your result is positive. Are you probably ill? The sum and product rules, and Bayes' theorem from scratch."
+      - id: ch02-densities
+        title: "Densities and Expectations"
+        kind: concept
+        summary: "Probability for continuous quantities: densities, expectations, variance and covariance, and how densities change when you change variables."
+      - id: ch02-gaussian-ml
+        title: "The Gaussian and Maximum Likelihood"
+        kind: concept
+        summary: "Fit a bell curve to data by making the data as probable as possible, and find out why the fitted variance comes out too small."
+      - id: ch02-ml-least-squares
+        title: "Maximum Likelihood Is Least Squares"
+        kind: guided
+        summary: "Guided proof: Gaussian noise on a curve turns maximum likelihood into minimizing the sum of squared errors."
+      - id: ch02-information
+        title: "Information: Entropy and KL"
+        kind: concept
+        summary: "How many bits does a surprise cost? Entropy, maximum entropy, the Kullback-Leibler divergence and mutual information."
+      - id: ch02-bayesian
+        title: "Bayesian Learning"
+        kind: concept
+        summary: "Treat the model's parameters as uncertain too. Priors, posteriors, and regularization as a prior in disguise."
+      - id: ch02-audit-screening
+        title: "Audit: An AI Reads a Test Result"
+        kind: guided
+        summary: "Guided problem (AI audit): An AI assistant explains a positive test result and gets the base rate wrong. Find the error, fix the reasoning, and compute the right answer."
+      - id: ch02-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Base-rate neglect, independence versus zero correlation, densities above one, and other probability traps that catch people and language models alike."
+      - id: ch02-intuition
+        title: "Intuition Round"
+        kind: intuition
+        summary: "Quick recall of Bayes' theorem, the Gaussian, entropy and KL: mnemonics, limit checks, build cards and small numbers."
+      - id: ch02-map
+        title: "Content Map: Probabilities"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch02-review, title: Level Review, kind: review }
+      - id: ch02-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: ch03
+    number: 3
+    title: "Standard Distributions"
+    blurb: "The building blocks of probabilistic models: Bernoulli, binomial and multinomial, the multivariate Gaussian and its conditionals and marginals, the exponential family, and methods that let the data choose the shape."
+    lessons:
+      - id: ch03-discrete
+        title: "Coins, Dice and Counts"
+        kind: concept
+        summary: "Bernoulli, binomial and multinomial distributions, and what maximum likelihood says after three heads in three tosses."
+      - id: ch03-mv-gaussian
+        title: "The Multivariate Gaussian"
+        kind: concept
+        summary: "The bell curve in many dimensions: its geometry, its moments, and where it fails."
+      - id: ch03-gaussian-cond
+        title: "Conditionals and Marginals of a Gaussian"
+        kind: guided
+        summary: "Guided proof: slicing or projecting a Gaussian gives a Gaussian, with formulas you can read."
+      - id: ch03-gaussian-learning
+        title: "Learning a Gaussian From Data"
+        kind: concept
+        summary: "Maximum likelihood, sequential updates, and Bayes' theorem for Gaussian variables."
+      - id: ch03-mixtures-expfam
+        title: "Mixtures and the Exponential Family"
+        kind: concept
+        summary: "Several bumps from one formula, circular data, and the family that unites the standard distributions through sufficient statistics."
+      - id: ch03-nonparametric
+        title: "Letting the Data Speak"
+        kind: concept
+        summary: "Histograms, kernel densities and nearest neighbours: models with no fixed shape, and the smoothing knob each one hides."
+      - id: ch03-audit-bandwidth
+        title: "Audit: An AI Picks a Bandwidth"
+        kind: guided
+        summary: "Guided problem (AI audit): An AI tunes a kernel density so it fits the training points best. Predict what goes wrong, then check it on held-out data."
+      - id: ch03-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about Gaussians in high dimensions, maximum likelihood with tiny data, and nonparametric methods."
+      - id: ch03-intuition
+        title: "Intuition Round"
+        kind: intuition
+        summary: "Quick recall of the standard distributions and Gaussian identities."
+      - id: ch03-map
+        title: "Content Map: Standard Distributions"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch03-review, title: Level Review, kind: review }
+      - id: ch03-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: ch04
+    number: 4
+    title: "Single-layer Networks: Regression"
+    blurb: "Predicting numbers: linear regression with basis functions, the geometry of least squares, regularization, decision theory for regression and the bias-variance trade-off."
+    lessons:
+      - id: ch04-linear-regression
+        title: "Linear Regression With Basis Functions"
+        kind: concept
+        summary: "A straight line can fit curves if you feed it the right features. Basis functions, the likelihood, and the least-squares solution."
+      - id: ch04-normal-equations
+        title: "The Normal Equations"
+        kind: guided
+        summary: "Guided proof: set the gradient of the squared error to zero and find the best weights in one formula, then see it as a projection."
+      - id: ch04-regularized
+        title: "Regularized Least Squares"
+        kind: concept
+        summary: "Weight decay in one line of algebra, sequential learning, and several outputs at once."
+      - id: ch04-decision-regression
+        title: "What Should a Prediction Be?"
+        kind: concept
+        summary: "Decision theory for regression: why the best guess under squared loss is the conditional mean, and when another loss changes the answer."
+      - id: ch04-bias-variance
+        title: "The Bias-Variance Trade-off"
+        kind: concept
+        summary: "Average over many training sets and the error splits into bias, variance and noise. A picture of underfitting and overfitting."
+      - id: ch04-honest-splits
+        title: "Splitting the Data Honestly"
+        kind: concept
+        summary: "Training, validation and test sets, leakage, and why every preprocessing step must be learned from the training set only."
+      - id: ch04-audit-pipeline
+        title: "Audit: An AI's Regression Pipeline"
+        kind: guided
+        summary: "Guided problem (AI audit): An AI writes a short regression pipeline that scores very well. Order the lines, find the leak, and predict the honest score."
+      - id: ch04-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "R-squared on training data, extrapolation, scaling before the split, and more traps from AI-written regression code."
+      - id: ch04-intuition
+        title: "Intuition Round"
+        kind: intuition
+        summary: "Quick recall of least squares, the regularized solution and the bias-variance decomposition."
+      - id: ch04-map
+        title: "Content Map: Single-layer Networks: Regression"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch04-review, title: Level Review, kind: review }
+      - id: ch04-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: ch05
+    number: 5
+    title: "Single-layer Networks: Classification"
+    blurb: "Predicting categories: discriminant functions, decision theory with costs, how to measure a classifier, generative and discriminative classifiers, and logistic regression."
+    lessons:
+      - id: ch05-discriminants
+        title: "Drawing a Line"
+        kind: concept
+        summary: "Discriminant functions for two and many classes, 1-of-K coding, and why least squares makes a poor classifier."
+      - id: ch05-decisions
+        title: "Decisions Under Costs"
+        kind: concept
+        summary: "Missing a cancer is worse than a false alarm. Misclassification rate, expected loss, the reject option, and separating inference from decision."
+      - id: ch05-measuring
+        title: "Measuring a Classifier"
+        kind: concept
+        summary: "Accuracy, the confusion matrix, precision and recall, and the ROC curve: what each number hides when one class is rare."
+      - id: ch05-generative
+        title: "Generative Classifiers"
+        kind: concept
+        summary: "Model how each class produces its data, then use Bayes' theorem. Gaussian class models, discrete features and the exponential family."
+      - id: ch05-logistic
+        title: "Logistic Regression"
+        kind: concept
+        summary: "Model the class probability directly: the logistic sigmoid, softmax for many classes, probit, and canonical link functions."
+      - id: ch05-logistic-gradient
+        title: "The Gradient of the Cross-entropy"
+        kind: guided
+        summary: "Guided proof: the error gradient of logistic regression is prediction minus target times input, the same shape as in linear regression."
+      - id: ch05-audit-accuracy
+        title: "Audit: 99% Accurate?"
+        kind: guided
+        summary: "Guided problem (AI audit): An AI reports a fraud detector with 99% accuracy on data where 1% of cases are fraud. Read the confusion matrix and decide what the model really does."
+      - id: ch05-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Accuracy on imbalanced classes, thresholds, calibrated versus confident, and probabilities that are not probabilities."
+      - id: ch05-intuition
+        title: "Intuition Round"
+        kind: intuition
+        summary: "Quick recall of the sigmoid, softmax, cross-entropy and the decision rules."
+      - id: ch05-map
+        title: "Content Map: Single-layer Networks: Classification"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch05-review, title: Level Review, kind: review }
+      - id: ch05-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: ch06
+    number: 6
+    title: "Deep Neural Networks"
+    blurb: "Why fixed features fail in high dimensions, multilayer networks and what they can represent, learned representations, error functions for each task, and mixture density networks."
+    lessons:
+      - id: ch06-curse
+        title: "The Curse of Dimensionality"
+        kind: concept
+        summary: "Why a grid of features explodes in many dimensions, how strange high-dimensional spaces are, and why real data lives on thin manifolds."
+      - id: ch06-multilayer
+        title: "Multilayer Networks"
+        kind: concept
+        summary: "Let the network learn its own basis functions: hidden units, activation functions, universal approximation and weight-space symmetries."
+      - id: ch06-representations
+        title: "Deep Networks and Representations"
+        kind: concept
+        summary: "Depth as a hierarchy of features: distributed representations, transfer learning and contrastive learning."
+      - id: ch06-error-functions
+        title: "Choosing the Error Function"
+        kind: concept
+        summary: "The output unit and the error follow from the likelihood: regression, binary and multiclass classification."
+      - id: ch06-mdn
+        title: "Mixture Density Networks"
+        kind: concept
+        summary: "A robot arm with two ways to reach one point: when the average answer is wrong, predict a whole distribution."
+      - id: ch06-audit-head
+        title: "Audit: An AI's Classifier Head"
+        kind: guided
+        summary: "Guided problem (AI audit): An AI builds a network's last layer and loss. Softmax applied twice, the wrong loss, a sigmoid where a softmax belongs: find and fix them."
+      - id: ch06-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about depth, universal approximation, high-dimensional geometry and output layers."
+      - id: ch06-intuition
+        title: "Intuition Round"
+        kind: intuition
+        summary: "Quick recall of output units, error functions and parameter counts."
+      - id: ch06-map
+        title: "Content Map: Deep Neural Networks"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch06-review, title: Level Review, kind: review }
+      - id: ch06-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: exam-partial1
+    eyebrow: Partial exam
+    hue: 3
+    title: "Partial Exam: Probability and Single-layer Networks"
+    blurb: "A timed exam on Levels 2 to 6. No feedback until you submit, then your score and a review of every answer."
+    lessons:
+      - id: exam-partial1
+        title: Partial Exam 1
+        kind: exam
+        summary: "60 minutes, ten points, about five questions on probability, distributions, regression, classification and deep networks. Answers are checked only when you submit."
+
+  - id: ch07
+    number: 7
+    title: "Gradient Descent"
+    blurb: "How networks are trained: error surfaces, batch and stochastic gradient descent, initialization, momentum, learning-rate schedules, Adam, and normalization."
+    lessons:
+      - id: ch07-error-surfaces
+        title: "Error Surfaces"
+        kind: concept
+        summary: "A landscape in a million dimensions: local quadratic approximation, minima and saddles, and what the gradient tells you."
+      - id: ch07-sgd
+        title: "Stochastic Gradient Descent"
+        kind: concept
+        summary: "Step downhill using a few examples at a time: batch, stochastic and mini-batch descent, and how to initialize."
+      - id: ch07-convergence
+        title: "Convergence: Ravines and Momentum"
+        kind: concept
+        summary: "Why gradient descent zigzags in a narrow valley, and how momentum and learning-rate schedules fix it."
+      - id: ch07-quadratic-rate
+        title: "Gradient Descent on a Bowl"
+        kind: guided
+        summary: "Guided proof: on a quadratic error, the eigenvalues of the Hessian set the largest safe learning rate and the speed of convergence."
+      - id: ch07-adam
+        title: "RMSProp and Adam"
+        kind: concept
+        summary: "A different step size for every weight: the adaptive methods most networks are trained with."
+      - id: ch07-normalization
+        title: "Normalization"
+        kind: concept
+        summary: "Data, batch and layer normalization: rescaling so the landscape becomes easier to descend."
+      - id: ch07-audit-training
+        title: "Audit: Reading a Training Curve"
+        kind: guided
+        summary: "Guided problem (AI audit): An AI's training run diverges, stalls or oscillates. Read the loss curves and diagnose the learning rate, the scale of the data or a bug."
+      - id: ch07-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about learning rates, local minima, batch size and normalization."
+      - id: ch07-intuition
+        title: "Intuition Round"
+        kind: intuition
+        summary: "Quick recall of the update rules: plain, momentum, RMSProp, Adam."
+      - id: ch07-map
+        title: "Content Map: Gradient Descent"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch07-review, title: Level Review, kind: review }
+      - id: ch07-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: ch08
+    number: 8
+    title: "Backpropagation"
+    blurb: "Computing gradients efficiently: the chain rule through a network, backpropagation in general graphs, Jacobians and Hessians, and automatic differentiation."
+    lessons:
+      - id: ch08-chain-rule
+        title: "Gradients by the Chain Rule"
+        kind: concept
+        summary: "How a change in one weight ripples to the error, and the errors that flow backwards through a network."
+      - id: ch08-by-hand
+        title: "Backprop by Hand"
+        kind: guided
+        summary: "Guided problem: one forward pass and one backward pass through a tiny network with real numbers."
+      - id: ch08-general
+        title: "Backpropagation in General Networks"
+        kind: concept
+        summary: "The algorithm for any feed-forward network, its cost, and checking it against numerical differentiation."
+      - id: ch08-jacobian-hessian
+        title: "The Jacobian and the Hessian"
+        kind: concept
+        summary: "Derivatives of outputs with respect to inputs, and the curvature of the error: what they cost and what they reveal."
+      - id: ch08-autodiff
+        title: "Automatic Differentiation"
+        kind: concept
+        summary: "Forward mode and reverse mode: how software computes exact derivatives of any program, and why reverse mode wins for training."
+      - id: ch08-audit-gradient
+        title: "Audit: An AI's Gradient Check"
+        kind: guided
+        summary: "Guided problem (AI audit): An AI writes a gradient by hand and a check that passes for the wrong reason. Find the bug in the derivative and in the test."
+      - id: ch08-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about the cost of backpropagation, numerical derivatives and the two modes of automatic differentiation."
+      - id: ch08-map
+        title: "Content Map: Backpropagation"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch08-review, title: Level Review, kind: review }
+      - id: ch08-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: ch09
+    number: 9
+    title: "Regularization"
+    blurb: "How to make a network generalize: inductive bias, symmetry and equivariance, weight decay, learning curves and early stopping, double descent, parameter sharing, residual connections and model averaging."
+    lessons:
+      - id: ch09-inductive-bias
+        title: "Inductive Bias"
+        kind: concept
+        summary: "No free lunch: every learner bets on some assumptions. Inverse problems, symmetry, invariance and equivariance."
+      - id: ch09-weight-decay
+        title: "Weight Decay"
+        kind: concept
+        summary: "Penalize large weights: consistent regularizers and generalized weight decay."
+      - id: ch09-learning-curves
+        title: "Learning Curves"
+        kind: concept
+        summary: "Watch training and validation error as training goes on: early stopping, and the surprise of double descent."
+      - id: ch09-sharing
+        title: "Parameter Sharing"
+        kind: concept
+        summary: "Tie weights together, softly or exactly, to build in what you already know."
+      - id: ch09-residual
+        title: "Residual Connections"
+        kind: concept
+        summary: "Add the input back to the output: why very deep networks become trainable."
+      - id: ch09-averaging
+        title: "Model Averaging and Dropout"
+        kind: concept
+        summary: "Many models vote better than one: ensembles, and dropout as a cheap ensemble."
+      - id: ch09-audit-overfit
+        title: "Audit: Is It Overfitting?"
+        kind: guided
+        summary: "Guided problem (AI audit): An AI reads a set of learning curves and recommends more parameters, more data or more regularization. Decide which advice is right."
+      - id: ch09-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about overfitting, double descent, dropout at test time and early stopping."
+      - id: ch09-intuition
+        title: "Intuition Round"
+        kind: intuition
+        summary: "Quick recall of the regularized error, early stopping and residual blocks."
+      - id: ch09-map
+        title: "Content Map: Regularization"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch09-review, title: Level Review, kind: review }
+      - id: ch09-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: ch10
+    number: 10
+    title: "Convolutional Networks"
+    blurb: "Networks built for images: convolutional filters, padding, stride and pooling, what trained networks see, adversarial attacks, object detection, segmentation and style transfer."
+    lessons:
+      - id: ch10-images
+        title: "Why Images Need Convolutions"
+        kind: concept
+        summary: "A photo has millions of pixels. Feature detectors, translation equivariance, and why one small filter slid everywhere beats a huge dense layer."
+      - id: ch10-filters
+        title: "Convolutional Filters"
+        kind: concept
+        summary: "Padding, stride, many channels and pooling: how the shape of each layer follows from a few choices."
+      - id: ch10-count-params
+        title: "Count the Parameters"
+        kind: guided
+        summary: "Guided problem: work out the output shapes and parameter counts of a small convolutional network, layer by layer."
+      - id: ch10-inside
+        title: "Inside a Trained Network"
+        kind: concept
+        summary: "Visualized filters, saliency maps, adversarial attacks and synthetic images: what a network looks at, and how easily it is fooled."
+      - id: ch10-detection
+        title: "Object Detection"
+        kind: concept
+        summary: "Boxes around things: intersection over union, sliding windows, scales and non-max suppression."
+      - id: ch10-segmentation
+        title: "Segmentation and Style"
+        kind: concept
+        summary: "A label for every pixel: up-sampling, fully convolutional networks, the U-net, and style transfer."
+      - id: ch10-audit-saliency
+        title: "Audit: A Saliency Map That Proves Nothing"
+        kind: guided
+        summary: "Guided problem (AI audit): An AI claims a medical image model looks at the tumour because of a saliency map. What the map can and cannot show, and how the model might be cheating."
+      - id: ch10-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about equivariance, pooling, receptive fields and adversarial examples."
+      - id: ch10-map
+        title: "Content Map: Convolutional Networks"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch10-review, title: Level Review, kind: review }
+      - id: ch10-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: exam-partial2
+    eyebrow: Partial exam
+    hue: 3
+    title: "Partial Exam: Training Networks"
+    blurb: "A timed exam on Levels 7 to 10. No feedback until you submit, then your score and a review of every answer."
+    lessons:
+      - id: exam-partial2
+        title: Partial Exam 2
+        kind: exam
+        summary: "60 minutes, ten points, about five questions on gradient descent, backpropagation, regularization and convolutional networks. Answers are checked only when you submit."
+
+  - id: ch11
+    number: 11
+    title: "Structured Distributions"
+    blurb: "Graphs that show which variables depend on which: directed graphical models, conditional independence, explaining away, d-separation, naive Bayes and sequence models."
+    lessons:
+      - id: ch11-graphs
+        title: "Graphical Models"
+        kind: concept
+        summary: "Draw the joint distribution as a graph: factorization, discrete and Gaussian variables, parameters and observations."
+      - id: ch11-independence
+        title: "Conditional Independence"
+        kind: concept
+        summary: "Three small graphs, explaining away, and the d-separation rule that reads independence off a picture."
+      - id: ch11-explaining-away
+        title: "Explaining Away"
+        kind: guided
+        summary: "Guided problem: a burglar alarm, an earthquake and a radio report, with real numbers."
+      - id: ch11-naive-bayes
+        title: "Naive Bayes and the Markov Blanket"
+        kind: concept
+        summary: "A classifier built on a strong assumption, generative models, and the Markov blanket of a node."
+      - id: ch11-sequences
+        title: "Sequence Models"
+        kind: concept
+        summary: "Markov chains and hidden variables: how to model data that comes in order."
+      - id: ch11-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about independence, causation and what a graph does and does not say."
+      - id: ch11-map
+        title: "Content Map: Structured Distributions"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch11-review, title: Level Review, kind: review }
+      - id: ch11-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: ch12
+    number: 12
+    title: "Transformers"
+    blurb: "The architecture behind language models: attention, self-attention and multi-head attention, transformer layers and positional encoding, tokens and embeddings, recurrent networks, decoder and encoder transformers, large language models and multimodal transformers."
+    lessons:
+      - id: ch12-attention
+        title: "Attention"
+        kind: concept
+        summary: "Which earlier words matter for this one? Attention coefficients, self-attention, and the query, key and value matrices."
+      - id: ch12-attention-by-hand
+        title: "Attention by Hand"
+        kind: guided
+        summary: "Guided problem: compute scaled self-attention for three tokens with small vectors."
+      - id: ch12-multihead
+        title: "Multi-head Attention and Transformer Layers"
+        kind: concept
+        summary: "Several attention patterns at once, residuals and normalization, the cost of attention, and positional encoding."
+      - id: ch12-language
+        title: "Words as Vectors"
+        kind: concept
+        summary: "Tokenization, word embeddings, bag of words, and autoregressive models of text."
+      - id: ch12-rnn
+        title: "Before Transformers: Recurrent Networks"
+        kind: concept
+        summary: "Networks with a memory, backpropagation through time, and why they struggle with long texts."
+      - id: ch12-decoders
+        title: "Decoder Language Models"
+        kind: concept
+        summary: "Predict the next token, then sample: greedy decoding, beam search, temperature and top-p."
+      - id: ch12-encoders
+        title: "Encoders and Sequence-to-Sequence"
+        kind: concept
+        summary: "Masked-word training, translation with an encoder and a decoder, and what each part is for."
+      - id: ch12-llms
+        title: "Large Language Models"
+        kind: concept
+        summary: "Scale, pre-training and fine-tuning: what an LLM learns, what it does not, and why it can be fluent and wrong."
+      - id: ch12-multimodal
+        title: "Multimodal Transformers"
+        kind: concept
+        summary: "Images, audio and text in one architecture: vision transformers, image generation, speech, and vision with language."
+      - id: ch12-audit-llm
+        title: "Audit: When an LLM Is Confidently Wrong"
+        kind: guided
+        summary: "Guided problem (AI audit): An LLM answers a factual question, a calculation and a coding task. Predict which answers to trust, using what you know about next-token prediction and sampling."
+      - id: ch12-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about attention, positional encoding, temperature and what language models know."
+      - id: ch12-intuition
+        title: "Intuition Round"
+        kind: intuition
+        summary: "Quick recall of the attention formula, parameter counts and sampling rules."
+      - id: ch12-map
+        title: "Content Map: Transformers"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch12-review, title: Level Review, kind: review }
+      - id: ch12-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: ch13
+    number: 13
+    title: "Graph Neural Networks"
+    blurb: "Learning on molecules, social networks and road maps: adjacency matrices, permutation equivariance, neural message passing, graph attention and over-smoothing."
+    lessons:
+      - id: ch13-graphs
+        title: "Machine Learning on Graphs"
+        kind: concept
+        summary: "Graphs as data: properties, the adjacency matrix, and why the network must not care how the nodes are numbered."
+      - id: ch13-message-passing
+        title: "Neural Message Passing"
+        kind: concept
+        summary: "Each node collects messages from its neighbours: aggregation, update, and node, edge and graph tasks."
+      - id: ch13-by-hand
+        title: "Message Passing by Hand"
+        kind: guided
+        summary: "Guided problem: two rounds of message passing on a five-node graph."
+      - id: ch13-general
+        title: "General Graph Networks"
+        kind: concept
+        summary: "Graph attention, edge and graph embeddings, over-smoothing, regularization and geometric deep learning."
+      - id: ch13-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about permutation equivariance, depth in graph networks and over-smoothing."
+      - id: ch13-map
+        title: "Content Map: Graph Neural Networks"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch13-review, title: Level Review, kind: review }
+      - id: ch13-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: ch14
+    number: 14
+    title: "Sampling"
+    blurb: "Drawing random examples from complicated distributions: basic algorithms, rejection and importance sampling, Markov chain Monte Carlo, Gibbs sampling, energy-based models and Langevin dynamics."
+    lessons:
+      - id: ch14-basics
+        title: "Sampling Basics"
+        kind: concept
+        summary: "Estimate an expectation by averaging samples, and turn uniform random numbers into samples of any standard distribution."
+      - id: ch14-rejection-importance
+        title: "Rejection and Importance Sampling"
+        kind: concept
+        summary: "Sample from a hard distribution using an easy one: rejection, importance weights and resampling."
+      - id: ch14-mcmc
+        title: "Markov Chain Monte Carlo"
+        kind: concept
+        summary: "A random walk that spends time in proportion to probability: Metropolis, Metropolis-Hastings and Gibbs sampling."
+      - id: ch14-detailed-balance
+        title: "Why Metropolis-Hastings Works"
+        kind: guided
+        summary: "Guided proof: the acceptance rule makes the target distribution satisfy detailed balance."
+      - id: ch14-langevin
+        title: "Energy-based Models and Langevin Sampling"
+        kind: concept
+        summary: "Define a distribution by an energy, follow its gradient plus noise, and train it by maximum likelihood."
+      - id: ch14-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about burn-in, correlated samples, importance weights and high dimensions."
+      - id: ch14-map
+        title: "Content Map: Sampling"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch14-review, title: Level Review, kind: review }
+      - id: ch14-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: ch15
+    number: 15
+    title: "Discrete Latent Variables"
+    blurb: "Hidden labels behind the data: K-means clustering, mixtures of Gaussians, the expectation-maximization algorithm and the evidence lower bound."
+    lessons:
+      - id: ch15-kmeans
+        title: "K-means Clustering"
+        kind: concept
+        summary: "Group points by alternating two easy steps, and use it to compress an image."
+      - id: ch15-mixtures
+        title: "Mixtures of Gaussians"
+        kind: concept
+        summary: "Soft clusters: the likelihood of a mixture, its responsibilities, and why maximum likelihood can collapse."
+      - id: ch15-em
+        title: "The EM Algorithm"
+        kind: concept
+        summary: "Expectation, then maximization: EM for Gaussian mixtures, its link to K-means, and Bernoulli mixtures."
+      - id: ch15-elbo
+        title: "The Evidence Lower Bound"
+        kind: guided
+        summary: "Guided proof: the log likelihood splits into a lower bound plus a KL divergence, which is why EM never decreases the likelihood."
+      - id: ch15-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about choosing K, initialization, local optima and singular mixtures."
+      - id: ch15-intuition
+        title: "Intuition Round"
+        kind: intuition
+        summary: "Quick recall of the E and M steps and the evidence lower bound."
+      - id: ch15-map
+        title: "Content Map: Discrete Latent Variables"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch15-review, title: Level Review, kind: review }
+      - id: ch15-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: exam-partial3
+    eyebrow: Partial exam
+    hue: 3
+    title: "Partial Exam: Structure, Attention and Sampling"
+    blurb: "A timed exam on Levels 11 to 15. No feedback until you submit, then your score and a review of every answer."
+    lessons:
+      - id: exam-partial3
+        title: Partial Exam 3
+        kind: exam
+        summary: "60 minutes, ten points, about five questions on graphical models, transformers, graph networks, sampling and latent variables. Answers are checked only when you submit."
+
+  - id: ch16
+    number: 16
+    title: "Continuous Latent Variables"
+    blurb: "Low-dimensional structure in high-dimensional data: principal component analysis, probabilistic PCA, factor analysis, independent component analysis, Kalman filters and nonlinear latent variable models."
+    lessons:
+      - id: ch16-pca
+        title: "Principal Component Analysis"
+        kind: concept
+        summary: "Find the directions where the data varies most, and use them to compress and whiten."
+      - id: ch16-max-variance
+        title: "Maximum Variance Gives Eigenvectors"
+        kind: guided
+        summary: "Guided proof: maximizing the projected variance leads to the eigenvectors of the covariance matrix."
+      - id: ch16-ppca
+        title: "Probabilistic PCA"
+        kind: concept
+        summary: "PCA as a generative model with a likelihood: what it adds, and factor analysis."
+      - id: ch16-ica-kalman
+        title: "Independent Components and Kalman Filters"
+        kind: concept
+        summary: "Unmix signals that were added together, and track a hidden state through time."
+      - id: ch16-nonlinear
+        title: "Nonlinear Latent Variable Models"
+        kind: concept
+        summary: "Nonlinear manifolds, discrete data, and four ways to build a deep generative model."
+      - id: ch16-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about variance versus importance, scaling before PCA, and what a component means."
+      - id: ch16-map
+        title: "Content Map: Continuous Latent Variables"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch16-review, title: Level Review, kind: review }
+      - id: ch16-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: ch17
+    number: 17
+    title: "Generative Adversarial Networks"
+    blurb: "A generator and a critic trained against each other: the adversarial loss, training in practice, image GANs and CycleGAN."
+    lessons:
+      - id: ch17-adversarial
+        title: "Adversarial Training"
+        kind: concept
+        summary: "A forger and a detector improve together: the GAN loss and its game."
+      - id: ch17-optimal-critic
+        title: "The Optimal Discriminator"
+        kind: guided
+        summary: "Guided proof: for a fixed generator, the best discriminator is a ratio of densities, and the game minimizes a divergence."
+      - id: ch17-practice
+        title: "GANs in Practice"
+        kind: concept
+        summary: "Mode collapse, vanishing gradients, image GANs and CycleGAN."
+      - id: ch17-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about what a GAN learns, mode collapse and evaluating generated samples."
+      - id: ch17-map
+        title: "Content Map: Generative Adversarial Networks"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch17-review, title: Level Review, kind: review }
+      - id: ch17-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: ch18
+    number: 18
+    title: "Normalizing Flows"
+    blurb: "Generative models with an exact likelihood: invertible transformations, coupling and autoregressive flows, and continuous flows from neural differential equations."
+    lessons:
+      - id: ch18-change-of-variables
+        title: "The Change-of-Variables Formula"
+        kind: guided
+        summary: "Guided proof: an invertible map turns a simple density into a complex one, with a Jacobian determinant as the price."
+      - id: ch18-coupling
+        title: "Coupling Flows"
+        kind: concept
+        summary: "Invertible layers whose Jacobian is cheap to compute."
+      - id: ch18-autoregressive
+        title: "Autoregressive Flows"
+        kind: concept
+        summary: "Transform one variable at a time: fast in one direction, slow in the other."
+      - id: ch18-continuous
+        title: "Continuous Flows"
+        kind: concept
+        summary: "Neural ordinary differential equations, how to backpropagate through them, and flows in continuous time."
+      - id: ch18-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about invertibility, dimensions and the cost of determinants."
+      - id: ch18-map
+        title: "Content Map: Normalizing Flows"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch18-review, title: Level Review, kind: review }
+      - id: ch18-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: ch19
+    number: 19
+    title: "Autoencoders"
+    blurb: "Compressing data through a bottleneck: linear, deep, sparse, denoising and masked autoencoders, and variational autoencoders with the reparameterization trick."
+    lessons:
+      - id: ch19-deterministic
+        title: "Deterministic Autoencoders"
+        kind: concept
+        summary: "Squeeze, then rebuild: linear and deep autoencoders, and sparse, denoising and masked variants."
+      - id: ch19-vae
+        title: "Variational Autoencoders"
+        kind: concept
+        summary: "An autoencoder that is also a generative model: amortized inference and the evidence lower bound."
+      - id: ch19-reparam
+        title: "The Reparameterization Trick"
+        kind: guided
+        summary: "Guided proof: write a random sample as a function of noise, so gradients can pass through it."
+      - id: ch19-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about bottlenecks, blurry samples and the two terms of the VAE loss."
+      - id: ch19-map
+        title: "Content Map: Autoencoders"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch19-review, title: Level Review, kind: review }
+      - id: ch19-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: ch20
+    number: 20
+    title: "Diffusion Models"
+    blurb: "Generating images by learning to remove noise: the forward diffusion, the reverse decoder, predicting the noise, score matching, stochastic differential equations and guided diffusion."
+    lessons:
+      - id: ch20-forward
+        title: "Adding Noise Step by Step"
+        kind: concept
+        summary: "Destroy an image with small Gaussian steps and get a closed formula for any step."
+      - id: ch20-reverse
+        title: "Learning to Denoise"
+        kind: concept
+        summary: "Run the process backwards: the reverse decoder, its evidence lower bound, and generating new samples."
+      - id: ch20-predict-noise
+        title: "Predicting the Noise"
+        kind: guided
+        summary: "Guided proof: the evidence lower bound simplifies to a network that predicts the noise that was added."
+      - id: ch20-score
+        title: "Score Matching"
+        kind: concept
+        summary: "The score is the gradient of the log density: score loss, noise levels and stochastic differential equations."
+      - id: ch20-guided
+        title: "Guided Diffusion"
+        kind: concept
+        summary: "Steer generation with a prompt: classifier guidance and classifier-free guidance."
+      - id: ch20-traps
+        title: "Intuition Traps"
+        kind: traps
+        summary: "Traps about noise schedules, sampling steps and what guidance trades away."
+      - id: ch20-intuition
+        title: "Intuition Round"
+        kind: intuition
+        summary: "Quick recall of the forward formula, the noise-prediction loss and guidance."
+      - id: ch20-map
+        title: "Content Map: Diffusion Models"
+        kind: map
+        summary: "Rebuild the level as a concept map, box by box, and add its row to the problem-and-model table."
+      - { id: ch20-review, title: Level Review, kind: review }
+      - id: ch20-challenge
+        title: Level Challenge
+        kind: challenge
+        summary: "Harder problems that combine the ideas of the level, including one AI-written result to audit."
+
+  - id: exam-final
+    eyebrow: Final exam
+    hue: 3
+    title: "Final Exam: Generative Models"
+    blurb: "A timed exam on Levels 16 to 20. No feedback until you submit, then your score and a review of every answer."
+    lessons:
+      - id: exam-final
+        title: Final Exam
+        kind: exam
+        summary: "120 minutes, ten points, about five questions on PCA, GANs, flows, autoencoders and diffusion models. Answers are checked only when you submit."

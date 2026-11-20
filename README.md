@@ -28,6 +28,7 @@ synced through an optional Google sign-in ([`docs/ACCOUNTS.md`](docs/ACCOUNTS.md
 | How the World Works | [`courses/how-the-world-works/`](courses/how-the-world-works/) |
 | Science, Faith and Mind | [`courses/science-faith-mind/`](courses/science-faith-mind/) |
 | Classical Mechanics | [`courses/classical-mechanics/`](courses/classical-mechanics/) |
+| Machine Learning | [`courses/machine-learning/`](courses/machine-learning/) |
 
 ## Layout
 
