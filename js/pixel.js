@@ -138,6 +138,33 @@ export const SPRITES = {
       ['...TTTTTTTTTT...', '...SS......SS...', '...KK......KK...'],
     ],
   },
+  // Long curled wig, crimson coat, white cravat, an apple in hand: classical mechanics.
+  newton: {
+    pal: { H: '#d9cbb0', h: '#a8957a', S: '#f2c48d', s: '#d39a63', K: '#26262e', C: '#8e2f3c', c: '#6a1f2b', W: '#ffffff', R: '#e53935', g: '#4caf50', B: '#3a2a22', T: '#f4f4f6' },
+    body: [
+      '.....HHHHHH.....',
+      '...HHHHHHHHHH...',
+      '..HHHHHHHHHHHH..',
+      '..HHHSSSSSSHHH..',
+      '.HHHSSSSSSSSHHH.',
+      '.HHhSKSSSSKShHH.',
+      '.HHhSSSssSSShHH.',
+      '.HHhSSSSSSSShHH.',
+      '.HHhSSSKKSSShHH.',
+      '.HHHhSSSSSShHHH.',
+      '.HhHh.SSSS.hHhH.',
+      '..Hh.CCWWCC.hH..',
+      '..CCCCCWWCCCCC.g',
+      '.CCCCCCWWCCCCCRR',
+      '.CCCCCCcCCCCCCRR',
+      '.SCCCCCcCCCCCCS.',
+      '..CCCCCcCCCCCC..',
+    ],
+    legs: [
+      ['...BBBB..BBBB...', '...TTTT..TTTT...', '..KKKKK..KKKKK..'],
+      ['...BBBB..BBBB...', '...KKKK..TTTT...', '.........KKKKK..'],
+    ],
+  },
 };
 
 const rows = (s, f) => [...s.body, ...s.legs[f % s.legs.length]];

@@ -328,3 +328,4 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 ## Chapter 23
 
 - Knowledge lesson: $K,B,T,J$ for knows, believes, true, justified; JTB $K\iff B\wedge T\wedge J$ told as 'often traced to Plato' (Theaetetus ends aporetic); Gettier 1963 not sufficient (not 'not necessary'); reliabilism: truth-ratio = true outputs / all outputs; internalist/externalist glossed per SEP. Next: Evidentialism (Clifford 1877).
+- Evidentialism lesson: $E_S$ = evidence of $S$; Clifford's principle (ethical, 1877) kept apart from Feldman-Conee evidentialism $J(S,p)\iff E_S$ supports $p$ (justification, 1985); shipowner odds example: prior odds sound 4, LR 18, one pass 1/73 (1.4%), two passes 1/1297 (0.08%). Next: Reformed Epistemology (Plantinga).

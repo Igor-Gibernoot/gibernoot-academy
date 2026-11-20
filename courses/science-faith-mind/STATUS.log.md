@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-20 ch23-evidentialism built
+21 cards, concept, no widget (odds-updater checked: it has no threshold marker, so it would show the posterior but not where 'sufficient' falls; two numeric cards and a threshold mcq do that instead), 1 image (Clifford portrait by Collier, PD; none for the ship: hypothetical case). Web-checked (see VERIFIED). Choices: only two Clifford quotations used (both found in Wikisource and SEP); self-refutation worry stated as our question, not attributed (SEP gives regress only); Great Pumpkin only named as teaser. Conventions fixed here: $E_S$; Clifford (ethical) vs Feldman-Conee (justification); shipowner odds numbers.
+
 ## 2026-11-20 ch23-knowledge built
 19 cards, concept, no widget (checked odds-updater and hit-counter: neither builds intuition for Gettier cases or reliability; the truth-ratio is done by two numeric cards instead), 3 images (Gettier portrait, stopped clock, Theaetetus 1578 page). Web-checked (see VERIFIED). Choices: Russell paraphrased, no quotation; no-false-lemma repair left unattributed; Gettier's tenure story left out (secondary only). Conventions fixed here: K,B,T,J symbols; truth-ratio formula in own:; 'not sufficient' vs 'not necessary'.
 
