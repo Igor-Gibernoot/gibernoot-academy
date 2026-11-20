@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-20 ch23-secular built
+Concept lesson, 22 cards (mcq, order, text), no widget (the country-by-model grid is a categorical sort that mcq cards handle; no spatial or numeric quantity to manipulate). Images: locke.webp reused (ch03), none new; none: Rawls, Taylor, Habermas, Asad (no checked free portrait, cap and speed); not viewed (reused, no shots flag). Choices: Turkey, India, Islamic states each one text plus one mcq; Islamic states shown as a range (Saudi, Iran, Egypt, Indonesia) in constitutional wording; Habermas and Asad birth years omitted (unconfirmed); Locke's Catholic exclusion stated as disputed. Web-checked (see VERIFIED). Conventions fixed here: terms separation, establishment, neutrality (even-handed vs hands-off), secularism (doctrine), secularity (condition).
+
 ## 2026-11-20 ch23-pluralism built
 Concept lesson, 22 cards (mcq, order, text), no widget (coordinator decision: a claim-grid widget would be speculative; the grid is an mcq). Images: rahner (new, CC BY-SA 4.0), blind-monks-elephant (new, Hanabusa Itcho print, public domain); none: Hick, no free portrait on Commons (search returns only namesakes). Choices: Newbigin and Kueng told in essence from secondary reports; Hick's 1973 book and Copernican analogy dropped (not confirmed); Alan Race 1983 typology cited. Validate 0 errors 0 warnings; shots 0 problems. Conventions fixed here: exclusivism / inclusivism / pluralism as in Race 1983 and the SEP definitions; pluralism = theory about truth of religions, not tolerance; Hick's Real in itself ineffable, only formal concepts.
 
