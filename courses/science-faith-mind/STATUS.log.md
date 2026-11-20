@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-20 widget peer-credence built (for ch23-disagreement)
+New shared widget `peer-credence` (docs `docs/widgets/peer-credence.md`, 3 smoke presets). Choices: one weight r on the other peer (0 to rMax, default 0.5) covers firm (0), split (0.5) and weighted; both peers use the same r. Evidence mode pools by odds_A x odds_B / prior odds with a common prior (default 0.5), credences clamped to [1e-6, 1-1e-6]. Display only. Conventions fixed here: A blue, B orange, pooled purple; start credence = tick, updated = bar; default preset A = 0.8, B = 0.4 (split gives 0.6 each, pooled odds 6 at prior 0.5).
+
 ## 2026-11-20 ch23-fideism built
 20 cards, concept, no widget (conceptual contrast; numeric threshold, sorting and objection cards instead). Images: kierkegaard.webp new (Luplau Janssen painting, public domain), wittgenstein.webp reused; viewed Kierkegaard card at phone width, fine. Web-checked (see VERIFIED); verbatim quotes of Wittgenstein, Pascal, Tertullian not read in full text, so paraphrased with "in essence". Choices: three senses (unable/irrelevant/hostile) labelled as the lesson's own sorting; self-defeat objection labelled the lesson's own wording; Kierkegaard reported 'according to Climacus' for the Postscript; Abraham read both as defence and as warning. Conventions fixed here: faith-as-bet recalled with g=50, c=10 threshold 1/6; Nielsen 1967 label, Phillips rejects it; Kierkegaard pseudonyms Johannes de silentio (1843), Johannes Climacus (1846).
 

@@ -83,6 +83,7 @@ const WIDGETS = {
   'log-ruler': ['log-ruler', 'logRuler'],
   'odds-updater': ['odds-updater', 'oddsUpdater'],
   'decision-matrix': ['decision-matrix', 'decisionMatrix'],
+  'peer-credence': ['peer-credence', 'peerCredence'],
   'drake-sliders': ['drake-sliders', 'drakeSliders'],
   'hit-counter': ['binomial-hits', 'hitCounter'],
   'chaos-sensitivity': ['chaos-sensitivity', 'chaosSensitivity'],
