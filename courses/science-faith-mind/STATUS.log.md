@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-20 ch23-pluralism built
+Concept lesson, 22 cards (mcq, order, text), no widget (coordinator decision: a claim-grid widget would be speculative; the grid is an mcq). Images: rahner (new, CC BY-SA 4.0), blind-monks-elephant (new, Hanabusa Itcho print, public domain); none: Hick, no free portrait on Commons (search returns only namesakes). Choices: Newbigin and Kueng told in essence from secondary reports; Hick's 1973 book and Copernican analogy dropped (not confirmed); Alan Race 1983 typology cited. Validate 0 errors 0 warnings; shots 0 problems. Conventions fixed here: exclusivism / inclusivism / pluralism as in Race 1983 and the SEP definitions; pluralism = theory about truth of religions, not tolerance; Hick's Real in itself ineffable, only formal concepts.
+
 ## 2026-11-20 ch23-atheism built
 Concept lesson, 21 cards (mcq, order, text), no widget. Two-axis sort done as one mcq (no sort card type). Images: huxley, epicurus, hume, russell, all reused from earlier lessons (4, none new; Dawkins portrait skipped for the 4 cap). Choices: Hume gets a portrait beside Epicurus; Dawkins scale card without image; Flew presumption told from summaries (full text paywalled); Epicurean questions marked attributed, uncertain. Validate 0 errors 0 warnings; shots 0 problems. Conventions fixed here: gnostic/agnostic = claims knowledge or not (not the ancient sect); weak/strong atheism = lacking belief / denying, usage varies, always say which sense; belief and knowledge are two questions.
 
