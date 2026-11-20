@@ -22,11 +22,12 @@ what is specific to this course.
     Statistical Learning* (2013, 1st ed.). Ch. 8 trees, bagging, random
     forests, boosting (md ~16033); 5.1 cross-validation (md ~9246).
     Level `x-trees`.
-  - `sutton-barto-rl.md`: Sutton and Barto, *Reinforcement Learning*,
-    **2014-15 draft** of the 2nd ed. ("n-armed", not "k-armed"; Ch. 11
-    "Policy Approximation" is a stub). Ch. 2 bandits (md ~1569), 3 MDPs, 6
-    TD and Q-learning. Level `x-rewards`. Notation may differ from the 2018
-    edition: check before fixing conventions.
+  - `sutton-barto-rl.md` (from `sutton-barto-rl-2018.pdf`): Sutton and
+    Barto, *Reinforcement Learning: An Introduction* (2nd ed., MIT Press,
+    2018). PDF page = book page + 22 (checked at pp. 49, 325). 2.1 k-armed
+    bandits (md 1770), 3.1 MDPs (2828), 3.5 value functions (3331), 6.5
+    Q-learning (7027), 13.2 policy gradient theorem (17305), 13.3 REINFORCE
+    (17419), 17.4 designing rewards (24428). Level `x-rewards`.
   - `prince-udl.md`: Prince, *Understanding Deep Learning* (2023). Ch. 19
     RL (MDPs md ~17670, policy gradient ~18357, actor-critic ~18649), Ch. 20
     why deep learning works, Ch. 21 ethics (fairness, `x-modern-fairness`).
