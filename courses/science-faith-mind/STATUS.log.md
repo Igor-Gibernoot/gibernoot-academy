@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-20 ch22-myth (concept, 19 cards, no widget)
+Built `ch22/myth.yaml`. Widget: none (verbal lesson; checked docs/widgets/README.md for narrative or structure widgets, none fits). Images added: eliade (1995 Romanian stamp, PD), campbell (CC BY 2.0), levi-strauss (CC BY 3.0). None for Bultmann: only a modern sculpture bust photographed (sculptor rights unclear) and no free portrait found; skipped. Web check done (see VERIFIED.md). Choices: Eliade critics not named (unverified), so the scope question is stated as an open debate; Barth not used as objector (not confirmed), Jaspers used; no direct quotations (all paraphrased, secondary only for the monomyth sentence and Lévi-Strauss resolution sentence). Conventions fixed here: myth in the scholarly sense = traditional sacred story, no verdict on truth; Eliade sacred/profane, in illo tempore; Campbell monomyth departure/initiation/return, critics Toelken and Dundes; Lévi-Strauss structure, opposites, mediator (trickster); Bultmann demythologizing = existential interpretation, Jaspers objection.
+
 ## 2026-11-20 ch22-metaphor (concept, 19 cards, no widget)
 Built per plan. Widget: none (verbal content, previous agent's decision kept). Images: ricoeur (CC0), mcfague (CC BY-SA 4.0); none for Ramsey and Tillich (Commons had only busts and graves for Tillich, nothing checked for Ramsey). Web-checked; Ricoeur "is/is not" and McFague wording not found verbatim, so stated in essence and not quoted. Tillich being-itself exception secondary only, hedged. Conventions fixed here: Ricoeur = tension of identity and difference at statement level; McFague model = extended metaphor, plurality guards against idol.
 
