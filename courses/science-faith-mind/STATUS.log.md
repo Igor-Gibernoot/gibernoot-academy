@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-20 ch22-intuition (intuition, 18 cards, no widget, no images)
+Recall of Level 22: Frege sense/reference, verification objections, cognitivism vs Braithwaite/Phillips, Aquinas uses and Pseudo-Dionysius path (build), Ramsey model+qualifier (build), Tillich/Ricoeur, myth thinkers, Austin misfire/abuse, reading traditions, Sapir-Whorf, Nida (build), four-sentence applied cards (no rule stated) and a six-sentence count (answer 3), layers sort. Widgets checked (docs/widgets/README.md): all are maths, physics or inference tools; none shows language. Images: none, recall lesson, portraits already used. No new external facts, so no web search. Conventions fixed here: none new.
+
 ## 2026-11-20 ch22-traps (traps, 19 cards, no widget, no images)
 19 cards: Frege sense vs reference, meaningless vs false, Ayer verdict on meaning, non-cognitive vs insincere, Phillips and fideism label, Aquinas analogy, apophatic speech and Maimonides ship, metaphor not false, myth scholarly sense, Bultmann demythologizing, performative vs constative, misfire vs abuse, Philo allegory, hermeneutic circle, Sapir-Whorf strong vs weak, Russian blues, layers card. Widgets checked: docs/widgets/README.md (nothing models sentences or speech acts; traps are text questions). Images: none (traps). Web: no new external facts; all reused from ch22 VERIFIED lines. Choice: summary table maps traps to lesson titles. Conventions fixed here: none new.
 
