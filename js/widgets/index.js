@@ -43,6 +43,7 @@ const WIDGETS = {
   'friction-stop': ['friction-stop', 'frictionStop'],
   'newton-cannon': ['newton-cannon', 'newtonCannon'],
   'least-action-path': ['least-action-path', 'leastActionPath'],
+  'phase-portrait': ['phase-portrait', 'phasePortrait'],
   'heat-layers': ['heat-layers', 'heatLayers'],
   'heat-pump-flow': ['heat-pump-flow', 'heatPumpFlow'],
   'boiling-curve': ['boiling-curve', 'boilingCurve'],
