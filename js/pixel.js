@@ -91,31 +91,31 @@ export const SPRITES = {
       ['....LL....LL....', '...LL......LL...', '..LLL......LLL..'],
     ],
   },
-  // Amari the cartographer: grey hair, round bronze glasses, field jacket, holding out a map with a winding route and a brass compass: information geometry.
-  amari: {
-    pal: { H: '#c9ccd4', S: '#f0c897', s: '#d39a63', K: '#26262e', W: '#ffffff', G: '#8a5a2b', r: '#a8473f', J: '#3b6e8f', j: '#2a5470', M: '#f3e3b5', m: '#c9ad6a', R: '#e04848', g: '#6fbf6a', Y: '#ffc43d', T: '#4a4a5a', B: '#3a2a22' },
+  // A walking folded map (land, lake, dashed route to an X) with a brass compass pinned to its corner: information geometry.
+  atlas: {
+    pal: { M: '#f3e3b5', N: '#e2c98c', m: '#b89a5a', g: '#6fbf6a', b: '#5aa7e0', W: '#ffffff', K: '#26262e', R: '#e04848', X: '#b8322e', Y: '#e0a832', O: '#26262e', B: '#5a3a22', o: '#1b1b24' },
     body: [
-      '........HHHHHH.......',
-      '.......HHHHHHHH......',
-      '......HHHHHHHHHH.....',
-      '......HSSSSSSSSH.....',
-      '......SSGGSSGGSS.....',
-      '......SGWKGGWKGS.....',
-      '......SSGGSSGGSS.....',
-      '......SSSSssSSSS.....',
-      '.......SSrSSrSS......',
-      '........SSrrSS.......',
-      'MMMMMM...SSSS........',
-      'MRRMgMJJJJWWJJJJ.YYY.',
-      'MMRMMMSJJJjJJJJSYWRWY',
-      'MgMRRM.JJJjJJJJ.YWKWY',
-      'MMMMRM.JJJjJJJJ.YWWWY',
-      'mmmmmm.JJJjJJJJ..YYY.',
-      '.......JJJjJJJJ......',
+      '................YYY...',
+      '..............YYWWWYY.',
+      '..............YWWRWWY.',
+      'MMMMMMNNNNNNoYWWRRRWWY',
+      'MgggMMNNNNNNoYWKWOWKWY',
+      'MggggMNNNNNNoYWWKKKWWY',
+      'MMggMMNNNNNNMoYWWKWWY.',
+      'MMMMMMWWNWWNMoYYWWWYY.',
+      'MMMMMMWKNWKNMMooYYY...',
+      'MMMMMMNNNNNNMMMMoo....',
+      'MMMMMMKNNNKNMMbbbM....',
+      'MMMMMMNKKKNNMbbbMM....',
+      'MMMMMMNNNNNNMXMXMM....',
+      'MMRMRMNNNNRRMMXMMM....',
+      'MRMMMRNRRNNNMXMXMM....',
+      'MMMMMMNNNNNNMMMMMM....',
+      'mmmmmmmmmmmmmmmmmm....',
     ],
     legs: [
-      ['.......TTT..TTT......', '......BBBB..BBBB.....', '......BBBB..BBBB.....'],
-      ['.......TTT..TTT......', '......TTT....TTT.....', '.....BBBB....BBBB....'],
+      ['....BB.......BB.......', '....BB.......BB.......', '...BBB......BBB.......'],
+      ['....BB.......BB.......', '...BB.........BB......', '..BBB.........BBB.....'],
     ],
   },
   // Slim engineer: hard hat with a lamp, cyan goggles, orange vest with reflective stripes, a big wrench held up.
@@ -356,7 +356,7 @@ export const BANNERS = {
     g.sprite('brain', 38, 26);
     [[57, 6], [64, 5], [56, 11], [66, 10]].forEach(([x, y]) => g.px(x, y, '#ffd86b'));
   },
-  // Bell curves of different widths, and Amari the cartographer mapping them.
+  // Bell curves of different widths, and the walking map charting them.
   curves(g) {
     g.sky(['#062a2a', '#0a3a3a', '#0f4a48']);
     for (let x = 0; x < 96; x += 2) g.px(x, 26, '#1f6b66');
@@ -364,7 +364,7 @@ export const BANNERS = {
     g.curve(x => 25 - 18 * gauss(x, 22, 6), 0, 60, '#5cf2a0');
     g.curve(x => 25 - 11 * gauss(x, 34, 11), 0, 64, '#ffd23f');
     g.curve(x => 25 - 7 * gauss(x, 48, 16), 0, 70, '#ff7ab8');
-    g.sprite('amari', 72, 27);
+    g.sprite('atlas', 71, 27);
   },
   // A bright morning of inventions: hot-air balloon, wind turbine, rocket lifting off, and the engineer.
   machines(g) {
