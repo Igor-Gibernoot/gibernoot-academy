@@ -385,6 +385,26 @@ export const BANNERS = {
     g.rect(32, 24, 34, 2, stone);
     g.sprite('philosopher', 74, 27);
   },
+  // Night over a hill: a planet on a dotted Kepler ellipse around the Sun, an apple tree and an apple falling on Newton.
+  orbits(g) {
+    g.sky(['#0a1433', '#11204a', '#1a2d5e', '#24407a']);
+    g.stars(16, 11, ['#ffffff', '#ffe9a8'], 20);
+    // Kepler ellipse: centre (30, 11), semi-axes 18 and 7, Sun at the left focus.
+    const a = 18, b = 7, cx = 30, cy = 11, f = Math.sqrt(a * a - b * b);
+    for (let k = 0; k < 72; k++) if (k % 3 < 2) { const t = 2 * Math.PI * k / 72; g.px(cx + a * Math.cos(t), cy + b * Math.sin(t), '#9fdcff'); }
+    g.disc(Math.round(cx - f), cy, 3, '#ff9a3c'); g.disc(Math.round(cx - f), cy, 1, '#ffd27a');
+    const tp = -0.9; g.disc(Math.round(cx + a * Math.cos(tp)), Math.round(cy + b * Math.sin(tp)), 1, '#5cf2a0');
+    // hill
+    for (let x = 0; x < 96; x++) { const h = 24 + Math.round(1.5 * Math.sin(x / 9 + 1)); g.rect(x, h, 1, 28 - h, '#1f4a2a'); g.px(x, h, '#3d7a3f'); }
+    // apple tree, a branch reaching over Newton, an apple falling
+    g.rect(63, 12, 2, 12, '#5a3a24');
+    g.disc(63, 8, 6, '#2e6b34'); g.disc(59, 10, 4, '#2e6b34'); g.disc(67, 10, 4, '#2e6b34'); g.disc(62, 6, 3, '#3d8a42');
+    g.rect(68, 5, 10, 1, '#5a3a24');
+    [[60, 7], [65, 10], [58, 11], [64, 5]].forEach(([x, y]) => g.px(x, y, '#e53935'));
+    g.rect(82, 1, 2, 2, '#e53935'); g.px(83, 0, '#4caf50');
+    [[82, 4], [83, 5]].forEach(([x, y]) => g.px(x, y, '#9fb4ff'));
+    g.sprite('newton', 74, 27);
+  },
 };
 
 // A banner as a canvas element; CSS sizes it (.banner).
