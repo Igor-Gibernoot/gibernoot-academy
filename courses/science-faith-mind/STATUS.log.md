@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-20 ch22-traps (traps, 19 cards, no widget, no images)
+19 cards: Frege sense vs reference, meaningless vs false, Ayer verdict on meaning, non-cognitive vs insincere, Phillips and fideism label, Aquinas analogy, apophatic speech and Maimonides ship, metaphor not false, myth scholarly sense, Bultmann demythologizing, performative vs constative, misfire vs abuse, Philo allegory, hermeneutic circle, Sapir-Whorf strong vs weak, Russian blues, layers card. Widgets checked: docs/widgets/README.md (nothing models sentences or speech acts; traps are text questions). Images: none (traps). Web: no new external facts; all reused from ch22 VERIFIED lines. Choice: summary table maps traps to lesson titles. Conventions fixed here: none new.
+
 ## 2026-11-20 ch22-sentence (guided problem, 19 cards, no widget, no images)
 Four readings of "God is love" (1 John 4:8 KJV 1900 text): Frege, picture, verification, use, each with what it makes of the sentence and how it could be checked; rivals (Mitchell, Hare, Hick) in feedback; table card; parting premise (meaning from what a sentence says vs what it does). Widgets checked (docs/widgets/README.md, belief-mixer, sequence-sampler, condition-chain, odds-updater): none shows reading-vs-check logic, text and table suffice. Images: none: Frege and Wittgenstein portraits used in earlier lessons, no person, experiment or object to picture. Choice: four readings = the four theories of ch22-meaning. Conventions fixed here: application of Frege/Ayer to this sentence flagged as "ours, not his"; Frege reading checks reference first, concept second; identity vs predication "is".
 
