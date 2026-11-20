@@ -59,17 +59,16 @@ Static web app on GitHub Pages (laptop and phone). Deploy = commit + push to
 ### Every course has the academy's look (new courses too)
 
 A new course is not done until it has all of these (`docs/NEW_COURSE.md`):
-- **`overview:` in `course.yaml`** (the "About this course" box at the top of
-  the trail): `text` is an engaging, intuitive pitch for a curious
-  newcomer: open with a question or hook, say what problem the subject
-  solves, why anyone should care and who would love it, how the course
-  teaches it (puzzles, guess first). No jargon, ~100 words, no formulas.
-  `sources:` is a list of `{who, what}` for the main sources and authors
-  (published works only: never list unpublished or `sources/` material,
-  such as the professor's notes or exams).
-- **Pixel character:** its own `mascot:` sprite (16-wide grid plus two walk
+- **`overview:` in `course.yaml`** (the "About this course" box): `text` is
+  an engaging pitch for a curious newcomer: open with a question or hook,
+  say what problem the subject solves, why it matters, who would love it,
+  how the course teaches it (puzzles, guess first). No jargon, ~100 words,
+  no formulas. `sources:` is a list of `{who, what}` for main sources and
+  authors (published works only: never `sources/` material such as the
+  professor's notes or exams).
+- **Pixel character:** own `mascot:` sprite (16-wide grid plus two walk
   frames) in `js/pixel.js` `SPRITES`, set in `courses/catalog.yaml`.
-- **Pixel image:** its own `banner:` scene (96 x 28) in `js/pixel.js`
+- **Pixel image:** own `banner:` scene (96 x 28) in `js/pixel.js`
   `BANNERS`, set in `courses/catalog.yaml`, plus a `hue` there.
 - Pixel font (Jersey 10) and the sticky medal bar come from the shared
   engine; never override them per course. Validate checks the names.
@@ -85,8 +84,8 @@ A new course is not done until it has all of these (`docs/NEW_COURSE.md`):
    - **Guided problem**: one specific case with its own numbers. No `own:`,
      no Recap; it closes with a plain "what you now own" text card (method,
      teaser).
-   - **Guided proof** (`proof: true` in the lesson file): ends in a general
-     result or law. It takes `own:` (with Recap blanks) like a concept lesson.
+   - **Guided proof** (`proof: true`): ends in a general result or law.
+     Takes `own:` (with Recap blanks) like a concept lesson.
 3. **Traps** (`traps`): fast questions, each built on a common misconception.
 4. **Intuition** (`intuition`): derives nothing; quick recall of the main
    formulas of the concept lessons (mnemonics, limit/scaling checks, build
@@ -101,77 +100,30 @@ A new course is not done until it has all of these (`docs/NEW_COURSE.md`):
    **Summaries (`own:`) show the math and are self-contained:** each bullet
    restates its main formulas (displayed, phone-safe) and defines every
    symbol, chart, map, space and running example it uses, in the bullet or
-   the lines just above ("on the plane $\mathbb{R}^2$ with cartesian chart
-   $(x,y)$ and polar chart $(r,\theta)$, ..."). It is read alone, weeks
-   later, and in Recap with blanks. Re-state the setup of any example you
-   recall; never "the book" or its labels.
-6. **Exam** (`exam`, own level, played by `js/exam.js`; format in
-   `docs/LESSON_FORMAT.md`). **No exam covers more than 6 chapter
-   levels** (Level 1, the intro, is never covered). With N chapter levels a
-   course has E = max(2, ⌈(N-1)/6⌉) exams: partial exams after the last
-   level of each block (its map, review, challenge come first) and the
-   **final** right after the **last chapter level**. Pick block boundaries
-   at planning time, as even as the topics allow, each ≤ 6 levels (N ≤ 13:
-   one partial after ⌈N/2⌉ covering Levels 2 to ⌈N/2⌉, the final covering
-   the rest; N = 14 to 19: two partials and a final, e.g. after Levels 7,
-   13, 19). Each exam covers the levels since the previous one. All are
-   planned in `course.yaml` from the start (levels `exam-partial`, or
-   `exam-partial1`, `exam-partial2`, … when there are several, and
-   `exam-final`; no `file:` until built). **The next unit after such a level
-   is always its exam**, before the next chapter's first lesson; Current
-   blocks and next-session prompts must say so. Built from the professor's
-   exam in `sources/` when there is one; otherwise **write an original
-   exam** from the course's lessons (same format and rules, fresh numbers
-   and setting, never a copy of a lesson example or challenge; check every
-   number twice by script). One session per exam (its figure widgets first,
-   in their own session). Rules:
-   - **Faithful** (professor's exam): same questions, point weights
-     (`points:` per card, same total), numbers; adapt only the format.
-     Original exam: 10 points, ~5 questions of 2 points, 60 minutes (final:
-     90 to 180), each question one setting combining concepts of several
-     levels, mixing numeric, mcq, build, order cards.
-   - **Own level** between chapters (`eyebrow`, `hue`), never inside one.
-   - **Setting card first** (not a question; objects and notation,
-     self-contained). Then one card per sub-question, tagged
-     `Question N · …`, ids `qN-…`.
-   - **Written answers become gradable cards**: mcq (also multi-select),
-     numeric, build, order. Each wrong option encodes a real mistake with
-     `feedback` (shown only in review). Every card has an `explanation`;
-     the debrief lists the skills tested.
-   - **No hints, feedback, or answer-revealing widgets** while answering;
-     figures as in the original (static or display-only widgets).
-   - **`rules:` written for the app** (timer, no feedback until submit, can
-     go back, empty counts as wrong, no notes), not copied from paper.
-     `minutes:` = the original time.
-   - Verify every number twice; review shows the right answer per card.
-   - Check: validate, shots, and a headless run of intro, answering,
-     submit, time-up, results, review, exit.
+   the lines just above. It is read alone, weeks later, and in Recap with
+   blanks. Re-state the setup of any example you recall; never "the book"
+   or its labels.
+6. **Exam** (`exam`, own level, played by `js/exam.js`). Full rules,
+   format and checks: **`docs/EXAMS.md`** (read it when planning or
+   building one). Planning essentials: **no exam covers more than 6
+   chapter levels** (Level 1 is never covered); E = max(2, ⌈(N-1)/6⌉)
+   exams for N chapter levels, partials after the last level of each block
+   and the **final** right after the last chapter level (N ≤ 13: one
+   partial after ⌈N/2⌉; N = 14 to 19: e.g. after Levels 7, 13, 19). All are
+   planned in `course.yaml` from the start (`exam-partial`, or
+   `exam-partial1`, `exam-partial2`, … and `exam-final`; no `file:` until
+   built). **The next unit after such a level is always its exam**, before
+   the next chapter's first lesson; Current blocks and next-session
+   prompts must say so. One session per exam (figure widgets first, in
+   their own session).
 7. **Review** is automatic: every question enters a per-course
    spaced-repetition deck, so prompts, hints and feedback must be
    **self-contained**.
 8. **Intro level (Level 1, and any preview lesson)** is a *light* tour for
-   a reader who may know nothing of the field or its notation. Keep the
-   advanced content, present it thoroughly:
-   - **Guessing is the point.** The first lesson says so for all intro
-     lessons; each later one repeats it in one line in its opening card.
-   - **Gloss every technical word at first use** in one plain sentence,
-     even if a later Level formalizes it. Never a bare name plus "(Level N)".
-   - **Warn about notation**: a raised index is a label, not a power ($x^i$;
-     $x^2$ = "second component"); a dot is a time derivative; units such as
-     $c = 1$. Avoid index-heavy formulas in cards and `own:`; if one appears
-     (e.g. a widget readout) say "the symbols come later, watch the shape".
-   - **Outside knowledge is explained where used**: the hint gives the
-     result (e.g. slow-clock factor $\sqrt{1-v^2}$), the explanation
-     derives or motivates it.
-   - **Questions must be guessable** from intuition or the card before (no
-     recalling course structure, no counting without the definition in the
-     prompt). Explanations show the reasoning, not only arithmetic
-     ("$4 + 4\cdot3/2$" → say what each term counts).
-   - **Geometric puzzles get a picture** (widget preset before the question,
-     not revealing the answer) and concrete wording.
-   - **No meta or list cards** ("questions to carry", "order the course"):
-     each puzzle card states its own question; the closing table maps
-     puzzles to Levels.
+   a reader who may know nothing of the field or its notation; guessing is
+   the point, every technical word is glossed at first use, notation is
+   warned about. Full rules: **`docs/INTRO.md`** (read it before planning
+   or building an intro lesson).
 
 ### How to teach a topic
 
@@ -185,9 +137,7 @@ when it fits at phone width.
 A worked example that applies a formula **restates that formula** (with
 its symbols) on its own card, so the reader never flips back, and goes one
 quantity at a time: setup, each ingredient computed, then the assembly.
-Never compress an example into one closing paragraph or a chain of
-"only this survives" remarks; only a trivial example (one or two
-operations) may be short.
+Only a trivial example (one or two operations) may be short.
 
 Igor's emphasis: **language as simple as possible, an intuitive approach,
 a rigorous foundation**: define every new notation and symbol; weight on
@@ -198,9 +148,8 @@ for).
    by the course's goal. Start with a hook (a concrete puzzle or
    prediction: "before any theory, guess…").
 2. **First principles.** Derive what can be derived; state requirements,
-   valid conditions, limitations (finite-dimensional, real scalars, needs a
-   metric or not…). Turn derivation steps into questions (why is this step
-   allowed? build the next line).
+   valid conditions, limitations. Turn derivation steps into questions (why
+   is this step allowed? build the next line).
 3. **Notation properly.** Name every symbol at first use, say what
    abbreviations stand for (Hom = homomorphism, id = identity), give each
    variable its type before use.
@@ -237,17 +186,15 @@ for).
     split it the same way before committing. Never cut worked questions,
     traps or the summary to stay under the limit. **Challenges** may go to
     **32 cards** (ideally fewer); beyond that split (e.g. problems 1–3 and
-    4–5); 40+ is always too long. **Exams** are exempt (as many cards as
-    the original has sub-questions). `node tools/validate.mjs` warns over
-    25 / 32.
-    **Images count as no card** (they ride on a card), but each adds scroll: keep to the limits above.
+    4–5); 40+ is always too long. **Exams** are exempt. `node
+    tools/validate.mjs` warns over 25 / 32. **Images count as no card**
+    (they ride on a card), but each adds scroll.
     **Split lessons stand alone.** Part 2+ opens with a "Recall:" card (or
     two) restating, with formulas and defined symbols, what the previous
     part established and this part uses (never "as we saw"). A card citing
     an earlier result names the lesson by title ("the lesson Volume Forms
     and Orientation"), never "earlier" or "the previous lesson". Parts that
-    need nothing from before (e.g. independent challenge problems) need only
-    the usual toolkit recall.
+    need nothing from before need only the usual toolkit recall.
 12. **Displayed math.** A standalone equation, definition or chain goes on
     its own `$$...$$` line, phone-safe (`docs/QUICKREF.md`).
 13. **Theme-neutral wording.** Never "the black arrow": name things by
@@ -258,20 +205,21 @@ for).
 
 ### Images (`docs/IMAGES.md`)
 
-Widgets are not the only visuals: a lesson may carry **pictures** on any card
-(`image:` with `alt`, a one-sentence `caption` that teaches something, `credit`
-and `link`), where they make something concrete: **a person when first
-introduced** (portrait), **an experiment or scenario described in words**
-(apparatus, pattern, place), **a real object or data image**. Max 4 per lesson
-(6 in people-heavy history-of-ideas lessons, intro level up to 8); most lessons need 0 to 2, but in history-of-ideas courses every named person gets a portrait; never decorative, never the
-answer to a question, never a copyrighted figure or anything from `sources/`.
-Only **free licenses** (public domain, CC0, CC BY, CC BY-SA), fetched from
-Wikimedia Commons by `node tools/fetch-image.mjs search|get` (resizes, writes
-the credit ledger `courses/<id>/img/credits.yaml`, prints the card block).
-Ask in every concept/guided/intro lesson plan: "is there a person, experiment
-or object here worth a picture?"; if yes and a free image exists, add it; if
-none exists, skip (never a placeholder or a non-free image). Read
-`docs/IMAGES.md` once when a lesson gets an image. Images show in review too.
+A lesson may carry **pictures** on any card (`image:` with `alt`, a
+one-sentence `caption` that teaches something, `credit` and `link`) where
+they make something concrete: **a person when first introduced** (portrait),
+**an experiment or scenario described in words**, **a real object or data
+image**. Max 4 per lesson (6 in people-heavy history-of-ideas lessons,
+where every named person gets a portrait; intro level up to 8); most need 0
+to 2. Never decorative, never the answer to a question, never a copyrighted
+figure or anything from `sources/`. Only **free licenses** (public domain,
+CC0, CC BY, CC BY-SA), fetched from Wikimedia Commons by `node
+tools/fetch-image.mjs search|get` (resizes, writes the credit ledger
+`courses/<id>/img/credits.yaml`, prints the card block). In every
+concept/guided/intro lesson plan ask: "is there a person, experiment or
+object here worth a picture?"; if yes and a free image exists, add it; if
+none, skip (never a placeholder or non-free image). Read `docs/IMAGES.md`
+once when a lesson gets an image. Images show in review too.
 
 ### Widgets are shared
 
@@ -280,17 +228,18 @@ Widgets live in `js/widgets/` and belong to the academy, not a course.
 rings, readout rows, labels), so a card shows exactly what its text
 discusses; a card never says "ignore" part of a widget (add the option),
 and every option must be read in the widget's source. The validator warns
-on both. **File names must not look like trackers or ads**: Arc, Dia and uBlock-style
-blockers block such URLs (`hit-counter.js` once stopped the whole app). Never
-name any file in `js/`, `css/` or `vendor/` hit-counter, tracker, analytics,
-beacon, pageview, telemetry, metrics, stats, ad(s), advert, popup, sponsor or
-collect; validate rejects these in `js/widgets/`. Widgets load on demand
-(dynamic `import()` in `js/widgets/index.js`, registry line
-`'name': ['file', 'exportName']`), so a blocked file breaks only its widget;
-never add static imports of widget files. Before building a new one, read `docs/widgets/README.md`
-(one line per widget) for an existing one a preset could adapt. A new widget is a new
-`js/widgets/<name>.js` (registered in `index.js`), a general tool
-(parameters in the preset, no course-specific text hard-coded).
+on both. **File names must not look like trackers or ads** (Arc, Dia and
+uBlock-style blockers block such URLs; `hit-counter.js` once stopped the
+whole app). Never name any file in `js/`, `css/` or `vendor/` hit-counter,
+tracker, analytics, beacon, pageview, telemetry, metrics, stats, ad(s),
+advert, popup, sponsor or collect; validate rejects these in
+`js/widgets/`. Widgets load on demand (dynamic `import()` in
+`js/widgets/index.js`, registry line `'name': ['file', 'exportName']`);
+never add static imports of widget files. Before building a new one, read
+`docs/widgets/README.md` (one line per widget) for an existing one a preset
+could adapt. A new widget is a new `js/widgets/<name>.js` (registered in
+`index.js`), a general tool (parameters in the preset, no course-specific
+text hard-coded).
 
 ### Building sessions (token efficiency)
 
@@ -298,21 +247,21 @@ Igor starts each session with `/clear` and a prompt naming **one course and
 one unit of work**.
 - **One unit per session:** one concept or guided lesson, or one traps
   round, or one content map, or **one new widget** (build it, document it
-  in `docs/widgets/<name>.md` and its index line, test with a throwaway preset, no lesson). A
-  level challenge takes two sessions (problems 1–3, then 4–5). A lesson
-  needing a new widget is two sessions: widget first. **A planned widget
-  card is never dropped silently:** if the plan needs a widget that doesn't
-  exist (and no preset fits), stop *before writing the lesson* and report
-  "needs widget <name>: <what it shows>" with the widget unit's prompt. Don't
-  start the next unit even if budget remains.
+  in `docs/widgets/<name>.md` and its index line, test with a throwaway
+  preset, no lesson). A level challenge takes two sessions (problems 1–3,
+  then 4–5). A lesson needing a new widget is two sessions: widget first.
+  **A planned widget card is never dropped silently:** if the plan needs a
+  widget that doesn't exist (and no preset fits), stop *before writing the
+  lesson* and report "needs widget <name>: <what it shows>" with the
+  widget unit's prompt. Don't start the next unit even if budget remains.
 - **Read only what you need, once:**
   - The course's `CLAUDE.md` (always).
   - `courses/<id>/STATUS.md` (short), never `STATUS.log.md`.
   - Conventions: `grep -n '^## '`, then `sed -n` the General section and the
     chapter's section only.
   - Format: `docs/QUICKREF.md`. `docs/widgets/<name>.md` only for a widget
-    you use (index: `docs/widgets/README.md`), `docs/LESSON_FORMAT.md`
-    (`grep -n '^## '`) only for the map section when building a map.
+    you use, `docs/LESSON_FORMAT.md` (`grep -n '^## '`) only for the map
+    section when building a map.
   - Model lesson: the most recent of the same chapter, first ~120 lines.
   - Source: `grep -n` the heading, read just that range.
   - Widget code only in widget sessions: the widget's own file (plus
@@ -333,30 +282,30 @@ one unit of work**.
 - **Token rules (sessions and agents):**
   - `widget-smoke` only when a widget was added or changed; `shots` only on
     the lesson just built.
-  - **Any web check** (facts, quotations, constants, image captions, in every
-    course): follow `docs/WEB_SEARCH.md` (short keyword queries, 3+ variations,
-    primary and reference sites, `tried:` log). A failed search is not
-    "unconfirmed" until all its steps fail.
+  - **Any web check** (facts, quotations, constants, image captions): follow
+    `docs/WEB_SEARCH.md` (short keyword queries, 3+ variations, primary and
+    reference sites, `tried:` log). A failed search is not "unconfirmed"
+    until all its steps fail.
   - Source verification is mandatory but **scoped**: check only the source
-    range of the lesson's own formulas and symbols; write the pages
-    (and, where required, each fact with `web: <source>`) as one line in the
+    range of the lesson's own formulas and symbols; write the pages (and,
+    where required, each fact with `web: <source>`) as one line in the
     course's `VERIFIED.md`, never in `STATUS.md`; before verifying,
-    `grep -n` it for the lesson or fact and don't re-verify what is listed.
+    `grep -n` it and don't re-verify what is listed.
   - **Traps and intuition lessons are lighter**: reuse what their concept
     lessons verified; read the source only for a formula or figure not yet
-    in `VERIFIED.md` (grep, never read whole).
+    in `VERIFIED.md`.
   - Keep `STATUS.md` and `CONVENTIONS.md` short: Current under ~40 lines
-    (no per-lesson "Verified" lines: they go to `VERIFIED.md`), a convention is one or two lines (the
-    notation or number future lessons must reuse, not a lesson summary).
-    Compress a file when it grows. Don't repeat in a course file what this
-    file or `docs/` say.
+    (no per-lesson "Verified" lines), a convention is one or two lines (the
+    notation or number future lessons must reuse). Compress a file when it
+    grows. Don't repeat in a course file what this file or `docs/` say.
   - Agents run at the session's model at `effort: medium` (Igor's choice).
 - **End of every session:** validate, shots, update `STATUS.md` (Current
-  block, plus an entry of a few lines in `STATUS.log.md` ending "Conventions fixed here: …",
-  copied into the chapter's section of `CONVENTIONS.md`), commit and push,
-  then **give Igor a ready-to-paste prompt for the next session** naming the
-  course and the single next unit from `course.yaml`, with a ~10-line card
-  plan (hook, widget, key questions, summary) and the source lines to read.
+  block, plus an entry of a few lines in `STATUS.log.md` ending
+  "Conventions fixed here: …", copied into the chapter's section of
+  `CONVENTIONS.md`), commit and push, then **give Igor a ready-to-paste
+  prompt for the next session** naming the course and the single next unit
+  from `course.yaml`, with a ~10-line card plan (hook, widget, key
+  questions, summary) and the source lines to read.
 - **`STATUS.md` is edited only with `Edit`** (small `old_string`
   replacements), never `sed`/`python`/`perl`/scripts, never by rewriting the
   whole file (scripted edits corrupted it before). Replace Current line by
@@ -369,5 +318,4 @@ one unit of work**.
   `docs/AUTONOMOUS.md`.
 - **Engine changes** (shared): run `node tools/validate.mjs` (all courses)
   and shots on a lesson of each course; after a widget change also
-  `node tools/widget-smoke.mjs` (mounts every preset, clicks, drags,
-  reports page errors).
+  `node tools/widget-smoke.mjs`.

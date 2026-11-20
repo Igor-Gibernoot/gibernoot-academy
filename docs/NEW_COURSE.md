@@ -65,8 +65,8 @@ and worked examples, a traps round, an intuition round where formulas pile
 up, then map, review and challenge. Exams get their own levels: plan
 partial exams (`exam-partial`, or `exam-partial1`, `exam-partial2`, …) so no
 exam covers more than 6 chapter levels, and `exam-final` after the last
-chapter (planned nodes, no `file:`; rule in root `CLAUDE.md`, Exam),
-with or without a professor's exam (root `CLAUDE.md`, Exam). Copy the
+chapter (planned nodes, no `file:`; rule in `docs/EXAMS.md`),
+with or without a professor's exam (`docs/EXAMS.md`). Copy the
 header comment of `courses/diff-geometry-gr/course.yaml` for the format.
 
 ## 5. Course CLAUDE.md
