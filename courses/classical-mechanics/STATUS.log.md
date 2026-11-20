@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-20 ch01-traps (Intuition Traps, Level 1)
+Built 14 cards (hook, 12 mcq/numeric traps, summary text; no `own:`), no widget (traps are fast text rounds; the pictures already exist as widgets), images: none: every trap is answerable in words and a picture would add scroll or give the answer. Topics: puck, feather and hammer, station free fall (g about 8.7, approximate), Moon pull, lifeguard quickest route, stationary not least, action is a sum, state is position and speed, no self-crossing orbit, 2 pi wrap, friction cannot raise the swing, doubling error. Choices made: Moon card reuses 9.8/3600; chaos card is numeric (2^10 = 1000, 200 s); lifeguard numbers by script. Validate 0 errors, shots 0 problems.
+Conventions fixed here: none new.
+
 ## 2026-11-20 ch01-phase-space (Level 1, concept, 20 cards)
 Built `ch01/phase-space.yaml`: hook, state mcq, spring portrait (interactive), turning-point and loop-size mcqs, energy card, bottom-speed numeric (0.96), pendulum with contours, small-vs-wide mcq, near-top prediction, separatrix widget with presets, spin-push mcq, wrap mcq, friction widget and end-point mcq, no-crossing mcq, period order card, hill (fixedStart) and two-balls mcq (chaos teaser), summary with own and puzzle table. Images: none: no new person or experiment introduced and the widget side view already draws the pendulum. Verification: Taylor state-space page rendered (PDF 504); U = mgl(1 - cos phi) from OCR text only; periods by script. Choices: p = angular speed since m = l = g = 1; Taylor's plane is (phi, phi-dot), noted implicitly through "p is mass times speed". Lesson came out at 20 cards (one over the ideal-under-20 target).
 Conventions fixed here: pendulum units m = l = g = 1, E = p^2/2 + 1 - cos q, separatrix E = 2; periods 6.35 (q0 = 0.4), 7.30 (1.5), 16.16 (3, p = 0), spin p = 3 gives 2.41, spring 2 pi; bottom speed from q = 1 is 0.96.
