@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-20 ch22-challenge (challenge, 21 cards, 5 problems, no widget, images none: challenge, no portrait needed)
+Invented Ferrymen of Orel: four sentences and four jobs (Austin, Ayer), silent spirit (Flew, Hare, LR 3), analogy (Aquinas), myth (Lévi-Strauss, Bultmann, Gadamer circle), translation (Nida, Whorf), closing weigh card. Fits under 32, so no challenge-2. Widget judged unwarranted: conceptual. No `own:` (challenge). Web-checked this session, see VERIFIED.md.
+Conventions fixed here: none new.
+
 ## 2026-11-20 ch22-map (map, 9 boxes, 18 decoys, 11 cards, no widget)
 Boxes: what a sentence means (root), is a religious sentence a claim, speaking of God, metaphor/symbol/model, myth, ritual and performative speech, interpretation, translation, three layers (fact/debate/commitment; 9th box added by choice so the layers sit on the map). Two decoys per box, each one swapped or wrong attribution (sense/reference, Wittgensteins, Ayer both directions, Hare, Aquinas univocal, Pseudo-Dionysius as Acts convert, Tillich sign/symbol, Ricoeur word level, everyday 'myth', Bultmann deletes, misfire/abuse, Staal, Philo drops law, Gadamer removes prejudgments, Nida labels, strong Whorf established, layer misplacements). Widgets checked: none needed for map format. none: map (images). No new external facts; all reused from ch22 VERIFIED lines; removed Austin bystander example (unconfirmed) and soft-edited three feedback lines to stay inside verified facts. Checks: validate 0/0, shots 0 problems, final map viewed on desktop.
 Conventions fixed here: none new.
