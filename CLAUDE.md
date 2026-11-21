@@ -68,6 +68,14 @@ A new course is not done until it has all of these (`docs/NEW_COURSE.md`):
   language" above the sources). `sources:` is a list of `{who, what}` for main sources and
   authors (published works only: never `sources/` material such as the
   professor's notes or exams).
+- **Level `references:` (any course with more than one source):** each
+  level lists the works it was built from, with complete author names,
+  full title, publisher and year, and the chapter or sections used
+  (shown as a "References (n)" fold under the memory strip; format in
+  `docs/LESSON_FORMAT.md`). Take them from the course `CLAUDE.md` level
+  map; published works only, never `sources/` material; mark nothing you
+  could not pin to a specific work. Update the list when a lesson draws
+  on a new source. Single-source courses may skip it.
 - **Pixel character:** own `mascot:` sprite (16-wide grid plus two walk
   frames) in `js/pixel.js` `SPRITES`, set in `courses/catalog.yaml`.
 - **Pixel image:** own `banner:` scene (96 x 28) in `js/pixel.js`
