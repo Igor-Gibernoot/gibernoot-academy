@@ -23,6 +23,8 @@ levels:
     number: 2
     title: Vector Spaces
     blurb: One line shown under the level title.
+    references:                     # optional; shown as a "References (n)" fold under the level's memory strip
+      - "Full Name, *Full Title* (inline Markdown; complete author names)"
     lessons:
       - id: ch02-change-of-basis        # must equal the lesson file's id
         title: Same Arrow, Different Numbers

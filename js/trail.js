@@ -81,6 +81,10 @@ export async function renderTrail(root) {
         h('span', {}, `${done}/${counted.length} lessons`),
         levelAcc != null ? h('span', { class: 'acc', title: 'Average first-try accuracy in this level' }, `${pct(levelAcc)} accuracy`) : null) : null,
       masteryStrip(progress.deckCards(lessons.map(m => m.id))),
+      // Optional `references:` in the level: the works the level's content was checked against.
+      level.references?.length ? h('details', { class: 'level-refs' },
+        h('summary', {}, `References (${level.references.length})`),
+        h('ul', {}, level.references.map(r => h('li', { html: mdInline(r) })))) : null,
       // A level whose lessons are all built and done can be shared as a picture.
       counted.length && counted.every(m => m.file) && done === counted.length && entry
         ? h('button', { class: 'level-share', type: 'button', 'data-tip': 'Share a picture of this finished level', onclick: () => shareLevel({ course: entry, level, acc: levelAcc }) }, 'Share')
