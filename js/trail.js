@@ -22,6 +22,8 @@ function overviewBox(o) {
   return h('details', { class: 'overview', open: true },
     h('summary', {}, 'About this course'),
     h('p', { html: mdInline(o.text) }),
+    o.code ? h('h3', {}, 'Programming language') : null,
+    o.code ? h('p', { html: mdInline(o.code) }) : null,
     o.sources?.length ? h('h3', {}, 'Main sources') : null,
     o.sources?.length ? h('ul', {}, o.sources.map(s => h('li', {}, h('b', {}, s.who), ': ', h('span', { html: mdInline(s.what) })))) : null);
 }

@@ -63,7 +63,9 @@ A new course is not done until it has all of these (`docs/NEW_COURSE.md`):
   an engaging pitch for a curious newcomer: open with a question or hook,
   say what problem the subject solves, why it matters, who would love it,
   how the course teaches it (puzzles, guess first). No jargon, ~100 words,
-  no formulas. `sources:` is a list of `{who, what}` for main sources and
+  no formulas. Courses with code on cards also set `code:` (one or two
+  sentences naming the language and libraries, shown as "Programming
+  language" above the sources). `sources:` is a list of `{who, what}` for main sources and
   authors (published works only: never `sources/` material such as the
   professor's notes or exams).
 - **Pixel character:** own `mascot:` sprite (16-wide grid plus two walk
