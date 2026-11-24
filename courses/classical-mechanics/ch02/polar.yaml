@@ -1,0 +1,395 @@
+id: ch02-polar
+title: Newton in Polar Coordinates
+kind: concept
+own: |
+  Setting: a particle of mass $m$ moves in a plane. Its position is given by polar coordinates: $r$ is its distance from the origin $O$ and $\varphi$ is the angle measured up from the $x$ axis, so that $x = r\cos\varphi$ and $y = r\sin\varphi$. A dot is a time derivative, so $\dot\varphi$ is the angular velocity. The unit vector $\hat{\mathbf{r}}$ points the way $r$ grows (away from $O$) and $\hat{\boldsymbol{\varphi}}$ points the way $\varphi$ grows (counterclockwise); both turn as the particle moves.
+  - **Position and turning unit vectors.** The position is along $\hat{\mathbf{r}}$, and as $\varphi$ changes the two unit vectors rotate with it:
+    $$\mathbf{r} = r\,\hat{\mathbf{r}}$$
+    {{ $$\frac{d\hat{\mathbf{r}}}{dt} = \dot\varphi\,\hat{\boldsymbol{\varphi}}, \qquad \frac{d\hat{\boldsymbol{\varphi}}}{dt} = -\dot\varphi\,\hat{\mathbf{r}}$$ }}
+  - **Velocity** $\mathbf{v} = \dot{\mathbf{r}}$ has a radial part (how fast $r$ grows) and a tangential part (the rotation):
+    {{ $$\mathbf{v} = \dot r\,\hat{\mathbf{r}} + r\dot\varphi\,\hat{\boldsymbol{\varphi}}$$ }}
+  - **Acceleration** $\mathbf{a} = \ddot{\mathbf{r}}$ has four terms, the last one named after Coriolis:
+    {{ $$\mathbf{a} = \left(\ddot r - r\dot\varphi^2\right)\hat{\mathbf{r}} + \left(r\ddot\varphi + 2\dot r\dot\varphi\right)\hat{\boldsymbol{\varphi}}$$ }}
+    A particle at constant speed on a circle ($\dot r = 0$, $\ddot\varphi = 0$) still accelerates, by $-r\dot\varphi^2$ toward the centre, which is $v^2/r$ in size.
+  - **Second law in polar components.** With $F_r$ and $F_\varphi$ the components of the net force along $\hat{\mathbf{r}}$ and $\hat{\boldsymbol{\varphi}}$:
+    {{ $$F_r = m\left(\ddot r - r\dot\varphi^2\right)$$ }}
+    $$F_\varphi = m\left(r\ddot\varphi + 2\dot r\dot\varphi\right)$$
+    "Centripetal" is the name of this inward net force (for a stone on a string, the tension), not an extra force added to the others.
+cards:
+  - type: text
+    id: hook
+    title: A stone on a string
+    body: |
+      Tie a stone to a string and whirl it in a horizontal circle above your head. After a moment the stone circles at a **steady speed**: it covers equal arcs in equal times, and the string stays taut.
+
+      You can feel the string pulling on your hand, so something is going on. Before any formulas, ask what Newton's second law says here. Remember that a force is needed to change a velocity, and that the speed of the stone does not change.
+
+  - type: mcq
+    id: hook-guess
+    prompt: |
+      A stone whirls on a string in a horizontal circle at a steady speed. Is it accelerating?
+    options:
+      - text: 'Yes: its velocity changes all the time, because its direction changes'
+        correct: true
+      - text: 'No: its speed is constant, so its acceleration is zero'
+        feedback: |
+          Speed is only the size of the velocity. The velocity is a vector, and a vector that turns is a changing vector, even when its length stays the same.
+      - text: Only at the start, when the stone is set going
+        feedback: |
+          The start does need a push along the motion to build up the speed. But once at steady speed the direction keeps turning at every instant, so the velocity keeps changing.
+      - text: It depends on the length of the string
+        feedback: |
+          The string length changes how big the acceleration is, not whether there is one.
+    explanation: |
+      The acceleration is $\mathbf{a} = \dot{\mathbf{v}}$, the rate of change of the velocity vector, so a change in direction counts. The next card lets you watch it, and later cards give the number.
+
+  - type: widget
+    id: steady-circle
+    title: A particle on a circle
+    widget: polar-motion
+    config:
+      r0: 2
+      w0: 1
+      tmax: 6.3
+      sliders: [r0, w0]
+      ranges: { r0: [1, 3, 0.1], w0: [0.5, 2, 0.1] }
+      show:
+        unit: false
+        termArrows: false
+        position: true
+        velocity: true
+        accel: true
+      readouts: [speed, acc]
+      labels: { speed: 'Speed $v$', acc: 'Acceleration $a$', w0: 'Rate of turning $\dot\varphi$' }
+      units: { length: m, time: s }
+    body: |
+      A particle goes round a circle of radius $r$ about the origin $O$. The arrow $v$ is its velocity and $a$ its acceleration, and the line from $O$ is its position. The readouts give the size of each.
+
+      **Try:** press replay, then change the radius $r$ and the rate of turning $\dot\varphi$ (radians per second) and watch both arrows and both readouts.
+
+  - type: mcq
+    id: steady-circle-q
+    review: false
+    prompt: |
+      A particle goes round a circle at a steady speed, as in the widget. The speed readout stays at the same value. What does the acceleration arrow do?
+    options:
+      - text: It points toward the centre, at a right angle to the velocity, with a fixed size
+        correct: true
+      - text: It is zero, because the speed is constant
+        feedback: |
+          The readout for the acceleration is not zero, and its arrow is there at every instant. A constant speed does not make the acceleration vanish.
+      - text: It points along the velocity, because the particle keeps going that way
+        feedback: |
+          An acceleration along the velocity would change the speed. The speed is steady, so the acceleration has no part along the velocity.
+      - text: It points away from the centre
+        feedback: |
+          The velocity turns toward the inside of the circle, so the change in velocity points inward.
+    explanation: |
+      The acceleration is perpendicular to the velocity: it turns the velocity without changing its length. It points to the centre, and its size grows with $r$ and with the rate of turning, as the sliders showed. To say exactly how, we need coordinates that fit a circle.
+
+  - type: text
+    id: coordinates
+    title: Polar coordinates
+    body: |
+      Instead of the two distances $x$ and $y$, label a point in the plane by its distance $r$ from the origin $O$ and by the angle $\varphi$ (the Greek letter phi) measured up from the $x$ axis. These are the **polar coordinates**. They are linked to $x$ and $y$ by
+
+      $$x = r\cos\varphi, \qquad y = r\sin\varphi$$
+
+      and back again by
+
+      $$r = \sqrt{x^2 + y^2}, \qquad \varphi = \arctan\frac{y}{x}.$$
+
+      One care with the last formula: the points $(1, 1)$ and $(-1, -1)$ give the same ratio $y/x$ but opposite directions, so you must put $\varphi$ in the right quadrant yourself.
+
+      For a circle about $O$ these coordinates are ideal: $r$ is constant, and only $\varphi$ changes.
+
+  - type: numeric
+    id: coordinates-q
+    prompt: |
+      A particle is at $x = 3\ \mathrm{m}$, $y = 4\ \mathrm{m}$. What is its polar coordinate $r$, in metres?
+    answer: 5
+    tolerance: 0.001
+    wrong:
+      - { value: 7, feedback: 'That adds the two distances. $r$ is the straight-line distance from $O$, the hypotenuse of the right triangle with legs $x$ and $y$.' }
+    hint: Draw the right triangle with legs $x$ and $y$.
+    explanation: |
+      $r = \sqrt{3^2 + 4^2} = 5\ \mathrm{m}$, and $\varphi = \arctan(4/3) \approx 53.1^\circ$.
+
+  - type: text
+    id: unit-vectors
+    title: Unit vectors that turn
+    body: |
+      Cartesian coordinates come with the unit vectors $\hat{\mathbf{x}}$ and $\hat{\mathbf{y}}$, which are the same at every point of the plane. Polar coordinates get two new unit vectors, defined in the same spirit.
+
+      $\hat{\mathbf{r}}$ (read "r hat") is the unit vector pointing in the direction you move when $r$ grows and $\varphi$ stays fixed: straight away from $O$. It is the position vector divided by its length,
+
+      $$\hat{\mathbf{r}} = \frac{\mathbf{r}}{|\mathbf{r}|}.$$
+
+      $\hat{\boldsymbol{\varphi}}$ (read "phi hat") is the unit vector pointing in the direction you move when $\varphi$ grows and $r$ stays fixed: counterclockwise, at a right angle to $\hat{\mathbf{r}}$.
+
+      Here is the catch. $\hat{\mathbf{x}}$ and $\hat{\mathbf{y}}$ are fixed, but $\hat{\mathbf{r}}$ and $\hat{\boldsymbol{\varphi}}$ **change direction as the particle moves around**. This is what makes Newton's second law harder in polar coordinates. The position itself is simple:
+
+      $$\mathbf{r} = r\,\hat{\mathbf{r}}.$$
+
+  - type: mcq
+    id: unit-vectors-q
+    prompt: |
+      A particle is on the positive $y$ axis, at $x = 0$, $y = 2\ \mathrm{m}$. In which direction does $\hat{\boldsymbol{\varphi}}$ point there?
+    options:
+      - text: Toward negative $x$ (to the left)
+        correct: true
+      - text: Toward positive $x$ (to the right)
+        feedback: |
+          Moving to the right from the positive $y$ axis would decrease the angle $\varphi$, taking you toward the $x$ axis. $\hat{\boldsymbol{\varphi}}$ points the way $\varphi$ grows.
+      - text: Toward positive $y$ (up)
+        feedback: |
+          Up is the direction of $\hat{\mathbf{r}}$ at this point, along which $r$ grows. $\hat{\boldsymbol{\varphi}}$ is perpendicular to it.
+      - text: Along $\hat{\mathbf{y}}$, because $\hat{\boldsymbol{\varphi}}$ is the same everywhere
+        feedback: |
+          That is true of $\hat{\mathbf{x}}$ and $\hat{\mathbf{y}}$, but not of $\hat{\mathbf{r}}$ and $\hat{\boldsymbol{\varphi}}$, which turn from point to point.
+    explanation: |
+      On the positive $x$ axis $\hat{\boldsymbol{\varphi}}$ points up, on the positive $y$ axis it points left, on the negative $x$ axis down: it turns with the particle, always counterclockwise and always at a right angle to $\hat{\mathbf{r}}$.
+
+  - type: text
+    id: unit-rate
+    title: How fast does r-hat turn?
+    body: |
+      To differentiate $\mathbf{r} = r\hat{\mathbf{r}}$ in time we must know how $\hat{\mathbf{r}}$ changes. Let the particle move for a short time $\Delta t$, so that its angle grows by a small $\Delta\varphi$. The vector $\hat{\mathbf{r}}$ turns through $\Delta\varphi$ but keeps length $1$, so its tip moves along a piece of a unit circle of length $\Delta\varphi$. That piece is almost straight and at a right angle to $\hat{\mathbf{r}}$, which is the direction of $\hat{\boldsymbol{\varphi}}$. Hence
+
+      $$\Delta\hat{\mathbf{r}} \approx \Delta\varphi\,\hat{\boldsymbol{\varphi}}.$$
+
+      Dividing by $\Delta t$ and letting $\Delta t \to 0$ gives the rate of turning of $\hat{\mathbf{r}}$:
+
+      $$\frac{d\hat{\mathbf{r}}}{dt} = \dot\varphi\,\hat{\boldsymbol{\varphi}}.$$
+
+      It points along $\hat{\boldsymbol{\varphi}}$ and is proportional to $\dot\varphi$, as you would expect: no rotation, no change.
+
+  - type: mcq
+    id: phi-hat-turn
+    prompt: |
+      Now follow $\hat{\boldsymbol{\varphi}}$ instead. When the angle $\varphi$ grows by a small $\Delta\varphi$, the vector $\hat{\boldsymbol{\varphi}}$ also turns by $\Delta\varphi$, counterclockwise, keeping length $1$. In which direction does its change $\Delta\hat{\boldsymbol{\varphi}}$ point?
+    options:
+      - text: Toward $-\hat{\mathbf{r}}$, inward
+        correct: true
+      - text: Toward $+\hat{\mathbf{r}}$, outward
+        feedback: |
+          Take $\hat{\boldsymbol{\varphi}}$ pointing up, on the positive $x$ axis. Turning it counterclockwise tilts it to the left, which is toward $-\hat{\mathbf{x}}$, and that is the inward direction there.
+      - text: Toward $+\hat{\boldsymbol{\varphi}}$, along itself
+        feedback: |
+          A change along $\hat{\boldsymbol{\varphi}}$ would change its length. A unit vector that only turns changes at a right angle to itself.
+      - text: There is no change, because its length stays $1$
+        feedback: |
+          Length stays $1$, but direction does not. A change in direction alone is already a change of the vector.
+    explanation: |
+      The change is perpendicular to $\hat{\boldsymbol{\varphi}}$ and, by the same small-arc argument, of size $\Delta\varphi$, so
+      $$\frac{d\hat{\boldsymbol{\varphi}}}{dt} = -\dot\varphi\,\hat{\mathbf{r}}.$$
+      Take this result as given for now.
+
+  - type: build
+    id: velocity-build
+    prompt: |
+      Differentiate the position $\mathbf{r} = r\,\hat{\mathbf{r}}$ in time with the product rule. Both $r$ and $\hat{\mathbf{r}}$ depend on $t$. Build the result.
+    prefix: '\dot{\mathbf{r}} ='
+    tiles: ['\dot r\,\hat{\mathbf{r}}', '+', 'r\,\dfrac{d\hat{\mathbf{r}}}{dt}', '\dot r\,\dfrac{d\hat{\mathbf{r}}}{dt}', 'r\,\hat{\mathbf{r}}']
+    answers:
+      - ['\dot r\,\hat{\mathbf{r}}', '+', 'r\,\dfrac{d\hat{\mathbf{r}}}{dt}']
+    wrong:
+      - answer: ['\dot r\,\hat{\mathbf{r}}']
+        feedback: 'That treats $\hat{\mathbf{r}}$ as constant, as $\hat{\mathbf{x}}$ is. But $\hat{\mathbf{r}}$ turns, and the product rule has a second term for it.'
+    hint: Product rule on $r$ times $\hat{\mathbf{r}}$.
+    explanation: |
+      The product rule gives $\dot{\mathbf{r}} = \dot r\,\hat{\mathbf{r}} + r\,\dfrac{d\hat{\mathbf{r}}}{dt}$: the first term is how $r$ changes, the second how $\hat{\mathbf{r}}$ turns.
+
+  - type: text
+    id: velocity
+    title: Velocity in polar components
+    body: |
+      Put $d\hat{\mathbf{r}}/dt = \dot\varphi\,\hat{\boldsymbol{\varphi}}$ into the product-rule result and the velocity $\mathbf{v} = \dot{\mathbf{r}}$ is
+
+      $$\mathbf{v} = \dot r\,\hat{\mathbf{r}} + r\dot\varphi\,\hat{\boldsymbol{\varphi}}.$$
+
+      Its polar components, along $\hat{\mathbf{r}}$ and $\hat{\boldsymbol{\varphi}}$, are
+
+      $$v_r = \dot r, \qquad v_\varphi = r\dot\varphi.$$
+
+      The radial part says how fast the particle moves away from $O$. The tangential part is the circle's speed: at distance $r$, turning at $\dot\varphi$ radians per second, the particle sweeps an arc $r\dot\varphi$ every second. Often $\omega = \dot\varphi$ is called the angular velocity, so $v_\varphi = r\omega$.
+
+      For the stone at steady speed, $r$ is constant, so $\dot r = 0$ and the velocity is purely along $\hat{\boldsymbol{\varphi}}$ with size $r\dot\varphi$.
+
+  - type: text
+    id: acceleration
+    title: Acceleration has four terms
+    body: |
+      The acceleration $\mathbf{a} = \ddot{\mathbf{r}}$ is the derivative of $\mathbf{v}$, and now the product rule acts on each of the two terms of $\mathbf{v}$, with both $d\hat{\mathbf{r}}/dt = \dot\varphi\,\hat{\boldsymbol{\varphi}}$ and $d\hat{\boldsymbol{\varphi}}/dt = -\dot\varphi\,\hat{\mathbf{r}}$ at work. Collecting the terms, the result is
+
+      $$\mathbf{a} = \left(\ddot r - r\dot\varphi^2\right)\hat{\mathbf{r}} + \left(r\ddot\varphi + 2\dot r\dot\varphi\right)\hat{\boldsymbol{\varphi}}.$$
+
+      Its components are
+
+      $$a_r = \ddot r - r\dot\varphi^2, \qquad a_\varphi = r\ddot\varphi + 2\dot r\dot\varphi.$$
+
+      Four terms, each with a meaning:
+
+      - $\ddot r$: the radial speed changing.
+      - $-r\dot\varphi^2$: the centripetal term, inward because of the minus sign.
+      - $r\ddot\varphi$: the rotation speeding up or slowing down.
+      - $2\dot r\dot\varphi$: the Coriolis term, which appears only when the particle both moves radially and rotates. It is harder to picture; it comes back in the study of rotating frames.
+
+      The full step-by-step derivation is the later lesson "Guided Proof: Acceleration in Polar Coordinates". Here we use the result.
+
+  - type: widget
+    id: four-terms
+    title: The four terms
+    widget: polar-motion
+    config:
+      r0: 1
+      rd0: 0.3
+      w0: 1.2
+      tmax: 3
+      scale: 55
+      sliders: [rd0, w0, alpha, rdd]
+      ranges: { rd0: [0, 1, 0.1], w0: [0, 2, 0.1], alpha: [-1, 1, 0.1], rdd: [-1, 1, 0.1] }
+      toggles: [rdd, cent, phidd, cor]
+      show:
+        unit: true
+        termArrows: true
+        aComps: true
+        position: true
+        scrub: true
+      readouts: [r, vr, vphi, ar, aphi]
+      labels:
+        rd0: 'Start $\dot r$'
+        w0: 'Start $\dot\varphi$'
+        alpha: '$\ddot\varphi$'
+        rdd: '$\ddot r$'
+      presets:
+        - { label: Steady circle, r0: 1, rd0: 0, rdd: 0, w0: 1.2, alpha: 0 }
+        - { label: Spiral out, r0: 1, rd0: 0.3, rdd: 0, w0: 1.2, alpha: 0 }
+        - { label: Speeding up, r0: 1, rd0: 0, rdd: 0, w0: 1, alpha: 0.5 }
+        - { label: Radial line, r0: 1, rd0: 0.5, rdd: 0, w0: 0, alpha: 0 }
+        - { label: Radial push, r0: 1, rd0: 0, rdd: 0.4, w0: 0, alpha: 0 }
+    body: |
+      The acceleration arrow $a$ is the sum of four term arrows: $\ddot r$ and $-r\dot\varphi^2$ stacked along $\hat{\mathbf{r}}$, and $r\ddot\varphi$ and $2\dot r\dot\varphi$ stacked along $\hat{\boldsymbol{\varphi}}$. The dashed arrows are the components $a_r$ and $a_\varphi$.
+
+      **Try:** choose the preset **Steady circle** and switch the four terms off one at a time. Then try **Speeding up**, **Radial line**, **Radial push** and **Spiral out**, and note which terms are present in each.
+
+  - type: mcq
+    id: terms-q
+    review: false
+    prompt: |
+      Which of the four terms of the acceleration are nonzero for a particle on a circle ($\dot r = 0$, $\ddot r = 0$) at a steady rate of turning ($\ddot\varphi = 0$)?
+    options:
+      - text: Only $-r\dot\varphi^2$
+        correct: true
+      - text: All four of them
+        feedback: |
+          Three of the terms contain $\ddot r$, $\dot r$ or $\ddot\varphi$, and all three of those are zero here.
+      - text: None of them, since the speed is constant
+        feedback: |
+          The centripetal term $-r\dot\varphi^2$ has no $\dot r$ or $\ddot\varphi$ in it, so it survives. Constant speed does not mean zero acceleration.
+      - text: Only $2\dot r\dot\varphi$
+        feedback: |
+          The Coriolis term needs $\dot r \ne 0$. On a circle $\dot r = 0$, so it vanishes.
+    explanation: |
+      With $\dot r = \ddot r = \ddot\varphi = 0$ the acceleration is $\mathbf{a} = -r\dot\varphi^2\,\hat{\mathbf{r}}$ alone: it points inward and has no tangential part, as you saw in the first widget.
+
+  - type: numeric
+    id: centripetal-q
+    prompt: |
+      The stone circles at a steady rate $\dot\varphi = 1.5\ \mathrm{rad/s}$ on a circle of radius $r = 2\ \mathrm{m}$. Using $a_r = \ddot r - r\dot\varphi^2$, find the radial component $a_r$, in $\mathrm{m/s^2}$. Mind the sign.
+    answer: -4.5
+    wrong:
+      - { value: 4.5, feedback: 'The size is right, but $a_r$ is the component along $\hat{\mathbf{r}}$, which points outward. The acceleration points inward, so $a_r$ is negative.' }
+      - { value: 3, feedback: 'That is the speed $r\dot\varphi$. The term needed is $r\dot\varphi^2$, with the square on $\dot\varphi$ only.' }
+    hint: With $\ddot r = 0$, $a_r = -r\dot\varphi^2$.
+    explanation: |
+      $a_r = -r\dot\varphi^2 = -2 \times 1.5^2 = -4.5\ \mathrm{m/s^2}$. The speed is $v = r\dot\varphi = 3\ \mathrm{m/s}$, and $v^2/r = 9/2 = 4.5$, the same size. So the stone **does** accelerate, at $4.5\ \mathrm{m/s^2}$ toward the centre, at constant speed. That resolves the opening question: the speed is steady, but the velocity vector keeps turning, and the rate of that turning is the acceleration.
+
+  - type: text
+    id: second-law
+    title: The second law in polar components
+    body: |
+      The second law is $\mathbf{F} = m\mathbf{a}$ for the net force $\mathbf{F}$ on a particle of mass $m$. Write the net force along the same unit vectors, $\mathbf{F} = F_r\hat{\mathbf{r}} + F_\varphi\hat{\boldsymbol{\varphi}}$, and compare components with the acceleration:
+
+      $$F_r = m\left(\ddot r - r\dot\varphi^2\right)$$
+
+      $$F_\varphi = m\left(r\ddot\varphi + 2\dot r\dot\varphi\right)$$
+
+      Compare this with Cartesian components, where $F_x = m\ddot x$ is the whole story for $x$. In polar components the two equations are mixed: $F_r$ involves $\dot\varphi$, and $F_\varphi$ involves $\dot r$. That is the price for unit vectors that turn. The reward is that a problem with a circle or a centre often has a very simple force in polar components, as the stone shows.
+
+  - type: text
+    id: worked
+    title: Tension in the string
+    body: |
+      A stone of mass $m = 0.2\ \mathrm{kg}$ circles on a string of length $r = 0.5\ \mathrm{m}$ at a steady $\dot\varphi = 4\ \mathrm{rad/s}$. We find the tension $T$ in the string, ignoring gravity and air resistance.
+
+      The second law in the radial direction, for the net force component $F_r$ along $\hat{\mathbf{r}}$:
+
+      $$F_r = m\left(\ddot r - r\dot\varphi^2\right).$$
+
+      The length is fixed, so $\ddot r = 0$ and $F_r = -m r\dot\varphi^2$.
+
+      The speed is $v = r\dot\varphi = 0.5 \times 4 = 2\ \mathrm{m/s}$. The radial acceleration is
+
+      $$a_r = -r\dot\varphi^2 = -0.5 \times 16 = -8\ \mathrm{m/s^2},$$
+
+      which is $v^2/r = 4/0.5 = 8$ in size, as it must be. The net radial force is then
+
+      $$F_r = m a_r = 0.2 \times (-8) = -1.6\ \mathrm{N}.$$
+
+      The only horizontal force on the stone is the pull of the string, directed inward, so $F_r = -T$ and $T = 1.6\ \mathrm{N}$. In the other direction, $F_\varphi = m(r\ddot\varphi + 2\dot r\dot\varphi) = 0$: nothing pushes the stone along its path, and nothing needs to.
+
+  - type: numeric
+    id: worked-q
+    prompt: |
+      A stone of mass $m = 0.2\ \mathrm{kg}$ circles on a string of length $r = 0.5\ \mathrm{m}$. The rate of turning is doubled to $\dot\varphi = 8\ \mathrm{rad/s}$ and kept steady. With $F_r = m(\ddot r - r\dot\varphi^2)$ and $\ddot r = 0$, what is the tension in the string, in newtons?
+    answer: 6.4
+    wrong:
+      - { value: 3.2, feedback: 'That doubles the tension. But $\dot\varphi$ enters squared in $r\dot\varphi^2$, so doubling $\dot\varphi$ multiplies the tension by four.' }
+      - { value: -6.4, feedback: 'Here $F_r = -6.4\ \mathrm{N}$ is the component along $\hat{\mathbf{r}}$, which is negative because the pull is inward. The tension $T$ is the size of the pull, positive.' }
+    hint: Tension is $T = -F_r$ with $F_r = -m r\dot\varphi^2$.
+    explanation: |
+      $T = m r\dot\varphi^2 = 0.2 \times 0.5 \times 64 = 6.4\ \mathrm{N}$, four times the $1.6\ \mathrm{N}$ at $4\ \mathrm{rad/s}$. Doubling the rate of turning at fixed radius quadruples the pull needed.
+
+  - type: mcq
+    id: centripetal-force
+    prompt: |
+      The stone circles at a steady speed on a string, and gravity is ignored. A friend draws the forces on it: the tension $T$ pointing to the centre, plus a second arrow labelled "centripetal force" pointing to the centre, and says the net force is the sum. What is wrong?
+    options:
+      - text: '"Centripetal force" is the name of the net inward force, here the tension itself, so adding it counts the same pull twice'
+        correct: true
+      - text: 'Nothing: a circle needs the string pull and also a centripetal force'
+        feedback: |
+          Only one body, the string, pulls on the stone. A second arrow would need a second agent pushing or pulling, and there is none.
+      - text: The tension should point outward, away from the centre
+        feedback: |
+          The string pulls the stone toward your hand. The force on the stone is inward, and the stone pulls the string outward, a different force on a different body.
+      - text: There should be an outward arrow too, because the stone is moving in a circle
+        feedback: |
+          An outward arrow would make the net inward force smaller than $m r\dot\varphi^2$. In a frame that is not accelerating there is no outward force on the stone; the felt outward effect belongs to rotating frames, which come later in the course.
+    explanation: |
+      Newton's second law says that the net force along $\hat{\mathbf{r}}$ equals $m a_r = -m r\dot\varphi^2$. We found that a force of this size and direction is needed; here the string provides it. "Centripetal" says what the net force does (points to the centre), not where it comes from. Always list the real forces first, then check that their sum has the right radial component.
+
+  - type: mcq
+    id: constant-speed
+    prompt: |
+      True or false: "if a particle moves at constant speed, its acceleration is zero."
+    options:
+      - text: False. The velocity is a vector, so a change in direction at constant speed is an acceleration, for example $-r\dot\varphi^2$ on a circle
+        correct: true
+      - text: True. The acceleration is the rate of change of the speed
+        feedback: |
+          That defines the rate of change of the speed. The acceleration is the rate of change of the velocity vector, which also changes with direction.
+      - text: True for circles, since $v_\varphi = r\dot\varphi$ is constant when $r$ and $\dot\varphi$ are
+        feedback: |
+          $v_\varphi$ is constant on a steady circle, but the unit vector $\hat{\boldsymbol{\varphi}}$ in $\mathbf{v} = v_\varphi\hat{\boldsymbol{\varphi}}$ keeps turning, and its turning gives $-r\dot\varphi^2\hat{\mathbf{r}}$ in the acceleration.
+      - text: False, but only when a force acts on the particle
+        feedback: |
+          The acceleration and the net force go together by the second law, so a nonzero acceleration here means a net force, and a net force means a nonzero acceleration. They never come apart.
+    explanation: |
+      Zero acceleration needs a velocity vector that is constant in both size and direction. A particle on a circle has a constant speed and a turning direction, so $\mathbf{a} \ne 0$ and, by the second law, a net force $m\mathbf{a}$ acts on it.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** you used the acceleration in polar components without deriving it all. The lesson "Guided Proof: Acceleration in Polar Coordinates" derives it, one differentiation at a time.
