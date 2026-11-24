@@ -41,6 +41,7 @@ const WIDGETS = {
   'bike-balance': ['bike-balance', 'bikeBalance'],
   'lever-balance': ['lever-balance', 'leverBalance'],
   'friction-stop': ['friction-stop', 'frictionStop'],
+  'two-body-push': ['two-body-push', 'twoBodyPush'],
   'newton-cannon': ['newton-cannon', 'newtonCannon'],
   'least-action-path': ['least-action-path', 'leastActionPath'],
   'phase-portrait': ['phase-portrait', 'phasePortrait'],

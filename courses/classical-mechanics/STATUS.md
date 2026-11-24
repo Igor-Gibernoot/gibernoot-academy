@@ -14,7 +14,8 @@
 - **Level 1 audited (2026-11-24):** signs, numbers, level references, summaries, intro rules fixed; validate and shots clean.
 - **Built:** `ch02-space-time` (Level 2, concept, 21 cards, basis-playground, no image).
 - **Built:** `ch02-inertia` (Level 2, concept, 22 cards, friction-stop, Galileo portrait).
-- **Next unit:** new widget `two-body-push` (needed by `ch02-third-law`; no lesson in that session), then `ch02-third-law` (`ch01-review` is automatic).
+- **Widget `two-body-push` built** (docs/widgets/two-body-push.md): masses m1, m2, force pulse and its opposite, F(t), p1, p2, P plots, third-law toggle (P drifts), optional external force.
+- **Next unit:** `ch02-third-law` (`ch01-review` is automatic). The unit after the Level 2 concept lessons that needs a new widget: `incline-block` (for `ch02-cartesian`; build it first, own session).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
