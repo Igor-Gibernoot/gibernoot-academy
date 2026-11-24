@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-23 ch25-meaning (Is There Meaning?)
+19 cards (plan ~19): hook four lives (Titian Sisyphus image), guess, of vs in life, sort, three theories, grass mcq, Wolf build, Sisyphus two versions, Frankl (image), Frankl mcq, Nagel, Nagel mcq, what each needs table, needs mcq, tempting step, feeling vs being, case (multi), parting, summary with 6 blanks. No widget: checked docs/widgets/README.md, none fits (all are physics, probability, or mind models; nothing models meaning). Images: Titian Sisyphus (PD), Frankl 1965 (CC BY-SA 3.0 de). Choices: Murdoch dropped (no confirmed link); Taylor, Nagel, Frankl wording only 'in essence' because primary texts were unreadable PDFs; Wolf quote only as SEP quotes it. Conventions fixed here: see CONVENTIONS Chapter 25.
+
 ## 2026-11-23 ch24-challenge (26 cards, one part)
 Case: invented 45-year-old with an invented progressive illness, ten years. Problems: nihilism replies (order, believer, nonbeliever), three routes to calm plus apatheia trap, death with decision-matrix once (hypothetical gamble, invented points, p* = 40/340), Camus/Nagel/Beauvoir stances, James genuine option, closing layers, plain "What you now own" card (no own:, as the validator and ch23 challenge convention say). Choices: Nagel "The Absurd" year omitted (JSTOR 1971 vs SEP 1970), James year omitted, Beauvoir quote paraphrased, Camus's three consequences paraphrased (secondary only). Widget screenshot viewed once, fine. No images: none, case invented and thinkers already pictured. Conventions fixed here: hypothetical gamble payoffs 400/60 vs 100 (p* = 40/340 about 0.118); patient called "the person".
 
