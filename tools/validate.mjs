@@ -124,6 +124,12 @@ function checkStatus(dir) {
     const vl = existsSync(vf) ? readFileSync(vf, 'utf8').split('\n') : [];
     for (const i of vl.flatMap((l, j) => (/^- /.test(l) ? [j] : []))) {
       const hits = new Set((vl[i].match(/UNVERIFIED|\bmemory\b|standard knowledge|\(standard\)|, standard\b|not re-fetched|typical values?\b(?![^;.]*web:)/gi) ?? []).map(s => s.toLowerCase()));
+      // Lines dated after 2026-11-24 (or marked 'strength tags') follow WEB_SEARCH.md items 9 and 10.
+      const dm = vl[i].match(/\b(20\d\d-\d\d-\d\d)\b/);
+      if (dm && (dm[1] > '2026-11-24' || /strength tags?/i.test(vl[i])) && /web:|Recheck/i.test(vl[i])) {
+        if (!/\bread\b|snippet only|wikipedia only/i.test(vl[i])) warn('VERIFIED.md', `line ${i + 1} has no strength tags (read, snippet only, wikipedia only; docs/WEB_SEARCH.md item 9)`);
+        if (/NOT CONFIRMED/.test(vl[i]) && !/candidates:/i.test(vl[i])) warn('VERIFIED.md', `line ${i + 1} has NOT CONFIRMED items but no "candidates:" links (docs/WEB_SEARCH.md item 10)`);
+      }
       if (hits.size) warn('VERIFIED.md', `line ${i + 1} has items not web-checked (${[...hits].join(', ')}); check them by web and mark "web: <source>" (course CLAUDE.md, Web check)`);
     }
   }
