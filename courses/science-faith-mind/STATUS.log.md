@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-24 ch24-absurd built
+Concept lesson, 16 cards, no widget (re-checked docs/widgets/README.md: no widget on meaning, absurdity or freedom; a conceptual survey). Images: Beauvoir new (Milner 1967, CC BY-SA 3.0), Kierkegaard reused; Sartre only recalled by title (no portrait). Camus: none, `none: no free portrait` (PD-France, PD-US and PD-Sweden files refused by the tool; the one CC BY-SA file was a publisher book cover, rejected as a copyrighted cover). Web-checked, see VERIFIED.md. Conventions fixed here: Camus's absurd = relation of demand D and silence S (D + S => absurd); two exits (physical suicide, philosophical suicide = leap) each with a premise; revolt, freedom, passion paraphrased (no quotation marks), only 'One must imagine Sisyphus happy' quoted; Kierkegaard's 'leap of faith' flagged as a later label, not in SEP; Camus denied the existentialist label. Next: ch24-absurd-proof.
+
 ## 2026-11-23 ch24-nihilism built
 Concept lesson, 19 cards, no widget (checked docs/widgets/README.md: no widget fits a conceptual diagnosis and replies; none about meaning or values). Images: one new, nietzsche (Hartmann c.1875, PD-old); the 1882 Schultze portrait was refused by the fetch tool (PD-US-expired only). Web-checked, see VERIFIED.md. Conventions fixed here: nihilism = four kinds (existential, moral, epistemological, political); Nietzsche's chain P1 values rested on God, P2 belief collapsed, C values lose ground (valid; believers reject P2, nonbelievers P1 or the step); GS 125 quotes in Kaufmann, Zarathustra in Common ('Superman' only inside Common quotes, 'Overman' otherwise); meaning made (Sartre) vs found (objectivists) vs felt/grounded (Wolf hybrid via SEP). Next: ch24-absurd.
 
