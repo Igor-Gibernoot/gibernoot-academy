@@ -56,3 +56,10 @@ it at once). **A fact is "unconfirmed" only after every step below fails.**
     `candidates: <url or search phrase>; <url or search phrase>` so a later
     pass or the user can check it quickly. Britannica-only items go to the
     paste list with the search phrase to find the entry.
+11. **Try every candidate link.** A `candidates:` link is a to-do, not a
+    note. When you have one, open it (WebFetch, or search for it by title and
+    open the hit) before writing "NOT CONFIRMED", in a new lesson and in a
+    review of an old one. Only a link that fails (403, 404, paywall, no
+    matching text) may stay in `candidates:`, with the failure in `tried:`.
+    Never leave a reachable link unopened. When a lesson is rechecked, first
+    try every `candidates:` link already in its `VERIFIED.md` line.
