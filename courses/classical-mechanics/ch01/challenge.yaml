@@ -14,7 +14,7 @@ cards:
       - **Lagrange's picture.** Give each possible path a number, the **action** $S = \int L\,dt$ with $L = T - V$ (kinetic energy minus potential energy). The real path makes $S$ stationary, which means that nearby paths change $S$ only slightly. Light does something similar with time: it takes the quickest route.
       - **Hamilton's picture.** Draw the state as one point on a map: position $q$ across, momentum $p$ up (here $p$ is the velocity, for a unit mass). The motion is a curve on this map, and the energy $E$ stays the same along it.
 
-      Three problems now: a satellite that skims the ground, a lifeguard racing to a swimmer, and a pendulum that gets a kick.
+      Five problems now: a satellite that skims the ground, a lifeguard racing to a swimmer, a pendulum that gets a kick, a thrown ball judged by its action, and a ball on a hilltop.
 
   # ---------------------------------------------------------------- Problem 1
   - type: widget
@@ -247,3 +247,214 @@ cards:
       Friction only removes energy. The energy starts above $2$ and ends at $0$.
     explanation: |
       Friction drains energy, so on the map the orbit moves from one level curve to a lower one. It cannot cross the separatrix back upwards: once the energy is below $2$ the bob can no longer reach the top, and the motion changes from spinning to swinging. The point $(0, 0)$ is the only place where the pendulum can stay, and it is where the spiral ends.
+
+  # ---------------------------------------------------------------- Problem 4
+  - type: widget
+    id: p4-setup
+    title: 'Problem 4: a rule for the whole path'
+    widget: least-action-path
+    config:
+      mode: path
+      t0: 0
+      t1: 3
+      y0: 0
+      y1: 0
+      yMin: -1
+      yMax: 16
+      points: 1
+      m: 1
+      g: 10
+      start: [9]
+      hideTrue: true
+      units: {time: 's', distance: 'm', action: 'J s'}
+      readouts: [S]
+      show: {snap: false}
+    body: |
+      A ball of mass $1\ \mathrm{kg}$ is thrown from the ground and caught on the ground $3\ \mathrm{s}$ later. Gravity gives $10\ \mathrm{m/s^2}$. Here you do not use the force. Drag the middle point to change the **peak height** of the path (a parabola through the two fixed events), and watch the action $S = \int (T - V)\,dt$. Which peak gives the lowest number? Guess, then try a few heights.
+
+  - type: numeric
+    id: p4-s9
+    prompt: |
+      A ball of mass $1\ \mathrm{kg}$ is thrown from the ground and caught on the ground $3\ \mathrm{s}$ later. Take the parabola $y(t) = a\,t(3 - t)$ with $a = 4\ \mathrm{m/s^2}$, whose peak is $9\ \mathrm{m}$ high, at $t = 1.5\ \mathrm{s}$. The action is $S = \int_0^3 \left(\tfrac12 \dot y^2 - 10\,y\right) dt$, in $\mathrm{J\,s}$. What is $S$?
+    answer: -108
+    tolerance: 0.5
+    answerText: '-108'
+    wrong:
+      - { value: 108, feedback: 'The sign is off. The kinetic part is $+72$ and the potential part is $+180$, and $S$ is kinetic minus potential.' }
+      - { value: 72, feedback: 'That is only the kinetic part, $\int \tfrac12 \dot y^2\,dt$. Subtract the potential part, $\int 10\,y\,dt = 180$.' }
+    hint: |
+      Here $\dot y = a(3 - 2t)$, so $\int_0^3 \dot y^2\,dt = 9a^2$, and $\int_0^3 y\,dt = 4.5\,a$. Put $a = 4$.
+    explanation: |
+      The kinetic part is $\tfrac12 \cdot 9a^2 = 72\ \mathrm{J\,s}$ and the potential part is $10 \times 4.5a = 180\ \mathrm{J\,s}$, so
+      $$S = 72 - 180 = -108\ \mathrm{J\,s}.$$
+      For any $a$ the same integrals give $S(a) = 4.5\,a^2 - 45\,a$.
+
+  - type: mcq
+    id: p4-s135
+    prompt: |
+      A $1\ \mathrm{kg}$ ball goes from the ground at $t = 0$ back to the ground at $t = 3\ \mathrm{s}$ along a parabola, with $g = 10\ \mathrm{m/s^2}$. The parabola with peak $9\ \mathrm{m}$ has action $S = -108\ \mathrm{J\,s}$. For the higher parabola with peak $13.5\ \mathrm{m}$, how does the action compare?
+    options:
+      - text: It is the same, $-108\ \mathrm{J\,s}$
+        correct: true
+      - text: It is lower, since the ball does more work against gravity
+        feedback: |
+          A higher path has a larger potential part, but also a larger kinetic part, because the ball must move faster to climb higher in the same time. The two changes happen to balance for these two peaks.
+      - text: It is higher, because the ball moves faster
+        feedback: |
+          Faster means more kinetic energy, true, but the potential part grows too and is subtracted. The total is not simply bigger.
+      - text: It is $1.5$ times as large, in proportion to the peak
+        feedback: |
+          $S$ is not proportional to the peak: the kinetic part goes as the peak squared and the potential part as the peak, so $S$ is a quadratic function of the peak.
+    explanation: |
+      With the family $y = a\,t(3 - t)$ (peak $2.25\,a$), $S(a) = 4.5\,a^2 - 45\,a$. For $a = 6$, which is peak $13.5\ \mathrm{m}$, $S = 162 - 270 = -108\ \mathrm{J\,s}$, the same as for $a = 4$. The picture of $S$ against the peak is a parabola opening upward, and two peaks of equal action sit on both sides of its lowest point.
+
+  - type: numeric
+    id: p4-peak
+    prompt: |
+      A $1\ \mathrm{kg}$ ball goes from the ground to the ground in $3\ \mathrm{s}$, with $g = 10\ \mathrm{m/s^2}$. Along the parabolas with peak $h$, the action is a quadratic function of $h$ with a lowest point, and the peaks $9\ \mathrm{m}$ and $13.5\ \mathrm{m}$ have the same action. Where is the lowest point of that function? That peak makes the action stationary, so it is the peak of the real path. Give $h$ in metres.
+    answer: 11.25
+    tolerance: 0.02
+    answerText: '11.25'
+    wrong:
+      - { value: 22.5, feedback: 'That is the sum of the two peaks. The lowest point of a symmetric curve is at the average of two points of equal height, so divide by $2$.' }
+    hint: |
+      A parabola is symmetric about its lowest point, so two points at the same height lie at equal distances on both sides.
+    explanation: |
+      The midpoint of $9$ and $13.5$ is $11.25\ \mathrm{m}$. In the $a$ variable, $dS/da = 9a - 45 = 0$ gives $a = 5$, and the peak is $2.25 \times 5 = 11.25\ \mathrm{m}$. The action picked the real path out of the family without a single force.
+
+  - type: numeric
+    id: p4-newton
+    prompt: |
+      Check with Newton's picture. A ball leaves the ground going straight up at speed $v_0$ and is caught on the ground $3\ \mathrm{s}$ later, with gravity $g = 10\ \mathrm{m/s^2}$ and no air. The speed changes at the rate $g$, so at the top it is $0$ after $1.5\ \mathrm{s}$. What is the peak height, in metres?
+    answer: 11.25
+    tolerance: 0.02
+    answerText: '11.25'
+    hint: |
+      The ball rises for $1.5\ \mathrm{s}$ while the speed drops from $v_0$ to $0$ at the rate $10\ \mathrm{m/s^2}$, so $v_0 = 15\ \mathrm{m/s}$. Then the rise is the average speed times the time.
+    explanation: |
+      $v_0 = 10 \times 1.5 = 15\ \mathrm{m/s}$, the average speed on the way up is $7.5\ \mathrm{m/s}$, and the rise is $7.5 \times 1.5 = 11.25\ \mathrm{m}$. Both pictures give the same path. For this peak $S = 4.5(25) - 45(5) = -112.5\ \mathrm{J\,s}$, the lowest of this family.
+
+  - type: mcq
+    id: p4-mass
+    prompt: |
+      The same throw (ground to ground in $3\ \mathrm{s}$, $g = 10\ \mathrm{m/s^2}$) is made with a ball of mass $2\ \mathrm{kg}$ instead of $1\ \mathrm{kg}$. Every action doubles, because $L = T - V$ is proportional to the mass. What happens to the peak of the real path?
+    options:
+      - text: It stays $11.25\ \mathrm{m}$, since doubling every action does not move the stationary point
+        correct: true
+      - text: It doubles, because the ball is heavier
+        feedback: |
+          A heavier ball does not rise higher: gravity pulls twice as hard but there is twice the mass to move, so the acceleration is still $g$. In the action, the lowest point of a curve does not move when all its values are doubled.
+      - text: It halves, because the heavier ball is harder to throw
+        feedback: |
+          Hard to throw means a bigger kick for the same speed, not a lower flight. With the same two events, the path is the same.
+      - text: It cannot be said without knowing the kick
+        feedback: |
+          The two events (ground at $0$ and ground at $3\ \mathrm{s}$) already fix the path. The kick that does it is part of the answer, not an extra input.
+    explanation: |
+      Doubling $m$ doubles $S(a)$ to $9a^2 - 90a$, which is still lowest at $a = 5$. The path does not depend on the mass, as Galileo found for falling bodies, and here it comes out of the action in one line.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: widget
+    id: p5-setup
+    title: 'Problem 5: the ball on the hilltop'
+    widget: phase-portrait
+    config:
+      system: hill
+      q: 0.1
+      p: 0
+      fixedStart: true
+      speed: 1
+      readouts: [q, time, E]
+      show: {contours: true, ticks: true, buttons: true, sliders: false}
+      labels: {figure: 'The position-momentum plane of a ball on an inverted bowl, and the ball beside it'}
+    body: |
+      A ball of mass $1$ sits on top of a smooth round hill, a little to one side, at $q = 0.1$ (position along the ground), at rest. Its potential energy is $V = -\tfrac12 q^2$, so the energy is $E = \tfrac12 p^2 - \tfrac12 q^2$. Watch it go, and watch the curve it draws on the map. The symbols $q$ and $p$ label position and momentum; they are not powers.
+
+  - type: mcq
+    id: p5-force
+    prompt: |
+      A ball of mass $1$ on a smooth hill with potential energy $V = -\tfrac12 q^2$ ($q$ the position along the ground) is released at rest at $q = 0.1$. The force on it is $F = -dV/dq$. As the ball moves away from $q = 0$, what does the push do?
+    options:
+      - text: It grows in proportion to $q$, so the ball speeds up away from the top ever faster
+        correct: true
+      - text: It stays the same, so the ball moves with a steady acceleration
+        feedback: |
+          A steady push would need $V$ linear in $q$. Here $V = -\tfrac12 q^2$ gives $F = +q$, which depends on where the ball is.
+      - text: It shrinks, because the ground is flatter near the top
+        feedback: |
+          The ground is flattest exactly at the top, but the ball leaves the top, and the farther it goes the steeper the hill gets. The push grows.
+      - text: It points back to the top, like a spring
+        feedback: |
+          A spring has $V = +\tfrac12 q^2$, which gives $F = -q$, towards the centre. Here the minus sign sits in $V$ and the force points away.
+    explanation: |
+      $F = -\dfrac{d}{dq}\left(-\tfrac12 q^2\right) = q$, so Newton's law reads $\ddot q = q$. A displacement makes a push in the same direction, which makes a bigger displacement: the top is an unstable balance point.
+
+  - type: numeric
+    id: p5-time
+    prompt: |
+      A ball of mass $1$ on a smooth hill with $V = -\tfrac12 q^2$ obeys $\ddot q = q$. Released at rest from $q_0 = 0.1$, its position is $q(t) = q_0 \cosh t$, where $\cosh t = \tfrac12(e^t + e^{-t})$. How long, in the time unit of the picture, does it take to reach $q = 2$?
+    answer: 3.69
+    tolerance: 0.02
+    answerText: '3.69'
+    wrong:
+      - { value: 20, feedback: 'You solved $q_0\,t = 2$, as if the ball moved at a steady speed. Here the speed grows, and the position follows $q_0\cosh t$.' }
+      - { value: 2.99, feedback: 'You took $e^t = 20$, ignoring the $e^{-t}$ part. For large $t$ that is nearly right but it misses by $\ln 2$: the equation is $\cosh t = 20$, and $\cosh t \approx e^t/2$, so $e^t \approx 40$.' }
+    hint: |
+      Solve $0.1\cosh t = 2$, so $\cosh t = 20$. For large $t$, $\cosh t \approx e^t/2$, so $e^t \approx 40$.
+    explanation: |
+      $\cosh t = 20$ gives $t = \ln\!\left(20 + \sqrt{399}\right) = 3.69$. The reader can check this on the picture: the ball takes a few time units to leave a hill that looked flat at the start.
+
+  - type: numeric
+    id: p5-hundred
+    prompt: |
+      A ball of mass $1$ on a smooth hill, $V = -\tfrac12 q^2$, obeys $\ddot q = q$, so released at rest from $q_0$ it is at $q_0 \cosh t$. From $q_0 = 0.1$ it reaches $q = 2$ after $3.69$ time units. Now release it from a start $100$ times closer to the top, $q_0 = 0.001$. How many time units **longer** does it take to reach $q = 2$?
+    answer: 4.61
+    tolerance: 0.05
+    answerText: '4.61'
+    wrong:
+      - { value: 369, feedback: 'You scaled the time by $100$. The distance to the top shrank by $100$, but the position grows exponentially, so the delay is added, not multiplied.' }
+      - { value: 8.29, feedback: 'That is the total time for $q_0 = 0.001$. The question asks for the extra time compared with the $3.69$ for $q_0 = 0.1$.' }
+    hint: |
+      For large $t$, $q \approx \tfrac12 q_0\,e^t$, so reaching $q = 2$ needs $e^t \approx 4/q_0$. Taking the logarithm, the time grows by $\ln(100)$ when $q_0$ falls by $100$.
+    explanation: |
+      $\cosh t = 2000$ gives $t = 8.29$, and $8.29 - 3.69 = 4.61 \approx \ln 100$. A start a hundred times closer to the top delays the departure by only about $4.6$ time units. The ball always leaves, and when it does, almost nothing in the future depends on the tiny offset except the **side** it falls to. This is why a pencil balanced on its tip is hopeless: the state at the start must be known to absurd precision.
+
+  - type: mcq
+    id: p5-creep
+    prompt: |
+      A ball of mass $1$ on a smooth hill, $V = -\tfrac12 q^2$, has energy $E = \tfrac12 p^2 - \tfrac12 q^2$. It starts at $q = 0.5$ moving towards the top with momentum $p = -0.5$. Then $E = 0$, the same as the energy of sitting still on the top. What does the ball do?
+    options:
+      - text: It slows down and creeps towards the top, getting closer for ever without reaching it
+        correct: true
+      - text: It reaches the top after a finite time and stays there
+        feedback: |
+          The solution is $q = 0.5\,e^{-t}$, which is positive at every finite time. A ball with the same energy as the top gets as near as you like and never arrives, as the pendulum does on its separatrix.
+      - text: It goes over the top and rolls down the other side
+        feedback: |
+          Going over needs more energy than the top has. The ball has exactly as much, so it has none to spare.
+      - text: It turns back at once and rolls away from the top
+        feedback: |
+          The force does push it away from the top, so it slows down, but its speed falls just as fast as the push shrinks with the distance. The solution $q = 0.5\,e^{-t}$ never turns back.
+    explanation: |
+      The solution of $\ddot q = q$ with $q(0) = 0.5$ and $\dot q(0) = -0.5$ is $q = 0.5\,e^{-t}$. On the map it is the straight line $p = -q$, one of the lines $E = 0$ that cross at the unstable point. These lines are the separatrices of this system. A tiny change of the start tips the ball to one side or the other, and it leaves.
+
+  # ---------------------------------------------------------------- Wrap-up
+  - type: text
+    id: wrap-up
+    title: What you now own
+    body: |
+      Level 1 asked how to predict motion, with three pictures of one world. The challenge used all three. The setting: one particle of mass $m$ moving along one direction, position $q$ (or height $y$), momentum $p = m\dot q$, potential energy $V$.
+
+      - **Newton's picture**: the state (position and velocity at one instant) and a force give the whole future.
+      $$m\ddot q = F = -\frac{dV}{dq}$$
+      It fixed the skimming satellite ($v_c = \sqrt{gR} \approx 7.9\ \mathrm{km/s}$, a lap of about $84$ minutes) and the ball on the hilltop, where $V = -\tfrac12 q^2$ gives $\ddot q = q$ and a start at distance $q_0$ takes a time about $\ln(4/q_0)$ to reach $q = 2$.
+      - **Lagrange's picture**: each path has one number, the action, and the real path makes it stationary.
+      $$S = \int_{t_1}^{t_2} L\,dt, \qquad L = T - V$$
+      with $T = \tfrac12 m\dot y^2$ the kinetic energy.
+      It gave the thrown ball without forces (peak $11.25\ \mathrm{m}$ in $3\ \mathrm{s}$, independent of the mass) and, for light, the lifeguard's quickest route, which obeys
+      $$\frac{\sin\theta_1}{v_1} = \frac{\sin\theta_2}{v_2}.$$
+      - **Hamilton's picture**: the state is one point on the map of $(q, p)$, and the motion follows a level curve of the energy.
+      $$E = \frac{p^2}{2m} + V(q)$$
+      The kicked pendulum with $E = \tfrac12 p^2 + 1 - \cos q$ swings if $E < 2$, spins if $E > 2$, and sits on the separatrix at $E = 2$. The hill has the lines $E = 0$, along which the ball creeps to the top and never gets there.
+
+      **Next:** Level 2 returns to Newton's laws and asks what they say, what a force is, and what a frame of reference has to do with them. The level review will bring back the questions of this level in a spaced order.

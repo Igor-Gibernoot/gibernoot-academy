@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-24 ch01-challenge, part 2 (problems 4-5, wrap-up)
+Appended 12 cards (file now 27): P4 thrown ball judged by action (least-action-path, 1 control point, hideTrue; S(a) = 4.5a^2 - 45a, peaks 9 and 13.5 m both -108, real peak 11.25 m, Newton check, mass-independence); P5 ball on a hilltop (phase-portrait `hill`, q0 = 0.1; force +q, q0 cosh t: 3.69 to reach q = 2, 100x closer adds 4.61, E = 0 creeping line); plain wrap-up card with formulas (no `own:`, challenge). Intro text now says five problems. Choice made: wrap-up is a text card, as in other challenges. Images: none: problems are abstract (action, hill), no person or real object worth a picture. Checks: validate 0 errors 0 warnings; shots 0 problems after splitting one over-wide displayed formula.
+Conventions fixed here: thrown ball T = 3 s, g = 10, y = a t(3-t), S(a) = 4.5a^2 - 45a, real peak 11.25 m; hill q = q0 cosh t, times 3.69 and 8.29.
+
 ## 2026-11-20 ch01-challenge, part 1 (problems 1-3)
 Built `ch01/challenge.yaml` (15 cards): intro with the three-picture toolkit; P1 skimming satellite (newton-cannon, h = 0: v_c = sqrt(gR) = 7.9 km/s, lap 84.4 min, 1.2 v_c lap about 2.4 times longer); P2 lifeguard (least-action-path fermat, A (0,12), B (20,-8), 5 and 1.5 m/s: straight 10.94 s, best x = 17.94 m, 9.82 s, sin ratio 10/3, water 2.5 m/s gives x = 16.47, 7.57 s); P3 kicked pendulum (phase-portrait fixedStart q = 0, p = 1.6: E = 1.28, max angle 106.3 deg, separatrix kick p = 2, order card on friction from p = 2.5). Part 2 will append problems 4-5 and the summary card (budget: 32 cards total, 17 left). Images: none, no free image fits a problem set (answers must not be shown, nothing new introduced). Choices: widgets reused, no new one; P2 widget shows the Reveal/best button (guess-first stated in text). Conventions fixed here: lifeguard geometry above; P3 start p = 1.6.
 

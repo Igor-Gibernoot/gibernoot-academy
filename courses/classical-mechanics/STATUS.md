@@ -10,8 +10,8 @@
 - **Widget `phase-portrait` built** (docs/widgets/phase-portrait.md): (q, p) plane of pendulum / spring / hill; click-to-start, energy contour or damped spiral, side view in sync, contours, separatrix, E and period readouts.
 - **Built:** `ch01-traps` (Level 1, 14 cards, no widget, no image).
 - **Built:** `ch01-map` (Level 1 content map, 9 boxes in three columns: Lagrange, Newton, Hamilton).
-- **Built:** `ch01-challenge` part 1 (15 cards: intro, problems 1-3: skimming satellite, lifeguard, kicked pendulum). File has no summary card yet.
-- **Next unit:** `ch01-challenge` part 2: append problems 4-5 and the closing summary card (file stays at most 32 cards); `ch01-review` is automatic.
+- **Built:** `ch01-challenge` complete (27 cards: problems 1-5 = skimming satellite, lifeguard, kicked pendulum, thrown ball by action, ball on a hilltop; plain wrap-up card). Level 1 is fully built.
+- **Next unit:** Level 1 audit by the coordinator, then `ch02-space-time` (`ch01-review` is automatic).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
