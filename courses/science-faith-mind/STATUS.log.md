@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-23 ch24-nihilism built
+Concept lesson, 19 cards, no widget (checked docs/widgets/README.md: no widget fits a conceptual diagnosis and replies; none about meaning or values). Images: one new, nietzsche (Hartmann c.1875, PD-old); the 1882 Schultze portrait was refused by the fetch tool (PD-US-expired only). Web-checked, see VERIFIED.md. Conventions fixed here: nihilism = four kinds (existential, moral, epistemological, political); Nietzsche's chain P1 values rested on God, P2 belief collapsed, C values lose ground (valid; believers reject P2, nonbelievers P1 or the step); GS 125 quotes in Kaufmann, Zarathustra in Common ('Superman' only inside Common quotes, 'Overman' otherwise); meaning made (Sartre) vs found (objectivists) vs felt/grounded (Wolf hybrid via SEP). Next: ch24-absurd.
+
 ## 2026-11-23 ch24-essence built
 Concept lesson, 18 cards, no widget (checked docs/widgets/README.md: no widget fits a conceptual contrast of Aristotle, Aquinas and Sartre; a card sort would add nothing). Images: aristotle (Altemps bust, PD) and sartre (1967, CC BY 3.0) new; Aquinas already in the course, not repeated. Web-checked, see VERIFIED.md. Conventions fixed here: essence = what a thing is, existence = that it is; knife order essence then existence for all three; Aquinas real distinction (phoenix), God essence = existence; Sartre 1945 lecture published 1946, nature denied, condition affirmed; bad faith glossed per SEP and dated 1943; critic replies to Sartre: reject P2 (believers) or reject P1 (naturalists); Mayr typological vs population thinking hedged.
 
