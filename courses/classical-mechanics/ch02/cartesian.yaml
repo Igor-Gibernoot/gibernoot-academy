@@ -1,0 +1,415 @@
+id: ch02-cartesian
+title: 'Guided Problem: A Block on an Incline'
+kind: guided
+cards:
+  - type: text
+    id: hook
+    title: Does a heavy block slide more easily?
+    body: |
+      Put a block on a wooden ramp and tilt the ramp slowly. At some angle the block lets go and slides. Now ask two questions, and guess before any theory. Does a **heavy** block start to slide at a smaller angle than a **light** one of the same material? And once both are sliding, which one speeds up faster?
+
+      This lesson solves the problem completely, from the forces on the block to its position at any time. It is the model for most problems you will meet: choose axes, write the second law $\mathbf{F} = m\ddot{\mathbf{r}}$ along each axis, and let the forces tell you the motion.
+
+  - type: mcq
+    id: hook-guess
+    prompt: |
+      Two blocks of the same wood, one of $10\ \mathrm{kg}$ and one of $1\ \mathrm{kg}$, are released together on the same rough slope, and both slide. What do you expect?
+    options:
+      - text: The heavy block speeds up faster, because gravity pulls it harder
+        feedback: |
+          Gravity does pull the heavy block harder, but the heavy block also has more mass to accelerate. Keep both effects in view until the numbers decide.
+      - text: The light block speeds up faster, because friction grips the heavy block harder
+        feedback: |
+          Friction is larger for the heavy block too, but so is the pull of gravity along the slope. Which one wins is a question for the equations.
+      - text: They speed up alike
+        correct: true
+    explanation: |
+      They speed up alike. Every force on the block, gravity and friction, is proportional to $m$, so $m$ cancels from the second law. You will see exactly where.
+
+  - type: widget
+    id: tilt
+    title: Tilt the slope
+    widget: incline-block
+    config:
+      angle: 10
+      mus: 0.5
+      muk: 0.2
+      mass: 1
+      sliders: [angle]
+      ranges: { angle: [0, 60, 1] }
+      readouts: [mucrit, state]
+      show:
+        weight: false
+        normal: false
+        friction: false
+        net: false
+        along: false
+        across: false
+        aPlot: false
+        vPlot: false
+        xPlot: false
+        labels: false
+      labels:
+        mucrit: 'tan of the angle'
+        mus: 'static coefficient'
+      presets:
+        - { label: Gentle, angle: 10 }
+        - { label: Steep, angle: 45 }
+    body: |
+      A block rests on a slope tilted by an angle $\theta$. The surface has a coefficient $\mu_s = 0.5$ (the **static** coefficient: how strongly it grips a block at rest). The readout shows the number $\tan\theta$ and whether the block holds or slides.
+
+      **Try:** raise the angle slowly from $0^\circ$ and find the angle where the block lets go. Then compare with $\tan\theta$.
+
+  - type: numeric
+    id: tilt-q
+    review: false
+    prompt: |
+      A block rests on a slope whose surface has static coefficient $\mu_s = 0.5$. Using whole degrees, what is the smallest angle $\theta$ at which it slides?
+    answer: 27
+    tolerance: 0.001
+    answerText: '27'
+    wrong:
+      - { value: 30, feedback: 'The block lets go earlier than that. At $30^\circ$ it is already sliding, so check smaller angles.' }
+      - { value: 45, feedback: 'You are thinking of $\tan 45^\circ = 1$. The block lets go when $\tan\theta$ reaches $\mu_s = 0.5$, not $1$.' }
+    hint: Watch the readout. The block lets go when $\tan\theta$ passes $0.5$.
+    explanation: |
+      The block holds while $\tan\theta \le 0.5$ and slides after that. $\tan 26^\circ = 0.488$ and $\tan 27^\circ = 0.510$, so the first whole angle that slides is $27^\circ$ (exactly, $\arctan 0.5 = 26.57^\circ$). Notice that the mass never entered. The rest of the lesson shows why.
+
+  - type: text
+    id: axes
+    title: Choose the frame
+    body: |
+      A block of mass $m$ is released from rest on a slope at angle $\theta$ above the horizontal, with kinetic coefficient of friction $\mu_k$. How far does it travel in time $t$?
+
+      The first job is the frame. Put the origin at the block's starting position and $t = 0$ at the moment of release. Then point one axis **down the slope**, one **normal to the slope**, and the third **across the slope**:
+
+      - the $x$ axis points down the slope,
+      - the $y$ axis is normal to the slope, pointing away from it,
+      - the $z$ axis is across the slope, horizontal.
+
+      Because Cartesian unit vectors $\hat{\mathbf{x}}, \hat{\mathbf{y}}, \hat{\mathbf{z}}$ never turn, the second law $\mathbf{F} = m\ddot{\mathbf{r}}$ splits into three one-dimensional laws:
+
+      $$F_x = m\ddot x$$
+      $$F_y = m\ddot y$$
+      $$F_z = m\ddot z$$
+
+  - type: mcq
+    id: axes-why
+    prompt: |
+      A block slides down a slope. Two forces on it are unknown: the normal force $\mathbf{N}$ and the friction $\mathbf{f}$. Why is it best to point $x$ down the slope and $y$ normal to it, instead of $x$ horizontal and $y$ vertical?
+    options:
+      - text: Then the block moves along $x$ only, and each unknown force has a single nonzero component
+        correct: true
+      - text: Horizontal and vertical axes would break Newton's second law
+        feedback: |
+          The law holds in any Cartesian axes. A bad choice only makes the algebra longer, since both $x$ and $y$ then vary, and $\mathbf{N}$ and $\mathbf{f}$ each have two components.
+      - text: Axes along the slope make gravity disappear
+        feedback: |
+          Gravity stays. It is the same vector, but in these axes it splits into a part along the slope and a part into it, and that split is what we compute next.
+    explanation: |
+      The block slides straight down the slope, so only $x$ changes, and $\mathbf{N}$ lies along $y$ while $\mathbf{f}$ lies along $-x$. Each unknown costs one equation or none.
+
+  - type: widget
+    id: components
+    title: Split the weight
+    widget: incline-block
+    config:
+      angle: 30
+      mus: 0.5
+      muk: 0.2
+      sliders: [angle]
+      ranges: { angle: [0, 60, 1] }
+      readouts: []
+      show:
+        weight: true
+        normal: false
+        friction: false
+        net: false
+        along: true
+        across: true
+        aPlot: false
+        vPlot: false
+        xPlot: false
+        readouts: false
+        replay: false
+      labels:
+        fWeight: 'w'
+        fAlong: 'w_x'
+        fAcross: '|w_y|'
+    body: |
+      The weight $\mathbf{w} = m\mathbf{g}$ points straight down. The two dashed arrows are its components along $x$ (down the slope) and along $y$ (into the slope).
+
+      **Try:** change the angle. At $0^\circ$ the slope is flat, and at $60^\circ$ it is steep. Watch which component grows and which shrinks.
+
+  - type: build
+    id: wx
+    prefix: 'w_x ='
+    prompt: |
+      The weight has magnitude $mg$, and the slope makes an angle $\theta$ with the horizontal. The component of the weight along the slope (the $x$ component, down the slope) is
+    tiles: ['m', 'g', '\sin\theta', '\cos\theta', '\tan\theta']
+    answers:
+      - ['m', 'g', '\sin\theta']
+      - ['m', '\sin\theta', 'g']
+      - ['g', 'm', '\sin\theta']
+      - ['g', '\sin\theta', 'm']
+      - ['\sin\theta', 'm', 'g']
+      - ['\sin\theta', 'g', 'm']
+    wrong:
+      - answer: ['m', 'g', '\cos\theta']
+        feedback: |
+          That is the component into the slope. Check the limits: on a flat slope ($\theta = 0$) nothing pulls the block along $x$, so the along-slope part must vanish at $\theta = 0$. $\sin 0 = 0$, $\cos 0 = 1$.
+    hint: At $\theta = 0$ the slope is flat and the weight has no part along it. At $\theta = 90^\circ$ the block falls freely and the whole weight is along it.
+    explanation: |
+      $w_x = mg\sin\theta$. It is $0$ on the flat and the full $mg$ on a vertical wall, as the widget showed. The other component, into the slope, is $mg\cos\theta$ in size.
+
+  - type: text
+    id: normal
+    title: Nothing happens in $z$, and $y$ gives the normal force
+    body: |
+      **Across the slope.** There is no force along $z$, so $F_z = m\ddot z = 0$. The block starts from rest, so $\dot z = 0$ and $z = 0$ for all time: the motion stays in the $xy$ plane, as we would guess.
+
+      **Into the slope.** The block does not jump off the slope or sink into it, so $y$ stays constant and $\ddot y = 0$. Then the net force along $y$ is zero. Two forces have a $y$ component: the normal force $+N$ (away from the slope) and the weight, whose $y$ component has size $mg\cos\theta$ and points into the slope. So
+
+      $$F_y = N - mg\cos\theta = 0$$
+
+  - type: build
+    id: normal-build
+    prefix: 'N ='
+    prompt: |
+      The second law along $y$ gives $F_y = N - mg\cos\theta = 0$. The normal force on the block is therefore
+    tiles: ['m', 'g', '\cos\theta', '\sin\theta', 'w']
+    answers:
+      - ['m', 'g', '\cos\theta']
+      - ['m', '\cos\theta', 'g']
+      - ['g', 'm', '\cos\theta']
+      - ['g', '\cos\theta', 'm']
+      - ['\cos\theta', 'm', 'g']
+      - ['\cos\theta', 'g', 'm']
+    wrong:
+      - answer: ['m', 'g', '\sin\theta']
+        feedback: |
+          $mg\sin\theta$ is the part of the weight along the slope. The normal force balances the part into the slope, $mg\cos\theta$.
+    hint: The normal force cancels the part of the weight that presses into the slope.
+    explanation: |
+      $N = mg\cos\theta$. It is smaller than $mg$ on a slope, and it shrinks as the slope gets steeper: on a vertical wall ($\theta = 90^\circ$) it is zero.
+
+  - type: text
+    id: friction
+    title: Two kinds of friction
+    body: |
+      Friction acts along the slope and **opposes the sliding**, so it lies along $-x$. Its size depends on whether the block moves.
+
+      A **sliding** block feels kinetic friction, of size proportional to the normal force:
+
+      $$f = \mu_k N$$
+
+      with $\mu_k$ the kinetic coefficient. A block at **rest** feels static friction, which is only as large as needed to stop the motion, up to a maximum:
+
+      $$f \le \mu_s N$$
+
+      Static friction is not equal to $\mu_s N$ in general. It adjusts: on a slope that the block does not slide down, it balances the pull along the slope exactly.
+
+  - type: numeric
+    id: static-f
+    prompt: |
+      A $2\ \mathrm{kg}$ block rests on a slope at $\theta = 20^\circ$ with $\mu_s = 0.5$, so it does not slide. Take $g = 9.8\ \mathrm{m/s^2}$. What is the friction force on it, in newtons?
+    answer: 6.7
+    tolerance: 0.02
+    answerText: '6.7'
+    wrong:
+      - { value: 9.22, feedback: 'That is $\mu_s N$, the largest friction the surface could give. The block is at rest, so friction takes only the value that stops it, here the pull along the slope.' }
+    hint: At rest, $\ddot x = 0$, so the net force along $x$ is zero. Friction balances the part of the weight along the slope.
+    explanation: |
+      At rest $F_x = w_x - f = 0$, so $f = mg\sin\theta = 2 \times 9.8 \times \sin 20^\circ = 6.70\ \mathrm{N}$. The maximum available is $\mu_s N = 0.5 \times 2 \times 9.8 \times \cos 20^\circ = 9.22\ \mathrm{N}$, which is more than the pull, so the block holds.
+
+  - type: build
+    id: xddot
+    prefix: '\ddot x ='
+    prompt: |
+      The block slides, so the second law along $x$ reads $mg\sin\theta - \mu_k N = m\ddot x$, with $N = mg\cos\theta$. Cancel the mass $m$ and write the acceleration down the slope.
+    tiles: ['g\sin\theta', 'g\cos\theta', '\mu_k g\cos\theta', '\mu_k g\sin\theta', '-', '+']
+    answers:
+      - ['g\sin\theta', '-', '\mu_k g\cos\theta']
+    wrong:
+      - answer: ['g\sin\theta', '+', '\mu_k g\cos\theta']
+        feedback: |
+          Friction opposes the sliding, so it lies along $-x$ and is subtracted from the pull $mg\sin\theta$.
+      - answer: ['g\sin\theta', '-', '\mu_k g\sin\theta']
+        feedback: |
+          Friction is $\mu_k N$ and $N = mg\cos\theta$, so friction contains a cosine. The sine belongs to the pull of gravity along the slope.
+    hint: Substitute $N$ into $f = \mu_k N$, then divide the whole equation by $m$.
+    explanation: |
+      $$\ddot x = g\,(\sin\theta - \mu_k\cos\theta)$$
+      The mass cancelled because both the pull along the slope and the friction are proportional to $m$.
+
+  - type: text
+    id: integrate
+    title: Integrate twice
+    body: |
+      The acceleration is a constant, $a = g(\sin\theta - \mu_k\cos\theta)$. The block starts from rest at the origin, so $\dot x = 0$ and $x = 0$ at $t = 0$. Integrating once, then twice, with those zero constants:
+
+      $$\dot x = g(\sin\theta - \mu_k\cos\theta)\,t$$
+
+      $$x(t) = \tfrac12\, g(\sin\theta - \mu_k\cos\theta)\,t^2$$
+
+      The solution has a clean structure. The second law along $z$ and $y$ told us there is no motion there and fixed $N$ and $f$. The second law along $x$ then gave the acceleration, and two integrations gave the motion. The mass is absent from the answer.
+
+  - type: widget
+    id: whole
+    title: The whole problem
+    widget: incline-block
+    config:
+      angle: 30
+      mus: 0.5
+      muk: 0.2
+      mass: 2
+      sliders: [angle, mus, muk]
+      ranges: { angle: [0, 60, 1], mus: [0, 1.2, 0.05], muk: [0, 1.2, 0.05] }
+      readouts: [mucrit, state, a, x, friction]
+      show:
+        weight: true
+        normal: true
+        friction: true
+        net: true
+        along: false
+        across: false
+        aPlot: true
+        vPlot: false
+        xPlot: true
+      labels:
+        fWeight: 'w'
+        fNormal: 'N'
+        fFric: 'f'
+        fNet: 'F'
+      presets:
+        - { label: Wood, angle: 30, mus: 0.5, muk: 0.2 }
+        - { label: Sticky, angle: 30, mus: 0.7, muk: 0.6 }
+        - { label: Ice, angle: 30, mus: 0.1, muk: 0.05 }
+    body: |
+      A $2\ \mathrm{kg}$ block on a slope, with all four forces: weight $\mathbf{w}$, normal force $\mathbf{N}$, friction $\mathbf{f}$ and the net force $\mathbf{F}$. The curves show the acceleration and the distance slid down the slope.
+
+      **Try:** at the start, find $\mu_s$ high enough that the block holds (the net force vanishes). Then lower the angle until the block sticks.
+
+  - type: mcq
+    id: threshold
+    prompt: |
+      A block rests on a slope at angle $\theta$. It starts to slide when the pull along the slope, $mg\sin\theta$, exceeds the largest static friction, $\mu_s N = \mu_s mg\cos\theta$. Which condition on $\theta$ and $\mu_s$ results?
+    options:
+      - text: '$\tan\theta > \mu_s$, independent of the mass'
+        correct: true
+      - text: '$\sin\theta > \mu_s$, independent of the mass'
+        feedback: |
+          Dividing $mg\sin\theta > \mu_s mg\cos\theta$ by $mg\cos\theta$ leaves $\sin\theta/\cos\theta = \tan\theta$, not $\sin\theta$. The cosine in the friction does not disappear.
+      - text: '$\tan\theta > \mu_s$ only for a light block, since a heavy block needs a steeper slope'
+        feedback: |
+          Both sides of $mg\sin\theta > \mu_s mg\cos\theta$ contain $m$, so it divides out. A heavy block lets go at the same angle as a light one of the same material.
+    explanation: |
+      $mg\sin\theta > \mu_s mg\cos\theta$ gives $\tan\theta > \mu_s$. The angle where a block first slides measures $\mu_s$ directly: $\mu_s = \tan\theta_{\text{crit}}$, no scale needed, and the mass drops out. That answers the first half of the hook: the heavy block does not start sooner.
+
+  - type: text
+    id: case
+    title: A numeric case
+    body: |
+      Now put numbers in. A block of mass $m = 2\ \mathrm{kg}$ is released from rest on a slope at $\theta = 30^\circ$, with kinetic coefficient $\mu_k = 0.2$ (the slope is steep enough: $\tan 30^\circ = 0.577$ exceeds a static $\mu_s$ of $0.5$). Take $g = 9.8\ \mathrm{m/s^2}$. We use the results found above, restated here.
+
+      $$N = mg\cos\theta$$
+
+      $$f = \mu_k N$$
+
+      $$\ddot x = g(\sin\theta - \mu_k\cos\theta)$$
+
+      $$x(t) = \tfrac12\,\ddot x\,t^2$$
+
+      We will compute one quantity at a time, in that order.
+
+  - type: numeric
+    id: case-f
+    prompt: |
+      A $2\ \mathrm{kg}$ block slides down a $30^\circ$ slope with $\mu_k = 0.2$, $g = 9.8\ \mathrm{m/s^2}$. Using $N = mg\cos\theta$ and $f = \mu_k N$, what is the friction force, in newtons?
+    answer: 3.39
+    tolerance: 0.01
+    answerText: '3.39'
+    wrong:
+      - { value: 1.96, feedback: 'That uses $mg$ in place of $N$, giving $\mu_k mg$. The normal force is smaller on a slope: $N = mg\cos\theta$.' }
+    hint: First $N = 2 \times 9.8 \times \cos 30^\circ$, with $\cos 30^\circ = 0.866$. Then multiply by $0.2$.
+    explanation: |
+      $N = 2 \times 9.8 \times 0.866 = 16.97\ \mathrm{N}$, then $f = 0.2 \times 16.97 = 3.39\ \mathrm{N}$.
+
+  - type: numeric
+    id: case-a
+    prompt: |
+      Same block and slope: $m = 2\ \mathrm{kg}$, $\theta = 30^\circ$, $\mu_k = 0.2$, $g = 9.8\ \mathrm{m/s^2}$. Using $\ddot x = g(\sin\theta - \mu_k\cos\theta)$, what is the acceleration down the slope, in $\mathrm{m/s^2}$?
+    answer: 3.2
+    tolerance: 0.01
+    answerText: '3.2'
+    wrong:
+      - { value: 4.9, feedback: 'That is $g\sin\theta$, the acceleration with no friction. Subtract the friction term $\mu_k g\cos\theta$.' }
+      - { value: 1.6, feedback: 'That would be the acceleration with the block mass $m = 2$ left in the denominator. The mass cancelled, so do not divide by it again.' }
+    hint: $\sin 30^\circ = 0.5$ and $\cos 30^\circ = 0.866$.
+    explanation: |
+      $\ddot x = 9.8\,(0.5 - 0.2 \times 0.866) = 9.8\,(0.5 - 0.173) = 9.8 \times 0.327 = 3.20\ \mathrm{m/s^2}$. Check with forces: the net force is $mg\sin\theta - f = 9.8 - 3.39 = 6.41\ \mathrm{N}$, and $6.41/2 = 3.20$.
+
+  - type: numeric
+    id: case-x
+    prompt: |
+      The block accelerates at $\ddot x = 3.2\ \mathrm{m/s^2}$ down the slope, starting from rest at $x = 0$. Using $x(t) = \tfrac12\,\ddot x\,t^2$, how far has it slid after $t = 2\ \mathrm{s}$, in metres?
+    answer: 6.4
+    tolerance: 0.02
+    answerText: '6.4'
+    wrong:
+      - { value: 12.8, feedback: 'That is $\ddot x\,t^2$, without the factor $\tfrac12$ that comes from integrating twice.' }
+    hint: $t^2 = 4$, then half of $3.2 \times 4$.
+    explanation: |
+      $x(2) = \tfrac12 \times 3.2 \times 2^2 = 6.4\ \mathrm{m}$ (with the unrounded $\ddot x = 3.203$, $6.41\ \mathrm{m}$). The speed then is $\dot x = \ddot x\,t = 6.4\ \mathrm{m/s}$, and a block of any other mass would be at the same place.
+
+  - type: mcq
+    id: limits
+    prompt: |
+      A block slides with $\ddot x = g(\sin\theta - \mu_k\cos\theta)$. Which limit checks come out right? Select all that apply.
+    multiple: true
+    options:
+      - text: 'At $\theta = 90^\circ$ (a vertical wall) $\ddot x = g$: free fall'
+        correct: true
+      - text: 'At $\mu_k = 0$ (frictionless) $\ddot x = g\sin\theta$'
+        correct: true
+      - text: 'At $\theta = 0$ the formula gives $-\mu_k g$, so a block on a flat table is pushed backwards by friction'
+        feedback: |
+          The formula assumed the block slides down the slope. On a flat table with no motion, friction only opposes motion and cannot start any: a block at rest stays at rest. A negative $\ddot x$ with $\dot x > 0$ would describe a block slowing down, but it never reverses.
+    explanation: |
+      On a wall the normal force is zero, so friction vanishes and the block falls. Without friction the block gains $g\sin\theta$ along the slope. The $\theta = 0$ result describes a block already moving along $x$, slowing down.
+
+  - type: mcq
+    id: resolve
+    prompt: |
+      Back to the hook. A $10\ \mathrm{kg}$ block and a $1\ \mathrm{kg}$ block of the same wood are released together at the top of a $30^\circ$ slope, both sliding with $\mu_k = 0.2$. How do they compare?
+    options:
+      - text: They stay side by side, with the same $\ddot x = 3.2\ \mathrm{m/s^2}$ at every moment
+        correct: true
+      - text: 'The heavy block is ahead, since its net force along the slope is ten times larger'
+        feedback: |
+          Its net force is ten times larger, but it has ten times the mass, so the acceleration $F/m$ is the same.
+      - text: The light block is ahead, since friction on the heavy block is ten times larger
+        feedback: |
+          Friction is ten times larger, but so is the pull of gravity along the slope, and the mass to accelerate. All three scale together, and the ratio does not change.
+    explanation: |
+      Gravity along the slope, $mg\sin\theta$, and friction, $\mu_k mg\cos\theta$, both contain $m$, and so does the right side $m\ddot x$. Dividing by $m$ removes it. The slope accelerates all blocks of the same surface alike, as freely falling bodies share one acceleration $g$.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      You solved a whole mechanics problem by the Cartesian method. The recipe is: choose axes so the motion is along one of them (here $x$ down the slope, $y$ normal, $z$ across), split every force into components, and apply $F_x = m\ddot x$, $F_y = m\ddot y$, $F_z = m\ddot z$ one axis at a time.
+
+      For the block on the slope of angle $\theta$:
+
+      $$N = mg\cos\theta$$
+
+      $$f = \mu_k N \quad (\text{sliding})$$
+
+      $$\ddot x = g(\sin\theta - \mu_k\cos\theta)$$
+
+      $$x(t) = \tfrac12\, g(\sin\theta - \mu_k\cos\theta)\,t^2$$
+
+      A block at rest slides only if $\tan\theta > \mu_s$, and static friction takes just the value needed to hold it. The mass cancels from every result. In the numeric case ($m = 2\ \mathrm{kg}$, $\theta = 30^\circ$, $\mu_k = 0.2$) the block accelerates at $3.2\ \mathrm{m/s^2}$ and slides $6.4\ \mathrm{m}$ in $2\ \mathrm{s}$.
+
+      **Next:** Cartesian axes keep their directions as the particle moves, which is what made this easy. For a particle circling a point, the natural directions, outward and around, turn as it moves. The next lesson, Newton in Polar Coordinates, shows what the second law becomes with such axes.

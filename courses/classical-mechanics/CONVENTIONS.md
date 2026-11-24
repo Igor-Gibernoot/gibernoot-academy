@@ -5,6 +5,7 @@ Notation, running examples and key numbers fixed while building. Read only the s
 ## General
 
 - One notation for the whole course; where Taylor and Goldstein differ, Goldstein's symbol ($L$, $H$, $V$, $q_j$, $p_j$), named once against the other book's. To confirm against the sources.
+- **Polar angle in the plane: $\varphi$** (Taylor's symbol; $\theta$ is already the slope angle of Level 2 and the spherical polar angle later), $\hat{\mathbf{r}}$, $\hat{\boldsymbol{\varphi}}$ as unit vectors. Used in Levels 2-13. At Level 14+ say once that Goldstein writes $\theta$ for it. Exception to the Goldstein-first rule, chosen because Taylor is the main source for Levels 1-13.
 - SI units; $g = 9.8\ \mathrm{m/s^2}$ unless a lesson says otherwise.
 
 ## Chapter 1
@@ -22,3 +23,4 @@ Notation, running examples and key numbers fixed while building. Read only the s
 - Taylor notation: $\hat{\mathbf{x}},\hat{\mathbf{y}},\hat{\mathbf{z}}$ or $\mathbf{e}_i$, components $r_i$; torque $\boldsymbol{\Gamma} = \mathbf{r}\times\mathbf{F}$. Thrown ball $x = 4t$, $y = 10t - 5t^2$ (g = 10 for round numbers).
 - Inertia: $\mathbf{F}=m\mathbf{a}$, $\mathbf{F}=\dot{\mathbf{p}}$; frame $S'$ with origin $\mathbf{R}(t)$ in inertial $S$: $\mathbf{a}'=\mathbf{a}-\ddot{\mathbf{R}}$; braking cart $\ddot R=-2$ m/s$^2$; Earth equator rotation $0.034$ m/s$^2$ (0.35% of $g$), orbit $0.006$ m/s$^2$; sliding $d=v_0^2/(2g\mu)$, $v_0=10$ m/s: 7.3 m ($\mu=0.7$), 51 m (0.1), 255 m (0.02).
 - Third law: $\mathbf{F}_{\alpha\beta}$ = force on $\alpha$ by $\beta$, $\mathbf{F}_{12} = -\mathbf{F}_{21}$ (different bodies); $\mathbf{P} = \sum\mathbf{p}_\alpha$, $\dot{\mathbf{P}} = \mathbf{F}^{\text{ext}}$; rifle 4 kg, bullet 0.02 kg at 600 m/s, recoil 3 m/s; $F_{\text{mag}}/F_{\text{Coul}} \sim v^2/c^2$.
+- Block on an incline (Taylor 1.6): origin at the release point, $x$ down the slope, $y$ normal (away from the slope), $z$ across; angle $\theta$, $\mathbf{w}=m\mathbf{g}$, $N = mg\cos\theta$, $f=\mu_k N$ sliding, static $f\le\mu_s N$ (equals $mg\sin\theta$ at rest), $\ddot x = g(\sin\theta-\mu_k\cos\theta)$, slides iff $\tan\theta>\mu_s$. Numbers: 2 kg, 30 deg, $\mu_k=0.2$: $f=3.39$ N, $\ddot x=3.20$, $x(2)=6.4$ m; $\arctan0.5=26.57^\circ$.
