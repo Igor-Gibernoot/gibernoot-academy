@@ -29,3 +29,7 @@ it at once). **A fact is "unconfirmed" only after every step below fails.**
    does not repeat them.
 7. **A blocked page (403) is not a failed search**: try a mirror, a reprint or
    another site.
+8. **Never guess URL slugs**: search for the URL first, then fetch it.
+   Britannica returns 403 to the fetcher (bot block): use SEP, IEP, Jewish
+   Virtual Library, Jewish Encyclopedia, Access to Insight, newadvent.org,
+   vatican.va, wisdomlib or Warren's Buddhism in Translations instead.
