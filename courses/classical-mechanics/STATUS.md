@@ -18,7 +18,8 @@
 - **Built:** `ch02-third-law` (Level 2, concept, 22 cards, two-body-push x2, no image).
 - **Widget `incline-block` built** (docs/widgets/incline-block.md): block on a slope, sliders angle, mu_s, mu_k; weight, normal, friction, net arrows and dashed components; a(t), v(t), x(t); mu_crit = tan(angle) readout.
 - **Built:** `ch02-cartesian` (Level 2, guided problem, 23 cards, incline-block x3, no image).
-- **Next unit:** NEW widget `polar-motion` (no lesson), then `ch02-polar` (concept, Taylor 1.7), then `ch02-polar-proof`. Polar angle symbol: $\varphi$ (see CONVENTIONS General).
+- **Widget `polar-motion` built** (docs/widgets/polar-motion.md): particle on r(t), phi(t) (constant r-ddot, phi-ddot), r-hat, phi-hat, v and a with components, four toggleable acceleration-term arrows, readouts, sliders, presets, time slider.
+- **Next unit:** `ch02-polar` (concept, Taylor 1.7, `ch02/polar.yaml`, polar-motion early), then `ch02-polar-proof`. Polar angle symbol: $\varphi$ (see CONVENTIONS General).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
