@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-23 ch23-map built
+Content map, 12 boxes (knowledge, evidentialism, Reformed epistemology, pragmatic, fideism, disagreement, atheism, pluralism, church and state, fundamentalism, humility, three layers), 2 decoys each, 14 cards, no widget. Web check redone this session; Armstrong's thesis, the generality problem and Svenson's figure were left out because not re-confirmed. Conventions fixed here: none new (reuses the lessons' notation).
+
 ## 2026-11-20 ch23-intuition built
 Intuition lesson, 22 cards (welcome, summary, 9 build/mnemonic-limit cards, 4 vocabulary mcqs, 5 numeric data-only cards, 1 sentence-sorting mcq), `own:` with 5 blanks. Numbers checked against the lessons and recomputed: prior odds 4, LR 18, 1/73; break-even c/(g+c) with 1/11, 100/101, 1/6; weighted rule and pooled odds; calibration gap (80% stated, 130 of 200 true, 15 points). Applied cards use new data and state no formula: second ship (0.75, 80%/10%, 4%), gain 30 / loss 20 (0.4), Cal 0.9 and Dee 0.5 with weight 0.25 (0.8), pooled prior 0.2 with two credences 0.5 (0.8), 85% stated with 60 of 80 true (10 points). Widgets checked (docs/widgets/README.md): decision-matrix and peer-credence already used in their lessons; recall needs none. Images: none: formula and vocabulary recall. No new external facts, so no web search. Autonomous choices: one extra card over the 18 planned for the vocabulary families; one sentence-sorting card replaces a second numeric one. Conventions fixed here: none new.
 
