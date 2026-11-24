@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-23 ch24-essence built
+Concept lesson, 18 cards, no widget (checked docs/widgets/README.md: no widget fits a conceptual contrast of Aristotle, Aquinas and Sartre; a card sort would add nothing). Images: aristotle (Altemps bust, PD) and sartre (1967, CC BY 3.0) new; Aquinas already in the course, not repeated. Web-checked, see VERIFIED.md. Conventions fixed here: essence = what a thing is, existence = that it is; knife order essence then existence for all three; Aquinas real distinction (phoenix), God essence = existence; Sartre 1945 lecture published 1946, nature denied, condition affirmed; bad faith glossed per SEP and dated 1943; critic replies to Sartre: reject P2 (believers) or reject P1 (naturalists); Mayr typological vs population thinking hedged.
+
 ## 2026-11-23 ch23-challenge built
 Level challenge in one part, 25 cards, five problems in the invented town of Halde (knowledge cases, mill-bridge odds 4 x 18 = 72, James threshold 2/8 = 0.25 and two-god wager EV 10.4, two surveyors with r = 0.2 giving 0.87 and pooled 27/28, two faiths in one school with French and American state answers), each ending with a three-layers sort, then closing weighing and summary. decision-matrix twice, peer-credence once. Images: none (invented setting, abstract sorting). Web check redone this session (Gettier, Goldman, Clifford, James, Pascal many gods, Elga, Race, Rahner, Hick, Plantinga, French 1905 law, First Amendment); the 1791 ratification date and Christensen's paper title were not confirmed and left out; Newbigin dropped. Single part (no ch23-challenge-2 needed). **Level 23 fully built.** Conventions fixed here: none new.
 

@@ -337,3 +337,7 @@ Read only the section you need: `grep -n '^## ' courses/science-faith-mind/CONVE
 - Ch23 secular: separation / establishment / neutrality (even-handed vs hands-off) / secularism (doctrine) / secularity (condition); say "according to" for each country model.
 - Ch23 fundamentalism: Laws coined 'Fundamentalist' 1 July 1920 as a compliment; five articles 1910 (PCUSA); Fundamentalism Project = family resemblance, trait list hedged (wording and count vary); Armstrong mythos/logos; Watt skeptic, Clarke defender; Hindutva shown as supporters vs critics; violence not part of the trait list.
 - Ch23 humility: intellectual humility = owning limitations (Whitcomb, Battaly, Baehr, Howard-Snyder 2017), a fit of confidence to evidence plus readiness to revise (not timidity, not relativism); calibration gap $c-a$ (stated confidence minus share true; 80% stated, 130 of 200 true gives 15 points); fallibilism per IEP, gloss $0<\Pr(p)<1$ is ours; doubt / denial / agnosticism (Huxley 1869) distinguished.
+
+## Chapter 24
+
+- Essence lesson: essence (what it is) vs existence (that it is); order essence then existence for the paper-knife (all three agree), reversed for humans by Sartre (lecture late 1945, pub. 1946); Aristotle ergon NE I.7; Aquinas essence/esse distinct in creatures (phoenix), God identical; Sartre argument P1 given essence needs conceiver, P2 no God, C no nature (valid; believers reject P2, naturalists P1); nature denied, human condition kept; bad faith (Being and Nothingness 1943). Next: Nihilism.
