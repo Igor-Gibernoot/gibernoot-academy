@@ -13,7 +13,8 @@
 - **Built:** `ch01-challenge` complete (27 cards: problems 1-5 = skimming satellite, lifeguard, kicked pendulum, thrown ball by action, ball on a hilltop; plain wrap-up card). Level 1 is fully built.
 - **Level 1 audited (2026-11-24):** signs, numbers, level references, summaries, intro rules fixed; validate and shots clean.
 - **Built:** `ch02-space-time` (Level 2, concept, 21 cards, basis-playground, no image).
-- **Next unit:** `ch02-inertia` (`ch01-review` is automatic).
+- **Built:** `ch02-inertia` (Level 2, concept, 22 cards, friction-stop, Galileo portrait).
+- **Next unit:** new widget `two-body-push` (needed by `ch02-third-law`; no lesson in that session), then `ch02-third-law` (`ch01-review` is automatic).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.

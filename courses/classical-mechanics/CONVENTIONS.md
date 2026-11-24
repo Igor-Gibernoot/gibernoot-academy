@@ -20,3 +20,4 @@ Notation, running examples and key numbers fixed while building. Read only the s
 ## Chapter 2
 - Frames $S$ (platform, bank) and $S'$ (train, water), constant relative velocity $\mathbf{u}$, $\mathbf{r} = \mathbf{r}' + \mathbf{u}t$, $\mathbf{v} = \mathbf{v}' + \mathbf{u}$, $\mathbf{a} = \mathbf{a}'$. Train 20 m/s, ball 3 m/s, wall 6 m; river 4 m/s, boat 3 m/s (speed 5).
 - Taylor notation: $\hat{\mathbf{x}},\hat{\mathbf{y}},\hat{\mathbf{z}}$ or $\mathbf{e}_i$, components $r_i$; torque $\boldsymbol{\Gamma} = \mathbf{r}\times\mathbf{F}$. Thrown ball $x = 4t$, $y = 10t - 5t^2$ (g = 10 for round numbers).
+- Inertia: $\mathbf{F}=m\mathbf{a}$, $\mathbf{F}=\dot{\mathbf{p}}$; frame $S'$ with origin $\mathbf{R}(t)$ in inertial $S$: $\mathbf{a}'=\mathbf{a}-\ddot{\mathbf{R}}$; braking cart $\ddot R=-2$ m/s$^2$; Earth equator rotation $0.034$ m/s$^2$ (0.35% of $g$), orbit $0.006$ m/s$^2$; sliding $d=v_0^2/(2g\mu)$, $v_0=10$ m/s: 7.3 m ($\mu=0.7$), 51 m (0.1), 255 m (0.02).

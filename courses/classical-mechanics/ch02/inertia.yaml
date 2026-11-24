@@ -1,0 +1,325 @@
+id: ch02-inertia
+title: Inertia and F = ma
+kind: concept
+own: |
+  Setting: a point particle of mass $m$ (an object with mass and no size) moving through a reference frame, that is, an origin, three axes and a clock. Its position is $\mathbf{r}(t)$, its velocity $\mathbf{v} = \dot{\mathbf{r}}$ and its acceleration $\mathbf{a} = \dot{\mathbf{v}} = \ddot{\mathbf{r}}$, with $t$ the time. Let $\mathbf{F}$ be the net force on the particle, the vector sum of all the forces acting on it.
+  - **Mass** is the resistance to being accelerated. Two bodies pushed by the same force have accelerations $a_1$ and $a_2$ in inverse ratio to their masses, so a standard mass $m_s$ measures any other mass $m_x$ (a standard mass $m_s$ with acceleration $a_s$, an unknown $m_x$ with acceleration $a_x$, same push).
+    {{ $$\frac{m_x}{m_s} = \frac{a_s}{a_x}$$ }}
+  - **Second law.** The net force on a particle of mass $m$ equals the mass times the acceleration. The unit of force is the newton, $1\ \mathrm{N} = 1\ \mathrm{kg\,m/s^2}$, and since $\mathbf{F}$ and $\mathbf{a}$ are vectors the law holds along each axis.
+    {{ $$\mathbf{F} = m\mathbf{a}$$ }}
+    $$F_x = m a_x$$
+  - **Momentum form.** With the momentum $\mathbf{p} = m\mathbf{v}$ and a mass that never changes, the same law reads as follows.
+    {{ $$\mathbf{F} = \dot{\mathbf{p}}$$ }}
+  - **First law and inertial frames.** With no net force, $\mathbf{a} = 0$ and the velocity $\mathbf{v}$ stays constant. This is not only a special case of $\mathbf{F} = m\mathbf{a}$: it picks out the frames where the laws hold. A frame is **inertial** if a particle free of forces moves in it with constant velocity.
+    In an inertial frame:
+    {{ $$\mathbf{F} = 0 \;\Rightarrow\; \mathbf{v} = \text{const}$$ }}
+  - **Which frames are inertial.** A frame $S'$ whose origin is at position $\mathbf{R}(t)$ in an inertial frame $S$, with parallel axes, has $\mathbf{a} = \mathbf{a}' + \ddot{\mathbf{R}}$ for any particle. So $S'$ is inertial when {{ it moves with constant velocity relative to $S$ ($\ddot{\mathbf{R}} = 0$) and does not rotate }}. A frame that accelerates or rotates is noninertial, and a free particle seen from it accelerates. A frame fixed to the Earth is inertial to a good approximation only: the centripetal acceleration of the equator from the Earth's rotation is about $0.034\ \mathrm{m/s^2}$, about $0.3\%$ of $g = 9.8\ \mathrm{m/s^2}$.
+cards:
+  - type: text
+    id: hook
+    title: Does a moving thing need a push?
+    image:
+      src: img/galileo.webp
+      alt: Portrait of Galileo Galilei in old age, with a beard and a dark cloak.
+      caption: Galileo Galilei (1564 to 1642) argued from ramps and smooth surfaces that a body keeps its motion unless something changes it.
+      credit: "Justus Sustermans, Public domain, via Wikimedia Commons"
+      link: "https://commons.wikimedia.org/wiki/File:Justus_Sustermans_-_Portrait_of_Galileo_Galilei,_1636.jpg"
+    body: |
+      Push a book across a table and let go: it stops almost at once. Everyday experience says that **motion needs a continuing push**. For about two thousand years the followers of Aristotle took this at face value: no push, no motion.
+
+      Now picture an ice-hockey puck. Hit it once and it glides across the rink for a long time. On a smoother rink it glides farther. Galileo's insight was to ask what happens in the limit of a perfectly smooth rink, and to suspect that the table stops the book, not the lack of a push. Before any theory, guess what the puck would do if nothing at all, no rubbing and no push, acted on it.
+
+  - type: mcq
+    id: hook-guess
+    prompt: |
+      A puck is hit once on a rink and slides. The smoother the ice, the longer it glides. Imagine the ice so smooth that nothing rubs the puck, and no one touches it after the first hit. What do you expect?
+    options:
+      - text: It keeps moving in a straight line at the same speed
+        correct: true
+      - text: It slows down anyway, because every motion dies out by itself
+        feedback: |
+          This is the Aristotelian view. But look at the trend: each smoother rink makes the slowing weaker, so the slowing came from the ice, not from the motion itself.
+      - text: It slows down slowly, then stops after a long distance
+        feedback: |
+          Without any rubbing there is nothing to take the speed away. A longer and longer glide as the ice gets smoother points to a glide that never ends.
+      - text: It speeds up, because motion feeds itself
+        feedback: |
+          Nothing adds to the speed either. Speeding up would also need a cause.
+    explanation: |
+      Smoother ice gives a longer glide, and the limit of a very long glide is a glide that never ends. The next card lets you test the trend with numbers.
+
+  - type: widget
+    id: friction-trend
+    title: Make the ice smoother
+    widget: friction-stop
+    config:
+      mu: 0.7
+      v0: 10
+      mass: 1000
+      sliders: [mu]
+      ranges: { mu: [0.02, 0.7, 0.01] }
+      distanceMax: 260
+      speedMax: 10
+      readouts: [distance, time]
+      units: { speed: m/s, mass: kg, distance: m }
+      labels: { mu: 'rubbing coefficient μ' }
+      show:
+        forceArrows: false
+        energyBar: false
+        heat: false
+        potential: false
+        wheels: false
+        replay: true
+      presets:
+        - { label: Rough, mu: 0.7 }
+        - { label: Wet, mu: 0.3 }
+        - { label: Ice, mu: 0.05 }
+        - { label: Almost none, mu: 0.02 }
+    body: |
+      A sliding object starts at $10\ \mathrm{m/s}$ and rubbing slows it down. The coefficient $\mu$ measures how rough the surface is: the larger it is, the stronger the rubbing.
+
+      **Try:** drag $\mu$ from $0.7$ down to $0.02$ and watch the stopping distance in the readout and the speed curve.
+
+  - type: mcq
+    id: friction-trend-q
+    review: false
+    prompt: |
+      A sliding object starts at $10\ \mathrm{m/s}$. Its stopping distance is $7.3\ \mathrm{m}$ with rubbing coefficient $\mu = 0.7$, about $51\ \mathrm{m}$ with $\mu = 0.1$, and about $255\ \mathrm{m}$ with $\mu = 0.02$. What would it be for $\mu = 0$?
+    options:
+      - text: 'Infinite: it would never stop, and its speed would stay at $10\ \mathrm{m/s}$'
+        correct: true
+      - text: About $500\ \mathrm{m}$, the next number in the trend
+        feedback: |
+          The distance is proportional to $1/\mu$, so it does not creep up by steps: each time $\mu$ is halved the distance doubles, and it grows without bound as $\mu \to 0$.
+      - text: Zero, because with no rubbing there is nothing to move it
+        feedback: |
+          That is the Aristotelian reading. The numbers say the opposite: the less rubbing, the farther it goes.
+    explanation: |
+      The distance behaves like $1/\mu$, so it diverges as $\mu \to 0$. What is left when all outside influence is removed is **uniform motion**: constant velocity, no push needed. The push is needed to change the velocity, and rubbing is a push that opposes the motion.
+
+  - type: text
+    id: first-law
+    title: The law of inertia
+    body: |
+      Galileo's limit is the first law of motion. **Newton's first law (the law of inertia):** in the absence of forces, a particle moves with constant velocity $\mathbf{v}$.
+
+      The velocity is a vector, so "constant" means the same speed **and** the same direction. A particle at rest is the case $\mathbf{v} = 0$. Written with the acceleration $\mathbf{a} = \dot{\mathbf{v}}$ (the dot is the time derivative), the law says that **without forces a particle has $\mathbf{a} = 0$**.
+
+      A force is what changes a velocity, not what keeps it. Notice what the law does not say: it does not say a particle with no force is at rest. The puck on perfect ice, moving at $10\ \mathrm{m/s}$, is free of forces.
+
+  - type: text
+    id: mass
+    title: Mass is resistance to being accelerated
+    body: |
+      Some things are harder to set in motion than others: a boulder resists more than a pebble. **Mass**, written $m$, is the number that measures this resistance to acceleration, in kilograms ($\mathrm{kg}$).
+
+      To make the idea quantitative, compare two bodies by an **inertial balance**: fasten them to the ends of a light rigid rod and pull the middle of the rod sharply. If the masses are equal they accelerate alike and the rod moves off without turning. If one is heavier it accelerates less and the rod turns. In the same way, give the same push in turn to a standard $1\ \mathrm{kg}$ body with acceleration $a_s$ and to an unknown body $m_x$ with acceleration $a_x$: the body that accelerates less has more mass, and the masses are in the inverse ratio of the accelerations,
+
+      $$\frac{m_x}{m_s} = \frac{a_s}{a_x}$$
+
+  - type: numeric
+    id: balance
+    prompt: |
+      The same push is given in turn to a standard mass $m_s = 1\ \mathrm{kg}$ and to an unknown body. The standard mass accelerates at $4\ \mathrm{m/s^2}$ and the unknown body at $1\ \mathrm{m/s^2}$. What is the mass of the unknown body, in kilograms?
+    answer: 4
+    wrong:
+      - { value: 0.25, feedback: 'This inverts the ratio. A body that accelerates less under the same push resists more, so it has the larger mass.' }
+    hint: The body that accelerates less is the heavier one. Use $m_x/m_s = a_s/a_x$.
+    explanation: |
+      $m_x = m_s\,a_s/a_x = 1\ \mathrm{kg} \times 4/1 = 4\ \mathrm{kg}$. It accelerates four times less, so it has four times the mass.
+
+  - type: text
+    id: force
+    title: Force and the second law
+    body: |
+      A **force** is a push or a pull. To measure it, take the **newton** ($\mathrm{N}$): the force that, acting alone, gives the standard kilogram an acceleration of $1\ \mathrm{m/s^2}$. A force that gives it $2\ \mathrm{m/s^2}$ is $2\ \mathrm{N}$, and so on. In practice, spring balances calibrated this way (a spring stretches more for a larger force) read forces directly. A force also has a direction, the direction in which it sets a body at rest moving. So a force is a vector $\mathbf{F}$.
+
+      The experimental fact, checked with such springs, is Newton's second law. **Newton's second law:** for a particle of mass $m$, the net force $\mathbf{F}$ on it, the vector sum of all the forces acting, equals the mass times the acceleration,
+
+      $$\mathbf{F} = m\mathbf{a}$$
+
+      As the units say, $1\ \mathrm{N} = 1\ \mathrm{kg\,m/s^2}$. Being a vector law, it holds on each axis separately: $F_x = m a_x$, $F_y = m a_y$, $F_z = m a_z$.
+
+  - type: numeric
+    id: net-force
+    prompt: |
+      A particle of mass $m = 2\ \mathrm{kg}$ feels two forces at once: $3\ \mathrm{N}$ along $\hat{\mathbf{x}}$ and $4\ \mathrm{N}$ along $\hat{\mathbf{y}}$. What is the magnitude of its acceleration, in $\mathrm{m/s^2}$?
+    answer: 2.5
+    wrong:
+      - { value: 3.5, feedback: 'Adding the magnitudes $3 + 4$ gives $7\ \mathrm{N}$ only if the forces point the same way. The net force is a vector sum.' }
+      - { value: 5, feedback: 'The net force has magnitude $5\ \mathrm{N}$, but $\mathbf{a} = \mathbf{F}/m$ and $m = 2\ \mathrm{kg}$.' }
+    hint: Add the forces as vectors first, then divide by the mass.
+    explanation: |
+      The net force is $\mathbf{F} = (3, 4)\ \mathrm{N}$, of magnitude $\sqrt{3^2 + 4^2} = 5\ \mathrm{N}$. Then $a = F/m = 5/2 = 2.5\ \mathrm{m/s^2}$, directed along $\mathbf{F}$. Component by component: $a_x = 3/2$, $a_y = 4/2$.
+
+  - type: text
+    id: ode
+    title: A differential equation for the path
+    body: |
+      With $\mathbf{a} = \ddot{\mathbf{r}}$, the second law $m\ddot{\mathbf{r}} = \mathbf{F}$ is a **differential equation**: an equation for the unknown function $\mathbf{r}(t)$ that contains its derivatives. If the force is known, solving it gives the motion. Take a particle on the $x$ axis with a constant force $F_0$. Then $\ddot x = F_0/m$, and two integrations give
+
+      $$\dot x = v_0 + \frac{F_0}{m}\,t, \qquad x = x_0 + v_0 t + \frac{F_0}{2m}\,t^2$$
+
+      where the constants of integration $x_0$ and $v_0$ are the position and velocity at $t = 0$. Two numbers per axis, position and velocity, fix the whole future.
+
+      The law has a second form. The **momentum** is $\mathbf{p} = m\mathbf{v}$. Because the mass of a particle does not change in classical mechanics, $\dot{\mathbf{p}} = m\dot{\mathbf{v}} = m\mathbf{a}$, so the law can be written
+
+      $$\mathbf{F} = \dot{\mathbf{p}}$$
+
+      The two forms agree here. In special relativity they come apart.
+
+  - type: numeric
+    id: constant-force
+    prompt: |
+      A $2\ \mathrm{kg}$ body starts from rest at $x = 0$ and a constant force of $6\ \mathrm{N}$ acts along $x$. Where is it after $2\ \mathrm{s}$, in metres?
+    answer: 6
+    wrong:
+      - { value: 12, feedback: 'This is $F_0 t^2/m$. The constant-force result has a factor $\tfrac12$, from integrating $\dot x = (F_0/m)\,t$.' }
+      - { value: 3, feedback: 'You may have used $x = at$. Here $a = F_0/m = 3\ \mathrm{m/s^2}$, and the position grows like $\tfrac12 a t^2$.' }
+    hint: First get the acceleration from $F_0 = ma$, then use $x = x_0 + v_0 t + \tfrac12 a t^2$.
+    explanation: |
+      $a = F_0/m = 6/2 = 3\ \mathrm{m/s^2}$. With $x_0 = 0$ and $v_0 = 0$: $x = \tfrac12 (3)(2)^2 = 6\ \mathrm{m}$.
+
+  - type: text
+    id: not-special-case
+    title: Is the first law just a special case?
+    body: |
+      It looks as though the second law contains the first: put $\mathbf{F} = 0$ in $\mathbf{F} = m\mathbf{a}$ and you get $\mathbf{a} = 0$, a constant velocity. But the laws of motion cannot hold in every reference frame, and the first law has a job: it tells us **where** the others hold.
+
+      Picture a train moving at a steady speed, with an ice cube on its smooth floor. From the platform the cube moves along with the train at constant velocity, and in the train it sits still: both agree with the first law. Now let the train speed up forward. The cube, free of forces, is left behind, and an observer in the train sees it accelerate **backward**, though no force pushes it. In that frame $\mathbf{F} = 0$ but $\mathbf{a} \neq 0$.
+
+      To see how large the effect is, let a frame $S'$ have its origin at position $\mathbf{R}(t)$ in an inertial frame $S$, with parallel axes. A particle at $\mathbf{r}$ in $S$ has position $\mathbf{r}' = \mathbf{r} - \mathbf{R}$ in $S'$. Taking two time derivatives,
+
+      $$\mathbf{a}' = \mathbf{a} - \ddot{\mathbf{R}}$$
+
+      The term $\ddot{\mathbf{R}}$ is the acceleration of the frame itself. In the lesson Where and When: Frames and Vectors the origin moved at constant velocity, so $\ddot{\mathbf{R}} = 0$ and $\mathbf{a}' = \mathbf{a}$.
+
+  - type: numeric
+    id: cart
+    prompt: |
+      A cart runs east along a straight rail and brakes: its velocity decreases, so its acceleration relative to the ground is $-2\ \mathrm{m/s^2}$ (east is positive). A smooth ball lies on the floor of the cart, with no net horizontal force on it. In the ground frame $S$, which is inertial, the ball has $a = 0$. What is the ball's acceleration $a'$, along east, in the frame $S'$ fixed to the cart? Use $a' = a - \ddot R$ with $\ddot R$ the cart's acceleration relative to the ground.
+    answer: 2
+    wrong:
+      - { value: -2, feedback: "Check the sign: $a' = a - \\ddot R = 0 - (-2)$. Seen from the braking cart, the free ball rolls **forward**, as a passenger lurches forward when a train brakes." }
+      - { value: 0, feedback: 'That is the acceleration in the ground frame. In the braking cart the first law fails, so the free ball does accelerate relative to the cart.' }
+    hint: Subtract the frame's own acceleration from the particle's.
+    explanation: |
+      $a' = 0 - (-2) = +2\ \mathrm{m/s^2}$. The ball keeps its velocity in the ground frame while the cart slows underneath it, so in the cart the ball drifts forward at $2\ \mathrm{m/s^2}$ with no force acting. The cart's frame is **noninertial**.
+
+  - type: mcq
+    id: trains
+    prompt: |
+      Three trains carry a frictionless puck on the floor. Train A runs at a steady $30\ \mathrm{m/s}$ on a straight track. Train B speeds up along a straight track. Train C runs at a steady $30\ \mathrm{m/s}$ around a curve. The ground is inertial. In which train frames does a puck free of forces keep a constant velocity? Select all that apply.
+    multiple: true
+    options:
+      - text: Train A (steady velocity, straight track)
+        correct: true
+      - text: Train B (speeding up, straight track)
+        feedback: |
+          The train's frame has acceleration $\ddot{\mathbf{R}} \neq 0$, so a free puck has $\mathbf{a}' = -\ddot{\mathbf{R}}$ and slides backward in that frame.
+      - text: Train C (steady speed around a curve)
+        feedback: |
+          Steady speed is not steady velocity. On a curve the direction of the velocity keeps changing, so the train accelerates and the puck, free of forces, appears to slide toward the outside of the bend.
+    explanation: |
+      A frame is inertial only if its own acceleration vanishes: constant velocity, meaning the same speed and the same direction (and no turning of the axes). Only train A qualifies.
+
+  - type: text
+    id: criterion
+    title: The first law picks out the inertial frames
+    body: |
+      This gives the role of the first law. A reference frame is **inertial** if an object clearly subject to no forces moves in it with constant velocity. The first law is then not an afterthought of the second: it says that such frames exist, and tells how to find them. The second law is an experimental fact that holds **in these same frames**.
+
+      There is a worry about going in a circle ("it is free of forces because it moves at constant velocity"). We avoid it by identifying the forces from their sources (pushes, pulls, nearby masses): if none is around, the object is free.
+
+      From $\mathbf{a}' = \mathbf{a} - \ddot{\mathbf{R}}$ we get an important consequence. If $S$ is inertial and $S'$ moves relative to it at **constant velocity**, with no rotation, then $\ddot{\mathbf{R}} = 0$ and $\mathbf{a}' = \mathbf{a}$. The forces are the same and the mass is the same, so $\mathbf{F} = m\mathbf{a}'$ holds in $S'$ too: **every frame at constant velocity relative to an inertial frame is inertial**. There are infinitely many inertial frames, and none is the privileged one.
+
+  - type: numeric
+    id: other-frame
+    prompt: |
+      In an inertial frame $S$, a particle of mass $3\ \mathrm{kg}$ feels a net force of $12\ \mathrm{N}$ along $x$. A second frame $S'$ moves along $x$ at a constant $25\ \mathrm{m/s}$ relative to $S$, with no rotation. What is the acceleration of the particle along $x$ in $S'$, in $\mathrm{m/s^2}$?
+    answer: 4
+    wrong:
+      - { value: 0, feedback: 'The relative velocity of the frames changes the velocity of the particle, not its acceleration. $\ddot R = 0$ here, so $a'' = a$.' }
+      - { value: 8.33, feedback: 'You may have subtracted $25$ from something. A constant velocity of the frame drops out of the acceleration entirely.' }
+    hint: The frame has constant velocity, so $\ddot R = 0$. Find $a$ in $S$ first.
+    explanation: |
+      In $S$: $a = F/m = 12/3 = 4\ \mathrm{m/s^2}$. Since $\ddot R = 0$, $a' = a = 4\ \mathrm{m/s^2}$, and $F = ma'$ still holds in $S'$.
+
+  - type: text
+    id: earth
+    title: Is the Earth an inertial frame?
+    body: |
+      The standard example of a frame to treat as inertial is one fixed to the Earth: a puck on a smooth horizontal table moves at constant velocity. But the Earth turns once a day, circles the Sun once a year, and the Sun orbits the Galaxy, so a frame fixed to the Earth accelerates. How much?
+
+      A point on the equator moves on a circle of radius $R = 6378\ \mathrm{km}$ with a period of $23.93\ \mathrm{h}$ (one sidereal day, the turn relative to the stars). Its acceleration toward the axis is $\omega^2 R$ with $\omega = 2\pi/T$, which gives about $0.034\ \mathrm{m/s^2}$. The orbit around the Sun, with speed $29.8\ \mathrm{km/s}$ and radius $1.496\times10^{11}\ \mathrm{m}$, gives $v^2/r \approx 0.006\ \mathrm{m/s^2}$. Compare $g = 9.8\ \mathrm{m/s^2}$.
+
+      These are small, so the Earth is inertial to an excellent approximation. They are not zero: tides and the paths of long-range projectiles show the effect. The lesson on noninertial frames, later in the course, shows how to correct the laws when it matters.
+
+  - type: mcq
+    id: earth-q
+    prompt: |
+      A frame fixed to the Earth's surface at the equator accelerates because of the Earth's rotation by about $0.034\ \mathrm{m/s^2}$. A falling stone has $g = 9.8\ \mathrm{m/s^2}$. About what fraction of $g$ is that frame acceleration?
+    options:
+      - text: About $0.3\%$
+        correct: true
+      - text: About $3\%$
+        feedback: |
+          Compute $0.034/9.8$: it is about $0.0035$, that is $0.35\%$, ten times smaller than $3\%$.
+      - text: About $30\%$
+        feedback: |
+          Compute $0.034/9.8 \approx 0.0035$. That is a third of a percent, not a third.
+    explanation: |
+      $0.034/9.8 \approx 3.5\times10^{-3}$, about $0.3\%$. This is why $\mathbf{F} = m\mathbf{a}$ works so well in a laboratory on the Earth, and why a precise experiment can still notice the difference.
+
+  - type: mcq
+    id: trap-velocity
+    prompt: |
+      A $2\ \mathrm{kg}$ puck slides on frictionless ice at a steady $3\ \mathrm{m/s}$ along $x$, and nothing touches it. What is the net force on it?
+    options:
+      - text: $0$
+        correct: true
+      - text: $6\ \mathrm{N}$ along $x$, since $F = mv$
+        feedback: |
+          The law relates force to the **change** of velocity, $F = ma$, not to the velocity itself. $mv$ is the momentum.
+      - text: A small force along $x$, to keep it going
+        feedback: |
+          This is the Aristotelian error. Keeping a velocity needs no force; changing it does.
+    explanation: |
+      A constant velocity means $\mathbf{a} = 0$, so $\mathbf{F} = m\mathbf{a} = 0$. Gravity and the push of the ice (both vertical) cancel in the sum.
+
+  - type: mcq
+    id: trap-net
+    prompt: |
+      A crate is pulled along a floor by a rope with a force of $50\ \mathrm{N}$ and moves at a steady velocity. Friction acts on it too. Which statement is right?
+    options:
+      - text: Friction is $50\ \mathrm{N}$ opposite to the pull, the net force is $0$ and $\mathbf{a} = 0$
+        correct: true
+      - text: The $50\ \mathrm{N}$ pull gives acceleration $50/m$ whatever the friction is
+        feedback: |
+          The second law uses the **net** force, the vector sum of all forces. A force that is cancelled by friction leaves nothing to accelerate the crate.
+      - text: The crate moves at constant velocity, so only the pull acts on it
+        feedback: |
+          A constant velocity does not mean one force. It means the forces add to zero, so there must be a second force, here friction.
+    explanation: |
+      The acceleration is the net force divided by the mass. A constant velocity says $\sum\mathbf{F} = 0$, so friction balances the pull at $50\ \mathrm{N}$.
+
+  - type: mcq
+    id: trap-weight
+    prompt: |
+      An astronaut on the Moon (gravity about one sixth of Earth's) pushes with the same horizontal force on a crate sliding on smooth ice, first on Earth and then on the Moon. Which is right?
+    options:
+      - text: The acceleration is the same, since the mass is the same and the push is horizontal
+        correct: true
+      - text: The acceleration is six times larger on the Moon, since the crate weighs less
+        feedback: |
+          Weight is the gravitational force, which is vertical here and cancelled by the push of the ice. The horizontal acceleration is $F/m$, and the mass $m$ does not change with place.
+      - text: The crate has less mass on the Moon, because it weighs less
+        feedback: |
+          Weight and mass differ. Weight depends on where you are, mass does not. Mass is the resistance to acceleration, a property of the body.
+    explanation: |
+      The mass is a property of the body, and $a = F/m$ for the horizontal force. Weight, the gravitational force $mg$, changes with place, but the two are proportional at a given place, which is why weighing can compare masses.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a force never comes alone. When your hand pushes a cart, what does the cart do to your hand? The third law answers this, and with it comes a quantity that cannot change for a pair of bodies pushing only on each other.
