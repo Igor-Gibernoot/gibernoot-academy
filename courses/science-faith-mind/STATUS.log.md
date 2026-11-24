@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-23 ch24-absurd-proof (guided proof, 18 cards, no widget, no images)
+Guided proof with own: (5 blanks). Widget decision: none; re-checked docs/widgets/README.md: nothing models premises; `condition-chain` (links conditioning each other, removal stops downstream) is the nearest but the three responses are alternatives, not a linear chain. Images: none (no free Camus portrait; Sisyphus painting not worth a card). Web: Nagel's 1971 wording is secondary only, so paraphrased; REP confirms irony vs defiance; Beauvoir objection to Sisyphus is our flagged application, not hers. Camus 'three consequences' sentence now confirmed verbatim but still paraphrased. Conventions fixed here: premises P1-P4 plus bridge P5 (lucid revolt can be a full life); 'happy' as stance vs feeling; Nagel b. 1937, 'The Absurd' 1971 (some sources say 1970).
+
 ## 2026-11-24 ch24-absurd built
 Concept lesson, 16 cards, no widget (re-checked docs/widgets/README.md: no widget on meaning, absurdity or freedom; a conceptual survey). Images: Beauvoir new (Milner 1967, CC BY-SA 3.0), Kierkegaard reused; Sartre only recalled by title (no portrait). Camus: none, `none: no free portrait` (PD-France, PD-US and PD-Sweden files refused by the tool; the one CC BY-SA file was a publisher book cover, rejected as a copyrighted cover). Web-checked, see VERIFIED.md. Conventions fixed here: Camus's absurd = relation of demand D and silence S (D + S => absurd); two exits (physical suicide, philosophical suicide = leap) each with a premise; revolt, freedom, passion paraphrased (no quotation marks), only 'One must imagine Sisyphus happy' quoted; Kierkegaard's 'leap of faith' flagged as a later label, not in SEP; Camus denied the existentialist label. Next: ch24-absurd-proof.
 
