@@ -11,7 +11,8 @@
 - **Built:** `ch01-traps` (Level 1, 14 cards, no widget, no image).
 - **Built:** `ch01-map` (Level 1 content map, 9 boxes in three columns: Lagrange, Newton, Hamilton).
 - **Built:** `ch01-challenge` complete (27 cards: problems 1-5 = skimming satellite, lifeguard, kicked pendulum, thrown ball by action, ball on a hilltop; plain wrap-up card). Level 1 is fully built.
-- **Next unit:** Level 1 audit by the coordinator, then `ch02-space-time` (`ch01-review` is automatic).
+- **Level 1 audited (2026-11-24):** signs, numbers, level references, summaries, intro rules fixed; validate and shots clean.
+- **Next unit:** `ch02-space-time` (`ch01-review` is automatic).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.

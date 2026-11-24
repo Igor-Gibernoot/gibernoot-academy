@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-24 Level 1 audit (checklist 1-7; item 8 skipped: course has no web-check rule)
+Re-derived by hand every number in all six lessons (Moon 2.72e-3, lifeguard times, S = -33.3 / -28 / 2.19, pendulum periods, station 8.7, challenge P1-P5): all match. Fixes: removed a "opening card" pointer in a phase-space feedback, a "just showed" pointer in least-action, "which a script checked" in the spring question, "Level 1" / "Level 2" wording in the challenge (now by lesson title), unglossed "centripetal" in the map. Doubt: the PDF render of Taylor Eq. 4.101 / 7.30 (pendulum U = mgl(1 - cos phi), L = T - U) could not be redone (render command was denied in this run); the OCR text matches the lesson, so it stays logged as OCR-read in VERIFIED.md. No images added (audit only). Checks: validate 0 errors 0 warnings; shots 0 problems.
+Conventions fixed here: none.
+
 ## 2026-11-24 ch01-challenge, part 2 (problems 4-5, wrap-up)
 Appended 12 cards (file now 27): P4 thrown ball judged by action (least-action-path, 1 control point, hideTrue; S(a) = 4.5a^2 - 45a, peaks 9 and 13.5 m both -108, real peak 11.25 m, Newton check, mass-independence); P5 ball on a hilltop (phase-portrait `hill`, q0 = 0.1; force +q, q0 cosh t: 3.69 to reach q = 2, 100x closer adds 4.61, E = 0 creeping line); plain wrap-up card with formulas (no `own:`, challenge). Intro text now says five problems. Choice made: wrap-up is a text card, as in other challenges. Images: none: problems are abstract (action, hill), no person or real object worth a picture. Checks: validate 0 errors 0 warnings; shots 0 problems after splitting one over-wide displayed formula.
 Conventions fixed here: thrown ball T = 3 s, g = 10, y = a t(3-t), S(a) = 4.5a^2 - 45a, real peak 11.25 m; hill q = q0 cosh t, times 3.69 and 8.29.
