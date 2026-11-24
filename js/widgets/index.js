@@ -42,6 +42,7 @@ const WIDGETS = {
   'lever-balance': ['lever-balance', 'leverBalance'],
   'friction-stop': ['friction-stop', 'frictionStop'],
   'two-body-push': ['two-body-push', 'twoBodyPush'],
+  'incline-block': ['incline-block', 'inclineBlock'],
   'newton-cannon': ['newton-cannon', 'newtonCannon'],
   'least-action-path': ['least-action-path', 'leastActionPath'],
   'phase-portrait': ['phase-portrait', 'phasePortrait'],
