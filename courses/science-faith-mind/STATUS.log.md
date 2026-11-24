@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-23 ch23-challenge built
+Level challenge in one part, 25 cards, five problems in the invented town of Halde (knowledge cases, mill-bridge odds 4 x 18 = 72, James threshold 2/8 = 0.25 and two-god wager EV 10.4, two surveyors with r = 0.2 giving 0.87 and pooled 27/28, two faiths in one school with French and American state answers), each ending with a three-layers sort, then closing weighing and summary. decision-matrix twice, peer-credence once. Images: none (invented setting, abstract sorting). Web check redone this session (Gettier, Goldman, Clifford, James, Pascal many gods, Elga, Race, Rahner, Hick, Plantinga, French 1905 law, First Amendment); the 1791 ratification date and Christensen's paper title were not confirmed and left out; Newbigin dropped. Single part (no ch23-challenge-2 needed). **Level 23 fully built.** Conventions fixed here: none new.
+
 ## 2026-11-23 ch23-map built
 Content map, 12 boxes (knowledge, evidentialism, Reformed epistemology, pragmatic, fideism, disagreement, atheism, pluralism, church and state, fundamentalism, humility, three layers), 2 decoys each, 14 cards, no widget. Web check redone this session; Armstrong's thesis, the generality problem and Svenson's figure were left out because not re-confirmed. Conventions fixed here: none new (reuses the lessons' notation).
 
