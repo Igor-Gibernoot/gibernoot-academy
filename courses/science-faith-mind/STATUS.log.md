@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-23 ch24-intuition (Quick Recall, Level 24)
+20 cards (plan ~20): welcome, Sartre knife vs person (mcq plus build), three Stoic questions, three routes to calm, Epicurus desires, death argument (order), deprivation build, Camus absurd and consequences (two builds), Nietzsche chain (mcq plus build), Pyrrhonist chain, pragmatic maxim, James genuine option (build), believer-rejects check, applied desires case, lost-job case in two cards (Stoic/Epicurean, Pyrrhonist/Camusian), summary with 6 blanks. No widget (verbal distinctions), no images (none: recall lesson, nothing new to picture). No numeric card: the level has no numbers; applied cards give cases only, no formula stated. Web-rechecked 8 sources (see VERIFIED). Choices: Enchiridion 1 says "command" not "office", so cards say body, property, reputation; dropped an unconfirmed "shadow" image for Pyrrhonism. Conventions fixed here: recall chains as in CONVENTIONS Chapter 24 intuition line; lost-job scenario sorts four replies by school.
+
 ## 2026-11-23: ch24-traps (Traps)
 22 cards (welcome, 20 mcq of which 2 multiple-select, summary), no widget (fast recognition questions, nothing to manipulate), no images (none: traps introduce no new person or object). Web-checked per VERIFIED.md. Choices made autonomously: 20 questions cover essence, nature vs condition, God is dead, nihilism, absurd location, Sisyphus bridge premise, labels, Stoic feelings and control and CBT, Epicurus feast, gods and death, humanism, skepticism and apraxia, James truth and will to believe, transhuman readiness; length 22, over the 20 ideal and under 25, kept to cover every lesson. Conventions fixed here: none new (all reused).
 
