@@ -1,0 +1,332 @@
+id: ch02-space-time
+title: 'Where and When: Frames and Vectors'
+kind: concept
+own: |
+  Setting: ordinary three-dimensional space with a **reference frame**, that is, an origin $O$, three perpendicular axes and a clock. A point $P$ is labelled by its **position vector** $\mathbf{r}$ from $O$, and time $t$ is a single number every observer shares, up to the choice of its zero.
+  - **Position vector.** With unit vectors $\hat{\mathbf{x}}, \hat{\mathbf{y}}, \hat{\mathbf{z}}$ along the axes, $\mathbf{r}$ has components $(x, y, z)$, also written $r_1, r_2, r_3$ with unit vectors $\mathbf{e}_1, \mathbf{e}_2, \mathbf{e}_3$. Turning the axes changes the components, never the arrow.
+    {{ $$\mathbf{r} = x\hat{\mathbf{x}} + y\hat{\mathbf{y}} + z\hat{\mathbf{z}} = \sum_{i=1}^{3} r_i \mathbf{e}_i$$ }}
+  - **Dot product.** For vectors $\mathbf{r} = (r_1, r_2, r_3)$ and $\mathbf{s} = (s_1, s_2, s_3)$ at angle $\theta$, with magnitudes $r$ and $s$, the dot product is a number: the length of $\mathbf{r}$ times the part of $\mathbf{s}$ along it. It gives the magnitude and the work $\mathbf{F}\cdot d\mathbf{r}$.
+    {{ $$\mathbf{r}\cdot\mathbf{s} = rs\cos\theta = r_1 s_1 + r_2 s_2 + r_3 s_3$$ }}
+    $$|\mathbf{r}| = \sqrt{\mathbf{r}\cdot\mathbf{r}}$$
+  - **Cross product.** The vector $\mathbf{p} = \mathbf{r}\times\mathbf{s}$ is perpendicular to both $\mathbf{r}$ and $\mathbf{s}$ (right-hand rule), and reversing the order reverses it.
+    {{ $$p_x = r_y s_z - r_z s_y$$ }}
+    $$|\mathbf{r}\times\mathbf{s}| = rs\sin\theta$$
+  - **Velocity and acceleration.** For a path $\mathbf{r}(t)$, the derivative is a limit of changes in $\mathbf{r}$ over changes in $t$. Because $\hat{\mathbf{x}}, \hat{\mathbf{y}}, \hat{\mathbf{z}}$ are constant, each component is differentiated alone (for $v_y$ and $a_y$ likewise).
+    {{ $$\mathbf{v} = \frac{d\mathbf{r}}{dt}, \qquad \mathbf{a} = \frac{d\mathbf{v}}{dt}$$ }}
+    $$v_x = \frac{dx}{dt}$$
+    Zero velocity at one instant does not mean zero acceleration (the top of a throw).
+  - **Two frames.** Frame $S'$ moves with constant velocity $\mathbf{u}$ relative to frame $S$, with parallel axes and origins together at $t = 0$. A particle has position $\mathbf{r}'$, velocity $\mathbf{v}'$ and acceleration $\mathbf{a}'$ in $S'$, and $\mathbf{r}, \mathbf{v}, \mathbf{a}$ in $S$.
+    {{ $$\mathbf{v} = \mathbf{v}' + \mathbf{u}$$ }}
+    $$\mathbf{a} = \mathbf{a}'$$
+    Velocities depend on the frame, accelerations of this kind do not.
+cards:
+  - type: text
+    id: hook
+    title: Before any theory, guess
+    body: |
+      A long train passes a platform at a steady $20\ \mathrm{m/s}$. Inside, a passenger sits at the rear and rolls a ball along the floor toward a wall of the carriage, $6\ \mathrm{m}$ ahead of the ball. The ball moves at a steady $3\ \mathrm{m/s}$ **relative to the train**. A friend standing on the platform watches the same ball through the window.
+
+      The two observers will not give the same position for the ball. They will not give the same velocity either: the passenger says $3\ \mathrm{m/s}$, and the friend says something else. Yet both watch one and the same ball. This lesson builds the language to compare their descriptions, and the question is what survives the change of observer.
+
+  - type: mcq
+    id: hook-guess
+    prompt: |
+      A train moves past a platform at a steady $20\ \mathrm{m/s}$. A passenger rolls a ball toward a wall of the carriage $6\ \mathrm{m}$ ahead, at a steady $3\ \mathrm{m/s}$ relative to the train. The passenger and a friend on the platform both watch the ball until it hits the wall. Guess: which of these will the two observers **agree** on? Select all that apply.
+    multiple: true
+    options:
+      - text: The time at which the ball hits the wall
+        correct: true
+      - text: The distance between the ball and the wall at each instant
+        correct: true
+      - text: The speed of the ball
+        feedback: |
+          They disagree: the passenger measures $3\ \mathrm{m/s}$, while the platform sees the ball carried along by the train as well.
+      - text: The position of the ball at the moment it is released
+        feedback: |
+          The passenger measures it from a point of the carriage, the friend from a point of the platform, and these points drift apart as the train moves. Positions depend on where you put the origin.
+      - text: The acceleration of the ball
+        correct: true
+    explanation: |
+      Two descriptions of one event need not agree in their numbers, but some things are the same for both. The lesson will show that the times, the gap between ball and wall, and the acceleration survive the change of observer, while positions and velocities do not.
+
+  - type: text
+    id: frame
+    title: A frame is an origin, axes and a clock
+    body: |
+      To give a number to "where", you must choose a **reference frame**: a point $O$ called the origin, three perpendicular axes through it, and a clock to say "when". Almost every problem in mechanics has such a choice in it, spoken or not.
+
+      Two frames may differ only a little. One may start its clock at another moment: what the first calls $t$, the second calls $t' = t - t_0$ for a constant $t_0$. Or they may share the origin and clock but have turned axes. Or one origin may move with respect to the other, which is the case of the train and the platform.
+
+      We adopt the classical view: **time is one universal parameter**. If all observers carry accurate, synchronized clocks, they agree on the time of any event, apart from the choice of the zero of the clock. (Special relativity corrects this at speeds near the speed of light. The course covers it elsewhere.) Which moving frames are good for the laws of motion is the subject of the lesson Inertia and F = ma.
+
+  - type: numeric
+    id: clock-shift
+    prompt: |
+      Frame $S$ and frame $S'$ share their origin and axes, but the clock of $S'$ reads $t' = t - 5\ \mathrm{s}$, where $t$ is the clock of $S$. A ball is released at $t = 12\ \mathrm{s}$ and caught at $t = 15\ \mathrm{s}$. How long, in seconds, does the flight last according to $S'$?
+    answer: 3
+    wrong:
+      - { value: 2, feedback: 'Subtracting $5$ from only one of the two times would give a nonsense interval. Both times shift by the same $5\ \mathrm{s}$.' }
+    hint: Compute the times $t'$ of release and catch in $S'$, then subtract.
+    explanation: |
+      Release at $t' = 12 - 5 = 7\ \mathrm{s}$, catch at $t' = 15 - 5 = 10\ \mathrm{s}$, so the interval is $10 - 7 = 3\ \mathrm{s}$, the same as in $S$. Shifting the zero of the clock changes every time by the same amount, so intervals do not change.
+
+  - type: text
+    id: position
+    title: The position vector
+    body: |
+      Once a frame is chosen, each point $P$ of space is labelled by its **position vector** $\mathbf{r}$: the arrow from $O$ to $P$, giving the distance and direction. Boldface marks a vector. The usual way to write it is by components along the axes, with unit vectors $\hat{\mathbf{x}}, \hat{\mathbf{y}}, \hat{\mathbf{z}}$ (arrows of length $1$ along the axes, the hat meaning "length one"):
+
+      $$\mathbf{r} = x\hat{\mathbf{x}} + y\hat{\mathbf{y}} + z\hat{\mathbf{z}}$$
+
+      Short forms: $\mathbf{r} = (x, y, z)$ lists the components. To use sums, relabel $x, y, z$ as $r_1, r_2, r_3$ and the unit vectors as $\mathbf{e}_1, \mathbf{e}_2, \mathbf{e}_3$ (the letter $\mathbf{e}$ is common for unit vectors, from the German "eins"):
+
+      $$\mathbf{r} = \sum_{i=1}^{3} r_i \mathbf{e}_i$$
+
+      Vectors add component by component, $\mathbf{r} + \mathbf{s} = (r_1 + s_1, r_2 + s_2, r_3 + s_3)$, and a number $c$ multiplies every component, $c\mathbf{r} = (cr_1, cr_2, cr_3)$. A force and an acceleration are vectors too: the velocity $\mathbf{v}$ has components $v_x, v_y, v_z$, and the acceleration $\mathbf{a}$ has $a_x, a_y, a_z$.
+
+  - type: widget
+    id: playground
+    title: Same arrow, new components
+    widget: basis-playground
+    config:
+      vector: [3, 2]
+      basis: [[1, 0], [0, 1]]
+      snap: 0.25
+      presets:
+        - { label: 'Rotate 30°', basis: [[0.866, 0.5], [-0.5, 0.866]] }
+    body: |
+      The faint grid shows one frame's axes. The purple arrows are another pair of perpendicular axes that you can drag, and the arrow marked $\mathcal{X}$ is a fixed arrow in the plane, with its components along the purple axes in the readout.
+
+      **Try:** press **Rotate 30°**, then drag the purple arrows to turn the axes about, and watch the readout. Check that $\mathcal{X}$ itself never moves.
+
+  - type: mcq
+    id: playground-q
+    review: false
+    prompt: |
+      In the playground, you turn the purple axes by $30°$. What changes and what stays?
+    options:
+      - text: The components of the arrow change, while the arrow and its length stay the same
+        correct: true
+      - text: The arrow turns with the axes, so its components stay at $3$ and $2$
+        feedback: |
+          The arrow is a fixed thing in the plane, and you can see it did not move. Only the labelling, the axes you measure it against, was turned.
+      - text: Both the arrow and its components stay the same
+        feedback: |
+          The arrow is unchanged, but its components are measurements against the axes, so new axes give new numbers (about $3.6$ and $0.2$ for $30°$).
+    explanation: |
+      A vector is an arrow in space. Its components are only its measurements along the axes of one frame. With axes turned by $30°$ the components $(3, 2)$ become about $(3.6, 0.2)$, but the length $\sqrt{3^2 + 2^2} = \sqrt{13}$ is the same in both lists. Quantities that survive a change of frame are the ones that tell about physics.
+
+  - type: text
+    id: dot
+    title: The dot product
+    body: |
+      Two vectors $\mathbf{r} = (r_1, r_2, r_3)$ and $\mathbf{s} = (s_1, s_2, s_3)$ can be multiplied in two useful ways. The first gives a **number**, the **scalar product** (or dot product):
+
+      $$\mathbf{r}\cdot\mathbf{s} = rs\cos\theta$$
+
+      Here $r$ and $s$ are the magnitudes (lengths) of the vectors and $\theta$ is the angle between them. In components the same number is
+
+      $$\mathbf{r}\cdot\mathbf{s} = r_1 s_1 + r_2 s_2 + r_3 s_3 = \sum_{n=1}^{3} r_n s_n$$
+
+      Read $s\cos\theta$ as the part of $\mathbf{s}$ lying along $\mathbf{r}$ (its projection), so the dot product is the length of $\mathbf{r}$ times that part. It is largest when the vectors are parallel and zero when they are perpendicular. Dotting a vector with itself gives its magnitude, by Pythagoras:
+
+      $$r = |\mathbf{r}| = \sqrt{\mathbf{r}\cdot\mathbf{r}}$$
+
+      When a force $\mathbf{F}$ acts on an object that moves through a small displacement $d\mathbf{r}$, the work done is $\mathbf{F}\cdot d\mathbf{r}$.
+
+  - type: numeric
+    id: dot-work
+    prompt: |
+      A force $\mathbf{F} = (3, 0, 4)\ \mathrm{N}$ acts on a body that moves through the displacement $\Delta\mathbf{r} = (2, 5, 1)\ \mathrm{m}$. The work is $\mathbf{F}\cdot\Delta\mathbf{r}$, the dot product of the force with the displacement. What is it, in joules?
+    answer: 10
+    wrong:
+      - { value: 4, feedback: 'That is only the $z$ term, $4 \cdot 1$. The dot product sums the products of all three pairs of components.' }
+      - { value: 15, feedback: 'You added $3 + 5 + 4 + 2 + 1$ in some way, but the rule multiplies matching components $F_i \Delta r_i$ and then adds.' }
+    hint: Multiply the first components together, the second together, the third together, then add.
+    explanation: |
+      Using $\mathbf{F}\cdot\Delta\mathbf{r} = F_x \Delta r_x + F_y \Delta r_y + F_z \Delta r_z$:
+
+      $$3\cdot 2 + 0\cdot 5 + 4\cdot 1 = 6 + 0 + 4 = 10\ \mathrm{J}$$
+
+      The middle term is zero: the displacement along $y$ is free of any push in that direction.
+
+  - type: text
+    id: cross
+    title: The cross product
+    body: |
+      The second product gives a **vector**, the **vector product** (or cross product) $\mathbf{p} = \mathbf{r}\times\mathbf{s}$, with components
+
+      $$\begin{aligned} p_x &= r_y s_z - r_z s_y \\ p_y &= r_z s_x - r_x s_z \\ p_z &= r_x s_y - r_y s_x \end{aligned}$$
+
+      Each line takes the other two indices in cyclic order ($x \to y \to z \to x$). Two facts follow from these formulas. The vector $\mathbf{r}\times\mathbf{s}$ is **perpendicular to both** $\mathbf{r}$ and $\mathbf{s}$, with its direction given by the right-hand rule (curl the fingers of the right hand from $\mathbf{r}$ toward $\mathbf{s}$, and the thumb points along $\mathbf{p}$). And its magnitude is
+
+      $$|\mathbf{r}\times\mathbf{s}| = rs\sin\theta$$
+
+      with $\theta$ the angle between the vectors. It plays a central role in rotation: the torque of a force $\mathbf{F}$ acting at the point $\mathbf{r}$ is $\boldsymbol{\Gamma} = \mathbf{r}\times\mathbf{F}$.
+
+  - type: build
+    id: cross-build
+    prompt: |
+      Build the $x$ component of $\mathbf{p} = \mathbf{r}\times\mathbf{s}$ from the components of $\mathbf{r}$ and $\mathbf{s}$.
+    prefix: 'p_x ='
+    tiles: ['r_y s_z', 'r_z s_y', '-', '+', 'r_x s_y']
+    answers:
+      - ['r_y s_z', '-', 'r_z s_y']
+    wrong:
+      - answer: ['r_z s_y', '-', 'r_y s_z']
+        feedback: 'This is the right pair of terms in the wrong order, which gives $-p_x$. Swapping $\mathbf{r}$ and $\mathbf{s}$ flips the sign of a cross product, so the order matters.'
+      - answer: ['r_y s_z', '+', 'r_z s_y']
+        feedback: 'With a plus the result would not change when $\mathbf{r}$ and $\mathbf{s}$ are swapped. The cross product reverses, so a minus must join the two products.'
+    hint: The $x$ component involves only the $y$ and $z$ components of both vectors.
+    explanation: |
+      The $x$ component must not depend on $r_x$ or $s_x$, because the product is perpendicular to $\mathbf{r}$ and $\mathbf{s}$ and the formula pairs the other two indices: $p_x = r_y s_z - r_z s_y$.
+
+  - type: mcq
+    id: cross-direction
+    prompt: |
+      The unit vector $\hat{\mathbf{x}}$ points along the $x$ axis and $\hat{\mathbf{y}}$ along the $y$ axis. Which is correct for $\hat{\mathbf{x}}\times\hat{\mathbf{y}}$ and $\hat{\mathbf{y}}\times\hat{\mathbf{x}}$?
+    options:
+      - text: $\hat{\mathbf{x}}\times\hat{\mathbf{y}} = \hat{\mathbf{z}}$ and $\hat{\mathbf{y}}\times\hat{\mathbf{x}} = -\hat{\mathbf{z}}$
+        correct: true
+      - text: Both point in the $xy$ plane, halfway between the two vectors
+        feedback: |
+          That is the direction of the sum $\hat{\mathbf{x}} + \hat{\mathbf{y}}$. The cross product points out of the plane of the two vectors, perpendicular to both.
+      - text: Both equal $\hat{\mathbf{z}}$, since a product should not depend on the order
+        feedback: |
+          Numbers commute, but the cross product does not: swapping the factors reverses the direction. The formula for $p_z = r_x s_y - r_y s_x$ changes sign when $\mathbf{r}$ and $\mathbf{s}$ are swapped.
+      - text: Both are $\mathbf{0}$, because the vectors are perpendicular
+        feedback: |
+          Perpendicular vectors have a **zero dot product**. The cross product has magnitude $rs\sin 90° = 1$, its largest value, and it vanishes for parallel vectors.
+    explanation: |
+      For $\mathbf{r} = \hat{\mathbf{x}} = (1, 0, 0)$ and $\mathbf{s} = \hat{\mathbf{y}} = (0, 1, 0)$ only $p_z = r_x s_y - r_y s_x = 1$ survives, so $\hat{\mathbf{x}}\times\hat{\mathbf{y}} = \hat{\mathbf{z}}$. Swapping gives $p_z = -1$.
+
+  - type: numeric
+    id: cross-size
+    prompt: |
+      Take $\mathbf{r} = (2, 0, 0)$ and $\mathbf{s} = (1, 3, 0)$, in the same units. Find $|\mathbf{r}\times\mathbf{s}|$, the magnitude of the cross product.
+    answer: 6
+    wrong:
+      - { value: 2, feedback: 'That is the dot product $\mathbf{r}\cdot\mathbf{s} = 2$. The magnitude of the cross product needs the components of $\mathbf{r}\times\mathbf{s}$, or $rs\sin\theta$.' }
+    hint: Only the $z$ component survives, since both vectors lie in the $xy$ plane.
+    explanation: |
+      Both vectors lie in the $xy$ plane, so $p_x = p_y = 0$ and
+
+      $$p_z = r_x s_y - r_y s_x = 2\cdot 3 - 0\cdot 1 = 6$$
+
+      The check with $rs\sin\theta$: $r = 2$, $s = \sqrt{10}$, $\sin\theta = 3/\sqrt{10}$, giving $2\sqrt{10}\cdot 3/\sqrt{10} = 6$.
+
+  - type: text
+    id: derivative
+    title: Velocity and acceleration
+    body: |
+      A moving particle has a position $\mathbf{r}(t)$ that depends on time. Its **velocity** is the time derivative and its **acceleration** the derivative of the velocity:
+
+      $$\mathbf{v} = \frac{d\mathbf{r}}{dt}, \qquad \mathbf{a} = \frac{d\mathbf{v}}{dt}$$
+
+      The derivative of a vector is defined as for a number, from the change $\Delta\mathbf{r} = \mathbf{r}(t + \Delta t) - \mathbf{r}(t)$ over the time step:
+
+      $$\frac{d\mathbf{r}}{dt} = \lim_{\Delta t\to 0}\frac{\Delta\mathbf{r}}{\Delta t}$$
+
+      In practice we differentiate component by component. Write $\mathbf{r} = x\hat{\mathbf{x}} + y\hat{\mathbf{y}} + z\hat{\mathbf{z}}$. The sum rule and the product rule give six terms, but the unit vectors do not depend on time, so their derivatives vanish and three terms remain:
+
+      $$\frac{d\mathbf{r}}{dt} = \frac{dx}{dt}\hat{\mathbf{x}} + \frac{dy}{dt}\hat{\mathbf{y}} + \frac{dz}{dt}\hat{\mathbf{z}}$$
+
+      So the components of $\mathbf{v}$ are $v_x = dx/dt$, $v_y = dy/dt$, $v_z = dz/dt$, and likewise for $\mathbf{a}$. This simple rule is true **only because** $\hat{\mathbf{x}}, \hat{\mathbf{y}}, \hat{\mathbf{z}}$ are constant. In coordinates whose unit vectors turn from point to point, such as polar coordinates, extra terms appear.
+
+  - type: numeric
+    id: throw-v
+    prompt: |
+      A ball is thrown so that its position in a frame with $y$ pointing up is $x = 4t$ and $y = 10t - 5t^2$ (meters, with $t$ in seconds). Find the velocity component $v_y = dy/dt$ at $t = 1.5\ \mathrm{s}$, in m/s.
+    answer: -5
+    wrong:
+      - { value: 5, feedback: 'The sign matters: at $t = 1.5\ \mathrm{s}$ the ball is already past its highest point and moving down.' }
+      - { value: 7.5, feedback: 'That is the value of $y$ at $t = 1.5$. Differentiate before you evaluate.' }
+    hint: Differentiate $y(t)$ first, then put in the time.
+    explanation: |
+      Using $v_y = dy/dt$, $v_y = 10 - 10t$, which at $t = 1.5$ gives $10 - 15 = -5\ \mathrm{m/s}$. The minus sign says the ball is moving down. (Here $g = 10\ \mathrm{m/s^2}$ is rounded to keep the numbers clean.)
+
+  - type: numeric
+    id: throw-a
+    prompt: |
+      For the same ball, $x = 4t$ and $y = 10t - 5t^2$, find the acceleration component $a_y = dv_y/dt$, in $\mathrm{m/s^2}$.
+    answer: -10
+    wrong:
+      - { value: 10, feedback: 'The velocity $v_y = 10 - 10t$ decreases with time, so its derivative is negative: the acceleration points down.' }
+      - { value: 0, feedback: 'The acceleration $a_x$ is zero, since $v_x = 4$ is constant. But $v_y$ changes at every instant.' }
+    hint: Differentiate $v_y = 10 - 10t$.
+    explanation: |
+      $a_y = d(10 - 10t)/dt = -10\ \mathrm{m/s^2}$, the same at every instant, and $a_x = 0$. This is the acceleration of free fall.
+
+  - type: mcq
+    id: top-of-throw
+    prompt: |
+      A ball is thrown straight up. At the highest point of its flight, for an instant, its velocity is zero. What is its acceleration at that instant?
+    options:
+      - text: About $10\ \mathrm{m/s^2}$ downward, the same as during the rest of the flight
+        correct: true
+      - text: Zero, since the ball is not moving
+        feedback: |
+          Zero velocity at one instant is not zero acceleration. The acceleration is the **rate of change** of the velocity, and the velocity is changing from upward to downward at that very moment.
+      - text: Undefined, because the ball changes direction there
+        feedback: |
+          The velocity $v_y = v_0 - gt$ is a smooth function of time, so its derivative exists everywhere and equals $-g$. A change of direction needs no special rule.
+      - text: About $10\ \mathrm{m/s^2}$ upward, to stop the ball
+        feedback: |
+          Nothing pushes the ball up after it leaves the hand. The pull of the Earth is down all the way, and it is this downward acceleration that makes the upward velocity shrink to zero.
+    explanation: |
+      Velocity and acceleration are different quantities: $v_y = 0$ at the top, $a_y = -10\ \mathrm{m/s^2}$ throughout. If the acceleration were zero there, the ball would hover.
+
+  - type: text
+    id: two-frames
+    title: Two frames, one ball
+    body: |
+      Return to the train and the platform. Let $S$ be the platform frame and $S'$ the train frame. $S'$ moves with a constant velocity $\mathbf{u}$ relative to $S$, with parallel axes, and the origins coincide at $t = 0$. The time $t$ is the same in both. A point at $\mathbf{r}'$ in $S'$ is then at
+
+      $$\mathbf{r} = \mathbf{r}' + \mathbf{u}t$$
+
+      in $S$, since the origin of $S'$ has moved a distance $\mathbf{u}t$. Differentiate in time, using the sum rule and the fact that $\mathbf{u}$ is constant:
+
+      $$\mathbf{v} = \mathbf{v}' + \mathbf{u}$$
+
+      and again, with $\mathbf{u}$ constant so that $d\mathbf{u}/dt = \mathbf{0}$:
+
+      $$\mathbf{a} = \mathbf{a}'$$
+
+      For the ball: $\mathbf{v}' = 3\hat{\mathbf{x}}$ and $\mathbf{u} = 20\hat{\mathbf{x}}$ (in m/s), so the friend on the platform finds $\mathbf{v} = 23\hat{\mathbf{x}}\ \mathrm{m/s}$. The ball needs $6/3 = 2\ \mathrm{s}$ to reach the wall. In that time the platform sees the ball move $23\cdot 2 = 46\ \mathrm{m}$ while the wall, which started $6\ \mathrm{m}$ ahead, moves to $6 + 20\cdot 2 = 46\ \mathrm{m}$: the same time of arrival, the same gap, and the same (zero) acceleration, but different speeds and positions.
+
+  - type: numeric
+    id: boat
+    prompt: |
+      A river flows at $4\ \mathrm{m/s}$ relative to the bank. A boat is steered straight across, perpendicular to the current, at $3\ \mathrm{m/s}$ relative to the water. Take $S$ = the bank frame and $S'$ = the water frame, so $\mathbf{u} = (4, 0)$ and $\mathbf{v}' = (0, 3)$ in m/s, with $x$ downstream and $y$ across. How fast does the boat move relative to the bank, in m/s?
+    answer: 5
+    wrong:
+      - { value: 7, feedback: 'You added the speeds. Velocities add as **vectors**: the two velocities are perpendicular, so $\mathbf{v}=\mathbf{v}''+\mathbf{u}$ is the diagonal and its length needs Pythagoras.' }
+      - { value: 3, feedback: 'That is the speed relative to the water. The bank sees the water moving too, so the velocity relative to the bank is $\mathbf{v}''+\mathbf{u}$.' }
+    hint: Add the vectors component by component, then take the magnitude.
+    explanation: |
+      Using $\mathbf{v} = \mathbf{v}' + \mathbf{u}$,
+
+      $$\mathbf{v} = (0, 3) + (4, 0) = (4, 3)\ \mathrm{m/s}$$
+
+      and its magnitude is $|\mathbf{v}| = \sqrt{4^2 + 3^2} = 5\ \mathrm{m/s}$. The boat lands downstream of the point it aimed at.
+
+  - type: mcq
+    id: accel-frames
+    prompt: |
+      Frame $S'$ moves relative to frame $S$ with a **constant** velocity $\mathbf{u}$, with parallel axes. A ball has acceleration $\mathbf{a}' = (0, -10)\ \mathrm{m/s^2}$ in $S'$. What is its acceleration $\mathbf{a}$ in $S$?
+    options:
+      - text: $(0, -10)\ \mathrm{m/s^2}$, the same, because $\mathbf{u}$ does not change
+        correct: true
+      - text: $(0, -10) + \mathbf{u}$, adding the frame's velocity as for velocities
+        feedback: |
+          The velocity rule $\mathbf{v} = \mathbf{v}' + \mathbf{u}$ adds $\mathbf{u}$, but accelerations are derivatives of velocities, and the derivative of a constant $\mathbf{u}$ is zero. The $\mathbf{u}$ disappears.
+      - text: It depends on the size of $\mathbf{u}$, since a faster frame sees a different motion
+        feedback: |
+          Different speed of the frame shifts every velocity by the same constant, which cannot change how fast a velocity changes.
+    explanation: |
+      From $\mathbf{v} = \mathbf{v}' + \mathbf{u}$, differentiation gives $\mathbf{a} = \mathbf{a}' + d\mathbf{u}/dt = \mathbf{a}'$. If the frame itself accelerated, $d\mathbf{u}/dt$ would not vanish and the two observers would disagree on the acceleration too.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the acceleration of a body is the same in all frames that move at constant velocity relative to each other, but not in a frame that speeds up or turns. So when do the laws of motion look simple in a frame? The lesson Inertia and F = ma answers by finding the special frames where a body with no forces simply keeps its velocity.

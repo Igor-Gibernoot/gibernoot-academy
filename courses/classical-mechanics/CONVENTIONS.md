@@ -16,3 +16,7 @@ Notation, running examples and key numbers fixed while building. Read only the s
 - Challenge: lifeguard A (0,12) m, B (20,-8) m, 5 and 1.5 m/s, best crossing 17.94 m (9.82 s); kicked pendulum p = 1.6, E = 1.28.
 - Phase space intro: $q$ position, $p$ momentum (here $p = \dot q$, $m = 1$); periods of the pendulum: 6.35 ($q_0 = 0.4$), 7.30 (1.5), 16.16 (3), spinner $p = 3$ gives 2.41; spring $2\pi$; separatrix $E = 2$.
 - Challenge part 2: thrown ball m = 1 kg, g = 10, ground to ground in 3 s, family y = a t(3-t), S(a) = 4.5 a^2 - 45 a, real peak 11.25 m (S = -112.5); hill V = -q^2/2, $\ddot q = q$, q = q0 cosh t, from q0 = 0.1 reaches q = 2 at t = 3.69, from 0.001 at 8.29; E = 0 lines are the hill's separatrices.
+
+## Chapter 2
+- Frames $S$ (platform, bank) and $S'$ (train, water), constant relative velocity $\mathbf{u}$, $\mathbf{r} = \mathbf{r}' + \mathbf{u}t$, $\mathbf{v} = \mathbf{v}' + \mathbf{u}$, $\mathbf{a} = \mathbf{a}'$. Train 20 m/s, ball 3 m/s, wall 6 m; river 4 m/s, boat 3 m/s (speed 5).
+- Taylor notation: $\hat{\mathbf{x}},\hat{\mathbf{y}},\hat{\mathbf{z}}$ or $\mathbf{e}_i$, components $r_i$; torque $\boldsymbol{\Gamma} = \mathbf{r}\times\mathbf{F}$. Thrown ball $x = 4t$, $y = 10t - 5t^2$ (g = 10 for round numbers).
