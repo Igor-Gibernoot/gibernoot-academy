@@ -21,7 +21,7 @@ context stays small. Igor reviews the level on the live site at the end.
   external fact (names, dates, works, studies, numbers, attributions,
   quotations; in physics-style courses also constants, material properties,
   typical real-world values and how a real device works) must be web-checked in this session, following `docs/WEB_SEARCH.md` (short keyword queries, at least 3 variations, primary/reference sites, attempts logged as `tried:`; an item is unconfirmed only after all fail), and its line in
-  `VERIFIED.md` needs `web: <source>` per item. If you cannot search, or an item stays
+  `VERIFIED.md` needs `web: <source>` per item, tagged `read`, `snippet only` or `wikipedia only` (WEB_SEARCH.md items 9 and 10: quotations, exact dates, titles and "scholars say" claims need `read` on a primary or reference page; items left open carry `candidates:` links and alternative sources tried). If you cannot search, or an item stays
   unconfirmed, do not commit: report 'UNVERIFIED: <items>' instead.
   Do not view screenshot images unless shots.mjs flags a card or the unit
   uses a widget preset never used before. Run commands from the repo root

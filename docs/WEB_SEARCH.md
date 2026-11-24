@@ -33,3 +33,26 @@ it at once). **A fact is "unconfirmed" only after every step below fails.**
    Britannica returns 403 to the fetcher (bot block): use SEP, IEP, Jewish
    Virtual Library, Jewish Encyclopedia, Access to Insight, newadvent.org,
    vatican.va, wisdomlib or Warren's Buddhism in Translations instead.
+9. **What counts as confirmed (strength of support).** Mark every checked item
+   in `VERIFIED.md` with its strength:
+   - `read`: the sentence or number was read on a primary or reference page
+     (full text, PDF, SEP/IEP, publisher, archive, museum, society or
+     university page). Only this supports a quotation, an exact date, a title
+     with pages, or a "scholars say / X argues" claim.
+   - `snippet only`: only a search-result summary showed it. Keep the claim
+     soft ("about", "reported") or open the page before the lesson states it
+     as fact.
+   - `wikipedia only`: Wikipedia is the only support. Find a second source,
+     or soften, or mark NOT CONFIRMED.
+10. **Alternative sources and candidate links.** Before an item is marked
+    NOT CONFIRMED, list at least three other places that could hold it and try
+    each: a different reference work (SEP, IEP, Jewish Virtual Library, New
+    Advent, Wisdomlib, Access to Insight), a primary text (Wikisource,
+    Gutenberg, archive.org, Fordham), an institution (university, society,
+    museum, journal, court, agency), an obituary or memorial notice for
+    people's dates, Wikipedia's own citations for the page (follow them to the
+    original), a Google Scholar or PhilPapers entry for authors and titles.
+    Log them in `tried:`. For anything left open, write in `VERIFIED.md`
+    `candidates: <url or search phrase>; <url or search phrase>` so a later
+    pass or the user can check it quickly. Britannica-only items go to the
+    paste list with the search phrase to find the entry.
