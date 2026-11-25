@@ -5,4 +5,3 @@
 - ch15-thinkers: Council of Lyon (1274) and canon NOT STATED (lesson makes no canon claim); Worms "declared heretic and outlaw" not in the pasted text. candidates: search "Edict of Worms 1521 Luther outlaw Decet Romanum Pontificem".
 - ch19-confucius: Wu Daoxuan (Wu Daozi) birth and death years NOT STATED on Britannica ("flourished c. 700-760"). candidates: search "Wu Daozi birth death dates Tang painter".
 - ch19-movements: scholarly or non-Mormon account of Book of Mormon production NOT STATED on Britannica (lesson rests on Midgley 2001 and Wikipedia). candidates: search "Book of Mormon origin scholarly view non-LDS historians".
-- ch15-world: Cyrus edict date (538 BCE, first year of Cyrus) and Babylon 539 on Britannica "Babylonian Captivity". candidates: search "Babylonian Captivity Britannica Cyrus edict 538".
