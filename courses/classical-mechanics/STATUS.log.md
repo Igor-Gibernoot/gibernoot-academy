@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-24 ch02-map (Level 2 content map, autonomous)
+Built `ch02/map.yaml`: 9 boxes (frames, first law, second law; accelerating frames, third law, cartesian incline; total momentum, polar acceleration, polar unit vectors), 2 decoys each, 11 cards. No archive map existed; boxes follow the level's lessons. No widget, no exam rule applies. Images: none: a map card needs none. Displayed formulas split to one per line in the frames and incline boxes (phone overflow flagged by shots). Conventions fixed here: none new.
+
 ## 2026-11-24 ch02-intuition (Level 2, intuition, 18 cards, autonomous)
 Built `ch02/intuition.yaml` with `own:` (6 blanks), no widget (recall cards), Images: none: no person, experiment or object to picture. Flow: hook, build cards (F_x = m x-ddot, N = mg cos theta, x-ddot incline, tan theta > mu_s, r-hat components, d phi-hat/dt, v, a_r, a_phi), incline limit mcq, units mcq, radial-line mcq, doubling check (x4), then data-only problems (stone 0.3 kg, r 0.4, v 2 gives 3 N; bead a_phi = 1 + 12 = 13; 28 deg slope, mu_s 0.55 stays). Validate 0 errors, 0 warnings; shots 0 problems. Choice: 18 cards (plan said about 14) because each build is one card; kept under 20. Conventions fixed here: none new (reuses the incline and polar conventions).
 

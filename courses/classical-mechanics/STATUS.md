@@ -23,7 +23,8 @@
 - **Built:** `ch02-polar-proof` (Level 2, guided proof, 23 cards, polar-motion x2, no image). Proves the unit-vector rates from components and derives the four-term acceleration.
 - **Built:** `ch02-traps` (Level 2, traps, 15 cards, no widget, no image).
 - **Built:** `ch02-intuition` (Level 2, intuition, 18 cards, no widget, no image).
-- **Next unit:** `ch02-map` (content map of Level 2). Then `ch02-challenge`.
+- **Built:** `ch02-map` (Level 2 content map, 9 boxes in three columns: frames, first law, second law; accelerating frames, third law, cartesian; momentum, polar acceleration, polar unit vectors).
+- **Next unit:** `ch02-challenge` part 1 (problems 1-3), then part 2 (problems 4-5).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
