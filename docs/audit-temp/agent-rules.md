@@ -1,0 +1,11 @@
+# Rules for every audit agent (science-faith-mind source audit)
+Repo root: /Users/igoroliveira/Library/CloudStorage/Dropbox/Igor_Oliveira/USP/gibernoot-academy. Read docs/WEB_SEARCH.md first (items 8-11). Course: courses/science-faith-mind (read its CLAUDE.md "Web check" rule only).
+Find the lesson's VERIFIED.md line with `grep -n "<lessonId>" courses/science-faith-mind/VERIFIED.md` (never read the whole file).
+1. FIRST open every `candidates:` link/search phrase in that line (WebFetch; for a search phrase, WebSearch then open the hit). Only a link that fails may stay in candidates:, with the failure in tried:.
+2. Re-check flagged / NOT CONFIRMED / wikipedia-only / snippet-only claims against real pages (not only Wikipedia). Replace Wikipedia-only support. Soften or remove what you cannot confirm; keep card counts.
+3. Where sources disagree on a date or number (e.g. 1981 vs 1983), write the range with attribution: "dated 1981 in some sources and 1983 in others" / "c." -- never silently pick one.
+4. Britannica, Oxford Islamic Studies, sacred-texts, studylight are unfetchable: never guess URL slugs (search first); send Britannica-only claims to the paste list file at docs/audit-temp/britannica-paste-list.md (append one line: lesson, search phrase, what is needed).
+5. Write ONE updated VERIFIED.md line for the lesson (edit the existing line in place): `web:` sources, strength tags (`read`, `snippet only`, `wikipedia only`) -- write the literal words "strength tags" and "NOT CONFIRMED" for open items -- a `tried:` log, and `candidates:` links. Never use the word "memory" in VERIFIED.md.
+6. Run `node tools/validate.mjs science-faith-mind` (must be 0 errors / 0 warnings) and `node tools/shots.mjs science-faith-mind/<file> <lessonId> <scratchpad>/shots` (path relative to courses/; no problems).
+7. Stage BY PATH only (never `git add -A`; never stage courses/classical-mechanics/ch01/challenge.yaml). Commit message ends with "Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>". Push after the lesson.
+8. Report (max 12 lines): commit hash, claims changed (old -> new), still NOT CONFIRMED with candidates, Britannica paste additions. Run commands from the repo root without cd prefixes.
