@@ -19,7 +19,7 @@ cards:
       $$\begin{aligned} a_r &= \ddot r - r\dot\varphi^2 \\ a_\varphi &= r\ddot\varphi + 2\dot r\dot\varphi \end{aligned}$$
       and $F_r = m a_r$, $F_\varphi = m a_\varphi$.
 
-      Part 1 has three problems: a crate on an accelerating cart, two skaters pushing apart, and a bead forced along a spiral. Two more problems come in part 2.
+      Five problems: a crate on an accelerating cart, two skaters pushing apart, a bead forced along a spiral, a block launched up a rough slope, and a puck on a string.
 
   # ---------------------------------------------------------------- Problem 1
   - type: text
@@ -446,15 +446,137 @@ cards:
     explanation: |
       $F_r = m(\ddot r - r\dot\varphi^2) = 0$ forces $\ddot r = r\dot\varphi^2 \neq 0$, and $F_\varphi = 0$ forces $\ddot\varphi = -2\dot r\dot\varphi/r \neq 0$. A free straight line has zero force and zero acceleration, but nonzero second derivatives of the polar coordinates. This is why polar $F = ma$ has the extra terms.
 
+  # ---------------------------------------------------------------- Problem 4
+  - type: widget
+    id: p4-setup
+    title: 'Problem 4: a block launched up a rough slope'
+    widget: incline-block
+    config:
+      angle: 30
+      mus: 0.7
+      muk: 0.4
+      mass: 1
+      sliders: []
+      readouts: [mucrit]
+      show:
+        weight: true
+        normal: true
+        friction: false
+        net: false
+        along: true
+        across: true
+        aPlot: false
+        vPlot: false
+        xPlot: false
+        replay: false
+        cursor: false
+        arc: true
+      labels:
+        mucrit: 'tan of the angle'
+    body: |
+      A slope is tilted at $\theta = 30^\circ$. The surface has static coefficient $\mu_s = 0.7$ and kinetic coefficient $\mu_k = 0.4$. A block is pushed **up** the slope and released with speed $v_0 = 3\ \mathrm{m/s}$ at the moment it leaves the hand. Take $g = 9.8\ \mathrm{m/s^2}$ and ignore air. Choose $x$ along the slope, $y$ perpendicular to it. The picture shows the slope, the weight and its two components. The readout is $\tan\theta$.
+
+  - type: numeric
+    id: p4-dist
+    prompt: |
+      A block is released with speed $3\ \mathrm{m/s}$ **up** a slope tilted at $30^\circ$, with $\mu_s = 0.7$ and $\mu_k = 0.4$, $g = 9.8\ \mathrm{m/s^2}$. It slides up and stops. How far up the slope does it travel, in metres?
+    answer: 0.5425
+    tolerance: 0.01
+    answerText: '0.54'
+    wrong:
+      - { value: 0.918, feedback: 'That is the distance with no friction at all, $v_0^2/(2g\sin\theta)$. Friction adds to the slowing while the block moves up.' }
+      - { value: 2.99, feedback: 'Here friction was taken to point **up** the slope, helping the block along. Kinetic friction opposes the sliding, so while the block moves up it points down the slope, together with the weight component.' }
+      - { value: 0.5102, feedback: 'Close, but the friction force is $\mu_k N$ and $N$ is not $mg$ on a slope. Redo the force balance across the slope first.' }
+    hint: |
+      Two steps. First the force along the slope while the block moves up: which way does each force point? Then constant deceleration gives the distance from the launch speed.
+    explanation: |
+      Across the slope there is no acceleration, so $N = mg\cos\theta$ and the friction has size $\mu_k N = \mu_k m g\cos\theta$. While the block moves up, friction opposes the motion and points down the slope, as does the weight component $mg\sin\theta$. Along $x$ (up the slope positive):
+      $$m\ddot x = -mg\sin\theta - \mu_k m g\cos\theta.$$
+      The mass cancels:
+      $$\ddot x = -9.8\,(0.5 + 0.4 \times 0.866) = -8.29\ \mathrm{m/s^2}.$$
+      With constant deceleration the block stops after
+      $$d = \frac{v_0^2}{2\,|\ddot x|} = \frac{9}{2 \times 8.29} = 0.54\ \mathrm{m}.$$
+
+  - type: mcq
+    id: p4-stay
+    prompt: |
+      A block has just stopped, for an instant, at the top of its climb on a slope tilted at $30^\circ$ with $\mu_s = 0.7$ and $\mu_k = 0.4$. What happens next?
+    options:
+      - text: It stays at rest
+        correct: true
+      - text: It slides back down with $\ddot x = g(\sin\theta - \mu_k\cos\theta) \approx 1.5\ \mathrm{m/s^2}$
+        feedback: |
+          That is the acceleration of a block that is already sliding down. Whether it starts to slide depends on the **static** coefficient, because the block is at rest.
+      - text: It slides back down with the same $8.29\ \mathrm{m/s^2}$ it had while climbing
+        feedback: |
+          That number was the deceleration while friction pointed **down** the slope. At rest the friction can point up the slope, and it changes direction with the motion.
+      - text: It slides back down, because gravity pulls it down and nothing pushes it up
+        feedback: |
+          Static friction can push up the slope, up to $\mu_s N$. Compare that limit with the pull $mg\sin\theta$.
+    explanation: |
+      At rest the block holds if $\tan\theta \le \mu_s$. Here $\tan 30^\circ = 0.577$ is below $\mu_s = 0.7$, so static friction, of size $mg\sin\theta = 0.5\,mg$, stays below its limit $\mu_s N = 0.7 \times 0.866\,mg = 0.61\,mg$. The block stays where it stopped. With $\mu_s = 0.5$ it would slide back, since $\tan\theta > 0.5$, and then at $1.5\ \mathrm{m/s^2}$.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: text
+    id: p5-setup
+    title: 'Problem 5: a puck on a string'
+    body: |
+      A puck of mass $m = 0.25\ \mathrm{kg}$ slides on a frictionless horizontal table. A light string runs from the puck through a small hole at the origin $O$ to a block of mass $M = 0.4\ \mathrm{kg}$ hanging below the table. The string is massless and slides freely through the hole. Take $g = 9.8\ \mathrm{m/s^2}$.
+
+      First the hanging block is at rest, and the puck circles $O$ at the **constant** radius $r = 0.5\ \mathrm{m}$, with constant $\dot\varphi$. The string pulls the puck only along $-\hat{\mathbf r}$, toward $O$.
+
+  - type: numeric
+    id: p5-phidot
+    prompt: |
+      A puck of mass $0.25\ \mathrm{kg}$ circles the origin on a frictionless table at constant radius $r = 0.5\ \mathrm{m}$. A massless string through a hole at the origin holds a block of mass $0.4\ \mathrm{kg}$ at rest below, and the string pulls the puck along $-\hat{\mathbf r}$ only. With $g = 9.8\ \mathrm{m/s^2}$, what is $\dot\varphi$ of the puck, in rad/s?
+    answer: 5.6
+    tolerance: 0.01
+    answerText: '5.6'
+    wrong:
+      - { value: 4.427, feedback: 'That uses the weight of the puck, $mg$, as the string tension. The puck rests on the table, which carries its weight. The string is held by the hanging block.' }
+      - { value: 3.96, feedback: 'This forgets that the radial acceleration is $r\dot\varphi^2$, not $\dot\varphi^2$. The radius $r = 0.5\ \mathrm{m}$ matters.' }
+      - { value: 7.14, feedback: 'The tension is not $(m + M)g$. The string pulls the hanging block up and the puck inward, and only the block hangs from it.' }
+      - { value: 31.36, feedback: 'That is $\dot\varphi^2$. Take the square root.' }
+    hint: |
+      Two bodies, two second laws. The hanging block does not accelerate: what does that say about the string? Then ask what the same string does to the puck, in polar components with $\ddot r = 0$.
+    explanation: |
+      The block is at rest, so the string pulls it up with a force equal to its weight, $T = Mg = 0.4 \times 9.8 = 3.92\ \mathrm{N}$. The string is massless, so it pulls the puck with the same size $T$, and by the third law the string pulls the block up exactly as the block pulls the string down. On the puck the radial law is
+      $$F_r = m(\ddot r - r\dot\varphi^2).$$
+      Here $F_r = -T$ and $\ddot r = 0$, so $T = m r\dot\varphi^2$:
+      $$\begin{aligned}\dot\varphi^2 &= \frac{T}{m r} \\ &= \frac{3.92}{0.25 \times 0.5} = 31.36\end{aligned}$$
+      So $\dot\varphi = 5.6\ \mathrm{rad/s}$.
+      The puck's speed is $r\dot\varphi = 2.8\ \mathrm{m/s}$.
+
+  - type: numeric
+    id: p5-phiddot
+    prompt: |
+      The same puck, on a frictionless table, is now being drawn inward by its string. At one instant $r = 0.5\ \mathrm{m}$, $\dot r = -0.1\ \mathrm{m/s}$ and $\dot\varphi = 5.6\ \mathrm{rad/s}$. The string pulls only along $-\hat{\mathbf r}$, so the force along $\hat{\boldsymbol\varphi}$ is zero. What is $\ddot\varphi$, in $\mathrm{rad/s^2}$?
+    answer: 2.24
+    tolerance: 0.01
+    answerText: '2.24'
+    wrong:
+      - { value: 0, feedback: 'No tangential force does not mean $\ddot\varphi = 0$. In polar components $a_\varphi$ is not just $r\ddot\varphi$: it has a second term from $\dot r$ and $\dot\varphi$ together.' }
+      - { value: -2.24, feedback: 'The size is right, the sign is not. The puck moves inward ($\dot r < 0$) and $\dot\varphi > 0$, and $a_\varphi$ must still vanish.' }
+    hint: |
+      Write the tangential component of the second law, with $F_\varphi = 0$, and solve it for $\ddot\varphi$.
+    explanation: |
+      The tangential component of the second law is
+      $$F_\varphi = m(r\ddot\varphi + 2\dot r\dot\varphi).$$
+      With $F_\varphi = 0$:
+      $$\begin{aligned}\ddot\varphi &= -\frac{2\dot r\dot\varphi}{r} \\ &= -\frac{2 \times (-0.1) \times 5.6}{0.5} \\ &= 2.24\ \mathrm{rad/s^2}\end{aligned}$$
+      The puck speeds up its turning as it moves in, with no tangential push: the term $2\dot r\dot\varphi$ is the whole effect.
+
   # ---------------------------------------------------------------- Close
   - type: text
-    id: part1-close
+    id: close
     title: What you now own
     body: |
-      Three problems, three habits.
+      Five problems, five habits.
 
-      - **Check the frame first.** In a frame whose origin accelerates, $\mathbf{a}' = \mathbf{a} - \ddot{\mathbf{R}}$, and $\mathbf{F} = m\mathbf{a}'$ fails: the "force" $m\mathbf{a}'$ has no body behind it. Do the physics in an inertial frame and subtract at the end.
+      - **Check the frame first.** In a frame whose origin is at $\mathbf{R}(t)$, $\mathbf{a}' = \mathbf{a} - \ddot{\mathbf{R}}$, and $\mathbf{F} = m\mathbf{a}'$ fails: the "force" $m\mathbf{a}'$ has no body behind it. Do the physics in an inertial frame and subtract at the end.
       - **Third law, then sum.** $\mathbf{F}_{12} = -\mathbf{F}_{21}$ acts on two bodies, so the pair cancels only in the total: $\dot{\mathbf{P}} = \mathbf{F}^{\text{ext}}$, whatever the push inside.
       - **Polar components.** $F_r = m(\ddot r - r\dot\varphi^2)$ and $F_\varphi = m(r\ddot\varphi + 2\dot r\dot\varphi)$. Steady $\dot r$ and $\dot\varphi$ still need a force, and zero force still gives nonzero $\ddot r$ and $\ddot\varphi$.
+      - **Slopes and friction.** Across the slope $N = mg\cos\theta$. Sliding friction $\mu_k N$ opposes the motion, so it flips direction with it. A block at rest holds if $\tan\theta \le \mu_s$, and the mass cancels everywhere.
+      - **One string, two bodies.** A light string has one tension. Find it from the body whose motion you know, then use it on the other body in the components that suit it.
 
-      **Next (part 2):** a block on an incline with friction, and a problem that combines several of these ideas at once.
+      **Next:** the level Projectiles and Charged Particles. A new force joins weight and friction: air resistance, which grows with the speed, so the acceleration changes as the body moves. Then charged particles in electric and magnetic fields.
