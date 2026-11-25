@@ -34,7 +34,8 @@
 - **Built:** `ch03-quadratic-drag` (Level 3, concept, 22 cards, drag-fall x2, no image). Horizontal coasting by text and numeric cards (no widget).
 - **Widget `charge-field` built** (docs/widgets/charge-field.md): charge in uniform B (optional E, Ez), RK4 vs closed forms; top, side and oblique views, circle r = mv/(qB), centre, v and qv×B arrows, E×B drift, vacuum line, sliders, readouts r, ω, T, speed, kinetic energy.
 - **Built:** `ch03-magnetic` (Level 3, concept, 19 cards, charge-field x2, no image).
-- **Next unit:** lesson `ch03-traps` (Level 3, traps on drag, terminal speed and magnetic forces; no widget).
+- **Built:** `ch03-traps` (Level 3, traps, 16 cards, no widget, no image).
+- **Next unit:** lesson `ch03-intuition` (Level 3, intuition on drag, terminal speed, trajectories, magnetic motion; no widget).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.

@@ -1,0 +1,272 @@
+id: ch03-traps
+title: Drag Traps
+kind: traps
+cards:
+  - type: text
+    id: hook
+    title: Fast questions, familiar mistakes
+    body: |
+      Drag and magnetic forces both depend on velocity, and that is where most mistakes start. The force is not set by where the body is or by how heavy it is, but by how fast it moves. This round has one question per card, each built on a belief that is easy to hold: that mass does not matter for drag, that doubling the speed doubles the drag, that one law fits every body, that a body reaches its terminal speed at a fixed time, that two decays of the same kind lose speed alike, that air costs every throw the same share of its range, that horizontal and vertical motion never mix, and that a magnetic field can speed a charge up.
+
+      Answer quickly, from the laws as you have them. A wrong choice is useful: its feedback says why the belief tempts and where it breaks. Take $g = 9.8\ \mathrm{m/s^2}$.
+
+  - type: mcq
+    id: same-speed
+    prompt: |
+      Two spheres of the same size and shape, with masses $1\ \mathrm{kg}$ and $4\ \mathrm{kg}$, fall through air. At one instant both move downward at the same speed, $20\ \mathrm{m/s}$. Which has the larger downward acceleration at that instant?
+    options:
+      - text: The $4\ \mathrm{kg}$ sphere, because the same drag force is shared by a larger mass
+        correct: true
+      - text: The $1\ \mathrm{kg}$ sphere, because the air pushes harder on a lighter body
+        feedback: |
+          The drag depends on the speed and the size and shape of the body, here the same for both, so the two drag forces are equal. A lighter body is not pushed harder, but the same force acts on less mass, which makes its acceleration $g - f/m$ smaller.
+      - text: Both the same, $g$, because all bodies fall alike
+        feedback: |
+          All bodies fall alike only when the weight is the only force. Here the net force is $mg - f$, and the acceleration $g - f/m$ depends on the mass through $f/m$.
+      - text: The $4\ \mathrm{kg}$ sphere, because the air pushes harder on a heavier body
+        feedback: |
+          The right body, the wrong reason. The drag $f$ is equal for the two spheres at equal speed. What differs is the mass that it has to slow down.
+    explanation: |
+      The equation of motion for a fall with down positive is $m\dot v = mg - f(v)$, so $\dot v = g - f(v)/m$. At equal speed and equal size, $f$ is the same, and the heavier sphere loses less acceleration to it. Both start with $\dot v = g$ at $v = 0$, but as the speed grows the lighter sphere is held back sooner, which is why its terminal speed is lower.
+
+  - type: numeric
+    id: double-triple
+    prompt: |
+      A sphere moves through air at $10\ \mathrm{m/s}$ in the regime where the drag is purely quadratic, $f = cv^2$, and the drag force is $0.10\ \mathrm{N}$. What is the drag force in N at $30\ \mathrm{m/s}$?
+    answer: 0.9
+    tolerance: 0.02
+    answerText: '0.9'
+    wrong:
+      - { value: 0.3, feedback: 'You scaled the force with the speed, $3 \times 0.10$. That is linear drag, $f = bv$. With $f = cv^2$ the force goes with the square of the speed.' }
+      - { value: 0.6, feedback: 'You added a fixed amount instead of multiplying. The law $f = cv^2$ is a product, so the ratio of forces is the ratio of speeds squared.' }
+    hint: |
+      The constant $c$ is the same at both speeds, so $f_2/f_1 = (v_2/v_1)^2$.
+    explanation: |
+      $f = cv^2$ with $c$ fixed gives $f_2/f_1 = (30/10)^2 = 9$, so $f_2 = 9 \times 0.10 = 0.90\ \mathrm{N}$. Tripling the speed multiplies a quadratic drag by $9$, and doubling it by $4$.
+
+  - type: mcq
+    id: which-law-speck
+    prompt: |
+      A dust speck of diameter $D = 0.1\ \mathrm{mm}$ sinks through air at $5\ \mathrm{cm/s}$. For a sphere in air, $f_{\text{quad}}/f_{\text{lin}} = (1.6\times10^{3}\ \mathrm{s/m^2})\,Dv$. Which drag law should we use for the speck?
+    options:
+      - text: 'Linear: the ratio is about $0.008$, so the quadratic term is negligible'
+        correct: true
+      - text: 'Quadratic: drag in air is always quadratic'
+        feedback: |
+          Both terms are always there, $f = bv + cv^2$. Which one matters depends on the size and speed through the ratio $f_{\text{quad}}/f_{\text{lin}}$. For a small body at low speed the ratio is small and the linear term dominates.
+      - text: 'Quadratic: the ratio is about $0.008$, and a small number means that term is small, so it is the one to keep'
+        feedback: |
+          The ratio is quadratic over linear. A ratio far below $1$ means the quadratic force is the small one, so we drop it and keep the linear one.
+      - text: 'Neither: the speck is so small that the air does not drag it'
+        feedback: |
+          Small bodies are dragged strongly compared with their weight, since the drag grows with the size $D$ and the weight with $D^3$. Here the linear drag is what balances the weight, giving a small terminal speed.
+    explanation: |
+      $1.6\times10^3 \times 10^{-4} \times 0.05 = 0.008$. The linear term is about $125$ times the quadratic one. The same formula says why a baseball ($Dv$ about $2.5$ at $35\ \mathrm{m/s}$ and $D = 0.07\ \mathrm{m}$) is quadratic: the ratio grows with both size and speed.
+
+  - type: mcq
+    id: baseball-drop
+    prompt: |
+      A baseball has a quadratic terminal speed $v_{\text{ter}} = \sqrt{mg/c} = 34.6\ \mathrm{m/s}$. It is dropped from rest from a height of $1000\ \mathrm{m}$. Without air its speed on arrival would be $\sqrt{2gh} = 140\ \mathrm{m/s}$. With air, what is its speed just before it hits the ground, roughly?
+    options:
+      - text: Just under $34.6\ \mathrm{m/s}$, since it approaches its terminal speed and the fall is long
+        correct: true
+      - text: About $140\ \mathrm{m/s}$, because a fall of $1000\ \mathrm{m}$ is too short for air to matter
+        feedback: |
+          Air matters as soon as the drag $cv^2$ is comparable to the weight, which happens near $34.6\ \mathrm{m/s}$, after only a few seconds and a short stretch of the fall. A $1000\ \mathrm{m}$ drop is far longer than that.
+      - text: About $70\ \mathrm{m/s}$, halfway between the two
+        feedback: |
+          No averaging is involved. The speed cannot grow past $v_{\text{ter}}$ from below, because at $v_{\text{ter}}$ the drag cancels the weight and the acceleration is zero.
+      - text: Zero, because the drag eventually stops the ball
+        feedback: |
+          Drag opposes the motion but never exceeds the weight when the body falls from rest below $v_{\text{ter}}$. It stops the growth of the speed, not the fall.
+    explanation: |
+      With $v = v_{\text{ter}}\tanh(gt/v_{\text{ter}})$ the speed is $76\%$ of $v_{\text{ter}}$ after $t = v_{\text{ter}}/g = 3.5\ \mathrm{s}$, and it grows toward $v_{\text{ter}}$ ever more slowly. After a few hundred metres the ball falls at an almost constant $34.6\ \mathrm{m/s}$. The formula $\sqrt{2gh}$ holds only without drag.
+
+  - type: numeric
+    id: half-vter
+    prompt: |
+      A body is released from rest in a linear medium, so $v(t) = v_{\text{ter}}(1 - e^{-t/\tau})$. At what time does its speed reach **half** of $v_{\text{ter}}$? Give $t/\tau$ to two decimals.
+    answer: 0.69
+    tolerance: 0.01
+    answerText: '0.69'
+    wrong:
+      - { value: 0.5, feedback: 'You assumed the speed grows steadily, so half the speed needs half of $\tau$. The growth is exponential: the speed rises fast at first and ever more slowly, and at $t = \tau$ it is only $63\%$ of $v_{\text{ter}}$.' }
+      - { value: 1, feedback: 'At $t = \tau$ the speed is $63\%$ of $v_{\text{ter}}$, already past half. So half is reached earlier.' }
+    hint: |
+      Solve $1 - e^{-t/\tau} = \tfrac12$.
+    explanation: |
+      $e^{-t/\tau} = \tfrac12$ gives $t/\tau = \ln 2 = 0.693$. The speed is at half of $v_{\text{ter}}$ before $\tau$ and at $63\%$ at $\tau$, so the body never reaches $v_{\text{ter}}$ at a fixed time. It only gets closer: $86\%$ at $2\tau$ and $95\%$ at $3\tau$.
+
+  - type: mcq
+    id: coast-third
+    prompt: |
+      A cyclist coasts on the level with quadratic drag as the only force. The speed is $v = v_0/(1 + t/\tau)$ with $\tau = m/(cv_0)$, so it falls to $v_0/2$ at $t = \tau$. What is the speed at $t = 2\tau$?
+    options:
+      - text: $v_0/3$
+        correct: true
+      - text: $v_0/4$
+        feedback: |
+          That would be halving again in the next interval $\tau$, as an exponential decay does. For $v = v_0/(1 + t/\tau)$ the next interval takes the speed from $v_0/2$ to $v_0/3$. As the speed falls, the drag $cv^2$ falls faster, so the decay slows down.
+      - text: $0$
+        feedback: |
+          The speed $v_0/(1 + t/\tau)$ never reaches zero at any finite time. The drag $cv^2$ weakens as the speed drops, and a quadratic drag does not stop a body in finite time.
+      - text: $v_0e^{-2}$
+        feedback: |
+          That is the linear-drag decay $v_0e^{-t/\tau'}$ at $2\tau'$. Quadratic drag decays as $1/(1 + t/\tau)$, a much slower tail.
+    explanation: |
+      $v(2\tau) = v_0/(1 + 2) = v_0/3$. The speeds $v_0$, $v_0/2$, $v_0/3$, $v_0/4$ come at $t = 0, \tau, 2\tau, 3\tau$, a slow decay compared with the exponential.
+
+  - type: mcq
+    id: range-share
+    prompt: |
+      A $1\ \mathrm{kg}$ body is thrown at $45^\circ$ in a medium with linear drag, $b = 0.1\ \mathrm{kg/s}$, so $v_{\text{ter}} = 98\ \mathrm{m/s}$. Throw A has speed $4\ \mathrm{m/s}$ and throw B has speed $20\ \mathrm{m/s}$. With $R_{\text{vac}}$ the range without drag and $R \approx R_{\text{vac}}(1 - \tfrac43 v_{y0}/v_{\text{ter}})$, which statement is right?
+    options:
+      - text: B loses about five times the share of its range that A loses, since the loss grows with $v_{y0}$
+        correct: true
+      - text: Both lose the same share, because the medium is the same
+        feedback: |
+          The medium is the same, but the loss is $\tfrac43 v_{y0}/v_{\text{ter}}$ of $R_{\text{vac}}$, and $v_{y0}$ is five times larger for B ($14.1$ against $2.8\ \mathrm{m/s}$). The drag is $bv$, so a faster throw feels a larger drag along its whole flight compared with its weight.
+      - text: A loses more, because it is slow and the drag has more time to act
+        feedback: |
+          Slow throws are short and gentle: for A the drag is small compared with its weight for the whole flight. The share lost goes with $v_{y0}/v_{\text{ter}}$, which is small for A.
+      - text: B loses about the same distance as A, since both are limited by $v_{x0}\tau$
+        feedback: |
+          The limit $v_{x0}\tau$ is $28\ \mathrm{m}$ for A and $141\ \mathrm{m}$ for B, very different, and each range is a different fraction below its own limit. The limit does not equalise the losses.
+    explanation: |
+      For A, $\tfrac43 \times 2.83/98 = 3.8\%$. For B, $\tfrac43 \times 14.14/98 = 19\%$, as in the worked throw. The formula is a good guide only while $v_{y0}/v_{\text{ter}}$ is well below one, which holds for both. Air is a larger handicap for the faster throw.
+
+  - type: mcq
+    id: coupling
+    prompt: |
+      A ball is thrown at an angle. Which statement about the horizontal motion is right when the drag is quadratic, $\mathbf{f} = -cv\mathbf{v}$ with $v = \sqrt{v_x^2 + v_y^2}$?
+    options:
+      - text: The horizontal equation contains $v_y$ through $v$, so the vertical motion changes the horizontal slowing
+        correct: true
+      - text: It is independent of the vertical motion, as it is for linear drag
+        feedback: |
+          For linear drag, $\mathbf{f} = -b\mathbf{v}$ has components $-bv_x$ and $-bv_y$, so each equation has only its own coordinate. For quadratic drag $f_x = -cv\,v_x$ with $v$ built from both components, so the equations are coupled.
+      - text: The horizontal motion is a constant velocity, because the weight is vertical
+        feedback: |
+          The weight is vertical, but the drag points opposite to the whole velocity and has a horizontal part. It slows the horizontal motion in either law.
+      - text: The coupling makes the problem unsolvable, so nothing can be said about the motion
+        feedback: |
+          There is no simple closed form for a general throw, but it is solved numerically, and the special cases (pure horizontal or pure vertical motion) are solved exactly.
+    explanation: |
+      Linear drag gives $m\dot v_x = -bv_x$ and $m\dot v_y = -mg - bv_y$ (with $y$ up), two separate equations. Quadratic drag gives $m\dot v_x = -cv\,v_x$ and $m\dot v_y = -mg - cv\,v_y$, where both contain $v = \sqrt{v_x^2 + v_y^2}$. A ball with a large $v_y$ is slowed more horizontally for that reason.
+
+  - type: numeric
+    id: diameter-vter
+    prompt: |
+      Two spheres of the same material and shape move through air slowly enough for linear drag, $b = \beta D$, with $\beta$ a constant. The second has half the diameter of the first. The terminal speed is $v_{\text{ter}} = mg/b$ and the mass is proportional to $D^3$. By what factor is the second sphere's terminal speed smaller than the first's? (Give the ratio $v_{\text{ter,1}}/v_{\text{ter,2}}$.)
+    answer: 4
+    tolerance: 0.05
+    answerText: '4'
+    wrong:
+      - { value: 2, feedback: 'You counted only $b \propto D$, as if the mass stayed the same. The mass of a sphere of fixed density goes as $D^3$, so $m/b \propto D^3/D = D^2$.' }
+      - { value: 8, feedback: 'You counted only the mass, $m \propto D^3$, and forgot that the drag coefficient $b = \beta D$ also shrinks. The ratio $m/b$ goes as $D^3/D$.' }
+    hint: |
+      Write $v_{\text{ter}} = mg/(\beta D)$ and put in $m \propto D^3$.
+    explanation: |
+      $v_{\text{ter}} \propto D^3/D = D^2$, so halving $D$ divides $v_{\text{ter}}$ by $4$. This matches $v_{\text{ter}} = \varrho\pi D^2g/(6\beta)$ for a sphere of density $\varrho$. Small drops fall far slower than big ones, which is why mist hangs in the air.
+
+  - type: numeric
+    id: kinetic-energy
+    prompt: |
+      A particle of mass $2\ \mathrm{kg}$ and speed $3\ \mathrm{m/s}$ moves in a plane perpendicular to a uniform magnetic field. The magnetic force is the only force. After it has turned through a quarter of a circle, what is its kinetic energy in J?
+    answer: 9
+    tolerance: 0.05
+    answerText: '9'
+    wrong:
+      - { value: 0, feedback: 'The velocity changed from, say, along $x$ to along $y$, but the speed did not. The kinetic energy $\tfrac12 mv^2$ depends on the speed only, and the force is perpendicular to the velocity, so it does no work.' }
+      - { value: 4.5, feedback: 'You may have lost part of the speed in the turn, as if the velocity had split between the axes. The components $v_x$ and $v_y$ trade size, but $v_x^2 + v_y^2$ stays the same.' }
+    hint: |
+      The force $q\mathbf{v}\times\mathbf{B}$ is perpendicular to $\mathbf{v}$, so it does no work.
+    explanation: |
+      $\tfrac12 mv^2 = \tfrac12 \times 2 \times 3^2 = 9\ \mathrm{J}$ at the start and at every later time. The power of the force is $q\,\mathbf{v}\cdot(\mathbf{v}\times\mathbf{B}) = 0$, so the field turns the velocity and leaves the speed alone.
+
+  - type: mcq
+    id: sign-and-field
+    prompt: |
+      Seen from above, a uniform field $\mathbf{B}$ points **away** from the viewer, so $B_z < 0$ with $z$ toward the viewer. An electron ($q < 0$) moves in a plane perpendicular to it. The turning rate is $\omega = qB/m$, and a positive $\omega$ means clockwise motion seen from above. Which way does the electron circle?
+    options:
+      - text: Clockwise, because $q$ and $B_z$ are both negative, so $\omega > 0$
+        correct: true
+      - text: Counterclockwise, because a negative charge always circles counterclockwise
+        feedback: |
+          The sense depends on the sign of $qB_z$, not on $q$ alone. A negative charge circles counterclockwise only when $B_z > 0$. Here the field was also flipped, and the two reversals cancel.
+      - text: Counterclockwise, because the field points away
+        feedback: |
+          For a positive charge, a field pointing away does give counterclockwise motion. But the charge here is negative, which reverses the sense once more.
+      - text: It moves straight, since the field points away from the viewer
+        feedback: |
+          The direction of $\mathbf{B}$ does not matter for whether the force acts. As long as $\mathbf{v}$ has a part perpendicular to $\mathbf{B}$, the force $q\mathbf{v}\times\mathbf{B}$ is not zero.
+    explanation: |
+      $\omega = qB_z/m$ with $q < 0$ and $B_z < 0$ is positive, the clockwise sense. Reversing either the sign of the charge or the direction of the field reverses the sense of the turn, and reversing both brings it back.
+
+  - type: numeric
+    id: same-energy
+    prompt: |
+      Two particles have the same charge $q$ and the same kinetic energy $K$. Particle 2 has four times the mass of particle 1. They move in the same uniform magnetic field, perpendicular to it. By what factor is the radius of the circle of particle 2 larger than that of particle 1?
+    answer: 2
+    tolerance: 0.02
+    answerText: '2'
+    wrong:
+      - { value: 4, feedback: 'You used $r \propto m$ with the speed held fixed. Here it is the energy that is the same, and with four times the mass the speed is halved: $v = \sqrt{2K/m}$.' }
+      - { value: 1, feedback: 'Equal energy does not give equal radius. The radius is set by the momentum $p = mv = \sqrt{2mK}$, and the heavier particle has more of it.' }
+    hint: |
+      $r = mv/(qB) = p/(qB)$ and $K = p^2/(2m)$, so $p = \sqrt{2mK}$.
+    explanation: |
+      $r = \sqrt{2mK}/(qB)$ grows as $\sqrt m$ at fixed $K$, $q$ and $B$. Four times the mass gives $\sqrt 4 = 2$ times the radius. With the same speed, instead, the radius would be four times larger.
+
+  - type: mcq
+    id: same-start-lap
+    prompt: |
+      Two electrons leave the same point at the same moment in a uniform magnetic field, both moving perpendicular to it. One has speed $v$ and the other speed $3v$. They circle in the same sense. What can be said when the slower one has completed one lap?
+    options:
+      - text: The faster one has also completed exactly one lap, on a circle three times larger, and both are back at the start
+        correct: true
+      - text: The faster one has completed three laps, since it moves three times faster
+        feedback: |
+          It does move three times faster, but its circle is also three times longer. The radius is $r = v/\omega$, so the path length per lap grows with $v$, and the time per lap, $2\pi/|\omega|$, does not.
+      - text: The faster one is only a third of the way round, since its circle is bigger
+        feedback: |
+          The larger circle costs extra length, but the speed pays for it exactly: the circumference $2\pi v/\omega$ divided by the speed $v$ gives $2\pi/\omega$, the same for every $v$.
+      - text: The two are at the same point because they always stay together
+        feedback: |
+          They start together and are back at the start together, but at other times they are at different places, since they travel on different circles.
+    explanation: |
+      The period $T = 2\pi/|\omega|$ with $\omega = qB/m$ does not contain $v$. Fast and slow charges of the same $q/m$ complete their laps in the same time, which is why a device can pace them with one fixed frequency whatever their energy.
+
+  - type: mcq
+    id: helix-vz
+    prompt: |
+      A charge moves in a helix around a uniform field along $z$, with transverse speed $v$ and speed $v_z$ along the field. You launch an identical charge with the same transverse speed $v$ but twice the $v_z$. Compared with the first, what changes?
+    options:
+      - text: The radius and the period are the same, and the pitch (the advance along $z$ per turn) is doubled
+        correct: true
+      - text: The radius is doubled, since the particle is faster
+        feedback: |
+          The radius $r = mv/(qB)$ contains only the transverse speed $v$, which did not change. The field exerts no force along $z$, so $v_z$ is independent of the circular motion.
+      - text: The pitch is the same, because the field cannot change anything along $z$
+        feedback: |
+          True that the field does not change $v_z$, but that is the reason the pitch grows: the charge drifts along $z$ at constant $v_z$ during one turn of time $2\pi/|\omega|$, so the pitch is $2\pi v_z/|\omega|$.
+      - text: The period is halved, because the path is longer
+        feedback: |
+          The period depends on $\omega = qB/m$ only. The path is longer, but it is traversed at a higher total speed, and the time per turn is unchanged.
+    explanation: |
+      The $z$ equation is $\dot v_z = 0$, independent of the transverse equations. The pitch $2\pi v_z/|\omega|$ is proportional to $v_z$, and the radius and period, which come from the transverse motion, are unchanged.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      The beliefs you tested, with the fact that replaces each.
+
+      - **Drag depends on speed, not weight.** With $m\dot v = mg - f(v)$ the acceleration is $g - f/m$. At equal speed and size the heavier body is held back less.
+      - **Quadratic drag.** $f = cv^2$, so doubling the speed multiplies the force by $4$ and tripling it by $9$. For a sphere in air, $f_{\text{quad}}/f_{\text{lin}} = (1.6\times10^3\ \mathrm{s/m^2})\,Dv$ says which term matters: far above $1$ quadratic, far below $1$ linear.
+      - **Terminal speed is approached.** A long fall ends near $v_{\text{ter}}$, not at the free-fall speed $\sqrt{2gh}$. With linear drag the speed is $v_{\text{ter}}(1 - e^{-t/\tau})$, half of $v_{\text{ter}}$ at $\tau\ln 2$ and $63\%$, $86\%$, $95\%$ at $\tau$, $2\tau$, $3\tau$. For a sphere of fixed density $v_{\text{ter}} \propto D^2$ (linear).
+      - **Coasting.** Quadratic drag gives $v = v_0/(1 + t/\tau)$, a slow tail with speeds $v_0/2$, $v_0/3$ at $\tau$, $2\tau$, while linear drag decays exponentially.
+      - **Throws and coupling.** The share of range lost to linear drag is about $\tfrac43 v_{y0}/v_{\text{ter}}$, larger for faster throws. Quadratic drag couples $v_x$ and $v_y$ through $v = \sqrt{v_x^2 + v_y^2}$.
+      - **Magnetic force.** $\mathbf{F} = q\mathbf{v}\times\mathbf{B}$ does no work, so the kinetic energy and the speed are constant. The motion is a circle of radius $r = mv/(qB) = p/(qB)$ and period $2\pi/|\omega|$, with $\omega = qB/m$ signed. The period does not depend on $v$, the sense of turning depends on the sign of $qB_z$, and a component $v_z$ along the field gives a helix with pitch $2\pi v_z/|\omega|$.
+
+      **Next:** the lesson Intuition: Drag, Terminal Speed and Magnetic Motion, a quick recall of these formulas, with limit checks and small numbers.

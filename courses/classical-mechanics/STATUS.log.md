@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-25 ch03-traps (autonomous)
+Built `ch03/traps.yaml` (traps, 16 cards: hook, 14 questions, plain wrap-up; no widget, no image: conceptual). Dropped planned items: 45 degrees not taught, so range card tests that the loss share grows with v_y0; added baseball dropped from 1000 m and D^2 scaling of linear v_ter. Coasting card uses the taught quadratic law (v0/2 at tau, v0/3 at 2tau). Conventions fixed here: none new.
+
 ## 2026-11-25 ch03-magnetic (autonomous)
 Built `ch03/magnetic.yaml` (concept, 19 cards, with `own:`, charge-field x2: circle top view with v0 and B sliders; helix top + 3d with vz and B sliders). Taylor 2.5 already render-verified. Choices: xi integration (xi = xi_c + (i v/omega) e^(i(delta - omega t))) derived and checked by differentiation, not copied; electron numbers (B = 0.010 T, v = 1e6 m/s, vz = 2e5 m/s) are my own data, constants from NIST CODATA 2022 (web). No-work argument as an order card. Images: none: no person or real experiment is named in the text, so nothing worth a free-licence picture without an external fact. Widget screenshots viewed (circle, helix): fine. Conventions fixed here: electron data B = 0.010 T, v = 1.0e6 m/s gives omega = 1.759e9 rad/s, r = 0.569 mm, T = 3.57 ns; widget toy units q = m = B = v0 = 1 (units removed).
 
