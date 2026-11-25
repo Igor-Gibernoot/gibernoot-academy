@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-25 Level 2 audit (autonomous)
+Checked all ten ch02 files. Re-rendered Taylor PDF 37 (Example 1.1: N = mg cos theta, f = mu N, Eq. 1.36) and PDF 41 (Eq. 1.47-1.48): challenge part 2 formulas (incline, polar F_r and F_phi) match; numbers recomputed (0.5425 m, 8.29, 5.6 rad/s, 2.24, wrong-answer values). No "Level N" for later material, no source labels, own: bullets show math and define symbols, all nodes have file:, validate 0/0. Terminology across Level 1 and 2 consistent. Challenge (32 cards, at the cap): problems 4-5 are thin but complete; no split into a part 3 (it would leave a 3-card unit). Choice: no widget missing for ch02; `drag-fall` is needed for ch03-drag and is the next unit.
+Conventions fixed here: none new.
+
 ## 2026-11-25 ch02-challenge part 2 (problems 4-5, autonomous)
 Appended to `ch02/challenge.yaml`: P4 block launched up a 30 deg slope (incline-block setup card with friction arrows hidden so the stay-at-rest question is not given away; distance 0.5425 m, stays at rest since tan 30 < mu_s), P5 puck on a string (T = Mg = 3.92 N, phi-dot = 5.6 rad/s, phi-ddot = 2.24 rad/s^2 from F_phi = 0). Replaced part 1's closing card by a final card (id `close`, five habits, teaser for the Projectiles level). Total 32 cards (budget exactly met, so each new problem has 3 cards; no worked card trimmed). Choices: P5 has no moving-frame step (budget); third law enters as the single string tension. Images: none: no person, experiment or object needed. Validate 0/0, shots 0 problems. Conventions fixed here: challenge part 2 numbers (see CONVENTIONS Chapter 2).
 

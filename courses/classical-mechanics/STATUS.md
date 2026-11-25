@@ -25,7 +25,8 @@
 - **Built:** `ch02-intuition` (Level 2, intuition, 18 cards, no widget, no image).
 - **Built:** `ch02-map` (Level 2 content map, 9 boxes in three columns: frames, first law, second law; accelerating frames, third law, cartesian; momentum, polar acceleration, polar unit vectors).
 - **Built:** `ch02-challenge` part 1 (26 cards: crate on accelerating cart, two skaters with a rope (two-body-push x2), bead on a spiral (polar-motion); problems 4-5: block launched up a rough slope (incline-block), puck on a string; final plain card). **Level 2 challenge complete (32 cards).**
-- **Next unit:** Level 2 audit, then `ch03-drag` (Air Resistance).
+- **Level 2 audited (2026-11-25):** formulas re-rendered (Taylor PDF 37, 41), validate clean; no fixes needed.
+- **Next unit:** widget `drag-fall` (new widget unit, own session: body falling with linear or quadratic drag, v(t) toward terminal speed), then `ch03-drag` (Air Resistance).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
