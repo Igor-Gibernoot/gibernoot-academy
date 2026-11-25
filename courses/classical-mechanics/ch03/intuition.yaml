@@ -1,0 +1,322 @@
+id: ch03-intuition
+title: "Intuition: Drag Laws and Gyration"
+kind: intuition
+own: |
+  Setting: a body of mass $m$ moves through air with speed $v$, pulled down by its weight $mg$ ($g = 9.8\ \mathrm{m/s^2}$, down positive) and slowed by a drag force. A second case: a particle of charge $q$ and mass $m$ moves in a uniform magnetic field $\mathbf{B} = (0, 0, B)$.
+  - **Which drag law.** With the linear drag $f_{\text{lin}} = bv$ and the quadratic drag $f_{\text{quad}} = cv^2$ (constants $b$ in kg/s and $c$ in kg/m), the ratio grows with the speed. For a sphere of diameter $D$, $b = \beta D$ and $c = \gamma D^2$:
+    $$\frac{f_{\text{quad}}}{f_{\text{lin}}} = \frac{cv}{b} = \frac{\gamma D}{\beta}\,v$$
+  - **Terminal speeds** (weight equals drag, acceleration zero). Linear drag gives a speed proportional to the mass, quadratic drag one proportional to its square root:
+    {{ $$v_{\text{ter}} = \frac{mg}{b} \qquad \text{or} \qquad v_{\text{ter}} = \sqrt{\frac{mg}{c}}$$ }}
+  - **Fall from rest, linear drag**, with time constant $\tau = m/b$, so that $v = 0$ at $t = 0$ and $v \to v_{\text{ter}}$:
+    {{ $$v(t) = v_{\text{ter}}\left(1 - e^{-t/\tau}\right)$$ }}
+  - **Fall from rest, quadratic drag**, with $v \approx gt$ at small $t$ and $v \to v_{\text{ter}}$ at large $t$:
+    {{ $$v(t) = v_{\text{ter}}\tanh\!\left(\frac{gt}{v_{\text{ter}}}\right)$$ }}
+  - **Coasting with only drag**, from the speed $v_0$ at $t = 0$. Linear drag gives an exponential decay and a finite reach $x_\infty = v_0\tau$ with $\tau = m/b$. Quadratic drag gives a power law, a reach that grows without limit, and a time scale that depends on $v_0$:
+    {{ $$v(t) = \frac{v_0}{1 + t/\tau}, \qquad \tau = \frac{m}{cv_0}$$ }}
+  - **Projectile with linear drag.** The path has a vertical asymptote at $x = v_{x0}\tau$. With $R_{\text{vac}}$ the range in vacuum and $v_{y0}$ the upward launch speed, the range is cut by
+    $$R \approx R_{\text{vac}}\left(1 - \frac{4}{3}\,\frac{v_{y0}}{v_{\text{ter}}}\right),$$
+    good only when $v_{y0}/v_{\text{ter}}$ is small.
+  - **Charge in a magnetic field.** With the transverse velocity written as the complex number $\eta = v_x + i v_y$ and $\omega = qB/m$:
+    {{ $$\dot\eta = -i\omega\,\eta$$ }}
+    The path is a circle (a helix if $v_z \ne 0$) of radius and period, with $v$ the transverse speed,
+    {{ $$r = \frac{mv}{qB}, \qquad T = \frac{2\pi}{|\omega|}$$ }}
+    and the pitch of the helix is $\Delta z = 2\pi v_z/|\omega|$. The magnetic force does no work, so the speed does not change.
+  - **Quick checks.** Units (the exponent of an exponential is dimensionless; $mg/c$ has units m$^2$/s$^2$), limits (small and large $t$), and scaling (quadruple $m$: $v_{\text{ter}}$ grows by 4 for linear drag and by 2 for quadratic drag; double $B$: $r$ halves).
+
+cards:
+  - type: text
+    id: hook
+    title: What do you still own?
+    body: |
+      A feather and a coin fall in air, a skydiver spreads out, an electron curls in a magnet. Before any formula, try to say which of them speeds up forever, which settles to a steady speed, and which only turns. This lesson derives nothing. It gives you tiles to rebuild the results of the level, checks that catch a wrong version in seconds, and problems with data only, where you choose the law yourself.
+
+      Take $g = 9.8\ \mathrm{m/s^2}$, and down positive for falls.
+
+  - type: mcq
+    id: ratio
+    prompt: |
+      A body moves at speed $v$ through air. The drag has a linear part $f_{\text{lin}} = bv$ and a quadratic part $f_{\text{quad}} = cv^2$, with constants $b$ and $c$. Which expression is the ratio $f_{\text{quad}}/f_{\text{lin}}$?
+    options:
+      - text: '$cv/b$'
+        correct: true
+      - text: '$cv^2/b$'
+        feedback: 'This divides $cv^2$ by $b$ only, forgetting the $v$ in $bv$. Divide the two forces: $cv^2/(bv)$, and one $v$ cancels.'
+      - text: '$b/(cv)$'
+        feedback: 'This is the inverse, the ratio of linear to quadratic. The question asks quadratic over linear, and the quadratic part wins at high speed, so the ratio should grow with $v$.'
+      - text: '$cb\,v^3$'
+        feedback: 'This multiplies the two forces instead of dividing them. A ratio of two forces has no units of force.'
+    explanation: |
+      $f_{\text{quad}}/f_{\text{lin}} = cv^2/(bv) = cv/b$. It grows with the speed. For a sphere of diameter $D$, with $b = \beta D$ and $c = \gamma D^2$, it becomes $(\gamma D/\beta)\,v$: it grows with size and speed, so large fast bodies feel the quadratic part and small slow ones the linear part.
+
+  - type: mcq
+    id: ter-scaling
+    prompt: |
+      Two bodies of the same shape fall, one in air with linear drag $bv$ only, the other with quadratic drag $cv^2$ only. In each case you make the body four times heavier, keeping $b$ (or $c$) the same. By what factors does the terminal speed change, for the linear and for the quadratic case?
+    options:
+      - text: 'Linear: $4$. Quadratic: $2$'
+        correct: true
+      - text: 'Both: $4$'
+        feedback: 'Only the linear terminal speed $mg/b$ is proportional to $m$. For quadratic drag the balance $mg = cv^2$ gives $v \propto \sqrt{m}$.'
+      - text: 'Linear: $2$. Quadratic: $4$'
+        feedback: 'This swaps them. Balance weight and drag in each case: $mg = bv$ gives $v \propto m$, while $mg = cv^2$ gives $v \propto \sqrt{m}$.'
+      - text: 'Both: $2$'
+        feedback: 'The square root belongs to the quadratic law only. For $mg = bv$ the speed is proportional to $m$.'
+    explanation: |
+      Linear: $v_{\text{ter}} = mg/b$, proportional to $m$, so a factor $4$. Quadratic: $v_{\text{ter}} = \sqrt{mg/c}$, proportional to $\sqrt{m}$, so a factor $2$. A heavy body gains less from its mass in the quadratic regime.
+
+  - type: build
+    id: linear-fall
+    prompt: |
+      A body falls from rest with linear drag. Its terminal speed is $v_{\text{ter}}$ and its time constant is $\tau = m/b$. Build its speed $v(t)$.
+    prefix: 'v(t) ='
+    tiles: ['v_{\text{ter}}', '\left(1 - e^{-t/\tau}\right)', '\left(1 - e^{-\tau/t}\right)', '\left(1 - e^{-t}\right)', 'e^{-t/\tau}']
+    answers:
+      - ['v_{\text{ter}}', '\left(1 - e^{-t/\tau}\right)']
+      - ['\left(1 - e^{-t/\tau}\right)', 'v_{\text{ter}}']
+    wrong:
+      - answer: ['v_{\text{ter}}', '\left(1 - e^{-\tau/t}\right)']
+        feedback: 'The exponent is dimensionless either way, but the limits fail: at $t \to 0$ the exponent goes to $-\infty$ and $v \to v_{\text{ter}}$ at once, while the body starts from rest.'
+      - answer: ['v_{\text{ter}}', '\left(1 - e^{-t}\right)']
+        feedback: 'A time $t$ in an exponent has units. The exponent must be dimensionless, so $t$ is measured in units of the time constant, $t/\tau$.'
+      - answer: ['v_{\text{ter}}', 'e^{-t/\tau}']
+        feedback: 'This starts at $v_{\text{ter}}$ and decays to zero, the shape of coasting. A fall from rest starts at zero and rises.'
+    hint: Test $t = 0$ (the body is at rest) and $t \to \infty$ (the speed settles at $v_{\text{ter}}$).
+    explanation: |
+      $v = v_{\text{ter}}\left(1 - e^{-t/\tau}\right)$, with $\tau = m/b$. It gives $0$ at $t = 0$, about 63% of $v_{\text{ter}}$ at $t = \tau$, 86% at $2\tau$ and 95% at $3\tau$, and $v_{\text{ter}}$ in the limit.
+
+  - type: build
+    id: quad-fall
+    prompt: |
+      A body falls from rest with quadratic drag. Its terminal speed is $v_{\text{ter}} = \sqrt{mg/c}$. Build its speed $v(t)$.
+    prefix: 'v(t) ='
+    tiles: ['v_{\text{ter}}', '\tanh\!\left(\dfrac{gt}{v_{\text{ter}}}\right)', '\left(1 - e^{-gt/v_{\text{ter}}}\right)', '\tanh\!\left(\dfrac{t}{v_{\text{ter}}}\right)', 'gt']
+    answers:
+      - ['v_{\text{ter}}', '\tanh\!\left(\dfrac{gt}{v_{\text{ter}}}\right)']
+      - ['\tanh\!\left(\dfrac{gt}{v_{\text{ter}}}\right)', 'v_{\text{ter}}']
+    wrong:
+      - answer: ['v_{\text{ter}}', '\left(1 - e^{-gt/v_{\text{ter}}}\right)']
+        feedback: 'This is the shape of the linear-drag fall (there $\tau = v_{\text{ter}}/g$). It passes both limits, $gt$ at small $t$ and $v_{\text{ter}}$ at large $t$, so the limits alone cannot rule it out. But the quadratic equation $\dot v = g(1 - v^2/v_{\text{ter}}^2)$ separates into a hyperbolic tangent.'
+      - answer: ['v_{\text{ter}}', '\tanh\!\left(\dfrac{t}{v_{\text{ter}}}\right)']
+        feedback: 'The argument of $\tanh$ must be dimensionless. $t/v_{\text{ter}}$ has units s$^2$/m. The combination $gt/v_{\text{ter}}$ is a speed over a speed.'
+      - answer: ['gt']
+        feedback: 'This is the fall in vacuum. It grows without limit, so it misses the terminal speed.'
+    hint: Check the limits. At small $t$ the body has hardly felt the drag, so $v \approx gt$. At large $t$, $v \to v_{\text{ter}}$. The argument of the function must have no units.
+    explanation: |
+      $v = v_{\text{ter}}\tanh(gt/v_{\text{ter}})$. For small $x$, $\tanh x \approx x$, so $v \approx gt$. For large $x$, $\tanh x \to 1$, so $v \to v_{\text{ter}}$.
+
+  - type: mcq
+    id: tanh-limits
+    multiple: true
+    prompt: |
+      A body falls from rest with quadratic drag, $v = v_{\text{ter}}\tanh(gt/v_{\text{ter}})$. Which statements are right? Use $\tanh 1 \approx 0.76$.
+    options:
+      - text: 'At times much shorter than $v_{\text{ter}}/g$ the speed is about $gt$, as in vacuum'
+        correct: true
+      - text: 'At the time $t = v_{\text{ter}}/g$ the speed is about 76% of $v_{\text{ter}}$'
+        correct: true
+      - text: 'At the time $t = v_{\text{ter}}/g$ the speed has reached $v_{\text{ter}}$'
+        feedback: 'It sets the time scale, but $\tanh 1 \approx 0.76$, so the speed is still 24% short. The hyperbolic tangent only approaches $1$ for large arguments.'
+      - text: 'The speed exceeds $v_{\text{ter}}$ for a short time and then falls back'
+        feedback: 'The hyperbolic tangent never exceeds $1$, so a body dropped from rest rises toward $v_{\text{ter}}$ from below, as with linear drag.'
+    explanation: |
+      The time $v_{\text{ter}}/g$ is the time the body would need to reach $v_{\text{ter}}$ if it kept the vacuum acceleration $g$. Drag has already cut the acceleration by then, so the real speed is 76% of $v_{\text{ter}}$.
+
+  - type: build
+    id: quad-coast
+    prompt: |
+      A body moves horizontally with only quadratic drag acting, starting at the speed $v_0$ at $t = 0$. With the time $\tau = m/(cv_0)$, build its speed $v(t)$.
+    prefix: 'v(t) ='
+    tiles: ['v_0', '\dfrac{1}{1 + t/\tau}', 'e^{-t/\tau}', '\dfrac{1}{1 + \tau/t}']
+    answers:
+      - ['v_0', '\dfrac{1}{1 + t/\tau}']
+      - ['\dfrac{1}{1 + t/\tau}', 'v_0']
+    wrong:
+      - answer: ['v_0', 'e^{-t/\tau}']
+        feedback: 'This is coasting with linear drag. With quadratic drag the force shrinks as the body slows, $\dot v = -(c/m)v^2$, so the decay is a power law, not an exponential.'
+      - answer: ['v_0', '\dfrac{1}{1 + \tau/t}']
+        feedback: 'At $t = 0$ this is $0$, but the body starts at $v_0$. The correct form has $1$ at $t = 0$.'
+    hint: At $t = 0$ the speed is $v_0$. At $t = \tau$ it has halved.
+    explanation: |
+      $v = v_0/(1 + t/\tau)$. At $t = \tau$ it gives $v_0/2$. Note that $\tau = m/(cv_0)$ depends on the launch speed, unlike the linear $\tau = m/b$.
+
+  - type: mcq
+    id: coast-compare
+    multiple: true
+    prompt: |
+      Two identical bodies are launched horizontally with the same speed $v_0$ on a frictionless table, one slowed by linear drag only, one by quadratic drag only. Which statements are right?
+    options:
+      - text: 'With linear drag the body stops at a finite distance $x_\infty = v_0\tau$, with $\tau = m/b$'
+        correct: true
+      - text: 'With quadratic drag the distance $x = v_0\tau\ln(1 + t/\tau)$ keeps growing without limit, slowly'
+        correct: true
+      - text: 'With quadratic drag the body also stops at a finite distance, as the speed goes to zero'
+        feedback: 'The speed falls as $1/t$ at large $t$, and the integral of $1/t$ diverges (it is a logarithm). The body never gets a finite reach, because the drag becomes too weak to stop it quickly.'
+      - text: 'Doubling $v_0$ doubles the time constant $\tau$ in both cases'
+        feedback: 'In the linear case $\tau = m/b$ does not depend on $v_0$. In the quadratic case $\tau = m/(cv_0)$ is halved by doubling $v_0$.'
+    explanation: |
+      Linear drag shrinks in proportion to the speed, so the speed decays exponentially and the reach is finite. Quadratic drag shrinks faster as the body slows, so it leaves a long tail: a power-law decay and an unbounded, logarithmic distance.
+
+  - type: mcq
+    id: proj-linear
+    multiple: true
+    prompt: |
+      A projectile moves with linear drag. Its time constant is $\tau$, its horizontal launch speed $v_{x0}$, its upward launch speed $v_{y0}$, and $R_{\text{vac}}$ is the range in vacuum. Which statements are right?
+    options:
+      - text: 'The path has a vertical asymptote at $x = v_{x0}\tau$, and the range is shorter than that'
+        correct: true
+      - text: 'The estimate $R \approx R_{\text{vac}}(1 - \tfrac43 v_{y0}/v_{\text{ter}})$ is trustworthy only when $v_{y0}/v_{\text{ter}}$ is small'
+        correct: true
+      - text: 'For $v_{y0}/v_{\text{ter}} = 1.44$ the estimate gives a negative range, which shows it has failed'
+        correct: true
+      - text: 'The estimate is good whenever its bracket is positive'
+        feedback: 'The condition is that the ratio $v_{y0}/v_{\text{ter}}$ (equivalently, the range over $v_{x0}\tau$) is small. A positive bracket from a large correction is a coincidence, not a guarantee.'
+      - text: 'The loss of range grows with the terminal speed, so a heavier ball loses more'
+        feedback: 'The correction is $\tfrac43 v_{y0}/v_{\text{ter}}$, which falls as $v_{\text{ter}}$ grows. A higher terminal speed means weaker drag effects.'
+    explanation: |
+      The asymptote $x = v_{x0}\tau$ is the farthest the horizontal motion could ever reach (the coasting distance), so the ball lands short of it. The range estimate comes from a series in a small quantity, so it works when the air is a small correction, and for $v_{y0}/v_{\text{ter}} \approx 1.44$ the bracket is $1 - 1.92 = -0.92$, a sign that the expansion has broken down.
+
+  - type: build
+    id: eta-eq
+    prompt: |
+      A particle of charge $q$ and mass $m$ moves in a uniform field $\mathbf{B} = (0, 0, B)$. The transverse velocity is the complex number $\eta = v_x + i v_y$, and $\omega = qB/m$. Build the single equation that replaces the two real ones.
+    prefix: '\dot\eta ='
+    tiles: ['-i\omega', '\eta', 'i\omega', '\omega', '\dot\eta']
+    answers:
+      - ['-i\omega', '\eta']
+      - ['\eta', '-i\omega']
+    wrong:
+      - answer: ['i\omega', '\eta']
+        feedback: 'The sign gives the sense of turning. With $\dot\eta = -i\omega\eta$ the velocity arrow turns clockwise for $\omega > 0$ (a positive charge seen from $+z$). With $+i\omega$ it would turn the other way.'
+      - answer: ['\omega', '\eta']
+        feedback: 'Without the factor $i$, $\eta$ would grow or shrink exponentially. The factor $i$ turns the rate of change a quarter turn from $\eta$, which is what keeps $|\eta|$ fixed.'
+    hint: The force is at a right angle to the velocity, and multiplying a complex number by $i$ rotates it by $90^\circ$.
+    explanation: |
+      $\dot\eta = -i\omega\eta$, with solution $\eta = Ae^{-i\omega t}$. Its length $|A|$ stays fixed (the speed does not change) while its direction turns at the rate $\omega$.
+
+  - type: build
+    id: radius
+    prompt: |
+      The same charge moves with transverse speed $v$. Build the radius $r$ of its circle.
+    prefix: 'r ='
+    tiles: ['\dfrac{mv}{qB}', '\dfrac{qB}{mv}', '\dfrac{mvB}{q}', '\dfrac{v}{qB}']
+    answers:
+      - ['\dfrac{mv}{qB}']
+    wrong:
+      - answer: ['\dfrac{qB}{mv}']
+        feedback: 'This is inverted. A stronger field must give a tighter circle, so $B$ belongs in the denominator.'
+      - answer: ['\dfrac{mvB}{q}']
+        feedback: 'A stronger field must give a smaller radius, so $B$ goes in the denominator. Also, a larger $q$ bends the path more, so $q$ goes there too.'
+    hint: A circle of speed $v$ and angular rate $\omega$ has radius $v/\omega$, with $\omega = qB/m$.
+    explanation: |
+      $r = v/\omega = mv/(qB)$. Faster particles make larger circles, heavier ones too, and stronger fields or larger charges make smaller ones. The period $T = 2\pi/|\omega|$ does not depend on $v$.
+
+  - type: mcq
+    id: mag-checks
+    multiple: true
+    prompt: |
+      A charged particle circles in a uniform magnetic field with $r = mv/(qB)$ and $T = 2\pi m/(|q|B)$. Which statements follow?
+    options:
+      - text: 'Doubling the speed $v$ doubles the radius $r$ and leaves the period $T$ unchanged'
+        correct: true
+      - text: 'Doubling the field $B$ halves both the radius $r$ and the period $T$'
+        correct: true
+      - text: 'The magnetic force does no work, so the kinetic energy of the particle stays constant'
+        correct: true
+      - text: 'Doubling the speed $v$ doubles the period $T$, since a larger circle takes longer'
+        feedback: 'The larger circle is also traversed faster: both the length and the speed double, so the time for one turn stays the same.'
+      - text: 'In a field along $z$, the speed along $z$ is slowed by the field'
+        feedback: 'The force $q\mathbf{v}\times\mathbf{B}$ has no $z$ component when $\mathbf{B}$ points along $z$, so $v_z$ is constant and the path is a helix.'
+    explanation: |
+      From $r = mv/(qB)$ the radius is proportional to $v$ and to $1/B$. From $T = 2\pi/|\omega|$ the period has no $v$ in it and halves when $B$ doubles. Since the force is perpendicular to $\mathbf{v}$, it never changes the speed, only its direction.
+
+  - type: mcq
+    id: which-law
+    prompt: |
+      A sphere of diameter $D = 4\ \mathrm{cm}$ moves through air at $30\ \mathrm{m/s}$. For spheres in air, the linear drag has $b = \beta D$ and the quadratic drag has $c = \gamma D^2$, with $\beta = 1.6\times10^{-4}\ \mathrm{N\,s/m^2}$ and $\gamma = 0.25\ \mathrm{N\,s^2/m^4}$. Which terms should you keep?
+    options:
+      - text: 'Only the quadratic drag: the linear drag is smaller by a factor of about a thousand or more'
+        correct: true
+      - text: 'Only the linear drag: it is the one with the viscosity of air in it'
+        feedback: 'Compare the sizes of the two forces, not the physical origins. At this size and speed the quadratic force is far larger than the linear one.'
+      - text: 'Both, because the two forces are of the same order'
+        feedback: 'They are comparable only for small slow bodies (a raindrop of 1 mm at about 0.6 m/s). A ball of 4 cm at 30 m/s is far from that.'
+    hint: Form the ratio of the two forces, with $b$ and $c$ written in terms of $D$.
+    explanation: |
+      The ratio is $\gamma Dv/\beta = 0.25\times0.04\times30/(1.6\times10^{-4}) \approx 1.9\times10^3$. The quadratic drag is about two thousand times larger, so keep only it.
+
+  - type: numeric
+    id: ter-quad
+    prompt: |
+      A ball of mass $0.50\ \mathrm{kg}$ falls in air with quadratic drag only, with $c = 2.0\times10^{-3}\ \mathrm{kg/m}$. What is its terminal speed, in $\mathrm{m/s}$?
+    answer: 49.5
+    tolerance: 0.02
+    answerText: '49.5'
+    wrong:
+      - { value: 2450, feedback: 'That is $mg/c$, which has units m$^2$/s$^2$. A speed needs the square root.' }
+      - { value: 4.9, feedback: 'That is the weight, $mg$, in newtons. Terminal speed is where the drag equals it, so the speed comes from the drag law.' }
+    hint: Scaling test. At the terminal speed the drag balances the weight. Find the combination of $m$, $g$ and $c$ with units of speed (the units of $c$ are kg/m).
+    explanation: |
+      Balancing $mg = cv^2$ gives $v_{\text{ter}} = \sqrt{mg/c} = \sqrt{0.50\times9.8/0.0020} = \sqrt{2450} \approx 49.5\ \mathrm{m/s}$.
+
+  - type: numeric
+    id: lin-speed
+    prompt: |
+      A mote of mass $0.20\ \mathrm{kg}$ falls from rest in a thick medium that drags it with a force proportional to its speed, with constant $0.05\ \mathrm{kg/s}$. What is its speed after $8.0\ \mathrm{s}$, in $\mathrm{m/s}$?
+    answer: 33.9
+    tolerance: 0.02
+    answerText: '33.9'
+    wrong:
+      - { value: 39.2, feedback: 'That is the terminal speed, the speed after a very long time. After $8$ s the speed is still short of it.' }
+      - { value: 24.8, feedback: 'That is the speed after one time constant ($4$ s). Check how many time constants fit in $8$ s.' }
+      - { value: 78.4, feedback: 'That is $gt$, the fall in vacuum. It exceeds the terminal speed, which no speed with drag can do.' }
+    hint: 'Two data fix the scales: a speed, from the balance of weight and drag, and a time, from the mass and the drag constant. Then ask how many times that time has passed.'
+    explanation: |
+      $v_{\text{ter}} = mg/b = 0.20\times9.8/0.05 = 39.2\ \mathrm{m/s}$ and $\tau = m/b = 4\ \mathrm{s}$. At $t = 8\ \mathrm{s} = 2\tau$, $v = 39.2\left(1 - e^{-2}\right) \approx 39.2\times0.865 \approx 33.9\ \mathrm{m/s}$.
+
+  - type: numeric
+    id: coast-quad
+    prompt: |
+      A puck of mass $0.40\ \mathrm{kg}$ slides at $20\ \mathrm{m/s}$ in a medium whose drag has the form $cv^2$ with $c = 0.010\ \mathrm{kg/m}$, and nothing else acts. What is its speed after $6.0\ \mathrm{s}$, in $\mathrm{m/s}$?
+    answer: 5
+    tolerance: 0.02
+    answerText: '5'
+    wrong:
+      - { value: 1, feedback: 'That is about $20e^{-3}$, the exponential decay of linear drag with a time constant of $2$ s. With drag that grows as $v^2$, the force weakens as the puck slows, so the decay is slower.' }
+      - { value: 2.86, feedback: 'The elapsed time must be measured in units of the time scale $\tau$, not in seconds.' }
+      - { value: 10, feedback: 'That is the speed after one time scale (half of $20$). Check how many time scales fit in $6$ s.' }
+    hint: 'Build a time scale from $m$, $c$ and $v_0$ (check that it has units of seconds). The decay is a power law in the elapsed time over that scale, not an exponential.'
+    explanation: |
+      The time scale is $\tau = m/(cv_0) = 0.40/(0.010\times20) = 2\ \mathrm{s}$. Then $v = v_0/(1 + t/\tau) = 20/(1 + 3) = 5\ \mathrm{m/s}$.
+
+  - type: numeric
+    id: gyro-radius
+    prompt: |
+      A particle has charge-to-mass ratio $q/m = 5.0\times10^{7}\ \mathrm{C/kg}$. It enters a uniform magnetic field of $0.20\ \mathrm{T}$ with a speed of $3.0\times10^{5}\ \mathrm{m/s}$ at a right angle to the field. What is the radius of its circle, in $\mathrm{cm}$?
+    answer: 3
+    tolerance: 0.02
+    answerText: '3'
+    wrong:
+      - { value: 0.03, feedback: 'That is the right size in metres. The question asks for centimetres.' }
+      - { value: 6, feedback: 'Check the factors. A speed of $3.0\times10^5$ m/s with a turning rate of $10^7$ rad/s gives a radius of speed over rate, with no factor of $2$.' }
+    hint: 'Scaling test: doubling $B$ must halve the radius. The turning rate has units of 1/s, and a radius is a speed divided by a rate.'
+    explanation: |
+      $\omega = (q/m)B = 5.0\times10^7\times0.20 = 1.0\times10^7\ \mathrm{rad/s}$, and $r = v/\omega = 3.0\times10^5/10^7 = 0.030\ \mathrm{m} = 3.0\ \mathrm{cm}$.
+
+  - type: numeric
+    id: gyro-pitch
+    prompt: |
+      The same particle ($q/m = 5.0\times10^{7}\ \mathrm{C/kg}$, in a field of $0.20\ \mathrm{T}$ along $z$) also has a speed of $1.5\times10^{5}\ \mathrm{m/s}$ along the field. How far does it advance along $z$ during one full turn of its circle, in $\mathrm{cm}$?
+    answer: 9.42
+    tolerance: 0.02
+    answerText: '9.42'
+    wrong:
+      - { value: 4.71, feedback: 'That is half of the right distance. One full turn is an angle of $2\pi$, not $\pi$.' }
+      - { value: 1.5, feedback: 'That would be the distance in a time of $10^{-7}$ s, which is not the period. First find how long one turn takes.' }
+    hint: 'The speed along $z$ is constant, so the advance is that speed times the time of one turn. The turn takes an angle of $2\pi$ at the turning rate of the field.'
+    explanation: |
+      $\omega = 10^7\ \mathrm{rad/s}$, so $T = 2\pi/\omega = 6.28\times10^{-7}\ \mathrm{s}$. The advance is $v_zT = 1.5\times10^{5}\times6.28\times10^{-7} = 0.0942\ \mathrm{m} = 9.42\ \mathrm{cm}$.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the content map of this level asks you to rebuild its structure box by box: the two drag laws, their solutions for falls, coasting and projectiles, and the charge in a magnetic field.
