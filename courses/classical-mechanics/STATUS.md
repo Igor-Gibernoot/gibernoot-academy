@@ -33,7 +33,8 @@
 - **Built:** `ch03-trajectory` (Level 3, guided problem, 23 cards, projectile-drag x3, no image).
 - **Built:** `ch03-quadratic-drag` (Level 3, concept, 22 cards, drag-fall x2, no image). Horizontal coasting by text and numeric cards (no widget).
 - **Widget `charge-field` built** (docs/widgets/charge-field.md): charge in uniform B (optional E, Ez), RK4 vs closed forms; top, side and oblique views, circle r = mv/(qB), centre, v and qv×B arrows, E×B drift, vacuum line, sliders, readouts r, ω, T, speed, kinetic energy.
-- **Next unit:** lesson `ch03-magnetic` (Level 3, concept, Taylor 2.5, uses `charge-field`).
+- **Built:** `ch03-magnetic` (Level 3, concept, 19 cards, charge-field x2, no image).
+- **Next unit:** lesson `ch03-traps` (Level 3, traps on drag, terminal speed and magnetic forces; no widget).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.

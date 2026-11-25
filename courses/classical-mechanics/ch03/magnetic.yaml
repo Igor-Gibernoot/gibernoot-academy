@@ -1,0 +1,334 @@
+id: ch03-magnetic
+title: A Charge in a Magnetic Field
+kind: concept
+own: |
+  Setting: a particle of charge $q$ (in C) and mass $m$ (in kg) moves with velocity $\mathbf{v} = (v_x, v_y, v_z)$ in a uniform magnetic field $\mathbf{B} = (0, 0, B)$ pointing along $z$ (toward the viewer in a top view), with no other force.
+  - **Equation of motion.** The magnetic force is $q\mathbf{v}\times\mathbf{B}$ and $\mathbf{v}\times\mathbf{B} = (v_yB, -v_xB, 0)$:
+    {{ $$m\dot{\mathbf{v}} = q\,\mathbf{v}\times\mathbf{B}$$ }}
+    So $\dot v_z = 0$: the speed along the field, $v_z$, is constant. The transverse velocity is $(v_x, v_y)$, the part in the $xy$ plane.
+  - **Cyclotron frequency.** The constant $\omega$ (an inverse time, signed: negative when $q < 0$) turns the two transverse equations into $\dot v_x = \omega v_y$ and $\dot v_y = -\omega v_x$:
+    {{ $$\omega = \frac{qB}{m}$$ }}
+  - **Complex trick.** Put the transverse velocity in one complex number $\eta = v_x + i\,v_y$. Then both equations become one, with the solution $\eta = Ae^{-i\omega t}$ ($A$ a complex constant, $|A|$ the transverse speed $v$), whose length stays fixed and whose arrow turns clockwise for $\omega > 0$:
+    {{ $$\dot\eta = -i\omega\,\eta$$ }}
+  - **Circle.** With $\xi = x + iy$ the position in the plane, $\dot\xi = \eta$ integrates to a circle of radius $r$ and period $T$, both set by the transverse speed $v = |\eta|$. The period does not depend on $v$. A positive charge circles clockwise seen from $+z$, a negative one counterclockwise:
+    {{ $$r = \frac{v}{\omega} = \frac{mv}{qB}$$ }}
+    $$T = \frac{2\pi}{|\omega|}$$
+  - **Helix.** With $v_z \ne 0$ the circle slides along $z$ at the constant rate $v_z$, $z = z_0 + v_zt$, so one turn advances the charge by the pitch
+    $$\Delta z = \frac{2\pi v_z}{|\omega|}$$
+  - **No work.** The force is always perpendicular to $\mathbf{v}$, so the kinetic energy does not change; a magnetic field turns the velocity but never changes the speed:
+    {{ $$\frac{d}{dt}\left(\tfrac12 mv^2\right) = q\,\mathbf{v}\cdot(\mathbf{v}\times\mathbf{B}) = 0$$ }}
+cards:
+  - type: text
+    id: hook
+    title: A force that cannot push
+    body: |
+      Fire a charged particle, such as an electron, through a region where there is a uniform magnetic field $\mathbf{B}$. Nothing else acts on it. Experiment says the field exerts the force
+      $$\mathbf{F} = q\,\mathbf{v}\times\mathbf{B},$$
+      where $q$ is the charge, $\mathbf{v}$ the velocity, and $\times$ the cross product. Unlike gravity or drag, this force depends on the velocity and not on where the particle is, and it vanishes for a particle at rest.
+
+      The cross product $\mathbf{v}\times\mathbf{B}$ is a vector of length $vB\sin\theta$ ($\theta$ = the angle between $\mathbf{v}$ and $\mathbf{B}$) that is perpendicular to **both** $\mathbf{v}$ and $\mathbf{B}$. In this lesson $\mathbf{B}$ points along $z$, and we look at the motion from above, with $\mathbf{B}$ pointing toward us. Gravity is ignored.
+
+  - type: mcq
+    id: guess
+    prompt: |
+      A positive charge enters a uniform magnetic field, moving in a plane perpendicular to $\mathbf{B}$. The only force on it is $q\mathbf{v}\times\mathbf{B}$. Before any calculation, guess what the field does to it.
+    options:
+      - text: It only changes the direction of the motion, and the speed stays the same
+        correct: true
+      - text: It speeds the charge up in the direction of its motion
+        feedback: |
+          Speeding up needs a force along the velocity. Here the force is perpendicular to $\mathbf{v}$ (that is what the cross product means), so it has no component along the motion.
+      - text: It slows the charge down, like a drag force
+        feedback: |
+          Drag points against the velocity, and it is why drag always costs energy. The magnetic force points sideways to the velocity, so it has no component against the motion either.
+      - text: It pushes the charge along the field lines, in the direction of $\mathbf{B}$
+        feedback: |
+          Tempting, because electric forces follow the field. But the magnetic force is perpendicular to $\mathbf{B}$, since $\mathbf{v}\times\mathbf{B}$ is perpendicular to $\mathbf{B}$.
+    explanation: |
+      A force perpendicular to the velocity can bend the path but cannot change the speed. We will confirm this with an energy argument at the end, and first find the path.
+
+  - type: widget
+    id: circle-widget
+    title: Watch it turn
+    widget: charge-field
+    config:
+      q: 1
+      m: 1
+      B: 1
+      v0: 1
+      tmax: 6.3
+      sliders: [v0, B]
+      ranges: { v0: [0.5, 2, 0.5], B: [0.5, 2, 0.5] }
+      views: [top]
+      window: { x: [-4, 4], y: [-4, 4] }
+      show: { velocity: true, force: true, circle: true, center: true }
+      readouts: [speed, r, omega, period]
+      units: { length: '', time: '', mass: '', charge: '', field: '', speed: '', energy: '', force: '', angle: '' }
+    body: |
+      A positive charge starts at the origin moving to the right. The blue arrow is its velocity $\mathbf{v}$, the orange arrow is the magnetic force $q\mathbf{v}\times\mathbf{B}$, and $\mathbf{B}$ points toward you. Play the motion, then change $v_0$ (the starting speed) and $B$.
+
+      **Try:** which way does it turn? Where does the orange arrow point relative to the blue one? Does the speed readout change?
+
+  - type: mcq
+    id: double-v
+    prompt: |
+      A positive charge circles in a uniform magnetic field. You launch an identical charge, same field, with **twice** the speed. What happens to its circle and to the time it takes for one full lap?
+    options:
+      - text: The radius doubles, and one lap takes the same time
+        correct: true
+      - text: The radius doubles, and one lap takes twice as long
+        feedback: |
+          The path is twice as long, but the charge also moves twice as fast, so the two effects cancel. Circumference over speed, $2\pi r/v$, does not change when $r$ and $v$ both double.
+      - text: The radius stays the same, and one lap takes half the time
+        feedback: |
+          A faster particle is bent by a larger force, but also needs more room to turn. Try the slider: the circle grows with $v_0$.
+      - text: The radius quadruples, because the force doubles and the speed doubles
+        feedback: |
+          The force does double, but the radius is not a product of effects. We derive it below, and it turns out proportional to $v$ only.
+    explanation: |
+      The circle grows in proportion to the speed and the lap time stays the same. We now derive both facts.
+
+  - type: mcq
+    id: cross
+    prompt: |
+      The field is $\mathbf{B} = (0, 0, B)$ and the velocity is $\mathbf{v} = (v_x, v_y, v_z)$. Which vector is $\mathbf{v}\times\mathbf{B}$? (Use $\hat x\times\hat z = -\hat y$ and $\hat y\times\hat z = \hat x$.)
+    options:
+      - text: '$(v_yB,\ -v_xB,\ 0)$'
+        correct: true
+      - text: '$(v_yB,\ v_xB,\ 0)$'
+        feedback: |
+          Sign of the second component. $v_x\hat x\times B\hat z = -v_xB\,\hat y$, so it enters with a minus.
+      - text: '$(v_xB,\ v_yB,\ v_zB)$'
+        feedback: |
+          That is just $\mathbf{v}$ scaled by $B$, parallel to $\mathbf{v}$. A cross product is perpendicular to both of its factors.
+      - text: '$(0,\ 0,\ v_zB)$'
+        feedback: |
+          The $z$ component of $\mathbf{v}\times\mathbf{B}$ is $v_xB_y - v_yB_x$, and $B_x = B_y = 0$ here, so it vanishes. The result is always perpendicular to $\mathbf{B}$.
+    explanation: |
+      Expanding along $\hat x$, $\hat y$, $\hat z$ gives $(v_yB_z - v_zB_y,\ v_zB_x - v_xB_z,\ v_xB_y - v_yB_x)$, which for $\mathbf{B} = (0,0,B)$ is $(v_yB, -v_xB, 0)$. The component along $\mathbf{B}$ drops out.
+
+  - type: text
+    id: equations
+    title: Three equations and one constant
+    body: |
+      Newton's law $m\dot{\mathbf{v}} = q\,\mathbf{v}\times\mathbf{B}$, read component by component, gives
+      $$m\dot v_x = qBv_y$$
+      $$m\dot v_y = -qBv_x$$
+      $$m\dot v_z = 0.$$
+      The last says that $v_z$, the speed along the field, is constant. The first two couple $v_x$ and $v_y$, the **transverse velocity** (the part in the $xy$ plane). To tidy them, define
+      $$\omega = \frac{qB}{m},$$
+      called the **cyclotron frequency**. The two equations become
+      $$\dot v_x = \omega v_y$$
+      $$\dot v_y = -\omega v_x.$$
+
+  - type: mcq
+    id: omega-units
+    prompt: |
+      A magnetic field is measured in tesla, and $1\ \mathrm{T} = 1\ \mathrm{kg\,C^{-1}\,s^{-1}}$. What are the units of $\omega = qB/m$?
+    options:
+      - text: 'Inverse seconds, $\mathrm{s^{-1}}$ (a rate, radians per second)'
+        correct: true
+      - text: Seconds, $\mathrm{s}$
+        feedback: |
+          Check by cancelling: $\mathrm{C}\cdot\mathrm{kg\,C^{-1}\,s^{-1}}/\mathrm{kg} = \mathrm{s^{-1}}$. The result is a rate, not a time.
+      - text: Meters per second, $\mathrm{m/s}$
+        feedback: |
+          No length appears among $q$, $B$ and $m$, so no meter can appear in $\omega$.
+      - text: Dimensionless
+        feedback: |
+          Coulombs and kilograms cancel, but one inverse second is left from the tesla.
+    explanation: |
+      $\omega = qB/m$ has the dimension of inverse time, which is why we may expect $1/\omega$ to be a time scale of the motion. Note that $\omega$ carries the sign of $q$.
+
+  - type: mcq
+    id: eta-derive
+    prompt: |
+      Two real equations, $\dot v_x = \omega v_y$ and $\dot v_y = -\omega v_x$, can be packed into one complex number $\eta = v_x + i\,v_y$ (so $\eta$ is a picture of the transverse velocity in the complex plane). Differentiate $\eta$ and use the two equations. What is $\dot\eta$ in terms of $\eta$?
+    options:
+      - text: '$\dot\eta = -i\omega\,\eta$'
+        correct: true
+      - text: '$\dot\eta = +i\omega\,\eta$'
+        feedback: |
+          Expand: $i\omega(v_x + iv_y) = i\omega v_x - \omega v_y$, but $\dot\eta = \omega v_y - i\omega v_x$. The signs are opposite, so you need $-i\omega$.
+      - text: '$\dot\eta = \omega\,\eta$'
+        feedback: |
+          That would make $\eta$ grow without bound, and a magnetic force cannot do that. Here $\dot\eta = \omega v_y - i\omega v_x$, which is not real-proportional to $v_x + iv_y$.
+      - text: '$\dot\eta = -\omega\,\bar\eta$, with $\bar\eta = v_x - iv_y$'
+        feedback: |
+          $-\omega(v_x - iv_y) = -\omega v_x + i\omega v_y$ has the wrong real and imaginary parts: the real part of $\dot\eta$ is $\omega v_y$.
+    explanation: |
+      $$\dot\eta = \dot v_x + i\dot v_y = \omega v_y - i\omega v_x = -i\omega\,(v_x + i v_y).$$
+      Two coupled equations became one, of the form $\dot u = ku$ whose solution we know: an exponential.
+
+  - type: mcq
+    id: solve-eta
+    prompt: |
+      The solution of $\dot\eta = -i\omega\eta$ is $\eta = Ae^{-i\omega t}$, with $A$ a constant complex number. Write $A = v\,e^{i\delta}$, so that $\eta = v\,e^{i(\delta - \omega t)}$ with $v$ and $\delta$ real. For $\omega > 0$, how does the point $\eta$ move in the complex plane?
+    options:
+      - text: On a circle of radius $v$ around $0$, clockwise, at the constant rate $\omega$ radians per second
+        correct: true
+      - text: On a circle of radius $v$ around $0$, counterclockwise, at the rate $\omega$
+        feedback: |
+          The angle of $\eta$ is $\delta - \omega t$, which **decreases** with time when $\omega > 0$. A decreasing angle is a clockwise turn.
+      - text: Along a spiral, because $e^{-i\omega t}$ contains an exponential
+        feedback: |
+          The exponent is purely imaginary, and $|e^{i\theta}| = 1$ for real $\theta$. So the length of $\eta$ stays $|A| = v$.
+      - text: In a straight line, oscillating between $+v$ and $-v$
+        feedback: |
+          That happens to $v_x = v\cos(\delta - \omega t)$ alone. But $v_y = v\sin(\delta - \omega t)$ oscillates too, a quarter period out of step, and together they trace a circle.
+    explanation: |
+      Euler's formula $e^{i\theta} = \cos\theta + i\sin\theta$ gives $v_x = v\cos(\delta - \omega t)$ and $v_y = v\sin(\delta - \omega t)$. The transverse speed $\sqrt{v_x^2 + v_y^2} = v$ is constant, and only the direction of the velocity rotates, clockwise for $\omega > 0$.
+
+  - type: mcq
+    id: radius
+    prompt: |
+      The position in the plane is the complex number $\xi = x + iy$, with $\dot\xi = \eta = v\,e^{i(\delta - \omega t)}$. Integrating gives $\xi = \xi_c + \dfrac{iv}{\omega}e^{i(\delta - \omega t)}$, with $\xi_c$ a constant. What does this say about the path?
+    options:
+      - text: A circle around the fixed centre $\xi_c$, of radius $r = v/\omega = mv/(qB)$, run once in the period $T = 2\pi/\omega$
+        correct: true
+      - text: A circle of radius $r = v\,\omega$, run once in the period $T = 2\pi/\omega$
+        feedback: |
+          The modulus of the second term is $|iv/\omega| = v/\omega$: the $\omega$ divides. This also agrees with the widget, where a larger $B$ (larger $\omega$) gave a smaller circle.
+      - text: A circle of radius $v/\omega$ run once in the period $T = 2\pi v/\omega$
+        feedback: |
+          The angle $\delta - \omega t$ advances by $2\pi$ when $t$ increases by $2\pi/\omega$, whatever $v$ is. The lap time does not depend on $v$.
+      - text: A circle centred at the origin, because $\xi$ starts at the origin
+        feedback: |
+          Only the starting point sits on the circle. The centre is $\xi_c$, which lies a distance $r$ from the starting point. A charge that turns clockwise has its centre on its right-hand side.
+    explanation: |
+      Check by differentiating: $\frac{d}{dt}\left[\frac{iv}{\omega}e^{i(\delta - \omega t)}\right] = \frac{iv}{\omega}(-i\omega)e^{i(\delta-\omega t)} = v\,e^{i(\delta - \omega t)}$. Then $|\xi - \xi_c| = v/\omega$, a constant, so the path is a circle of radius $r = v/\omega = mv/(qB)$ (with $v$ the transverse speed), and one lap takes $2\pi/\omega$ for any $v$.
+
+  - type: numeric
+    id: omega-electron
+    prompt: |
+      An electron has charge magnitude $e = 1.602\times10^{-19}\ \mathrm{C}$ and mass $m = 9.109\times10^{-31}\ \mathrm{kg}$. It moves in a uniform field $B = 0.010\ \mathrm{T}$. Find the size $|\omega| = eB/m$ of its cyclotron frequency, in units of $10^{9}\ \mathrm{rad/s}$.
+    answer: 1.759
+    tolerance: 0.01
+    answerText: '1.759'
+    wrong:
+      - { value: 1.759e11, feedback: 'That is $e/m$ in C/kg, without the factor $B = 0.010$ and without the unit $10^9$. Multiply by $B$, then divide by $10^9$.' }
+    hint: Compute $e/m$ first, then multiply by $B$.
+    explanation: |
+      $e/m = 1.602\times10^{-19}/9.109\times10^{-31} = 1.759\times10^{11}\ \mathrm{C/kg}$, and times $0.010\ \mathrm{T}$ gives $|\omega| = 1.759\times10^{9}\ \mathrm{rad/s}$. The lap time is $T = 2\pi/|\omega| = 3.57\ \mathrm{ns}$.
+
+  - type: numeric
+    id: radius-electron
+    prompt: |
+      An electron in a uniform field $B = 0.010\ \mathrm{T}$ has cyclotron frequency $|\omega| = eB/m = 1.759\times10^{9}\ \mathrm{rad/s}$ and moves at the transverse speed $v = 1.0\times10^{6}\ \mathrm{m/s}$. Find the radius of its circle, in millimeters.
+    answer: 0.5686
+    tolerance: 0.005
+    answerText: '0.569'
+    wrong:
+      - { value: 569, feedback: 'That is the radius in micrometers. The radius is $v/|\omega| = 5.69\times10^{-4}\ \mathrm{m}$, which is $0.569$ mm.' }
+    hint: The radius is the speed divided by the cyclotron frequency. Mind the unit.
+    explanation: |
+      $$r = \frac{v}{|\omega|} = \frac{1.0\times10^{6}}{1.759\times10^{9}}\ \mathrm{m}$$
+      $$r = 5.69\times10^{-4}\ \mathrm{m} = 0.569\ \mathrm{mm}.$$
+      A small circle: a magnetic field of $0.010$ T confines this electron to about half a millimeter.
+
+  - type: widget
+    id: helix-widget
+    title: Add motion along the field
+    widget: charge-field
+    config:
+      q: 1
+      m: 1
+      B: 1
+      v0: 1
+      vz: 0.6
+      tmax: 12.6
+      sliders: [vz, B]
+      ranges: { vz: [0, 1.5, 0.1], B: [0.5, 2, 0.5] }
+      views: [top, 3d]
+      window: { x: [-3, 3], y: [-3, 3], z: [0, 8] }
+      show: { force: false, circle: true, center: false }
+      readouts: [vperp, vz, speed, period]
+      units: { length: '', time: '', mass: '', charge: '', field: '', speed: '', energy: '', force: '', angle: '' }
+    body: |
+      The same charge now also has a speed $v_z$ along $\mathbf{B}$. The top panel looks along $\mathbf{B}$, the other is an oblique view with $z$ up.
+
+      **Try:** set $v_z = 0$, then raise it. Does the top view change? How far up does it climb in one turn? Then raise $B$ and watch the turns.
+
+  - type: numeric
+    id: pitch
+    prompt: |
+      An electron in a uniform field has cyclotron frequency $|\omega| = 1.759\times10^{9}\ \mathrm{rad/s}$ and also has a speed $v_z = 2.0\times10^{5}\ \mathrm{m/s}$ along $\mathbf{B}$. Since $v_z$ is constant, the path is a helix. How far along the field does it advance during one full turn (the pitch), in millimeters?
+    answer: 0.714
+    tolerance: 0.01
+    answerText: '0.714'
+    hint: One turn takes the time $2\pi/|\omega|$, and along $z$ the speed is constant.
+    explanation: |
+      $$\Delta z = v_zT = \frac{2\pi v_z}{|\omega|}$$
+      $$\Delta z = \frac{2\pi\times2.0\times10^{5}}{1.759\times10^{9}}\ \mathrm{m}$$
+      $$\Delta z = 0.714\ \mathrm{mm}.$$
+      The radius $r = v/|\omega|$ depends only on the transverse speed, and the pitch only on $v_z$.
+
+  - type: order
+    id: no-work
+    prompt: |
+      Put in order the argument that the magnetic force cannot change the kinetic energy $\tfrac12 mv^2$ of the particle.
+    steps:
+      - 'Differentiate the kinetic energy: $\dfrac{d}{dt}\left(\tfrac12 m\,\mathbf{v}\cdot\mathbf{v}\right) = m\,\mathbf{v}\cdot\dot{\mathbf{v}}$'
+      - 'Use Newton''s law $m\dot{\mathbf{v}} = q\,\mathbf{v}\times\mathbf{B}$ to get $\mathbf{v}\cdot(q\,\mathbf{v}\times\mathbf{B})$'
+      - 'The vector $\mathbf{v}\times\mathbf{B}$ is perpendicular to $\mathbf{v}$, so $\mathbf{v}\cdot(\mathbf{v}\times\mathbf{B}) = 0$'
+      - 'So the kinetic energy is constant: $|\mathbf{v}|$ never changes, and the field only turns the velocity'
+    hint: Differentiate first, substitute second, then use the property of the cross product.
+    explanation: |
+      Only the direction of $\mathbf{v}$ changes. This also explains the circle: with $v_z$ constant and the energy constant, the transverse speed $\sqrt{v_x^2 + v_y^2}$ is constant, as the complex solution showed.
+
+  - type: numeric
+    id: heavy-fast
+    prompt: |
+      Two particles have the same charge and move in the same uniform magnetic field. Particle 2 has **four times the mass** and **twice the speed** of particle 1 (both speeds are transverse). By what factor is the radius of the circle of particle 2 larger than that of particle 1?
+    answer: 8
+    wrong:
+      - { value: 2, feedback: 'You counted only the speed. The radius $r = mv/(qB)$ also grows with the mass, since a heavier particle is harder to deflect.' }
+      - { value: 4, feedback: 'You counted only the mass. The speed enters $r = mv/(qB)$ too.' }
+      - { value: 1, feedback: 'A heavier particle is not less bent by the same force. It is bent less (larger radius), because its inertia is larger.' }
+    hint: The radius is $r = mv/(qB)$.
+    explanation: |
+      $r_2/r_1 = (4m\cdot2v)/(mv) = 8$. The momentum $mv$ is what matters: $r = p/(qB)$.
+
+  - type: mcq
+    id: negative
+    prompt: |
+      An electron (negative charge) and a positron (the same mass and speed, positive charge) enter the same uniform field, seen from above with $\mathbf{B}$ toward us. How do their paths compare?
+    options:
+      - text: Circles of the same radius, turning in opposite directions
+        correct: true
+      - text: The electron goes straight, because a negative charge feels no magnetic force
+        feedback: |
+          The force $q\mathbf{v}\times\mathbf{B}$ is proportional to $q$, so a negative $q$ reverses it but does not remove it.
+      - text: The electron moves on a smaller circle, because it is lighter
+        feedback: |
+          Same mass was given. In any case $r = mv/(|q|B)$ depends on the magnitude $|q|$ only, so the radius is the same.
+      - text: Circles of the same radius, both turning clockwise
+        feedback: |
+          $\omega = qB/m$ is negative when $q < 0$, which reverses the sense of rotation. A positive charge goes clockwise, a negative one counterclockwise.
+    explanation: |
+      The sign of $q$ only flips the direction of the force, so the electron turns counterclockwise and the positron clockwise, on equal circles. This is how charged-particle tracks in a field tell the sign of the charge.
+
+  - type: mcq
+    id: double-B
+    prompt: |
+      A charge circles in a uniform magnetic field. You double $B$, keeping the same charge, mass and speed. What happens to the radius $r$ and to the cyclotron frequency $\omega$?
+    options:
+      - text: $r$ is halved and $\omega$ is doubled
+        correct: true
+      - text: $r$ is doubled and $\omega$ is doubled
+        feedback: |
+          A stronger field bends the path more sharply, so the circle gets smaller. $r = mv/(qB)$ has $B$ in the denominator.
+      - text: $r$ is halved and $\omega$ is halved
+        feedback: |
+          $\omega = qB/m$ is proportional to $B$, so it doubles: the charge goes around faster on the smaller circle.
+      - text: $r$ is unchanged and $\omega$ is doubled
+        feedback: |
+          Both $r = v/\omega$ and $\omega$ are tied: the speed is the same, so if $\omega$ doubles, $r = v/\omega$ must halve.
+    explanation: |
+      $r = v/\omega$ with $v$ fixed and $\omega \propto B$. A stronger field means a smaller circle run faster, and the time for one lap, $2\pi/\omega$, is halved.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      **Next:** with drag and magnetic forces both behind us, the next lesson is a round of traps that test the tempting mistakes about terminal speed, drag, and forces that do no work.
