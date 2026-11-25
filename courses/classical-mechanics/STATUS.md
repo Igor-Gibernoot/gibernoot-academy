@@ -32,7 +32,8 @@
 - **Widget `projectile-drag` built** (docs/widgets/projectile-drag.md): (x, y) path with drag law none / linear / quad / both, RK4, linear closed forms (Eq. 2.36) as overlay, vacuum parabola, dots, arrows, range markers, asymptote, readouts R, R_0, R/R_0, time, peak, tau.
 - **Built:** `ch03-trajectory` (Level 3, guided problem, 23 cards, projectile-drag x3, no image).
 - **Built:** `ch03-quadratic-drag` (Level 3, concept, 22 cards, drag-fall x2, no image). Horizontal coasting by text and numeric cards (no widget).
-- **Next unit:** widget `charge-field` (charge in a uniform B, optional E; needed by `ch03-magnetic`), then lesson `ch03-magnetic` (Taylor 2.5).
+- **Widget `charge-field` built** (docs/widgets/charge-field.md): charge in uniform B (optional E, Ez), RK4 vs closed forms; top, side and oblique views, circle r = mv/(qB), centre, v and qv×B arrows, E×B drift, vacuum line, sliders, readouts r, ω, T, speed, kinetic energy.
+- **Next unit:** lesson `ch03-magnetic` (Level 3, concept, Taylor 2.5, uses `charge-field`).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
