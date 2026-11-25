@@ -5,3 +5,4 @@
 - ch15-thinkers: Council of Lyon (1274) and canon NOT STATED (lesson makes no canon claim); Worms "declared heretic and outlaw" not in the pasted text. candidates: search "Edict of Worms 1521 Luther outlaw Decet Romanum Pontificem".
 - ch19-confucius: Wu Daoxuan (Wu Daozi) birth and death years NOT STATED on Britannica ("flourished c. 700-760"). candidates: search "Wu Daozi birth death dates Tang painter".
 - ch19-movements: scholarly or non-Mormon account of Book of Mormon production NOT STATED on Britannica (lesson rests on Midgley 2001 and Wikipedia). candidates: search "Book of Mormon origin scholarly view non-LDS historians".
+- ch21-theology: Britannica "Raelism" or "Raelian movement" (search Britannica Raelism): Vorilhon contact date (1973?) and the claimed age of human creation (25,000 years?) NOT checked; lesson now says only "in the 1970s". candidates: search "Britannica Raelism Vorilhon Elohim".
