@@ -1,5 +1,5 @@
 - ch23-fundamentalism: Hindutva called fundamentalist? NOT STATED on Britannica. candidates: search "Hindutva fundamentalism scholarly debate" (non-Britannica source).
-- ch14-writing: Aleppo Codex or Leningrad Codex as oldest complete Hebrew Bible, and Leningrad Codex 1008/1009 date, NOT STATED on Britannica (its Leningrad page is the Latter Prophets, 916). candidates: search "Leningrad Codex B19A 1008 Firkovich library St Petersburg".
+- ch14-writing: RESOLVED 2026-11-25 without Britannica. Leningrad Codex date (1008, 1009 or 1010 by source), Cairo, Firkovich, Russian National Library in St. Petersburg, oldest complete Hebrew Bible, all read at jewishvirtuallibrary.org, dornsife.usc.edu and Wikipedia. Nothing to paste.
 - ch14-genesis: Enuma Elish earliest manuscripts and tablet provenance NOT STATED on Britannica. candidates: search "Enuma Elish earliest manuscripts Assur Nineveh tablets British Museum".
 - ch16-form: link of saj' to the Qur'an NOT STATED on Britannica. candidates: search "saj fasila Quran rhymed prose scholars debate".
 - ch15-thinkers: Council of Lyon (1274) and canon NOT STATED (lesson makes no canon claim); Worms "declared heretic and outlaw" not in the pasted text. candidates: search "Edict of Worms 1521 Luther outlaw Decet Romanum Pontificem".
