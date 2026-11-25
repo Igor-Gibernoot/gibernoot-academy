@@ -1,0 +1,380 @@
+id: ch02-polar-proof
+title: 'Guided Proof: Acceleration in Polar Coordinates'
+kind: guided
+proof: true
+own: |
+  Setting: a particle moves in a plane, located by its distance $r$ from the origin $O$ and the angle $\varphi$ up from the $x$ axis. $\hat{\mathbf{x}}$ and $\hat{\mathbf{y}}$ are the fixed unit vectors along the axes, $\hat{\mathbf{r}}$ points the way $r$ grows and $\hat{\boldsymbol{\varphi}}$ the way $\varphi$ grows; a dot is a time derivative.
+  - **Unit vectors in components.** Both turn with $\varphi$, and only $\varphi$ depends on time in them:
+    $$\hat{\mathbf{r}} = \cos\varphi\,\hat{\mathbf{x}} + \sin\varphi\,\hat{\mathbf{y}}$$
+    $$\hat{\boldsymbol{\varphi}} = -\sin\varphi\,\hat{\mathbf{x}} + \cos\varphi\,\hat{\mathbf{y}}$$
+  - **Their rates of turning**, from the chain rule on these components ($\hat{\mathbf{x}}$, $\hat{\mathbf{y}}$ are constant):
+    {{ $$\frac{d\hat{\mathbf{r}}}{dt} = \dot\varphi\,\hat{\boldsymbol{\varphi}}, \qquad \frac{d\hat{\boldsymbol{\varphi}}}{dt} = -\dot\varphi\,\hat{\mathbf{r}}$$ }}
+  - **Velocity.** The product rule on $\mathbf{r} = r\hat{\mathbf{r}}$ gives a radial and a tangential part:
+    {{ $$\mathbf{v} = \dot r\,\hat{\mathbf{r}} + r\dot\varphi\,\hat{\boldsymbol{\varphi}}$$ }}
+  - **Acceleration.** Differentiating $\mathbf{v}$ gives five terms, and the two unit-vector rates turn them into four ($\dot r\dot\varphi$ appears twice in the $\hat{\boldsymbol{\varphi}}$ part):
+    {{ $$\mathbf{a} = \left(\ddot r - r\dot\varphi^2\right)\hat{\mathbf{r}} + \left(r\ddot\varphi + 2\dot r\dot\varphi\right)\hat{\boldsymbol{\varphi}}$$ }}
+  - **Special cases.** On a circle of radius $r$ ($\dot r = 0$) the radial part is $-r\dot\varphi^2 = -v^2/r$, directed inward, where $v = r\dot\varphi$ is the speed; on a radial line ($\varphi$ constant) only $\ddot r\,\hat{\mathbf{r}}$ remains. The term {{ $2\dot r\dot\varphi$ in the $\hat{\boldsymbol{\varphi}}$ part is the Coriolis term }}, present only when $r$ and $\varphi$ both change.
+
+cards:
+  - type: text
+    id: hook
+    title: A formula to earn
+    body: |
+      You have met the acceleration in polar coordinates: a radial part $\ddot r - r\dot\varphi^2$ and an angular part $r\ddot\varphi + 2\dot r\dot\varphi$. Here you will derive it yourself, one differentiation at a time, and nothing will be taken on trust. The only tools are the product rule, the chain rule and the fact that $\hat{\mathbf{x}}$ and $\hat{\mathbf{y}}$ never change.
+
+      First, a puzzle that shows why the formula cannot be as simple as it looks. A particle moves in a **straight line at constant velocity**, passing the origin $O$ at some closest distance. Its acceleration is zero. Yet its polar coordinates $r$ and $\varphi$ both change all the time.
+
+  - type: mcq
+    id: predict-rdd
+    prompt: |
+      A particle moves in a straight line at constant velocity, passing $O$ at a closest distance $b > 0$. At the instant of closest approach its distance $r$ is at a minimum, so $\dot r = 0$ there. What is $\ddot r$ at that instant?
+    options:
+      - text: Positive
+        correct: true
+      - text: Zero, because $\dot r = 0$ at that instant
+        feedback: |
+          $\dot r$ is zero only for an instant: it goes from negative (approaching) to positive (receding). A quantity that is rising through zero is changing, so its rate of change $\ddot r$ is not zero.
+      - text: Zero, because the acceleration of the particle is zero
+        feedback: |
+          The particle's acceleration is a vector and is indeed zero. But $\ddot r$ is the second derivative of the single number $r$, and that is a different thing. Telling them apart is the point of this lesson.
+      - text: Negative
+        feedback: |
+          Negative would mean $r$ is at a maximum, curving downward. At closest approach $r$ is at a minimum, curving upward.
+    explanation: |
+      $r$ has a minimum, so its graph curves upward there and $\ddot r > 0$. Yet the true acceleration is zero. So the radial component of the acceleration cannot simply be $\ddot r$: something must cancel it. The derivation will show what, and the last cards come back to this particle with numbers.
+
+  - type: widget
+    id: unit-vectors-turn
+    title: The unit vectors turn
+    widget: polar-motion
+    config:
+      r0: 2
+      w0: 1
+      tmax: 6.3
+      sliders: [w0]
+      ranges: { w0: [0, 2, 0.1] }
+      show:
+        unit: true
+        termArrows: false
+        velocity: false
+        accel: false
+        position: true
+        arc: true
+      readouts: [phi, phid]
+      labels: { phi: 'Angle $\varphi$ (degrees)', phid: 'Rate $\dot\varphi$', w0: 'Rate of turning $\dot\varphi$' }
+      units: { length: m, time: s }
+    body: |
+      A particle goes round a circle about the origin $O$. The two arrows at the particle are $\hat{\mathbf{r}}$ (away from $O$) and $\hat{\boldsymbol{\varphi}}$ (the way $\varphi$ grows). Both are unit vectors.
+
+      **Try:** replay and watch both arrows as the particle moves, then change $\dot\varphi$ and replay.
+
+  - type: mcq
+    id: unit-vectors-turn-q
+    review: false
+    prompt: |
+      In the widget the particle goes round a circle at a steady rate $\dot\varphi$. As it moves, what happens to the angle between $\hat{\mathbf{r}}$ and $\hat{\boldsymbol{\varphi}}$?
+    options:
+      - text: It stays at a right angle, and the pair rotates together with the particle
+        correct: true
+      - text: It shrinks as the particle goes round
+        feedback: |
+          $\hat{\boldsymbol{\varphi}}$ is defined as the direction of growing $\varphi$ at a right angle to $\hat{\mathbf{r}}$, at every point. Its direction is tied to $\hat{\mathbf{r}}$.
+      - text: It grows as the particle goes round
+        feedback: |
+          The two arrows are tied together: $\hat{\boldsymbol{\varphi}}$ is $\hat{\mathbf{r}}$ turned by a quarter turn, at every point.
+      - text: Neither arrow moves, only the particle does
+        feedback: |
+          Both arrows are defined at the particle's present position, so they turn with it. This is the difference from $\hat{\mathbf{x}}$ and $\hat{\mathbf{y}}$, which stay fixed.
+    explanation: |
+      The pair $\hat{\mathbf{r}}, \hat{\boldsymbol{\varphi}}$ is a pair of perpendicular unit vectors that turns rigidly with $\varphi$. That suggests writing both with the fixed vectors $\hat{\mathbf{x}}$ and $\hat{\mathbf{y}}$, whose derivative is zero.
+
+  - type: text
+    id: components
+    title: The unit vectors in fixed components
+    body: |
+      The position is $\mathbf{r} = x\hat{\mathbf{x}} + y\hat{\mathbf{y}}$ with $x = r\cos\varphi$ and $y = r\sin\varphi$. Dividing by its length $r$ gives the unit vector along it:
+
+      $$\hat{\mathbf{r}} = \cos\varphi\,\hat{\mathbf{x}} + \sin\varphi\,\hat{\mathbf{y}}.$$
+
+      The vector $\hat{\boldsymbol{\varphi}}$ is a unit vector at a right angle to $\hat{\mathbf{r}}$, turned counterclockwise. A quarter turn counterclockwise sends $\hat{\mathbf{x}}$ to $\hat{\mathbf{y}}$ and $\hat{\mathbf{y}}$ to $-\hat{\mathbf{x}}$, so
+
+      $$\hat{\boldsymbol{\varphi}} = -\sin\varphi\,\hat{\mathbf{x}} + \cos\varphi\,\hat{\mathbf{y}}.$$
+
+      In these two lines the only quantity that depends on time is $\varphi$.
+
+  - type: mcq
+    id: components-check
+    prompt: |
+      Use $\hat{\boldsymbol{\varphi}} = -\sin\varphi\,\hat{\mathbf{x}} + \cos\varphi\,\hat{\mathbf{y}}$ at a particle on the positive $y$ axis, where $\varphi = 90^\circ$. Which vector do you get?
+    options:
+      - text: $-\hat{\mathbf{x}}$
+        correct: true
+      - text: $+\hat{\mathbf{x}}$
+        feedback: |
+          At $\varphi = 90^\circ$ we have $\sin\varphi = 1$ and the $\hat{\mathbf{x}}$ coefficient is $-\sin\varphi = -1$. The sign is minus.
+      - text: $+\hat{\mathbf{y}}$
+        feedback: |
+          That is $\hat{\mathbf{r}}$ at this point ($\sin 90^\circ = 1$, $\cos 90^\circ = 0$). $\hat{\boldsymbol{\varphi}}$ has $\cos 90^\circ = 0$ as its $\hat{\mathbf{y}}$ coefficient.
+      - text: $-\hat{\mathbf{y}}$
+        feedback: |
+          The $\hat{\mathbf{y}}$ coefficient is $\cos 90^\circ = 0$, so no $\hat{\mathbf{y}}$ part is left.
+    explanation: |
+      $-\sin 90^\circ\,\hat{\mathbf{x}} + \cos 90^\circ\,\hat{\mathbf{y}} = -\hat{\mathbf{x}}$: on the positive $y$ axis, increasing $\varphi$ means moving left. The formula passes the check, and it is also a unit vector since $\sin^2\varphi + \cos^2\varphi = 1$.
+
+  - type: build
+    id: drdt-build
+    prompt: |
+      Differentiate $\hat{\mathbf{r}} = \cos\varphi\,\hat{\mathbf{x}} + \sin\varphi\,\hat{\mathbf{y}}$ in time. The vectors $\hat{\mathbf{x}}$ and $\hat{\mathbf{y}}$ are constants, and $\varphi$ depends on $t$, so each $\cos\varphi$ and $\sin\varphi$ needs the chain rule, which brings out one common factor. Build the result.
+    prefix: '\dfrac{d\hat{\mathbf{r}}}{dt} ='
+    tiles: ['\dot\varphi', '-\dot\varphi', '(-\sin\varphi\,\hat{\mathbf{x}} + \cos\varphi\,\hat{\mathbf{y}})', '(\cos\varphi\,\hat{\mathbf{x}} + \sin\varphi\,\hat{\mathbf{y}})']
+    answers:
+      - ['\dot\varphi', '(-\sin\varphi\,\hat{\mathbf{x}} + \cos\varphi\,\hat{\mathbf{y}})']
+    wrong:
+      - answer: ['\dot\varphi', '(\cos\varphi\,\hat{\mathbf{x}} + \sin\varphi\,\hat{\mathbf{y}})']
+        feedback: 'That forgets to differentiate: $\cos\varphi$ becomes $-\sin\varphi\,\dot\varphi$ and $\sin\varphi$ becomes $\cos\varphi\,\dot\varphi$.'
+    hint: The derivative of $\cos\varphi(t)$ is $-\sin\varphi\,\dot\varphi$, and of $\sin\varphi(t)$ is $\cos\varphi\,\dot\varphi$.
+    explanation: |
+      $\dfrac{d}{dt}\cos\varphi = -\dot\varphi\sin\varphi$ and $\dfrac{d}{dt}\sin\varphi = \dot\varphi\cos\varphi$, so $\dfrac{d\hat{\mathbf{r}}}{dt} = \dot\varphi\left(-\sin\varphi\,\hat{\mathbf{x}} + \cos\varphi\,\hat{\mathbf{y}}\right)$. The bracket is the components of $\hat{\boldsymbol{\varphi}}$.
+
+  - type: build
+    id: dphidt-build
+    prompt: |
+      Now differentiate $\hat{\boldsymbol{\varphi}} = -\sin\varphi\,\hat{\mathbf{x}} + \cos\varphi\,\hat{\mathbf{y}}$ the same way. Build the result, using the sign you get from the chain rule.
+    prefix: '\dfrac{d\hat{\boldsymbol{\varphi}}}{dt} ='
+    tiles: ['\dot\varphi', '-\dot\varphi', '(\cos\varphi\,\hat{\mathbf{x}} + \sin\varphi\,\hat{\mathbf{y}})', '(-\sin\varphi\,\hat{\mathbf{x}} + \cos\varphi\,\hat{\mathbf{y}})']
+    answers:
+      - ['-\dot\varphi', '(\cos\varphi\,\hat{\mathbf{x}} + \sin\varphi\,\hat{\mathbf{y}})']
+    wrong:
+      - answer: ['\dot\varphi', '(\cos\varphi\,\hat{\mathbf{x}} + \sin\varphi\,\hat{\mathbf{y}})']
+        feedback: 'Check the signs. $\frac{d}{dt}(-\sin\varphi) = -\dot\varphi\cos\varphi$, and $\frac{d}{dt}\cos\varphi = -\dot\varphi\sin\varphi$: both carry a minus, so $-\dot\varphi$ comes out of the bracket.'
+    hint: Both terms pick up a minus sign, one from the minus already in front of $\sin\varphi$, one from the derivative of $\cos\varphi$.
+    explanation: |
+      $\dfrac{d\hat{\boldsymbol{\varphi}}}{dt} = -\dot\varphi\cos\varphi\,\hat{\mathbf{x}} - \dot\varphi\sin\varphi\,\hat{\mathbf{y}} = -\dot\varphi\left(\cos\varphi\,\hat{\mathbf{x}} + \sin\varphi\,\hat{\mathbf{y}}\right)$, and the bracket is $\hat{\mathbf{r}}$.
+
+  - type: text
+    id: two-rules
+    title: Two rules, proved
+    body: |
+      Recognizing the brackets, the two results read
+
+      $$\frac{d\hat{\mathbf{r}}}{dt} = \dot\varphi\,\hat{\boldsymbol{\varphi}}, \qquad \frac{d\hat{\boldsymbol{\varphi}}}{dt} = -\dot\varphi\,\hat{\mathbf{r}}.$$
+
+      Each rate is at a right angle to its own vector, which a unit vector that only turns must do, and each is proportional to $\dot\varphi$: no rotation, no change. The signs fit the picture: for a counterclockwise turn, $\hat{\mathbf{r}}$ leans toward $\hat{\boldsymbol{\varphi}}$, and $\hat{\boldsymbol{\varphi}}$ leans toward $-\hat{\mathbf{r}}$, inward.
+
+      **Recall: velocity.** The product rule on $\mathbf{r} = r\hat{\mathbf{r}}$ gives $\dot{\mathbf{r}} = \dot r\,\hat{\mathbf{r}} + r\,d\hat{\mathbf{r}}/dt$, and with the first rule
+
+      $$\mathbf{v} = \dot r\,\hat{\mathbf{r}} + r\dot\varphi\,\hat{\boldsymbol{\varphi}}.$$
+
+      One more differentiation of this gives the acceleration $\mathbf{a} = \dot{\mathbf{v}}$.
+
+  - type: numeric
+    id: count-terms
+    prompt: |
+      Differentiate $\mathbf{v} = \dot r\,\hat{\mathbf{r}} + r\dot\varphi\,\hat{\boldsymbol{\varphi}}$ in time with the product rule, leaving the derivatives of the unit vectors unevaluated. The first piece $\dot r\,\hat{\mathbf{r}}$ is a product of two factors; the second piece $r\dot\varphi\,\hat{\boldsymbol{\varphi}}$ is a product of three. How many terms do you get in all?
+    answer: 5
+    wrong:
+      - { value: 4, feedback: 'Four is the count after substitution, when two terms turn out to be alike. Before that, count: two terms from the first piece and three from the second.' }
+      - { value: 3, feedback: 'The first piece has two factors, so it gives two terms, and the second has three factors, so it gives three.' }
+    hint: A product of $n$ factors gives $n$ terms, each with one factor differentiated.
+    explanation: |
+      $$\mathbf{a} = \ddot r\,\hat{\mathbf{r}} + \dot r\frac{d\hat{\mathbf{r}}}{dt} + \dot r\dot\varphi\,\hat{\boldsymbol{\varphi}} + r\ddot\varphi\,\hat{\boldsymbol{\varphi}} + r\dot\varphi\frac{d\hat{\boldsymbol{\varphi}}}{dt}.$$
+      Terms 3 and 4 and 5 come from the second piece.
+
+  - type: build
+    id: first-pair
+    prompt: |
+      Take the first two terms, $\ddot r\,\hat{\mathbf{r}} + \dot r\,\dfrac{d\hat{\mathbf{r}}}{dt}$, and substitute the rate of turning of $\hat{\mathbf{r}}$ that you proved. Build the result.
+    prefix: '\text{first two} ='
+    tiles: ['\ddot r\,\hat{\mathbf{r}}', '+', '\dot r\dot\varphi\,\hat{\boldsymbol{\varphi}}', '\dot r\dot\varphi\,\hat{\mathbf{r}}', '-\dot r\dot\varphi\,\hat{\boldsymbol{\varphi}}']
+    answers:
+      - ['\ddot r\,\hat{\mathbf{r}}', '+', '\dot r\dot\varphi\,\hat{\boldsymbol{\varphi}}']
+      - ['\dot r\dot\varphi\,\hat{\boldsymbol{\varphi}}', '+', '\ddot r\,\hat{\mathbf{r}}']
+    wrong:
+      - answer: ['\ddot r\,\hat{\mathbf{r}}', '+', '\dot r\dot\varphi\,\hat{\mathbf{r}}']
+        feedback: 'The rate $d\hat{\mathbf{r}}/dt$ points along $\hat{\boldsymbol{\varphi}}$, not along $\hat{\mathbf{r}}$. A unit vector that only turns changes at a right angle to itself.'
+    hint: $d\hat{\mathbf{r}}/dt = \dot\varphi\,\hat{\boldsymbol{\varphi}}$.
+    explanation: |
+      $\dot r\,\dfrac{d\hat{\mathbf{r}}}{dt} = \dot r\dot\varphi\,\hat{\boldsymbol{\varphi}}$. Keep it: it will meet a twin.
+
+  - type: mcq
+    id: last-term
+    prompt: |
+      The fifth term is $r\dot\varphi\,\dfrac{d\hat{\boldsymbol{\varphi}}}{dt}$. Substitute $d\hat{\boldsymbol{\varphi}}/dt = -\dot\varphi\,\hat{\mathbf{r}}$. What is it?
+    options:
+      - text: $-r\dot\varphi^2\,\hat{\mathbf{r}}$
+        correct: true
+      - text: $+r\dot\varphi^2\,\hat{\mathbf{r}}$
+        feedback: |
+          The sign is lost. The rate of $\hat{\boldsymbol{\varphi}}$ is $-\dot\varphi\,\hat{\mathbf{r}}$, with a minus: it points inward.
+      - text: $-r\dot\varphi^2\,\hat{\boldsymbol{\varphi}}$
+        feedback: |
+          The direction is wrong: the rate of $\hat{\boldsymbol{\varphi}}$ points along $\hat{\mathbf{r}}$, not along $\hat{\boldsymbol{\varphi}}$ itself.
+      - text: $-r\ddot\varphi\,\hat{\mathbf{r}}$
+        feedback: |
+          Differentiating $\hat{\boldsymbol{\varphi}}$ brings one factor $\dot\varphi$, which multiplies the $\dot\varphi$ already present. There is no second derivative of $\varphi$ here.
+    explanation: |
+      $r\dot\varphi\cdot(-\dot\varphi\,\hat{\mathbf{r}}) = -r\dot\varphi^2\,\hat{\mathbf{r}}$. This is the term that will cancel $\ddot r$ in the opening puzzle.
+
+  - type: numeric
+    id: collect-coefficient
+    prompt: |
+      After substituting, the $\hat{\boldsymbol{\varphi}}$ direction collects the terms $\dot r\dot\varphi$ (from the first piece), $\dot r\dot\varphi$ (the third term) and $r\ddot\varphi$. Write the $\hat{\boldsymbol{\varphi}}$ coefficient as $c\,\dot r\dot\varphi + r\ddot\varphi$. What is $c$?
+    answer: 2
+    wrong:
+      - { value: 1, feedback: 'The two $\dot r\dot\varphi$ terms are different terms with the same value: one came from differentiating $\hat{\mathbf{r}}$, the other from differentiating $r$ in $r\dot\varphi$. Both must be counted.' }
+    hint: Add up the like terms.
+    explanation: |
+      One $\dot r\dot\varphi$ comes from $\hat{\mathbf{r}}$ turning while the particle moves outward. The other comes from $r$ growing, which makes the tangential velocity $r\dot\varphi$ grow. They add to $2\dot r\dot\varphi$.
+
+  - type: order
+    id: proof-order
+    prompt: Put the derivation of the polar acceleration in order.
+    steps:
+      - 'Write $\hat{\mathbf{r}}$ and $\hat{\boldsymbol{\varphi}}$ with the fixed vectors $\hat{\mathbf{x}}$, $\hat{\mathbf{y}}$ and the angle $\varphi$.'
+      - 'Differentiate them, with the chain rule: $d\hat{\mathbf{r}}/dt = \dot\varphi\hat{\boldsymbol{\varphi}}$ and $d\hat{\boldsymbol{\varphi}}/dt = -\dot\varphi\hat{\mathbf{r}}$.'
+      - 'Differentiate $\mathbf{r} = r\hat{\mathbf{r}}$ with the product rule to get $\mathbf{v} = \dot r\hat{\mathbf{r}} + r\dot\varphi\hat{\boldsymbol{\varphi}}$.'
+      - 'Differentiate $\mathbf{v}$ with the product rule: five terms, two of them containing a unit-vector derivative.'
+      - 'Substitute the two unit-vector rates into those terms.'
+      - 'Collect the $\hat{\mathbf{r}}$ terms and the $\hat{\boldsymbol{\varphi}}$ terms.'
+    hint: Unit vectors first, then velocity, then acceleration.
+    explanation: |
+      Each step needs the one before it. The unit-vector rates must be known before any product rule can be finished, and collecting comes last because the terms are only alike after substitution.
+
+  - type: text
+    id: result
+    title: The result
+    body: |
+      Collecting the $\hat{\mathbf{r}}$ terms, $\ddot r$ and $-r\dot\varphi^2$, and the $\hat{\boldsymbol{\varphi}}$ terms, $2\dot r\dot\varphi$ and $r\ddot\varphi$:
+
+      $$\mathbf{a} = \left(\ddot r - r\dot\varphi^2\right)\hat{\mathbf{r}} + \left(r\ddot\varphi + 2\dot r\dot\varphi\right)\hat{\boldsymbol{\varphi}}.$$
+
+      So the polar components of the acceleration are
+
+      $$a_r = \ddot r - r\dot\varphi^2$$
+
+      and
+
+      $$a_\varphi = r\ddot\varphi + 2\dot r\dot\varphi.$$
+
+      Four terms. Two are the ones you would guess, $\ddot r$ (the radius changes its rate) and $r\ddot\varphi$ (the angle changes its rate). The other two, $-r\dot\varphi^2$ and $2\dot r\dot\varphi$, exist only because the unit vectors turn. Now test the formula on simple motions.
+
+  - type: numeric
+    id: circle
+    prompt: |
+      A particle goes round a circle of radius $r = 0.25\ \mathrm{m}$ at a steady rate $\dot\varphi = 6\ \mathrm{rad/s}$. On a circle $\dot r = 0$ and $\ddot r = 0$, and the rate is steady so $\ddot\varphi = 0$. Use $a_r = \ddot r - r\dot\varphi^2$. What is $a_r$, in $\mathrm{m/s^2}$?
+    answer: -9
+    answerText: '-9'
+    wrong:
+      - { value: 9, feedback: 'The size is right, the sign is not. The minus means the acceleration points opposite to $\hat{\mathbf{r}}$, toward the centre.' }
+      - { value: -1.5, feedback: 'That is $r\dot\varphi$, the speed of the particle in $\mathrm{m/s}$, not the acceleration. The acceleration is $r\dot\varphi^2$.' }
+    hint: Only the $-r\dot\varphi^2$ term survives.
+    explanation: |
+      $a_r = -0.25\times 6^2 = -9\ \mathrm{m/s^2}$, inward. Check with the speed $v = r\dot\varphi = 1.5\ \mathrm{m/s}$: $v^2/r = 2.25/0.25 = 9\ \mathrm{m/s^2}$. On a circle the angular part is $r\ddot\varphi$, zero here and equal to the rate of change of the speed when $\dot\varphi$ varies.
+
+  - type: mcq
+    id: radial-line
+    prompt: |
+      A particle moves along a straight line through the origin, so $\varphi$ is constant ($\dot\varphi = \ddot\varphi = 0$) while $r$ changes as $r(t)$. Which terms of the acceleration survive?
+    multiple: true
+    options:
+      - text: $\ddot r$ in the $\hat{\mathbf{r}}$ direction
+        correct: true
+      - text: $-r\dot\varphi^2$
+        feedback: |
+          This has $\dot\varphi$ as a factor, and $\dot\varphi = 0$ on a radial line.
+      - text: $r\ddot\varphi$
+        feedback: |
+          This has $\ddot\varphi$ as a factor, and $\ddot\varphi = 0$.
+      - text: $2\dot r\dot\varphi$
+        feedback: |
+          Here $\dot r$ is not zero, but the other factor $\dot\varphi$ is. A product with a zero factor is zero.
+    explanation: |
+      Only $\mathbf{a} = \ddot r\,\hat{\mathbf{r}}$ is left, the one-dimensional acceleration along the line, as it should be. Notice that $\hat{\mathbf{r}}$ does not turn here, so nothing extra appears.
+
+  - type: text
+    id: coriolis
+    title: The term with no simple picture
+    body: |
+      The last term, $2\dot r\dot\varphi$ in the $\hat{\boldsymbol{\varphi}}$ direction, is the hardest to picture. It needs both $\dot r$ and $\dot\varphi$ nonzero, so it exists when the particle moves outward while it turns, on a spiral. It has two equal sources, which you counted: the outward motion carries $\hat{\mathbf{r}}$ round with it (one $\dot r\dot\varphi$), and the growth of $r$ makes the tangential speed $r\dot\varphi$ grow (the other).
+
+      It is called the **Coriolis acceleration**, and it will return in the level Noninertial Frames, where it appears in rotating frames of reference. A useful rewriting is
+
+      $$a_\varphi = \frac{1}{r}\frac{d}{dt}\left(r^2\dot\varphi\right),$$
+
+      which expands, by the product rule, to $r\ddot\varphi + 2\dot r\dot\varphi$. So $a_\varphi = 0$ exactly when $r^2\dot\varphi$ stays constant.
+
+  - type: numeric
+    id: coriolis-q
+    prompt: |
+      A particle moves so that $\dot r = 2\ \mathrm{m/s}$ and $\dot\varphi = 3\ \mathrm{rad/s}$, both momentarily steady, so that $\ddot r = 0$ and $\ddot\varphi = 0$ at the instant. Use $a_\varphi = r\ddot\varphi + 2\dot r\dot\varphi$. What is $a_\varphi$, in $\mathrm{m/s^2}$?
+    answer: 12
+    wrong:
+      - { value: 6, feedback: 'That is $\dot r\dot\varphi$, one copy. The two sources (the turning of $\hat{\mathbf{r}}$ and the growth of $r\dot\varphi$) each give one, so the term is $2\dot r\dot\varphi$.' }
+    hint: Only the $2\dot r\dot\varphi$ term survives.
+    explanation: |
+      $a_\varphi = 2\times 2\times 3 = 12\ \mathrm{m/s^2}$, along $\hat{\boldsymbol{\varphi}}$, even though $\ddot\varphi = 0$: the particle speeds up tangentially only because it is moving outward.
+
+  - type: widget
+    id: spiral
+    title: The four terms on a spiral
+    widget: polar-motion
+    config:
+      r0: 1
+      rd0: 0.5
+      w0: 1.2
+      tmax: 3
+      scale: 55
+      sliders: [rd0, w0]
+      ranges: { rd0: [0, 1, 0.1], w0: [0, 2, 0.1] }
+      toggles: [rdd, cent, phidd, cor]
+      show:
+        unit: true
+        termArrows: true
+        position: true
+        scrub: true
+      readouts: [r, vr, ar, aphi]
+      labels:
+        rd0: 'Start $\dot r$'
+        w0: 'Start $\dot\varphi$'
+      units: { length: m, time: s }
+    body: |
+      A particle spirals outward with constant $\ddot r = 0$ and $\ddot\varphi = 0$, so $r$ grows steadily and $\dot\varphi$ stays fixed. The four arrows are the four terms of the acceleration: $\ddot r$, $-r\dot\varphi^2$ along $\hat{\mathbf{r}}$, and $r\ddot\varphi$, $2\dot r\dot\varphi$ along $\hat{\boldsymbol{\varphi}}$. The checkboxes switch each on or off.
+
+      **Try:** set $\dot r$ to zero and watch which arrows vanish, then set $\dot\varphi$ to zero.
+
+  - type: mcq
+    id: spiral-q
+    review: false
+    prompt: |
+      A particle moves on a spiral with $\ddot r = 0$, $\ddot\varphi = 0$, $\dot r > 0$ and $\dot\varphi > 0$. Which of the four terms of the acceleration are not zero?
+    multiple: true
+    options:
+      - text: $-r\dot\varphi^2$ (the radial term that points inward)
+        correct: true
+      - text: $2\dot r\dot\varphi$ (the Coriolis term)
+        correct: true
+      - text: $\ddot r$
+        feedback: |
+          $\ddot r = 0$ here, because $r$ grows at a steady rate $\dot r$.
+      - text: $r\ddot\varphi$
+        feedback: |
+          $\ddot\varphi = 0$ here, because the angle turns at a steady rate.
+    explanation: |
+      Steady rates in $r$ and $\varphi$ do not mean zero acceleration: the particle still bends, so $a_r = -r\dot\varphi^2$ and $a_\varphi = 2\dot r\dot\varphi$ are both nonzero. Only a particle with $\dot\varphi = 0$ would have a straight radial path with no acceleration.
+
+  - type: numeric
+    id: straight-line
+    prompt: |
+      Back to the opening puzzle. A particle moves on the line $x = 2\ \mathrm{m}$ at constant velocity $\dot y = 3\ \mathrm{m/s}$, so its acceleration is zero. At the instant $y = 0$ its polar data are $r = 2\ \mathrm{m}$, $\dot r = 0$, $\dot\varphi = 1.5\ \mathrm{rad/s}$, $\ddot\varphi = 0$, and, from the curve of $r(t)$, $\ddot r = 4.5\ \mathrm{m/s^2}$. Use $a_r = \ddot r - r\dot\varphi^2$ to find $a_r$, in $\mathrm{m/s^2}$.
+    answer: 0
+    answerText: '0'
+    wrong:
+      - { value: 4.5, feedback: 'That is $\ddot r$ alone. The term $-r\dot\varphi^2$ cancels it.' }
+    hint: Compute $r\dot\varphi^2$ with $r = 2$ and $\dot\varphi = 1.5$.
+    explanation: |
+      $r\dot\varphi^2 = 2\times 1.5^2 = 4.5$, so $a_r = 4.5 - 4.5 = 0$, and $a_\varphi = 2\times 0\times 1.5 + 0 = 0$ too. The positive $\ddot r$ (the minimum of $r$) is cancelled by $-r\dot\varphi^2$ (the turning of $\hat{\mathbf{r}}$). The polar formula gives zero for a free particle, as it must, and this is the reason $\ddot r$ alone is not the radial acceleration.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the lesson Newton Traps is a fast round of the classic mistakes with forces, frames and action-reaction pairs, several of which come from reading $\ddot r$ or $\dot\varphi$ as if they were the whole acceleration.
