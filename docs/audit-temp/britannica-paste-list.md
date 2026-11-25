@@ -1,6 +1,6 @@
 - ch23-fundamentalism: Hindutva called fundamentalist? NOT STATED on Britannica. candidates: search "Hindutva fundamentalism scholarly debate" (non-Britannica source).
 - ch14-writing: RESOLVED 2026-11-25 without Britannica. Leningrad Codex date (1008, 1009 or 1010 by source), Cairo, Firkovich, Russian National Library in St. Petersburg, oldest complete Hebrew Bible, all read at jewishvirtuallibrary.org, dornsife.usc.edu and Wikipedia. Nothing to paste.
-- ch14-genesis: Enuma Elish earliest manuscripts and tablet provenance NOT STATED on Britannica. candidates: search "Enuma Elish earliest manuscripts Assur Nineveh tablets British Museum".
+- ch14-genesis: RESOLVED 2026-11-25 without Britannica. Earliest copies from Assur (9th c. BCE on palaeographic grounds), most library tablets from 7th-century Nineveh, excavated by the British Museum, read in the Library of Babylonian Literature Enuma Elish volume (open access), CDLI records and Wikipedia. Nothing to paste.
 - ch16-form: link of saj' to the Qur'an NOT STATED on Britannica. candidates: search "saj fasila Quran rhymed prose scholars debate".
 - ch15-thinkers: Council of Lyon (1274) and canon NOT STATED (lesson makes no canon claim); Worms "declared heretic and outlaw" not in the pasted text. candidates: search "Edict of Worms 1521 Luther outlaw Decet Romanum Pontificem".
 - ch19-confucius: Wu Daoxuan (Wu Daozi) birth and death years NOT STATED on Britannica ("flourished c. 700-760"). candidates: search "Wu Daozi birth death dates Tang painter".
