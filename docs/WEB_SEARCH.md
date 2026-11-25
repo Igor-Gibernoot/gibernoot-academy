@@ -23,7 +23,10 @@ it at once). **A fact is "unconfirmed" only after every step below fails.**
    (not a quote aggregator). If only secondary pages repeat it, paraphrase
    ("in essence") and log `secondary only`.
 5. **Sources that disagree** (a birth year, a constant): give the commonly
-   cited value and say "some sources give X", or use "c."; never silently pick.
+   cited value and say "some sources give X", or use "c."; never silently pick. Prefer a range with attribution in the
+   lesson text ("dated 1981 in some sources, 1983 in the journal volume";
+   "1876 or 1877 in different sources"), log both sources in `VERIFIED.md`,
+   and sweep every file of the course that states the date or number.
 6. **Record the attempts**: each item left unconfirmed gets
    `tried: <q1>; <q2>; <site>` in the course's `VERIFIED.md`, so a later pass
    does not repeat them.
