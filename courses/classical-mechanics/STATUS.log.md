@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-24 ch02-intuition (Level 2, intuition, 18 cards, autonomous)
+Built `ch02/intuition.yaml` with `own:` (6 blanks), no widget (recall cards), Images: none: no person, experiment or object to picture. Flow: hook, build cards (F_x = m x-ddot, N = mg cos theta, x-ddot incline, tan theta > mu_s, r-hat components, d phi-hat/dt, v, a_r, a_phi), incline limit mcq, units mcq, radial-line mcq, doubling check (x4), then data-only problems (stone 0.3 kg, r 0.4, v 2 gives 3 N; bead a_phi = 1 + 12 = 13; 28 deg slope, mu_s 0.55 stays). Validate 0 errors, 0 warnings; shots 0 problems. Choice: 18 cards (plan said about 14) because each build is one card; kept under 20. Conventions fixed here: none new (reuses the incline and polar conventions).
+
 ## 2026-11-24 ch02-traps (Level 2, traps, 15 cards, autonomous)
 Built `ch02/traps.yaml`: hook, 13 one-misconception cards (book at rest and false third-law pair, puck leaving a stick, equal fall of 1 and 10 kg, skaters' pair, lift normal force 770 N, static friction 4 N, friction forward on a crate in a truck, circle with no extra centripetal force, a_r = -12 with r-ddot = 0, Coriolis term only on a spiral, car frame and a' = a - R-ddot, bucket filling with sand F = p-dot = 1.5 N, rifle recoil 1 m/s), plain summary. No widget. Images: none: traps are fast text questions, no person, experiment or object needing a picture. No source page read (all formulas already in VERIFIED.md); no web facts. Choices: incline normal force folded into the lift explanation instead of its own card; summary is a plain text card (no `own:`, as in ch01-traps). validate 0 errors 0 warnings, shots 0 problems. Conventions fixed here: none new.
 

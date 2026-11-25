@@ -1,0 +1,286 @@
+id: ch02-intuition
+title: "Intuition: Components and Unit Vectors"
+kind: intuition
+own: |
+  - **Second law in cartesian components.** For a particle of mass $m$ at position $(x, y, z)$ with force components $F_x, F_y, F_z$, each axis obeys its own equation:
+    {{ $$F_x = m\ddot x$$ }}
+    and the same for $y$ and $z$. On a slope of angle $\theta$ (axis $x$ down the slope, $y$ normal to it), a block of mass $m$ has normal force $N$ and sliding friction $f = \mu_k N$ with coefficient $\mu_k$:
+    {{ $$N = mg\cos\theta$$ }}
+    $$\ddot x = g\left(\sin\theta - \mu_k\cos\theta\right).$$
+    From rest it slides only if the slope is steep enough, $\tan\theta > \mu_s$, with $\mu_s$ the static friction coefficient.
+  - **Polar unit vectors in a plane.** With polar angle $\varphi$ measured from the $x$ axis, $\hat{\mathbf{r}}$ points away from the origin and $\hat{\boldsymbol{\varphi}}$ points the way $\varphi$ grows. They turn with the particle:
+    {{ $$\frac{d\hat{\mathbf{r}}}{dt} = \dot\varphi\,\hat{\boldsymbol{\varphi}}, \qquad \frac{d\hat{\boldsymbol{\varphi}}}{dt} = -\dot\varphi\,\hat{\mathbf{r}}$$ }}
+  - **Polar velocity** of a particle at distance $r$ from the origin and angle $\varphi$:
+    {{ $$\mathbf{v} = \dot r\,\hat{\mathbf{r}} + r\dot\varphi\,\hat{\boldsymbol{\varphi}}$$ }}
+  - **Polar acceleration**, four terms in two components:
+    {{ $$a_r = \ddot r - r\dot\varphi^2$$ }}
+    {{ $$a_\varphi = r\ddot\varphi + 2\dot r\dot\varphi$$ }}
+    Every term has units m/s$^2$. For a circle ($r$ constant) $a_r = -r\dot\varphi^2 = -v^2/r$, and the second law reads $F_r = ma_r$, $F_\varphi = ma_\varphi$.
+  - **Quick checks.** Limits (angle $0$ and $90^\circ$, no friction, no turning), units, and scaling (double $\dot\varphi$ at fixed $r$ and $\ddot r = 0$: $a_r$ grows by a factor $4$).
+
+cards:
+  - type: text
+    id: hook
+    title: What do you still own?
+    body: |
+      Before any formula, try to say from memory what the second law looks like when you write it by axes, and what changes when the axes turn with the particle. This lesson derives nothing. It gives you tiles to rebuild the results, checks that catch a wrong version in seconds, and a few problems with data only, where you choose the law yourself.
+
+      Take $g = 9.8\ \mathrm{m/s^2}$.
+
+  - type: build
+    id: cart-law
+    prompt: |
+      A particle of mass $m$ has position $(x, y, z)$. The second law $\mathbf{F} = m\ddot{\mathbf{r}}$ splits into one equation per axis. Build the one for the $x$ axis, with $F_x$ the $x$ component of the force.
+    prefix: 'F_x ='
+    tiles: ['m', '\ddot x', '\dot x', 'mg', 'F_y']
+    answers:
+      - ['m', '\ddot x']
+      - ['\ddot x', 'm']
+    wrong:
+      - answer: ['m', '\dot x']
+        feedback: 'A force changes the velocity, so it goes with the acceleration $\ddot x$, not with the velocity $\dot x$.'
+    hint: Force is mass times acceleration, and the acceleration along $x$ is the second derivative of $x$.
+    explanation: |
+      $F_x = m\ddot x$, and likewise $F_y = m\ddot y$, $F_z = m\ddot z$. The three equations are independent in form: each axis sees only its own force component.
+
+  - type: build
+    id: normal
+    prompt: |
+      A block of mass $m$ rests or slides on a slope of angle $\theta$. Take $x$ down the slope and $y$ normal to it, away from the slope. The block does not leave the surface, so $\ddot y = 0$. Build the normal force $N$ from the $y$ equation.
+    prefix: 'N ='
+    tiles: ['mg', '\cos\theta', '\sin\theta', '\mu_k']
+    answers:
+      - ['mg', '\cos\theta']
+      - ['\cos\theta', 'mg']
+    wrong:
+      - answer: ['mg', '\sin\theta']
+        feedback: 'The weight $mg$ makes an angle $\theta$ with the normal direction, so its normal part is $mg\cos\theta$. The $\sin\theta$ part is along the slope. Check with $\theta = 0$: on a flat floor $N$ must equal $mg$.'
+    hint: At $\theta = 0$ the surface is flat and $N = mg$.
+    explanation: |
+      The $y$ equation is $N - mg\cos\theta = m\ddot y = 0$. At $\theta = 0$ it gives $N = mg$, and at $\theta = 90^\circ$ it gives $N = 0$, a vertical wall that does not push.
+
+  - type: build
+    id: incline-acc
+    prompt: |
+      The same block slides down the slope with kinetic friction $f = \mu_k N$ pointing up the slope. Build its acceleration along $x$.
+    prefix: '\ddot x ='
+    tiles: ['g', '(\sin\theta - \mu_k\cos\theta)', '(\sin\theta + \mu_k\cos\theta)', '(\cos\theta - \mu_k\sin\theta)']
+    answers:
+      - ['g', '(\sin\theta - \mu_k\cos\theta)']
+    wrong:
+      - answer: ['g', '(\sin\theta + \mu_k\cos\theta)']
+        feedback: 'This adds the friction to the downhill pull. Friction opposes the sliding, so it is subtracted: $mg\sin\theta - \mu_k N$.'
+      - answer: ['g', '(\cos\theta - \mu_k\sin\theta)']
+        feedback: 'The sine and cosine are swapped. The pull along the slope is $mg\sin\theta$, and the friction $\mu_k N$ contains $N = mg\cos\theta$.'
+    hint: The $x$ equation is $mg\sin\theta - \mu_k N = m\ddot x$, with $N$ from the $y$ equation.
+    explanation: |
+      $m\ddot x = mg\sin\theta - \mu_k mg\cos\theta$, and $m$ cancels. The acceleration does not depend on the mass.
+
+  - type: mcq
+    id: incline-limits
+    multiple: true
+    prompt: |
+      Test $\ddot x = g\left(\sin\theta - \mu_k\cos\theta\right)$ with limits. Which statements are right?
+    options:
+      - text: 'With no friction ($\mu_k = 0$) it gives $g\sin\theta$, and at $\theta = 90^\circ$ it gives $g$ for any $\mu_k$'
+        correct: true
+      - text: 'At $\theta = 0$ and $\mu_k > 0$ it gives $-\mu_k g$, so the formula only makes sense for a block that is already sliding'
+        correct: true
+      - text: 'At $\theta = 0$ with $\mu_k > 0$, a block at rest starts to slide backward with acceleration $-\mu_k g$'
+        feedback: |
+          Friction opposes motion, it never starts it. At rest on a flat floor the net force is zero. The formula with kinetic friction applies only while the block moves down the slope, so a negative value just says the friction wins and the block slows.
+      - text: 'At $\theta = 90^\circ$ the friction term must still reduce the acceleration below $g$'
+        feedback: |
+          At $90^\circ$ the block presses on nothing: $N = mg\cos 90^\circ = 0$, so $f = \mu_k N = 0$. The block falls freely with acceleration $g$.
+    explanation: |
+      A good formula passes its limits: frictionless slope $g\sin\theta$, free fall $g$ at $90^\circ$, and a deceleration $-\mu_k g$ at $\theta = 0$ for a block that is sliding on a flat floor.
+
+  - type: build
+    id: slide-threshold
+    prompt: |
+      A block at rest on a slope of angle $\theta$, with static friction coefficient $\mu_s$, can hold at most the friction $\mu_s N$. Build the condition under which it starts to slide.
+    prefix: '\tan\theta >'
+    tiles: ['\mu_s', '\mu_k', '\cos\theta', '\mu_s N']
+    answers:
+      - ['\mu_s']
+    wrong:
+      - answer: ['\mu_k']
+        feedback: 'The kinetic coefficient applies once the block moves. Whether it starts is decided by the largest static friction, $\mu_s N$.'
+    hint: Slides when $mg\sin\theta > \mu_s\,mg\cos\theta$.
+    explanation: |
+      Along the slope the pull is $mg\sin\theta$ and the most friction can supply is $\mu_s mg\cos\theta$. Dividing by $mg\cos\theta$ gives $\tan\theta > \mu_s$.
+
+  - type: build
+    id: rhat-comps
+    prompt: |
+      In a plane with axes $\hat{\mathbf{x}}, \hat{\mathbf{y}}$, a point is at polar angle $\varphi$ (measured from the $x$ axis). Build the unit vector $\hat{\mathbf{r}}$ that points from the origin to the point.
+    prefix: '\hat{\mathbf{r}} ='
+    tiles: ['\cos\varphi\,\hat{\mathbf{x}}', '+', '\sin\varphi\,\hat{\mathbf{y}}', '\sin\varphi\,\hat{\mathbf{x}}', '\cos\varphi\,\hat{\mathbf{y}}']
+    answers:
+      - ['\cos\varphi\,\hat{\mathbf{x}}', '+', '\sin\varphi\,\hat{\mathbf{y}}']
+    wrong:
+      - answer: ['\sin\varphi\,\hat{\mathbf{x}}', '+', '\cos\varphi\,\hat{\mathbf{y}}']
+        feedback: 'Check $\varphi = 0$: the point is on the $x$ axis, so $\hat{\mathbf{r}}$ must be $\hat{\mathbf{x}}$. This choice gives $\hat{\mathbf{y}}$.'
+    hint: Test $\varphi = 0$ (on the $x$ axis) and $\varphi = 90^\circ$ (on the $y$ axis).
+    explanation: |
+      Since $x = r\cos\varphi$ and $y = r\sin\varphi$, dividing by $r$ gives the components of $\hat{\mathbf{r}}$. The partner $\hat{\boldsymbol{\varphi}} = -\sin\varphi\,\hat{\mathbf{x}} + \cos\varphi\,\hat{\mathbf{y}}$ points the way $\varphi$ grows, at a right angle to $\hat{\mathbf{r}}$.
+
+  - type: build
+    id: turning
+    prompt: |
+      A particle moves so that its polar angle $\varphi$ changes at the rate $\dot\varphi$. The unit vector $\hat{\boldsymbol{\varphi}}$ turns with it. Build its rate of change, using $\hat{\mathbf{r}}$ (outward) and $\hat{\boldsymbol{\varphi}}$ (the direction of growing $\varphi$).
+    prefix: '\dfrac{d\hat{\boldsymbol{\varphi}}}{dt} ='
+    tiles: ['-\dot\varphi', '\dot\varphi', '\hat{\mathbf{r}}', '\hat{\boldsymbol{\varphi}}']
+    answers:
+      - ['-\dot\varphi', '\hat{\mathbf{r}}']
+      - ['\hat{\mathbf{r}}', '-\dot\varphi']
+    wrong:
+      - answer: ['\dot\varphi', '\hat{\mathbf{r}}']
+        feedback: 'Picture a counterclockwise turn: $\hat{\boldsymbol{\varphi}}$ leans toward the inside of the circle, which is $-\hat{\mathbf{r}}$. The sign is minus.'
+      - answer: ['\dot\varphi', '\hat{\boldsymbol{\varphi}}']
+        feedback: 'A unit vector that only turns changes at a right angle to itself, so its rate cannot be along $\hat{\boldsymbol{\varphi}}$.'
+    hint: Its rate is at a right angle to it, proportional to $\dot\varphi$, and points inward for a counterclockwise turn.
+    explanation: |
+      $d\hat{\boldsymbol{\varphi}}/dt = -\dot\varphi\,\hat{\mathbf{r}}$. Its partner is $d\hat{\mathbf{r}}/dt = +\dot\varphi\,\hat{\boldsymbol{\varphi}}$: the outward vector leans toward the direction of growing $\varphi$. If $\dot\varphi = 0$ neither changes.
+
+  - type: build
+    id: velocity
+    prompt: |
+      A particle is at distance $r$ from the origin and polar angle $\varphi$, with $\dot r$ the rate of change of $r$. Build its velocity $\mathbf{v}$. Check the units: every term must be in m/s.
+    prefix: '\mathbf{v} ='
+    tiles: ['\dot r\,\hat{\mathbf{r}}', '+', 'r\dot\varphi\,\hat{\boldsymbol{\varphi}}', '\dot\varphi\,\hat{\boldsymbol{\varphi}}']
+    answers:
+      - ['\dot r\,\hat{\mathbf{r}}', '+', 'r\dot\varphi\,\hat{\boldsymbol{\varphi}}']
+    wrong:
+      - answer: ['\dot r\,\hat{\mathbf{r}}', '+', '\dot\varphi\,\hat{\boldsymbol{\varphi}}']
+        feedback: 'The rate $\dot\varphi$ is in 1/s (radians per second), not in m/s, so it cannot be a velocity component. Multiply by the lever arm $r$ to get $r\dot\varphi$ in m/s.'
+    hint: The sideways speed is the arc length per second, $r$ times the angle per second.
+    explanation: |
+      $\mathbf{v} = \dot r\,\hat{\mathbf{r}} + r\dot\varphi\,\hat{\boldsymbol{\varphi}}$. The first term is the speed of moving outward, the second is the speed of going around. Both are in m/s.
+
+  - type: build
+    id: acc-r
+    prompt: |
+      Differentiating the velocity once more gives four terms in total, two along $\hat{\mathbf{r}}$ and two along $\hat{\boldsymbol{\varphi}}$. Build the radial component $a_r$. Do not stop at $\ddot r$.
+    prefix: 'a_r ='
+    tiles: ['\ddot r', '-r\dot\varphi^2', 'r\dot\varphi^2', 'r\ddot\varphi', '2\dot r\dot\varphi']
+    answers:
+      - ['\ddot r', '-r\dot\varphi^2']
+    wrong:
+      - answer: ['\ddot r']
+        feedback: 'This is the acceleration of $r$ itself, not the radial component of the acceleration vector. A particle on a straight line not through the origin has $\ddot r \neq 0$ but no acceleration at all, because $\hat{\mathbf{r}}$ turns and the term $-r\dot\varphi^2$ cancels it.'
+      - answer: ['\ddot r', 'r\dot\varphi^2']
+        feedback: 'The sign is wrong. Steady circling ($\ddot r = 0$) must give an acceleration toward the center, along $-\hat{\mathbf{r}}$.'
+    hint: For a circle, $\ddot r = 0$ and the acceleration points to the center with size $r\dot\varphi^2$.
+    explanation: |
+      $a_r = \ddot r - r\dot\varphi^2$. The second term comes from $\hat{\mathbf{r}}$ turning, and is the centripetal part.
+
+  - type: build
+    id: acc-phi
+    prompt: |
+      Now build the component along $\hat{\boldsymbol{\varphi}}$, $a_\varphi$. It has two terms: one for the change of the turning rate, one that appears when $r$ and $\varphi$ change together.
+    prefix: 'a_\varphi ='
+    tiles: ['r\ddot\varphi', '+2\dot r\dot\varphi', '-2\dot r\dot\varphi', 'r\dot\varphi^2']
+    answers:
+      - ['r\ddot\varphi', '+2\dot r\dot\varphi']
+    wrong:
+      - answer: ['r\ddot\varphi']
+        feedback: 'This misses the cross term. If the particle moves outward ($\dot r \neq 0$) while turning, $\hat{\boldsymbol{\varphi}}$ keeps being rotated and the product $\dot r\dot\varphi$ gives a sideways acceleration even when $\ddot\varphi = 0$.'
+    hint: The cross term has one $\dot r$ and one $\dot\varphi$, with factor $2$ and a plus sign.
+    explanation: |
+      $a_\varphi = r\ddot\varphi + 2\dot r\dot\varphi$. The term $2\dot r\dot\varphi$ is later given the name Coriolis term. Together with $a_r$ it makes the four terms: $\ddot r$, $-r\dot\varphi^2$, $r\ddot\varphi$, $2\dot r\dot\varphi$.
+
+  - type: mcq
+    id: units
+    multiple: true
+    prompt: |
+      A radial acceleration $a_r$ is measured in $\mathrm{m/s^2}$. Here $r$ is a length in m, $\varphi$ is an angle, so $\dot\varphi$ is in $\mathrm{s^{-1}}$ and $\ddot\varphi$ in $\mathrm{s^{-2}}$. Which expressions have the units of acceleration, so that they can be added to $\ddot r$?
+    options:
+      - text: '$r\dot\varphi^2$'
+        correct: true
+      - text: '$r\ddot\varphi$'
+        correct: true
+      - text: '$\dot r\dot\varphi$'
+        correct: true
+      - text: '$r\dot\varphi$'
+        feedback: 'That is in m/s, a speed. It is the sideways velocity component, not an acceleration.'
+      - text: '$\dot r\dot\varphi^2$'
+        feedback: 'Units: (m/s)(1/s$^2$) = m/s$^3$, one power of time too many.'
+    explanation: |
+      $r\dot\varphi^2$: m$\cdot$s$^{-2}$. $r\ddot\varphi$: m$\cdot$s$^{-2}$. $\dot r\dot\varphi$: (m/s)(1/s) = m/s$^2$. All four terms of the polar acceleration pass this test. A formula that adds a speed to an acceleration is wrong.
+
+  - type: mcq
+    id: radial-line
+    prompt: |
+      A particle moves on a straight line through the origin, so $\dot\varphi = 0$ and $\ddot\varphi = 0$ all the time. What do $a_r$ and $a_\varphi$ reduce to?
+    options:
+      - text: '$a_r = \ddot r$ and $a_\varphi = 0$'
+        correct: true
+      - text: '$a_r = \ddot r - r\dot\varphi^2$ with $a_\varphi = 2\dot r\dot\varphi$, both nonzero'
+        feedback: 'Both extra terms contain $\dot\varphi$ or $\ddot\varphi$, which are zero here.'
+      - text: '$a_r = 0$ and $a_\varphi = \ddot r$'
+        feedback: 'The motion is along $\hat{\mathbf{r}}$, so the acceleration is along $\hat{\mathbf{r}}$.'
+    explanation: |
+      With no turning, only $\ddot r$ survives, in the radial component. The polar formula contains the straight-line formula as a special case.
+
+  - type: numeric
+    id: doubling
+    prompt: |
+      A particle moves with $r$ constant, so $\ddot r = 0$ and $\dot r = 0$, and its angle grows at the constant rate $\dot\varphi$. You double $\dot\varphi$, keeping $r$. By what factor does the magnitude of its acceleration change?
+    answer: 4
+    answerText: '4'
+    wrong:
+      - { value: 2, feedback: 'That would be the speed. The acceleration of circling depends on the turning rate twice.' }
+      - { value: 8, feedback: 'Too many powers: check how many times $\dot\varphi$ appears in the nonzero term.' }
+    hint: Only one term of $a_r$ and $a_\varphi$ survives. Count the powers of $\dot\varphi$ in it.
+    explanation: |
+      Here $a_r = -r\dot\varphi^2$ and $a_\varphi = 0$, so doubling $\dot\varphi$ multiplies the magnitude by $2^2 = 4$.
+
+  - type: numeric
+    id: stone
+    prompt: |
+      A stone of mass $0.3\ \mathrm{kg}$ whirls on a string in a horizontal circle of radius $0.4\ \mathrm{m}$ at the constant speed $2\ \mathrm{m/s}$. Gravity is cancelled by the table. What is the magnitude of the net force on the stone, in newtons?
+    answer: 3
+    tolerance: 0.02
+    answerText: '3'
+    wrong:
+      - { value: 0.6, feedback: 'The product $mv = 0.6$ is a momentum, not a force. Circling needs a force toward the center because the velocity keeps changing direction.' }
+      - { value: 1.5, feedback: 'The acceleration of circling grows with the square of the speed and falls with the radius. The acceleration, in m/s$^2$, comes before multiplying by the mass.' }
+      - { value: 0, feedback: 'Constant speed does not mean zero acceleration. The direction of the velocity changes, so a net force toward the center is needed.' }
+    hint: Scaling test. At fixed radius, doubling the speed must give four times the acceleration. Find the combination of $v$ and $r$ with units m/s$^2$.
+    explanation: |
+      The acceleration is toward the center with size $v^2/r = 4/0.4 = 10\ \mathrm{m/s^2}$, so the net force is $0.3\times 10 = 3\ \mathrm{N}$, supplied by the string.
+
+  - type: numeric
+    id: spiral
+    prompt: |
+      A bead is at $r = 2\ \mathrm{m}$, moving outward at $\dot r = 1.5\ \mathrm{m/s}$ while its angle turns at $\dot\varphi = 4\ \mathrm{rad/s}$ and speeds up at $\ddot\varphi = 0.5\ \mathrm{rad/s^2}$. Find the acceleration component along the direction of growing $\varphi$, in $\mathrm{m/s^2}$.
+    answer: 13
+    tolerance: 0.02
+    answerText: '13'
+    wrong:
+      - { value: 1, feedback: 'That is the speeding-up part alone ($2\times 0.5$). The bead also moves outward while turning, which adds a second sideways part.' }
+      - { value: 12, feedback: 'That is the cross part alone ($2\times 1.5\times 4$). The bead is also speeding up its turn.' }
+      - { value: 6.5, feedback: 'Check the factor in front of the cross part: it is $2$.' }
+    hint: 'Two effects add sideways, the change of $\dot\varphi$, and radial motion combined with turning. Check that each product is in m/s$^2$.'
+    explanation: |
+      Speeding up gives $2\times 0.5 = 1$. The cross part is $2\times 1.5\times 4 = 12$. The sum is $13\ \mathrm{m/s^2}$ along $\hat{\boldsymbol{\varphi}}$.
+
+  - type: mcq
+    id: slide
+    prompt: |
+      A block rests on a slope of angle $28^\circ$. The static friction coefficient is $0.55$ and the kinetic one is $0.45$. Use $\tan 28^\circ \approx 0.53$. Does the block start to slide if released from rest?
+    options:
+      - text: 'No. The slope is not steep enough for the static friction to give way'
+        correct: true
+      - text: 'Yes, because the kinetic coefficient $0.45$ is smaller than $\tan 28^\circ$'
+        feedback: 'The kinetic coefficient matters only once the block moves. A block at rest is held by static friction, up to $\mu_s N$, and here $\tan 28^\circ = 0.53 < 0.55$.'
+      - text: 'Yes, because $0.53$ is close to $0.55$ and blocks always slide near the limit'
+        feedback: 'Near the limit is still below it. The condition is a sharp inequality, and here the downhill pull is smaller than the largest friction.'
+    explanation: |
+      It slides only if the slope angle satisfies $\tan\theta > \mu_s$. Here $0.53 < 0.55$, so the block stays. If someone gave it a push, it would then be governed by $\mu_k$: since $\tan 28^\circ = 0.53 > 0.45$, it would keep accelerating.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the content map of this level asks you to rebuild its structure box by box: frames and vectors, the three laws, and the cartesian and polar forms of the second law.
