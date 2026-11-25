@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-25 Widget drag-fall (no lesson)
+Built `js/widgets/drag-fall.js`, docs/widgets/drag-fall.md, index and README lines. Choices: down positive, v0 negative = thrown up; RK4 at dt 0.002 (matches linear and tanh/coth closed forms to 1e-9 in a script check; v_t = mg/b, sqrt(mg/c), and the root of b v + c v^2 = mg for law both); fixed axes from g, tmax, v0 range and presets (override with `axes`); readout `ratio` = c v / b uses the current b, c whatever the law; projectile mode left out to keep it small. Taylor 2.2-2.3 (f = bv + cv^2 = f_lin + f_quad) checked on the PDF 56 render. Validate clean (636 lessons), screenshot viewed. Conventions fixed here: drag symbols f_lin = b v, f_quad = c v^2 (Taylor), terminal speed v_t.
+
 ## 2026-11-25 Level 2 audit (autonomous)
 Checked all ten ch02 files. Re-rendered Taylor PDF 37 (Example 1.1: N = mg cos theta, f = mu N, Eq. 1.36) and PDF 41 (Eq. 1.47-1.48): challenge part 2 formulas (incline, polar F_r and F_phi) match; numbers recomputed (0.5425 m, 8.29, 5.6 rad/s, 2.24, wrong-answer values). No "Level N" for later material, no source labels, own: bullets show math and define symbols, all nodes have file:, validate 0/0. Terminology across Level 1 and 2 consistent. Challenge (32 cards, at the cap): problems 4-5 are thin but complete; no split into a part 3 (it would leave a 3-card unit). Choice: no widget missing for ch02; `drag-fall` is needed for ch03-drag and is the next unit.
 Conventions fixed here: none new.

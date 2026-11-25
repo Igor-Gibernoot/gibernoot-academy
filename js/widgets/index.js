@@ -45,6 +45,7 @@ const WIDGETS = {
   'incline-block': ['incline-block', 'inclineBlock'],
   'polar-motion': ['polar-motion', 'polarMotion'],
   'newton-cannon': ['newton-cannon', 'newtonCannon'],
+  'drag-fall': ['drag-fall', 'dragFall'],
   'least-action-path': ['least-action-path', 'leastActionPath'],
   'phase-portrait': ['phase-portrait', 'phasePortrait'],
   'heat-layers': ['heat-layers', 'heatLayers'],
