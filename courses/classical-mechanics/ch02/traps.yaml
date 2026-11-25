@@ -1,0 +1,214 @@
+id: ch02-traps
+title: Newton Traps
+kind: traps
+cards:
+  - type: text
+    id: hook
+    title: Fast questions, familiar mistakes
+    body: |
+      Newton's laws are short, and almost everyone has met a wrong version of them. This round has one question per card, and each one is built on a belief that is easy to hold: that a body at rest has no force on it, that heavy things fall faster, that the two forces of a pair cancel, that the normal force is always the weight, that friction always pushes backward, that steady circling means no acceleration, and that $\ddot r$ is the radial acceleration.
+
+      Answer quickly, from the laws as you have them. A wrong choice is useful: its feedback says why the belief tempts and where it breaks. Several questions have a small number to compute, so keep a calculator at hand. Take $g = 9.8\ \mathrm{m/s^2}$.
+
+  - type: mcq
+    id: rest
+    prompt: |
+      A $2\ \mathrm{kg}$ book lies at rest on a horizontal table. The Earth pulls it down with its weight, $mg = 19.6\ \mathrm{N}$. Which statement is right?
+    options:
+      - text: Two forces act on the book, its weight down and the push of the table up. Both are $19.6\ \mathrm{N}$, so the net force is $0$
+        correct: true
+      - text: No force acts on the book, because it is at rest
+        feedback: |
+          Rest means the net force is zero, which is different from having no forces. Gravity pulls on the book all the time. The table pushes back just enough to cancel it, and without the table the book would fall.
+      - text: The weight and the push of the table are a pair from the third law, which is why they are equal and opposite
+        feedback: |
+          They are equal and opposite here, but not because of the third law. A third-law pair acts on two different bodies and is of the same kind. The reaction to the Earth pulling the book is the book pulling the Earth. The table's push is equal to the weight only because the book does not accelerate: $\sum F = 0$.
+    explanation: |
+      The second law says $\mathbf{F}_{\text{net}} = m\mathbf{a}$. A book at rest has $\mathbf{a} = \mathbf{0}$, so the forces on it add to zero: $N - mg = 0$, with $N$ the push of the table. If the table were removed, or the book placed in a lift that accelerates downward, the two forces would no longer match.
+
+  - type: mcq
+    id: stick
+    prompt: |
+      A hockey stick hits a puck, and the puck leaves the stick and slides along frictionless horizontal ice. Which horizontal forces act on the puck after it has left the stick?
+    options:
+      - text: None. It keeps its velocity because no force changes it
+        correct: true
+      - text: A forward force given to it by the hit, which is slowly used up
+        feedback: |
+          This is the old idea that a hit leaves "force" stored in the body. A force is a push or pull from something else, and it exists only while that something acts. After the puck leaves the stick, nothing pushes it. The hit changed its velocity; it did not leave a force behind.
+      - text: A forward force equal to $mv$, the mass times the velocity
+        feedback: |
+          $mv$ is the momentum, not a force. A force is measured by how fast it changes the velocity, $F = ma$, and a steady velocity has $a = 0$.
+    explanation: |
+      While the stick touches the puck, a large force gives it an acceleration and a new velocity. Afterwards the puck is free, and $\mathbf{F} = m\mathbf{a} = \mathbf{0}$ gives a constant velocity. Motion does not need a force to continue; only a change of motion does.
+
+  - type: numeric
+    id: fall
+    prompt: |
+      Without air, a $1\ \mathrm{kg}$ stone dropped from rest from a height of $4.9\ \mathrm{m}$ takes $1.0\ \mathrm{s}$ to reach the ground, using $g = 9.8\ \mathrm{m/s^2}$. A $10\ \mathrm{kg}$ stone is dropped from the same height at the same moment, without air. How many seconds does it take to fall?
+    answer: 1
+    wrong:
+      - { value: 0.316, feedback: 'You divided by $\sqrt{10}$, as if a heavier stone were pulled harder and so arrived sooner. The pull is $10$ times larger, but so is the mass that must be accelerated: $10mg = 10ma$ gives the same $a = g$.' }
+      - { value: 10, feedback: 'You multiplied the time by the mass ratio, as if a heavier stone were slower. The mass does not appear in the result at all.' }
+    hint: The pull on a stone of mass $m$ is $mg$. Put it into $F = ma$ and solve for $a$.
+    explanation: |
+      The weight is $mg$ and the second law is $mg = ma$, so $a = g$ for every mass. Then $y = \tfrac12 g t^2$ gives $t = \sqrt{2 \times 4.9 / 9.8} = 1\ \mathrm{s}$ for both stones. In air, a feather falls slowly because of the air pushing against it, which is a different force, not because it is light.
+
+  - type: numeric
+    id: skaters
+    prompt: |
+      Two skaters stand on frictionless ice. Skater A has mass $60\ \mathrm{kg}$ and skater B has mass $40\ \mathrm{kg}$. A pushes B with a horizontal force of $50\ \mathrm{N}$, and B pushes back on A with the opposite force. A student says: "The forces are equal and opposite, so they cancel and nothing moves". What is the acceleration of B during the push, in $\mathrm{m/s^2}$?
+    answer: 1.25
+    wrong:
+      - { value: 0, feedback: 'The two forces do not cancel, because they act on different bodies. Only forces on **one** body add up in its second law. The $50\ \mathrm{N}$ on B is the only horizontal force on B.' }
+      - { value: 0.833, feedback: 'That is the acceleration of A, $50/60$. B feels the same size of force but has a smaller mass, so it accelerates more.' }
+    hint: Use $F = ma$ for B alone, with the force on B.
+    explanation: |
+      For B, $F = m_B a_B$ gives $a_B = 50/40 = 1.25\ \mathrm{m/s^2}$. For A, the force $-50\ \mathrm{N}$ gives $a_A = -50/60 \approx -0.83\ \mathrm{m/s^2}$. Both accelerate, in opposite directions, with accelerations inversely proportional to the masses. The momenta stay opposite: $m_A v_A + m_B v_B = 0$ at all times.
+
+  - type: numeric
+    id: lift
+    prompt: |
+      A person of mass $70\ \mathrm{kg}$ stands on a scale in a lift that accelerates upward at $1.2\ \mathrm{m/s^2}$. The scale reads the normal force $N$ that it exerts on the person. What is $N$, in newtons? Take $g = 9.8\ \mathrm{m/s^2}$.
+    answer: 770
+    tolerance: 1
+    wrong:
+      - { value: 686, feedback: 'That is $mg$. It would be $N$ only if the person did not accelerate. Here the net force must point up and equal $ma$, so $N$ is larger than $mg$.' }
+      - { value: 602, feedback: 'You subtracted, as if the lift accelerated downward. With an upward acceleration the table, or scale, must push harder than the weight: $N - mg = ma$.' }
+    hint: Take up as positive and write the second law for the person, with the two forces on them.
+    explanation: |
+      Forces on the person: $N$ up and $mg$ down. With up positive, $N - mg = ma$, so $N = m(g + a) = 70\,(9.8 + 1.2) = 770\ \mathrm{N}$. The normal force is whatever the surface must push with to give the motion that happens. On the incline of the earlier lesson the same reasoning gave $N = mg\cos\theta$ along the normal axis, not $mg$.
+
+  - type: numeric
+    id: static
+    prompt: |
+      A $2\ \mathrm{kg}$ block rests on a horizontal floor, with coefficients $\mu_s = 0.5$ (static) and $\mu_k = 0.3$ (kinetic). You push it horizontally with $4\ \mathrm{N}$ and it does not move. What is the friction force on the block, in newtons? Take $g = 9.8\ \mathrm{m/s^2}$.
+    answer: 4
+    wrong:
+      - { value: 9.8, feedback: 'That is the largest static friction the floor can give, $\mu_s N = 0.5 \times 19.6$. Static friction is **at most** that value; it takes whatever value keeps the block at rest.' }
+      - { value: 5.88, feedback: 'That is $\mu_k N$, the friction on a block that is already sliding. This block is not sliding.' }
+      - { value: 0, feedback: 'There is a push of $4\ \mathrm{N}$ and no acceleration, so something must cancel it. That is static friction.' }
+    hint: The block does not accelerate, so the horizontal forces on it add to zero.
+    explanation: |
+      Static friction obeys $f \le \mu_s N$, not $f = \mu_s N$. It adjusts itself: here $f = 4\ \mathrm{N}$ opposite to the push, so that the net force is $0$. The limit is $\mu_s N = 0.5 \times 19.6 = 9.8\ \mathrm{N}$; the block starts to slide only when the push exceeds it, and then the friction drops to $\mu_k N = 5.88\ \mathrm{N}$.
+
+  - type: mcq
+    id: truck
+    prompt: |
+      A $50\ \mathrm{kg}$ crate lies on the flat bed of a truck, and the truck speeds up forward at $2\ \mathrm{m/s^2}$ relative to the ground (an inertial frame). The crate does not slip on the bed. What is the friction force on the crate?
+    options:
+      - text: $100\ \mathrm{N}$ forward, the force that accelerates the crate along with the truck
+        correct: true
+      - text: $100\ \mathrm{N}$ backward, since friction always opposes motion
+        feedback: |
+          Friction opposes the **slipping** between two surfaces, not the motion. Without friction the bed would slide forward under the crate, so the crate would slide backward relative to the bed. Friction pushes the crate forward to prevent that. A backward force would leave the crate behind, so it could not keep up with the truck.
+      - text: $0$, since the crate is at rest relative to the truck
+        feedback: |
+          At rest relative to the truck is not at rest relative to the ground. In the ground frame the crate accelerates at $2\ \mathrm{m/s^2}$, so a horizontal force $ma = 100\ \mathrm{N}$ must act on it, and the only horizontal contact is friction.
+    explanation: |
+      In the ground frame the crate has $a = 2\ \mathrm{m/s^2}$ forward, so $F = ma = 50 \times 2 = 100\ \mathrm{N}$ forward, and it is the friction of the bed. Static friction can point along the motion. It needs $100 \le \mu_s N$ to hold, which fails if the truck accelerates too hard.
+
+  - type: mcq
+    id: circle
+    prompt: |
+      A $0.5\ \mathrm{kg}$ stone on a string is whirled on a horizontal circle of radius $2\ \mathrm{m}$ at a steady speed of $4\ \mathrm{m/s}$, with gravity cancelled by a smooth table. Which statement is right?
+    options:
+      - text: The stone accelerates toward the centre, with $a = v^2/r = 8\ \mathrm{m/s^2}$. The string tension is the only horizontal force, and it equals $ma = 4\ \mathrm{N}$
+        correct: true
+      - text: The speed is steady, so $a = 0$ and the net force on the stone is $0$
+        feedback: |
+          The speed is steady but the velocity is not: its direction turns all the time, and a change of velocity is an acceleration. In polar form, $a_r = -r\dot\varphi^2 \ne 0$ even when $\dot r = 0$ and $\ddot\varphi = 0$.
+      - text: The tension of $4\ \mathrm{N}$ pulls inward, and a separate centripetal force of $4\ \mathrm{N}$ must be added to it, giving $8\ \mathrm{N}$
+        feedback: |
+          "Centripetal" only names the direction of the net force: toward the centre. It is not another force. The stone feels weight, the push of the table and the tension, and in the horizontal plane the tension is all there is. Adding a centripetal force on top would count the same push twice.
+    explanation: |
+      With $v = r\dot\varphi$, the polar law $F_r = m(\ddot r - r\dot\varphi^2)$ gives $F_r = -mr\dot\varphi^2 = -mv^2/r = -0.5 \times 16/2 = -4\ \mathrm{N}$. The minus sign means inward, and this net inward force is provided by the tension. Check the units: $0.5\ \mathrm{kg} \times 8\ \mathrm{m/s^2} = 4\ \mathrm{N}$.
+
+  - type: numeric
+    id: ar
+    prompt: |
+      A particle moves in a plane with polar coordinates $r(t)$ and $\varphi(t)$. At one instant $r = 3\ \mathrm{m}$, $\dot r = 2\ \mathrm{m/s}$, $\ddot r = 0$, $\dot\varphi = 2\ \mathrm{rad/s}$ and $\ddot\varphi = 0$. A student says "$\ddot r = 0$, so there is no radial acceleration". What is the radial component $a_r$ of the acceleration, in $\mathrm{m/s^2}$? (The polar acceleration is $\mathbf{a} = (\ddot r - r\dot\varphi^2)\hat{\mathbf{r}} + (r\ddot\varphi + 2\dot r\dot\varphi)\hat{\boldsymbol{\varphi}}$.)
+    answer: -12
+    wrong:
+      - { value: 0, feedback: 'That is $\ddot r$ alone. The radial acceleration is $\ddot r - r\dot\varphi^2$, because $\hat{\mathbf{r}}$ itself turns and $r\dot\varphi$ produces an inward acceleration.' }
+      - { value: 12, feedback: 'The size is right but not the sign. The term is $-r\dot\varphi^2$, which points inward, toward the origin.' }
+      - { value: -6, feedback: 'You used $r\dot\varphi$ instead of $r\dot\varphi^2$. The angular rate enters squared: $3 \times 2^2 = 12$.' }
+    hint: Compute $r\dot\varphi^2$ with $r = 3$ and $\dot\varphi = 2$.
+    explanation: |
+      $a_r = \ddot r - r\dot\varphi^2 = 0 - 3 \times 2^2 = -12\ \mathrm{m/s^2}$. The coordinate $r$ changes at a steady rate, but the direction $\hat{\mathbf{r}}$ turns, and that turning gives a radial acceleration all by itself. The quantity $\ddot r$ is the acceleration of the distance from the origin, which is a different thing.
+
+  - type: mcq
+    id: coriolis
+    prompt: |
+      In polar coordinates, the term $2\dot r\dot\varphi$ in the $\hat{\boldsymbol{\varphi}}$ part of the acceleration comes from the radial speed and the turning of the direction together. Which of these motions has this term different from zero?
+    options:
+      - text: A spiral outward with $\dot r = 2\ \mathrm{m/s}$ and $\dot\varphi = 3\ \mathrm{rad/s}$, giving $2\dot r\dot\varphi = 12\ \mathrm{m/s^2}$
+        correct: true
+      - text: A steady circle of radius $2\ \mathrm{m}$ with $\dot\varphi = 3\ \mathrm{rad/s}$
+        feedback: |
+          On a circle $r$ is constant, so $\dot r = 0$ and the product $2\dot r\dot\varphi$ is $0$. The acceleration of a steady circle is entirely the inward term $-r\dot\varphi^2$.
+      - text: A straight line outward from the origin, with $\dot r = 2\ \mathrm{m/s}$ and $\dot\varphi = 0$
+        feedback: |
+          Here the angle does not change, so $\dot\varphi = 0$ and the product is $0$. The direction $\hat{\mathbf{r}}$ does not turn, so the particle only moves along it.
+      - text: Any motion with $\dot r \ne 0$ or $\dot\varphi \ne 0$
+        feedback: |
+          The term is a **product**, so it needs both factors at once. If either one is zero the term vanishes.
+    explanation: |
+      $2\dot r\dot\varphi$ is nonzero only when the particle moves radially and the direction turns at the same time, as on a spiral. Its name is the Coriolis term, and it has no simple picture on a circle or on a radial line, which is why it is easy to miss. In the spiral above, $a_\varphi = r\ddot\varphi + 2\dot r\dot\varphi = 0 + 12\ \mathrm{m/s^2}$ when $\ddot\varphi = 0$.
+
+  - type: mcq
+    id: frames
+    prompt: |
+      A car speeds up forward at $3\ \mathrm{m/s^2}$ relative to the ground, an inertial frame. A smooth ball rests on the car floor with no horizontal force on it. A passenger says: "The ball rolls backward at $3\ \mathrm{m/s^2}$ in my car with no force on it, so Newton's second law is false". What is the best reply?
+    options:
+      - text: The law $\mathbf{F} = m\mathbf{a}$ holds in inertial frames. The car is not one, since $\mathbf{a}' = \mathbf{a} - \ddot{\mathbf{R}} = 0 - 3 = -3\ \mathrm{m/s^2}$ differs from the ground value
+        correct: true
+      - text: The law holds in every frame, so there must be a hidden force of $3m$ on the ball, pointing backward
+        feedback: |
+          No real push or pull from a nearby body exists. If you insist on using $F = ma'$ in the car frame, you must add a term $-m\ddot{\mathbf{R}}$ by hand; that is a correction for the frame, not a force of nature.
+      - text: The ball obeys the law in the car frame only if the car is at rest; any motion of the car breaks it
+        feedback: |
+          A car at constant velocity, with no turning, has $\ddot{\mathbf{R}} = 0$ and gives $\mathbf{a}' = \mathbf{a}$, so the law holds there as well. It is the **acceleration** of the frame that breaks it.
+    explanation: |
+      The second law holds in inertial frames, those where a free body keeps its velocity. Any frame at constant velocity relative to one is also inertial. A frame fixed to the Earth is not exactly inertial: the equator accelerates at about $0.034\ \mathrm{m/s^2}$ because of the rotation, about $0.35\%$ of $g$. That is small, so in a laboratory $\mathbf{F} = m\mathbf{a}$ is an excellent approximation.
+
+  - type: numeric
+    id: pdot
+    prompt: |
+      An empty bucket moves along a frictionless horizontal track at a steady $3\ \mathrm{m/s}$. Sand falls vertically into it at a steady rate of $0.5\ \mathrm{kg/s}$, so the sand has no horizontal motion before it lands. A horizontal force $F$ pushes the bucket so that its speed stays at $3\ \mathrm{m/s}$. A student says: "The velocity is constant, so $a = 0$ and $F = ma$ gives $F = 0$". What force is needed, in newtons?
+    answer: 1.5
+    wrong:
+      - { value: 0, feedback: 'That is $m\ddot x$ with a constant velocity. The general law is $F = \dot p$ with $p = mv$, and here the mass $m$ grows, so $\dot p = m\dot v + \dot m v \ne m\dot v$.' }
+      - { value: 6, feedback: 'You may have used $mv$ with $m = 2\ \mathrm{kg}$, the momentum of a bucket of that mass, but a force is a **rate of change** of momentum, not the momentum itself.' }
+    hint: Write the momentum as $p = mv$ with $v$ constant and $m$ growing at $0.5\ \mathrm{kg/s}$, then differentiate.
+    explanation: |
+      Take the bucket together with the sand that has landed. The sand outside has no horizontal momentum, so the horizontal momentum is $p = mv$ with $v = 3\ \mathrm{m/s}$ fixed and $m$ growing. Then $F = \dot p = \dot m v = 0.5 \times 3 = 1.5\ \mathrm{N}$. Without it, the sand would slow the bucket down, because each kilogram of sand has to be brought up to $3\ \mathrm{m/s}$. The law $\mathbf{F} = \dot{\mathbf{p}}$ is the general one; $\mathbf{F} = m\mathbf{a}$ is its form for constant mass.
+
+  - type: numeric
+    id: rifle
+    prompt: |
+      A $5\ \mathrm{kg}$ rifle at rest fires a $0.010\ \mathrm{kg}$ bullet at $500\ \mathrm{m/s}$ along $x$. Only the two bodies interact, so there is no outside force along $x$. What is the speed of the rifle's recoil, in $\mathrm{m/s}$?
+    answer: 1
+    wrong:
+      - { value: 0.002, feedback: 'You took the mass ratio $0.010/5$ and forgot the speed. The momenta must be equal in size, $m_{\text{bullet}} v_{\text{bullet}} = m_{\text{rifle}} v_{\text{rifle}}$, so the speed ratio is the inverse of the mass ratio.' }
+      - { value: 100, feedback: 'You divided the bullet speed by the rifle mass, $500/5$, without using the bullet mass. The bullet momentum is $0.010 \times 500 = 5\ \mathrm{kg\,m/s}$, and the rifle must have the same size.' }
+      - { value: 0, feedback: 'The rifle does recoil. It is the bullet that gets momentum forward, so the rifle must get the same momentum backward, since the total was zero at the start.' }
+    hint: The total momentum was $0$ before the shot, and no outside force acts along $x$.
+    explanation: |
+      $P = 0$ before and after: $0 = (0.010)(500) + 5\,v_{\text{rifle}}$, so $v_{\text{rifle}} = -1\ \mathrm{m/s}$, backward. The momenta are $+5$ and $-5\ \mathrm{kg\,m/s}$, equal in size and opposite, even though the bullet is $500$ times faster. Momentum, not speed, is what the two forces of the pair exchange in equal and opposite amounts.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      The beliefs you tested, with the fact that replaces each.
+
+      - **Rest and motion.** Rest means the net force is zero, not that no force acts: $N - mg = 0$ for a book on a table. A body leaving a stick keeps its velocity with no force, since $\mathbf{F} = m\mathbf{a} = \mathbf{0}$ gives a constant $\mathbf{v}$.
+      - **Falling.** The weight is $mg$ and $mg = ma$ gives $a = g$ for every mass, so air alone makes a feather slow.
+      - **Pairs.** The forces of a third-law pair, $\mathbf{F}_{12} = -\mathbf{F}_{21}$, act on different bodies and never cancel in one body's law. Each body accelerates as $\mathbf{F}/m$, and the momenta of the rifle and bullet are equal and opposite.
+      - **Contact forces.** The normal force $N$ is whatever the body needs: $N = m(g + a)$ in a lift accelerating up. Static friction obeys $f \le \mu_s N$ and can point along the motion; sliding friction is $f = \mu_k N$.
+      - **Circling.** A steady speed on a circle gives $a_r = -r\dot\varphi^2 = -v^2/r$. The "centripetal force" is the name for the net inward force, not an extra force.
+      - **Polar acceleration.** The radial part is $\ddot r - r\dot\varphi^2$, not $\ddot r$, and the angular part is $r\ddot\varphi + 2\dot r\dot\varphi$, whose Coriolis term needs $\dot r \ne 0$ and $\dot\varphi \ne 0$ together.
+      - **Frames and momentum.** $\mathbf{F} = m\mathbf{a}$ holds in inertial frames, and $\mathbf{a}' = \mathbf{a} - \ddot{\mathbf{R}}$ tells how a frame with acceleration $\ddot{\mathbf{R}}$ spoils it. The general law is $\mathbf{F} = \dot{\mathbf{p}}$, which keeps $\dot m\mathbf{v}$ when the mass changes.
+
+      **Next:** the lesson Intuition: Components and Unit Vectors, a quick recall of the second law in cartesian and polar components, with dimension and limit checks.

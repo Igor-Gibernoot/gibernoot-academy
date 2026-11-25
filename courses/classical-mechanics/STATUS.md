@@ -21,7 +21,8 @@
 - **Widget `polar-motion` built** (docs/widgets/polar-motion.md): particle on r(t), phi(t) (constant r-ddot, phi-ddot), r-hat, phi-hat, v and a with components, four toggleable acceleration-term arrows, readouts, sliders, presets, time slider.
 - **Built:** `ch02-polar` (Level 2, concept, 22 cards, polar-motion x2, no image). States the four-term acceleration and $d\hat{\boldsymbol\varphi}/dt = -\dot\varphi\hat{\mathbf r}$ without full derivation.
 - **Built:** `ch02-polar-proof` (Level 2, guided proof, 23 cards, polar-motion x2, no image). Proves the unit-vector rates from components and derives the four-term acceleration.
-- **Next unit:** `ch02-traps` (traps, Newton Traps: forces, frames, action-reaction pairs, and polar-acceleration slips such as reading $\ddot r$ as the radial acceleration).
+- **Built:** `ch02-traps` (Level 2, traps, 15 cards, no widget, no image).
+- **Next unit:** `ch02-intuition` (intuition, Components and Unit Vectors; no widget). Then `ch02-map`, `ch02-challenge`.
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
