@@ -1,0 +1,396 @@
+id: ch03-quadratic-drag
+title: Quadratic Drag
+kind: concept
+own: |
+  Setting: a body of mass $m$ moves through air that drags it with the quadratic force $\mathbf{f} = -cv^2\hat{\mathbf{v}}$, where $\mathbf{v}$ is its velocity, $\hat{\mathbf{v}}$ the unit vector along it and $c > 0$ a constant (in kg/m). For a sphere of diameter $D$ in air, $c = \gamma D^2$ with $\gamma = 0.25\ \mathrm{N\,s^2/m^4}$. Motion along one line only. Down is positive, $v$ is the downward speed and $g = 9.8\ \mathrm{m/s^2}$.
+  - **Equation of motion (vertical).** The weight $mg$ pulls down and the drag $cv^2$ pushes up. The equation is nonlinear in $v$:
+    {{ $$m\dot v = mg - cv^2$$ }}
+  - **Terminal speed.** The speed at which drag balances weight. It grows only as the square root of the mass, and a larger $c$ means a smaller $v_{\text{ter}}$:
+    {{ $$v_{\text{ter}} = \sqrt{\frac{mg}{c}}$$ }}
+  - **Separation of variables.** Rewritten with $v_{\text{ter}}$, the equation has $v$ on one side and $t$ on the other after a rearrangement:
+    $$\dot v = g\left(1 - \frac{v^2}{v_{\text{ter}}^2}\right)$$
+    $$\frac{dv}{1 - v^2/v_{\text{ter}}^2} = g\,dt$$
+  - **Fall from rest.** Integrating from $v = 0$ at $t = 0$ gives a hyperbolic tangent, with $v \approx gt$ at small $t$ and $v \to v_{\text{ter}}$ at large $t$. The distance fallen $y$ follows by one more integration:
+    {{ $$v(t) = v_{\text{ter}}\tanh\!\left(\frac{gt}{v_{\text{ter}}}\right)$$ }}
+    $$y(t) = \frac{v_{\text{ter}}^2}{g}\,\ln\!\left[\cosh\!\left(\frac{gt}{v_{\text{ter}}}\right)\right]$$
+  - **Horizontal coasting.** With only the drag acting, $m\dot v = -cv^2$ for the speed $v$, starting at $v_0$ at $t = 0$. The time $\tau$ is when the speed has halved:
+    {{ $$v(t) = \frac{v_0}{1 + t/\tau}, \qquad \tau = \frac{m}{cv_0}$$ }}
+    The position keeps growing without limit, unlike with linear drag:
+    $$x(t) = v_0\,\tau\,\ln\!\left(1 + \frac{t}{\tau}\right)$$
+  - **No closed form in general.** A projectile moving in both $x$ and $y$ has the two components of the velocity coupled through $v = \sqrt{v_x^2 + v_y^2}$, and the equations can be solved only numerically.
+cards:
+  - type: text
+    id: hook
+    title: Fast things feel the air
+    body: |
+      A skydiver spreads out and falls at a steady speed. A baseball thrown hard is slowed by the air much more than a slow one. Before any theory, guess three things. If the speed doubles, does the drag push twice as hard, or more? A heavy sphere falls faster than a light one of the same size: how much faster, if its mass is four times as large? And if the body is only coasting, with nothing to push it, does it stop in a finite distance?
+
+      In the lesson Air Resistance we met the two drag laws, linear $f = bv$ for slow, small bodies and quadratic $f = cv^2$ for baseballs, cannonballs and people. The lesson Linear Drag and Terminal Speed solved the linear one completely. Here we meet the quadratic one, which is harder because its equation is **nonlinear**, and which behaves differently in a way you can notice.
+
+  - type: widget
+    id: fall-quad
+    title: Linear against quadratic
+    widget: drag-fall
+    config:
+      law: quad
+      laws: [linear, quad]
+      m: 1
+      b: 1
+      c: 0.1
+      tmax: 6
+      sliders: [m, c]
+      ranges: { m: [0.5, 4, 0.5], c: [0.05, 0.4, 0.05] }
+      axes: { v: [0, 25], y: [0, 100] }
+      readouts: [speed, drag]
+      show: { terminal: true, freefall: true, net: true, yPlot: false, laws: true }
+      units: { force: N, speed: m/s, distance: m, time: s, mass: kg, b: 'kg/s', c: 'kg/m' }
+    body: |
+      A toy body of mass $m$ is released from rest. The buttons switch between the linear drag $f = bv$ and the quadratic drag $f = cv^2$ (here $b = 1\ \mathrm{kg/s}$, and $c$ is a slider). The grey dashed curve is the fall with no air, the dashed horizontal line is the terminal speed, and the arrows are the weight, the drag and their sum.
+
+      **Try:** release on the quadratic law with $m = 1\ \mathrm{kg}$ and $c = 0.1\ \mathrm{kg/m}$. Watch the drag arrow grow. Then change $m$ to $4\ \mathrm{kg}$ and release again, and compare the two terminal speeds.
+
+  - type: mcq
+    id: double-c
+    review: false
+    prompt: |
+      A body of mass $m = 1\ \mathrm{kg}$ released from rest with quadratic drag, $c = 0.1\ \mathrm{kg/m}$, levels off at about $9.9\ \mathrm{m/s}$. You double $c$ to $0.2\ \mathrm{kg/m}$ and release it again. What happens to the final speed?
+    options:
+      - text: It goes down, but by less than a factor of 2
+        correct: true
+      - text: It is cut in half
+        feedback: |
+          Halving would be the linear answer, where the drag is proportional to $v$ and doubling the constant halves the balancing speed. Here the drag grows as $v^2$, so a smaller speed already gives the same drag, and the speed does not need to fall as much.
+      - text: It does not change, since gravity did not change
+        feedback: |
+          Gravity did not change, but the drag at each speed did. More drag at the same speed means the balance with the weight is reached sooner, at a lower speed.
+      - text: It goes up, since more drag pushes harder
+        feedback: |
+          More drag pushes against the fall, not along it. The body stops speeding up earlier, so its final speed is lower.
+    explanation: |
+      The numbers come next: the final speed turns out to fall by a factor $\sqrt 2 \approx 1.41$, not $2$.
+
+  - type: text
+    id: equation
+    title: The equation of motion
+    body: |
+      Take **down as positive** and let $v$ be the downward speed, as in the linear case. A body of mass $m$ feels its weight $mg$ downward and the quadratic drag $cv^2$ upward, against the motion. Newton's second law reads
+
+      $$m\dot v = mg - cv^2.$$
+
+      This looks like the linear equation $m\dot v = mg - bv$, with $bv$ replaced by $cv^2$. There is a real difference. The linear equation is **linear** in $v$: a sum of two solutions is again a solution. This one is **nonlinear**, because $v$ appears squared, and the theory of nonlinear equations is much harder. Here the trouble goes away because the force depends only on $v$, and the equation can be solved by elementary functions. For a body moving in both $x$ and $y$ it cannot, as we will see at the end.
+
+      First the **terminal speed**, where the net force is zero and $\dot v = 0$. Then $cv^2 = mg$, so
+
+      $$v_{\text{ter}} = \sqrt{\frac{mg}{c}}.$$
+
+  - type: numeric
+    id: vter-baseball
+    prompt: |
+      A baseball has mass $m = 0.15\ \mathrm{kg}$ and diameter $D = 7\ \mathrm{cm}$. In air its quadratic drag constant is $c = \gamma D^2$ with $\gamma = 0.25\ \mathrm{N\,s^2/m^4}$. Take $g = 9.8\ \mathrm{m/s^2}$. What is its terminal speed in m/s?
+    answer: 34.6
+    tolerance: 0.5
+    answerText: '34.6 (about 35)'
+    wrong:
+      - value: 1200
+        feedback: |
+          That is $v_{\text{ter}}^2 = mg/c$. The terminal speed is the square root of it.
+      - value: 0.00122
+        feedback: |
+          That is $c = \gamma D^2$ with $D$ in metres, one ingredient. The terminal speed needs $\sqrt{mg/c}$.
+    hint: |
+      First $c = 0.25 \times (0.07)^2$ in SI units, then $mg/c$, then the square root.
+    explanation: |
+      The drag constant is $c = \gamma D^2 = 0.25 \times 0.0049 = 1.225\times10^{-3}\ \mathrm{kg/m}$. The weight is $mg = 0.15 \times 9.8 = 1.47\ \mathrm{N}$. Then
+
+      $$\begin{aligned}v_{\text{ter}} &= \sqrt{\frac{mg}{c}} = \sqrt{\frac{1.47}{1.225\times10^{-3}}} \\ &= \sqrt{1200} \approx 34.6\ \mathrm{m/s}.\end{aligned}$$
+
+      That is about $77$ miles per hour. A fast pitch is faster than this, so for a pitched ball the drag is larger than the weight.
+
+  - type: mcq
+    id: vter-mass
+    prompt: |
+      Two spheres of the same size have the same quadratic drag constant $c$, but the second has four times the mass. Both fall for a long time. Compare their terminal speeds $v_{\text{ter}} = \sqrt{mg/c}$.
+    options:
+      - text: The heavier one has twice the terminal speed
+        correct: true
+      - text: The heavier one has four times the terminal speed
+        feedback: |
+          Four times would be the linear answer, $v_{\text{ter}} = mg/b \propto m$. With quadratic drag the balance is $cv^2 = mg$, so $v^2$ is proportional to $m$ and $v$ to $\sqrt m$.
+      - text: Both have the same terminal speed
+        feedback: |
+          Without air all bodies fall alike. With air the heavier one needs a larger drag to balance its larger weight, which means a larger speed.
+      - text: The heavier one has half the terminal speed
+        feedback: |
+          The mass is in the numerator under the root: more weight to balance means more speed, not less.
+    explanation: |
+      $v_{\text{ter}} \propto \sqrt m$, so $4m$ gives $\sqrt 4 = 2$ times the speed. This is why a heavy sphere falls faster than a light one of the same size, but only by the square root of the mass ratio.
+
+  - type: text
+    id: separate
+    title: Solving it by separating variables
+    body: |
+      To solve the equation, divide it by $m$ and write $c/m = g/v_{\text{ter}}^2$, which follows from $v_{\text{ter}}^2 = mg/c$. The equation becomes
+
+      $$\dot v = g\left(1 - \frac{v^2}{v_{\text{ter}}^2}\right).$$
+
+      The right side depends only on $v$. Treat $dv/dt$ as a ratio of two small changes, divide by the bracket and multiply by $dt$, so that $v$ is only on the left and $t$ only on the right:
+
+      $$\frac{dv}{1 - v^2/v_{\text{ter}}^2} = g\,dt.$$
+
+      This trick is called **separation of variables**. Now integrate both sides, from $v = 0$ at $t = 0$ (release from rest) up to $v$ at time $t$. The left integral is the inverse hyperbolic tangent, written arctanh:
+
+      $$v_{\text{ter}}\,\mathrm{arctanh}\!\left(\frac{v}{v_{\text{ter}}}\right) = g\,t.$$
+
+      The derivative of the left side with respect to $v$ is $1/(1 - v^2/v_{\text{ter}}^2)$, which is why it is the right integral.
+
+  - type: order
+    id: separate-order
+    prompt: |
+      Put the steps that turn $m\dot v = mg - cv^2$, released from rest, into the speed $v(t)$ in order.
+    steps:
+      - 'Use $c = mg/v_{\text{ter}}^2$ to write $\dot v = g\,(1 - v^2/v_{\text{ter}}^2)$'
+      - 'Separate: put $v$ on the left and $t$ on the right, $dv/(1 - v^2/v_{\text{ter}}^2) = g\,dt$'
+      - 'Integrate both sides, from $0$ to $v$ and from $0$ to $t$'
+      - 'Evaluate the left integral as $v_{\text{ter}}\,\mathrm{arctanh}(v/v_{\text{ter}}) = gt$'
+      - 'Apply $\tanh$ to both sides to solve for $v$'
+    hint: |
+      The order is: tidy the equation, separate, integrate, evaluate, solve.
+    explanation: |
+      Separation only works because the force depends on $v$ alone. Then $m\,dv/F(v) = dt$ can always be integrated, at worst numerically.
+
+  - type: build
+    id: v-tanh
+    prompt: |
+      Solving the last line of the separation for $v$ gives the speed of a body released from rest. Build it.
+    prefix: 'v ='
+    tiles:
+      - 'v_{\text{ter}}'
+      - '\tanh'
+      - '\left(\frac{gt}{v_{\text{ter}}}\right)'
+      - '\left(\frac{v_{\text{ter}}t}{g}\right)'
+      - '\cosh'
+      - 'g'
+    answers:
+      - ['v_{\text{ter}}', '\tanh', '\left(\frac{gt}{v_{\text{ter}}}\right)']
+    wrong:
+      - answer: ['v_{\text{ter}}', '\tanh', '\left(\frac{v_{\text{ter}}t}{g}\right)']
+        feedback: |
+          The argument of $\tanh$ must be a pure number. $gt$ is a speed, so $gt/v_{\text{ter}}$ is a number, while $v_{\text{ter}}t/g$ has units of time squared times speed per length.
+      - answer: ['v_{\text{ter}}', '\cosh', '\left(\frac{gt}{v_{\text{ter}}}\right)']
+        feedback: |
+          $\cosh$ grows without limit, and the speed cannot pass $v_{\text{ter}}$ when released from rest. The function that rises from 0 to 1 is $\tanh$.
+    hint: |
+      The speed must approach $v_{\text{ter}}$ at large times, so the factor in front is $v_{\text{ter}}$ times a function going from 0 to 1.
+    explanation: |
+      Taking $\tanh$ of both sides of $\mathrm{arctanh}(v/v_{\text{ter}}) = gt/v_{\text{ter}}$ gives
+
+      $$v(t) = v_{\text{ter}}\tanh\!\left(\frac{gt}{v_{\text{ter}}}\right).$$
+
+  - type: text
+    id: tanh-meaning
+    title: What the hyperbolic tangent does
+    body: |
+      The hyperbolic tangent is $\tanh x = \dfrac{e^x - e^{-x}}{e^x + e^{-x}}$. For small $x$ it is about $x$, and for large $x$ it tends to $1$ without ever reaching it.
+
+      So the solution has the right two limits. At small $t$ the argument $gt/v_{\text{ter}}$ is small, $\tanh x \approx x$, and
+
+      $$v \approx v_{\text{ter}}\,\frac{gt}{v_{\text{ter}}} = gt,$$
+
+      the free fall of a body that has had no time to feel the air. At large $t$, $v \to v_{\text{ter}}$. The natural time scale of the approach is $v_{\text{ter}}/g$, the time free fall would need to reach $v_{\text{ter}}$. The argument of $\tanh$ is $t$ measured in that unit.
+
+  - type: numeric
+    id: v-at-scale
+    prompt: |
+      A body falls from rest with quadratic drag. At the time $t = v_{\text{ter}}/g$, what fraction $v/v_{\text{ter}}$ of its terminal speed has it reached? Use $\tanh 1 = (e^2 - 1)/(e^2 + 1)$.
+    answer: 0.762
+    tolerance: 0.005
+    answerText: '0.762'
+    wrong:
+      - value: 0.632
+        feedback: |
+          That is $1 - e^{-1}$, the linear-drag value at $t = \tau$. The quadratic law has a different shape: $\tanh 1$.
+      - value: 1
+        feedback: |
+          Free fall would give $v = g t = v_{\text{ter}}$ at this time, but drag has already slowed the body. The value is below 1.
+    hint: |
+      At $t = v_{\text{ter}}/g$ the argument $gt/v_{\text{ter}}$ equals $1$. Take $e^2 \approx 7.389$.
+    explanation: |
+      $v/v_{\text{ter}} = \tanh 1 = (7.389 - 1)/(7.389 + 1) \approx 0.762$. For comparison, linear drag at $t = \tau$ gives $1 - e^{-1} = 0.632$. At twice this time $\tanh 2 \approx 0.964$.
+
+  - type: numeric
+    id: baseball-3s
+    prompt: |
+      The baseball of $v_{\text{ter}} = 34.6\ \mathrm{m/s}$ is dropped from rest from a tall tower. What is its speed in m/s after $3\ \mathrm{s}$? Take $g = 9.8\ \mathrm{m/s^2}$ and $\tanh 0.85 \approx 0.691$.
+    answer: 23.9
+    tolerance: 0.4
+    answerText: '23.9'
+    wrong:
+      - value: 29.4
+        feedback: |
+          That is $gt$, the speed with no air. The drag has already cut the speed, so it must be lower.
+      - value: 34.6
+        feedback: |
+          That is the terminal speed, which the ball only approaches at long times. After $3\ \mathrm{s}$ the argument is $0.85$, not large.
+    hint: |
+      The argument of $\tanh$ is $gt/v_{\text{ter}} = 9.8 \times 3/34.6$.
+    explanation: |
+      Recall $v = v_{\text{ter}}\tanh(gt/v_{\text{ter}})$. Here $gt/v_{\text{ter}} = 29.4/34.6 \approx 0.85$, and $\tanh 0.85 \approx 0.691$, so
+
+      $$v \approx 34.6 \times 0.691 \approx 23.9\ \mathrm{m/s},$$
+
+      against $29.4\ \mathrm{m/s}$ with no air.
+
+  - type: widget
+    id: fall-fast
+    title: Starting faster than the terminal speed
+    widget: drag-fall
+    config:
+      law: quad
+      laws: [quad]
+      m: 1
+      c: 0.1
+      v0: 0
+      tmax: 6
+      sliders: [v0]
+      ranges: { v0: [0, 40, 5] }
+      axes: { v: [0, 40], y: [0, 160] }
+      readouts: [speed, drag, terminal]
+      show: { terminal: true, freefall: false, net: true, yPlot: false, laws: false }
+      units: { force: N, speed: m/s, distance: m, time: s, mass: kg, b: 'kg/s', c: 'kg/m' }
+    body: |
+      A toy body with $m = 1\ \mathrm{kg}$ and $c = 0.1\ \mathrm{kg/m}$ (so $v_{\text{ter}} \approx 9.9\ \mathrm{m/s}$) is released with a starting speed $v_0$ that you choose, straight down.
+
+      **Try:** $v_0 = 0$ first. Then $v_0 = 30\ \mathrm{m/s}$, and watch the arrows at the start.
+
+  - type: mcq
+    id: fast-start
+    review: false
+    prompt: |
+      A body with $v_{\text{ter}} = 9.9\ \mathrm{m/s}$ is released straight down at $30\ \mathrm{m/s}$ in quadratic drag. What does its speed do?
+    options:
+      - text: It decreases and approaches $9.9\ \mathrm{m/s}$ from above
+        correct: true
+      - text: It stays at $30\ \mathrm{m/s}$, since it started there
+        feedback: |
+          A steady speed needs zero net force. At $30\ \mathrm{m/s}$ the drag is about nine times the weight, so the net force points up and the body slows.
+      - text: It increases, since gravity keeps pulling down
+        feedback: |
+          Gravity is still pulling, but at this speed the drag $cv^2$ is much larger than the weight $mg$, so the net force is upward.
+      - text: It drops below $9.9\ \mathrm{m/s}$ and then recovers
+        feedback: |
+          Below $v_{\text{ter}}$ the weight wins, so the speed can only rise toward it. It cannot cross $v_{\text{ter}}$: there the net force is zero.
+    explanation: |
+      The terminal speed attracts the speed from either side, as in the linear case. This is also why a pitched ball, faster than its $v_{\text{ter}}$, is slowed down by the air more than the weight alone would do.
+
+  - type: text
+    id: height
+    title: How far it falls
+    body: |
+      The distance fallen is the integral of $v$. The integral of $\tanh$ is $\ln\cosh$, so
+
+      $$y(t) = \frac{v_{\text{ter}}^2}{g}\,\ln\!\left[\cosh\!\left(\frac{gt}{v_{\text{ter}}}\right)\right].$$
+
+      At small times this is $\tfrac12 gt^2$, as in free fall. At large times $\ln\cosh x \approx x - \ln 2$, so $y \approx v_{\text{ter}}\,t + \text{const}$: the ball falls ever closer to a steady speed, and the path becomes a straight line against $t$.
+
+  - type: numeric
+    id: baseball-y
+    prompt: |
+      The baseball with $v_{\text{ter}} = 34.6\ \mathrm{m/s}$ is dropped from rest. After $6\ \mathrm{s}$, $gt/v_{\text{ter}} \approx 1.70$ and $\ln\cosh 1.70 \approx 1.037$. How far has it fallen, in metres? (With no air it would have fallen $176\ \mathrm{m}$.)
+    answer: 127
+    tolerance: 2
+    answerText: '127 (about 130)'
+    hint: |
+      The prefactor is $v_{\text{ter}}^2/g = 1200/9.8$.
+    explanation: |
+      Recall $y = (v_{\text{ter}}^2/g)\ln\cosh(gt/v_{\text{ter}})$. The prefactor is $1200/9.8 = 122.4\ \mathrm{m}$, so $y \approx 122.4 \times 1.037 \approx 127\ \mathrm{m}$, about $130\ \mathrm{m}$. The ball has fallen about $50\ \mathrm{m}$ less than in a vacuum.
+
+  - type: text
+    id: horizontal
+    title: Coasting with quadratic drag
+    body: |
+      Now the third question of the hook. A cyclist crosses the finish line and coasts on the level, with only the air to slow them down. Take $x$ along the road, speed $v$, starting at $v_0$. The drag is the only force, so
+
+      $$m\frac{dv}{dt} = -cv^2.$$
+
+      Separate the variables, $m\,dv/v^2 = -c\,dt$, and integrate from $v_0$ at $t = 0$:
+
+      $$m\left(\frac{1}{v_0} - \frac{1}{v}\right) = -ct.$$
+
+      Solving for $v$ gives
+
+      $$v(t) = \frac{v_0}{1 + t/\tau}, \qquad \tau = \frac{m}{cv_0}.$$
+
+      This $\tau$ is a time with a simple meaning: at $t = \tau$ the speed is $v_0/2$. It is not the $\tau = m/b$ of linear drag, and it depends on how fast the body starts. Integrating $v$ once more gives the position, with $x = 0$ at $t = 0$:
+
+      $$x(t) = v_0\,\tau\,\ln\!\left(1 + \frac{t}{\tau}\right).$$
+
+  - type: numeric
+    id: coast-speed
+    prompt: |
+      A body coasts with quadratic drag only, starting at $v_0 = 12\ \mathrm{m/s}$, and $\tau = m/(cv_0) = 5\ \mathrm{s}$. What is its speed in m/s at $t = 15\ \mathrm{s}$?
+    answer: 3
+    tolerance: 0.05
+    answerText: '3'
+    wrong:
+      - value: 0.57
+        feedback: |
+          That would be the linear-drag decay $v_0e^{-t/\tau}$ with $t/\tau = 3$. The quadratic law decays much more slowly, as $1/(1 + t/\tau)$.
+    hint: |
+      Use $v = v_0/(1 + t/\tau)$ with $t/\tau = 3$.
+    explanation: |
+      Recall $v = v_0/(1 + t/\tau)$. At $t = 15\ \mathrm{s}$ we have $t/\tau = 3$, so $v = 12/4 = 3\ \mathrm{m/s}$. With linear drag and the same time scale it would be $12\,e^{-3} \approx 0.6\ \mathrm{m/s}$.
+
+  - type: mcq
+    id: coast-distance
+    prompt: |
+      A cart coasts on a level track with linear drag, $v = v_0e^{-t/\tau}$ and $x \to v_0\tau$. A cyclist coasts with quadratic drag, $x = v_0\tau\ln(1 + t/\tau)$. What does the second formula say about the total distance?
+    options:
+      - text: 'It has no limit: $x$ keeps growing, slowly, as $t \to \infty$'
+        correct: true
+      - text: It levels off at $v_0\tau$, like the cart
+        feedback: |
+          The cart levels off because $e^{-t/\tau}$ goes to zero fast enough for the area under $v$ to be finite. Here $\ln(1 + t/\tau)$ has no limit.
+      - text: It levels off at $v_0\tau\ln 2$
+        feedback: |
+          That is the position at $t = \tau$, not at the end. The logarithm keeps growing past it.
+      - text: It is the same distance as with linear drag if $\tau$ is the same
+        feedback: |
+          The two decays have different shapes. The tail $v \propto 1/t$ has an infinite area under it, while an exponential tail has a finite one.
+    explanation: |
+      As $v$ gets small, the drag $cv^2$ gets very small, so small that it never brings the body to rest at any finite distance. Real bodies are stopped by friction or by a linear drag term at low speed. A drag proportional to $v^2$ at all speeds is not realistic.
+
+  - type: mcq
+    id: which-law
+    prompt: |
+      A sphere of diameter $D$ moves at speed $v$ in air. The ratio of the quadratic to the linear drag is $f_{\text{quad}}/f_{\text{lin}} = (1.6\times10^{3}\ \mathrm{s/m^2})\,Dv$. For the baseball, $D = 0.07\ \mathrm{m}$ at $v = 35\ \mathrm{m/s}$, which law should we use?
+    options:
+      - text: 'Quadratic: the ratio is about $4000$'
+        correct: true
+      - text: 'Linear: the ratio is about $4000$, so the linear term wins'
+        feedback: |
+          The ratio is quadratic over linear. A ratio far above 1 means the quadratic term is much larger, so the linear one can be dropped.
+      - text: Both are equal in size, so keep both
+        feedback: |
+          They are equal only when the ratio is 1, which for this ball would need $Dv \approx 6\times10^{-4}\ \mathrm{m^2/s}$, a speck of dust creeping along.
+      - text: 'Neither: air does not drag a baseball at this speed'
+        feedback: |
+          The drag is about $c v^2 = 1.5\ \mathrm{N}$, the same size as the weight of $1.47\ \mathrm{N}$, so it matters a great deal.
+    explanation: |
+      $1.6\times10^3 \times 0.07 \times 35 \approx 3900$. Baseballs, cannonballs and falling people are firmly quadratic. Only very small or very slow bodies, like an oil droplet or a mist drop, have a ratio near or below 1.
+
+  - type: text
+    id: general
+    title: Both directions at once
+    body: |
+      A projectile that moves in both $x$ and $y$ with quadratic drag has $\mathbf{f} = -cv^2\hat{\mathbf{v}} = -cv\,\mathbf{v}$, with $v = \sqrt{v_x^2 + v_y^2}$. With $y$ measured upward the two components of $m\dot{\mathbf{v}} = m\mathbf{g} + \mathbf{f}$ are
+
+      $$m\dot v_x = -c\sqrt{v_x^2 + v_y^2}\;v_x,$$
+
+      $$m\dot v_y = -mg - c\sqrt{v_x^2 + v_y^2}\;v_y.$$
+
+      Each equation contains both $v_x$ and $v_y$ through the square root, so we cannot solve them separately and paste the horizontal and vertical solutions together. With linear drag the components were uncoupled. Here the two equations cannot be solved in elementary functions at all, so for given numbers we integrate them on a computer. The one-direction results above are the special cases that survive.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a charge in a magnetic field. The force there is not along the velocity but perpendicular to it, so the speed does not change and the path curves into circles and spirals.

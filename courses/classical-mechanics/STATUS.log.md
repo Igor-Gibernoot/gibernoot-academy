@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-25 ch03-quadratic-drag (autonomous)
+Built `ch03/quadratic-drag.yaml` (concept, 22 cards, drag-fall x2: linear vs quad from rest with m, c sliders; start above v_ter). Taylor 2.4 (PDF 69-75) render-checked. Choices: horizontal coasting has no widget (drag-fall has no horizontal mode, g = 0 breaks v_ter), so text, numeric and MCQ cards; Taylor's tau = m/(c v0) used only for coasting, the fall time scale written v_ter/g (no second tau); baseball numbers from Example 2.5 recomputed (v_ter 34.6, y(6 s) 127 m); no coth formula stated (from-above start shown by widget only). Images: none: no person or experiment worth a picture. Conventions fixed here: quadratic drag $c$ (kg/m), $v_{\text{ter}} = \sqrt{mg/c}$, $v = v_{\text{ter}}\tanh(gt/v_{\text{ter}})$, coasting $\tau = m/(cv_0)$, $x = v_0\tau\ln(1+t/\tau)$; baseball $m = 0.15$ kg, $D = 7$ cm, $v_{\text{ter}} = 34.6$ m/s.
+
 ## 2026-11-25 ch03-trajectory (autonomous)
 Built `ch03/trajectory.yaml` (guided problem, 23 cards, projectile-drag x3: path vs vacuum, asymptote with Thick air preset, exact range readouts). Case: m = 1 kg, b = 0.1 kg/s, 20 m/s at 45 deg (tau 10 s, v_ter 98 m/s): R_vac 40.82, formula 32.96, numerical 34.10 m; b = 1 shows the formula failing (bracket -0.92); pellet card from Taylor Example 2.4 data (density 2.7 g/cm3, rho and beta given in the prompt). Choices: R_vac written as in Taylor (widget labels overridden); toy body, stated as such. Images: none: no person, experiment or object worth a picture. Web checks: none needed. Conventions fixed here: Taylor 2.3 uses y up, so v_ter flips sign in y(t); R_vac = 2 v_x0 v_y0/g; correction R ~ R_vac(1 - 4 v_y0/(3 v_ter)), valid for v_y0/v_ter well below 1; running toy throw m = 1, b = 0.1, 20 m/s, 45 deg.
 
