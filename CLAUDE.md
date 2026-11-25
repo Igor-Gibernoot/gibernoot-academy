@@ -212,6 +212,24 @@ for).
     orange).
 14. **Tables.** Plain Markdown only; house style is `.prose table` in
     `css/app.css`. Never style a table per lesson.
+15. **No external fact from memory (every course, with or without a
+    "Web check" rule).** A date, name, attribution, place, quotation,
+    constant or "who first did X" that is not in the course's main source
+    (or that you cannot tie to a page of it) is **web-checked in the same
+    session** (`docs/WEB_SEARCH.md`, strength `read` for exact dates) and
+    logged in `VERIFIED.md` as `web: <source>`; otherwise **drop it from the
+    text** (write "Galileo argued ...", not "Galileo (1564 to 1642) ..."). This
+    includes image captions and card text, and applies to agents: a report
+    line "from memory" or "unchecked" is a failed unit, fix it before the
+    commit, never carry it as an open doubt.
+16. **Formulas are verified on the page render, not on the converted text.**
+    The Markdown of a source is machine-converted and may be wrong, so a
+    formula, figure label or number counts as checked only after comparing
+    it with the rendered PDF page (course `CLAUDE.md`, "Source
+    verification"). A `VERIFIED.md` line never says "OCR text" as if that
+    were a check. If a page cannot be rendered (tool denied, page not
+    found), the lesson is not finished: say so and stop, or ask Igor to
+    allow it; do not commit the formula as verified.
 
 ### Images (`docs/IMAGES.md`)
 
@@ -243,7 +261,11 @@ uBlock-style blockers block such URLs; `hit-counter.js` once stopped the
 whole app). Never name any file in `js/`, `css/` or `vendor/` hit-counter,
 tracker, analytics, beacon, pageview, telemetry, metrics, stats, ad(s),
 advert, popup, sponsor or collect; validate rejects these in
-`js/widgets/`. Widgets load on demand (dynamic `import()` in
+`js/widgets/`. **Rendering:** `md()`/`mdInline()` (`js/render.js`) return HTML (an `Html`
+string); `h()` inserts it as HTML as a child or with `html:`. Never pass it
+through `String()`/`textContent`/`createTextNode`, and never build a label
+with a plain `'<b>..</b>'` child (it shows as text). `widget-smoke` fails when
+raw HTML shows in a widget. Widgets load on demand (dynamic `import()` in
 `js/widgets/index.js`, registry line `'name': ['file', 'exportName']`);
 never add static imports of widget files. Before building a new one, read
 `docs/widgets/README.md` (one line per widget) for an existing one a preset

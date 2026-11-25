@@ -45,6 +45,15 @@ let errs = [];
 p.on('pageerror', e => errs.push(e.message));
 await p.goto(`http://localhost:${server.address().port}/`); await p.waitForTimeout(500);
 let bad = 0;
+// engine regression: h() must insert md()/mdInline() output as HTML when it is a child
+{
+  const ok = await p.evaluate(async () => {
+    const { h } = await import('/js/dom.js'); const { mdInline } = await import('/js/render.js');
+    const el = h('span', {}, mdInline('**a** $x^2$'));
+    return el.querySelector('.katex') && el.querySelector('strong') && !el.textContent.includes('<');
+  });
+  if (!ok) { bad++; console.log('ENGINE: h() child mdInline() shows raw HTML'); }
+}
 for (const m of mounts) {
   errs = [];
   try {
@@ -71,6 +80,9 @@ for (const m of mounts) {
     }
     if (svg0 && Math.abs(top0() - t0) > 0.5) throw new Error(`layout shift: first svg moved ${(top0() - t0).toFixed(1)}px while dragging`);
     for (const bt of root.querySelectorAll('button')) bt.click();
+    // HTML shown as text (a label built from md()/mdInline() inserted as a text node) must never reach a reader
+    const raw = root.textContent.match(/<\/?(span|strong|em|code|sub|sup|svg|math)\b|class="katex|&lt;|&amp;/);
+    if (raw) throw new Error(`raw HTML visible as text in the widget ("${raw[0]}"): pass md()/mdInline() output through h() as a child (Html) or with html:, never as a string`);
   });
   await p.waitForTimeout(400);
   } catch (e) { errs.push(e.message.split('\n')[0]); }

@@ -5,6 +5,11 @@ Applies whenever any agent or session checks a fact by web (courses with a
 any external fact). A failed search usually means a bad query, not a missing
 fact (the Einstein 1930 essay was once "not found" though a plain search finds
 it at once). **A fact is "unconfirmed" only after every step below fails.**
+**This applies to every course, not only those with a "Web check is
+mandatory" rule:** an external fact (dates, names, attributions, places,
+quotations, constants) is never written from memory. Check it here, or drop it
+from the lesson text. An unconfirmed fact never ships and never stays as an
+"open doubt".
 
 1. **Short queries first**: 2 to 4 words, the way a person would google it
    (`Einstein Religion and Science 1930`, not a long sentence with quotation

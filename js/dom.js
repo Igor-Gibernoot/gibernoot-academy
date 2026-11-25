@@ -1,5 +1,9 @@
 // Tiny DOM helpers.
 
+// HTML produced by md()/mdInline(): a String subclass, so every string use still works, but h()
+// inserts it as HTML when it is passed as a child (a plain string child is text, never HTML).
+export class Html extends String {}
+
 // h('div', {class: 'x', html: '<b>hi</b>', onclick}, child1, 'text', ...)
 export function h(tag, attrs = {}, ...children) {
   const el = document.createElement(tag);
@@ -11,7 +15,8 @@ export function h(tag, attrs = {}, ...children) {
   }
   for (const c of children.flat()) {
     if (c == null || c === false) continue;
-    el.append(c instanceof Node ? c : document.createTextNode(String(c)));
+    if (c instanceof Html) el.insertAdjacentHTML('beforeend', String(c));
+    else el.append(c instanceof Node ? c : document.createTextNode(String(c)));
   }
   return el;
 }

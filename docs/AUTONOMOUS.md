@@ -73,6 +73,12 @@ context stays small. Igor reviews the level on the live site at the end.
   agent back (SendMessage) to finish the check before the next unit. The
   coordinator copies the unit's web-check sentence into every spawn prompt
   even when it has not read the course `CLAUDE.md`.
+- **Gate for every course** (CLAUDE.md rules 15 and 16): the report must list
+  no fact "from memory" (dates, names, attributions: web-checked or dropped)
+  and no formula checked only on the converted text. If an agent could not
+  render a PDF page (tool denied), the coordinator sends it back with the
+  render done another way or stops and reports it to Igor; the unit is not
+  accepted and the next one does not start.
 - Between units the coordinator only reads that report: it checks that
   validate and shots were clean and the commit was pushed (`git log -1
   --oneline`), and passes the agent's next-unit prompt on, adding any

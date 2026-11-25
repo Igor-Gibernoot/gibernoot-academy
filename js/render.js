@@ -1,5 +1,6 @@
 // Markdown + KaTeX. Math is pulled out before Markdown runs, so `_`, `*`
 // and `\\` inside formulas are never touched by the Markdown parser.
+import { Html } from './dom.js';
 
 const MATH = /\$\$([\s\S]+?)\$\$|\$((?:\\\$|[^$\n])+?)\$/g;
 
@@ -26,11 +27,11 @@ const restore = (html, parts) => html.replace(/@@M(\d+)@@([.,;:?!)]*)/g, (_, n, 
 // Block Markdown (paragraphs, lists, quotes) with math.
 export function md(src) {
   const [text, parts] = protect(src);
-  return restore(marked.parse(text), parts);
+  return new Html(restore(marked.parse(text), parts));
 }
 
 // Single-line Markdown with math (option labels, titles).
 export function mdInline(src) {
   const [text, parts] = protect(src);
-  return restore(marked.parseInline(text), parts);
+  return new Html(restore(marked.parseInline(text), parts));
 }
