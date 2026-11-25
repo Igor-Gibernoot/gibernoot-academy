@@ -71,3 +71,20 @@ from the lesson text. An unconfirmed fact never ships and never stays as an
     matching text) may stay in `candidates:`, with the failure in `tried:`.
     Never leave a reachable link unopened. When a lesson is rechecked, first
     try every `candidates:` link already in its `VERIFIED.md` line.
+12. **Blocked sites: ask Igor with a link and a prompt.** Britannica, Oxford
+    Islamic Studies, sacred-texts and studylight cannot be fetched. When a
+    lesson needs a fact that only such a site can give, and the fact really
+    adds to the learning (a date, name or claim the lesson states), do not
+    leave it unchecked: give Igor, for each page, two things in this form.
+    - **Link**: the real URL if you have one from a search or a file, else a
+      search phrase ("search Britannica Saint Jerome"). Never guess a slug.
+    - **Prompt** he pastes into his browser AI: "Use ONLY this page's text,
+      nothing from memory. Quote the exact sentence or write NOT STATED. Keep
+      dates as written. Start your reply with `<lesson id>, <page name>`."
+      then the numbered items (a), (b), (c) the lesson needs.
+    If the fact does not add to the learning, drop it from the lesson instead
+    of asking. A pasted reply that quotes the sentence is logged as `read
+    (pasted by Igor)`; NOT STATED stays NOT CONFIRMED and the lesson is
+    softened or the claim removed. Watch for replies that mix in another
+    article loaded on the same page or an AI "Top Questions" box: prefer the
+    article text.
