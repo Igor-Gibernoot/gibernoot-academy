@@ -1,0 +1,358 @@
+id: ch03-linear-drag
+title: Linear Drag and Terminal Speed
+kind: concept
+own: |
+  Setting: a body of mass $m$ moves in a medium that drags it with the linear force $\mathbf{f} = -b\mathbf{v}$, where $\mathbf{v}$ is its velocity and $b > 0$ is a constant (in kg/s). Down is positive, $v$ is the downward speed and $g = 9.8\ \mathrm{m/s^2}$.
+  - **Equation of motion.** The weight $mg$ pulls down and the drag $bv$ pushes up:
+    {{ $$m\dot v = mg - bv$$ }}
+  - **Terminal speed.** The speed at which drag balances weight, so the acceleration is zero. It depends on $m$ and $b$, not on how the fall starts, and a larger $b$ means a smaller $v_{\text{ter}}$:
+    {{ $$v_{\text{ter}} = \frac{mg}{b}$$ }}
+  - **Characteristic time.** The time scale of the approach, with $b/m$ the rate:
+    {{ $$\tau = \frac{m}{b}$$ }}
+  - **Approach to $v_{\text{ter}}$.** With $v_0$ the speed at $t = 0$, the gap $v - v_{\text{ter}}$ decays exponentially, from above or from below:
+    {{ $$v(t) = v_{\text{ter}} + (v_0 - v_{\text{ter}})\,e^{-t/\tau}$$ }}
+    From rest ($v_0 = 0$) this is $v = v_{\text{ter}}(1 - e^{-t/\tau})$: about 63%, 86% and 95% of $v_{\text{ter}}$ at $t = \tau,\ 2\tau,\ 3\tau$.
+  - **Horizontal coasting.** With only the drag acting, $m\dot v_x = -bv_x$, so the speed decays and the position levels off at $x_\infty$:
+    {{ $$v_x(t) = v_{x0}\,e^{-t/\tau}$$ }}
+    $$x(t) = x_\infty\left(1 - e^{-t/\tau}\right), \qquad x_\infty = v_{x0}\,\tau$$
+  - **A sphere** of diameter $D$ and density $\varrho$ has $m = \varrho\pi D^3/6$ and $b = \beta D$, so $v_{\text{ter}} = \varrho\pi D^2 g/(6\beta)$, proportional to $D^2$ (here $\beta = 1.6\times10^{-4}$ in SI units, for air).
+cards:
+  - type: text
+    id: hook
+    title: The speed that stops growing
+    body: |
+      A drop of mist falls through still air. At first it speeds up, almost like a body in a vacuum. Later it falls at a steady speed, and a second drop twice as heavy, or twice as wide, falls at a different steady speed. What fixes that final speed? Does the drop need to start from rest to reach it? And how long does the drop take to get there: a blink, or a minute?
+
+      In the lesson Air Resistance we found that for slow, small bodies the drag is linear, $\mathbf{f} = -b\mathbf{v}$. Linear drag is the one case where all these questions have clean answers. First, watch it happen.
+
+  - type: widget
+    id: fall-lin
+    title: Falling with linear drag
+    widget: drag-fall
+    config:
+      law: linear
+      laws: [linear]
+      m: 1
+      b: 1
+      tmax: 6
+      sliders: [m, b]
+      ranges: { m: [0.5, 2, 0.5], b: [1, 4, 0.5] }
+      axes: { v: [0, 25], y: [0, 100] }
+      readouts: [speed, drag]
+      show: { terminal: false, freefall: true, net: true, yPlot: false, laws: false }
+      units: { force: N, speed: m/s, distance: m, time: s, mass: kg, b: 'kg/s' }
+    body: |
+      A body of mass $m$ is released from rest and feels the linear drag $f = bv$ (a toy body: $b$ is a slider). The grey dashed curve is the fall with no air. The arrows are the weight, the drag and their sum.
+
+      **Try:** release with $m = 1\ \mathrm{kg}$ and $b = 1\ \mathrm{kg/s}$, and watch the speed curve and the arrows. Then double $b$, and then double $m$, releasing each time.
+
+  - type: mcq
+    id: fall-lin-q
+    review: false
+    prompt: |
+      A body of mass $m = 1\ \mathrm{kg}$ released from rest with $b = 1\ \mathrm{kg/s}$ levels off at about $9.8\ \mathrm{m/s}$. You double $b$ to $2\ \mathrm{kg/s}$ and release it again. Where does its speed level off?
+    options:
+      - text: At about $4.9\ \mathrm{m/s}$, half as fast
+        correct: true
+      - text: At about $19.6\ \mathrm{m/s}$, twice as fast
+        feedback: |
+          More drag means more force against the fall at every speed, so the body reaches the speed at which drag balances the weight sooner, not later. The final speed goes down.
+      - text: At about $9.8\ \mathrm{m/s}$, the same, since gravity did not change
+        feedback: |
+          Gravity did not change, but the drag at each speed did. The speed that balances the weight depends on both.
+      - text: It never levels off
+        feedback: |
+          Drag grows with the speed, so there is always a speed at which it equals the weight. A drag that stayed small could not stop the speeding up, but this one grows.
+    explanation: |
+      Doubling $b$ doubles the drag at every speed, so the drag reaches the weight at half the speed. The next cards turn this into a formula.
+
+  - type: text
+    id: equation
+    title: The equation of motion
+    body: |
+      Take **down as positive**, and let $v$ be the downward speed. A body of mass $m$ in a linear medium feels its weight $mg$ downward and the drag $bv$ upward, against the motion. Newton's second law reads
+
+      $$m\dot v = mg - bv.$$
+
+      The forces depend only on $v$, not on where the body is, so this is a differential equation for $v$ alone, with first derivatives only. Solve it, and the position follows by one integration.
+
+      Set the net force to zero. Then $\dot v = 0$: the speed stops changing. The speed at which that happens is called the **terminal speed**, $v_{\text{ter}}$.
+
+  - type: numeric
+    id: vter-number
+    prompt: |
+      A body of mass $m = 2\ \mathrm{kg}$ falls in a medium where the drag is $4\ \mathrm{N}$ at a speed of $1\ \mathrm{m/s}$ and grows in proportion to the speed. Take $g = 9.8\ \mathrm{m/s^2}$. At what downward speed (in m/s) is the net force zero?
+    answer: 4.9
+    tolerance: 0.05
+    answerText: '4.9'
+    wrong:
+      - value: 19.6
+        feedback: |
+          That is the weight $mg$ in newtons, not a speed. The drag must equal this weight, and the drag is $4\ \mathrm{N}$ for each m/s.
+      - value: 78.4
+        feedback: |
+          You multiplied the weight by the drag constant. The drag grows with $v$, so set $4v = 19.6$ and divide.
+    hint: |
+      The weight is $mg$. The drag at speed $v$ is $bv$, with $b = 4\ \mathrm{kg/s}$.
+    explanation: |
+      Drag equals weight when $bv = mg$:
+
+      $$v = \frac{mg}{b}.$$
+
+      This speed is the **terminal speed** for linear drag, $v_{\text{ter}} = mg/b$. With the numbers, $2 \times 9.8 / 4 = 4.9\ \mathrm{m/s}$. A larger $b$ gives a smaller $v_{\text{ter}}$, so $v_{\text{ter}}$ is an inverse measure of how much the air matters.
+
+  - type: mcq
+    id: vter-masses
+    prompt: |
+      Two balls have the same shape and size, so the same $b$ in the same air, but the second has twice the mass. Both fall for a long time with linear drag. Compare their terminal speeds $v_{\text{ter}} = mg/b$.
+    options:
+      - text: The heavier ball has twice the terminal speed
+        correct: true
+      - text: Both have the same terminal speed, since all bodies fall alike
+        feedback: |
+          All bodies fall alike when there is no drag. With drag, the heavier ball needs a larger drag to balance its larger weight, so it must go faster before the balance is reached.
+      - text: The lighter ball is faster, because the air pushes it around more easily
+        feedback: |
+          The drag $bv$ does not depend on the mass at all. A larger weight against the same drag law means a larger speed at the balance.
+      - text: The heavier ball has half the terminal speed
+        feedback: |
+          Half would need the mass in the denominator. The mass is in the numerator of $mg/b$: more weight to balance means more speed.
+    explanation: |
+      For the same $b$, $v_{\text{ter}}$ is proportional to $m$. It also does not depend on the starting speed: whatever the start, the net force vanishes only at $mg/b$.
+
+  - type: text
+    id: cart
+    title: 'A simpler cousin: coasting'
+    body: |
+      Before the fall, take an easier motion with the same drag. A cart on a frictionless horizontal track coasts through the medium with velocity $v_x$. The only horizontal force is the drag, so
+
+      $$m\dot v_x = -bv_x.$$
+
+      Write $k = b/m$, so that $\dot v_x = -kv_x$. This says that $v_x$ decays at a rate proportional to itself. The only function with that property is the exponential, $v_x = Ae^{-kt}$ for any constant $A$, and it holds the one free constant that a first-order equation needs. If the cart starts at $t = 0$ with velocity $v_{x0}$, then $A = v_{x0}$. Define the time
+
+      $$\tau = \frac{1}{k} = \frac{m}{b},$$
+
+      so that
+
+      $$v_x(t) = v_{x0}\,e^{-t/\tau}.$$
+
+      Here $\tau$ has the dimensions of time, since $m/b$ is kg divided by kg/s. After a time $\tau$ the velocity is $1/e$ of its start, so $\tau$ is the "1/e time". The velocity tends to zero but never reaches it.
+
+  - type: order
+    id: shift-trick
+    prompt: |
+      The falling body obeys $m\dot v = mg - bv$. It looks like the coasting equation, but with an extra constant $mg$. Put the solution in order, ending with the speed $v(t)$ for a start at $v_0$.
+    steps:
+      - 'Rewrite the equation using $v_{\text{ter}} = mg/b$: since $mg - bv = -b(v - v_{\text{ter}})$, we get $m\dot v = -b(v - v_{\text{ter}})$.'
+      - 'Define $u = v - v_{\text{ter}}$. Since $v_{\text{ter}}$ is a constant, $\dot u = \dot v$, so $m\dot u = -bu$.'
+      - 'This is the coasting equation, so $u = Ae^{-t/\tau}$ with $\tau = m/b$.'
+      - 'At $t = 0$ we have $u = v_0 - v_{\text{ter}}$, so $A = v_0 - v_{\text{ter}}$.'
+      - 'Go back to $v = v_{\text{ter}} + u$, which gives $v(t) = v_{\text{ter}} + (v_0 - v_{\text{ter}})\,e^{-t/\tau}$.'
+    hint: |
+      First make the equation look like the coasting one, then change variable, then use the starting value.
+    explanation: |
+      The result,
+
+      $$v(t) = v_{\text{ter}} + (v_0 - v_{\text{ter}})\,e^{-t/\tau},$$
+
+      is the sum of a term that starts at $v_0$ and fades away, and a term that starts at zero and grows to $v_{\text{ter}}$. As $t \to \infty$, $v \to v_{\text{ter}}$, whatever $v_0$ was. For a start from rest, $v_0 = 0$:
+
+      $$v(t) = v_{\text{ter}}\left(1 - e^{-t/\tau}\right).$$
+
+  - type: widget
+    id: fall-tau
+    title: Reading the time scale
+    widget: drag-fall
+    config:
+      law: linear
+      laws: [linear]
+      m: 1
+      b: 1
+      tmax: 6
+      sliders: [m, b]
+      ranges: { m: [0.5, 2, 0.5], b: [1, 4, 0.5] }
+      axes: { v: [0, 25], y: [0, 100] }
+      readouts: [speed, terminal, tau, time]
+      show: { terminal: true, freefall: false, net: false, yPlot: false, laws: false }
+      labels: { vt: 'v_ter' }
+      units: { force: N, speed: m/s, distance: m, time: s, mass: kg, b: 'kg/s' }
+    body: |
+      The readouts now give the terminal speed $v_{\text{ter}}$ and the time $\tau = m/b$. The dashed line on the speed plot is $v_{\text{ter}}$.
+
+      **Try:** release from rest and read the speed at $t = \tau$. Compare it with $v_{\text{ter}}$. Then change $m$ and $b$ and check again.
+
+  - type: numeric
+    id: percent-2tau
+    prompt: |
+      A body falls from rest with linear drag, $v(t) = v_{\text{ter}}(1 - e^{-t/\tau})$. At $t = 2\tau$, what percentage of $v_{\text{ter}}$ is its speed? (At $t = \tau$ it is about 63%.)
+    answer: 86.5
+    tolerance: 0.6
+    answerText: '86.5'
+    wrong:
+      - value: 200
+        feedback: |
+          The speed never exceeds $v_{\text{ter}}$ when falling from rest. Put $t = 2\tau$ into $e^{-t/\tau}$ first.
+      - value: 13.5
+        feedback: |
+          $e^{-2} \approx 0.135$ is the fraction of the gap that is left, not the fraction reached. The speed is $1 - 0.135$ of $v_{\text{ter}}$.
+    hint: |
+      At $t = 2\tau$ the exponent is $-2$, and $e^{-2} \approx 0.135$.
+    explanation: |
+      $$\frac{v}{v_{\text{ter}}} = 1 - e^{-2} \approx 1 - 0.135 = 0.865.$$
+
+      So the speed is about 86% of $v_{\text{ter}}$ after $2\tau$, and 95% after $3\tau$. After a few times $\tau$ the body is, for most purposes, at its terminal speed.
+
+  - type: widget
+    id: fall-above
+    title: Starting above the terminal speed
+    widget: drag-fall
+    config:
+      law: linear
+      laws: [linear]
+      m: 1
+      b: 1
+      v0: 25
+      tmax: 5
+      sliders: [v0]
+      ranges: { v0: [-10, 30, 1] }
+      axes: { v: [-15, 40], y: [-30, 120] }
+      readouts: [speed, terminal, tau]
+      show: { terminal: true, freefall: true, net: true, yPlot: false, laws: false }
+      labels: { vt: 'v_ter' }
+      units: { force: N, speed: m/s, distance: m, time: s, mass: kg, b: 'kg/s' }
+    body: |
+      Now the body is thrown downward with a speed $v_0$ that you set, with $m = 1\ \mathrm{kg}$ and $b = 1\ \mathrm{kg/s}$. The grey dashed curve is the same throw with no air.
+
+      **Try:** release at $v_0 = 25\ \mathrm{m/s}$, then at $v_0 = 0$ and at a negative $v_0$ (thrown upward), and compare the three curves with the dashed line $v_{\text{ter}}$.
+
+  - type: mcq
+    id: from-above
+    review: false
+    prompt: |
+      A body is thrown downward at $25\ \mathrm{m/s}$ in a linear medium where $v_{\text{ter}} = 9.8\ \mathrm{m/s}$. What does its speed do?
+    options:
+      - text: It decreases and approaches $9.8\ \mathrm{m/s}$ from above, because the drag is larger than the weight
+        correct: true
+      - text: It keeps growing, because it is already falling and gravity keeps pulling
+        feedback: |
+          At $25\ \mathrm{m/s}$ the drag $bv = 25$ N is more than the weight $9.8$ N, so the net force points up. Gravity is still there, but it is outweighed.
+      - text: It stays at $25\ \mathrm{m/s}$, because the weight does not change
+        feedback: |
+          A constant speed needs zero net force, and that happens only at $9.8\ \mathrm{m/s}$. At $25\ \mathrm{m/s}$ the net force is not zero.
+      - text: It drops to zero at once, because the drag is huge
+        feedback: |
+          The drag is finite, and it only slows the body gradually. The speed approaches $9.8\ \mathrm{m/s}$ and does not pass it, since there the net force vanishes.
+    explanation: |
+      The gap $v - v_{\text{ter}}$ starts positive and decays as $e^{-t/\tau}$, so $v$ approaches $v_{\text{ter}}$ from above. The same formula covers a start from below, and the sign of $v_0 - v_{\text{ter}}$ decides the side.
+
+  - type: numeric
+    id: time-95
+    prompt: |
+      A body of mass $m = 2\ \mathrm{kg}$ is released from rest in a medium with $b = 4\ \mathrm{kg/s}$. How long (in seconds) does it take to reach 95% of its terminal speed?
+    answer: 1.5
+    tolerance: 0.05
+    answerText: '1.5'
+    wrong:
+      - value: 0.5
+        feedback: |
+          That is $\tau = m/b$, the time to reach only 63% of $v_{\text{ter}}$. Solve $1 - e^{-t/\tau} = 0.95$.
+      - value: 0.15
+        feedback: |
+          Check the units: $\tau = m/b = 2/4 = 0.5$ s, not $0.05$ s. Then find how many $\tau$ are needed for 95%.
+    hint: |
+      Find $\tau = m/b$, then solve $1 - e^{-t/\tau} = 0.95$, that is $e^{-t/\tau} = 0.05$.
+    explanation: |
+      $\tau = m/b = 0.5\ \mathrm{s}$. From $e^{-t/\tau} = 0.05$ we get $t = \tau\ln 20 \approx 3.0\,\tau \approx 1.5\ \mathrm{s}$. This matches the rule of thumb that 95% of $v_{\text{ter}}$ takes $3\tau$.
+
+  - type: text
+    id: mist-setup
+    title: A drop of mist
+    body: |
+      Now the question the hook asked: how fast does a real drop of mist fall? Take a sphere of diameter $D = 0.2\ \mathrm{mm}$ and density $\varrho = 1000\ \mathrm{kg/m^3}$ in air. Its drag is linear, with the constant $b = \beta D$ and $\beta = 1.6\times10^{-4}$ in SI units, and the terminal speed is
+
+      $$v_{\text{ter}} = \frac{mg}{b}.$$
+
+      The mass of a sphere is its density times its volume,
+
+      $$\begin{aligned} m &= \varrho\,\frac{\pi D^3}{6} \\ &= 1000 \times \frac{\pi\,(2\times10^{-4})^3}{6} \\ &\approx 4.2\times10^{-9}\ \mathrm{kg}. \end{aligned}$$
+
+      Two numbers are left to get: $b$ and then $v_{\text{ter}}$.
+
+  - type: numeric
+    id: mist-b
+    prompt: |
+      The drag constant of a sphere is $b = \beta D$, with $\beta = 1.6\times10^{-4}$ (SI) and $D = 0.2\ \mathrm{mm} = 2\times10^{-4}\ \mathrm{m}$. What is $b$, in units of $10^{-8}\ \mathrm{kg/s}$?
+    answer: 3.2
+    tolerance: 0.05
+    answerText: '3.2'
+    wrong:
+      - value: 0.32
+        feedback: |
+          Check the powers of ten: $1.6\times10^{-4}\times 2\times10^{-4} = 3.2\times10^{-8}$.
+      - value: 32
+        feedback: |
+          Check the powers of ten: $10^{-4}\times10^{-4} = 10^{-8}$, and $1.6\times2 = 3.2$.
+    hint: |
+      Multiply $1.6\times10^{-4}$ by $2\times10^{-4}$.
+    explanation: |
+      $b = \beta D = 1.6\times10^{-4} \times 2\times10^{-4} = 3.2\times10^{-8}\ \mathrm{kg/s}$.
+
+  - type: numeric
+    id: mist-vter
+    prompt: |
+      A drop of mist has mass $m = 4.19\times10^{-9}\ \mathrm{kg}$ and drag constant $b = 3.2\times10^{-8}\ \mathrm{kg/s}$, with linear drag. Take $g = 9.8\ \mathrm{m/s^2}$. What is its terminal speed, in m/s?
+    answer: 1.28
+    tolerance: 0.03
+    answerText: '1.28'
+    wrong:
+      - value: 0.13
+        feedback: |
+          That is $m/b$, the time scale $\tau$ in seconds, without the factor $g$. The terminal speed is $mg/b$, which is $g$ times larger.
+    hint: |
+      $v_{\text{ter}} = mg/b$. Compute $4.19\times10^{-9}\times 9.8$ first.
+    explanation: |
+      $$v_{\text{ter}} = \frac{mg}{b} = \frac{4.19\times10^{-9} \times 9.8}{3.2\times10^{-8}} \approx 1.3\ \mathrm{m/s}.$$
+
+      The time scale is $\tau = m/b \approx 0.13\ \mathrm{s}$, so the drop is at 95% of this speed after about $0.4\ \mathrm{s}$. In symbols, with $m = \varrho\pi D^3/6$ and $b = \beta D$,
+
+      $$v_{\text{ter}} = \frac{\varrho\pi D^2 g}{6\beta},$$
+
+      so for a given density the terminal speed grows as $D^2$: once air resistance matters, a large sphere falls faster than a small one of the same density. For a Millikan oil droplet of diameter $1.5\ \mu\mathrm{m}$ and density $840\ \mathrm{kg/m^3}$ the same formula gives about $6.1\times10^{-5}\ \mathrm{m/s}$, slow enough to watch through a microscope. For a much larger drop the speed would be higher, and the quadratic drag could no longer be dropped.
+
+  - type: text
+    id: cart-position
+    title: Where the cart stops
+    body: |
+      Back to the coasting cart, $v_x(t) = v_{x0}\,e^{-t/\tau}$. Its position follows by integrating the velocity from $0$ to $t$, with $x(0) = 0$:
+
+      $$x(t) = \int_0^t v_{x0}\,e^{-t'/\tau}\,dt' = v_{x0}\,\tau\left(1 - e^{-t/\tau}\right).$$
+
+      As $t \to \infty$ the position approaches a finite limit,
+
+      $$x_\infty = v_{x0}\,\tau.$$
+
+      A cart with linear drag coasts only a finite distance, however long it rolls. Note that with linear drag the horizontal and vertical equations did not mix: $m\dot v_x = -bv_x$ and $m\dot v = mg - bv$ each involve one variable. That is what will let us put the two motions together for a projectile.
+
+  - type: numeric
+    id: cart-distance
+    prompt: |
+      A cart of mass $m = 2\ \mathrm{kg}$ coasts on a frictionless track with linear drag, $b = 4\ \mathrm{kg/s}$, and starts at $v_{x0} = 3\ \mathrm{m/s}$. What is the total distance it travels (in m)?
+    answer: 1.5
+    tolerance: 0.02
+    answerText: '1.5'
+    wrong:
+      - value: 6
+        feedback: |
+          That is $v_{x0}\,b/m$, with $b/m$ upside down. The time scale is $\tau = m/b$.
+      - value: 0
+        feedback: |
+          The cart does stop, but only after infinite time, having covered a finite distance.
+    hint: |
+      Find $\tau = m/b$ first. The total distance is $x_\infty = v_{x0}\,\tau$.
+    explanation: |
+      $\tau = m/b = 0.5\ \mathrm{s}$, so $x_\infty = v_{x0}\,\tau = 3 \times 0.5 = 1.5\ \mathrm{m}$. Check the dimensions: velocity times time is a length.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a projectile thrown at an angle has both motions at once, horizontal coasting and vertical fall, and with linear drag they do not interfere. The lesson "Guided Problem: Range with Linear Drag" puts them together and asks how much range the air costs.

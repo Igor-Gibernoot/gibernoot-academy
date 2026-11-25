@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-25 ch03-linear-drag (autonomous)
+Built `ch03/linear-drag.yaml` (concept, 19 cards, drag-fall x3: from rest with m, b sliders; tau readout; start above v_ter with v0 slider). Taylor 2.2 (PDF 59-65) render-checked. Choices: cart (horizontal) solved first as warm-up, vertical by the shift u = v - v_ter as an order card; mist drop uses rho = 1000 kg/m^3 as stated data of the exercise (reproduces 1.3 m/s); oil droplet 6.1e-5 m/s mentioned from the source. No image (no person or object needed). Projectile (x, y) is not in drag-fall, so the trajectory lesson needs a new widget first. Conventions fixed here: Taylor's $v_{\text{ter}}$ and $\tau = m/b$; $x_\infty = v_{x0}\tau$; widget label vt set to v_ter.
+
 ## 2026-11-25 ch03-drag (autonomous)
 Built `ch03/drag.yaml` (concept, 21 cards, drag-fall x2: laws none/linear with freefall, then law both with ratio readout; no new widget). Source Taylor 2.1 (PDF 56-58) re-rendered: Eq. 2.4-2.12, Example 2.1 numbers. Choices: widget bodies are toy numbers (m = 1, b = 1, c = 0.3), labelled as not real spheres; no raindrop mass or terminal speed (not in Taylor 2.1, no web fact); "terminal speed" only named, computed next lesson; Reynolds number left out of the cards (kept for the traps/intuition lessons if wanted). Images: none (no free image whose caption could rest on Taylor's text alone). Conventions fixed here: drag form and sphere constants, down positive, toy widget body (see CONVENTIONS Chapter 3).
 
