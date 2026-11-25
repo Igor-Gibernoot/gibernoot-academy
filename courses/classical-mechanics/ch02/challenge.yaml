@@ -1,0 +1,460 @@
+id: ch02-challenge
+title: Level Challenge
+kind: challenge
+cards:
+  - type: text
+    id: intro
+    title: Harder, still guess first
+    body: |
+      Problems that **combine** what Level 2 taught: frames, the three laws, momentum and polar coordinates. Guess first, use a pencil, and check every number by hand. Each answer comes with its reason.
+
+      The toolkit, in four lines. A dot is a time derivative, and $\mathbf{a} = \ddot{\mathbf{r}}$ is the acceleration of a body of mass $m$ seen from an inertial frame $S$.
+
+      - **Second law.** $\mathbf{F} = m\mathbf{a}$, or $\mathbf{F} = \dot{\mathbf{p}}$ with $\mathbf{p} = m\mathbf{v}$.
+      - **Moving frames.** A frame $S'$ whose origin is at $\mathbf{R}(t)$ in $S$ sees the acceleration
+      $$\mathbf{a}' = \mathbf{a} - \ddot{\mathbf{R}}.$$
+      - **Third law and momentum.** $\mathbf{F}_{12}$ is the force on body 1 by body 2, and $\mathbf{F}_{12} = -\mathbf{F}_{21}$. For a system with total momentum $\mathbf{P}$ and total external force $\mathbf{F}^{\text{ext}}$,
+      $$\dot{\mathbf{P}} = \mathbf{F}^{\text{ext}}.$$
+      - **Polar coordinates.** $r$ is the distance from the origin $O$, $\varphi$ the angle from the $x$ axis, $\hat{\mathbf{r}}$ and $\hat{\boldsymbol{\varphi}}$ the unit vectors along which $r$ and $\varphi$ grow. Then
+      $$\begin{aligned} a_r &= \ddot r - r\dot\varphi^2 \\ a_\varphi &= r\ddot\varphi + 2\dot r\dot\varphi \end{aligned}$$
+      and $F_r = m a_r$, $F_\varphi = m a_\varphi$.
+
+      Part 1 has three problems: a crate on an accelerating cart, two skaters pushing apart, and a bead forced along a spiral. Two more problems come in part 2.
+
+  # ---------------------------------------------------------------- Problem 1
+  - type: text
+    id: p1-setup
+    title: 'Problem 1: the crate on the cart'
+    body: |
+      A cart rolls along a straight, level track and **speeds up** steadily: its origin $\mathbf{R}(t)$, seen from the ground frame $S$, has $\ddot R = +1.5\ \mathrm{m/s^2}$ along the track. Call the forward direction $+x$. A crate of mass $m = 2\ \mathrm{kg}$ sits on the floor of the cart. The ground frame $S$ is inertial. The frame $S'$ rides on the cart, with its origin at the cart.
+
+      First suppose the floor is perfectly smooth, so no horizontal force acts on the crate at all. Take $g = 9.8\ \mathrm{m/s^2}$ throughout.
+
+  - type: numeric
+    id: p1-aprime
+    prompt: |
+      A cart speeds up forward with $\ddot R = +1.5\ \mathrm{m/s^2}$ as seen from the ground. A crate of mass $2\ \mathrm{kg}$ lies on its perfectly smooth floor, so no horizontal force acts on it. A person riding on the cart measures the crate's acceleration $a'_x$ along the track (forward is positive). The ground frame is inertial and $\mathbf{a}' = \mathbf{a} - \ddot{\mathbf{R}}$. What is $a'_x$, in $\mathrm{m/s^2}$?
+    answer: -1.5
+    tolerance: 0.001
+    answerText: '-1.5'
+    wrong:
+      - { value: 1.5, feedback: 'The sign is flipped. From the ground the crate stays put while the floor runs forward under it, so on the cart the crate slides backward, which is the negative direction.' }
+      - { value: 0, feedback: 'No force on the crate means $a = 0$ in the inertial ground frame. The rider is in an accelerating frame, and there $a'' = a - \ddot R$ does not vanish.' }
+    hint: |
+      In the ground frame, a body with no force has $a = 0$. Then subtract $\ddot R$.
+    explanation: |
+      With no horizontal force, $a = 0$ in the ground frame, so
+      $$a'_x = a_x - \ddot R = 0 - 1.5 = -1.5\ \mathrm{m/s^2}.$$
+      The rider sees the crate slide toward the back of the cart.
+
+  - type: numeric
+    id: p1-fake
+    prompt: |
+      A rider on an accelerating cart sees a crate of mass $2\ \mathrm{kg}$ on a smooth floor slide backward with acceleration $a'_x = -1.5\ \mathrm{m/s^2}$ (forward is positive). The rider, who does not know the cart accelerates, applies $F = m a'$ and infers a horizontal force on the crate. What force $F'_x$, in newtons?
+    answer: -3
+    tolerance: 0.001
+    answerText: '-3'
+    wrong:
+      - { value: 3, feedback: 'The size is right, the sign is not. The acceleration points backward (negative), and the mass is positive, so the inferred force is negative too.' }
+      - { value: -1.5, feedback: 'That is the acceleration. The inferred force is $m a'' = 2 \times (-1.5)$.' }
+    hint: |
+      Multiply the mass by the acceleration the rider measures.
+    explanation: |
+      $$F'_x = m a'_x = 2 \times (-1.5) = -3\ \mathrm{N}.$$
+      The rider "finds" a $3\ \mathrm{N}$ push toward the back of the cart. Nothing in the world pushes: the floor is smooth and no body touches the crate.
+
+  - type: mcq
+    id: p1-why
+    prompt: |
+      A rider on a cart that speeds up forward at $1.5\ \mathrm{m/s^2}$ sees a crate on the smooth floor slide backward, and infers a $3\ \mathrm{N}$ backward force on it. No body in the world exerts such a force. What is the right conclusion?
+    options:
+      - text: The cart frame is not inertial, so $\mathbf{F} = m\mathbf{a}'$ cannot be trusted there without extra terms
+        correct: true
+      - text: The floor must be exerting a small hidden friction backward
+        feedback: |
+          A smooth floor means no friction, and friction would be a force from a body (the floor). The $3\ \mathrm{N}$ has no body behind it. The ground observer sees no force and no acceleration at all.
+      - text: Newton's second law is false when the crate slides
+        feedback: |
+          The law holds in every inertial frame. The ground frame explains the whole motion with $F = 0$ and $a = 0$. The trouble comes from using the law in a frame that accelerates.
+      - text: The ground frame is the one that is accelerating
+        feedback: |
+          Which frame is inertial is decided by the first law: a body with no force keeps its velocity. The crate does that in the ground frame, and does not in the cart frame.
+    explanation: |
+      A frame whose origin accelerates ($\ddot R \neq 0$) is not inertial, and in it $\mathbf{F} = m\mathbf{a}'$ fails, because $\mathbf{a}' = \mathbf{a} - \ddot{\mathbf{R}}$ differs from $\mathbf{a}$. In the ground frame, the inertial one, $\mathbf{F} = m\mathbf{a}$ works with $\mathbf{F} = 0$.
+
+  - type: numeric
+    id: p1-friction
+    prompt: |
+      Now the floor is rough, with static friction coefficient $\mu_s = 0.4$ (the friction force is at most $\mu_s N$, with $N$ the normal force). The cart speeds up forward at $\ddot R = 1.5\ \mathrm{m/s^2}$ and the crate of mass $2\ \mathrm{kg}$ does not slide: it stays at rest on the cart. In the ground frame, what is the horizontal friction force on the crate, in newtons (forward positive)?
+    answer: 3
+    tolerance: 0.001
+    answerText: '3'
+    wrong:
+      - { value: -3, feedback: 'Friction cannot point backward here. The crate speeds up forward along with the cart, and the only horizontal force on it is the friction, so that force must point forward.' }
+      - { value: 7.84, feedback: 'That is the largest friction the floor could give, $\mu_s N = 0.4 \times 2 \times 9.8$. Static friction takes whatever value is needed, up to that limit, and here the crate needs only $m\ddot R$.' }
+      - { value: 0, feedback: 'The crate accelerates at $1.5\ \mathrm{m/s^2}$ forward in the ground frame (it keeps up with the cart), so a net force $m a \neq 0$ must act on it.' }
+    hint: |
+      In the ground frame the crate has the cart's acceleration, $a = \ddot R$. The friction is the only horizontal force.
+    explanation: |
+      The crate moves with the cart, so $a = \ddot R = 1.5\ \mathrm{m/s^2}$ and
+      $$f = m a = 2 \times 1.5 = 3\ \mathrm{N}.$$
+      This is below the limit $\mu_s N = 0.4 \times 2 \times 9.8 = 7.84\ \mathrm{N}$, so the crate indeed stays put. For the rider, $a' = 0$: the $3\ \mathrm{N}$ of friction is cancelled in the cart frame by a fictitious backward $-m\ddot R$.
+
+  - type: numeric
+    id: p1-amax
+    prompt: |
+      A crate sits on the floor of a cart, with static friction coefficient $\mu_s = 0.4$ and $g = 9.8\ \mathrm{m/s^2}$. The friction is at most $\mu_s N$, with $N = mg$ on a level floor. What is the largest cart acceleration $\ddot R$ for which the crate does not slide, in $\mathrm{m/s^2}$?
+    answer: 3.92
+    tolerance: 0.01
+    answerText: '3.92'
+    wrong:
+      - { value: 7.84, feedback: 'That is the friction force for a $2\ \mathrm{kg}$ crate, in newtons. The acceleration is that force divided by $m$.' }
+      - { value: 0.4, feedback: 'The coefficient $\mu_s$ has no units. The largest acceleration is $\mu_s g$.' }
+    hint: |
+      The friction $f = m\ddot R$ must not exceed $\mu_s m g$. Does the mass cancel?
+    explanation: |
+      $m\ddot R \le \mu_s m g$, so
+      $$\ddot R \le \mu_s g = 0.4 \times 9.8 = 3.92\ \mathrm{m/s^2}.$$
+      The mass cancels: a heavier crate needs more friction and the floor gives proportionally more.
+
+  - type: numeric
+    id: p1-slip
+    prompt: |
+      A cart speeds up forward at $\ddot R = 5\ \mathrm{m/s^2}$, more than the crate can follow. The crate slips, and the kinetic friction coefficient is $\mu_k = 0.3$ (friction force $\mu_k N$, $N = mg$, $g = 9.8\ \mathrm{m/s^2}$). In the ground frame the friction on the crate points forward. What acceleration $a'_x$ does a rider on the cart measure for the crate, in $\mathrm{m/s^2}$ (forward positive)?
+    answer: -2.06
+    tolerance: 0.01
+    answerText: '-2.06'
+    wrong:
+      - { value: 2.94, feedback: 'That is the crate''s acceleration $\mu_k g$ in the ground frame. The rider measures $a'' = a - \ddot R$, so subtract the cart''s acceleration.' }
+      - { value: -5, feedback: 'That would be the case with no friction at all ($a = 0$ on the ground). Here the friction pulls the crate forward with $\mu_k g = 2.94\ \mathrm{m/s^2}$, which reduces the backward slide.' }
+    hint: |
+      First the ground-frame acceleration, $a = f/m = \mu_k g$. Then $a' = a - \ddot R$.
+    explanation: |
+      $$\begin{aligned} a &= \mu_k g = 0.3 \times 9.8 = 2.94 \\ a' &= a - \ddot R = 2.94 - 5 = -2.06\ \mathrm{m/s^2}. \end{aligned}$$
+      The crate falls behind: it speeds up less than the cart, so on the cart it slides backward.
+
+  - type: mcq
+    id: p1-dir
+    prompt: |
+      A cart speeds up forward so fast that a crate on it slides backward relative to the cart. Which way does the kinetic friction force from the floor point on the crate?
+    options:
+      - text: Forward, opposing the crate's sliding relative to the floor
+        correct: true
+      - text: Backward, opposing the cart's acceleration
+        feedback: |
+          Kinetic friction opposes the **sliding between the two surfaces**, not the acceleration of the cart. The crate slides backward relative to the floor, so the floor drags it forward.
+      - text: Backward, since the crate moves backward on the cart
+        feedback: |
+          Friction on the crate points against its motion *relative to the floor*, which is backward, so it points forward. A force along the sliding would speed up the slide instead of resisting it.
+      - text: There is no friction, because the crate is not moving in the ground frame
+        feedback: |
+          Friction depends on the relative motion of the two surfaces, not on the motion in the ground frame. The crate slides on the floor, so kinetic friction acts.
+    explanation: |
+      Friction opposes the relative sliding. The crate slides backward relative to the floor, so the friction on it is forward, and this force is what makes the crate speed up at all.
+
+  # ---------------------------------------------------------------- Problem 2
+  - type: widget
+    id: p2-setup
+    title: 'Problem 2: two skaters'
+    widget: two-body-push
+    config:
+      m1: 40
+      m2: 60
+      J: 120
+      T: 0.5
+      pulse: rect
+      tmax: 2
+      sliders: [J]
+      ranges: { J: [0, 200, 20] }
+      readouts: [p1, p2, P, v1, v2]
+      show:
+        extArrow: false
+      units: { mass: kg, momentum: 'kg m/s', speed: m/s, force: N, impulse: 'N s' }
+      labels: { body1: '1', body2: '2' }
+    body: |
+      Two skaters on frictionless ice start at rest, holding each other. Skater 1 has mass $40\ \mathrm{kg}$ and skater 2 has mass $60\ \mathrm{kg}$. They push apart: each pushes on the other with a steady force for $0.5\ \mathrm{s}$. The blue curve is the force on skater 1, the orange one the force on skater 2, and $J$ is the impulse, the area under a force curve. Watch the momenta $p = mv$ and the speeds.
+
+  - type: numeric
+    id: p2-v2
+    prompt: |
+      Two skaters on frictionless ice start at rest and push apart. Skater 1 (mass $40\ \mathrm{kg}$) ends up moving at $+3\ \mathrm{m/s}$ along a line. Skater 2 has mass $60\ \mathrm{kg}$. Nothing else pushes on them horizontally. What is the velocity of skater 2 along the same line, in $\mathrm{m/s}$ (a sign tells the direction)?
+    answer: -2
+    tolerance: 0.001
+    answerText: '-2'
+    wrong:
+      - { value: -3, feedback: 'Equal speeds would need equal masses. The forces are equal and opposite, so the momenta $mv$ are equal and opposite, and the heavier skater is slower.' }
+      - { value: -4.5, feedback: 'The masses are swapped: $60 \times 3 / 40 = 4.5$ would make the heavier skater faster. The equal momenta $40 \times 3 = 60 \times v$ give the answer.' }
+      - { value: 2, feedback: 'The speed is right but the direction is not. The total momentum starts at $0$ and stays $0$, so the two velocities have opposite signs.' }
+    hint: |
+      With no external force, $\dot{\mathbf{P}} = \mathbf{F}^{\text{ext}} = 0$, and $P$ started at zero.
+    explanation: |
+      $P = 40 \times 3 + 60\,v_2 = 0$, so
+      $$v_2 = -\frac{40 \times 3}{60} = -2\ \mathrm{m/s}.$$
+
+  - type: numeric
+    id: p2-force
+    prompt: |
+      Skater 1 (mass $40\ \mathrm{kg}$) starts at rest and reaches $3\ \mathrm{m/s}$ during a push that lasts $0.5\ \mathrm{s}$, with a steady force. Using $F = \dot p$, what is the size of the force on skater 1, in newtons?
+    answer: 240
+    tolerance: 0.5
+    answerText: '240'
+    wrong:
+      - { value: 120, feedback: 'That is the momentum gained, $40 \times 3 = 120\ \mathrm{kg\,m/s}$ (equal to the impulse). The force is this change divided by the $0.5\ \mathrm{s}$ it took.' }
+      - { value: 360, feedback: 'You used $60 \times 3 / 0.5$, the mass of the other skater. The force on skater 1 uses skater 1''s own momentum change, $40 \times 3$.' }
+    hint: |
+      Steady force: $F = \Delta p / \Delta t$.
+    explanation: |
+      $$F = \frac{\Delta p}{\Delta t} = \frac{40 \times 3}{0.5} = 240\ \mathrm{N}.$$
+
+  - type: mcq
+    id: p2-pair
+    prompt: |
+      Skater 1 ($40\ \mathrm{kg}$) is pushed by skater 2 ($60\ \mathrm{kg}$) with a force of $240\ \mathrm{N}$ in the $+x$ direction, and the third law holds. What is the force $\mathbf{F}_{21}$ on skater 2 by skater 1, and why does skater 1 still accelerate?
+    options:
+      - text: $-240\ \mathrm{N}$ along $x$. The two forces act on different bodies, so they cannot cancel in either body's own $F = ma$
+        correct: true
+      - text: $-240\ \mathrm{N}$. They cancel, so neither skater should accelerate, and the push must be an illusion
+        feedback: |
+          The two forces are equal and opposite but they act on **different** bodies. A force cancels another only in the sum $m a$ of **one** body. Each skater feels only one of them.
+      - text: $-160\ \mathrm{N}$, since skater 2 is heavier and so accelerates less
+        feedback: |
+          The third law fixes the force, not the mass: $\mathbf{F}_{12} = -\mathbf{F}_{21}$ in every case. The heavier skater has the same force and a smaller acceleration, $240/60 = 4\ \mathrm{m/s^2}$ against $240/40 = 6\ \mathrm{m/s^2}$.
+      - text: $-240\ \mathrm{N}$, but only while both are moving, because the law is about motion
+        feedback: |
+          The law holds at every instant, moving or at rest. A hand pushing a wall that does not move still feels the equal and opposite push of the wall.
+    explanation: |
+      $\mathbf{F}_{21} = -\mathbf{F}_{12} = -240\ \mathrm{N}$. Skater 1 gets $a = 240/40 = 6\ \mathrm{m/s^2}$ from the one force on it, skater 2 gets $240/60 = 4\ \mathrm{m/s^2}$ in the opposite direction. The forces cancel only in the **sum** over the pair, which is why $\dot{\mathbf{P}} = 0$.
+
+  - type: widget
+    id: p2-rope
+    title: A rope pulls one skater
+    widget: two-body-push
+    config:
+      m1: 40
+      m2: 60
+      J: 120
+      T: 0.5
+      pulse: rect
+      tmax: 2
+      ext: 0
+      sliders: [J, ext]
+      ranges: { J: [0, 200, 20], ext: [0, 40, 20] }
+      readouts: [p1, p2, P, v1, v2]
+      units: { mass: kg, momentum: 'kg m/s', speed: m/s, force: N, impulse: 'N s' }
+      labels: { body1: '1', body2: '2', ext: 'Rope force on skater 1 (N)' }
+    body: |
+      The same skaters and the same push, but now a rope pulls skater 1 with a steady force $F^{\text{ext}}$ forward during the whole $2\ \mathrm{s}$ window (shown by the extra arrow). Skater 2 feels no rope. Set $F^{\text{ext}} = 20\ \mathrm{N}$, then change $J$ and watch the total momentum $P = p_1 + p_2$.
+
+  - type: numeric
+    id: p2-P
+    prompt: |
+      Two skaters (masses $40\ \mathrm{kg}$ and $60\ \mathrm{kg}$) start at rest on frictionless ice, push apart, and during the whole $2\ \mathrm{s}$ a rope pulls skater 1 with a steady external force of $20\ \mathrm{N}$ in the $+x$ direction. The external force on skater 2 is zero. Using $\dot{\mathbf{P}} = \mathbf{F}^{\text{ext}}$, what is the total momentum $P$ of the pair after $2\ \mathrm{s}$, in $\mathrm{kg\,m/s}$?
+    answer: 40
+    tolerance: 0.1
+    answerText: '40'
+    wrong:
+      - { value: 0, feedback: 'The pair''s push is internal, but the rope is external. $P$ changes at the rate $F^{\text{ext}} = 20\ \mathrm{N}$.' }
+      - { value: 160, feedback: 'That is the momentum of skater 1 alone ($120 + 40$). The total $P$ also includes skater 2, whose momentum is $-120$.' }
+    hint: |
+      The internal pair of forces drops out of $\dot P$. Only the rope counts, for $2\ \mathrm{s}$.
+    explanation: |
+      $P = F^{\text{ext}}\,t = 20 \times 2 = 40\ \mathrm{kg\,m/s}$, whatever the push did inside the pair.
+
+  - type: numeric
+    id: p2-v1
+    prompt: |
+      Two skaters (masses $40\ \mathrm{kg}$ and $60\ \mathrm{kg}$) start at rest and push apart with impulse $J = 120\ \mathrm{N\,s}$ (skater 1 gets $+120$, skater 2 gets $-120\ \mathrm{kg\,m/s}$). During the $2\ \mathrm{s}$ a rope also pulls skater 1 with a steady $20\ \mathrm{N}$. What is the velocity of skater 1 after $2\ \mathrm{s}$, in $\mathrm{m/s}$?
+    answer: 4
+    tolerance: 0.01
+    answerText: '4'
+    wrong:
+      - { value: 3, feedback: 'That is the speed from the push alone. The rope adds momentum $20 \times 2 = 40\ \mathrm{kg\,m/s}$ to skater 1.' }
+      - { value: 1, feedback: 'You divided the total momentum $P = 40$ by the mass $40\ \mathrm{kg}$ of skater 1. Skater 1 alone has $p_1 = 120 + 40 = 160$.' }
+    hint: |
+      Skater 1 feels both the push (impulse $+120$) and the rope (impulse $20 \times 2$).
+    explanation: |
+      $p_1 = 120 + 20 \times 2 = 160\ \mathrm{kg\,m/s}$, so $v_1 = 160/40 = 4\ \mathrm{m/s}$. Skater 2 is still at $-120/60 = -2\ \mathrm{m/s}$, and the total is $P = 160 - 120 = 40$, as the law $\dot P = F^{\text{ext}}$ says.
+
+  - type: mcq
+    id: p2-harder
+    prompt: |
+      With the rope still pulling skater 1 with $20\ \mathrm{N}$ for $2\ \mathrm{s}$, the skaters push apart again but twice as hard as before, with impulse $J = 240\ \mathrm{N\,s}$ instead of $120$. After the $2\ \mathrm{s}$, how does the total momentum $P$ of the pair compare?
+    options:
+      - text: The same, $40\ \mathrm{kg\,m/s}$. The push is internal and cancels in the sum
+        correct: true
+      - text: Larger, because a harder push gives skater 1 more momentum
+        feedback: |
+          Skater 1 does get more momentum, but skater 2 gets the same amount with the opposite sign. In the sum $P = p_1 + p_2$ they cancel, whatever $J$ is.
+      - text: Zero, because a harder push makes the pair fly apart symmetrically
+        feedback: |
+          The pair does move symmetrically about what the push gives them, but the rope still adds $20 \times 2 = 40\ \mathrm{kg\,m/s}$ from outside. The external force does not vanish with a stronger push.
+      - text: Smaller, because the skaters use up momentum in pushing
+        feedback: |
+          Momentum is not used up by a push: pushing moves momentum from one body to the other, and the total stays what the external force gave.
+    explanation: |
+      $\dot{\mathbf{P}} = \mathbf{F}^{\text{ext}}$ contains no internal force, so $P = 40\ \mathrm{kg\,m/s}$ for any $J$. Try $J = 200$ in the picture: $v_1$ and $v_2$ change, $P$ does not.
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: widget
+    id: p3-setup
+    title: 'Problem 3: a bead forced along a spiral'
+    widget: polar-motion
+    config:
+      r0: 0.5
+      rd0: 1
+      rdd: 0
+      w0: 2
+      alpha: 0
+      tmax: 1
+      scale: 70
+      vscale: 25
+      ascale: 10
+      sliders: []
+      show:
+        unit: true
+        termArrows: false
+        velocity: true
+        accel: true
+        position: true
+        scrub: true
+      readouts: [r, vr, vphi, ar, aphi]
+      units: { length: m, time: s }
+    body: |
+      A bead of mass $0.1\ \mathrm{kg}$ is guided in a horizontal plane, in polar coordinates $(r, \varphi)$ about the origin $O$, so that
+      $$r = 0.5 + t, \qquad \varphi = 2t$$
+      with $r$ in metres, $\varphi$ in radians and $t$ in seconds. The picture shows this path. Slide the time bar and watch the arrows: velocity along the path, and acceleration with its two components. Then work out the real case at $t = 1\ \mathrm{s}$: $r = 1.5\ \mathrm{m}$, $\dot r = 1\ \mathrm{m/s}$, $\dot\varphi = 2\ \mathrm{rad/s}$, $\ddot r = 0$, $\ddot\varphi = 0$.
+
+  - type: numeric
+    id: p3-speed
+    prompt: |
+      A bead moves in a plane with $r = 1.5\ \mathrm{m}$, $\dot r = 1\ \mathrm{m/s}$, $\dot\varphi = 2\ \mathrm{rad/s}$. Its velocity is $\mathbf{v} = \dot r\,\hat{\mathbf{r}} + r\dot\varphi\,\hat{\boldsymbol{\varphi}}$. What is its speed $|\mathbf{v}|$, in $\mathrm{m/s}$?
+    answer: 3.162
+    tolerance: 0.01
+    answerText: '3.162'
+    wrong:
+      - { value: 4, feedback: 'You added the two components, $1 + 3$. They are perpendicular ($\hat{\mathbf r} \perp \hat{\boldsymbol\varphi}$), so the speed is the square root of the sum of their squares.' }
+      - { value: 3, feedback: 'That is only the $\hat{\boldsymbol\varphi}$ component $r\dot\varphi = 3$. The bead is also moving outward at $\dot r = 1\ \mathrm{m/s}$.' }
+      - { value: 2, feedback: 'The angular rate $\dot\varphi$ is in radians per second, not a speed. The sideways speed is $r\dot\varphi$, the arc length per second.' }
+    hint: |
+      Components: $v_r = \dot r$ and $v_\varphi = r\dot\varphi$. Combine them with Pythagoras.
+    explanation: |
+      $v_r = 1$, $v_\varphi = 1.5 \times 2 = 3$ (both in $\mathrm{m/s}$), so
+      $$|\mathbf{v}| = \sqrt{1^2 + 3^2} = \sqrt{10} \approx 3.162\ \mathrm{m/s}.$$
+
+  - type: numeric
+    id: p3-ar
+    prompt: |
+      A bead moves in a plane with $r = 1.5\ \mathrm{m}$, $\dot r = 1\ \mathrm{m/s}$, $\ddot r = 0$, $\dot\varphi = 2\ \mathrm{rad/s}$, $\ddot\varphi = 0$. Its radial acceleration is $a_r = \ddot r - r\dot\varphi^2$. What is $a_r$, in $\mathrm{m/s^2}$?
+    answer: -6
+    tolerance: 0.001
+    answerText: '-6'
+    wrong:
+      - { value: 6, feedback: 'The sign is flipped. The term $-r\dot\varphi^2$ points toward the origin, and $\hat{\mathbf r}$ points away, so the component is negative.' }
+      - { value: 0, feedback: '$\ddot r = 0$ removes only the first term. The turning of the direction of motion still needs an inward acceleration, $-r\dot\varphi^2$.' }
+      - { value: -3, feedback: 'You took $r\dot\varphi$ instead of $r\dot\varphi^2$. The angular rate is squared: $1.5 \times 2^2 = 6$.' }
+    hint: |
+      Put the numbers into the formula: $0 - 1.5 \times 2^2$.
+    explanation: |
+      $$a_r = \ddot r - r\dot\varphi^2 = 0 - 1.5 \times 4 = -6\ \mathrm{m/s^2}.$$
+
+  - type: numeric
+    id: p3-aphi
+    prompt: |
+      A bead moves in a plane with $r = 1.5\ \mathrm{m}$, $\dot r = 1\ \mathrm{m/s}$, $\dot\varphi = 2\ \mathrm{rad/s}$, $\ddot\varphi = 0$ (a steady turn rate). Its angular-direction acceleration is $a_\varphi = r\ddot\varphi + 2\dot r\dot\varphi$. What is $a_\varphi$, in $\mathrm{m/s^2}$?
+    answer: 4
+    tolerance: 0.001
+    answerText: '4'
+    wrong:
+      - { value: 0, feedback: 'A steady turn rate ($\ddot\varphi = 0$) removes only the first term. The second, $2\dot r\dot\varphi$, comes from moving outward while turning, and it is not zero.' }
+      - { value: 2, feedback: 'You dropped the factor $2$ in $2\dot r\dot\varphi$. Two effects add up: the outward motion carries the bead to where the sideways speed $r\dot\varphi$ is larger, and the direction of the outward velocity itself turns.' }
+    hint: |
+      With $\ddot\varphi = 0$ only $2\dot r\dot\varphi$ is left.
+    explanation: |
+      $$a_\varphi = r\ddot\varphi + 2\dot r\dot\varphi = 0 + 2 \times 1 \times 2 = 4\ \mathrm{m/s^2}.$$
+      The bead needs a sideways force even though its turn rate is steady.
+
+  - type: build
+    id: p3-fphi
+    prompt: |
+      A bead of mass $m$ moves in a plane. Build the second law along $\hat{\boldsymbol\varphi}$ in polar coordinates.
+    prefix: 'F_\varphi ='
+    tiles: ['m\,(', 'r\ddot\varphi', '+', '2\dot r\dot\varphi', ')', '-', 'r\dot\varphi^2', '\dot r\dot\varphi']
+    answers:
+      - ['m\,(', 'r\ddot\varphi', '+', '2\dot r\dot\varphi', ')']
+      - ['m\,(', '2\dot r\dot\varphi', '+', 'r\ddot\varphi', ')']
+    wrong:
+      - { answer: ['m\,(', 'r\ddot\varphi', '+', '\dot r\dot\varphi', ')'], feedback: 'The factor $2$ is missing: the cross term is $2\dot r\dot\varphi$.' }
+      - { answer: ['m\,(', 'r\ddot\varphi', '-', 'r\dot\varphi^2', ')'], feedback: 'That mixes the $\hat{\mathbf r}$ term $-r\dot\varphi^2$ into the angular component. The centripetal term belongs to $F_r$.' }
+    hint: |
+      The angular component is $m$ times $a_\varphi = r\ddot\varphi + 2\dot r\dot\varphi$.
+    explanation: |
+      $$F_\varphi = m\,(r\ddot\varphi + 2\dot r\dot\varphi),$$
+      and the radial one is $F_r = m\,(\ddot r - r\dot\varphi^2)$.
+
+  - type: mcq
+    id: p3-force
+    prompt: |
+      A bead of mass $0.1\ \mathrm{kg}$ is guided along $r = 0.5 + t$, $\varphi = 2t$, which at $t = 1\ \mathrm{s}$ has $a_r = -6\ \mathrm{m/s^2}$ and $a_\varphi = 4\ \mathrm{m/s^2}$. Which force $(F_r, F_\varphi)$ must the guide exert on the bead then?
+    options:
+      - text: $(-0.6,\ +0.4)\ \mathrm{N}$
+        correct: true
+      - text: $(0,\ 0)$, because $\dot r$ and $\dot\varphi$ are constant
+        feedback: |
+          A constant $\dot r$ and $\dot\varphi$ does not mean a constant velocity. The direction of the velocity turns, and in polar components that shows up as $-r\dot\varphi^2$ and $2\dot r\dot\varphi$. Both are nonzero.
+      - text: $(-0.6,\ 0)$, because $\ddot\varphi = 0$ means no sideways force
+        feedback: |
+          $\ddot\varphi = 0$ removes only $r\ddot\varphi$ from $a_\varphi$. The term $2\dot r\dot\varphi = 4$ is still there, so $F_\varphi = 0.1 \times 4 = 0.4\ \mathrm{N}$.
+      - text: $(+0.6,\ +0.4)\ \mathrm{N}$
+        feedback: |
+          The radial force must point toward the origin to keep the bead turning, so $F_r$ is negative: $0.1 \times (-6) = -0.6\ \mathrm{N}$.
+    explanation: |
+      $F_r = m a_r = 0.1 \times (-6) = -0.6\ \mathrm{N}$ (toward $O$) and $F_\varphi = m a_\varphi = 0.1 \times 4 = 0.4\ \mathrm{N}$ (along the direction of increasing $\varphi$).
+
+  - type: numeric
+    id: p3-free
+    prompt: |
+      A free particle (no force) moves in a straight line. At one instant it is at $r = 5\ \mathrm{m}$ with $\dot r = 1.6\ \mathrm{m/s}$ and $\dot\varphi = 0.24\ \mathrm{rad/s}$, and its radial acceleration is $\ddot r = 0.288\ \mathrm{m/s^2}$ (check: $a_r = \ddot r - r\dot\varphi^2 = 0$). With no force, $a_\varphi = r\ddot\varphi + 2\dot r\dot\varphi = 0$ too. What is $\ddot\varphi$, in $\mathrm{rad/s^2}$?
+    answer: -0.1536
+    tolerance: 0.002
+    answerText: '-0.1536'
+    wrong:
+      - { value: 0, feedback: 'With no force, $a_\varphi = 0$, not $\ddot\varphi = 0$. The term $2\dot r\dot\varphi = 0.768$ must be cancelled by $r\ddot\varphi$.' }
+      - { value: 0.1536, feedback: 'The sign is flipped. $r\ddot\varphi = -2\dot r\dot\varphi$, so $\ddot\varphi$ is negative: the turn rate slows as the particle moves away from the origin.' }
+      - { value: -0.768, feedback: 'You forgot to divide by $r = 5$. Solve $r\ddot\varphi + 0.768 = 0$ for $\ddot\varphi$.' }
+    hint: |
+      Set $r\ddot\varphi + 2\dot r\dot\varphi = 0$ and solve for $\ddot\varphi$.
+    explanation: |
+      $$\begin{aligned} 2\dot r\dot\varphi &= 2 \times 1.6 \times 0.24 = 0.768 \\ \ddot\varphi &= -\frac{0.768}{5} = -0.1536\ \mathrm{rad/s^2}. \end{aligned}$$
+      Also, $r\dot\varphi^2 = 5 \times 0.0576 = 0.288 = \ddot r$, so $a_r = 0$ as stated.
+
+  - type: mcq
+    id: p3-freeq
+    prompt: |
+      In polar coordinates a free particle, with no force, moves in a straight line past the origin without passing through it. Which statement is true?
+    options:
+      - text: Its $a_r$ and $a_\varphi$ are zero, yet $\ddot r$ and $\ddot\varphi$ are not zero
+        correct: true
+      - text: $\ddot r = 0$ and $\ddot\varphi = 0$, since with no force nothing changes
+        feedback: |
+          Nothing changes in the **velocity vector**, but $r$ and $\varphi$ are measured from a point and an axis, and the directions $\hat{\mathbf r}$ and $\hat{\boldsymbol\varphi}$ turn. The second derivatives of the coordinates are not the acceleration components.
+      - text: $a_r$ is zero, but $a_\varphi$ is not, because the angle changes
+        feedback: |
+          Both components of the acceleration vanish for a free particle, since the vector is zero. The coordinate $\varphi$ changes, but $a_\varphi = r\ddot\varphi + 2\dot r\dot\varphi$ is zero because $\ddot\varphi$ cancels the cross term.
+      - text: $F_r$ and $F_\varphi$ are not zero, so a force must act when the angle changes
+        feedback: |
+          The force is a vector, $\mathbf{F} = 0$, so both components vanish. A changing angle only shows that the direction of $\hat{\boldsymbol\varphi}$ turns.
+    explanation: |
+      $F_r = m(\ddot r - r\dot\varphi^2) = 0$ forces $\ddot r = r\dot\varphi^2 \neq 0$, and $F_\varphi = 0$ forces $\ddot\varphi = -2\dot r\dot\varphi/r \neq 0$. A free straight line has zero force and zero acceleration, but nonzero second derivatives of the polar coordinates. This is why polar $F = ma$ has the extra terms.
+
+  # ---------------------------------------------------------------- Close
+  - type: text
+    id: part1-close
+    title: What you now own
+    body: |
+      Three problems, three habits.
+
+      - **Check the frame first.** In a frame whose origin accelerates, $\mathbf{a}' = \mathbf{a} - \ddot{\mathbf{R}}$, and $\mathbf{F} = m\mathbf{a}'$ fails: the "force" $m\mathbf{a}'$ has no body behind it. Do the physics in an inertial frame and subtract at the end.
+      - **Third law, then sum.** $\mathbf{F}_{12} = -\mathbf{F}_{21}$ acts on two bodies, so the pair cancels only in the total: $\dot{\mathbf{P}} = \mathbf{F}^{\text{ext}}$, whatever the push inside.
+      - **Polar components.** $F_r = m(\ddot r - r\dot\varphi^2)$ and $F_\varphi = m(r\ddot\varphi + 2\dot r\dot\varphi)$. Steady $\dot r$ and $\dot\varphi$ still need a force, and zero force still gives nonzero $\ddot r$ and $\ddot\varphi$.
+
+      **Next (part 2):** a block on an incline with friction, and a problem that combines several of these ideas at once.

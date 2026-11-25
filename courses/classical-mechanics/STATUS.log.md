@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-24 ch02-challenge part 1 (problems 1-3, autonomous)
+Built `ch02/challenge.yaml` (26 cards, validate 0/0, shots 0 problems): intro toolkit card, P1 crate on a cart with R-ddot = +1.5 (a', inferred force, friction 3 N, mu_s limit 3.92, slip at R-ddot = 5 with mu_k 0.3), P2 skaters 40 and 60 kg (two-body-push x2: push, then rope 20 N on skater 1; P = 40), P3 bead r = 0.5 + t, phi = 2t (polar-motion, build card for F_phi, free line phi-ddot = -0.1536), plain "part1-close" card (to be replaced by the final card when part 2 is written). Widget decision: no new widget; two-body-push and polar-motion reused, each viewed once (labels shortened to 1 and 2 after overlap). Images: none (no person or experiment needing a picture). No web facts. Conventions fixed here: skaters 40 kg and 60 kg, push J = 120 N s over 0.5 s (240 N), rope 20 N for 2 s; cart R-ddot = 1.5 m/s^2, crate 2 kg, mu_s 0.4, mu_k 0.3; bead 0.1 kg on r = 0.5 + t, phi = 2t.
+
 ## 2026-11-24 ch02-map (Level 2 content map, autonomous)
 Built `ch02/map.yaml`: 9 boxes (frames, first law, second law; accelerating frames, third law, cartesian incline; total momentum, polar acceleration, polar unit vectors), 2 decoys each, 11 cards. No archive map existed; boxes follow the level's lessons. No widget, no exam rule applies. Images: none: a map card needs none. Displayed formulas split to one per line in the frames and incline boxes (phone overflow flagged by shots). Conventions fixed here: none new.
 
