@@ -27,7 +27,8 @@
 - **Built:** `ch02-challenge` part 1 (26 cards: crate on accelerating cart, two skaters with a rope (two-body-push x2), bead on a spiral (polar-motion); problems 4-5: block launched up a rough slope (incline-block), puck on a string; final plain card). **Level 2 challenge complete (32 cards).**
 - **Level 2 audited (2026-11-25):** formulas re-rendered (Taylor PDF 37, 41), validate clean; no fixes needed.
 - **Widget `drag-fall` built** (docs/widgets/drag-fall.md): falling or thrown body, law switch none / linear / quad / both, weight and drag arrows, v(t) and y(t), terminal-speed line, readouts incl. f_quad/f_lin = cv/b.
-- **Next unit:** `ch03-drag` (Air Resistance, concept, uses drag-fall).
+- **Built:** `ch03-drag` (Level 3, concept, 21 cards, drag-fall x2, no image).
+- **Next unit:** `ch03-linear-drag` (Linear Drag and Terminal Speed, concept, Taylor 2.2, drag-fall presets linear).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.

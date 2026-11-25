@@ -1,0 +1,348 @@
+id: ch03-drag
+title: Air Resistance
+kind: concept
+own: |
+  Setting: a body of mass $m$ moves through air (or another gas or liquid) with velocity $\mathbf{v}$ and speed $v = |\mathbf{v}|$. Its weight is $\mathbf{w} = m\mathbf{g}$, and the medium pushes back on it with a drag force $\mathbf{f}$. We take drag to oppose the motion, which is true for a non-rotating sphere and a good approximation for many bodies, but not for a wing, which also feels sideways lift.
+  - **Direction and size.** With $\hat{\mathbf{v}} = \mathbf{v}/|\mathbf{v}|$ the unit vector along the velocity and $f(v)$ the magnitude of the drag:
+    {{ $$\mathbf{f} = -f(v)\,\hat{\mathbf{v}}$$ }}
+  - **Two terms.** At lower speeds the magnitude is well approximated by a linear and a quadratic part, with constants $b$ and $c$ that depend on the body and the medium:
+    {{ $$f(v) = bv + cv^2 = f_{\text{lin}} + f_{\text{quad}}$$ }}
+    $$f_{\text{lin}} = bv, \qquad f_{\text{quad}} = cv^2$$
+    The linear term comes from the viscous drag of the medium (it grows with the viscosity and the size of the body). The quadratic term comes from the body having to accelerate the air it keeps hitting (it grows with the density of the medium and the cross-sectional area of the body).
+  - **A sphere** of diameter $D$ has
+    {{ $$b = \beta D, \qquad c = \gamma D^2$$ }}
+    where $\beta$ and $\gamma$ depend on the medium. For a sphere in air at standard temperature and pressure, $\beta = 1.6\times10^{-4}\ \mathrm{N\,s/m^2}$ and $\gamma = 0.25\ \mathrm{N\,s^2/m^4}$.
+  - **Which term wins** is decided by the ratio, which grows with the speed and the size. For a sphere in air:
+    {{ $$\frac{f_{\text{quad}}}{f_{\text{lin}}} = \frac{cv^2}{bv} = \frac{\gamma D}{\beta}\,v$$ }}
+    $$\frac{f_{\text{quad}}}{f_{\text{lin}}} = \left(1.6\times10^{3}\ \frac{\mathrm{s}}{\mathrm{m}^2}\right) D v$$
+    Far above 1 (a baseball at 5 m/s: about 600) drop $f_{\text{lin}}$; far below 1 (an oil droplet, about $10^{-7}$) drop $f_{\text{quad}}$; near 1 (a raindrop of 1 mm at 0.6 m/s) keep both.
+cards:
+  - type: text
+    id: hook
+    title: A fall that does not end in a bang
+    body: |
+      Let a drop of water fall from a height of 1 km. With no air, a body falling that far would arrive at
+
+      $$\begin{aligned} v &= \sqrt{2gh} \\ &= \sqrt{2 \times 9.8 \times 1000}\ \mathrm{m/s} \\ &\approx 140\ \mathrm{m/s}, \end{aligned}$$
+
+      about 500 km/h, and a drop would hit like a pellet. Raindrops do not. Something in the air takes the speed away, and by the end of the fall the drop is no longer speeding up.
+
+      In this lesson we ask what that something looks like as a force, and which of its pieces matters for a given body. Before any theory, make a guess.
+
+  - type: mcq
+    id: guess
+    prompt: |
+      A body moves through air. The air pushes back on it with a **drag** force. As the body's speed grows, what happens to the size of the drag?
+    options:
+      - text: It grows
+        correct: true
+      - text: It stays the same, since the air is the same air
+        feedback: |
+          If drag had a fixed size, a fast cyclist and a slow one would feel the same push from the air. Anyone who has ridden a bicycle knows the wind in your face gets much stronger as you go faster.
+      - text: It shrinks, because the air has less time to act
+        feedback: |
+          A fast body meets more air per second and pushes it aside harder, so the air pushes back harder, not less.
+      - text: It is zero until the body goes faster than sound
+        feedback: |
+          Drag is present at every speed above zero. Near the speed of sound it gets more complicated, but it does not switch on there.
+    explanation: |
+      The drag depends on the speed, and it grows with it. How exactly it grows is what the rest of the lesson pins down.
+
+  - type: widget
+    id: fall-one
+    title: Falling with and without air
+    widget: drag-fall
+    config:
+      law: linear
+      laws: [none, linear]
+      m: 1
+      b: 1
+      tmax: 4
+      sliders: [b]
+      ranges: { b: [0.2, 3, 0.1] }
+      axes: { v: [0, 40], y: [0, 80] }
+      readouts: [speed, drag]
+      show: { freefall: true, terminal: true, net: true }
+      units: { force: N, speed: m/s, distance: m, time: s, mass: kg, b: 'kg/s' }
+    body: |
+      A body of mass $m = 1\ \mathrm{kg}$ is released from rest. The grey dashed curves show a fall with no air. The coloured curves show the fall with a drag force that grows in proportion to the speed, $f = bv$, with the strength $b$ on a slider. The arrows on the body are its weight, the drag and their sum.
+
+      **Try:** press Release with the drag switched off, then on. Then change $b$ and release again, and watch the speed curve and the drag arrow.
+
+  - type: mcq
+    id: fall-one-q
+    review: false
+    prompt: |
+      A body falls from rest, with drag that grows with its speed. Compared with the fall in a vacuum, what does its speed do as time goes on?
+    options:
+      - text: It stops climbing and levels off at a fixed value
+        correct: true
+      - text: It keeps growing at the same rate as in a vacuum, only a little slower at first
+        feedback: |
+          The curve with drag bends away from the dashed vacuum line more and more, and it flattens out. A drag that merely shaved off a constant amount would not do that.
+      - text: It rises and then falls back to zero
+        feedback: |
+          The body is still falling at every instant. Drag slows its gain in speed, but it never turns the fall into a stop.
+      - text: It oscillates up and down around a fixed value
+        feedback: |
+          Drag only opposes the motion. It has no way to push the body back past the value it settles at, so the curve approaches it from one side.
+    explanation: |
+      The speed climbs quickly at first, then flattens. The next two cards say why, in terms of forces.
+
+  - type: text
+    id: net-force
+    title: The net force while falling
+    body: |
+      Take **down as positive**. A body of mass $m$ falling in air feels two forces along the vertical line: its weight $mg$ pulling down, and the drag $f$ pushing up against the motion. Newton's second law then reads
+
+      $$m\dot v = mg - f(v).$$
+
+      Here $\dot v$ is the rate at which the speed grows and $f(v)$ is the size of the drag at speed $v$.
+
+      Release the body at rest. At $v = 0$ there is no drag, so the net force is the whole weight. As $v$ grows, $f(v)$ grows, and the net force $mg - f(v)$ shrinks. The drag grows while the weight does not.
+
+  - type: mcq
+    id: equilibrium
+    prompt: |
+      A body falls in air. At some speed the drag $f(v)$ grows until it equals the weight $mg$. What does the body do from then on?
+    options:
+      - text: It keeps moving down at that constant speed
+        correct: true
+      - text: It stops, because the net force is zero
+        feedback: |
+          A zero net force means zero acceleration, not zero velocity. By the first law a body with no net force keeps whatever velocity it has, here the downward one.
+      - text: It keeps speeding up, because gravity is always there
+        feedback: |
+          Gravity is still there, but so is a drag that exactly cancels it. The acceleration is the net force over $m$, which is zero.
+      - text: It starts to rise, because the drag now wins
+        feedback: |
+          At this speed the two forces are equal, not unequal. For the drag to win, the speed would have to grow beyond this value, which needs an acceleration that the zero net force does not give.
+    explanation: |
+      Equal forces give $\dot v = 0$: the speed stays at the value where $f(v) = mg$. This is why the fall in the widget levels off. The speed reached has a name, the **terminal speed**, and later lessons compute it.
+
+  - type: text
+    id: origins
+    title: Where the drag comes from
+    body: |
+      The force the medium puts on a moving body has two quite different origins, and a body usually feels both.
+
+      The first is the **viscous drag** of the medium, its stickiness. It grows with the viscosity of the medium and with the linear size of the body.
+
+      The second comes from the body having to **accelerate the air it keeps colliding with**: it pushes the air out of its way and gives it speed. It grows with the density of the medium and with the cross-sectional area of the body.
+
+      We shall see that the first is proportional to the speed and the second to its square.
+
+  - type: mcq
+    id: origins-q
+    prompt: |
+      A smooth ball moves through air. Which description fits the part of the drag that comes from the ball accelerating the air it hits?
+    options:
+      - text: It grows with the density of the air and the cross-sectional area of the ball
+        correct: true
+      - text: It grows with the viscosity of the air and the diameter of the ball
+        feedback: |
+          Those are the ingredients of the viscous part, the stickiness of the fluid. The part from pushing air aside is about how much air is in the way, which is density and area.
+      - text: It does not depend on the air at all, only on the speed of the ball
+        feedback: |
+          Both pieces depend on the medium. A ball moving at the same speed in a denser gas pushes aside more mass per second and feels more drag.
+      - text: It grows with the weight of the ball
+        feedback: |
+          The weight of the ball is a different force, pulling down. The size of the drag is set by the medium and the shape and size of the body, not by its mass.
+    explanation: |
+      Density times area counts how much air is hit. The viscous piece instead counts stickiness and size. The next cards write each piece as a formula.
+
+  - type: text
+    id: vector-form
+    title: Drag points against the velocity
+    body: |
+      Write $\mathbf{v}$ for the velocity of the body and $v = |\mathbf{v}|$ for its speed. Let $\hat{\mathbf{v}} = \mathbf{v}/|\mathbf{v}|$ (read "v hat") be the unit vector along the velocity. We assume the drag $\mathbf{f}$ points exactly opposite to $\mathbf{v}$:
+
+      $$\mathbf{f} = -f(v)\,\hat{\mathbf{v}}.$$
+
+      Here $f(v)$ is the **magnitude** of the drag, a number that depends on the speed, and the minus sign says it opposes the motion.
+
+      This holds exactly for a non-rotating sphere and is a good approximation for many bodies. It fails for some: the air on an airplane wing has a large sideways part, the lift, without which no airplane would fly. We consider only bodies where any sideways force is zero or small enough to neglect.
+
+  - type: build
+    id: vector-form-q
+    prompt: |
+      Build the drag force on a body of velocity $\mathbf{v}$, using the magnitude $f(v)$ and the unit vector $\hat{\mathbf{v}}$.
+    prefix: '\mathbf{f} ='
+    tiles: ['-', 'f(v)', '\hat{\mathbf{v}}', '\mathbf{v}']
+    answers:
+      - ['-', 'f(v)', '\hat{\mathbf{v}}']
+    wrong:
+      - { answer: ['f(v)', '\hat{\mathbf{v}}'], feedback: 'This points along the velocity, so it would push the body forward and speed it up. Drag must carry the minus sign.' }
+      - { answer: ['-', 'f(v)', '\mathbf{v}'], feedback: 'Multiplying the magnitude $f(v)$ by the velocity vector, not the unit vector, gives the wrong size: the result has an extra factor of the speed. Use the unit vector to give only the direction.' }
+    hint: A magnitude, times a direction of length one, with the sign that makes it oppose the motion.
+    explanation: |
+      $\mathbf{f} = -f(v)\hat{\mathbf{v}}$: the size $f(v)$, the direction $\hat{\mathbf{v}}$ of the velocity, and a minus sign.
+
+  - type: text
+    id: two-terms
+    title: Two terms, linear and quadratic
+    body: |
+      How big is $f(v)$? It varies in a complicated way with $v$, especially near the speed of sound. At lower speeds a good approximation is
+
+      $$f(v) = bv + cv^2 = f_{\text{lin}} + f_{\text{quad}},$$
+
+      with a **linear term** and a **quadratic term**
+
+      $$f_{\text{lin}} = bv \qquad \text{and} \qquad f_{\text{quad}} = cv^2.$$
+
+      The constants $b$ and $c$ depend on the body and the medium. Since $bv$ is a force, $b$ is a force per speed, with units $\mathrm{N\,s/m}$, and $c$ is a force per speed squared, $\mathrm{N\,s^2/m^2}$.
+
+      Why these two terms and no others? Any reasonable function of $v$ can be expanded in powers, $f = a + bv + cv^2 + \cdots$. There is no drag at rest, so $f = 0$ at $v = 0$ and the constant $a$ is zero. For low enough $v$ the first two terms that survive are enough. The two origins of drag (viscous, and pushing air aside) correspond to these terms: the viscous piece is $bv$, the air-pushing piece is $cv^2$.
+
+  - type: text
+    id: sphere
+    title: A sphere in air
+    body: |
+      For a sphere (a cannonball, a baseball, a drop of rain) of diameter $D$, the constants take the form
+
+      $$b = \beta D \qquad \text{and} \qquad c = \gamma D^2.$$
+
+      The coefficients $\beta$ (Greek beta) and $\gamma$ (gamma) depend on the medium. For a sphere in air at standard temperature and pressure they have the approximate values
+
+      $$\beta = 1.6\times10^{-4}\ \mathrm{N\,s/m^2},$$
+
+      $$\gamma = 0.25\ \mathrm{N\,s^2/m^4}.$$
+
+      Those numbers are only valid for a sphere in air at standard temperature and pressure. Still, they give a rough idea of the size of drag on non-spherical bodies and in other gases. The powers of $D$ match the origins: viscous drag grows with the size, and pushing air aside grows with the area, which goes as $D^2$.
+
+  - type: numeric
+    id: sphere-q
+    prompt: |
+      A sphere of diameter $D$ moves through air at a given speed, and its quadratic drag is $f_{\text{quad}} = cv^2$ with $c = \gamma D^2$. A second sphere has twice the diameter and the same speed. By what factor is its quadratic drag larger?
+    answer: 4
+    tolerance: 0.001
+    wrong:
+      - { value: 2, feedback: 'A factor 2 is how the linear drag scales, because $b = \beta D$ is proportional to $D$. The quadratic drag has $c = \gamma D^2$, so it scales with the square of the diameter.' }
+      - { value: 8, feedback: 'That is $D^3$, the scaling of the volume (and so of the mass). The drag from pushing air aside goes with the cross-sectional area, $D^2$.' }
+    hint: Put $D \to 2D$ in $c = \gamma D^2$ and keep $v$ the same.
+    explanation: |
+      $c = \gamma D^2 \to \gamma(2D)^2 = 4c$, so $f_{\text{quad}}$ is four times larger, while $f_{\text{lin}} = \beta D\,v$ would only double. This difference between the two terms is the reason size matters for which term wins.
+
+  - type: widget
+    id: fall-two
+    title: Which term wins?
+    widget: drag-fall
+    config:
+      law: both
+      laws: [both]
+      m: 1
+      b: 1
+      c: 0.3
+      tmax: 4
+      sliders: [b, c]
+      ranges: { b: [0.5, 3, 0.1], c: [0.05, 1, 0.05] }
+      axes: { v: [0, 12], y: [0, 40] }
+      readouts: [speed, lin, quad, ratio]
+      show: { terminal: true, net: false }
+      units: { force: N, speed: m/s, distance: m, time: s, mass: kg, b: 'kg/s', c: 'kg/m' }
+    body: |
+      A body of mass $m = 1\ \mathrm{kg}$ falls from rest with both drag terms, $f = bv + cv^2$. The readouts give the linear term $f_{\text{lin}} = bv$, the quadratic term $f_{\text{quad}} = cv^2$ and their ratio $f_{\text{quad}}/f_{\text{lin}}$. (The numbers $b$ and $c$ are those of a toy body, not of a real sphere.)
+
+      **Try:** press Release and watch the ratio as the speed grows. Then change $b$ and $c$.
+
+  - type: mcq
+    id: fall-two-q
+    review: false
+    prompt: |
+      A body is released from rest with drag $f = bv + cv^2$, as in the widget. Right after the release, when $v$ is still very small, which term of the drag is larger?
+    options:
+      - text: The linear term $bv$, since $v^2$ is much smaller than $v$ when $v$ is small
+        correct: true
+      - text: The quadratic term $cv^2$, since a square is always the stronger term
+        feedback: |
+          A square beats the first power only when $v$ is large. For $v < 1$ (in the units of the constants) the square is smaller. The ratio $cv^2/bv = cv/b$ starts at zero.
+      - text: Both are equal, because both are zero at $v = 0$
+        feedback: |
+          Both vanish at $v = 0$, but they vanish at different rates. Their ratio $cv/b$ is zero there, not one, as the readout shows right after release.
+      - text: It depends only on the mass of the body
+        feedback: |
+          The mass does not appear in the ratio $cv/b$. It only affects how quickly the speed builds up, not which term is larger at a given speed.
+    explanation: |
+      The ratio $f_{\text{quad}}/f_{\text{lin}} = cv/b$ grows in proportion to $v$. At low speed the linear term dominates, at high speed the quadratic one does, and in between lies a speed $v = b/c$ where they are equal.
+
+  - type: text
+    id: ratio
+    title: A test for which term to keep
+    body: |
+      Often we can drop one of the two terms, and that makes Newton's second law much easier to solve. To decide which, compare their sizes:
+
+      $$\frac{f_{\text{quad}}}{f_{\text{lin}}} = \frac{cv^2}{bv} = \frac{\gamma D}{\beta}\,v.$$
+
+      Here we used $b = \beta D$ and $c = \gamma D^2$. With the values of $\beta$ and $\gamma$ for a sphere in air this becomes
+
+      $$\frac{f_{\text{quad}}}{f_{\text{lin}}} = \left(1.6\times10^{3}\ \frac{\mathrm{s}}{\mathrm{m}^2}\right) D\,v.$$
+
+      Put in the diameter $D$ (in metres) and the speed $v$ (in m/s). If the ratio is much larger than 1, the quadratic term wins and $f_{\text{lin}}$ can be dropped. If it is much smaller than 1, the linear term wins. If it is about 1, both must be kept.
+
+  - type: numeric
+    id: baseball
+    prompt: |
+      A baseball of diameter $D = 7\ \mathrm{cm}$ travels at a modest $v = 5\ \mathrm{m/s}$. For a sphere in air, $f_{\text{quad}}/f_{\text{lin}} = (1.6\times10^{3}\ \mathrm{s/m^2})\,D\,v$. What is the ratio? (Convert $D$ to metres.)
+    answer: 560
+    tolerance: 40
+    wrong:
+      - { value: 5.6, feedback: 'That uses $D = 7$, in centimetres. The coefficient is in $\mathrm{s/m^2}$, so $D$ must be in metres: $0.07\ \mathrm{m}$.' }
+      - { value: 56, feedback: 'Check the diameter conversion: $7\ \mathrm{cm} = 0.07\ \mathrm{m}$, and $1.6\times10^3 \times 0.07 \times 5$ is a few hundred.' }
+    hint: $D = 0.07\ \mathrm{m}$. Multiply the three numbers.
+    explanation: |
+      $1.6\times10^{3} \times 0.07 \times 5 = 560$, about 600. The linear term is negligible and the drag on the baseball is $\mathbf{f} = -cv^2\hat{\mathbf{v}}$. At 1 m/s the ratio is still around 100, and at higher speeds it is even larger.
+
+  - type: numeric
+    id: raindrop
+    prompt: |
+      A raindrop of diameter $D = 1\ \mathrm{mm}$ moves at $v = 0.6\ \mathrm{m/s}$. For a sphere in air, $f_{\text{quad}}/f_{\text{lin}} = (1.6\times10^{3}\ \mathrm{s/m^2})\,D\,v$. What is the ratio? What does it say about which term can be dropped?
+    answer: 0.96
+    tolerance: 0.05
+    wrong:
+      - { value: 960, feedback: 'The diameter is $1\ \mathrm{mm} = 10^{-3}\ \mathrm{m}$, not $1\ \mathrm{m}$. In metres the product is much smaller.' }
+    hint: $D = 10^{-3}\ \mathrm{m}$.
+    explanation: |
+      $1.6\times10^{3} \times 10^{-3} \times 0.6 \approx 0.96$, about 1. The two terms are comparable and neither can be dropped, which makes solving for the motion harder. For a much larger drop or a much faster one, the linear term would be negligible; for a much smaller or much slower one, the quadratic term would be.
+
+  - type: mcq
+    id: oil
+    prompt: |
+      A tiny oil droplet of diameter $D = 1.5\ \mu\mathrm{m}$ ($1.5\times10^{-6}\ \mathrm{m}$) moves at $v = 5\times10^{-5}\ \mathrm{m/s}$. The ratio $(1.6\times10^{3}\ \mathrm{s/m^2})\,D\,v$ is about $10^{-7}$. Which drag do you keep?
+    options:
+      - text: Only the linear drag, $\mathbf{f} = -b\mathbf{v}$; the quadratic term is negligible
+        correct: true
+      - text: Only the quadratic drag, $\mathbf{f} = -cv^2\hat{\mathbf{v}}$, as for the baseball
+        feedback: |
+          The baseball ratio was far above 1. Here it is about $10^{-7}$, so $f_{\text{quad}}$ is a ten-millionth of $f_{\text{lin}}$.
+      - text: Both, because a droplet is also a sphere in air
+        feedback: |
+          Both terms exist for every sphere, but you keep both only when the ratio is about 1. A ratio of $10^{-7}$ makes the quadratic term totally negligible.
+      - text: Neither, because a droplet that small feels no drag
+        feedback: |
+          The drag is tiny in absolute terms, but the droplet is also tiny, so what matters is the linear term compared with the weight. And the linear term is not negligible against the quadratic one.
+    explanation: |
+      With the quadratic term gone, $\mathbf{f} = -bv\hat{\mathbf{v}} = -b\mathbf{v}$, since $v\hat{\mathbf{v}} = \mathbf{v}$. Very small drops in air, and slightly larger objects in a very viscous fluid such as a ball bearing in molasses, are linear. Golf balls, cannonballs and even a person in free fall are mostly quadratic.
+
+  - type: mcq
+    id: slow-baseball
+    prompt: |
+      A baseball (ratio about 560 at 5 m/s) is lobbed much slower, at 1 m/s. Someone says: "slow means linear drag, so I will use $f = bv$." What is wrong?
+    options:
+      - text: At 1 m/s the ratio is still about 100, so the quadratic term still wins. And at speeds low enough for the terms to be comparable, both are too small to matter
+        correct: true
+      - text: 'Nothing is wrong: below 2 m/s any ball has linear drag'
+        feedback: |
+          There is no such speed limit. The ratio $(1.6\times10^{3})\,D\,v$ depends on the size too, and for a ball of 7 cm at 1 m/s it is about 100.
+      - text: The linear term is always smaller than the quadratic term
+        feedback: |
+          Not always: the ratio $cv/b$ is below 1 whenever $v < b/c$, and for the oil droplet it was $10^{-7}$. For the baseball, though, the ratio stays above 1 over the speeds that matter.
+      - text: The baseball would then have no drag at all
+        feedback: |
+          A slower ball has less drag, but not none. Both terms are small, and the quadratic one is still the larger.
+    explanation: |
+      The ratio $f_{\text{quad}}/f_{\text{lin}}$ falls in proportion to $v$, but for a baseball it is about 100 even at 1 m/s. If the speed were so low that the linear term caught up, both terms would be so small that drag would not matter. So for baseballs and similar objects it is safe to drop $f_{\text{lin}}$ and take $\mathbf{f} = -cv^2\hat{\mathbf{v}}$.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a body with a purely linear drag is the easier problem, and a good one to start with. The lesson "Linear Drag and Terminal Speed" solves $m\dot v = mg - bv$ and shows how the speed approaches its limit.

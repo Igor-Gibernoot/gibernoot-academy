@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-25 ch03-drag (autonomous)
+Built `ch03/drag.yaml` (concept, 21 cards, drag-fall x2: laws none/linear with freefall, then law both with ratio readout; no new widget). Source Taylor 2.1 (PDF 56-58) re-rendered: Eq. 2.4-2.12, Example 2.1 numbers. Choices: widget bodies are toy numbers (m = 1, b = 1, c = 0.3), labelled as not real spheres; no raindrop mass or terminal speed (not in Taylor 2.1, no web fact); "terminal speed" only named, computed next lesson; Reynolds number left out of the cards (kept for the traps/intuition lessons if wanted). Images: none (no free image whose caption could rest on Taylor's text alone). Conventions fixed here: drag form and sphere constants, down positive, toy widget body (see CONVENTIONS Chapter 3).
+
 ## 2026-11-25 Widget drag-fall (no lesson)
 Built `js/widgets/drag-fall.js`, docs/widgets/drag-fall.md, index and README lines. Choices: down positive, v0 negative = thrown up; RK4 at dt 0.002 (matches linear and tanh/coth closed forms to 1e-9 in a script check; v_t = mg/b, sqrt(mg/c), and the root of b v + c v^2 = mg for law both); fixed axes from g, tmax, v0 range and presets (override with `axes`); readout `ratio` = c v / b uses the current b, c whatever the law; projectile mode left out to keep it small. Taylor 2.2-2.3 (f = bv + cv^2 = f_lin + f_quad) checked on the PDF 56 render. Validate clean (636 lessons), screenshot viewed. Conventions fixed here: drag symbols f_lin = b v, f_quad = c v^2 (Taylor), terminal speed v_t.
 
