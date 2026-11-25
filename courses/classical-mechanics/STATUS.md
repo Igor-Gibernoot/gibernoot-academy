@@ -36,7 +36,8 @@
 - **Built:** `ch03-magnetic` (Level 3, concept, 19 cards, charge-field x2, no image).
 - **Built:** `ch03-traps` (Level 3, traps, 16 cards, no widget, no image).
 - **Built:** `ch03-intuition` (Level 3, intuition, 19 cards, no widget, no image).
-- **Next unit:** lesson `ch03-map` (Level 3 content map: drag laws, their solutions, charge in a field).
+- **Built:** `ch03-map` (Level 3 content map, 9 boxes in three columns: linear drag, drag laws, quadratic drag).
+- **Next unit:** `ch03-review` (automatic), then `ch03-challenge` part 1 (problems 1-3).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.

@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-25 ch03-map (autonomous)
+- Built `ch03/map.yaml` (9 boxes, 11 cards: drag and ratio, sphere constants, terminal speed, linear fall, linear coasting, projectile range, tanh fall, quadratic coasting, charge in B). Decoys mirror the traps (swapped tau, wrong eta-dot sign, mg/c, linear shape for quadratic coasting). Validate and shots clean (displayed math split to one formula per line).
+- Conventions fixed here: none new.
+
 ## 2026-11-25 ch03-intuition (autonomous)
 - Built `ch03/intuition.yaml` (19 cards: ratio and terminal-speed scaling MCQs, build cards for linear fall, tanh fall, quadratic coasting, eta equation and radius, limit/scaling MCQs, which-law MCQ, five data-only numeric cards). No widget, no image. Validate clean, shots clean.
 - Conventions fixed here: none new; used the Chapter 3 numbers (m = 0.20 kg, b = 0.05 kg/s mote; q/m = 5.0e7 C/kg, B = 0.20 T problems are lesson data only).
