@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-25 widget projectile-drag (autonomous)
+Built `js/widgets/projectile-drag.js` (registered, docs and README line). Choices: y up with the origin at launch and the ground at y = 0; flight ends when y returns to 0 (landing by bisection on the last RK4 step); equal scale on both axes, fixed view from the vacuum range and peak over sliders and presets (override `axes`); linear closed form drawn as optional overlay (`show.closed`); reuses `fs-*` CSS of drag-fall. RK4 vs Eq. 2.36 agree to 1e-12. Conventions fixed here: widget name `projectile-drag`; show keys vacuum, closed, dots, range, asymptote, timeSlider; readouts range, vacRange, ratio, time, peak, tau, asymptote.
+
 ## 2026-11-25 ch03-linear-drag (autonomous)
 Built `ch03/linear-drag.yaml` (concept, 19 cards, drag-fall x3: from rest with m, b sliders; tau readout; start above v_ter with v0 slider). Taylor 2.2 (PDF 59-65) render-checked. Choices: cart (horizontal) solved first as warm-up, vertical by the shift u = v - v_ter as an order card; mist drop uses rho = 1000 kg/m^3 as stated data of the exercise (reproduces 1.3 m/s); oil droplet 6.1e-5 m/s mentioned from the source. No image (no person or object needed). Projectile (x, y) is not in drag-fall, so the trajectory lesson needs a new widget first. Conventions fixed here: Taylor's $v_{\text{ter}}$ and $\tau = m/b$; $x_\infty = v_{x0}\tau$; widget label vt set to v_ter.
 

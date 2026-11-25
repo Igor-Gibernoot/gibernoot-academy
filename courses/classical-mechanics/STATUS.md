@@ -29,7 +29,8 @@
 - **Widget `drag-fall` built** (docs/widgets/drag-fall.md): falling or thrown body, law switch none / linear / quad / both, weight and drag arrows, v(t) and y(t), terminal-speed line, readouts incl. f_quad/f_lin = cv/b.
 - **Built:** `ch03-drag` (Level 3, concept, 21 cards, drag-fall x2, no image).
 - **Built:** `ch03-linear-drag` (Level 3, concept, 19 cards, drag-fall x3, no image).
-- **Next unit:** widget `projectile-drag` (x-y path with linear or quadratic drag, no lesson), then `ch03-trajectory` (Guided Problem: Range with Linear Drag, Taylor 2.3).
+- **Widget `projectile-drag` built** (docs/widgets/projectile-drag.md): (x, y) path with drag law none / linear / quad / both, RK4, linear closed forms (Eq. 2.36) as overlay, vacuum parabola, dots, arrows, range markers, asymptote, readouts R, R_0, R/R_0, time, peak, tau.
+- **Next unit:** `ch03-trajectory` (Guided Problem: Range with Linear Drag, Taylor 2.3, uses projectile-drag).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
