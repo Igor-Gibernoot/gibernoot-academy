@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-25 ch03-trajectory (autonomous)
+Built `ch03/trajectory.yaml` (guided problem, 23 cards, projectile-drag x3: path vs vacuum, asymptote with Thick air preset, exact range readouts). Case: m = 1 kg, b = 0.1 kg/s, 20 m/s at 45 deg (tau 10 s, v_ter 98 m/s): R_vac 40.82, formula 32.96, numerical 34.10 m; b = 1 shows the formula failing (bracket -0.92); pellet card from Taylor Example 2.4 data (density 2.7 g/cm3, rho and beta given in the prompt). Choices: R_vac written as in Taylor (widget labels overridden); toy body, stated as such. Images: none: no person, experiment or object worth a picture. Web checks: none needed. Conventions fixed here: Taylor 2.3 uses y up, so v_ter flips sign in y(t); R_vac = 2 v_x0 v_y0/g; correction R ~ R_vac(1 - 4 v_y0/(3 v_ter)), valid for v_y0/v_ter well below 1; running toy throw m = 1, b = 0.1, 20 m/s, 45 deg.
+
 ## 2026-11-25 widget projectile-drag (autonomous)
 Built `js/widgets/projectile-drag.js` (registered, docs and README line). Choices: y up with the origin at launch and the ground at y = 0; flight ends when y returns to 0 (landing by bisection on the last RK4 step); equal scale on both axes, fixed view from the vacuum range and peak over sliders and presets (override `axes`); linear closed form drawn as optional overlay (`show.closed`); reuses `fs-*` CSS of drag-fall. RK4 vs Eq. 2.36 agree to 1e-12. Conventions fixed here: widget name `projectile-drag`; show keys vacuum, closed, dots, range, asymptote, timeSlider; readouts range, vacRange, ratio, time, peak, tau, asymptote.
 

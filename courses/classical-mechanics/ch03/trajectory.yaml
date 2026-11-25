@@ -1,0 +1,435 @@
+id: ch03-trajectory
+title: 'Guided Problem: Range with Linear Drag'
+kind: guided
+cards:
+  - type: text
+    id: hook
+    title: How much range does the air cost?
+    body: |
+      Throw a ball at $45^\circ$ with speed $20\ \mathrm{m/s}$. With no air, it lands $40.8\ \mathrm{m}$ away. Now switch on a gentle linear drag. The ball is slowed at every instant, so it must land short. But by how much: a sliver, a fifth, half? And does the answer come out of a formula you can write on one line, or only from a computer?
+
+      In the lessons on linear drag, the horizontal and vertical motions came out separately. Here we put them together for one specific throw and follow the problem through: the path, the landing point, and a way to estimate the loss without a computer. First, guess.
+
+  - type: mcq
+    id: guess
+    prompt: |
+      A toy body of mass $m = 1\ \mathrm{kg}$ is thrown at $20\ \mathrm{m/s}$ and $45^\circ$ above the horizontal. The only forces are its weight and a linear drag $\mathbf{f} = -b\mathbf{v}$ with $b = 0.1\ \mathrm{kg/s}$. In a vacuum its range would be $40.8\ \mathrm{m}$. With this drag, the range is reduced by
+    options:
+      - text: 'Less than 1%'
+        feedback: |
+          The drag looks small, but it acts for the whole flight of almost three seconds, and it acts on the horizontal velocity too. The loss is a good deal more than a sliver.
+      - text: 'Between 10% and 20%'
+        correct: true
+      - text: 'About half'
+        feedback: |
+          That would need a much stronger drag. Here the time scale $m/b$ is ten seconds, much longer than the flight, so the ball loses only a modest part of its speed.
+      - text: 'Nothing: drag acts along the path, so it changes the height but not the range'
+        feedback: |
+          Drag points opposite to the velocity, so it has a horizontal part that slows the ball in $x$ for the whole flight. Less $x$ speed means less distance.
+    explanation: |
+      The next card lets you see the loss, and the rest of the lesson finds it by calculation.
+
+  - type: widget
+    id: path-lin
+    title: The path with and without air
+    widget: projectile-drag
+    config:
+      law: linear
+      laws: [none, linear]
+      v0: 20
+      theta: 45
+      m: 1
+      b: 0.1
+      sliders: [b]
+      ranges: { b: [0.05, 2, 0.05] }
+      show: { vacuum: true, range: true }
+      readouts: [range, vacRange]
+      labels: { vacRange: 'Vacuum range $R_{\text{vac}}$', r0Mark: 'R_vac' }
+      units: { force: N, speed: m/s, distance: m, time: s, mass: kg, b: 'kg/s', angle: '°' }
+    body: |
+      The ball is launched at $20\ \mathrm{m/s}$ and $45^\circ$. The dashed parabola is the flight in a vacuum, the solid curve has linear drag with the constant $b$ of the slider.
+
+      **Try:** release with $b = 0.1\ \mathrm{kg/s}$ and read both ranges. Then raise $b$ and watch where the ball lands and how the path bends.
+
+  - type: text
+    id: setup
+    title: The two motions, with y pointing up
+    body: |
+      Recall: with a linear drag $\mathbf{f} = -b\mathbf{v}$ the horizontal and vertical equations of motion do not mix. Measure $y$ **upward** this time. The weight is then $-mg$ in the $y$ direction, and the equations are
+
+      $$m\dot v_x = -bv_x, \qquad m\dot v_y = -mg - bv_y.$$
+
+      Two quantities set the scales, the time constant and the terminal speed:
+
+      $$\tau = \frac{m}{b}, \qquad v_{\text{ter}} = \frac{mg}{b}.$$
+
+      The launch velocity has the components $v_{x0} = v_0\cos\theta$ and $v_{y0} = v_0\sin\theta$. For our throw, $v_{x0} = v_{y0} = 20\cos 45^\circ = 14.14\ \mathrm{m/s}$.
+
+  - type: numeric
+    id: vter
+    prompt: |
+      The toy body has $m = 1\ \mathrm{kg}$ and $b = 0.1\ \mathrm{kg/s}$, with $g = 9.8\ \mathrm{m/s^2}$. What is its terminal speed $v_{\text{ter}} = mg/b$, in m/s?
+    answer: 98
+    tolerance: 0.5
+    answerText: '98'
+    wrong:
+      - value: 0.98
+        feedback: |
+          You multiplied by $b$. The drag constant is in the denominator, since a smaller $b$ means a weaker drag and a larger speed is needed to balance the weight.
+    hint: |
+      The weight is $mg = 9.8\ \mathrm{N}$. Drag equals $bv$.
+    explanation: |
+      $$v_{\text{ter}} = \frac{mg}{b} = \frac{1 \times 9.8}{0.1} = 98\ \mathrm{m/s}.$$
+
+      Also $\tau = m/b = 10\ \mathrm{s}$. Both are large next to the throw (speed $20\ \mathrm{m/s}$, flight of about $3\ \mathrm{s}$), so the drag is weak. Keep these two numbers: $v_{\text{ter}} = 98\ \mathrm{m/s}$ and $\tau = 10\ \mathrm{s}$.
+
+  - type: order
+    id: yt-derive
+    prompt: |
+      With $y$ up, the vertical equation is $m\dot v_y = -mg - bv_y$. Put the steps in order that lead to $y(t)$, for a launch from $y = 0$ with $v_y = v_{y0}$.
+    steps:
+      - 'Rewrite the equation with $v_{\text{ter}} = mg/b$: $m\dot v_y = -b\,(v_y + v_{\text{ter}})$.'
+      - 'Let $u = v_y + v_{\text{ter}}$. Then $\dot u = -u/\tau$, so $u = u_0\,e^{-t/\tau}$, with $u_0 = v_{y0} + v_{\text{ter}}$ at $t = 0$.'
+      - 'Go back to $v_y = u - v_{\text{ter}}$, so $v_y = -v_{\text{ter}} + (v_{y0} + v_{\text{ter}})\,e^{-t/\tau}$.'
+      - 'Integrate from $0$ to $t$ with $y(0) = 0$: the exponential gives $\tau(1 - e^{-t/\tau})$ and the constant gives $-v_{\text{ter}}t$.'
+    hint: |
+      It is the same shift trick as for the fall: absorb the constant into a new variable, solve, shift back, then integrate once.
+    explanation: |
+      The result, together with the horizontal solution, is the pair
+
+      $$x(t) = v_{x0}\,\tau\left(1 - e^{-t/\tau}\right),$$
+
+      $$y(t) = (v_{y0} + v_{\text{ter}})\,\tau\left(1 - e^{-t/\tau}\right) - v_{\text{ter}}\,t.$$
+
+      Compare with the fall with down positive, $v = v_{\text{ter}} + (v_0 - v_{\text{ter}})e^{-t/\tau}$. With $y$ up, $v_y = -v$ and the initial value is $v_{y0}$, which flips the sign of $v_{\text{ter}}$ in the formula.
+
+  - type: numeric
+    id: x-at-2
+    prompt: |
+      A projectile with linear drag has, with $y$ up,
+      $$x(t) = v_{x0}\,\tau\left(1 - e^{-t/\tau}\right).$$
+      Here $v_{x0} = 14.14\ \mathrm{m/s}$ and $\tau = 10\ \mathrm{s}$. What is $x$ at $t = 2\ \mathrm{s}$, in m?
+    answer: 25.64
+    tolerance: 0.05
+    answerText: '25.64'
+    wrong:
+      - value: 28.28
+        feedback: |
+          That is $v_{x0}t$, the distance with no drag. The factor $\tau(1 - e^{-t/\tau})$ is slightly less than $t$.
+    hint: |
+      $e^{-0.2} \approx 0.8187$.
+    explanation: |
+      $$\begin{aligned}x &= 14.14 \times 10 \times (1 - e^{-0.2})\\ &= 141.4 \times 0.1813\\ &= 25.64\ \mathrm{m}.\end{aligned}$$
+
+      The vacuum value is $28.28\ \mathrm{m}$, so after $2\ \mathrm{s}$ the ball is already about $2.6\ \mathrm{m}$ short.
+
+  - type: numeric
+    id: y-at-2
+    prompt: |
+      Same projectile, $y$ up, with $v_{y0} = 14.14\ \mathrm{m/s}$, $v_{\text{ter}} = 98\ \mathrm{m/s}$, $\tau = 10\ \mathrm{s}$:
+      $$y(t) = (v_{y0} + v_{\text{ter}})\,\tau\left(1 - e^{-t/\tau}\right) - v_{\text{ter}}\,t.$$
+      What is $y$ at $t = 2\ \mathrm{s}$, in m?
+    answer: 7.28
+    tolerance: 0.03
+    answerText: '7.28'
+    wrong:
+      - value: 8.68
+        feedback: |
+          That is the vacuum height, $v_{y0}t - \tfrac12 gt^2 = 28.28 - 19.6$. With drag the ball is lower.
+    hint: |
+      The two big terms nearly cancel, so keep four digits: $(14.14 + 98)\times 10 \times 0.18127 = 203.3$.
+    explanation: |
+      $$\begin{aligned}y &= 112.14 \times 10 \times 0.18127 - 98 \times 2\\ &= 203.28 - 196\\ &= 7.28\ \mathrm{m}.\end{aligned}$$
+
+      In a vacuum it would be $8.68\ \mathrm{m}$, so drag has pulled the ball down $1.4\ \mathrm{m}$ in two seconds.
+
+  - type: order
+    id: traj-derive
+    prompt: |
+      Eliminate $t$ between $x(t)$ and $y(t)$ to get the trajectory. Put the steps in order.
+    steps:
+      - 'The first equation says $1 - e^{-t/\tau} = x/(v_{x0}\tau)$.'
+      - 'Put this into $y(t)$: $y = (v_{y0} + v_{\text{ter}})\,x/v_{x0} - v_{\text{ter}}\,t$.'
+      - 'Solve $1 - e^{-t/\tau} = x/(v_{x0}\tau)$ for the time: $t = -\tau\ln\!\left(1 - x/(v_{x0}\tau)\right)$.'
+      - 'Insert this $t$ into the last term of $y$ to get the trajectory.'
+    hint: |
+      The same combination $1 - e^{-t/\tau}$ appears in both equations. Use it twice, once to remove the exponential and once to find $t$.
+    explanation: |
+      The trajectory is
+
+      $$y = \frac{v_{y0} + v_{\text{ter}}}{v_{x0}}\,x + v_{\text{ter}}\,\tau\ln\!\left(1 - \frac{x}{v_{x0}\tau}\right).$$
+
+      The first term is a straight line. The logarithm is the effect of the drag on the horizontal motion, and it grows without limit.
+
+  - type: widget
+    id: path-asym
+    title: The wall at x = v_x0 τ
+    widget: projectile-drag
+    config:
+      law: linear
+      laws: [linear]
+      v0: 20
+      theta: 45
+      m: 1
+      b: 0.1
+      sliders: [b]
+      ranges: { b: [0.05, 2, 0.05] }
+      show: { vacuum: true, range: true, asymptote: true }
+      readouts: [range, asymptote]
+      labels: { r0Mark: 'R_vac' }
+      presets: [{ label: Thin air, b: 0.1 }, { label: Thick air, b: 1 }]
+      units: { force: N, speed: m/s, distance: m, time: s, mass: kg, b: 'kg/s', angle: '°' }
+    body: |
+      The dashed vertical line is the asymptote $x = v_{x0}\tau$ of the trajectory: as $x$ approaches it, the argument of the logarithm tends to zero and $y \to -\infty$. The readout gives its position.
+
+      **Try:** with $b = 0.1\ \mathrm{kg/s}$ the line is far away. Press Thick air ($b = 1\ \mathrm{kg/s}$) and compare the asymptote with the landing point.
+
+  - type: mcq
+    id: asym-q
+    prompt: |
+      A projectile with linear drag has the trajectory $y = \dfrac{v_{y0} + v_{\text{ter}}}{v_{x0}}\,x + v_{\text{ter}}\tau\ln\!\left(1 - \dfrac{x}{v_{x0}\tau}\right)$, which falls to $-\infty$ as $x \to v_{x0}\tau$. What does this say about its horizontal range $R$?
+    options:
+      - text: '$R$ is always smaller than $v_{x0}\tau$'
+        correct: true
+      - text: '$R$ equals $v_{x0}\tau$, the vertical line is where the ball lands'
+        feedback: |
+          The ball lands where $y$ is zero. The line is where $y$ would reach $-\infty$, far below the ground. The ball hits the ground before it gets there.
+      - text: '$R$ can be larger than $v_{x0}\tau$ if the throw is steep enough'
+        feedback: |
+          The ball is always below the ground level at $x$ close to the line, and the path is a single curve that is above the ground only for part of the way. It cannot be above the ground beyond the line, since it never gets past it.
+      - text: 'The line says nothing about $R$, it is only a mathematical curiosity'
+        feedback: |
+          It is physical: the horizontal motion has a finite total reach $x_\infty = v_{x0}\tau$ (the coasting distance), and the ball can never go beyond it.
+    explanation: |
+      The horizontal motion alone, $x = v_{x0}\tau(1 - e^{-t/\tau})$, never gets past $v_{x0}\tau$. For the thin air of our throw this limit is $141\ \mathrm{m}$, much larger than the range, so the line hardly matters. For thick air it is close and the range is squeezed against it.
+
+  - type: text
+    id: range-eq
+    title: The range equation
+    body: |
+      In a vacuum the range is
+
+      $$R_{\text{vac}} = \frac{2v_{x0}v_{y0}}{g}.$$
+
+      With drag, the range $R$ is the value of $x$ where the trajectory returns to $y = 0$, other than the start. Setting $y = 0$ at $x = R$ gives
+
+      $$\frac{v_{y0} + v_{\text{ter}}}{v_{x0}}\,R + v_{\text{ter}}\,\tau\ln\!\left(1 - \frac{R}{v_{x0}\tau}\right) = 0.$$
+
+      The unknown $R$ is both outside and inside a logarithm. Such a **transcendental** equation has no solution in elementary functions, so a number needs a computer, or an approximation that also shows how $R$ depends on the parameters.
+
+  - type: numeric
+    id: rvac
+    prompt: |
+      In a vacuum, $R_{\text{vac}} = 2v_{x0}v_{y0}/g$. With $v_{x0} = v_{y0} = 14.14\ \mathrm{m/s}$ and $g = 9.8\ \mathrm{m/s^2}$, what is $R_{\text{vac}}$, in m?
+    answer: 40.82
+    tolerance: 0.05
+    answerText: '40.82'
+    wrong:
+      - value: 20.41
+        feedback: |
+          You left out the factor 2. The ball rises for $v_{y0}/g$ and falls for the same time, so the flight lasts $2v_{y0}/g$.
+    hint: |
+      $v_{x0}v_{y0} = 200$.
+    explanation: |
+      $$R_{\text{vac}} = \frac{2 \times 200}{9.8} = 40.82\ \mathrm{m}.$$
+
+  - type: numeric
+    id: eps
+    prompt: |
+      The range equation has the logarithm $\ln(1 - \epsilon)$ with $\epsilon = R/(v_{x0}\tau)$. For $R \approx R_{\text{vac}} = 40.82\ \mathrm{m}$, $v_{x0} = 14.14\ \mathrm{m/s}$ and $\tau = 10\ \mathrm{s}$, what is $\epsilon$?
+    answer: 0.289
+    tolerance: 0.003
+    answerText: '0.289'
+    wrong:
+      - value: 2.89
+        feedback: |
+          Check the product $v_{x0}\tau$: it is $141.4\ \mathrm{m}$, not $14.14$.
+    hint: |
+      $v_{x0}\tau = 141.4\ \mathrm{m}$.
+    explanation: |
+      $$\epsilon = \frac{40.82}{141.4} = 0.289.$$
+
+      This is small enough for a series. The series $\ln(1 - \epsilon) = -(\epsilon + \tfrac12\epsilon^2 + \tfrac13\epsilon^3 + \cdots)$ has terms that shrink quickly: the first term left out, $\epsilon^4/4$, is about $0.002$, against $0.289$ for the first one.
+
+  - type: order
+    id: expand
+    prompt: |
+      Turn the range equation into a form we can solve. Put the steps in order.
+    steps:
+      - 'Put $\epsilon = R/(v_{x0}\tau)$ and expand $\ln(1 - \epsilon) = -(\epsilon + \tfrac12\epsilon^2 + \tfrac13\epsilon^3 + \cdots)$, keeping terms through $\epsilon^3$.'
+      - 'Insert in the range equation. The term $v_{\text{ter}}R/v_{x0}$ from the first part cancels the first term of the series part, and every term left contains a factor $R$.'
+      - 'Divide out $R$. The root $R = 0$ is the launch point, not the landing.'
+      - 'Multiply by $2v_{x0}^2\tau/v_{\text{ter}}$ and use $v_{\text{ter}}/\tau = g$.'
+    hint: |
+      The first term of the series is $\epsilon = R/(v_{x0}\tau)$, and multiplied by $v_{\text{ter}}\tau$ it gives $v_{\text{ter}}R/v_{x0}$.
+    explanation: |
+      After the cancellation and dividing by $R$,
+
+      $$\frac{v_{y0}}{v_{x0}} = \frac{v_{\text{ter}}}{2v_{x0}^2\tau}\,R + \frac{v_{\text{ter}}}{3v_{x0}^3\tau^2}\,R^2.$$
+
+      Multiplying by $2v_{x0}^2\tau/v_{\text{ter}}$ and using $v_{\text{ter}}/\tau = g$ gives
+
+      $$R = \frac{2v_{x0}v_{y0}}{g} - \frac{2}{3v_{x0}\tau}\,R^2.$$
+
+      The first term is $R_{\text{vac}}$. The second is the **correction**: a quadratic equation for $R$ written so that its small part is visible.
+
+  - type: mcq
+    id: approx-q
+    prompt: |
+      The range obeys $R = R_{\text{vac}} - \dfrac{2}{3v_{x0}\tau}R^2$, and the last term is small when $\tau$ is large. How do we get a better estimate than $R \approx R_{\text{vac}}$?
+    options:
+      - text: 'Put $R \approx R_{\text{vac}}$ inside the small last term only, and keep the first term as it is'
+        correct: true
+      - text: 'Drop the last term, since it is small'
+        feedback: |
+          That gives the first estimate, $R \approx R_{\text{vac}}$, with no air at all. The last term is the whole effect of the air, so dropping it answers nothing.
+      - text: 'Put $R = 0$ inside the last term'
+        feedback: |
+          Then the correction vanishes and the air has no effect again. $R_{\text{vac}}$ is a good estimate of $R$, $0$ is not.
+      - text: 'Replace $R$ by $R_{\text{vac}}$ on both sides of the equation'
+        feedback: |
+          That turns the equation into a false statement, since the last term would make the right side smaller than $R_{\text{vac}}$. Only the small term can take the rough value.
+    explanation: |
+      The error from using $R_{\text{vac}}$ in place of $R$ sits inside a term that is already small, so it shrinks the error further. This is a typical way to improve an estimate step by step.
+
+  - type: text
+    id: second-approx
+    title: The correction in terms of speeds
+    body: |
+      Replace $R$ by $R_{\text{vac}}$ in the last term:
+
+      $$R \approx R_{\text{vac}} - \frac{2}{3v_{x0}\tau}\,R_{\text{vac}}^2.$$
+
+      Write one factor $R_{\text{vac}}$ as $2v_{x0}v_{y0}/g$ and use $\tau g = v_{\text{ter}}$. The factor $v_{x0}$ cancels, and
+
+      $$R \approx R_{\text{vac}}\left(1 - \frac{4}{3}\,\frac{v_{y0}}{v_{\text{ter}}}\right).$$
+
+      The correction always lowers $R$, and it depends only on the ratio of the launch speed upward, $v_{y0}$, to the terminal speed, $v_{\text{ter}}$.
+
+  - type: numeric
+    id: r-approx
+    prompt: |
+      A projectile has $R_{\text{vac}} = 40.82\ \mathrm{m}$, $v_{y0} = 14.14\ \mathrm{m/s}$ and $v_{\text{ter}} = 98\ \mathrm{m/s}$. Use
+      $$R \approx R_{\text{vac}}\left(1 - \frac{4}{3}\,\frac{v_{y0}}{v_{\text{ter}}}\right)$$
+      to estimate its range with drag, in m.
+    answer: 32.96
+    tolerance: 0.05
+    answerText: '32.96'
+    wrong:
+      - value: 40.82
+        feedback: |
+          That is the vacuum range, the first estimate. Apply the factor in the bracket.
+      - value: 7.85
+        feedback: |
+          That is the correction itself, $R_{\text{vac}}\cdot\frac{4}{3}\frac{v_{y0}}{v_{\text{ter}}}$. The range is the vacuum value minus it.
+    hint: |
+      $v_{y0}/v_{\text{ter}} = 14.14/98 = 0.1443$.
+    explanation: |
+      $$\frac{4}{3}\times 0.1443 = 0.1924.$$
+
+      Then
+
+      $$R \approx 40.82\times(1 - 0.1924) = 32.96\ \mathrm{m}.$$
+
+      The formula says the air cost about 19% of the range.
+
+  - type: widget
+    id: path-exact
+    title: The exact range
+    widget: projectile-drag
+    config:
+      law: linear
+      laws: [linear]
+      v0: 20
+      theta: 45
+      m: 1
+      b: 0.1
+      sliders: [b]
+      ranges: { b: [0.05, 2, 0.05] }
+      show: { vacuum: true, range: true }
+      readouts: [range, vacRange, ratio]
+      labels: { vacRange: 'Vacuum range $R_{\text{vac}}$', ratio: '$R/R_{\text{vac}}$', r0Mark: 'R_vac' }
+      units: { force: N, speed: m/s, distance: m, time: s, mass: kg, b: 'kg/s', angle: '°' }
+    body: |
+      The widget solves the range equation numerically, with no series. Compare its range with the estimate $32.96\ \mathrm{m}$.
+
+      **Try:** at $b = 0.1\ \mathrm{kg/s}$ read $R$ and $R/R_{\text{vac}}$. Then raise $b$ in steps and see how the estimate $R_{\text{vac}}(1 - \tfrac43 v_{y0}/v_{\text{ter}})$ would fare.
+
+  - type: numeric
+    id: percent-lost
+    prompt: |
+      For $b = 0.1\ \mathrm{kg/s}$ the numerical solution of the range equation gives $R/R_{\text{vac}} = 0.8355$. By what percentage does linear drag shorten the range, to one decimal?
+    answer: 16.4
+    tolerance: 0.3
+    answerText: '16.4'
+    wrong:
+      - value: 19.2
+        feedback: |
+          That is what the approximate formula says. The numerical solution gives less loss: the formula slightly overestimates the effect here.
+    hint: |
+      The loss is $1 - R/R_{\text{vac}}$.
+    explanation: |
+      $$1 - 0.8355 = 0.1645, \quad\text{about } 16.4\%.$$
+
+      The estimate gave $19.2\%$. It is the right size, but it overshoots by about three percentage points, since the series was cut and $R_{\text{vac}}$ replaced $R$ in the correction. And the guess at the start, between 10% and 20%, was right.
+
+  - type: numeric
+    id: thick-air
+    prompt: |
+      Take the same throw with thicker air, $b = 1\ \mathrm{kg/s}$, so $v_{\text{ter}} = 9.8\ \mathrm{m/s}$ and $v_{y0} = 14.14\ \mathrm{m/s}$. Evaluate the bracket $1 - \dfrac{4}{3}\,\dfrac{v_{y0}}{v_{\text{ter}}}$ of the range formula.
+    answer: -0.92
+    tolerance: 0.02
+    answerText: '-0.92'
+    hint: |
+      $v_{y0}/v_{\text{ter}} = 14.14/9.8 = 1.443$.
+    explanation: |
+      $$1 - \frac{4}{3}\times 1.443 = 1 - 1.924 = -0.92.$$
+
+      A negative range is nonsense. The numerical solution gives $R = 12.5\ \mathrm{m}$, or 31% of $R_{\text{vac}}$. The formula was built on $\epsilon = R/(v_{x0}\tau)$ being small, and here $\epsilon$ is not. The ratio $v_{y0}/v_{\text{ter}}$ is the test: well below one, the correction is trustworthy, near one or above, air resistance is large and the formula fails.
+
+  - type: numeric
+    id: pellet
+    prompt: |
+      A tiny pellet of diameter $D = 0.2\ \mathrm{mm}$ and density $\varrho = 2700\ \mathrm{kg/m^3}$ is flicked at $1\ \mathrm{m/s}$ and $45^\circ$ in air with linear drag, $b = \beta D$ and $\beta = 1.6\times10^{-4}$ in SI units. Its terminal speed is $v_{\text{ter}} = \varrho\pi D^2g/(6\beta)$. Estimate its range in cm with
+      $$R \approx R_{\text{vac}}\left(1 - \frac{4}{3}\,\frac{v_{y0}}{v_{\text{ter}}}\right).$$
+    answer: 7.4
+    tolerance: 0.15
+    answerText: '7.4'
+    wrong:
+      - value: 10.2
+        feedback: |
+          That is $R_{\text{vac}}$. The terminal speed here is small, about $3.5\ \mathrm{m/s}$, so the correction cannot be neglected.
+    hint: |
+      Find $v_{\text{ter}}$ first, then $R_{\text{vac}} = 2v_{x0}v_{y0}/g$ with $v_{x0} = v_{y0} = 0.707\ \mathrm{m/s}$.
+    explanation: |
+      $v_{\text{ter}} = 2700 \times \pi \times (2\times10^{-4})^2 \times 9.8/(6 \times 1.6\times10^{-4}) = 3.46\ \mathrm{m/s}$. Next $R_{\text{vac}} = 2 \times 0.5/9.8 = 0.102\ \mathrm{m} = 10.2\ \mathrm{cm}$.
+
+      The correction is $\frac43 \times 0.707/3.46 = 0.272$, so
+
+      $$R \approx 10.2 \times (1 - 0.272) = 7.4\ \mathrm{cm}.$$
+
+      Here $v_{y0}/v_{\text{ter}} = 0.2$ is not very small, so this is a rough guide: solving the range equation numerically gives about $8.0\ \mathrm{cm}$. A pellet six times denser would have a terminal speed six times larger and a correction of only 4.5%.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      You solved one throw end to end: a body of mass $m = 1\ \mathrm{kg}$ launched at $20\ \mathrm{m/s}$ and $45^\circ$ with linear drag, $b = 0.1\ \mathrm{kg/s}$, so $\tau = m/b = 10\ \mathrm{s}$ and $v_{\text{ter}} = mg/b = 98\ \mathrm{m/s}$.
+
+      **Method.** Linear drag splits the motion into independent horizontal and vertical equations. Solve each with the shift trick. With $y$ up:
+
+      $$x(t) = v_{x0}\,\tau\left(1 - e^{-t/\tau}\right),$$
+
+      $$y(t) = (v_{y0} + v_{\text{ter}})\,\tau\left(1 - e^{-t/\tau}\right) - v_{\text{ter}}\,t.$$
+
+      Eliminating $t$ gives the trajectory, with a vertical asymptote at $x = v_{x0}\tau$ that the range always stays short of:
+
+      $$y = \frac{v_{y0} + v_{\text{ter}}}{v_{x0}}\,x + v_{\text{ter}}\,\tau\ln\!\left(1 - \frac{x}{v_{x0}\tau}\right).$$
+
+      The range solves a transcendental equation ($y = 0$ in the trajectory). Expanding the logarithm in $\epsilon = R/(v_{x0}\tau)$ and putting $R \approx R_{\text{vac}}$ in the small correction gives, with $R_{\text{vac}} = 2v_{x0}v_{y0}/g$,
+
+      $$R \approx R_{\text{vac}}\left(1 - \frac{4}{3}\,\frac{v_{y0}}{v_{\text{ter}}}\right).$$
+
+      For our throw this gave $32.96\ \mathrm{m}$ against $34.10\ \mathrm{m}$ from the numerical solution and $40.82\ \mathrm{m}$ in a vacuum. The formula is good only when $v_{y0}/v_{\text{ter}}$ is well below one.
+
+      **Next:** for a baseball or a skydiver the drag is not linear but grows with the square of the speed. The lesson Quadratic Drag shows why the equation of motion becomes harder, and what remains solvable.
