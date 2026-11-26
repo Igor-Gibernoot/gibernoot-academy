@@ -36,7 +36,8 @@
 - **Level 3 audited (2026-11-26):** Taylor 2.2 render-checked (PDF 59-64); raindrop-at-0.6-m/s wording softened; validate and shots clean.
 - **Widget `rocket-exhaust` built (2026-11-26)** (docs/widgets/rocket-exhaust.md): rocket burning fuel at rate mdot, exhaust speed vex relative to rocket or ground (frame trap), optional g; scene with packets, momentum bars (rocket, exhaust, total = 0), v(t) with dashed v_ex ln(m0/m) and constant-mass line, v against ln(m0/m), readouts, time slider.
 - **Built:** `ch04-rockets` (Level 4, concept, 20 cards, rocket-exhaust x4, no image). Rocket equation, thrust, frame trap, gravity.
-- **Next unit:** widget `cm-toss` (tumbling body and its center of mass), then `ch04-center-of-mass` (Level 4, Taylor 3.3).
+- **Widget `cm-toss` built (2026-11-26)** (docs/widgets/cm-toss.md): tossed body of 2 or 3 masses on rods, spin, launch sliders, mass sliders, CM marker and parabola, particle traces, P = MV and Mg arrows, rod-force arrows, strobe, probe ring (guess the CM), optional explosion (CM path unchanged).
+- **Next unit:** `ch04-center-of-mass` (Level 4, concept, Taylor 3.3).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.

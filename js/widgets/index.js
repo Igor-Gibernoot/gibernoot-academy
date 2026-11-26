@@ -46,6 +46,7 @@ const WIDGETS = {
   'polar-motion': ['polar-motion', 'polarMotion'],
   'newton-cannon': ['newton-cannon', 'newtonCannon'],
   'rocket-exhaust': ['rocket-exhaust', 'rocketExhaust'],
+  'cm-toss': ['cm-toss', 'cmToss'],
   'drag-fall': ['drag-fall', 'dragFall'],
   'charge-field': ['charge-field', 'chargeField'],
   'projectile-drag': ['projectile-drag', 'projectileDrag'],

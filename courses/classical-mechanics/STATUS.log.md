@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-26 widget cm-toss (autonomous)
+Built `js/widgets/cm-toss.js` (closed-form model, no integration), registry line, `docs/widgets/cm-toss.md` (smoke block), README line. Node check: mass-weighted mean of particle positions and velocities equals R(t), V(t) to 1e-15, rigid and exploded. Choices: spin constant about the CM (no torque in uniform gravity); explosion gives u_i = kick r_i (sum m_i u_i = 0); drawing stops when the CM lands (fragments may sit below the ground line); probe ring on the line first-to-last particle, hide the CM with `show.cm: false` for a guess card; view fixed from slider corners (a large kick max shrinks the scene, lower `ranges.kick` for tighter views). Screenshots viewed (phone and desktop, three presets). Conventions fixed here: widget `cm-toss`, P arrow = M V, weight arrow = M g, rod force F_i = -m_i omega^2 r_i.
+
 ## 2026-11-26 ch04-rockets (autonomous)
 Built `ch04/rockets.yaml` (20 cards, rocket-exhaust x4: empty space with bars, log law with naive line and ln plot, frame trap with toggle, gravity) and set `file:`. Taylor 3.2 Eq. 3.4-3.8, Problems 3.7, 3.10, 3.11 render-checked (PDF 98, 99, 112). Choices: no real rocket data beyond Taylor's rough shuttle problem data (2e6 to 1e6 kg, 120 s, 3000 m/s), no Tsiolkovsky name, so no web facts; no image (none: conceptual toy). Taylor's problem 3.10 (momentum peak at m = m0/e) left out for the card limit. Shots: one formula overflow fixed (aligned); first widget card viewed at 1000 px, clean. Widget presets needed no change. Conventions fixed here: Chapter 4 section.
 
