@@ -1,0 +1,337 @@
+id: ch04-angular-momentum
+title: Angular Momentum and Equal Areas
+kind: concept
+own: |
+  Setting: a particle of mass $m$ with position vector $\mathbf{r}$ measured from a fixed origin $O$, velocity $\mathbf{v} = \dot{\mathbf{r}}$, momentum $\mathbf{p} = m\mathbf{v}$, acted on by a net force $\mathbf{F}$. Everything below is relative to $O$. Taylor writes $\boldsymbol\ell$ and $\boldsymbol\Gamma$ where we write $\mathbf{L}$ and $\mathbf{N}$.
+  - **Angular momentum.** The cross product of position and momentum; it points along the axis of the turn (right-hand rule), and it changes if you move the origin:
+    {{ $$\mathbf{L} = \mathbf{r}\times\mathbf{p}$$ }}
+  - **Area swept.** The line from $O$ to the particle sweeps area at a rate set by the magnitude $L = |\mathbf{r}\times\mathbf{p}|$ (the area of the thin triangle with sides $\mathbf{r}$ and $\mathbf{v}\,dt$ is $\tfrac12|\mathbf{r}\times\mathbf{v}|\,dt$):
+    {{ $$\frac{dA}{dt} = \frac{L}{2m}$$ }}
+  - **Torque.** The torque $\mathbf{N}$ of the force about $O$ is the rotational partner of $\dot{\mathbf{p}} = \mathbf{F}$. It follows because $\dot{\mathbf{r}}\times\mathbf{p} = m\,\dot{\mathbf{r}}\times\dot{\mathbf{r}} = \mathbf{0}$:
+    {{ $$\dot{\mathbf{L}} = \mathbf{r}\times\mathbf{F} = \mathbf{N}$$ }}
+    In the plane, $N = x F_y - y F_x$ is the lever arm (distance from $O$ to the line of the force) times $F$, with a sign.
+  - **Central force.** A force along the line through $O$ has $\mathbf{N} = \mathbf{0}$, so $\mathbf{L}$ is constant, the motion stays in one plane, and the swept area grows at a constant rate (equal areas in equal times). This holds for any central force (spring or inverse-square), not only gravity:
+    {{ $$\mathbf{r}\parallel\mathbf{F}\ \Rightarrow\ \mathbf{L} = \text{constant},\quad \frac{dA}{dt} = \text{constant}$$ }}
+  - **Several particles.** With particles labelled $\alpha$, the total is $\mathbf{L} = \sum_\alpha \mathbf{r}_\alpha\times\mathbf{p}_\alpha$ and its rate of change is the sum of the torques. If the internal forces obey the third law and are central, only the external torque is left (proved in the next lesson):
+    {{ $$\dot{\mathbf{L}} = \sum_\alpha \mathbf{r}_\alpha\times\mathbf{F}_\alpha^{\text{ext}} = \mathbf{N}^{\text{ext}}$$ }}
+cards:
+  - type: text
+    id: hook
+    title: A planet that speeds up
+    image:
+      src: img/kepler.webp
+      alt: Painted portrait, presumed to be Johannes Kepler, a man in a dark coat with a white collar.
+      caption: Johannes Kepler (1571 to 1630) summarized the observed motion of the planets in three laws; the second says that the line from the sun to a planet sweeps equal areas in equal times.
+      credit: "Attributed to Hans von Aachen, Public domain, via Wikimedia Commons"
+      link: "https://commons.wikimedia.org/wiki/File:Johannes_Kepler,_portrait_by_Hans_von_Aachen.jpg"
+    body: |
+      A comet falls toward the sun, swings around it and leaves again. It moves fast near the sun and slowly far away. Yet an old observation says that something stays the same throughout: draw a line from the sun to the comet, and the area that this line sweeps out in each second is always the same.
+
+      That is surprising enough for a curved orbit. Before any theory, test the idea on the simplest motion there is: a particle moving on a straight line at constant speed, with no force at all, watched from a point $O$ that is not on the line. Does the area swept by the line from $O$ per second stay the same?
+
+  - type: widget
+    id: free-line
+    title: A particle on a straight line
+    widget: ang-mom-area
+    config:
+      mode: free
+      view: 6
+      sliders: [b, v]
+      readouts: [t]
+      show: { p: true }
+      units: { length: m, time: s, mass: kg }
+    body: |
+      A particle of mass $1\ \mathrm{kg}$ moves along a straight line with no force. The origin $O$ is the dot at the center. The slider $b$ is the distance from $O$ to the line, and $v$ is the speed. The arrow on the particle is its momentum.
+
+      **Try:** press Play and imagine the line from $O$ to the particle turning like a clock hand. Is it sweeping area faster when the particle is closest to $O$, or when it is far away?
+
+  - type: mcq
+    id: guess
+    review: false
+    prompt: |
+      A particle moves on a straight line at constant speed with no force, and $O$ is a point off the line. The line from $O$ to the particle sweeps out area as the particle moves. Compare the area swept in one second near the closest point with the area swept in one second far away.
+    options:
+      - text: The two areas are equal
+        correct: true
+      - text: More area near the closest point, because the line turns faster there
+        feedback: |
+          The line does turn faster there, but it is also shortest there. A fast turn of a short line and a slow turn of a long line can sweep the same area, and the next cards show that they do.
+      - text: More area far away, because the line is longer there
+        feedback: |
+          A long line sweeps more area per unit of turning, but it turns very slowly when the particle is far. The two effects compete, and they cancel.
+      - text: No area is swept, because there is no force
+        feedback: |
+          Swept area is geometry: the line from $O$ moves, so it sweeps area whether or not a force acts. The surprise is how that area behaves.
+    explanation: |
+      The two areas are equal. The widget shows it next, and the following cards explain why.
+
+  - type: widget
+    id: equal-areas
+    title: Equal areas on a straight line
+    widget: ang-mom-area
+    config:
+      mode: free
+      view: 6
+      wedge: { n: 5, dt: 1 }
+      sliders: [b, v]
+      readouts: [t, dAdt]
+      show: { p: true, wedges: true, wedgeAreas: true, strobe: true, spokes: true }
+      units: { length: m, time: s, mass: kg }
+    body: |
+      Now the area swept in each second is shaded, with its value printed, and the dots are the positions at equal time steps.
+
+      **Try:** play, then change $b$ and $v$. Watch the five printed areas, and the readout $dA/dt$ (area per second).
+
+  - type: text
+    id: triangle
+    title: Why the area rate is constant
+    body: |
+      In a short time $dt$ the particle moves by the displacement $d\mathbf{r} = \mathbf{v}\,dt$. The area swept is a thin triangle with one side the position vector $\mathbf{r}$ (from $O$ to the particle) and the other side the displacement $\mathbf{v}\,dt$. Recall that two vectors $\mathbf{a}$ and $\mathbf{b}$ form a triangle of area $\tfrac12|\mathbf{a}\times\mathbf{b}|$, half the parallelogram they span. So
+
+      $$dA = \tfrac12\,|\mathbf{r}\times\mathbf{v}\,dt|, \qquad \frac{dA}{dt} = \tfrac12\,|\mathbf{r}\times\mathbf{v}|.$$
+
+      Now use the geometry of the straight line. The magnitude $|\mathbf{r}\times\mathbf{v}|$ is $v$ times the perpendicular distance from $O$ to the line of motion, which is the distance $b$ in the widget. Sliding the particle along its line changes $\mathbf{r}$ but not that perpendicular distance, and $v$ is constant, so $dA/dt = \tfrac12\,b\,v$ does not change. Near $O$ the line is short and turns fast; far from $O$ it is long and turns slowly; the product stays the same.
+
+  - type: numeric
+    id: area-rate
+    prompt: |
+      A particle moves at $v = 1\ \mathrm{m/s}$ along a straight line that passes at a perpendicular distance $b = 0.8\ \mathrm{m}$ from $O$. Using $dA/dt = \tfrac12|\mathbf{r}\times\mathbf{v}|$, how much area does the line from $O$ sweep per second, in $\mathrm{m^2/s}$?
+    answer: 0.4
+    tolerance: 0.001
+    wrong:
+      - { value: 0.8, feedback: "That is $bv$, the full parallelogram. The swept region is a triangle, half of it." }
+      - { value: 0.5, feedback: "That uses the speed alone. The area rate also depends on how far the line of motion lies from $O$." }
+    hint: "$|\\mathbf{r}\\times\\mathbf{v}|$ is the speed times the perpendicular distance from $O$ to the line."
+    explanation: |
+      $dA/dt = \tfrac12\cdot 0.8\cdot 1 = 0.4\ \mathrm{m^2/s}$, so each wedge of one second in the widget has area $0.4\ \mathrm{m^2}$.
+
+  - type: text
+    id: definition
+    title: Angular momentum
+    body: |
+      The vector that decides the area rate has a name. For a particle with position $\mathbf{r}$ relative to $O$ and momentum $\mathbf{p} = m\mathbf{v}$, the **angular momentum** about $O$ is
+
+      $$\mathbf{L} = \mathbf{r}\times\mathbf{p}.$$
+
+      Taylor writes $\boldsymbol\ell$ for this; we write $\mathbf{L}$. The cross product $\mathbf{r}\times\mathbf{p}$ has magnitude $rp\sin\theta$, with $\theta$ the angle between the two vectors, and it points perpendicular to both, along the direction a right-hand screw advances when turning $\mathbf{r}$ toward $\mathbf{p}$. In a diagram of the plane, it is drawn as a dot when it points out of the page and a cross when it points into the page.
+
+      Two cautions. Angular momentum depends on the origin, because $\mathbf{r}$ does, so we always say "about $O$". And it is not a property of the particle alone: the same moving particle has different $\mathbf{L}$ about different points.
+
+      Comparing with the area rate, $|\mathbf{r}\times\mathbf{v}| = L/m$, so
+
+      $$\frac{dA}{dt} = \frac{L}{2m},$$
+
+      where $L = |\mathbf{r}\times\mathbf{p}|$. Equal areas in equal times means $L$ is constant. The straight line has $L = mbv$ throughout.
+
+  - type: widget
+    id: parallelogram
+    title: The vector L and its parallelogram
+    widget: ang-mom-area
+    config:
+      mode: free
+      view: 6
+      sliders: [b, v]
+      readouts: [t, L, dAdt, L2m]
+      show: { p: true, parallelogram: true, lmark: true }
+      units: { length: m, time: s, mass: kg }
+    body: |
+      The shaded parallelogram is spanned by the arrows $\mathbf{r}$ and $\mathbf{p}$; its area is proportional to $L$. The mark at the top left is a dot when $\mathbf{L}$ points out of the page and a cross when it points into it. For a line above $O$ and a particle moving to the right, the turn about $O$ is clockwise, so $\mathbf{L}$ points into the page and its $z$ component is negative: $L_z = m(xv_y - yv_x) = -mbv$ for $b > 0$.
+
+      **Try:** play, and watch the readouts $L$, $dA/dt$ and $L/2m$ while the particle moves. Then change $b$ and $v$.
+
+  - type: mcq
+    id: what-changes
+    prompt: |
+      For a free particle on a straight line, which change alters its angular momentum $L$ about $O$?
+    options:
+      - text: Moving the line twice as far from $O$ ($b \to 2b$)
+        correct: true
+        feedback: |
+          Yes: $L = mbv$, so $L$ doubles. The line of motion is farther from $O$, so the same speed gives a bigger lever.
+      - text: Starting the particle at a different point of the same line
+        feedback: |
+          Along the line, $\mathbf{r}$ changes, but only by a multiple of $\mathbf{v}$, and $\mathbf{v}\times\mathbf{v} = \mathbf{0}$. So $\mathbf{r}\times\mathbf{p}$ does not change: $L$ stays the same all along the line.
+      - text: Waiting while the particle moves along the line
+        feedback: |
+          This is the same situation as moving the start. With no force, $L$ is constant in time.
+    explanation: |
+      Only $m$, $v$ and the perpendicular distance $b$ matter: $L = mbv$.
+
+  - type: numeric
+    id: l-number
+    prompt: |
+      A $2\ \mathrm{kg}$ particle moves at $1\ \mathrm{m/s}$ along a line that passes $0.8\ \mathrm{m}$ from $O$. Find the size of its angular momentum about $O$, in $\mathrm{kg\,m^2/s}$.
+    answer: 1.6
+    tolerance: 0.001
+    wrong:
+      - { value: 0.8, feedback: "That drops the mass. The momentum is $p = mv = 2$, not $1$." }
+      - { value: 0.4, feedback: "That is the area rate $L/2m$ of a unit mass particle. The question asks for $L$ itself." }
+    hint: Use $L = mbv$, that is, $|\mathbf{r}\times\mathbf{p}|$ with $r\sin\theta = b$.
+    explanation: |
+      $L = mbv = 2\cdot 0.8\cdot 1 = 1.6\ \mathrm{kg\,m^2/s}$. The area rate would be $L/2m = 0.4\ \mathrm{m^2/s}$, as before.
+
+  - type: text
+    id: torque
+    title: "What changes L: torque"
+    body: |
+      With no force, $\mathbf{L}$ stays constant. With a force, how does it change? Differentiate $\mathbf{L} = \mathbf{r}\times\mathbf{p}$ with the product rule, keeping the vectors in order:
+
+      $$\dot{\mathbf{L}} = \dot{\mathbf{r}}\times\mathbf{p} + \mathbf{r}\times\dot{\mathbf{p}}.$$
+
+      In the first term $\mathbf{p} = m\dot{\mathbf{r}}$ is parallel to $\dot{\mathbf{r}}$, and the cross product of parallel vectors is zero. In the second term, Newton's second law says $\dot{\mathbf{p}} = \mathbf{F}$, the net force. Hence
+
+      $$\dot{\mathbf{L}} = \mathbf{r}\times\mathbf{F} \equiv \mathbf{N}.$$
+
+      The vector $\mathbf{N}$ is the **torque** about $O$ (Taylor writes $\boldsymbol\Gamma$ and mentions $\boldsymbol\tau$ and $\mathbf{N}$ as other common symbols). This is the rotational form of Newton's second law, the partner of $\dot{\mathbf{p}} = \mathbf{F}$. In the plane, $N_z = xF_y - yF_x$, which equals the force times the **lever arm**, the perpendicular distance from $O$ to the line along which the force acts, with a sign for the sense of turning. A force that points through $O$ has zero lever arm and zero torque.
+
+  - type: build
+    id: build-ldot
+    prompt: |
+      Build the product-rule step for $\dot{\mathbf{L}}$ when $\mathbf{L} = \mathbf{r}\times\mathbf{p}$.
+    prefix: '\dot{\mathbf{L}} ='
+    tiles: ['\dot{\mathbf{r}}\times\mathbf{p}', '+', '\mathbf{r}\times\dot{\mathbf{p}}', '\dot{\mathbf{r}}\times\dot{\mathbf{p}}', '\mathbf{p}\times\dot{\mathbf{r}}']
+    answers:
+      - ['\dot{\mathbf{r}}\times\mathbf{p}', '+', '\mathbf{r}\times\dot{\mathbf{p}}']
+    wrong:
+      - answer: ['\dot{\mathbf{r}}\times\dot{\mathbf{p}}']
+        feedback: |
+          The product rule differentiates one factor at a time and keeps the other. Differentiating both together would give a second derivative-like term that is not in the rule.
+      - answer: ['\mathbf{p}\times\dot{\mathbf{r}}', '+', '\mathbf{r}\times\dot{\mathbf{p}}']
+        feedback: |
+          The order in a cross product matters, since $\mathbf{a}\times\mathbf{b} = -\mathbf{b}\times\mathbf{a}$. The first term must keep $\mathbf{r}$'s derivative on the left, as $\dot{\mathbf{r}}\times\mathbf{p}$.
+    explanation: |
+      The first term vanishes because $\mathbf{p}\parallel\dot{\mathbf{r}}$, leaving $\mathbf{r}\times\dot{\mathbf{p}} = \mathbf{r}\times\mathbf{F}$.
+
+  - type: widget
+    id: push
+    title: An off-center push
+    widget: ang-mom-area
+    config:
+      mode: push
+      view: 6
+      b: 0.8
+      v: 1
+      F: 1
+      ang: 90
+      sliders: [b, F, ang]
+      readouts: [t, Lz, tau]
+      show: { p: true, force: true, torque: true, lever: true, lplot: true }
+      units: { length: m, time: s, mass: kg }
+    body: |
+      The particle moves on a line as before. Between $t = 1$ and $t = 2\ \mathrm{s}$ a constant force $F$ acts. The curved arrow at $O$ is its torque, the dashed line is the lever arm, and the lower plot is $L_z$ against time.
+
+      **Try:** play, and watch $L_z$ in the plot. Then change the direction of the force with $\mathrm{ang}$ (its angle in degrees) so that it points straight along the line from the particle to $O$, and play again.
+
+  - type: numeric
+    id: torque-number
+    prompt: |
+      At $t = 1.5\ \mathrm{s}$ the particle in the widget is at $(x, y) = (-1,\ 0.8)\ \mathrm{m}$ and the force is $F = 1\ \mathrm{N}$ in the $+y$ direction, so $F_x = 0$ and $F_y = 1$. Using $N_z = xF_y - yF_x$, what is $|N_z|$ in $\mathrm{N\,m}$?
+    answer: 1
+    tolerance: 0.001
+    wrong:
+      - { value: 0.8, feedback: "The $y$ coordinate multiplies $F_x$, which is zero here. For a force along $y$ the lever arm is the horizontal distance $|x|$, not $b$." }
+      - { value: 0, feedback: "The force is not along the line from $O$ to the particle, so it has a lever arm. Only a force through $O$ gives zero torque." }
+    hint: With $F_x = 0$ the formula reduces to $N_z = xF_y$.
+    explanation: |
+      $N_z = (-1)(1) - (0.8)(0) = -1\ \mathrm{N\,m}$, magnitude $1$: lever arm $1\ \mathrm{m}$ times force $1\ \mathrm{N}$. The torque changes during the push because the particle moves ($x$ runs from $-1.5$ to $-0.5$), and its average over the pulse is $-1$. So $L_z$ changes by $\int N_z\,dt = -1\ \mathrm{kg\,m^2/s}$, from $-0.8$ to $-1.8$, as the plot shows.
+
+  - type: text
+    id: central
+    title: Central forces keep L constant
+    body: |
+      Now suppose the force always points along the line through $O$, toward $O$ or away from it. Such a force is called **central**. Then $\mathbf{F}\parallel\mathbf{r}$, so
+
+      $$\mathbf{N} = \mathbf{r}\times\mathbf{F} = \mathbf{0}, \qquad \dot{\mathbf{L}} = \mathbf{0}.$$
+
+      So $\mathbf{L}$ is constant. Two consequences follow. First, the direction of $\mathbf{L}$ is fixed, and $\mathbf{r}$ and $\mathbf{p}$ are both perpendicular to it, so the motion stays in one plane through $O$. Second, $L$ is constant, so $dA/dt = L/2m$ is constant: equal areas in equal times. This is Kepler's second law, with the sun as $O$ and the sun's pull as the central force. Notice what the argument used: only that the force is central. It never used the $1/r^2$ form of gravity.
+
+  - type: widget
+    id: central-force
+    title: Different central forces, equal areas
+    widget: ang-mom-area
+    config:
+      mode: gravity
+      view: 6
+      r0: 2
+      v: 1
+      k: 4
+      wedge: { n: 5, dt: 1 }
+      sliders: [v, k]
+      readouts: [t, r, speed, L, dAdt]
+      show: { p: true, force: true, wedges: true, wedgeAreas: true, strobe: true, spokes: true, lplot: true }
+      units: { length: m, time: s, mass: kg }
+      presets:
+        - { label: Ellipse (inverse-square), mode: gravity, r0: 2, v: 1, k: 4 }
+        - { label: Near circle (inverse-square), mode: gravity, r0: 2, v: 1.4, k: 4 }
+        - { label: Spring (force proportional to r), mode: spring, r0: 2, v: 1, k: 1 }
+    body: |
+      The force is central and attractive in every preset: gravity-like ($F = k/r^2$ toward $O$) or a spring ($F = kr$ toward $O$). The wedges are the areas swept in each second.
+
+      **Try:** play each preset. Compare the printed wedge areas and the plot of $L_z$, then look at the speed readout along the orbit.
+
+  - type: mcq
+    id: trap-inverse-square
+    prompt: |
+      A student says: "Equal areas in equal times is a property of the inverse-square law of gravity, so it fails for a spring force $F = -kr$." What is wrong?
+    options:
+      - text: The argument for equal areas used only that the force is central, so it holds for the spring too
+        correct: true
+      - text: "Nothing is wrong: for a spring the swept area changes with time"
+        feedback: |
+          In the Spring preset the wedge areas stay equal, as does $L_z$. The torque of a force along $\mathbf{r}$ is zero for any strength of that force.
+      - text: Equal areas needs the orbit to be a circle
+        feedback: |
+          The ellipse preset has equal areas too. A circle is only a special case in which the speed is also constant.
+    explanation: |
+      The shape of the orbit does depend on the force law (ellipses with the sun at one focus need the inverse-square form), but equal areas only needs $\mathbf{N} = \mathbf{0}$.
+
+  - type: mcq
+    id: trap-speed
+    prompt: |
+      A comet has constant $dA/dt$ about the sun. Which statement about its speed is correct?
+    options:
+      - text: The speed is larger when the comet is closer to the sun
+        correct: true
+        feedback: |
+          Yes. In the Ellipse preset the speed readout is largest at the smallest $r$. For the same swept area, the shorter line must turn faster, and the speed it must have is larger.
+      - text: The speed is constant, since the area rate is constant
+        feedback: |
+          Constant $dA/dt$ means constant $L = m\,r\,v_\perp$, where $v_\perp$ is the part of the velocity perpendicular to $\mathbf{r}$. When $r$ shrinks, $v_\perp$ must grow. Only in a circle is the speed constant.
+      - text: The speed is larger when the comet is farther from the sun
+        feedback: |
+          With $L = m\,r\,v_\perp$ fixed, a larger $r$ means a smaller $v_\perp$. Far from the sun the comet is slow.
+    explanation: |
+      Constant area rate is not constant speed. At the closest and farthest points $\mathbf{v}\perp\mathbf{r}$, so $L = mrv$: halving $r$ doubles $v$. In terms of the angular speed $\omega = \dot\varphi$ about $O$, $L = mr^2\omega$, so halving $r$ makes $\omega$ four times larger.
+
+  - type: text
+    id: several
+    title: Several particles
+    body: |
+      For $N$ particles labelled $\alpha = 1, \dots, N$, all with positions measured from the same origin $O$, the **total angular momentum** is the sum
+
+      $$\mathbf{L} = \sum_{\alpha=1}^{N}\mathbf{r}_\alpha\times\mathbf{p}_\alpha.$$
+
+      Differentiating each term with the single-particle result gives $\dot{\mathbf{L}} = \sum_\alpha\mathbf{r}_\alpha\times\mathbf{F}_\alpha$: the rate of change of $\mathbf{L}$ is the total torque. Split the force on particle $\alpha$ into the part from outside the system, $\mathbf{F}^{\text{ext}}_\alpha$, and the forces $\mathbf{F}_{\alpha\beta}$ from the other particles. If the internal forces obey the third law and also point along the line joining the two particles (they are central), the torques of each internal pair cancel, and what remains is
+
+      $$\dot{\mathbf{L}} = \sum_\alpha\mathbf{r}_\alpha\times\mathbf{F}^{\text{ext}}_\alpha = \mathbf{N}^{\text{ext}}.$$
+
+      Both assumptions are needed. The next lesson proves this step by step. For now, take the result and use it.
+
+  - type: numeric
+    id: external-torque
+    prompt: |
+      Two particles pull on each other with a force of $5\ \mathrm{N}$ along the line joining them (third law, central). Outside agents exert torques about $O$ of $2\ \mathrm{N\,m}$ on particle 1 and $1\ \mathrm{N\,m}$ on particle 2, both along the same axis. What is $\dot L$ for the pair, in $\mathrm{N\,m}$?
+    answer: 3
+    tolerance: 0.001
+    wrong:
+      - { value: 0, feedback: "That would be true with no external torque. Here the outside agents do twist the pair, and internal forces cannot cancel that." }
+      - { value: 8, feedback: "The internal pull is not added: its two torques are equal and opposite because the force is central and the third law holds, so it drops out of the total." }
+    hint: Add only the external torques.
+    explanation: |
+      $\dot L = N^{\text{ext}} = 2 + 1 = 3\ \mathrm{N\,m}$. The mutual $5\ \mathrm{N}$ pull rearranges how the angular momentum is shared between the two particles but not its total.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      **Next:** the many-particle result above was stated without proof. In the next lesson, a guided proof, you derive it step by step and see exactly where the third law and central forces enter. After that comes energy.
