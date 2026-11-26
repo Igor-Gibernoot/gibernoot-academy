@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-26 ch03-challenge part 1 (autonomous)
+Built `ch03/challenge.yaml` (22 cards, problems 1-3) and set `file:` on the node; part 2 planned in its summary (fall with both drag terms, helix in B). P1 ball up with drag (drag-fall, v0 = -10 as down-positive; run stops at landing time 1.434 s), P2 projectile b = 0.2 (projectile-drag; formula 25.1 vs exact 29.1, asymptote, apex beyond half range), P3 charge with B and linear drag via complex eta (derived, checked by differentiation). Choices: all toy data, so no web facts; E-cross-B drift not used (never taught as a lesson); closing card is a placeholder to be replaced by part 2's final card. Images: none: toy problems. Conventions fixed here: challenge part 1 numbers (CONVENTIONS Chapter 3).
+
 ## 2026-11-25 ch03-map (autonomous)
 - Built `ch03/map.yaml` (9 boxes, 11 cards: drag and ratio, sphere constants, terminal speed, linear fall, linear coasting, projectile range, tanh fall, quadratic coasting, charge in B). Decoys mirror the traps (swapped tau, wrong eta-dot sign, mg/c, linear shape for quadratic coasting). Validate and shots clean (displayed math split to one formula per line).
 - Conventions fixed here: none new.

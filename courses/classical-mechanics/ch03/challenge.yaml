@@ -1,0 +1,349 @@
+id: ch03-challenge
+title: Level Challenge
+kind: challenge
+cards:
+  - type: text
+    id: intro
+    title: Harder, still guess first
+    body: |
+      Problems that **combine** what the level taught: drag, projectiles and a charge in a magnetic field. Guess first, use a pencil, and check each number by hand. Every answer comes with its reason. All bodies here are toy bodies with the data given, and $g = 9.8\ \mathrm{m/s^2}$.
+
+      The toolkit. A drag force $\mathbf{f} = -b\mathbf{v}$ (linear drag, $b$ in kg/s) on a body of mass $m$ gives the time constant and the terminal speed
+      $$\tau = \frac{m}{b}, \qquad v_{\text{ter}} = \frac{mg}{b}.$$
+      With $y$ **up**, a launch with vertical speed $v_{y0}$ gives
+      $$y(t) = (v_{y0} + v_{\text{ter}})\,\tau\left(1 - e^{-t/\tau}\right) - v_{\text{ter}}\,t.$$
+      The horizontal motion is $x(t) = v_{x0}\,\tau\left(1 - e^{-t/\tau}\right)$, and the range with no air is $R_{\text{vac}} = 2v_{x0}v_{y0}/g$. For a charge $q$ in a magnetic field $B$ along $z$, write $\omega = qB/m$ and $\eta = v_x + i v_y$, so that
+      $$\dot\eta = -i\omega\,\eta.$$
+
+      Three problems now: a ball thrown straight up, a projectile with drag, and a charge that spirals in a field while air slows it.
+
+  # ---------------------------------------------------------------- Problem 1
+  - type: text
+    id: p1-setup
+    title: 'Problem 1: up and down with drag'
+    body: |
+      A ball of mass $m = 1\ \mathrm{kg}$ is thrown straight up at $v_0 = 10\ \mathrm{m/s}$. The air gives a linear drag $f = bv$ with $b = 2\ \mathrm{kg/s}$, so
+      $$\tau = 0.5\ \mathrm{s}, \qquad v_{\text{ter}} = 4.9\ \mathrm{m/s}.$$
+      With $y$ up, the vertical speed is
+      $$v_y(t) = -v_{\text{ter}} + (v_0 + v_{\text{ter}})\,e^{-t/\tau}.$$
+      In a vacuum the ball would rise $1.02\ \mathrm{s}$ to $5.10\ \mathrm{m}$. How much does the air change the trip up and the trip down?
+
+  - type: numeric
+    id: p1-peak-time
+    prompt: |
+      A ball of mass $1\ \mathrm{kg}$ is thrown straight up at $10\ \mathrm{m/s}$ with linear drag, $\tau = 0.5\ \mathrm{s}$ and $v_{\text{ter}} = 4.9\ \mathrm{m/s}$. Its vertical speed (up positive) is $v_y(t) = -v_{\text{ter}} + (v_0 + v_{\text{ter}})e^{-t/\tau}$. At what time $t_{\text{peak}}$ does $v_y = 0$, in seconds?
+    answer: 0.556
+    tolerance: 0.005
+    answerText: '0.556'
+    wrong:
+      - { value: 1.02, feedback: 'That is the vacuum time $v_0/g$. Drag pulls down on the way up as well, so the ball stops sooner.' }
+      - { value: 0.5, feedback: 'That is $\tau$, the time scale of the exponential. The stopping time comes from solving $v_y = 0$ for $t$.' }
+    hint: |
+      Set $v_y = 0$: $e^{-t/\tau} = v_{\text{ter}}/(v_0 + v_{\text{ter}})$. Take the logarithm.
+    explanation: |
+      $e^{-t/\tau} = \dfrac{4.9}{14.9}$, so
+      $$t_{\text{peak}} = \tau \ln\frac{v_0 + v_{\text{ter}}}{v_{\text{ter}}} = 0.5\,\ln 3.041 = 0.556\ \mathrm{s}.$$
+      Gravity and drag both point down while the ball rises, so it stops in about half the vacuum time.
+
+  - type: numeric
+    id: p1-height
+    prompt: |
+      The same ball (mass $1\ \mathrm{kg}$, $\tau = 0.5\ \mathrm{s}$, $v_{\text{ter}} = 4.9\ \mathrm{m/s}$, thrown up at $v_0 = 10\ \mathrm{m/s}$) peaks at $t_{\text{peak}} = 0.556\ \mathrm{s}$. With $y$ up, its height is $y(t) = (v_0 + v_{\text{ter}})\tau(1 - e^{-t/\tau}) - v_{\text{ter}}t$. What is the peak height, in metres?
+    answer: 2.275
+    tolerance: 0.01
+    answerText: '2.275'
+    wrong:
+      - { value: 5.1, feedback: 'That is the vacuum height $v_0^2/(2g)$. The drag takes energy away on the way up.' }
+      - { value: 5, feedback: 'That is $v_0\tau$, the first piece of the height. The term $-v_{\text{ter}}t_{\text{peak}}$ must be subtracted.' }
+    hint: |
+      At the peak, $e^{-t/\tau} = v_{\text{ter}}/(v_0 + v_{\text{ter}})$, so $(v_0 + v_{\text{ter}})\tau(1 - e^{-t/\tau}) = v_0\tau$.
+    explanation: |
+      At the peak the bracket gives $(v_0 + v_{\text{ter}})\tau\left(1 - \dfrac{v_{\text{ter}}}{v_0 + v_{\text{ter}}}\right) = v_0\tau$, so
+      $$\begin{aligned} y_{\text{peak}} &= v_0\tau - v_{\text{ter}}t_{\text{peak}} \\ &= 5 - 4.9 \times 0.556 \\ &= 2.275\ \mathrm{m}. \end{aligned}$$
+      That is less than half the vacuum height.
+
+  - type: mcq
+    id: p1-asym
+    prompt: |
+      A ball is thrown straight up with linear drag and rises $2.275\ \mathrm{m}$ in $0.556\ \mathrm{s}$. Compare the time it takes to fall back from the peak to the start with the time it took to rise.
+    options:
+      - text: The fall takes longer than the rise
+        correct: true
+      - text: The fall takes the same time as the rise
+        feedback: |
+          That symmetry holds in a vacuum, where only gravity acts. With drag, going up both gravity and drag point down, while going down the drag points up and cancels part of gravity.
+      - text: The fall takes less time than the rise
+        feedback: |
+          The ball starts the fall from rest, with no drag yet, and gains speed slowly because the drag grows as it speeds up. Going up it started at $10\ \mathrm{m/s}$ with both forces down, so it was stopped quickly.
+    explanation: |
+      On the way up gravity and drag add, on the way down they oppose. The same distance is covered more slowly going down. The numbers are $0.556\ \mathrm{s}$ up and $0.878\ \mathrm{s}$ down.
+
+  - type: widget
+    id: p1-widget
+    title: The whole flight
+    widget: drag-fall
+    config:
+      law: linear
+      laws: [linear]
+      m: 1
+      b: 2
+      v0: -10
+      tmax: 1.434
+      duration: 3000
+      sliders: []
+      axes: { v: [-11, 6], y: [-3, 1] }
+      readouts: [speed, y, time]
+      show: { terminal: true, freefall: true, net: false, laws: false }
+      labels: { vt: 'v_ter' }
+      units: { force: N, speed: m/s, distance: m, time: s, mass: kg, b: 'kg/s' }
+    body: |
+      The ball of mass $1\ \mathrm{kg}$ with $b = 2\ \mathrm{kg/s}$ is thrown up at $10\ \mathrm{m/s}$. Here **down is positive**, so the launch speed is $v = -10\ \mathrm{m/s}$ and a height above the start is a negative $y$. The run stops when the ball is back at its starting height. The grey curve is the flight with no air.
+
+      **Try:** release, find the peak on the $y$ plot, and read the speed at the end.
+
+  - type: mcq
+    id: p1-land
+    prompt: |
+      A ball is thrown straight up at $10\ \mathrm{m/s}$ with linear drag ($v_{\text{ter}} = 4.9\ \mathrm{m/s}$) and returns to its starting height. How does its landing speed compare with $10\ \mathrm{m/s}$ and with $v_{\text{ter}}$?
+    options:
+      - text: Below $v_{\text{ter}}$, so far below $10\ \mathrm{m/s}$
+        correct: true
+      - text: Equal to $10\ \mathrm{m/s}$, as in a vacuum
+        feedback: |
+          In a vacuum, energy conservation gives back the launch speed. With drag the work done by the drag, always against the motion, is lost on both legs, so the ball returns slower.
+      - text: Equal to $v_{\text{ter}}$, since the ball falls long enough
+        feedback: |
+          The ball falls only $2.275\ \mathrm{m}$ from rest. The speed $v_{\text{ter}}$ is approached for ever and never reached, and a short fall stops well short of it.
+      - text: Above $v_{\text{ter}}$, because it fell from a height
+        feedback: |
+          Starting the fall from rest, the speed follows $v_{\text{ter}}(1 - e^{-t/\tau})$ and stays below $v_{\text{ter}}$. Only a body that starts above $v_{\text{ter}}$ can be above it.
+    explanation: |
+      The fall starts from rest and lasts $0.878\ \mathrm{s}$, about $1.8\,\tau$, so the speed reaches $4.9(1 - e^{-1.76}) = 4.05\ \mathrm{m/s}$, which is what the widget reads. The ball lost more than $80\%$ of its kinetic energy to the drag: $\tfrac12 (4.05)^2 / \tfrac12 (10)^2 = 0.16$.
+
+  # ---------------------------------------------------------------- Problem 2
+  - type: text
+    id: p2-setup
+    title: 'Problem 2: a projectile with drag'
+    body: |
+      A body of mass $m = 1\ \mathrm{kg}$ is launched at $v_0 = 20\ \mathrm{m/s}$, $45^\circ$ above the horizontal, with linear drag $b = 0.2\ \mathrm{kg/s}$. Then
+      $$\begin{gathered} v_{x0} = v_{y0} = 14.14\ \mathrm{m/s} \\ \tau = 5\ \mathrm{s}, \quad v_{\text{ter}} = 49\ \mathrm{m/s}. \end{gathered}$$
+      The range with a small drag is cut by about
+      $$R \approx R_{\text{vac}}\left(1 - \frac{4}{3}\,\frac{v_{y0}}{v_{\text{ter}}}\right).$$
+      How well does this formula work here, and where does the path end up?
+
+  - type: numeric
+    id: p2-approx
+    prompt: |
+      A projectile of mass $1\ \mathrm{kg}$ is launched at $v_{x0} = v_{y0} = 14.14\ \mathrm{m/s}$ with linear drag, $v_{\text{ter}} = 49\ \mathrm{m/s}$ and $g = 9.8\ \mathrm{m/s^2}$. The range in a vacuum is $R_{\text{vac}} = 2v_{x0}v_{y0}/g$, and the range with a small drag is about $R \approx R_{\text{vac}}\left(1 - \tfrac43\, v_{y0}/v_{\text{ter}}\right)$. What does this formula give for $R$, in metres?
+    answer: 25.1
+    tolerance: 0.1
+    answerText: '25.1'
+    wrong:
+      - { value: 40.8, feedback: 'That is $R_{\text{vac}} = 2 \times 14.14^2/9.8$. The drag factor $1 - \tfrac43 v_{y0}/v_{\text{ter}}$ must multiply it.' }
+      - { value: 16.3, feedback: 'The factor is $1 - \tfrac43 v_{y0}/v_{\text{ter}}$, not $\tfrac43 v_{y0}/v_{\text{ter}}$ alone. That would be the range lost, times a wrong sign.' }
+    hint: |
+      First $R_{\text{vac}} = 2 \times 14.14 \times 14.14/9.8$, then the factor $v_{y0}/v_{\text{ter}} = 14.14/49$.
+    explanation: |
+      $R_{\text{vac}} = 2 \times 200/9.8 = 40.82\ \mathrm{m}$ and $v_{y0}/v_{\text{ter}} = 0.289$, so
+      $$R \approx 40.82\,(1 - 0.385) = 25.1\ \mathrm{m}.$$
+
+  - type: widget
+    id: p2-widget
+    title: The exact range
+    widget: projectile-drag
+    config:
+      law: linear
+      laws: [linear]
+      v0: 20
+      theta: 45
+      m: 1
+      b: 0.2
+      sliders: []
+      show: { vacuum: true, range: true }
+      readouts: [range, vacRange, ratio]
+      units: { force: N, speed: m/s, distance: m, time: s, mass: kg, b: 'kg/s', angle: deg }
+    body: |
+      The projectile of mass $1\ \mathrm{kg}$ with $b = 0.2\ \mathrm{kg/s}$, launched at $20\ \mathrm{m/s}$ and $45^\circ$. The dashed curve is the path with no air; the markers are the two ranges.
+
+      **Try:** release and read the range $R$ and the ratio $R/R_{\text{vac}}$.
+
+  - type: mcq
+    id: p2-error
+    prompt: |
+      A projectile with linear drag has $v_{y0}/v_{\text{ter}} = 0.29$. The small-drag formula $R \approx R_{\text{vac}}(1 - \tfrac43 v_{y0}/v_{\text{ter}})$ gives $25.1\ \mathrm{m}$ while the numerical range is $29.1\ \mathrm{m}$. Why is the formula $14\%$ low?
+    options:
+      - text: It keeps only the first power of $v_{y0}/v_{\text{ter}}$, and the dropped higher powers are not small at $0.29$
+        correct: true
+      - text: The numerical value is wrong, because the integration ignores the horizontal drag
+        feedback: |
+          The numerical path includes drag on both components, and it agrees with the closed form for the linear law. The formula is the approximation.
+      - text: The formula is exact, and only $R_{\text{vac}}$ was computed with the wrong $g$
+        feedback: |
+          $R_{\text{vac}} = 40.8\ \mathrm{m}$ is read from the widget as well, so $g$ is right. The formula is a series cut after the first correction, valid for $v_{y0} \ll v_{\text{ter}}$.
+    explanation: |
+      The formula is the first correction in a series in $v_{y0}/v_{\text{ter}}$. At $0.29$ the higher powers add back about $0.10\,R_{\text{vac}}$ (the exact ratio is $0.713$, the formula gives $0.615$). A lighter drag, or a slower launch, makes the formula good.
+
+  - type: numeric
+    id: p2-asym
+    prompt: |
+      A projectile with horizontal launch speed $v_{x0} = 14.14\ \mathrm{m/s}$ moves with linear drag of time constant $\tau = 5\ \mathrm{s}$, so $x(t) = v_{x0}\tau(1 - e^{-t/\tau})$. How far can it ever get horizontally, however long it flew (it could be launched from a cliff), in metres?
+    answer: 70.7
+    tolerance: 0.2
+    answerText: '70.7'
+    wrong:
+      - { value: 29.1, feedback: 'That is where this projectile lands on level ground. The question asks for the limit of $x(t)$ as $t \to \infty$.' }
+      - { value: 40.8, feedback: 'That is the vacuum range, which has nothing to do with a limit. With drag the horizontal speed decays, so the total distance has a finite limit set by $\tau$.' }
+    hint: |
+      Let $t \to \infty$ in $x(t) = v_{x0}\tau(1 - e^{-t/\tau})$.
+    explanation: |
+      The exponential vanishes, so
+      $$x_\infty = v_{x0}\tau = 14.14 \times 5 = 70.7\ \mathrm{m}.$$
+      The level-ground range of $29.1\ \mathrm{m}$ is well inside this wall.
+
+  - type: mcq
+    id: p2-apex
+    prompt: |
+      A projectile with linear drag lands $29.1\ \mathrm{m}$ away on level ground. Its highest point has $x = 15.8\ \mathrm{m}$ (the numerical value). In a vacuum the highest point is at half the range. What does the drag do to its position?
+    options:
+      - text: The top is beyond half the range, so the descent is steeper than the ascent
+        correct: true
+      - text: The top is still at exactly half the range, since gravity alone fixes the symmetry
+        feedback: |
+          The parabola is symmetric because the horizontal speed is constant. Here the drag slows the horizontal motion, so the ball covers more ground early than late.
+      - text: The top is before half the range, so the descent is shallower
+        feedback: |
+          The numbers say otherwise: $15.8\ \mathrm{m}$ is more than $14.55\ \mathrm{m}$, half the range. The horizontal speed is largest at the start, so the ball is far along when it reaches the top.
+    explanation: |
+      Half the range is $14.55\ \mathrm{m}$ and the top is at $15.8\ \mathrm{m}$. The horizontal speed falls from $14.14\ \mathrm{m/s}$, so more than half of the horizontal distance is covered before the top. The ball then drops into a shorter horizontal stretch, which makes the descent steeper.
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: text
+    id: p3-setup
+    title: 'Problem 3: a spiral in a field'
+    body: |
+      A positive charge moves in the $xy$ plane in a uniform magnetic field $B$ pointing along $z$ (toward you in the top view), through a gas that gives a linear drag $-b\mathbf{v}$. There is no gravity. Write
+      $$\omega = \frac{qB}{m} = 4\ \mathrm{s^{-1}}, \qquad \frac{1}{\tau} = \frac{b}{m} = 3\ \mathrm{s^{-1}}.$$
+      The charge starts at the origin with speed $v_0 = 10\ \mathrm{m/s}$ along $+x$. With $\eta = v_x + iv_y$, the field alone gives $\dot\eta = -i\omega\eta$. A charge with no gas circles clockwise. What does it do with the gas?
+
+  - type: build
+    id: p3-eq
+    prompt: |
+      A charge in a magnetic field has $\dot\eta = -i\omega\eta$ from the field, where $\eta = v_x + iv_y$ and $\omega = qB/m$. A linear drag $-b\mathbf{v}$ adds an acceleration $-\mathbf{v}/\tau$ with $\tau = m/b$. Build $\dot\eta$ with both.
+    prefix: '\dot\eta ='
+    tiles: ['-i\omega\,\eta', '-\eta/\tau', '+\eta/\tau', '-\omega\,\eta']
+    answers:
+      - ['-i\omega\,\eta', '-\eta/\tau']
+      - ['-\eta/\tau', '-i\omega\,\eta']
+    wrong:
+      - answer: ['-i\omega\,\eta', '+\eta/\tau']
+        feedback: 'This makes the drag push along the velocity, so the speed would grow. Drag acts against $\mathbf{v}$, so its term is $-\eta/\tau$.'
+      - answer: ['-\omega\,\eta', '-\eta/\tau']
+        feedback: 'Without the $i$ the field term would only shrink or grow $\eta$. The $i$ is what turns the velocity: multiplying by $i$ rotates a complex number by $90^\circ$.'
+    hint: Drag acts on both components against the velocity, so on $\eta$ it gives $-\eta/\tau$ in the same way.
+    explanation: |
+      $$\dot\eta = -\left(i\omega + \frac{1}{\tau}\right)\eta, \qquad \eta = v_0\,e^{-t/\tau}\,e^{-i\omega t}.$$
+      The first exponential shrinks the speed as in coasting with linear drag, and the second turns the velocity clockwise at the same rate $\omega$ as with no gas.
+
+  - type: numeric
+    id: p3-half
+    prompt: |
+      A charge has $\eta = v_0 e^{-t/\tau}e^{-i\omega t}$ with $v_0 = 10\ \mathrm{m/s}$, $1/\tau = 3\ \mathrm{s^{-1}}$ and $\omega = 4\ \mathrm{s^{-1}}$. Its speed is $|\eta| = v_0 e^{-t/\tau}$. After what time has the speed halved, in seconds?
+    answer: 0.231
+    tolerance: 0.002
+    answerText: '0.231'
+    wrong:
+      - { value: 0.333, feedback: 'That is $\tau$, when the speed has fallen to $1/e$ of $v_0$, about $37\%$, not to one half.' }
+      - { value: 0.139, feedback: 'That uses the combined rate $5\ \mathrm{s^{-1}}$ ($\ln 2/5$). The speed is $|\eta|$, and the factor $e^{-i\omega t}$ has modulus $1$, so only $1/\tau$ sets the decay.' }
+    hint: |
+      Solve $e^{-t/\tau} = \tfrac12$.
+    explanation: |
+      $$t = \tau\ln 2 = \frac{\ln 2}{3} = 0.231\ \mathrm{s}.$$
+      The factor $e^{-i\omega t}$ has modulus $1$ and does not change the speed.
+
+  - type: numeric
+    id: p3-angle
+    prompt: |
+      A charge has $\eta = v_0 e^{-t/\tau}e^{-i\omega t}$ with $1/\tau = 3\ \mathrm{s^{-1}}$ and $\omega = 4\ \mathrm{s^{-1}}$. The phase of $\eta$ is $-\omega t$: it gives the direction of the velocity. Through what angle, in radians, has the velocity turned by the time $t = 0.231\ \mathrm{s}$ when the speed has halved?
+    answer: 0.924
+    tolerance: 0.005
+    answerText: '0.924'
+    wrong:
+      - { value: 1.155, feedback: 'That is $5 \times 0.231$. The combined rate $\sqrt{\omega^2 + 1/\tau^2} = 5\ \mathrm{s^{-1}}$ is the modulus of the whole exponent, while the direction turns at $\omega$ alone.' }
+      - { value: 0.693, feedback: 'That is $\ln 2$, the exponent of the decay. The angle is $\omega t$.' }
+    hint: |
+      The direction is the phase of $e^{-i\omega t}$, so the angle is $\omega t$.
+    explanation: |
+      $$\omega t = 4 \times 0.231 = 0.924\ \mathrm{rad} \approx 53^\circ.$$
+      Drag does not change the turning rate, only the size of the circle, which shrinks as the speed falls.
+
+  - type: numeric
+    id: p3-path
+    prompt: |
+      A charge starts at $v_0 = 10\ \mathrm{m/s}$ and its speed decays as $v_0e^{-t/\tau}$ with $1/\tau = 3\ \mathrm{s^{-1}}$. What is the total length of the path it travels, as $t \to \infty$, in metres?
+    answer: 3.33
+    tolerance: 0.01
+    answerText: '3.33'
+    wrong:
+      - { value: 2, feedback: 'That is the straight-line distance from start to end, which is shorter because the path curves. The question asks for the length along the path.' }
+      - { value: 10, feedback: 'That is the speed $v_0$ in $\mathrm{m/s}$. The length is the integral of the speed over all time.' }
+    hint: |
+      The path length is the integral of the speed $\int_0^\infty v_0e^{-t/\tau}\,dt$.
+    explanation: |
+      $$s = \int_0^\infty v_0e^{-t/\tau}\,dt = v_0\tau = \frac{10}{3} = 3.33\ \mathrm{m}.$$
+      The field does not change the speed, so this is the same length the charge would travel along a straight line.
+
+  - type: numeric
+    id: p3-disp
+    prompt: |
+      A charge starts at the origin with $\eta = v_0e^{-(1/\tau + i\omega)t}$, $v_0 = 10\ \mathrm{m/s}$, $1/\tau = 3\ \mathrm{s^{-1}}$, $\omega = 4\ \mathrm{s^{-1}}$. Its position $\xi = x + iy$ obeys $\dot\xi = \eta$. How far from the origin does it end up, $|\xi(\infty)|$, in metres?
+    answer: 2
+    tolerance: 0.01
+    answerText: '2'
+    wrong:
+      - { value: 3.33, feedback: 'That is the length of the spiral path. The net displacement is shorter, since the path curls.' }
+      - { value: 10, feedback: 'The speed has units of m/s and the distance is an integral over time.' }
+    hint: |
+      Integrate: $\xi(\infty) = \int_0^\infty \eta\,dt = \dfrac{v_0}{1/\tau + i\omega}$. Then take the modulus.
+    explanation: |
+      $$\xi(\infty) = \frac{v_0}{3 + 4i} = \frac{10(3 - 4i)}{25} = 1.2 - 1.6\,i\ \mathrm{m}.$$
+      Its modulus is $10/\sqrt{3^2 + 4^2} = 2\ \mathrm{m}$.
+
+  - type: numeric
+    id: p3-y
+    prompt: |
+      A positive charge starts at the origin along $+x$ and ends at $\xi(\infty) = 10/(3 + 4i)$ metres, with $\xi = x + iy$. What is its final $y$ coordinate, in metres?
+    answer: -1.6
+    tolerance: 0.01
+    answerText: '-1.6'
+    wrong:
+      - { value: 1.6, feedback: 'The sign is flipped. A positive charge turns clockwise in this field, so starting along $+x$ it curves toward negative $y$.' }
+      - { value: 1.2, feedback: 'That is the final $x$, the real part of $\xi(\infty)$. The question asks for the imaginary part.' }
+    hint: |
+      Multiply top and bottom by $3 - 4i$ and read the imaginary part.
+    explanation: |
+      $$\begin{aligned} \frac{10}{3 + 4i} &= \frac{10(3 - 4i)}{(3 + 4i)(3 - 4i)} \\ &= \frac{30 - 40i}{25} = 1.2 - 1.6\,i. \end{aligned}$$
+      The charge ends at $(x, y) = (1.2, -1.6)\ \mathrm{m}$, in the clockwise direction from its start, as expected.
+
+  - type: numeric
+    id: p3-heat
+    prompt: |
+      Give the same charge a mass $m = 2\ \mathrm{kg}$. It starts at $10\ \mathrm{m/s}$ and spirals to rest, in a magnetic field and a gas with linear drag. The magnetic force does no work. How much energy does the drag take from it in total, in joules?
+    answer: 100
+    tolerance: 0.5
+    answerText: '100'
+    wrong:
+      - { value: 50, feedback: 'That is half. The kinetic energy is $\tfrac12 mv^2 = \tfrac12 \times 2 \times 100$, and the whole of it is lost, not half of it.' }
+      - { value: 0, feedback: 'The magnetic force does no work, but the drag does: it always opposes the motion, and the charge stops, so all the kinetic energy goes to the gas.' }
+    hint: |
+      The charge ends at rest, and only the drag changes its speed.
+    explanation: |
+      The work done by the field is zero, so the drag removes the whole initial kinetic energy:
+      $$\tfrac12 mv_0^2 = \tfrac12 \times 2 \times 10^2 = 100\ \mathrm{J}.$$
+
+  - type: text
+    id: close
+    title: What this part showed
+    body: |
+      Three habits worth keeping. With drag, split a flight into legs and ask which forces add and which oppose: the rise and the fall are not mirror images. Treat a series formula as a statement about a small ratio, and check that ratio before trusting it. And when two effects act on one complex number, as in $\dot\eta = -(i\omega + 1/\tau)\eta$, one factor sets the size and the other sets the turning.
+
+      **Next:** two more problems in the second part of this challenge: a fall where both drag terms compete, and a charge spiralling as a helix.
