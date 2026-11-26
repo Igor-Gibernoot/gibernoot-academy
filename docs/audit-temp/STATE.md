@@ -1,0 +1,94 @@
+# Audit state (science-faith-mind). Coordinator edits this file in place at the end of each session.
+
+Per-agent rules: agent-rules.md. Web method: docs/WEB_SEARCH.md. Rank table: audit.md. Paste list: britannica-paste-list.md.
+
+## Progress
+- Ranks 1 to 124 done.
+- Clean-row pass (audit.md rank 125+, course science-faith-mind only): done 125, 126, 127, 128, 129, 130, 135, 136, 139. Skipped for now (Tier 2 or 3): 131, 132, 133, 134.
+- Hits (lessons whose text changed) in the clean-row pass: 8 of 9. Add new hits here: (none yet this session)
+- Current tier: 1.
+- Session 2026-11-26 (next): not started.
+
+## Tiers (finish one before the next; tell the user when a tier ends)
+- Tier 1 FULL: clean rows rank 131+ with BOTH "quotes" and "attributions". List: `grep "^| [0-9]* | science-faith-mind" docs/audit-temp/audit.md | awk -F'|' '$2+0>=131 && $6~/quotes/ && $6~/attributions/'`, rank order, skip done ranks. Agent checks every quote, attribution, date and number (strength "read") or softens or removes it.
+- Tier 2 LIGHT (about 60 rows, exactly one of quotes/attributions): check ONLY quotes and attributions. Skip a date that the VERIFIED.md line already lists as "read" for that exact date (re-check if snippet only, wikipedia only, unchecked, or not listed). Open only candidates: links for those items.
+- Tier 3 QUICK (about 43 rows, neither): `grep -n "<lessonId>" courses/science-faith-mind/VERIFIED.md`; if the line has "snippet only" or "wikipedia only", audit just those items, else mark done with no agent (not counted in the cap).
+
+## Coordinator rules
+- Lean coordinator. One fresh agent per unit, strictly sequential, model sonnet, effort medium, MAX 10 agents per session, no new lessons.
+- The agent prompt names the tier, the lesson id and file, what to check first, plus only that lesson's lines from "NOT CONFIRMED" below and any special rule below that applies. Do not paste this whole file.
+- A unit is failed (resume the agent with SendMessage) if it leaves "unchecked", "snippet only" with no follow-up, "wikipedia only" on a claim in the lesson text, or "reused from another line". Candidates links must all be opened before NOT CONFIRMED.
+- If WebFetch fails: retry once, then a mirror or another reference site.
+- Sweep rule: when a date or wording changes, grep every course file (lessons, maps, challenges, CONVENTIONS) so they agree.
+- Parallel sessions share the tree: stage by path, never `git add -A`, never anything under courses/classical-mechanics/. validate may show 2 unrelated errors about widget "ang-mom-area": ignore if science-faith-mind has none.
+- Britannica pastes: none pending. If a unit adds one, give the user the link and the full rule-12 prompt with items a, b, c. Form: Link + "Use ONLY this page's text, nothing from memory. Quote the exact sentence or write NOT STATED. Keep dates as written. Start your reply with `<lesson id>, <page name>`." Apply each pasted answer to the lesson, VERIFIED.md and britannica-paste-list.md.
+- End of audit: tell the user, then `git rm -r docs/audit-temp`, commit, push. Not before.
+- Final message of every session: final report (fixed with commits, still NOT CONFIRMED, Britannica pastes) and the next-session prompt (see NEXT_PROMPT below, with the progress above updated). Update this file first and commit it by path.
+
+## Special rules (give an agent only those that apply)
+- ch17 Upanishad wording is aligned (ch17-brahman, ch17-challenge-2, ch20-comparison: "about 800 to 500 BCE depending on the reference work").
+- ch14-archaeology (Tel Dan/Hazael, Anastasi V Succoth flag at line 72) or ch21-copernican: reconcile with ch14-traps and ch14-thought (de Leon "died 1305, late 13th century", Luria 1534 to 1572, Talmud burning "by Christian authorities", 1232 or 1233) and ch21-challenge (Gott, no "astrophysicist").
+- ch16-map/muhammad/CONVENTIONS: Ibn Ishaq d. 767, some sources about 773. ch16-modern, ch09: Ibn al-Haytham Optics "some sources 1011-1021". Kardec/Brazil: Kardec first published 1857 wording, FEB 1 or 2 Jan.
+
+## NOT CONFIRMED (carried over; retry only if a unit touches the lesson; "cand" = candidate source)
+- ch19-zoroaster: Barr p. 206 (cand JSTOR JAAR 53/2 1985, 201-235), Boyce p. 29. Grabbe's own view (no claim remains).
+- ch19-shinto, ch19-challenge-2: Kuroda 1981 beyond Teeuwen and Scheid; 100,000 shrines as an official total; Picken "credenda vs agenda"; tokowaka term and Ise "17 years" (cand Daiwa Institute 2016, search 常若 伊勢神宮 式年遷宮); 20,000 unaffiliated shrines.
+- ch19-esoteric/map: Ficino Pimander April 1463 and 1471 from a second page (cand cambridge.org Hermes and the Sibyl; tandfonline 10.1080/17496977.2019.1546439); Morgan Library dating of the Visconti-Sforza deck.
+- ch19-challenge: Carlson Nature 318:419 own text (cand ui.adsabs.harvard.edu/abs/1985Natur.318..419C/abstract).
+- ch14-rabbinic: Karaite "hubris" reading of Akhnai; Moses de Leon on PaRDeS.
+- ch14-traps/thought: de Leon birth year; Zohar dating beyond Scholem via JVL; Amenemope and Atrahasis dates (Morgan, British Museum, Cambridge 403); Dever, Garstang, Kenyon exact years (kept as decades).
+- ch14-thought: Ethics 1677 date; Luria's arrival in Safed (removed; cand britannica.com/print/article/351761, unfetchable); Major Trends chapters on Zohar and Luria (TOC snippet only, JSTOR blocked).
+- ch23-fundamentalism: Gold's wording; Fundamentalism Project 1987 start.
+- ch21-theology: founding place of the Raelian movement (NOT STATED anywhere); Kimball's book and page.
+- ch19-movements: survey figure on the Book of Mormon (none exists; softened).
+- ch22-challenge: Levi-Strauss trickster wording.
+- ch08-attributes: Savage 1967, Euthyphro attribution. ch08 (line 49): Whitehead 1929 first-edition page.
+- ch10-gwt: Baars, Rosenthal 1986, Block 1995 pages.
+- ch17-karma: Madhva graded bliss, Bodewitz 1996, Advaita "non-doer". ch17-darshanas: Karika 21 verse number.
+- ch18-schools: Lohapasada. ch06-reason: Anscombe, Balfour.
+- ch18-buddha: Bechert 1988, Gombrich, Sautrantika nirvana, Bronkhorst critics.
+- ch18-map: Britannica Milinda-panha date.
+- ch18-traps: Batchelor birth year (cand penguinrandomhouse.com/books/9466/confession-of-a-buddhist-atheist-by-stephen-batchelor; publishersweekly.com/9781573220583); Lutz mean ages 49 and 21 (removed; cand pubmed.ncbi.nlm.nih.gov/15534199, pmc.ncbi.nlm.nih.gov/articles/PMC526201).
+- ch18-zen: Daoist influence on Zen (Musacchio 2025 only).
+- ch16-isnad: da'if definition, Schacht 1950 date, ICMA summary.
+- ch16-challenge-2: exact 1095 date of al-Ghazali's Incoherence (cand ghazali.org/griffel/JIS-2006.pdf, binary; lesson keeps "about 1095").
+- ch16-modern: Salam banquet speech wording (nobelprize.org/prizes/physics/1979/salam/speech/); Hameed 2015; Gutas on Greek translation reports.
+- ch16-muhammad: Wansbrough 1928-2002; Ibn Sa'd birth 784; Abbasid 750; Cook's distancing (confirmed not stated).
+- ch16-shared: Isaac/Ishmael majority claim (blog-only).
+- ch16-law: Baqillani attribution via Lowry, Brill 2002; the Ali/Abu Bakr sentence.
+- ch16-kalam: exact Ash'ari years 874 to 936.
+- ch16-arabia: Hubal Nabataean inscription; Allah-only inscriptions; Himyar end date 525-530 (cand Robin "Martyrs of Najran" PDF at gw.uni-jena.de).
+- ch16-sufism: Qarmatian charge and al-Muqtadir (cand iranicaonline.org/articles/hallaj-1); Qushayri on wool; Ibn Arabi on the guide and the law; Masnavi line count.
+- ch16-traps: Azami's position; Schacht's own isnad stance; Ehrman on the crucifixion (cand journal.uinsgd.ac.id/index.php/Diroyah/article/view/47688, ehrmanblog.org/?p=12066); Goldziher quote (Wikipedia only).
+- ch16-intuition: Ibn Mujahid d. 936 and the seven readings (removed).
+- ch15-historical: Reimarus political aim (cand archive.org fragmentsfromrei00reim, earlychristianwritings.com/schweitzer/chapter2.html); Hooker 1972 article content; Dunn p. 339 and Sanders on baptism and crucifixion (cand unrv.com Historical Figure review); Horsley portrait (cand academic.oup.com/jcs 36/2/403); Ehrman 1999 book.
+- ch15-reading: Wellhausen 1883 retitling to Prolegomena (cand die-bibel.de/stichwort/34720); Britannica's c. 254 for Origen.
+- ch15-creeds: Arius birth c.250 vs c.256; Gregory of Nazianzus death 390 vs 391 (kept as ranges).
+- ch15-challenge: "Farrer needs no Q" Wikipedia-only (no dates on card); Tacitus 115 vs 116 (written as range); Ehrman-site pages for the death date weaker.
+- ch15-intuition: Irenaeus 3.11.8 passage snippet only (lesson says only "about 180, four Gospels").
+- ch12-transformation: Griffiths 2006 paper text (https://pubmed.ncbi.nlm.nih.gov/16826400/); Paloutzian-Richardson-Rambo 1999 abstract.
+- ch19-indigenous: Mbiti "graveyard of time" and "full spirit" wording (cand scielo.org.za/pdf/vee/v46n1/42.pdf (404), dc2.philarchive.org/rec/EKORJS (403)); Gyekye primary text.
+- ch10-zombie: Frankish as illusionist beyond Wikipedia (cand plato.stanford.edu/entries/consciousness-illusionism/).
+- ch19-sikh: Jat share beyond Jodhka's "almost one-third"; Gurus all Khatri; Kabir/Ravidas/Farid contributor count (cand mdpi.com/2077-1444/15/10/1219, pluralism.org/sikhism).
+- ch21-ufo: Condon critics, Ruppelt coinage (Wikipedia only).
+- ch17-schools: first user of rope-and-snake; the anirvacaniya reply.
+- ch17-brahman: Doniger's reading, RV 10.97.11 as earliest use, Flood on brahman, Gaudapada as earliest Advaita text (all dropped).
+- ch14-scrolls: Tov's five-group scheme and the 1992/2001 percentages.
+- ch14-textual: Metzger's exception wording pp. 209-210; Westcott-Hort "weighed, not counted".
+- ch14-challenge-2: Redford, Cline and Dever 2003 (cand Cline From Eden to Exile p. 74; Dever Who Were the Early Israelites p. 19).
+- ch14-archaeology: line 72 says Anastasi V names Succoth, which cojs.org does not support (cand Bietak and Rendsburg 2021 pp. 38-39); Tel Dan/Hazael text says Hazael, BAS article names Ben-Hadad.
+- ch22-myth: Mythologiques end date 1971 and volume count; 1955 essay date; short-units method; German 1957 edition (cand libcat.library.tamu.edu/Record/in00000237428/Versions, IUPress essay page).
+- ch22-ritual: Bell birth and death years (cand relbib.de/Authority/085501743, scu.edu in-memoriam page); Staal mantras and Agnicayana link (cand repozytorium.amu.edu.pl PDF, Snodgrass PDF at asah.sydney.edu.au).
+- exam-partial3: Britannica's 1704 for Tegh Bahadur (search result only); Meier pp. 168-171; Mbiti primary text.
+- ch05-something: Leibniz's exact question and wording in section 7 (cand earlymoderntexts.com/assets/pdfs/leibniz1714b.pdf, philpapers.org/rec/LEIPON); Krauss birth year.
+- ch10-hard-problem: Frankish page range 11-39 (not stated in lesson).
+- ch11-extraordinary: Bem, Utts and Johnson reply, JPSP 101, 716-719, on the prior (UCSF PDF 403).
+- ch20-kardec: 18 Apr 1857 as publication day and 1 Jan 1858 for the Revue Spirite (cand brooklynmuseum.org/objects/156349 (429 twice), Kardecpedia second-edition download (over size), bibliadocaminho Re58Mar.pdf (scan)).
+- ch24-epicurean: Nagel "Death" Nous 1970 pp. 73-80 (snippet only; search "Nagel Death Nous 1970 vol 4 pp 73-80"); Mill Utilitarianism 1863 book date (cand Liberty Fund Mill page, Spectator 11 Apr 1863, BMCR 2008.08.12).
+- ch05-beginning: Guth's own view on a beginning (NOVA page empty; no claim remains).
+- ch17-dialogue: Carroll "electron is an excitation of the electron field" (cand symmetrymagazine.org/article/july-2013/real-talk-everything-is-made-of-fields, 403 twice); Van Dam full text (cand pmc.ncbi.nlm.nih.gov/articles/PMC5758421/, bot check); nobelprize.org 2011 press release (403, nature blog used).
+- ch09-theology-of-science: Needham 1951 date and Guo 2024 preprint (philsci-archive blocked); Whitehead Lowell 1925 (Gutenberg 503); Hooykaas thesis; Royal Society founding-phrase wording (cand Sprat or Birch); Merton exact wording (cand Osiris on JSTOR).
+- ch20-comparison: "neither the same nor another" (Milinda; cand dhammatalks mil3.2.1, connection refused); Leroux birth year and Encyclopedie nouvelle start (cand intellectualhistory.web.ox.ac.uk/node/3705266, gallica bpt6k627327 (403), halshs ArticleLeroux.pdf (denied)); Reynaud birth year (Revue Spirite obituary says 1808); Terre et ciel 1854 title-page year (Darling and Wikipedia only); Gospel renaming year (lesson gives none).
+
+## NEXT_PROMPT (template; update only the progress line)
+Continue the science-faith-mind source audit as coordinator. Read docs/audit-temp/STATE.md (progress, tiers, rules, NOT CONFIRMED) and follow it, plus docs/AUTONOMOUS.md and the repo CLAUDE.md. Sonnet agents at medium effort, max 10 per session, sequential. Progress so far: <fill: tier, done ranks, hits>. At the end: update STATE.md, commit it by path, give the final report and this prompt again with the updated progress line.
