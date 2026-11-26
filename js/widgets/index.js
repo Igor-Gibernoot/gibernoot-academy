@@ -45,6 +45,7 @@ const WIDGETS = {
   'incline-block': ['incline-block', 'inclineBlock'],
   'polar-motion': ['polar-motion', 'polarMotion'],
   'newton-cannon': ['newton-cannon', 'newtonCannon'],
+  'rocket-exhaust': ['rocket-exhaust', 'rocketExhaust'],
   'drag-fall': ['drag-fall', 'dragFall'],
   'charge-field': ['charge-field', 'chargeField'],
   'projectile-drag': ['projectile-drag', 'projectileDrag'],

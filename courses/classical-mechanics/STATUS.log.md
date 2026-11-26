@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-26 widget rocket-exhaust (autonomous)
+Built `js/widgets/rocket-exhaust.js`, registry line in `index.js`, `docs/widgets/rocket-exhaust.md` (with smoke block), README line. RK4 model checked in node: default run v = 2 ln 5 = 3.218876 (closed form identical to 6 digits), total momentum 0; ground frame v = 8 = vex (m0/m - 1); g = 0.2, vex = 4 gives v = 4 ln 5 - g t and P = -m0 g t. Screenshots viewed at 390 and 1000 px (all options on, and a minimal config): clean. Thrust below weight keeps the rocket on the pad (documented); axes scale from slider corners, so wide ranges (mass ratio 20, ground frame) flatten the plots: keep ranges narrow in presets. Conventions fixed here: none (widget only).
+
 ## 2026-11-26 ch03-challenge part 2 (autonomous)
 Appended problems 4-5 to `ch03/challenge.yaml` and replaced `close` (now 32 cards). P4 sphere with both drag terms (m 1, b 1, c 0.1): ratio, v_ter 6.09, drag-fall widget (law both with linear/quad buttons), MCQ on which term dominates (linear throughout, since v_ter < b/c). P5 electron helix: r, pitch, pitch at doubled B, sense of an electron vs a proton (no charge-field widget, to stay at 32 cards). Choices: Problem 5 widget dropped for the card limit; 'about 1800 times lighter' removed (memory fact). No images. Shots flagged four long displays, split. Conventions fixed here: see CONVENTIONS Chapter 3, Challenge part 2.
 

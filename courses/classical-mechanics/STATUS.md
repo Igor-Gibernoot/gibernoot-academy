@@ -34,7 +34,8 @@
 - **Built:** `ch03-magnetic` (19 cards, charge-field x2), `ch03-traps` (16), `ch03-intuition` (19), `ch03-map` (9 boxes: linear drag, drag laws, quadratic drag); no images.
 - **Built:** `ch03-challenge` complete (32 cards: problems 1-3 ball up with drag, projectile with drag, charge spiral with drag; 4 fall with both drag terms (drag-fall), 5 electron helix; plain closing card with teaser to momentum). Level 3 content is built.
 - **Level 3 audited (2026-11-26):** Taylor 2.2 render-checked (PDF 59-64); raindrop-at-0.6-m/s wording softened; validate and shots clean.
-- **Next unit:** Level 3 review (automatic), then Level 4: a rocket-exhaust widget unit first, then `ch04-rockets`.
+- **Widget `rocket-exhaust` built (2026-11-26)** (docs/widgets/rocket-exhaust.md): rocket burning fuel at rate mdot, exhaust speed vex relative to rocket or ground (frame trap), optional g; scene with packets, momentum bars (rocket, exhaust, total = 0), v(t) with dashed v_ex ln(m0/m) and constant-mass line, v against ln(m0/m), readouts, time slider.
+- **Next unit:** Level 3 review (automatic), then Level 4: `ch04-rockets` (uses `rocket-exhaust`).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
