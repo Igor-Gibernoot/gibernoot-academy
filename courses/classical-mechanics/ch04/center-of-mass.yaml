@@ -1,0 +1,374 @@
+id: ch04-center-of-mass
+title: The Center of Mass
+kind: concept
+own: |
+  Setting: a system of $N$ particles, labelled by $\alpha = 1, \dots, N$, with masses $m_\alpha$ and position vectors $\mathbf{r}_\alpha$ measured from one fixed origin $O$. The total mass is $M = \sum_\alpha m_\alpha$, and $\mathbf{F}^{\text{ext}}$ is the sum of the forces that come from outside the system.
+  - **Center of mass.** The point $\mathbf{R}$ is the average of the positions, each weighted by its mass. It lies on the line joining two particles, closer to the heavier one, and it need not sit on any piece of matter (the middle of a ring is empty):
+    {{ $$\mathbf{R} = \frac{1}{M}\sum_{\alpha=1}^{N} m_\alpha\,\mathbf{r}_\alpha$$ }}
+  - **Total momentum.** Differentiating the definition shows that the momentum of the whole system, $\mathbf{P} = \sum_\alpha m_\alpha\dot{\mathbf{r}}_\alpha$, equals that of one particle of mass $M$ moving with the velocity $\dot{\mathbf{R}}$ of the center of mass, however the body spins or deforms:
+    {{ $$\mathbf{P} = M\dot{\mathbf{R}}$$ }}
+  - **Motion of the center of mass.** The internal forces come in opposite pairs (third law) and cancel in $\dot{\mathbf{P}}$, so only the external force is left:
+    {{ $$\mathbf{F}^{\text{ext}} = M\ddot{\mathbf{R}}$$ }}
+    Under gravity alone $\mathbf{F}^{\text{ext}} = -Mg\,\hat{\mathbf{y}}$ ($\hat{\mathbf{y}}$ pointing up), so $\mathbf{R}$ follows the parabola of a single projectile, a tossed hammer, a spinning dumbbell or a bursting shell alike.
+  - **Internal forces cannot move it.** Rod forces, spin and explosions rearrange the particles around $\mathbf{R}$ but leave its path unchanged. With no external force, $\mathbf{R}$ moves at constant velocity, so two skaters who pull on a rope meet at their center of mass.
+cards:
+  - type: text
+    id: hook
+    title: A hammer in the air
+    body: |
+      Toss a hammer into the air with a spin, and it tumbles. The heavy head swings around, the handle swings the other way, and each end draws a looping, wavy curve. Yet the eye catches something calmer: one point of the hammer seems to glide along an ordinary arc, the path a thrown ball would follow.
+
+      Before any theory, guess where that calm point sits, and what the forces on the hammer have to do with it.
+
+  - type: widget
+    id: strobe
+    title: A tossed hammer
+    widget: cm-toss
+    config:
+      masses: [1, 3]
+      points: [[0, 0], [1.2, 0]]
+      v0: 7
+      theta: 55
+      omega: 4
+      sliders: [omega]
+      readouts: [t]
+      show: { strobe: true, cm: false, cmPath: false, momentum: false, weight: false }
+      labels: { m1: handle, m2: head }
+      units: { mass: kg, length: m, speed: m/s, time: s }
+    body: |
+      A simple hammer: a $1\ \mathrm{kg}$ handle end and a $3\ \mathrm{kg}$ head, joined by a light rod $1.2\ \mathrm{m}$ long. The small dots are snapshots at equal time steps, and the two curves are the paths of the two ends.
+
+      **Try:** press Play, then change the spin and play again. Look along the rod for a spot whose snapshots always line up on one smooth arc.
+
+  - type: mcq
+    id: guess
+    review: false
+    prompt: |
+      A hammer has a $1\ \mathrm{kg}$ handle end and a $3\ \mathrm{kg}$ head, joined by a light rod. It is tossed with a spin. One point on the rod moves along a smooth arc while both ends wobble. Where is that point?
+    options:
+      - text: On the rod, closer to the heavy head than to the handle end
+        correct: true
+      - text: At the midpoint of the rod
+        feedback: |
+          The midpoint is the natural first guess, and it is right only when the two masses are equal. With a heavy head and a light handle, the head dominates any average, so the special point leans toward it. The next cards turn this into a formula.
+      - text: Exactly at the heavy head
+        feedback: |
+          The head is heavier, but the handle still counts. A point at the head would sit still relative to the head, and the head itself wobbles as the handle swings it.
+      - text: It depends on how fast the hammer spins
+        feedback: |
+          The spin changes the wiggles of the two ends, but not where the calm point is. It is fixed by the masses and where they sit, which is the whole point of the idea that follows.
+    explanation: |
+      The calm point is the center of mass. The word "mass" in its name is the clue: heavier pieces pull it toward them.
+
+  - type: text
+    id: definition
+    title: Definition of the center of mass
+    body: |
+      Take $N$ particles, labelled by an index $\alpha = 1, \dots, N$. Particle $\alpha$ has mass $m_\alpha$ and a position vector $\mathbf{r}_\alpha$, measured from a fixed origin $O$. The **total mass** is $M = \sum_\alpha m_\alpha$. The **center of mass** (CM) is the position
+
+      $$\mathbf{R} = \frac{1}{M}\sum_{\alpha=1}^{N} m_\alpha\,\mathbf{r}_\alpha = \frac{m_1\mathbf{r}_1 + \cdots + m_N\mathbf{r}_N}{M}.$$
+
+      It is a vector equation, so it is three equations for the components $(X, Y, Z)$, for example $X = \frac{1}{M}\sum_\alpha m_\alpha x_\alpha$. In words, $\mathbf{R}$ is a weighted average of the positions, where each $\mathbf{r}_\alpha$ is weighted by its fraction $m_\alpha/M$ of the total mass.
+
+      For two particles this reads
+
+      $$\mathbf{R} = \frac{m_1\mathbf{r}_1 + m_2\mathbf{r}_2}{m_1 + m_2}.$$
+
+      This point lies on the line joining the two particles, at distances from them in the ratio $m_2/m_1$ (distance from $m_1$ over distance from $m_2$). So it sits closer to the more massive one.
+
+  - type: numeric
+    id: two-masses
+    prompt: |
+      A hammer has a handle end of mass $m_1 = 1\ \mathrm{kg}$ at position $x_1 = 0$ and a head of mass $m_2 = 3\ \mathrm{kg}$ at $x_2 = 1.2\ \mathrm{m}$, on one line. Using $X = (m_1x_1 + m_2x_2)/(m_1 + m_2)$, how far from the handle end is the center of mass, in metres?
+    answer: 0.9
+    tolerance: 0.001
+    wrong:
+      - { value: 0.6, feedback: "That is the midpoint, the answer if both masses were equal. Here the head weighs three times as much, so it counts three times in the average." }
+      - { value: 0.3, feedback: "That is the distance from the head, not from the handle end. The center of mass is $0.3\\ \\mathrm{m}$ from the head, which is the right size but measured from the wrong end." }
+    hint: Numerator $1\cdot 0 + 3\cdot 1.2$, denominator $1 + 3$.
+    explanation: |
+      $X = (1\cdot 0 + 3\cdot 1.2)/4 = 0.9\ \mathrm{m}$. The distances from the two masses are $0.9$ and $0.3$, in the ratio $3 = m_2/m_1$, so the center of mass lies close to the heavy head.
+
+  - type: build
+    id: build-cm
+    prompt: |
+      Build the position of the center of mass of two particles with masses $m_1, m_2$ at positions $\mathbf{r}_1, \mathbf{r}_2$.
+    prefix: '\mathbf{R} ='
+    tiles: ['m_1\mathbf{r}_1', '+', 'm_2\mathbf{r}_2', '\over', 'm_1 + m_2', 'm_1 m_2', '\mathbf{r}_1', '\mathbf{r}_2']
+    answers:
+      - ['m_1\mathbf{r}_1', '+', 'm_2\mathbf{r}_2', '\over', 'm_1 + m_2']
+    wrong:
+      - answer: ['m_1\mathbf{r}_1', '+', 'm_2\mathbf{r}_2', '\over', 'm_1 m_2']
+        feedback: |
+          The denominator is the total mass $m_1 + m_2$, a sum, not a product. Check with equal masses at the same point $\mathbf{r}$: the average must give back $\mathbf{r}$, and only the sum in the denominator does that.
+      - answer: ['\mathbf{r}_1', '+', '\mathbf{r}_2', '\over', 'm_1 + m_2']
+        feedback: |
+          Without the weights $m_1, m_2$ in the numerator this is not an average of the positions. The positions must be weighted by their masses.
+    explanation: |
+      A weighted average: the weighted sum $m_1\mathbf{r}_1 + m_2\mathbf{r}_2$ divided by the total weight $m_1 + m_2$.
+
+  - type: widget
+    id: probe
+    title: Guess the center of mass
+    widget: cm-toss
+    config:
+      masses: [1, 3]
+      points: [[0, 0], [1.2, 0]]
+      v0: 7
+      theta: 55
+      omega: 5
+      probe: 0.2
+      sliders: [probe, m1, m2]
+      readouts: [t]
+      show: { cm: false, cmPath: false, momentum: false, weight: false, probePath: true }
+      labels: { probe: "ring position (0 = first mass, 1 = last)" }
+      units: { mass: kg, length: m, speed: m/s, time: s }
+    body: |
+      The ring sits on the line from the first mass to the last one, at the position you set with the slider. Its trace is the curve it draws during the toss.
+
+      **Try:** play with the ring at different positions, then change the masses and look for the ring position where the trace turns smooth.
+
+  - type: numeric
+    id: probe-fraction
+    prompt: |
+      A rod joins a particle of mass $m_1 = 2\ \mathrm{kg}$ (position $0$) to one of mass $m_2 = 3\ \mathrm{kg}$ (position $1$), on a scale from $0$ to $1$ along the rod. At what position along that scale does a point trace a smooth parabola when the rod is tossed with a spin? Give the position as a decimal.
+    answer: 0.6
+    tolerance: 0.001
+    wrong:
+      - { value: 0.4, feedback: "That is the fraction measured from the heavier end. On a scale from the lighter end ($0$) to the heavier end ($1$), the center of mass sits at $m_2/(m_1 + m_2)$." }
+      - { value: 0.5, feedback: "That would be right for equal masses. The extra mass on the second particle moves the point toward it." }
+    hint: The calm point is the center of mass, so use $X = (m_1\cdot 0 + m_2\cdot 1)/(m_1 + m_2)$.
+    explanation: |
+      $X = (2\cdot 0 + 3\cdot 1)/5 = 0.6$. In the widget with masses $1$ and $3$ the same rule gives $0.75$.
+
+  - type: text
+    id: momentum
+    title: The total momentum
+    body: |
+      The center of mass is more than a point of convenience: it carries the total momentum. Each particle has momentum $\mathbf{p}_\alpha = m_\alpha\dot{\mathbf{r}}_\alpha$, so the total momentum is $\mathbf{P} = \sum_\alpha \mathbf{p}_\alpha = \sum_\alpha m_\alpha\dot{\mathbf{r}}_\alpha$. The masses do not change in time, so the time derivative of the definition $M\mathbf{R} = \sum_\alpha m_\alpha\mathbf{r}_\alpha$ is $M\dot{\mathbf{R}} = \sum_\alpha m_\alpha\dot{\mathbf{r}}_\alpha$. Hence
+
+      $$\mathbf{P} = \sum_\alpha \mathbf{p}_\alpha = \sum_\alpha m_\alpha\dot{\mathbf{r}}_\alpha = M\dot{\mathbf{R}}.$$
+
+      The total momentum of the $N$ particles is the same as that of **one particle of mass $M$ moving with the velocity of the center of mass**. Nothing here depends on how the particles move relative to each other: spin, vibration and tumbling all drop out of $\mathbf{P}$.
+
+  - type: numeric
+    id: momentum-number
+    prompt: |
+      The $4\ \mathrm{kg}$ hammer ($1\ \mathrm{kg}$ handle end and $3\ \mathrm{kg}$ head) is tossed so that its center of mass moves at $7\ \mathrm{m/s}$ at the moment of release, while it spins at $4$ radians per second about the center of mass. What is the size of its total momentum at that moment, in $\mathrm{kg\,m/s}$?
+    answer: 28
+    tolerance: 0.001
+    wrong:
+      - { value: 7, feedback: "That is the speed, not the momentum: multiply by the total mass." }
+      - { value: 21, feedback: "That counts only the $3\\ \\mathrm{kg}$ head. The handle end carries momentum too, and the total uses all of $M = 4\\ \\mathrm{kg}$." }
+    hint: The spin does not enter. Use $P = MV$ with $V$ the speed of the center of mass.
+    explanation: |
+      $P = M\dot R = 4\cdot 7 = 28\ \mathrm{kg\,m/s}$. The spin makes each end move at a different velocity, but the weighted sum of those velocities still equals $M$ times the velocity of the center of mass.
+
+  - type: text
+    id: newton
+    title: Newton's second law for the whole system
+    body: |
+      Now differentiate once more. The derivative of the total momentum is the sum of the forces on all the particles. Split the force on particle $\alpha$ into the part from outside the system and the part from the other particles, $\mathbf{F}_\alpha = \mathbf{F}_\alpha^{\text{ext}} + \sum_{\beta\neq\alpha}\mathbf{F}_{\alpha\beta}$, where $\mathbf{F}_{\alpha\beta}$ is the force on $\alpha$ from $\beta$. By the third law $\mathbf{F}_{\beta\alpha} = -\mathbf{F}_{\alpha\beta}$, so in the sum over all particles each internal force meets its opposite and the pair cancels. What is left is the net external force $\mathbf{F}^{\text{ext}} = \sum_\alpha\mathbf{F}_\alpha^{\text{ext}}$:
+
+      $$\dot{\mathbf{P}} = \mathbf{F}^{\text{ext}}.$$
+
+      Using $\mathbf{P} = M\dot{\mathbf{R}}$,
+
+      $$\mathbf{F}^{\text{ext}} = M\ddot{\mathbf{R}}.$$
+
+      The center of mass moves exactly as if it were a single particle of mass $M$ acted on by the net external force. This is the main reason an extended body such as a baseball or a planet can often be treated as a point particle: its CM follows the path of a point, as long as the body is small compared with that path.
+
+  - type: widget
+    id: internal
+    title: The rod forces cancel
+    widget: cm-toss
+    config:
+      masses: [1, 3]
+      points: [[0, 0], [1.2, 0]]
+      v0: 7
+      theta: 55
+      omega: 4
+      sliders: [omega, m2]
+      readouts: [t, P]
+      show: { internal: true, momentum: false, weight: false, paths: false }
+      units: { mass: kg, length: m, speed: m/s, time: s }
+    body: |
+      The arrows on the two ends are the forces the rod exerts on them, while the hammer spins. They are internal forces: they come from the body itself.
+
+      **Try:** press Play, then raise the spin and the head's mass. Compare the length and direction of the two arrows, and watch the smooth marked point.
+
+  - type: mcq
+    id: rod-forces
+    prompt: |
+      A spinning hammer is in free flight, and its rod pulls each end toward the center of mass. How do these two rod forces compare, and what do they do to the motion of the center of mass?
+    options:
+      - text: They are equal and opposite, so they leave the center of mass unaffected
+        correct: true
+      - text: They point the same way, so they speed up the center of mass
+        feedback: |
+          Each end is pulled toward the center of mass, which lies between them, so the two forces point toward each other, not the same way. Equal masses at equal distances would show it clearly.
+      - text: They differ, because the head is heavier, so they bend the path of the center of mass
+        feedback: |
+          Their sizes are equal. The rod pulls each end with the force needed to keep it on its circle, and the heavy head sits closer to the center of mass, so a bigger mass at a smaller radius gives the same size $m\omega^2 r$.
+      - text: They cancel in pairs only when the hammer does not spin
+        feedback: |
+          They cancel whatever the spin, because the third law holds at each instant: the rod pushes on the head exactly as hard as it pulls on the handle end, opposite in direction.
+    explanation: |
+      The third law makes every internal force pair cancel in the sum, so the rod can change how the hammer turns but never how its center of mass moves.
+
+  - type: numeric
+    id: rod-force-number
+    prompt: |
+      In the hammer, the head ($3\ \mathrm{kg}$) moves on a circle of radius $0.3\ \mathrm{m}$ about the center of mass at the spin rate $\omega = 4\ \mathrm{rad/s}$. The rod supplies the force that keeps it on that circle, of size $m\omega^2 r$ toward the center of mass. How large is it, in newtons?
+    answer: 14.4
+    tolerance: 0.001
+    wrong:
+      - { value: 3.6, feedback: "That is $m\\omega r$, the head's momentum scale, with $\\omega$ used once. The rod force needs $\\omega^2$." }
+    hint: $3\cdot 4^2\cdot 0.3$.
+    explanation: |
+      $F = m\omega^2 r = 3\cdot 16\cdot 0.3 = 14.4\ \mathrm{N}$. The handle end ($1\ \mathrm{kg}$, radius $0.9\ \mathrm{m}$) gets $1\cdot 16\cdot 0.9 = 14.4\ \mathrm{N}$ too, in the opposite direction, so the two forces sum to zero.
+
+  - type: text
+    id: example
+    title: Worked example, the path of the hammer's center of mass
+    body: |
+      The law is $\mathbf{F}^{\text{ext}} = M\ddot{\mathbf{R}}$, with $M$ the total mass, $\mathbf{R}$ the position of the center of mass and $\mathbf{F}^{\text{ext}}$ the net external force. Take the hammer of $M = 4\ \mathrm{kg}$ launched from the ground (the origin) with the center of mass moving at $V_0 = 7\ \mathrm{m/s}$ at $55^\circ$ above the horizontal, with $\hat{\mathbf{y}}$ pointing up.
+
+      **The external force.** Only gravity acts from outside, $\mathbf{F}^{\text{ext}} = -Mg\,\hat{\mathbf{y}}$ with $g = 9.8\ \mathrm{m/s^2}$. The rod forces are internal and do not appear.
+
+      **The acceleration.** Dividing by $M$, $\ddot{\mathbf{R}} = -g\,\hat{\mathbf{y}}$, the same as for a single ball, whatever the spin and whatever the masses. Integrating twice from the launch values gives
+
+      $$\mathbf{R}(t) = \mathbf{V}_0\,t - \tfrac12 g t^2\,\hat{\mathbf{y}}.$$
+
+      **The launch velocity components.** $V_{0x} = 7\cos 55^\circ = 4.015\ \mathrm{m/s}$ and $V_{0y} = 7\sin 55^\circ = 5.734\ \mathrm{m/s}$.
+
+      **At $t = 0.5\ \mathrm{s}$.** $X = 4.015\cdot 0.5 = 2.01\ \mathrm{m}$ and $Y = 5.734\cdot 0.5 - 4.9\cdot 0.25 = 1.64\ \mathrm{m}$.
+
+      **The landing.** The center of mass is back at the ground when $Y = 0$, which happens at $t = 2V_{0y}/g = 1.170\ \mathrm{s}$, at a distance $X = V_{0x}\cdot 1.170 = 4.70\ \mathrm{m}$.
+
+  - type: numeric
+    id: range
+    prompt: |
+      Use the same hammer, whose center of mass starts from the ground at $7\ \mathrm{m/s}$ and $55^\circ$ above the horizontal, with $g = 9.8\ \mathrm{m/s^2}$. If the hammer spins faster, how far from the launch point does its center of mass land, in metres? (Flat ground; the center of mass starts at ground level.)
+    answer: 4.70
+    tolerance: 0.01
+    wrong:
+      - { value: 4.4, feedback: "A faster spin does not shorten or lengthen the flight: the spin is internal, and only gravity changes the motion of the center of mass." }
+    hint: The result does not depend on the spin. Use the single-ball range $2V_{0x}V_{0y}/g$.
+    explanation: |
+      $2\cdot 4.015\cdot 5.734/9.8 = 4.70\ \mathrm{m}$, whatever the spin rate. The spin only changes the wiggles of the two ends.
+
+  - type: widget
+    id: parabola
+    title: One smooth parabola, two wavy paths
+    widget: cm-toss
+    config:
+      masses: [1, 3]
+      points: [[0, 0], [1.2, 0]]
+      v0: 7
+      theta: 55
+      omega: 4
+      sliders: [theta, omega, m2]
+      readouts: [R, V, P]
+      show: { cm: true, cmPath: true, paths: true, strobe: true, momentum: true, weight: true }
+      units: { mass: kg, length: m, speed: m/s, time: s }
+    body: |
+      Now the center of mass is marked, with its path. The arrows are the total momentum $\mathbf{P} = M\mathbf{V}$ and the total weight $M\mathbf{g}$, which is the only external force.
+
+      **Try:** press Play. Then change the spin and the head's mass, and watch which curves change and which one does not.
+
+  - type: mcq
+    id: spin-effect
+    prompt: |
+      A hammer is tossed from the ground with a given launch velocity of its center of mass, and only gravity acts on it. The toss is repeated with a much faster spin. What changes?
+    options:
+      - text: The wiggles of the two ends change, but the path of the center of mass does not
+        correct: true
+      - text: The center of mass lands farther away, because the spin adds energy
+        feedback: |
+          The spin is the motion of the particles around the center of mass. It carries energy, but the position and velocity of the center of mass are fixed by $\mathbf{F}^{\text{ext}} = M\ddot{\mathbf{R}}$, in which the spin does not appear.
+      - text: The center of mass lands closer, because the spin takes some of the speed
+        feedback: |
+          The launch velocity of the center of mass is given and the spin is a separate motion around that point. Nothing from the spin leaks into $\mathbf{P} = M\dot{\mathbf{R}}$.
+      - text: The center of mass wobbles along with the ends
+        feedback: |
+          It would, if it were a mark on one of the ends. The center of mass is the one point whose motion is smooth, because the wobbles of the particles cancel in the weighted average.
+    explanation: |
+      Only external forces move the center of mass. A spin is made by internal forces, so it cannot touch the parabola.
+
+  - type: widget
+    id: explosion
+    title: An explosion in flight
+    widget: cm-toss
+    config:
+      masses: [1, 3]
+      points: [[0, 0], [1.2, 0]]
+      v0: 7
+      theta: 55
+      omega: 0
+      explode: { t: 0.5, kick: 1 }
+      sliders: [kick]
+      readouts: [t, R, P]
+      show: { cm: true, cmPath: true, paths: true, internal: true, momentum: true, weight: false }
+      units: { mass: kg, length: m, speed: m/s, time: s }
+    body: |
+      At $t = 0.5\ \mathrm{s}$ an internal charge blows the hammer apart: the rod vanishes and the two pieces fly off in opposite directions along the rod. The marked point is the center of mass of the two pieces.
+
+      **Try:** play it, then raise the blast strength and play again. Compare the path of the marked point with the paths of the pieces.
+
+  - type: mcq
+    id: explosion-cm
+    prompt: |
+      A shell flies along a parabola. At the top of the path it explodes into fragments. The explosion forces are internal, and air drag is ignored. Where does the center of mass of all the fragments move afterwards?
+    options:
+      - text: Along the same parabola, as if the shell had not exploded
+        correct: true
+      - text: Straight on from the top, since the fragments push each other apart
+        feedback: |
+          The blast adds no net external force, but gravity still acts on every fragment. So $M\ddot{\mathbf{R}} = -Mg\,\hat{\mathbf{y}}$ continues after the explosion, and the center of mass keeps curving down.
+      - text: Toward the heaviest fragment, which gets the largest push
+        feedback: |
+          The push on each fragment is equal and opposite to a push on the others, so the weighted sum of the kicks is zero. The heaviest fragment moves slowly, the light ones fast, and the average stays on the old path.
+      - text: It stops, because the explosion uses up the shell's momentum
+        feedback: |
+          Total momentum is not used up: the explosion only shares it among the fragments, and $\mathbf{P} = M\dot{\mathbf{R}}$ is the same just after as just before.
+    explanation: |
+      The explosion changes how the pieces move relative to the center of mass and nothing else. Gravity is the only external force, so the center of mass keeps its parabola until the first fragment hits something.
+
+  - type: mcq
+    id: ring
+    prompt: |
+      Where is the center of mass of a thin uniform ring of metal (a hoop), and does a particle of matter sit there?
+    options:
+      - text: At the middle of the ring, where there is no metal
+        correct: true
+      - text: On the ring, at the point where the toss begins
+        feedback: |
+          Nothing singles out a point on the ring: by symmetry any point on it could play the same role. The average of the positions of all the pieces is the middle.
+      - text: There is no center of mass, because the ring is not a point
+        feedback: |
+          Every system of particles has a center of mass, point-like or not. The definition is a weighted average of positions, which exists for any distribution of mass.
+      - text: On the ring, because the center of mass must be on the body
+        feedback: |
+          That is the misconception. The center of mass is a weighted average of positions, and an average can fall where there is nothing, like the middle of a hoop or a boomerang's inner bend.
+    explanation: |
+      Opposite pieces of the ring cancel in the average, leaving the center. When a hoop is tossed, that empty point follows the smooth parabola while the metal turns around it.
+
+  - type: numeric
+    id: skaters
+    prompt: |
+      Two skaters of masses $60\ \mathrm{kg}$ and $40\ \mathrm{kg}$ stand $10\ \mathrm{m}$ apart on frictionless ice, holding the ends of a taut rope. Both start at rest, and the weight and the ice force cancel on each. They pull in on the rope until they meet. How far from the starting spot of the $60\ \mathrm{kg}$ skater do they meet, in metres?
+    answer: 4
+    tolerance: 0.001
+    wrong:
+      - { value: 5, feedback: "That would be the meeting point if they were equally strong or heavy. The lighter skater moves more." }
+      - { value: 6, feedback: "That is how far the $60\\ \\mathrm{kg}$ skater is from the meeting point if the roles of the masses are swapped. The heavier skater moves less." }
+    hint: The rope forces are internal, so the center of mass stays at rest. Put the $60\ \mathrm{kg}$ skater at $x = 0$ and use $X = (m_1x_1 + m_2x_2)/(m_1 + m_2)$.
+    explanation: |
+      The net external force is zero, so $\ddot{\mathbf{R}} = 0$, and $\mathbf{R}$ stays where it started: $X = (60\cdot 0 + 40\cdot 10)/100 = 4\ \mathrm{m}$ from the heavier skater. They meet at the center of mass, because it is the only point both can reach.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      **Next:** a force can also turn a body without pushing it along. When the pull on a particle is not straight through the origin, momentum is no longer the right thing to follow, and a new quantity, the angular momentum, takes over. We look at it next, and at how a planet sweeps equal areas in equal times.
