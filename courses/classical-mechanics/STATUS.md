@@ -27,18 +27,14 @@
 - **Built:** `ch02-challenge` part 1 (26 cards: crate on accelerating cart, two skaters with a rope (two-body-push x2), bead on a spiral (polar-motion); problems 4-5: block launched up a rough slope (incline-block), puck on a string; final plain card). **Level 2 challenge complete (32 cards).**
 - **Level 2 audited (2026-11-25):** formulas re-rendered (Taylor PDF 37, 41), validate clean; no fixes needed.
 - **Widget `drag-fall` built** (docs/widgets/drag-fall.md): falling or thrown body, law switch none / linear / quad / both, weight and drag arrows, v(t) and y(t), terminal-speed line, readouts incl. f_quad/f_lin = cv/b.
-- **Built:** `ch03-drag` (Level 3, concept, 21 cards, drag-fall x2, no image).
-- **Built:** `ch03-linear-drag` (Level 3, concept, 19 cards, drag-fall x3, no image).
+- **Built:** `ch03-drag` (21 cards, drag-fall x2), `ch03-linear-drag` (19 cards, drag-fall x3); no images.
 - **Widget `projectile-drag` built** (docs/widgets/projectile-drag.md): (x, y) path with drag law none / linear / quad / both, RK4, linear closed forms (Eq. 2.36) as overlay, vacuum parabola, dots, arrows, range markers, asymptote, readouts R, R_0, R/R_0, time, peak, tau.
-- **Built:** `ch03-trajectory` (Level 3, guided problem, 23 cards, projectile-drag x3, no image).
-- **Built:** `ch03-quadratic-drag` (Level 3, concept, 22 cards, drag-fall x2, no image). Horizontal coasting by text and numeric cards (no widget).
+- **Built:** `ch03-trajectory` (guided problem, 23 cards, projectile-drag x3), `ch03-quadratic-drag` (22 cards, drag-fall x2; coasting by text and numeric cards).
 - **Widget `charge-field` built** (docs/widgets/charge-field.md): charge in uniform B (optional E, Ez), RK4 vs closed forms; top, side and oblique views, circle r = mv/(qB), centre, v and qv×B arrows, E×B drift, vacuum line, sliders, readouts r, ω, T, speed, kinetic energy.
-- **Built:** `ch03-magnetic` (Level 3, concept, 19 cards, charge-field x2, no image).
-- **Built:** `ch03-traps` (Level 3, traps, 16 cards, no widget, no image).
-- **Built:** `ch03-intuition` (Level 3, intuition, 19 cards, no widget, no image).
-- **Built:** `ch03-map` (Level 3 content map, 9 boxes in three columns: linear drag, drag laws, quadratic drag).
+- **Built:** `ch03-magnetic` (19 cards, charge-field x2), `ch03-traps` (16), `ch03-intuition` (19), `ch03-map` (9 boxes: linear drag, drag laws, quadratic drag); no images.
 - **Built:** `ch03-challenge` complete (32 cards: problems 1-3 ball up with drag, projectile with drag, charge spiral with drag; 4 fall with both drag terms (drag-fall), 5 electron helix; plain closing card with teaser to momentum). Level 3 content is built.
-- **Next unit:** Level 3 review, then the Level 3 audit; then `ch04-rockets` (Level 4).
+- **Level 3 audited (2026-11-26):** Taylor 2.2 render-checked (PDF 59-64); raindrop-at-0.6-m/s wording softened; validate and shots clean.
+- **Next unit:** Level 3 review (automatic), then Level 4: a rocket-exhaust widget unit first, then `ch04-rockets`.
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
