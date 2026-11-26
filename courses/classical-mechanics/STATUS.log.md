@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-26 ch03-challenge part 2 (autonomous)
+Appended problems 4-5 to `ch03/challenge.yaml` and replaced `close` (now 32 cards). P4 sphere with both drag terms (m 1, b 1, c 0.1): ratio, v_ter 6.09, drag-fall widget (law both with linear/quad buttons), MCQ on which term dominates (linear throughout, since v_ter < b/c). P5 electron helix: r, pitch, pitch at doubled B, sense of an electron vs a proton (no charge-field widget, to stay at 32 cards). Choices: Problem 5 widget dropped for the card limit; 'about 1800 times lighter' removed (memory fact). No images. Shots flagged four long displays, split. Conventions fixed here: see CONVENTIONS Chapter 3, Challenge part 2.
+
 ## 2026-11-26 ch03-challenge part 1 (autonomous)
 Built `ch03/challenge.yaml` (22 cards, problems 1-3) and set `file:` on the node; part 2 planned in its summary (fall with both drag terms, helix in B). P1 ball up with drag (drag-fall, v0 = -10 as down-positive; run stops at landing time 1.434 s), P2 projectile b = 0.2 (projectile-drag; formula 25.1 vs exact 29.1, asymptote, apex beyond half range), P3 charge with B and linear drag via complex eta (derived, checked by differentiation). Choices: all toy data, so no web facts; E-cross-B drift not used (never taught as a lesson); closing card is a placeholder to be replaced by part 2's final card. Images: none: toy problems. Conventions fixed here: challenge part 1 numbers (CONVENTIONS Chapter 3).
 

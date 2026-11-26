@@ -37,8 +37,8 @@
 - **Built:** `ch03-traps` (Level 3, traps, 16 cards, no widget, no image).
 - **Built:** `ch03-intuition` (Level 3, intuition, 19 cards, no widget, no image).
 - **Built:** `ch03-map` (Level 3 content map, 9 boxes in three columns: linear drag, drag laws, quadratic drag).
-- **Built:** `ch03-challenge` part 1 (22 cards: ball thrown up with linear drag (drag-fall), projectile with drag (projectile-drag), charge spiralling in B with drag; plain closing card with teaser).
-- **Next unit:** `ch03-challenge` part 2 (problems 4-5: fall with both drag terms, helix in a field; append to `ch03/challenge.yaml`, replace the `close` card), then Level 4.
+- **Built:** `ch03-challenge` complete (32 cards: problems 1-3 ball up with drag, projectile with drag, charge spiral with drag; 4 fall with both drag terms (drag-fall), 5 electron helix; plain closing card with teaser to momentum). Level 3 content is built.
+- **Next unit:** Level 3 review, then the Level 3 audit; then `ch04-rockets` (Level 4).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.

@@ -340,10 +340,166 @@ cards:
       The work done by the field is zero, so the drag removes the whole initial kinetic energy:
       $$\tfrac12 mv_0^2 = \tfrac12 \times 2 \times 10^2 = 100\ \mathrm{J}.$$
 
+  # ---------------------------------------------------------------- Problem 4
+  - type: text
+    id: p4-setup
+    title: 'Problem 4: a fall with both drag terms'
+    body: |
+      A toy sphere of mass $m = 1\ \mathrm{kg}$ falls from rest in a fluid whose drag has both terms,
+      $$f(v) = f_{\text{lin}} + f_{\text{quad}} = bv + cv^2,$$
+      with $b = 1\ \mathrm{kg/s}$ and $c = 0.1\ \mathrm{kg/m}$.
+      With down positive, $m\dot v = mg - bv - cv^2$. Which term matters when, and how fast does it end up falling?
+
+  - type: numeric
+    id: p4-ratio
+    prompt: |
+      A toy sphere falls with drag $f = bv + cv^2$, where $b = 1\ \mathrm{kg/s}$ and $c = 0.1\ \mathrm{kg/m}$. At the speed $v = 5\ \mathrm{m/s}$, what is the ratio $f_{\text{quad}}/f_{\text{lin}}$ of the quadratic term $cv^2$ to the linear term $bv$?
+    answer: 0.5
+    tolerance: 0.005
+    answerText: '0.5'
+    wrong:
+      - { value: 2.5, feedback: 'That is $cv^2 = 0.1 \times 25 = 2.5\ \mathrm{N}$ taken alone. The ratio divides it by $bv = 5\ \mathrm{N}$.' }
+      - { value: 0.1, feedback: 'That is just $c$. The ratio is $cv^2/(bv) = cv/b$, which grows with the speed.' }
+    hint: |
+      Divide the two terms: $cv^2/(bv)$ leaves one factor of $v$.
+    explanation: |
+      $$\frac{f_{\text{quad}}}{f_{\text{lin}}} = \frac{cv^2}{bv} = \frac{cv}{b} = \frac{0.1 \times 5}{1} = 0.5.$$
+      The two terms are equal at $v = b/c = 10\ \mathrm{m/s}$. Below that speed the linear term wins, above it the quadratic term wins.
+
+  - type: numeric
+    id: p4-terminal
+    prompt: |
+      A toy sphere of mass $m = 1\ \mathrm{kg}$ falls with drag $f = bv + cv^2$, $b = 1\ \mathrm{kg/s}$, $c = 0.1\ \mathrm{kg/m}$, and $g = 9.8\ \mathrm{m/s^2}$. At the terminal speed the drag balances the weight: $bv + cv^2 = mg$. Find the positive root $v_{\text{ter}}$, in m/s.
+    answer: 6.09
+    tolerance: 0.02
+    answerText: '6.09'
+    wrong:
+      - { value: 9.8, feedback: 'That is the linear-only value $mg/b$. With the quadratic term added there is more drag, so the sphere stops speeding up sooner.' }
+      - { value: 9.9, feedback: 'That is the quadratic-only value $\sqrt{mg/c} = 9.90$. The linear term adds drag too, so the true value is lower.' }
+    hint: |
+      Write $cv^2 + bv - mg = 0$ and use the quadratic formula; keep the positive root.
+    explanation: |
+      $$v_{\text{ter}} = \frac{-b + \sqrt{b^2 + 4cmg}}{2c}$$
+      $$\begin{aligned} v_{\text{ter}} &= \frac{-1 + \sqrt{1 + 3.92}}{0.2} \\ &= \frac{-1 + 2.218}{0.2} = 6.09\ \mathrm{m/s}. \end{aligned}$$
+      Check: $bv + cv^2 = 6.09 + 0.1 \times 37.1 = 9.80\ \mathrm{N} = mg$. At this speed the ratio is $cv/b = 0.61$, so the linear term is still the larger one.
+
+  - type: widget
+    id: p4-widget
+    title: Both terms against each one alone
+    widget: drag-fall
+    config:
+      law: both
+      laws: [linear, quad, both]
+      m: 1
+      b: 1
+      c: 0.1
+      v0: 0
+      tmax: 6
+      duration: 4000
+      sliders: []
+      axes: { v: [0, 11], y: [0, 40] }
+      readouts: [speed, lin, quad, ratio, terminal]
+      show: { terminal: true, freefall: false, net: false, laws: true }
+      labels: { vt: 'v_ter' }
+      units: { force: N, speed: m/s, distance: m, time: s, mass: kg, b: 'kg/s', c: 'kg/m' }
+    body: |
+      The sphere of mass $1\ \mathrm{kg}$ with $b = 1\ \mathrm{kg/s}$ and $c = 0.1\ \mathrm{kg/m}$ is released from rest. The buttons switch between the linear law alone, the quadratic law alone, and both together.
+
+      **Try:** release with **both**, then switch to each law alone. Watch the terminal speed line and the ratio $f_{\text{quad}}/f_{\text{lin}}$ as the speed grows.
+
+  - type: mcq
+    id: p4-which
+    prompt: |
+      A sphere falls from rest with drag $bv + cv^2$, where $b = 1\ \mathrm{kg/s}$ and $c = 0.1\ \mathrm{kg/m}$, so the two terms are equal at $v = b/c = 10\ \mathrm{m/s}$. Its terminal speed is $6.09\ \mathrm{m/s}$. Which drag term is the larger one early in the fall, and which late in the fall?
+    options:
+      - text: The linear term is larger throughout, early and late
+        correct: true
+      - text: The linear term early, the quadratic term late
+        feedback: |
+          This is the general pattern, since $cv/b$ grows with $v$. But the sphere never reaches the crossover speed $10\ \mathrm{m/s}$: it stops at $6.09\ \mathrm{m/s}$, where $cv/b$ is only $0.61$.
+      - text: The quadratic term early, the linear term late
+        feedback: |
+          The ratio $cv^2/(bv) = cv/b$ is small at low speed, so the quadratic term is the smaller one early. It cannot lead at the start.
+    explanation: |
+      At low speed $cv/b \to 0$, so the linear term dominates. The quadratic term would take over only above $10\ \mathrm{m/s}$, but the sphere levels off at $6.09\ \mathrm{m/s}$, where the ratio is $0.61$. The result sits between the linear-only value $9.8\ \mathrm{m/s}$ and the quadratic-only value $9.90\ \mathrm{m/s}$, below both, because the two drags add. Thrown down at $20\ \mathrm{m/s}$, the same sphere would start with the quadratic term in charge.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: text
+    id: p5-setup
+    title: 'Problem 5: an electron on a helix'
+    body: |
+      An electron (charge magnitude $e = 1.602\times10^{-19}\ \mathrm{C}$, mass $m = 9.109\times10^{-31}\ \mathrm{kg}$) enters a uniform magnetic field $B = 0.010\ \mathrm{T}$ along $z$, pointing toward you in the top view. Its speed across the field is $v = 1.0\times10^{6}\ \mathrm{m/s}$ and along the field $v_z = 2\times10^{5}\ \mathrm{m/s}$. There is no drag. With $\omega = qB/m$ the transverse motion is a circle of radius $r = v/|\omega|$, and $v_z$ stays constant, so the path is a helix. What are its size and pitch, and how does it change with the field?
+
+  - type: numeric
+    id: p5-radius
+    prompt: |
+      An electron with $e/m = 1.759\times10^{11}\ \mathrm{C/kg}$ moves in a uniform field $B = 0.010\ \mathrm{T}$ with transverse speed $v = 1.0\times10^{6}\ \mathrm{m/s}$. Its radius is $r = v/|\omega|$ with $|\omega| = eB/m$. Find $r$, in millimetres.
+    answer: 0.569
+    tolerance: 0.003
+    answerText: '0.569'
+    wrong:
+      - { value: 0.0569, feedback: 'A factor of ten is lost in the units. $r = 10^6/(1.759\times10^{9}) = 5.69\times10^{-4}\ \mathrm{m}$, which is $0.569\ \mathrm{mm}$.' }
+      - { value: 569, feedback: 'That is the radius in micrometres, not millimetres.' }
+    hint: |
+      First $|\omega| = (1.759\times10^{11})(0.010)$, then divide the speed by it.
+    explanation: |
+      $$|\omega| = \frac{e}{m}B = 1.759\times10^{9}\ \mathrm{rad/s}$$
+      $$r = \frac{v}{|\omega|} = \frac{10^{6}}{1.759\times10^{9}} = 5.69\times10^{-4}\ \mathrm{m}.$$
+      That is $0.569\ \mathrm{mm}$.
+
+  - type: numeric
+    id: p5-pitch
+    prompt: |
+      An electron in a uniform field has $|\omega| = 1.759\times10^{9}\ \mathrm{rad/s}$ and a constant speed $v_z = 2\times10^{5}\ \mathrm{m/s}$ along the field. The pitch of the helix is the distance it moves along $z$ in one lap, which lasts $T = 2\pi/|\omega|$. Find the pitch, in millimetres.
+    answer: 0.714
+    tolerance: 0.004
+    answerText: '0.714'
+    wrong:
+      - { value: 3.57, feedback: 'That is the lap time $T = 3.57\ \mathrm{ns}$ in nanoseconds. The pitch is $v_z T$.' }
+      - { value: 0.113, feedback: 'That drops the factor $2\pi$: it is $v_z/|\omega|$, the distance along $z$ in one radian. A full lap is $2\pi$ radians.' }
+    hint: |
+      Multiply $v_z$ by the time of one lap.
+    explanation: |
+      $$T = \frac{2\pi}{|\omega|} = 3.572\ \mathrm{ns}$$
+      $$\begin{aligned} \text{pitch} &= v_zT \\ &= 2\times10^{5} \times 3.572\times10^{-9} \\ &= 7.14\times10^{-4}\ \mathrm{m}. \end{aligned}$$
+      That is $0.714\ \mathrm{mm}$, a little more than the radius $0.569\ \mathrm{mm}$.
+
+  - type: numeric
+    id: p5-scale
+    prompt: |
+      An electron has transverse speed $v = 10^{6}\ \mathrm{m/s}$ and $v_z = 2\times10^{5}\ \mathrm{m/s}$, and the field is raised from $0.010\ \mathrm{T}$ to $0.020\ \mathrm{T}$. The speeds do not change. The pitch was $0.714\ \mathrm{mm}$. What is the new pitch, in millimetres?
+    answer: 0.357
+    tolerance: 0.003
+    answerText: '0.357'
+    wrong:
+      - { value: 1.428, feedback: 'That has the field scaling the wrong way. The pitch is $2\pi v_z/|\omega|$ and $|\omega| = eB/m$ doubles, so the lap gets shorter and the pitch falls.' }
+      - { value: 0.714, feedback: 'The pitch depends on $B$ through the lap time $T = 2\pi m/(eB)$. The speed $v_z$ is unchanged, but the lap takes half as long.' }
+    hint: |
+      The pitch is $2\pi v_z/|\omega|$ and $|\omega|$ is proportional to $B$.
+    explanation: |
+      $$\text{pitch} = \frac{2\pi v_z}{|\omega|} \propto \frac{1}{B}, \qquad \frac{0.714}{2} = 0.357\ \mathrm{mm}.$$
+      The radius $r = v/|\omega|$ halves too, from $0.569$ to $0.284\ \mathrm{mm}$. The helix stays the same shape, only tighter.
+
+  - type: mcq
+    id: p5-sense
+    prompt: |
+      A positive charge in a field pointing toward you (along $+z$ in the top view) circles clockwise as seen from $+z$. An electron, with $q < 0$ and the same speed, enters the same field. How does it turn, and how does its radius compare with that of a proton of the same speed?
+    options:
+      - text: Counterclockwise, with a much smaller radius than the proton's
+        correct: true
+      - text: Clockwise, like the positive charge, since the force always bends the path the same way
+        feedback: |
+          The force is $q\mathbf{v}\times\mathbf{B}$, so it reverses with the sign of $q$. In $\omega = qB/m$ a negative $q$ makes $\omega$ negative, and the turning reverses.
+      - text: Counterclockwise, with a radius equal to the proton's because the charge magnitude is the same
+        feedback: |
+          The radius is $r = mv/(|q|B)$, so it depends on the mass as well. An electron is far lighter than a proton, so its circle is far smaller at the same speed.
+    explanation: |
+      The sign of $q$ sets the sense of turning through $\omega = qB/m$, and the electron goes counterclockwise. The radius $r = mv/(|q|B)$ scales with $m$, so at equal speed and field the lighter particle circles much tighter.
+
   - type: text
     id: close
     title: What this part showed
     body: |
-      Three habits worth keeping. With drag, split a flight into legs and ask which forces add and which oppose: the rise and the fall are not mirror images. Treat a series formula as a statement about a small ratio, and check that ratio before trusting it. And when two effects act on one complex number, as in $\dot\eta = -(i\omega + 1/\tau)\eta$, one factor sets the size and the other sets the turning.
+      Two more habits. When two effects share one equation, compare them with a ratio such as $cv/b$ before choosing a simplification, and compute that ratio at the speeds the motion can actually reach, here $6.09\ \mathrm{m/s}$, not at a speed it never gets to. And in a magnetic field read three numbers off $\omega = qB/m$: the sense of turning from the sign of $q$, the radius from $v/|\omega|$, and the pitch from $2\pi v_z/|\omega|$.
 
-      **Next:** two more problems in the second part of this challenge: a fall where both drag terms compete, and a charge spiralling as a helix.
+      **Next:** a collision or a rocket changes a body's velocity in a way no single force law describes. The next level, momentum and angular momentum, asks what stays fixed when bodies push on each other.
