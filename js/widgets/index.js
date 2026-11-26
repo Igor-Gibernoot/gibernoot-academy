@@ -47,6 +47,7 @@ const WIDGETS = {
   'newton-cannon': ['newton-cannon', 'newtonCannon'],
   'rocket-exhaust': ['rocket-exhaust', 'rocketExhaust'],
   'cm-toss': ['cm-toss', 'cmToss'],
+  'ang-mom-area': ['ang-mom-area', 'angMomArea'],
   'drag-fall': ['drag-fall', 'dragFall'],
   'charge-field': ['charge-field', 'chargeField'],
   'projectile-drag': ['projectile-drag', 'projectileDrag'],

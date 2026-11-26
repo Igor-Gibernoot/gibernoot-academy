@@ -38,7 +38,8 @@
 - **Built:** `ch04-rockets` (Level 4, concept, 20 cards, rocket-exhaust x4, no image). Rocket equation, thrust, frame trap, gravity.
 - **Widget `cm-toss` built (2026-11-26)** (docs/widgets/cm-toss.md): tossed body of 2 or 3 masses on rods, spin, launch sliders, mass sliders, CM marker and parabola, particle traces, P = MV and Mg arrows, rod-force arrows, strobe, probe ring (guess the CM), optional explosion (CM path unchanged).
 - **Built:** `ch04-center-of-mass` (Level 4, concept, 23 cards, cm-toss x5, no image).
-- **Next unit:** widget `ang-mom-area` (particle on a path, r x p, torque, swept area), then `ch04-angular-momentum` (Taylor 3.4-3.5).
+- **Widget `ang-mom-area` built (2026-11-26)** (docs/widgets/ang-mom-area.md): particle about a fixed origin, modes free / spring / gravity / push pulse (RK4); arrows r, p, F, torque arc, lever arm, L symbol, parallelogram, equal-time wedges with areas, strobe and spokes, L_z(t) plot, readouts L, dA/dt, L/2m, torque; presets.
+- **Next unit:** lesson `ch04-angular-momentum` (concept, Taylor 3.4-3.5, ang-mom-area).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
