@@ -4,10 +4,10 @@ Per-agent rules: agent-rules.md. Web method: docs/WEB_SEARCH.md. Rank table: aud
 
 ## Progress
 - Ranks 1 to 124 done.
-- Clean-row pass (audit.md rank 125+, course science-faith-mind only): done 125, 126, 127, 128, 129, 130, 135, 136, 139. Skipped for now (Tier 2 or 3): 131, 132, 133, 134.
-- Hits (lessons whose text changed) in the clean-row pass: 8 of 9. Add new hits here: (none yet this session)
-- Current tier: 1.
-- Session 2026-11-26 (next): not started.
+- Clean-row pass (audit.md rank 125+, course science-faith-mind only): done 125, 126, 127, 128, 129, 130, 135, 136, 139, 140, 144, 146, 149, 151, 155, 157, 158, 162, 163. Skipped for now (Tier 2 or 3): 131, 132, 133, 134.
+- Hits (lessons whose text changed) in the clean-row pass: 18 of 19 (only ch23-knowledge changed just an image alt text; counted as a hit).
+- Current tier: 1. Remaining Tier 1 list from rank 170: 170 ch18-no-self-proof, 171 ch19-jain, 172 ch23-map, 178 ch09-map, 179 ch16-challenge, 180 ch22-analogy (note: line 228 "taught in Paris and Cologne" unchecked, Britannica claim), 191 ch08-panentheism, 192 ch12-mysticism, 193 ch22-sentence, 194 ch23-fideism, 196 ch08-time, 214 ch08-spinoza, 215 ch08-challenge, 216 ch12-perennial, 217 ch12-traps, 218 ch19-confucius, 219 ch23-pragmatic, 226 ch21-drake-proof, 227 ch23-disagreement, 266 ch25-death. Re-run the grep from the Tiers section to confirm.
+- Session 2026-11-26: 10 agents used (140 to 163), all committed and pushed. Next session starts at rank 170.
 
 ## Tiers (finish one before the next; tell the user when a tier ends)
 - Tier 1 FULL: clean rows rank 131+ with BOTH "quotes" and "attributions". List: `grep "^| [0-9]* | science-faith-mind" docs/audit-temp/audit.md | awk -F'|' '$2+0>=131 && $6~/quotes/ && $6~/attributions/'`, rank order, skip done ranks. Agent checks every quote, attribution, date and number (strength "read") or softens or removes it.
@@ -21,7 +21,7 @@ Per-agent rules: agent-rules.md. Web method: docs/WEB_SEARCH.md. Rank table: aud
 - If WebFetch fails: retry once, then a mirror or another reference site.
 - Sweep rule: when a date or wording changes, grep every course file (lessons, maps, challenges, CONVENTIONS) so they agree.
 - Parallel sessions share the tree: stage by path, never `git add -A`, never anything under courses/classical-mechanics/. validate may show 2 unrelated errors about widget "ang-mom-area": ignore if science-faith-mind has none.
-- Britannica pastes: none pending. If a unit adds one, give the user the link and the full rule-12 prompt with items a, b, c. Form: Link + "Use ONLY this page's text, nothing from memory. Quote the exact sentence or write NOT STATED. Keep dates as written. Start your reply with `<lesson id>, <page name>`." Apply each pasted answer to the lesson, VERIFIED.md and britannica-paste-list.md.
+- Britannica pastes: none required. Two optional lines in britannica-paste-list.md (ch08-apophatic Maimonides birth year, ch15-paul Paul the Apostle). If a unit adds one, give the user the link and the full rule-12 prompt with items a, b, c. Form: Link + "Use ONLY this page's text, nothing from memory. Quote the exact sentence or write NOT STATED. Keep dates as written. Start your reply with `<lesson id>, <page name>`." Apply each pasted answer to the lesson, VERIFIED.md and britannica-paste-list.md.
 - End of audit: tell the user, then `git rm -r docs/audit-temp`, commit, push. Not before.
 - Final message of every session: final report (fixed with commits, still NOT CONFIRMED, Britannica pastes) and the next-session prompt (see NEXT_PROMPT below, with the progress above updated). Update this file first and commit it by path.
 
@@ -42,6 +42,9 @@ Per-agent rules: agent-rules.md. Web method: docs/WEB_SEARCH.md. Rank table: aud
 - ch21-theology: founding place of the Raelian movement (NOT STATED anywhere); Kimball's book and page.
 - ch19-movements: survey figure on the Book of Mormon (none exists; softened).
 - ch22-challenge: Levi-Strauss trickster wording.
+- ch15-paul: exact birth year, Galatians date, Philippi founding year (removed from text; cand Britannica "Saint Paul the Apostle", optional paste).
+- ch10-iit: Tononi birth year (dropped); Nature and PubMed pages for Cogitate (walls; covered by Birmingham abstract). ch08-apophatic: Kellner not tied to the Kaplan passage. ch23-knowledge: Clifford 1877 month (lesson says 1877 only).
+- ch24-skeptic/ch24-stoic/ch25-ethics/ch20-principles/ch23-evidentialism/ch22-metaphor: none carried (Tillich being-itself exception and Ramsey Oxford/Nolloth removed).
 - ch08-attributes: Savage 1967, Euthyphro attribution. ch08 (line 49): Whitehead 1929 first-edition page.
 - ch10-gwt: Baars, Rosenthal 1986, Block 1995 pages.
 - ch17-karma: Madhva graded bliss, Bodewitz 1996, Advaita "non-doer". ch17-darshanas: Karika 21 verse number.
