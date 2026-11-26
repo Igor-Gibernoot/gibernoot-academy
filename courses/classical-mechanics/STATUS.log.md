@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-26 ch04-rockets (autonomous)
+Built `ch04/rockets.yaml` (20 cards, rocket-exhaust x4: empty space with bars, log law with naive line and ln plot, frame trap with toggle, gravity) and set `file:`. Taylor 3.2 Eq. 3.4-3.8, Problems 3.7, 3.10, 3.11 render-checked (PDF 98, 99, 112). Choices: no real rocket data beyond Taylor's rough shuttle problem data (2e6 to 1e6 kg, 120 s, 3000 m/s), no Tsiolkovsky name, so no web facts; no image (none: conceptual toy). Taylor's problem 3.10 (momentum peak at m = m0/e) left out for the card limit. Shots: one formula overflow fixed (aligned); first widget card viewed at 1000 px, clean. Widget presets needed no change. Conventions fixed here: Chapter 4 section.
+
 ## 2026-11-26 widget rocket-exhaust (autonomous)
 Built `js/widgets/rocket-exhaust.js`, registry line in `index.js`, `docs/widgets/rocket-exhaust.md` (with smoke block), README line. RK4 model checked in node: default run v = 2 ln 5 = 3.218876 (closed form identical to 6 digits), total momentum 0; ground frame v = 8 = vex (m0/m - 1); g = 0.2, vex = 4 gives v = 4 ln 5 - g t and P = -m0 g t. Screenshots viewed at 390 and 1000 px (all options on, and a minimal config): clean. Thrust below weight keeps the rocket on the pad (documented); axes scale from slider corners, so wide ranges (mass ratio 20, ground frame) flatten the plots: keep ranges narrow in presets. Conventions fixed here: none (widget only).
 

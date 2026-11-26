@@ -1,0 +1,374 @@
+id: ch04-rockets
+title: How a Rocket Pushes on Nothing
+kind: concept
+own: |
+  Setting: a rocket of mass $m$ (a function of time) moves along a straight line, with $v$ its velocity along that line (positive forward). It throws fuel backward at the **exhaust speed** $v_{\text{ex}}$, measured **relative to the rocket**, so the rocket loses mass at the rate $-\dot m > 0$. In free space nothing else acts on it. Its initial mass is $m_0$ and its initial velocity is $v_0$.
+  - **Momentum balance.** In a short time $dt$ the rocket's mass changes by $dm < 0$ and its velocity by $dv$. The fuel ejected has mass $-dm$ and velocity $v - v_{\text{ex}}$ relative to the ground. Total momentum is unchanged, which gives
+    {{ $$m\,dv = -v_{\text{ex}}\,dm$$ }}
+  - **Thrust.** Dividing by $dt$ gives $m\dot v = -\dot m\,v_{\text{ex}}$, which looks like $m\dot v = F$ with the force replaced by the **thrust**, positive because $\dot m < 0$:
+    {{ $$\text{thrust} = -\dot m\,v_{\text{ex}}$$ }}
+  - **Rocket equation.** For constant $v_{\text{ex}}$, separating $dv = -v_{\text{ex}}\,dm/m$ and integrating from the initial mass $m_0$ to the mass $m$ gives
+    {{ $$v - v_0 = v_{\text{ex}}\ln\frac{m_0}{m}$$ }}
+    The speed gained grows only as the logarithm of the mass ratio $m_0/m$: a rocket that is 90% fuel ($m_0/m = 10$) gains at most $\ln 10 \approx 2.3\,v_{\text{ex}}$.
+  - **Gravity.** An external force $F^{\text{ext}}$ adds to the right side, $m\dot v = -\dot m\,v_{\text{ex}} + F^{\text{ext}}$. For a vertical launch from rest, with $F^{\text{ext}} = -mg$ (up is positive) and $t$ the time since lift-off, the speed is below the free-space value by $gt$, and lift-off needs thrust above the weight $m_0 g$:
+    {{ $$v = v_{\text{ex}}\ln\frac{m_0}{m} - g\,t$$ }}
+  - **Frame.** The logarithm needs $v_{\text{ex}}$ measured relative to the rocket. If the exhaust instead left at a fixed speed relative to the ground, the rocket would gain more, $v = v_{\text{ex}}(m_0/m - 1)$.
+cards:
+  - type: text
+    id: hook
+    title: Pushing on nothing
+    body: |
+      A rocket in empty space has no road to push against, no water to paddle and no air to push on. Yet it speeds up. Imagine yourself on perfectly frictionless ice, far from the shore. If you throw a boot as hard as you can away from the shore, the boot pushes back on you (the third law) and you glide toward the shore. A rocket does the same thing continuously: it hurls its own spent fuel backward, and the fuel pushes the rocket forward.
+
+      That raises a question you can guess before any algebra. The rocket gets lighter as it burns, and the lighter it is, the more the same push speeds it up.
+
+  - type: mcq
+    id: guess
+    review: false
+    prompt: |
+      A rocket in empty space starts at rest. It burns steadily until half of its starting mass has been thrown out backward, at a speed $v_{\text{ex}}$ relative to the rocket. How fast is it going at the end?
+    options:
+      - text: Slower than $v_{\text{ex}}$
+        correct: true
+      - text: Exactly $v_{\text{ex}}$
+        feedback: |
+          That would hold if the whole exhaust were left standing still behind the rocket while the rocket had somehow gone from $0$ to $v_{\text{ex}}$ in one jump. The exhaust leaves at $v_{\text{ex}}$ relative to the rocket, which is already moving, and the rocket is only half its starting mass at the end, with the lightest part of the burn doing the most.
+      - text: Twice $v_{\text{ex}}$
+        feedback: |
+          It is tempting to say that a rocket "doubles" as it loses half its mass. The mass only enters through a logarithm, which grows far more slowly than that, as we are about to derive.
+      - text: Impossible to say without the mass and the burn time
+        feedback: |
+          The mass and the time do matter for how long the flight lasts and how hard the thrust is, but the final speed turns out to depend only on the ratio of starting to final mass and on $v_{\text{ex}}$.
+    explanation: |
+      The exact number comes out of the derivation below.
+
+  - type: widget
+    id: empty-space
+    title: A toy rocket in empty space
+    widget: rocket-exhaust
+    config:
+      vex: 2
+      mdot: 10
+      m0: 100
+      mDry: 20
+      sliders: [vex, mdot]
+      readouts: [m, v, pr, pex, P]
+      show: { vPlot: false, formula: false }
+      units: { mass: kg, speed: m/s, time: s }
+    body: |
+      A toy rocket of $100\ \mathrm{kg}$ burns fuel until only $20\ \mathrm{kg}$ is left. The dots left behind are the exhaust, each at the speed it had when it left, as seen from the ground. The three bars are momenta, as seen from the ground: the rocket's $m v$, the exhaust's total, and the sum of both.
+
+      **Try:** press Play, then raise the exhaust speed $v_{\text{ex}}$ and play again. Watch the sum bar while the rocket bar grows.
+
+  - type: mcq
+    id: bars
+    prompt: |
+      A rocket in empty space burns fuel and speeds up. Seen from the ground, its own momentum $mv$ is positive and growing at first. The total momentum of the rocket plus all the exhaust it has thrown out stays at zero, with no external force acting. What must be true of the exhaust?
+    options:
+      - text: Its total momentum is negative and equal in size to the rocket's
+        correct: true
+      - text: Its total momentum is zero, the exhaust simply sits there
+        feedback: |
+          The exhaust is not at rest: it leaves at $v_{\text{ex}}$ backward relative to the rocket, so unless the rocket were already faster than $v_{\text{ex}}$ it moves backward on the ground. Zero exhaust momentum would leave the total equal to the rocket's, which is not zero.
+      - text: Its total momentum is positive, it is pushed forward by the rocket
+        feedback: |
+          The push on the fuel is backward: by the third law the force on the rocket is forward because the force on the fuel is backward. Backward momentum for the fuel balances forward momentum for the rocket.
+      - text: The total is not zero, since the rocket is gaining momentum from nowhere
+        feedback: |
+          Momentum is not gained from nowhere: a force-free system has constant total momentum, and the rocket's gain is exactly the exhaust's loss. The rocket is not isolated from its fuel, only from the outside world.
+    explanation: |
+      The rocket never pushes on anything outside. It pushes on its own fuel, and the fuel pushes back with the opposite momentum change. The rest of the lesson turns this bookkeeping into an equation.
+
+  - type: text
+    id: setup
+    title: Setting up the bookkeeping
+    body: |
+      Let the rocket move along a line, with $v$ its velocity along it (positive forward). It carries mass $m$, which is **decreasing**, because it ejects spent fuel at the **exhaust speed** $v_{\text{ex}}$ relative to the rocket. Take $v_{\text{ex}}$ as a positive speed and constant. Suppose no external force acts.
+
+      Count all the momentum at two moments. At time $t$ the rocket has mass $m$ and velocity $v$, so the momentum is
+
+      $$P(t) = m\,v.$$
+
+      A short time $dt$ later the rocket has mass $m + dm$ and velocity $v + dv$. The mass change $dm$ is **negative**, since fuel was lost. The fuel ejected in that time has mass $-dm$, which is positive. To add it to the momentum, we need its velocity as seen from the ground.
+
+  - type: mcq
+    id: ground-velocity
+    prompt: |
+      A rocket moving forward at velocity $v$ (forward is positive) ejects a puff of fuel. The fuel leaves at speed $v_{\text{ex}}$ **backward relative to the rocket**. What is the fuel's velocity relative to the ground?
+    options:
+      - text: $v - v_{\text{ex}}$
+        correct: true
+      - text: $-v_{\text{ex}}$
+        feedback: |
+          That would be right only if the rocket were at rest ($v = 0$). Once the rocket moves, the fuel keeps the rocket's own forward velocity $v$ at the moment it leaves, and the exhaust speed is measured from there.
+      - text: $v_{\text{ex}}$
+        feedback: |
+          That points forward, the wrong way: the fuel is thrown backward relative to the rocket.
+      - text: $v + v_{\text{ex}}$
+        feedback: |
+          That would be the velocity of something thrown **forward** at $v_{\text{ex}}$ relative to the rocket. The fuel goes backward, so the subtraction.
+    explanation: |
+      Velocities add: ground velocity of the fuel = velocity of the rocket + velocity of the fuel relative to the rocket $= v + (-v_{\text{ex}})$.
+
+  - type: text
+    id: derive
+    title: Equating the momenta
+    body: |
+      With the fuel's ground velocity $v - v_{\text{ex}}$ and mass $-dm$, the total momentum of the rocket plus the fuel just ejected, at $t + dt$, is
+
+      $$\begin{aligned}P(t + dt) = {}& (m + dm)(v + dv) \\ & - dm\,(v - v_{\text{ex}}).\end{aligned}$$
+
+      Expanding, the $dm\,v$ terms cancel. The product $dm\,dv$ is a small quantity times another small quantity and is dropped. What is left is
+
+      $$P(t + dt) = m v + m\,dv + dm\,v_{\text{ex}}.$$
+
+      The change in total momentum is therefore
+
+      $$dP = m\,dv + v_{\text{ex}}\,dm.$$
+
+      With no external force $dP = 0$, so
+
+      $$m\,dv = -v_{\text{ex}}\,dm.$$
+
+      Dividing by $dt$ and writing $\dot v = dv/dt$, $\dot m = dm/dt$:
+
+      $$m\dot v = -\dot m\,v_{\text{ex}}.$$
+
+      This looks just like Newton's second law $m\dot v = F$, with the right side $-\dot m\,v_{\text{ex}}$ playing the part of a force. It is called the **thrust**. Since $\dot m$ is negative, the thrust is positive.
+
+  - type: mcq
+    id: sign
+    prompt: |
+      In $m\,dv = -v_{\text{ex}}\,dm$, the exhaust speed $v_{\text{ex}}$ and the mass $m$ are positive, and the rocket loses mass, so $dm < 0$. What does that say about $dv$?
+    options:
+      - text: 'The rocket speeds up, $dv > 0$, as long as it ejects fuel backward'
+        correct: true
+      - text: 'The rocket slows down, $dv < 0$, since it is losing mass'
+        feedback: |
+          Losing mass does not by itself slow anything. The velocity changes by the momentum balance, and the minus sign multiplies a negative $dm$ to give a positive right side.
+      - text: $dv = 0$, since no external force acts
+        feedback: |
+          No external force means the **total** momentum is constant, not the rocket's own velocity. Momentum moves from the rocket to the exhaust the other way around: the exhaust gets negative momentum, so the rocket gets positive.
+      - text: The sign of $dv$ cannot be decided
+        feedback: |
+          Every factor has a known sign: $m > 0$, $v_{\text{ex}} > 0$, $dm < 0$. The sign of $dv$ follows.
+    explanation: |
+      $-v_{\text{ex}}\,dm$ is positive, so $m\,dv > 0$ and the rocket speeds up. Eject fuel the other way, and the sign would flip.
+
+  - type: build
+    id: separate
+    prompt: |
+      Divide $m\,dv = -v_{\text{ex}}\,dm$ by $m$, to put $v$ on one side and $m$ on the other. Build the right-hand side of
+
+    prefix: 'dv ='
+    tiles: ['-', 'v_{\text{ex}}', '\frac{dm}{m}', '\frac{m}{dm}', 'm\,dm']
+    answers:
+      - ['-', 'v_{\text{ex}}', '\frac{dm}{m}']
+      - ['-', '\frac{dm}{m}', 'v_{\text{ex}}']
+    wrong:
+      - answer: ['v_{\text{ex}}', '\frac{dm}{m}']
+        feedback: |
+          The sign was lost. Dividing $-v_{\text{ex}}\,dm$ by $m$ keeps the minus sign, and it is the minus that makes $dv$ positive when $dm$ is negative.
+      - answer: ['-', 'v_{\text{ex}}', '\frac{m}{dm}']
+        feedback: |
+          $m$ goes in the denominator and $dm$ stays in the numerator: we divided by $m$, we did not divide by $dm$.
+    hint: |
+      The left side is $m\,dv$. Dividing both sides by $m$ leaves $dv$ alone.
+    explanation: |
+      $$dv = -v_{\text{ex}}\,\frac{dm}{m}.$$
+
+      Now each side depends on one variable only, so it can be integrated.
+
+  - type: text
+    id: integrate
+    title: The rocket equation
+    body: |
+      Integrate from the start, where the velocity is $v_0$ and the mass $m_0$, to a later time, where they are $v$ and $m$. The exhaust speed $v_{\text{ex}}$ is constant, and $\int dm/m = \ln m$:
+
+      $$\int_{v_0}^{v} dv' = -v_{\text{ex}}\int_{m_0}^{m}\frac{dm'}{m'}.$$
+
+      The left side is $v - v_0$. The right side is $-v_{\text{ex}}(\ln m - \ln m_0)$, so
+
+      $$v - v_0 = v_{\text{ex}}\ln\frac{m_0}{m}.$$
+
+      Here $m_0$ is the initial mass, **including** fuel and payload, and $m$ is the mass at the moment of interest, so $m_0/m \ge 1$ and the logarithm is positive. Only the ratio of masses appears, not the rate $\dot m$. A rocket that burns slowly and one that burns fast end at the same speed, as long as they burn the same amount of fuel.
+
+  - type: numeric
+    id: half-mass
+    prompt: |
+      Back to the opening question: a rocket in empty space starts at rest and throws out half of its mass. Its final speed is $v = c\,v_{\text{ex}}$. What is $c$? Give three decimals.
+    answer: 0.693
+    tolerance: 0.002
+    answerText: '0.693 ($\ln 2$)'
+    wrong:
+      - value: 1
+        feedback: |
+          That would be $\ln e$. Half the mass gone means $m_0/m = 2$, not $e$.
+      - value: 0.5
+        feedback: |
+          Half of the mass is gone, but the speed does not scale linearly with the mass. Put the mass ratio inside the logarithm.
+      - value: 2
+        feedback: |
+          That is the mass ratio $m_0/m$ itself. The speed is its logarithm times $v_{\text{ex}}$.
+    hint: |
+      The mass ratio is $m_0/m = 2$. Take its natural logarithm.
+    explanation: |
+      $v = v_{\text{ex}}\ln 2 \approx 0.693\,v_{\text{ex}}$. The rocket ends slower than its own exhaust speed, even though half of its mass is gone.
+
+  - type: widget
+    id: log-law
+    title: The log law against a constant mass
+    widget: rocket-exhaust
+    config:
+      vex: 2
+      mdot: 10
+      m0: 100
+      mDry: 20
+      sliders: [mDry, vex]
+      ranges: { mDry: [10, 60, 10], vex: [1, 4, 0.5] }
+      readouts: [m, ratio, lnratio, v]
+      show: { naive: true, lnPlot: true, formulaLine: true, timeSlider: true }
+      units: { mass: kg, speed: m/s, time: s }
+    body: |
+      The same toy rocket, with the speed $v(t)$ and, below it, the speed against $\ln(m_0/m)$. The dashed curve is $v_{\text{ex}}\ln(m_0/m)$. The thin straight line is what $v$ would be if the mass did **not** decrease: the same thrust pushing a constant mass $m_0$, with $v = (-\dot m\,v_{\text{ex}}/m_0)\,t$.
+
+      **Try:** drag the time slider and compare the solid curve to the straight line. Then lower the final mass (the slider $m_{\text{dry}}$) and see how little the speed changes for a large change of mass.
+
+  - type: mcq
+    id: constant-thrust
+    prompt: |
+      A rocket burns fuel at a steady rate $-\dot m$ with constant $v_{\text{ex}}$, so its thrust $-\dot m\,v_{\text{ex}}$ is constant. Yet the plot of its speed against time curves upward, above the straight line that a constant mass would give. Why?
+    options:
+      - text: The mass decreases, so the same thrust gives a larger acceleration $\dot v = \text{thrust}/m$
+        correct: true
+      - text: The thrust grows as the fuel is burned
+        feedback: |
+          The thrust is constant here, $-\dot m\,v_{\text{ex}}$ with $\dot m$ and $v_{\text{ex}}$ both fixed. What grows is the acceleration it produces.
+      - text: Less fuel means less air resistance
+        feedback: |
+          There is no air in this problem, and the curve is the same in empty space. The cause is the mass in $m\dot v = \text{thrust}$.
+      - text: The exhaust speed $v_{\text{ex}}$ grows with time
+        feedback: |
+          $v_{\text{ex}}$ is constant, relative to the rocket. The same push on a lighter rocket simply gives a bigger $\dot v$.
+    explanation: |
+      $\dot v = (-\dot m\,v_{\text{ex}})/m$ with constant numerator and falling $m$. The curve is $v_{\text{ex}}\ln(m_0/m)$, always above the constant-mass line $(-\dot m\,v_{\text{ex}}/m_0)\,t$.
+
+  - type: numeric
+    id: ninety-percent
+    prompt: |
+      A rocket in empty space starts at rest, and 90% of its starting mass is fuel, all of it burned and ejected at a constant exhaust speed $v_{\text{ex}}$. Its final speed is $c\,v_{\text{ex}}$. What is $c$? Give two decimals.
+    answer: 2.3
+    tolerance: 0.02
+    answerText: '2.30 ($\ln 10$)'
+    wrong:
+      - value: 10
+        feedback: |
+          That is the mass ratio $m_0/m = 10$. The speed is $v_{\text{ex}}$ times its logarithm.
+      - value: 0.9
+        feedback: |
+          The fraction of fuel is $0.9$, but the mass ratio is $m_0/m = 1/0.1 = 10$, and the speed is $v_{\text{ex}}\ln 10$.
+    hint: |
+      What is left after burning all the fuel? If 90% of $m_0$ was fuel, then the final mass is 10% of $m_0$.
+    explanation: |
+      $m_0/m = 10$, so $v = v_{\text{ex}}\ln 10 \approx 2.30\,v_{\text{ex}}$. To reach twice that, $4.6\,v_{\text{ex}}$, the mass ratio must be squared, to $100$: the rocket would have to be 99% fuel. This is why engineers try to raise $v_{\text{ex}}$ and drop empty fuel tanks along the way, in several stages.
+
+  - type: widget
+    id: frame-trap
+    title: Relative to what?
+    widget: rocket-exhaust
+    config:
+      vex: 2
+      mdot: 10
+      m0: 100
+      mDry: 40
+      frameToggle: true
+      sliders: [mDry, vex]
+      ranges: { mDry: [30, 60, 10], vex: [1, 3, 0.5] }
+      readouts: [ratio, v]
+      show: { bars: false, scene: true }
+      units: { mass: kg, speed: m/s, time: s }
+    body: |
+      The same toy rocket twice. In the rocket frame, the exhaust leaves at $v_{\text{ex}}$ **relative to the rocket**, which is what we derived. In the ground frame, the engine instead adjusts itself so that the exhaust leaves at $v_{\text{ex}}$ **relative to the ground**, whatever the rocket's speed. The dashed curve is the log law.
+
+      **Try:** switch between the two buttons and play each. Which one follows the dashed curve?
+
+  - type: mcq
+    id: which-frame
+    prompt: |
+      A rocket moving at velocity $v$ ejects fuel. In which case does the fuel carry away **more** backward momentum per unit of mass in the ground frame, and so push the rocket harder?
+    options:
+      - text: 'Exhaust speed fixed relative to the ground, so the fuel leaves with velocity $-v_{\text{ex}}$'
+        correct: true
+      - text: 'Exhaust speed fixed relative to the rocket, so the fuel leaves with velocity $v - v_{\text{ex}}$'
+        feedback: |
+          At $v > 0$, this fuel still keeps part of the rocket's forward motion, $v - v_{\text{ex}} > -v_{\text{ex}}$, so it carries away **less** backward momentum.
+      - text: Both are the same, since $v_{\text{ex}}$ is the same number
+        feedback: |
+          The number $v_{\text{ex}}$ is the same, but it is measured against different things. A speed is only meaningful relative to a frame, and the ground-frame fuel goes backward faster once the rocket moves.
+      - text: It depends on the rocket's mass, not on the frame
+        feedback: |
+          The ejected mass $-dm$ is the same in both. What differs is its velocity.
+    explanation: |
+      With a fixed $-v_{\text{ex}}$ in the ground frame the fuel always leaves with the full backward velocity, so $m\,dv = (v + v_{\text{ex}})(-dm)$ and the rocket gains more: $v = v_{\text{ex}}(m_0/m - 1)$, above the log result. The log law is for $v_{\text{ex}}$ measured relative to the **rocket**, which is how a real engine works: the exhaust speed is set by the engine and is the same whatever the rocket's own speed.
+
+  - type: text
+    id: gravity
+    title: Adding gravity
+    body: |
+      Now launch the rocket vertically, with up positive. An external force $F^{\text{ext}}$ changes the total momentum by $F^{\text{ext}}\,dt$ in the time $dt$, instead of by zero, so $dP = F^{\text{ext}}\,dt$. The derivation then gives
+
+      $$m\dot v = -\dot m\,v_{\text{ex}} + F^{\text{ext}}.$$
+
+      For gravity near the ground, $F^{\text{ext}} = -mg$. Dividing by $m$ gives
+
+      $$\dot v = -\frac{\dot m}{m}\,v_{\text{ex}} - g.$$
+
+      The first term integrates as before, and the second one gives $-g$ times the elapsed time $t$. Starting from rest at lift-off,
+
+      $$v = v_{\text{ex}}\ln\frac{m_0}{m} - g\,t.$$
+
+      The rocket must also **leave** the pad: it moves at all only if the thrust $-\dot m\,v_{\text{ex}}$ exceeds its initial weight $m_0 g$.
+
+  - type: widget
+    id: gravity-rocket
+    title: Rocket with gravity
+    widget: rocket-exhaust
+    config:
+      g: 0.2
+      vex: 4
+      mdot: 10
+      m0: 100
+      mDry: 20
+      sliders: [g, vex]
+      ranges: { g: [0, 0.3, 0.1], vex: [4, 8, 1] }
+      readouts: [m, v, thrust, a]
+      show: { bars: false }
+      units: { mass: kg, speed: m/s, time: s }
+    body: |
+      The same toy rocket launched upward in a weak gravity $g$. The dashed curve is $v_{\text{ex}}\ln(m_0/m) - g\,t$, and the thrust arrow is drawn on the rocket.
+
+      **Try:** set $g = 0$ and press Play, then raise $g$ and play again. The loss in final speed is $g$ times the burn time, whatever the exhaust speed.
+
+  - type: numeric
+    id: shuttle-thrust
+    prompt: |
+      A rough model of the first two minutes of a space shuttle launch: the initial mass is $2\times10^6\ \mathrm{kg}$, the final mass is $1\times10^6\ \mathrm{kg}$ after $120\ \mathrm{s}$, and the exhaust speed is $3000\ \mathrm{m/s}$, with the mass ejected at a constant rate. Take $g = 9.8\ \mathrm{m/s^2}$. By what factor does the thrust exceed the initial weight? Give two decimals.
+    answer: 1.28
+    tolerance: 0.02
+    answerText: '1.28 (thrust $2.5\times10^7$ N, weight $1.96\times10^7$ N)'
+    wrong:
+      - value: 0.78
+        feedback: |
+          That is the inverse, weight over thrust. Lift-off needs the thrust to be larger than the weight, so the ratio asked for is above 1.
+      - value: 2.55
+        feedback: |
+          That compares the thrust with half the weight, as if the final mass were the load. At lift-off the whole initial mass $2\times10^6\ \mathrm{kg}$ must be lifted.
+    hint: |
+      Find the rate at which mass leaves from the total mass lost and the time. Then find what plays the part of the force, and compare it with the weight of the initial mass.
+    explanation: |
+      The rate is $-\dot m = 10^6/120 \approx 8.33\times10^3\ \mathrm{kg/s}$. The thrust is $8.33\times10^3 \times 3000 = 2.5\times10^7\ \mathrm{N}$. The initial weight is $2\times10^6\times9.8 = 1.96\times10^7\ \mathrm{N}$. The ratio is $1.28$, so the shuttle lifts off, but with only a 28% surplus at the start.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the rocket pushes on its own fuel, and total momentum stays constant. That is a statement about a whole system, not about one particle. In the lesson The Center of Mass we find a single point of any system, a tumbling hammer included, that moves as if all the mass sat there and all the outside forces pushed on it.
