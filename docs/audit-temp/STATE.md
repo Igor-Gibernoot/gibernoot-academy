@@ -4,10 +4,10 @@ Per-agent rules: agent-rules.md. Web method: docs/WEB_SEARCH.md. Rank table: aud
 
 ## Progress
 - Ranks 1 to 124 done.
-- Clean-row pass (audit.md rank 125+, course science-faith-mind only): done 125, 126, 127, 128, 129, 130, 135, 136, 139, 140, 144, 146, 149, 151, 155, 157, 158, 162, 163, 170, 171, 172, 178, 179, 180, 191. Rank 192 ch12-mysticism is PARTIAL (search quota ran out): rerun it first. Skipped for now (Tier 2 or 3): 131, 132, 133, 134.
-- Hits (lessons whose text changed) in the clean-row pass: 25 of 26 (ch23-knowledge alt text counted as a hit; rank 178 changed only VERIFIED, not counted; 192 partial hit not counted yet).
-- Current tier: 1. Remaining Tier 1 list: 192 ch12-mysticism (rerun, see NOT CONFIRMED), 193 ch22-sentence, 194 ch23-fideism, 196 ch08-time, 214 ch08-spinoza, 215 ch08-challenge, 216 ch12-perennial, 217 ch12-traps, 218 ch19-confucius, 219 ch23-pragmatic, 226 ch21-drake-proof, 227 ch23-disagreement, 266 ch25-death. Re-run the grep from the Tiers section to confirm.
-- Session 2026-11-26: 10 agents used (140 to 163), all committed and pushed. Next session starts at rank 170.
+- Clean-row pass (audit.md rank 125+, course science-faith-mind only): done 125, 126, 127, 128, 129, 130, 135, 136, 139, 140, 144, 146, 149, 151, 155, 157, 158, 162, 163, 170, 171, 172, 178, 179, 180, 191, 192, 193, 194, 196, 214, 215, 216, 217, 218, 219. Skipped for now (Tier 2 or 3): 131, 132, 133, 134.
+- Hits (lessons whose text changed) in the clean-row pass: 35 of 36 (ch23-knowledge alt text counted as a hit; rank 178 changed only VERIFIED, not counted; all of 192 to 219 above changed text).
+- Current tier: 1. Remaining Tier 1 list: 226 ch21-drake-proof, 227 ch23-disagreement, 266 ch25-death. Re-run the grep from the Tiers section to confirm.
+- Session 2026-11-26 (second): 10 agents used (192, 193, 194, 196, 214 to 219), all committed and pushed; ch08-abrahamic Maimonides aligned by coordinator (90add34). Next session starts at rank 226.
 
 ## Tiers (finish one before the next; tell the user when a tier ends)
 - Tier 1 FULL: clean rows rank 131+ with BOTH "quotes" and "attributions". List: `grep "^| [0-9]* | science-faith-mind" docs/audit-temp/audit.md | awk -F'|' '$2+0>=131 && $6~/quotes/ && $6~/attributions/'`, rank order, skip done ranks. Agent checks every quote, attribution, date and number (strength "read") or softens or removes it.
@@ -21,7 +21,7 @@ Per-agent rules: agent-rules.md. Web method: docs/WEB_SEARCH.md. Rank table: aud
 - If WebFetch fails: retry once, then a mirror or another reference site.
 - Sweep rule: when a date or wording changes, grep every course file (lessons, maps, challenges, CONVENTIONS) so they agree.
 - Parallel sessions share the tree: stage by path, never `git add -A`, never anything under courses/classical-mechanics/. validate may show 2 unrelated errors about widget "ang-mom-area": ignore if science-faith-mind has none.
-- Britannica pastes: none required. Two optional lines in britannica-paste-list.md (ch08-apophatic Maimonides birth year, ch15-paul Paul the Apostle). If a unit adds one, give the user the link and the full rule-12 prompt with items a, b, c. Form: Link + "Use ONLY this page's text, nothing from memory. Quote the exact sentence or write NOT STATED. Keep dates as written. Start your reply with `<lesson id>, <page name>`." Apply each pasted answer to the lesson, VERIFIED.md and britannica-paste-list.md.
+- Britannica pastes: only CRITICAL ones (Igor, 2026-11-26: optional links dropped). A line goes in britannica-paste-list.md only if the lesson cannot do without a claim that Britannica alone supports; otherwise soften or remove and leave in NOT CONFIRMED. None open now except the ch19-jain search note. If a unit adds one, give the user the link and the full rule-12 prompt with items a, b, c. Form: Link + "Use ONLY this page's text, nothing from memory. Quote the exact sentence or write NOT STATED. Keep dates as written. Start your reply with `<lesson id>, <page name>`." Apply each pasted answer to the lesson, VERIFIED.md and britannica-paste-list.md.
 - End of audit: tell the user, then `git rm -r docs/audit-temp`, commit, push. Not before.
 - Final message of every session: final report (fixed with commits, still NOT CONFIRMED, Britannica pastes) and the next-session prompt (see NEXT_PROMPT below, with the progress above updated). Update this file first and commit it by path.
 
@@ -31,7 +31,14 @@ Per-agent rules: agent-rules.md. Web method: docs/WEB_SEARCH.md. Rank table: aud
 - ch16-map/muhammad/CONVENTIONS: Ibn Ishaq d. 767, some sources about 773. ch16-modern, ch09: Ibn al-Haytham Optics "some sources 1011-1021". Kardec/Brazil: Kardec first published 1857 wording, FEB 1 or 2 Jan.
 
 ## NOT CONFIRMED (carried over; retry only if a unit touches the lesson; "cand" = candidate source)
-- ch12-mysticism (RERUN FIRST, none read): Iranica fana wording (403); Vatican Benedict XVI 2011 audience for Teresa 1515, 1577, Doctor 1970; Britannica Zohar and Teresa 1588; SEP Eckhart 1327/1328 and ground-of-soul/McGinn; Katz 1978 essay title; Shankara 8th c. and Chandogya c.600 BCE; Juan de la Miseria portrait 1570/1576; anatta/nirvana wording; Olivelle and Brereton wording (snippet only). Candidates are in VERIFIED.
+- ch12-mysticism: al-Sarraj 'awareness of anything other than God' (Wikipedia only, worded 'Sufi writers'); Katz title and pages (snippet only; read in SEP bibliography under ch12-perennial); Iranica fana (dropped from lesson).
+- ch12-perennial: Ferrer on Advaita (dropped; cand Parsons review JAAR/Journal of Religion 2003 pp. 692-693); Chatto 1946 (lesson says 1945); Leibniz 1714 vs 1715 (lesson 'early 1700s'; cand Schmitt 1966 J. Hist. Ideas 505-532); Huxley 'reviewers noting bias' (Wikipedia only, 'according to critics'); Proudfoot coffee counter and Forman nirodha-samapatti (snippet only).
+- ch12-traps: Paloutzian-Richardson-Rambo 1999 original abstract (cand onlinelibrary.wiley.com/doi/10.1111/1467-6494.00082, PsycNET).
+- ch08-spinoza: Ip14 corollary (not in text); exact Ethics printing year; Einstein 1879-1955 (Nobel snippet).
+- ch08-challenge: Pike 1965 paper text (cand jstor.org/stable/2183529); Maimonides Mishneh Torah wording (cand search 'Hilchot Avodah Zarah 9:4 Notzrim uncensored Hebrew').
+- ch19-confucius: Anna Sun 2013 own wording; Zhu Weizheng beyond SEP (cand Loewe, Cambridge History of China vol. 1).
+- ch23-fideism: Plantinga 1983 p. 87 full wording (dropped); Nielsen-Phillips 2005 SCM (snippet, not load-bearing).
+- ch23-pragmatic: Hajek 2003 paper itself (cand philarchive.org/rec/HJEWWO, jstor 3595561); Pascal Pensees posthumous rests on SEP 1670.
 - ch18-no-self-proof: Rhys Davids quotes (cand sacred-texts.com/bud/sbe35/sbe3504.htm); Siderits and Parfit attributions (secondary snippets); Schumann 2020 date.
 - ch19-jain: Mallisena 1292 and Koller (snippet only, kept soft); cand PhilPapers Cort, jainqq Dundas.
 - ch16-challenge (no claim remains): early commentators on dhimmi and abrogation readings; Ibn Taymiyya; Arnold 1913 (cand tafsir.learn-quran.co ayah-256; Tabari 2:256; Motahhari).
@@ -49,7 +56,7 @@ Per-agent rules: agent-rules.md. Web method: docs/WEB_SEARCH.md. Rank table: aud
 - ch21-theology: founding place of the Raelian movement (NOT STATED anywhere); Kimball's book and page.
 - ch19-movements: survey figure on the Book of Mormon (none exists; softened).
 - ch22-challenge: Levi-Strauss trickster wording.
-- ch15-paul: exact birth year, Galatians date, Philippi founding year (removed from text; cand Britannica "Saint Paul the Apostle", optional paste).
+- ch15-paul: exact birth year, Galatians date, Philippi founding year (removed from text; no paste needed).
 - ch10-iit: Tononi birth year (dropped); Nature and PubMed pages for Cogitate (walls; covered by Birmingham abstract). ch08-apophatic: Kellner not tied to the Kaplan passage. ch23-knowledge: Clifford 1877 month (lesson says 1877 only).
 - ch24-skeptic/ch24-stoic/ch25-ethics/ch20-principles/ch23-evidentialism/ch22-metaphor: none carried (Tillich being-itself exception and Ramsey Oxford/Nolloth removed).
 - ch08-attributes: Savage 1967, Euthyphro attribution. ch08 (line 49): Whitehead 1929 first-edition page.
