@@ -30,7 +30,8 @@
 - **Widget `work-path` built (2026-11-27)** (docs/widgets/work-path.md): field uniform / spring / swirl / shear, roads straight / bent / arc / draggable control, dots, running W = integral F.dr, bar per road, spread readout.
 - **Built:** `ch05-work` (Level 5, concept, 21 cards, work-path x2, no image). Line integral, work-KE theorem (both derivations), Taylor's F=(y,2x) three roads.
 - **Widget `potential-gradient` built (2026-11-27)** (docs/widgets/potential-gradient.md): F = -grad V (spring, uniform, gravity, softened 1/r; swirl and shear have no V), contours and colour map, probe point with F and grad V, roads with V(A) - V(B) against the work, loop circulation, trajectory with T, V, T + V bars.
-- **Next unit:** Level 5 second lesson `ch05-conservative` (uses `potential-gradient`, possibly `work-path`; no more widget needed). The exam (`exam-partial1`) comes only after Level 6.
+- **Built:** `ch05-conservative` (Level 5, concept, 24 cards, potential-gradient x3, no image). Two conditions, V = -integral F.dr, W = V1 - V2, E = T + V, F = -grad V, Delta E = W_nc.
+- **Next unit:** widget `curl-loop` (small rectangle loop: edge works, circulation vs curl x area; see log), then `ch05-curl-proof` (guided proof). The exam (`exam-partial1`) comes only after Level 6.
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.

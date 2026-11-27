@@ -285,7 +285,7 @@ export function potentialGradient(el, cfg) {
     if (show.bars) {
       const rows = [{ label: Lb.minusDV, value: hasV ? pot(A[0], A[1]) - pot(B[0], B[1]) : null, color: 'var(--ink)', unit: U.work },
         ...roads.map((r, i) => ({ label: r.label, value: wk[i], color: r.color, unit: U.work }))];
-      if (loopOn) rows.push({ label: Lb.loop.length > 16 ? '∮ F·dr' : Lb.loop, value: circ, color: 'var(--ink)', unit: U.work });
+      if (loopOn) rows.push({ label: Lb.loop.length > 16 ? 'Loop work' : Lb.loop, value: circ, color: 'var(--ink)', unit: U.work });
       const top = cfg.barMax ?? Math.max(1e-9, ...rows.map(r => Math.abs(r.value ?? 0))) * 1.15;
       barBlock(BY, rows, top);
     }

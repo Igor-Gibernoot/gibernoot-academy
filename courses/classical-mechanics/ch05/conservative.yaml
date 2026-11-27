@@ -1,0 +1,412 @@
+id: ch05-conservative
+title: Conservative Forces and Potential Energy
+kind: concept
+own: |
+  Setting: a particle of mass $m$ moves under a force $\mathbf{F}$ that may depend on the position $\mathbf{r}=(x,y,z)$ and on nothing else. Its work between two points 1 and 2 along a road is $W(1\to2)=\int_1^2\mathbf{F}\cdot d\mathbf{r}$, and its kinetic energy is $T=\tfrac12 mv^2$ with $T_2-T_1=W(1\to2)$.
+  - **Conservative force.** A force is conservative when it depends only on the position and the work $W(1\to2)$ is the same on every road between the same two points (equivalently, the work around any closed road is zero). A force that depends on velocity or time (drag, the magnetic force) or whose work depends on the road (friction, a swirl around a point) is not conservative.
+  - **Potential energy.** Choose a reference point $\mathbf{r}_0$ where the potential energy $V$ is defined to be zero. Then $V$ at a point $\mathbf{r}$ is minus the work the force does on the way from $\mathbf{r}_0$ to $\mathbf{r}$ (Taylor writes $U$):
+    {{ $$V(\mathbf{r}) = -\int_{\mathbf{r}_0}^{\mathbf{r}}\mathbf{F}(\mathbf{r}')\cdot d\mathbf{r}'$$ }}
+    The zero level is arbitrary: adding a constant to $V$ changes nothing that can be measured.
+  - **Work from $V$.** Going $1\to\mathbf{r}_0\to2$ gives the work as a drop of potential energy:
+    {{ $$W(1\to2) = V_1 - V_2 = -\Delta V$$ }}
+  - **Conservation of energy.** Combined with $\Delta T = W(1\to 2)$ this gives $\Delta(T+V)=0$: the total energy of the particle, with $T$ its kinetic energy and $V$ its potential energy, is constant:
+    {{ $$E = T + V = \text{constant}$$ }}
+    If a nonconservative force does work $W_{\text{nc}}$ besides the conservative ones, then $\Delta E = W_{\text{nc}}$.
+  - **Force from the potential.** For a small step $d\mathbf{r}$ the work $\mathbf{F}\cdot d\mathbf{r}$ equals $-dV$, which fixes each component of $\mathbf{F}$ as minus a partial derivative of $V$, that is, minus the gradient of $V$:
+    {{ $$\mathbf{F} = -\nabla V,\qquad F_x = -\frac{\partial V}{\partial x}$$ }}
+    $\nabla V=\hat{\mathbf{x}}\,\partial V/\partial x+\hat{\mathbf{y}}\,\partial V/\partial y+\hat{\mathbf{z}}\,\partial V/\partial z$ points uphill, so the force points downhill and is perpendicular to the contours of equal $V$.
+cards:
+  - type: text
+    id: hook
+    title: A number for every point
+    body: |
+      In the lesson Work and Kinetic Energy, a box was moved from A to B in four force fields. In a steady push and in a spring, every road from A to B gave the same work. In a swirl around a point and in a shear, the work changed with the road, and so did the speed gained.
+
+      Take the first kind. If the work from A to B does not depend on the road, it can only depend on A and B. Then something odd should be possible: attach one number to every point of the room, so that the work between any two points is just the difference of their two numbers. Before any formula, guess: for which of the four fields could such a map of numbers exist, and what would the force have to do with it?
+
+  - type: widget
+    id: roads
+    title: A map of numbers
+    widget: potential-gradient
+    config:
+      fields:
+        - { label: Spring, type: spring, k: 1.5, center: [0.2, 0.1] }
+        - { label: Gravity, type: gravity, g: 1 }
+        - { label: Swirl, type: swirl, k: 1, center: [0, 1.5] }
+        - { label: Shear, type: shear, k: 1 }
+      roads:
+        - { kind: straight, label: Straight }
+        - { kind: control, label: Yours }
+      A: [-1.2, -0.5]
+      B: [1.2, 0.5]
+      units: { V: J, work: J, length: m, force: N }
+      readouts: [dV, work, loop]
+      show:
+        colorMap: true
+        point: false
+        trajectory: false
+        energy: false
+        play: false
+        scrub: false
+    body: |
+      The grey arrows show a force field. For the spring and the gravity field, the picture also shows a map of numbers $V$ (colours and contour lines) and the bars compare the work on each road with $V(\mathrm{A}) - V(\mathrm{B})$, the drop of that number. The swirl and the shear have no map. The loop readout is the work around the closed road: A to B along the first road and back along the second.
+
+      **Try:** for each field, drag the handle of the second road to a wild detour and watch the bars and the loop readout.
+
+  - type: mcq
+    id: roads-meaning
+    prompt: |
+      In the spring and the gravity field, the work from A to B on every road came out equal to the drop $V(\mathrm{A}) - V(\mathrm{B})$ of a number $V$ attached to each point. In the swirl and the shear, the work changed with the road. What follows?
+    options:
+      - text: In the swirl and the shear no such map of numbers can exist, because one pair of end points would then give one value of the work
+        correct: true
+      - text: The map exists in the swirl too, it is just harder to draw
+        feedback: |
+          If a map $V$ existed, the work between A and B would be $V(\mathrm{A}) - V(\mathrm{B})$ on every road, a single number. The swirl gave different works on different roads, so no such map can exist.
+      - text: The map exists only when the force is zero somewhere
+        feedback: |
+          The spring has zero force at its centre, but gravity has no zero of force anywhere, and it has a map too. What matters is that the work does not depend on the road.
+    explanation: |
+      A potential energy can exist only when the work between two points is the same on every road. That requirement, and a second one, define a conservative force.
+
+  - type: text
+    id: conditions
+    title: Two conditions
+    body: |
+      A force $\mathbf{F}$ acting on a particle is called **conservative** when it satisfies two conditions.
+
+      **(i)** $\mathbf{F}$ depends only on the position $\mathbf{r}$ of the particle, not on its velocity, on the time or on any other variable: $\mathbf{F}=\mathbf{F}(\mathbf{r})$.
+
+      **(ii)** For any two points 1 and 2, the work
+
+      $$W(1\to2)=\int_1^2\mathbf{F}\cdot d\mathbf{r}$$
+
+      is the same on every road from 1 to 2.
+
+      Friction fails (ii): it points against the motion and has a fixed size $F_{\text{fric}}$, so $W_{\text{fric}}(1\to2)=-F_{\text{fric}}L$ with $L$ the length of the road, and longer roads give more negative work. Weight near the ground passes: for $\mathbf{F}=m\mathbf{g}$ with $\mathbf{g}$ a constant vector pointing down, the work is $-mgh$ with $h$ the height gained, whatever the road.
+
+  - type: mcq
+    id: condition-i
+    prompt: |
+      Which of these forces fail condition (i), that is, depend on more than the position of the particle? Select all that apply.
+    multiple: true
+    options:
+      - text: Air resistance on a ball
+        correct: true
+      - text: The magnetic force $q\,\mathbf{v}\times\mathbf{B}$ on a moving charge
+        correct: true
+      - text: The force of a time-varying electric field $\mathbf{E}(\mathbf{r},t)$ on a charge
+        correct: true
+      - text: The pull of a spring fixed at a point, $\mathbf{F}=-k(\mathbf{r}-\mathbf{r}_c)$
+        feedback: |
+          The spring force is a function of where the particle is, $\mathbf{F}(\mathbf{r})$, and nothing else, so it passes (i).
+      - text: The gravitational force of the sun on a planet
+        feedback: |
+          It depends on the position of the planet relative to the sun only, so it passes (i).
+    explanation: |
+      Drag and the magnetic force depend on the velocity, and a time-varying field depends on the time. Each of them fails (i), so none of them can have a potential energy.
+
+  - type: numeric
+    id: round-trip
+    prompt: |
+      A conservative force does $5\ \mathrm{J}$ of work on a particle moving from point 1 to point 2 along some road. The particle then returns from 2 to 1 along a different road. Reversing a road changes the sign of every step $d\mathbf{r}$. What is the total work of the force around the round trip, in joules?
+    answer: 0
+    tolerance: 0.001
+    wrong:
+      - { value: 10, feedback: 'That counts the work as positive on the way back too. On the way back each step $d\mathbf{r}$ is reversed, so $\mathbf{F}\cdot d\mathbf{r}$ changes sign.' }
+      - { value: 5, feedback: 'That forgets the return trip. By condition (ii) the work from 2 to 1 is $-5\ \mathrm{J}$ on any road, so the trip adds $5 - 5$.' }
+    hint: Going from 2 to 1 undoes the steps of going from 1 to 2, so by condition (ii) the work for 2 to 1 is minus the work for 1 to 2, on any road.
+    explanation: |
+      $W(1\to2) = 5\ \mathrm{J}$, $W(2\to1)=-5\ \mathrm{J}$, so the round trip gives $0$. In symbols, condition (ii) is the same as $\oint\mathbf{F}\cdot d\mathbf{r}=0$ for every closed road, which is why the loop readout of the widget was zero for the spring and the gravity field.
+
+  - type: text
+    id: define-v
+    title: Defining the potential energy
+    body: |
+      For a conservative force we define a function of position. Choose a **reference point** $\mathbf{r}_0$ where it is defined to be zero (for gravity near the ground, the ground). The **potential energy** at any point $\mathbf{r}$ is minus the work the force does when the particle moves from $\mathbf{r}_0$ to $\mathbf{r}$:
+
+      $$V(\mathbf{r}) = -W(\mathbf{r}_0\to\mathbf{r}) = -\int_{\mathbf{r}_0}^{\mathbf{r}}\mathbf{F}(\mathbf{r}')\cdot d\mathbf{r}'.$$
+
+      The variable of the integral is written $\mathbf{r}'$ so that it is not confused with the upper limit. Taylor writes $U$ for this function and Goldstein writes $V$; we use $V$.
+
+      This definition makes sense only because of the two conditions. If the work depended on the road, $V(\mathbf{r})$ would not be one number. If $\mathbf{F}$ depended on time or velocity, the integral would depend on when or how the particle went from $\mathbf{r}_0$ to $\mathbf{r}$, and again $V$ would not be a function of position alone. The minus sign is explained a few cards below.
+
+  - type: numeric
+    id: gravity-v
+    prompt: |
+      A $2\ \mathrm{kg}$ ball near the ground feels the weight $\mathbf{F}=(0,-19.6)\ \mathrm{N}$ (taking $g=9.8\ \mathrm{m/s^2}$, with $y$ upward). Take the ground $y=0$ as the reference point, so $V=0$ there. Using $V(\mathbf{r}) = -\int_{\mathbf{r}_0}^{\mathbf{r}}\mathbf{F}\cdot d\mathbf{r}'$ along a straight road up to the height $y=1.5\ \mathrm{m}$, what is the potential energy, in joules?
+    answer: 29.4
+    tolerance: 0.01
+    wrong:
+      - { value: -29.4, feedback: 'That is the work of gravity on the way up, $-19.6\cdot1.5$. The potential energy is minus that work, which is why the definition carries a minus sign.' }
+      - { value: 19.6, feedback: 'That is the force in newtons. The integral multiplies the force by the height gained.' }
+    hint: Going straight up, $\mathbf{F}\cdot d\mathbf{r}=F_y\,dy=-19.6\,dy$. Integrate from $0$ to $1.5$, then flip the sign.
+    explanation: |
+      $\int_0^{1.5}(-19.6)\,dy=-29.4\ \mathrm{J}$ is the work, so $V=+29.4\ \mathrm{J}$, which is $mgy$ with $m=2\ \mathrm{kg}$. Gravity near the ground gives $V=mgy$, and any road to the same height gives the same value.
+
+  - type: order
+    id: derivation
+    prompt: |
+      Put in order the proof that, for a conservative force, the work between two points is a difference of potential energies. Here $\mathbf{r}_0$ is the reference point and $\mathbf{r}_1$, $\mathbf{r}_2$ are two points.
+    steps:
+      - 'Go from $\mathbf{r}_1$ to $\mathbf{r}_2$ by way of the reference point: first back to $\mathbf{r}_0$, then on to $\mathbf{r}_2$ (any roads, by condition (ii))'
+      - 'Split the work along the two limbs: $W(\mathbf{r}_1\to\mathbf{r}_2) = W(\mathbf{r}_1\to\mathbf{r}_0) + W(\mathbf{r}_0\to\mathbf{r}_2)$'
+      - 'Reverse the first limb: $W(\mathbf{r}_1\to\mathbf{r}_0) = -W(\mathbf{r}_0\to\mathbf{r}_1)$'
+      - 'Use the definition $V(\mathbf{r}) = -W(\mathbf{r}_0\to\mathbf{r})$ for each term: $W(\mathbf{r}_1\to\mathbf{r}_2) = V(\mathbf{r}_1) - V(\mathbf{r}_2)$'
+    hint: The work from 1 to 2 can be built from two works that both start at the reference point, one of them reversed.
+    explanation: |
+      Condition (ii) is used twice: to allow the detour through $\mathbf{r}_0$ and to let each limb have one value. The result is
+
+      $$W(1\to2) = V_1 - V_2 = -\Delta V.$$
+
+      Goldstein reaches the same line from the other end: if the work depends only on the end points, it can be written as a change of a quantity that depends on the end points, and that quantity is named $-V$. The same argument shows that the zero level of $V$ is arbitrary, since adding a constant to $V$ leaves $V_1-V_2$ unchanged.
+
+  - type: text
+    id: conservation
+    title: Why "conservative"
+    body: |
+      Now put the two results together. The work-kinetic-energy theorem says
+
+      $$T_2 - T_1 = W(1\to2),$$
+
+      and for a conservative force the work is $W(1\to2)=-(V_2-V_1)$. Equating,
+
+      $$\Delta T = -\Delta V\qquad\text{or}\qquad \Delta(T+V) = 0.$$
+
+      This is the reason for the minus sign in the definition of $V$: it puts the plus sign in $T+V$. The sum
+
+      $$E = T + V$$
+
+      is the **mechanical energy**. Points 1 and 2 were any two points of the motion, so **if the force on a particle is conservative, its energy $E=T+V$ does not change**. The change is shared out: what the particle loses in $V$ it gains in $T$, and the other way round.
+
+      With several forces $\mathbf{F}_1,\dots,\mathbf{F}_n$, all conservative, each has its own $V_i$, the work of the net force is the sum of the works, and $E=T+V_1+\dots+V_n$ is constant.
+
+  - type: numeric
+    id: spring-speed
+    prompt: |
+      A $0.5\ \mathrm{kg}$ block sits on a smooth table attached to a spring of constant $k=50\ \mathrm{N/m}$. The spring force along the line of motion is $F=-kx$, with $x$ measured from the relaxed position, and its potential energy (reference at $x=0$) is $V=\tfrac12kx^2$. The block is pulled out to $x=0.2\ \mathrm{m}$ and released from rest. Using $T+V$ constant, what is its speed when it passes $x=0$, in m/s?
+    answer: 2
+    tolerance: 0.001
+    wrong:
+      - { value: 1, feedback: 'That is the potential energy in joules, $\tfrac12\cdot50\cdot0.2^2$. At $x=0$ all of it has become kinetic energy $\tfrac12mv^2$, and the speed follows from that.' }
+      - { value: 4, feedback: 'That drops the factor $\tfrac12$ in $T=\tfrac12mv^2$: with $T=1\ \mathrm{J}$ and $m=0.5\ \mathrm{kg}$ we have $v^2=2T/m$, whose square root is $2$.' }
+    hint: At release $T=0$ and $V=\tfrac12kx^2$. At $x=0$, $V=0$. Equate the two values of $E$.
+    explanation: |
+      $E=0+\tfrac12\cdot50\cdot0.2^2=1\ \mathrm{J}$. At $x=0$, $V=0$, so $\tfrac12mv^2=1$ and $v=\sqrt{2\cdot1/0.5}=2\ \mathrm{m/s}$. No integral over the motion was needed, only the two end values of $V$.
+
+  - type: widget
+    id: energy
+    title: Energy changing hands
+    widget: potential-gradient
+    config:
+      fields:
+        - { label: Spring, type: spring, k: 1.5, center: [0, 0] }
+        - { label: Gravity, type: gravity, g: 1 }
+        - { label: Central pull, type: central, k: 0.5, center: [0, 0.2] }
+      start: [0.8, 0.3]
+      v0: [0, 0.6]
+      mass: 1
+      tmax: 8
+      units: { V: J, work: J, length: m, force: N }
+      readouts: [energy]
+      show:
+        colorMap: true
+        roads: false
+        markers: false
+        loop: false
+        bars: false
+        energy: true
+        trajectory: true
+        forceArrow: false
+        gradArrow: false
+        handle: false
+        point: false
+    body: |
+      A particle of mass $1\ \mathrm{kg}$ moves under the force field, starting at the dot. The bars show its kinetic energy $T$, its potential energy $V$ and their sum $T+V$.
+
+      **Try:** press Launch for each field, and watch which bar stays still while the other two rise and fall. Then drag the scrub slider to stop at a moment of your choice.
+
+  - type: mcq
+    id: arbitrary-zero
+    prompt: |
+      Someone moves the reference point, so that every value of $V$ is shifted by the same constant, $V\to V+5\ \mathrm{J}$. Which of these change? Select all that apply.
+    multiple: true
+    options:
+      - text: The value of $V$ at a given point
+        correct: true
+      - text: The value of the energy $E=T+V$ at a given moment
+        correct: true
+      - text: The force $\mathbf{F}$ at a given point
+        feedback: |
+          The force comes from differences and slopes of $V$, and a constant shift changes none of them. Physically, the force on the particle cannot depend on where we chose to call the energy zero.
+      - text: The work $W(1\to2)=V_1-V_2$ between two points
+        feedback: |
+          Both $V_1$ and $V_2$ move up by $5\ \mathrm{J}$, so the difference is the same. Only differences of potential energy are physical.
+      - text: Whether $E$ is conserved
+        feedback: |
+          A constant added to a constant is still a constant. $\Delta(T+V)=0$ holds for any zero level.
+    explanation: |
+      The zero level of $V$ is a choice. The value of $V$ and the value of $E$ shift, while differences of $V$, forces, works, speeds and the conservation of $E$ do not.
+
+  - type: text
+    id: gradient
+    title: From the potential back to the force
+    body: |
+      The definition builds $V$ from $\mathbf{F}$ by an integral. Can we go back? Take a small step $d\mathbf{r}=(dx,dy,dz)$. The work of the force in the step is, by definition,
+
+      $$W = \mathbf{F}\cdot d\mathbf{r} = F_x\,dx + F_y\,dy + F_z\,dz.$$
+
+      By the result of the last cards it is also minus the change of $V$ in the step, $-dV$, where for a function of three variables
+
+      $$dV = \frac{\partial V}{\partial x}dx + \frac{\partial V}{\partial y}dy + \frac{\partial V}{\partial z}dz.$$
+
+      The partial derivative $\partial V/\partial x$ is the rate of change of $V$ with $x$ when $y$ and $z$ are held fixed. Both expressions hold for every small step. Choose a step along $x$ only, so $dy=dz=0$: then $F_x\,dx=-\frac{\partial V}{\partial x}dx$. Steps along $y$ and $z$ do the same, so
+
+      $$\begin{gathered}F_x=-\frac{\partial V}{\partial x},\\ F_y=-\frac{\partial V}{\partial y},\\ F_z=-\frac{\partial V}{\partial z}.\end{gathered}$$
+
+      Goldstein gets the same by writing the step as $d\mathbf{s}$ along a direction $s$: $\mathbf{F}\cdot d\mathbf{s}=-dV$ gives $F_s=-\partial V/\partial s$. In vector form, with the **gradient** $\nabla V=\hat{\mathbf{x}}\,\partial V/\partial x+\hat{\mathbf{y}}\,\partial V/\partial y+\hat{\mathbf{z}}\,\partial V/\partial z$ (read "grad $V$", and $\nabla$ is called "del" or "nabla"),
+
+      $$\mathbf{F} = -\nabla V.$$
+
+      We say $\mathbf{F}$ is **derivable from a potential energy**.
+
+  - type: build
+    id: build-fy
+    prompt: |
+      Complete the formula for the $y$ component of the force in terms of the potential energy $V(x,y,z)$.
+    prefix: 'F_y ='
+    tiles: ['-', '+', '\dfrac{\partial V}{\partial y}', '\dfrac{\partial V}{\partial x}', '\dfrac{dV}{dt}']
+    answers:
+      - ['-', '\dfrac{\partial V}{\partial y}']
+    wrong:
+      - { answer: ['\dfrac{\partial V}{\partial y}'], feedback: 'The sign is missing. The work of the force is minus the change of $V$, so the force points toward lower $V$.' }
+      - { answer: ['-', '\dfrac{\partial V}{\partial x}'], feedback: 'That is $F_x$. The component along $y$ comes from the rate of change of $V$ when $y$ changes and $x$, $z$ stay fixed.' }
+    hint: Take a small step along $y$ only. The work is $F_y\,dy$ and it equals $-dV$.
+    explanation: |
+      $F_y\,dy=-dV=-\dfrac{\partial V}{\partial y}\,dy$ for a step along $y$.
+
+  - type: numeric
+    id: grad-number
+    prompt: |
+      A conservative force has the potential energy $V(x,y)=x^2y+2y$ (in joules, with $x$ and $y$ in metres). Using $F_y=-\partial V/\partial y$, what is $F_y$ at the point $(x,y)=(2,1)$, in newtons?
+    answer: -6
+    tolerance: 0.001
+    wrong:
+      - { value: 6, feedback: 'The magnitude is right but the sign is not. $\partial V/\partial y=x^2+2=6$ is the slope of $V$, and the force is minus the slope.' }
+      - { value: -4, feedback: 'That is $F_x=-\partial V/\partial x=-2xy$ at the point. For $F_y$ differentiate with respect to $y$, holding $x$ fixed.' }
+    hint: Treat $x$ as a constant and differentiate $x^2y+2y$ with respect to $y$.
+    explanation: |
+      $\partial V/\partial y=x^2+2$, which is $6$ at $x=2$, so $F_y=-6\ \mathrm{N}$. Likewise $F_x=-2xy=-4\ \mathrm{N}$, so $\mathbf{F}=(-4,-6)\ \mathrm{N}$ there.
+
+  - type: widget
+    id: probe
+    title: Force and slope
+    widget: potential-gradient
+    config:
+      fields:
+        - { label: Spring, type: spring, k: 1.5, center: [0.2, 0.1] }
+        - { label: Central pull, type: central, k: 0.5, center: [0, 0.2] }
+        - { label: Gravity, type: gravity, g: 1 }
+      point: [0.7, 0.6]
+      units: { V: J, work: J, length: m, force: N }
+      readouts: [probe]
+      show:
+        colorMap: true
+        roads: false
+        markers: false
+        loop: false
+        bars: false
+        energy: false
+        trajectory: false
+        play: false
+        scrub: false
+        handle: false
+    body: |
+      The colours and contour lines show $V$ (the colour map and the contour lines). At the dot, the solid blue arrow is the force $\mathbf{F}$ and the dashed orange arrow is $\nabla V$.
+
+      **Try:** drag the dot around in each field. Watch the angle between the arrows and the contour lines, the direction of the force relative to the colours, and the length of the arrows where the contour lines crowd together or spread apart.
+
+  - type: mcq
+    id: contours
+    prompt: |
+      What does the picture show about $\mathbf{F}=-\nabla V$ at a point?
+    options:
+      - text: $\mathbf{F}$ is perpendicular to the contour line through the point, points toward lower $V$, and is larger where the contours crowd together
+        correct: true
+      - text: $\mathbf{F}$ is tangent to the contour line, since moving along a contour changes nothing
+        feedback: |
+          Moving along a contour does not change $V$, so the work of the force in that step is zero. A force that does no work in a step is perpendicular to it, so $\mathbf{F}$ is perpendicular to the contour, not tangent to it.
+      - text: $\mathbf{F}$ points toward higher $V$, since $\nabla V$ points uphill
+        feedback: |
+          $\nabla V$ points uphill, and the force is minus the gradient, so it points downhill. A ball on a hill rolls down.
+    explanation: |
+      Along a contour $dV=0$, so $\mathbf{F}\cdot d\mathbf{r}=-dV=0$: the force is perpendicular to every step along the contour. The size of $\nabla V$ is the steepness of the slope, large where the contours are close.
+
+  - type: text
+    id: nonconservative
+    title: When some forces are not conservative
+    body: |
+      Real motion often has a force that is not conservative, such as sliding friction. Split the net force into a conservative part, with potential energy $V$, and a nonconservative part. The work-kinetic-energy theorem gives
+
+      $$\Delta T = W_{\text{cons}} + W_{\text{nc}} = -\Delta V + W_{\text{nc}},$$
+
+      so with $E=T+V$,
+
+      $$\Delta E = \Delta(T+V) = W_{\text{nc}}.$$
+
+      The mechanical energy is no longer constant, but it changes by exactly the work of the nonconservative forces. For sliding friction that work is negative, so friction takes mechanical energy out of the motion.
+
+  - type: numeric
+    id: incline
+    prompt: |
+      A $1\ \mathrm{kg}$ block starts from rest at the top of an incline and slides $2\ \mathrm{m}$ along it to the bottom, which is $1\ \mathrm{m}$ lower. Friction of constant size $3\ \mathrm{N}$ opposes the motion. Weight has $V=mgy$ (take $g=9.8\ \mathrm{m/s^2}$), and the normal force does no work. Using $\Delta(T+V)=W_{\text{nc}}$, what is the speed at the bottom, in m/s?
+    answer: 2.757
+    tolerance: 0.01
+    wrong:
+      - { value: 4.43, feedback: 'That is the speed with no friction, $\sqrt{2gh}=\sqrt{19.6}$. Friction does $W_{\text{nc}}=-3\cdot2=-6\ \mathrm{J}$ on the slide, and that must be included.' }
+      - { value: 3.688, feedback: 'That counts friction over the $1\ \mathrm{m}$ of height, $W_{\text{nc}}=-3$, giving $T=6.8\ \mathrm{J}$. Friction acts along the road, which is $2\ \mathrm{m}$ long, so $W_{\text{nc}}=-6\ \mathrm{J}$.' }
+    hint: '$\Delta V=-mgh=-9.8\ \mathrm{J}$ and $W_{\text{nc}}=-3\cdot2$. Then $\Delta T=-\Delta V+W_{\text{nc}}$.'
+    explanation: |
+      $\Delta T=-\Delta V+W_{\text{nc}}=9.8-6=3.8\ \mathrm{J}$, so $\tfrac12\cdot1\cdot v^2=3.8$ and $v=\sqrt{7.6}\approx2.76\ \mathrm{m/s}$.
+
+  - type: mcq
+    id: magnetic-trap
+    prompt: |
+      A charge moves in a uniform magnetic field. The magnetic force $q\,\mathbf{v}\times\mathbf{B}$ is always perpendicular to the velocity, so it does no work, and the kinetic energy of the charge stays constant. Is the magnetic force conservative in the sense of the two conditions?
+    options:
+      - text: 'No: it depends on the velocity, so condition (i) fails and there is no potential energy $V(\mathbf{r})$, even though the kinetic energy happens to stay constant'
+        correct: true
+      - text: 'Yes: a force that does no work and conserves energy is conservative'
+        feedback: |
+          Conserving the energy is a consequence of being conservative, but the converse is not required. A conservative force must also be a function of position only, and $q\,\mathbf{v}\times\mathbf{B}$ depends on $\mathbf{v}$, so no $V(\mathbf{r})$ can be defined from it.
+      - text: 'Yes: its work between any two points is zero, so it is path independent'
+        feedback: |
+          True that the work is zero on every road, but the work done is not the problem. A force that depends on velocity has no $V(\mathbf{r})$ for the particle to carry, so it fails (i).
+    explanation: |
+      Normal forces and magnetic forces do no work and so conserve kinetic energy, but they are not derivable from a potential energy, and in this lesson's terminology they are not conservative. The name is a little unfortunate; the two conditions are what define the word.
+
+  - type: numeric
+    id: swirl-loop
+    prompt: |
+      The swirl force $\mathbf{F}=(-y,\,x)\ \mathrm{N}$ ($x,y$ in metres) depends only on position, so condition (i) holds. Test condition (ii) by walking once counterclockwise around the unit circle $x=\cos\theta$, $y=\sin\theta$, $\theta$ from $0$ to $2\pi$, so that $d\mathbf{r}=(-\sin\theta,\cos\theta)\,d\theta$. What is the work around the closed road, in joules (to three decimals)?
+    answer: 6.283
+    tolerance: 0.005
+    wrong:
+      - { value: 0, feedback: 'Zero is what a conservative force would give around a closed road. Here $\mathbf{F}\cdot d\mathbf{r}=(\sin^2\theta+\cos^2\theta)\,d\theta=d\theta$, which is always positive.' }
+      - { value: 1, feedback: 'That is the integrand $\mathbf{F}\cdot d\mathbf{r}=d\theta$ per unit angle. Integrate it over the whole circle, from $0$ to $2\pi$.' }
+    hint: On the circle $F_x=-\sin\theta$ and $F_y=\cos\theta$. Compute $\mathbf{F}\cdot d\mathbf{r}$, then integrate over $\theta$.
+    explanation: |
+      $\mathbf{F}\cdot d\mathbf{r}=(\sin^2\theta+\cos^2\theta)\,d\theta=d\theta$, so the work is $\int_0^{2\pi}d\theta=2\pi\approx6.283\ \mathrm{J}$. The force always points along the motion, so it pushes all the way round. Depending only on position is not enough: this force fails (ii), and no $V$ exists for it.
+
+  - type: text
+    id: teaser
+    title: A test that avoids trying every road
+    body: |
+      Checking condition (ii) by computing the work on every road is impossible: there are infinitely many. For the swirl a single closed road was enough to show the failure, but to show that a force *is* conservative we need a test that works at each point, without walking any road.
+
+      The test exists, and it uses derivatives of the components of $\mathbf{F}$: a quantity built from them, the curl, must vanish. The next lesson proves why zero curl is enough, and shows that every central force, one that points along the line to a fixed point with a strength that depends only on the distance, passes the test.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the curl test, and why a force with zero curl has path-independent work. Then energy diagrams in one dimension.
