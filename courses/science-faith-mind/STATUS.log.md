@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-27 ch25-challenge (22 cards, 5 problems in one part, no widget, no images)
+Built ch25/challenge.yaml, file: added in course.yaml. Invented case: Alder House hospice, Ana (80), five-member committee writing one front-hall sentence; problems: meaning, death, ethics, suffering, shared sentence; closing layer card; no own: per challenge convention, plain summary card. No new external facts, so no web search (VERIFIED line lists reused items). Widgets: none needed. Images: none: a challenge adds none, nothing new introduced. Validate 0 errors 0 warnings, shots 0 problems. Level 25 fully built.
+Conventions fixed here: Alder House case (Ana, brother Leo counting grass blades, committee of chaplain, nurse, Buddhist volunteer, Stoic doctor, philosopher); k^m reason profiles (3^4 = 81).
+
 ## 2026-11-27 ch25-map (13 boxes, 15 cards, map, no widget)
 Built ch25/map.yaml with file: added in course.yaml; boxes follow the lesson order (meaning, Frankl, needs, Nagel, divine command, four theories, Street, proof, death, hereafters, suffering, shared goods, open questions). No archive map existed. No new external facts, so no web search (VERIFIED line lists the reused items). Choices: merged Aquinas, Mill, Kant and Aristotle into one box to stay near 13; dashed arrows from the needs box to the ethics boxes. validate 0/0, shots 0 problems. Conventions fixed here: map reuses logged facts only; Camus appears only through the suffering box.
 
