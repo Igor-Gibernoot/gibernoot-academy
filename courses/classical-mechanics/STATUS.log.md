@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27 Widget work-path (autonomous)
+Built `js/widgets/work-path.js` (docs/widgets/work-path.md): fields uniform / spring / swirl / shear, roads straight / bent / arc / draggable control, walking dots, running W = integral F.dr, one bar per road, spread readout. Closed forms checked by script (uniform and spring equal on all roads; swirl differs by 2k x enclosed area). Added `.fs-slide.stack` to css/app.css. Throwaway lesson deleted. Conventions fixed here: none.
+
 ## 2026-11-27 Level 4 audit (autonomous)
 Checked ch04 against Taylor 3.2-3.5 renders (PDF 98-107): all formulas, symbols, Kepler footnote match; sources/VERIFIED.md and VERIFIED.md lines added. Fixed: 'next lesson' wording in angular-momentum and many-particles replaced by lesson titles, a wrong 'after that comes energy', own: bullets now define F_alpha^ext and g, Kepler portrait caption softened after web check (Commons: presumed portrait, disputed), Level 2 space-time torque symbol Gamma changed to N. No Level N references, widget cards exist (rocket-exhaust 4, cm-toss 5, ang-mom-area 5), all files registered. Decision: Level 5 first lesson needs a new path-dependence widget (track-ride and friction-stop do not show work along two roads). Conventions fixed here: torque is N (never Gamma outside 'Taylor writes'); N is also the normal force, context decides.
 

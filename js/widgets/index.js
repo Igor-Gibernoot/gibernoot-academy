@@ -61,6 +61,7 @@ const WIDGETS = {
   'elevator-counterweight': ['elevator-counterweight', 'elevatorCounterweight'],
   'crash-impulse': ['crash-impulse', 'crashImpulse'],
   'track-ride': ['track-ride', 'trackRide'],
+  'work-path': ['work-path', 'workPath'],
   'oscillator-lab': ['oscillator-lab', 'oscillatorLab'],
   'flutter-lab': ['flutter-lab', 'flutterLab'],
   'arch-thrust': ['arch-thrust', 'archThrust'],
