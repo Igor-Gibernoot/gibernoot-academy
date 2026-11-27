@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27 ch25-synthesis (19 cards, concept, no widget, 2 reused images: Chalmers, Barbour)
+Closing map: three kinds of disagreement, six fault lines, k^q grid count, no verdict. Widgets checked (README grep sort/map/grid/match/position): none fits; a plain mcq sort sufficed. Choices made autonomously: named only three external facts (Barbour 2000, Chalmers 1995, Leibniz 1714), all web-read; everything else refers to earlier lessons by title. Images: none new (reused chalmers.webp, barbour.webp). validate 0/0, shots 0 problems. Conventions fixed here: three kinds of disagreement (evidence / premise or interpretation / commitment); six fault lines; k^q = 3^6 = 729 as an upper bound ('grid, not two camps'); disagreement does not imply all positions equal.
+
 ## 2026-11-27 ch25-humanity (19 cards, concept, no widget, 2 images: Eleanor Roosevelt new, Confucius reused)
 Built with full web check (VERIFIED.md line). Widget check: README lists no widget for agreement or ethics; none needed (no quantity to manipulate). Choices: Golden Rule via four sources (Hillel, Legge Analects, Matthew WEB, Nawawi 13); UDHR Art 1 plus Maritain remark paraphrased (page typo, not quoted); Global Ethic 1993 and Rawls overlapping consensus vs modus vivendi; A Common Word 2007 quoted from its own site; Wikipedia-only reception claims dropped. Conventions fixed here: three levels of agreement (acts / rules or rights / reasons), shared goods = first two only; thin vs thick ethic; interfaith humility = hold own claim, grant sincerity, allow error, not relativism; invented four neighbours Ruth, Daniel, Amina, Tomas and a well. Images: eleanor-roosevelt.webp new (CC BY 2.0), confucius.webp reused. Next: Where We Stand: A Map of Open Questions.
 
