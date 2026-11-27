@@ -1,0 +1,333 @@
+id: ch04-challenge
+title: Level Challenge
+kind: challenge
+cards:
+  - type: text
+    id: intro
+    title: Harder, still guess first
+    body: |
+      Problems that **combine** what the level taught: rockets, the center of mass and angular momentum. Guess first, use a pencil, and check each number by hand. Every answer comes with its reason. All bodies here are toy bodies with the data given, and $g = 9.8\ \mathrm{m/s^2}$.
+
+      The toolkit. A rocket of mass $m$ ejects exhaust at speed $v_{\text{ex}}$ relative to itself, with $\dot m < 0$. Its thrust and, launched upward from rest with gravity, its speed are
+      $$\text{thrust} = -\dot m\,v_{\text{ex}}, \qquad v = v_{\text{ex}}\ln\frac{m_0}{m} - g\,t.$$
+      For particles of masses $m_\alpha$ at positions $\mathbf r_\alpha$, the total mass, center of mass and momentum are
+      $$\begin{gathered} M = \sum m_\alpha, \qquad \mathbf P = M\dot{\mathbf R}, \\ \mathbf R = \frac1M\sum m_\alpha\mathbf r_\alpha, \end{gathered}$$
+      and the center of mass obeys $\mathbf F^{\text{ext}} = M\ddot{\mathbf R}$. For one particle about a fixed origin $O$,
+      $$\begin{gathered} \mathbf L = \mathbf r\times\mathbf p, \qquad \frac{dA}{dt} = \frac{L}{2m}, \\ \dot{\mathbf L} = \mathbf N = \mathbf r\times\mathbf F, \end{gathered}$$
+      where $dA/dt$ is the area the line from $O$ to the particle sweeps each second.
+
+      Three problems now: a rocket with gravity, a shell that explodes in flight, and a puck on a string.
+
+  # ---------------------------------------------------------------- Problem 1
+  - type: text
+    id: p1-setup
+    title: 'Problem 1: a rocket fights gravity'
+    body: |
+      A toy rocket stands on a pad. Its mass is $m_0 = 1000\ \mathrm{kg}$, of which $600\ \mathrm{kg}$ is fuel. The engine burns fuel at the steady rate $-\dot m = 20\ \mathrm{kg/s}$ and ejects it at $v_{\text{ex}} = 2000\ \mathrm{m/s}$ relative to the rocket. The fuel therefore lasts $600/20 = 30\ \mathrm{s}$. Take $g$ constant, no air, and the flight straight up.
+
+      Can it leave the pad, how fast is it when the fuel is gone, and does burning more slowly help?
+
+  - type: numeric
+    id: p1-liftoff
+    prompt: |
+      A rocket of mass $1000\ \mathrm{kg}$ burns fuel at $20\ \mathrm{kg/s}$ with exhaust speed $2000\ \mathrm{m/s}$ relative to the rocket, in a field $g = 9.8\ \mathrm{m/s^2}$. What is the ratio of its thrust to its initial weight $m_0 g$ (a number above $1$ means it rises)?
+    answer: 4.08
+    tolerance: 0.01
+    answerText: '4.08'
+    wrong:
+      - { value: 40000, feedback: 'That is the thrust in newtons, $20 \times 2000$. The question asks for its ratio to the weight $m_0 g = 9800\ \mathrm{N}$.' }
+      - { value: 0.245, feedback: 'That is the ratio turned upside down. The rocket rises when the thrust is larger than the weight, so the ratio of thrust to weight is above $1$.' }
+    hint: |
+      Thrust is $-\dot m\,v_{\text{ex}}$ in newtons. The weight is $m_0 g$.
+    explanation: |
+      $$\begin{aligned} \text{thrust} &= -\dot m\,v_{\text{ex}} \\ &= 20 \times 2000 = 40\,000\ \mathrm{N}, \end{aligned}$$
+      and $m_0 g = 9800\ \mathrm{N}$.
+      The ratio is $40\,000/9800 = 4.08$. The net force at lift-off is $30\,200\ \mathrm{N}$ upward, an acceleration of $30.2\ \mathrm{m/s^2}$, and it grows as the rocket gets lighter.
+
+  - type: numeric
+    id: p1-burnout
+    prompt: |
+      The same rocket ($m_0 = 1000\ \mathrm{kg}$, $v_{\text{ex}} = 2000\ \mathrm{m/s}$, burning $20\ \mathrm{kg/s}$) starts from rest and burns for $30\ \mathrm{s}$, when its mass is $400\ \mathrm{kg}$. With gravity and up positive, $v = v_{\text{ex}}\ln(m_0/m) - g\,t$. What is its speed at burnout, in metres per second?
+    answer: 1538.6
+    tolerance: 2
+    answerText: '1538.6'
+    wrong:
+      - { value: 1832.6, feedback: 'That is the speed the logarithm alone gives, as if there were no gravity. Over $30\ \mathrm{s}$ gravity takes away $g\,t$ as well.' }
+      - { value: 294, feedback: 'That is only the loss to gravity, $9.8 \times 30$. It must be subtracted from the logarithm term, not used alone.' }
+    hint: |
+      The mass ratio is $m_0/m = 1000/400 = 2.5$.
+    explanation: |
+      $$\begin{aligned} v &= v_{\text{ex}}\ln\frac{m_0}{m} - g\,t \\ &= 2000\,\ln 2.5 - 9.8 \times 30 \\ &= 1832.6 - 294 \\ &= 1538.6\ \mathrm{m/s}. \end{aligned}$$
+      Gravity costs the rocket $16\%$ of what the exhaust gave it.
+
+  - type: numeric
+    id: p1-slow
+    prompt: |
+      The same rocket and the same $600\ \mathrm{kg}$ of fuel, but the engine is throttled to burn at $10\ \mathrm{kg/s}$, so the fuel lasts $60\ \mathrm{s}$. The exhaust speed is still $2000\ \mathrm{m/s}$, and $v = v_{\text{ex}}\ln(m_0/m) - g\,t$. What is the speed at burnout, in metres per second? (Its thrust, $20\,000\ \mathrm{N}$, is still above the weight $9800\ \mathrm{N}$.)
+    answer: 1244.6
+    tolerance: 2
+    answerText: '1244.6'
+    wrong:
+      - { value: 1538.6, feedback: 'That is the answer for the fast burn. The mass ratio is the same, so the logarithm term is the same, but the time $t$ in $-g\,t$ is now $60\ \mathrm{s}$, not $30\ \mathrm{s}$.' }
+      - { value: 1832.6, feedback: 'That leaves out the loss to gravity. Over $60\ \mathrm{s}$ it is $g\,t = 588\ \mathrm{m/s}$.' }
+    hint: |
+      The final mass is again $400\ \mathrm{kg}$. Only the burn time changed.
+    explanation: |
+      $$\begin{aligned} v &= 2000\,\ln 2.5 - 9.8 \times 60 \\ &= 1832.6 - 588 \\ &= 1244.6\ \mathrm{m/s}. \end{aligned}$$
+      That is $294\ \mathrm{m/s}$ slower than the fast burn.
+
+  - type: mcq
+    id: p1-why
+    prompt: |
+      A rocket burns $600\ \mathrm{kg}$ of fuel at $v_{\text{ex}} = 2000\ \mathrm{m/s}$ and rises against gravity. Burning the fuel over $60\ \mathrm{s}$ instead of $30\ \mathrm{s}$ ends with a lower speed. Why?
+    options:
+      - text: The logarithm term depends only on $v_{\text{ex}}$ and the mass ratio, which did not change, while gravity subtracts $g\,t$ for longer
+        correct: true
+      - text: A weaker engine ejects the exhaust at a lower speed, so the logarithm term is smaller
+        feedback: |
+          The exhaust speed $v_{\text{ex}}$ was kept at $2000\ \mathrm{m/s}$. Only the rate of burning changed. The speed the exhaust gives depends on how much mass is thrown back, not on how quickly.
+      - text: Momentum is conserved, so a slower burn gives the rocket less momentum
+        feedback: |
+          Total momentum of rocket plus exhaust is conserved only when no external force acts. Here gravity pulls the whole time, and a longer burn gives it more time to remove momentum from the rocket.
+      - text: The rocket is heavier for longer, so gravity pulls on it with a larger force
+        feedback: |
+          Heavier for longer is true, but it is the wrong quantity. In $\dot v = -(\dot m/m)v_{\text{ex}} - g$ the gravity term is $g$, whatever the mass. What matters is how long it acts.
+    explanation: |
+      The equation of motion is $\dot v = -(\dot m/m)\,v_{\text{ex}} - g$. Integrating the first term gives $v_{\text{ex}}\ln(m_0/m)$ whatever the burn rate, and the second gives $-g\,t$. So for a fixed mass ratio, the faster the burn, the less time gravity has to act. A real launch trades this against the limits of the engine, which a toy problem leaves out.
+
+  - type: numeric
+    id: p1-coast
+    prompt: |
+      After the $30\ \mathrm{s}$ burn the rocket is at $1538.6\ \mathrm{m/s}$ upward and its engine is off. With only gravity acting ($g = 9.8\ \mathrm{m/s^2}$ constant) it coasts upward until it stops. How much higher does it rise during the coast, in kilometres?
+    answer: 120.8
+    tolerance: 0.3
+    answerText: '120.8'
+    wrong:
+      - { value: 157, feedback: 'That is the coasting time $v/g$ in seconds. The height gained in that time is $v^2/(2g)$.' }
+      - { value: 241.6, feedback: 'That is $v\,t_{\text{coast}} = v^2/g$, which forgets that the speed falls to zero over the coast. The average speed is $v/2$.' }
+    hint: |
+      With constant deceleration $g$, the rise is $v^2/(2g)$.
+    explanation: |
+      $$\Delta y = \frac{v^2}{2g} = \frac{1538.6^2}{19.6} = 1.208\times10^{5}\ \mathrm{m}.$$
+      That is $120.8\ \mathrm{km}$, reached after another $v/g = 157\ \mathrm{s}$. A real rocket would meet thinner air and a weaker pull at that height, so the constant $g$ is only a toy assumption.
+
+  # ---------------------------------------------------------------- Problem 2
+  - type: text
+    id: p2-setup
+    title: 'Problem 2: a shell that bursts at the top'
+    body: |
+      A shell of mass $3\ \mathrm{kg}$ is fired from level ground at $40\ \mathrm{m/s}$, $60^\circ$ above the horizontal, with no air. Its velocity components are
+      $$v_x = 20\ \mathrm{m/s}, \qquad v_y = 34.64\ \mathrm{m/s}.$$
+      It reaches the top of its path after $t = v_y/g = 3.535\ \mathrm{s}$, at a horizontal distance $x = 70.7\ \mathrm{m}$. There an internal charge splits it into a $1\ \mathrm{kg}$ piece and a $2\ \mathrm{kg}$ piece. The charge pushes only **horizontally**, so both pieces start their fall with zero vertical speed and land on the ground together, $3.535\ \mathrm{s}$ later. The $1\ \mathrm{kg}$ piece is left at rest and drops straight down.
+
+      Where does the $2\ \mathrm{kg}$ piece land?
+
+  - type: numeric
+    id: p2-cm
+    prompt: |
+      A $3\ \mathrm{kg}$ shell is fired from level ground at $20\ \mathrm{m/s}$ horizontally and $34.64\ \mathrm{m/s}$ vertically, with no air. At the top of its path it explodes into two pieces by an internal horizontal charge, and both pieces land at the same instant. At what horizontal distance from the launch point does the center of mass of the pieces land, in metres?
+    answer: 141.4
+    tolerance: 0.3
+    answerText: '141.4'
+    wrong:
+      - { value: 70.7, feedback: 'That is the horizontal distance of the top of the path, where the shell bursts. The center of mass keeps travelling on the original parabola, and the landing is twice as far.' }
+      - { value: 176.8, feedback: 'That is where the heavier piece lands, which is not the center of mass. The center of mass lies between the two landing points, weighted by their masses.' }
+    hint: |
+      The charge is internal. Only gravity acts on the system, so the center of mass follows the parabola of the unbroken shell.
+    explanation: |
+      Internal forces cancel in the total momentum, so $\mathbf F^{\text{ext}} = M\ddot{\mathbf R}$ involves only gravity and the center of mass follows the original parabola. It reaches the ground, the same level as the launch, at the range
+      $$R = \frac{2v_xv_y}{g} = \frac{2 \times 20 \times 34.64}{9.8} = 141.4\ \mathrm{m}.$$
+      The pieces land together, so $\mathbf R$ is at ground level exactly when they both are, and the ground does not interfere before that.
+
+  - type: numeric
+    id: p2-land
+    prompt: |
+      A $3\ \mathrm{kg}$ shell bursts at the top of its path, $70.7\ \mathrm{m}$ from the launch point, into a $1\ \mathrm{kg}$ piece and a $2\ \mathrm{kg}$ piece. The $1\ \mathrm{kg}$ piece drops straight down, and both land at the same time. The center of mass of the pieces lands at $141.4\ \mathrm{m}$, where $\mathbf R = \frac1M\sum m_\alpha\mathbf r_\alpha$ and $M = 3\ \mathrm{kg}$. At what distance from the launch point does the $2\ \mathrm{kg}$ piece land, in metres?
+    answer: 176.8
+    tolerance: 0.4
+    answerText: '176.8'
+    wrong:
+      - { value: 141.4, feedback: 'That is the center of mass, not the piece. The two pieces land on opposite sides of it, the lighter one closer to it in weight but farther in distance.' }
+      - { value: 212.1, feedback: 'That would be the answer if the $1\ \mathrm{kg}$ piece landed at the launch point. It falls straight down from the top, so it lands at $70.7\ \mathrm{m}$.' }
+    hint: |
+      Write $M R = m_1x_1 + m_2x_2$ at the landing moment, with $x_1 = 70.7\ \mathrm{m}$.
+    explanation: |
+      $$\begin{aligned} 3 \times 141.4 &= 1 \times 70.7 + 2\,x_2 \\ 424.2 &= 70.7 + 2\,x_2 \\ x_2 &= 176.8\ \mathrm{m}. \end{aligned}$$
+      No detail of the explosion was needed, only that it was internal and that the pieces land together.
+
+  - type: numeric
+    id: p2-speed
+    prompt: |
+      Check the answer by momentum at the burst. Just before it, the $3\ \mathrm{kg}$ shell moves horizontally at $20\ \mathrm{m/s}$ (its vertical speed is zero at the top). Just after, the $1\ \mathrm{kg}$ piece is at rest and the $2\ \mathrm{kg}$ piece moves horizontally at speed $u$. The burst is so short that gravity changes nothing during it. Find $u$, in metres per second.
+    answer: 30
+    tolerance: 0.1
+    answerText: '30'
+    wrong:
+      - { value: 20, feedback: 'That would keep the speed of the shell, but then the total momentum after, $2 \times 20 = 40$, is less than the $60$ before. The $1\ \mathrm{kg}$ piece lost its momentum and the other must gain it.' }
+      - { value: 60, feedback: 'That is the total momentum $3 \times 20$, not a speed. It must be shared by the $2\ \mathrm{kg}$ piece alone, so divide by $2\ \mathrm{kg}$.' }
+    hint: |
+      Total momentum before equals total momentum after: $3 \times 20 = 1 \times 0 + 2u$.
+    explanation: |
+      $$60 = 0 + 2u, \qquad u = 30\ \mathrm{m/s}.$$
+      The piece then flies $30 \times 3.535 = 106.1\ \mathrm{m}$ while it falls, landing at $70.7 + 106.1 = 176.8\ \mathrm{m}$. This agrees with the center-of-mass route, which did not need $u$ or the fall time.
+
+  - type: numeric
+    id: p2-variant
+    prompt: |
+      The same $3\ \mathrm{kg}$ shell bursts at the top, $70.7\ \mathrm{m}$ from the launch point, with a different horizontal push. Now the $1\ \mathrm{kg}$ piece is thrown **backward** so that it lands exactly at the launch point, $x = 0$, and both pieces again land together. The center of mass lands at $141.4\ \mathrm{m}$. Where does the $2\ \mathrm{kg}$ piece land, in metres?
+    answer: 212.1
+    tolerance: 0.5
+    answerText: '212.1'
+    wrong:
+      - { value: 176.8, feedback: 'That is the answer for the piece dropped straight down. Here the lighter piece lands farther back, so the heavier one must land farther out to keep the center of mass at $141.4\ \mathrm{m}$.' }
+      - { value: 141.4, feedback: 'The center of mass lands there, not necessarily either piece. A piece lands at the center of mass only if the other lands there too.' }
+    hint: |
+      Same equation as before, $M R = m_1x_1 + m_2x_2$, now with $x_1 = 0$.
+    explanation: |
+      $$3 \times 141.4 = 1 \times 0 + 2\,x_2, \qquad x_2 = 212.1\ \mathrm{m}.$$
+      The speeds check: the $1\ \mathrm{kg}$ piece moves back at $70.7/3.535 = 20\ \mathrm{m/s}$, so $60 = 1(-20) + 2u$ gives $u = 40\ \mathrm{m/s}$, and $70.7 + 40 \times 3.535 = 212.1\ \mathrm{m}$.
+
+  - type: mcq
+    id: p2-which
+    prompt: |
+      A shell bursts in flight into pieces by an internal charge, and all the pieces land at the same instant. Which quantity do the pieces' landing points **not** change?
+    options:
+      - text: The mass-weighted average of the landing positions, the center of mass
+        correct: true
+      - text: The landing position of each piece
+        feedback: |
+          Each piece's landing point depends on the push it receives, as the two cases above show: $176.8\ \mathrm{m}$ or $212.1\ \mathrm{m}$ for the same piece.
+      - text: The total kinetic energy of the pieces just after the burst
+        feedback: |
+          The charge releases energy, so the pieces move faster than the shell did. The laws of this level fix momentum, not kinetic energy, through internal forces.
+      - text: The velocity of each piece just after the burst
+        feedback: |
+          The charge changes each piece's velocity. Only the mass-weighted sum, the total momentum, is left unchanged by an internal push.
+    explanation: |
+      Internal forces cancel pairwise, so $M\ddot{\mathbf R} = \mathbf F^{\text{ext}}$ and the center of mass moves as if no burst had happened. How the pieces share that motion between them depends on the burst.
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: text
+    id: p3-setup
+    title: 'Problem 3: a puck on a string'
+    body: |
+      A puck of mass $m = 0.5\ \mathrm{kg}$ slides on a frictionless horizontal table. A light string attached to it passes through a small hole at the point $O$ and hangs below, where a hand holds it. At first the puck circles $O$ at radius $r_0 = 1.0\ \mathrm{m}$ with speed $v_0 = 2.0\ \mathrm{m/s}$. The hand then pulls the string down **slowly**, so that the puck spirals in, always moving almost along a circle about $O$, until $r = 0.4\ \mathrm{m}$.
+
+      The string pulls the puck toward $O$ along the string at every moment. What stays fixed, and what does the hand feel?
+
+  - type: numeric
+    id: p3-L
+    prompt: |
+      A puck of mass $0.5\ \mathrm{kg}$ circles a hole $O$ at radius $1.0\ \mathrm{m}$ with speed $2.0\ \mathrm{m/s}$ (velocity perpendicular to the radius). Find the size of its angular momentum $L = |\mathbf r\times\mathbf p|$ about $O$, in $\mathrm{kg\,m^2/s}$.
+    answer: 1
+    tolerance: 0.01
+    answerText: '1'
+    wrong:
+      - { value: 2, feedback: 'That is the momentum $mv = 1\ \mathrm{kg\,m/s}$ times $v$, or $r$ times $v$. Angular momentum is $r\,m\,v$ for a perpendicular velocity, here $1.0 \times 0.5 \times 2.0$.' }
+      - { value: 0.5, feedback: 'That is $mr$ or $mv/2$. For perpendicular $\mathbf r$ and $\mathbf p$ the cross product has size $r\,p = r\,m\,v$.' }
+    hint: |
+      With $\mathbf r\perp\mathbf p$, $|\mathbf r\times\mathbf p| = r\,m\,v$.
+    explanation: |
+      $$L = r\,m\,v = 1.0 \times 0.5 \times 2.0 = 1.0\ \mathrm{kg\,m^2/s}.$$
+
+  - type: mcq
+    id: p3-conserved
+    prompt: |
+      A puck on a frictionless table is pulled toward a hole $O$ by a string through it. The tension always points along the line from the puck to $O$, and its size changes as the string is pulled. About $O$, what happens to the puck's angular momentum $\mathbf L = \mathbf r\times\mathbf p$?
+    options:
+      - text: It stays constant, because the force is central and $\mathbf N = \mathbf r\times\mathbf F = \mathbf 0$
+        correct: true
+      - text: It grows, because the hand does work on the puck by pulling the string
+        feedback: |
+          Whether $\mathbf L$ changes depends only on the torque $\mathbf N = \mathbf r\times\mathbf F$, not on the size of the force or on the pulling. A force along $\mathbf r$ has zero torque however hard it pulls.
+      - text: It falls, because the puck gets closer to $O$ and $r$ decreases
+        feedback: |
+          The factor $r$ in $L = r\,m\,v$ does fall, but $v$ rises. Their product is what stays fixed. Looking at $r$ alone forgets that the speed changes too.
+      - text: It is zero, because the net force on the puck points toward $O$
+        feedback: |
+          The torque is zero, and so $\dot{\mathbf L} = \mathbf 0$. That does not make $\mathbf L$ zero: the puck started with $L = 1\ \mathrm{kg\,m^2/s}$ and keeps it.
+    explanation: |
+      A central force gives $\mathbf N = \mathbf r\times\mathbf F = \mathbf 0$, so $\dot{\mathbf L} = \mathbf 0$ whatever the size of the force. Here $L = 1.0\ \mathrm{kg\,m^2/s}$ throughout.
+
+  - type: numeric
+    id: p3-speed
+    prompt: |
+      The puck's angular momentum about $O$ is $L = 1.0\ \mathrm{kg\,m^2/s}$ and stays constant. Its mass is $0.5\ \mathrm{kg}$. When the string has been pulled so slowly that the puck is almost circling at radius $0.4\ \mathrm{m}$, with $L = r\,m\,v$, how fast is it moving, in metres per second?
+    answer: 5
+    tolerance: 0.02
+    answerText: '5'
+    wrong:
+      - { value: 2, feedback: 'That is the starting speed. The speed changes as $r$ shrinks, because it is $r\,v$ that stays fixed, not $v$.' }
+      - { value: 0.8, feedback: 'That is $v_0 r/r_0$, with the ratio the wrong way. A smaller radius means a larger speed, as for a skater who pulls in the arms.' }
+    hint: |
+      Solve $L = r\,m\,v$ for $v$ at $r = 0.4\ \mathrm{m}$.
+    explanation: |
+      $$v = \frac{L}{m\,r} = \frac{1.0}{0.5 \times 0.4} = 5\ \mathrm{m/s}.$$
+      The radius dropped by the factor $2.5$ and the speed rose by the same factor, from $2$ to $5\ \mathrm{m/s}$.
+
+  - type: numeric
+    id: p3-tension
+    prompt: |
+      A $0.5\ \mathrm{kg}$ puck circles a hole at radius $0.4\ \mathrm{m}$ at $5\ \mathrm{m/s}$ (the string is being pulled very slowly, so the motion is almost a circle). The tension is the force that gives the circular acceleration $v^2/r$ toward the hole. What is the tension, in newtons?
+    answer: 31.25
+    tolerance: 0.1
+    answerText: '31.25'
+    wrong:
+      - { value: 2, feedback: 'That is the tension at the start, $0.5 \times 2^2/1.0$. The tension has risen as the puck sped up and moved in.' }
+      - { value: 6.25, feedback: 'That is $m v^2 = 0.5 \times 25$ divided by $2$, not by $r$. The centripetal force is $m v^2/r$.' }
+    hint: |
+      $T = m\,v^2/r$.
+    explanation: |
+      $$T = \frac{m\,v^2}{r} = \frac{0.5 \times 25}{0.4} = 31.25\ \mathrm{N}.$$
+      At the start it was $0.5 \times 4/1.0 = 2\ \mathrm{N}$. The tension grew about sixteen times while the radius fell by $2.5$.
+
+  - type: numeric
+    id: p3-break
+    prompt: |
+      Using $v = L/(m\,r)$ in $T = m\,v^2/r$ gives the tension in terms of the radius: $T = L^2/(m\,r^3)$, with $L = 1.0\ \mathrm{kg\,m^2/s}$ and $m = 0.5\ \mathrm{kg}$. The string breaks if the tension reaches $40\ \mathrm{N}$. At what radius, in metres, does it break?
+    answer: 0.368
+    tolerance: 0.002
+    answerText: '0.368'
+    wrong:
+      - { value: 0.05, feedback: 'That is $r^3$, not $r$. Take the cube root of it.' }
+      - { value: 0.4, feedback: 'At $0.4\ \mathrm{m}$ the tension is only $31.25\ \mathrm{N}$, below the limit. The string holds there and breaks a little closer in.' }
+    hint: |
+      $T = 2/r^3$ in these units, so $r^3 = 2/40$.
+    explanation: |
+      $$\begin{aligned} T &= \frac{L^2}{m\,r^3} = \frac{2}{r^3} = 40 \\ r^3 &= 0.05, \qquad r = 0.368\ \mathrm{m}. \end{aligned}$$
+      The tension grows as $1/r^3$, much faster than the radius shrinks, so the last stretch of pulling is the hardest.
+
+  - type: numeric
+    id: p3-area
+    prompt: |
+      The $0.5\ \mathrm{kg}$ puck has $L = 1.0\ \mathrm{kg\,m^2/s}$ about the hole $O$, and the area swept by the line from $O$ to the puck obeys $dA/dt = L/2m$. How much area does that line sweep each second, in square metres per second? (It is the same at $r = 1.0\ \mathrm{m}$ and at $r = 0.4\ \mathrm{m}$.)
+    answer: 1
+    tolerance: 0.01
+    answerText: '1'
+    wrong:
+      - { value: 0.5, feedback: 'That is $L/2$ without dividing by $m$. The formula is $L/(2m)$ with $m = 0.5\ \mathrm{kg}$.' }
+      - { value: 2, feedback: 'That is $L/m$, missing the factor $\tfrac12$ from the triangle area.' }
+    hint: |
+      $dA/dt = L/(2m) = 1.0/(2 \times 0.5)$.
+    explanation: |
+      $$\frac{dA}{dt} = \frac{L}{2m} = \frac{1.0}{2 \times 0.5} = 1.0\ \mathrm{m^2/s}.$$
+      Check at the start: $\tfrac12 r\,v = \tfrac12 \times 1.0 \times 2.0 = 1.0$, and at $r = 0.4$: $\tfrac12 \times 0.4 \times 5 = 1.0$. The puck sweeps equal areas in equal times, because the string's pull is central.
+
+  - type: mcq
+    id: p3-momentum
+    prompt: |
+      A puck of mass $0.5\ \mathrm{kg}$ spirals in toward a hole $O$ on a frictionless table, pulled by a string through $O$. Its speed rises from $2$ to $5\ \mathrm{m/s}$ while its angular momentum about $O$ stays $1.0\ \mathrm{kg\,m^2/s}$. What does that say about its ordinary momentum $\mathbf p = m\mathbf v$?
+    options:
+      - text: '$\mathbf p$ is not conserved: the string, which is an external force on the puck, changes it, but $\mathbf L$ about $O$ is unchanged because that force has no torque about $O$'
+        correct: true
+      - text: '$\mathbf p$ is conserved too, because $\mathbf L = \mathbf r\times\mathbf p$ is conserved'
+        feedback: |
+          Conservation of $\mathbf L$ does not give conservation of $\mathbf p$. The puck's speed goes from $2$ to $5\ \mathrm{m/s}$ and its direction keeps turning, so $\mathbf p$ clearly changes.
+      - text: $\mathbf L$ cannot be conserved, since a force acts on the puck
+        feedback: |
+          A force changes $\mathbf L$ only through its torque $\mathbf r\times\mathbf F$. A force along the line to $O$ has none, so $\mathbf L$ about $O$ is unchanged while $\mathbf p$ changes.
+      - text: The momentum changes only in size, not in direction
+        feedback: |
+          The puck moves almost along circles, so the direction of $\mathbf p$ turns all the time. The tension points inward and bends the path.
+    explanation: |
+      The two laws answer different questions. $\dot{\mathbf p} = \mathbf F^{\text{ext}}$ is nonzero here, because the string pulls. $\dot{\mathbf L} = \mathbf N^{\text{ext}}$ is zero, because that pull passes through $O$. Choosing the point about which to take torques is what makes angular momentum useful.

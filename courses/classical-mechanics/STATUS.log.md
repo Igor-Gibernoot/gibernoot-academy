@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27 ch04-challenge part 1 (autonomous)
+Built `ch04/challenge.yaml` (21 cards, registered in course.yaml): intro toolkit; P1 toy rocket with gravity (thrust/weight 4.08, burnout 1538.6 m/s, slow burn 1244.6, why, coast 120.8 km); P2 shell bursting at the top (CM lands 141.4 m, pieces 176.8 and 212.1 m, momentum check); P3 puck on a string (L = 1, v = 5 m/s, T = 31.25 N, breaks at 0.368 m, dA/dt = 1, p versus L). No closing card yet: part 2 (problems 4-5) appends it. Formulas reuse the Level 4 render checks (VERIFIED.md); no widget needed, no web facts. Images: none: toy problems, nothing concrete to picture. Fixed overflow of three displays at phone width. Conventions fixed here: toy rocket 1000 kg, 600 kg fuel, 20 kg/s, v_ex 2000 m/s; shell 3 kg at 40 m/s, 60 deg, bursting at the top into 1 and 2 kg; puck 0.5 kg at 1.0 m, 2 m/s, string pulled to 0.4 m (L = 1).
+
 ## 2026-11-27 ch04-map (autonomous)
 Built `ch04/map.yaml` (6 boxes, 3 columns, 8 cards): momentum conservation (top), rocket and center of mass (middle), angular momentum and torque, equal areas, many-particle angular momentum (needs third law plus central forces). Edges: momentum to rocket, center of mass and angular momentum; angular momentum to areas and many; center of mass to many dashed. Decoys: ignoring the vector sign, 1/N instead of mass weights, linear instead of log, ground-frame exhaust, dot for cross product, L-dot = F, missing 1/2, inverse-square only, couple (third law without centrality). No archive map existed. Choices: no new formulas, so reused VERIFIED lines; displayed equations split one per line to fit phones (shots flagged them first). Conventions fixed here: none new.
 
