@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27 ch05-work (autonomous)
+Built `ch05/work.yaml` (21 cards, concept, work-path x2: steady push early, four-field comparison at the end; registered in course.yaml). Plan: hook, widget, guess (resolved at the end), dw = F.dr, zero-work trap, line integral, Taylor Example 4.1 (F = (y, 2x), roads a, b, c: 2, 1.5, 2 - pi/4), derivation as an order card plus product-rule question, theorem with Goldstein's integral-first derivation and sum of works, three numeric cards, resolve card. Render-checked Taylor 4.1 (PDF 117-120) and Goldstein 1.1 (PDF 12); no fixes. Images: none: no person, experiment or object worth a picture. Choices: dr (Taylor) rather than Goldstein's ds; T for kinetic energy (both books); points O, Q, P of the example kept; bead-on-smooth-wire framing so the path is enforced. Shots: two overflows fixed (aligned). Conventions fixed here: W(1->2) = integral F.dr, dW = F.dr, T = 1/2 m v^2, T2 - T1 = W(1->2); Taylor example numbers; joule.
+
 ## 2026-11-27 Widget work-path (autonomous)
 Built `js/widgets/work-path.js` (docs/widgets/work-path.md): fields uniform / spring / swirl / shear, roads straight / bent / arc / draggable control, walking dots, running W = integral F.dr, one bar per road, spread readout. Closed forms checked by script (uniform and spring equal on all roads; swirl differs by 2k x enclosed area). Added `.fs-slide.stack` to css/app.css. Throwaway lesson deleted. Conventions fixed here: none.
 

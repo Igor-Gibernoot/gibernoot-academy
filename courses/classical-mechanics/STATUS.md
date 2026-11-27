@@ -28,7 +28,8 @@
 - **Built:** `ch04-challenge` part 2 (32 cards in all: problem 4 spinning pair in free flight, orbital plus spin L, reeling in; problem 5 off-center thruster puff; closing card with teaser to Energy). Level 4 content is built.
 - **Level 4 audited (2026-11-27):** Taylor 3.2-3.5 (PDF 98-107) render-checked, no formula fixes; lesson cross-references by title; Kepler portrait caption softened (identification disputed); Level 2 torque symbol aligned (N). Validate clean.
 - **Widget `work-path` built (2026-11-27)** (docs/widgets/work-path.md): field uniform / spring / swirl / shear, roads straight / bent / arc / draggable control, dots, running W = integral F.dr, bar per road, spread readout.
-- **Next unit:** Level 5 first lesson `ch05-work` (Work and Kinetic Energy, uses `work-path`; add `file: ch05/work.yaml` to its course.yaml node). The exam (`exam-partial1`) comes only after Level 6.
+- **Built:** `ch05-work` (Level 5, concept, 21 cards, work-path x2, no image). Line integral, work-KE theorem (both derivations), Taylor's F=(y,2x) three roads.
+- **Next unit:** Level 5 second lesson `ch05-conservative` (needs widget first, see report; then the lesson). The exam (`exam-partial1`) comes only after Level 6.
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.

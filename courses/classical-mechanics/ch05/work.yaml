@@ -1,0 +1,315 @@
+id: ch05-work
+title: Work and Kinetic Energy
+kind: concept
+own: |
+  Setting: a particle of mass $m$ moves along a path from a point 1 to a point 2 under a net force $\mathbf{F}$. Along the path, $\mathbf{r}$ is its position, $\mathbf{v} = \dot{\mathbf{r}}$ its velocity and $d\mathbf{r}$ a small displacement along the path.
+  - **Work.** The work done by a force along a path is the sum of $\mathbf{F}\cdot d\mathbf{r}$ over all the small displacements, a line integral taken along the path the particle actually follows. It is positive when the force has a component along the motion, negative against it, and zero for a force perpendicular to it (a normal force, the tension of a string on a ball moving in a circle):
+    {{ $$W(1\to2) = \int_1^2 \mathbf{F}\cdot d\mathbf{r}$$ }}
+    In the plane this is $\int (F_x\,dx + F_y\,dy)$, turned into an ordinary integral by writing $y$ and $dy$ in terms of $x$ and $dx$ along the road.
+  - **Kinetic energy.** The energy of motion of a particle of speed $v = |\mathbf{v}|$:
+    {{ $$T = \tfrac12 m v^2$$ }}
+  - **Work-kinetic-energy theorem.** Differentiating $T = \tfrac12 m\,\mathbf{v}\cdot\mathbf{v}$ and using $m\dot{\mathbf{v}} = \mathbf{F}$ gives $dT = \mathbf{F}\cdot d\mathbf{r}$ for each small step; adding the steps gives the change of kinetic energy between the two points:
+    {{ $$T_2 - T_1 = W(1\to 2)$$ }}
+  - **Several forces.** The $\mathbf{F}$ in the theorem is the net force, the vector sum $\mathbf{F}_1 + \dots + \mathbf{F}_n$, and the integral of a sum is the sum of the integrals:
+    {{ $$W(1\to2) = \sum_{i=1}^{n} W_i(1\to2)$$ }}
+  - **The road can matter.** For the force $\mathbf{F} = (y, 2x)$ (in newtons, with $x, y$ in metres) the work from the origin to the point $(1,1)$ is $2\ \mathrm{J}$ along the axis and then up, $1.5\ \mathrm{J}$ along the straight diagonal and about $1.21\ \mathrm{J}$ along a quarter circle, so a particle forced along each road arrives with a different speed. For other forces (a uniform push, a spring) every road gives the same work; which forces those are is the next question.
+cards:
+  - type: text
+    id: hook
+    title: Two roads, one box
+    body: |
+      A box sits at a point A on a smooth floor. You want to move it to a point B, and a force field fills the room: at each spot something pushes on the box, with a strength and direction that may change from place to place. You may guide the box along any road you like, a straight one, a detour, a curve.
+
+      Physicists call the total effect of the force along the road the **work** it does. Roughly: at each small step, only the part of the force along the step counts, and the work is the sum of all those small contributions. The same start and the same end, but different roads. Before any formula, guess: does the work depend on the road?
+
+  - type: widget
+    id: uniform
+    title: A steady push
+    widget: work-path
+    config:
+      fields:
+        - { label: Steady push, type: uniform, fx: 1, fy: 2 }
+      roads:
+        - { kind: straight, label: Straight }
+        - { kind: bent, label: Bent }
+        - { kind: control, label: Yours }
+      A: [-1.2, -0.5]
+      B: [1.2, 0.5]
+      units: { work: J, length: m, force: N }
+      readouts: [work, spread]
+    body: |
+      A force of the same size and direction everywhere, $\mathbf{F} = (1, 2)\ \mathrm{N}$, shown by the grey arrows. A dot walks each road from A to B, and the bars show the work done so far along each one.
+
+      **Try:** press Play. Then drag the handle of the third road so that it makes a wild detour, and watch the bars.
+
+  - type: mcq
+    id: guess
+    review: false
+    prompt: |
+      With the steady push you just saw, the work from A to B came out the same on every road, even a wild detour. Your guess for a force that changes from place to place (stronger on one side, say, or swirling around a point): is the work from A to B then also independent of the road?
+    options:
+      - text: Yes, work depends only on where you start and end, whatever the force
+        feedback: |
+          This is the natural guess after the steady push, and it is the one to test. The next cards give a force for which the road matters, and a way to compute it.
+      - text: No, for some forces the work depends on the road
+        correct: true
+      - text: No, the work always grows with the length of the road
+        feedback: |
+          A longer road gives more steps to add up, but steps against the force count negatively. With the steady push the detour was longer and the work did not change.
+    explanation: |
+      Some forces give the same work on every road, and some do not. Telling them apart is the work of this lesson and the next.
+
+  - type: text
+    id: small-step
+    title: One small step
+    body: |
+      Start with a short, straight step. The particle moves by a displacement $d\mathbf{r}$ while a force $\mathbf{F}$ acts on it. The work of the force in that step is the dot product
+
+      $$dW = \mathbf{F}\cdot d\mathbf{r} = |\mathbf{F}|\,|d\mathbf{r}|\cos\vartheta,$$
+
+      where $\vartheta$ is the angle between the force and the step. In components, $dW = F_x\,dx + F_y\,dy + F_z\,dz$. Only the part of the force along the motion, $|\mathbf{F}|\cos\vartheta$, is multiplied by the length of the step. The unit is the joule, $1\ \mathrm{J} = 1\ \mathrm{N\,m}$.
+
+      Notice the signs. If $\mathbf{F}$ points along the step, $dW > 0$. If it points against it, $dW < 0$. If it is perpendicular to the step, $dW = 0$.
+
+  - type: numeric
+    id: step-numbers
+    prompt: |
+      A force $\mathbf{F} = (3, 4)\ \mathrm{N}$ acts on a particle that moves by $d\mathbf{r} = (2, 1)\ \mathrm{m}$. Using $dW = F_x\,dx + F_y\,dy$, what is the work, in joules?
+    answer: 10
+    tolerance: 0.001
+    wrong:
+      - { value: 7, feedback: 'That adds the force components and the displacement components separately. The dot product multiplies matching components, $3\cdot 2$ and $4\cdot 1$, and then adds.' }
+      - { value: 11.18, feedback: 'That multiplies the two lengths, $5\cdot\sqrt5$, as if the force pointed exactly along the step. The angle between them matters, and here it is not zero.' }
+    hint: Multiply the $x$ components, multiply the $y$ components, then add.
+    explanation: |
+      $dW = 3\cdot 2 + 4\cdot 1 = 10\ \mathrm{J}$.
+
+  - type: mcq
+    id: zero-work
+    prompt: |
+      Which of these forces do **no** work on the moving object? Select all that apply.
+    multiple: true
+    options:
+      - text: The normal force of a table on a box sliding along the table
+        correct: true
+      - text: The tension of a string on a ball swinging in a circle at constant speed
+        correct: true
+      - text: Friction on a box that slides across a floor
+        feedback: |
+          Friction points against the motion, so $\mathbf{F}\cdot d\mathbf{r} < 0$ at every step: it does negative work, and it takes kinetic energy away.
+      - text: The weight of a ball that is rising
+        feedback: |
+          The weight points down while the ball moves up, so the angle is $180^\circ$ and $\cos\vartheta = -1$: negative work, not zero.
+    explanation: |
+      A force perpendicular to the motion does nothing to the speed: the normal force is perpendicular to the sliding, and the string tension is perpendicular to the circle's tangent. Friction and the weight of a rising ball do negative work.
+
+  - type: text
+    id: line-integral
+    title: Adding the steps, the line integral
+    body: |
+      A road from point 1 to point 2 is a curve, not a straight step. Cut it into many tiny steps $d\mathbf{r}$, each so short that the force hardly changes along it, and add the small works. In the limit of infinitely many infinitely small steps, the sum becomes an integral over the road:
+
+      $$W(1\to2) = \int_1^2 \mathbf{F}\cdot d\mathbf{r}.$$
+
+      This is called a **line integral**: it generalizes $\int f(x)\,dx$, where the "road" is a segment of the $x$ axis. In the plane it reads $\int (F_x\,dx + F_y\,dy)$. In practice you turn it into an ordinary integral with one variable: write $y$ and $dy$ in terms of $x$ and $dx$ along the road (or both in terms of an angle). Goldstein writes $d\mathbf{s}$ for the element of the road, and Taylor $d\mathbf{r}$; we use $d\mathbf{r}$.
+
+      Because the integral follows the road, in general **it depends on the road**, not only on the end points. The next cards compute one example by hand.
+
+  - type: text
+    id: example-setup
+    title: A force and three roads
+    body: |
+      Take the force $\mathbf{F} = (y,\,2x)$, in newtons with $x, y$ in metres. We want the work from the origin $O = (0,0)$ to the point $P = (1,1)$ along three roads:
+
+      - road $a$: from $O$ along the $x$ axis to $Q = (1, 0)$, then straight up to $P$;
+      - road $b$: the straight diagonal $y = x$ from $O$ to $P$;
+      - road $c$: a quarter circle centered on $Q$, from $O$ up to $P$.
+
+      We use $W = \int (F_x\,dx + F_y\,dy)$ with $F_x = y$ and $F_y = 2x$.
+
+      **Road $a$**, in two straight pieces. On $OQ$ we have $y = 0$ and $dy = 0$, so $F_x = y = 0$ and nothing is added. On $QP$ we have $x = 1$ and $dx = 0$, so $F_y = 2$ and the work is $\int_0^1 2\,dy = 2\ \mathrm{J}$. Total: $W_a = 2\ \mathrm{J}$.
+
+  - type: numeric
+    id: road-b
+    prompt: |
+      For the force $\mathbf{F} = (y, 2x)$, the work is $W = \int (F_x\,dx + F_y\,dy)$. Along the straight diagonal $y = x$ from $(0,0)$ to $(1,1)$ we have $dy = dx$. What is the work along this diagonal, in joules?
+    answer: 1.5
+    tolerance: 0.001
+    wrong:
+      - { value: 2, feedback: 'That is the work along the other road, the axis and then straight up. Here the road is the diagonal, where $F_x = y = x$ and $F_y = 2x$ both change along the way.' }
+      - { value: 3, feedback: 'That is the value of the integrand $y + 2x = 3x$ at the end point. The work is the integral of it, $\int_0^1 3x\,dx$, which is half as large.' }
+    hint: 'On the diagonal, $F_x\,dx + F_y\,dy = x\,dx + 2x\,dx = 3x\,dx$. Integrate from $0$ to $1$.'
+    explanation: |
+      $W_b = \int_0^1 (x + 2x)\,dx = \int_0^1 3x\,dx = \tfrac32 = 1.5\ \mathrm{J}$.
+
+  - type: text
+    id: road-c
+    title: The curved road
+    body: |
+      **Road $c$.** Describe the quarter circle with the angle $\theta$ at $Q$ between the line $QO$ and the line from $Q$ to the particle, running from $0$ to $\pi/2$:
+
+      $$\begin{aligned}(x,\,y) &= (1 - \cos\theta,\ \sin\theta),\\ d\mathbf{r} &= (\sin\theta,\ \cos\theta)\,d\theta.\end{aligned}$$
+
+      Then $F_x\,dx = y\,dx = \sin^2\theta\,d\theta$ and $F_y\,dy = 2x\,dy = 2(1-\cos\theta)\cos\theta\,d\theta$, so
+
+      $$\begin{aligned}W_c &= \int_0^{\pi/2}\big[\sin^2\theta \\ &\qquad + 2(1-\cos\theta)\cos\theta\big]\,d\theta \\ &= 2 - \frac{\pi}{4} \approx 1.21\ \mathrm{J}.\end{aligned}$$
+
+      The three works are $2\ \mathrm{J}$, $1.5\ \mathrm{J}$ and $1.21\ \mathrm{J}$.
+
+  - type: mcq
+    id: roads-differ
+    prompt: |
+      The force $\mathbf{F} = (y, 2x)$ does $2\ \mathrm{J}$, $1.5\ \mathrm{J}$ and about $1.21\ \mathrm{J}$ of work on three roads from the origin to $(1,1)$. What does this tell us?
+    options:
+      - text: For this force the work depends on the road, not only on the two end points
+        correct: true
+      - text: One of the three calculations must contain an error, since work is fixed by the end points
+        feedback: |
+          That is the steady-push intuition again. The three calculations are fine. Work is fixed by the end points only for some forces, and this is not one of them.
+      - text: The longest road always gives the most work
+        feedback: |
+          The axis-and-up road is the longest ($2$ units) and has the most work here, but the quarter circle is longer than the diagonal and has less. Road length is not what decides it; the force along each piece is.
+    explanation: |
+      A line integral follows the road, so it can change with the road. Whether it does depends on the force, which is the question for the next lesson.
+
+  - type: text
+    id: speed-question
+    title: Why work is worth computing
+    body: |
+      Why do we care about work? Because it changes the speed. Define the **kinetic energy** of a particle of mass $m$ and speed $v$ as
+
+      $$T = \tfrac12 m v^2.$$
+
+      We will show that the work of the net force along the road equals the change in $T$. Then the line integral, which looked like a geometry exercise, tells us how the speed changes between two points. We build the proof from Newton's second law.
+
+  - type: order
+    id: derivation
+    prompt: |
+      Put the derivation of the work-kinetic-energy theorem in order. Here $\mathbf{v}$ is the velocity, $\dot{\mathbf{v}}$ the acceleration and $\mathbf{F}$ the net force.
+    steps:
+      - 'Write the kinetic energy with the dot product: $T = \tfrac12 m\,\mathbf{v}\cdot\mathbf{v}$'
+      - 'Differentiate with the product rule: $\dfrac{dT}{dt} = \tfrac12 m(\dot{\mathbf{v}}\cdot\mathbf{v} + \mathbf{v}\cdot\dot{\mathbf{v}}) = m\dot{\mathbf{v}}\cdot\mathbf{v}$'
+      - 'Use the second law $m\dot{\mathbf{v}} = \mathbf{F}$: $\dfrac{dT}{dt} = \mathbf{F}\cdot\mathbf{v}$'
+      - 'Multiply by $dt$ and use $\mathbf{v}\,dt = d\mathbf{r}$: $dT = \mathbf{F}\cdot d\mathbf{r}$'
+      - 'Add the changes along the road from 1 to 2: $T_2 - T_1 = \int_1^2 \mathbf{F}\cdot d\mathbf{r}$'
+    hint: Start from the definition of $T$, differentiate in time, bring in Newton's second law, and only then go from time to displacement.
+    explanation: |
+      The second law enters once, at the third line. Everything else is calculus: a product rule, then a sum of small changes.
+
+  - type: mcq
+    id: product-rule
+    prompt: |
+      In the second line, $\dfrac{d}{dt}(\mathbf{v}\cdot\mathbf{v}) = \dot{\mathbf{v}}\cdot\mathbf{v} + \mathbf{v}\cdot\dot{\mathbf{v}}$ was simplified to $2\,\dot{\mathbf{v}}\cdot\mathbf{v}$. Why is that allowed?
+    options:
+      - text: The product rule holds for a dot product, and $\mathbf{a}\cdot\mathbf{b} = \mathbf{b}\cdot\mathbf{a}$, so the two terms are equal
+        correct: true
+      - text: Because $\dot{\mathbf{v}}$ is always parallel to $\mathbf{v}$
+        feedback: |
+          Not so. The acceleration can point in any direction relative to the velocity (in circular motion it is perpendicular to it). The two terms are equal because the dot product is symmetric, not because of any alignment.
+      - text: Because $\mathbf{v}\cdot\dot{\mathbf{v}}$ is zero
+        feedback: |
+          It is zero only when the speed is constant (as in uniform circular motion). In general it is not zero, and then the kinetic energy changes, which is the whole point.
+    explanation: |
+      Component by component, $\mathbf{v}\cdot\mathbf{v} = v_x^2 + v_y^2 + v_z^2$, and its derivative is $2(v_x\dot v_x + v_y\dot v_y + v_z\dot v_z) = 2\,\mathbf{v}\cdot\dot{\mathbf{v}}$.
+
+  - type: text
+    id: theorem
+    title: The work-kinetic-energy theorem
+    body: |
+      Writing $W(1\to2)$ for the work done between points 1 and 2 along the road, the result is
+
+      $$T_2 - T_1 = \int_1^2 \mathbf{F}\cdot d\mathbf{r} = W(1\to 2).$$
+
+      **The change in the kinetic energy of a particle between two points equals the work done by the net force along its road.**
+
+      There is a second way to see it, which starts from the integral instead of the step. Replace $d\mathbf{r}$ by $\mathbf{v}\,dt$ and $\mathbf{F}$ by $m\,d\mathbf{v}/dt$:
+
+      $$\begin{aligned}\int_1^2 \mathbf{F}\cdot d\mathbf{r} &= m\int_{t_1}^{t_2}\frac{d\mathbf{v}}{dt}\cdot\mathbf{v}\,dt \\ &= \frac m2\int_{t_1}^{t_2}\frac{d}{dt}\big(v^2\big)\,dt \\ &= \tfrac12 m v_2^2 - \tfrac12 m v_1^2.\end{aligned}$$
+
+      Both routes use the same two ingredients, the second law and $\frac{d}{dt}(v^2) = 2\,\mathbf{v}\cdot\dot{\mathbf{v}}$, so they are one argument written in two orders. The work here is that of the **net** force: if $\mathbf{F} = \mathbf{F}_1 + \dots + \mathbf{F}_n$, the integral of the sum is the sum of the integrals, so $T_2 - T_1 = W_1 + \dots + W_n$, each $W_i$ the work of one force along the same road.
+
+  - type: numeric
+    id: speed-from-work
+    prompt: |
+      A $2\ \mathrm{kg}$ block moves at $3\ \mathrm{m/s}$. A net force does $16\ \mathrm{J}$ of work on it as it speeds up. Using $T_2 - T_1 = W$ with $T = \tfrac12 mv^2$, what is its final speed, in m/s?
+    answer: 5
+    tolerance: 0.001
+    wrong:
+      - { value: 3.16, feedback: 'That is the speed of a block starting from rest after $16\ \mathrm{J}$ of work. Here it was already moving, with $T_1 = 9\ \mathrm{J}$ of kinetic energy, and the work adds to that.' }
+      - { value: 11, feedback: 'That adds the work to the initial speed ($3 + 8$). The theorem adds the work to the kinetic energy, not to the speed.' }
+    hint: Find $T_1$, add $W$ to get $T_2$, then solve $T_2 = \tfrac12 m v_2^2$.
+    explanation: |
+      $T_1 = \tfrac12\cdot 2\cdot 3^2 = 9\ \mathrm{J}$, so $T_2 = 9 + 16 = 25\ \mathrm{J}$ and $v_2 = \sqrt{2T_2/m} = \sqrt{25} = 5\ \mathrm{m/s}$.
+
+  - type: numeric
+    id: friction-push
+    prompt: |
+      A $2\ \mathrm{kg}$ box starts at rest on a floor. You push it along a straight line for $3\ \mathrm{m}$ with a constant horizontal force of $10\ \mathrm{N}$, while friction of $4\ \mathrm{N}$ opposes the motion. Weight and the normal force are vertical and do no work. Using $T_2 - T_1 = W_1 + W_2$, what is the final speed, in m/s?
+    answer: 4.243
+    tolerance: 0.01
+    wrong:
+      - { value: 5.48, feedback: 'That counts only your push ($30\ \mathrm{J}$) and forgets friction. Friction does negative work $-4\cdot 3 = -12\ \mathrm{J}$ on the same road, and the theorem uses the net work.' }
+      - { value: 18, feedback: 'That is the final kinetic energy in joules ($6\ \mathrm{N}\cdot 3\ \mathrm{m}$), not the speed. Solve $\tfrac12 mv^2 = 18$ for $v$.' }
+    hint: 'Work of the push: $+10\cdot 3$. Work of friction: $-4\cdot 3$. The sum is the final kinetic energy, since the box started at rest.'
+    explanation: |
+      $W_{\text{push}} = +30\ \mathrm{J}$ and $W_{\text{friction}} = -12\ \mathrm{J}$, so $T_2 = 18\ \mathrm{J}$ and $v = \sqrt{2\cdot 18/2} = \sqrt{18} \approx 4.24\ \mathrm{m/s}$.
+
+  - type: numeric
+    id: bead
+    prompt: |
+      A bead of mass $2\ \mathrm{kg}$ starts at rest at the origin and is threaded on a smooth wire that runs along the diagonal $y = x$ to the point $(1,1)$. The force $\mathbf{F} = (y, 2x)\ \mathrm{N}$ acts on it, and the wire pushes sideways, perpendicular to the wire, so the wire does no work. We found $W_b = 1.5\ \mathrm{J}$ on this road. Using $T_2 - T_1 = W$, what is the bead's speed at $(1,1)$, in m/s?
+    answer: 1.2247
+    tolerance: 0.005
+    wrong:
+      - { value: 1.5, feedback: 'That is the work in joules, not the speed. The work gives the kinetic energy $\tfrac12 mv^2 = 1.5\ \mathrm{J}$, and the speed follows from $v = \sqrt{2T/m}$.' }
+      - { value: 1.414, feedback: 'That is the speed for the work $2\ \mathrm{J}$ of the other road (axis and then up). On the diagonal the work is $1.5\ \mathrm{J}$.' }
+    hint: The kinetic energy at the end is $1.5\ \mathrm{J}$, since it started at rest. Solve $\tfrac12\cdot 2\cdot v^2 = 1.5$.
+    explanation: |
+      $\tfrac12 m v^2 = 1.5$ with $m = 2$ gives $v^2 = 1.5$, so $v = \sqrt{1.5} \approx 1.22\ \mathrm{m/s}$. On the bent wire (axis, then up) the work is $2\ \mathrm{J}$ and the speed at $(1,1)$ is $\sqrt2 \approx 1.41\ \mathrm{m/s}$; on the quarter-circle wire it is $\sqrt{2 - \pi/4} \approx 1.10\ \mathrm{m/s}$. Same start, same end, three different arrival speeds.
+
+  - type: widget
+    id: fields
+    title: Which forces care about the road?
+    widget: work-path
+    config:
+      fields:
+        - { label: Steady push, type: uniform, fx: 1, fy: 2 }
+        - { label: Spring, type: spring, k: 1.5, center: [0.2, 0.1] }
+        - { label: Swirl, type: swirl, k: 1, center: [0, 1.5] }
+        - { label: Shear, type: shear, k: 1 }
+      roads:
+        - { kind: straight, label: Straight }
+        - { kind: bent, label: Bent }
+        - { kind: control, label: Yours }
+      A: [-1.2, -0.5]
+      B: [1.2, 0.5]
+      units: { work: J, length: m, force: N }
+      readouts: [final, spread]
+    body: |
+      Four force fields, shown by the grey arrows. The steady push is constant. The spring pulls toward a point, with a strength proportional to the distance from it. The swirl circulates around a point above the room. The shear pushes sideways, more strongly higher up.
+
+      **Try:** for each field, press Play and read the work on the three roads. Drag the handle of the third road and see which fields keep the bars equal.
+
+  - type: mcq
+    id: resolve
+    prompt: |
+      A box is moved from A to B in each of four force fields: a steady push, a spring pulling toward a point, a swirl around a point and a shear that pushes sideways more strongly higher up. In which of them did the work depend on the road? Select all that apply.
+    multiple: true
+    options:
+      - text: The swirl
+        correct: true
+      - text: The shear
+        correct: true
+      - text: The steady push
+        feedback: |
+          For a steady force $\mathbf{F}$ the work is $\mathbf{F}\cdot(\mathbf{r}_B - \mathbf{r}_A)$ on every road, since $\mathbf{F}$ comes out of the integral and the steps add up to the total displacement.
+      - text: The spring
+        feedback: |
+          The spring gave the same work on every road. Its force always points toward a fixed point and depends only on the distance from it, and for that kind of force the road drops out. The next lesson shows why.
+    explanation: |
+      In the swirl and the shear the work changed with the road: on a straight road and a bent one the bars differed, and a speed gained would depend on the road taken. In the steady push and the spring all roads agreed.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the steady push and the spring gave road-independent work, the swirl and the shear did not. When the work between two points does not depend on the road, the work can be stored as a function of position, and the kinetic energy plus that function stays constant. The next lesson asks which forces have this property, and what the function is.
