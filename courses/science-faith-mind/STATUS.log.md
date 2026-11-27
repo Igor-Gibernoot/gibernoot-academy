@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27 ch25-intuition
+Built ch25/intuition.yaml (20 cards, kind intuition, own: with 5 blanks; no widget, none: no image needed for recall cards). Cards: of/in life, grass counter, Frankl, five sources of wrongness, genetic fallacy, Street build, ground/knowledge/motivation, Nagel build, Williams, rebirth, dukkha build, suffering match, three levels, agreement build, two numeric grid counts (729, 1024; law not stated), two applied cases (refugee clinic, village meeting). No new external facts, so no web search (logged in VERIFIED). Choices: reused only facts already web-read; Craig paraphrased without quotes. Validate 0 errors, shots 0 problems. Conventions fixed here: second grid count 4^5 = 1024; invented Mia and clinic and village cases; no new facts.
+
 ## 2026-11-27 ch25-traps (23 cards, traps, no widget, no images: none needed for fast misconception questions)
 Twenty-one MCQs plus welcome and summary, built only on facts already web-read in the Level 25 lessons (see VERIFIED line), so no new web search was needed; drafted claims not in VERIFIED (Nagel on endless life, Frankl on avoidable suffering, Jewish mystical rebirth, Buddhist schools, 'minority' mortalism) were removed. Choices made autonomously: one trap per lesson topic plus two layer cards; no numeric card. Conventions fixed here: traps reuse only logged facts; Nagel's absurd is the clash of two standpoints, not size.
 
