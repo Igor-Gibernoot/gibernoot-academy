@@ -26,7 +26,8 @@
 - **Built:** `ch04-map` (Level 4, map, 6 boxes: momentum, rocket, center of mass, angular momentum, equal areas, many particles).
 - **Built:** `ch04-challenge` part 1 (21 cards: rocket with gravity and burn rate, shell bursting at the top with the CM landing, puck on a string pulled through a hole; no widget, no image).
 - **Built:** `ch04-challenge` part 2 (32 cards in all: problem 4 spinning pair in free flight, orbital plus spin L, reeling in; problem 5 off-center thruster puff; closing card with teaser to Energy). Level 4 content is built.
-- **Next unit:** the Level 4 audit, then Level 5 (Energy). The exam (`exam-partial1`) comes only after Level 6.
+- **Level 4 audited (2026-11-27):** Taylor 3.2-3.5 (PDF 98-107) render-checked, no formula fixes; lesson cross-references by title; Kepler portrait caption softened (identification disputed); Level 2 torque symbol aligned (N). Validate clean.
+- **Next unit:** widget `work-path` (needs widget: force field in the plane, choose or draw two roads between A and B, accumulate the work integral of F.dr, compare), then Level 5 first lesson `ch05-work` (Work and Kinetic Energy). The exam (`exam-partial1`) comes only after Level 6.
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.

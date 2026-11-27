@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27 Level 4 audit (autonomous)
+Checked ch04 against Taylor 3.2-3.5 renders (PDF 98-107): all formulas, symbols, Kepler footnote match; sources/VERIFIED.md and VERIFIED.md lines added. Fixed: 'next lesson' wording in angular-momentum and many-particles replaced by lesson titles, a wrong 'after that comes energy', own: bullets now define F_alpha^ext and g, Kepler portrait caption softened after web check (Commons: presumed portrait, disputed), Level 2 space-time torque symbol Gamma changed to N. No Level N references, widget cards exist (rocket-exhaust 4, cm-toss 5, ang-mom-area 5), all files registered. Decision: Level 5 first lesson needs a new path-dependence widget (track-ride and friction-stop do not show work along two roads). Conventions fixed here: torque is N (never Gamma outside 'Taylor writes'); N is also the normal force, context decides.
+
 ## 2026-11-27 ch04-challenge part 2 (autonomous)
 Appended to `ch04/challenge.yaml` (now 32 cards, the cap): P4 free dumbbell (spin L 4.32, CM-orbit L -16, split derived on a card, total -11.68, reel-in gives omega 16); P5 thruster puff on the light end (V 0.75, omega 2.5, heavy end at rest); closing card with method and teaser to Energy; intro line now says five problems. Choices: split L = R x MV + spin derived in a card rather than quoted; angular impulse used as integral of dL/dt = r x F; no widget, no image (none: numeric problems). Conventions fixed here: s_alpha, u_alpha relative to the CM; dumbbell data above (in CONVENTIONS Chapter 4).
 
