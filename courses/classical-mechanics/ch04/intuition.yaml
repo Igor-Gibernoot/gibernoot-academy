@@ -1,0 +1,257 @@
+id: ch04-intuition
+title: "Intuition: Conservation Laws"
+kind: intuition
+own: |
+  Setting: a system of particles labelled by $\alpha$, with masses $m_\alpha$, positions $\mathbf{r}_\alpha$ and total mass $M = \sum_\alpha m_\alpha$. The forces on a particle are the forces from the other particles and an external force.
+  - **Rocket.** A rocket of mass $m(t)$ throws exhaust backward at speed $v_{\text{ex}} > 0$ relative to itself, starting from mass $m_0$ and speed $v_0$. The thrust is $-\dot m\,v_{\text{ex}}$ (note $\dot m < 0$), and the velocity gained depends on the mass ratio only through a logarithm:
+    {{ $$v - v_0 = v_{\text{ex}}\ln\frac{m_0}{m}$$ }}
+    With gravity (up positive) the speed is reduced by $gt$:
+    $$m\dot v = -\dot m\,v_{\text{ex}} - mg$$
+    $$v = v_{\text{ex}}\ln\frac{m_0}{m} - gt$$
+  - **Center of mass.** The mass-weighted average position, and the total momentum $\mathbf{P} = \sum_\alpha m_\alpha\dot{\mathbf{r}}_\alpha$ of the system:
+    {{ $$\mathbf{R} = \frac{1}{M}\sum_\alpha m_\alpha\mathbf{r}_\alpha, \qquad \mathbf{P} = M\dot{\mathbf{R}}$$ }}
+  - **Motion of the center of mass.** With $\mathbf{F}^{\text{ext}}$ the sum of the external forces, the internal forces cancel in pairs (third law), so the center of mass moves as one particle of mass $M$ pushed by the external force alone:
+    {{ $$\mathbf{F}^{\text{ext}} = M\ddot{\mathbf{R}}$$ }}
+  - **Angular momentum and torque of one particle,** about a fixed origin, with $\mathbf{r}$ the position, $\mathbf{p}$ the momentum and $\mathbf{F}$ the force:
+    {{ $$\mathbf{L} = \mathbf{r}\times\mathbf{p}, \qquad \mathbf{N} = \mathbf{r}\times\mathbf{F}, \qquad \dot{\mathbf{L}} = \mathbf{N}$$ }}
+  - **Equal areas.** The line from the origin to the particle sweeps the area $A$ at the rate below, with $L$ the size of $\mathbf{L}$. If the force is central, $\mathbf{N} = 0$, $L$ is constant, and equal areas are swept in equal times:
+    {{ $$\frac{dA}{dt} = \frac{L}{2m}$$ }}
+  - **Many particles.** The total is $\mathbf{L} = \sum_\alpha\mathbf{r}_\alpha\times\mathbf{p}_\alpha$ and $\mathbf{N}^{\text{ext}}$ is the sum of the torques of the external forces. If the internal forces obey the third law and are central (along the line joining the pair), the internal torques cancel in pairs:
+    {{ $$\dot{\mathbf{L}} = \mathbf{N}^{\text{ext}}$$ }}
+  - **Quick checks.** Limits (a rocket that has burned no fuel has gained no speed; two equal masses put the center of mass at the midpoint), units (the argument of a logarithm has none; $L$ has units of mass times length squared per time) and scaling (double $v_{\text{ex}}$: the gain doubles; shrink the radius of a free spin to half: $\omega$ grows by 4).
+
+cards:
+  - type: text
+    id: hook
+    title: What do you still own?
+    body: |
+      A rocket in empty space, a thrown hammer, a skater pulling in her arms. Before any formula, try to say what stays simple in each. The rocket loses mass but keeps the total momentum of rocket plus exhaust. The hammer wobbles, yet one point of it flies on a parabola. The skater has no outside torque, so something about her spin must stay fixed. This lesson derives nothing. It gives you tiles to rebuild the results of the level, checks that catch a wrong version in seconds, and problems with data only, where you choose the law yourself.
+
+  - type: build
+    id: rocket-eq
+    prompt: |
+      A rocket in empty space starts at mass $m_0$ and speed $v_0$, and throws its exhaust backward at the speed $v_{\text{ex}}$ relative to the rocket. Build its speed gain $v - v_0$ when its mass has dropped to $m$.
+    prefix: 'v - v_0 ='
+    tiles: ['v_{\text{ex}}', '\ln\dfrac{m_0}{m}', '\ln\dfrac{m}{m_0}', '\dfrac{m_0}{m}', '\left(\dfrac{m_0}{m} - 1\right)']
+    answers:
+      - ['v_{\text{ex}}', '\ln\dfrac{m_0}{m}']
+      - ['\ln\dfrac{m_0}{m}', 'v_{\text{ex}}']
+    wrong:
+      - answer: ['v_{\text{ex}}', '\ln\dfrac{m}{m_0}']
+        feedback: 'The mass only falls, so $m < m_0$ and this logarithm is negative: the rocket would slow down. Put the larger mass on top.'
+      - answer: ['v_{\text{ex}}', '\dfrac{m_0}{m}']
+        feedback: 'At $m = m_0$ this gives $v_{\text{ex}}$, a gain with no fuel burned. The gain must vanish at $m = m_0$.'
+      - answer: ['v_{\text{ex}}', '\left(\dfrac{m_0}{m} - 1\right)']
+        feedback: 'This vanishes at $m = m_0$ but it is the law for exhaust left at rest in the ground frame. For exhaust leaving at $v_{\text{ex}}$ relative to the rocket the gain is logarithmic.'
+    hint: Test $m = m_0$ (no fuel burned, no gain) and the sign (burning fuel must speed the rocket up).
+    explanation: |
+      $v - v_0 = v_{\text{ex}}\ln(m_0/m)$. It gives $0$ at $m = m_0$, grows as the mass falls, and is positive. It follows from $m\,dv = -v_{\text{ex}}\,dm$ with $dm < 0$.
+
+  - type: mcq
+    id: rocket-scaling
+    multiple: true
+    prompt: |
+      A rocket in empty space burns fuel with $v - v_0 = v_{\text{ex}}\ln(m_0/m)$. Which statements are right?
+    options:
+      - text: 'Doubling the exhaust speed $v_{\text{ex}}$ doubles the speed gained for the same mass ratio'
+        correct: true
+      - text: 'Squaring the mass ratio $m_0/m$ doubles the speed gained'
+        correct: true
+      - text: 'The thrust $-\dot m\,v_{\text{ex}}$ depends on how fast the fuel is burned, but the final speed does not'
+        correct: true
+      - text: 'Doubling the mass ratio $m_0/m$ doubles the speed gained'
+        feedback: 'The gain grows as the logarithm of the ratio. Going from a ratio of $2$ to $4$ adds $v_{\text{ex}}\ln 2$, and going from $4$ to $8$ adds the same amount again.'
+      - text: 'Burning the fuel faster gives a larger final speed'
+        feedback: 'The final speed depends only on $v_{\text{ex}}$ and on the mass ratio. A faster burn only raises the thrust, so the same speed is reached sooner.'
+    explanation: |
+      $\ln(x^2) = 2\ln x$, so squaring the ratio doubles the gain. Each further doubling of the ratio adds the same $v_{\text{ex}}\ln 2$, which is why rockets need so much fuel: a ratio of $10$ only gives $2.3\,v_{\text{ex}}$.
+
+  - type: build
+    id: rocket-g
+    prompt: |
+      The same rocket now rises straight up near the ground, with $g$ the gravitational acceleration and up positive. Build its speed, starting from rest at mass $m_0$.
+    prefix: 'v ='
+    tiles: ['v_{\text{ex}}\ln\dfrac{m_0}{m}', '-\,gt', '+\,gt', '-\,g\,\ln\dfrac{m_0}{m}']
+    answers:
+      - ['v_{\text{ex}}\ln\dfrac{m_0}{m}', '-\,gt']
+    wrong:
+      - answer: ['v_{\text{ex}}\ln\dfrac{m_0}{m}', '+\,gt']
+        feedback: 'Gravity pulls down, against the upward motion, so it subtracts speed.'
+      - answer: ['v_{\text{ex}}\ln\dfrac{m_0}{m}', '-\,g\,\ln\dfrac{m_0}{m}']
+        feedback: 'Gravity acts for a time, so the loss is $g$ times the time elapsed, not a logarithm of the mass ratio. Units: $g\ln(\cdot)$ is an acceleration, not a speed.'
+    hint: The equation is $m\dot v = -\dot m\,v_{\text{ex}} - mg$. The weight term gives the same loss per second as for a falling stone.
+    explanation: |
+      Dividing $m\dot v = -\dot m\,v_{\text{ex}} - mg$ by $m$ and integrating gives $v = v_{\text{ex}}\ln(m_0/m) - gt$. A slow burn loses more to gravity, because $t$ is longer for the same mass ratio.
+
+  - type: build
+    id: cm-def
+    prompt: |
+      Particles $\alpha = 1, \dots, N$ have masses $m_\alpha$ and positions $\mathbf{r}_\alpha$, with total mass $M = \sum_\alpha m_\alpha$. Build the position $\mathbf{R}$ of the center of mass.
+    prefix: '\mathbf{R} ='
+    tiles: ['\dfrac{1}{M}', '\sum_\alpha m_\alpha\mathbf{r}_\alpha', '\dfrac{1}{N}', '\sum_\alpha\mathbf{r}_\alpha']
+    answers:
+      - ['\dfrac{1}{M}', '\sum_\alpha m_\alpha\mathbf{r}_\alpha']
+      - ['\sum_\alpha m_\alpha\mathbf{r}_\alpha', '\dfrac{1}{M}']
+    wrong:
+      - answer: ['\dfrac{1}{N}', '\sum_\alpha\mathbf{r}_\alpha']
+        feedback: 'This is the plain average of the positions. It ignores the masses, so a feather would count as much as an anvil.'
+      - answer: ['\dfrac{1}{M}', '\sum_\alpha\mathbf{r}_\alpha']
+        feedback: 'The weights are missing, and the units fail: dividing a length by a mass leaves kg$^{-1}$m.'
+      - answer: ['\dfrac{1}{N}', '\sum_\alpha m_\alpha\mathbf{r}_\alpha']
+        feedback: 'This has units of mass times length. To get a length, divide by the total mass $M$, not by the count $N$.'
+    hint: Two equal masses must give the midpoint, and the result must be a length.
+    explanation: |
+      $\mathbf{R} = \frac{1}{M}\sum_\alpha m_\alpha\mathbf{r}_\alpha$. It is a weighted average with weights $m_\alpha/M$ that add up to $1$, so it lies between the particles, nearer the heavy ones.
+
+  - type: mcq
+    id: cm-motion
+    multiple: true
+    prompt: |
+      A hammer is thrown through the air and spins. Neglect drag. Which statements are right, with $M$ its mass, $\mathbf{R}$ its center of mass and $\mathbf{F}^{\text{ext}}$ the external force?
+    options:
+      - text: 'The center of mass follows a parabola, whatever the spin'
+        correct: true
+      - text: 'The rod forces inside the hammer do not change $M\ddot{\mathbf{R}}$'
+        correct: true
+      - text: 'If the hammer broke in flight, the center of mass of the pieces would continue on the same parabola'
+        correct: true
+      - text: 'The parts of the hammer far from the center of mass move on parabolas too'
+        feedback: 'Only the center of mass obeys $\mathbf{F}^{\text{ext}} = M\ddot{\mathbf{R}}$. Other points also feel the internal forces, so they trace loops as the hammer spins.'
+      - text: 'Spinning the hammer faster changes the height reached by the center of mass'
+        feedback: 'The center of mass feels only gravity, $M\ddot{\mathbf{R}} = M\mathbf{g}$. Its path depends on the launch velocity of that point, and the spin only moves the parts around it.'
+    explanation: |
+      Summing Newton's second law over all particles, the internal forces cancel in pairs (third law), leaving $\mathbf{F}^{\text{ext}} = M\ddot{\mathbf{R}}$. Here $\mathbf{F}^{\text{ext}} = M\mathbf{g}$, so $\ddot{\mathbf{R}} = \mathbf{g}$, a parabola.
+
+  - type: build
+    id: torque
+    prompt: |
+      A particle at position $\mathbf{r}$ from the origin feels the force $\mathbf{F}$. Build its torque $\mathbf{N}$ about the origin, the quantity that drives $\dot{\mathbf{L}}$.
+    prefix: '\mathbf{N} ='
+    tiles: ['\mathbf{r}\times\mathbf{F}', '\mathbf{F}\times\mathbf{r}', '\mathbf{r}\cdot\mathbf{F}', '\mathbf{r}\times\mathbf{p}']
+    answers:
+      - ['\mathbf{r}\times\mathbf{F}']
+    wrong:
+      - answer: ['\mathbf{F}\times\mathbf{r}']
+        feedback: 'The cross product changes sign when the factors swap. With $\mathbf{r}$ first, a force along $+y$ at $+x$ gives a torque along $+z$ (counterclockwise), the usual sign.'
+      - answer: ['\mathbf{r}\cdot\mathbf{F}']
+        feedback: 'This dot product is a number (a work-like quantity), but a torque is a vector along the axis of rotation.'
+      - answer: ['\mathbf{r}\times\mathbf{p}']
+        feedback: 'This is the angular momentum $\mathbf{L}$. The torque is $\mathbf{r}\times\mathbf{F}$, the rate of change of $\mathbf{L}$.'
+    hint: A force along the line through the origin must give no torque.
+    explanation: |
+      $\mathbf{N} = \mathbf{r}\times\mathbf{F}$. Since $\dot{\mathbf{r}}\times\mathbf{p} = 0$ and $\dot{\mathbf{p}} = \mathbf{F}$, differentiating $\mathbf{L} = \mathbf{r}\times\mathbf{p}$ gives $\dot{\mathbf{L}} = \mathbf{N}$. A central force has $\mathbf{F}$ along $\mathbf{r}$, so $\mathbf{N} = 0$ and $\mathbf{L}$ is conserved.
+
+  - type: build
+    id: area-law
+    prompt: |
+      A particle of mass $m$ has angular momentum of size $L$ about the origin. The line from the origin to the particle sweeps the area $A$. Build the rate $dA/dt$.
+    prefix: '\dfrac{dA}{dt} ='
+    tiles: ['\dfrac{L}{2m}', '\dfrac{L}{m}', '\dfrac{2L}{m}', '\dfrac{mL}{2}']
+    answers:
+      - ['\dfrac{L}{2m}']
+    wrong:
+      - answer: ['\dfrac{L}{m}']
+        feedback: 'A thin wedge is a triangle, with area one half of base times height. The factor $\frac12$ is missing.'
+      - answer: ['\dfrac{2L}{m}']
+        feedback: 'The factor goes the wrong way: the area of a triangle is half the parallelogram, so $2$ belongs in the denominator.'
+      - answer: ['\dfrac{mL}{2}']
+        feedback: 'Units: $L$ has units kg m$^2$/s, so $mL$ is not an area per time. The mass divides, since $L = m\,|\mathbf{r}\times\mathbf{v}|$.'
+    hint: Area per time must have units m$^2$/s. Which combination of $L$ and $m$ has them?
+    explanation: |
+      In a time $dt$ the particle moves $\mathbf{v}\,dt$, sweeping a triangle of area $\frac12|\mathbf{r}\times\mathbf{v}|\,dt = \frac{L}{2m}\,dt$. For a central force $L$ is constant, so equal areas are swept in equal times.
+
+  - type: mcq
+    id: many-conditions
+    multiple: true
+    prompt: |
+      For a system of particles, $\dot{\mathbf{L}} = \mathbf{N}^{\text{ext}}$ holds with $\mathbf{L} = \sum_\alpha\mathbf{r}_\alpha\times\mathbf{p}_\alpha$. Which statements are right?
+    options:
+      - text: 'It needs the internal forces to obey the third law and to be central, so that each pair gives opposite torques along one line'
+        correct: true
+      - text: "If no external torque acts, the total $\\mathbf{L}$ is constant even though the $\\mathbf{L}_\\alpha$ of single particles may change"
+        correct: true
+      - text: 'A skater who pulls in her arms speeds up her spin because $\mathbf{L}$ stays fixed while the radius of the masses shrinks'
+        correct: true
+      - text: 'It holds for any internal forces obeying the third law, even sideways ones'
+        feedback: 'Two equal and opposite sideways forces on a pair, a couple, give a net internal torque. The third law alone is not enough: the forces must also lie along the line joining the pair.'
+      - text: 'The internal forces change $\mathbf{L}$ whenever they are strong enough'
+        feedback: 'Strength does not matter. A central pair of forces gives opposite torques of equal size, however large the force.'
+    explanation: |
+      The internal pair terms are $(\mathbf{r}_\alpha - \mathbf{r}_\beta)\times\mathbf{F}_{\alpha\beta}$, which vanish for central forces, and the third law lets the two terms of each pair be combined. Only $\mathbf{N}^{\text{ext}}$ remains.
+
+  - type: numeric
+    id: rocket-num
+    prompt: |
+      In empty space, a rocket of initial mass $5000\ \mathrm{kg}$ starts at rest. It ejects gas at $2000\ \mathrm{m/s}$ relative to itself until $1000\ \mathrm{kg}$ remain, with nothing else acting. What is its final speed, in $\mathrm{m/s}$, to the nearest $10\ \mathrm{m/s}$?
+    answer: 3219
+    tolerance: 10
+    answerText: '3219'
+    wrong:
+      - { value: 8000, feedback: 'That is $2000\times(5000/1000 - 1)$, the result for gas left at rest in the ground frame. The gas here leaves at a fixed speed relative to the rocket.' }
+      - { value: 2000, feedback: 'That is the exhaust speed. With a mass ratio of $5$ the rocket does better than the exhaust speed, but by how much depends on the ratio.' }
+      - { value: 10000, feedback: 'That multiplies the exhaust speed by the mass ratio. A rocket loses efficiency as it empties, so the gain grows more slowly than the ratio.' }
+    hint: 'Scaling test: the gain is proportional to the exhaust speed, vanishes with no fuel burned, and grows slowly with the mass ratio. Which function of the ratio does that?'
+    explanation: |
+      $v = v_{\text{ex}}\ln(m_0/m) = 2000\ln 5 = 2000\times1.609 \approx 3219\ \mathrm{m/s}$.
+
+  - type: numeric
+    id: cm-num
+    prompt: |
+      Three beads sit on a line at $x = 0$ (mass $1\ \mathrm{kg}$), $x = 3\ \mathrm{m}$ (mass $2\ \mathrm{kg}$) and $x = 6\ \mathrm{m}$ (mass $3\ \mathrm{kg}$). Where is their center of mass, in $\mathrm{m}$?
+    answer: 4
+    tolerance: 0.02
+    answerText: '4'
+    wrong:
+      - { value: 3, feedback: 'That is the plain average of the positions, the middle bead. The heavier bead at $6$ m pulls the answer toward it.' }
+      - { value: 24, feedback: 'That is the sum of mass times position, without dividing by the total mass. Check the units: it is kg m, not m.' }
+    hint: 'The answer is an average of the positions, weighted by the masses. It must lie between $0$ and $6$ m, nearer the heavy end.'
+    explanation: |
+      $X = (1\times0 + 2\times3 + 3\times6)/(1 + 2 + 3) = 24/6 = 4\ \mathrm{m}$.
+
+  - type: numeric
+    id: lz-num
+    prompt: |
+      A particle of mass $2.0\ \mathrm{kg}$ is at the point $(3, 0)\ \mathrm{m}$ with velocity $(0, 4)\ \mathrm{m/s}$, in the $xy$ plane. What is its angular momentum about the origin along $z$, in $\mathrm{kg\,m^2/s}$?
+    answer: 24
+    tolerance: 0.02
+    answerText: '24'
+    wrong:
+      - { value: -24, feedback: 'Check the sign. The particle moves toward $+y$ at $+x$, which turns counterclockwise, the positive $z$ direction.' }
+      - { value: 8, feedback: 'That is the momentum, $mv$. Angular momentum also carries the distance from the origin, with the part of the motion at a right angle to it.' }
+      - { value: 12, feedback: 'The mass is missing: this is the lever arm times the speed. Angular momentum is built from the momentum, not the velocity.' }
+    hint: 'Use the cross-product family: in a plane, one component of position times the perpendicular component of momentum, minus the other pair. Check the sign by the sense of the turn.'
+    explanation: |
+      $L_z = m(xv_y - yv_x) = 2.0\times(3\times4 - 0\times0) = 24\ \mathrm{kg\,m^2/s}$.
+
+  - type: numeric
+    id: area-num
+    prompt: |
+      A particle of mass $2.0\ \mathrm{kg}$ has angular momentum $24\ \mathrm{kg\,m^2/s}$ about the origin and is pulled only by a central force toward the origin. How much area does the line from the origin to the particle sweep in $5.0\ \mathrm{s}$, in $\mathrm{m^2}$?
+    answer: 30
+    tolerance: 0.02
+    answerText: '30'
+    wrong:
+      - { value: 60, feedback: 'That is twice the area: it is the area of the parallelogram, not of the triangle swept by the line.' }
+      - { value: 120, feedback: 'That is $L\,t$, which has units kg m$^2$, not m$^2$. The mass must divide, and the swept area is only a triangle.' }
+    hint: 'A central force exerts no torque, so the rate is constant. Area per time must have units m$^2$/s; combine the data to get them, with a factor from the triangle.'
+    explanation: |
+      Central force means $L$ is constant, so the rate is $L/2m = 24/4 = 6\ \mathrm{m^2/s}$ and the area is $6\times5.0 = 30\ \mathrm{m^2}$.
+
+  - type: numeric
+    id: skater-num
+    prompt: |
+      A skater spins freely at $2.0\ \mathrm{rad/s}$ with two $4\ \mathrm{kg}$ weights held $1.5\ \mathrm{m}$ from the axis on outstretched arms. She pulls them in to $0.5\ \mathrm{m}$. Treat her body as having no moment of inertia and ignore friction. What is her new angular speed, in $\mathrm{rad/s}$?
+    answer: 18
+    tolerance: 0.02
+    answerText: '18'
+    wrong:
+      - { value: 6, feedback: 'That scales with the radius ratio ($1.5/0.5 = 3$) only once. Angular momentum is proportional to the radius squared times $\omega$, so the speed grows by the ratio squared.' }
+      - { value: 0.22, feedback: 'The speed goes up, not down: shrinking the radius at fixed angular momentum must raise $\omega$.' }
+    hint: 'Nothing outside exerts a torque, so something is conserved. Scaling test: shrinking the radius by 3 must change $\omega$ by a power of 3. Which power does the angular momentum of a mass on a circle suggest?'
+    explanation: |
+      With $L = 2mr^2\omega$ conserved, $\omega$ is proportional to $1/r^2$. So $\omega = 2.0\times(1.5/0.5)^2 = 2.0\times9 = 18\ \mathrm{rad/s}$. The masses cancel.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the content map of this level asks you to rebuild its structure box by box: momentum conservation, rockets, the center of mass, torque and angular momentum of many particles.
