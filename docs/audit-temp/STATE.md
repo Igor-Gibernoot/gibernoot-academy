@@ -4,9 +4,9 @@ Per-agent rules: agent-rules.md. Web method: docs/WEB_SEARCH.md. Rank table: aud
 
 ## Progress
 - Ranks 1 to 124 done.
-- Clean-row pass (audit.md rank 125+, course science-faith-mind only): done 125, 126, 127, 128, 129, 130, 135, 136, 139, 140, 144, 146, 149, 151, 155, 157, 158, 162, 163. Skipped for now (Tier 2 or 3): 131, 132, 133, 134.
-- Hits (lessons whose text changed) in the clean-row pass: 18 of 19 (only ch23-knowledge changed just an image alt text; counted as a hit).
-- Current tier: 1. Remaining Tier 1 list from rank 170: 170 ch18-no-self-proof, 171 ch19-jain, 172 ch23-map, 178 ch09-map, 179 ch16-challenge, 180 ch22-analogy (note: line 228 "taught in Paris and Cologne" unchecked, Britannica claim), 191 ch08-panentheism, 192 ch12-mysticism, 193 ch22-sentence, 194 ch23-fideism, 196 ch08-time, 214 ch08-spinoza, 215 ch08-challenge, 216 ch12-perennial, 217 ch12-traps, 218 ch19-confucius, 219 ch23-pragmatic, 226 ch21-drake-proof, 227 ch23-disagreement, 266 ch25-death. Re-run the grep from the Tiers section to confirm.
+- Clean-row pass (audit.md rank 125+, course science-faith-mind only): done 125, 126, 127, 128, 129, 130, 135, 136, 139, 140, 144, 146, 149, 151, 155, 157, 158, 162, 163, 170, 171, 172, 178, 179, 180, 191. Rank 192 ch12-mysticism is PARTIAL (search quota ran out): rerun it first. Skipped for now (Tier 2 or 3): 131, 132, 133, 134.
+- Hits (lessons whose text changed) in the clean-row pass: 25 of 26 (ch23-knowledge alt text counted as a hit; rank 178 changed only VERIFIED, not counted; 192 partial hit not counted yet).
+- Current tier: 1. Remaining Tier 1 list: 192 ch12-mysticism (rerun, see NOT CONFIRMED), 193 ch22-sentence, 194 ch23-fideism, 196 ch08-time, 214 ch08-spinoza, 215 ch08-challenge, 216 ch12-perennial, 217 ch12-traps, 218 ch19-confucius, 219 ch23-pragmatic, 226 ch21-drake-proof, 227 ch23-disagreement, 266 ch25-death. Re-run the grep from the Tiers section to confirm.
 - Session 2026-11-26: 10 agents used (140 to 163), all committed and pushed. Next session starts at rank 170.
 
 ## Tiers (finish one before the next; tell the user when a tier ends)
@@ -31,6 +31,13 @@ Per-agent rules: agent-rules.md. Web method: docs/WEB_SEARCH.md. Rank table: aud
 - ch16-map/muhammad/CONVENTIONS: Ibn Ishaq d. 767, some sources about 773. ch16-modern, ch09: Ibn al-Haytham Optics "some sources 1011-1021". Kardec/Brazil: Kardec first published 1857 wording, FEB 1 or 2 Jan.
 
 ## NOT CONFIRMED (carried over; retry only if a unit touches the lesson; "cand" = candidate source)
+- ch12-mysticism (RERUN FIRST, none read): Iranica fana wording (403); Vatican Benedict XVI 2011 audience for Teresa 1515, 1577, Doctor 1970; Britannica Zohar and Teresa 1588; SEP Eckhart 1327/1328 and ground-of-soul/McGinn; Katz 1978 essay title; Shankara 8th c. and Chandogya c.600 BCE; Juan de la Miseria portrait 1570/1576; anatta/nirvana wording; Olivelle and Brereton wording (snippet only). Candidates are in VERIFIED.
+- ch18-no-self-proof: Rhys Davids quotes (cand sacred-texts.com/bud/sbe35/sbe3504.htm); Siderits and Parfit attributions (secondary snippets); Schumann 2020 date.
+- ch19-jain: Mallisena 1292 and Koller (snippet only, kept soft); cand PhilPapers Cort, jainqq Dundas.
+- ch16-challenge (no claim remains): early commentators on dhimmi and abrogation readings; Ibn Taymiyya; Arnold 1913 (cand tafsir.learn-quran.co ayah-256; Tabari 2:256; Motahhari).
+- ch22-analogy: Maimonides I.58 plurality claim; I.60 ship (CCEL summary only).
+- ch08-panentheism: page-level wording of Clayton 2000 The Problem of God in Modern Thought (cand Eerdmans page; PhilPapers).
+- ch23-traps, ch23-fundamentalism: still say "compliment" (traps.yaml lines ~275, 281, 346; fundamentalism card title); map says "neutral, inclusive name". Fix in those lessons' units.
 - ch19-zoroaster: Barr p. 206 (cand JSTOR JAAR 53/2 1985, 201-235), Boyce p. 29. Grabbe's own view (no claim remains).
 - ch19-shinto, ch19-challenge-2: Kuroda 1981 beyond Teeuwen and Scheid; 100,000 shrines as an official total; Picken "credenda vs agenda"; tokowaka term and Ise "17 years" (cand Daiwa Institute 2016, search 常若 伊勢神宮 式年遷宮); 20,000 unaffiliated shrines.
 - ch19-esoteric/map: Ficino Pimander April 1463 and 1471 from a second page (cand cambridge.org Hermes and the Sibyl; tandfonline 10.1080/17496977.2019.1546439); Morgan Library dating of the Visconti-Sforza deck.
