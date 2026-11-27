@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-27 Level 25 audit
+Checked level references (none to later levels), file: on all 11 nodes, own: bullets, STATUS intact (one # Status, one ## Current), validate clean. Web re-check of about 40 facts across the 7 content lessons (traps, intuition, map, challenge reuse them): all matched except the Maritain UNESCO volume year (volume is 1949, so the 1948 was dropped from ch25-humanity). Left as is: Epictetus caption c. 55 to c. 135 (Commons; Wikipedia says c. 50) and Bonnart engraver (Commons: Henri; other catalogues: Nicolas), both flagged in VERIFIED.md. Several VERIFIED lines use "(read)" with named sources instead of the literal "web:"; an audit line with web: tags was added.
+Conventions fixed here: none.
+
 ## 2026-11-27 ch25-challenge (22 cards, 5 problems in one part, no widget, no images)
 Built ch25/challenge.yaml, file: added in course.yaml. Invented case: Alder House hospice, Ana (80), five-member committee writing one front-hall sentence; problems: meaning, death, ethics, suffering, shared sentence; closing layer card; no own: per challenge convention, plain summary card. No new external facts, so no web search (VERIFIED line lists reused items). Widgets: none needed. Images: none: a challenge adds none, nothing new introduced. Validate 0 errors 0 warnings, shots 0 problems. Level 25 fully built.
 Conventions fixed here: Alder House case (Ana, brother Leo counting grass blades, committee of chaplain, nurse, Buddhist volunteer, Stoic doctor, philosopher); k^m reason profiles (3^4 = 81).
