@@ -33,7 +33,8 @@
 - **Built:** `ch05-conservative` (Level 5, concept, 24 cards, potential-gradient x3, no image). Two conditions, V = -integral F.dr, W = V1 - V2, E = T + V, F = -grad V, Delta E = W_nc.
 - **Widget `curl-loop` built (2026-11-27)** (docs/widgets/curl-loop.md): rectangle loop (draggable corner, width/height/size sliders, shrink), fields swirl / shear / spring / central / push / bend, work on each of the four edges, circulation, curl x area, ratio.
 - **Built:** `ch05-curl-proof` (Level 5, guided proof, 25 cards, curl-loop x2, no image). Closed-road equivalence, rectangle edges to curl, tiling, hole counterexample, F = -grad V gives curl 0, central forces.
-- **Next unit:** `ch05-one-dimension` (Energy Diagrams in One Dimension, Taylor 4.5-4.6; needs a new widget `energy-diagram` first). The exam (`exam-partial1`) comes only after Level 6.
+- **Widget `energy-diagram` built (2026-11-27)** (docs/widgets/energy-diagram.md): V(x) presets (well, hill, double well, spring, Lennard-Jones, slope, polynomial), draggable E line, allowed region, turning points, equilibria stable / unstable / flat, RK4 ball, bars T, V, E, force arrow, tangent, period and small-oscillation period readouts, x(t) trace.
+- **Next unit:** `ch05-one-dimension` (Energy Diagrams in One Dimension, concept; Taylor 4.5-4.6; uses energy-diagram). After it, the rest of Level 5 content: `ch05-time-from-energy`, `ch05-many-bodies`, traps, intuition, map, challenge. The exam (`exam-partial1`) comes only after Level 6.
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
