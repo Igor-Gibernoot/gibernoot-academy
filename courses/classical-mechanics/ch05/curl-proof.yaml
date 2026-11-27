@@ -1,0 +1,395 @@
+id: ch05-curl-proof
+title: "Guided Proof: Curl Zero Means Conservative"
+kind: guided
+proof: true
+own: |
+  Setting: a force $\mathbf{F}=(F_x,F_y,F_z)$ that depends only on the position $\mathbf{r}=(x,y,z)$, defined on a region $R$ of space with no holes (every closed road in $R$ can be shrunk to a point inside $R$) and with continuous first partial derivatives. Its work between two points along a road is $\int\mathbf{F}\cdot d\mathbf{r}$, and $\mathbf{F}$ is conservative when this work is the same on every road between the same two points.
+  - **Closed-road test.** Path independence is the same as zero work around every closed road. A road from 1 to 2 followed back to 1 along another road closes up, and its work is the difference of the two works:
+    $$\oint\mathbf{F}\cdot d\mathbf{r}=0\quad\text{for every closed road}$$
+  - **Small rectangle.** Take the closed road around the rectangle bounded by the lines $x=B$, $x=B+b$, $y=C$, $y=C+c$, run counterclockwise. The two horizontal edges and the two vertical edges combine, by the fundamental theorem of calculus, into one double integral over the rectangle:
+    {{ $$\begin{aligned}\oint\mathbf{F}\cdot d\mathbf{r}=\int_B^{B+b}\!\!\int_C^{C+c}\Big(&\frac{\partial F_y}{\partial x}\\&-\frac{\partial F_x}{\partial y}\Big)\,dy\,dx\end{aligned}$$ }}
+  - **Curl.** The integrand is the $z$ component of the curl of $\mathbf{F}$. The curl is $\nabla\times\mathbf{F}$, with $\nabla=(\partial/\partial x,\,\partial/\partial y,\,\partial/\partial z)$ crossed with $\mathbf{F}$ as if its entries were numbers:
+    {{ $$(\nabla\times\mathbf{F})_z=\frac{\partial F_y}{\partial x}-\frac{\partial F_x}{\partial y}$$ }}
+    The $x$ and $y$ components follow by cycling $x\to y\to z\to x$.
+  - **Curl zero means conservative.** Cut the inside of any closed road into small rectangles, each run counterclockwise. The edges shared by neighbours are run in opposite directions and cancel, so the work around the whole road is the sum of the works around the rectangles. If the curl is zero everywhere in $R$, every rectangle gives zero, so every closed road gives zero, and then a potential energy $V$ exists with $\mathbf{F}=-\nabla V$. The requirements are that {{ $\nabla\times\mathbf{F}=\mathbf{0}$ }} at every point of $R$, that $R$ has no holes, and that $\mathbf{F}$ is differentiable. A hole spoils it: $\mathbf{F}=(-y,x)/(x^2+y^2)$ has zero curl away from the origin but gives $2\pi$ around the unit circle.
+  - **Converse.** If $\mathbf{F}=-\nabla V$ with $V$ twice continuously differentiable, the mixed second derivatives of $V$ are equal, so $\partial F_y/\partial x=\partial F_x/\partial y$ and the curl vanishes. Zero curl and $\mathbf{F}=-\nabla V$ go together.
+  - **Central forces.** A central force points along the line to a fixed point (the origin) with a strength that depends only on the distance $r=\lvert\mathbf{r}\rvert$ from it, $\mathbf{F}=f(r)\,\hat{\mathbf{r}}$. Its curl is zero, so it is conservative, and with the radial road its potential energy is
+    {{ $$V(r)=-\int_{r_0}^{r}f(r')\,dr'$$ }}
+    where $r_0$ is the reference distance where $V=0$.
+cards:
+  - type: text
+    id: hook
+    title: A test that never walks a road
+    body: |
+      A force on a particle is conservative when its work between two points is the same on every road, and then a potential energy $V$ exists with $\mathbf{F}=-\nabla V$. But there are infinitely many roads between two points, and nobody can try them all. To show that a force fails, one bad pair of roads is enough. To show that a force passes, we need something that can be checked at each point of space, with no road at all.
+
+      Before any formula, guess what a test at a single point could look like. Work around a closed road must come out zero for a conservative force. What happens if the closed road is made smaller and smaller, until it is a tiny loop around one point?
+
+  - type: text
+    id: recall
+    title: "Recall: what is to be proved"
+    body: |
+      Recall from the lesson Conservative Forces and Potential Energy: a force $\mathbf{F}$ is **conservative** when (i) it depends only on the position, $\mathbf{F}=\mathbf{F}(\mathbf{r})$, and (ii) its work
+
+      $$W(1\to2)=\int_1^2\mathbf{F}\cdot d\mathbf{r}$$
+
+      is the same on every road from 1 to 2. Then the potential energy $V(\mathbf{r})=-\int_{\mathbf{r}_0}^{\mathbf{r}}\mathbf{F}\cdot d\mathbf{r}'$ is well defined and
+
+      $$\mathbf{F}=-\nabla V,\qquad F_x=-\frac{\partial V}{\partial x}.$$
+
+      Condition (ii) is the hard one to check. This lesson proves a test for it, in steps: the **curl** $\nabla\times\mathbf{F}$, a set of derivatives of the components of $\mathbf{F}$, taken at one point. The claim is that if $\nabla\times\mathbf{F}=\mathbf{0}$ everywhere in a region with no holes and $\mathbf{F}$ is differentiable, then (ii) holds there. Both requirements will be needed, and the lesson shows where.
+
+  - type: mcq
+    id: closed-road
+    prompt: |
+      Two roads, a and b, both go from point 1 to point 2. To show that $W_a=W_b$ for a force $\mathbf{F}(\mathbf{r})$, it is enough to show that the work around one particular closed road is zero. Which closed road?
+    options:
+      - text: Road a from 1 to 2, then road b backwards from 2 to 1
+        correct: true
+      - text: Road a from 1 to 2, then road a again
+        feedback: |
+          Going twice along road a is not a closed road, and it only gives $2W_a$. To compare the two roads, the way back must use the other one.
+      - text: Road a and road b run at the same time
+        feedback: |
+          The work is defined along one road at a time. Combining two roads into one closed road means going out along one and returning along the other.
+    explanation: |
+      Running road b backwards reverses every step $d\mathbf{r}$, so its work changes sign, and the closed road has work $W_a-W_b$. This is zero exactly when the two works agree. So condition (ii) is the same as: $\oint\mathbf{F}\cdot d\mathbf{r}=0$ for every closed road. The symbol $\oint$ marks an integral around a closed road.
+
+  - type: widget
+    id: loop-widget
+    title: A tiny loop in four fields
+    widget: curl-loop
+    config:
+      fields:
+        - { label: Swirl, type: swirl, k: 1 }
+        - { label: Shear, type: shear, k: 1 }
+        - { label: Spring, type: spring, k: 1.5 }
+        - { label: Central, type: central, k: 0.5, center: [0, 0.2] }
+      corner: [-0.4, -0.3]
+      size: { w: 1, h: 0.7 }
+      sliders: [size]
+      curlAt: corner
+      units: { work: J, length: m, force: N }
+      readouts: [edges, circ, curlArea, ratio]
+      labels: { circ: Work around the loop, curlArea: Curl times area, ratio: Work around the loop divided by curl times area }
+    body: |
+      A rectangular loop is run counterclockwise: bottom edge to the right, right edge up, top edge to the left, left edge down. The numbers on the four edges are the work of the force on each edge, and the work around the loop is their sum. The other readout, curl times area, is a quantity computed from the derivatives of the force at the lower left corner. Both are shown in the bars.
+
+      **Try:** in each field, drag the corner and shrink the loop with the size slider. Watch the work around the loop and the curl times area.
+
+  - type: mcq
+    id: loop-read
+    review: false
+    prompt: |
+      In the widget, the swirl and the shear gave a nonzero work around the loop, and the spring and the central force gave zero. Which statement fits what the bars showed?
+    options:
+      - text: The work around the loop and the curl times area were equal for the swirl and the shear, and both were zero for the spring and the central force
+        correct: true
+      - text: The work around the loop was zero for every field once the loop was small enough
+        feedback: |
+          For the swirl and the shear the work around the loop shrinks with the area, but so does the curl times area, and their ratio stays at 1. The work is not zero, it is proportional to the area of the loop.
+      - text: The work around the loop depended on where the corner was dragged, in every field
+        feedback: |
+          For these four fields the work per unit area of the loop does not depend on the corner for the swirl and the shear. The spring and the central force gave zero at every corner.
+    explanation: |
+      Curl times area is the quantity to be derived. It predicts the work around a small loop from derivatives at one point. The next cards prove why, for a rectangle.
+
+  - type: text
+    id: setup
+    title: The rectangle, edge by edge
+    body: |
+      Work in a plane at fixed $z$, with force components $F_x(x,y)$ and $F_y(x,y)$, assumed to have continuous first partial derivatives. The rectangle has corners at $(B,C)$ and $(B+b,\,C+c)$, with width $b$ and height $c$, so its edges lie on $x=B$, $x=B+b$, $y=C$ and $y=C+c$. Run it counterclockwise. On a horizontal edge $d\mathbf{r}=(dx,0)$, so $\mathbf{F}\cdot d\mathbf{r}=F_x\,dx$. On a vertical edge $d\mathbf{r}=(0,dy)$ and $\mathbf{F}\cdot d\mathbf{r}=F_y\,dy$.
+
+      The bottom edge, at $y=C$ with $x$ from $B$ to $B+b$, gives
+
+      $$W_{\text{bottom}}=\int_B^{B+b}F_x(x,C)\,dx.$$
+
+      The top edge, at $y=C+c$, is run in the direction of decreasing $x$, from $B+b$ back to $B$, so reversing it gives a minus sign:
+
+      $$W_{\text{top}}=-\int_B^{B+b}F_x(x,C+c)\,dx.$$
+
+      The two horizontal edges have the same range of $x$, so they can be added under one integral.
+
+  - type: build
+    id: bottom-top
+    prompt: |
+      Add the bottom and top edges. Both integrals run over $x$ from $B$ to $B+b$. Build the integrand of the sum $W_{\text{bottom}}+W_{\text{top}}=-\int_B^{B+b}\big[\ \dots\ \big]\,dx$.
+    prefix: '-\int ['
+    suffix: ']\,dx'
+    tiles: ['F_x(x,C+c)', '-F_x(x,C)', '+F_x(x,C)', '-F_x(x,C+c)', 'F_y(x,C)']
+    answers:
+      - ['F_x(x,C+c)', '-F_x(x,C)']
+      - ['-F_x(x,C)', 'F_x(x,C+c)']
+    wrong:
+      - { answer: ['F_x(x,C+c)', '+F_x(x,C)'], feedback: 'That adds the two values. The top edge is run backwards, so its integral carries a minus sign, which makes the difference. Taking out the overall minus leaves top minus bottom.' }
+    hint: The sum is the bottom integral minus the top integral. Take the common minus sign out of the bracket.
+    explanation: |
+      $W_{\text{bottom}}+W_{\text{top}}=\int F_x(x,C)\,dx-\int F_x(x,C+c)\,dx=-\int_B^{B+b}\big[F_x(x,C+c)-F_x(x,C)\big]\,dx$. The bracket is the change of $F_x$ when $y$ goes up the height $c$ of the rectangle at a fixed $x$.
+
+  - type: build
+    id: right-left
+    prompt: |
+      Now the vertical edges. The right edge, at $x=B+b$, is run upward, and the left edge, at $x=B$, is run downward, both over $y$ from $C$ to $C+c$. Build the integrand of the sum $W_{\text{right}}+W_{\text{left}}=+\int_C^{C+c}\big[\ \dots\ \big]\,dy$.
+    prefix: '+\int ['
+    suffix: ']\,dy'
+    tiles: ['F_y(B+b,y)', '-F_y(B,y)', '+F_y(B,y)', '-F_y(B+b,y)', 'F_x(B,y)']
+    answers:
+      - ['F_y(B+b,y)', '-F_y(B,y)']
+      - ['-F_y(B,y)', 'F_y(B+b,y)']
+    wrong:
+      - { answer: ['-F_y(B+b,y)', '+F_y(B,y)'], feedback: 'The sign is reversed: the right edge is run upward, so it counts with a plus sign, and the left edge, run downward, with a minus sign.' }
+    hint: The right edge gives $+\int F_y(B+b,y)\,dy$ and the left edge, run backwards, gives $-\int F_y(B,y)\,dy$.
+    explanation: |
+      $W_{\text{right}}+W_{\text{left}}=\int_C^{C+c}\big[F_y(B+b,y)-F_y(B,y)\big]\,dy$. The bracket is the change of $F_y$ when $x$ goes across the width $b$ of the rectangle at a fixed $y$.
+
+  - type: text
+    id: curl-result
+    title: The work around the rectangle is a double integral
+    body: |
+      Each bracket is a change of a function across the rectangle, and by the fundamental theorem of calculus a change is the integral of the derivative:
+
+      $$F_x(x,C+c)-F_x(x,C)=\int_C^{C+c}\frac{\partial F_x}{\partial y}\,dy,$$
+
+      $$F_y(B+b,y)-F_y(B,y)=\int_B^{B+b}\frac{\partial F_y}{\partial x}\,dx.$$
+
+      Adding all four edges, with the horizontal pair carrying the minus sign:
+
+      $$\begin{aligned}\oint\mathbf{F}\cdot d\mathbf{r}=\int_B^{B+b}\!\!\int_C^{C+c}\Big(&\frac{\partial F_y}{\partial x}\\&-\frac{\partial F_x}{\partial y}\Big)\,dy\,dx\end{aligned}$$
+
+      This is exact, for any size of rectangle. The integrand is the $z$ component of the **curl** of $\mathbf{F}$, written $\nabla\times\mathbf{F}$ ("del cross $\mathbf{F}$"). It is built like a cross product, with the operator $\nabla=(\partial/\partial x,\,\partial/\partial y,\,\partial/\partial z)$ in place of the first vector:
+
+      $$(\nabla\times\mathbf{F})_x=\frac{\partial F_z}{\partial y}-\frac{\partial F_y}{\partial z}$$
+
+      $$(\nabla\times\mathbf{F})_y=\frac{\partial F_x}{\partial z}-\frac{\partial F_z}{\partial x}$$
+
+      $$(\nabla\times\mathbf{F})_z=\frac{\partial F_y}{\partial x}-\frac{\partial F_x}{\partial y}$$
+
+      The rectangle gave the third. Rectangles in the other two planes give the other two, by the same steps with the letters cycled. If the rectangle is so small that the curl hardly changes inside it, the integral is the curl at one point times the area $bc$, which is the "curl times area" of the widget. This rectangle case is the simplest case of a result called Stokes's theorem.
+
+  - type: widget
+    id: bend-widget
+    title: When the curl changes across the loop
+    widget: curl-loop
+    config:
+      fields:
+        - { label: Bend, type: bend, k: 1 }
+      corner: [0.4, -0.3]
+      size: { w: 1, h: 0.7 }
+      sliders: [size]
+      curlAt: corner
+      units: { work: J, length: m, force: N }
+      readouts: [circ, curl, curlArea, ratio]
+      bars: [circ, curlArea]
+      labels: { circ: Work around the loop, curlArea: Curl times area, ratio: Work around the loop divided by curl times area }
+    body: |
+      The field here is $\mathbf{F}=(0,\,k\,x^2)$ with $k=1$, a field whose curl $2kx$ is not the same everywhere. The readout "curl" is its value at the lower left corner. The exact work is the integral of the curl over the whole rectangle.
+
+      **Try:** set the loop to its largest size and read the last line, which compares the work with curl at the corner times area. Then shrink the loop.
+
+  - type: mcq
+    id: bend-read
+    review: false
+    prompt: |
+      In the field $\mathbf{F}=(0,\,k\,x^2)$ the curl changes from place to place. When the loop was large, the work around it and the curl at the corner times the area differed. When the loop was shrunk, their ratio went to 1. Why does the difference not contradict the exact double-integral result?
+    options:
+      - text: The double integral adds up the curl over the whole rectangle. The curl at one corner times the area equals it only when the curl hardly changes inside the loop
+        correct: true
+      - text: The double-integral result holds only for small loops
+        feedback: |
+          The result was derived with the fundamental theorem of calculus and holds for a rectangle of any size. What needs a small loop is replacing the integral by the corner value times the area.
+      - text: The curl formula is wrong for fields that are not linear
+        feedback: |
+          The curl formula holds for every field with continuous first derivatives. In a nonlinear field the curl varies from place to place, so one point cannot stand for the whole rectangle.
+    explanation: |
+      For the swirl and the shear the curl is the same everywhere, so the ratio was 1 at every size. For this field the curl is $2kx$, which grows across the rectangle, so only the integral of the curl over the loop gives the work exactly.
+
+  - type: numeric
+    id: rect-number
+    prompt: |
+      The force $\mathbf{F}=(y,\,2x)\ \mathrm{N}$, with $x$ and $y$ in metres, acts in the plane. Use the curl to find the work around the counterclockwise rectangle with corners $(0,0)$ and $(2,1)$, in joules.
+    answer: 2
+    tolerance: 0.001
+    wrong:
+      - { value: 3, feedback: 'That adds $\partial F_y/\partial x=2$ and $\partial F_x/\partial y=1$. The curl subtracts: the $z$ component is $\partial F_y/\partial x-\partial F_x/\partial y$.' }
+      - { value: 1, feedback: 'That is the curl, $2-1=1\ \mathrm{N/m}$, alone. The work around the rectangle is the curl times the area $2\ \mathrm{m}\times1\ \mathrm{m}$, since the curl is the same at every point here.' }
+    hint: Compute $\partial F_y/\partial x$ and $\partial F_x/\partial y$ for $F_x=y$, $F_y=2x$, subtract, and multiply by the area.
+    explanation: |
+      $(\nabla\times\mathbf{F})_z=2-1=1\ \mathrm{N/m}$ everywhere, so the work is $1\times(2\times1)=2\ \mathrm{J}$. Check by the edges: the bottom edge ($y=0$) gives $0$, the right edge ($x=2$, $F_y=4$, going up $1\ \mathrm{m}$) gives $4$, the top edge ($y=1$, $F_x=1$, going left $2\ \mathrm{m}$) gives $-2$, and the left edge ($x=0$, $F_y=0$) gives $0$. The sum is $2\ \mathrm{J}$.
+
+  - type: mcq
+    id: which-curl-zero
+    prompt: |
+      Planar forces (components in newtons, $x$ and $y$ in metres). Which have zero curl everywhere? Select all that apply.
+    multiple: true
+    options:
+      - text: $\mathbf{F}=(3x,\,2y)$
+        correct: true
+      - text: $\mathbf{F}=(y,\,x)$
+        correct: true
+      - text: $\mathbf{F}=(2xy,\,x^2)$
+        correct: true
+      - text: $\mathbf{F}=(-y,\,x)$
+        feedback: |
+          $\partial F_y/\partial x=1$ and $\partial F_x/\partial y=-1$, so the curl is $1-(-1)=2$, not zero. This is the swirl, which gave a nonzero work around loops.
+      - text: $\mathbf{F}=(y^2,\,x^2)$
+        feedback: |
+          $\partial F_y/\partial x=2x$ and $\partial F_x/\partial y=2y$, so the curl is $2x-2y$, which is nonzero except on the line $y=x$. Zero curl has to hold at every point.
+    explanation: |
+      For $(3x,2y)$ both derivatives are $0$. For $(y,x)$ both are $1$. For $(2xy,x^2)$ both are $2x$. Each gives $\partial F_y/\partial x-\partial F_x/\partial y=0$.
+
+  - type: text
+    id: tiling
+    title: From a rectangle to any closed road
+    body: |
+      A closed road in the plane is not a rectangle. Fill the inside of the road with many small rectangles, each run counterclockwise. Two neighbouring rectangles share an edge, and each runs along it in the opposite direction, so the work of the force on that edge is counted once with each sign and cancels. Add the works around all the rectangles and only the edges on the outside survive, and together they form the original road (the small steps of the staircase become the road as the rectangles shrink). So
+
+      $$\oint_{\text{road}}\mathbf{F}\cdot d\mathbf{r}=\sum_{\text{rectangles}}\oint\mathbf{F}\cdot d\mathbf{r}.$$
+
+      Each term is the integral of the curl over its rectangle, so the sum is the integral of the curl over the whole inside of the road. A check with the force $\mathbf{F}=(y,2x)\ \mathrm{N}$ of the lesson Work and Kinetic Energy: the road that goes from the origin along the $x$ axis to $(1,0)$, up to $(1,1)$, and back along the diagonal to the origin encloses a triangle of area $\tfrac12\ \mathrm{m^2}$ where the curl is $1\ \mathrm{N/m}$, so the work around it is $\tfrac12\ \mathrm{J}$. That is the work $2\ \mathrm{J}$ of the first two legs (road a) minus the work $1.5\ \mathrm{J}$ of the diagonal (road b).
+
+  - type: mcq
+    id: tiling-why
+    prompt: |
+      Two small rectangles share an edge, and each one is run counterclockwise. Why does the work on that shared edge disappear from the sum of the two rectangle works?
+    options:
+      - text: The two rectangles run along the shared edge in opposite directions, so $d\mathbf{r}$ has opposite signs and the two contributions cancel
+        correct: true
+      - text: The force is zero on every shared edge
+        feedback: |
+          The force is the same on the edge for both rectangles and is not zero in general. The cancellation comes from the two opposite directions of travel.
+      - text: The curl is zero on the shared edge
+        feedback: |
+          The curl does not need to vanish for the cancellation. Interior edges cancel for any force whatsoever, which is why the argument works for a force with nonzero curl too, and gives the integral of the curl over the inside.
+    explanation: |
+      On the shared edge, one rectangle uses $d\mathbf{r}$ and the other $-d\mathbf{r}$ with the same $\mathbf{F}$. Every interior edge cancels this way, for any force, so only the outer road remains.
+
+  - type: order
+    id: proof-order
+    prompt: Put the proof that zero curl means path independence in order.
+    steps:
+      - 'Path independence of the work between two points is the same as zero work around every closed road.'
+      - 'Fill the inside of a closed road with small rectangles, each run counterclockwise.'
+      - 'The work around each rectangle is the integral of $\partial F_y/\partial x-\partial F_x/\partial y$ over it.'
+      - 'Add the rectangles: the shared edges cancel and the work around the outer road remains.'
+      - 'If the curl is zero everywhere, every rectangle gives zero, so the outer road gives zero.'
+      - 'Every closed road gives zero work, so the work between two points is independent of the road, and $V$ with $\mathbf{F}=-\nabla V$ exists.'
+    hint: Start with what path independence means for closed roads, and end with the consequence.
+    explanation: |
+      Each step uses the one before. The first turns the question into closed roads, the next three turn a closed road into rectangles whose work is given by the curl, and the last two use zero curl.
+
+  - type: text
+    id: hole
+    title: What the proof needed
+    body: |
+      Two requirements were used. First, $\mathbf{F}$ has continuous first partial derivatives, which the fundamental theorem and the curl need. Second, the inside of every closed road is filled with rectangles that lie in the region where $\mathbf{F}$ is defined and has zero curl. Say a region is **simply connected** when every closed road in it can be shrunk to a point without leaving it, so that it has no holes. In a region with a hole, a road around the hole cannot be filled, and the argument breaks.
+
+      The force
+
+      $$\mathbf{F}=\frac{(-y,\;x)}{x^2+y^2}\ \mathrm{N}$$
+
+      in the plane without the origin is such a case. Its derivatives are
+
+      $$\frac{\partial F_y}{\partial x}=\frac{y^2-x^2}{(x^2+y^2)^2}=\frac{\partial F_x}{\partial y},$$
+
+      so the curl is zero at every point where $\mathbf{F}$ is defined. But on the unit circle, $x=\cos\theta$ and $y=\sin\theta$, with $d\mathbf{r}=(-\sin\theta,\cos\theta)\,d\theta$, the force is $(-\sin\theta,\cos\theta)$, the same as the swirl of the lesson Conservative Forces and Potential Energy, and the denominator is $1$.
+
+  - type: numeric
+    id: hole-work
+    prompt: |
+      The force $\mathbf{F}=(-y,\,x)/(x^2+y^2)\ \mathrm{N}$ has zero curl at every point except the origin, where it is not defined. What is its work, in joules, once counterclockwise around the unit circle $x^2+y^2=1$ (to three decimals)?
+    answer: 6.283
+    tolerance: 0.005
+    wrong:
+      - { value: 0, feedback: 'Zero is what zero curl would give if the inside of the circle could be filled with rectangles. But the origin lies inside and $\mathbf{F}$ is not defined there, so the argument does not apply. Compute $\mathbf{F}\cdot d\mathbf{r}$ on the circle.' }
+      - { value: 1, feedback: 'That is the integrand $\mathbf{F}\cdot d\mathbf{r}=d\theta$ per unit angle. Integrate over the whole circle, $\theta$ from $0$ to $2\pi$.' }
+    hint: On the circle, $r^2=1$, so $\mathbf{F}=(-\sin\theta,\cos\theta)$. Compute $\mathbf{F}\cdot d\mathbf{r}$ and integrate.
+    explanation: |
+      $\mathbf{F}\cdot d\mathbf{r}=(\sin^2\theta+\cos^2\theta)\,d\theta=d\theta$, so the work is $2\pi\approx6.283\ \mathrm{J}$. Zero curl was not enough here, because the region (the plane without the origin) has a hole. A road that does not go around the origin does give zero. Any $r$ gives the same $2\pi$, so no $V$ exists on this region.
+
+  - type: text
+    id: converse
+    title: The other direction
+    body: |
+      So far zero curl was shown to be enough. It is also necessary, and a short argument shows it. If the work is path independent, then for a small step $\mathbf{F}\cdot d\mathbf{r}=-dV$ for some function $V$ of position, so $\mathbf{F}=-\nabla V$:
+
+      $$F_x=-\frac{\partial V}{\partial x},\qquad F_y=-\frac{\partial V}{\partial y}.$$
+
+      Differentiate the first with respect to $y$ and the second with respect to $x$:
+
+      $$\frac{\partial F_x}{\partial y}=-\frac{\partial^2V}{\partial y\,\partial x},\qquad\frac{\partial F_y}{\partial x}=-\frac{\partial^2V}{\partial x\,\partial y}.$$
+
+      When the second derivatives of $V$ are continuous, the order of differentiation does not matter, so the two right-hand sides are equal and $(\nabla\times\mathbf{F})_z=0$. The other components are the same. So for a differentiable force on a simply connected region, conservative and zero curl are the same statement.
+
+  - type: numeric
+    id: curl-of-grad
+    prompt: |
+      In the lesson Conservative Forces and Potential Energy a potential energy $V=x^2y+2y$ (in joules, $x$ and $y$ in metres) gave $\mathbf{F}=-\nabla V=(-2xy,\,-x^2-2)\ \mathrm{N}$. Compute $(\nabla\times\mathbf{F})_z=\partial F_y/\partial x-\partial F_x/\partial y$ at the point $(2,1)$, in newtons per metre.
+    answer: 0
+    tolerance: 0.001
+    wrong:
+      - { value: -8, feedback: 'That adds the two derivatives, $-4$ and $-4$. The curl subtracts: $\partial F_y/\partial x-\partial F_x/\partial y=-4-(-4)$.' }
+      - { value: -4, feedback: 'That is one of the two derivatives. Compute both, $\partial F_y/\partial x$ and $\partial F_x/\partial y$, and subtract.' }
+    hint: $\partial F_y/\partial x$ with $F_y=-x^2-2$, and $\partial F_x/\partial y$ with $F_x=-2xy$.
+    explanation: |
+      $\partial F_y/\partial x=-2x=-4$ and $\partial F_x/\partial y=-2x=-4$ at $(2,1)$, so the curl is $-4-(-4)=0$. The two mixed derivatives of $V$ are both $2x$, equal, as the argument predicts.
+
+  - type: text
+    id: central
+    title: Central forces
+    body: |
+      A **central force** points along the line to a fixed point, taken as the origin, and its strength depends only on the distance $r=\sqrt{x^2+y^2+z^2}$ from it:
+
+      $$\mathbf{F}=f(r)\,\hat{\mathbf{r}}.$$
+
+      Gravity of a fixed mass and the Coulomb force of a fixed charge are examples. Since $\hat{\mathbf{r}}=\mathbf{r}/r$, write $\mathbf{F}=g(r)\,\mathbf{r}$ with $g(r)=f(r)/r$, so that $F_x=g\,x$, $F_y=g\,y$, $F_z=g\,z$ with $g$ evaluated at $r$. Take the $x$ component of the curl:
+
+      $$(\nabla\times\mathbf{F})_x=\frac{\partial(z\,g)}{\partial y}-\frac{\partial(y\,g)}{\partial z}.$$
+
+      Since $z$ does not depend on $y$ and $y$ does not depend on $z$, the derivatives act on $g(r)$ alone, with the chain rule and $\partial r/\partial y=y/r$, $\partial r/\partial z=z/r$:
+
+      $$\frac{\partial g}{\partial y}=g'(r)\,\frac{y}{r},\qquad\frac{\partial g}{\partial z}=g'(r)\,\frac{z}{r}.$$
+
+  - type: build
+    id: central-build
+    prompt: |
+      Use the chain rule for $g(r)$ with $\partial r/\partial y=y/r$. Build the derivative of the $z$ component of the force $F_z=z\,g(r)$ with respect to $y$.
+    prefix: '\partial_y(z\,g)='
+    tiles: ['z\,g''(r)', '\dfrac{y}{r}', '\dfrac{z}{r}', 'g(r)', 'y\,g''(r)']
+    answers:
+      - ['z\,g''(r)', '\dfrac{y}{r}']
+      - ['\dfrac{y}{r}', 'z\,g''(r)']
+    wrong:
+      - { answer: ['z\,g''(r)', '\dfrac{z}{r}'], feedback: 'The derivative is with respect to $y$, so the chain rule brings $\partial r/\partial y=y/r$, not $z/r$.' }
+    hint: Treat $z$ as a constant, differentiate $g(r)$ with the chain rule, and use $\partial r/\partial y=y/r$.
+    explanation: |
+      $\partial(z\,g)/\partial y=z\,g'(r)\,\dfrac{y}{r}$. In the same way $\partial(y\,g)/\partial z=y\,g'(r)\,\dfrac{z}{r}$. The two are equal, so $(\nabla\times\mathbf{F})_x=\dfrac{yz\,g'(r)}{r}-\dfrac{yz\,g'(r)}{r}=0$. The $y$ and $z$ components work the same way.
+
+  - type: text
+    id: central-result
+    title: Every central force is conservative
+    body: |
+      Every component of the curl of $\mathbf{F}=f(r)\,\hat{\mathbf{r}}$ vanishes, for any function $f$ (with a continuous derivative), at every point other than the origin. The region is space without the origin, which has no holes that a road could not be shrunk across in three dimensions, so the argument applies. The force depends on position only. So every central force is conservative.
+
+      A direct road gives the same answer and the potential energy at once. From a reference distance $r_0$ to the point $\mathbf{r}$, go along the radius out to the distance $r$, then along a circle of radius $r$ to the point. On the circle $\mathbf{F}$ is perpendicular to $d\mathbf{r}$ and does no work, and on the radius $\mathbf{F}\cdot d\mathbf{r}=f(r')\,dr'$. Then
+
+      $$V(r)=-\int_{r_0}^{r}f(r')\,dr',$$
+
+      a function of the distance only, and $\mathbf{F}=-\nabla V$ is the central force again.
+
+  - type: numeric
+    id: central-v
+    prompt: |
+      A central force $\mathbf{F}=f(r)\,\hat{\mathbf{r}}$ with $f(r)=-4/r^3\ \mathrm{N}$ ($r$ in metres), an attraction toward the origin, is conservative. Choose the reference distance at infinity, where $V=0$. Find the potential energy at $r=2\ \mathrm{m}$, in joules.
+    answer: -0.5
+    tolerance: 0.001
+    wrong:
+      - { value: 0.5, feedback: 'The sign is reversed. $V=-\int_\infty^{r}f\,dr''$, and $f$ is negative, so check the sign of each step; an attraction has $V$ below its value of $0$ at infinity.' }
+      - { value: -0.25, feedback: 'The integral of $r^{-3}$ is $-\tfrac12 r^{-2}$, and the factor $\tfrac12$ is missing, or the power of $r$ was wrong.' }
+    hint: Compute $V(r)=-\int_\infty^{r}\big(-4/r'^3\big)\,dr'=4\int_\infty^{r}r'^{-3}\,dr'$ and put in $r=2$.
+    explanation: |
+      $V(r)=4\int_\infty^{r}r'^{-3}\,dr'=4\Big[-\dfrac{1}{2r'^2}\Big]_\infty^{r}=-\dfrac{2}{r^2}$. At $r=2\ \mathrm{m}$ this is $-\dfrac{2}{4}=-0.5\ \mathrm{J}$. As a check, $-\dfrac{dV}{dr}=-\dfrac{4}{r^3}=f(r)$, pointing inward.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** energy diagrams in one dimension. With a potential energy $V(x)$ known, one curve shows where the particle can go, where it turns back and where it can rest.
