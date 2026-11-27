@@ -63,6 +63,7 @@ const WIDGETS = {
   'track-ride': ['track-ride', 'trackRide'],
   'work-path': ['work-path', 'workPath'],
   'potential-gradient': ['potential-gradient', 'potentialGradient'],
+  'curl-loop': ['curl-loop', 'curlLoop'],
   'oscillator-lab': ['oscillator-lab', 'oscillatorLab'],
   'flutter-lab': ['flutter-lab', 'flutterLab'],
   'arch-thrust': ['arch-thrust', 'archThrust'],
