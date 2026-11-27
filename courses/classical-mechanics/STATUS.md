@@ -40,7 +40,8 @@
 - **Built:** `ch04-center-of-mass` (Level 4, concept, 23 cards, cm-toss x5, no image).
 - **Widget `ang-mom-area` built (2026-11-26)** (docs/widgets/ang-mom-area.md): particle about a fixed origin, modes free / spring / gravity / push pulse (RK4); arrows r, p, F, torque arc, lever arm, L symbol, parallelogram, equal-time wedges with areas, strobe and spokes, L_z(t) plot, readouts L, dA/dt, L/2m, torque; presets.
 - **Built:** `ch04-angular-momentum` (Level 4, concept, 21 cards, ang-mom-area x5, Kepler portrait). Several-particle result stated, proof deferred.
-- **Next unit:** lesson `ch04-many-particles` (guided proof, Taylor 3.5, no new widget).
+- **Built:** `ch04-many-particles` (Level 4, guided proof, 23 cards, no widget, no image). Proves dL/dt = N_ext from the third law plus central forces; couple counterexample.
+- **Next unit:** lesson `ch04-traps` (traps, no new widget).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.

@@ -1,0 +1,326 @@
+id: ch04-many-particles
+title: "Guided Proof: Angular Momentum of Many Particles"
+kind: guided
+proof: true
+own: |
+  Setting: $N$ particles labelled $\alpha = 1,\dots,N$, with masses $m_\alpha$, positions $\mathbf{r}_\alpha$ measured from one fixed origin $O$ in an inertial frame, and momenta $\mathbf{p}_\alpha$. Let $\mathbf{F}_{\alpha\beta}$ be the force on particle $\alpha$ from particle $\beta$ (internal) and $\mathbf{F}^{\text{ext}}_\alpha$ the net force on $\alpha$ from agents outside the system. Taylor writes $\boldsymbol\ell_\alpha$ and $\boldsymbol\Gamma^{\text{ext}}$ where we write $\mathbf{L}_\alpha$ and $\mathbf{N}^{\text{ext}}$.
+  - **Total angular momentum.** The sum of the single-particle angular momenta $\mathbf{L}_\alpha = \mathbf{r}_\alpha\times\mathbf{p}_\alpha$ about $O$; its rate of change is the total torque of all forces, internal and external:
+    {{ $$\mathbf{L} = \sum_\alpha \mathbf{r}_\alpha\times\mathbf{p}_\alpha$$ }}
+    $$\dot{\mathbf{L}} = \sum_\alpha \mathbf{r}_\alpha\times\mathbf{F}_\alpha$$
+  - **Pairing the internal terms.** The internal torques group into pairs $\alpha\beta$ and $\beta\alpha$. With the third law $\mathbf{F}_{\alpha\beta} = -\mathbf{F}_{\beta\alpha}$, each pair contributes the torque of one force acting at the separation $\mathbf{r}_{\alpha\beta} = \mathbf{r}_\alpha - \mathbf{r}_\beta$ (the vector from particle $\beta$ to particle $\alpha$):
+    {{ $$\mathbf{r}_\alpha\times\mathbf{F}_{\alpha\beta} + \mathbf{r}_\beta\times\mathbf{F}_{\beta\alpha} = \mathbf{r}_{\alpha\beta}\times\mathbf{F}_{\alpha\beta}$$ }}
+  - **Central forces cancel it.** If $\mathbf{F}_{\alpha\beta}$ is central, meaning parallel to $\mathbf{r}_{\alpha\beta}$ (along the line joining the pair), the cross product is zero, so every internal pair exerts no net torque. Equal and opposite forces that are not along the joining line (a couple) would still twist the pair.
+  - **Result.** The total angular momentum changes only through the external torque about $O$:
+    {{ $$\dot{\mathbf{L}} = \sum_\alpha \mathbf{r}_\alpha\times\mathbf{F}^{\text{ext}}_\alpha = \mathbf{N}^{\text{ext}}$$ }}
+  - **Conservation.** If the net external torque about $O$ is zero, the total is constant even though each $\mathbf{L}_\alpha$ may change:
+    {{ $$\mathbf{N}^{\text{ext}} = \mathbf{0}\ \Rightarrow\ \mathbf{L} = \text{constant}$$ }}
+cards:
+  - type: text
+    id: hook
+    title: Too many forces to know
+    body: |
+      A figure skater pulls in her arms and spins faster. A cloud of gas contracts under its own gravity. A binary star swirls. In each, a huge number of particles push and pull one another with forces nobody can write down. The total angular momentum of such a system is the sum of the angular momenta of all its parts, and every part is being twisted by the others.
+
+      Is there anything simple to say about the sum, without knowing a single internal force? Before any algebra, guess what the internal forces must be like for the answer to be yes.
+
+  - type: mcq
+    id: guess
+    review: false
+    prompt: |
+      A system of particles pushes and pulls on itself, and no outside agent exerts any force or torque. For the total angular momentum $\mathbf{L} = \sum_\alpha\mathbf{r}_\alpha\times\mathbf{p}_\alpha$ about a fixed origin to stay constant, what must be true of the internal forces?
+    options:
+      - text: 'Nothing at all: internal forces can never change the total'
+        feedback: |
+          Internal forces certainly change the angular momentum of each particle, and nothing in Newton's second law says they cannot change the total. Something about them has to be special, and the proof will show what.
+      - text: They must be equal and opposite for each pair, nothing more
+        feedback: |
+          This is the plain third law, and it is tempting because it is exactly what makes the total linear momentum constant. Angular momentum asks for torque, which also depends on where each force acts, so there may be more to say. The proof shows whether this is enough.
+      - text: They must be equal and opposite for each pair, and also point along the line joining the pair
+        correct: true
+      - text: They must all be zero
+        feedback: |
+          That is far too strong. Internal forces exist (they are what bind the system), and the result will hold with them present.
+    explanation: |
+      The proof below ends in exactly this condition. The extra requirement, forces along the joining line, is called central.
+
+  - type: text
+    id: recall
+    title: Recall the single-particle result
+    body: |
+      For one particle with position $\mathbf{r}$ from a fixed origin $O$ in an inertial frame, momentum $\mathbf{p} = m\dot{\mathbf{r}}$ and net force $\mathbf{F}$, the angular momentum about $O$ and the torque about $O$ are
+
+      $$\mathbf{L} = \mathbf{r}\times\mathbf{p}, \qquad \mathbf{N} = \mathbf{r}\times\mathbf{F},$$
+
+      and they obey
+
+      $$\dot{\mathbf{L}} = \mathbf{N}.$$
+
+      This holds because $\dot{\mathbf{r}}\times\mathbf{p} = m\,\dot{\mathbf{r}}\times\dot{\mathbf{r}} = \mathbf{0}$ and $\dot{\mathbf{p}} = \mathbf{F}$. For many particles we label them $\alpha = 1,\dots,N$, all positions measured from the same origin, and call the angular momentum of particle $\alpha$ by $\mathbf{L}_\alpha = \mathbf{r}_\alpha\times\mathbf{p}_\alpha$. Taylor writes $\boldsymbol\ell_\alpha$ for it.
+
+  - type: build
+    id: total-rate
+    prompt: |
+      The total angular momentum is $\mathbf{L} = \sum_\alpha\mathbf{L}_\alpha$. Differentiate it term by term with the single-particle result, where $\mathbf{F}_\alpha$ is the net force on particle $\alpha$. Build the right-hand side.
+    prefix: '\dot{\mathbf{L}} ='
+    tiles: ['\sum_\alpha', '\mathbf{r}_\alpha', '\times', '\mathbf{F}_\alpha', '\mathbf{p}_\alpha', '\dot{\mathbf{r}}_\alpha']
+    answers:
+      - ['\sum_\alpha', '\mathbf{r}_\alpha', '\times', '\mathbf{F}_\alpha']
+    wrong:
+      - answer: ['\sum_\alpha', '\mathbf{r}_\alpha', '\times', '\mathbf{p}_\alpha']
+        feedback: |
+          That is $\mathbf{L}$ itself, not its rate of change. Differentiating each term turns the momentum into the force on that particle.
+      - answer: ['\sum_\alpha', '\dot{\mathbf{r}}_\alpha', '\times', '\mathbf{p}_\alpha']
+        feedback: |
+          This is the term the product rule produces from differentiating $\mathbf{r}_\alpha$, and it is zero because $\dot{\mathbf{r}}_\alpha$ is parallel to $\mathbf{p}_\alpha$. The surviving term has $\dot{\mathbf{p}}_\alpha = \mathbf{F}_\alpha$.
+    hint: Each term gives $\mathbf{r}_\alpha\times\mathbf{F}_\alpha$, as for a single particle.
+    explanation: |
+      $\dot{\mathbf{L}} = \sum_\alpha\mathbf{r}_\alpha\times\mathbf{F}_\alpha$: the rate of change of the total is the total torque of all the forces, internal and external. That is already a result, but it contains the unknown internal forces. The goal is to remove them.
+
+  - type: text
+    id: split
+    title: Separate inside from outside
+    body: |
+      The net force on particle $\alpha$ comes from two kinds of source. Let $\mathbf{F}_{\alpha\beta}$ be the force exerted **on** particle $\alpha$ **by** particle $\beta$ (first index: who feels it), and let $\mathbf{F}^{\text{ext}}_\alpha$ be the net force on $\alpha$ from every agent outside the system. Then
+
+      $$\mathbf{F}_\alpha = \sum_{\beta\neq\alpha}\mathbf{F}_{\alpha\beta} + \mathbf{F}^{\text{ext}}_\alpha.$$
+
+      The sum skips $\beta = \alpha$ because a particle exerts no force on itself.
+
+  - type: numeric
+    id: count-terms
+    prompt: |
+      A system has $N = 3$ particles. How many internal force terms $\mathbf{F}_{\alpha\beta}$ with $\beta\neq\alpha$ appear when you write out $\sum_\alpha\sum_{\beta\neq\alpha}$?
+    answer: 6
+    wrong:
+      - { value: 3, feedback: "That counts pairs of particles. Each pair gives two terms, one force on each member, so the double sum has twice as many." }
+      - { value: 9, feedback: "That would include $\\beta = \\alpha$, a force of a particle on itself, which does not exist. Each $\\alpha$ has $N - 1 = 2$ partners." }
+    hint: Each of the 3 particles feels a force from each of the other 2.
+    explanation: |
+      $3\times 2 = 6$: the terms $\mathbf{F}_{12},\mathbf{F}_{13},\mathbf{F}_{21},\mathbf{F}_{23},\mathbf{F}_{31},\mathbf{F}_{32}$.
+
+  - type: build
+    id: substitute
+    prompt: |
+      Put the split force into $\dot{\mathbf{L}} = \sum_\alpha\mathbf{r}_\alpha\times\mathbf{F}_\alpha$. Build the internal part, the double sum that holds all the internal torques.
+    prefix: '\sum_\alpha\sum_{\beta\neq\alpha}'
+    tiles: ['\mathbf{r}_\alpha', '\times', '\mathbf{F}_{\alpha\beta}', '\mathbf{F}_{\beta\alpha}', '\mathbf{r}_\beta', '\mathbf{F}^{\text{ext}}_\alpha']
+    answers:
+      - ['\mathbf{r}_\alpha', '\times', '\mathbf{F}_{\alpha\beta}']
+    wrong:
+      - answer: ['\mathbf{r}_\beta', '\times', '\mathbf{F}_{\alpha\beta}']
+        feedback: |
+          The torque of a force uses the position of the particle that **feels** it. $\mathbf{F}_{\alpha\beta}$ acts on particle $\alpha$, so it is crossed with $\mathbf{r}_\alpha$.
+    hint: The force acts on particle $\alpha$, so use that particle's position.
+    explanation: |
+      Substituting gives
+
+      $$\dot{\mathbf{L}} = \sum_\alpha\sum_{\beta\neq\alpha}\mathbf{r}_\alpha\times\mathbf{F}_{\alpha\beta} + \sum_\alpha\mathbf{r}_\alpha\times\mathbf{F}^{\text{ext}}_\alpha.$$
+
+      The second sum is the total external torque, which we will keep. The task is to show the first sum, the internal torques, vanishes.
+
+  - type: text
+    id: pairing
+    title: Pair each term with its partner
+    body: |
+      Take the particular term $\mathbf{r}_1\times\mathbf{F}_{12}$, the torque of the force on particle 1 from particle 2. In the double sum it has a partner, $\mathbf{r}_2\times\mathbf{F}_{21}$, the torque of the force on particle 2 from particle 1. Every term $\alpha\beta$ has exactly one partner $\beta\alpha$, so the double sum can be regrouped as a sum over pairs, counting each pair once (taking $\beta > \alpha$):
+
+      $$\begin{aligned}\sum_\alpha\sum_{\beta\neq\alpha}\mathbf{r}_\alpha\times\mathbf{F}_{\alpha\beta} = \sum_\alpha\sum_{\beta>\alpha}\big(&\mathbf{r}_\alpha\times\mathbf{F}_{\alpha\beta}\\ &+ \mathbf{r}_\beta\times\mathbf{F}_{\beta\alpha}\big).\end{aligned}$$
+
+      Each bracket is the combined torque of one interacting pair.
+
+  - type: numeric
+    id: count-pairs
+    prompt: |
+      How many brackets (pairs $\alpha < \beta$) does the regrouped sum contain for $N = 3$ particles?
+    answer: 3
+    wrong:
+      - { value: 6, feedback: "That is the number of single terms. Each bracket takes two of them, so the pairs are half as many." }
+    hint: Pairs are 12, 13 and 23.
+    explanation: |
+      Three pairs: $(1,2)$, $(1,3)$, $(2,3)$. In general $N(N-1)/2$.
+
+  - type: mcq
+    id: third-law
+    prompt: |
+      One pair of particles, with $\mathbf{F}_{\alpha\beta}$ the force on $\alpha$ from $\beta$ and $\mathbf{F}_{\beta\alpha}$ the force on $\beta$ from $\alpha$, has combined torque $\mathbf{r}_\alpha\times\mathbf{F}_{\alpha\beta} + \mathbf{r}_\beta\times\mathbf{F}_{\beta\alpha}$. Which step turns it into a single cross product?
+    options:
+      - text: Use $\mathbf{F}_{\beta\alpha} = -\mathbf{F}_{\alpha\beta}$ (third law) and factor out the force
+        correct: true
+      - text: Use $\mathbf{r}_\beta = \mathbf{r}_\alpha$ because the particles interact
+        feedback: |
+          The two particles sit at different places. Interacting does not put them at the same position, and the difference of their positions is exactly what survives.
+      - text: Use $\mathbf{r}_\alpha\times\mathbf{F} = \mathbf{F}\times\mathbf{r}_\alpha$ to swap the order
+        feedback: |
+          The cross product changes sign when its factors are swapped, so this identity is false. It would also not combine the two terms.
+      - text: Use that the cross product of any two vectors is zero
+        feedback: |
+          Only parallel vectors have zero cross product. Whether the two vectors here are parallel is the question of the next steps.
+    explanation: |
+      With $\mathbf{F}_{\beta\alpha} = -\mathbf{F}_{\alpha\beta}$ the pair torque becomes $\mathbf{r}_\alpha\times\mathbf{F}_{\alpha\beta} - \mathbf{r}_\beta\times\mathbf{F}_{\alpha\beta}$, and the cross product is linear, so the force factors out.
+
+  - type: build
+    id: pair-torque
+    prompt: |
+      Finish the factoring. Using the third law, write the combined torque of the pair $\alpha\beta$, namely $\mathbf{r}_\alpha\times\mathbf{F}_{\alpha\beta} + \mathbf{r}_\beta\times\mathbf{F}_{\beta\alpha}$, as one cross product.
+    prefix: '\text{pair torque} ='
+    tiles: ['(\mathbf{r}_\alpha - \mathbf{r}_\beta)', '(\mathbf{r}_\alpha + \mathbf{r}_\beta)', '\times', '\mathbf{F}_{\alpha\beta}', '\mathbf{F}_{\beta\alpha}']
+    answers:
+      - ['(\mathbf{r}_\alpha - \mathbf{r}_\beta)', '\times', '\mathbf{F}_{\alpha\beta}']
+    wrong:
+      - answer: ['(\mathbf{r}_\alpha + \mathbf{r}_\beta)', '\times', '\mathbf{F}_{\alpha\beta}']
+        feedback: |
+          The sign of the second torque flips with the force: $\mathbf{r}_\beta\times\mathbf{F}_{\beta\alpha} = -\mathbf{r}_\beta\times\mathbf{F}_{\alpha\beta}$, which gives a difference of positions, not a sum.
+    hint: Replace $\mathbf{F}_{\beta\alpha}$ by $-\mathbf{F}_{\alpha\beta}$ and factor.
+    explanation: |
+      $\mathbf{r}_\alpha\times\mathbf{F}_{\alpha\beta} - \mathbf{r}_\beta\times\mathbf{F}_{\alpha\beta} = (\mathbf{r}_\alpha - \mathbf{r}_\beta)\times\mathbf{F}_{\alpha\beta}$.
+
+  - type: text
+    id: separation
+    title: The separation vector
+    body: |
+      The difference of positions has a geometric meaning. Define
+
+      $$\mathbf{r}_{\alpha\beta} = \mathbf{r}_\alpha - \mathbf{r}_\beta,$$
+
+      the vector that points **to** particle $\alpha$ **from** particle $\beta$. It lies along the line joining the two particles, and it does not depend on where the origin $O$ is. The combined torque of the pair is now $\mathbf{r}_{\alpha\beta}\times\mathbf{F}_{\alpha\beta}$.
+
+      So the internal torques cancel exactly when $\mathbf{F}_{\alpha\beta}$ is parallel to $\mathbf{r}_{\alpha\beta}$, since only parallel vectors have a zero cross product. A force that points along the line joining the two particles is called **central**.
+
+  - type: mcq
+    id: why-zero
+    prompt: |
+      Two particles attract each other, the force on each pointing straight at the other. The force on $\alpha$ is $\mathbf{F}_{\alpha\beta}$ and $\mathbf{r}_{\alpha\beta} = \mathbf{r}_\alpha - \mathbf{r}_\beta$. Why is $\mathbf{r}_{\alpha\beta}\times\mathbf{F}_{\alpha\beta} = \mathbf{0}$?
+    options:
+      - text: Both vectors lie along the line joining the particles, so they are parallel (the angle between them is $0$ or $\pi$)
+        correct: true
+      - text: The forces are equal in size, so they cancel in the cross product
+        feedback: |
+          Equal size is the third law, and it was already used to combine the two torques. The zero of the cross product needs the **direction** of the force.
+      - text: The two particles are at the same point
+        feedback: |
+          If they were, $\mathbf{r}_{\alpha\beta}$ would be zero but there would be no well-defined line between them. For separated particles the vector is not zero, and the reason is the direction of the force.
+      - text: Cross products of forces are always zero
+        feedback: |
+          Not at all: a force of $1$ N at a lever arm of $1$ m perpendicular to it has a torque of $1\ \mathrm{N\,m}$. The zero here comes from parallel directions.
+    explanation: |
+      $|\mathbf{r}_{\alpha\beta}\times\mathbf{F}_{\alpha\beta}| = r_{\alpha\beta}F_{\alpha\beta}\sin\theta$ with $\theta = 0$ or $\pi$, so it is zero.
+
+  - type: order
+    id: proof-order
+    prompt: Put the proof that internal forces drop out of $\dot{\mathbf{L}}$ in order.
+    steps:
+      - 'Differentiate $\mathbf{L} = \sum_\alpha\mathbf{r}_\alpha\times\mathbf{p}_\alpha$ to get $\dot{\mathbf{L}} = \sum_\alpha\mathbf{r}_\alpha\times\mathbf{F}_\alpha$.'
+      - 'Split $\mathbf{F}_\alpha = \sum_{\beta\neq\alpha}\mathbf{F}_{\alpha\beta} + \mathbf{F}^{\text{ext}}_\alpha$ into internal and external parts.'
+      - 'Group each internal term $\alpha\beta$ with its partner $\beta\alpha$ into a sum over pairs.'
+      - 'Use the third law $\mathbf{F}_{\beta\alpha} = -\mathbf{F}_{\alpha\beta}$ to write each pair as $\mathbf{r}_{\alpha\beta}\times\mathbf{F}_{\alpha\beta}$.'
+      - 'Use central forces, $\mathbf{F}_{\alpha\beta}\parallel\mathbf{r}_{\alpha\beta}$, so every pair torque is zero.'
+      - 'Keep the external sum: $\dot{\mathbf{L}} = \sum_\alpha\mathbf{r}_\alpha\times\mathbf{F}^{\text{ext}}_\alpha = \mathbf{N}^{\text{ext}}$.'
+    hint: Differentiate, split, pair, third law, central, conclude.
+    explanation: |
+      The two assumptions enter at two different steps: the third law at step 4, centrality at step 5.
+
+  - type: text
+    id: result
+    title: The result
+    body: |
+      Provided the internal forces obey the third law and are central, the internal torques cancel in pairs and
+
+      $$\dot{\mathbf{L}} = \sum_\alpha\mathbf{r}_\alpha\times\mathbf{F}^{\text{ext}}_\alpha = \mathbf{N}^{\text{ext}}.$$
+
+      Taylor writes $\boldsymbol\Gamma^{\text{ext}}$ for the net external torque. In particular, if $\mathbf{N}^{\text{ext}} = \mathbf{0}$, then $\mathbf{L} = \sum_\alpha\mathbf{r}_\alpha\times\mathbf{p}_\alpha$ is constant: this is the conservation of angular momentum for a system of particles. It is the rotational partner of $\dot{\mathbf{P}} = \mathbf{F}^{\text{ext}}$ for the total linear momentum.
+
+  - type: numeric
+    id: couple
+    prompt: |
+      A pair breaks the central assumption. Particle 1 is at the origin and particle 2 at $(2, 0)\ \mathrm{m}$. The forces are equal and opposite, $\mathbf{F}_{21} = (0, 3)\ \mathrm{N}$ on particle 2 and $\mathbf{F}_{12} = (0, -3)\ \mathrm{N}$ on particle 1, but they point sideways, not along the line joining the particles. In the plane, the torque of a force $(F_x, F_y)$ at position $(x, y)$ is $N = xF_y - yF_x$. What is the combined torque of the pair about $O$, in $\mathrm{N\,m}$?
+    answer: 6
+    tolerance: 0.001
+    wrong:
+      - { value: 0, feedback: "That would follow if the forces were along the line joining the particles. Here they are sideways, so the cancellation fails even though they are equal and opposite." }
+      - { value: 3, feedback: "Both torques count: particle 1 sits at the origin and has lever arm zero, but particle 2 has lever arm $2$ m. Compute $2\\times 3$." }
+    hint: Particle 1 is at the origin, so its torque is zero. Compute only the torque on particle 2.
+    explanation: |
+      Particle 1: $0$. Particle 2: $N = 2\cdot 3 - 0\cdot 0 = 6\ \mathrm{N\,m}$. The same value comes from $\mathbf{r}_{21}\times\mathbf{F}_{21}$ with $\mathbf{r}_{21} = (2,0)$: it is not zero because the force is not parallel to the separation. Such a pair would start spinning by itself, with no outside twist. The third law alone is not enough; the forces must also be central.
+
+  - type: text
+    id: example-setup
+    title: A check with numbers
+    body: |
+      Two particles in the plane, particle 1 at $(1, 0)\ \mathrm{m}$ and particle 2 at $(0, 2)\ \mathrm{m}$, attract each other with a central force of magnitude $5\ \mathrm{N}$ along the line joining them. Outside agents push particle 1 with $\mathbf{F}^{\text{ext}}_1 = (0, 2)\ \mathrm{N}$ and particle 2 with $\mathbf{F}^{\text{ext}}_2 = (-1, 0)\ \mathrm{N}$. We compute the torques about $O$ with $N = xF_y - yF_x$ and check that the internal ones drop out.
+
+      Attraction means the force on particle 1 points toward particle 2, along $(0,2) - (1,0) = (-1, 2)$, of length $\sqrt5$. So $\mathbf{F}_{12} = \sqrt5\,(-1, 2)\ \mathrm{N}$ and, by the third law, $\mathbf{F}_{21} = \sqrt5\,(1, -2)\ \mathrm{N}$.
+
+  - type: numeric
+    id: internal-1
+    prompt: |
+      Using the setup (particle 1 at $(1,0)$, internal force on it $\mathbf{F}_{12} = \sqrt5\,(-1, 2)\ \mathrm{N}$), what is the torque of this internal force about $O$, $N = xF_y - yF_x$, in $\mathrm{N\,m}$? Give a decimal.
+    answer: 4.472
+    tolerance: 0.01
+    wrong:
+      - { value: -4.472, feedback: "Check the sign: $x = 1$, $F_y = 2\\sqrt5$ and $y = 0$, so $N = 1\\cdot 2\\sqrt5 > 0$." }
+    hint: With $y = 0$ only $xF_y$ survives.
+    explanation: |
+      $N_1^{\text{int}} = 1\cdot 2\sqrt5 - 0 = 2\sqrt5 \approx 4.472\ \mathrm{N\,m}$.
+
+  - type: numeric
+    id: internal-2
+    prompt: |
+      Particle 2 is at $(0, 2)$ with internal force $\mathbf{F}_{21} = \sqrt5\,(1, -2)\ \mathrm{N}$. What is the torque of this force about $O$, $N = xF_y - yF_x$, in $\mathrm{N\,m}$? Give a decimal.
+    answer: -4.472
+    tolerance: 0.01
+    wrong:
+      - { value: 4.472, feedback: "Check the sign: $x = 0$, so only $-yF_x = -2\\cdot\\sqrt5$ survives, which is negative." }
+    hint: With $x = 0$ only $-yF_x$ survives.
+    explanation: |
+      $N_2^{\text{int}} = 0 - 2\cdot\sqrt5 = -2\sqrt5 \approx -4.472\ \mathrm{N\,m}$. The two internal torques are equal and opposite and sum to zero: this is the cancellation the proof predicts, because the force is central.
+
+  - type: numeric
+    id: external-total
+    prompt: |
+      Now the external torques about $O$, with $N = xF_y - yF_x$: particle 1 at $(1, 0)$ with $\mathbf{F}^{\text{ext}}_1 = (0, 2)\ \mathrm{N}$, particle 2 at $(0, 2)$ with $\mathbf{F}^{\text{ext}}_2 = (-1, 0)\ \mathrm{N}$. What is $\dot{L}_z$ of the pair, in $\mathrm{N\,m}$?
+    answer: 4
+    tolerance: 0.001
+    wrong:
+      - { value: 0, feedback: "That is the internal contribution. The outside agents do twist the pair, and nothing cancels their torques." }
+      - { value: 2, feedback: "That is the torque on only one of the particles. Add both: each external force has its own lever arm." }
+    hint: Particle 1 gives $1\cdot 2$; particle 2 gives $-2\cdot(-1)$.
+    explanation: |
+      $N^{\text{ext}} = (1\cdot 2 - 0) + (0 - 2\cdot(-1)) = 2 + 2 = 4\ \mathrm{N\,m}$. By the result, $\dot{L}_z = N^{\text{ext}}_z = 4\ \mathrm{N\,m}$, whatever the size of the internal $5\ \mathrm{N}$ attraction.
+
+  - type: numeric
+    id: skaters
+    prompt: |
+      Two skaters of mass $1\ \mathrm{kg}$ each (point masses) circle their midpoint, which is the origin and is fixed, at distance $r = 2\ \mathrm{m}$ with angular speed $\omega = 1\ \mathrm{rad/s}$, held by a rope that provides a central internal force. There is no outside torque. They pull the rope in until $r = 1\ \mathrm{m}$. Each has $L_\alpha = m r^2\omega$ about the midpoint. What is the new $\omega$, in $\mathrm{rad/s}$?
+    answer: 4
+    tolerance: 0.001
+    wrong:
+      - { value: 2, feedback: "That would follow if $\\omega$ scaled as $1/r$. Angular momentum is $L = 2mr^2\\omega$, so halving $r$ divides $r^2$ by four." }
+      - { value: 1, feedback: "Angular momentum is conserved, not angular speed. Each skater's $L_\\alpha = mr^2\\omega$ depends on $r$, so $\\omega$ must change to compensate." }
+    hint: Set $2mr^2\omega$ before equal to $2mr^2\omega$ after.
+    explanation: |
+      $L = 2m r^2\omega$ is the same before and after: $2\cdot 1\cdot 4\cdot 1 = 8 = 2\cdot 1\cdot 1\cdot\omega$, so $\omega = 4\ \mathrm{rad/s}$. The rope's force is internal and central, so the total $L$ is constant, while the angular momentum each skater carries is not separately forced to stay fixed.
+
+  - type: mcq
+    id: individual
+    prompt: |
+      A system has zero net external torque about $O$, and its internal forces are equal, opposite and central. Which statement is correct?
+    options:
+      - text: The total $\mathbf{L}$ is constant, but the angular momentum $\mathbf{L}_\alpha$ of an individual particle may change
+        correct: true
+      - text: Every $\mathbf{L}_\alpha$ is constant, because the total is
+        feedback: |
+          A constant sum does not make each term constant. Internal forces exert torque on each particle and change its $\mathbf{L}_\alpha$; the torques on the members of a pair are equal and opposite, so they move angular momentum between particles and leave the sum alone.
+      - text: The total $\mathbf{L}$ changes at the rate of the internal torques
+        feedback: |
+          The internal torques cancel in pairs, which is the whole result. Only the external torque changes the total.
+      - text: The total $\mathbf{L}$ is zero
+        feedback: |
+          Constant does not mean zero. The system may carry any angular momentum it had at the start, and keeps it.
+    explanation: |
+      Internal forces redistribute angular momentum among the particles, like the pair of skaters, and never change the sum.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      **Next:** a short round of traps on the whole chapter, where each question hides a tempting mistake about momentum, rockets and torque.

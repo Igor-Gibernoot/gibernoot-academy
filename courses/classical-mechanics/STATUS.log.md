@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27 ch04-many-particles (autonomous)
+Built `ch04/many-particles.yaml` (guided proof, 23 cards, no widget, no image: no person/experiment/object worth one). Steps: total L-dot, split F_a, count terms, pair alpha-beta with beta-alpha, third law, separation r_ab, central gives zero, order card, result, couple counterexample (6 N m), numeric check (internal +-2 sqrt5, N_ext 4), skaters (omega 4), individual L_a may change. Rule 16: Taylor 3.20-3.26 and Fig. 3.8 checked on rendered PDF 106-107. No web facts needed (no names or dates). Choice: plain-text count/pair cards kept as numeric. Conventions fixed here: F_ab = force on a by b, r_ab = r_a - r_b, L_a (Taylor l_a), N^ext (Taylor Gamma^ext).
+
 ## 2026-11-26 ch04-angular-momentum (autonomous)
 Built `ch04/angular-momentum.yaml` (concept, 21 cards, ang-mom-area x5: free line, equal areas, parallelogram, push, central forces). Hook triangle derivation, L = r x p, dA/dt = L/2m, torque from product rule (build card), central force, traps (inverse-square not needed, speed not constant), several particles stated only (proof deferred). Images: Kepler portrait (Commons, presumed per file title). Choices: single-particle L and torque N (Goldstein), Taylor's ell and Gamma stated once; 21 cards rather than 19 (build card and second area widget). Conventions fixed here: $\mathbf{L}=\mathbf{r}\times\mathbf{p}$, $\mathbf{N}=\mathbf{r}\times\mathbf{F}$, $L_z=-mbv$ for the free line above O, toy numbers 0.8, 0.4, Delta L_z = -1.
 
