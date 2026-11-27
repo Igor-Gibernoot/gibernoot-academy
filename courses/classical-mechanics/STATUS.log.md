@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27: ch04-traps (Level 4, traps, 16 cards)
+Built `ch04/traps.yaml`: rocket pushes on exhaust, log law (ratio 10 gives 6908 m/s), doubling the gain squares the ratio, exhaust frame vs thrust, thrust minus weight (10.2 m/s2), CM weighted average (3 m), CM outside the matter (V-shaped boomerang), explosion leaves CM path, free line has L_z = -30, torque 12 and origin dependence, circle about the star vs another point, couple vs central pair, arms pulled in (omega 4.5). No widget, no image. STATUS Current block compressed (Levels 1 and 2 merged). Choice: numeric tolerance is absolute in the engine, so the 6908 card uses tolerance 10 with "nearest 10 m/s". Conventions fixed here: none new (reused toy numbers of the chapter lessons were avoided on purpose).
+
 ## 2026-11-27 ch04-many-particles (autonomous)
 Built `ch04/many-particles.yaml` (guided proof, 23 cards, no widget, no image: no person/experiment/object worth one). Steps: total L-dot, split F_a, count terms, pair alpha-beta with beta-alpha, third law, separation r_ab, central gives zero, order card, result, couple counterexample (6 N m), numeric check (internal +-2 sqrt5, N_ext 4), skaters (omega 4), individual L_a may change. Rule 16: Taylor 3.20-3.26 and Fig. 3.8 checked on rendered PDF 106-107. No web facts needed (no names or dates). Choice: plain-text count/pair cards kept as numeric. Conventions fixed here: F_ab = force on a by b, r_ab = r_a - r_b, L_a (Taylor l_a), N^ext (Taylor Gamma^ext).
 

@@ -1,0 +1,264 @@
+id: ch04-traps
+title: Momentum Traps
+kind: traps
+cards:
+  - type: text
+    id: hook
+    title: Fast questions, familiar mistakes
+    body: |
+      Momentum and angular momentum are conserved only under conditions, and most mistakes come from forgetting one. This round has one question per card, each built on a belief that is easy to hold: that a rocket needs something to push against, that doubling the fuel doubles the speed gained, that the thrust depends on where the exhaust ends up, that the center of mass is a midpoint inside the body, that an explosion moves it, that no force means no angular momentum, that a torque belongs to the force alone, and that equal and opposite internal forces always leave the spin alone.
+
+      Answer quickly, from the laws as you have them. A wrong choice is useful: its feedback says why the belief tempts and where it breaks. Several questions have a small number to compute.
+
+  - type: mcq
+    id: push
+    prompt: |
+      A rocket fires its engine in empty space, with no air, no ground and nothing within a million kilometres. A friend says it cannot speed up, because there is nothing for the exhaust to push against. What is wrong with that?
+    options:
+      - text: The rocket and its exhaust push on each other. The gas gains momentum backward, so the rocket gains the same momentum forward, and the total stays zero
+        correct: true
+      - text: Nothing is wrong. In a vacuum the engine would run, but the rocket would not speed up
+        feedback: |
+          Momentum is conserved for the rocket and its gas together. If the gas leaves backward with momentum, the rocket must gain the opposite momentum, with or without air.
+      - text: The exhaust pushes on the thin traces of interstellar gas, and the reaction from them drives the rocket
+        feedback: |
+          Any such push would be negligible. The force that accelerates the rocket is the reaction to the force the engine exerts on the exhaust it throws back.
+      - text: The rocket speeds up because its mass decreases, and a lighter body always moves faster
+        feedback: |
+          Losing mass does not by itself change the velocity of what is left. The speed changes because the departing gas carries momentum backward.
+    explanation: |
+      Over a short time $dt$ the rocket of mass $m$ expels a mass $|dm|$ at speed $v_{\text{ex}}$ relative to itself. Total momentum is unchanged, so $m\,dv = -v_{\text{ex}}\,dm$, with $dm < 0$. No outside body is involved.
+
+  - type: numeric
+    id: ninety
+    prompt: |
+      A rocket in empty space has exhaust speed $v_{\text{ex}} = 3000\ \mathrm{m/s}$ relative to itself. It burns $90\%$ of its initial mass as fuel, so $m_0/m = 10$ at burnout. Starting from rest, what speed does it reach, in m/s? Round to the nearest $10\ \mathrm{m/s}$. Use $\ln 10 = 2.3026$.
+    answer: 6908
+    tolerance: 10
+    answerText: '6910'
+    wrong:
+      - { value: 27000, feedback: 'You used $v_{\text{ex}}(m_0/m - 1)$. That is the result when the exhaust is held at a fixed speed relative to the ground, not to the rocket. With the exhaust speed measured from the rocket, the gain is a logarithm.' }
+      - { value: 2700, feedback: 'You multiplied $v_{\text{ex}}$ by the fraction of the mass burned, $0.9$. The speed gain follows $v_{\text{ex}}\ln(m_0/m)$, which also grows as less of the original mass remains.' }
+    hint: |
+      The rocket equation is $v - v_0 = v_{\text{ex}}\ln(m_0/m)$.
+    explanation: |
+      $v = 3000 \ln 10 = 3000 \times 2.3026 = 6908\ \mathrm{m/s}$, about $2.3$ times the exhaust speed. Burning $90\%$ of the mass does not give $0.9$ or $9$ times $v_{\text{ex}}$.
+
+  - type: numeric
+    id: double-gain
+    prompt: |
+      A rocket with a mass ratio $m_0/m = 3$ gains a certain speed. By what mass ratio $m_0/m$ would the same rocket, with the same exhaust speed, gain twice that speed?
+    answer: 9
+    tolerance: 0.02
+    answerText: '9'
+    wrong:
+      - { value: 6, feedback: 'You doubled the mass ratio. The gain is $v_{\text{ex}}\ln(m_0/m)$, so doubling the ratio adds only $v_{\text{ex}}\ln 2$, far less than doubling the gain.' }
+      - { value: 1.5, feedback: 'You halved the ratio. A smaller ratio gives a smaller gain, not a larger one.' }
+    hint: |
+      Doubling $\ln(m_0/m)$ means squaring $m_0/m$, since $2\ln R = \ln R^2$.
+    explanation: |
+      The gain is proportional to $\ln(m_0/m)$. Twice $\ln 3$ is $\ln 9$, so the mass ratio must go from $3$ to $9$: the rocket must burn $8/9$ of its mass instead of $2/3$. This is why more fuel helps so slowly, and why a higher exhaust speed pays much better.
+
+  - type: mcq
+    id: frame
+    prompt: |
+      A rocket coasts at $2000\ \mathrm{m/s}$ relative to the ground and fires its engine, with exhaust speed $2000\ \mathrm{m/s}$ relative to the rocket, backward. Seen from the ground the exhaust leaves at rest. A student concludes that the engine gives no thrust, since the gas ends up with no momentum. Which statement is right?
+    options:
+      - text: The thrust is $-\dot m\,v_{\text{ex}}$ as always. The rocket still gains momentum forward, and the gas loses the forward momentum it carried before it was expelled
+        correct: true
+      - text: The student is right, since in the ground frame the exhaust carries away nothing
+        feedback: |
+          The gas was part of the moving rocket, with forward momentum, before it left. Going to rest means it lost that momentum, and the rocket gained it. The ground-frame bookkeeping gives the same $m\,dv = -v_{\text{ex}}\,dm$.
+      - text: The thrust is doubled, because the rocket and the exhaust both have speed $2000\ \mathrm{m/s}$ in the ground frame
+        feedback: |
+          The thrust depends on the rate of mass ejection and on the exhaust speed relative to the rocket, which is the same $2000\ \mathrm{m/s}$ in every frame. The ground speed of the rocket does not enter.
+      - text: The thrust is zero only at the first instant, then grows as the rocket speeds up
+        feedback: |
+          The relative speed $v_{\text{ex}}$ stays fixed, so the thrust $-\dot m\,v_{\text{ex}}$ is the same at every rocket speed.
+    explanation: |
+      The momentum change of the rocket is $m\,dv = -v_{\text{ex}}\,dm$, built from the speed of the gas relative to the rocket. A different observer changes the speeds of everything by a constant, which cancels in the change. The exhaust speed that matters in the rocket equation is the one relative to the rocket.
+
+  - type: numeric
+    id: thrust-gravity
+    prompt: |
+      A rocket of current mass $5000\ \mathrm{kg}$ stands on its pad and burns fuel at $50\ \mathrm{kg/s}$, with exhaust speed $2000\ \mathrm{m/s}$ relative to the rocket. Its thrust is $-\dot m\,v_{\text{ex}}$ and its weight acts downward. Take $g = 9.8\ \mathrm{m/s^2}$. What is its upward acceleration at that instant, in $\mathrm{m/s^2}$?
+    answer: 10.2
+    tolerance: 0.05
+    answerText: '10.2'
+    wrong:
+      - { value: 20, feedback: 'You left out gravity. The thrust is $10^5\ \mathrm{N}$, which gives $20\ \mathrm{m/s^2}$ in empty space, but the weight $mg$ pulls the other way near the ground.' }
+      - { value: 29.8, feedback: 'You added $g$. Gravity acts opposite to the thrust, so it is subtracted: $m\dot v = -\dot m\,v_{\text{ex}} - mg$.' }
+    hint: |
+      The thrust is $50 \times 2000$ newtons. Subtract the weight $mg$, then divide by $m$.
+    explanation: |
+      $m\dot v = -\dot m\,v_{\text{ex}} - mg = 10^5 - 5000 \times 9.8 = 10^5 - 4.9\times10^4 = 5.1\times10^4\ \mathrm{N}$, so $\dot v = 5.1\times10^4/5000 = 10.2\ \mathrm{m/s^2}$. A rocket needs thrust greater than its weight to leave the pad.
+
+  - type: numeric
+    id: cm-two
+    prompt: |
+      A light rod carries a $2\ \mathrm{kg}$ mass at $x = 0$ and a $6\ \mathrm{kg}$ mass at $x = 4\ \mathrm{m}$. Where is the center of mass, in metres?
+    answer: 3
+    tolerance: 0.01
+    answerText: '3'
+    wrong:
+      - { value: 2, feedback: 'You took the midpoint. The center of mass is the mass-weighted average $\frac{1}{M}\sum m_\alpha x_\alpha$, which sits nearer the heavier mass.' }
+      - { value: 1, feedback: 'You weighted each position by the other mass. The heavier mass pulls the center toward itself, so the point lies closer to the $6\ \mathrm{kg}$ mass, not the $2\ \mathrm{kg}$ one.' }
+    hint: |
+      Use $X = (m_1 x_1 + m_2 x_2)/(m_1 + m_2)$.
+    explanation: |
+      $X = (2 \times 0 + 6 \times 4)/(2 + 6) = 24/8 = 3\ \mathrm{m}$. The distances from the center to the two masses are in the inverse ratio of the masses: $3$ and $1$.
+
+  - type: mcq
+    id: cm-outside
+    prompt: |
+      A boomerang is a bent, thin, uniform bar in the shape of a flat V with a wide angle. Where is its center of mass, $\mathbf{R} = \frac1M\sum m_\alpha\mathbf r_\alpha$?
+    options:
+      - text: Inside the V, in empty space, near the bend but not on the bar
+        correct: true
+      - text: On the bar, at the bend, since the bar is made of the same material everywhere
+        feedback: |
+          The center of mass is an average of positions, weighted by mass. It need not coincide with any piece of mass. For the V the two arms lie on both sides of the bend, so the average falls in the gap between them.
+      - text: At the middle of the length of the bar, measured along the bar
+        feedback: |
+          That point lies on the bar, but the average is over positions in space, not along the curve. Taking positions as vectors, the mean of points on a bent line is not on the line.
+      - text: It has no center of mass, since the boomerang is not a point
+        feedback: |
+          Any collection of masses has one, $\mathbf R = \frac1M\sum m_\alpha\mathbf r_\alpha$ or its integral form. A rigid body moves as if its mass were concentrated there, even when no mass is.
+    explanation: |
+      The two arms are symmetric about the line through the bend, so the average position lies on that line, between the bend and the open side of the V. A ring and a hollow shell have the same property: the center of mass is where no matter is.
+
+  - type: mcq
+    id: explosion
+    prompt: |
+      A shell flies along a parabola under gravity alone, with no air. In mid-flight it explodes into many fragments that fly off in different directions. Before any fragment touches the ground, what does the center of mass of all the fragments do?
+    options:
+      - text: It keeps following the same parabola the whole shell would have followed
+        correct: true
+      - text: It jumps and follows a new path, since the explosion adds momentum
+        feedback: |
+          The explosion forces are internal, and the total momentum they add is zero because of the third law. Only the external force, gravity, changes $\mathbf P = M\dot{\mathbf R}$.
+      - text: It stops, since the fragments fly off in all directions and cancel out
+        feedback: |
+          The fragments carry momentum that sums to the momentum the shell had before it exploded. Cancelling would require the total to be zero, which it is not.
+      - text: It follows a straight line, since the explosion switches gravity off for the system
+        feedback: |
+          Gravity still acts on every fragment, so $M\ddot{\mathbf R} = \mathbf F^{\text{ext}} = M\mathbf g$ and the path stays a parabola.
+    explanation: |
+      $\mathbf F^{\text{ext}} = M\ddot{\mathbf R}$ involves only external forces. Internal forces from the explosion cancel in pairs, so with gravity as the only external force the center of mass keeps the parabola. The path changes only when a fragment lands and the ground pushes.
+
+  - type: numeric
+    id: free-line
+    prompt: |
+      A particle of mass $2\ \mathrm{kg}$ moves with no force at all, at constant velocity $3\ \mathrm{m/s}$ in the $+x$ direction along the line $y = 5\ \mathrm{m}$. Take the origin at $O = (0, 0)$ with $z$ out of the page. What is $L_z$ about $O$, in $\mathrm{kg\,m^2/s}$? Recall $L_z = m(xv_y - yv_x)$.
+    answer: -30
+    tolerance: 0.01
+    answerText: '-30'
+    wrong:
+      - { value: 0, feedback: 'No force means no torque, so $L$ does not change. It does not mean $L$ is zero. The angular momentum is $\mathbf r\times m\mathbf v$, which is nonzero for a particle moving along a line that does not pass through $O$.' }
+      - { value: 30, feedback: 'The size is right, the sign is not. With $L_z = m(xv_y - yv_x)$ and $v_y = 0$ we get $-myv_x$. A particle above the origin moving to the right circles it clockwise, which is the negative $z$ sense.' }
+    hint: |
+      Here $v_y = 0$, so only the $-yv_x$ term survives.
+    explanation: |
+      $L_z = 2\,(x \cdot 0 - 5 \times 3) = -30\ \mathrm{kg\,m^2/s}$. It is the same at every point on the line, so $L$ is constant, as $\dot{\mathbf L} = \mathbf N = \mathbf 0$ requires, yet it is not zero. The size is $mvb$ with $b$ the perpendicular distance from $O$ to the line.
+
+  - type: numeric
+    id: torque-value
+    prompt: |
+      A force $\mathbf F = 4\ \mathrm{N}$ along $+y$ acts on a particle at $(x, y) = (3\ \mathrm{m}, 0)$. What is the torque $N_z = xF_y - yF_x$ about the origin $O = (0, 0)$, in N m?
+    answer: 12
+    tolerance: 0.01
+    answerText: '12'
+    wrong:
+      - { value: 4, feedback: 'You gave the force itself. The torque is the force times the lever arm, the perpendicular distance from $O$ to the line of the force, here $3\ \mathrm{m}$.' }
+      - { value: 7, feedback: 'You added the distance and the force. A torque is a cross product, a product of $r$ and $F$ for the components that are perpendicular, not a sum.' }
+    hint: |
+      $x = 3$, $F_y = 4$, $y = 0$ and $F_x = 0$.
+    explanation: |
+      $N_z = 3 \times 4 - 0 \times 0 = 12\ \mathrm{N\,m}$, counterclockwise, since $z$ points out of the page.
+
+  - type: mcq
+    id: origin
+    prompt: |
+      Take the same force, $4\ \mathrm{N}$ along $+y$ acting on the particle at $(3\ \mathrm{m}, 0)$. A second observer measures the torque of this force about a different origin, the point $(3\ \mathrm{m}, 0)$ itself. What do they find?
+    options:
+      - text: Zero, because the force acts at the origin and has no lever arm about it
+        correct: true
+      - text: $12\ \mathrm{N\,m}$ again, since the force is the same and the torque belongs to the force
+        feedback: |
+          The torque $\mathbf N = \mathbf r\times\mathbf F$ also depends on $\mathbf r$, measured from the chosen origin. The same force has different torques about different origins, and so does the angular momentum.
+      - text: $-12\ \mathrm{N\,m}$, since moving the origin to the other side reverses the sense
+        feedback: |
+          The sense reverses only if the origin crosses the line of the force. Here the origin sits on that line, where the lever arm is zero.
+      - text: $4\ \mathrm{N\,m}$, since only the force remains when the distance vanishes
+        feedback: |
+          When the distance vanishes the cross product vanishes too. Nothing remains of $\mathbf r\times\mathbf F$.
+    explanation: |
+      The torque about a point is the force times the perpendicular distance from that point to the line of the force. It is $12$ for the origin $O$ and zero for any point on the line, for example $(3, 0)$ or $(3, -100)$. Always say about which origin a torque or an angular momentum is taken.
+
+  - type: mcq
+    id: circle
+    prompt: |
+      A planet moves on a circle of radius $R$ around a fixed star at constant speed, held by the star's gravity, a central force. Its angular momentum $\mathbf L = \mathbf r\times\mathbf p$ is taken about two different points in the plane of the orbit, the star and another fixed point away from the star. Which statement is right?
+    options:
+      - text: About the star $\mathbf L$ is constant. About the other point it is not, since the force has a torque about it
+        correct: true
+      - text: $\mathbf L$ is constant about both points, since it is constant about one
+        feedback: |
+          A force that is central for the star is not central for another point. About that point the force has a lever arm, a torque, and $\dot{\mathbf L} = \mathbf N \ne 0$.
+      - text: $\mathbf L$ is constant about neither, since the momentum $\mathbf p$ keeps changing direction
+        feedback: |
+          $\mathbf p$ does change, but $\mathbf r\times\mathbf p$ about the star does not: the force is along $\mathbf r$, so $\mathbf r\times\mathbf F = \mathbf 0$ and $\dot{\mathbf L} = \mathbf 0$.
+      - text: $\mathbf L$ is zero about the star, since the force points at it
+        feedback: |
+          The force points at the star, so its torque is zero and $\mathbf L$ is constant. The value of $\mathbf L = mR^2\omega$ is not zero, since the planet moves.
+    explanation: |
+      Conservation of $\mathbf L$ requires zero net torque about the chosen origin. A central force gives zero torque only about the center of force. About another point, $\mathbf L$ changes as the planet circles. Conservation of angular momentum is a statement about an origin, not about the system alone.
+
+  - type: mcq
+    id: couple
+    prompt: |
+      Two particles exert forces on each other that are equal and opposite, $\mathbf F_{12} = -\mathbf F_{21}$. No outside force acts. In which case can the total angular momentum $\mathbf L$ still change?
+    options:
+      - text: The forces are equal and opposite but sideways, perpendicular to the line joining the particles, so they form a couple
+        correct: true
+      - text: The forces are equal and opposite and along the line joining the particles, so the pair behaves like a spring
+        feedback: |
+          Forces along the line joining the particles are central, and their torques cancel in pairs: $\mathbf r_{12}\times\mathbf F_{12} = \mathbf 0$. So $\mathbf L$ stays constant.
+      - text: Never, since equal and opposite forces cancel in every sum, torque included
+        feedback: |
+          They cancel in the total force, so the total momentum is constant. The torques are $\mathbf r_1\times\mathbf F_{12}$ and $\mathbf r_2\times\mathbf F_{21}$, and they add to $\mathbf r_{12}\times\mathbf F_{12}$, which is zero only if $\mathbf F_{12}$ is along $\mathbf r_{12}$.
+      - text: Whenever the particles move, since their velocities change the angular momentum
+        feedback: |
+          Motion alone changes nothing. What changes $\mathbf L$ is a torque. For a central pair of forces the torque is zero however the particles move.
+    explanation: |
+      The third law gives $\mathbf P$ constant. The torques add to $\mathbf r_{12}\times\mathbf F_{12}$, with $\mathbf r_{12} = \mathbf r_1 - \mathbf r_2$. It vanishes only if $\mathbf F_{12}$ is parallel to $\mathbf r_{12}$. A pair of sideways equal and opposite forces would turn the pair with no external torque, so the law $\dot{\mathbf L} = \mathbf N^{\text{ext}}$ rests on the central-force requirement as well as the third law.
+
+  - type: numeric
+    id: arms
+    prompt: |
+      Two $3\ \mathrm{kg}$ masses on a light frame rotate about a vertical axis, one on each side, each at distance $3\ \mathrm{m}$ from the axis, with angular speed $\omega = 0.5\ \mathrm{rad/s}$. Internal pulls bring each mass to $1\ \mathrm{m}$ from the axis, with no external torque about the axis. What is the new angular speed, in rad/s? Take $L = \sum m_\alpha r_\alpha^2\omega$.
+    answer: 4.5
+    tolerance: 0.01
+    answerText: '4.5'
+    wrong:
+      - { value: 0.5, feedback: 'You kept $\omega$ fixed. With no external torque it is $L$ that stays fixed, and $L = \sum m r^2\omega$ contains $r^2$, so $\omega$ must change when $r$ does.' }
+      - { value: 1.5, feedback: 'You scaled $\omega$ with $1/r$, as if $L$ were $mr\omega$. The angular momentum of a mass in a circle is $mrv = mr^2\omega$, so $\omega$ scales with $1/r^2$.' }
+    hint: |
+      $L$ stays the same, and $L = 2mr^2\omega$ for the two equal masses.
+    explanation: |
+      $L = 2 \times 3 \times 3^2 \times 0.5 = 27\ \mathrm{kg\,m^2/s}$. After the pull $27 = 2 \times 3 \times 1^2\,\omega'$, so $\omega' = 4.5\ \mathrm{rad/s}$. The radius shrinks by $3$ and $\omega$ grows by $9$, with each pull a central internal force that exerts no net torque.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      The beliefs you tested, with the fact that replaces each.
+
+      - **A rocket pushes on its own exhaust.** Total momentum of rocket plus gas is conserved, so $m\,dv = -v_{\text{ex}}\,dm$ with $dm < 0$, in empty space too.
+      - **Speed gained is logarithmic.** $v - v_0 = v_{\text{ex}}\ln(m_0/m)$, where $v_{\text{ex}}$ is the exhaust speed relative to the rocket and $m_0/m$ the initial to final mass ratio. Doubling the gain means squaring the ratio, and ratio $10$ gives $2.30\,v_{\text{ex}}$. The thrust $-\dot m\,v_{\text{ex}}$ does not depend on the rocket's ground speed, and gravity adds $-mg$: $m\dot v = -\dot m\,v_{\text{ex}} - mg$.
+      - **Center of mass.** $\mathbf R = \frac1M\sum m_\alpha\mathbf r_\alpha$ is a mass-weighted average, nearer the heavy mass and possibly outside the matter. It obeys $\mathbf F^{\text{ext}} = M\ddot{\mathbf R}$, so an explosion, which is internal, does not change its path.
+      - **Angular momentum and torque.** For a particle $\mathbf L = \mathbf r\times\mathbf p$ and $\dot{\mathbf L} = \mathbf N = \mathbf r\times\mathbf F$, both about a chosen origin, and both change when the origin moves. No force gives constant $\mathbf L$, not zero $\mathbf L$: a free particle on a line at distance $b$ from $O$ has $|\mathbf L| = mvb$.
+      - **Central forces.** A force along the line to $O$ gives zero torque about $O$ only, so $\mathbf L$ about the center of force is conserved and about another point is not.
+      - **Many particles.** $\dot{\mathbf L} = \mathbf N^{\text{ext}}$ needs the third law and internal forces along the line joining each pair. A sideways equal and opposite couple would change $\mathbf L$. With the internal forces central and $\mathbf N^{\text{ext}} = \mathbf 0$, $\sum m r^2\omega$ is constant, so pulling masses inward raises $\omega$ as $1/r^2$.
+
+      **Next:** the lesson Intuition: Conservation Laws, a quick recall of the rocket equation, the center of mass and the torque law, with small numeric checks.
