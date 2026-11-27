@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27 ch25-map (13 boxes, 15 cards, map, no widget)
+Built ch25/map.yaml with file: added in course.yaml; boxes follow the lesson order (meaning, Frankl, needs, Nagel, divine command, four theories, Street, proof, death, hereafters, suffering, shared goods, open questions). No archive map existed. No new external facts, so no web search (VERIFIED line lists the reused items). Choices: merged Aquinas, Mill, Kant and Aristotle into one box to stay near 13; dashed arrows from the needs box to the ethics boxes. validate 0/0, shots 0 problems. Conventions fixed here: map reuses logged facts only; Camus appears only through the suffering box.
+
 ## 2026-11-27 ch25-intuition
 Built ch25/intuition.yaml (20 cards, kind intuition, own: with 5 blanks; no widget, none: no image needed for recall cards). Cards: of/in life, grass counter, Frankl, five sources of wrongness, genetic fallacy, Street build, ground/knowledge/motivation, Nagel build, Williams, rebirth, dukkha build, suffering match, three levels, agreement build, two numeric grid counts (729, 1024; law not stated), two applied cases (refugee clinic, village meeting). No new external facts, so no web search (logged in VERIFIED). Choices: reused only facts already web-read; Craig paraphrased without quotes. Validate 0 errors, shots 0 problems. Conventions fixed here: second grid count 4^5 = 1024; invented Mia and clinic and village cases; no new facts.
 
