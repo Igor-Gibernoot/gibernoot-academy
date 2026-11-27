@@ -62,6 +62,7 @@ const WIDGETS = {
   'crash-impulse': ['crash-impulse', 'crashImpulse'],
   'track-ride': ['track-ride', 'trackRide'],
   'work-path': ['work-path', 'workPath'],
+  'potential-gradient': ['potential-gradient', 'potentialGradient'],
   'oscillator-lab': ['oscillator-lab', 'oscillatorLab'],
   'flutter-lab': ['flutter-lab', 'flutterLab'],
   'arch-thrust': ['arch-thrust', 'archThrust'],
