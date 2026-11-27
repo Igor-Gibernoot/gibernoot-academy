@@ -15,8 +15,7 @@ the rest; N = 14 to 19: two partials and a final, e.g. after Levels 7,
 planned in `course.yaml` from the start (levels `exam-partial`, or
 `exam-partial1`, `exam-partial2`, … and `exam-final`; no `file:` until
 built). **The next unit after such a level is always its exam**, before
-the next chapter's first lesson; Current blocks and next-session prompts
-must say so. Built from the professor's exam in `sources/` when there is
+the next chapter's first lesson; Current blocks must say so. Built from the professor's exam in `sources/` when there is
 one; otherwise **write an original exam** from the course's lessons (same
 format and rules, fresh numbers and setting, never a copy of a lesson
 example or challenge; check every number twice by script). One session

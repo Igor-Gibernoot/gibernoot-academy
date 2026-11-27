@@ -192,7 +192,7 @@ for).
     not trim questions or squeeze cards. Stop, split along a natural seam
     (a result that stands on its own), add the new node(s) to
     `course.yaml`, build only the first part this session, and say so in
-    the report and next-session prompt. If a written lesson ends above 25,
+    the report. If a written lesson ends above 25,
     split it the same way before committing. Never cut worked questions,
     traps or the summary to stay under the limit. **Challenges** may go to
     **32 cards** (ideally fewer); beyond that split (e.g. problems 1–3 and
@@ -334,10 +334,8 @@ one unit of work**.
 - **End of every session:** validate, shots, update `STATUS.md` (Current
   block, plus an entry of a few lines in `STATUS.log.md` ending
   "Conventions fixed here: …", copied into the chapter's section of
-  `CONVENTIONS.md`), commit and push, then **give Igor a ready-to-paste
-  prompt for the next session** naming the course and the single next unit
-  from `course.yaml`, with a ~10-line card plan (hook, widget, key
-  questions, summary) and the source lines to read.
+  `CONVENTIONS.md`), commit and push. Do **not** write a next-session
+  prompt unless Igor asks; the Current block names the next unit.
 - **`STATUS.md` is edited only with `Edit`** (small `old_string`
   replacements), never `sed`/`python`/`perl`/scripts, never by rewriting the
   whole file (scripted edits corrupted it before). Replace Current line by
