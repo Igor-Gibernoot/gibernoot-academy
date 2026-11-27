@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27 ch04-challenge part 2 (autonomous)
+Appended to `ch04/challenge.yaml` (now 32 cards, the cap): P4 free dumbbell (spin L 4.32, CM-orbit L -16, split derived on a card, total -11.68, reel-in gives omega 16); P5 thruster puff on the light end (V 0.75, omega 2.5, heavy end at rest); closing card with method and teaser to Energy; intro line now says five problems. Choices: split L = R x MV + spin derived in a card rather than quoted; angular impulse used as integral of dL/dt = r x F; no widget, no image (none: numeric problems). Conventions fixed here: s_alpha, u_alpha relative to the CM; dumbbell data above (in CONVENTIONS Chapter 4).
+
 ## 2026-11-27 ch04-challenge part 1 (autonomous)
 Built `ch04/challenge.yaml` (21 cards, registered in course.yaml): intro toolkit; P1 toy rocket with gravity (thrust/weight 4.08, burnout 1538.6 m/s, slow burn 1244.6, why, coast 120.8 km); P2 shell bursting at the top (CM lands 141.4 m, pieces 176.8 and 212.1 m, momentum check); P3 puck on a string (L = 1, v = 5 m/s, T = 31.25 N, breaks at 0.368 m, dA/dt = 1, p versus L). No closing card yet: part 2 (problems 4-5) appends it. Formulas reuse the Level 4 render checks (VERIFIED.md); no widget needed, no web facts. Images: none: toy problems, nothing concrete to picture. Fixed overflow of three displays at phone width. Conventions fixed here: toy rocket 1000 kg, 600 kg fuel, 20 kg/s, v_ex 2000 m/s; shell 3 kg at 40 m/s, 60 deg, bursting at the top into 1 and 2 kg; puck 0.5 kg at 1.0 m, 2 m/s, string pulled to 0.4 m (L = 1).
 

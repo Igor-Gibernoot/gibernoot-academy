@@ -16,7 +16,7 @@ cards:
       $$\begin{gathered} \mathbf L = \mathbf r\times\mathbf p, \qquad \frac{dA}{dt} = \frac{L}{2m}, \\ \dot{\mathbf L} = \mathbf N = \mathbf r\times\mathbf F, \end{gathered}$$
       where $dA/dt$ is the area the line from $O$ to the particle sweeps each second.
 
-      Three problems now: a rocket with gravity, a shell that explodes in flight, and a puck on a string.
+      Five problems now: a rocket with gravity, a shell that explodes in flight, a puck on a string, a spinning pair in free flight, and an off-center puff.
 
   # ---------------------------------------------------------------- Problem 1
   - type: text
@@ -331,3 +331,177 @@ cards:
           The puck moves almost along circles, so the direction of $\mathbf p$ turns all the time. The tension points inward and bends the path.
     explanation: |
       The two laws answer different questions. $\dot{\mathbf p} = \mathbf F^{\text{ext}}$ is nonzero here, because the string pulls. $\dot{\mathbf L} = \mathbf N^{\text{ext}}$ is zero, because that pull passes through $O$. Choosing the point about which to take torques is what makes angular momentum useful.
+
+  # ---------------------------------------------------------------- Problem 4
+  - type: text
+    id: p4-setup
+    title: 'Problem 4: a spinning pair in free flight'
+    body: |
+      Far from any planet, a toy dumbbell drifts and spins: a $1\ \mathrm{kg}$ particle and a $3\ \mathrm{kg}$ particle on a light rod of length $1.2\ \mathrm{m}$. Its center of mass $\mathbf R$ lies $0.9\ \mathrm{m}$ from the $1\ \mathrm{kg}$ end and $0.3\ \mathrm{m}$ from the $3\ \mathrm{kg}$ end. The center of mass moves in a straight line at $V = 2\ \mathrm{m/s}$ along $+x$, on the line $y = 2\ \mathrm{m}$, and the rod turns about it counterclockwise at $\omega = 4\ \mathrm{rad/s}$. No external force acts.
+
+      Take the origin $O$ at the point $(0, 0)$ and $z$ out of the page, so counterclockwise turning is positive. How much angular momentum about $O$ does the pair carry, and what does it keep when its rod is shortened?
+
+  - type: numeric
+    id: p4-spin
+    prompt: |
+      Particles of $1\ \mathrm{kg}$ and $3\ \mathrm{kg}$ circle their center of mass at $0.9\ \mathrm{m}$ and $0.3\ \mathrm{m}$, at the same angular speed $\omega = 4\ \mathrm{rad/s}$ (so the speeds relative to the center of mass are $\omega r$). Find the angular momentum of the pair **about its center of mass**, $L_{\text{spin}} = \sum m_\alpha r_\alpha\,(\omega r_\alpha)$, in $\mathrm{kg\,m^2/s}$.
+    answer: 4.32
+    tolerance: 0.01
+    answerText: '4.32'
+    wrong:
+      - { value: 3.24, feedback: 'That is the $1\ \mathrm{kg}$ particle alone, $1 \times 0.9 \times 3.6$. The $3\ \mathrm{kg}$ particle circles too and adds its own angular momentum.' }
+      - { value: 2.16, feedback: 'That is half of the total. The light end contributes $3.24$ and the heavy end $1.08$, and they add, since both turn the same way.' }
+    hint: |
+      For each particle $L = r\,m\,v$ with $v = \omega r$, since the velocity is perpendicular to the radius.
+    explanation: |
+      $$\begin{aligned} L_{\text{spin}} &= 1 \times 0.9 \times 3.6 + 3 \times 0.3 \times 1.2 \\ &= 3.24 + 1.08 = 4.32\ \mathrm{kg\,m^2/s}. \end{aligned}$$
+      The light particle, far from the center of mass, gives three times the angular momentum of the heavy one: its $r^2$ is nine times larger and its mass three times smaller.
+
+  - type: numeric
+    id: p4-orbit
+    prompt: |
+      The whole pair has $M = 4\ \mathrm{kg}$ and its center of mass moves at $2\ \mathrm{m/s}$ along $+x$ on the line $y = 2\ \mathrm{m}$. Treat the center of mass as one particle of mass $M$ and find $L_z = x\,P_y - y\,P_x$ about the origin $O$, in $\mathrm{kg\,m^2/s}$. (With $z$ out of the page, counterclockwise is positive.)
+    answer: -16
+    tolerance: 0.05
+    answerText: '-16'
+    wrong:
+      - { value: 16, feedback: 'The size is right, the sign is not. A particle moving to the right above $O$ circles it clockwise, which is negative for $z$ out of the page.' }
+      - { value: -4, feedback: 'That is $y\,V$ without the mass. The momentum is $P = MV = 8\ \mathrm{kg\,m/s}$, so $L_z = -yP_x = -2 \times 8$.' }
+    hint: |
+      $\mathbf P = (8, 0)$ and $\mathbf R = (X, 2)$. The value does not depend on $X$.
+    explanation: |
+      $$\begin{aligned} L_z &= X\,P_y - Y\,P_x \\ &= X \times 0 - 2 \times 8 = -16\ \mathrm{kg\,m^2/s}. \end{aligned}$$
+      It does not depend on $X$, as for the free particle of the lesson on angular momentum: the line stays at the same distance from $O$.
+
+  - type: mcq
+    id: p4-split
+    prompt: |
+      Write each particle's position as $\mathbf r_\alpha = \mathbf R + \mathbf s_\alpha$ and its momentum as $\mathbf p_\alpha = m_\alpha(\mathbf V + \mathbf u_\alpha)$, where $\mathbf s_\alpha$ and $\mathbf u_\alpha$ are measured from the center of mass, so that $\sum m_\alpha\mathbf s_\alpha = \mathbf 0$ and $\sum m_\alpha\mathbf u_\alpha = \mathbf 0$. Why does the total $\mathbf L = \sum\mathbf r_\alpha\times\mathbf p_\alpha$ equal $\mathbf R\times M\mathbf V + \sum m_\alpha\,\mathbf s_\alpha\times\mathbf u_\alpha$ and nothing more?
+    options:
+      - text: Of the four products in the expansion, the two mixed ones contain $\sum m_\alpha\mathbf s_\alpha$ or $\sum m_\alpha\mathbf u_\alpha$, which vanish
+        correct: true
+      - text: The internal forces between the particles cancel in the sum
+        feedback: |
+          Internal forces are not needed for this split. It is an identity about positions and velocities, true at every instant, and it holds even if the particles interact in some other way.
+      - text: The center of mass is at rest, so $\mathbf V = \mathbf 0$
+        feedback: |
+          Here $\mathbf V = 2\ \mathrm{m/s}$, so the first term is $-16$, not zero. The split holds whatever $\mathbf V$ is.
+      - text: The rod is light, so it carries no angular momentum
+        feedback: |
+          The rod's mass does play no role, but that is not the reason. The mixed terms vanish because the positions and velocities relative to the center of mass are mass-weighted sums of zero.
+    explanation: |
+      $$\begin{aligned} \mathbf L &= \mathbf R\times M\mathbf V + \Big(\sum m_\alpha\mathbf s_\alpha\Big)\times\mathbf V \\ &\quad + \mathbf R\times\sum m_\alpha\mathbf u_\alpha \\ &\quad + \sum m_\alpha\,\mathbf s_\alpha\times\mathbf u_\alpha. \end{aligned}$$
+      The two middle terms are zero, leaving the angular momentum of the center of mass as one particle, plus the spin about it.
+
+  - type: numeric
+    id: p4-total
+    prompt: |
+      A pair has $L_z = -16\ \mathrm{kg\,m^2/s}$ from the motion of its center of mass about $O$, and a spin about its center of mass of $+4.32\ \mathrm{kg\,m^2/s}$ (counterclockwise). The total angular momentum is the sum of the two parts. What is the total $L_z$ about $O$, in $\mathrm{kg\,m^2/s}$?
+    answer: -11.68
+    tolerance: 0.02
+    answerText: '-11.68'
+    wrong:
+      - { value: -20.32, feedback: 'That subtracts the spin, as if it were clockwise. The rod turns counterclockwise, which is positive, and it partly cancels the $-16$.' }
+      - { value: -16, feedback: 'That leaves out the spin. The particles also circle the center of mass, and that angular momentum adds to the part from the motion of the center of mass.' }
+    hint: |
+      Add with signs: $-16 + 4.32$.
+    explanation: |
+      $$L_z = -16 + 4.32 = -11.68\ \mathrm{kg\,m^2/s}.$$
+      No external force acts, so $\mathbf N^{\text{ext}} = \mathbf 0$ and this total stays fixed.
+
+  - type: numeric
+    id: p4-reel
+    prompt: |
+      The two ends are joined by a string reeled in by internal forces, so that their distances from the center of mass halve, from $0.9$ and $0.3\ \mathrm{m}$ to $0.45$ and $0.15\ \mathrm{m}$. No external force acts. The center of mass keeps moving at $2\ \mathrm{m/s}$ on the line $y = 2\ \mathrm{m}$, so its part of $L_z$ stays $-16$, and the total about $O$ is fixed at $-11.68$. The spin part is $L_{\text{spin}} = \sum m_\alpha r_\alpha(\omega r_\alpha)$. What is the new angular speed $\omega$, in rad/s?
+    answer: 16
+    tolerance: 0.05
+    answerText: '16'
+    wrong:
+      - { value: 8, feedback: 'That is $\omega$ doubled, as if $L_{\text{spin}}$ depended on $r$ to the first power. It contains $r^2$, so halving every $r$ divides the sum by $4$.' }
+      - { value: 4, feedback: 'That is the starting value. The spin part must stay at $4.32$, but its radii are smaller, so $\omega$ has to change.' }
+    hint: |
+      The total is fixed, and so is the part from the center of mass, hence $L_{\text{spin}} = 4.32$ stays. Compute $\sum m_\alpha r_\alpha^2$ for the new radii.
+    explanation: |
+      $$\begin{aligned} 4.32 &= \omega\,(1 \times 0.45^2 + 3 \times 0.15^2) \\ &= 0.27\,\omega \end{aligned}$$
+      so $\omega = 16\ \mathrm{rad/s}$, four times faster. This is the skater again: the internal forces are central, so they change the spin only by reshaping the pair, and halving the radii multiplies the angular speed by four.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: text
+    id: p5-setup
+    title: 'Problem 5: an off-center puff'
+    body: |
+      The same dumbbell, $1\ \mathrm{kg}$ at $x = -0.9\ \mathrm{m}$ and $3\ \mathrm{kg}$ at $x = +0.3\ \mathrm{m}$ (center of mass at the origin $O$, rod along $x$), now sits at rest in empty space. A small thruster on the $1\ \mathrm{kg}$ end fires a short puff: it throws $0.01\ \mathrm{kg}$ of gas at $300\ \mathrm{m/s}$ in the $-y$ direction, perpendicular to the rod. The gas lost is so small that the mass of the dumbbell stays $4\ \mathrm{kg}$.
+
+      As in the rocket, the gas carries momentum $0.01 \times 300 = 3\ \mathrm{kg\,m/s}$ backward, so the dumbbell receives a push (an impulse) $J = 3\ \mathrm{N\,s}$ in the $+y$ direction at the $1\ \mathrm{kg}$ end, in a time too short for the rod to turn meanwhile. How does it move afterward?
+
+  - type: numeric
+    id: p5-V
+    prompt: |
+      A dumbbell of total mass $M = 4\ \mathrm{kg}$ at rest in empty space receives an impulse $J = 3\ \mathrm{N\,s}$ in the $+y$ direction, applied at one end. With $\mathbf F^{\text{ext}} = M\ddot{\mathbf R}$ integrated over the push, so that $J = M\,\Delta V$, what is the speed of its center of mass just afterward, in metres per second?
+    answer: 0.75
+    tolerance: 0.005
+    answerText: '0.75'
+    wrong:
+      - { value: 3, feedback: 'That is the speed of a $1\ \mathrm{kg}$ body given this impulse alone. The impulse acts on the whole dumbbell through the rod, and the center of mass moves with the total mass $4\ \mathrm{kg}$.' }
+      - { value: 0, feedback: 'The push is external, so it does change the momentum of the whole pair. Where it is applied matters for the spin, not for the motion of the center of mass.' }
+    hint: |
+      $J = M\,\Delta V$, from rest.
+    explanation: |
+      $$V = \frac{J}{M} = \frac{3}{4} = 0.75\ \mathrm{m/s}$$
+      along $+y$, the same as if the impulse had been given at the center of mass.
+
+  - type: numeric
+    id: p5-omega
+    prompt: |
+      The impulse $J = 3\ \mathrm{N\,s}$ along $+y$ acts at the point $x = -0.9\ \mathrm{m}$, so its angular impulse about the origin $O$ is $|\mathbf r\times\mathbf J| = 0.9 \times 3$, the time integral of $\dot{\mathbf L} = \mathbf r\times\mathbf F$. The dumbbell started at rest. Just afterward its center of mass is still at $O$, so (as in the split of the angular momentum) $L$ about $O$ is the spin $\sum m_\alpha r_\alpha(\omega r_\alpha)$ about the center of mass, with $r = 0.9$ and $0.3\ \mathrm{m}$. What is the angular speed $\omega$ it acquires, in rad/s?
+    answer: 2.5
+    tolerance: 0.01
+    answerText: '2.5'
+    wrong:
+      - { value: 2.7, feedback: 'That is the angular momentum $0.9 \times 3$ itself. It must be divided by $\sum m_\alpha r_\alpha^2 = 1.08$ to give the angular speed.' }
+      - { value: 0.75, feedback: 'That is the speed of the center of mass, which says nothing about the turning. The turning comes from the angular momentum $2.7$ shared over $\sum m_\alpha r_\alpha^2$.' }
+    hint: |
+      $\sum m_\alpha r_\alpha^2 = 1 \times 0.9^2 + 3 \times 0.3^2$.
+    explanation: |
+      $$\begin{aligned} 1.08\,\omega &= 0.9 \times 3 = 2.7 \\ \omega &= 2.5\ \mathrm{rad/s}. \end{aligned}$$
+      The rod turns clockwise, since the push on the left end is upward.
+
+  - type: mcq
+    id: p5-rest
+    prompt: |
+      A dumbbell ($1\ \mathrm{kg}$ at $x = -0.9\ \mathrm{m}$, $3\ \mathrm{kg}$ at $x = +0.3\ \mathrm{m}$) was at rest and got an impulse $3\ \mathrm{N\,s}$ along $+y$ at the $1\ \mathrm{kg}$ end. Afterward its center of mass moves at $0.75\ \mathrm{m/s}$ along $+y$ and the rod turns clockwise at $2.5\ \mathrm{rad/s}$. What is the velocity of the $3\ \mathrm{kg}$ end just afterward?
+    options:
+      - text: Zero, because the $0.75\ \mathrm{m/s}$ of the center of mass is cancelled by the spin velocity, $2.5 \times 0.3 = 0.75\ \mathrm{m/s}$ the other way
+        correct: true
+      - text: $0.75\ \mathrm{m/s}$ along $+y$, the velocity of the center of mass
+        feedback: |
+          Only the center of mass moves at $\mathbf V$. Each end has $\mathbf V$ plus its own spin velocity, and the clockwise turn sends the right end downward at $2.5 \times 0.3 = 0.75\ \mathrm{m/s}$.
+      - text: $0.75 + 0.75 = 1.5\ \mathrm{m/s}$ along $+y$, because the spin adds to the motion
+        feedback: |
+          The sign of the spin velocity depends on the side. The turn is clockwise, so the left end goes up and the right end goes down.
+      - text: $2.25\ \mathrm{m/s}$ along $-y$, the opposite of the light end
+        feedback: |
+          Adding the spin velocity to $0.75\ \mathrm{m/s}$ gives $0$ for the heavy end, not a backward motion. The light end is the one that moves fast, upward at $0.75 + 2.5 \times 0.9 = 3.0\ \mathrm{m/s}$.
+    explanation: |
+      The $3\ \mathrm{kg}$ end moves at $0.75 - 2.5 \times 0.3 = 0$, and the $1\ \mathrm{kg}$ end at $0.75 + 2.5 \times 0.9 = 3.0\ \mathrm{m/s}$. Check: the total momentum is $1 \times 3.0 + 3 \times 0 = 3\ \mathrm{kg\,m/s} = J$, and the push was given only to the light end, which now carries all of it.
+
+  # ---------------------------------------------------------------- Closing
+  - type: text
+    id: closing
+    title: What you now own
+    body: |
+      Each problem came from one of two questions: what do the external forces do to the whole, and what do the internal forces leave alone?
+
+      **Method.** A rocket gains speed from the mass it throws back:
+      $$v = v_{\text{ex}}\ln\frac{m_0}{m} - g\,t.$$
+      For any system the center of mass obeys
+      $$\mathbf F^{\text{ext}} = M\ddot{\mathbf R},$$
+      whatever happens inside, so a burst or a spin cannot move it. Angular momentum about a chosen point obeys
+      $$\dot{\mathbf L} = \mathbf N^{\text{ext}} = \sum\mathbf r_\alpha\times\mathbf F^{\text{ext}}_\alpha,$$
+      so a force through that point (the string through the hole) changes nothing, and with no external torque $\mathbf L$ is fixed. A moving, spinning pair has
+      $$\mathbf L = \mathbf R\times M\mathbf V + \sum m_\alpha\,\mathbf s_\alpha\times\mathbf u_\alpha,$$
+      the motion of the center of mass plus the spin about it, and an off-center push feeds both parts.
+
+      **Habit.** Pick the point first. Check which forces are external, and whether their torque about it vanishes. Then use the one conservation law that applies, and let the rest of the problem be arithmetic.
+
+      **Next:** the pieces of the shell flew apart faster than the shell had flown, and the string did work on the puck as it sped up. Momentum alone does not say where that energy comes from. The next level, Energy, builds the other conserved quantity.

@@ -25,7 +25,8 @@
 - **Built:** `ch04-intuition` (Level 4, intuition, 15 cards, no widget, no image).
 - **Built:** `ch04-map` (Level 4, map, 6 boxes: momentum, rocket, center of mass, angular momentum, equal areas, many particles).
 - **Built:** `ch04-challenge` part 1 (21 cards: rocket with gravity and burn rate, shell bursting at the top with the CM landing, puck on a string pulled through a hole; no widget, no image).
-- **Next unit:** `ch04-challenge` part 2 (problems 4-5, append to `ch04/challenge.yaml`, plus closing card with teaser to energy), then the Level 4 audit. The exam (`exam-partial1`) comes only after Level 6.
+- **Built:** `ch04-challenge` part 2 (32 cards in all: problem 4 spinning pair in free flight, orbital plus spin L, reeling in; problem 5 off-center thruster puff; closing card with teaser to Energy). Level 4 content is built.
+- **Next unit:** the Level 4 audit, then Level 5 (Energy). The exam (`exam-partial1`) comes only after Level 6.
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
