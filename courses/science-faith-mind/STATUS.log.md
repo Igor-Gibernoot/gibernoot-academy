@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27 ch25-traps (23 cards, traps, no widget, no images: none needed for fast misconception questions)
+Twenty-one MCQs plus welcome and summary, built only on facts already web-read in the Level 25 lessons (see VERIFIED line), so no new web search was needed; drafted claims not in VERIFIED (Nagel on endless life, Frankl on avoidable suffering, Jewish mystical rebirth, Buddhist schools, 'minority' mortalism) were removed. Choices made autonomously: one trap per lesson topic plus two layer cards; no numeric card. Conventions fixed here: traps reuse only logged facts; Nagel's absurd is the clash of two standpoints, not size.
+
 ## 2026-11-27 ch25-synthesis (19 cards, concept, no widget, 2 reused images: Chalmers, Barbour)
 Closing map: three kinds of disagreement, six fault lines, k^q grid count, no verdict. Widgets checked (README grep sort/map/grid/match/position): none fits; a plain mcq sort sufficed. Choices made autonomously: named only three external facts (Barbour 2000, Chalmers 1995, Leibniz 1714), all web-read; everything else refers to earlier lessons by title. Images: none new (reused chalmers.webp, barbour.webp). validate 0/0, shots 0 problems. Conventions fixed here: three kinds of disagreement (evidence / premise or interpretation / commitment); six fault lines; k^q = 3^6 = 729 as an upper bound ('grid, not two camps'); disagreement does not imply all positions equal.
 
