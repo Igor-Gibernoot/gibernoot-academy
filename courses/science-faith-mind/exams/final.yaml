@@ -1,0 +1,463 @@
+id: exam-final
+title: Final Exam
+kind: exam
+
+# Exam lesson (js/exam.js). Original exam (no professor's exam): all numbers checked by script (twice).
+# Covers Levels 20 to 25. Five questions of 2 points; every question restates what it needs.
+
+minutes: 90
+
+rules: |
+  This is the **Final Exam** on Levels 20 to 25: Spiritism, aliens and the cosmic perspective, religious language, faith and knowledge, philosophies of life, and meaning, ethics and death.
+
+  - **Ninety minutes**, **10 points**, 5 questions worth 2 points each, split into small parts. The bar at the top counts the time down; when it ends, the exam is submitted for you.
+  - **No feedback while you work.** Pick or type an answer and press *Next*. You can go back and change any answer until you submit.
+  - Each card shows its points. Some questions let you select **all** that apply; read the card.
+  - At the end, a submit slide shows which questions are still empty. **Unanswered questions count as wrong.**
+  - After submitting you get your score and a **review** of every card: your answer, the correct one, why each tempting wrong answer fails, and the explanation.
+  - Work on **paper first** and keep your notes closed. Numeric answers may be typed as decimals; three decimals are enough unless the card says otherwise.
+  - The exam never asks you to say which view of God, meaning or death is right. It asks what a view says, what a number shows, and what a claim must pay for.
+
+  The setting (a closing symposium) is the first card. Every question restates what it needs.
+
+debrief: |
+  Use the review to see where points went. The skills behind the five questions (2 points each):
+
+  - **Testing claims of messages** (Q1): the false-positive rate of a test fixed in advance, the binomial chance $P(X\ge t\mid p_0)$, the likelihood ratio $\text{LR}=1/q^{\,n}$ for $n$ independent witnesses, Bayes in odds form
+    $$\text{posterior odds}=\text{LR}\cdot\text{prior odds},$$
+    and why mediums who share one source count as one witness.
+  - **The cosmic perspective** (Q2): the Drake product $N=R_*\,f_p\,n_e\,f_l\,f_i\,f_c\,L$, Gott's interval from $\tfrac{1-c}{1+c}\,t_\text{past}$ to $\tfrac{1+c}{1-c}\,t_\text{past}$, and what finding a second origin of life would mean for the Great Filter.
+  - **Religious language and the ethics of belief** (Q3): sense and reference, Austin's performatives, James's break-even $p>c/(g+c)$ for a commitment, and the pooling of independent evidence $o_\text{pooled}=o_Ao_B/o_0$.
+  - **Philosophies of life** (Q4): what is up to us for the Stoics, the Pyrrhonist road from equal opposed arguments to *epoché* and *ataraxia*, Nietzsche's diagnosis as a premise-and-step argument, and James's three marks of a genuine option.
+  - **Meaning, ethics and death** (Q5): the count $k^q$ of combinations of positions, Street's argument from evolved beliefs and what it concludes, the quarrel between Nagel and Epicurus about whether death can harm, and the Buddhist diagnosis with a cure.
+
+  **Next:** the trail is complete. Go back to the content maps and the reviews of any level: the open questions are the same, and each time you meet them you will see more of what a view must pay for.
+
+cards:
+  - type: text
+    id: setting
+    title: The setting, the Hollowfield Symposium
+    body: |
+      The **Hollowfield Symposium** is a closing weekend of five sessions: on testing a medium's messages, on the search for life beyond Earth, on how religious sentences work and what faith may rest on, on philosophies of life, and on meaning, ethics and death.
+
+      The questions are independent. **Every question restates what it needs.** Probabilities are decimals; "odds" means the probability of a hypothesis divided by the probability of its rival. Where a view is described, it is described *according to* someone: the exam asks what follows from it, not whether it is true. All mediums, civilisations, villages, people, tests and numbers marked as invented are invented for the exam.
+
+  # ------------------------------------------------------------- Question 1
+  - type: numeric
+    id: q1-chance
+    points: 0.7
+    tag: Question 1 · Testing claims of messages
+    title: (a) A threshold fixed in advance
+    prompt: |
+      An invented medium, Orrin Vale, claims to name which of $4$ sealed envelopes holds a hidden card. A blind test has $n=8$ trials. In each trial the envelopes are shuffled and the choice is a guess unless Orrin has a real source of information. The test counts a pass if he is right in **at least $5$** of the $8$ trials, a threshold fixed before the test.
+
+      If he only guesses, with chance $p_0=\tfrac14$ per trial, what is the probability of a pass, the false-positive rate? (Three decimals.)
+    answer: 0.027
+    tolerance: 0.001
+    answerText: 'P(X ≥ 5) = Σ C(8,k)(1/4)^k(3/4)^(8-k) ≈ 0.027'
+    wrong:
+      - value: 0.114
+        feedback: |
+          This is $P(X\ge4)$, one threshold lower. The pass needs **at least $5$** hits.
+      - value: 0.004
+        feedback: |
+          This is $P(X\ge6)$. The pass starts at $5$ hits, so the sum begins at $k=5$.
+      - value: 0.625
+        feedback: |
+          This is the hit **rate** $5/8$ needed for a pass, not the probability that guessing reaches it.
+    explanation: |
+      The number of hits $X$ follows the binomial law with $n=8$ and $p_0=\tfrac14$:
+      $$P(X\ge5)=\sum_{k=5}^{8}\binom8k\Big(\tfrac14\Big)^k\Big(\tfrac34\Big)^{8-k}\approx0.0273.$$
+      The sum is the false-positive rate: how often pure guessing passes the test. It is small because the threshold was fixed in advance, and it would rise if the threshold were moved after seeing the data.
+
+  - type: numeric
+    id: q1-posterior
+    points: 0.7
+    tag: Question 1 · Testing claims of messages
+    title: (b) Three mediums, one answer
+    prompt: |
+      In another invented test, $n=3$ mediums who never met each other give the **same** answer to a question. Suppose that, with no real source behind them, each would give that answer with chance $q=0.4$ independently, while with a real source the answer would be given for sure. Take prior odds $1{:}500$ in favour of a real source (odds $0.002$).
+
+      Use the likelihood ratio $\text{LR}=1/q^{\,n}$ and Bayes' rule in odds form. What is the posterior **probability** of a real source? (Three decimals.)
+    answer: 0.030
+    tolerance: 0.002
+    answerText: 'LR = 1/0.4^3 = 15.625; odds = 15.625 × 0.002 = 0.03125; P = 0.03125/1.03125 ≈ 0.030'
+    wrong:
+      - value: 0.031
+        feedback: |
+          $0.03125$ is the posterior **odds**. Convert to a probability with $O/(1+O)$, which gives about $0.030$.
+      - value: 0.94
+        feedback: |
+          This is $\text{LR}/(1+\text{LR})$, which ignores the prior. A strong agreement does not cancel a prior of $1{:}500$.
+      - value: 15.625
+        feedback: |
+          This is only the likelihood ratio. It must be multiplied by the prior odds and then turned into a probability.
+    explanation: |
+      The agreement is $1/q^{\,n}=1/0.4^3=15.625$ times likelier with a real source than without. Posterior odds are
+      $$15.625\times0.002=0.03125,$$
+      and the probability is $0.03125/1.03125\approx0.030$. Agreement helps a lot, but a low prior stays low, and the whole result depends on the three answers being independent.
+
+  - type: mcq
+    id: q1-share
+    points: 0.6
+    tag: Question 1 · Testing claims of messages
+    title: (c) The same three, with one source
+    prompt: |
+      Three invented mediums give the same answer to a question. With no real source, each would give it with chance $q=0.4$, and the likelihood ratio for $n$ independent witnesses is $1/q^{\,n}$. Suppose the three had all read the same pamphlet, or had all been told the answer by the same organiser, before the test. How should the agreement be counted?
+    options:
+      - text: As one witness, $n=1$. Mediums who share one source repeat that source, so the likelihood ratio is $1/q=2.5$ and the posterior stays low.
+        correct: true
+      - text: As three witnesses, $n=3$, because three people are still three people.
+        feedback: |
+          The formula needs **independent** witnesses. Three people who copy one source are one witness repeated three times.
+      - text: As zero evidence, since any agreement among mediums is worthless.
+        feedback: |
+          Agreement among truly independent mediums would count. The shared source reduces it to one witness, which still has $\text{LR}=1/q$ and is weak, not nothing.
+      - text: As stronger than three independent witnesses, because a shared source makes the answer more reliable.
+        feedback: |
+          A shared source makes the answers agree whether or not the source is real, so the agreement is less informative, not more.
+    explanation: |
+      The product $q^n$ assumes independence. If the answers all come from one shared source, then given that source they agree with certainty, and the agreement tests nothing beyond the one source: $n=1$, $\text{LR}=1/0.4=2.5$. This is the usual reason researchers separate mediums and seal answers before comparing them.
+
+  # ------------------------------------------------------------- Question 2
+  - type: numeric
+    id: q2-drake
+    points: 0.7
+    tag: Question 2 · The cosmic perspective
+    title: (a) A Drake count
+    prompt: |
+      The Drake equation counts the civilisations in a galaxy that send signals we could detect now:
+      $$N=R_*\,f_p\,n_e\,f_l\,f_i\,f_c\,L$$
+      where $R_*$ is stars formed per year, $f_p$ the fraction with planets, $n_e$ the habitable planets per such star, $f_l$ the fraction where life starts, $f_i$ where intelligence appears, $f_c$ where detectable technology appears, and $L$ the years a civilisation keeps signalling.
+
+      For an invented galaxy take $R_*=2$, $f_p=0.9$, $n_e=0.4$, $f_l=0.1$, $f_i=0.05$, $f_c=0.2$ and $L=500$. What is $N$? (Two decimals.)
+    answer: 0.36
+    tolerance: 0.005
+    answerText: 'N = 2 × 0.9 × 0.4 × 0.1 × 0.05 × 0.2 × 500 = 0.36'
+    wrong:
+      - value: 0.036
+        feedback: |
+          This is one factor of ten too small. Recompute the product, and check $L=500$ and $f_c=0.2$.
+      - value: 3.6
+        feedback: |
+          This is one factor of ten too large, as if $L$ were $5000$. The lifetime is $500$ years.
+      - value: 0.00072
+        feedback: |
+          This is the product of the first six factors, without the lifetime $L$. Births per year must be multiplied by the years a signal lasts.
+    explanation: |
+      Multiply step by step: $2\times0.9=1.8$, times $0.4$ is $0.72$, times $0.1$ is $0.072$, times $0.05$ is $0.0036$, times $0.2$ is $0.00072$ civilisations born per year that become detectable, and times $L=500$ years gives $N=0.36$. Since $N\propto L$, cutting $L$ by $10$ would cut $N$ by $10$. A value below $1$ is compatible with an empty galaxy now.
+
+  - type: numeric
+    id: q2-gott
+    points: 0.7
+    tag: Question 2 · The cosmic perspective
+    title: (b) How long might a signal last?
+    prompt: |
+      Gott's rule says that if we meet something at a uniformly random moment of its life, then with confidence $c$ its future $t_\text{future}$ lies between
+      $$\frac{1-c}{1+c}\,t_\text{past}\quad\text{and}\quad\frac{1+c}{1-c}\,t_\text{past}.$$
+      An invented transmitter has been broadcasting for $t_\text{past}=80$ years when we first notice it. Using $c=0.95$, what is the **upper** end of the interval for its future, in years?
+    answer: 3120
+    tolerance: 5
+    answerText: '(1.95/0.05) × 80 = 39 × 80 = 3120 years'
+    wrong:
+      - value: 2.05
+        feedback: |
+          This is the **lower** end, $80/39$. The question asks for the upper end.
+      - value: 240
+        feedback: |
+          This multiplies by $3$, the factor for $c=0.5$. At $c=0.95$ the factor is $39$.
+      - value: 3200
+        feedback: |
+          This multiplies by $40$. The factor is $(1+c)/(1-c)=1.95/0.05=39$.
+    explanation: |
+      The upper factor is $(1+0.95)/(1-0.95)=1.95/0.05=39$, so $t_\text{future}\le39\times80=3120$ years, and the lower end is $80/39\approx2.05$ years. The rule uses only our position in the life of the thing: it does not know what the transmitter is, so it states a wide interval and does not say what the signal means.
+
+  - type: mcq
+    id: q2-filter
+    points: 0.6
+    tag: Question 2 · The cosmic perspective
+    title: (c) A second origin of life
+    prompt: |
+      According to the Great Filter reading of the Fermi question, some step between dead matter and a lasting, visible civilisation is very unlikely, so the galaxy looks empty. Suppose a probe finds clear signs that life began **independently** a second time on another world in our own system. How would a defender of the Great Filter read this?
+    options:
+      - text: It moves the filter away from the origin of life, so it is less likely to lie behind us and more likely to lie ahead of us. That is why some argue it would be bad news for our own future.
+        correct: true
+      - text: It proves that civilisations like ours are common.
+        feedback: |
+          A second origin shows that life is easy to start. It says nothing yet about the later steps, such as intelligence and lasting technology.
+      - text: It shows the Great Filter does not exist.
+        feedback: |
+          The filter argument starts from the silence of the galaxy, which remains. A second origin changes where the filter probably lies, not whether the silence needs explaining.
+      - text: It has no bearing on the filter, because life and civilisation are separate questions.
+        feedback: |
+          They are separate steps, but they are steps of one chain. If an early step is easy, the unlikely step must be one of the others, which is the point of the argument.
+    explanation: |
+      If life starts easily, the hard step cannot be the origin of life, so it sits among later steps, some of which may still lie ahead of us. This is a conditional reading: the finding itself would be established, the position of the filter is a live debate, and nothing here says whether anyone is out there.
+
+  # ------------------------------------------------------------- Question 3
+  - type: mcq
+    id: q3-sense
+    points: 0.5
+    tag: Question 3 · Religious language and the ethics of belief
+    title: (a) Two descriptions of one lamp
+    prompt: |
+      In an invented village, "the lamp at the bridge" and "the lamp that was lit first" both describe one and the same lamp, though villagers do not all know it. According to Frege's distinction between sense and reference, which is correct?
+    options:
+      - text: The two phrases have the same reference (the lamp) and different senses (different ways of presenting it). That is why "the lamp at the bridge is the lamp that was lit first" can be news.
+        correct: true
+      - text: They have the same sense and the same reference, so the sentence says nothing new.
+        feedback: |
+          If the sense were the same, the sentence would be as empty as "the lamp is the lamp". It can be informative because the senses differ.
+      - text: They have different references, because they were learned in different ways.
+        feedback: |
+          The reference is the thing picked out, and here it is one lamp. How the phrase was learned belongs to the sense, if to anything.
+      - text: They have the same sense and different references.
+        feedback: |
+          This reverses the distinction. Sense is the way of presenting; reference is the object presented.
+    explanation: |
+      Frege separates the **reference** (the thing an expression picks out) from the **sense** (how it presents it). "The morning star" and "the evening star" share a reference but differ in sense, and so does this pair. The same split matters for religious language: two descriptions of God can pick out one being by different routes, or two beings, and the dispute is about which.
+
+  - type: mcq
+    id: q3-perform
+    points: 0.5
+    tag: Question 3 · Religious language and the ethics of belief
+    title: (b) A sentence that does something
+    prompt: |
+      At a ceremony in an invented town, a visitor who holds no office says, in the right words, "I declare this bridge open." According to Austin, which description fits?
+    options:
+      - text: 'A performative that **misfires**: the words are right but the speaker lacks the authority, so the act fails and is unhappy, whether or not anything he says is false.'
+        correct: true
+      - text: A constative that is false, because the bridge is not opened.
+        feedback: |
+          A constative reports and is true or false. Here the sentence is meant to do something, so the test is happy or unhappy, not true or false.
+      - text: A performative that is an abuse, because the visitor lied about his office.
+        feedback: |
+          An abuse is an act done insincerely, where the procedure is valid but the speaker does not mean it. Here the procedure itself fails because the speaker is not authorised.
+      - text: A sentence that is meaningless, because it could not be verified.
+        feedback: |
+          It is understood by everyone present. Austin's point is that a sentence can be meaningful and still be neither true nor false.
+    explanation: |
+      According to Austin, a **constative** is true or false, and a **performative** is happy or unhappy. A performative **misfires** when the act fails (no authority, wrong formula) and is an **abuse** when it is carried out insincerely. This matters for rituals such as "I baptize you": a believer and a critic can agree about the words and disagree about whether the act succeeded.
+
+  - type: numeric
+    id: q3-james
+    points: 0.5
+    tag: Question 3 · Religious language and the ethics of belief
+    title: (c) A break-even for a commitment
+    prompt: |
+      In James's style of argument, committing to a hypothesis $H$ gains $g$ if $H$ is true and costs $c$ if $H$ is false, while withholding pays $0$. With $p$ the chance that $H$ is true, committing is worth it when
+      $$p>\frac{c}{g+c}.$$
+      In an invented case $g=9$ and $c=3$. What is the break-even probability? (A decimal.)
+    answer: 0.25
+    tolerance: 0.005
+    answerText: '3/(9+3) = 0.25'
+    wrong:
+      - value: 0.75
+        feedback: |
+          This is $g/(g+c)$, the opposite ratio. The threshold has the **cost** on top: a larger cost raises it.
+      - value: 0.333
+        feedback: |
+          This is $c/g=3/9$. The denominator is the sum $g+c=12$, not $g$ alone.
+      - value: 0.5
+        feedback: |
+          $0.5$ would be the threshold only if gain and cost were equal. Here the gain is three times the cost, which lowers it.
+    explanation: |
+      $$p>\frac{c}{g+c}=\frac{3}{9+3}=0.25.$$
+      Committing breaks even when the expected gain $pg$ equals the expected cost $(1-p)c$. The threshold falls toward $0$ as $g$ grows and rises toward $1$ as $c$ grows. Whether faith is a bet of this kind at all is what fideists dispute, and the formula does not say what $p$ should be.
+
+  - type: numeric
+    id: q3-pool
+    points: 0.5
+    tag: Question 3 · Religious language and the ethics of belief
+    title: (d) Two peers, independent evidence
+    prompt: |
+      Two equally able peers, Ana and Bruno, study a hypothesis $H$ with the same prior odds $o_0=0.5$. Ana, from her own evidence, ends at odds $o_A=6$. Bruno, from **different and independent** evidence, ends at $o_B=4$. When independent evidence is pooled on a shared prior,
+      $$o_\text{pooled}=\frac{o_A\,o_B}{o_0}.$$
+      What are the pooled odds?
+    answer: 48
+    tolerance: 0.5
+    answerText: '6 × 4 / 0.5 = 48'
+    wrong:
+      - value: 5
+        feedback: |
+          This is the average of $6$ and $4$, the split-the-difference rule for equal peers. That rule is for when the two reached their credences from the same evidence. Here the evidence is independent, so it adds up.
+      - value: 24
+        feedback: |
+          This multiplies $o_A$ and $o_B$ but forgets to divide by the shared prior $o_0$, which both of them started from and would otherwise be counted twice.
+      - value: 12
+        feedback: |
+          This divides by $o_0$ only once, from $6\times 4/2$. Dividing by $0.5$ multiplies by $2$.
+    explanation: |
+      Each peer's odds are the prior times a likelihood ratio from her or his own evidence: $o_A=\text{LR}_A\,o_0=6$ and $o_B=\text{LR}_B\,o_0=4$. The two ratios multiply, so the pooled odds are $\text{LR}_A\,\text{LR}_B\,o_0=o_Ao_B/o_0=6\times4/0.5=48$, a probability of $48/49\approx0.98$. Averaging is the answer when the peers share evidence and differ only in judgement.
+
+  # ------------------------------------------------------------- Question 4
+  - type: mcq
+    id: q4-epictetus
+    points: 0.5
+    multiple: true
+    tag: Question 4 · Philosophies of life
+    title: (a) What is up to us
+    prompt: |
+      Before an exam, a student lists what worries her. According to Epictetus and the Stoics, which items are **up to her**? **Select all** that apply.
+    options:
+      - text: Her judgment that a hard question means she will fail.
+        correct: true
+      - text: Her effort in the days left to prepare.
+        correct: true
+      - text: Her desire to get a high mark.
+        correct: true
+      - text: The mark she will receive.
+        feedback: |
+          The mark depends on the examiner and on the questions, as well as on her. For the Stoics only her judgments, pursuits, desires and aversions are fully up to her.
+      - text: What her classmates will think of her result.
+        feedback: |
+          Reputation is in other people's minds, so it is not up to her.
+      - text: Whether the exam is held on the planned day.
+        feedback: |
+          This depends on others and on events. It is among the things not up to her.
+    explanation: |
+      According to Epictetus, our judgments, pursuits, desires and aversions are up to us; body, property, reputation and office are not. The Stoic advice is to put effort where we have power and to meet the rest with a calm judgment. Critics ask whether the line is as sharp as it sounds, since effort and desire are shaped by things we do not choose.
+
+  - type: order
+    id: q4-pyrrho
+    points: 0.5
+    tag: Question 4 · Philosophies of life
+    title: (b) The road to calm
+    prompt: |
+      According to Sextus Empiricus, the Pyrrhonists reached calm by a route in several stages. Put the stages in order.
+    steps:
+      - 'They find that arguments of equal weight stand on both sides of a question.'
+      - 'They suspend judgement on it, *epoché*.'
+      - 'Freedom from worry follows, *ataraxia*, as if by chance, like a shadow follows a body.'
+    explanation: |
+      According to Sextus, equal opposed arguments lead to *epoché* (suspending judgement), and *ataraxia* (freedom from worry) then follows. The Pyrrhonists did not aim at ataraxia as a goal to be reached by argument. Whether such calm is possible, or whether suspension is itself a hidden belief, is a live objection.
+
+  - type: mcq
+    id: q4-nietzsche
+    points: 0.5
+    tag: Question 4 · Philosophies of life
+    title: (c) The diagnosis and its premises
+    prompt: |
+      According to Nietzsche's diagnosis, P1: our highest values rested on belief in God; P2: that belief has become unbelievable; C: the values lose their ground. Dana accepts P1 and P2 as stated, and still holds that a person can live by honesty and care for others, and adds that those values are good with or without God. Which description fits her?
+    options:
+      - text: She accepts the premises and rejects the step to C, since she holds that the values have a ground other than belief in God.
+        correct: true
+      - text: She rejects P2, since she holds that belief in God is still believable.
+        feedback: |
+          A believer would reject P2. Dana accepts P2 as stated, and so she must question something else.
+      - text: She accepts the whole argument, since she keeps the same values.
+        feedback: |
+          Keeping the values is compatible with C only if they have lost their ground. Dana says they have a ground, so she denies C.
+      - text: She has refuted P1, since the values are good independently of God.
+        feedback: |
+          P1 is a claim about what the values *rested on* in history. Dana can grant that and still deny that they must rest on it. Her reply concerns the step from P1 and P2 to C.
+    explanation: |
+      The argument is $\text{P1}\wedge\text{P2}\Rightarrow\text{C}$. A believer rejects P2. A nonbeliever may keep P2 and reject the step to C, by giving the values another ground, such as human flourishing or reasons all can share. Nietzsche himself doubted that the old grounds could simply be replaced, and what to build was the question he left open.
+
+  - type: mcq
+    id: q4-genuine
+    points: 0.5
+    tag: Question 4 · Philosophies of life
+    title: (d) A genuine option
+    prompt: |
+      According to James, an option is genuine when it is **live** (a real possibility for you), **forced** (you cannot avoid choosing) and **momentous** (the stakes are high). Mira may try a weekend meditation workshop now or at any later time, with no cost to waiting. She already finds the idea attractive, and the fee is small. Which marks does the option lack for her?
+    options:
+      - text: Forced and momentous. She can postpone at no cost, so she is not forced, and the stakes are small, so it is not momentous. It is live.
+        correct: true
+      - text: Live only, since she may not believe in meditation.
+        feedback: |
+          The case says she finds the idea attractive, so for her the option is live. The missing marks are the other two.
+      - text: Live and forced, since she must choose a weekend.
+        feedback: |
+          She does not have to choose, because waiting is free. And it is live, not lacking.
+      - text: None, since a workshop is always a real choice.
+        feedback: |
+          A real choice is not enough. James reserves the right to let our "passional nature" decide for options that are all three: live, forced and momentous.
+    explanation: |
+      $$\text{genuine}=\text{live}\wedge\text{forced}\wedge\text{momentous}.$$
+      Mira's workshop is live, but she can wait for free and little depends on it, so it is neither forced nor momentous. According to James, only a genuine option that evidence cannot settle gives our wishes and fears a legitimate say.
+
+  # ------------------------------------------------------------- Question 5
+  - type: numeric
+    id: q5-grid
+    points: 0.5
+    tag: Question 5 · Meaning, ethics and death
+    title: (a) The map of open questions
+    prompt: |
+      A study group maps its open questions. There are $q=5$ questions, and on each one $k=4$ live positions are on the table. Before ruling any combination out, how many combinations of positions are there?
+    answer: 1024
+    tolerance: 0.5
+    answerText: '4^5 = 1024'
+    wrong:
+      - value: 20
+        feedback: |
+          This is $k\times q$. Each question's choice is made independently of the others, so the numbers of choices multiply, one factor per question.
+      - value: 625
+        feedback: |
+          This is $5^4$, with $k$ and $q$ swapped. There are $q=5$ questions with $k=4$ positions each, so the count is $k^q$.
+      - value: 256
+        feedback: |
+          This is $4^4$, as if there were only $4$ questions.
+    explanation: |
+      Each of the $q$ questions has $k$ positions, chosen independently, so the count is $k^q=4^5=1024$. It is an upper bound: many combinations are ruled out because some positions imply others. The map is a grid and not two camps, and the number of combinations does not say that all of them are equally good.
+
+  - type: mcq
+    id: q5-street
+    points: 0.5
+    tag: Question 5 · Meaning, ethics and death
+    title: (b) What Street's argument concludes
+    prompt: |
+      According to Sharon Street, if moral truths are independent of what we think, and our moral beliefs were shaped by evolution, then a match between the two would be a coincidence. What does she conclude?
+    options:
+      - text: That we lack justified confidence in beliefs about moral truths independent of us. She does not conclude that morality is false, and the origin of a belief is a different question from its justification.
+        correct: true
+      - text: That morality is false, because a belief with an evolutionary origin is false.
+        feedback: |
+          This is the genetic fallacy. An origin does not decide whether a belief is true. Her argument targets the claim that moral truths are independent of us, and not the claim that morality exists.
+      - text: That moral beliefs are justified, because evolution selects true beliefs.
+        feedback: |
+          Evolution selects what helps survival, and a match with independent moral truth would have to be a coincidence. That is the premise of the argument.
+      - text: That every moral belief is equally good, since none can be justified.
+        feedback: |
+          Street's conclusion is about one view of morality. She holds that other accounts of moral truth escape it, and does not say that all beliefs are equal.
+    explanation: |
+      The argument is: independent moral truths plus evolved beliefs make a match a coincidence, so we lack justified confidence in such beliefs. It does not say morality is false. Replies include that evolution tracked moral truths because survival depended on them, or that morality is not independent of us. Learning how a belief arose is not the same as learning whether it is justified.
+
+  - type: mcq
+    id: q5-death
+    points: 0.5
+    tag: Question 5 · Meaning, ethics and death
+    title: (c) Can a painless death harm?
+    prompt: |
+      A woman of $30$ dies in her sleep, without pain or fear, with a full life of plans ahead. According to Epicurus, death is nothing to us. According to Nagel, death is bad when and because it removes goods the life would have held. Which pair of statements states where they part?
+    options:
+      - text: Epicurus holds that only experience can be good or bad, and death ends experience, so it cannot harm. Nagel holds that a person is harmed by the loss of goods she would have had, even if she never feels it.
+        correct: true
+      - text: Epicurus holds that her death is good, and Nagel holds that it is bad.
+        feedback: |
+          Epicurus does not call death good. He holds that it is nothing to us, neither good nor bad for the one who dies.
+      - text: Both hold that her death is bad, and differ only on whether she feels it.
+        feedback: |
+          Epicurus holds that death is nothing to us, so he does not say it is bad for her.
+      - text: Nagel holds that death is bad only for the survivors, and Epicurus holds it is bad only for her.
+        feedback: |
+          This reverses them. Nagel's claim is that it is bad for the one who dies, by what it takes from her.
+    explanation: |
+      The quarrel is about what can harm. For Epicurus, good and bad lie in sensation, and death is the end of sensation. For Nagel the badness of death is the value of the life it removes:
+      $$\text{badness of death}=\text{value of the life it removes}.$$
+      A premise to examine is whether a person can be harmed without any experience of the harm.
+
+  - type: order
+    id: q5-dukkha
+    points: 0.5
+    tag: Question 5 · Meaning, ethics and death
+    title: (d) A diagnosis with a cure
+    prompt: |
+      According to the Buddhist first sermon, suffering is treated like an illness with a diagnosis and a cure. Put the four steps in order.
+    steps:
+      - 'There is *dukkha*, suffering or unsatisfactoriness.'
+      - 'It has a cause, craving.'
+      - 'It has an end.'
+      - 'There is a path that leads to its end.'
+    explanation: |
+      According to the first sermon, *dukkha* has a cause, an end and a path: suffering, then craving as its cause, then its end, then the path. It is a diagnosis with a cure. A Stoic would locate the trouble in our judgment about events instead, and each view says what is up to us.

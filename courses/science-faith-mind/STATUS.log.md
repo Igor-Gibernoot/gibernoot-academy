@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27 exam-final built
+`exams/final.yaml`: 19 cards (setting + 18), 5 questions x 2 points, 90 minutes, no widgets (partial3 precedent). Q1 evidence for mediums (binomial false-positive, LR, shared source), Q2 Drake, Gott, Great Filter, Q3 Frege, Austin, James break-even, pooled odds, Q4 Epictetus, Pyrrhonist order, Nietzsche, James genuine option, Q5 k^q, Street, Nagel vs Epicurus, Buddhist four steps. Choices made: no dates or new external facts, only attributions already logged; headless exam run not performed (no tool named in repo). Conventions fixed here: none.
+
 ## 2026-11-27 Level 25 audit
 Checked level references (none to later levels), file: on all 11 nodes, own: bullets, STATUS intact (one # Status, one ## Current), validate clean. Web re-check of about 40 facts across the 7 content lessons (traps, intuition, map, challenge reuse them): all matched except the Maritain UNESCO volume year (volume is 1949, so the 1948 was dropped from ch25-humanity). Left as is: Epictetus caption c. 55 to c. 135 (Commons; Wikipedia says c. 50) and Bonnart engraver (Commons: Henri; other catalogues: Nicolas), both flagged in VERIFIED.md. Several VERIFIED lines use "(read)" with named sources instead of the literal "web:"; an audit line with web: tags was added.
 Conventions fixed here: none.
