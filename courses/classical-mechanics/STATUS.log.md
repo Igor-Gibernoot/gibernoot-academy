@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27 ch04-map (autonomous)
+Built `ch04/map.yaml` (6 boxes, 3 columns, 8 cards): momentum conservation (top), rocket and center of mass (middle), angular momentum and torque, equal areas, many-particle angular momentum (needs third law plus central forces). Edges: momentum to rocket, center of mass and angular momentum; angular momentum to areas and many; center of mass to many dashed. Decoys: ignoring the vector sign, 1/N instead of mass weights, linear instead of log, ground-frame exhaust, dot for cross product, L-dot = F, missing 1/2, inverse-square only, couple (third law without centrality). No archive map existed. Choices: no new formulas, so reused VERIFIED lines; displayed equations split one per line to fit phones (shots flagged them first). Conventions fixed here: none new.
+
 ## 2026-11-27 ch04-intuition (autonomous)
 Built `ch04/intuition.yaml` (15 cards): builds for the rocket equation (and with gravity), center of mass, torque, equal-area rate; MCQs on rocket scaling, hammer CM, many-particle conditions; numeric cards with data only (rocket 2000 ln 5 = 3219, CM of three beads 4 m, L_z = 24, swept area 30 m2, skater 2 to 18 rad/s). Choices: no widget, no image (conceptual recall); rocket numeric uses tolerance 10 (engine tolerance is absolute) with "nearest 10 m/s"; fewer than 19 cards because the level has four concept-style results. Conventions fixed here: none new.
 

@@ -23,7 +23,8 @@
 - **Built:** `ch04-many-particles` (Level 4, guided proof, 23 cards, no widget, no image). Proves dL/dt = N_ext from the third law plus central forces; couple counterexample.
 - **Built:** `ch04-traps` (Level 4, traps, 16 cards, no widget, no image).
 - **Built:** `ch04-intuition` (Level 4, intuition, 15 cards, no widget, no image).
-- **Next unit:** lesson `ch04-map` (content map of Level 4, no new widget).
+- **Built:** `ch04-map` (Level 4, map, 6 boxes: momentum, rocket, center of mass, angular momentum, equal areas, many particles).
+- **Next unit:** `ch04-challenge` part 1 (problems 1-3; two sessions), then the Level 4 audit. The exam (`exam-partial1`) comes only after Level 6.
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
