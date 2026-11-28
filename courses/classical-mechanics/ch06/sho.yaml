@@ -1,0 +1,332 @@
+id: ch06-sho
+title: Why Everything Oscillates
+kind: concept
+own: |
+  Setting: a particle of mass $m$ moves on a line with coordinate $x$, in a potential energy $V(x)$ (Taylor writes $U$) that has a stable equilibrium at $x=0$, where $x$ is the displacement from equilibrium. A spring (Hooke's law) is the model case.
+  - **Hooke's law.** A spring with force constant $k>0$ pulls back toward equilibrium with a force proportional to the displacement, which is the same as the potential energy being a parabola:
+    {{ $$F_x=-kx\qquad V(x)=\tfrac12kx^2$$ }}
+    If $k<0$ the force pushes away and the equilibrium is unstable, so there are no oscillations.
+  - **Why every minimum is a spring.** Near a stable equilibrium the Taylor series of $V$ has a constant term (which can be set to zero), no linear term (since $V'(0)=0$), and a positive quadratic term, so for small displacements
+    {{ $$V(x)\approx\tfrac12kx^2\qquad k=V''(0)>0$$ }}
+    The potential energy of any such system looks like a spring, and the coordinate need not be a length (for a rocking cube it is an angle).
+  - **Equation of motion.** Newton's second law $m\ddot x=-kx$ gives
+    {{ $$\ddot x=-\omega^2x\qquad \omega=\sqrt{\frac{k}{m}}$$ }}
+    where $\omega$ is the angular frequency (radians per second).
+  - **Solution.** The general solution has two constants. The exponentials $e^{\pm i\omega t}$ solve it, and in real form (simple harmonic motion) it is a sine and a cosine, with $x_0=x(0)$ and $v_0=\dot x(0)$ the initial position and velocity:
+    {{ $$x(t)=x_0\cos(\omega t)+\frac{v_0}{\omega}\sin(\omega t)$$ }}
+  - **Period.** The motion repeats after a time $\tau$ with $\omega\tau=2\pi$, and $\tau$ does not depend on the amplitude or on how the motion was started:
+    {{ $$\tau=\frac{2\pi}{\omega}=2\pi\sqrt{\frac{m}{k}}$$ }}
+  - **Energy.** The turning points are at $x=\pm A$, where $A$ is the amplitude, and there $T=0$, so the total energy is $E=\tfrac12kA^2$. Along the motion $V=\tfrac12kA^2\cos^2(\omega t)$ and $T=\tfrac12m\dot x^2=\tfrac12kA^2\sin^2(\omega t)$ trade places while their sum stays constant:
+    $$E=T+V=\tfrac12kA^2$$
+cards:
+  - type: text
+    id: hook
+    title: The same rhythm everywhere
+    body: |
+      Pluck a guitar string, nudge a hanging lamp, push a floating bottle down in water, or knock an atom in a crystal. Each one wobbles back and forth with a steady rhythm. These systems have almost nothing in common: different forces, different materials, sizes that differ by a factor of $10^{10}$. Yet the wobble looks the same.
+
+      Before any theory, guess. Is there one reason that explains why so many different systems oscillate in the same way? And if you pull a cart on a spring twice as far before letting go, does it take longer to come back?
+
+      This lesson answers both. The first answer is a one-line argument about the shape of any energy curve near its bottom. The second needs the solution of one equation.
+
+  - type: widget
+    id: wells
+    title: Four wells, one behaviour
+    widget: energy-diagram
+    config:
+      potentials:
+        - { label: Narrow well, type: well, E: -0.9, x: 0.3 }
+        - { label: Double well, type: double, E: 0.2, x: 1.2 }
+        - { label: Atom pair, type: lj, E: -0.95, x: 1.1 }
+        - { label: Spring, type: spring, E: 0.3, x: 0.5 }
+      sliders: [E]
+      readouts: [period, smallPeriod]
+      units: { V: J, x: m, t: s }
+      show:
+        equilibria: false
+        eqLabels: false
+        forceArrow: false
+        bars: false
+    body: |
+      Each curve is a potential energy $V(x)$ for a ball of mass $1\ \mathrm{kg}$. The purple line is the total energy $E$, and the ball is set to wobble near the bottom of the well. **Period** is the time the ball takes for a full there-and-back swing, measured from the motion. **Small-oscillation period** is $2\pi\sqrt{m/V''}$ with $V''$ the second derivative at the bottom: the small-oscillation formula for a ball that stays near the bottom.
+
+      **Try:** for each well, press play, then slowly drag the purple line up and down and compare the two readouts. The bottom of the double well is the minimum at $x=1$; the ball starts there.
+
+  - type: mcq
+    id: curvature
+    prompt: |
+      A ball wobbles near the bottom of a potential well $V(x)$, with total energy only a little above the minimum. The four wells in the widget had very different shapes, depths and widths. What decides how long one wobble takes?
+    options:
+      - text: Only how sharply the curve bends at the bottom, that is $V''$ there
+        correct: true
+      - text: How deep the well is, since a deeper well gives a bigger push
+        feedback: |
+          Depth is the wrong measure. A deep, very wide well can bend gently at the bottom, and the ball near the bottom only feels that bend. Near the bottom the ball never reaches the walls where the depth would matter.
+      - text: How wide the well is, since the ball has farther to travel
+        feedback: |
+          The ball only travels a small distance around the bottom. What matters is how strongly the force grows with that small distance, which is the bend of the curve, not the width of the whole well.
+      - text: The total energy $E$, since more energy means more speed
+        feedback: |
+          More energy means more speed, but also a longer trip. For a small wobble the two cancel, and the period barely changes as $E$ is lowered toward the minimum.
+    explanation: |
+      Close to the bottom every smooth well looks like the same parabola, with a curvature $V''$ that sets the rhythm. The next cards turn this into an argument.
+
+  - type: text
+    id: hooke
+    title: Hooke's law
+    body: |
+      The model case is a spring. Let $x$ be the displacement of its end from the position where the spring has its natural length. Hooke's law says the force it exerts is
+
+      $$F_x=-kx$$
+
+      where $k$ is a positive number called the force constant (units N/m). The minus sign makes it a **restoring force**: for $x>0$ the force points to negative $x$, and for $x<0$ it points to positive $x$, so it always pulls back toward $x=0$. That is a stable equilibrium.
+
+      An equivalent way to say it is that the potential energy is a parabola,
+
+      $$V(x)=\tfrac12kx^2$$
+
+      since $-dV/dx=-kx$. If $k$ were negative, the force would push away from the origin, the equilibrium would be unstable, and we would not expect oscillations.
+
+      Real springs obey this only for small stretches. So the question is why Hooke's law should show up all over physics, in systems with no spring at all.
+
+  - type: text
+    id: expansion
+    title: Every stable minimum is a spring
+    body: |
+      Recall: near a stable equilibrium $x_0$ of a potential energy $V(x)$, the series $V\approx V(x_0)+\tfrac12V''(x_0)(x-x_0)^2$ holds, and the small oscillations have $\omega=\sqrt{V''(x_0)/m}$. Here is why that series has this form, and why it is Hooke's law in disguise.
+
+      Take any one-dimensional conservative system with a stable equilibrium, and measure the coordinate $x$ from it, so the equilibrium is at $x=0$. Any reasonable function can be expanded in a Taylor series about $x=0$:
+
+      $$V(x)=V(0)+V'(0)\,x+\tfrac12V''(0)\,x^2+\cdots$$
+
+      Keep only the first three terms, which is good while $x$ stays small. The first term is a constant, and subtracting a constant from $V$ changes no force, so we set $V(0)=0$. The second term vanishes because $x=0$ is an equilibrium, where $V'(0)=0$. The third has $V''(0)>0$ because the equilibrium is stable. Rename $V''(0)$ as $k$ and we get
+
+      $$V(x)\approx\tfrac12kx^2\qquad k=V''(0)$$
+
+      So for small displacements from stable equilibrium, Hooke's law is always valid. That is the one reason behind the hook: the dominant feature of any smooth minimum is a parabola, and a parabola is a spring.
+
+      One exception: if $V''(0)$ happens to be zero, the quadratic term is missing and the argument fails. We set that case aside.
+
+  - type: numeric
+    id: effective-k
+    prompt: |
+      A particle of mass $m=0.25\ \mathrm{kg}$ has potential energy $V(x)=x+\dfrac{4}{x}$ (with $V$ in joules and $x>0$ in metres). It has a stable equilibrium at $x=2\ \mathrm{m}$. Treat small displacements from it as a spring. What is the angular frequency $\omega$ of the small oscillations, in rad/s?
+    answer: 2
+    tolerance: 0.001
+    wrong:
+      - { value: 4, feedback: 'That is $k/m=1/0.25$. The angular frequency is $\omega=\sqrt{k/m}$, with a square root.' }
+      - { value: 1, feedback: 'That is $\sqrt{k}$ with $k=V''(2)=1$. You still need to divide by $m$ before the square root: $\omega=\sqrt{k/m}$.' }
+    hint: The force constant is the second derivative of $V$ at the equilibrium. First find $V'(x)$ and check that it vanishes at $x=2$.
+    explanation: |
+      $V'(x)=1-4/x^2$, which is zero at $x=2$. Then $V''(x)=8/x^3$, so $k=V''(2)=8/8=1\ \mathrm{N/m}$. Hence $\omega=\sqrt{k/m}=\sqrt{1/0.25}=2\ \mathrm{rad/s}$.
+
+  - type: text
+    id: cube
+    title: The coordinate need not be a length
+    body: |
+      The coordinate in $V\approx\tfrac12kx^2$ can be any quantity that measures the displacement from equilibrium. Take a wooden cube of side $2b$ resting on top of a fixed horizontal cylinder of radius $r$, which rocks from side to side without slipping. Its position is given by the rocking angle $\theta$, and its potential energy is
+
+      $$V(\theta)=mg\bigl[(r+b)\cos\theta+r\theta\sin\theta\bigr]$$
+
+      For small $\theta$ use $\cos\theta\approx1-\tfrac12\theta^2$ and $\sin\theta\approx\theta$:
+
+      $$V(\theta)\approx mg(r+b)+\tfrac12mg(r-b)\,\theta^2$$
+
+      Apart from the constant, which does not matter, this is $\tfrac12k\theta^2$ with $k=mg(r-b)$. The equilibrium is stable only when $k>0$, that is when $r>b$: a thin cube on a fat cylinder stays up, a tall cube on a thin cylinder topples.
+
+  - type: text
+    id: eom
+    title: The equation of motion
+    body: |
+      Now put a mass $m$ on a frictionless track, attached to a fixed spring, and let $x$ be its displacement from equilibrium. Newton's second law $m\ddot x=F_x=-kx$ gives
+
+      $$\ddot x=-\frac{k}{m}\,x=-\omega^2x$$
+
+      where we introduced the constant
+
+      $$\omega=\sqrt{\frac{k}{m}}$$
+
+      Read the equation: the acceleration is proportional to the displacement and opposite to it. Far from the centre the pull back is strong, near the centre it fades. We will see that $\omega$ is the angular frequency, the number of radians the motion advances per second. Later we will see the same equation in other coordinates, because every small wobble about a stable equilibrium ends up here.
+
+  - type: mcq
+    id: predict
+    prompt: |
+      A cart on a spring is pulled $5\ \mathrm{cm}$ from equilibrium and released from rest, and it takes a time $\tau$ to go out, back, and return to its starting point. Now it is released from rest $10\ \mathrm{cm}$ away instead, with the same spring. How long does one full swing take?
+    options:
+      - text: The same time $\tau$
+        correct: true
+      - text: Twice as long, since the distance is twice as long
+        feedback: |
+          It does travel twice as far, but the spring also pulls twice as hard, so the cart is faster. For this particular force the two effects cancel exactly in the period.
+      - text: Half as long, since the stronger pull makes it faster
+        feedback: |
+          The pull is stronger and the cart is faster, but the distance grows too. The two effects cancel for a force proportional to the displacement.
+      - text: It depends on the mass but not on the spring
+        feedback: |
+          Both matter. The mass sets how hard it is to accelerate and the spring constant sets the pull; what does not matter is how far you pull.
+    explanation: |
+      The widget showed this for small wobbles: lowering the energy $E$ left the period unchanged. The solution below proves it for the spring, and shows why: the period depends only on $m$ and $k$.
+
+  - type: text
+    id: exponentials
+    title: Solving $\ddot x=-\omega^2x$
+    body: |
+      The equation $\ddot x=-\omega^2x$ is linear (no powers of $x$ or its derivatives above the first) and homogeneous (every term is proportional to $x$), and it is of second order, so its general solution has two arbitrary constants.
+
+      Recall Euler's formula, $e^{\pm i\omega t}=\cos(\omega t)\pm i\sin(\omega t)$, where $i$ is the imaginary unit with $i^2=-1$. Two convenient solutions are
+
+      $$x(t)=e^{i\omega t}\qquad x(t)=e^{-i\omega t}$$
+
+      Because the equation is linear, any constant multiple of a solution is a solution, and so is a sum of solutions (the **superposition principle**). Hence
+
+      $$x(t)=C_1e^{i\omega t}+C_2e^{-i\omega t}$$
+
+      is a solution for any two constants $C_1,C_2$. It has two arbitrary constants, so it is the general solution.
+
+  - type: mcq
+    id: check-exp
+    prompt: |
+      Check that $x(t)=e^{i\omega t}$ solves $\ddot x=-\omega^2x$. What is $\ddot x$ for this function?
+    options:
+      - text: $-\omega^2e^{i\omega t}$
+        correct: true
+      - text: $+\omega^2e^{i\omega t}$
+        feedback: |
+          Each time derivative of $e^{i\omega t}$ multiplies it by $i\omega$. Two derivatives give $(i\omega)^2=i^2\omega^2=-\omega^2$, not $+\omega^2$.
+      - text: $-i\omega^2e^{i\omega t}$
+        feedback: |
+          One derivative gives $i\omega\,e^{i\omega t}$, and the second gives another factor $i\omega$, so the total factor is $(i\omega)^2=-\omega^2$, with no leftover $i$.
+      - text: $i\omega\,e^{i\omega t}$
+        feedback: |
+          That is the first derivative, the velocity. The acceleration needs a second derivative.
+    explanation: |
+      $\dot x=i\omega e^{i\omega t}$ and $\ddot x=(i\omega)^2e^{i\omega t}=-\omega^2e^{i\omega t}=-\omega^2x$. The same works for $e^{-i\omega t}$, since $(-i\omega)^2=-\omega^2$ too.
+
+  - type: text
+    id: sincos
+    title: The real form, sines and cosines
+    body: |
+      A position $x(t)$ is a real number, but the exponentials are complex, so the coefficients $C_1,C_2$ must be chosen with care. It is easier to regroup with Euler's formula:
+
+      $$x(t)=B_1\cos(\omega t)+B_2\sin(\omega t)$$
+
+      with the new constants $B_1=C_1+C_2$ and $B_2=i(C_1-C_2)$. For real motion $B_1$ and $B_2$ are real. This form is the definition of **simple harmonic motion** (SHM): any motion that is a combination of a sine and a cosine of the same $\omega t$.
+
+      The constants come from the initial conditions. At $t=0$ the formula gives $x(0)=B_1$, so $B_1=x_0$, the starting position. Differentiating, $\dot x(0)=\omega B_2$, so $B_2=v_0/\omega$ with $v_0$ the starting velocity.
+
+      Two special cases are worth knowing. Pulled aside to $x_0$ and released from rest ($v_0=0$), only the cosine survives: $x(t)=x_0\cos(\omega t)$. Kicked from the origin ($x_0=0$) at speed $v_0$, only the sine survives: $x(t)=(v_0/\omega)\sin(\omega t)$.
+
+  - type: build
+    id: build-xt
+    prompt: |
+      A cart of mass $m$ on a spring with $\omega=\sqrt{k/m}$ starts at $t=0$ from position $x_0$ with velocity $v_0$. Build its position $x(t)$.
+    prefix: 'x(t)='
+    tiles: ['x_0\cos(\omega t)', '+', '\frac{v_0}{\omega}\sin(\omega t)', 'v_0\sin(\omega t)', '\omega x_0\cos(\omega t)']
+    answers:
+      - ['x_0\cos(\omega t)', '+', '\frac{v_0}{\omega}\sin(\omega t)']
+      - ['\frac{v_0}{\omega}\sin(\omega t)', '+', 'x_0\cos(\omega t)']
+    wrong:
+      - answer: ['x_0\cos(\omega t)', '+', 'v_0\sin(\omega t)']
+        feedback: |
+          The sine coefficient $B_2$ satisfies $\omega B_2=v_0$, so $B_2=v_0/\omega$. Check the units: $v_0\sin(\omega t)$ is a speed, not a length.
+    hint: At $t=0$ the cosine is 1 and the sine is 0. The derivative of $\sin(\omega t)$ at $t=0$ is $\omega$.
+    explanation: |
+      $x(0)=B_1=x_0$ and $\dot x(0)=\omega B_2=v_0$.
+
+  - type: numeric
+    id: kick
+    prompt: |
+      A cart of mass $0.5\ \mathrm{kg}$ sits at rest at the equilibrium of a spring with $k=200\ \mathrm{N/m}$. It is kicked at $t=0$ to a speed $v_0=0.6\ \mathrm{m/s}$. How far from equilibrium does it get at most, in metres?
+    answer: 0.03
+    tolerance: 0.0005
+    wrong:
+      - { value: 0.6, feedback: 'That is the starting speed. The motion is $x(t)=(v_0/\omega)\sin(\omega t)$, so the largest displacement is $v_0/\omega$, and $\omega$ is large here.' }
+      - { value: 0.0015, feedback: 'This divides by $\omega^2$ or uses $k$ in place of $\omega$. The amplitude is $v_0/\omega$ with $\omega=\sqrt{k/m}$.' }
+    hint: Find $\omega=\sqrt{k/m}$ first. The kicked motion is $x=(v_0/\omega)\sin(\omega t)$.
+    explanation: |
+      $\omega=\sqrt{200/0.5}=\sqrt{400}=20\ \mathrm{rad/s}$. The sine reaches 1, so the largest displacement is $v_0/\omega=0.6/20=0.03\ \mathrm{m}$.
+
+  - type: text
+    id: period
+    title: The period
+    body: |
+      Both $\cos(\omega t)$ and $\sin(\omega t)$ repeat when $\omega t$ grows by $2\pi$. So the motion repeats after a time $\tau$ with $\omega\tau=2\pi$, the **period**:
+
+      $$\tau=\frac{2\pi}{\omega}=2\pi\sqrt{\frac{m}{k}}$$
+
+      The cosine curve of a cart released from rest and the sine curve of a cart kicked from the origin have the same $\tau$. In fact $\tau$ contains neither $x_0$ nor $v_0$: pull the cart farther, or kick it harder, and it covers more distance in the same time. This is the answer to the prediction above, and it explains the widget: for a small wobble the bottom of any well is a spring.
+
+      The period grows with the mass (heavier things are slower to turn around) and shrinks with the stiffness (a stiffer spring pulls harder).
+
+  - type: numeric
+    id: period-stiffer
+    prompt: |
+      A cart of mass $0.5\ \mathrm{kg}$ oscillates on a spring with $k=200\ \mathrm{N/m}$. The spring is replaced by one four times as stiff, $k=800\ \mathrm{N/m}$. What is the new period, in seconds?
+    answer: 0.157
+    tolerance: 0.001
+    wrong:
+      - { value: 0.314, feedback: 'That is the old period, $2\pi\sqrt{0.5/200}=0.314\ \mathrm{s}$. Four times the stiffness gives the factor $1/\sqrt4=\tfrac12$ on the period.' }
+      - { value: 0.0785, feedback: 'The period scales as $1/\sqrt{k}$, not as $1/k$. Four times the stiffness halves the old period of $0.314\ \mathrm{s}$.' }
+    hint: Use $\tau=2\pi\sqrt{m/k}$.
+    explanation: |
+      $\tau=2\pi\sqrt{0.5/800}=2\pi\times0.025=0.157\ \mathrm{s}$, which is half the old $0.314\ \mathrm{s}$, because $\tau\propto1/\sqrt{k}$.
+
+  - type: text
+    id: energy
+    title: Energy of the oscillator
+    body: |
+      Look at the energy. The potential energy $V=\tfrac12kx^2$ is a parabola, so a ball with total energy $E>0$ is trapped between the two turning points where $V=E$ and the kinetic energy vanishes. By the symmetry of the parabola these are at $x=\pm A$, with $A$ the **amplitude**. At a turning point $T=0$, so
+
+      $$E=\tfrac12kA^2$$
+
+      Take the motion released from rest at $x=A$, so $x=A\cos(\omega t)$. Then
+
+      $$V=\tfrac12kx^2=\tfrac12kA^2\cos^2(\omega t)$$
+
+      and, differentiating $x$ to get the velocity,
+
+      $$\begin{aligned}T&=\tfrac12m\dot x^2\\&=\tfrac12m\omega^2A^2\sin^2(\omega t)\\&=\tfrac12kA^2\sin^2(\omega t)\end{aligned}$$
+
+      where we replaced $m\omega^2$ by $k$. Both $T$ and $V$ swing between $0$ and $\tfrac12kA^2$ perfectly out of step: when $V$ is largest $T$ is zero, and the reverse. Since $\sin^2+\cos^2=1$, their sum is constant:
+
+      $$E=T+V=\tfrac12kA^2$$
+
+      as it has to be for a conservative force.
+
+  - type: widget
+    id: spring-energy
+    title: Energy sloshing back and forth
+    widget: energy-diagram
+    config:
+      potential: { type: spring, k: 2, E: 1, x: -1, mass: 1 }
+      sliders: [E]
+      bars: [T, V, E]
+      readouts: [period, smallPeriod]
+      units: { V: J, x: m, t: s }
+      show:
+        trace: true
+        equilibria: false
+        eqLabels: false
+        forceArrow: false
+    body: |
+      A ball of mass $1\ \mathrm{kg}$ on a spring with $k=2\ \mathrm{N/m}$. The bars show $T$, $V$ and the total $E$.
+
+      **Try:** press play and watch $T$ and $V$ trade places while $E$ stays put. Then drag the purple line to a new energy: the turning points move, but compare the period readout before and after.
+
+  - type: numeric
+    id: speed-at
+    prompt: |
+      A cart of mass $0.5\ \mathrm{kg}$ on a spring with $k=200\ \mathrm{N/m}$ is pulled to $A=0.1\ \mathrm{m}$ and released from rest. How fast is it moving when it passes $x=0.05\ \mathrm{m}$, in m/s?
+    answer: 1.732
+    tolerance: 0.001
+    wrong:
+      - { value: 2, feedback: 'That is the maximum speed $\omega A$ at the centre. At $x=0.05\ \mathrm{m}$ part of the energy is still in the spring.' }
+      - { value: 1.5, feedback: 'Do not average the speeds. The energy, not the speed, splits: $T=E-V$.' }
+    hint: Total energy $E=\tfrac12kA^2$. Subtract the spring energy at $x=0.05\ \mathrm{m}$ and solve for the speed from $T$.
+    explanation: |
+      $E=\tfrac12(200)(0.1)^2=1\ \mathrm{J}$ and $V=\tfrac12(200)(0.05)^2=0.25\ \mathrm{J}$, so $T=0.75\ \mathrm{J}$. Then $v=\sqrt{2T/m}=\sqrt{2(0.75)/0.5}=\sqrt3=1.732\ \mathrm{m/s}$.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a motion $x_0\cos(\omega t)+(v_0/\omega)\sin(\omega t)$ can also be written as one cosine with a shifted phase, and as the projection of a point rotating on a circle in the complex plane. Both forms will make damping and driving much easier to handle, and we will apply them to a bottle floating in water.

@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27 ch06-sho (Level 6, concept, autonomous)
+20 cards, energy-diagram x2 (four wells with period readouts; spring with bars). Taylor 5.1-5.2 render-checked (PDF 173-181). Planned 5.2 in full would exceed 25 cards, so the phase-shifted cosine, complex exponential form and Example 5.2 (bottle) moved to new node ch06-sho-forms; this lesson keeps energy and period. Energy derived from the turning-point argument plus x = A cos(wt). No image (no verified free Hooke portrait). Conventions fixed here: plain omega = sqrt(k/m) and tau as Taylor; x measured from equilibrium; B1 = x0, B2 = v0/omega; E = kA^2/2; cart m = 0.5 kg, k = 200 N/m numbers; cube k = mg(r - b).
+
 ## Audit Level 5 (2026-11-27)
 Taylor 4.1-4.6, 4.9-4.10 and Goldstein 1.2 already render-checked in VERIFIED.md (PDF 117-166), no new range. Fixed vague cross-references ("previous lesson", "next lesson") to lesson titles in work, conservative, time-from-energy. Terminology grep over Levels 1 to 5 clean (V, conservative, work-kinetic-energy theorem). Own: bullets show math and define symbols; no "the book" or section labels (Taylor/Goldstein named only as second road or notation note). All 10 files registered. Images: none, no person or experiment named in Level 5 lessons. External facts: almost none; Lennard-Jones (atoms repel close, attract farther, minimum) web: https://en.wikipedia.org/wiki/Lennard-Jones_potential [read]; g = 9.8 standard. Conventions fixed here: none new.
 

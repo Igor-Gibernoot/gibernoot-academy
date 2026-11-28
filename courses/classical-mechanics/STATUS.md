@@ -36,7 +36,8 @@
 - **Built:** `ch05-challenge` part 1 (21 cards: bead on a wire with curl test and friction, double well (energy-diagram), two carts and a spring; see part 2).
 - **Built:** `ch05-challenge` part 2 (30 cards in all: problem 4 poly well V = 3x^2 - 2x^3 (energy-diagram), small and true period, escape speed; problem 5 block, string and hanging mass with friction; closing card with teaser to Oscillations). Level 5 content is built.
 - **Level 5 audited (2026-11-27):** Taylor 4.1-4.6, 4.9-4.10 already render-checked; cross-references by title; terminology consistent (V, "conservative", work-kinetic-energy theorem); validate clean.
-- **Next unit:** `ch06-sho` (Level 6, Oscillations, Taylor ch 5). The exam (`exam-partial1`) comes only after Level 6.
+- **Built:** `ch06-sho` (Level 6, concept, 20 cards, energy-diagram x2, no image). Hooke, every minimum is a spring, x'' = -omega^2 x, sin/cos solution, period, energy. Split: phase form, complex form and the bottle go to new node `ch06-sho-forms` (Taylor 5.2 rest, 5.4-5.5 ahead).
+- **Next unit:** `ch06-sho-forms` (Level 6, concept; phase-shifted cosine, rotating complex number, bottle in a bucket; no widget planned), then `ch06-two-dimensions`. The exam (`exam-partial1`) comes only after Level 6.
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
