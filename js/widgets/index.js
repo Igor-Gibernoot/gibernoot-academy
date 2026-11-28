@@ -69,6 +69,7 @@ const WIDGETS = {
   'phasor-wheel': ['phasor-wheel', 'phasorWheel'],
   'lissajous-lab': ['lissajous-lab', 'lissajousLab'],
   'damped-regimes': ['damped-regimes', 'dampedRegimes'],
+  'resonance-width': ['resonance-width', 'resonanceWidth'],
   'flutter-lab': ['flutter-lab', 'flutterLab'],
   'arch-thrust': ['arch-thrust', 'archThrust'],
   'truss-frame': ['truss-frame', 'trussFrame'],
