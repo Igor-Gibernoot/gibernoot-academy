@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27 ch05-intuition (Level 5, intuition, 21 cards)
+Built: hook, 9 build cards (work-KE, V, F = -grad V, curl_z, dE = W_nc, speed, omega, t integral, pair sum), curl MCQ, checks MCQ, 7 numeric cards with data only (grad, curl constant, speed, omega, time on a spring, pair count, friction work), summary. Choices: no widget (recall lesson; nothing to manipulate that energy-diagram does not already show); no image; no new source range. Conventions fixed here: none new (numbers listed in Chapter 5 of CONVENTIONS.md).
+
 ## 2026-11-27 ch05-traps (autonomous)
 Built `ch05/traps.yaml` (Level 5, traps, 16 cards: hook, 13 questions, summary; 11 numeric, 3 MCQ; no widget, no image). Traps: zero net force vs work by each force, net vs sum of works, T grows as v^2, position-only force (0,x) not conservative, conservative work zero only on closed roads, zero of V, friction dE = W_nc, turning point is not equilibrium, -x^4 with silent V'', omega = sqrt(V''/m), N(N-1)/2 pairs, internal forces cancel in force not work, sticky loss, rigid pair zero net work. All formulas reused from verified Level 5 lessons; no new source range, no web facts. Choice: no widget needed (bookkeeping questions, numbers carry the cards). Conventions fixed here: none new.
 

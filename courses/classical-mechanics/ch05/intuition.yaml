@@ -1,0 +1,344 @@
+id: ch05-intuition
+title: "Intuition: Potentials and Forces"
+kind: intuition
+own: |
+  Setting: a particle of mass $m$ with position $\mathbf{r}$ and kinetic energy $T=\tfrac12 mv^2$, under a force $\mathbf{F}$ that depends on the position only. Later, $N$ particles labelled $\alpha$ with pair energies $V_{\alpha\beta}$.
+  - **Work and kinetic energy.** The work of a force along a road from point 1 to point 2 is a line integral, and it equals the change of kinetic energy:
+    $$W(1\to2)=\int_1^2\mathbf{F}\cdot d\mathbf{r}$$
+    $$T_2-T_1=W(1\to2)$$
+  - **Potential energy.** For a conservative force (position only, same work on every road) with $V=0$ at a reference point $\mathbf{r}_0$:
+    {{ $$V(\mathbf{r})=-\int_{\mathbf{r}_0}^{\mathbf{r}}\mathbf{F}(\mathbf{r}')\cdot d\mathbf{r}'$$ }}
+    The work is a drop of $V$, $W(1\to2)=V_1-V_2=-\Delta V$, and $E=T+V$ is constant. With a nonconservative work $W_{\text{nc}}$ it changes by $\Delta E=W_{\text{nc}}$.
+  - **Force from the potential.** $\nabla V$ is the vector of partial derivatives of $V$, pointing uphill, so the force points downhill:
+    {{ $$\mathbf{F}=-\nabla V,\qquad F_x=-\frac{\partial V}{\partial x}$$ }}
+  - **Curl test.** For a force on a region with no holes, $F_x$ and $F_y$ being its $x$ and $y$ components, $\nabla\times\mathbf{F}=\mathbf{0}$ means conservative. In the plane the only component is
+    {{ $$(\nabla\times\mathbf{F})_z=\frac{\partial F_y}{\partial x}-\frac{\partial F_x}{\partial y}$$ }}
+  - **Energy diagram.** A particle on a line with potential energy $V(x)$ and total energy $E$ moves only where $E\ge V(x)$, with speed
+    {{ $$\dot x=\pm\sqrt{\frac{2}{m}\,\bigl(E-V(x)\bigr)}$$ }}
+    The points $V=E$ are turning points, and the points $V'(x_0)=0$ are equilibria, stable when $V''(x_0)>0$. Near a stable one the particle oscillates with
+    {{ $$\omega=\sqrt{\frac{V''(x_0)}{m}}$$ }}
+    The time to go from $x_0$ to $x$ is $t=\sqrt{m/2}\int dx'/\sqrt{E-V(x')}$.
+  - **Many particles.** With $V_{\alpha\beta}$ the energy of the pair $\alpha\beta$, each pair is counted once:
+    {{ $$V^{\text{int}}=\sum_\alpha\sum_{\beta>\alpha}V_{\alpha\beta}$$ }}
+    Equal and opposite internal forces still do work, because the displacements differ; $E=T+V^{\text{int}}+V^{\text{ext}}$.
+  - **Quick checks.** Units (an argument of $\sqrt{\cdot}$ in $\dot x$ must be a speed squared), limits (no height above the curve means no speed), scaling (period $\propto\sqrt{m}$ and $\propto 1/\sqrt{V''}$; $N$ particles have $N(N-1)/2$ pairs) and sign (add a constant to $V$ and no force changes).
+
+cards:
+  - type: text
+    id: hook
+    title: Can you rebuild it from the picture?
+    body: |
+      A marble rolls in a bowl, a cart is pulled by a spring, two magnets slide toward each other. Before any formula, say what each one needs: a slope to feel a force, a height to set a speed, a curvature to set a rhythm. This lesson derives nothing. It gives you tiles to rebuild the results of the level, checks that catch a wrong version in seconds, and problems with data only, where you choose the law yourself.
+
+  - type: build
+    id: work-ke
+    prompt: |
+      A particle moves from point 1 to point 2 along a road under the net force $\mathbf{F}$, with $d\mathbf{r}$ a small step along the road. Build the change of its kinetic energy $T_2 - T_1$.
+    prefix: 'T_2 - T_1 ='
+    tiles: ['\int_1^2\mathbf{F}\cdot d\mathbf{r}', '\int_1^2\mathbf{F}\,dt', '\int_1^2\lvert\mathbf{F}\rvert\,\lvert d\mathbf{r}\rvert', '\mathbf{F}\cdot\mathbf{r}_2']
+    answers:
+      - ['\int_1^2\mathbf{F}\cdot d\mathbf{r}']
+    wrong:
+      - answer: ['\int_1^2\mathbf{F}\,dt']
+        feedback: 'This is the impulse, which gives the change of momentum, not of energy. It is a vector; kinetic energy is a scalar, so the step must be $d\mathbf{r}$ with a dot product.'
+      - answer: ['\int_1^2\lvert\mathbf{F}\rvert\,\lvert d\mathbf{r}\rvert']
+        feedback: 'This ignores the direction. A force perpendicular to the motion (a normal force) would then add energy, but it does no work. The dot product keeps only the part of $\mathbf{F}$ along the step.'
+      - answer: ['\mathbf{F}\cdot\mathbf{r}_2']
+        feedback: 'The work is a sum over the whole road of small steps, not one product at the end. When $\mathbf{F}$ changes along the road, no single value of it will do.'
+    hint: Work is force times displacement along the road, summed in small steps, and it is a scalar.
+    explanation: |
+      $T_2 - T_1 = \int_1^2\mathbf{F}\cdot d\mathbf{r}$. Each step gives $dT = \mathbf{F}\cdot d\mathbf{r}$ (from $m\dot{\mathbf{v}} = \mathbf{F}$), and the steps add up.
+
+  - type: build
+    id: v-def
+    prompt: |
+      A conservative force $\mathbf{F}$ has its potential energy $V$ set to zero at a reference point $\mathbf{r}_0$. Build $V(\mathbf{r})$ at another point $\mathbf{r}$, with $\mathbf{r}'$ the dummy position along the road.
+    prefix: 'V(\mathbf{r}) ='
+    tiles: ['-\int_{\mathbf{r}_0}^{\mathbf{r}}', '\int_{\mathbf{r}_0}^{\mathbf{r}}', '\mathbf{F}(\mathbf{r}'')\cdot d\mathbf{r}''', '\mathbf{F}(\mathbf{r}'')\times d\mathbf{r}''']
+    answers:
+      - ['-\int_{\mathbf{r}_0}^{\mathbf{r}}', '\mathbf{F}(\mathbf{r}'')\cdot d\mathbf{r}''']
+    wrong:
+      - answer: ['\int_{\mathbf{r}_0}^{\mathbf{r}}', '\mathbf{F}(\mathbf{r}'')\cdot d\mathbf{r}''']
+        feedback: 'This is the work done by the force on the way out, which is $-V$. Test it on gravity: lifting a mass raises its potential energy, while gravity does negative work on the way up.'
+      - answer: ['-\int_{\mathbf{r}_0}^{\mathbf{r}}', '\mathbf{F}(\mathbf{r}'')\times d\mathbf{r}''']
+        feedback: 'A cross product is a vector perpendicular to the step, and $V$ is a scalar. Work always uses the dot product.'
+    hint: $V$ is minus the work done by the force from the reference point to $\mathbf{r}$.
+    explanation: |
+      $V(\mathbf{r}) = -\int_{\mathbf{r}_0}^{\mathbf{r}}\mathbf{F}(\mathbf{r}')\cdot d\mathbf{r}'$. Going from $1$ to $2$ through $\mathbf{r}_0$ then gives $W(1\to2) = V_1 - V_2$.
+
+  - type: build
+    id: force-from-v
+    prompt: |
+      A conservative force has the potential energy $V(x,y,z)$. Build the force $\mathbf{F}$, with $\nabla V$ the gradient of $V$.
+    prefix: '\mathbf{F} ='
+    tiles: ['-', '+', '\nabla V', '\nabla\times V']
+    answers:
+      - ['-', '\nabla V']
+    wrong:
+      - answer: ['+', '\nabla V']
+        feedback: 'The gradient points uphill, but a force points downhill: a marble on a slope is pushed toward lower $V$. The minus sign is that statement.'
+      - answer: ['-', '\nabla\times V']
+        feedback: 'The curl acts on a vector. $V$ is a scalar, and the gradient is what turns it into a vector.'
+    hint: The force points toward lower potential energy, perpendicular to the contours.
+    explanation: |
+      $\mathbf{F} = -\nabla V$, so $F_x = -\partial V/\partial x$. Check: for a spring, $V = \tfrac12 kx^2$ gives $F_x = -kx$.
+
+  - type: build
+    id: curl-build
+    prompt: |
+      A force in the plane has components $F_x(x,y)$ and $F_y(x,y)$. Build the $z$ component of its curl, the quantity that must vanish for a conservative force on a region with no holes.
+    prefix: '(\nabla\times\mathbf{F})_z ='
+    tiles: ['\dfrac{\partial F_y}{\partial x}', '-\dfrac{\partial F_x}{\partial y}', '+\dfrac{\partial F_x}{\partial y}', '\dfrac{\partial F_x}{\partial x}']
+    answers:
+      - ['\dfrac{\partial F_y}{\partial x}', '-\dfrac{\partial F_x}{\partial y}']
+    wrong:
+      - answer: ['\dfrac{\partial F_y}{\partial x}', '+\dfrac{\partial F_x}{\partial y}']
+        feedback: 'With a plus the test calls the swirl $(-y, x)$ conservative (the sum is $1 + (-1) = 0$) and the conservative force $(y, x)$ not (the sum is $2$). Check with $(y, x)$: the right combination must give $0$.'
+      - answer: ['\dfrac{\partial F_x}{\partial x}', '-\dfrac{\partial F_x}{\partial y}']
+        feedback: 'The derivative of $F_x$ along $x$ is the divergence part, not the curl. Curl compares how one component changes across the other direction: $F_y$ along $x$ against $F_x$ along $y$.'
+    hint: The test compares $F_y$ changing along $x$ with $F_x$ changing along $y$. Try $\mathbf{F} = (y, x)$, a known conservative force.
+    explanation: |
+      $(\nabla\times\mathbf{F})_z = \partial F_y/\partial x - \partial F_x/\partial y$. It is the work around a tiny counterclockwise rectangle divided by its area.
+
+  - type: mcq
+    id: curl-which
+    multiple: true
+    prompt: |
+      Which forces in the plane (components in newtons, $x$ and $y$ in metres) pass the curl test, so that a potential energy exists on the whole plane?
+    options:
+      - text: '$\mathbf{F} = (y,\ x)$'
+        correct: true
+      - text: '$\mathbf{F} = (x,\ y)$'
+        correct: true
+      - text: '$\mathbf{F} = (y,\ 2x)$'
+        feedback: 'Here $\partial F_y/\partial x = 2$ and $\partial F_x/\partial y = 1$, so the curl is $1 \ne 0$. This is the force whose work changed from road to road.'
+      - text: '$\mathbf{F} = (-y,\ x)$'
+        feedback: 'This is the swirl: $\partial F_y/\partial x = 1$ and $\partial F_x/\partial y = -1$, so the curl is $2$. It gives $2\pi$ J around the unit circle.'
+      - text: '$\mathbf{F} = (0,\ x^2)$'
+        feedback: 'Here $\partial F_y/\partial x = 2x$ and $\partial F_x/\partial y = 0$. It vanishes only on the line $x = 0$, and the test must hold at every point.'
+    explanation: |
+      For $(y, x)$ the two derivatives are $1$ and $1$, and for $(x, y)$ they are $0$ and $0$; both differences are zero everywhere. The potentials are $V = -xy$ and $V = -\tfrac12(x^2 + y^2)$.
+
+  - type: build
+    id: energy-nc
+    prompt: |
+      A particle moves under conservative forces with total energy $E = T + V$, and a nonconservative force (friction, say) does the work $W_{\text{nc}}$ along the way. Build the change of its total energy.
+    prefix: '\Delta E ='
+    tiles: ['W_{\text{nc}}', '-\,W_{\text{nc}}', '0', '\Delta T']
+    answers:
+      - ['W_{\text{nc}}']
+    wrong:
+      - answer: ['-\,W_{\text{nc}}']
+        feedback: 'Friction does negative work, $W_{\text{nc}} < 0$, and the energy falls. With a minus sign the energy would rise. The energy changes by exactly the work of the nonconservative force, sign included.'
+      - answer: ['0']
+        feedback: 'This holds only when $W_{\text{nc}} = 0$. The conservative forces are already inside $V$, so the work of anything else changes $E$.'
+      - answer: ['\Delta T']
+        feedback: 'Kinetic energy changes by the work of all forces. $E = T + V$ also contains $V$, which absorbs the work of the conservative ones.'
+    hint: The conservative work is inside $V$; only the rest is left to change $E$.
+    explanation: |
+      $\Delta E = W_{\text{nc}}$. From $\Delta T = W_{\text{c}} + W_{\text{nc}}$ and $W_{\text{c}} = -\Delta V$.
+
+  - type: build
+    id: speed-build
+    prompt: |
+      A particle of mass $m$ moves on a line with total energy $E$ in a potential energy $V(x)$. Build its speed at the position $x$.
+    prefix: '\dot x = \pm'
+    tiles: ['\sqrt{\dfrac{2}{m}\,(E - V)}', '\sqrt{\dfrac{2}{m}\,(E + V)}', '\sqrt{\dfrac{m}{2}\,(E - V)}', '\dfrac{2}{m}\,(E - V)']
+    answers:
+      - ['\sqrt{\dfrac{2}{m}\,(E - V)}']
+    wrong:
+      - answer: ['\sqrt{\dfrac{2}{m}\,(E + V)}']
+        feedback: 'The kinetic energy is what is left of $E$ after paying $V$: $\tfrac12 m\dot x^2 = E - V$. A plus would make the speed grow where the particle is higher.'
+      - answer: ['\sqrt{\dfrac{m}{2}\,(E - V)}']
+        feedback: 'Solving $\tfrac12 m\dot x^2 = E - V$ puts $m$ downstairs. Check the units: $\sqrt{\text{kg}\cdot\text{J}}$ is not a speed.'
+      - answer: ['\dfrac{2}{m}\,(E - V)']
+        feedback: 'This is a speed squared. The square root is missing.'
+    hint: Start from $E = \tfrac12 m\dot x^2 + V$ and solve for $\dot x$. Check the units.
+    explanation: |
+      $\dot x = \pm\sqrt{2(E - V)/m}$. It is zero at a turning point ($V = E$), and imaginary where $V > E$, where the particle cannot be.
+
+  - type: build
+    id: omega-build
+    prompt: |
+      A particle of mass $m$ sits near a stable equilibrium $x_0$ of $V(x)$, so $\dfrac{d^2V}{dx^2}$ at $x_0$ is positive. Build its angular frequency of small oscillations.
+    prefix: '\omega ='
+    tiles: ['\sqrt{\dfrac{1}{m}\dfrac{d^2V}{dx^2}\Big|_{x_0}}', '\sqrt{m\,\dfrac{d^2V}{dx^2}\Big|_{x_0}}', '\sqrt{\dfrac{V(x_0)}{m}}', '\dfrac{1}{m}\dfrac{d^2V}{dx^2}\Big|_{x_0}']
+    answers:
+      - ['\sqrt{\dfrac{1}{m}\dfrac{d^2V}{dx^2}\Big|_{x_0}}']
+    wrong:
+      - answer: ['\sqrt{m\,\dfrac{d^2V}{dx^2}\Big|_{x_0}}']
+        feedback: 'A heavier particle oscillates more slowly, so $m$ belongs downstairs. This is the spring result $\omega = \sqrt{k/m}$ with $m$ turned upside down.'
+      - answer: ['\sqrt{\dfrac{V(x_0)}{m}}']
+        feedback: 'The value of $V$ can be shifted by any constant and cannot change a frequency. Only the curvature of $V$ matters.'
+      - answer: ['\dfrac{1}{m}\dfrac{d^2V}{dx^2}\Big|_{x_0}']
+        feedback: 'This is $\omega^2$, an acceleration per length. The square root is missing.'
+    hint: Near $x_0$ the potential is a spring of constant $V''(x_0)$. Recall $\omega = \sqrt{k/m}$.
+    explanation: |
+      $\omega = \sqrt{V''(x_0)/m}$, with period $\tau = 2\pi\sqrt{m/V''(x_0)}$. A sharper well (larger curvature) oscillates faster.
+
+  - type: build
+    id: time-build
+    prompt: |
+      A particle of mass $m$ starts at $x_0$ with total energy $E$ in the potential energy $V(x)$ and moves in one direction. Build the time it takes to reach $x$, with $x'$ the dummy variable.
+    prefix: 't ='
+    tiles: ['\sqrt{\dfrac{m}{2}}', '\sqrt{\dfrac{2}{m}}', '\int_{x_0}^{x}\dfrac{dx''}{\sqrt{E - V(x'')}}', '\int_{x_0}^{x}\sqrt{E - V(x'')}\,dx''']
+    answers:
+      - ['\sqrt{\dfrac{m}{2}}', '\int_{x_0}^{x}\dfrac{dx''}{\sqrt{E - V(x'')}}']
+      - ['\int_{x_0}^{x}\dfrac{dx''}{\sqrt{E - V(x'')}}', '\sqrt{\dfrac{m}{2}}']
+    wrong:
+      - answer: ['\sqrt{\dfrac{2}{m}}', '\int_{x_0}^{x}\dfrac{dx''}{\sqrt{E - V(x'')}}']
+        feedback: 'The time is the integral of $dx/\dot x$, and $1/\dot x = \sqrt{m/2}\,/\sqrt{E - V}$. The factor stays upstairs with $m$, so a heavier particle takes longer.'
+      - answer: ['\sqrt{\dfrac{m}{2}}', '\int_{x_0}^{x}\sqrt{E - V(x'')}\,dx''']
+        feedback: 'This multiplies the length by a speed, which is not a time. The time is distance divided by speed, so $\dot x$ goes downstairs.'
+    hint: A small step takes $dt = dx/\dot x$. Use the speed from the energy.
+    explanation: |
+      $t = \sqrt{m/2}\int_{x_0}^{x}dx'/\sqrt{E - V(x')}$. Near a turning point the integrand blows up, but it can still be integrable, so the time to reach it is finite.
+
+  - type: build
+    id: pair-build
+    prompt: |
+      $N$ particles labelled $\alpha = 1,\dots,N$ interact in pairs, and $V_{\alpha\beta}$ is the energy of the pair $\alpha\beta$ (with $V_{\beta\alpha} = V_{\alpha\beta}$). Build the internal potential energy $V^{\text{int}}$ of the whole system.
+    prefix: 'V^{\text{int}} ='
+    tiles: ['\sum_\alpha\sum_{\beta>\alpha}V_{\alpha\beta}', '\sum_{\alpha\neq\beta}V_{\alpha\beta}', '\tfrac12']
+    answers:
+      - ['\sum_\alpha\sum_{\beta>\alpha}V_{\alpha\beta}']
+      - ['\tfrac12', '\sum_{\alpha\neq\beta}V_{\alpha\beta}']
+    wrong:
+      - answer: ['\sum_{\alpha\neq\beta}V_{\alpha\beta}']
+        feedback: 'This counts every pair twice, once as $\alpha\beta$ and once as $\beta\alpha$. A pair has one interaction energy, so a factor $\tfrac12$ is needed.'
+    hint: Count each pair once. Two ways, restrict the sum to $\beta > \alpha$, or sum over all $\alpha\neq\beta$ and halve.
+    explanation: |
+      $V^{\text{int}} = \sum_\alpha\sum_{\beta>\alpha}V_{\alpha\beta} = \tfrac12\sum_{\alpha\neq\beta}V_{\alpha\beta}$. There are $N(N-1)/2$ pairs.
+
+  - type: mcq
+    id: checks
+    multiple: true
+    prompt: |
+      Quick limit and scaling checks. Which statements are right?
+    options:
+      - text: 'Adding a constant to $V(\mathbf{r})$ changes no force and no frequency'
+        correct: true
+      - text: 'A particle with $E$ just above the bottom of a stable well has a period that depends on $E$ only weakly (in the small-oscillation limit it does not depend on $E$)'
+        correct: true
+      - text: 'Quadrupling the curvature $V''(x_0)$ at the same mass halves the small-oscillation period'
+        correct: true
+      - text: 'Going from $10$ to $20$ particles with every pair interacting more than doubles the number of pair terms ($45$ to $190$)'
+        correct: true
+      - text: 'The force is largest where $V$ is largest'
+        feedback: 'The force is set by the slope of $V$, not by its height. At the top of a hill the slope is zero, so the force vanishes there.'
+      - text: 'If $E < V(x)$ at some $x$ the particle moves there with a smaller speed'
+        feedback: 'Then $E - V$ is negative, the kinetic energy would be negative, and the square root is imaginary: the region is forbidden.'
+    explanation: |
+      Only differences of $V$ and slopes of $V$ are measured. Small-oscillation period: $\tau = 2\pi\sqrt{m/V''}$, so $V'' \to 4V''$ gives $\tau/2$. Pairs: $N(N-1)/2$ gives $45$ for $10$ and $190$ for $20$.
+
+  - type: text
+    id: numbers-intro
+    title: Now with data only
+    body: |
+      The next problems give numbers and no formula. Decide which result of the level applies, check units, and compute.
+
+  - type: numeric
+    id: grad-num
+    prompt: |
+      A particle moves in the plane with potential energy $V(x,y) = xy^2 + x$ (joules, with $x$ and $y$ in metres). What is the $x$ component of the force on it at the point $(1,\ 2)$, in newtons?
+    answer: -5
+    tolerance: 0.001
+    answerText: '-5'
+    wrong:
+      - { value: -4, feedback: 'This is either the $y$ component ($-2xy$) or the $x$ component with the term $x$ of $V$ dropped. Differentiate every term of $V$ with respect to $x$, holding $y$ fixed.' }
+      - { value: 5, feedback: 'The force points downhill, against the slope of $V$.' }
+    hint: A force from a potential energy is a derivative of it, with a sign that makes the force point downhill.
+    explanation: |
+      $F_x = -\partial V/\partial x = -(y^2 + 1) = -5$ N at $y = 2$. (The $y$ component is $-2xy = -4$ N.)
+
+  - type: numeric
+    id: curl-num
+    prompt: |
+      The force $\mathbf{F} = (a\,y,\ 3x)$ (newtons, with $x$ and $y$ in metres) acts in the whole plane. For which value of the constant $a$ (in N/m) does the force have a potential energy?
+    answer: 3
+    tolerance: 0.001
+    answerText: '3'
+    wrong:
+      - { value: -3, feedback: 'The test compares two derivatives and they must be equal, not opposite. $-3$ would make the force a pure swirl with a nonzero curl.' }
+      - { value: 0, feedback: 'With $a = 0$ the force $(0, 3x)$ is a shear whose work depends on the road.' }
+    hint: A potential energy exists on the whole plane when the force passes the curl test. Differentiate each component across the other direction.
+    explanation: |
+      $\partial F_y/\partial x = 3$ and $\partial F_x/\partial y = a$. The curl vanishes only for $a = 3$, and then $V = -3xy$.
+
+  - type: numeric
+    id: speed-num
+    prompt: |
+      A $2$ kg particle moves on a line. Its total mechanical energy is $10$ J, and at the point $x = 1$ m its potential energy is $1$ J. How fast is it moving there, in m/s?
+    answer: 3
+    tolerance: 0.001
+    answerText: '3'
+    wrong:
+      - { value: 3.317, tolerance: 0.001, feedback: 'You added the potential energy to the total. The kinetic energy is what remains of the total after paying the potential energy.' }
+      - { value: 4.243, tolerance: 0.001, feedback: 'The mass is missing. The kinetic energy is $\tfrac12 mv^2$, not $\tfrac12 v^2$.' }
+      - { value: 9, feedback: 'This is the speed squared. Take the square root.' }
+    hint: The total energy is split between motion and position. Write what part is kinetic, then solve for $v$.
+    explanation: |
+      $T = E - V = 9$ J and $T = \tfrac12 mv^2$, so $v = \sqrt{2\cdot 9/2} = 3$ m/s.
+
+  - type: numeric
+    id: omega-num
+    prompt: |
+      A $2$ kg particle moves on a line in the potential energy $V(x) = x^4 - 8x^2$ (joules, $x$ in metres). It has a stable equilibrium at $x = 2$ m. How fast, in rad/s, does it oscillate for a very small amplitude around it?
+    answer: 4
+    tolerance: 0.001
+    answerText: '4'
+    wrong:
+      - { value: 5.657, tolerance: 0.001, feedback: 'The mass is missing. A heavier particle oscillates more slowly, so $m$ must enter.' }
+      - { value: 8, feedback: 'The mass went upstairs. The frequency falls as the mass grows.' }
+      - { value: 16, feedback: 'This is $\omega^2$. Take the square root.' }
+    hint: For a very small amplitude only the curvature of $V$ at the equilibrium matters. Compare with a spring and its mass.
+    explanation: |
+      $V'' = 12x^2 - 16 = 32$ N/m at $x = 2$, so $\omega = \sqrt{32/2} = 4$ rad/s.
+
+  - type: numeric
+    id: time-num
+    prompt: |
+      A $2$ kg particle moves on a line in the potential energy $V = 4x^2$ J (a spring), starting at the origin with the speed that carries it out to the turning point at $x = 0.4$ m. How long does it take to reach $x = 0.2$ m, in seconds?
+    answer: 0.2618
+    tolerance: 0.002
+    answerText: '0.262'
+    wrong:
+      - { value: 0.25, tolerance: 0.002, feedback: 'This divides $0.2$ m by the starting speed, as if the speed stayed constant. The particle slows as it climbs, so it needs a little longer.' }
+      - { value: 0.5, tolerance: 0.002, feedback: 'This is a number that depends on the mass and the spring constant only, a rhythm of the system, not the time to cover $0.2$ m. Integrate $dx$ over the speed from the origin to $0.2$ m.' }
+    hint: The time is the integral of $dx$ over the speed, with the speed found from the energy. The result involves an inverse trigonometric function.
+    explanation: |
+      $V = \tfrac12 kx^2$ gives $k = 8$ N/m and the amplitude is $A = 0.4$ m. Then $t = \sqrt{m/k}\,\arcsin(x/A) = 0.5\cdot\arcsin(0.5) = 0.5\cdot\pi/6 = 0.262$ s.
+
+  - type: numeric
+    id: pairs-num
+    prompt: |
+      Six identical particles each interact with every other one, and every pair stores $0.5$ J of interaction energy. What is the total internal potential energy of the system, in joules?
+    answer: 7.5
+    tolerance: 0.001
+    answerText: '7.5'
+    wrong:
+      - { value: 15, feedback: 'You counted $6\times5 = 30$ ordered pairs. A pair $\alpha\beta$ and the pair $\beta\alpha$ are one pair, so each is counted once.' }
+      - { value: 3, feedback: 'This gives one pair per particle ($6\times0.5$). Every particle interacts with five others.' }
+    hint: Count the number of different pairs, not the number of particles.
+    explanation: |
+      The number of pairs is $6\cdot5/2 = 15$, so the energy is $15\times0.5 = 7.5$ J.
+
+  - type: numeric
+    id: nc-num
+    prompt: |
+      A $2$ kg block starts from rest $5$ m above the bottom of a slide and reaches the bottom at $8$ m/s. Take $g = 9.8$ m/s$^2$ and the bottom as the zero of height. What work did friction do on it along the way, in joules?
+    answer: -34
+    tolerance: 0.001
+    answerText: '-34'
+    wrong:
+      - { value: 34, feedback: 'Friction takes energy out of the block, so its work is negative.' }
+      - { value: 64, feedback: 'This is the final kinetic energy alone. The block also started with potential energy, which must be counted.' }
+      - { value: 98, feedback: 'This is the initial potential energy alone. Compare the final and initial totals.' }
+    hint: Compare the total mechanical energy at the end with the total at the start. The difference is the work of what is not in the potential energy.
+    explanation: |
+      Start: $E_1 = mgh = 2\cdot9.8\cdot5 = 98$ J. End: $E_2 = \tfrac12\cdot2\cdot8^2 = 64$ J. So $W_{\text{nc}} = E_2 - E_1 = -34$ J.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the content map of the level, where you place work, potential energy, one-dimensional motion and many particles in their boxes.
