@@ -39,7 +39,8 @@
 - **Built:** `ch06-sho` (Level 6, concept, 20 cards, energy-diagram x2, no image). Hooke, every minimum is a spring, x'' = -omega^2 x, sin/cos solution, period, energy. Split: phase form, complex form and the bottle go to new node `ch06-sho-forms` (Taylor 5.2 rest, 5.4-5.5 ahead).
 - **Widget `phasor-wheel` built (2026-11-27)** (docs/widgets/phasor-wheel.md): rotating arrow A e^{i(wt+phi)}, Re (and Im) traces, sliders A, w, phi, sum mode (z1 + z2 tip to tail, resultant amplitude and phase readout), everything hideable.
 - **Built:** `ch06-sho-forms` (Level 6, concept, 24 cards, phasor-wheel x3, no image). A cos(wt - delta), C = B1 - iB2 = A e^{-i delta}, sum of two cosines, floating bottle.
-- **Next unit:** `ch06-two-dimensions` (needs new widget `lissajous-lab` first). The exam (`exam-partial1`) comes only after Level 6.
+- **Widget `lissajous-lab` built (2026-11-27)** (docs/widgets/lissajous-lab.md): x = Ax cos(wx t), y = Ay cos(wy t - delta), dot, fading trail, full closed curve, x(t) and y(t) strips with projection lines, ratio / type / period readouts, everything hideable.
+- **Next unit:** `ch06-two-dimensions` (uses `lissajous-lab`). The exam (`exam-partial1`) comes only after Level 6.
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.

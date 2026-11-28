@@ -77,6 +77,7 @@ and a new `docs/widgets/<name>.md` plus a line below.
 - `beam-section`: Simply supported beam, solid / I / hollow section of equal area, second moment I, bending stress profile, optional rebar, prestress, crack marker, deflection
 - `oscillator-lab`: Driven mass on a spring or swaying tower: frequency, damping, live resonance curve with marker, optional tuned second mass (Den Hartog tuning, mass ratio), time trace, f = (1/2pi) sqrt(k/m), phase
 - `phasor-wheel`: Rotating arrow z = A e^{i(wt+phi)} on the complex plane, Re z (and Im z) projected onto traces; sliders A, w, phi; optional second phasor added tip to tail, resultant with amplitude and phase (sum of two cosines = one cosine)
+- `lissajous-lab`: 2D oscillator x = Ax cos(wx t - dx), y = Ay cos(wy t - dy): dot with fading trail, optional full closed curve, x(t) and y(t) strips with projection lines; sliders wx, wy, delta, Ax, Ay; readouts ratio, curve type (line / circle / ellipse / Lissajous / open), period
 - `flutter-lab`: Torsional twist of a bridge deck in wind (linear model): effective damping = structural minus aerodynamic term falls to zero at a critical wind speed, negative past it (growth, limit); damping-vs-wind plot, twist trace, optional forced-resonance contrast mode
 - `chsh-lab`: CHSH test, singlet pair: draggable analyser angles a, a', b, b' on two dials, E = -cos(x-y) curve with the local straight-line model, S and its four correlations, |S| gauge against 2 and 2.83; presets best / free / curve
 

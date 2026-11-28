@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27 widget lissajous-lab (autonomous)
+New shared widget `lissajous-lab` (js/widgets/lissajous-lab.js, docs/widgets/lissajous-lab.md, registry and README lines). Choices made without asking: same fixed layout as phasor-wheel (plane top left, y(t) strip right with time running right, x(t) strip below with time running down, so projection lines meet the "now" dots); phase convention dx = phaseX (default 0), dy = dx + delta, so delta is the phase difference; ratio found by lowest-terms search (denominator up to 24, relative tolerance 1e-4); curve type line / circle / ellipse / closed / open, period 2 pi q / wy when rational; default w step 1 (use a finer `ranges` step for open curves); delta step pi/36 so line, circle and pi/2 are reachable. Conventions fixed here: widget phases x = Ax cos(wx t - dx), delta = dy - dx.
+
 ## 2026-11-27: ch06-sho-forms built
 Concept lesson, 24 cards, phasor-wheel x3 (single, with Im trace, sum mode with labels and angle hidden). Taylor 5.2 (5.10-5.14, Fig 5.4-5.5, Example 5.2) render-checked. The sum of two cosines (law of cosines for the amplitude) is own algebra, not in Taylor. Images: none: no free image needed. Choices: bottle cross-section written S (Taylor reuses A); widget phase slider labelled -delta (widget phi = -delta). Conventions fixed here: delta = lower angle of the (B1, B2) triangle, tan delta = B2/B1, delta in (-pi, pi]; C = B1 - iB2 = A e^{-i delta}; complex amplitude; bottle omega = sqrt(g/d0), S and rho (varrho).
 

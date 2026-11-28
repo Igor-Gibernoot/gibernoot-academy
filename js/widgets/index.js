@@ -67,6 +67,7 @@ const WIDGETS = {
   'curl-loop': ['curl-loop', 'curlLoop'],
   'oscillator-lab': ['oscillator-lab', 'oscillatorLab'],
   'phasor-wheel': ['phasor-wheel', 'phasorWheel'],
+  'lissajous-lab': ['lissajous-lab', 'lissajousLab'],
   'flutter-lab': ['flutter-lab', 'flutterLab'],
   'arch-thrust': ['arch-thrust', 'archThrust'],
   'truss-frame': ['truss-frame', 'trussFrame'],
