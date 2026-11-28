@@ -1,0 +1,346 @@
+id: ch05-many-bodies
+title: Energy of Many Particles
+kind: concept
+own: |
+  Setting: $N$ particles labelled $\alpha = 1,\dots,N$ with masses $m_\alpha$, positions $\mathbf{r}_\alpha$ and speeds $v_\alpha$, in an inertial frame. $\mathbf{F}_{\alpha\beta}$ is the force on $\alpha$ from $\beta$ (internal, with the third law $\mathbf{F}_{\beta\alpha}=-\mathbf{F}_{\alpha\beta}$), $\mathbf{F}^{\text{ext}}_\alpha$ the net force on $\alpha$ from outside the system, and $\nabla_\alpha$ the gradient with respect to the coordinates of particle $\alpha$ only. Potential energy is $V$ (Taylor writes $U$, Goldstein writes $V_i$ for the external part and $V_{ij}$ for a pair).
+  - **One potential for a pair.** An isolated pair has a force that depends only on the separation vector $\mathbf{r}=\mathbf{r}_1-\mathbf{r}_2$, and if it is conservative a single function $V(\mathbf{r}_1-\mathbf{r}_2)$ gives both forces:
+    {{ $$\mathbf{F}_{12}=-\nabla_1 V(\mathbf{r}_1-\mathbf{r}_2)$$ }}
+    $$\mathbf{F}_{21}=-\nabla_2 V(\mathbf{r}_1-\mathbf{r}_2)$$
+  - **Why the energy is conserved.** The works on the two particles add up to minus the change of that one function, because $\mathbf{F}_{21}=-\mathbf{F}_{12}$ lets the two displacements combine into $d(\mathbf{r}_1-\mathbf{r}_2)$:
+    $$dT = d\mathbf{r}_1\cdot\mathbf{F}_{12}+d\mathbf{r}_2\cdot\mathbf{F}_{21} = -dV$$
+    $$E=T_1+T_2+V$$
+    The pair has two kinetic terms and one potential term. Equal and opposite forces do not mean zero work: the displacements differ.
+  - **Total potential energy of $N$ particles.** With $V_{\alpha\beta}$ the interaction energy of the pair $\alpha\beta$ and $V^{\text{ext}}_\alpha$ the energy of the external force on $\alpha$, count each pair once:
+    {{ $$V=V^{\text{int}}+V^{\text{ext}}=\sum_\alpha\sum_{\beta>\alpha}V_{\alpha\beta}+\sum_\alpha V^{\text{ext}}_\alpha$$ }}
+    The net force on any particle is $-\nabla_\alpha V$, and $E=T+V$ with $T=\sum_\alpha\tfrac12 m_\alpha v_\alpha^2$ is constant.
+  - **Second road to the same sum.** Summing over all $\alpha\neq\beta$ counts every pair twice, so the internal energy carries a factor one half:
+    {{ $$V^{\text{int}}=\tfrac12\sum_{\alpha\neq\beta}V_{\alpha\beta}$$ }}
+    This comes from the internal work $-\int\nabla_{\alpha\beta}V_{\alpha\beta}\cdot d\mathbf{r}_{\alpha\beta}$ of each pair, where $\mathbf{r}_{\alpha\beta}=\mathbf{r}_\alpha-\mathbf{r}_\beta$.
+  - **Internal work.** Internal energy can change as the particles move. In a rigid body the distances $r_{\alpha\beta}$ are fixed, the internal forces do no net work and $V^{\text{int}}$ is constant. If some forces are nonconservative, {{ $$dE=W_{\text{nc}}$$ }} the work of the nonconservative forces, even when they are internal (a sticky collision loses $T$).
+cards:
+  - type: text
+    id: hook
+    title: A spring between two masses
+    body: |
+      Two carts sit at rest on a frictionless track, joined by a stretched spring. Nobody touches them. Released, they rush toward each other. Where does their kinetic energy come from?
+
+      For one particle the answer was a potential energy $V(\mathbf{r})$ of that particle. Here the spring belongs to neither cart. It pulls each one, and the two pulls are equal and opposite. Before any algebra, guess whether the energy of the pair can be written down with one potential energy function, and how many kinetic and potential terms it would have.
+
+  - type: mcq
+    id: guess
+    review: false
+    prompt: |
+      Two carts of different masses are released from rest, joined by a stretched spring, with no outside force. The spring forces on the two carts are equal and opposite, so they add up to zero. What happens to the total kinetic energy of the pair?
+    options:
+      - text: It stays zero, because forces that add up to zero do no work
+        feedback: |
+          The sum of the forces is zero, but work is force times the displacement of the particle the force acts on. The carts move by different amounts, so the two works need not cancel. The carts do start moving, so the kinetic energy is not zero.
+      - text: It grows, and the energy comes out of the spring
+        correct: true
+      - text: It grows, and nothing else changes, so energy is created
+        feedback: |
+          The spring loses energy: it goes from stretched to relaxed. The kinetic energy gained is paid for by the stored energy, which is what we want to account for with a potential energy.
+    explanation: |
+      The momentum of the pair stays zero (the forces cancel), but the kinetic energy does not, because work depends on how far each particle moves. The lesson builds the bookkeeping that tracks it.
+
+  - type: text
+    id: recall
+    title: Recall the setting
+    body: |
+      A system of $N$ particles is labelled $\alpha=1,\dots,N$, with masses $m_\alpha$ and positions $\mathbf{r}_\alpha$ in an inertial frame. $\mathbf{F}_{\alpha\beta}$ is the force on particle $\alpha$ from particle $\beta$ (internal), and Newton's third law says $\mathbf{F}_{\beta\alpha}=-\mathbf{F}_{\alpha\beta}$. $\mathbf{F}^{\text{ext}}_\alpha$ is the net force on $\alpha$ from agents outside the system. The separation vector is $\mathbf{r}_{\alpha\beta}=\mathbf{r}_\alpha-\mathbf{r}_\beta$.
+
+      For one particle with a conservative force, the potential energy $V(\mathbf{r})$ (Taylor writes $U$) gives the force $\mathbf{F}=-\nabla V$, the work in a short step $d\mathbf{r}$ is $\mathbf{F}\cdot d\mathbf{r}$, and the work-kinetic-energy theorem says $dT=\mathbf{F}\cdot d\mathbf{r}$. We write $\nabla_\alpha$ for the gradient with respect to the coordinates $(x_\alpha,y_\alpha,z_\alpha)$ of particle $\alpha$ only.
+
+      Start with the simplest system: two particles that interact with each other and with nothing else.
+
+  - type: mcq
+    id: translation
+    prompt: |
+      Two particles, alone in the universe, exert forces $\mathbf{F}_{12}(\mathbf{r}_1,\mathbf{r}_2)$ on each other. If both are moved bodily by the same vector, keeping their separation, nothing about the situation has changed, since no outside object can tell where the pair is. What does this say about $\mathbf{F}_{12}$?
+    options:
+      - text: It depends on the positions only through the difference $\mathbf{r}_1-\mathbf{r}_2$
+        correct: true
+      - text: It depends on $\mathbf{r}_1$ alone
+        feedback: |
+          That would single out one particle as a fixed origin. Moving both particles by the same vector would then change the force, which the argument forbids.
+      - text: It must be zero
+        feedback: |
+          Translation does not forbid forces. Gravity between two stars is unchanged by moving the pair, and it is not zero. The argument only says the force cannot depend on where the pair sits.
+    explanation: |
+      Translating both particles by $\mathbf{s}$ gives the same force, so $\mathbf{F}_{12}(\mathbf{r}_1+\mathbf{s},\mathbf{r}_2+\mathbf{s})=\mathbf{F}_{12}(\mathbf{r}_1,\mathbf{r}_2)$. Choosing $\mathbf{s}=-\mathbf{r}_2$ shows the force depends only on $\mathbf{r}_1-\mathbf{r}_2$.
+
+  - type: text
+    id: pair-potential
+    title: One potential, two forces
+    body: |
+      So $\mathbf{F}_{12}=\mathbf{F}_{12}(\mathbf{r}_1-\mathbf{r}_2)$. To study it, move particle 2 to the origin: the force on particle 1 is then a force that depends on its own position $\mathbf{r}_1$ only, and the single-particle theory applies. If it is conservative it has a potential energy $V$ with $\mathbf{F}_{12}=-\nabla_1 V(\mathbf{r}_1)$. Putting particle 2 back at $\mathbf{r}_2$ replaces $\mathbf{r}_1$ by $\mathbf{r}_1-\mathbf{r}_2$:
+
+      $$\mathbf{F}_{12}=-\nabla_1 V(\mathbf{r}_1-\mathbf{r}_2)$$
+
+      The third law gives the force on particle 2 by a sign change, $\mathbf{F}_{21}=-\mathbf{F}_{12}$. The chain rule shows that $\nabla_1 V(\mathbf{r}_1-\mathbf{r}_2)=-\nabla_2 V(\mathbf{r}_1-\mathbf{r}_2)$: a unit step of $\mathbf{r}_2$ has the opposite effect of the same step of $\mathbf{r}_1$, because only the difference enters. Hence
+
+      $$\mathbf{F}_{21}=-\nabla_2 V(\mathbf{r}_1-\mathbf{r}_2)$$
+
+      There is a **single** function $V$, and the force on each particle is minus its gradient with respect to that particle's own coordinates.
+
+  - type: numeric
+    id: force-on-two
+    prompt: |
+      Two particles on a line at positions $x_1$ and $x_2$ interact through the potential energy $V=\tfrac12 k\,(x_1-x_2)^2$ with $k=6\ \mathrm{N/m}$. At $x_1-x_2=2\ \mathrm{m}$ the force on particle 1 is $F_{12}=-\partial V/\partial x_1=-12\ \mathrm{N}$. What is the force $F_{21}$ on particle 2, in newtons, from $F_{21}=-\partial V/\partial x_2$?
+    answer: 12
+    tolerance: 0.001
+    wrong:
+      - value: -12
+        feedback: |
+          That is the force on particle 1. Differentiating with respect to $x_2$ gives $\partial V/\partial x_2=-k(x_1-x_2)=-12$, so $F_{21}=-\partial V/\partial x_2=+12$ N, which also agrees with the third law.
+    hint: Differentiate with respect to $x_2$, and remember $x_2$ enters with a minus sign inside the bracket.
+    explanation: |
+      $\partial V/\partial x_2=-k(x_1-x_2)=-12$ N, so $F_{21}=+12$ N. It is the opposite of $F_{12}=-12$ N, as the third law demands, and one function $V$ produced both.
+
+  - type: text
+    id: pair-work
+    title: The work done on both particles
+    body: |
+      In a short time $dt$ particle 1 moves through $d\mathbf{r}_1$ and particle 2 through $d\mathbf{r}_2$. By the work-kinetic-energy theorem applied to each, the change of the total kinetic energy $T=T_1+T_2$ is the total work:
+
+      $$dT = d\mathbf{r}_1\cdot\mathbf{F}_{12} + d\mathbf{r}_2\cdot\mathbf{F}_{21}$$
+
+      Now use $\mathbf{F}_{21}=-\mathbf{F}_{12}$ to combine the two terms, and insert $\mathbf{F}_{12}=-\nabla_1V(\mathbf{r}_1-\mathbf{r}_2)$:
+
+      $$dT=(d\mathbf{r}_1-d\mathbf{r}_2)\cdot\mathbf{F}_{12}=d(\mathbf{r}_1-\mathbf{r}_2)\cdot\mathbf{F}_{12}$$
+
+      $$\mathbf{F}_{12}=-\nabla_1 V(\mathbf{r}_1-\mathbf{r}_2)$$
+
+      Call $\mathbf{r}=\mathbf{r}_1-\mathbf{r}_2$. Then the right side is $-d\mathbf{r}\cdot\nabla V(\mathbf{r})=-dV$, because $dV=d\mathbf{r}\cdot\nabla V$ is the change of $V$ over a step $d\mathbf{r}$. So $dT=-dV$, that is $d(T+V)=0$.
+
+  - type: order
+    id: pair-order
+    prompt: Put the proof that the energy of an isolated pair is conserved in order.
+    steps:
+      - 'Write the change of the total kinetic energy as the total work: $dT=d\mathbf{r}_1\cdot\mathbf{F}_{12}+d\mathbf{r}_2\cdot\mathbf{F}_{21}$.'
+      - 'Use the third law $\mathbf{F}_{21}=-\mathbf{F}_{12}$ to combine the terms into $dT=d(\mathbf{r}_1-\mathbf{r}_2)\cdot\mathbf{F}_{12}$.'
+      - 'Insert $\mathbf{F}_{12}=-\nabla_1V(\mathbf{r}_1-\mathbf{r}_2)$, so with $\mathbf{r}=\mathbf{r}_1-\mathbf{r}_2$ the right side is $-d\mathbf{r}\cdot\nabla V(\mathbf{r})$.'
+      - 'Recognize $d\mathbf{r}\cdot\nabla V=dV$, so $dT=-dV$ and $d(T+V)=0$.'
+    hint: The third law must come before the displacements can merge into one separation step.
+    explanation: |
+      The third law merges the two displacements into $d(\mathbf{r}_1-\mathbf{r}_2)$, and only then does the chain of the gradient with $d\mathbf{r}$ give a change $dV$ of a single function.
+
+  - type: mcq
+    id: pair-energy
+    prompt: |
+      Two particles interact through a conservative force with potential energy $V(\mathbf{r}_1-\mathbf{r}_2)$, and there are no other forces. Which expression is the conserved total energy?
+    options:
+      - text: $E=T_1+T_2+V$
+        correct: true
+      - text: $E=T_1+T_2+V_1+V_2$, one potential term for each particle
+        feedback: |
+          It is tempting because each particle feels a force. But $V$ is not a property of one particle: it is the energy of the pair, and it already accounts for the work of both forces. Counting it per particle would count the interaction twice.
+      - text: $E=T_1+T_2$
+        feedback: |
+          The kinetic energy alone changes while the particles move, as the spring-and-carts example shows. The conserved quantity includes the interaction energy $V$.
+    explanation: |
+      Two kinetic terms (one per particle) but only one potential term, since $V$ accounts for the work done by both $\mathbf{F}_{12}$ and $\mathbf{F}_{21}$.
+
+  - type: text
+    id: example-setup
+    title: The carts, in numbers
+    body: |
+      Check the result on a case. Two carts of masses $m_1=2\ \mathrm{kg}$ and $m_2=1\ \mathrm{kg}$ on a frictionless line are joined by an ideal spring of constant $k=6\ \mathrm{N/m}$ whose natural length is zero, so the interaction energy is $V=\tfrac12k\,r^2$ with $r=x_1-x_2$ the separation. They are released from rest at $r=2\ \mathrm{m}$. There is no outside force, so the energy and the total momentum are constant.
+
+      The stored energy at the start is $V=\tfrac12(6)(2)^2=12\ \mathrm{J}$. At the instant $r=0$ the spring is relaxed, so $V=0$ and all $12\ \mathrm{J}$ is kinetic.
+
+  - type: numeric
+    id: speed-ratio
+    prompt: |
+      Two carts of masses $m_1=2\ \mathrm{kg}$ and $m_2=1\ \mathrm{kg}$ start from rest, joined by a spring, with no outside force. At a later instant their speeds are $v_1$ and $v_2$ (moving toward each other). What is the ratio $v_2/v_1$?
+    answer: 2
+    tolerance: 0.001
+    wrong:
+      - value: 1
+        feedback: |
+          Equal and opposite forces give equal and opposite changes of momentum, $m_1v_1=m_2v_2$, not equal speeds. The lighter cart ends up faster.
+      - value: 0.5
+        feedback: |
+          Inverted. The momenta are equal in size, $m_1v_1=m_2v_2$, so the smaller mass has the larger speed: $v_2/v_1=m_1/m_2$.
+    hint: The total momentum starts at zero and stays zero.
+    explanation: |
+      $m_1v_1=m_2v_2$ gives $v_2/v_1=m_1/m_2=2$.
+
+  - type: numeric
+    id: speed-one
+    prompt: |
+      Two carts, $m_1=2\ \mathrm{kg}$ and $m_2=1\ \mathrm{kg}$, joined by a spring with interaction energy $V=\tfrac12 k r^2$ and $k=6\ \mathrm{N/m}$, are released from rest at separation $r=2\ \mathrm{m}$. There is no outside force. What is the speed of cart 1, in m/s, at the instant $r=0$? (Its speed and cart 2's speed are related by the momentum balance $v_2=2v_1$.)
+    answer: 2
+    tolerance: 0.001
+    wrong:
+      - value: 3.46
+        feedback: |
+          That treats cart 1 as carrying all $12\ \mathrm{J}$ ($\tfrac12\cdot2\cdot v_1^2=12$). Both carts carry kinetic energy: $T=T_1+T_2$ with $T_2$ also counted.
+    hint: Energy conservation gives $\tfrac12m_1v_1^2+\tfrac12m_2v_2^2=12$; put $v_2=2v_1$.
+    explanation: |
+      $\tfrac12(2)v_1^2+\tfrac12(1)(2v_1)^2=v_1^2+2v_1^2=3v_1^2=12$, so $v_1=2$ m/s, and $v_2=4$ m/s. Check: $T_1=4$ J, $T_2=8$ J, total $12$ J.
+
+  - type: numeric
+    id: work-two
+    prompt: |
+      The same carts ($m_1=2\ \mathrm{kg}$, $m_2=1\ \mathrm{kg}$, spring force $\pm k r$ with $k=6\ \mathrm{N/m}$) go from $r=2\ \mathrm{m}$ to $r=0$. Cart 1 gains $T_1=4\ \mathrm{J}$ of kinetic energy, and the pair gains $12\ \mathrm{J}$ in all. How much work, in joules, does the spring do on cart 2?
+    answer: 8
+    tolerance: 0.001
+    wrong:
+      - value: 4
+        feedback: |
+          That assumes the two forces do equal work because they are equal in size. They act through different distances: the lighter cart moves twice as far as the heavier one (it ends with twice the speed), so it gets twice the work.
+      - value: 12
+        feedback: |
+          $12\ \mathrm{J}$ is the work on both carts together. Cart 1 already took $4\ \mathrm{J}$ of it.
+    hint: The works on the two carts add up to the total kinetic energy gained.
+    explanation: |
+      Work on cart 2 is $T_2=8$ J (the pair gains $12$ J, cart 1 takes $4$ J). The forces are equal and opposite but cart 2 moves $\tfrac43$ m and cart 1 only $\tfrac23$ m, so the works are in the ratio $2:1$. The internal forces sum to zero, yet they do $12$ J of work.
+
+  - type: text
+    id: many-particles
+    title: N particles, with outside forces too
+    body: |
+      Now add outside forces and more particles. The total kinetic energy is a sum over particles:
+
+      $$T=\sum_\alpha\tfrac12 m_\alpha v_\alpha^2$$
+
+      Assume every force is conservative. For each **pair** $\alpha\beta$ we introduce the interaction energy $V_{\alpha\beta}=V_{\alpha\beta}(\mathbf{r}_\alpha-\mathbf{r}_\beta)$, built as in the two-particle case, with $\mathbf{F}_{\alpha\beta}=-\nabla_\alpha V_{\alpha\beta}$ and $\mathbf{F}_{\beta\alpha}=-\nabla_\beta V_{\alpha\beta}$. For each **particle** $\alpha$ we introduce $V^{\text{ext}}_\alpha(\mathbf{r}_\alpha)$ for the net external force, $\mathbf{F}^{\text{ext}}_\alpha=-\nabla_\alpha V^{\text{ext}}_\alpha$. The total potential energy is
+
+      $$V=V^{\text{int}}+V^{\text{ext}}=\sum_\alpha\sum_{\beta>\alpha}V_{\alpha\beta}+\sum_\alpha V^{\text{ext}}_\alpha$$
+
+      The condition $\beta>\alpha$ makes each pair count once (we include $V_{12}$ but not $V_{21}$, which is the same interaction). Taking $-\nabla_\alpha$ of $V$ keeps only the terms that contain $\mathbf{r}_\alpha$: the interactions of $\alpha$ with all others, and its own external term. That gives exactly the net force on $\alpha$:
+
+      $$-\nabla_\alpha V=\sum_{\beta\neq\alpha}\mathbf{F}_{\alpha\beta}+\mathbf{F}^{\text{ext}}_\alpha$$
+
+      Adding the work-kinetic-energy theorems of all particles gives $dT=W_{\text{tot}}=-dV$, so $E=T+V$ is conserved.
+
+  - type: text
+    id: goldstein-road
+    title: A second road, by adding up work
+    body: |
+      Goldstein reaches the same $V$ by computing the work done on the whole system from configuration 1 to configuration 2, using indices $i,j$ where we use $\alpha,\beta$. The work is the sum, over particles, of the integral of the force along that particle's own path:
+
+      $$W=\sum_\alpha\int_1^2\mathbf{F}^{\text{ext}}_\alpha\cdot d\mathbf{r}_\alpha+\sum_{\alpha}\sum_{\beta\neq\alpha}\int_1^2\mathbf{F}_{\alpha\beta}\cdot d\mathbf{r}_\alpha$$
+
+      The first sum is $-\Delta\sum_\alpha V^{\text{ext}}_\alpha$ as for a single particle. For the second, take one pair. The two terms $\mathbf{F}_{\alpha\beta}\cdot d\mathbf{r}_\alpha+\mathbf{F}_{\beta\alpha}\cdot d\mathbf{r}_\beta$ become $-\nabla_\alpha V_{\alpha\beta}\cdot d\mathbf{r}_\alpha-\nabla_\beta V_{\alpha\beta}\cdot d\mathbf{r}_\beta$. Because $V_{\alpha\beta}$ depends only on $\mathbf{r}_{\alpha\beta}=\mathbf{r}_\alpha-\mathbf{r}_\beta$, we have $\nabla_\alpha V_{\alpha\beta}=\nabla_{\alpha\beta}V_{\alpha\beta}=-\nabla_\beta V_{\alpha\beta}$ (here $\nabla_{\alpha\beta}$ is the gradient with respect to the components of $\mathbf{r}_{\alpha\beta}$) and $d\mathbf{r}_\alpha-d\mathbf{r}_\beta=d\mathbf{r}_{\alpha\beta}$. The pair term is therefore
+
+      $$-\int\nabla_{\alpha\beta}V_{\alpha\beta}\cdot d\mathbf{r}_{\alpha\beta}=-\Delta V_{\alpha\beta}$$
+
+      The double sum over $\alpha\neq\beta$ meets each pair twice, once as $\alpha\beta$ and once as $\beta\alpha$, so the internal work is $-\tfrac12\sum_{\alpha\neq\beta}\Delta V_{\alpha\beta}$. With $W=T_2-T_1$ the total potential energy is
+
+      $$V=\sum_\alpha V^{\text{ext}}_\alpha+\tfrac12\sum_{\alpha\neq\beta}V_{\alpha\beta}$$
+
+      the same sum as before, because $V_{\alpha\beta}=V_{\beta\alpha}$. Goldstein also takes $V_{\alpha\beta}$ to depend only on the **distance** $|\mathbf{r}_\alpha-\mathbf{r}_\beta|$, which makes the force lie along the line joining the pair (central, the condition for angular momentum in the lesson Angular Momentum of Many Particles); Taylor needs only the difference vector.
+
+  - type: mcq
+    id: half-factor
+    prompt: |
+      A system has the internal potential energy $V^{\text{int}}=\tfrac12\sum_{\alpha\neq\beta}V_{\alpha\beta}$, summed over all ordered pairs with $\alpha\neq\beta$. Why is there a factor $\tfrac12$?
+    options:
+      - text: Each pair $\{\alpha,\beta\}$ appears twice in the sum, as $\alpha\beta$ and as $\beta\alpha$, with the same value $V_{\alpha\beta}=V_{\beta\alpha}$
+        correct: true
+      - text: Each particle shares half of its potential energy with its partner
+        feedback: |
+          Energy is not split between the particles. $V_{\alpha\beta}$ is one number for the pair. The $\tfrac12$ is only bookkeeping for a double listing.
+      - text: Kinetic energy has a $\tfrac12$, so potential energy is written the same way
+        feedback: |
+          The $\tfrac12$ in $\tfrac12mv^2$ comes from integrating $v$. The one in $V^{\text{int}}$ comes from counting pairs. The two have nothing to do with each other.
+    explanation: |
+      The sum over $\beta>\alpha$ lists each pair once and needs no factor. The sum over $\alpha\neq\beta$ lists each twice, hence the $\tfrac12$.
+
+  - type: numeric
+    id: three-pairs
+    prompt: |
+      Three particles attract each other, and each of the three pairs has interaction energy $V_{\alpha\beta}=-4\ \mathrm{J}$. What is the internal potential energy $V^{\text{int}}$ of the system, in joules?
+    answer: -12
+    tolerance: 0.001
+    wrong:
+      - value: -24
+        feedback: |
+          That adds up all six ordered pairs $\alpha\neq\beta$ without the factor $\tfrac12$, so every interaction is counted twice.
+      - value: -4
+        feedback: |
+          That is one pair. Three particles have three distinct pairs ($12$, $13$, $23$), and each contributes.
+    hint: Count the distinct pairs, then add.
+    explanation: |
+      Pairs: $12$, $13$, $23$, so $V^{\text{int}}=3(-4)=-12$ J. With the $\alpha\neq\beta$ sum: $\tfrac12\cdot6\cdot(-4)=-12$ J. For $N$ particles there are $N(N-1)/2$ pairs.
+
+  - type: text
+    id: rigid
+    title: When the internal energy does not matter
+    body: |
+      The internal potential energy $V^{\text{int}}$ is not zero in general, and it can change as the particles move: the spring example went from $12\ \mathrm{J}$ to $0$. There is one important system where it cannot change.
+
+      In a **rigid body** all the distances $r_{\alpha\beta}$ are fixed. Then $d\mathbf{r}_{\alpha\beta}$ is perpendicular to $\mathbf{r}_{\alpha\beta}$ (a vector of fixed length changes only in direction), and the internal force $\mathbf{F}_{\alpha\beta}$ lies along $\mathbf{r}_{\alpha\beta}$. So the pair term $-\int\nabla_{\alpha\beta}V_{\alpha\beta}\cdot d\mathbf{r}_{\alpha\beta}$ is zero: the **internal forces do no net work**, and $V^{\text{int}}$ stays constant. A constant potential energy can be dropped, because only changes of $V$ matter. This is why the energy of a spinning, falling rigid body only needs its kinetic energy and the external potential energy.
+
+  - type: mcq
+    id: rigid-check
+    prompt: |
+      Two atoms are held at a fixed distance by a stiff rod, and the pair tumbles through space. The rod forces on the two atoms are equal and opposite and lie along the rod. What is the total work done by the rod forces on the pair?
+    options:
+      - text: Zero, because the relative displacement of the atoms is perpendicular to the rod
+        correct: true
+      - text: Positive, because the forces move with the atoms
+        feedback: |
+          Each force may do work on its own atom, but the total is $d(\mathbf{r}_1-\mathbf{r}_2)\cdot\mathbf{F}_{12}$. The separation vector keeps its length, so $d(\mathbf{r}_1-\mathbf{r}_2)$ is perpendicular to the rod, while $\mathbf{F}_{12}$ lies along it.
+      - text: Zero, because the forces are equal and opposite
+        feedback: |
+          Equal and opposite forces gave $12$ J of work in the spring example. The reason it is zero here is the geometry: the relative displacement of the atoms is perpendicular to the force.
+    explanation: |
+      The total work of the pair is $d(\mathbf{r}_1-\mathbf{r}_2)\cdot\mathbf{F}_{12}$. Along the rod the separation does not change, so this is zero, even though each atom separately may gain or lose energy.
+
+  - type: numeric
+    id: sticky
+    prompt: |
+      A $1\ \mathrm{kg}$ ball moving at $4\ \mathrm{m/s}$ hits a stationary $1\ \mathrm{kg}$ ball and they stick together. There is no outside force, so the total momentum is conserved, but the forces during the sticking are internal and nonconservative. How much total kinetic energy, in joules, is lost?
+    answer: 4
+    tolerance: 0.001
+    wrong:
+      - value: 0
+        feedback: |
+          Momentum is conserved, but energy $T+V$ is conserved only if all forces are conservative. Here $dE=W_{\text{nc}}$ and the internal sticking forces do negative nonconservative work.
+      - value: 8
+        feedback: |
+          The pair keeps moving after the collision. Momentum $4\ \mathrm{kg\,m/s}$ is conserved, so the joined balls move at $2$ m/s and still carry kinetic energy.
+    hint: Find the final speed from momentum, then compare the kinetic energies.
+    explanation: |
+      Final speed $v=4/2=2$ m/s. Kinetic energy goes from $\tfrac12(1)(4)^2=8$ J to $\tfrac12(2)(2)^2=4$ J, a loss of $4$ J. This is $W_{\text{nc}}=-4$ J: internal forces can change the total energy $T+V$ when they are not conservative.
+
+  - type: numeric
+    id: total-v
+    prompt: |
+      Two particles hang vertically: $m_1=2\ \mathrm{kg}$ at height $y_1=1\ \mathrm{m}$ and $m_2=1\ \mathrm{kg}$ at $y_2=3\ \mathrm{m}$, joined by a spring of constant $k=6\ \mathrm{N/m}$ and natural length zero. Gravity ($g=9.8\ \mathrm{m/s^2}$) is the external force, with $V^{\text{ext}}_\alpha=m_\alpha g\,y_\alpha$, and the spring gives $V^{\text{int}}=\tfrac12k(y_1-y_2)^2$. What is the total potential energy $V$, in joules?
+    answer: 61
+    tolerance: 0.001
+    wrong:
+      - value: 73
+        feedback: |
+          That counts the spring twice ($24+49$). The interaction energy of the pair appears once in $V$, not once per particle.
+      - value: 49
+        feedback: |
+          That is only the gravitational (external) part, $2(9.8)(1)+1(9.8)(3)=49$ J. The spring stores energy too.
+    explanation: |
+      $V^{\text{int}}=\tfrac12(6)(2)^2=12$ J and $V^{\text{ext}}=19.6+29.4=49$ J, so $V=61$ J.
+
+  - type: numeric
+    id: net-force
+    prompt: |
+      The same two particles ($m_1=2\ \mathrm{kg}$ at $y_1=1\ \mathrm{m}$, $m_2=1\ \mathrm{kg}$ at $y_2=3\ \mathrm{m}$, spring $k=6\ \mathrm{N/m}$ of natural length zero, $g=9.8\ \mathrm{m/s^2}$) have total potential energy $V=\tfrac12k(y_1-y_2)^2+m_1gy_1+m_2gy_2$. What is the vertical force on particle 2, in newtons ($+$ is up), from $F_{2}=-\partial V/\partial y_2$?
+    answer: -21.8
+    tolerance: 0.001
+    wrong:
+      - value: -9.8
+        feedback: |
+          That is the weight alone. Particle 2 is also pulled down by the spring, because it is above particle 1 and the spring is stretched.
+      - value: 21.8
+        feedback: |
+          The sign is wrong: particle 2 is pulled down by both gravity and the spring, so the net force points down.
+    hint: Differentiate the spring term and the gravity term of $V$ with respect to $y_2$ only.
+    explanation: |
+      $\partial V/\partial y_2=-k(y_1-y_2)+m_2g=-6(-2)+9.8=21.8$, so $F_2=-21.8$ N. Spring $-12$ N plus weight $-9.8$ N, from one function $V$.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the Energy Traps round puts these ideas, and the whole level, through fast questions built on common mistakes.
