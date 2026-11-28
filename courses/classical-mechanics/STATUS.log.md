@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27 widget phasor-wheel (autonomous)
+New shared widget `phasor-wheel` (js/widgets/phasor-wheel.js, docs/widgets/phasor-wheel.md, registry and README lines). Choices made without asking: fixed layout with the plane top left, Im trace to its right (time runs right) and Re trace below (time runs down), so each projection line is geometrically honest; traces are analytic (past of the current time, no history buffer); phases in rad (`phaseUnit: deg` option); sum mode shares one omega; tip is not draggable; default plane scale fits amplitude range [0,1.5] + amplitude2 range [0,1] (`extent` overrides). Checked: validate clean, widget-smoke (docs smoke block), screenshot of single and sum modes viewed. Conventions fixed here: none.
+
 ## 2026-11-27 ch06-sho (Level 6, concept, autonomous)
 20 cards, energy-diagram x2 (four wells with period readouts; spring with bars). Taylor 5.1-5.2 render-checked (PDF 173-181). Planned 5.2 in full would exceed 25 cards, so the phase-shifted cosine, complex exponential form and Example 5.2 (bottle) moved to new node ch06-sho-forms; this lesson keeps energy and period. Energy derived from the turning-point argument plus x = A cos(wt). No image (no verified free Hooke portrait). Conventions fixed here: plain omega = sqrt(k/m) and tau as Taylor; x measured from equilibrium; B1 = x0, B2 = v0/omega; E = kA^2/2; cart m = 0.5 kg, k = 200 N/m numbers; cube k = mg(r - b).
 

@@ -66,6 +66,7 @@ const WIDGETS = {
   'energy-diagram': ['energy-diagram', 'energyDiagram'],
   'curl-loop': ['curl-loop', 'curlLoop'],
   'oscillator-lab': ['oscillator-lab', 'oscillatorLab'],
+  'phasor-wheel': ['phasor-wheel', 'phasorWheel'],
   'flutter-lab': ['flutter-lab', 'flutterLab'],
   'arch-thrust': ['arch-thrust', 'archThrust'],
   'truss-frame': ['truss-frame', 'trussFrame'],

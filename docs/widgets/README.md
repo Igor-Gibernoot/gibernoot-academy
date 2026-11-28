@@ -76,6 +76,7 @@ and a new `docs/widgets/<name>.md` plus a line below.
 - `truss-frame`: Pin-jointed frame (square, braced, triangle, Warren, Pratt) with draggable joints and load, bar forces by method of joints (tension orange, compression blue), rigid / mechanism indicator
 - `beam-section`: Simply supported beam, solid / I / hollow section of equal area, second moment I, bending stress profile, optional rebar, prestress, crack marker, deflection
 - `oscillator-lab`: Driven mass on a spring or swaying tower: frequency, damping, live resonance curve with marker, optional tuned second mass (Den Hartog tuning, mass ratio), time trace, f = (1/2pi) sqrt(k/m), phase
+- `phasor-wheel`: Rotating arrow z = A e^{i(wt+phi)} on the complex plane, Re z (and Im z) projected onto traces; sliders A, w, phi; optional second phasor added tip to tail, resultant with amplitude and phase (sum of two cosines = one cosine)
 - `flutter-lab`: Torsional twist of a bridge deck in wind (linear model): effective damping = structural minus aerodynamic term falls to zero at a critical wind speed, negative past it (growth, limit); damping-vs-wind plot, twist trace, optional forced-resonance contrast mode
 - `chsh-lab`: CHSH test, singlet pair: draggable analyser angles a, a', b, b' on two dials, E = -cos(x-y) curve with the local straight-line model, S and its four correlations, |S| gauge against 2 and 2.83; presets best / free / curve
 
