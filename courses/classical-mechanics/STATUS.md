@@ -7,18 +7,9 @@
 - **Level 1 fully built and audited (2026-11-24):** prediction, least-action, phase-space, traps, map, challenge (27 cards). Widgets `newton-cannon`, `least-action-path`, `phase-portrait` (docs/widgets/).
 - **Level 2 fully built and audited (2026-11-25):** space-time, inertia, third-law, cartesian, polar, polar-proof, traps, intuition, map, challenge (32 cards). Widgets `two-body-push`, `incline-block`, `polar-motion`.
 - **Widgets built (details in docs/widgets/):** `drag-fall`, `projectile-drag`, `charge-field` (Level 3); `rocket-exhaust`, `cm-toss`, `ang-mom-area` (Level 4).
-- **Built:** `ch03-drag` (21 cards, drag-fall x2), `ch03-linear-drag` (19 cards, drag-fall x3); no images.
-- **Built:** `ch03-trajectory` (guided problem, 23 cards, projectile-drag x3), `ch03-quadratic-drag` (22 cards, drag-fall x2; coasting by text and numeric cards).
-- **Built:** `ch03-magnetic` (19 cards, charge-field x2), `ch03-traps` (16), `ch03-intuition` (19), `ch03-map` (9 boxes: linear drag, drag laws, quadratic drag); no images.
-- **Built:** `ch03-challenge` complete (32 cards: problems 1-3 ball up with drag, projectile with drag, charge spiral with drag; 4 fall with both drag terms (drag-fall), 5 electron helix; plain closing card with teaser to momentum). Level 3 content is built.
+- **Level 3 content built** (drag, linear-drag, trajectory, quadratic-drag, magnetic, traps, intuition, map, challenge 32 cards); no images.
 - **Level 3 audited (2026-11-26):** Taylor 2.2 render-checked (PDF 59-64); raindrop-at-0.6-m/s wording softened; validate and shots clean.
-- **Built:** `ch04-rockets` (Level 4, concept, 20 cards, rocket-exhaust x4, no image). Rocket equation, thrust, frame trap, gravity.
-- **Built:** `ch04-center-of-mass` (Level 4, concept, 23 cards, cm-toss x5, no image).
-- **Built:** `ch04-angular-momentum` (Level 4, concept, 21 cards, ang-mom-area x5, Kepler portrait). Several-particle result stated, proof deferred.
-- **Built:** `ch04-many-particles` (Level 4, guided proof, 23 cards, no widget, no image). Proves dL/dt = N_ext from the third law plus central forces; couple counterexample.
-- **Built:** `ch04-traps` (16 cards), `ch04-intuition` (15), `ch04-map` (6 boxes); no widget, no image.
-- **Built:** `ch04-challenge` part 1 (21 cards: rocket with gravity and burn rate, shell bursting at the top with the CM landing, puck on a string pulled through a hole; no widget, no image).
-- **Built:** `ch04-challenge` part 2 (32 cards in all: problem 4 spinning pair in free flight, orbital plus spin L, reeling in; problem 5 off-center thruster puff; closing card with teaser to Energy). Level 4 content is built.
+- **Level 4 content built** (rockets, center-of-mass, angular-momentum with Kepler portrait, many-particles guided proof, traps, intuition, map, challenge 32 cards).
 - **Level 4 audited (2026-11-27):** Taylor 3.2-3.5 (PDF 98-107) render-checked, no formula fixes; lesson cross-references by title; Kepler portrait caption softened (identification disputed); Level 2 torque symbol aligned (N). Validate clean.
 - **Widget `work-path` built (2026-11-27)** (docs/widgets/work-path.md): field uniform / spring / swirl / shear, roads straight / bent / arc / draggable control, dots, running W = integral F.dr, bar per road, spread readout.
 - **Built:** `ch05-work` (Level 5, concept, 21 cards, work-path x2, no image). Line integral, work-KE theorem (both derivations), Taylor's F=(y,2x) three roads.
