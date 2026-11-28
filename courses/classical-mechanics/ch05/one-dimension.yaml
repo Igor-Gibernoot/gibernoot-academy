@@ -1,0 +1,397 @@
+id: ch05-one-dimension
+title: Energy Diagrams in One Dimension
+kind: concept
+own: |
+  Setting: a particle of mass $m$ moves along a straight line with coordinate $x$, under a force $F_x$ that depends only on $x$. Its kinetic energy is $T=\tfrac12 m\dot x^2$ and its potential energy is $V(x)$ (Taylor writes $U$). Plotting $V$ against $x$ gives a picture like a roller coaster track.
+  - **Potential and force.** In one dimension a force that depends only on $x$ is always conservative, because the only roads between two points differ by going back and forth, and the back-and-forth parts cancel. With a reference point $x_0$:
+    {{ $$V(x) = -\int_{x_0}^{x} F_x(x')\,dx'\qquad F_x = -\frac{dV}{dx}$$ }}
+    The force points downhill on the graph of $V$ and is zero where the graph is flat.
+  - **Speed from the graph.** With $E=T+V(x)$ constant, the speed at each $x$ follows from the height of the line $E$ above the curve (the sign of $\dot x$ is chosen by inspection of the motion):
+    {{ $$\dot x = \pm\sqrt{\frac{2}{m}\,\bigl(E - V(x)\bigr)}$$ }}
+  - **Turning points.** The motion is only possible where $E\ge V(x)$, since $T\ge 0$. A point where $V(x)=E$ is a turning point: the particle stops there and goes back. Between two turning points the particle is trapped and oscillates; where the allowed region reaches the edge of the graph it can escape.
+  - **Equilibrium and stability.** An equilibrium point $x_0$ is where the force vanishes:
+    {{ $$\frac{dV}{dx}\Big|_{x_0} = 0$$ }}
+    It is stable if $V''(x_0)>0$ (a minimum: a small push brings the particle back) and unstable if $V''(x_0)<0$ (a maximum: a small push sends it away). If $V''(x_0)=0$ the test says nothing and the higher terms decide.
+  - **Small oscillations.** Near a stable $x_0$, the linear term of the Taylor series of $V$ vanishes, so $V\approx V(x_0)+\tfrac12 V''(x_0)(x-x_0)^2$: a spring of constant $V''(x_0)$ centred at $x_0$. The oscillation has angular frequency and period
+    {{ $$\omega = \sqrt{\frac{V''(x_0)}{m}},\qquad \tau = 2\pi\sqrt{\frac{m}{V''(x_0)}}$$ }}
+    valid when the energy is only slightly above $V(x_0)$; for higher energy the period changes.
+  - **Time-dependent potential.** If the potential energy $V(\mathbf r,t)$ of a particle at position $\mathbf r$ depends explicitly on the time $t$ (a charge near a sphere whose own charge leaks away), then $\mathbf F=-\nabla V$ still holds at each instant, but the mechanical energy $T+V$ is no longer constant; in a time $dt$ it changes by
+    {{ $$d(T+V)=\frac{\partial V}{\partial t}\,dt$$ }}
+    The energy goes into whatever changes $V$ (here, heating the air).
+cards:
+  - type: text
+    id: hook
+    title: A marble on a hilly track
+    body: |
+      A marble rolls without friction on a track that rises and falls like hills and valleys. You let it go from rest at the top of a small bump, then give it a push from the bottom of a valley. Before any formula, guess three things. How high can the marble ever climb? Where does it turn around? And if you park it exactly on top of a hill, or at the bottom of a valley, what happens when a breath of wind nudges it?
+
+      The idea of this lesson is that one curve, the potential energy plotted against position, answers all of these questions at a glance, without solving any equation of motion.
+
+  - type: widget
+    id: roller
+    title: The marble and the line
+    widget: energy-diagram
+    config:
+      potentials:
+        - { label: Valley and hill, type: poly, coeffs: [0, 0.3, -1.2, 0, 0.4], view: [-2.4, 2.4, -1.6, 2.6], E: 0.8, x: -1.6 }
+        - { label: Double well, type: double }
+        - { label: Hill, type: hill }
+      sliders: [E]
+      bars: [T, V, E]
+      units: { V: J, x: m }
+      show:
+        turning: false
+        turnLines: false
+        equilibria: false
+        eqLabels: false
+        forceArrow: false
+    body: |
+      The curve is the height of the track, which here is the potential energy $V(x)$. The purple line is the total energy $E$ of the marble, and the blue ball moves along the track under $F=-dV/dx$. The bars show the kinetic energy $T$, the potential energy $V$ and the total $E$.
+
+      **Try:** press play and watch the bars while the ball moves. Then drag the purple line up and down and see how far the ball can go.
+
+  - type: mcq
+    id: reach
+    prompt: |
+      A frictionless marble starts from rest at a point on a track whose height gives the potential energy $V(x)$. Its total energy is then $E=V(x_{\text{start}})$. Can it ever reach a point where the track is higher than its starting point?
+    options:
+      - text: No, it can never be on a part of the track where $V(x)>E$
+        correct: true
+      - text: Yes, after enough oscillations it gains height
+        feedback: |
+          Nothing adds energy: $E=T+V$ stays constant. Gaining height means $V$ increases, so $T=E-V$ must decrease, and it cannot decrease below zero.
+      - text: Yes, but only if the track is steep enough
+        feedback: |
+          Steepness does not matter here. It only changes how fast $T$ and $V$ trade places. The bound comes from $T=E-V\ge0$.
+    explanation: |
+      Since $T=\tfrac12 m\dot x^2\ge0$ and $T=E-V(x)$, the marble can only be where $V(x)\le E$. This is the one rule behind the whole lesson.
+
+  - type: text
+    id: one-d
+    title: One dimension makes it simple
+    body: |
+      Take a particle constrained to a straight line with coordinate $x$. Only the $x$ component $F_x$ of a force can do work, and the work is a plain integral:
+
+      $$W(x_1\to x_2)=\int_{x_1}^{x_2}F_x(x)\,dx$$
+
+      Recall that a force is conservative when (i) it depends only on position and (ii) its work is the same on every road between two points. In one dimension, (i) already implies (ii). Between two points A and B on a line there is only a small choice of roads. The direct road AB is one. Another goes from A past B to a point C and then back to B. Its work is
+
+      $$W(AB)+W(BC)+W(CB)$$
+
+      and since $F_x$ depends only on $x$, each step from B to C is cancelled by the same step from C back to B, so only $W(AB)$ is left. Any road that doubles back many times reduces to the direct road in the same way.
+
+      So **any force $F_x(x)$ in one dimension is conservative**, and with a reference point $x_0$ we may define
+
+      $$V(x)=-\int_{x_0}^{x}F_x(x')\,dx'$$
+
+      and then
+
+      $$F_x=-\frac{dV}{dx}$$
+
+      (Taylor writes $U$ for $V$.) For a spring $F_x=-kx$ with $x_0=0$ this gives $V=\tfrac12kx^2$.
+
+  - type: mcq
+    id: which-1d
+    prompt: |
+      A particle moves on a straight line. Which of these forces is conservative, so that a potential energy $V(x)$ exists? Select all that apply.
+    multiple: true
+    options:
+      - text: $F_x=-kx$ for a spring
+        correct: true
+      - text: $F_x=-3x^2$, depending on position in some other odd way
+        correct: true
+      - text: $F_x=-b\dot x$, a drag force
+        feedback: |
+          It depends on the velocity, so it fails condition (i). The one-dimensional shortcut only removes condition (ii).
+      - text: $F_x=F_0\cos(\omega t)$, a force that depends only on time
+        feedback: |
+          It depends on the time, not on the position alone, so it fails (i) and no $V(x)$ exists.
+    explanation: |
+      In one dimension, any force that depends on $x$ alone is conservative, however strange its dependence. Velocity or time dependence still ruins it.
+
+  - type: numeric
+    id: cubic-potential
+    prompt: |
+      A particle on a line feels the force $F_x=-3x^2$ (in newtons, with $x$ in metres). Take the reference point $x_0=0$, where $V=0$. What is $V$ at $x=2\ \mathrm{m}$, in joules?
+    answer: 8
+    tolerance: 0.001
+    wrong:
+      - { value: -8, feedback: 'That is $+\int F_x\,dx$. The definition has a minus sign: $V(x)=-\int_{x_0}^{x}F_x\,dx''$.' }
+      - { value: 12, feedback: 'That is the force magnitude $3x^2$ at $x=2$, not its integral. $V$ is minus the integral of $F_x$.' }
+    hint: Integrate $-F_x=3x'^2$ from $0$ to $x$.
+    explanation: |
+      $V(x)=-\int_0^x(-3x'^2)\,dx'=x^3$, so $V(2)=8\ \mathrm{J}$. Check: $-dV/dx=-3x^2$ is the force we started from.
+
+  - type: text
+    id: downhill
+    title: The graph as a track
+    body: |
+      With one variable, $V(x)$ can be drawn, and the relation $F_x=-dV/dx$ says what the force does at each point: it points **downhill** on the graph. The slope $dV/dx$ is positive on a rising part (force to the left) and negative on a falling part (force to the right), and its size is the steepness. For a roller coaster $V=mgh$, with $h$ the height, so the graph of $V$ has the shape of the track itself. That is why the picture of a marble on a track is not just an analogy: for any one-dimensional conservative system, the graph of $V(x)$ is a track on which the particle always accelerates downhill.
+
+  - type: widget
+    id: slope-force
+    title: Slope and force
+    widget: energy-diagram
+    config:
+      potentials:
+        - { label: Valley and hill, type: poly, coeffs: [0, 0.3, -1.2, 0, 0.4], view: [-2.4, 2.4, -1.6, 2.6], E: 0.8, x: -1.6 }
+        - { label: Spring, type: spring }
+        - { label: Slope, type: slope }
+      readouts: [x, slope, F]
+      units: { V: J, x: m, F: N }
+      show:
+        turning: false
+        turnLines: false
+        equilibria: false
+        eqLabels: false
+        bars: false
+        tangent: true
+        line: false
+        handle: false
+        region: false
+        axisBand: false
+    body: |
+      The orange arrow is the force $F_x=-dV/dx$ on the ball and the straight line touching the curve shows the slope there.
+
+      **Try:** drag the ball along the curve (the energy line is hidden) and watch how the arrow points against the slope. Find the places where the arrow vanishes.
+
+  - type: mcq
+    id: slope-meaning
+    prompt: |
+      On the graph of $V(x)$ a particle sits on a rising part, where $dV/dx>0$. Which way does the force $F_x=-dV/dx$ push it, and what does that do to its speed if it is moving to the right?
+    options:
+      - text: To the left, so moving to the right it slows down
+        correct: true
+      - text: To the right, because the particle follows the slope
+        feedback: |
+          The force is minus the slope. On a rising part it points toward lower $V$, which is to the left, like gravity on an incline pushing you back down.
+      - text: To the left, so moving to the right it speeds up
+        feedback: |
+          A force opposite to the motion removes kinetic energy. Equivalently, climbing raises $V$, and $T=E-V$ drops.
+    explanation: |
+      Downhill on the graph is the direction of $F_x$. Climbing costs kinetic energy and descending gives it back.
+
+  - type: text
+    id: speed
+    title: Speed at every point
+    body: |
+      Since $E=T+V(x)$ is constant, and $T=\tfrac12m\dot x^2$, the speed at each position follows from the gap between the line $E$ and the curve:
+
+      $$\dot x=\pm\sqrt{\frac{2}{m}\,\bigl(E-V(x)\bigr)}$$
+
+      The sign is not fixed by energy alone: it says nothing about the direction of motion, so in one dimension you decide it by looking at the motion, and in more dimensions this method is not enough. In the widget, the bar $T$ is exactly this gap. Recall the units: with $m$ in kilograms and energies in joules, $\dot x$ comes out in metres per second.
+
+  - type: numeric
+    id: speed-number
+    prompt: |
+      A particle of mass $m=0.5\ \mathrm{kg}$ moves on a line with total energy $E=5\ \mathrm{J}$. At $x=1\ \mathrm{m}$ the potential energy is $V=3\ \mathrm{J}$. What is its speed there, in m/s?
+    answer: 2.828
+    tolerance: 0.005
+    answerText: '2.83'
+    wrong:
+      - { value: 8, feedback: 'That is $\dot x^2=2(E-V)/m$, the square of the speed. Take the square root.' }
+      - { value: 1.414, feedback: 'That is $\sqrt{E-V}$ with no factor $2/m$. From $T=\tfrac12m\dot x^2$ we get $\dot x=\sqrt{2T/m}$.' }
+    hint: $T=E-V$ is the kinetic energy, and $T=\tfrac12m\dot x^2$.
+    explanation: |
+      $T=E-V=2\ \mathrm{J}$. Then $\dot x^2=2T/m=4/0.5=8$, so $\dot x=\sqrt8=2.83\ \mathrm{m/s}$.
+
+  - type: text
+    id: turning
+    title: Turning points and trapping
+    body: |
+      Because $T\ge0$, the particle can only be where $E\ge V(x)$. The shaded region between the curve and the line $E$ is the allowed region. A point where $V(x)=E$ is a **turning point**: $T=0$ there, the particle stops, and the force (pointing downhill, so back into the allowed region) sends it back.
+
+      Take a well between two hills. If $E$ is below the crests of both hills, the particle is trapped between its two turning points and oscillates for ever. If $E$ is above one crest but below the other, it escapes on that side, because nothing there makes $V$ exceed $E$. If $E$ is above both, it can leave either way. A diatomic molecule is the same picture with $x$ the distance between the atoms: $E<0$ gives a bound molecule oscillating between two turning points, and $E>0$ lets the atoms fly apart.
+
+  - type: widget
+    id: turning-points
+    title: Where does it turn?
+    widget: energy-diagram
+    config:
+      potentials:
+        - { label: Double well, type: double, E: 0.5, x: -1 }
+        - { label: Asymmetric, type: poly, coeffs: [0, 0.3, -1.2, 0, 0.4], view: [-2.4, 2.4, -1.6, 2.6], E: -0.5, x: -1.6 }
+        - { label: Lennard-Jones, type: lj }
+      sliders: [E]
+      bars: [T, V, E]
+      units: { V: J, x: m }
+      show:
+        equilibria: false
+        eqLabels: false
+        forceArrow: false
+        trace: true
+    body: |
+      The orange dots are the turning points $V(x)=E$ and the green band under the curve is the allowed range of $x$.
+
+      **Try:** in the double well start with $E=0.5$ and the ball on the left, then raise $E$ slowly past the barrier at $V=1$. Count the turning points before and after. Then do the same in the other two potentials.
+
+  - type: mcq
+    id: crossing
+    prompt: |
+      In a double well $V(x)$ with two valleys separated by a barrier of height $V_b$, a frictionless particle starts in the left valley with total energy $E<V_b$. Can it ever be found in the right valley?
+    options:
+      - text: 'No, to cross, the particle would need to be at the barrier top where $V=V_b>E$, which requires $T<0$'
+        correct: true
+      - text: Yes, it can slip across because the force at the top of the barrier is zero
+        feedback: |
+          The force is zero exactly at the top, but to get there the particle must climb the whole barrier, which would need kinetic energy it does not have. It turns back before reaching the top.
+      - text: Yes, it crosses once it has oscillated long enough
+        feedback: |
+          Oscillating does not add energy, and the turning point stays where $V=E$. The motion is limited to the left valley however long it runs.
+    explanation: |
+      With $E<V_b$ the allowed region splits into two separate intervals, and the particle stays in the one where it started. This is a statement about the classical motion only.
+
+  - type: numeric
+    id: turning-number
+    prompt: |
+      A mass on a spring has potential energy $V=\tfrac12kx^2$ with $k=50\ \mathrm{N/m}$ and total energy $E=4\ \mathrm{J}$. How far from the centre, in metres, are its turning points?
+    answer: 0.4
+    tolerance: 0.001
+    wrong:
+      - { value: 0.16, feedback: 'That is $x^2$. Taking the square root gives the position of the turning point: $x=\sqrt{2E/k}$.' }
+      - { value: 0.08, feedback: 'That uses $E=kx^2$ instead of $E=\tfrac12kx^2$. At a turning point $T=0$ so $E=V=\tfrac12kx^2$.' }
+    hint: At a turning point $T=0$, so $E=V(x)$.
+    explanation: |
+      $\tfrac12kx^2=E$ gives $x^2=2E/k=8/50=0.16$, so $x=\pm0.4\ \mathrm{m}$.
+
+  - type: text
+    id: equilibrium
+    title: Equilibrium and stability
+    body: |
+      The force vanishes where the track is flat, $dV/dx=0$. A particle placed at rest at such a point stays there: it is an **equilibrium point**. The question is what a small push does. At a minimum of $V$, where $d^2V/dx^2>0$, a displacement to either side gives a force back toward the point: the equilibrium is **stable**. At a maximum, where $d^2V/dx^2<0$, a displacement gives a force away from it: **unstable**.
+
+      The second-derivative test can be silent. If $V''=0$ at an equilibrium, the curve may still be a minimum, a maximum or neither, and you must look at the next nonzero derivative or at the graph.
+
+  - type: widget
+    id: stability
+    title: Nudging an equilibrium
+    widget: energy-diagram
+    config:
+      potentials:
+        - { label: Double well, type: double, E: 1, x: 0 }
+        - { label: Valley and hill, type: poly, coeffs: [0, 0.3, -1.2, 0, 0.4], view: [-2.4, 2.4, -1.6, 2.6], E: 0.8, x: 0.5 }
+        - { label: Cubic, type: poly, coeffs: [0, 0, 0, 1], view: [-1.5, 1.5, -1.2, 1.2], E: 0, x: 0 }
+      sliders: [E]
+      bars: [T, V, E]
+      units: { V: J, x: m }
+      show:
+        trace: true
+    body: |
+      Filled green marks are stable equilibria, open red rings unstable ones and a grey diamond a point where $V''=0$.
+
+      **Try:** in the double well the ball starts at rest at the top of the barrier ($E=1$). Press play: it stays. Press reset, drag it a little to one side and play again: it rolls away. Then set $E$ to $0$ and drag the ball to the bottom of a valley; with a small nudge it stays near it. Last, look at the cubic, where the test is silent.
+
+  - type: mcq
+    id: classify
+    prompt: |
+      A particle has the potential energy $V(x)=x^3-3x$. Where are its equilibrium points and what is their stability? (Use $V'=3x^2-3$ and $V''=6x$.)
+    options:
+      - text: $x=1$ is stable and $x=-1$ is unstable
+        correct: true
+      - text: $x=1$ is unstable and $x=-1$ is stable
+        feedback: |
+          Check the sign of $V''=6x$. At $x=1$ it is $+6>0$, a minimum, so stable; at $x=-1$ it is $-6<0$, a maximum, so unstable.
+      - text: Both are stable because $V'=0$ there
+        feedback: |
+          $V'=0$ only says the force vanishes. Stability depends on the sign of $V''$: a maximum of $V$ is an equilibrium too, but a nudge sends the particle away.
+      - text: Only $x=0$ is an equilibrium, where $V''=0$
+        feedback: |
+          $V''=0$ is not the condition for equilibrium. The force vanishes where $V'=3x^2-3=0$, that is $x=\pm1$.
+    explanation: |
+      $V'=0$ gives $x=\pm1$. $V''(1)=6>0$ so $x=1$ is a minimum (stable) and $V''(-1)=-6<0$ so $x=-1$ is a maximum (unstable).
+
+  - type: mcq
+    id: silent-test
+    prompt: |
+      Both $V_a(x)=x^4$ and $V_b(x)=x^3$ have $V'=0$ and $V''=0$ at $x=0$. Which statement is right?
+    options:
+      - text: 'The test says nothing, and a look at the graph shows $x^4$ has a stable minimum at $0$ while $x^3$ is neither a minimum nor a maximum'
+        correct: true
+      - text: Both are unstable, since $V''=0$ is not positive
+        feedback: |
+          $V''>0$ is sufficient for stability, not necessary. $x^4$ is lowest at $0$ and a displaced particle is pushed back.
+      - text: Both are stable, since $V''=0$ is not negative
+        feedback: |
+          For $x^3$ the force $-3x^2$ is to the left on both sides of $0$, so a particle displaced to the left is pushed away and the point is not stable.
+    explanation: |
+      When $V''=0$ one must look further: $x^4$ has a minimum at $0$, $x^3$ is a flat shoulder with a force of one sign on both sides.
+
+  - type: text
+    id: small
+    title: Small oscillations
+    body: |
+      Near a stable equilibrium $x_0$ expand $V$ in a Taylor series:
+
+      $$\begin{aligned}V(x)\approx{}& V(x_0)+V'(x_0)(x-x_0)\\&+\tfrac12V''(x_0)(x-x_0)^2\end{aligned}$$
+
+      The linear term vanishes since $V'(x_0)=0$, so up to a constant the potential is $\tfrac12k_{\text{eff}}(x-x_0)^2$ with $k_{\text{eff}}=V''(x_0)>0$: a spring. The force is $F_x\approx-V''(x_0)(x-x_0)$ and the equation of motion is $m\ddot x=-V''(x_0)(x-x_0)$. This is the harmonic oscillator, with
+
+      $$\omega=\sqrt{\frac{V''(x_0)}{m}}\qquad\tau=\frac{2\pi}{\omega}=2\pi\sqrt{\frac{m}{V''(x_0)}}$$
+
+      The approximation holds while the particle stays close to $x_0$, that is, for energy only a little above $V(x_0)$. So every smooth potential well looks like a spring at the bottom, and its stiffness is the curvature of the curve there.
+
+  - type: widget
+    id: period
+    title: Period against energy
+    widget: energy-diagram
+    config:
+      potentials:
+        - { label: Double well, type: double, E: 0.05, x: -1, mass: 1 }
+        - { label: Well, type: well, E: -0.95, x: -0.3 }
+        - { label: Lennard-Jones, type: lj, E: -0.95, x: 1.2 }
+      sliders: [E]
+      readouts: [period, smallPeriod]
+      units: { V: J, x: m, t: s }
+      show:
+        trace: true
+        forceArrow: false
+        bars: false
+    body: |
+      The readout `period` is the measured time for one full oscillation of the ball. The readout `small period` is $2\pi\sqrt{m/V''(x_0)}$, using the curvature at the bottom of the well.
+
+      **Try:** with $E$ just above the bottom of the valley the two readouts agree. Raise $E$ in steps and watch the measured period move away from the spring value.
+
+  - type: numeric
+    id: small-period
+    prompt: |
+      A particle of mass $m=0.5\ \mathrm{kg}$ moves in $V(x)=x^4-2x^2$ (with $V$ in joules and $x$ in metres). It has a stable equilibrium at $x_0=1\ \mathrm{m}$, where $V''(x_0)=8\ \mathrm{J/m^2}$. What is the period of its small oscillations about $x_0$, in seconds?
+    answer: 1.5708
+    tolerance: 0.002
+    answerText: '1.571'
+    wrong:
+      - { value: 0.25, feedback: 'That is $\sqrt{m/V''(x_0)}$ without the factor $2\pi$. The period is $\tau=2\pi\sqrt{m/V''(x_0)}$.' }
+      - { value: 6.283, feedback: 'That is $2\pi$ alone, the period for $m/V''=1$. Here $m/V''=0.5/8$.' }
+    hint: The effective spring constant is $V''(x_0)$, the mass is $m$.
+    explanation: |
+      $\omega=\sqrt{8/0.5}=4\ \mathrm{s^{-1}}$ and $\tau=2\pi/\omega=\pi/2=1.571\ \mathrm{s}$.
+
+  - type: text
+    id: time-dependent
+    title: A potential that changes in time
+    body: |
+      Suppose the force still satisfies the curl-free condition but depends on time as well, $\mathbf F(\mathbf r,t)$. For example, a small charge $q$ near a conducting sphere whose charge $Q(t)$ slowly leaks away. At each moment the force is $-\nabla V$ for a potential $V(\mathbf r,t)$, but the first condition for a conservative force fails, and so does the conservation of $T+V$. In a time $dt$ the kinetic energy changes by $dT=\mathbf F\cdot d\mathbf r$, while $V$ depends on four variables, so $dV=-\mathbf F\cdot d\mathbf r+\dfrac{\partial V}{\partial t}dt$. Adding,
+
+      $$d(T+V)=\frac{\partial V}{\partial t}\,dt$$
+
+      Hold the charge $q$ at rest. Then $T$ stays constant while $V$ slowly drops to zero as $Q$ leaks, so $T+V$ is not constant. The energy has gone into heating the air by the discharge current, so the total energy is conserved but the mechanical energy is not. Potential energy depends explicitly on time exactly when mechanical energy is traded with something outside the system.
+
+  - type: mcq
+    id: time-dependent-check
+    prompt: |
+      A potential energy $V(x,t)=\tfrac12k(t)x^2$ describes a spring whose stiffness $k(t)$ is slowly increased from outside. Which statement is right about $E=T+V$ of the particle?
+    options:
+      - text: $E$ changes, with $dE/dt=\partial V/\partial t=\tfrac12\dot k\,x^2$, and it is not conserved
+        correct: true
+      - text: $E$ is conserved because the force is still $-\partial V/\partial x$
+        feedback: |
+          $F=-\partial V/\partial x$ is not enough. Conservation of $T+V$ also needs $V$ to have no explicit time dependence; here $\partial V/\partial t=\tfrac12\dot k\,x^2\ne0$.
+      - text: $E$ is conserved because the particle's motion is one-dimensional
+        feedback: |
+          The one-dimensional shortcut only makes work path independent for a force of $x$ alone. This force depends on $t$ through $k(t)$.
+    explanation: |
+      The rate $\partial V/\partial t$ is the power fed in by whoever changes the spring, so the mechanical energy of the particle changes by that amount.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the speed formula tells us how fast the particle moves at each $x$. Integrating its inverse gives the time to travel between two points: how long a fall, or a half swing, takes, from the energy alone.
