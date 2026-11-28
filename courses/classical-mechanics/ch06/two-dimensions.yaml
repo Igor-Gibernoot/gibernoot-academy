@@ -1,0 +1,431 @@
+id: ch06-two-dimensions
+title: Oscillators in Two Dimensions
+kind: concept
+own: |
+  Setting: a particle of mass $m$ moves in a plane with coordinates $x$ and $y$ measured from an equilibrium point at the origin, pulled back by a Hooke force. The restoring force is $\mathbf{F}=-k\mathbf{r}$ when it is the same in every direction (the **isotropic oscillator**, $k$ the force constant, $\mathbf{r}=(x,y)$, $r=|\mathbf{r}|$).
+  - **Isotropic oscillator.** The potential energy is $V=\tfrac12kr^2$, $\mathbf{F}=-\nabla V$, and with $\omega=\sqrt{k/m}$ the two coordinates separate into independent 1D oscillators, $\ddot x=-\omega^2x$ and $\ddot y=-\omega^2y$. Shifting the zero of time removes the phase of $x$, and the general motion is, with amplitudes $A_x$, $A_y$ and relative phase $\delta=\delta_y-\delta_x$:
+    $$x=A_x\cos\omega t$$
+    {{ $$y=A_y\cos(\omega t-\delta)$$ }}
+  - **Shape of the path.** $\delta=0$ gives a slanting line through $(A_x,A_y)$ and $(-A_x,-A_y)$, $\delta=\pi/2$ an ellipse with semi-axes $A_x$ and $A_y$ traced counterclockwise, any other $\delta$ a slanted ellipse. With $u=x/A_x$ and $v=y/A_y$ every path obeys
+    {{ $$u^2-2uv\cos\delta+v^2=\sin^2\delta$$ }}
+  - **Conserved quantities.** The force is central, so the angular momentum $L=m(x\dot y-y\dot x)$ is constant, and the energy does not depend on $\delta$:
+    {{ $$L=m\omega A_xA_y\sin\delta$$ }}
+    $$E=\tfrac12k\,(A_x^2+A_y^2)$$
+  - **Anisotropic oscillator.** With different force constants, $F_x=-k_xx$ and $F_y=-k_yy$, the potential is $V=\tfrac12k_xx^2+\tfrac12k_yy^2$, the angular frequencies are $\omega_x=\sqrt{k_x/m}$ and $\omega_y=\sqrt{k_y/m}$, and the force is no longer central. The motion is
+    $$x=A_x\cos\omega_xt$$
+    $$y=A_y\cos(\omega_yt-\delta)$$
+  - **Closed or never repeating.** If the ratio is rational, $\omega_x/\omega_y=p/q$ with whole numbers $p$ and $q$ with no common factor, the path closes and repeats after the time $2\pi q/\omega_y$ (a **Lissajous figure**). If the ratio is irrational the path never repeats (it is **quasiperiodic**) and comes arbitrarily close to every point of the rectangle $|x|\le A_x$, $|y|\le A_y$:
+    {{ $$\frac{\omega_x}{\omega_y}=\frac pq\ \Rightarrow\ \text{closed path}$$ }}
+cards:
+  - type: text
+    id: hook
+    title: A ball in a bowl
+    body: |
+      A ball bearing rolls near the bottom of a large spherical bowl. Near the bottom the bowl is nearly a parabola, so the ball feels a force that pulls it back to the centre. Release it from the right edge of a small circle and give it a gentle push straight ahead, across the bowl, at the right moment. Before any theory, guess: what path does it trace as seen from above? A straight line, a circle, an ellipse, something that never closes?
+
+      A one-dimensional oscillator can only go back and forth. In a plane there is room for many more shapes, and the shape depends on one number that was invisible in one dimension: how far apart in time the two coordinates swing. This lesson finds all the shapes, and then asks what happens if the bowl is steeper in one direction than the other.
+
+  - type: widget
+    id: iso-widget
+    title: Two swings, one phase gap
+    widget: lissajous-lab
+    config:
+      ax: 1
+      ay: 0.6
+      wx: 2
+      wy: 2
+      delta: 0.8
+      ranges:
+        ax: [0.2, 1.5, 0.05]
+        ay: [0.2, 1.5, 0.05]
+      show:
+        wxSlider: false
+        wySlider: false
+        curve: true
+      readouts: [delta, type]
+      presets:
+        - { label: 'Line', delta: 0 }
+        - { label: 'Ellipse', delta: 1.5708 }
+        - { label: 'Slanted', delta: 0.7854 }
+        - { label: 'Reversed', delta: -1.5708 }
+        - { label: 'Circle', ax: 1, ay: 1, delta: 1.5708 }
+    body: |
+      The dot moves with $x=A_x\cos\omega t$ and $y=A_y\cos(\omega t-\delta)$: both coordinates swing at the **same** angular frequency $\omega$, but $y$ is shifted by $\delta$ in time. The strip below shows $x$ against time, the strip at the right shows $y$ against time, and the dashed lines connect them to the dot.
+
+      **Try:** drag the phase $\delta$ slowly from $-\pi$ to $\pi$ and watch the path. Then try the presets, and make $A_x=A_y$.
+
+  - type: mcq
+    id: iso-read
+    prompt: |
+      Two coordinates swing at the same angular frequency, $x=A_x\cos\omega t$ and $y=A_y\cos(\omega t-\delta)$, with $A_x\ne A_y$ and both nonzero. As the phase gap $\delta$ changes, which shapes of path can appear?
+    options:
+      - text: A straight line, an ellipse with axes along $x$ and $y$, and slanted ellipses in between
+        correct: true
+      - text: Only a straight line, since both coordinates swing back and forth
+        feedback: |
+          A line appears only when $x$ and $y$ turn around at the same moments ($\delta=0$ or $\pi$). When one is at its extreme while the other is passing the centre, the point swings sideways as well.
+      - text: Only circles, since the frequencies are equal
+        feedback: |
+          A circle needs two more things: equal amplitudes and a quarter-period gap. With $A_x\ne A_y$ the roundest path is an ellipse.
+      - text: Figure-eight curves, since $x$ and $y$ are independent
+        feedback: |
+          A figure eight needs $x$ to swing twice as fast as $y$. At equal frequencies the two coordinates return together, so the path cannot cross itself.
+    explanation: |
+      Equal frequencies keep the two swings locked together, and only the time gap between them changes. That one number slides the path from a line, through slanted ellipses, to an upright ellipse, and on to the line along the other diagonal.
+
+  - type: text
+    id: hooke2d
+    title: Hooke's law in two dimensions
+    body: |
+      The simplest two-dimensional restoring force is proportional to the displacement from equilibrium, with the same constant in every direction:
+
+      $$\mathbf{F}=-k\mathbf{r}$$
+
+      so $F_x=-kx$ and $F_y=-ky$ ($F_z=-kz$ in three dimensions), with $\mathbf{r}=(x,y)$ and the origin at equilibrium. This is the **isotropic** (same in all directions) harmonic oscillator. The force points straight at the origin, so it is a central force. Its potential energy is
+
+      $$V=\tfrac12kr^2=\tfrac12k(x^2+y^2)$$
+
+      (Taylor writes $U$.) It is the potential of Level 5 for each coordinate, added up: $-\partial V/\partial x=-kx$ and $-\partial V/\partial y=-ky$, so $\mathbf{F}=-\nabla V$. Real examples are a ball bearing near the bottom of a bowl, and an atom vibrating near its equilibrium site in a symmetric crystal.
+
+      With $\omega=\sqrt{k/m}$, Newton's law $m\ddot{\mathbf{r}}=\mathbf{F}$ splits into two independent equations, each the one-dimensional oscillator of the previous lessons:
+
+      $$\ddot x=-\omega^2x$$
+      $$\ddot y=-\omega^2y$$
+
+  - type: mcq
+    id: anchored
+    prompt: |
+      A mass moves in a plane, attached to one spring whose other end is fixed at the origin. The spring has natural length $\ell>0$ and force constant $k$. Is the force on the mass $\mathbf{F}=-k\mathbf{r}$ for small displacements $\mathbf{r}$ from the position where the spring is relaxed?
+    options:
+      - text: No. The spring force is $-k(r-\ell)\hat{\mathbf{r}}$, and this is not $-k\mathbf{r}$ unless $\ell=0$
+        correct: true
+      - text: Yes, any spring gives a force proportional to the displacement
+        feedback: |
+          A spring is proportional to its **stretch** $r-\ell$ along its own length, not to the vector $\mathbf{r}$ from the anchor. Around the relaxed position it pushes back strongly along the spring but hardly at all sideways.
+      - text: Yes, because the force always points at the origin
+        feedback: |
+          Pointing at the origin makes it central, but the isotropic oscillator also needs the size to be $kr$, growing from zero at the origin. Here the force is zero on a circle of radius $\ell$ instead.
+    explanation: |
+      Four springs arranged around the mass, as in a cross, do give $\mathbf{F}\approx-k\mathbf{r}$ for small displacements, because each one resists in its own direction. A single spring anchored at the origin does not: with $\ell>0$ the force is $-k\mathbf{r}+k\ell\hat{\mathbf{r}}$, which is different in the sideways direction.
+
+  - type: text
+    id: solution
+    title: The general solution and the relative phase
+    body: |
+      Each equation $\ddot x=-\omega^2x$ and $\ddot y=-\omega^2y$ has the phase-shifted cosine solution of the previous lesson, with the **same** $\omega$ in both:
+
+      $$x(t)=A_x\cos(\omega t-\delta_x)$$
+      $$y(t)=A_y\cos(\omega t-\delta_y)$$
+
+      Four constants $A_x$, $A_y$, $\delta_x$, $\delta_y$ are fixed by the starting position and velocity. We may choose the zero of time as we like, and picking the moment when $x$ is at its maximum removes $\delta_x$. The $y$ phase cannot also be removed. So the simplest general form is
+
+      $$x(t)=A_x\cos\omega t$$
+      $$y(t)=A_y\cos(\omega t-\delta)$$
+
+      where $\delta=\delta_y-\delta_x$ is the **relative phase** of the $y$ and $x$ oscillations: it says how much later than $x$ the coordinate $y$ reaches the same point of its swing. Only three constants matter for the shape of the path: $A_x$, $A_y$ and $\delta$. Starting the clock at a different moment just moves the particle along the same path.
+
+  - type: numeric
+    id: delta-rel
+    prompt: |
+      An isotropic oscillator has $x(t)=0.3\cos(\omega t-0.5)$ and $y(t)=0.2\cos(\omega t-1.3)$ in metres. Written in the form $x=A_x\cos\omega t$, $y=A_y\cos(\omega t-\delta)$ after shifting the zero of time, what is $\delta$ in radians?
+    answer: 0.8
+    tolerance: 0.001
+    wrong:
+      - { value: -0.8, feedback: 'That is $\delta_x-\delta_y$. The relative phase is defined as $\delta=\delta_y-\delta_x$, so a positive $\delta$ means $y$ lags $x$.' }
+      - { value: 1.8, feedback: 'That adds the two phases. Shifting the zero of time subtracts the same amount from both, so only the difference $\delta_y-\delta_x$ survives.' }
+    hint: Shifting the clock changes both phases by the same amount, so only their difference is left.
+    explanation: |
+      $\delta=\delta_y-\delta_x=1.3-0.5=0.8$ rad. Choosing a new zero of time at $t_0=0.5/\omega$ gives $x=0.3\cos\omega t'$ and $y=0.2\cos(\omega t'-0.8)$.
+
+  - type: text
+    id: line-ellipse
+    title: Line, ellipse, slanted ellipse
+    body: |
+      If $A_x$ or $A_y$ is zero, the particle swings along one axis. Suppose neither is zero.
+
+      **$\delta=0$.** Then $x$ and $y$ rise and fall in step, and the point moves back and forth along the slanting line that joins $(A_x,A_y)$ to $(-A_x,-A_y)$.
+
+      **$\delta=\pi/2$.** Then $y=A_y\cos(\omega t-\pi/2)=A_y\sin\omega t$, so $x$ is at an extreme when $y$ is zero and the other way round. Since $\cos^2+\sin^2=1$,
+
+      $$\frac{x^2}{A_x^2}+\frac{y^2}{A_y^2}=1$$
+
+      an ellipse with semi-axes $A_x$ and $A_y$ along the coordinate axes.
+
+      **Any other $\delta$** (for example $\pi/4$) gives a slanted ellipse, centred on the origin.
+
+  - type: numeric
+    id: line-half
+    prompt: |
+      An isotropic oscillator has $A_x=0.3\ \mathrm{m}$, $A_y=0.4\ \mathrm{m}$ and relative phase $\delta=0$. How far from the origin does the particle get, in metres?
+    answer: 0.5
+    tolerance: 0.001
+    wrong:
+      - { value: 0.7, feedback: 'That adds the two amplitudes. With $\delta=0$ the point swings along the diagonal from $(-A_x,-A_y)$ to $(A_x,A_y)$, so the greatest distance is the hypotenuse of the triangle with legs $A_x$ and $A_y$.' }
+    hint: The farthest points are $(A_x,A_y)$ and $(-A_x,-A_y)$.
+    explanation: |
+      The farthest point is $(0.3,0.4)$, at distance $\sqrt{0.3^2+0.4^2}=0.5$ m. The path is a straight line of total length $1.0$ m through the origin.
+
+  - type: mcq
+    id: direction
+    prompt: |
+      An isotropic oscillator has $x=A_x\cos\omega t$ and $y=A_y\cos(\omega t-\delta)$ with $\delta=\pi/2$. Seen with $x$ to the right and $y$ up, how does the particle go round its ellipse?
+    options:
+      - text: Counterclockwise
+        correct: true
+      - text: Clockwise
+        feedback: |
+          Check the first moments: at $t=0$ the particle is at $(A_x,0)$, and $y=A_y\sin\omega t$ becomes positive right after, so it moves up from the right end. That is counterclockwise. Clockwise needs $\delta=-\pi/2$.
+      - text: It goes back and forth along the ellipse instead of around it
+        feedback: |
+          A back-and-forth swing along a curve would retrace itself. Here $x$ and $y$ are never both at a turning point, so the point keeps advancing around the ellipse.
+    explanation: |
+      $\delta=\pi/2$ gives $(x,y)=(A_x\cos\omega t,\ A_y\sin\omega t)$, counterclockwise. Reversing the sign of $\delta$ reverses the direction, which is the "Reversed" preset of the widget.
+
+  - type: text
+    id: ellipse-proof
+    title: Why every path is an ellipse
+    body: |
+      Write $u=x/A_x=\cos\omega t$ and $v=y/A_y=\cos(\omega t-\delta)$. Expanding the cosine of a difference,
+
+      $$v=u\cos\delta+\sin\omega t\,\sin\delta$$
+
+      so $v-u\cos\delta=\sin\omega t\,\sin\delta$. Square this, and use $u^2=\cos^2\omega t$:
+
+      $$(v-u\cos\delta)^2+u^2\sin^2\delta=\sin^2\delta$$
+
+      (the right side is $\sin^2\delta\,(\sin^2\omega t+\cos^2\omega t)$, which is $\sin^2\delta$). Expanding the left side, the $u^2\cos^2\delta$ and $u^2\sin^2\delta$ terms combine into $u^2$, so
+
+      $$u^2-2uv\cos\delta+v^2=\sin^2\delta$$
+
+      This is a quadratic with no linear terms and, when $\sin\delta\ne0$, no way to grow without bound: an ellipse centred at the origin. At $\delta=\pi/2$ it is $u^2+v^2=1$. At $\delta=0$ it is $(u-v)^2=0$, the line $u=v$.
+
+  - type: mcq
+    id: ellipse-check
+    prompt: |
+      In $u^2-2uv\cos\delta+v^2=\sin^2\delta$, with $u=x/A_x$ and $v=y/A_y$, what path does $\delta=\pi$ give?
+    options:
+      - text: A straight line, $u+v=0$, the other diagonal from the $\delta=0$ line
+        correct: true
+      - text: The same line as $\delta=0$
+        feedback: |
+          At $\delta=0$ the equation is $(u-v)^2=0$ and at $\delta=\pi$ it is $(u+v)^2=0$. These are different lines: when $x$ is positive, $y$ is positive for $\delta=0$ but negative for $\delta=\pi$.
+      - text: A circle
+        feedback: |
+          At $\delta=\pi$ we have $\sin^2\delta=0$, so the right side vanishes and the quadratic collapses to a pair of coinciding lines, not a circle of nonzero radius.
+      - text: An ellipse of area $\pi A_xA_y$
+        feedback: |
+          That area belongs to $\delta=\pi/2$. As $\delta$ approaches $0$ or $\pi$ the ellipse flattens and its area shrinks to zero.
+    explanation: |
+      With $\cos\pi=-1$ the equation is $u^2+2uv+v^2=(u+v)^2=0$. The oscillations are exactly out of step, and the point swings along the line from $(A_x,-A_y)$ to $(-A_x,A_y)$.
+
+  - type: text
+    id: ang-mom
+    title: A central force keeps the angular momentum
+    body: |
+      The force $-k\mathbf{r}$ points at the origin, so it has no torque about the origin and the angular momentum is conserved (Level 4). For motion in the plane the only component is
+
+      $$L=m(x\dot y-y\dot x)$$
+
+      Insert $x=A_x\cos\omega t$ and $y=A_y\cos(\omega t-\delta)$:
+
+      $$\begin{aligned}x\dot y-y\dot x=-\omega A_xA_y\bigl[&\cos\omega t\,\sin(\omega t-\delta)\\&-\cos(\omega t-\delta)\sin\omega t\bigr]\end{aligned}$$
+
+      The bracket is $\sin\bigl((\omega t-\delta)-\omega t\bigr)=-\sin\delta$, so
+
+      $$L=m\omega A_xA_y\sin\delta$$
+
+      It does not depend on time, as it must. It is zero for $\delta=0$, where the particle goes through the origin, and largest for $\delta=\pi/2$. As a check with the area law: the ellipse has area $\pi A_xA_y$ and is traversed once in $2\pi/\omega$, and $L=2m\,dA/dt$ gives $L=2m\cdot\pi A_xA_y\cdot\omega/(2\pi)=m\omega A_xA_y$. The energy is the sum of the two one-dimensional energies, $\tfrac12kA_x^2+\tfrac12kA_y^2$, with no $\delta$ in it.
+
+  - type: numeric
+    id: ang-mom-num
+    prompt: |
+      A cart of mass $0.5\ \mathrm{kg}$ moves in a plane under $\mathbf{F}=-k\mathbf{r}$ with $\omega=20\ \mathrm{rad/s}$. Its path is an ellipse with $A_x=0.1\ \mathrm{m}$, $A_y=0.05\ \mathrm{m}$, traced with $\delta=\pi/2$. What is its angular momentum $L$ about the origin, in $\mathrm{kg\,m^2/s}$?
+    answer: 0.05
+    tolerance: 0.0005
+    wrong:
+      - { value: 0.005, feedback: 'That is just $A_xA_y$ in metres squared. Angular momentum also carries the factor $m\omega$: $L=m\omega A_xA_y\sin\delta$.' }
+    hint: Use $L=m\omega A_xA_y\sin\delta$, and $\sin(\pi/2)=1$.
+    explanation: |
+      $L=0.5\times20\times0.1\times0.05\times1=0.05\ \mathrm{kg\,m^2/s}$.
+
+  - type: numeric
+    id: energy-num
+    prompt: |
+      The same cart ($m=0.5\ \mathrm{kg}$, $\omega=20\ \mathrm{rad/s}$, so $k=m\omega^2$) has $A_x=0.1\ \mathrm{m}$ and $A_y=0.05\ \mathrm{m}$. What is its total energy in joules, whatever the phase gap $\delta$?
+    answer: 1.25
+    tolerance: 0.005
+    wrong:
+      - { value: 1, feedback: 'That is the energy $\tfrac12kA_x^2$ of the $x$ motion alone. The $y$ motion has its own energy $\tfrac12kA_y^2$ and the two add.' }
+      - { value: 2.25, feedback: 'That squares the sum of the amplitudes, $\tfrac12k(A_x+A_y)^2$. The energies of the two coordinates add, not the amplitudes: $\tfrac12k(A_x^2+A_y^2)$.' }
+    hint: $k=m\omega^2=200\ \mathrm{N/m}$. The $x$ and $y$ equations are separate, so each carries its own energy.
+    explanation: |
+      $k=0.5\times400=200$ N/m, so $E=\tfrac12\cdot200\cdot(0.01+0.0025)=100\times0.0125=1.25$ J. The potential energy $\tfrac12k(x^2+y^2)$ and the kinetic energy trade off, but their sum does not depend on $\delta$.
+
+  - type: text
+    id: aniso
+    title: Different springs in different directions
+    image:
+      src: img/harmonograph-matemateca.webp
+      alt: A pen on a drawing table traces overlapping blue curves that spiral inward, drawn by a harmonograph
+      caption: A harmonograph on display at the Matemateca of IME-USP; a pen driven by oscillations in two directions draws a Lissajous-like figure that shrinks as the swinging dies down.
+      credit: "Exhibit made by Estes Objethos Atelier, photo by Alisson Ricardo, CC BY-SA 4.0, via Wikimedia Commons"
+      link: "https://commons.wikimedia.org/wiki/File:Harmon%C3%B3grafo_05.jpg"
+      place: bottom
+    body: |
+      Now let the force constant depend on the direction. In the **anisotropic** oscillator the components of the restoring force are proportional to the components of the displacement, but with different constants:
+
+      $$F_x=-k_xx,\qquad F_y=-k_yy$$
+
+      An atom in a crystal of low symmetry feels this. The potential energy is $V=\tfrac12k_xx^2+\tfrac12k_yy^2$. The force is no longer central, since it does not point at the origin unless the particle is on an axis, so the angular momentum is not conserved. Newton's law still separates:
+
+      $$\ddot x=-\omega_x^2x$$
+      $$\ddot y=-\omega_y^2y$$
+
+      with $\omega_x=\sqrt{k_x/m}$ and $\omega_y=\sqrt{k_y/m}$. The solution has the same form as before, with two frequencies:
+
+      $$x(t)=A_x\cos\omega_xt$$
+      $$y(t)=A_y\cos(\omega_yt-\delta)$$
+
+      Two different frequencies give a much richer family of motions. Everything depends on the ratio $\omega_x/\omega_y$.
+
+  - type: widget
+    id: lissajous-widget
+    title: Lissajous figures
+    widget: lissajous-lab
+    config:
+      ax: 1
+      ay: 1
+      wx: 2
+      wy: 1
+      delta: 0.7854
+      ranges:
+        wx: [1, 6, 1]
+        wy: [1, 6, 1]
+      show:
+        curve: true
+        axSlider: false
+        aySlider: false
+      readouts: [ratio, period, type]
+      presets:
+        - { label: '2 : 1', wx: 2, wy: 1, delta: 0.7854 }
+        - { label: '3 : 2', wx: 3, wy: 2, delta: 0.7854 }
+        - { label: '3 : 1', wx: 3, wy: 1, delta: 0.7854 }
+        - { label: '1 : 1', wx: 1, wy: 1, delta: 0.7854 }
+    body: |
+      The dot follows $x=A_x\cos\omega_xt$, $y=A_y\cos(\omega_yt-\delta)$, and the full path is drawn. Change the two angular frequencies and the phase $\delta$.
+
+      **Try:** start with $\omega_x:\omega_y=2:1$ and $\delta=\pi/4$, then slide $\delta$. Next try $3:2$, and count how many times the curve touches the right edge and how many times it touches the top edge.
+
+  - type: numeric
+    id: period-num
+    prompt: |
+      An anisotropic oscillator has $\omega_x=3\ \mathrm{rad/s}$ and $\omega_y=2\ \mathrm{rad/s}$. After how many seconds does the whole motion first repeat, when both coordinates are at their starting values again?
+    answer: 6.283
+    tolerance: 0.01
+    wrong:
+      - { value: 3.1416, feedback: 'That is the period $2\pi/\omega_y$ of $y$ alone. At that moment $x$ has gone round $1.5$ times, so it is not back at its start.' }
+      - { value: 2.0944, feedback: 'That is the period $2\pi/\omega_x$ of $x$ alone. At that moment $y$ has gone round only $2/3$ of a swing.' }
+    hint: Find the smallest time $T$ for which both $\omega_xT$ and $\omega_yT$ are whole multiples of $2\pi$.
+    explanation: |
+      We need $3T=2\pi n$ and $2T=2\pi m$ with whole $n$ and $m$. The smallest solution is $T=2\pi$ (with $n=3$, $m=2$), so $T=6.283$ s: $x$ swings three times and $y$ twice.
+
+  - type: text
+    id: closed
+    title: When the path closes
+    body: |
+      The point $(x,y)$ is back at its start when both coordinates are. That needs a time $T$ with $\omega_xT=2\pi n$ and $\omega_yT=2\pi m$ for whole numbers $n$ and $m$. Dividing, $\omega_x/\omega_y=n/m$. So if the ratio is rational,
+
+      $$\frac{\omega_x}{\omega_y}=\frac pq$$
+
+      with whole numbers $p$ and $q$ with no common factor, the motion is periodic: in the time $T=2\pi q/\omega_y$ the coordinate $x$ swings $p$ times and $y$ swings $q$ times, and the path is a closed curve, called a **Lissajous figure** (after the French physicist Jules Lissajous, 1822 to 1880). For $\omega_x/\omega_y=2$ the result is a figure eight, as the first preset shows.
+
+      A counting rule follows. In one period $x$ reaches its maximum $p$ times and $y$ reaches its maximum $q$ times. For a generic $\delta$, each maximum is a point where the curve touches an edge of the rectangle, so the curve touches the right edge $p$ times and the top edge $q$ times. Counting the touches reads off the frequency ratio.
+
+  - type: mcq
+    id: touches
+    prompt: |
+      A closed Lissajous curve touches the right edge of its rectangle $3$ times and the top edge $2$ times. What is $\omega_x:\omega_y$?
+    options:
+      - text: '$3:2$'
+        correct: true
+      - text: '$2:3$'
+        feedback: |
+          The right edge is where $x=A_x$, and the number of times the curve touches it is the number of times $x$ reaches its maximum in a period, which is $p$ in $\omega_x:\omega_y=p:q$. Three touches on the side edge means $x$ is the faster coordinate.
+      - text: '$5:1$'
+        feedback: |
+          The touches are not added. The two counts are the two whole numbers $p$ and $q$ of the ratio itself.
+      - text: '$6:1$'
+        feedback: |
+          Multiplying the counts would not return them: with $p=6$ and $q=1$ the curve would touch the right edge $6$ times and the top edge once.
+    explanation: |
+      $p=3$ touches on the right edge (for $x$) and $q=2$ on the top (for $y$), so $\omega_x/\omega_y=3/2$. The period is then $2\pi q/\omega_y=4\pi/\omega_y$.
+
+  - type: mcq
+    id: nearly-rational
+    prompt: |
+      An anisotropic oscillator has $\omega_x/\omega_y=1.41$ exactly. Does the path close?
+    options:
+      - text: Yes, but only after $y$ has swung $100$ times, since $1.41=141/100$
+        correct: true
+      - text: No, because $1.41$ is close to $\sqrt2$ and so the path never repeats
+        feedback: |
+          Closeness to $\sqrt2$ does not matter. What matters is whether the ratio is exactly a ratio of whole numbers, and $1.41=141/100$ is. The path does close, but $141/100$ is already in lowest terms, so $q=100$ and the figure is very intricate.
+      - text: No, because the curve needs both frequencies to be whole numbers
+        feedback: |
+          The frequencies themselves need not be whole numbers, only their ratio must be a ratio of whole numbers. Frequencies $1.41\omega$ and $\omega$ are in the ratio $141:100$.
+      - text: Yes, after one swing of $y$, as for any ratio near $1$
+        feedback: |
+          After one swing of $y$ the $x$ coordinate has swung $1.41$ times, so it is not at its starting point.
+    explanation: |
+      $141=3\times47$ shares no factor with $100$, so $p=141$ and $q=100$ and the path closes after $y$ completes $100$ swings. In practice this is hard to tell from a path that never closes, and that is the next case.
+
+  - type: widget
+    id: quasi-widget
+    title: A path that never repeats
+    widget: lissajous-lab
+    config:
+      ax: 1
+      ay: 1
+      wx: 1.4142
+      wy: 1
+      delta: 0.8
+      curveTime: 24
+      show:
+        curve: true
+        wxSlider: false
+        wySlider: false
+        axSlider: false
+        aySlider: false
+        deltaSlider: false
+        presets: false
+      readouts: [ratio, type]
+    body: |
+      This curve has $\omega_x/\omega_y=1.4142$, close to $\sqrt2$, and is drawn for $24$ seconds of motion. The dot keeps going and its trail keeps filling the rectangle.
+
+      **Try:** press play and watch the trail cross the old curve at new angles each time, never retracing a previous lap.
+
+  - type: mcq
+    id: quasi
+    prompt: |
+      An anisotropic oscillator has $\omega_x/\omega_y=\sqrt2$. Which statement is true?
+    multiple: true
+    options:
+      - text: Each coordinate separately is periodic
+        correct: true
+      - text: The point $(x,y)$ never returns exactly to a previous state
+        correct: true
+      - text: If we wait long enough the path comes arbitrarily close to any point of the rectangle $|x|\le A_x$, $|y|\le A_y$
+        correct: true
+      - text: The path is closed after a very long time, because $\sqrt2$ is almost rational
+        feedback: |
+          $\sqrt2$ is irrational, so no whole numbers $p$ and $q$ give $p/q=\sqrt2$, however large. The path never closes.
+      - text: The motion is not periodic, so $x(t)$ must not be a cosine
+        feedback: |
+          Each of $x(t)$ and $y(t)$ is an ordinary cosine and is periodic. The two periods are incompatible, so the pair is not periodic. This is called **quasiperiodic** motion.
+    explanation: |
+      Quasiperiodic means each coordinate repeats but the two periods have no common multiple. The point never repeats, yet it fills the rectangle more and more densely.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a real oscillator loses energy to friction or drag. The next lesson adds a damping force to the spring, and asks how fast a door closer should shut a door without slamming it.
