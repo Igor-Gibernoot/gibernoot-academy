@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27: ch06-sho-forms built
+Concept lesson, 24 cards, phasor-wheel x3 (single, with Im trace, sum mode with labels and angle hidden). Taylor 5.2 (5.10-5.14, Fig 5.4-5.5, Example 5.2) render-checked. The sum of two cosines (law of cosines for the amplitude) is own algebra, not in Taylor. Images: none: no free image needed. Choices: bottle cross-section written S (Taylor reuses A); widget phase slider labelled -delta (widget phi = -delta). Conventions fixed here: delta = lower angle of the (B1, B2) triangle, tan delta = B2/B1, delta in (-pi, pi]; C = B1 - iB2 = A e^{-i delta}; complex amplitude; bottle omega = sqrt(g/d0), S and rho (varrho).
+
 ## 2026-11-27 widget phasor-wheel (autonomous)
 New shared widget `phasor-wheel` (js/widgets/phasor-wheel.js, docs/widgets/phasor-wheel.md, registry and README lines). Choices made without asking: fixed layout with the plane top left, Im trace to its right (time runs right) and Re trace below (time runs down), so each projection line is geometrically honest; traces are analytic (past of the current time, no history buffer); phases in rad (`phaseUnit: deg` option); sum mode shares one omega; tip is not draggable; default plane scale fits amplitude range [0,1.5] + amplitude2 range [0,1] (`extent` overrides). Checked: validate clean, widget-smoke (docs smoke block), screenshot of single and sum modes viewed. Conventions fixed here: none.
 

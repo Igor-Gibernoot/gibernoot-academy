@@ -1,0 +1,448 @@
+id: ch06-sho-forms
+title: One Motion, Three Ways to Write It
+kind: concept
+own: |
+  Setting: a cart of mass $m$ on a spring of force constant $k$ moves on a line with displacement $x$ from equilibrium, so $\ddot x=-\omega^2x$ with $\omega=\sqrt{k/m}$, and its starting position and velocity are $x_0$ and $v_0$. The same motion can be written in three ways; all three have two constants.
+  - **Sine and cosine form.** The constants are $B_1=x_0$ and $B_2=v_0/\omega$:
+    $$x(t)=B_1\cos(\omega t)+B_2\sin(\omega t)$$
+  - **Phase-shifted cosine.** Take a right triangle with legs $B_1$ and $B_2$, hypotenuse $A$ and lower angle $\delta$. Then $A$ is the amplitude and $\delta$ the phase shift: the motion is a cosine that lags the plain cosine by $\delta$:
+    {{ $$x(t)=A\cos(\omega t-\delta)$$ }}
+    $$A=\sqrt{B_1^2+B_2^2}\qquad \tan\delta=\frac{B_2}{B_1}$$
+  - **Rotating complex number.** With $i^2=-1$ and Re meaning the real part, the position is the real part (the shadow on the real axis) of a number that turns counterclockwise at angular velocity $\omega$ on a circle of radius $A$. The constant $C$ is the complex amplitude:
+    {{ $$x(t)=\mathrm{Re}\,\bigl(Ce^{i\omega t}\bigr)$$ }}
+    $$C=B_1-iB_2=Ae^{-i\delta}$$
+    Then $Ce^{i\omega t}=Ae^{i(\omega t-\delta)}$, and differentiating in time multiplies by $i\omega$.
+  - **Sum of two cosines of the same frequency.** Adding $A_1\cos(\omega t-\delta_1)$ and $A_2\cos(\omega t-\delta_2)$ gives one cosine of the same $\omega$, because the complex amplitudes add (the two arrows are added tip to tail):
+    {{ $$C=C_1+C_2=A_1e^{-i\delta_1}+A_2e^{-i\delta_2}$$ }}
+    $$A^2=A_1^2+A_2^2+2A_1A_2\cos(\delta_1-\delta_2)$$
+  - **Floating bottle.** A bottle of mass $m$ and cross-section $S$ floats upright in water of density $\varrho$ at equilibrium depth $d_0$, so $mg=\varrho gSd_0$. Pushed down by $x$, the weight and buoyant force leave a net restoring force, and the motion is simple harmonic with
+    {{ $$\ddot x=-\frac{g}{d_0}\,x\qquad \omega=\sqrt{\frac{g}{d_0}}$$ }}
+    independent of $m$, $\varrho$ and $S$, the same as a pendulum of length $d_0$.
+cards:
+  - type: text
+    id: hook
+    title: Where does the motion peak?
+    body: |
+      A cart on a spring ($m=0.5\ \mathrm{kg}$, $k=200\ \mathrm{N/m}$, so $\omega=20\ \mathrm{rad/s}$) is pulled to $x_0=0.03\ \mathrm{m}$ and, at the same instant, given a push of $v_0=0.8\ \mathrm{m/s}$ outward. The solution from the last lesson is
+
+      $$x(t)=x_0\cos(\omega t)+\frac{v_0}{\omega}\sin(\omega t)$$
+
+      with $x_0=0.03$ and $v_0/\omega=0.04$ (metres). It is a cosine plus a sine, each with its own size. Before any algebra, guess: how far from the centre does the cart swing at most? Is it $0.03+0.04=0.07\ \mathrm{m}$, or less?
+
+      A sum of two waves of the same frequency looks like it could be messy. This lesson shows that it is not: the sum is again one clean wave, written with an amplitude and a shift, and a rotating arrow in the plane makes the reason visible. Then the same ideas solve a floating bottle.
+
+  - type: widget
+    id: wheel-single
+    title: A shadow of a turning arrow
+    widget: phasor-wheel
+    config:
+      amplitude: 1
+      omega: 2
+      phase: -0.8
+      show:
+        second: false
+        modeToggle: false
+        imTrace: true
+        imProjection: true
+        angle: false
+        ampSlider: true
+        omegaSlider: false
+        phaseSlider: true
+      readouts: [amp, phase, re]
+      labels:
+        phase: 'Starting angle −δ (rad)'
+        phaseRead: '−δ (rad)'
+        amplitude: 'Amplitude A'
+        reRead: 'x = Re z'
+    body: |
+      An arrow of length $A$ turns counterclockwise at angular velocity $\omega$ around the origin of a plane whose horizontal axis is **Re** (the real axis) and vertical axis **Im**. The dashed line drops from its tip to the horizontal axis, and the lower graph records where that foot has been: the position $x$ of an oscillator, one point per moment. The arrow starts at the angle shown by the slider.
+
+      **Try:** press play and watch the foot move back and forth. Drag the amplitude slider, then the starting angle, and see what each does to the lower curve: its height, its timing, its rhythm.
+
+  - type: mcq
+    id: wheel-read
+    prompt: |
+      A point turns counterclockwise at constant speed around a circle of radius $A$ in a plane, and $x$ is the horizontal position of its shadow on a horizontal axis. Changing the angle at which the point starts, with the same speed and radius, changes the curve of $x$ against time in which way?
+    options:
+      - text: It slides the curve sideways in time, leaving its height and period unchanged
+        correct: true
+      - text: It changes the height of the curve but not its timing
+        feedback: |
+          The height is the radius of the circle, which did not change. The starting angle only decides where on the circle the point is at $t=0$, so it moves the whole curve along the time axis.
+      - text: It changes the period, since a point starting further round has less far to go
+        feedback: |
+          The point turns at the same angular velocity whatever its start, so one full turn always takes $2\pi/\omega$. The period depends on the speed, not on where the turn begins.
+      - text: It changes the shape from a cosine into something flatter
+        feedback: |
+          The shadow of uniform circular motion is a cosine for every starting angle. A different start picks another stretch of the same curve.
+    explanation: |
+      Starting at a different angle is the same as starting at a different moment on the same curve. That is a time shift, and a time shift is what a phase does.
+
+  - type: text
+    id: triangle
+    title: The phase-shifted cosine
+    body: |
+      Now the algebra. We start from the sine and cosine form, with $B_1=x_0$ and $B_2=v_0/\omega$:
+
+      $$x(t)=B_1\cos(\omega t)+B_2\sin(\omega t)$$
+
+      Define one more constant, the hypotenuse of a right triangle whose other two sides are $B_1$ and $B_2$:
+
+      $$A=\sqrt{B_1^2+B_2^2}$$
+
+      Let $\delta$ be the lower angle of that triangle, so that $\cos\delta=B_1/A$ and $\sin\delta=B_2/A$. Factor out $A$ and substitute:
+
+      $$x(t)=A\bigl[\cos\delta\cos(\omega t)+\sin\delta\sin(\omega t)\bigr]$$
+
+      The bracket is the cosine of a difference, $\cos(\omega t-\delta)$, so
+
+      $$x(t)=A\cos(\omega t-\delta)$$
+
+      This is a single cosine with amplitude $A$, but shifted in phase: at $t=0$ the argument is $-\delta$, so the oscillation **lags** the plain cosine by $\delta$, which is the **phase shift**. The triangle also gives $\tan\delta=B_2/B_1$. When $B_1$ or $B_2$ is negative, $\delta$ is the angle whose cosine and sine have the signs of $B_1$ and $B_2$, and it is chosen between $-\pi$ and $\pi$.
+
+  - type: numeric
+    id: amplitude
+    prompt: |
+      A cart oscillates as $x(t)=B_1\cos(\omega t)+B_2\sin(\omega t)$ with $B_1=0.03\ \mathrm{m}$ and $B_2=0.04\ \mathrm{m}$. What is the largest displacement from the centre, in metres?
+    answer: 0.05
+    tolerance: 0.0005
+    wrong:
+      - { value: 0.07, feedback: 'That adds the two sizes. The cosine and the sine are largest at different moments, so they never peak together; the peak is the hypotenuse of the triangle with legs $B_1$ and $B_2$.' }
+      - { value: 0.0012, feedback: 'That is $B_1^2+B_2^2$, without the square root. The amplitude is $A=\sqrt{B_1^2+B_2^2}$.' }
+    hint: The amplitude is the hypotenuse of a right triangle with legs $B_1$ and $B_2$.
+    explanation: |
+      $A=\sqrt{0.03^2+0.04^2}=\sqrt{0.0025}=0.05\ \mathrm{m}$. So the guess in the hook, $0.07\ \mathrm{m}$, was too large: the cart swings at most $0.05\ \mathrm{m}$ from the centre.
+
+  - type: numeric
+    id: delta
+    prompt: |
+      For the same cart, $B_1=0.03\ \mathrm{m}$ and $B_2=0.04\ \mathrm{m}$ in $x(t)=B_1\cos(\omega t)+B_2\sin(\omega t)$. Written as $x=A\cos(\omega t-\delta)$, what is the phase shift $\delta$ in radians?
+    answer: 0.9273
+    tolerance: 0.002
+    wrong:
+      - { value: 0.6435, feedback: 'That is $\arctan(B_1/B_2)$, the other angle of the triangle. The phase shift $\delta$ is the angle next to the leg $B_1$, so $\tan\delta=B_2/B_1$.' }
+      - { value: 53.13, feedback: 'That is the right angle in degrees. The answer is asked in radians: $53.13^\circ=0.927$ rad.' }
+    hint: The triangle gives $\tan\delta=B_2/B_1$. Use a calculator in radian mode.
+    explanation: |
+      $\tan\delta=0.04/0.03=4/3$, so $\delta=\arctan(4/3)=0.9273$ rad, about $53.1^\circ$. The motion is $x=0.05\cos(\omega t-0.9273)$ in metres.
+
+  - type: mcq
+    id: kick-phase
+    prompt: |
+      A cart at rest at the centre is kicked outward at $t=0$, so $x_0=0$ and $v_0>0$. Written as $x=A\cos(\omega t-\delta)$, what is the phase shift $\delta$?
+    options:
+      - text: $\delta=\pi/2$, a quarter of a period of lag
+        correct: true
+      - text: $\delta=0$
+        feedback: |
+          With $\delta=0$ the motion is $A\cos(\omega t)$, which starts at its maximum $x=A$. The kicked cart starts at the centre, $x=0$.
+      - text: $\delta=\pi$
+        feedback: |
+          With $\delta=\pi$ we get $-A\cos(\omega t)$, which starts at $x=-A$, not at the centre.
+      - text: $\delta=-\pi/2$
+        feedback: |
+          That gives $A\cos(\omega t+\pi/2)=-A\sin(\omega t)$, which moves inward first. A kick outward ($v_0>0$) needs $+A\sin(\omega t)$.
+    explanation: |
+      Here $B_1=0$ and $B_2=v_0/\omega>0$, so $\cos\delta=0$ and $\sin\delta=1$, giving $\delta=\pi/2$. Indeed $\cos(\omega t-\pi/2)=\sin(\omega t)$: a sine is a cosine lagging by a quarter period.
+
+  - type: numeric
+    id: energy-check
+    prompt: |
+      The cart ($m=0.5\ \mathrm{kg}$, $k=200\ \mathrm{N/m}$) is released at $x_0=0.03\ \mathrm{m}$ with $v_0=0.8\ \mathrm{m/s}$. Its energy at $t=0$ is $\tfrac12kx_0^2+\tfrac12mv_0^2$. The same energy must equal $\tfrac12kA^2$, with $A=0.05\ \mathrm{m}$ the amplitude found above. What is it, in joules?
+    answer: 0.25
+    tolerance: 0.001
+    hint: Compute $\tfrac12kA^2$ and check it against the two starting terms.
+    explanation: |
+      $\tfrac12kA^2=\tfrac12\cdot200\cdot0.0025=0.25\ \mathrm{J}$. At the start, $\tfrac12\cdot200\cdot0.03^2=0.09\ \mathrm{J}$ and $\tfrac12\cdot0.5\cdot0.8^2=0.16\ \mathrm{J}$, which add to $0.25\ \mathrm{J}$. The two forms agree because $A^2=B_1^2+B_2^2$ and $v_0=\omega B_2$.
+
+  - type: text
+    id: complex-idea
+    title: A third way, with a turning arrow
+    body: |
+      Recall: the equation $\ddot x=-\omega^2x$ is solved by the complex exponentials $e^{i\omega t}$ and $e^{-i\omega t}$, where $i^2=-1$, so the general solution is
+
+      $$x(t)=C_1e^{i\omega t}+C_2e^{-i\omega t}$$
+
+      The position $x$ must be real, which forces a relation between $C_1$ and $C_2$. Recall also Euler's formula $e^{i\theta}=\cos\theta+i\sin\theta$, which says that $e^{i\theta}$ is a point on the unit circle at angle $\theta$. Comparing this solution with $B_1\cos(\omega t)+B_2\sin(\omega t)$ gives
+
+      $$C_1=\tfrac12(B_1-iB_2)\qquad C_2=\tfrac12(B_1+iB_2)$$
+
+      So $C_2$ is the complex conjugate of $C_1$, written $C_2=C_1^*$ (the conjugate $z^*$ of $z=a+ib$ is $a-ib$). Then the solution is a number plus its own conjugate:
+
+      $$x(t)=C_1e^{i\omega t}+C_1^*e^{-i\omega t}$$
+
+      The second term is the conjugate of the first, and $z+z^*=2\,\mathrm{Re}\,z$, where $\mathrm{Re}\,z$ is the real part of $z$. Hence $x=2\,\mathrm{Re}\,(C_1e^{i\omega t})$. Define the single complex constant $C=2C_1$, the **complex amplitude**:
+
+      $$x(t)=\mathrm{Re}\,\bigl(Ce^{i\omega t}\bigr)\qquad C=B_1-iB_2$$
+
+  - type: order
+    id: complex-order
+    prompt: Put the steps from the real solution to the turning-arrow form in order.
+    steps:
+      - 'Write the general solution $x=C_1e^{i\omega t}+C_2e^{-i\omega t}$'
+      - 'Since $x$ is real, $C_2=C_1^*$, so the second term is the conjugate of the first'
+      - 'Use $z+z^*=2\,\mathrm{Re}\,z$ to get $x=2\,\mathrm{Re}\,(C_1e^{i\omega t})$'
+      - 'Define $C=2C_1$ to get $x=\mathrm{Re}\,(Ce^{i\omega t})$'
+    hint: The reality of $x$ comes before the conjugate trick.
+    explanation: |
+      The reality of $x$ is what makes the two terms conjugates. Only then does the sum collapse to twice a real part, and the factor 2 is absorbed into $C$.
+
+  - type: text
+    id: complex-polar
+    title: Amplitude and phase inside C
+    body: |
+      The complex number $C=B_1-iB_2$ sits in the plane at horizontal position $B_1$ and vertical position $-B_2$. That is the triangle of the phase-shifted cosine, flipped below the axis: its length is $A=\sqrt{B_1^2+B_2^2}$ and it makes the angle $-\delta$ with the real axis. In polar form,
+
+      $$C=Ae^{-i\delta}$$
+
+      Multiplying by $e^{i\omega t}$ adds $\omega t$ to the angle, so
+
+      $$Ce^{i\omega t}=Ae^{i(\omega t-\delta)}$$
+
+      This is a point on a circle of radius $A$, at angle $\omega t-\delta$: it starts at $-\delta$ and turns counterclockwise with angular velocity $\omega$. Its real part is
+
+      $$x(t)=\mathrm{Re}\,Ae^{i(\omega t-\delta)}=A\cos(\omega t-\delta)$$
+
+      which is exactly the phase-shifted cosine. So the oscillator is the shadow of a point going around a circle, the picture of the first widget, with the starting angle equal to $-\delta$.
+
+  - type: widget
+    id: wheel-velocity
+    title: Position and velocity in the plane
+    widget: phasor-wheel
+    config:
+      amplitude: 1
+      omega: 2
+      phase: -0.8
+      show:
+        second: false
+        modeToggle: false
+        imTrace: true
+        imProjection: true
+        angle: true
+        ampSlider: false
+        omegaSlider: true
+        phaseSlider: true
+      readouts: [amp, phase, omega, re, im]
+      labels:
+        phase: 'Starting angle −δ (rad)'
+        phaseRead: '−δ (rad)'
+        reRead: 'Re z'
+        imRead: 'Im z'
+    body: |
+      The same arrow $z=Ae^{i(\omega t-\delta)}$, now with its imaginary part also recorded (the curve to the right of the plane). Imagine the arrow's real part $x$ is the position. Since $\mathrm{Im}\,z=A\sin(\omega t-\delta)$, the imaginary part is the cosine curve with a quarter period removed, the shape of the velocity divided by $-\omega$.
+
+      **Try:** play and compare the two curves: when the arrow points along the real axis (largest $x$), what is $\mathrm{Im}\,z$? Raise the angular frequency and see how the arrow's turning rate changes the period.
+
+  - type: numeric
+    id: velocity-from-c
+    prompt: |
+      A cart has $\omega=20\ \mathrm{rad/s}$ and complex amplitude $C=(0.03-0.04\,i)\ \mathrm{m}$, with $x(t)=\mathrm{Re}\,(Ce^{i\omega t})$. Differentiating gives $\dot x=\mathrm{Re}\,(i\omega Ce^{i\omega t})$. What is the starting velocity $\dot x(0)$ in m/s?
+    answer: 0.8
+    tolerance: 0.001
+    wrong:
+      - { value: 0.6, feedback: 'That is $\omega B_1=20\cdot0.03$. Multiplying $C=B_1-iB_2$ by $i$ gives $B_2+iB_1$, whose real part is $B_2$, not $B_1$.' }
+      - { value: -0.8, feedback: 'The sign is flipped. $i\,(0.03-0.04\,i)=0.03\,i-0.04\,i^2=0.04+0.03\,i$, with $i^2=-1$, so the real part is $+0.04$.' }
+      - { value: 0.04, feedback: 'That is the real part of $iC$ without the factor $\omega$. Do not forget $\omega=20$ from the derivative.' }
+    hint: Put $t=0$ and compute the real part of $i\omega C$, using $i^2=-1$.
+    explanation: |
+      $\dot x(0)=\mathrm{Re}\,(i\omega C)=\omega\,\mathrm{Re}\,\bigl(i(0.03-0.04\,i)\bigr)=20\,\mathrm{Re}\,(0.04+0.03\,i)=0.8\ \mathrm{m/s}$. This matches $v_0=\omega B_2$ from the sine and cosine form. In the plane, multiplying by $i$ turns an arrow by a quarter turn, so the velocity arrow is the position arrow turned by $90^\circ$ and stretched by $\omega$.
+
+  - type: mcq
+    id: shadow
+    prompt: |
+      A student says, "In $x=\mathrm{Re}\,(Ce^{i\omega t})$ the cart is really moving in a circle in a complex plane, and we see only part of the motion." Which statement is right?
+    options:
+      - text: The cart moves on a line; the complex number is bookkeeping, and only its real part is the position
+        correct: true
+      - text: The cart moves around a circle, and the imaginary part is the position in a second hidden direction
+        feedback: |
+          Nothing moves in a second direction. The physical cart moves on a line, $x$ is a real number, and the imaginary part is a tool. The turning arrow is a picture whose shadow is the real motion.
+      - text: The imaginary part of the solution is physical too, so the real solution is only half of the answer
+        feedback: |
+          The equation $m\ddot x=-kx$ is a real equation for a real $x$. The complex solution is useful because it is easy to differentiate and add, and the real part carries all the physics.
+      - text: The complex form is a different motion that only agrees with the cosine for small amplitude
+        feedback: |
+          They agree for all amplitudes: $\mathrm{Re}\,Ae^{i(\omega t-\delta)}=A\cos(\omega t-\delta)$ is an identity, with no approximation.
+    explanation: |
+      The complex form is a convenience. Real parts commute with adding and with multiplying by real numbers, so a sum of cosines becomes a sum of arrows, which is the next idea.
+
+  - type: mcq
+    id: sum-guess
+    prompt: |
+      Two oscillations of the same angular frequency $\omega$ but different amplitudes and phase shifts are added: $x=A_1\cos(\omega t-\delta_1)+A_2\cos(\omega t-\delta_2)$. What do you expect?
+    options:
+      - text: A single cosine of the same frequency $\omega$, with its own amplitude and phase shift
+        correct: true
+      - text: A wave of the same frequency whose amplitude is always $A_1+A_2$
+        feedback: |
+          $A_1+A_2$ happens only if the two peaks coincide, that is when $\delta_1=\delta_2$. For other phase shifts the peaks are at different moments and the amplitude is smaller.
+      - text: A beating pattern, which swells and fades with time
+        feedback: |
+          Beats appear when the two frequencies differ. Here the frequency is the same, so the pattern repeats every period $2\pi/\omega$ with a steady size.
+      - text: A wave of frequency $2\omega$, since there are two waves
+        feedback: |
+          Adding waves does not double the frequency: every point of the sum repeats every $2\pi/\omega$. The sum cannot oscillate faster than its parts.
+    explanation: |
+      The widget next shows why the guess is right, and the following card gives the algebra.
+
+  - type: widget
+    id: wheel-sum
+    title: Two arrows added
+    widget: phasor-wheel
+    config:
+      mode: sum
+      amplitude: 1
+      amplitude2: 0.7
+      omega: 2
+      phase: 0
+      phase2: 1.2
+      show:
+        modeToggle: false
+        angle: false
+        labels: false
+        componentTraces: true
+        ampSlider: true
+        omegaSlider: false
+        phaseSlider: true
+        amp2Slider: true
+        phase2Slider: true
+      readouts: [amp, phase]
+      labels:
+        phase: 'Phase of the first arrow'
+        phase2: 'Phase of the second arrow'
+        amp: 'Amplitude of the sum'
+        phaseRead: 'Phase of the sum'
+      presets:
+        - { label: In step, amplitude: 1, amplitude2: 0.7, phase: 0, phase2: 0 }
+        - { label: Opposite, amplitude: 1, amplitude2: 0.7, phase: 0, phase2: 3.14 }
+        - { label: Quarter turn, amplitude: 1, amplitude2: 1, phase: 0, phase2: 1.57 }
+    body: |
+      Two arrows turn together at the same angular velocity $\omega$. Each one's shadow is one cosine (the faint curves below the plane). The sum arrow goes from the origin to the tip of the second arrow, which is placed at the tip of the first. The strong curve is the shadow of the sum, and it is also the sum of the two faint cosines at every moment. The readouts give the amplitude and the starting angle of the sum.
+
+      **Try:** play the presets. When do the amplitudes add, when do they subtract, and what does the sum arrow do while the two arrows turn?
+
+  - type: text
+    id: sum-algebra
+    title: Why the sum is one cosine
+    body: |
+      Each cosine is the real part of an arrow. With $C_1=A_1e^{-i\delta_1}$ and $C_2=A_2e^{-i\delta_2}$,
+
+      $$x_1=\mathrm{Re}\,(C_1e^{i\omega t})\qquad x_2=\mathrm{Re}\,(C_2e^{i\omega t})$$
+
+      The real part of a sum is the sum of the real parts, and the common factor $e^{i\omega t}$ comes out:
+
+      $$x_1+x_2=\mathrm{Re}\,\bigl[(C_1+C_2)\,e^{i\omega t}\bigr]$$
+
+      So the sum is again of the form $\mathrm{Re}\,(Ce^{i\omega t})$, with the complex amplitude $C=C_1+C_2$. Adding the two complex amplitudes is adding two arrows tip to tail. Its length is the new amplitude $A=|C|$, and $-\delta$ is its angle. The square of the length is
+
+      $$A^2=CC^*=(C_1+C_2)(C_1^*+C_2^*)$$
+
+      and the cross terms $C_1C_2^*+C_1^*C_2$ equal $2A_1A_2\cos(\delta_1-\delta_2)$, so
+
+      $$A^2=A_1^2+A_2^2+2A_1A_2\cos(\delta_1-\delta_2)$$
+
+      This is the law of cosines for the triangle of the two arrows. The amplitude is largest, $A_1+A_2$, when the phase shifts agree, and smallest, $|A_1-A_2|$, when they differ by $\pi$. A sine and a cosine of the same frequency, $B_1\cos\omega t+B_2\sin\omega t$, is the special case of two arrows a quarter turn apart ($\delta_1=0$, $\delta_2=\pi/2$ gives $C=B_1-iB_2$).
+
+  - type: numeric
+    id: sum-amplitude
+    prompt: |
+      Two oscillations of the same frequency, $2\cos(\omega t)$ and $2\cos(\omega t-2\pi/3)$ (in cm), are added. What is the amplitude of the sum, in cm?
+    answer: 2
+    tolerance: 0.001
+    wrong:
+      - { value: 4, feedback: 'That adds the amplitudes, which holds only if the phase shifts agree. Here they differ by $2\pi/3$, so the peaks do not coincide.' }
+      - { value: 2.828, feedback: 'That is $\sqrt{2^2+2^2}$, which adds the two as if they were a quarter of a turn apart. The angle between the arrows is $2\pi/3$, not $\pi/2$.' }
+    hint: 'Use $A^2=A_1^2+A_2^2+2A_1A_2\cos(\delta_1-\delta_2)$ with $\delta_1=0$, $\delta_2=2\pi/3$, and $\cos(2\pi/3)=-\tfrac12$.'
+    explanation: |
+      $A^2=4+4+2\cdot2\cdot2\cdot\bigl(-\tfrac12\bigr)=4$, so $A=2$ cm. Two arrows of length 2 at $120^\circ$ form an equilateral triangle with their sum, so the resultant also has length 2, even though each part is as large.
+
+  - type: text
+    id: bottle-hook
+    title: A bottle in a bucket
+    body: |
+      Now a physical system that nobody calls a spring. A bottle, loaded with some sand so that it floats upright, sits in a large bucket of water. In equilibrium it is submerged to a depth $d_0$ below the surface. Push it down a little and let go, and it bobs up and down.
+
+      Before any calculation, guess. Does the rhythm depend on how heavy the bottle is, on how wide it is, or on the density of the liquid?
+
+  - type: mcq
+    id: bottle-guess
+    prompt: |
+      A bottle floats upright in water, submerged to a depth $d_0$ when at rest. Pushed a little lower and released, it bobs. Which change leaves the bobbing period unchanged, if the bottle is reloaded so that the same depth $d_0$ is submerged?
+    multiple: true
+    options:
+      - text: Using a wider bottle (larger cross-section), with more sand so that $d_0$ is the same
+        correct: true
+      - text: Using a different liquid, with a different density, and a mass chosen so that $d_0$ is the same
+        correct: true
+      - text: Using a deeper equilibrium, $d_0$ larger, with everything else the same
+        feedback: |
+          A larger $d_0$ is a different bottle and gives a different period: the period grows with $d_0$.
+    explanation: |
+      The calculation in the next card shows that only $d_0$ matters. A wider bottle is heavier at the same depth, but it is also pushed back harder, and the two effects cancel. The same holds for the liquid density.
+
+  - type: text
+    id: bottle-derive
+    title: Newton's law for the bottle
+    body: |
+      Let the bottle have mass $m$ and horizontal cross-section $S$ (Taylor calls it $A$), and let the water have density $\varrho$. Two forces act: the weight $mg$ downward and the buoyant force upward. By Archimedes' principle the buoyant force is $\varrho g$ times the submerged volume, which is $S$ times the depth $d$:
+
+      $$F_{\mathrm{buoy}}=\varrho gSd$$
+
+      At the equilibrium depth $d_0$ the two forces balance:
+
+      $$mg=\varrho gSd_0$$
+
+      Now let the bottle be at depth $d=d_0+x$, which defines $x$ as the displacement from equilibrium, measured downward. Newton's second law reads
+
+      $$m\ddot x=mg-\varrho gS(d_0+x)$$
+
+      By the balance condition, the weight cancels the term $\varrho gSd_0$, leaving
+
+      $$\ddot x=-\frac{\varrho gS}{m}\,x$$
+
+      The balance condition also says $\varrho gS/m=g/d_0$, so
+
+      $$\ddot x=-\frac{g}{d_0}\,x$$
+
+      This is the equation of simple harmonic motion, with
+
+      $$\omega=\sqrt{\frac{g}{d_0}}$$
+
+      The frequency does not depend on $m$, $\varrho$ or $S$, and it is that of a simple pendulum of length $d_0$. The restoring force is $-\varrho gSx$, a spring of force constant $k=\varrho gS$, though no spring is in sight.
+
+  - type: numeric
+    id: bottle-period
+    prompt: |
+      A bottle floats upright, submerged to a depth $d_0=5.0\ \mathrm{cm}$. Using $\omega=\sqrt{g/d_0}$ with $g=9.8\ \mathrm{m/s^2}$, what is the period of its small up-and-down oscillations, in seconds?
+    answer: 0.449
+    tolerance: 0.005
+    wrong:
+      - { value: 14, feedback: 'That is the angular frequency $\omega=\sqrt{9.8/0.05}$ in rad/s. The period is $\tau=2\pi/\omega$.' }
+      - { value: 0.0714, feedback: 'That is $\sqrt{d_0/g}$, without the factor $2\pi$. The period is $2\pi\sqrt{d_0/g}$.' }
+    hint: Use $d_0$ in metres. The period is $\tau=2\pi/\omega=2\pi\sqrt{d_0/g}$.
+    explanation: |
+      $\tau=2\pi\sqrt{0.05/9.8}=2\pi\cdot0.0714=0.449$ s. For $d_0=20\ \mathrm{cm}$ the same formula gives $0.9$ s, which the real bottle gets only roughly, since the flow of water around it makes the calculation a simplification.
+
+  - type: mcq
+    id: bottle-limit
+    prompt: |
+      The bottle floats with depth $d_0$, and the derivation gives $\ddot x=-(g/d_0)\,x$ for the displacement $x$ from equilibrium. For which upward displacement does the derivation stop being valid?
+    options:
+      - text: When the bottle is lifted by more than $d_0$, so that its bottom leaves the water
+        correct: true
+      - text: There is no limit, since the equation $\ddot x=-(g/d_0)\,x$ is exact
+        feedback: |
+          The buoyant force $\varrho gSd$ holds only while the submerged depth is $d=d_0+x\ge0$. Once the bottom clears the surface there is no water to push, and the force law changes.
+      - text: When the bottle is lifted by more than a tenth of $d_0$
+        feedback: |
+          Nothing special happens at small fractions of $d_0$. The formula for the force is exact until the bottom leaves the water; the limit is set by $d=0$, not by smallness.
+      - text: When it moves faster than the speed of sound in water
+        feedback: |
+          Speed does not enter the model at all. The force depends only on the depth, in this simplified calculation that ignores the water's motion.
+    explanation: |
+      The linear law $F=-\varrho gSx$ is exact only while $d_0+x\ge0$, that is for $x\ge-d_0$ (upward displacements up to $d_0$), and the bottle stays upright. Taylor also warns that the flow of water around the bottle complicates the real motion.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** the oscillator has so far been alone on a line. Next the cart is free to move in a plane, and its two coordinates oscillate at once: the arrows of this lesson become paths, circles, ellipses and figure-eights.
