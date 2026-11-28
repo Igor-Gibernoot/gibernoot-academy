@@ -1,5 +1,9 @@
 # Status log
 
+## 2026-11-27 ch05-map (Level 5, map, 7 boxes, autonomous)
+Built `ch05/map.yaml`: work and kinetic energy, potential energy, force from a potential and curl test (hole caveat), energy diagram, stability and small oscillations, time from energy, many particles; 2 decoys each, every decoy a classic error (sign of V and F = -grad V, E conserved with friction, curl local only, V' = 0 as turning point, V'' < 0 stable, inverted period, dx/xdot inverted, linear arcsin, double-counted pairs, equal energy split). Choices: no archive map existed (no archive/); no new source range, formulas reused from the render-checked lessons (VERIFIED.md line); no widget (a map needs none); images: none: map. Phone overflow of three displayed lines fixed by splitting. Validate 0 errors, 0 warnings; shots clean.
+Conventions fixed here: nothing new (map reuses Level 5 notation).
+
 ## 2026-11-27 ch05-intuition (Level 5, intuition, 21 cards)
 Built: hook, 9 build cards (work-KE, V, F = -grad V, curl_z, dE = W_nc, speed, omega, t integral, pair sum), curl MCQ, checks MCQ, 7 numeric cards with data only (grad, curl constant, speed, omega, time on a spring, pair count, friction work), summary. Choices: no widget (recall lesson; nothing to manipulate that energy-diagram does not already show); no image; no new source range. Conventions fixed here: none new (numbers listed in Chapter 5 of CONVENTIONS.md).
 
