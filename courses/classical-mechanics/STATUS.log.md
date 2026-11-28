@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27 ch05-challenge part 2 (autonomous)
+Appended problems 4 and 5 and replaced the placeholder with a plain closing card (formulas, teaser to Oscillations); 30 cards in all. Problem 4: poly well V = 3x^2 - 2x^3, m = 3 kg (energy-diagram x1, poly preset seen once in a screenshot, fine): small tau 4.443 s, tau 4.88 s at E = 0.5 J, escape speed 0.816, speed 1.915 at x = 2. Problem 5: block 3 kg with 4 N friction and hanging 1 kg mass (v = 1.703 m/s, slide 1.09 m). Choices: no Lennard-Jones (Taylor does not name it, so it could not be render-checked); no image (toy problems); no new source range. Conventions fixed here: toy well and Atwood numbers above, copied into CONVENTIONS Chapter 5.
+
 ## 2026-11-27 ch05-challenge part 1
 21 cards: problem 1 bead on a wire (curl test, V = -x^2 y, work 11 J, speed with and without friction), problem 2 double well V = (x^2-1)^2, m = 2 kg (energy-diagram x1; tau small 3.14 s, turning points, period 3.56 s, crossing the hill), problem 3 two carts and a spring (12 J, momentum balance, clamped case, why the wall does no work). Closing card of part 1 is a placeholder "Part 1 done"; part 2 replaces it. No `own:` (decided: the challenge closes with a plain card, as in Level 4). No images (none fits). Conventions fixed here: double well V = (x^2-1)^2 J with m = 2 kg; carts 1 and 3 kg, k = 24 N/m, natural length 0.5 m.
 

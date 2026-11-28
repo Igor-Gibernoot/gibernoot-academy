@@ -14,7 +14,7 @@ cards:
       $$\dot x=\pm\sqrt{\frac{2\,(E-V)}{m}}, \qquad \omega=\sqrt{\frac{V''(x_0)}{m}}$$
       near a stable equilibrium $x_0$ (where $V'(x_0)=0$ and $V''(x_0)>0$), with period $\tau=2\pi/\omega$. For several particles the energy is the sum of the kinetic energies plus the potential energy of the pair interactions and of any outside fields.
 
-      Five problems come in two sessions; this part has three: a bead on a wire, a ball in a double well, and two carts joined by a spring.
+      Five problems: a bead on a wire, a ball in a double well, two carts joined by a spring, a particle escaping a well, and a block pulled by a hanging mass.
 
   # ---------------------------------------------------------------- Problem 1
   - type: text
@@ -317,8 +317,146 @@ cards:
     explanation: |
       Work is $\mathbf F\cdot d\mathbf r$, and the bolted cart has $d\mathbf r=0$. So the wall changes the momentum of the pair (the total momentum is not conserved) without changing its energy. This is why the energy $E=12\ \mathrm{J}$ is conserved in both cases while momentum is conserved only in the free pair.
 
+  # ---------------------------------------------------------------- Problem 4
+  - type: text
+    id: p4-setup
+    title: 'Problem 4: out of the well'
+    body: |
+      A particle of mass $m=3\ \mathrm{kg}$ moves along a line in the potential energy
+      $$V(x)=3x^2-2x^3\ \mathrm{J}, \qquad x\ \text{in metres}.$$
+      It has a valley at $x=0$ and a hilltop at $x=1$, of height $V(1)=1\ \mathrm{J}$. Beyond the hilltop the curve falls without end. We ask about its small wiggles, its true period, and how much energy it takes to escape.
+
+  - type: widget
+    id: p4-widget
+    title: A well with a lip
+    widget: energy-diagram
+    config:
+      potential: { type: poly, coeffs: [0, 0, 3, -2], mass: 3, view: [-1, 1.8, -0.6, 2], E: 0.5, x: 0.5 }
+      sliders: [E]
+      ranges: { E: [0.05, 1.5, 0.05] }
+      bars: [T, V, E]
+      readouts: [E, period]
+      units: { V: J, x: m, t: s }
+      show:
+        trace: true
+        eqLabels: false
+        forceArrow: false
+    body: |
+      The curve is $V(x)$ and the purple line is the total energy $E$. Start with $E=0.5\ \mathrm{J}$ and read the period. Then raise $E$ toward $1\ \mathrm{J}$ and watch what happens to the period and to the ball.
+
+  - type: numeric
+    id: p4-small
+    prompt: |
+      A $3\ \mathrm{kg}$ particle moves in the potential energy $V(x)=3x^2-2x^3$ joules ($x$ in metres), which has a minimum at $x=0$. For tiny oscillations about that minimum, what is the period, in seconds?
+    answer: 4.443
+    tolerance: 0.01
+    answerText: '4.443'
+    wrong:
+      - { value: 8.886, feedback: 'That is $2\pi\sqrt{V''/m}$, with the ratio upside down. The period grows with the mass and shrinks with the stiffness, so it is $2\pi\sqrt{m/V''(0)}$.' }
+      - { value: 6.283, feedback: 'That is $2\pi$, which would need $m/V''=1$. Here $V''(0)=6\ \mathrm{J/m^2}$ and $m=3\ \mathrm{kg}$.' }
+    hint: |
+      Find $V''$ at the minimum, then use the small-oscillation period of a stable equilibrium.
+    explanation: |
+      $$\begin{aligned} V'&=6x-6x^2, \\ V''&=6-12x, \\ V''(0)&=6\ \mathrm{J/m^2}. \end{aligned}$$
+      Then $\omega=\sqrt{6/3}=\sqrt2=1.414\ \mathrm{rad/s}$ and $\tau=2\pi/\omega=4.443\ \mathrm{s}$. The hilltop at $x=1$ has $V''(1)=-6<0$, so it is unstable, as the picture shows.
+
+  - type: numeric
+    id: p4-period
+    prompt: |
+      The $3\ \mathrm{kg}$ particle in $V(x)=3x^2-2x^3$ joules ($x$ in metres) has total energy $E=0.5\ \mathrm{J}$ and oscillates in the valley between turning points $-0.366$ and $0.5\ \mathrm{m}$. Using the widget's period readout or the integral $\tau=2\int dx/\dot x$, what is the period, in seconds?
+    answer: 4.88
+    tolerance: 0.03
+    answerText: '4.88'
+    wrong:
+      - { value: 4.44, feedback: 'That is the period for tiny oscillations. At $E=0.5\ \mathrm{J}$ the particle climbs the wall on the right, where $V$ is softer than a parabola because the hilltop is near, so the trip takes longer.' }
+      - { value: 2.44, feedback: 'That is half of the round trip. The period is there and back.' }
+    hint: |
+      Expect a period longer than for tiny oscillations. The turning points solve $V=E$, here $2x^3-3x^2+0.5=0$, which has the root $x=0.5$.
+    explanation: |
+      The integral is not elementary, so we read it from the widget (or integrate numerically). It gives $\tau=4.88\ \mathrm{s}$, about $10\%$ longer than $4.44\ \mathrm{s}$. The period grows without bound as $E$ approaches the hilltop value $1\ \mathrm{J}$, because the particle then spends longer and longer near the unstable point.
+
+  - type: numeric
+    id: p4-escape
+    prompt: |
+      A $3\ \mathrm{kg}$ particle sits at the bottom of the valley $x=0$ of $V(x)=3x^2-2x^3$ joules ($x$ in metres) and is given a push to the right, so that it has speed $v$ there. What is the smallest speed for which it can get over the hilltop at $x=1$, in metres per second?
+    answer: 0.816
+    tolerance: 0.005
+    answerText: '0.816'
+    wrong:
+      - { value: 0.577, feedback: 'The $\tfrac12$ is missing: $\tfrac12 mv^2=1\ \mathrm{J}$ gives $v^2=2/m$, not $1/m$.' }
+      - { value: 1.414, feedback: 'That drops the mass. The kinetic energy is $\tfrac12 mv^2$ with $m=3\ \mathrm{kg}$, not $\tfrac12 v^2$.' }
+    hint: |
+      The bottom has $V(0)=0$ and the top has $V(1)=1\ \mathrm{J}$. The particle just reaches the top when $E=V(1)$.
+    explanation: |
+      $$\begin{aligned} \tfrac12 mv^2&=V(1)-V(0)=1\ \mathrm{J}, \\ v&=\sqrt{\frac{2}{3}}=0.816\ \mathrm{m/s}. \end{aligned}$$
+      Slightly less and it turns round and falls back, slightly more and it passes the top.
+
+  - type: numeric
+    id: p4-run
+    prompt: |
+      The $3\ \mathrm{kg}$ particle in $V(x)=3x^2-2x^3$ joules ($x$ in metres) leaves the bottom $x=0$ at $1\ \mathrm{m/s}$ to the right, which is enough to pass the hilltop. How fast is it moving when it reaches $x=2$, in metres per second?
+    answer: 1.915
+    tolerance: 0.005
+    answerText: '1.915'
+    wrong:
+      - { value: 1, feedback: 'That is the starting speed. Beyond the hilltop the potential energy keeps falling ($V(2)=-4\ \mathrm{J}$), and that lost potential energy becomes kinetic energy.' }
+      - { value: 0.577, feedback: 'That is the speed at the hilltop $x=1$, not at $x=2$. The curve keeps falling past the top.' }
+    hint: |
+      Find $E$ from the start, where $V(0)=0$, then use $T=E-V$ at $x=2$.
+    explanation: |
+      $$\begin{aligned} E&=\tfrac12(3)(1)^2+0=1.5\ \mathrm{J}, \\ V(2)&=12-16=-4\ \mathrm{J}, \\ T&=E-V=5.5\ \mathrm{J}, \\ v&=\sqrt{\frac{2(5.5)}{3}}=1.915\ \mathrm{m/s}. \end{aligned}$$
+      At the hilltop $x=1$ the same steps give $T=0.5\ \mathrm{J}$ and $v=0.577\ \mathrm{m/s}$, the slowest point on the way out. The particle never returns, because $E>V(1)$.
+
+  # ---------------------------------------------------------------- Problem 5
+  - type: text
+    id: p5-setup
+    title: 'Problem 5: a block, a string and a hanging mass'
+    body: |
+      A block of mass $m_1=3\ \mathrm{kg}$ lies on a rough horizontal table. A light string runs from it over a smooth pulley to a hanging mass $m_2=1\ \mathrm{kg}$. Sliding friction pulls on the block with a constant force of $4\ \mathrm{N}$ against its motion. The system is released from rest with the hanging mass $1\ \mathrm{m}$ above the floor. Take $g=9.8\ \mathrm{m/s^2}$. The string stays taut while the mass falls, so both bodies always have the same speed.
+
+      How fast is it all moving when the hanging mass lands, and how far does the block then slide?
+
+  - type: numeric
+    id: p5-speed
+    prompt: |
+      A $3\ \mathrm{kg}$ block on a table with sliding friction $4\ \mathrm{N}$ is joined by a light string over a smooth pulley to a $1\ \mathrm{kg}$ mass hanging $1\ \mathrm{m}$ above the floor. They start at rest and move together at a common speed (take $g=9.8\ \mathrm{m/s^2}$). The string's two ends do equal and opposite work, and the table's normal force does none. What is the common speed when the hanging mass reaches the floor, in metres per second?
+    answer: 1.703
+    tolerance: 0.005
+    answerText: '1.703'
+    wrong:
+      - { value: 2.214, feedback: 'That leaves friction out. Friction is a non-conservative force that does $-4\ \mathrm{J}$ of work over the $1\ \mathrm{m}$, so $\Delta E=W_{\text{nc}}$ is not zero.' }
+      - { value: 3.406, feedback: 'That gives all the energy to the hanging mass alone. The block moves at the same speed and also carries kinetic energy: $T=\tfrac12(m_1+m_2)v^2$.' }
+    hint: |
+      Take the potential energy of the whole system as the gravitational energy of the hanging mass only, and use $E=T_1+T_2+V$ with $\Delta E=W_{\text{nc}}$.
+    explanation: |
+      Measure the hanging mass's height $h$ from the floor, so $V=m_2gh$. Then
+      $$\begin{aligned} E_{\text{start}}&=0+(1)(9.8)(1)=9.8\ \mathrm{J}, \\ E_{\text{end}}&=\tfrac12(3+1)v^2+0, \\ E_{\text{end}}&=E_{\text{start}}+W_{\text{nc}}=9.8-4=5.8\ \mathrm{J}, \\ v&=\sqrt{\frac{2(5.8)}{4}}=\sqrt{2.9}=1.703\ \mathrm{m/s}. \end{aligned}$$
+
+  - type: numeric
+    id: p5-slide
+    prompt: |
+      The hanging $1\ \mathrm{kg}$ mass lands and stops at once, and the string goes slack. The $3\ \mathrm{kg}$ block is moving at $1.703\ \mathrm{m/s}$ on a table with sliding friction $4\ \mathrm{N}$, and nothing else acts on it horizontally. How far does it slide before stopping, in metres?
+    answer: 1.0875
+    tolerance: 0.01
+    answerText: '1.09'
+    wrong:
+      - { value: 1.45, feedback: 'That divides $5.8\ \mathrm{J}$ by $4\ \mathrm{N}$, which counts the hanging mass''s kinetic energy too. The mass stopped at the floor, so only the block''s kinetic energy $\tfrac12(3)v^2$ is left to be removed by friction.' }
+    hint: |
+      The block's kinetic energy is $\tfrac12 m_1v^2$ and friction does work $-f\,d$.
+    explanation: |
+      $$\begin{aligned} T&=\tfrac12(3)(2.9)=4.35\ \mathrm{J}, \\ 0-T&=-f\,d, \\ d&=\frac{4.35}{4}=1.09\ \mathrm{m}. \end{aligned}$$
+      The other $\tfrac12(1)(2.9)=1.45\ \mathrm{J}$ was the hanging mass's kinetic energy. It went into the floor when the mass landed, a non-conservative loss. In all, friction took $4\ \mathrm{J}$ on the way down and takes $4.35\ \mathrm{J}$ here.
+
   - type: text
     id: part-end
-    title: Part 1 done
+    title: What you now own
     body: |
-      Three problems solved. The first used the curl test, the potential and $\Delta E=W_{\text{nc}}$; the second read a double well; the third combined energy with the momentum balance of two bodies. Part 2 has two more problems and the summary.
+      Five problems, one toolkit. Work along a road changes the kinetic energy $T$. A force with zero curl has a potential energy $V$ and road-independent work:
+      $$\begin{gathered} T_2-T_1=W(1\to2)=\int_1^2\mathbf F\cdot d\mathbf r, \\ \mathbf F=-\nabla V, \\ W(1\to2)=V_1-V_2. \end{gathered}$$
+      Energy bookkeeping with the total $E=T+V$, where $W_{\text{nc}}$ is the work of the non-conservative forces (friction, a landing):
+      $$E=T+V, \qquad \Delta E=W_{\text{nc}}.$$
+      For several particles, $E$ adds up each particle's $\tfrac12 m_iv_i^2$, the potential energy of each interacting pair and of any outside field. In one dimension ($m$ the mass, $x$ the position), the graph of $V(x)$ gives the speed, the turning points ($V=E$), and the equilibria ($V'=0$, stable when $V''>0$):
+      $$\dot x=\pm\sqrt{\frac{2\,(E-V)}{m}}, \qquad \tau=2\pi\sqrt{\frac{m}{V''(x_0)}}.$$
+      The period formula holds for tiny oscillations about a stable $x_0$; at larger $E$ the period is $\tau=2\int dx/\dot x$ between the turning points, and it grows without bound as $E$ approaches an unstable top.
+
+      **Next:** Oscillations. A particle in a well wiggles, and the level on Oscillations asks what happens to that wiggle when friction acts and when a push repeats in time: how it dies away, how it is driven, and when a small push at the right rhythm builds a large motion.

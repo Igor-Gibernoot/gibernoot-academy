@@ -35,8 +35,9 @@
 - **Built:** `ch05-traps` (Level 5, traps, 16 cards, no widget, no image).
 - **Built:** `ch05-intuition` (Level 5, intuition, 21 cards, no widget, no image). 9 build cards, curl and checks MCQs, 7 data-only numeric cards.
 - **Built:** `ch05-map` (Level 5, map, 7 boxes: work, potential energy, force and curl, energy diagram, stability, time, many particles).
-- **Built:** `ch05-challenge` part 1 (21 cards: bead on a wire with curl test and friction, double well (energy-diagram), two carts and a spring; closing card "Part 1 done" is a placeholder to replace).
-- **Next unit:** `ch05-challenge` part 2 (problems 4-5, final closing card with teaser to Oscillations). The exam (`exam-partial1`) comes only after Level 6.
+- **Built:** `ch05-challenge` part 1 (21 cards: bead on a wire with curl test and friction, double well (energy-diagram), two carts and a spring; see part 2).
+- **Built:** `ch05-challenge` part 2 (30 cards in all: problem 4 poly well V = 3x^2 - 2x^3 (energy-diagram), small and true period, escape speed; problem 5 block, string and hanging mass with friction; closing card with teaser to Oscillations). Level 5 content is built.
+- **Next unit:** Level 5 audit. The exam (`exam-partial1`) comes only after Level 6 (Oscillations).
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
