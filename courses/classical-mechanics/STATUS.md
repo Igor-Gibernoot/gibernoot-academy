@@ -33,7 +33,8 @@
 - **Widget `lissajous-lab` built (2026-11-27)** (docs/widgets/lissajous-lab.md): x = Ax cos(wx t), y = Ay cos(wy t - delta), dot, fading trail, full closed curve, x(t) and y(t) strips with projection lines, ratio / type / period readouts, everything hideable.
 - **Built:** `ch06-two-dimensions` (Level 6, concept, 24 cards, lissajous-lab x3, harmonograph image). Isotropic F = -kr, line/ellipse by relative phase, L and E, anisotropic Lissajous, quasiperiodic.
 - **Widget `damped-regimes` built (2026-11-28)** (docs/widgets/damped-regimes.md): x'' + 2 beta x' + w0^2 x = 0, slider on beta/w0 (0 to 3), x(t) sweep, envelope, overdamped exponentials, (x, v/w0) inset, regime label, readouts (beta, w1, decay time 1/beta, period, Q, crossings); everything hideable.
-- **Next unit:** `ch06-damped` (Taylor 5.4, uses `damped-regimes`). The exam (`exam-partial1`) comes only after Level 6.
+- **Built:** `ch06-damped` (Level 6, concept, 23 cards, damped-regimes x4, no image). beta = b/2m, three regimes from r = -beta +- sqrt(beta^2 - w0^2), w1, decay time 1/beta, overdamped creep, critical (C1 + C2 t) e^{-beta t}, door closer.
+- **Next unit:** `ch06-driven` (Taylor 5.5, driven damped oscillator, resonance). The exam (`exam-partial1`) comes only after Level 6.
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.

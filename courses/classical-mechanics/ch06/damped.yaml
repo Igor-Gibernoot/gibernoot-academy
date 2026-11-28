@@ -1,0 +1,406 @@
+id: ch06-damped
+title: Damped Oscillations
+kind: concept
+own: |
+  Setting: a mass $m$ moves along $x$ (measured from equilibrium), pulled back by a spring of force constant $k$ and slowed by a linear drag force $-b\dot x$ with drag constant $b>0$. Two constants describe the motion: $\omega_0=\sqrt{k/m}$ is the angular frequency without drag, and the **damping constant** $\beta=b/2m$ (units of 1/time) measures the drag.
+  - **Equation of motion.** Newton's law $m\ddot x=-kx-b\dot x$ becomes
+    {{ $$\ddot x+2\beta\dot x+\omega_0^2x=0$$ }}
+    Trying $x=e^{rt}$ gives $r^2+2\beta r+\omega_0^2=0$, so
+    $$r=-\beta\pm\sqrt{\beta^2-\omega_0^2}$$
+    and the sign of $\beta^2-\omega_0^2$ sorts the motion into three regimes.
+  - **Underdamped, $\beta<\omega_0$.** The roots are complex, and the motion is an oscillation inside a shrinking envelope, with $A$ and $\delta$ set by the start:
+    {{ $$x=Ae^{-\beta t}\cos(\omega_1t-\delta)$$ }}
+    $$\omega_1=\sqrt{\omega_0^2-\beta^2}$$
+    The amplitude falls to $1/e$ in the **decay time** $1/\beta$, and the oscillation is slower than the undamped one, $\omega_1<\omega_0$.
+  - **Overdamped, $\beta>\omega_0$.** Both roots $r_1,r_2$ are real and negative, nothing oscillates (at most one crossing of $x=0$), and the slower exponential wins at late times:
+    {{ $$x=C_1e^{r_1t}+C_2e^{r_2t}$$ }}
+    Heavier damping makes the return slower, since the slow rate $|r_1|\approx\omega_0^2/2\beta$ ($r_1$ the root closer to zero) shrinks as $\beta$ grows.
+  - **Critically damped, $\beta=\omega_0$.** The two roots merge at $r=-\beta$, and the second solution is $te^{-\beta t}$ (the limit of the overdamped pair as $\beta\to\omega_0$). This is the fastest return to rest without overshoot:
+    {{ $$x=(C_1+C_2t)\,e^{-\beta t}$$ }}
+cards:
+  - type: text
+    id: hook
+    title: A door that must not slam
+    body: |
+      A spring pulls a door shut. With the spring alone, the door would swing past the closed position, bounce off the frame and swing back and forth, like the oscillators of the previous lessons. Add a damper that resists the motion, and the door behaves differently. Too little damping and it still bangs against the frame and rattles. Too much and it creeps shut so slowly that you wait.
+
+      Before any theory, guess: if you increase the damping step by step, starting from none, does the time the door needs to settle always get shorter? Or is there a best damping, and what does the motion look like there?
+
+  - type: widget
+    id: regimes-widget
+    title: Turn up the damping
+    widget: damped-regimes
+    config:
+      ratio: 0.2
+      x0: 1
+      v0: 0
+      readouts: [regime, beta, crossings]
+      show:
+        ratioSlider: true
+        presets: false
+        x0Slider: false
+        v0Slider: false
+    body: |
+      A mass on a spring is released from rest at $x=1$. The curve is $x(t)$, with time measured in units of $1/\omega_0$. The slider sets $\beta/\omega_0$, the strength of the damping compared with the spring ($\beta$ is defined in the next card; for now, larger means more drag). The small panel is the same motion in a plane, position across and velocity up.
+
+      **Try:** start at $0$ and drag the slider slowly up to $3$. Watch what happens to the wiggles, and watch how long the curve takes to settle near $x=0$. Find the setting where the wiggles just disappear.
+
+  - type: mcq
+    id: first-read
+    prompt: |
+      A mass on a spring is released from rest and slowed by a drag force. As the drag grows from zero to very large, how does the time to come to rest near the equilibrium behave?
+    options:
+      - text: It gets shorter up to a certain drag, then longer again
+        correct: true
+      - text: It keeps getting shorter, since more drag removes the energy faster
+        feedback: |
+          Drag removes energy, but a very strong drag also holds the mass back, so it creeps toward equilibrium instead of falling toward it. The settling time has a minimum.
+      - text: It does not depend on the drag, only on $k$ and $m$
+        feedback: |
+          The drag changes the equation of motion, so it changes the time scale. With no drag the mass never settles at all.
+      - text: It keeps getting longer, since drag slows everything down
+        feedback: |
+          A little drag turns an endless oscillation into one that dies out, so the settling time goes from infinite to finite. It only becomes longer again when the drag is large.
+    explanation: |
+      Settling needs two things: losing the energy, which wants more drag, and getting to the equilibrium, which wants less. The best compromise sits at the boundary where the wiggles just disappear. The rest of the lesson finds that boundary exactly.
+
+  - type: text
+    id: equation
+    title: The equation of motion
+    body: |
+      A mass $m$ on a spring of force constant $k$ feels the Hooke force $-kx$ from the spring (Level 6, first lesson), and a drag force. For slow motion the drag is linear (Level 3): $-b\dot x$, with a constant $b>0$ that has units of kg/s and says how strong the drag is. Newton's law $m\ddot x=F$ reads
+
+      $$m\ddot x=-kx-b\dot x$$
+
+      Divide by $m$ and move everything to one side. Two constants appear, and it is convenient to name them. The first is the angular frequency the oscillator would have without drag,
+
+      $$\omega_0=\sqrt{k/m}$$
+
+      and the second, the **damping constant**,
+
+      $$\beta=\frac{b}{2m}$$
+
+      The factor $2$ is only a convenience, it makes later formulas shorter. The equation of motion becomes
+
+      $$\ddot x+2\beta\dot x+\omega_0^2x=0$$
+
+      It is linear in $x$, so a sum of two solutions is a solution, as for the undamped oscillator.
+
+  - type: numeric
+    id: beta-value
+    prompt: |
+      A cart of mass $m=0.5$ kg is attached to a spring of force constant $k=200$ N/m and moves in a fluid that exerts the drag force $-b\dot x$ with $b=12$ kg/s. What is the damping constant $\beta=b/2m$ in s$^{-1}$?
+    answer: 12
+    tolerance: 0.001
+    wrong:
+      - { value: 24, feedback: 'This is $b/m$. The definition has a $2$ in the denominator, $\beta=b/2m=12/(2\times0.5)$.' }
+      - { value: 6, feedback: 'This is $b/(4m)$ or $b/2$ without dividing by $m$ correctly. Use $\beta=b/2m=12/1$.' }
+    hint: Put $m=0.5$ kg and $b=12$ kg/s into $\beta=b/2m$.
+    explanation: |
+      $\beta=b/2m=12/(2\times0.5)=12\ \mathrm{s}^{-1}$. Its units are 1/time, like $\omega_0$ (here $\omega_0=\sqrt{200/0.5}=20\ \mathrm{s}^{-1}$), so the two can be compared directly. That comparison, $\beta$ against $\omega_0$, decides everything below.
+
+  - type: text
+    id: characteristic
+    title: Trying an exponential
+    body: |
+      The equation has constant coefficients, so try $x=e^{rt}$ with a constant $r$ to find. Then $\dot x=re^{rt}$ and $\ddot x=r^2e^{rt}$, and the common factor $e^{rt}$ cancels:
+
+      $$r^2+2\beta r+\omega_0^2=0$$
+
+      This quadratic has the two roots
+
+      $$r_{1,2}=-\beta\pm\sqrt{\beta^2-\omega_0^2}$$
+
+      Each gives a solution $e^{r_1t}$ and $e^{r_2t}$, and the general solution is a combination of the two. What the roots look like depends on the sign of the quantity under the square root:
+
+      | Sign of $\beta^2-\omega_0^2$ | Roots | Regime |
+      |---|---|---|
+      | negative ($\beta<\omega_0$) | complex pair | underdamped |
+      | positive ($\beta>\omega_0$) | two real, different | overdamped |
+      | zero ($\beta=\omega_0$) | one real, repeated | critically damped |
+
+      With no damping, $\beta=0$ and $r=\pm i\omega_0$, which is the oscillator of the previous lessons.
+
+  - type: text
+    id: under
+    title: 'Underdamped, $\beta<\omega_0$'
+    body: |
+      When the damping is weak, $\beta^2-\omega_0^2<0$, so the square root is imaginary. Define
+
+      $$\omega_1=\sqrt{\omega_0^2-\beta^2}$$
+
+      so that $r_{1,2}=-\beta\pm i\omega_1$. The general solution is $e^{-\beta t}$ times a combination of $e^{i\omega_1t}$ and $e^{-i\omega_1t}$, which is the same as a phase-shifted cosine (the lesson One Motion, Three Ways to Write It):
+
+      $$x(t)=Ae^{-\beta t}\cos(\omega_1t-\delta)$$
+
+      with two constants $A$ and $\delta$ fixed by the starting position and velocity. This is a cosine of angular frequency $\omega_1$ whose amplitude $Ae^{-\beta t}$ shrinks exponentially. The time for the amplitude to fall to $1/e$ is
+
+      $$\frac1\beta$$
+
+      the **decay time**. Notice that $\omega_1<\omega_0$: damping slows the oscillation a little, in addition to shrinking it.
+
+  - type: numeric
+    id: omega1-value
+    prompt: |
+      The cart of mass $0.5$ kg on the $200$ N/m spring now has $b=12$ kg/s, so $\omega_0=20\ \mathrm{s}^{-1}$ and $\beta=12\ \mathrm{s}^{-1}$. What is the angular frequency $\omega_1$ of its damped oscillation, in s$^{-1}$?
+    answer: 16
+    tolerance: 0.001
+    wrong:
+      - { value: 20, feedback: 'This is $\omega_0$, the frequency without damping. With drag the frequency is $\sqrt{\omega_0^2-\beta^2}$.' }
+      - { value: 8, feedback: 'This is $\omega_0-\beta$. The reduction is not linear: $\omega_1=\sqrt{\omega_0^2-\beta^2}$.' }
+    hint: Compute $\sqrt{20^2-12^2}$.
+    explanation: |
+      $\omega_1=\sqrt{\omega_0^2-\beta^2}=\sqrt{400-144}=\sqrt{256}=16\ \mathrm{s}^{-1}$. The period is $2\pi/16$ s, longer than the $2\pi/20$ s without drag. The amplitude falls to $1/e$ in $1/\beta=1/12$ s, which is a bit over half a period, so this cart settles fast.
+
+  - type: numeric
+    id: decay-value
+    prompt: |
+      A weakly damped pendulum has amplitude $A e^{-\beta t}$ with $\beta=0.25\ \mathrm{s}^{-1}$. By what factor is the amplitude multiplied after $8$ s? (Give the ratio of the amplitude at $t=8$ s to its value at $t=0$.)
+    answer: 0.1353
+    tolerance: 0.01
+    wrong:
+      - { value: 0.3679, feedback: 'This is $e^{-1}$, the factor after one decay time $1/\beta=4$ s. Here $8$ s is two decay times.' }
+      - { value: 0.0183, feedback: 'This is $e^{-4}$. The exponent is $\beta t=0.25\times8=2$.' }
+    hint: The factor is $e^{-\beta t}$ with $\beta t=0.25\times8$.
+    explanation: |
+      $\beta t=0.25\times8=2$, so the factor is $e^{-2}=0.1353$. Equivalently, the decay time is $1/\beta=4$ s, $8$ s is two decay times, and each multiplies the amplitude by $1/e$.
+
+  - type: widget
+    id: under-widget
+    title: Inside the envelope
+    widget: damped-regimes
+    config:
+      ratio: 0.3
+      x0: 1
+      v0: 0
+      readouts: [beta, w1, decay, period, crossings]
+      show:
+        envelope: true
+        presets: false
+        x0Slider: false
+        v0Slider: false
+    body: |
+      The dashed curves are the envelope $\pm Ae^{-\beta t}$. The oscillation touches the envelope only near its peaks. The readouts give $\beta$, $\omega_1$ and the decay time $1/\beta$ (in units of $\omega_0$ and $1/\omega_0$).
+
+      **Try:** raise $\beta/\omega_0$ from $0.1$ to $0.9$ and watch $\omega_1$, the period and the number of zero crossings in the window.
+
+  - type: mcq
+    id: under-read
+    prompt: |
+      In the underdamped motion $x=Ae^{-\beta t}\cos(\omega_1t-\delta)$, the damping constant $\beta$ is increased while the spring stays the same, but stays below $\omega_0$. Which statements are true?
+    multiple: true
+    options:
+      - text: The envelope falls faster
+        correct: true
+      - text: The period $2\pi/\omega_1$ gets longer
+        correct: true
+      - text: The oscillation is still periodic in the sense that the zero crossings are equally spaced
+        correct: true
+      - text: The period stays equal to $2\pi/\omega_0$
+        feedback: |
+          $\omega_1=\sqrt{\omega_0^2-\beta^2}$ is smaller than $\omega_0$ for every $\beta>0$, so the period is longer. For weak damping the change is small.
+      - text: The oscillation becomes faster, because the mass has less time to travel
+        feedback: |
+          The drag resists the motion, it does not shorten the swing. The frequency $\omega_1$ drops as $\beta$ grows, reaching zero at $\beta=\omega_0$.
+    explanation: |
+      The zeros of $\cos(\omega_1t-\delta)$ are spaced by $\pi/\omega_1$, and the envelope factor never vanishes, so the crossings of $x=0$ are equally spaced, though the swings shrink. As $\beta\to\omega_0$ the period grows without bound, which is the first sign of the next regime.
+
+  - type: text
+    id: over
+    title: 'Overdamped, $\beta>\omega_0$'
+    body: |
+      When the damping is strong, $\beta^2-\omega_0^2>0$ and both roots are real:
+
+      $$r_{1,2}=-\beta\pm\sqrt{\beta^2-\omega_0^2}$$
+
+      Both are negative (the square root is smaller than $\beta$), so the general solution
+
+      $$x(t)=C_1e^{r_1t}+C_2e^{r_2t}$$
+
+      is a sum of two decaying exponentials: no oscillation at all. Call $r_1$ the root with the plus sign (the slower one, closer to zero) and $r_2$ the one with the minus sign (the faster one). After a while the fast exponential has died and the slow one remains, so the late-time decay rate is $|r_1|=\beta-\sqrt{\beta^2-\omega_0^2}$.
+
+      Now the surprise. For very large $\beta$, expand the square root: $\sqrt{\beta^2-\omega_0^2}\approx\beta-\omega_0^2/2\beta$, so
+
+      $$|r_1|\approx\frac{\omega_0^2}{2\beta}$$
+
+      This **decreases** as $\beta$ grows. The mass is held back so strongly that it oozes toward equilibrium.
+
+  - type: numeric
+    id: over-roots
+    prompt: |
+      A mass $m=1$ kg on a spring with $k=9$ N/m has drag constant $b=10$ kg/s, so $\omega_0=3\ \mathrm{s}^{-1}$ and $\beta=5\ \mathrm{s}^{-1}$. The solution is $C_1e^{r_1t}+C_2e^{r_2t}$. What is the slower root $r_1$ (the one closer to zero), in s$^{-1}$? Give it with its sign.
+    answer: -1
+    tolerance: 0.001
+    wrong:
+      - { value: 1, feedback: 'The root is negative: the exponential must decay. $r_1=-\beta+\sqrt{\beta^2-\omega_0^2}$.' }
+      - { value: -9, feedback: 'This is the faster root $r_2=-\beta-\sqrt{\beta^2-\omega_0^2}$. The slower one has the plus sign.' }
+      - { value: -5, feedback: 'This is $-\beta$ alone. The square root $\sqrt{25-9}=4$ must be added.' }
+    hint: Compute $\sqrt{\beta^2-\omega_0^2}=\sqrt{25-9}$ first.
+    explanation: |
+      $\sqrt{\beta^2-\omega_0^2}=\sqrt{25-9}=4$, so $r_1=-5+4=-1\ \mathrm{s}^{-1}$ and $r_2=-5-4=-9\ \mathrm{s}^{-1}$. The late-time decay time is $1/|r_1|=1$ s. The approximation $\omega_0^2/2\beta=9/10=0.9$ is already close.
+
+  - type: widget
+    id: over-widget
+    title: Too much damping
+    widget: damped-regimes
+    config:
+      ratio: 1.5
+      x0: 1
+      v0: 0
+      readouts: [r1, r2, regime, crossings]
+      show:
+        exponentials: true
+        presets: false
+        x0Slider: false
+        v0Slider: false
+    body: |
+      The dashed curves are the two exponentials $C_1e^{r_1t}$ and $C_2e^{r_2t}$ that add up to $x(t)$, and the readouts give $r_1$ and $r_2$.
+
+      **Try:** drag $\beta/\omega_0$ from $1.2$ up to $3$ and watch the slow root $r_1$ and the time the curve takes to get close to $x=0$.
+
+  - type: mcq
+    id: over-slower
+    prompt: |
+      A heavily overdamped mass is released from rest at $x=1$. The drag constant $b$ is then doubled. How does the late-time approach to $x=0$ change?
+    options:
+      - text: It gets slower, since the slow rate is about $\omega_0^2/2\beta$, which is halved
+        correct: true
+      - text: It gets faster, since twice the drag removes energy twice as fast
+        feedback: |
+          For a mass that is already overdamped, the drag is what holds it back. The slow decay rate is about $\omega_0^2/2\beta$, so doubling $\beta$ halves it.
+      - text: It does not change, because the spring decides where the mass goes
+        feedback: |
+          The spring decides the final position but not the speed of arrival. With strong drag the mass moves at a speed set by a balance of spring force and drag force, $kx\approx b\dot x$, which gives a slower motion for larger $b$.
+    explanation: |
+      When the drag dominates, inertia is negligible and the spring force balances the drag, $kx\approx-b\dot x$. This gives $\dot x=-(k/b)x$, a decay with rate $k/b=\omega_0^2/2\beta$. More drag, slower creep.
+
+  - type: text
+    id: critical
+    title: 'The edge: critical damping'
+    body: |
+      At $\beta=\omega_0$ the square root vanishes and the two roots merge into one, $r=-\beta$. Then $e^{-\beta t}$ is only **one** solution, and a second-order equation needs two. Where is the other?
+
+      Look at the overdamped case near the edge. With $s=\sqrt{\beta^2-\omega_0^2}$ the solutions are $e^{-\beta t}e^{st}$ and $e^{-\beta t}e^{-st}$, and any combination of them works. Take the difference divided by $2s$:
+
+      $$e^{-\beta t}\,\frac{e^{st}-e^{-st}}{2s}=e^{-\beta t}\,\frac{\sinh st}{s}$$
+
+      This is a solution for every $s\ne0$. As $s\to0$, $\sinh st\approx st$, so it tends to $te^{-\beta t}$. A limit of solutions is a solution (check by substituting, as in the next card), so the two independent solutions are $e^{-\beta t}$ and $te^{-\beta t}$:
+
+      $$x(t)=C_1e^{-\beta t}+C_2\,t\,e^{-\beta t}=(C_1+C_2t)\,e^{-\beta t}$$
+
+      The factor $t$ delays the decay a little, but the exponential still wins at late times, and there is at most one crossing of $x=0$.
+
+  - type: mcq
+    id: check-te
+    prompt: |
+      At critical damping, $\beta=\omega_0$, the claim is that $x=te^{-\beta t}$ solves $\ddot x+2\beta\dot x+\beta^2x=0$. We have $\dot x=(1-\beta t)e^{-\beta t}$ and $\ddot x=(-2\beta+\beta^2t)e^{-\beta t}$. What does substituting give?
+    options:
+      - text: $(-2\beta+\beta^2t)+2\beta(1-\beta t)+\beta^2t=0$ for every $t$, so it is a solution
+        correct: true
+      - text: $2\beta^2t\ne0$, so it is not a solution
+        feedback: |
+          Collect the terms again: the constants $-2\beta+2\beta$ cancel, and the terms in $t$ are $\beta^2t-2\beta^2t+\beta^2t=0$.
+      - text: It is a solution only at $t=0$
+        feedback: |
+          The sum is zero for every $t$: both the constant parts and the parts proportional to $t$ cancel separately.
+    explanation: |
+      The constant terms: $-2\beta+2\beta=0$. The terms in $t$: $\beta^2t-2\beta^2t+\beta^2t=0$. So $te^{-\beta t}$ is a genuine second solution, and the general critical solution has two constants.
+
+  - type: build
+    id: critical-build
+    prompt: |
+      Build the general solution of the critically damped oscillator, $\beta=\omega_0$, with two free constants.
+    prefix: 'x(t) ='
+    tiles: ['(C_1 + C_2 t)', 'e^{-\beta t}', 'e^{-\omega_1 t}', 'C_1 e^{-\beta t}', '\cos\omega_1 t']
+    answers:
+      - ['(C_1 + C_2 t)', 'e^{-\beta t}']
+      - ['e^{-\beta t}', '(C_1 + C_2 t)']
+    wrong:
+      - answer: ['C_1 e^{-\beta t}']
+        feedback: 'This is one solution, with only one constant. A second-order equation needs two free constants, which here come with the factor $t$.'
+      - answer: ['(C_1 + C_2 t)', 'e^{-\omega_1 t}']
+        feedback: 'At critical damping $\omega_1=\sqrt{\omega_0^2-\beta^2}=0$, so this would not decay. The decay rate is $\beta$.'
+    hint: A polynomial of first degree in $t$ times the decaying exponential.
+    explanation: |
+      $x=(C_1+C_2t)e^{-\beta t}$. The constants are fixed by the starting position and velocity: $x(0)=C_1$ and $\dot x(0)=C_2-\beta C_1$.
+
+  - type: numeric
+    id: critical-b
+    prompt: |
+      A cart of mass $m=0.5$ kg is on a spring with $k=200$ N/m. What drag constant $b$, in kg/s, makes the motion critically damped?
+    answer: 20
+    tolerance: 0.001
+    wrong:
+      - { value: 40, feedback: 'This doubles the right value. Critical means $\beta=\omega_0$, and $\beta=b/2m$, so $b=2m\omega_0=2\times0.5\times20$.' }
+      - { value: 10, feedback: 'This is $m\omega_0$, missing the factor $2$ in $\beta=b/2m$.' }
+      - { value: 12, feedback: 'With $b=12$ kg/s, $\beta=12$ is below $\omega_0=20$, so the motion is still underdamped.' }
+    hint: Critical means $\beta=\omega_0=\sqrt{k/m}$, and $b=2m\beta$.
+    explanation: |
+      $\omega_0=\sqrt{200/0.5}=20\ \mathrm{s}^{-1}$. Critical damping needs $\beta=20$, so $b=2m\beta=2\times0.5\times20=20$ kg/s. Equivalently $b=2\sqrt{km}$, since $2m\omega_0=2\sqrt{km}$.
+
+  - type: widget
+    id: all-widget
+    title: Where does it settle fastest?
+    widget: damped-regimes
+    config:
+      ratio: 0.5
+      x0: 1
+      v0: -2
+      readouts: [regime, beta, crossings]
+      show:
+        presets: true
+        x0Slider: false
+        v0Slider: false
+        envelope: false
+        exponentials: false
+      presets:
+        - { label: 'Under', ratio: 0.3 }
+        - { label: 'Critical', ratio: 1 }
+        - { label: 'Over', ratio: 2.5 }
+    body: |
+      Now the mass starts at $x=1$ with a velocity $-2\omega_0$ **toward** the equilibrium (units of $\omega_0$ and $1/\omega_0$). Use the presets, then the slider, to compare the three regimes. The readout counts how many times $x$ passes through $0$ in the window.
+
+      **Try:** find the setting where the curve gets close to zero soonest and stays there. Compare it with a weaker and a stronger damping.
+
+  - type: mcq
+    id: door
+    prompt: |
+      A spring-and-damper door closer is adjusted so the door shuts quickly without ever swinging back open past the closed position (a slam against the frame is wanted to be avoided). Which regime should the damping be set to?
+    options:
+      - text: Critical, or just above it
+        correct: true
+      - text: Underdamped, which is the quickest since the door moves fastest
+        feedback: |
+          An underdamped door passes through the closed position and swings back, and the door would hit the frame and rebound. It oscillates with shrinking swings instead of settling.
+      - text: Strongly overdamped, so that nothing can ever overshoot
+        feedback: |
+          Strong damping never overshoots, but the late approach rate is about $\omega_0^2/2\beta$, which is small. The door would take a long time to close.
+      - text: Zero damping, since the spring alone closes the door
+        feedback: |
+          With no damping the door oscillates forever, passing through the closed position again and again.
+    explanation: |
+      At critical damping the motion is the fastest return to rest with no oscillation. Slightly above it avoids any overshoot even if the spring or the load changes a little, and loses only a little speed. Below it the door swings through the closed position.
+
+  - type: mcq
+    id: trap-regime
+    prompt: |
+      An oscillator has $\omega_0=10\ \mathrm{s}^{-1}$ and $\beta=6\ \mathrm{s}^{-1}$. Which description is correct?
+    options:
+      - text: Underdamped, oscillating at $\omega_1=8\ \mathrm{s}^{-1}$ inside an envelope $e^{-6t}$
+        correct: true
+      - text: Underdamped, oscillating at $\omega_0=10\ \mathrm{s}^{-1}$ inside an envelope $e^{-6t}$
+        feedback: |
+          The oscillation frequency is $\omega_1=\sqrt{\omega_0^2-\beta^2}=\sqrt{100-36}=8$, not $\omega_0$.
+      - text: Overdamped, since $\beta$ is a large fraction of $\omega_0$
+        feedback: |
+          The boundary is exactly $\beta=\omega_0$. Here $\beta=6<10$, so the roots are still complex.
+      - text: Critically damped, since $\beta^2$ and $\omega_0^2$ are of similar size
+        feedback: |
+          Critical needs $\beta=\omega_0$ exactly, not just the same order of magnitude.
+    explanation: |
+      $\beta<\omega_0$ gives complex roots $-6\pm8i$, so $x=Ae^{-6t}\cos(8t-\delta)$.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** instead of letting the oscillator die out, push it periodically. The next lesson drives the damped oscillator with a force of a chosen frequency, and asks how large the response is. A swing pushed at the right rhythm gets a big amplitude, and the damping decides how big and how sharp that peak is.
