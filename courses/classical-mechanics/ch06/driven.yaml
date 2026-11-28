@@ -1,0 +1,415 @@
+id: ch06-driven
+title: Driven Oscillations and Resonance
+kind: concept
+own: |
+  Setting: a mass $m$ moves along $x$ (measured from equilibrium) on a spring of force constant $k$, with linear drag $-b\dot x$, and an outside force $F(t)=mf(t)$ pushes it. With $\omega_0=\sqrt{k/m}$ (natural angular frequency) and $\beta=b/2m$ (damping constant), the equation of motion is
+  $$\ddot x+2\beta\dot x+\omega_0^2x=f(t)$$
+  The drive is $f(t)=f_0\cos\omega t$, where $f_0=F_0/m$ is the force per unit mass and $\omega$ is the drive frequency, independent of $\omega_0$.
+  - **Transient plus steady state.** The general solution is any one solution plus the undriven solution, and the undriven part dies out as $e^{-\beta t}$. What remains forever, whatever the start, is the steady state, which oscillates at the **drive** frequency:
+    {{ $$x(t)=A\cos(\omega t-\delta)$$ }}
+  - **Amplitude.** Trying $z=Ce^{i\omega t}$ in the complex equation $\ddot z+2\beta\dot z+\omega_0^2z=f_0e^{i\omega t}$ gives $C=f_0/(\omega_0^2-\omega^2+2i\beta\omega)=Ae^{-i\delta}$, and $A=|C|$:
+    {{ $$A^2=\frac{f_0^2}{(\omega_0^2-\omega^2)^2+4\beta^2\omega^2}$$ }}
+    For slow driving $A\to f_0/\omega_0^2$ (the static push $F_0/k$), and for fast driving $A\to f_0/\omega^2$.
+  - **Phase.** $\delta$ is the lag of the motion behind the force, the angle of the number $(\omega_0^2-\omega^2)+2i\beta\omega$, so it lies between $0$ and $\pi$:
+    {{ $$\tan\delta=\frac{2\beta\omega}{\omega_0^2-\omega^2}$$ }}
+    It is $0$ for slow driving, $\pi/2$ at $\omega=\omega_0$ and near $\pi$ for fast driving.
+  - **Resonance.** Varying $\omega$ with $\omega_0$ fixed, the amplitude is largest at
+    {{ $$\omega_2=\sqrt{\omega_0^2-2\beta^2}$$ }}
+    which is close to $\omega_0$ for weak damping $\beta\ll\omega_0$. There the peak height is
+    $$A_{\max}\approx\frac{f_0}{2\beta\omega_0}=Q\,\frac{f_0}{\omega_0^2},\qquad Q=\frac{\omega_0}{2\beta}$$
+    so the **quality factor** $Q$ is the peak height in units of the static response, and weaker damping gives a taller, narrower peak.
+cards:
+  - type: text
+    id: hook
+    title: Pushing a swing
+    body: |
+      A child on a swing, left alone, swings at its own rhythm and slowly stops, because of friction and air drag, as in the lesson on damped oscillations. A parent who gives a gentle push every time the swing comes back can keep it going, or even make it swing high. A gentle push, but at the wrong rhythm, achieves almost nothing.
+
+      Before any theory, guess: the parent pushes with a fixed gentle strength, at a rhythm set by the parent and not by the swing. Does the swing end up moving at **its own** natural rhythm, at the **parent's** rhythm, or in some mixture? And for which pushing rhythm does the swing go highest?
+
+  - type: mcq
+    id: which-frequency
+    prompt: |
+      A damped oscillator with natural angular frequency $\omega_0$ is pushed by a force $f_0\cos\omega t$ with a different $\omega$. After a long time, at which angular frequency does it oscillate?
+    options:
+      - text: At the drive frequency $\omega$
+        correct: true
+      - text: At its natural frequency $\omega_0$, since that is how it was built
+        feedback: |
+          The natural frequency shows up only in the first moments, as a transient that fades. Friction removes the memory of the starting motion, and the drive, which keeps supplying energy, sets the rhythm.
+      - text: At the average of $\omega_0$ and $\omega$
+        feedback: |
+          A linear system does not average the two. It responds at the frequency it is pushed with, with a size and a delay that depend on how close $\omega$ is to $\omega_0$.
+      - text: At the damped frequency $\omega_1=\sqrt{\omega_0^2-\beta^2}$
+        feedback: |
+          $\omega_1$ is the frequency of the undriven damped oscillator, the one that shows up in the fading transient. The steady motion belongs to the drive.
+    explanation: |
+      A linear oscillator that has been driven for long enough follows the drive: same frequency, but with its own amplitude and a time lag. The rest of the lesson finds that amplitude and lag.
+
+  - type: text
+    id: equation
+    title: Adding the drive
+    body: |
+      Take the damped oscillator of the previous lesson, a mass $m$ on a spring $k$ with drag $-b\dot x$, and add an outside force $F(t)$. Newton's law reads
+
+      $$m\ddot x+b\dot x+kx=F(t)$$
+
+      Divide by $m$ and use the two constants from before, $\omega_0^2=k/m$ and $2\beta=b/m$. The driving term becomes the **force per unit mass**, $f(t)=F(t)/m$, and the equation of motion is
+
+      $$\ddot x+2\beta\dot x+\omega_0^2x=f(t)$$
+
+      We take a drive that repeats smoothly,
+
+      $$f(t)=f_0\cos(\omega t)$$
+
+      where $f_0$ is the amplitude of $f$ and $\omega$ is the angular frequency of the drive. Keep the two frequencies apart: $\omega_0$ belongs to the oscillator, $\omega$ to whoever pushes, and they can be chosen independently. The left side is the same as in the damped lesson, so the new term is the one on the right.
+
+  - type: numeric
+    id: f0-value
+    prompt: |
+      A cart of mass $m=0.5$ kg on a spring is pushed by a force with amplitude $F_0=3$ N. What is the amplitude $f_0=F_0/m$ of the force per unit mass, in m/s$^2$?
+    answer: 6
+    tolerance: 0.001
+    wrong:
+      - { value: 1.5, feedback: 'That multiplies by $m$ instead of dividing: $F_0m=1.5$. The equation of motion was divided by $m$, so $f_0=F_0/m=3/0.5$.' }
+      - { value: 3, feedback: 'That is $F_0$ itself. The equation $\ddot x+2\beta\dot x+\omega_0^2x=f$ has been divided by $m$, so $f_0=F_0/m$.' }
+    hint: Divide $3$ N by $0.5$ kg.
+    explanation: |
+      $f_0=F_0/m=3/0.5=6\ \mathrm{m/s^2}$. It has the units of an acceleration, which is why it is called the force per unit mass.
+
+  - type: text
+    id: superposition
+    title: One particular solution is enough
+    body: |
+      Write the equation as $Dx=f$, where $D$ stands for "take $\ddot x+2\beta\dot x+\omega_0^2x$ of the function". $D$ is **linear**: $D(ax_1+bx_2)=aDx_1+bDx_2$ for constants $a,b$, because derivatives are linear.
+
+      Suppose we can find one **particular solution** $x_p(t)$, a function with $Dx_p=f$. Let $x_h(t)$ be any solution of the undriven equation, $Dx_h=0$, which the damped lesson solved completely. Then
+
+      $$D(x_p+x_h)=Dx_p+Dx_h=f+0=f$$
+
+      so $x_p+x_h$ is again a solution. It contains the two free constants of $x_h$, which is what a second-order equation needs, so this is the general solution:
+
+      $$x=x_p+x_h$$
+
+      Now the damping helps. For weak damping $x_h=A_{\rm tr}e^{-\beta t}\cos(\omega_1t-\delta_{\rm tr})$, and for any damping both exponentials in $x_h$ die out. It depends on the starting position and velocity, but it is gone after a few decay times $1/\beta$, so it is called a **transient**. Only $x_p$ survives, and it does not depend on how the motion started.
+
+  - type: widget
+    id: transient-widget
+    title: Transient, then steady state
+    widget: oscillator-lab
+    config:
+      f0: 1
+      damping: 0.1
+      driveFrequency: 1.4
+      window: 14
+      fMax: 2
+      units: { freq: 'ω₀', length: 'f₀/ω₀²', time: 'natural periods' }
+      labels: { frequency: 'Drive frequency ω', damping: 'β/ω₀', amplitude: 'A', trace: 'x(t) (blue) and drive (dashed)', time: 'time', ratio: 'A / (f₀/ω₀²)', phase: 'δ' }
+      readouts: [amplitude, phase]
+      show: { curve: false, marker: false, f0Line: false, handles: false, freqReadout: false, systemToggle: false, damperToggle: false, presets: false, driveTrace: true, freqSlider: true, dampingSlider: true }
+    body: |
+      A mass on a spring, pushed by a drive that begins at time zero. The blue curve is $x(t)$, the dashed curve is the drive, and time is counted in natural periods $2\pi/\omega_0$. The sliders set the drive frequency $\omega$ (in units of $\omega_0$) and the damping $\beta/\omega_0$.
+
+      **Try:** restart the motion by changing a slider and watch the first few cycles, where the mass wobbles irregularly (two frequencies at once), then settles into a clean oscillation. Lower the damping and see that the wobble lasts longer. Raise it and the steady state arrives sooner.
+
+  - type: mcq
+    id: what-survives
+    prompt: |
+      A driven damped oscillator, $\ddot x+2\beta\dot x+\omega_0^2x=f_0\cos\omega t$, is started twice: once at rest at $x=0$, once with a large initial velocity. After many decay times $1/\beta$, how do the two motions compare?
+    options:
+      - text: 'They are the same: both follow the particular solution $x_p$, since the undriven part has died out'
+        correct: true
+      - text: They differ by a constant amount that never goes away, set by the different starts
+        feedback: |
+          The difference between the two motions is a solution of the undriven equation, $x_h$. With damping every such solution decays like $e^{-\beta t}$, so the difference dies out, it does not stay constant.
+      - text: The one with the large initial velocity has the larger amplitude forever, since it has more energy
+        feedback: |
+          The extra energy is carried by the transient, and friction removes it. What the drive supplies and friction removes balances at an amplitude that depends only on $f_0$, $\omega$, $\omega_0$ and $\beta$.
+      - text: They have different frequencies, one at $\omega_0$ and one at $\omega$
+        feedback: |
+          Both end at the drive frequency $\omega$. The $\omega_0$ part (strictly $\omega_1$) is in the transient only, and it is present in both runs until it fades.
+    explanation: |
+      The difference of two solutions of the driven equation solves the undriven one, so it decays. This is why the steady state is a property of the oscillator and the drive, not of the start.
+
+  - type: text
+    id: complex-trick
+    title: Solving for the steady state with a complex drive
+    body: |
+      We want $x_p$ for $f=f_0\cos\omega t$. Sines and cosines are awkward to differentiate repeatedly, so use the complex trick from the lesson on writing one motion three ways. Let $y(t)$ solve the same equation with the sine drive, $\ddot y+2\beta\dot y+\omega_0^2y=f_0\sin\omega t$. (Such a $y$ exists: it is the same motion shifted in time.) Build the complex function
+
+      $$z(t)=x(t)+iy(t)$$
+
+      Multiply the $y$ equation by $i$ and add it to the $x$ equation. Since $\cos\omega t+i\sin\omega t=e^{i\omega t}$,
+
+      $$\ddot z+2\beta\dot z+\omega_0^2z=f_0e^{i\omega t}$$
+
+      The exponential is the easiest function to differentiate, so try $z=Ce^{i\omega t}$ with a constant $C$ (complex, to be found). Then $\dot z=i\omega z$ and $\ddot z=-\omega^2z$, and the equation becomes
+
+      $$(-\omega^2+2i\beta\omega+\omega_0^2)\,Ce^{i\omega t}=f_0e^{i\omega t}$$
+
+      The real part of $z$ is $x$, so once $C$ is known we take the real part and we have the solution we want.
+
+  - type: mcq
+    id: find-C
+    prompt: |
+      Trying $z=Ce^{i\omega t}$ in $\ddot z+2\beta\dot z+\omega_0^2z=f_0e^{i\omega t}$ gives $(-\omega^2+2i\beta\omega+\omega_0^2)\,C\,e^{i\omega t}=f_0e^{i\omega t}$. What is $C$?
+    options:
+      - text: $C=\dfrac{f_0}{\omega_0^2-\omega^2+2i\beta\omega}$
+        correct: true
+      - text: $C=f_0\,(\omega_0^2-\omega^2+2i\beta\omega)$
+        feedback: |
+          That multiplies instead of dividing. The bracket multiplies $C$ on the left, so $C$ is $f_0$ divided by the bracket.
+      - text: $C=\dfrac{f_0}{\omega_0^2-\omega^2}$
+        feedback: |
+          This drops the $2i\beta\omega$ term, which is the damping. It would make $C$ infinite at $\omega=\omega_0$, a drive that supplies energy with nothing to take it away. The damping term is what keeps the response finite.
+      - text: $C=\dfrac{f_0}{\omega_0^2+\omega^2+2i\beta\omega}$
+        feedback: |
+          The second derivative of $e^{i\omega t}$ gives $(i\omega)^2=-\omega^2$, so the $\omega^2$ term enters with a minus sign, as $\omega_0^2-\omega^2$.
+    explanation: |
+      Divide both sides by $e^{i\omega t}$, which is never zero, and by the bracket. The exponential cancels, which is the whole point of the trick: the differential equation has become an algebra problem for $C$.
+
+  - type: text
+    id: amplitude-phase
+    title: Amplitude and delay
+    body: |
+      The complex number $C$ is a magnitude and an angle. As in the lesson on writing one motion three ways, write it as
+
+      $$C=Ae^{-i\delta}$$
+
+      with $A\ge0$ and $\delta$ real. Then $z=Ce^{i\omega t}=Ae^{i(\omega t-\delta)}$, and its real part is
+
+      $$x_p(t)=A\cos(\omega t-\delta)$$
+
+      The oscillator moves at the drive frequency, with amplitude $A$, lagging the force $f_0\cos\omega t$ by the angle $\delta$.
+
+      To find $A$, take the squared magnitude $A^2=CC^*$ with $C=f_0/(\omega_0^2-\omega^2+2i\beta\omega)$. The denominator times its complex conjugate is $(\omega_0^2-\omega^2)^2+(2\beta\omega)^2$, so
+
+      $$A^2=\frac{f_0^2}{(\omega_0^2-\omega^2)^2+4\beta^2\omega^2}$$
+
+      To find $\delta$, rearrange $C=Ae^{-i\delta}$ into $f_0e^{i\delta}=A\,[(\omega_0^2-\omega^2)+2i\beta\omega]$. Since $f_0$ and $A$ are positive, $\delta$ is the angle of the complex number $(\omega_0^2-\omega^2)+2i\beta\omega$, drawn as a triangle with horizontal side $\omega_0^2-\omega^2$ and vertical side $2\beta\omega$:
+
+      $$\tan\delta=\frac{2\beta\omega}{\omega_0^2-\omega^2}$$
+
+      The vertical side $2\beta\omega$ is positive, so $\delta$ lies between $0$ and $\pi$. For $\omega<\omega_0$ it is below $\pi/2$; for $\omega>\omega_0$ the horizontal side is negative and $\delta$ is above $\pi/2$ (the plain arctangent, which stays below $\pi/2$, must then be shifted by $\pi$).
+
+  - type: build
+    id: build-xp
+    prompt: |
+      Build the steady-state motion of the driven damped oscillator $\ddot x+2\beta\dot x+\omega_0^2x=f_0\cos\omega t$, after the transient has died out.
+    prefix: 'x_p(t) ='
+    tiles: ['A', '\cos(\omega t-\delta)', '\cos(\omega_0 t-\delta)', 'e^{-\beta t}', '\cos(\omega t)']
+    answers:
+      - ['A', '\cos(\omega t-\delta)']
+    wrong:
+      - { answer: ['A', '\cos(\omega_0 t-\delta)'], feedback: 'The steady motion has the frequency of the drive, $\omega$, not the natural frequency $\omega_0$ of the oscillator.' }
+      - { answer: ['A', 'e^{-\beta t}', '\cos(\omega t-\delta)'], feedback: 'The factor $e^{-\beta t}$ belongs to the transient. The steady state keeps a constant amplitude as long as the drive lasts.' }
+      - { answer: ['A', '\cos(\omega t)'], feedback: 'This would move exactly in step with the force. The oscillator lags the force by the angle $\delta$, so the cosine needs $\omega t-\delta$.' }
+    hint: Steady amplitude $A$, drive frequency, delayed by $\delta$.
+    explanation: |
+      $x_p=\mathrm{Re}\,(Ce^{i\omega t})=A\cos(\omega t-\delta)$, with $A$ and $\delta$ fixed by $\omega_0$, $\beta$, $\omega$ and $f_0$, but not by the start.
+
+  - type: numeric
+    id: amplitude-number
+    prompt: |
+      A driven damped oscillator has $\omega_0=5$ s$^{-1}$, $\beta=1.5$ s$^{-1}$, and is driven with $f_0=10$ m/s$^2$ at $\omega=4$ s$^{-1}$. Using $A^2=f_0^2/[(\omega_0^2-\omega^2)^2+4\beta^2\omega^2]$, what is the steady amplitude $A$ in metres?
+    answer: 0.6667
+    tolerance: 0.005
+    answerText: '2/3'
+    wrong:
+      - { value: 1.111, feedback: 'This is $f_0/(\omega_0^2-\omega^2)=10/9$, which leaves out the damping term $4\beta^2\omega^2$. The damping term is $4\times2.25\times16=144$, and it is larger than the first term.' }
+      - { value: 0.4444, feedback: 'This is $A^2$, you need its square root. $A^2=100/225=0.4444$.' }
+    hint: Compute $\omega_0^2-\omega^2$, then $4\beta^2\omega^2$, add the squares, and take the square root of the ratio.
+    explanation: |
+      $\omega_0^2-\omega^2=25-16=9$, so the first term is $81$. The damping term is $4\beta^2\omega^2=4(2.25)(16)=144$. The denominator is $225$, so $A^2=100/225$ and $A=10/15=2/3\approx0.667$ m.
+
+  - type: numeric
+    id: delta-number
+    prompt: |
+      For the same oscillator, $\omega_0=5$ s$^{-1}$, $\beta=1.5$ s$^{-1}$, $\omega=4$ s$^{-1}$, find the lag $\delta$ of the motion behind the force, in radians, from $\tan\delta=2\beta\omega/(\omega_0^2-\omega^2)$. Here $\omega<\omega_0$, so $\delta$ is below $\pi/2$.
+    answer: 0.9273
+    tolerance: 0.005
+    wrong:
+      - { value: 0.6435, feedback: 'This is $\arctan(9/12)$, the other angle of the triangle. The vertical side is $2\beta\omega=12$ and the horizontal side is $\omega_0^2-\omega^2=9$, so $\tan\delta=12/9$.' }
+      - { value: 53.13, feedback: 'The angle is right, but in degrees. In $x=A\cos(\omega t-\delta)$, $\delta$ is in radians, $53.13^\circ=0.927$ rad.' }
+    hint: The triangle has sides $9$ and $12$.
+    explanation: |
+      $\tan\delta=12/9=4/3$, so $\delta=\arctan(4/3)=0.927$ rad, about $53^\circ$. The oscillator lags the force by about a seventh of a cycle.
+
+  - type: mcq
+    id: static-limit
+    prompt: |
+      A driven damped oscillator is pushed very slowly, $\omega\to0$. What do $A$ and $\delta$ approach?
+    options:
+      - text: '$A\to f_0/\omega_0^2$, which is $F_0/k$, and $\delta\to0$: the mass follows the force without delay'
+        correct: true
+      - text: $A\to0$, since a slow push has no effect
+        feedback: |
+          Slow does not mean weak. If you push on a spring very slowly with force $F_0$ the spring stretches by $F_0/k$, a finite displacement. Putting $\omega=0$ in $A^2$ gives $f_0^2/\omega_0^4$.
+      - text: $A\to\infty$, since $\omega$ is far from the drive that the oscillator likes
+        feedback: |
+          The amplitude is largest near $\omega\approx\omega_0$. At $\omega=0$ the denominator is $\omega_0^4$, finite.
+      - text: $A\to f_0/(2\beta\omega_0)$ and $\delta\to\pi/2$
+        feedback: |
+          That is the amplitude and the delay at $\omega=\omega_0$, not at $\omega=0$. At $\omega=0$ the term $2i\beta\omega$ vanishes, $C$ becomes real and positive, and $\delta=0$.
+    explanation: |
+      At $\omega=0$, $C=f_0/\omega_0^2$ is real and positive, so $A=f_0/\omega_0^2=F_0/(mk/m)=F_0/k$ and $\delta=0$. A slow push just holds the spring stretched by the static displacement. This number $f_0/\omega_0^2$ is the natural unit for the amplitude. For very fast driving, $A\to f_0/\omega^2$ and $\delta\to\pi$: the mass barely moves, and moves opposite to the force.
+
+  - type: widget
+    id: curve-widget
+    title: Amplitude and delay against drive frequency
+    widget: oscillator-lab
+    config:
+      f0: 1
+      damping: 0.15
+      driveFrequency: 0.5
+      window: 14
+      fMax: 2
+      ampMax: 4
+      units: { freq: 'ω₀', length: 'f₀/ω₀²', time: 'natural periods' }
+      labels: { frequency: 'Drive frequency ω', damping: 'β/ω₀', amplitude: 'A', trace: 'x(t) (blue) and drive (dashed)', time: 'time', ratio: 'A / (f₀/ω₀²)', phase: 'δ', curve: 'A against drive frequency ω', f0: 'ω₀', driveFreq: 'ω' }
+      ranges: { damping: [0.02, 0.6, 0.01] }
+      readouts: [ratio, phase]
+      show: { freqReadout: false, systemToggle: false, damperToggle: false, presets: false, driveTrace: true, handles: true, freqSlider: true, dampingSlider: true }
+    body: |
+      The curve is the steady amplitude $A$ against the drive frequency $\omega$, in units of the static push $f_0/\omega_0^2$ (the curve's height $1$ is $\omega\to0$). The dotted line marks $\omega_0$ and the red dot is the current drive. Below the curve is $x(t)$ against the drive, and the readouts give $A$ in those units and the lag $\delta$ in degrees ($\pi/2$ is $90^\circ$).
+
+      **Try:** drag the dot from $\omega=0$ to $2\omega_0$. Watch the height of the curve and the lag $\delta$, and compare the blue motion with the dashed drive: when does it follow it, when does it trail by a quarter cycle, when does it move against it? Then lower the damping and repeat.
+
+  - type: numeric
+    id: resonance-amplitude
+    prompt: |
+      A driven damped oscillator has $\omega_0=5$ s$^{-1}$, $\beta=0.25$ s$^{-1}$ and $f_0=10$ m/s$^2$, and is driven exactly at $\omega=\omega_0$. What is the steady amplitude $A$ in metres, from $A^2=f_0^2/[(\omega_0^2-\omega^2)^2+4\beta^2\omega^2]$?
+    answer: 4
+    tolerance: 0.001
+    wrong:
+      - { value: 0.4, feedback: 'This is the static amplitude $f_0/\omega_0^2=10/25$. At $\omega=\omega_0$ the response is much larger than the static one.' }
+    hint: At $\omega=\omega_0$ the first term in the denominator is zero.
+    explanation: |
+      With $\omega=\omega_0$ the denominator is just $4\beta^2\omega_0^2$, so $A=f_0/(2\beta\omega_0)=10/(2\times0.25\times5)=4$ m. That is ten times the static response $0.4$ m, and the damping alone limits it. In the same way, the angle of $(\omega_0^2-\omega^2)+2i\beta\omega=2i\beta\omega_0$ is $\pi/2$, so $\delta=\pi/2$ at $\omega=\omega_0$ for any damping.
+
+  - type: text
+    id: where-is-the-peak
+    title: Where exactly is the peak?
+    body: |
+      The amplitude is largest where the denominator is smallest. Hold $\omega_0$ and $\beta$ fixed, vary the drive frequency, and minimise
+
+      $$\mathcal D(\omega)=(\omega_0^2-\omega^2)^2+4\beta^2\omega^2$$
+
+      It depends on $\omega$ only through $u=\omega^2$, so $\mathcal D=(\omega_0^2-u)^2+4\beta^2u$ and
+
+      $$\frac{d\mathcal D}{du}=-2(\omega_0^2-u)+4\beta^2=0$$
+
+      which gives
+
+      $$u=\omega_0^2-2\beta^2$$
+
+      This is a minimum (the second derivative in $u$ is $2>0$). The amplitude peaks at the drive frequency
+
+      $$\omega_2=\sqrt{\omega_0^2-2\beta^2}$$
+
+      This exists when $2\beta^2<\omega_0^2$. For heavier damping the best drive is $\omega=0$, and the curve has no peak.
+
+      There are now four frequencies in play: $\omega_0=\sqrt{k/m}$ of the undamped oscillator, $\omega_1=\sqrt{\omega_0^2-\beta^2}$ of the undriven damped oscillator, $\omega$ of the drive, and $\omega_2=\sqrt{\omega_0^2-2\beta^2}$, the drive at which the response is biggest. For weak damping, $\beta\ll\omega_0$, all three of $\omega_0,\omega_1,\omega_2$ are very close.
+
+  - type: numeric
+    id: omega-two
+    prompt: |
+      An oscillator has $\omega_0=5$ s$^{-1}$ and $\beta=2$ s$^{-1}$. At which drive frequency $\omega_2$ is the steady amplitude largest, in s$^{-1}$?
+    answer: 4.123
+    tolerance: 0.005
+    wrong:
+      - { value: 4.583, feedback: 'This is $\omega_1=\sqrt{\omega_0^2-\beta^2}=\sqrt{21}$, the frequency of the undriven damped oscillator. The peak of the driven amplitude has $2\beta^2$ under the root.' }
+      - { value: 5, feedback: 'This is $\omega_0$, which is only an approximation to the peak for weak damping. Here $\beta/\omega_0=0.4$ is not small, and the peak has moved down.' }
+    hint: Use $\omega_2=\sqrt{\omega_0^2-2\beta^2}$.
+    explanation: |
+      $\omega_2=\sqrt{25-2\times4}=\sqrt{17}=4.123\ \mathrm{s^{-1}}$. Compare $\omega_1=\sqrt{21}=4.583$ and $\omega_0=5$. All three are different here because the damping is not weak.
+
+  - type: text
+    id: q-factor
+    title: How high, how sharp, and the quality factor Q
+    body: |
+      At the peak, $\omega\approx\omega_0$ for weak damping, so the first term of the denominator is small and only the damping term is left:
+
+      $$A_{\max}\approx\frac{f_0}{2\beta\omega_0}$$
+
+      Halve $\beta$ and the peak doubles. Compare it with the static response $f_0/\omega_0^2$, the amplitude for slow driving:
+
+      $$\frac{A_{\max}}{f_0/\omega_0^2}\approx\frac{f_0}{2\beta\omega_0}\cdot\frac{\omega_0^2}{f_0}=\frac{\omega_0}{2\beta}$$
+
+      This ratio gets its own name, the **quality factor**
+
+      $$Q=\frac{\omega_0}{2\beta}$$
+
+      so $A_{\max}\approx Q\,f_0/\omega_0^2$: the oscillator responds $Q$ times more strongly at resonance than to a slow push. The same $Q$ appeared in the damped lesson as $\pi$ times the number of oscillations in a decay time, so a high-$Q$ oscillator both rings for a long time and responds strongly to the right drive. The peak also gets narrower as $\beta$ falls, and the next lesson, Guided Proof: Width of Resonance and Q, shows by how much.
+
+  - type: widget
+    id: q-widget
+    title: Peak height and damping
+    widget: oscillator-lab
+    config:
+      f0: 1
+      damping: 0.1
+      driveFrequency: 1
+      window: 14
+      fMax: 2
+      ampMax: 28
+      units: { freq: 'ω₀', length: 'f₀/ω₀²', time: 'natural periods' }
+      labels: { frequency: 'Drive frequency ω', damping: 'β/ω₀', amplitude: 'A', trace: 'x(t) (blue) and drive (dashed)', time: 'time', ratio: 'A / (f₀/ω₀²)', phase: 'δ', curve: 'A against drive frequency ω', f0: 'ω₀', driveFreq: 'ω' }
+      ranges: { damping: [0.02, 0.6, 0.01] }
+      readouts: [ratio, phase]
+      show: { freqReadout: false, systemToggle: false, damperToggle: false, presets: true, driveTrace: false, trace: false, handles: true, freqSlider: true, dampingSlider: true }
+      presets:
+        - { label: 'β = 0.5 ω₀', damping: 0.5, frequency: 1 }
+        - { label: 'β = 0.1 ω₀', damping: 0.1, frequency: 1 }
+        - { label: 'β = 0.02 ω₀', damping: 0.02, frequency: 1 }
+    body: |
+      The same amplitude curve, for three damping strengths (buttons), with the drive set at $\omega=\omega_0$. The readout $A/(f_0/\omega_0^2)$ is the peak height in units of the static response.
+
+      **Try:** press each button and read the height of the curve at $\omega=\omega_0$. Compare it with $Q=\omega_0/2\beta$ for that damping. Then drag the dot across the narrow peak of the weakest damping and see how quickly the amplitude falls away.
+
+  - type: mcq
+    id: halve-beta
+    prompt: |
+      An oscillator with weak damping $\beta\ll\omega_0$ is driven at $\omega=\omega_0$ with fixed $f_0$. The damping constant $\beta$ is then halved (for example, by oiling the bearings). What happens to the steady amplitude?
+    options:
+      - text: It roughly doubles, $A_{\max}\approx f_0/(2\beta\omega_0)$
+        correct: true
+      - text: It roughly quadruples, since amplitude is squared in the formula
+        feedback: |
+          The formula has $A^2$ on the left, but $A_{\max}\propto1/\beta$ after taking the square root. It is the energy, which goes as $A^2$, that grows fourfold.
+      - text: It stays the same, since $\omega=\omega_0$ and $f_0$ did not change
+        feedback: |
+          At $\omega=\omega_0$ the first term of the denominator is zero and the damping term is all that is left, so $\beta$ sets the amplitude directly.
+      - text: It halves, since less damping means less force
+        feedback: |
+          Less damping does not reduce the force, which is fixed at $f_0$. It means there is less friction to take away the energy the drive delivers, so the amplitude grows until the friction balances it.
+    explanation: |
+      $A_{\max}=Q\,f_0/\omega_0^2$ with $Q=\omega_0/2\beta$, so halving $\beta$ doubles $Q$ and the peak. The energy, proportional to $A^2$, goes up fourfold.
+
+  - type: text
+    id: power
+    title: Why the lag is a quarter cycle at resonance
+    body: |
+      At $\omega=\omega_0$ the lag is $\delta=\pi/2$, so $x=A\cos(\omega t-\pi/2)=A\sin\omega t$. The velocity is
+
+      $$\dot x=A\omega\cos\omega t$$
+
+      which is exactly in step with the force per unit mass $f_0\cos\omega t$. The rate at which the drive does work per unit mass is force times velocity, $f_0A\omega\cos^2\omega t$, which is never negative. The push always points along the motion, like a parent who pushes the swing each time it moves away, so the drive keeps adding energy and the amplitude grows until the drag removes energy as fast as the drive adds it. At other frequencies the force pushes against the velocity during part of each cycle and takes energy back, so the net transfer is smaller.
+
+  - type: numeric
+    id: washboard
+    prompt: |
+      A car drives over a washboard road with bumps $0.6$ m apart. Each bump gives each wheel a push, so the wheel is driven at angular frequency $\omega=2\pi v/d$, where $v$ is the speed and $d$ the spacing. The wheel on its spring has natural angular frequency $\omega_0=60$ s$^{-1}$. At what speed is the wheel driven at $\omega=\omega_0$, in m/s?
+    answer: 5.73
+    tolerance: 0.02
+    wrong:
+      - { value: 36, feedback: 'This is $\omega_0d=60\times0.6$, which treats $\omega_0$ as bumps per second. $\omega$ is an angular frequency, $2\pi$ times the number of bumps per second.' }
+      - { value: 36000, feedback: 'The units got mixed up. $v=\omega_0d/2\pi$ with $\omega_0$ in s$^{-1}$ and $d$ in m gives m/s.' }
+    hint: Set $2\pi v/d=\omega_0$ and solve for $v$.
+    explanation: |
+      $v=\omega_0d/2\pi=60\times0.6/6.283=5.73$ m/s, about $21$ km/h. Slower or faster than this speed, the car is off resonance and the ride is smoother. Real wheels are damped, so the response is a peak of finite height.
+
+  - type: text
+    id: summary
+    body: |
+      **Next:** a periodic push that is not a pure cosine, such as a square wave, is a sum of cosines and sines. Since the equation is linear, the response is the sum of the responses to each term. That is Fourier series, in the lesson after the guided proof of the width of the resonance.
