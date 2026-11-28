@@ -1,0 +1,366 @@
+id: ch05-time-from-energy
+title: "Guided Problem: Time from Energy"
+kind: guided
+cards:
+  - type: text
+    id: hook
+    title: Energy knows where, not when
+    body: |
+      A stone is dropped from the top of a tower. Energy conservation tells you its speed after it has fallen any given distance, without a single force diagram. But a stopwatch asks a different question: **how long** does the fall take?
+
+      Before any formula, guess whether energy alone can answer that. It looks as if it cannot: the energy equation has positions and speeds in it, and no time. This lesson shows that one integral turns the first into the second. We then use it twice: on a falling stone, and on a mass on a spring, where it produces the sine function without ever writing $F=ma$.
+
+  - type: text
+    id: recall
+    title: Recall the speed formula
+    body: |
+      A particle of mass $m$ moves on a line with coordinate $x$ under a force that depends on $x$ only. Its kinetic energy is $T=\tfrac12 m\dot x^2$, its potential energy is $V(x)$ (Taylor writes $U$), and the total energy $E=T+V(x)$ is constant. Solving for the speed gives
+
+      $$\dot x(x) = \pm\sqrt{\frac{2}{m}\,\bigl(E - V(x)\bigr)}$$
+
+      The sign is chosen by inspection of the motion (to the right is $+$). This formula gives the velocity at every **position**. The goal now is the position at every **time**.
+
+  - type: mcq
+    id: distance-over-speed
+    prompt: |
+      A stone falls from rest. Someone proposes: "The speed at a distance $x$ below the start is $\dot x(x)$ from energy conservation, so the fall time to $x$ is just $t = x/\dot x(x)$." What is wrong with this?
+    options:
+      - text: The speed changes along the fall, so distance divided by the final speed is not the time
+        correct: true
+      - text: Energy conservation does not give the speed, only the force
+        feedback: |
+          It does give the speed: $T=E-V(x)$ fixes $\dot x$ at each position. The speed is not the problem.
+      - text: Time cannot be found without knowing the force
+        feedback: |
+          The force is hidden inside $V(x)$ ($F=-dV/dx$), so $V$ already carries it. The difficulty is that the speed varies along the road.
+    explanation: |
+      $x/\dot x(x)$ would be right only if the speed were constant. The stone is slow at the start and fast at the end, so each small piece of the fall must be timed with the speed it has there, and the pieces added up.
+
+  - type: text
+    id: separate
+    title: Time one small piece at a time
+    body: |
+      In a short piece of road $dx$ the speed is $\dot x(x)$ and the time spent is $dt = dx/\dot x(x)$. This is just $\dot x = dx/dt$ rewritten, and it works because $\dot x$ is a function of $x$ alone: the variables $t$ and $x$ are now on separate sides. Adding the pieces from the start $x_0$ (at time $0$) to the position $x$ gives the time to get there:
+
+      $$t = \int_{x_0}^{x}\frac{dx'}{\dot x(x')} = \sqrt{\frac{m}{2}}\int_{x_0}^{x}\frac{dx'}{\sqrt{E - V(x')}}$$
+
+      Here $x'$ is a dummy name for the variable of integration, so it does not clash with the upper limit $x$. We took the positive sign of $\dot x$, which is right while the particle moves to the right. The integral gives $t$ as a function of $x$; solving for $x$ gives $x(t)$.
+
+  - type: order
+    id: method-order
+    prompt: Put the method for finding $x(t)$ from the energy in order.
+    steps:
+      - Write $E=\tfrac12 m\dot x^2+V(x)$ and solve it for the speed $\dot x$ as a function of $x$.
+      - Rewrite $\dot x=dx/dt$ as $dt=dx/\dot x(x)$, which separates the variables.
+      - Integrate from the starting position to $x$, using a dummy variable $x'$, to get $t$ as a function of $x$.
+      - Do the integral, then solve the result for $x$ as a function of $t$.
+    hint: The speed has to be known before the time can be written.
+    explanation: |
+      Each step needs the one before it: the speed as a function of $x$ is what makes $dt=dx/\dot x$ a function of $x$ alone, and only then can the integral be written and done.
+
+  - type: widget
+    id: fall-widget
+    title: A stone dropped from rest
+    widget: energy-diagram
+    config:
+      potential: { type: poly, coeffs: [0, -9.8], view: [-0.5, 8, -80, 12], E: 0, x: 0, direction: 1, mass: 1 }
+      bars: [T, V, E]
+      readouts: [x, T]
+      units: { V: J, x: m, t: s }
+      traceTime: 1.4
+      show:
+        equilibria: false
+        eqLabels: false
+        turning: false
+        turnLines: false
+        handle: false
+        drag: false
+        trace: true
+    body: |
+      A stone of mass $m=1\ \mathrm{kg}$ is dropped from rest at the top of a tower. Here $x$ is measured **downward** from the top, so the potential energy is $V(x)=-mgx$ and falls as the stone goes down. Press play. The small plot shows $x$ against the time.
+
+      **Try:** watch the bar $T$ grow as $V$ drops, with $E$ fixed, and see that the plot of $x$ against $t$ bends upward: equal steps in time cover more and more distance.
+
+  - type: mcq
+    id: fall-energy
+    prompt: |
+      A stone of mass $m$ is dropped from rest at $x=0$, with $x$ measured downward and potential energy $V(x)=-mgx$. What is its total energy $E=T+V$?
+    options:
+      - text: $E=0$
+        correct: true
+      - text: $E=mgx$
+        feedback: |
+          That depends on $x$, but $E$ is constant along the motion. Evaluate it at the start: $x=0$, $\dot x=0$.
+      - text: $E=-mgx$
+        feedback: |
+          That is $V(x)$ alone. The total energy also has the kinetic term $T$, which cancels it as the stone speeds up.
+    explanation: |
+      At the start $T=\tfrac12 m\cdot0^2=0$ and $V(0)=-mg\cdot0=0$, so $E=0$ for the whole fall. Check at a later point: $T=\tfrac12 m\dot x^2$ and $V=-mgx$ must add to zero.
+
+  - type: numeric
+    id: fall-speed
+    prompt: |
+      For the falling stone, $E=0$ and $V(x)=-mgx$ with $g=9.8\ \mathrm{m/s^2}$. Use $\dot x=\sqrt{\tfrac{2}{m}(E-V)}$ to find its speed after falling $x=5\ \mathrm{m}$, in m/s.
+    answer: 9.8995
+    tolerance: 0.01
+    answerText: '9.90'
+    wrong:
+      - { value: 49, feedback: 'That is $2gx/2$ or $gx$, the value of $\dot x^2/2$ per unit mass. The speed is the square root of $2gx$.' }
+      - { value: 98, feedback: 'That is $\dot x^2=2gx$. Take the square root to get the speed.' }
+    hint: With $E=0$ the bracket is $E-V=mgx$, so $\dot x=\sqrt{2gx}$.
+    explanation: |
+      $\dot x=\sqrt{\tfrac{2}{m}\,mgx}=\sqrt{2gx}=\sqrt{2\times9.8\times5}=\sqrt{98}\approx 9.90\ \mathrm{m/s}$, the familiar result of kinematics, now from energy alone.
+
+  - type: text
+    id: fall-integral
+    title: Integrate the pieces
+    body: |
+      The recipe is $t=\int_{x_0}^{x}dx'/\dot x(x')$. For the stone, $x_0=0$ and $\dot x(x')=\sqrt{2gx'}$, so
+
+      $$t=\int_0^x\frac{dx'}{\sqrt{2gx'}}=\frac{1}{\sqrt{2g}}\int_0^x x'^{-1/2}\,dx'$$
+
+      The antiderivative of $x'^{-1/2}$ is $2x'^{1/2}$, which equals $2\sqrt{x}$ between $0$ and $x$. Then
+
+      $$t=\frac{2\sqrt x}{\sqrt{2g}}=\sqrt{\frac{2x}{g}}$$
+
+      The integrand $1/\sqrt{2gx'}$ becomes infinite at $x'=0$, where the stone is at rest, but the area is finite, so the time is finite.
+
+  - type: numeric
+    id: fall-time
+    prompt: |
+      The result for a stone dropped from rest is $t=\sqrt{2x/g}$. How long does it take to fall $x=20\ \mathrm{m}$, with $g=9.8\ \mathrm{m/s^2}$? Answer in seconds.
+    answer: 2.0203
+    tolerance: 0.01
+    answerText: '2.02'
+    wrong:
+      - { value: 4.08, feedback: 'That is $2x/g=4.08$ before the square root.' }
+      - { value: 1.43, feedback: 'That is $\sqrt{x/g}$. The factor is $2x/g$, with the 2.' }
+    hint: $2x/g = 40/9.8 = 4.08$.
+    explanation: |
+      $t=\sqrt{2\times20/9.8}=\sqrt{4.082}\approx2.02\ \mathrm{s}$.
+
+  - type: text
+    id: fall-invert
+    title: Solve for x
+    body: |
+      The integral gave $t$ as a function of $x$. Squaring $t=\sqrt{2x/g}$ and solving for $x$ gives
+
+      $$x=\tfrac12 g t^2$$
+
+      the familiar free-fall law. Notice what we never did: write $F=ma$ or solve a differential equation. We used the energy to get the speed at each place, then added up the time for each small piece. For free fall there are shorter ways, but this one works for **any** $V(x)$ whose integral we can do, which is the point of the next problem.
+
+  - type: widget
+    id: spring-widget
+    title: A mass on a spring, kicked at the origin
+    widget: energy-diagram
+    config:
+      potential: { type: spring, k: 8, view: [-0.8, 0.8, -0.1, 2], E: 1, x: 0, direction: 1, mass: 2 }
+      bars: [T, V, E]
+      readouts: [x, T]
+      units: { V: J, x: m, t: s }
+      traceTime: 6
+      show:
+        handle: false
+        drag: false
+        trace: true
+        equilibria: false
+        eqLabels: false
+    body: |
+      A mass $m=2\ \mathrm{kg}$ sits at the origin on a spring of constant $k=8\ \mathrm{N/m}$, with potential energy $V(x)=\tfrac12 kx^2$ measured from the equilibrium at $x=0$. At $t=0$ it is kicked to the right with speed $1\ \mathrm{m/s}$ and then oscillates. Press play and watch the plot of $x$ against $t$.
+
+      **Try:** see where the mass turns round, and how long one full swing takes. Next, find both from the energy.
+
+  - type: numeric
+    id: spring-energy
+    prompt: |
+      A mass $m=2\ \mathrm{kg}$ on a spring of constant $k=8\ \mathrm{N/m}$, with $V(x)=\tfrac12 kx^2$, passes the origin at speed $1\ \mathrm{m/s}$. What is its total energy $E$, in joules?
+    answer: 1
+    tolerance: 0.001
+    wrong:
+      - { value: 2, feedback: 'That is $m\dot x^2$. Kinetic energy is $\tfrac12 m\dot x^2$.' }
+      - { value: 0, feedback: 'The potential energy is zero at the origin, but the kinetic energy is not.' }
+    hint: At $x=0$ the potential energy is $0$, so $E=T$.
+    explanation: |
+      $E=T+V=\tfrac12\times2\times1^2+0=1\ \mathrm{J}$.
+
+  - type: numeric
+    id: spring-amplitude
+    prompt: |
+      The same mass has $E=1\ \mathrm{J}$ on a spring with $k=8\ \mathrm{N/m}$ and $V=\tfrac12 kx^2$. It turns round where $\dot x=0$. How far from the origin is that turning point $A$, in metres?
+    answer: 0.5
+    tolerance: 0.001
+    wrong:
+      - { value: 0.25, feedback: 'That is $A^2$. Solve $\tfrac12kA^2=E$ for $A^2$, then take the square root.' }
+      - { value: 0.354, feedback: 'That is $\sqrt{E/k}$, which forgets the $\tfrac12$ in $\tfrac12kA^2$. Use $A=\sqrt{2E/k}$.' }
+    hint: At the turning point all the energy is potential, so $E=\tfrac12 kA^2$.
+    explanation: |
+      $\tfrac12kA^2=E$ gives $A=\sqrt{2E/k}=\sqrt{2/8}=0.5\ \mathrm{m}$. This is also why $E=\tfrac12kA^2$ can replace $E$ in every formula.
+
+  - type: build
+    id: spring-speed
+    prompt: |
+      With $E=\tfrac12 kA^2$ and $V=\tfrac12kx^2$, the energy equation $\tfrac12m\dot x^2+\tfrac12kx^2=\tfrac12kA^2$ can be solved for the speed. Build $\dot x$ for motion to the right ($\dot x>0$).
+    prefix: '\dot x ='
+    tiles: ['\sqrt{k/m}', '\sqrt{A^2-x^2}', '\sqrt{A^2+x^2}', '\sqrt{m/k}']
+    answers:
+      - ['\sqrt{k/m}', '\sqrt{A^2-x^2}']
+      - ['\sqrt{A^2-x^2}', '\sqrt{k/m}']
+    wrong:
+      - answer: ['\sqrt{m/k}', '\sqrt{A^2-x^2}']
+        feedback: |
+          Solving $\tfrac12m\dot x^2=\tfrac12k(A^2-x^2)$ gives $\dot x^2=\tfrac km(A^2-x^2)$, so the factor is $\sqrt{k/m}$. Stiffer spring, faster mass.
+      - answer: ['\sqrt{k/m}', '\sqrt{A^2+x^2}']
+        feedback: |
+          The kinetic energy is $E-V=\tfrac12k(A^2-x^2)$: the potential energy is subtracted, so the speed vanishes at $x=A$.
+    hint: Move $\tfrac12kx^2$ to the right-hand side, then multiply by $2/m$.
+    explanation: |
+      $\tfrac12m\dot x^2=\tfrac12k(A^2-x^2)$ gives $\dot x=\sqrt{k/m}\,\sqrt{A^2-x^2}$. For our numbers $\sqrt{k/m}=2\ \mathrm{s^{-1}}$ and $A=0.5\ \mathrm{m}$.
+
+  - type: text
+    id: spring-integral
+    title: The integral is an inverse sine
+    body: |
+      Restating the recipe, $t=\int_{0}^{x}dx'/\dot x(x')$ with the speed just found and the start at the origin:
+
+      $$t=\sqrt{\frac mk}\int_0^x\frac{dx'}{\sqrt{A^2-x'^2}}$$
+
+      This integral is known: the derivative of $\arcsin(x'/A)$ is $1/\sqrt{A^2-x'^2}$. Here $\arcsin$ means the inverse of the sine: $\theta=\arcsin(u)$ is the angle in $[-\tfrac\pi2,\tfrac\pi2]$ whose sine is $u$. Since $\arcsin 0=0$,
+
+      $$t=\sqrt{\frac mk}\,\arcsin\frac xA$$
+
+      The factor $\sqrt{m/k}$ has the units of time, and $x/A$ is a pure number between $0$ and $1$, as the inverse sine requires.
+
+  - type: mcq
+    id: turning-integral
+    prompt: |
+      In $t=\sqrt{m/k}\int_0^x dx'/\sqrt{A^2-x'^2}$, the integrand becomes infinite as $x'\to A$, where the mass stops. What does this say about the time to go from the origin to $x=A$?
+    options:
+      - text: It is finite, $\sqrt{m/k}\,\arcsin(1)=\tfrac\pi2\sqrt{m/k}$, because the area under the curve is finite
+        correct: true
+      - text: It is infinite, since the mass is slowing down towards zero speed
+        feedback: |
+          The speed does go to zero, but only as fast as the distance to $A$ allows: $\dot x\propto\sqrt{A-x}$, which is slow but not slow enough to make the area infinite. A mass that reaches a turning point does turn back in a finite time.
+      - text: It cannot be found, because the formula divides by zero
+        feedback: |
+          The integrand is infinite at one end, but the integral still has a value ($\arcsin1=\pi/2$). Dividing by zero would only be a problem if the area diverged.
+    explanation: |
+      $\arcsin(1)=\pi/2$, so $t(A)=\tfrac\pi2\sqrt{m/k}$. The time from the origin to the turning point is finite, as it must be for a motion that actually turns.
+
+  - type: numeric
+    id: spring-time
+    prompt: |
+      For $m=2\ \mathrm{kg}$, $k=8\ \mathrm{N/m}$, $A=0.5\ \mathrm{m}$ and $t=\sqrt{m/k}\,\arcsin(x/A)$, find the time to go from the origin to $x=0.25\ \mathrm{m}$, in seconds. Use radians.
+    answer: 0.2618
+    tolerance: 0.005
+    answerText: '0.262'
+    wrong:
+      - { value: 0.5236, feedback: 'That is $\arcsin(0.5)=\pi/6$ without the factor $\sqrt{m/k}=0.5\ \mathrm{s}$.' }
+      - { value: 0.5, feedback: 'That is the factor $\sqrt{m/k}$ alone. Multiply it by $\arcsin(x/A)=\arcsin(0.5)$.' }
+    hint: $x/A=0.5$ and $\arcsin 0.5=\pi/6$.
+    explanation: |
+      $\sqrt{m/k}=\sqrt{2/8}=0.5\ \mathrm{s}$ and $\arcsin(0.25/0.5)=\arcsin(0.5)=\pi/6=0.5236$, so $t=0.5\times0.5236=0.262\ \mathrm{s}$.
+
+  - type: mcq
+    id: spring-invert
+    prompt: |
+      From $t=\sqrt{m/k}\,\arcsin(x/A)$, solve for $x$ as a function of $t$. Take the inverse sine to the other side.
+    options:
+      - text: $x=A\sin\!\bigl(\sqrt{k/m}\;t\bigr)$
+        correct: true
+      - text: $x=A\sin\!\bigl(\sqrt{m/k}\;t\bigr)$
+        feedback: |
+          The inverse of $t=\sqrt{m/k}\,\theta$ is $\theta=t/\sqrt{m/k}=\sqrt{k/m}\,t$. The factor moves across as its reciprocal.
+      - text: $x=A\cos\!\bigl(\sqrt{k/m}\;t\bigr)$
+        feedback: |
+          At $t=0$ this gives $x=A$, but the mass starts at the origin. The sine starts at zero, as it should.
+    explanation: |
+      $\arcsin(x/A)=\sqrt{k/m}\,t$, so $x=A\sin(\sqrt{k/m}\,t)$. This is simple harmonic motion with angular frequency $\omega=\sqrt{k/m}$, found from energy alone. For our numbers $x=0.5\sin(2t)$ metres, and at $t=0.262$ s it gives $0.25$ m, matching the last result.
+
+  - type: numeric
+    id: spring-period
+    prompt: |
+      The mass goes from the origin to $x=A$ in $\tfrac\pi2\sqrt{m/k}$. By symmetry one full oscillation (out to $+A$, back through $0$, to $-A$ and home) takes four such quarter swings. With $m=2\ \mathrm{kg}$ and $k=8\ \mathrm{N/m}$, what is the period $\tau$, in seconds?
+    answer: 3.1416
+    tolerance: 0.005
+    answerText: '3.14'
+    wrong:
+      - { value: 1.5708, feedback: 'That is one quarter-swing, $\tfrac\pi2\sqrt{m/k}\times2$. A full period has four quarter-swings.' }
+      - { value: 12.566, feedback: 'That uses $\sqrt{k/m}=2$ in place of $\sqrt{m/k}=0.5$. Check which way the ratio goes.' }
+    hint: $\tau=4\times\tfrac\pi2\sqrt{m/k}=2\pi\sqrt{m/k}$.
+    explanation: |
+      $\tau=2\pi\sqrt{m/k}=2\pi\times0.5=\pi\approx3.14\ \mathrm{s}$. In general it is $2\pi\sqrt{m/k}$, the same as the small-oscillation period of the previous lesson on energy diagrams, now exact because the potential is exactly a parabola.
+
+  - type: widget
+    id: period-widget
+    title: Does the period depend on the energy?
+    widget: energy-diagram
+    config:
+      potentials:
+        - { label: Spring, type: spring, k: 8, mass: 2, view: [-1, 1, -0.1, 2], E: 0.5, x: 0 }
+        - { label: Double well, type: double, view: [-2, 2, -0.2, 1.6], E: 0.3, x: -1 }
+      sliders: [E]
+      ranges: { E: [0.1, 0.95, 0.05] }
+      readouts: [E, period]
+      units: { V: J, x: m, t: s }
+      show:
+        trace: true
+        equilibria: false
+        eqLabels: false
+    body: |
+      The readout `period` is twice the time between the two turning points, found by simulation. Switch between the spring ($m=2\ \mathrm{kg}$, $k=8\ \mathrm{N/m}$) and the double well $V=V_0\bigl((x/a)^2-1\bigr)^2$ (the ball starts in its left dip), and move the energy slider.
+
+      **Try:** change $E$ on each potential and compare the period.
+
+  - type: mcq
+    id: period-energy
+    prompt: |
+      On a spring with $V=\tfrac12kx^2$ the time from the origin to $x$ is $\sqrt{m/k}\,\arcsin(x/A)$. If the mass is kicked twice as hard, so that $E$ quadruples and $A$ doubles, what happens to the period?
+    options:
+      - text: It does not change, since $A$ appears only inside $x/A$ and the period is $2\pi\sqrt{m/k}$
+        correct: true
+      - text: It doubles, since the mass must travel twice as far
+        feedback: |
+          The mass goes twice as far, but it also goes faster: $\dot x=\sqrt{k/m}\sqrt{A^2-x^2}$ grows in proportion to $A$. The two effects cancel exactly for a parabola.
+      - text: It halves, since the mass is faster
+        feedback: |
+          Faster, yes, but the distance grows by the same factor, so the time stays the same. The formula $\tau=2\pi\sqrt{m/k}$ has no $A$ in it.
+    explanation: |
+      Only for a parabolic $V$ (a linear force) is the period independent of the amplitude. The double well in the widget showed the period growing with $E$, since there the speed does not scale in proportion to the distance.
+
+  - type: text
+    id: other-potentials
+    title: When the integral is not elementary
+    body: |
+      For the spring the integral was an inverse sine, and the motion came out sinusoidal. Recall the recipe once more:
+
+      $$t=\sqrt{\frac m2}\int_{x_0}^{x}\frac{dx'}{\sqrt{E-V(x')}}$$
+
+      It always gives $t(x)$ as an integral, but the integral is not always a simple function. For some potentials it can be written with tabulated special functions, and for others the only way is to compute it numerically, which is what the simulation in the widget did.
+
+      One thing can still be seen without doing the integral. Take $V=kx^4$ with amplitude $A$ (so $E=kA^4$) and write $x'=Au$. Then $\sqrt{E-V}=\sqrt k\,A^2\sqrt{1-u^4}$ and $dx'=A\,du$, so the time from $0$ to $A$ is
+
+      $$\sqrt{\frac m2}\,\frac{A}{\sqrt k\,A^2}\int_0^1\frac{du}{\sqrt{1-u^4}}\ \propto\ \frac1A$$
+
+      since the last integral is a pure number. A larger amplitude means a faster oscillation, the opposite of what we saw for a parabola.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      You found how long a motion takes from energy alone, in two cases: a stone dropped from rest with $V=-mgx$ ($x$ downward), and a mass $m=2\ \mathrm{kg}$ on a spring $k=8\ \mathrm{N/m}$ kicked at the origin with $E=1\ \mathrm{J}$ and amplitude $A=0.5\ \mathrm{m}$.
+
+      **Method.** Solve $E=\tfrac12m\dot x^2+V(x)$ for the speed (sign by inspection), separate the variables in $\dot x=dx/dt$, and integrate from the start $x_0$:
+
+      $$\dot x=\pm\sqrt{\frac2m\bigl(E-V(x)\bigr)}$$
+
+      $$t=\int_{x_0}^{x}\frac{dx'}{\dot x(x')}=\sqrt{\frac m2}\int_{x_0}^{x}\frac{dx'}{\sqrt{E-V(x')}}$$
+
+      Then solve for $x(t)$. For free fall this gave $t=\sqrt{2x/g}$, so $x=\tfrac12gt^2$. For the spring it gave
+
+      $$t=\sqrt{\frac mk}\,\arcsin\frac xA$$
+
+      $$x=A\sin\!\Bigl(\sqrt{\tfrac km}\,t\Bigr),\qquad\tau=2\pi\sqrt{\frac mk}$$
+
+      with a period that does not depend on the amplitude. For other potentials the integral may need special functions or a computer, and the period can depend on the amplitude.
+
+      **Next:** energy conservation so far was for one particle. The lesson Energy of Many Particles asks what the total energy of a whole system is, and which forces (inside it or from outside) can change it.

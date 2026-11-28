@@ -35,7 +35,8 @@
 - **Built:** `ch05-curl-proof` (Level 5, guided proof, 25 cards, curl-loop x2, no image). Closed-road equivalence, rectangle edges to curl, tiling, hole counterexample, F = -grad V gives curl 0, central forces.
 - **Widget `energy-diagram` built (2026-11-27)** (docs/widgets/energy-diagram.md): V(x) presets (well, hill, double well, spring, Lennard-Jones, slope, polynomial), draggable E line, allowed region, turning points, equilibria stable / unstable / flat, RK4 ball, bars T, V, E, force arrow, tangent, period and small-oscillation period readouts, x(t) trace.
 - **Built:** `ch05-one-dimension` (Level 5, concept, 25 cards, energy-diagram x5, no image). 1D forces always conservative, graph as track, speed from E - V, turning points, stability, small oscillations, time-dependent V.
-- **Next unit:** `ch05-time-from-energy` (guided problem, Taylor 4.6 Eq. 4.57-4.58). After it, the rest of Level 5 content: `ch05-many-bodies`, traps, intuition, map, challenge. The exam (`exam-partial1`) comes only after Level 6.
+- **Built:** `ch05-time-from-energy` (Level 5, guided problem, 24 cards, energy-diagram x3, no image). t = integral dx/xdot, free fall, spring as inverse sine, kx^4 scaling.
+- **Next unit:** `ch05-many-bodies` (concept, Energy of Many Particles; Taylor 4.8, Goldstein 1.2). After it: traps, intuition, map, challenge. The exam (`exam-partial1`) comes only after Level 6.
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
