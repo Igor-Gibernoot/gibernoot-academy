@@ -1,0 +1,324 @@
+id: ch05-challenge
+title: Level Challenge
+kind: challenge
+cards:
+  - type: text
+    id: intro
+    title: Harder, still guess first
+    body: |
+      Problems that **combine** what the level taught: work, potential energy, energy diagrams, time from energy and many particles. Guess first, use a pencil, and check each number by hand. Every answer comes with its reason. All bodies here are toy bodies with the data given.
+
+      The toolkit. A force $\mathbf F$ moving a particle along a road does work, and the work changes the kinetic energy $T$. If $\nabla\times\mathbf F=0$ (in the plane, $\partial F_y/\partial x-\partial F_x/\partial y=0$) the force comes from a potential energy $V$:
+      $$\begin{gathered} W(1\to2)=\int_1^2\mathbf F\cdot d\mathbf r, \\ T_2-T_1=W(1\to2), \\ \mathbf F=-\nabla V, \\ W(1\to2)=V_1-V_2, \\ E=T+V, \\ \Delta E=W_{\text{nc}}. \end{gathered}$$
+      Here $W_{\text{nc}}$ is the work of the non-conservative forces. In one dimension, with $m$ the mass and $E$ the total energy, the particle sits where $E\ge V(x)$ and
+      $$\dot x=\pm\sqrt{\frac{2\,(E-V)}{m}}, \qquad \omega=\sqrt{\frac{V''(x_0)}{m}}$$
+      near a stable equilibrium $x_0$ (where $V'(x_0)=0$ and $V''(x_0)>0$), with period $\tau=2\pi/\omega$. For several particles the energy is the sum of the kinetic energies plus the potential energy of the pair interactions and of any outside fields.
+
+      Five problems come in two sessions; this part has three: a bead on a wire, a ball in a double well, and two carts joined by a spring.
+
+  # ---------------------------------------------------------------- Problem 1
+  - type: text
+    id: p1-setup
+    title: 'Problem 1: a bead on a wire'
+    body: |
+      A bead of mass $0.5\ \mathrm{kg}$ slides on a wire in the $xy$ plane, with $x$ and $y$ in metres. Besides the wire's normal force, a force acts on it,
+      $$\mathbf F=(2xy,\ x^2)\ \mathrm{N}.$$
+      The wire runs from $A=(1,1)$ to $B=(2,3)$ and its shape in between is not given. The bead passes $A$ at $2\ \mathrm{m/s}$.
+
+      Can we say how fast it reaches $B$ without knowing the shape of the wire?
+
+  - type: mcq
+    id: p1-curl
+    prompt: |
+      A force $\mathbf F=(2xy,\ x^2)\ \mathrm{N}$ ($x$, $y$ in metres) acts in the $xy$ plane. Does the work it does between two points depend on the road taken?
+    options:
+      - text: No, because $\partial F_y/\partial x=2x$ equals $\partial F_x/\partial y=2x$, so the curl is zero
+        correct: true
+      - text: Yes, because the force changes from point to point
+        feedback: |
+          A force that depends on position can still be conservative. A spring force changes from point to point, and its work is road independent. The test is the curl, not whether $\mathbf F$ is constant.
+      - text: Yes, because $F_x$ contains $y$ and $F_y$ contains $x$, so the two components are coupled
+        feedback: |
+          Having both variables in the components is not the test. The test compares the cross derivatives, $\partial F_y/\partial x$ and $\partial F_x/\partial y$, and here they are equal.
+      - text: No, because the force depends only on the position and never on the velocity
+        feedback: |
+          Depending on position alone is only the first condition. The force $(-y,x)$ depends on position alone and its work round a circle is not zero. The second condition, equal cross derivatives (zero curl), must also hold.
+    explanation: |
+      $$\begin{aligned} \frac{\partial F_y}{\partial x}&=\frac{\partial (x^2)}{\partial x}=2x, \\ \frac{\partial F_x}{\partial y}&=\frac{\partial (2xy)}{\partial y}=2x. \end{aligned}$$
+      The two agree, the curl is zero, and the force is defined for all $x$ and $y$ (no hole), so it is conservative.
+
+  - type: numeric
+    id: p1-potential
+    prompt: |
+      The force $\mathbf F=(2xy,\ x^2)\ \mathrm{N}$ comes from a potential energy $V(x,y)$ with $V(0,0)=0$ (data: $x$, $y$ in metres). What is $V$ at the point $B=(2,3)$, in joules?
+    answer: -12
+    tolerance: 0.01
+    answerText: '-12'
+    wrong:
+      - { value: 12, feedback: 'That has the sign flipped. The force is $\mathbf F=-\nabla V$, so $V$ is the function whose negative derivatives give $F_x=2xy$ and $F_y=x^2$.' }
+      - { value: 6, feedback: 'That is $xy$, the first factor only. Check that $-\partial V/\partial x$ gives $2xy$ and $-\partial V/\partial y$ gives $x^2$.' }
+    hint: |
+      Look for $V$ with $-\partial V/\partial x=2xy$ and $-\partial V/\partial y=x^2$. A function of the form $c\,x^2y$ does both for the right $c$.
+    explanation: |
+      Try $V=c\,x^2y$. Then $-\partial V/\partial x=-2c\,xy$, which must equal $2xy$, so $c=-1$. Check the other component: $-\partial V/\partial y=-c\,x^2=x^2$. Hence
+      $$V(x,y)=-x^2y,$$
+      which vanishes at the origin. At $B$ it gives $V(2,3)=-4\times3=-12\ \mathrm{J}$, and at $A$ it gives $V(1,1)=-1\ \mathrm{J}$.
+
+  - type: numeric
+    id: p1-work
+    prompt: |
+      The force $\mathbf F=(2xy,\ x^2)\ \mathrm{N}$ has potential energy $V=-x^2y$ (joules, with $x$, $y$ in metres). How much work does it do on the bead as it moves from $A=(1,1)$ to $B=(2,3)$ along the wire, in joules?
+    answer: 11
+    tolerance: 0.01
+    answerText: '11'
+    wrong:
+      - { value: -11, feedback: 'The sign is reversed. The work is $V_A-V_B$, the drop in potential energy, here $-1-(-12)$. The potential energy falls, so the force does positive work.' }
+      - { value: -13, feedback: 'That is $V_A+V_B$. The work is the difference $V_A-V_B$, not the sum.' }
+    hint: |
+      Work is the drop in potential energy, so only the end points matter.
+    explanation: |
+      $$\begin{aligned} W(A\to B)&=V_A-V_B \\ &=(-1)-(-12)=11\ \mathrm{J}. \end{aligned}$$
+      As a check, take the road along $y=1$ from $x=1$ to $2$, then along $x=2$ from $y=1$ to $3$. The first piece gives $\int 2x\,dx=3\ \mathrm{J}$ and the second $\int x^2\,dy=4\times2=8\ \mathrm{J}$, in all $11\ \mathrm{J}$.
+
+  - type: numeric
+    id: p1-speed
+    prompt: |
+      A bead of mass $0.5\ \mathrm{kg}$ passes $A$ at $2\ \mathrm{m/s}$ on a smooth wire to $B$. The force $\mathbf F=(2xy,\ x^2)\ \mathrm{N}$ does $11\ \mathrm{J}$ of work on it between $A$ and $B$, and the wire's normal force does none. What is its speed at $B$, in metres per second?
+    answer: 6.93
+    tolerance: 0.02
+    answerText: '6.93'
+    wrong:
+      - { value: 6.63, feedback: 'That uses the work alone, $T_B=11\ \mathrm{J}$, and forgets the initial kinetic energy $\tfrac12(0.5)(2)^2=1\ \mathrm{J}$.' }
+    hint: |
+      Start from $T_B=T_A+W$ with $T=\tfrac12 mv^2$.
+    explanation: |
+      $$\begin{aligned} T_A&=\tfrac12(0.5)(2)^2=1\ \mathrm{J}, \\ T_B&=T_A+W=1+11=12\ \mathrm{J}, \\ v_B&=\sqrt{\frac{2T_B}{m}}=\sqrt{48}=6.93\ \mathrm{m/s}. \end{aligned}$$
+      The shape of the wire never entered, because the work depends only on the two end points.
+
+  - type: numeric
+    id: p1-friction
+    prompt: |
+      The wire is now rough: friction does a total of $-4\ \mathrm{J}$ of work on the $0.5\ \mathrm{kg}$ bead between $A$ and $B$. The bead still passes $A$ at $2\ \mathrm{m/s}$, and the conservative force $\mathbf F=(2xy,\ x^2)\ \mathrm{N}$ has potential energy $V=-x^2y$ (joules, metres). What is its speed at $B$, in metres per second?
+    answer: 5.66
+    tolerance: 0.02
+    answerText: '5.66'
+    wrong:
+      - { value: 6.93, feedback: 'That is the smooth-wire answer. Friction is not a potential force, but it still changes the total energy: $\Delta E=W_{\text{nc}}=-4\ \mathrm{J}$.' }
+      - { value: 8, feedback: 'The friction work $-4\ \mathrm{J}$ was added instead of subtracted. Friction removes energy.' }
+    hint: |
+      Use $E=T+V$ and $\Delta E=W_{\text{nc}}$. At $A$, $E_A=T_A+V_A$.
+    explanation: |
+      $$\begin{aligned} E_A&=T_A+V_A=1+(-1)=0\ \mathrm{J}, \\ E_B&=E_A+W_{\text{nc}}=0-4=-4\ \mathrm{J}, \\ T_B&=E_B-V_B=-4+12=8\ \mathrm{J}, \\ v_B&=\sqrt{\frac{2\times8}{0.5}}=\sqrt{32}=5.66\ \mathrm{m/s}. \end{aligned}$$
+      It is the earlier $12\ \mathrm{J}$ less the $4\ \mathrm{J}$ that friction took.
+
+  # ---------------------------------------------------------------- Problem 2
+  - type: text
+    id: p2-setup
+    title: 'Problem 2: a ball in a double well'
+    body: |
+      A ball of mass $m=2\ \mathrm{kg}$ moves along a line in the potential energy
+      $$V(x)=(x^2-1)^2\ \mathrm{J}, \qquad x\ \text{in metres}.$$
+      It has two valleys, at $x=\pm1$, separated by a hill at $x=0$ of height $V(0)=1\ \mathrm{J}$. We ask about the small wiggles, the turning points, the true period and whether the ball can get over the hill.
+
+  - type: widget
+    id: p2-widget
+    title: Two valleys and a hill
+    widget: energy-diagram
+    config:
+      potential: { type: double, mass: 2, view: [-2, 2, -0.2, 1.6], E: 0.5, x: 1 }
+      sliders: [E]
+      ranges: { E: [0.1, 1.4, 0.05] }
+      bars: [T, V, E]
+      readouts: [E, period]
+      units: { V: J, x: m, t: s }
+      show:
+        trace: true
+        equilibria: false
+        eqLabels: false
+        forceArrow: false
+    body: |
+      The curve is $V(x)$, the purple line is the total energy $E$ (drag it or use the slider), and the ball is released at $x=1$. Try $E=0.5\ \mathrm{J}$ and watch the period readout, then raise $E$ past the hill height.
+
+  - type: numeric
+    id: p2-small
+    prompt: |
+      A $2\ \mathrm{kg}$ ball moves in the potential energy $V(x)=(x^2-1)^2$ joules ($x$ in metres), which has a minimum at $x=1$. For tiny oscillations about that minimum, what is the period, in seconds?
+    answer: 3.14
+    tolerance: 0.01
+    answerText: '3.14'
+    wrong:
+      - { value: 1.57, feedback: 'That is half the period, $\pi/2$, which is the time from one turning point to the other. The period is the full round trip.' }
+      - { value: 4.44, feedback: 'That uses $V''(1)=4$ in place of the second derivative at the minimum. Differentiate $V''=\dfrac{d}{dx}\,4x(x^2-1)$ once more, then put $x=1$.' }
+    hint: |
+      Near a stable equilibrium the period is $2\pi\sqrt{m/V''(x_0)}$. Here $V'=4x(x^2-1)$.
+    explanation: |
+      $$\begin{aligned} V'&=4x(x^2-1)=4x^3-4x, \\ V''&=12x^2-4, \\ V''(1)&=8\ \mathrm{J/m^2}. \end{aligned}$$
+      Then $\omega=\sqrt{8/2}=2\ \mathrm{rad/s}$ and $\tau=2\pi/\omega=\pi=3.14\ \mathrm{s}$.
+
+  - type: numeric
+    id: p2-turning
+    prompt: |
+      The $2\ \mathrm{kg}$ ball in $V(x)=(x^2-1)^2$ joules ($x$ in metres) has total energy $E=0.5\ \mathrm{J}$ and sits in the right-hand valley around $x=1$. At what largest $x$ does it turn round, in metres?
+    answer: 1.307
+    tolerance: 0.005
+    answerText: '1.307'
+    wrong:
+      - { value: 1.5, feedback: 'The ball turns where $V=E=0.5$, not where $V=0.5$ at a round value. Solve $(x^2-1)^2=0.5$.' }
+      - { value: 0.541, feedback: 'That is the turning point on the hill side of the valley. The largest $x$ is the other turning point, where the ball climbs the outer wall.' }
+      - { value: 1.707, feedback: 'That is $x^2$, not $x$. Take the square root of $1+\sqrt{0.5}$.' }
+    hint: |
+      At a turning point $V=E$, so $(x^2-1)^2=0.5$ and $x^2-1=\pm\sqrt{0.5}$.
+    explanation: |
+      $$\begin{aligned} x^2-1&=\pm0.7071, \\ x^2&=1.7071\ \text{or}\ 0.2929, \\ x&=1.307\ \text{or}\ 0.541\ \mathrm{m}. \end{aligned}$$
+      The ball stays between $0.541$ and $1.307\ \mathrm{m}$. It cannot reach $x=0$, since $V(0)=1\ \mathrm{J}$ is above $E$.
+
+  - type: numeric
+    id: p2-speed
+    prompt: |
+      The $2\ \mathrm{kg}$ ball in $V(x)=(x^2-1)^2$ joules ($x$ in metres) has total energy $E=0.5\ \mathrm{J}$. How fast is it moving as it passes the bottom of the valley at $x=1$, in metres per second?
+    answer: 0.707
+    tolerance: 0.005
+    answerText: '0.707'
+    wrong:
+      - { value: 0.5, feedback: 'That is the energy in joules. Convert to a speed with $v=\sqrt{2(E-V)/m}$.' }
+      - { value: 1, feedback: 'That drops the mass. The mass is $2\ \mathrm{kg}$ in $v=\sqrt{2(E-V)/m}$.' }
+    hint: |
+      The potential energy at the bottom is $V(1)=0$.
+    explanation: |
+      $$\begin{aligned} v&=\sqrt{\frac{2(E-V)}{m}} \\ &=\sqrt{\frac{2(0.5-0)}{2}} \\ &=0.707\ \mathrm{m/s}. \end{aligned}$$
+      All of the $0.5\ \mathrm{J}$ is kinetic there.
+
+  - type: numeric
+    id: p2-period
+    prompt: |
+      The $2\ \mathrm{kg}$ ball in $V(x)=(x^2-1)^2$ joules ($x$ in metres) has $E=0.5\ \mathrm{J}$ and moves between the turning points $0.541$ and $1.307\ \mathrm{m}$. The time for one full round trip is $\tau=2\int dx/\dot x$ between them. Using the widget's period readout or the integral, what is the period, in seconds?
+    answer: 3.56
+    tolerance: 0.03
+    answerText: '3.56'
+    wrong:
+      - { value: 3.14, feedback: 'That is the period for tiny oscillations, $2\pi\sqrt{m/V''(1)}$. At $E=0.5\ \mathrm{J}$ the ball climbs the walls, where the curve is flatter than a parabola.' }
+      - { value: 1.78, feedback: 'That is half of the round trip, one pass from one turning point to the other. The period is there and back.' }
+    hint: |
+      The speed is $\dot x=\sqrt{2(E-V)/m}$, which is small near the turning points. Expect a period a little longer than for tiny oscillations.
+    explanation: |
+      The integral is not elementary, so we read it from the widget (or integrate numerically). It gives $\tau=3.56\ \mathrm{s}$, about $13\%$ longer than the $3.14\ \mathrm{s}$ of tiny oscillations. The reason is that the well is softer than a parabola on its walls: the force is weaker than $-V''(1)\,(x-1)$ there, so the ball is slower and takes longer. The period would grow without bound as $E$ approaches the hill height $1\ \mathrm{J}$.
+
+  - type: mcq
+    id: p2-cross
+    prompt: |
+      A $2\ \mathrm{kg}$ ball moves in $V(x)=(x^2-1)^2$ joules ($x$ in metres), whose hill at $x=0$ has height $V(0)=1\ \mathrm{J}$. It is at $x=-1$ moving toward $x=0$, and its total energy is $E=1.2\ \mathrm{J}$. What happens?
+    options:
+      - text: It crosses the hill, and its speed at $x=0$ is $\sqrt{0.2}=0.447\ \mathrm{m/s}$, then it runs on into the right valley
+        correct: true
+      - text: It turns round at the hill, because $x=0$ is an unstable equilibrium and the ball cannot sit there
+        feedback: |
+          Unstable means a ball placed there with $E=V(0)$ would not stay. A ball with $E>V(0)$ goes through it. Only $E<V(0)=1\ \mathrm{J}$ forbids the crossing.
+      - text: It crosses the hill and stops there, because $V$ is largest at $x=0$
+        feedback: |
+          At $x=0$ the speed is smallest but not zero, since $E-V(0)=0.2\ \mathrm{J}>0$. It stops only where $V=E$, and $V(0)=1<1.2$.
+      - text: It crosses the hill at the same speed as at $x=-1$, since energy is conserved
+        feedback: |
+          Energy is conserved, but the split changes. At $x=-1$ all $1.2\ \mathrm{J}$ is kinetic; at $x=0$, $V=1\ \mathrm{J}$ takes most of it and only $0.2\ \mathrm{J}$ is kinetic.
+    explanation: |
+      Since $E=1.2>V(0)=1$, the allowed region $E\ge V$ is connected across the hill. At $x=0$,
+      $$v=\sqrt{\frac{2(1.2-1)}{2}}=\sqrt{0.2}=0.447\ \mathrm{m/s}.$$
+      Below $E=1\ \mathrm{J}$ the ball is trapped in one valley, above it the ball visits both.
+
+  # ---------------------------------------------------------------- Problem 3
+  - type: text
+    id: p3-setup
+    title: 'Problem 3: two carts and a spring'
+    body: |
+      Two carts roll without friction on a straight level track. The first has mass $m_1=1\ \mathrm{kg}$, the second $m_2=3\ \mathrm{kg}$. A spring joins them, with spring constant $k=24\ \mathrm{N/m}$ and natural length $0.5\ \mathrm{m}$ (so the force is zero when the carts are $0.5\ \mathrm{m}$ apart). The carts are held at rest, $1.5\ \mathrm{m}$ apart, and then released. The spring has no mass.
+
+      How fast does each cart move when the spring is back at its natural length, and what if one cart is clamped to a wall?
+
+  - type: numeric
+    id: p3-energy
+    prompt: |
+      Two carts on a smooth track are joined by a massless spring of constant $24\ \mathrm{N/m}$ and natural length $0.5\ \mathrm{m}$. They start at rest, $1.5\ \mathrm{m}$ apart. The spring's potential energy depends on the stretch, the distance minus the natural length. How much energy is stored in it at the start, in joules?
+    answer: 12
+    tolerance: 0.01
+    answerText: '12'
+    wrong:
+      - { value: 18, feedback: 'That uses the whole distance $1.5\ \mathrm{m}$ as the stretch. The stretch is $1.5-0.5=1\ \mathrm{m}$, measured from the natural length.' }
+      - { value: 24, feedback: 'That is $k$ times the stretch, which is the force in newtons, not the energy. The energy is $\tfrac12 k\,(\text{stretch})^2$.' }
+    hint: |
+      The potential energy of a spring is $\tfrac12 k\,s^2$, with $s$ the stretch.
+    explanation: |
+      $$V=\tfrac12 k\,s^2=\tfrac12(24)(1)^2=12\ \mathrm{J}.$$
+      The carts start at rest, so this is the whole energy $E=12\ \mathrm{J}$.
+
+  - type: numeric
+    id: p3-speed
+    prompt: |
+      Carts of $1\ \mathrm{kg}$ and $3\ \mathrm{kg}$ on a smooth track, joined by a massless spring, are released from rest with $12\ \mathrm{J}$ stored in it. When the spring is back at its natural length all of that energy is kinetic. No outside horizontal force acts. How fast is the $3\ \mathrm{kg}$ cart then moving, in metres per second?
+    answer: 1.414
+    tolerance: 0.005
+    answerText: '1.414'
+    wrong:
+      - { value: 2.83, feedback: 'That is the speed if all $12\ \mathrm{J}$ went to the $3\ \mathrm{kg}$ cart alone, $\sqrt{2\times12/3}$. The energy is shared between the carts, with the momentum balance $m_1v_1=m_2v_2$ fixing the shares.' }
+      - { value: 4.243, feedback: 'That is the speed of the $1\ \mathrm{kg}$ cart. The heavy cart moves more slowly: equal and opposite momenta mean $m_1v_1=m_2v_2$.' }
+    hint: |
+      The total momentum stays zero, so $m_1v_1=m_2v_2$ in size. Put $v_1=3v_2$ into $T_1+T_2=12\ \mathrm{J}$.
+    explanation: |
+      No outside force acts along the track, so the total momentum stays $0$ and the speeds satisfy $v_1=3v_2$. Then
+      $$\begin{aligned} \tfrac12(1)(3v_2)^2+\tfrac12(3)v_2^2&=12, \\ 6\,v_2^2&=12, \\ v_2&=\sqrt2=1.414\ \mathrm{m/s}, \end{aligned}$$
+      and $v_1=3\sqrt2=4.243\ \mathrm{m/s}$, in the opposite direction.
+
+  - type: numeric
+    id: p3-fraction
+    prompt: |
+      Carts of $1\ \mathrm{kg}$ and $3\ \mathrm{kg}$ are released from rest by a massless spring storing $12\ \mathrm{J}$, with no outside horizontal force. They fly apart with speeds $4.243$ and $1.414\ \mathrm{m/s}$. What fraction of the $12\ \mathrm{J}$ goes to the $1\ \mathrm{kg}$ cart?
+    answer: 0.75
+    tolerance: 0.005
+    answerText: '0.75'
+    wrong:
+      - { value: 0.25, feedback: 'That is the share of the heavy cart. The light cart is faster, and its kinetic energy $\tfrac12 mv^2$ grows with the square of the speed.' }
+      - { value: 0.5, feedback: 'Equal and opposite momenta do not mean equal energies. $T=p^2/2m$, so the lighter cart has more.' }
+    hint: |
+      Compute $T_1=\tfrac12 m_1v_1^2$ and divide by $12$.
+    explanation: |
+      $$\begin{aligned} T_1&=\tfrac12(1)(4.243)^2=9\ \mathrm{J}, \\ \frac{T_1}{E}&=\frac{9}{12}=0.75. \end{aligned}$$
+      The light cart takes three quarters, the heavy one $3\ \mathrm{J}$. With equal momenta $p$, $T=p^2/2m$, so the energy is shared in inverse proportion to the masses.
+
+  - type: numeric
+    id: p3-clamped
+    prompt: |
+      Now the $3\ \mathrm{kg}$ cart is bolted to a wall and cannot move. The $1\ \mathrm{kg}$ cart is released from rest, $1.5\ \mathrm{m}$ from the wall, on a smooth track, joined to the wall cart by the same massless spring ($24\ \mathrm{N/m}$, natural length $0.5\ \mathrm{m}$, $12\ \mathrm{J}$ stored). How fast is the $1\ \mathrm{kg}$ cart moving at the natural length, in metres per second?
+    answer: 4.899
+    tolerance: 0.01
+    answerText: '4.899'
+    wrong:
+      - { value: 4.243, feedback: 'That is the speed in the free pair, where the heavy cart took $3\ \mathrm{J}$. A fixed cart takes none, since it does not move.' }
+      - { value: 2.449, feedback: 'The energy $12\ \mathrm{J}$ goes entirely to the $1\ \mathrm{kg}$ cart: $\tfrac12(1)v^2=12$ gives $v^2=24$, not $6$.' }
+    hint: |
+      The whole $12\ \mathrm{J}$ becomes the kinetic energy of the $1\ \mathrm{kg}$ cart.
+    explanation: |
+      $$\begin{aligned} \tfrac12 m_1v_1^2&=12, \\ v_1&=\sqrt{24}=4.899\ \mathrm{m/s}. \end{aligned}$$
+      The light cart is faster than in the free pair ($4.243\ \mathrm{m/s}$) because the heavy cart no longer takes a share.
+
+  - type: mcq
+    id: p3-why
+    prompt: |
+      A $1\ \mathrm{kg}$ cart and a $3\ \mathrm{kg}$ cart joined by a spring release the same $12\ \mathrm{J}$ either free ($1\ \mathrm{kg}$ cart ends at $4.243\ \mathrm{m/s}$) or with the $3\ \mathrm{kg}$ cart bolted to a wall ($4.899\ \mathrm{m/s}$). The wall pushes on the bolted cart with a force that changes its momentum. Why does the wall not add energy?
+    options:
+      - text: The bolted cart does not move, so the wall's force does no work on it ($\mathbf F\cdot d\mathbf r=0$)
+        correct: true
+      - text: Forces from a wall are internal forces, and internal forces never change the total energy
+        feedback: |
+          The wall is outside the system of two carts, so its force is external. External forces can change the total energy, but only when their point of application moves.
+      - text: The wall's force is conservative, so it can only store energy, not give any
+        feedback: |
+          Conservative forces can transfer energy through their potential, as the spring does. The point here is simpler: the force acts at a point that does not move, so the work is zero.
+      - text: Momentum is conserved in the clamped case, so energy is too
+        feedback: |
+          Momentum is not conserved here, because the wall exerts an outside force on the pair. Energy is conserved for another reason, namely that this force does no work.
+    explanation: |
+      Work is $\mathbf F\cdot d\mathbf r$, and the bolted cart has $d\mathbf r=0$. So the wall changes the momentum of the pair (the total momentum is not conserved) without changing its energy. This is why the energy $E=12\ \mathrm{J}$ is conserved in both cases while momentum is conserved only in the free pair.
+
+  - type: text
+    id: part-end
+    title: Part 1 done
+    body: |
+      Three problems solved. The first used the curl test, the potential and $\Delta E=W_{\text{nc}}$; the second read a double well; the third combined energy with the momentum balance of two bodies. Part 2 has two more problems and the summary.

@@ -1,5 +1,8 @@
 # Status log
 
+## 2026-11-27 ch05-challenge part 1
+21 cards: problem 1 bead on a wire (curl test, V = -x^2 y, work 11 J, speed with and without friction), problem 2 double well V = (x^2-1)^2, m = 2 kg (energy-diagram x1; tau small 3.14 s, turning points, period 3.56 s, crossing the hill), problem 3 two carts and a spring (12 J, momentum balance, clamped case, why the wall does no work). Closing card of part 1 is a placeholder "Part 1 done"; part 2 replaces it. No `own:` (decided: the challenge closes with a plain card, as in Level 4). No images (none fits). Conventions fixed here: double well V = (x^2-1)^2 J with m = 2 kg; carts 1 and 3 kg, k = 24 N/m, natural length 0.5 m.
+
 ## 2026-11-27 ch05-map (Level 5, map, 7 boxes, autonomous)
 Built `ch05/map.yaml`: work and kinetic energy, potential energy, force from a potential and curl test (hole caveat), energy diagram, stability and small oscillations, time from energy, many particles; 2 decoys each, every decoy a classic error (sign of V and F = -grad V, E conserved with friction, curl local only, V' = 0 as turning point, V'' < 0 stable, inverted period, dx/xdot inverted, linear arcsin, double-counted pairs, equal energy split). Choices: no archive map existed (no archive/); no new source range, formulas reused from the render-checked lessons (VERIFIED.md line); no widget (a map needs none); images: none: map. Phone overflow of three displayed lines fixed by splitting. Validate 0 errors, 0 warnings; shots clean.
 Conventions fixed here: nothing new (map reuses Level 5 notation).
