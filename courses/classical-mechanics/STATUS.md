@@ -16,9 +16,7 @@
 - **Built:** `ch04-center-of-mass` (Level 4, concept, 23 cards, cm-toss x5, no image).
 - **Built:** `ch04-angular-momentum` (Level 4, concept, 21 cards, ang-mom-area x5, Kepler portrait). Several-particle result stated, proof deferred.
 - **Built:** `ch04-many-particles` (Level 4, guided proof, 23 cards, no widget, no image). Proves dL/dt = N_ext from the third law plus central forces; couple counterexample.
-- **Built:** `ch04-traps` (Level 4, traps, 16 cards, no widget, no image).
-- **Built:** `ch04-intuition` (Level 4, intuition, 15 cards, no widget, no image).
-- **Built:** `ch04-map` (Level 4, map, 6 boxes: momentum, rocket, center of mass, angular momentum, equal areas, many particles).
+- **Built:** `ch04-traps` (16 cards), `ch04-intuition` (15), `ch04-map` (6 boxes); no widget, no image.
 - **Built:** `ch04-challenge` part 1 (21 cards: rocket with gravity and burn rate, shell bursting at the top with the CM landing, puck on a string pulled through a hole; no widget, no image).
 - **Built:** `ch04-challenge` part 2 (32 cards in all: problem 4 spinning pair in free flight, orbital plus spin L, reeling in; problem 5 off-center thruster puff; closing card with teaser to Energy). Level 4 content is built.
 - **Level 4 audited (2026-11-27):** Taylor 3.2-3.5 (PDF 98-107) render-checked, no formula fixes; lesson cross-references by title; Kepler portrait caption softened (identification disputed); Level 2 torque symbol aligned (N). Validate clean.
@@ -37,7 +35,8 @@
 - **Built:** `ch05-map` (Level 5, map, 7 boxes: work, potential energy, force and curl, energy diagram, stability, time, many particles).
 - **Built:** `ch05-challenge` part 1 (21 cards: bead on a wire with curl test and friction, double well (energy-diagram), two carts and a spring; see part 2).
 - **Built:** `ch05-challenge` part 2 (30 cards in all: problem 4 poly well V = 3x^2 - 2x^3 (energy-diagram), small and true period, escape speed; problem 5 block, string and hanging mass with friction; closing card with teaser to Oscillations). Level 5 content is built.
-- **Next unit:** Level 5 audit. The exam (`exam-partial1`) comes only after Level 6 (Oscillations).
+- **Level 5 audited (2026-11-27):** Taylor 4.1-4.6, 4.9-4.10 already render-checked; cross-references by title; terminology consistent (V, "conservative", work-kinetic-energy theorem); validate clean.
+- **Next unit:** `ch06-sho` (Level 6, Oscillations, Taylor ch 5). The exam (`exam-partial1`) comes only after Level 6.
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.

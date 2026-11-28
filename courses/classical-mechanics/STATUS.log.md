@@ -1,5 +1,8 @@
 # Status log
 
+## Audit Level 5 (2026-11-27)
+Taylor 4.1-4.6, 4.9-4.10 and Goldstein 1.2 already render-checked in VERIFIED.md (PDF 117-166), no new range. Fixed vague cross-references ("previous lesson", "next lesson") to lesson titles in work, conservative, time-from-energy. Terminology grep over Levels 1 to 5 clean (V, conservative, work-kinetic-energy theorem). Own: bullets show math and define symbols; no "the book" or section labels (Taylor/Goldstein named only as second road or notation note). All 10 files registered. Images: none, no person or experiment named in Level 5 lessons. External facts: almost none; Lennard-Jones (atoms repel close, attract farther, minimum) web: https://en.wikipedia.org/wiki/Lennard-Jones_potential [read]; g = 9.8 standard. Conventions fixed here: none new.
+
 ## 2026-11-27 ch05-challenge part 2 (autonomous)
 Appended problems 4 and 5 and replaced the placeholder with a plain closing card (formulas, teaser to Oscillations); 30 cards in all. Problem 4: poly well V = 3x^2 - 2x^3, m = 3 kg (energy-diagram x1, poly preset seen once in a screenshot, fine): small tau 4.443 s, tau 4.88 s at E = 0.5 J, escape speed 0.816, speed 1.915 at x = 2. Problem 5: block 3 kg with 4 N friction and hanging 1 kg mass (v = 1.703 m/s, slide 1.09 m). Choices: no Lennard-Jones (Taylor does not name it, so it could not be render-checked); no image (toy problems); no new source range. Conventions fixed here: toy well and Atwood numbers above, copied into CONVENTIONS Chapter 5.
 
