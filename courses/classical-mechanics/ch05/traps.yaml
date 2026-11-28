@@ -1,0 +1,250 @@
+id: ch05-traps
+title: Energy Traps
+kind: traps
+cards:
+  - type: text
+    id: hook
+    title: Fast questions, familiar mistakes
+    body: |
+      Energy bookkeeping is easy to get half right. Most mistakes come from a belief that sounds reasonable: that a zero net force means zero work, that the work of the net force differs from the sum of the works, that doubling the speed doubles the energy, that a force which depends only on position is conservative, that a conservative force does no work on any road, that the zero of the potential energy matters, that $T+V$ always stays fixed, that a turning point is a place of balance, that a vanishing second derivative settles stability, that every ordered pair counts, that internal forces which cancel cannot change the motion, and that a collision which conserves momentum conserves kinetic energy.
+
+      Answer quickly, from the laws as you have them. A wrong choice is useful: its feedback says why the belief tempts and where it breaks. Most questions have a small number to compute.
+
+  - type: numeric
+    id: lift
+    prompt: |
+      You lift a $3\ \mathrm{kg}$ crate straight up by $4\ \mathrm{m}$ with a rope, at constant speed. The net force on the crate is zero, so a friend says the work is zero. Take $g=9.8\ \mathrm{m/s^2}$. How much work does the rope do on the crate, in joules?
+    answer: 117.6
+    tolerance: 0.1
+    answerText: '117.6'
+    wrong:
+      - { value: 0, feedback: 'You used the net force. The net force does zero work, but the rope force alone is $mg=29.4\ \mathrm{N}$ upward along the displacement, and gravity does the opposite work. The two cancel in the sum, not one by one.' }
+      - { value: -117.6, feedback: 'The magnitude is right but the sign is not. The rope pulls up and the crate moves up, so $\mathbf F\cdot d\mathbf r>0$. It is gravity that does $-117.6\ \mathrm{J}$.' }
+    hint: |
+      The rope force balances the weight, so it equals $mg$. Multiply by the distance moved along it.
+    explanation: |
+      $W_{\text{rope}}=\mathbf F\cdot\Delta\mathbf r=(3\times9.8)(4)=117.6\ \mathrm{J}$, and gravity does $-117.6\ \mathrm{J}$. The sum is zero, which matches $\Delta T=0$ at constant speed. Zero net force means zero net work, not zero work by each force.
+
+  - type: numeric
+    id: net-sum
+    prompt: |
+      Two forces act on a particle: $\mathbf F_1=(3,0)\ \mathrm{N}$ and $\mathbf F_2=(0,4)\ \mathrm{N}$. It moves in a straight line through the displacement $\Delta\mathbf r=(2,1)\ \mathrm{m}$. What is the work done by the net force, in joules?
+    answer: 10
+    tolerance: 0.01
+    answerText: '10'
+    wrong:
+      - { value: 11.18, feedback: 'You multiplied the length of the net force, $5\ \mathrm{N}$, by the length of the displacement, $\sqrt5\ \mathrm{m}$. That is correct only if the force points along the displacement. Work is the dot product $\mathbf F\cdot\Delta\mathbf r$, which keeps only the component along the motion.' }
+      - { value: 15.65, feedback: 'You added the magnitudes of the two forces, $7\ \mathrm{N}$, and multiplied by the length $\sqrt5\ \mathrm{m}$. Forces add as vectors, and work uses the dot product, so each force counts only through its component along the displacement.' }
+    hint: |
+      Add the forces as vectors first, or take the two dot products and add them. Both ways agree.
+    explanation: |
+      $\mathbf F_1\cdot\Delta\mathbf r=6\ \mathrm{J}$ and $\mathbf F_2\cdot\Delta\mathbf r=4\ \mathrm{J}$, total $10\ \mathrm{J}$. The net force $(3,4)\ \mathrm{N}$ gives $(3,4)\cdot(2,1)=10\ \mathrm{J}$ directly. The work of the net force equals the sum of the works because the dot product is linear.
+
+  - type: numeric
+    id: doubling
+    prompt: |
+      A $1000\ \mathrm{kg}$ car on a level road is sped up by its engine from rest to $10\ \mathrm{m/s}$, which takes $50\,000\ \mathrm{J}$ of net work. How much net work does it take to go from $10\ \mathrm{m/s}$ to $20\ \mathrm{m/s}$, in joules?
+    answer: 150000
+    tolerance: 100
+    answerText: '150000'
+    wrong:
+      - { value: 50000, feedback: 'You assumed the same speed gain costs the same work. The kinetic energy is $\tfrac12mv^2$, which grows as the square of the speed, so each extra $10\ \mathrm{m/s}$ costs more than the one before.' }
+      - { value: 100000, feedback: 'You doubled the first amount, as if kinetic energy were proportional to the speed. Doubling the speed multiplies $T$ by four, so $T$ goes from $50\,000$ to $200\,000\ \mathrm{J}$.' }
+    hint: |
+      The net work is the change of $T=\tfrac12mv^2$.
+    explanation: |
+      $W=\tfrac12(1000)(20^2-10^2)=\tfrac12(1000)(300)=150\,000\ \mathrm{J}$, three times the first step. The theorem $T_2-T_1=W$ is about the change of $v^2$, not of $v$.
+
+  - type: mcq
+    id: position-only
+    prompt: |
+      A force on a particle in the plane is $\mathbf F=(0,x)\ \mathrm{N}$, with $x$ in metres. It depends only on position. A student concludes that it is conservative. To check, compare two roads from $(0,0)$ to $(1,1)$. Road A goes along the $x$ axis to $(1,0)$ and then up to $(1,1)$. Road B goes up the $y$ axis to $(0,1)$ and then right to $(1,1)$. What happens?
+    options:
+      - text: 'Road A gives $1\ \mathrm{J}$ and road B gives $0$, so the work depends on the road and the force is not conservative. Depending on position alone is only the first of two conditions'
+        correct: true
+      - text: Both roads give the same work, so the force is conservative
+        feedback: |
+          Work out each leg. On road A the horizontal leg has $F_x=0$, so no work, and on the vertical leg at $x=1$ the force is $1\ \mathrm{N}$ up over $1\ \mathrm{m}$, giving $1\ \mathrm{J}$. On road B the vertical leg is at $x=0$, where $F_y=0$, and the horizontal leg has $F_x=0$, so $0$.
+      - text: Road A gives $0$ and road B gives $1\ \mathrm{J}$, so the force is not conservative
+        feedback: |
+          The conclusion is right but the values are swapped. On road A the work happens on the vertical leg at $x=1$, where the force is $1\ \mathrm{N}$ upward.
+      - text: The two roads cannot be compared, because a force that depends on position alone is conservative by definition
+        feedback: |
+          Conservative needs two conditions: $\mathbf F=\mathbf F(\mathbf r)$ and work that does not depend on the road. A swirling or shearing field meets the first and fails the second.
+    explanation: |
+      Road A: $0+1=1\ \mathrm{J}$. Road B: $0+0=0$. The difference $1\ \mathrm{J}$ equals the curl $\partial F_y/\partial x-\partial F_x/\partial y=1\ \mathrm{N/m}$ times the $1\ \mathrm{m^2}$ square between the roads. A nonzero curl is a quick way to see that no potential energy $V$ exists.
+
+  - type: numeric
+    id: gravity-up
+    prompt: |
+      A $0.5\ \mathrm{kg}$ ball is thrown straight up from the ground and rises $4\ \mathrm{m}$ to its highest point. Gravity is conservative. A student says a conservative force does zero work, so gravity did no work on the ball on the way up. How much work did gravity do on the way up, in joules? Take $g=9.8\ \mathrm{m/s^2}$.
+    answer: -19.6
+    tolerance: 0.05
+    answerText: '-19.6'
+    wrong:
+      - { value: 0, feedback: 'A conservative force does zero work on a closed road, one that returns to the start. On the way up alone the road is open, and the work is $V_1-V_2=-\Delta V\neq0$.' }
+      - { value: 19.6, feedback: 'The size is right. The sign is wrong: gravity points down and the ball moves up, so $\mathbf F\cdot d\mathbf r<0$. The kinetic energy of the ball goes down by $19.6\ \mathrm{J}$.' }
+    hint: |
+      Use $W=-\Delta V$ with $V=mgy$, or force times displacement with the sign from the directions.
+    explanation: |
+      $W=-mg\,\Delta y=-(0.5)(9.8)(4)=-19.6\ \mathrm{J}$. On the way down gravity does $+19.6\ \mathrm{J}$, so the whole round trip gives $0$. Conservative means road independent, and for a closed road that means zero.
+
+  - type: numeric
+    id: zero-level
+    prompt: |
+      A $2\ \mathrm{kg}$ book sits on a shelf $1.5\ \mathrm{m}$ above the floor, and falls to a table top $0.75\ \mathrm{m}$ above the floor. Anna measures height from the floor and says that the book started with $V=29.4\ \mathrm{J}$, so it hits the table with $T=29.4\ \mathrm{J}$. What is the book's speed when it reaches the table, in m/s? Take $g=9.8\ \mathrm{m/s^2}$. Use $\sqrt{14.7}=3.834$ and $\sqrt{29.4}=5.422$.
+    answer: 3.834
+    tolerance: 0.01
+    answerText: '3.834'
+    wrong:
+      - { value: 5.422, feedback: 'You gave all of Anna''s $29.4\ \mathrm{J}$ to the book as kinetic energy at the table. At the table the potential energy is not zero in her scale: it is $mg(0.75)=14.7\ \mathrm{J}$. Only the change $\Delta V$ turns into $T$.' }
+    hint: |
+      Only the difference of $V$ between the shelf and the table matters, and it does not depend on where $V=0$ is placed.
+    explanation: |
+      $\Delta T=-\Delta V=mg(1.5-0.75)=14.7\ \mathrm{J}$, so $\tfrac12(2)v^2=14.7$ and $v=\sqrt{14.7}=3.834\ \mathrm{m/s}$. Anna's scale gives $V=14.7\ \mathrm{J}$ at the table, so $T=29.4-14.7$ gives the same answer. Moving the zero shifts every $V$ by a constant and leaves every $\Delta V$, every force and every speed alone.
+
+  - type: numeric
+    id: friction-loss
+    prompt: |
+      A $2\ \mathrm{kg}$ block starts at rest at the top of a rough slide, $1.5\ \mathrm{m}$ above the bottom, and reaches the bottom at $3\ \mathrm{m/s}$. Take $V=mgy$ with $y=0$ at the bottom and $g=9.8\ \mathrm{m/s^2}$. What work did friction do on the block, in joules? Use $\Delta(T+V)=W_{\text{nc}}$.
+    answer: -20.4
+    tolerance: 0.05
+    answerText: '-20.4'
+    wrong:
+      - { value: 0, feedback: 'You assumed $T+V$ is conserved. That holds only when every force is conservative. Friction is not, so $T+V$ changes by exactly the work $W_{\text{nc}}$ it does.' }
+      - { value: 20.4, feedback: 'The size is right, but friction opposes the motion, so its work is negative. The energy $T+V$ went down, and $\Delta(T+V)=W_{\text{nc}}$ is negative.' }
+      - { value: -9, feedback: 'That is the final kinetic energy with a minus sign. The change of $T+V$ needs the start as well: $E_1=mgh=29.4\ \mathrm{J}$ and $E_2=\tfrac12mv^2=9\ \mathrm{J}$.' }
+    hint: |
+      Compute $E=T+V$ at the top and at the bottom, then subtract.
+    explanation: |
+      $E_1=0+(2)(9.8)(1.5)=29.4\ \mathrm{J}$ and $E_2=\tfrac12(2)(3^2)+0=9\ \mathrm{J}$, so $W_{\text{nc}}=9-29.4=-20.4\ \mathrm{J}$. The theorem $\Delta T=W$ is always valid. $\Delta(T+V)=0$ is valid only without nonconservative forces.
+
+  - type: numeric
+    id: turning-force
+    prompt: |
+      A particle of any mass moves in the spring potential $V=\tfrac12kx^2$ with $k=200\ \mathrm{N/m}$ and total energy $E=4\ \mathrm{J}$. At its turning point the speed is zero. A student says that the particle is momentarily in equilibrium there. What is the magnitude of the force on it at that point, in newtons?
+    answer: 40
+    tolerance: 0.1
+    answerText: '40'
+    wrong:
+      - { value: 0, feedback: 'Zero speed is not zero force. Equilibrium needs $V''=0$, a flat spot of the potential energy. At a turning point $V=E$, and generally the slope $V''$ is not zero there, so the particle turns around because the force pushes it back.' }
+      - { value: 4, feedback: 'You gave the energy in joules as the force. The force is $-dV/dx=-kx$, so find $x$ at the turning point first.' }
+    hint: |
+      At the turning point $V=E$, so $\tfrac12kx^2=4$. Then $F=-kx$.
+    explanation: |
+      $x=\sqrt{2E/k}=\sqrt{8/200}=0.2\ \mathrm{m}$ and $|F|=kx=200\times0.2=40\ \mathrm{N}$. Turning points are where $V=E$, so $T=0$. Equilibrium points are where $V'=0$, so $F=0$. They coincide only if the particle sits at rest exactly at the bottom of the well.
+
+  - type: mcq
+    id: negative-quartic
+    prompt: |
+      A particle moves in one dimension with $V(x)=-x^4$. At $x=0$ both $V'(0)=0$ and $V''(0)=0$. A student argues that since $V''$ is not negative, the point $x=0$ is not unstable, and since it is not positive, it is not stable: it must be neutral. What is the right reading?
+    options:
+      - text: The second-derivative test says nothing here. Looking at $V$ itself, $V(x)<V(0)$ on both sides, so $x=0$ is a maximum, an unstable equilibrium
+        correct: true
+      - text: It is stable, since $V''=0$ means there is no net force near the point
+        feedback: |
+          $V''=0$ says the slope is not changing at that instant, not that the force vanishes nearby. Here $F=-V'=4x^3$, which points away from $0$ on both sides.
+      - text: It is neutral, since $V''=0$ is the condition for a flat potential
+        feedback: |
+          Neutral (flat) equilibrium needs $V'=0$ over a whole range of $x$. Here $V$ changes at every $x\neq0$.
+      - text: It is not an equilibrium, since $V''=0$
+        feedback: |
+          Equilibrium is the condition $V'=0$ on the first derivative, which holds at $x=0$. The second derivative only decides stability, and when it is zero the test is silent.
+    explanation: |
+      When $V'=0$ and $V''=0$, go to the graph or to higher derivatives: $V=x^4$ is a stable minimum, $V=-x^4$ an unstable maximum, and $V=x^3$ neither. Always check the values of $V$ on both sides of the point.
+
+  - type: numeric
+    id: omega
+    prompt: |
+      A $3\ \mathrm{kg}$ particle moves in one dimension in $V(x)=x^3-3x$ (with $x$ in metres and $V$ in joules). Its equilibrium points are at $x=\pm1$. For small oscillations about the stable one, what is the angular frequency $\omega$ in rad/s? Use $\sqrt2=1.414$ and $\sqrt6=2.449$.
+    answer: 1.414
+    tolerance: 0.005
+    answerText: '1.414'
+    wrong:
+      - { value: 2, feedback: 'You took $\omega=V''''/m$. The equation of motion is $m\ddot\xi=-V''\xi$, so $\omega^2=V''/m$ and $\omega$ is the square root of that.' }
+      - { value: 2.449, feedback: 'You left out the mass. The restoring force is $V''\xi$ but the acceleration is that divided by $m$, so $\omega=\sqrt{V''/m}$.' }
+    hint: |
+      The stable point has $V''>0$. Here $V'(x)=3x^2-3$ and $V''(x)=6x$.
+    explanation: |
+      $V''(1)=6\ \mathrm{N/m}$ (stable) and $V''(-1)=-6$ (unstable). So $\omega=\sqrt{6/3}=\sqrt2=1.414\ \mathrm{rad/s}$, with period $2\pi/\omega=4.44\ \mathrm{s}$. The stable point is chosen by the sign of $V''$, and the frequency by its size and the mass.
+
+  - type: numeric
+    id: pairs
+    prompt: |
+      Five particles interact in pairs. The potential energy of every pair is $V_{\alpha\beta}=-2\ \mathrm{J}$ at the present positions. A student sums over all $\alpha$ and all $\beta\neq\alpha$ and calls the result the internal potential energy $V^{\text{int}}$. What is the correct $V^{\text{int}}$, in joules, where each pair counts once?
+    answer: -20
+    tolerance: 0.01
+    answerText: '-20'
+    wrong:
+      - { value: -40, feedback: 'That is the sum over ordered pairs, $5\times4=20$ terms of $-2\ \mathrm{J}$. Each pair $\{\alpha,\beta\}$ appears twice there, once as $\alpha\beta$ and once as $\beta\alpha$, so the total is double the energy.' }
+      - { value: -10, feedback: 'You counted one pair per particle, $5\times(-2)$. Five particles have $\tfrac12\cdot5\cdot4=10$ pairs, not $5$.' }
+    hint: |
+      Count the pairs: $N(N-1)/2$ for $N$ particles.
+    explanation: |
+      $N=5$ gives $5\cdot4/2=10$ pairs, so $V^{\text{int}}=10\times(-2)=-20\ \mathrm{J}$. In symbols $V^{\text{int}}=\sum_\alpha\sum_{\beta>\alpha}V_{\alpha\beta}=\tfrac12\sum_{\alpha\neq\beta}V_{\alpha\beta}$. Omit the $\tfrac12$ and each interaction is counted twice.
+
+  - type: numeric
+    id: cancel-internal
+    prompt: |
+      Two $1\ \mathrm{kg}$ carts on a frictionless track are joined by a spring with $V=\tfrac12kr^2$, where $r$ is the distance between them, $k=8\ \mathrm{N/m}$ and the natural length is zero. They are released from rest at $r=1\ \mathrm{m}$. The two spring forces are equal and opposite, so a student says they sum to zero and cannot change the motion. What is the speed of each cart when $r=0$, in m/s?
+    answer: 2
+    tolerance: 0.01
+    answerText: '2'
+    wrong:
+      - { value: 0, feedback: 'The forces cancel in the sum, so the momentum of the pair does not change, but each cart is pushed along its own displacement. The works $\mathbf F_1\cdot d\mathbf r_1$ and $\mathbf F_2\cdot d\mathbf r_2$ are both positive, and they add instead of cancelling.' }
+      - { value: 2.83, feedback: 'You gave all the energy to one cart, $\tfrac12(1)v^2=4\ \mathrm{J}$. The total momentum is zero, so the equal masses move at equal speeds in opposite directions and share the energy equally.' }
+    hint: |
+      The total energy is $E=T_1+T_2+V$. At $r=0$ the spring energy is zero, and the momentum is zero throughout.
+    explanation: |
+      $V=\tfrac12(8)(1)^2=4\ \mathrm{J}$ turns into kinetic energy. With zero total momentum and equal masses the speeds are equal, so $2\cdot\tfrac12(1)v^2=4$ and $v=2\ \mathrm{m/s}$. Internal forces cancel in the total force, not in the total work.
+
+  - type: numeric
+    id: stick-loss
+    prompt: |
+      A $2\ \mathrm{kg}$ ball moving at $3\ \mathrm{m/s}$ hits a $1\ \mathrm{kg}$ ball at rest and they stick together. No outside force acts. How much kinetic energy is lost in the collision, in joules?
+    answer: 3
+    tolerance: 0.01
+    answerText: '3'
+    wrong:
+      - { value: 0, feedback: 'Momentum is conserved because there is no outside force, but kinetic energy is not. The sticking forces are internal and nonconservative, and they turn some $T$ into heat and deformation.' }
+      - { value: 4.5, feedback: 'You took half the initial kinetic energy, which is the loss only when equal masses stick. Here compute the speed after sticking from momentum, then compare $T$ before and after.' }
+    hint: |
+      First find the common speed $v'$ from $2\times3=(2+1)v'$.
+    explanation: |
+      $v'=6/3=2\ \mathrm{m/s}$. Before: $T=\tfrac12(2)(9)=9\ \mathrm{J}$. After: $\tfrac12(3)(4)=6\ \mathrm{J}$. The loss is $3\ \mathrm{J}$. Conservation of momentum needs no outside force. Conservation of $T$ needs all the forces, internal ones included, to be conservative.
+
+  - type: mcq
+    id: rigid-internal
+    prompt: |
+      Two particles are fixed to the ends of a light rigid rod, and the pair spins and drifts through space. The rod pushes or pulls each particle along its length. A student says that the internal forces of any pair must change the energy of the system, since the pair of equal and opposite forces does work on two moving particles. What is the right statement for this rigid pair?
+    options:
+      - text: The pair does no net work, because the distance between the particles is fixed, so the displacement of one relative to the other is perpendicular to the rod, while the force lies along it
+        correct: true
+      - text: The pair does positive work, because each force acts on a moving particle
+        feedback: |
+          Work is $\mathbf F\cdot d\mathbf r$. The work of an internal pair is $\mathbf F_{\alpha\beta}\cdot d(\mathbf r_\alpha-\mathbf r_\beta)$, and for a rigid pair the change $d(\mathbf r_\alpha-\mathbf r_\beta)$ is perpendicular to the rod, which is the direction of the force.
+      - text: The pair does no net work only if the particles are at rest
+        feedback: |
+          At rest nothing moves and any force does zero work, which says nothing. A rigid pair does zero net work while it moves, because its separation cannot change.
+      - text: The pair does no work, because internal forces never do work on a system
+        feedback: |
+          Internal forces can do net work when the separation changes, as with the two carts joined by a spring, or with a sticking collision. A fixed separation is what makes the net work zero.
+    explanation: |
+      For a pair, the net work is $\mathbf F_{\alpha\beta}\cdot d\mathbf r_{\alpha\beta}$ with $\mathbf r_{\alpha\beta}=\mathbf r_\alpha-\mathbf r_\beta$. If $|\mathbf r_{\alpha\beta}|$ is fixed, $d\mathbf r_{\alpha\beta}\perp\mathbf r_{\alpha\beta}$ and the force lies along $\mathbf r_{\alpha\beta}$, so the product is zero. That is why the internal energy of a rigid body can be left out of $E$.
+
+  - type: text
+    id: summary
+    title: What you now own
+    body: |
+      The beliefs you tested, with the fact that replaces each.
+
+      - **Net work and separate works.** $W=\int\mathbf F\cdot d\mathbf r$ is a dot product, linear in $\mathbf F$, so the net force does the sum of the works. Zero net force gives zero net work, not zero work by each force: lifting at constant speed, the rope does $+mgh$ and gravity $-mgh$. Force along the motion matters, not the size of the force times the length of the road.
+      - **Kinetic energy.** $T=\tfrac12mv^2$ and $T_2-T_1=W(1\to2)$. Work goes with the change of $v^2$, so doubling the speed multiplies $T$ by four.
+      - **Conservative needs two conditions.** $\mathbf F=\mathbf F(\mathbf r)$ and road-independent work. A force like $(0,x)$ depends on position and still gives different work on two roads, with curl $\partial F_y/\partial x-\partial F_x/\partial y\neq0$. Zero work holds on closed roads only: gravity does $-mgh$ on the way up and $+mgh$ on the way down.
+      - **Potential energy.** $W(1\to2)=V_1-V_2=-\Delta V$. The zero of $V$ is a free choice, and only differences $\Delta V$ matter, so every force and speed is unchanged by it.
+      - **Total energy.** $E=T+V$ and $\Delta E=W_{\text{nc}}$. With friction $E$ falls by the friction's work, and $\Delta T=W$ stays valid. A block losing $29.4\ \mathrm{J}$ and gaining $9\ \mathrm{J}$ lost $20.4\ \mathrm{J}$ to friction.
+      - **One-dimensional diagrams.** Turning points satisfy $V=E$ ($T=0$) with a force that is generally not zero. Equilibria satisfy $V'=0$. At $V'=V''=0$ the test is silent: compare $V$ on both sides ($x^4$ stable, $-x^4$ unstable, $x^3$ neither). Small oscillations about a stable point have $\omega=\sqrt{V''(x_0)/m}$.
+      - **Many particles.** $V^{\text{int}}=\sum_\alpha\sum_{\beta>\alpha}V_{\alpha\beta}$ has $N(N-1)/2$ terms, which equals $\tfrac12\sum_{\alpha\neq\beta}V_{\alpha\beta}$. Internal forces cancel in the total force but not in the total work, since each acts along its own particle's displacement.
+      - **Rigid and sticky.** Fixed separations make the internal net work zero, so a rigid body's internal energy drops out. A sticking collision conserves momentum but loses $T$: here $9\ \mathrm{J}\to6\ \mathrm{J}$.
+
+      **Next:** the lesson Intuition: Potentials and Forces, a quick recall of work, potential energy, the gradient and the energy diagram, with small numeric checks.

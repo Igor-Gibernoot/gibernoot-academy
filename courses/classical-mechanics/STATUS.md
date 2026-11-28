@@ -37,7 +37,8 @@
 - **Built:** `ch05-one-dimension` (Level 5, concept, 25 cards, energy-diagram x5, no image). 1D forces always conservative, graph as track, speed from E - V, turning points, stability, small oscillations, time-dependent V.
 - **Built:** `ch05-time-from-energy` (Level 5, guided problem, 24 cards, energy-diagram x3, no image). t = integral dx/xdot, free fall, spring as inverse sine, kx^4 scaling.
 - **Built:** `ch05-many-bodies` (Level 5, concept, 23 cards, no widget, no image). Pair potential V(r1 - r2), E = T1 + T2 + V, N particles V_int + V_ext, Goldstein 1/2 sum, rigid body, sticky loss (Taylor 4.9-4.10).
-- **Next unit:** `ch05-traps` (traps round, Level 5). After it: intuition, map, challenge. The exam (`exam-partial1`) comes only after Level 6.
+- **Built:** `ch05-traps` (Level 5, traps, 16 cards, no widget, no image).
+- **Next unit:** `ch05-intuition` (Level 5). After it: map, challenge. The exam (`exam-partial1`) comes only after Level 6.
 - **Exams:** the next unit after Level 6, 12 or 18 is its exam, before the next level's first lesson.
 - **Checked facts:** one line per lesson in `VERIFIED.md` (grep, never read whole).
 - **Paths:** lessons `courses/classical-mechanics/chNN/`, exams `exams/`.
